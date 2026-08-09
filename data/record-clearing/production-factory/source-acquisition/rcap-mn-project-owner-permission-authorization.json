@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-mn-project-owner-permission-authorization",
+  "jurisdiction": "MN",
+  "lane": "source_acquisition",
+  "strategyFamily": "commercial_license",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "3bafbe7db38990ef7fdaf92f4cd1f6d3f73a9344",
+  "generatedOn": "2026-08-09",
+  "reconciliationIds": [
+    "permission:MN"
+  ],
+  "downloadedSourceCount": 0,
+  "licenseAdopted": true,
+  "generationAllowed": true,
+  "terminalDisposition": "authorized",
+  "dispositionIsCurrentAndTerminal": true,
+  "whatThisRecordIs": "The current controlling permission state for the current Minnesota record-clearing family these forms comprise, recorded from the project owner's attestation.",
+  "priorState": {
+    "hadRecordedLicenceDecision": false,
+    "resolvedAs": "no_license_restriction",
+    "meaning": "The index had no recorded licence question for this jurisdiction, so it passed by silence rather than by permission. This record replaces silence with an affirmative grant and sets licenseAdopted true.",
+    "priorRecordsRewritten": false,
+    "priorRecordsDeleted": false
+  },
+  "provenance": {
+    "evidenceType": "project_owner_attestation",
+    "attestedBy": "Roger Roman",
+    "attestedRole": "LegalEase project owner",
+    "attestedDate": "2026-08-08",
+    "underlyingPermissionRetainedExternally": true,
+    "repositoryCopyAvailable": false,
+    "documentHashAvailable": false,
+    "additionalEvidenceRequired": false,
+    "whatIsNotAsserted": [
+      "an individual grantor",
+      "a signer or their title",
+      "a letter date",
+      "a document hash",
+      "a publisher contact",
+      "any bar number or counsel identity"
+    ],
+    "whyNotAsserted": "None of it was supplied. An attestation is not a document and must not be dressed as one; recording an unsupplied signer or date would manufacture evidence."
+  },
+  "authorizedActs": {
+    "permissionObtained": true,
+    "generationAllowed": true,
+    "licenseAdopted": true,
+    "commercialUseAuthorized": true,
+    "prefillAuthorized": true,
+    "participantDistributionAuthorized": true,
+    "workerReadAuthorized": true,
+    "granted": [
+      "reproduce the applicable official forms",
+      "electronically prefill participant-supplied information",
+      "prefill deterministic case information",
+      "provide completed or partially completed forms to participants",
+      "use the forms within LegalEase's paid document-preparation service",
+      "retain source copies internally for implementation, testing and verification"
+    ]
+  },
+  "familyScope": {
+    "family": "current Minnesota record-clearing family these forms comprise",
+    "scopedToNamedDocuments": false,
+    "scopeNote": "Recorded at family level, as the attestation was given. The members below are the family as currently used by RCAP and are listed as evidence of what the grant covers, not as a closed allow-list that would fail-close a sibling the issuer publishes under the same family.",
+    "familyMembers": [
+      {
+        "documentId": "EXP101",
+        "role": "instructions"
+      },
+      {
+        "documentId": "EXP102",
+        "role": "notice of hearing and petition"
+      },
+      {
+        "documentId": "EXP104",
+        "role": "proof of service"
+      },
+      {
+        "documentId": "EXP105",
+        "role": "proposed order, Minn. Stat. § 609A.02, subd. 3"
+      },
+      {
+        "documentId": "EXP106",
+        "role": "proposed order, Minn. Stat. § 609A.02, subd. 1 or 2"
+      }
+    ],
+    "formats": "The official PDFs as issued. Four are flat PDFs with no AcroForm; EXP104 carries an AcroForm dictionary with zero fields. None is fillable as issued."
+  },
+  "doesNotExtendTo": [
+    "forms issued by another publisher",
+    "local court forms not issued by the granting authority",
+    "forms outside record clearing"
+  ],
+  "boundaries": {
+    "notGranted": [
+      "altering official legal text",
+      "altering form titles, numbers or revision marks",
+      "populating judicial findings",
+      "populating judge signatures",
+      "populating clerk fields",
+      "populating prosecutor fields",
+      "populating agency decisions",
+      "populating service-completion facts before service",
+      "populating outside-party attestations",
+      "claiming endorsement by the issuing authority",
+      "sublicensing unrelated use",
+      "applying this jurisdiction's permission to another publisher's forms"
+    ],
+    "thirdPartyFieldRuleUnchanged": "Judge, clerk, prosecutor, law-enforcement, agency, notary and process-server fields stay blank unless the governing form expressly assigns the field to the participant. Permission to reproduce a form is not permission to complete somebody else's part of it."
+  },
+  "whatPermissionDoesNotAnswer": {
+    "note": "Permission, source identity, currentness, technical structure, field mapping, implementation readiness and runtime enablement are separate lifecycle facts. Clearing one clears one.",
+    "openQuestions": [
+      "whether the retained bytes are current",
+      "field mappings",
+      "outside-party completion boundaries",
+      "any remaining source or design blocker on a Minnesota route"
+    ],
+    "preservedOnTheirOwnPaths": true
+  },
+  "receiptTreatment": {
+    "receiptsCreated": 0,
+    "receiptsDeleted": 0,
+    "receiptsRewritten": 0,
+    "bytesRecopied": false,
+    "bytesRehashed": false,
+    "note": "Authorization is a permission fact and materialization is an evidence fact. No receipt is touched because the licence answer moved."
+  },
+  "expectedDownstreamEffect": "The covered family moves to an affirmative recorded grant with licenseAdopted true. Currentness, identity, role, structure, field-map and legal-design gates are untouched and continue to gate independently. No packet becomes ready, no counsel adoption is recorded here, no route is promoted and no runtime is enabled.",
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "binariesEnteringVersionControl": 0,
+    "evidenceFabricated": false,
+    "priorDecisionRewritten": false,
+    "priorDecisionDeleted": false,
+    "judicialFieldsAuthorized": false,
+    "outsidePartyFieldsAuthorized": false
+  },
+  "exp105AndExp106StaySeparate": {
+    "separateOrders": true,
+    "separateStatutoryRoutes": true,
+    "mayNotBeCollapsed": "Permission does not authorize collapsing them into one identity. They share a printed caption and are distinguished by the statute printed beneath it — subd. 3 against subd. 1 or 2 — and EXP106's embedded PDF Title wrongly names subd. 3, so document properties are an actively wrong discriminator."
+  },
+  "noRevisionIsCreated": "Every revision recorded for these five is read from the form face. Permission establishes no revision, and none is invented for any form that prints none."
+}

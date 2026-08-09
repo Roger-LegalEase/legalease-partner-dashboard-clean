@@ -44,6 +44,55 @@ const AMENDMENT_HANDOFF_PATH =
   "data/record-clearing/production-factory/legal-design-decisions/authority-edition-amendment-handoff.json";
 const ADOPTED_EDITION_PATH =
   "data/record-clearing/master-library/edition-1-2/edition.json";
+const CONTAINER_LOSS_DETERMINATION_PATH =
+  "data/record-clearing/master-library/edition-1-1-container-loss-determination.json";
+
+/**
+ * Finds the bytes an asset row describes, or reports that they are absent.
+ *
+ * Searches the sealed materialization root for a file of the recorded size, then
+ * confirms its digest. Size first because hashing every candidate is wasteful
+ * and a size mismatch already settles it.
+ */
+function locateAssetBytes(row) {
+  const rootDir =
+    typeof process.env.RCAP_SOURCE_MATERIALIZATION_ROOT === "string" &&
+    process.env.RCAP_SOURCE_MATERIALIZATION_ROOT.trim() !== ""
+      ? process.env.RCAP_SOURCE_MATERIALIZATION_ROOT
+      : null;
+  if (!rootDir || !fs.existsSync(rootDir)) return null;
+  const stack = [rootDir];
+  while (stack.length > 0) {
+    const current = stack.pop();
+    let entries;
+    try {
+      entries = fs.readdirSync(current, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+    for (const entry of entries) {
+      const next = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(next);
+        continue;
+      }
+      if (!entry.isFile()) continue;
+      let size;
+      try {
+        size = fs.statSync(next).size;
+      } catch {
+        continue;
+      }
+      if (size !== row.bytes) continue;
+      const digest = crypto
+        .createHash("sha256")
+        .update(fs.readFileSync(next))
+        .digest("hex");
+      if (digest === row.sha256) return next;
+    }
+  }
+  return null;
+}
 
 const SHA256 = /^[0-9a-f]{64}$/u;
 
@@ -286,6 +335,23 @@ function evaluateCandidate(candidate, lineage) {
           detail: "asset row carries no positive byte count"
         });
       }
+      // A measurement is evidence about an asset; it is not the asset. Admitting
+      // a row on its recorded sha and byte count alone means admitting a row
+      // whose bytes may not exist anywhere the publisher can reach — and the
+      // publisher has to write a file, not a hash. Hawaii is the case: HCJDC
+      // 159(b) is measured exactly and its bytes were never materialized here,
+      // so the row passed every recorded check and could not have been
+      // published. Require that the bytes are locatable and match.
+      if (SHA256.test(row.sha256 ?? "") && !locateAssetBytes(row)) {
+        missing.push({
+          criterion: "exact_bytes_where_applicable",
+          detail:
+            `the asset row is measured exactly but its bytes are not retrievable in this ` +
+            `environment: no file matching sha256 ${row.sha256} was found beneath the ` +
+            `materialization root. A row cannot be published into an archive from its ` +
+            `measurement alone.`
+        });
+      }
       if (!row.canonicalPath) {
         missing.push({
           criterion: "exact_source_identity",
@@ -387,6 +453,10 @@ export function buildEditionSuccessorPlan(rootDir = process.cwd()) {
   // kept because "absent" and "present but not the pinned archive" are
   // different problems with different fixes, and collapsing them would send
   // someone hunting for a missing file that is sitting right there.
+  const containerLoss = readJsonIfPresent(
+    rootDir,
+    CONTAINER_LOSS_DETERMINATION_PATH
+  );
   const archiveState = (archivePath, expectedSha256) => {
     if (!archivePath) {
       return { path: null, present: false, verified: false, reason: "no path recorded" };
@@ -406,16 +476,51 @@ export function buildEditionSuccessorPlan(rootDir = process.cwd()) {
       .createHash("sha256")
       .update(fs.readFileSync(archivePath))
       .digest("hex");
+    if (actual === expectedSha256) {
+      return {
+        path: archivePath,
+        present: true,
+        verified: true,
+        actualSha256: actual,
+        expectedSha256,
+        reason: null
+      };
+    }
+    // A published archive can be lost while its content survives. Where the
+    // project owner has recorded that and named this exact substitute digest,
+    // lineage stands on the substitute — and says so on every row, so no reader
+    // mistakes it for the published container. Any other file still fails.
+    if (
+      containerLoss &&
+      containerLoss.substitute?.sha256 === actual &&
+      containerLoss.pinnedArchive?.sha256 === expectedSha256 &&
+      containerLoss.authorization?.authorizedBy &&
+      containerLoss.substitute?.contentVerification?.entriesFailed === 0
+    ) {
+      return {
+        path: archivePath,
+        present: true,
+        verified: true,
+        verifiedOnSubstitute: true,
+        publishedContainerLost: true,
+        actualSha256: actual,
+        expectedSha256,
+        contentChecksumsPassed:
+          containerLoss.substitute.contentVerification.entriesPassed,
+        authorizedBy: containerLoss.authorization.authorizedBy,
+        determinationPath: CONTAINER_LOSS_DETERMINATION_PATH,
+        reason:
+          "published container lost; standing on the content-verified substitute recorded by the project owner"
+      };
+    }
     return {
       path: archivePath,
       present: true,
-      verified: actual === expectedSha256,
+      verified: false,
       actualSha256: actual,
       expectedSha256,
       reason:
-        actual === expectedSha256
-          ? null
-          : "archive present but its digest is not the published edition's; a re-archived copy is not the archive"
+        "archive present but its digest is not the published edition's; a re-archived copy is not the archive"
     };
   };
 

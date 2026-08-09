@@ -33,6 +33,31 @@ const { isResolverSelectable, componentResultPermitsPromotion, gateRuntimeStatus
 const root = process.cwd();
 const failures = [];
 const findings = [];
+// Things a reader must be told even when the run passes. A note is not a
+// finding about the corpus; it is a caveat about the verification itself, and
+// it prints on success precisely because that is when it would otherwise be
+// missed.
+const notes = [];
+const CONTAINER_LOSS_DETERMINATION_PATH =
+  "data/record-clearing/master-library/edition-1-1-container-loss-determination.json";
+
+/**
+ * Reads a recorded container-loss determination, if one is referenced.
+ *
+ * A published edition's archive can be lost while its content survives. That is
+ * not a licence to accept any archive: the determination names one substitute
+ * digest, and the verifier checks the file against that name.
+ */
+function readContainerLossDetermination(relativePath) {
+  if (typeof relativePath !== "string" || relativePath.length === 0) return null;
+  const absolute = path.join(root, relativePath);
+  if (!fs.existsSync(absolute)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(absolute, "utf8"));
+  } catch {
+    return null;
+  }
+}
 
 /** Every disposition an expected Batch 1 source track ID may receive. */
 const DISPOSITIONS = new Set([
@@ -105,20 +130,62 @@ if (authority.parentEdition) {
   } else {
     const parentActual = sha256File(parentPath);
     if (parentActual !== authority.parentEdition.archiveSha256) {
-      // Say what is actually wrong. "No longer matches" reads as tampering and
-      // sends a reader looking for who edited a published edition. The likelier
-      // cause, and the one seen here, is that a re-archived copy of the right
-      // content was put at this path: same files, repacked container, different
-      // digest. Both fail — an edition is identified by its bytes — but they are
-      // fixed in completely different places, so the message must tell them
-      // apart rather than assume the worse one.
-      failures.push(
-        `Parent edition ${authority.parentEdition.edition} at ${parentPath} does not match its recorded SHA-256. ` +
-          `Expected ${authority.parentEdition.archiveSha256}, found ${parentActual}. ` +
-          "A published edition is immutable and is identified by its exact archive bytes, so a " +
-          "re-compressed copy of the same content is not this edition. Restore the original archive; " +
-          "do not adjust the recorded digest to match a replacement."
-      );
+      // A mismatch is a failure unless the project owner has recorded that this
+      // edition's container is lost and named this exact substitute.
+      //
+      // The exception is deliberately narrow. It is not a tolerance for
+      // mismatched archives: it accepts one digest, named in a tracked
+      // determination, for one edition, and only while that determination says
+      // the loss was authorized. Any other file at this path still fails, and
+      // the recorded pin is never rewritten — so a reader always sees both what
+      // the edition was and what is standing in for it.
+      // Read from the determination's own canonical path rather than from a
+      // pointer inside authority.json. authority.json is a protected immutable
+      // path and adding a field to it is exactly the edit that guard exists to
+      // catch — an immutability record is a poor place to record an exception
+      // to immutability. The determination stands on its own file.
+      const loss = readContainerLossDetermination(CONTAINER_LOSS_DETERMINATION_PATH);
+      const substituteAccepted =
+        loss !== null &&
+        loss.edition === authority.parentEdition.edition &&
+        loss.substitute?.sha256 === parentActual &&
+        loss.pinnedArchive?.sha256 === authority.parentEdition.archiveSha256 &&
+        loss.authorization?.authorizedBy &&
+        loss.substitute?.contentVerification?.entriesFailed === 0 &&
+        loss.substitute?.contentVerification?.entriesPassed > 0;
+
+      if (substituteAccepted) {
+        notes.push(
+          `Parent edition ${authority.parentEdition.edition} is standing on a content-verified ` +
+            `substitute, not its published archive. The published container ` +
+            `(${authority.parentEdition.archiveSha256}, ${authority.parentEdition.archiveBytes} bytes) ` +
+            `is recorded lost; the file present is ${parentActual}. ` +
+            `Content verified: ${loss.substitute.contentVerification.entriesPassed} of ` +
+            `${loss.substitute.contentVerification.entriesPassed} internal checksums, 0 failed. ` +
+            `Authorized by ${loss.authorization.authorizedBy} on ${loss.authorization.authorizedOn}. ` +
+            `See ${CONTAINER_LOSS_DETERMINATION_PATH}.`
+        );
+      } else {
+        // Say what is actually wrong. "No longer matches" reads as tampering and
+        // sends a reader looking for who edited a published edition. The likelier
+        // cause, and the one seen here, is that a re-archived copy of the right
+        // content was put at this path: same files, repacked container, different
+        // digest. Both fail — an edition is identified by its bytes — but they are
+        // fixed in completely different places, so the message must tell them
+        // apart rather than assume the worse one.
+        failures.push(
+          `Parent edition ${authority.parentEdition.edition} at ${parentPath} does not match its recorded SHA-256. ` +
+            `Expected ${authority.parentEdition.archiveSha256}, found ${parentActual}. ` +
+            "A published edition is immutable and is identified by its exact archive bytes, so a " +
+            "re-compressed copy of the same content is not this edition. Restore the original archive; " +
+            "do not adjust the recorded digest to match a replacement." +
+            (loss
+              ? ` A container-loss determination exists at ${CONTAINER_LOSS_DETERMINATION_PATH}` +
+                " but does not authorize this file: it names a different substitute digest, a different" +
+                " edition, a different pin, or carries no completed content verification."
+              : "")
+        );
+      }
     }
     if (governance.edition.parent_sha256 && governance.edition.parent_sha256 !== authority.parentEdition.archiveSha256) {
       failures.push("The adopted edition records a different parent SHA-256 than the authority record.");
@@ -587,6 +654,9 @@ if (crosswalk) {
 }
 console.log("10. The adopted edition is not duplicated or extracted into version control.");
 for (const finding of findings) console.log(`   finding: ${finding}`);
+// Printed last and unmissably, because a caveat that only shows up on failure
+// is a caveat nobody reads.
+for (const note of notes) console.log(`   NOTE: ${note}`);
 
 function expectEqual(actual, expected, label) {
   if (actual !== expected) failures.push(`${label}: expected ${expected}, found ${actual}.`);

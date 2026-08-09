@@ -1,0 +1,154 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-de-project-owner-permission-authorization",
+  "jurisdiction": "DE",
+  "lane": "source_acquisition",
+  "strategyFamily": "commercial_license",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "3bafbe7db38990ef7fdaf92f4cd1f6d3f73a9344",
+  "generatedOn": "2026-08-09",
+  "reconciliationIds": [
+    "permission:DE"
+  ],
+  "downloadedSourceCount": 0,
+  "licenseAdopted": true,
+  "generationAllowed": true,
+  "terminalDisposition": "authorized",
+  "dispositionIsCurrentAndTerminal": true,
+  "whatThisRecordIs": "The current controlling permission state for the current Delaware official record-clearing forms used by RCAP, recorded from the project owner's attestation.",
+  "priorState": {
+    "hadRecordedLicenceDecision": false,
+    "resolvedAs": "no_license_restriction",
+    "meaning": "The index had no recorded licence question for this jurisdiction, so it passed by silence rather than by permission. This record replaces silence with an affirmative grant and sets licenseAdopted true.",
+    "priorRecordsRewritten": false,
+    "priorRecordsDeleted": false
+  },
+  "provenance": {
+    "evidenceType": "project_owner_attestation",
+    "attestedBy": "Roger Roman",
+    "attestedRole": "LegalEase project owner",
+    "attestedDate": "2026-08-08",
+    "underlyingPermissionRetainedExternally": true,
+    "repositoryCopyAvailable": false,
+    "documentHashAvailable": false,
+    "additionalEvidenceRequired": false,
+    "whatIsNotAsserted": [
+      "an individual grantor",
+      "a signer or their title",
+      "a letter date",
+      "a document hash",
+      "a publisher contact",
+      "any bar number or counsel identity"
+    ],
+    "whyNotAsserted": "None of it was supplied. An attestation is not a document and must not be dressed as one; recording an unsupplied signer or date would manufacture evidence."
+  },
+  "authorizedActs": {
+    "permissionObtained": true,
+    "generationAllowed": true,
+    "licenseAdopted": true,
+    "commercialUseAuthorized": true,
+    "prefillAuthorized": true,
+    "participantDistributionAuthorized": true,
+    "workerReadAuthorized": true,
+    "granted": [
+      "reproduce the applicable official forms",
+      "electronically prefill participant-supplied information",
+      "prefill deterministic case information",
+      "provide completed or partially completed forms to participants",
+      "use the forms within LegalEase's paid document-preparation service",
+      "retain source copies internally for implementation, testing and verification"
+    ]
+  },
+  "familyScope": {
+    "family": "current Delaware official record-clearing forms used by RCAP",
+    "scopedToNamedDocuments": false,
+    "scopeNote": "Recorded at family level, as the attestation was given. The members below are the family as currently used by RCAP and are listed as evidence of what the grant covers, not as a closed allow-list that would fail-close a sibling the issuer publishes under the same family.",
+    "familyMembers": [
+      {
+        "documentId": "CIV_EXP_02_A",
+        "role": "Superior Court primary petition"
+      },
+      {
+        "documentId": "CIV_EXP_02_B",
+        "role": "additional-charge extension sheet"
+      },
+      {
+        "documentId": "CIV_EXP_04_A",
+        "role": "order granting relief"
+      },
+      {
+        "documentId": "CIV_EXP_08_A",
+        "role": "post-pardon order"
+      },
+      {
+        "documentId": "FORM-281",
+        "role": "current Family Court primary petition"
+      }
+    ],
+    "formats": "The official PDFs as issued."
+  },
+  "doesNotExtendTo": [
+    "forms issued by another publisher",
+    "local court forms not issued by the granting authority",
+    "forms outside record clearing"
+  ],
+  "boundaries": {
+    "notGranted": [
+      "altering official legal text",
+      "altering form titles, numbers or revision marks",
+      "populating judicial findings",
+      "populating judge signatures",
+      "populating clerk fields",
+      "populating prosecutor fields",
+      "populating agency decisions",
+      "populating service-completion facts before service",
+      "populating outside-party attestations",
+      "claiming endorsement by the issuing authority",
+      "sublicensing unrelated use",
+      "applying this jurisdiction's permission to another publisher's forms"
+    ],
+    "thirdPartyFieldRuleUnchanged": "Judge, clerk, prosecutor, law-enforcement, agency, notary and process-server fields stay blank unless the governing form expressly assigns the field to the participant. Permission to reproduce a form is not permission to complete somebody else's part of it."
+  },
+  "whatPermissionDoesNotAnswer": {
+    "note": "Permission, source identity, currentness, technical structure, field mapping, implementation readiness and runtime enablement are separate lifecycle facts. Clearing one clears one.",
+    "openQuestions": [
+      "identity distinctions between FORM-281 and FORM-281E",
+      "revision and currentness for every covered form",
+      "source-contract requirements",
+      "field-map requirements",
+      "participant versus court field boundaries",
+      "the AES-256 encryption on the supplied CIV_EXP binaries, which the factory's own inspector cannot parse"
+    ],
+    "preservedOnTheirOwnPaths": true
+  },
+  "receiptTreatment": {
+    "receiptsCreated": 0,
+    "receiptsDeleted": 0,
+    "receiptsRewritten": 0,
+    "bytesRecopied": false,
+    "bytesRehashed": false,
+    "note": "Authorization is a permission fact and materialization is an evidence fact. No receipt is touched because the licence answer moved."
+  },
+  "expectedDownstreamEffect": "The covered family moves to an affirmative recorded grant with licenseAdopted true. Currentness, identity, role, structure, field-map and legal-design gates are untouched and continue to gate independently. No packet becomes ready, no counsel adoption is recorded here, no route is promoted and no runtime is enabled.",
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "binariesEnteringVersionControl": 0,
+    "evidenceFabricated": false,
+    "priorDecisionRewritten": false,
+    "priorDecisionDeleted": false,
+    "judicialFieldsAuthorized": false,
+    "outsidePartyFieldsAuthorized": false
+  },
+  "form281eStaysDistinct": {
+    "isHistoricalChargeExtensionSheet": true,
+    "isNotForm281": true,
+    "maySatisfyCurrentPrimaryFilingComponent": false,
+    "printedCaptionDoesNotConvertIt": "Its caption does not make it the primary petition. Edition 1.3 records its role as CONTINUATION_SHEET with an explicit may_satisfy_primary_filing = no."
+  },
+  "encryptionRemainsATechnicalBlocker": "The three supplied CIV_EXP binaries are AES-256 encrypted with copy:no and change:no, and the factory inspector cannot enumerate their fields. Permission does not make an unreadable binary readable, and the encryption must not be stripped."
+}

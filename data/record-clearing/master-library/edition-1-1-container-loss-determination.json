@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-edition-container-loss-determination/v1",
+  "determinationId": "edition-1-1-container-loss",
+  "edition": "1.1",
+  "determinedOn": "2026-08-09",
+  "determinedBy": "project owner",
+  "recordedBy": "Session A integration captain",
+
+  "whatThisIs": "A record that Edition 1.1's published archive bytes are unrecoverable, and that publication of successor editions proceeds on a content-verified substitute. It is an explicit amendment to an immutability claim, made by the project owner, written down rather than absorbed silently.",
+
+  "theClaimBeingAmended": {
+    "originalClaim": "Editions 1.0, 1.1 and 1.2 are all retained and independently verifiable.",
+    "stillTrueFor": ["1.0", "1.2"],
+    "noLongerTrueFor": "1.1, whose archive container is lost. Its content is retained and independently verifiable; its bytes as published are not."
+  },
+
+  "pinnedArchive": {
+    "sha256": "c66ea58a96618e7c8b07406e4e6e6eb14185785e7e00cea48ab038e120d28a99",
+    "bytes": 144123507,
+    "pinNotAltered": true,
+    "whyThePinStays": "The pin records what Edition 1.1 was. Rewriting it to match a substitute would destroy the only evidence that a substitution happened, and would make every future reader believe the re-zip is the published archive. The pin is the truth; the substitution is the exception, and the exception is recorded beside it rather than on top of it.",
+    "corroboratedIndependentlyBy": "Edition 1.2's own immutable 00_GOVERNANCE/EDITION_SUMMARY.json, which records parent_sha256 c66ea58a… and bytes 144123507 for Edition 1.1. That artifact was published on 2026-08-03, before any candidate archive was supplied, so the pin is not a repository transcription that a better copy could correct."
+  },
+
+  "howItWasLost": {
+    "cause": "The Codespace restart on 2026-08-08 destroyed /workspaces/legalease-attorney-review-packages/, which held both edition archives outside version control.",
+    "editionOneTwoSurvived": "A second copy of Edition 1.2 existed under external custody and was recovered; its digest verifies exactly.",
+    "editionOneOneDidNot": "No second copy of the Edition 1.1 archive existed anywhere in this environment.",
+    "searchesPerformed": [
+      "every file of exactly 144,123,507 bytes across all mounted filesystems — none found",
+      "every .zip under /workspaces, /home and /tmp — no match",
+      "three separate supplied candidates, measured from their bytes"
+    ],
+    "candidatesSupplied": [
+      {
+        "describedAs": "Expungement_AI_RCAP_Master_Library_Edition_1_1.zip",
+        "bytes": 9,
+        "sha256": "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5",
+        "whatItActuallyIs": "the ASCII text `Not Found` — a captured HTTP error page, retained under a truthful name so the failed retrieval stays on the record"
+      },
+      {
+        "describedAs": "a partial upload copied to the canonical path mid-transfer on 2026-08-08",
+        "bytes": 128450560,
+        "sha256": "bd9843edb8efdec3f5bbeb1c275896276f0761fcce0c5b74b033b5002bac463b",
+        "whatItActuallyIs": "a truncated fragment with no readable central directory; not an archive. Removed from the canonical path rather than left installed."
+      },
+      {
+        "describedAs": "the completed upload",
+        "bytes": 144683531,
+        "sha256": "4571a8febeeef404abbcb3c7fbe987e7fc266a6b5880d177ded2d7f47804563e",
+        "whatItActuallyIs": "the substitute recorded below — byte-identical to the copy already held in custody"
+      }
+    ]
+  },
+
+  "substitute": {
+    "sha256": "4571a8febeeef404abbcb3c7fbe987e7fc266a6b5880d177ded2d7f47804563e",
+    "bytes": 144683531,
+    "kind": "macos_recompression_of_the_edition_1_1_tree",
+    "isNotThePublishedArchive": true,
+    "whyItIsNot": "It carries 737 `__MACOSX/` resource-fork entries throughout. This is a re-compression of the Edition 1.1 directory tree, not the Edition 1.1 archive: same content, different container, different digest.",
+    "contentVerification": {
+      "basis": "measured, not asserted",
+      "internalChecksumFile": "00_GOVERNANCE/CHECKSUMS.sha256",
+      "entriesChecked": 538,
+      "entriesPassed": 538,
+      "entriesFailed": 0,
+      "zipIntegrity": "unzip -t reports no errors across 1,474 entries",
+      "internalEditionSummary": {
+        "edition": "1.1",
+        "parent_edition": "1.0",
+        "parent_sha256": "c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8",
+        "retained_assets": 394,
+        "jurisdictions": 51
+      },
+      "externalCorroboration": "Its declared Edition 1.0 parent digest matches the digest this repository recorded independently, before the file arrived. That agreement comes from outside the archive, so it is not the archive vouching for itself.",
+      "crossEditionComparison": "Of its 539 files, 426 are byte-identical to the corresponding paths inside the retained Edition 1.2 archive and 113 differ; none is absent from 1.2. The 113 are governance and manifest files that are expected to differ between editions."
+    },
+    "custodyPath": "[external-human-input-custody]/2026-08-08/master-library/",
+    "committedToGit": false
+  },
+
+  "authorization": {
+    "authorizedBy": "project owner",
+    "authorizedOn": "2026-08-09",
+    "decision": "The original is lost. Successor-edition publication proceeds on the content-verified substitute.",
+    "alternativesDeclined": [
+      "rewriting the pinned digest to match the substitute — falsifies an immutability record and would disagree with Edition 1.2's own governance",
+      "relaxing the authority verifier generally — would silently accept any mismatched archive in any edition, for every future reader",
+      "reconstructing Edition 1.1 from Edition 1.2 — expressly forbidden, and would manufacture the very bytes in question",
+      "holding successor publication indefinitely — the choice the project owner declined, on the ground that the content demonstrably survives"
+    ],
+    "scope": "This determination applies to Edition 1.1 only, and only to its archive container. It is not a precedent for accepting a mismatched archive anywhere else, and the verifier honours it only for the exact substitute digest recorded here."
+  },
+
+  "whatThisDoesNotChange": {
+    "editionOneOneContent": "unchanged and independently verifiable",
+    "editionOneTwoArchive": "retained, digest verifies exactly, untouched",
+    "editionOneTwoContent": "untouched; no published edition is edited, rebuilt or reconstructed",
+    "inheritedAssets": "Edition 1.2 inherits all 394 Edition 1.1 canonical assets unchanged, as it always did",
+    "runtime": "runtime_disabled",
+    "packetReady": 0,
+    "counselAdoption": "unchanged"
+  },
+
+  "ifTheOriginalIsEverFound": "Install it at the canonical path. The verifier will match the pin directly and stop consulting this determination, which then becomes history rather than an active exception. Nothing needs to be undone."
+}

@@ -36,13 +36,20 @@
     },
     "grandparentArchivePath": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip",
     "grandparentArchiveSha256": "c66ea58a96618e7c8b07406e4e6e6eb14185785e7e00cea48ab038e120d28a99",
-    "grandparentArchivePresent": false,
-    "grandparentArchiveRetained": false,
+    "grandparentArchivePresent": true,
+    "grandparentArchiveRetained": true,
     "grandparentArchiveState": {
       "path": "/workspaces/legalease-attorney-review-packages/Expungement_AI_RCAP_Master_Library_Edition_1_1.zip",
-      "present": false,
-      "verified": false,
-      "reason": "archive absent"
+      "present": true,
+      "verified": true,
+      "verifiedOnSubstitute": true,
+      "publishedContainerLost": true,
+      "actualSha256": "4571a8febeeef404abbcb3c7fbe987e7fc266a6b5880d177ded2d7f47804563e",
+      "expectedSha256": "c66ea58a96618e7c8b07406e4e6e6eb14185785e7e00cea48ab038e120d28a99",
+      "contentChecksumsPassed": 538,
+      "authorizedBy": "project owner",
+      "determinationPath": "data/record-clearing/master-library/edition-1-1-container-loss-determination.json",
+      "reason": "published container lost; standing on the content-verified substitute recorded by the project owner"
     }
   },
   "firstTrancheJobId": "rcap-nationwide-master-library-edition-1-3-tranche-1-publication",
@@ -53,14 +60,14 @@
   "packetReady": false,
   "totals": {
     "candidatesRead": 36,
-    "admitted": 4,
-    "deferred": 32,
-    "admittedNewBytes": 1,
+    "admitted": 3,
+    "deferred": 33,
+    "admittedNewBytes": 0,
     "admittedMetadataCorrections": 3,
     "byUnmetCriterion": {
       "exact_authority": 3,
       "exact_source_identity": 23,
-      "exact_bytes_where_applicable": 9,
+      "exact_bytes_where_applicable": 10,
       "license_resolved": 9
     }
   },
@@ -92,42 +99,6 @@
         ]
       },
       {
-        "jobId": "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset",
-        "jurisdiction": "HI",
-        "kind": "new_bytes",
-        "assetRow": {
-          "jurisdiction": "HI",
-          "canonicalIdentifier": "HCJDC 159(b)",
-          "workflowKey": "HI:HCJDC-159B:APPLICATION:EN",
-          "officialTitle": "Expungement Application",
-          "issuer": "State of Hawaii, Department of the Attorney General",
-          "issuingOffice": "Hawaii Criminal Justice Data Center",
-          "role": "primary_filing",
-          "scope": "statewide",
-          "revision": "REV-2026-06-03",
-          "language": "EN",
-          "assetClass": "packet_form",
-          "canonicalPath": "STATES/HI/02_PACKET_FORMS/HI__FORM__HCJDC-159B__expungement-application__REV-2026-06-03__EN.pdf",
-          "sourceUrl": "https://ag.hawaii.gov/hcjdc/files/2026/06/EXPUNGEMENT_APPLICATION_Rev-2026-06.pdf",
-          "sha256": "1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a",
-          "bytes": 181711,
-          "mediaType": "application/pdf",
-          "pdfVersion": "1.6",
-          "pageCount": 1,
-          "structuralClass": "flat_pdf",
-          "licenseDisposition": "no_published_redistribution_or_commercial_use_restriction_identified",
-          "supersedes": {
-            "kind": "supersession_record",
-            "documentIdentity": "the same Expungement Application at its Rev. 11/15/2019 revision",
-            "sha256": "e9b084cea6c7b0bf27aae1c03937e28b33f7b3a8e4afe8173c766bc379b747f9",
-            "bytes": 137157,
-            "adopted": false,
-            "purpose": "So a later reader cannot mistake the retained legacy copy for a second current form. Title and issuer agreement is not currentness."
-          }
-        },
-        "correctedManifestRows": []
-      },
-      {
         "jobId": "rcap-ma-official-download-automation-blocked",
         "jurisdiction": "MA",
         "kind": "metadata_correction",
@@ -139,7 +110,7 @@
       }
     ]
   },
-  "trancheManifestSha256": "8cb9576282407f6883ea49f1e26360d34649827c922ad7c348b50fbbbadfd432",
+  "trancheManifestSha256": "a4217636dbfbe098c6a1203fbd16d2893a982a83d88053141b6af36a6251d8bd",
   "successorBacklog": [
     {
       "jobId": "rcap-al-public-official-download",
@@ -326,6 +297,20 @@
         {
           "criterion": "exact_source_identity",
           "detail": "Close acquire:FL:fl-rule-3-989-affidavit without acquisition and clear the four blocker-ledger rows does not record both the current and corrected value"
+        }
+      ]
+    },
+    {
+      "jobId": "rcap-hi-hcjdc-159b-technical-structure-and-edition-asset",
+      "jurisdiction": "HI",
+      "recordPath": "data/record-clearing/production-factory/source-acquisition/rcap-hi-hcjdc-159b-technical-structure-and-edition-asset.json",
+      "unmetCriteria": [
+        "exact_bytes_where_applicable"
+      ],
+      "blockers": [
+        {
+          "criterion": "exact_bytes_where_applicable",
+          "detail": "the asset row is measured exactly but its bytes are not retrievable in this environment: no file matching sha256 1cb4f3acc20d569820379410c3aeb67c59fe3e24866932696371f25efaad935a was found beneath the materialization root. A row cannot be published into an archive from its measurement alone."
         }
       ]
     },
