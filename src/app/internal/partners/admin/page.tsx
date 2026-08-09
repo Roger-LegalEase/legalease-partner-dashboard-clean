@@ -16,6 +16,10 @@ import { internalAdminDetail } from "@/lib/partners/routes";
 import type { PartnerRecord } from "@/lib/partners/types";
 import { getPartnerDocumentActivitySummary } from "@/lib/rcap/documents/source-repository";
 
+// Authenticated internal surface: the access gate resolves the session from request
+// cookies, so this page is request-bound and must never be statically prerendered.
+export const dynamic = "force-dynamic";
+
 export default async function InternalPartnerAdminPage() {
   const access = await resolveInternalAdminPageAccess("/internal/partners/admin");
 

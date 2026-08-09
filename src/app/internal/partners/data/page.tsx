@@ -18,6 +18,10 @@ import {
 } from "@/lib/partners/routes";
 import { isSupabaseConfigured } from "@/lib/supabase/server";
 
+// Authenticated internal surface: the access gate resolves the session from request
+// cookies, so this page is request-bound and must never be statically prerendered.
+export const dynamic = "force-dynamic";
+
 export default async function InternalPartnerDataPage() {
   // This page reads every partner record through the service-role client, so
   // RLS does not narrow it. Until now its only protection was the proxy bearer
