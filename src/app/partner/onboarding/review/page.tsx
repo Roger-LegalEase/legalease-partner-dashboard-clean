@@ -10,6 +10,10 @@ import {
   sectionStatusLabel,
   workspaceStatusLabel
 } from "@/lib/partners/onboarding/partner-labels";
+import {
+  getPartnerSupportContact,
+  partnerSupportMailto
+} from "@/lib/partners/onboarding/support-contact";
 import type {
   OnboardingPartnerData,
   OnboardingSectionKey
@@ -110,6 +114,11 @@ export default async function PartnerOnboardingReviewPage() {
             : null
         }
         workspaceVersion={portal.workspace.aggregateVersion}
+        support={getPartnerSupportContact()}
+        supportHref={partnerSupportMailto({
+          organizationName: portal.organizationName,
+          subject: "Review and submission"
+        })}
       />
     </main>
   );

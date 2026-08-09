@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import type { PartnerSupportContact } from "@/lib/partners/onboarding/support-contact";
+import { PartnerSupportLink } from "./PartnerSupportLink";
 
 type BadgeTone = "teal" | "blue" | "orange" | "neutral";
 
@@ -43,6 +45,8 @@ export type Phase1OnboardingHomeProps = {
     label: string;
     createdAt: string;
   }>;
+  support: PartnerSupportContact;
+  supportHref: string;
 };
 
 export function Phase1OnboardingHome({
@@ -63,7 +67,9 @@ export function Phase1OnboardingHome({
   sections,
   commercial,
   agreements,
-  activity
+  activity,
+  support,
+  supportHref
 }: Phase1OnboardingHomeProps) {
   const completion = clampPercentage(completionPercentage);
   const recentActivity = activity.slice(0, 6);
@@ -294,7 +300,14 @@ export function Phase1OnboardingHome({
                 Need help?
               </h2>
               <p className="mt-2 text-sm leading-6 text-[#5C5750]">
-                Contact your LegalEase program lead through the support channel already provided to your organization.
+                Email LegalEase partner support with any question about this setup, your
+                agreement, or your launch date.
+              </p>
+              <p className="mt-2 break-words text-sm leading-6">
+                <PartnerSupportLink contact={support} href={supportHref} />
+              </p>
+              <p className="mt-1 text-xs leading-5 text-[#8A8278]">
+                Opens your email app with your organization and this step already in the subject.
               </p>
             </section>
           </Card>

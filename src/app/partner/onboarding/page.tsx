@@ -16,6 +16,11 @@ import {
   sectionStatusLabel,
   workspaceStatusLabel
 } from "@/lib/partners/onboarding/partner-labels";
+import {
+  getPartnerSupportContact,
+  partnerSupportMailto
+} from "@/lib/partners/onboarding/support-contact";
+import { PartnerSupportLink } from "./PartnerSupportLink";
 import { Phase1OnboardingHome } from "./Phase1OnboardingHome";
 
 export const dynamic = "force-dynamic";
@@ -38,10 +43,22 @@ export default async function PartnerOnboardingPage() {
     if (error instanceof SessionPartnerError) {
       if (error.code === "unauthenticated") redirect(`/sign-in?next=${ROUTE}`);
       logSecurityWarn({ event: "partner onboarding denied", route: ROUTE, outcome: "forbidden", error });
+      const support = getPartnerSupportContact();
       return (
         <Shell>
           <h1 className="text-2xl font-black">Onboarding</h1>
-          <p className="mt-3 text-sm text-[#5C5750]">Your account does not have an active partner identity.</p>
+          <p className="mt-3 text-sm leading-6 text-[#5C5750]">
+            Your account does not have an active partner identity, so there is no onboarding to
+            show yet.
+          </p>
+          <p className="mt-3 break-words text-sm leading-6 text-[#5C5750]">
+            If you expected access, email LegalEase partner support at{" "}
+            <PartnerSupportLink
+              contact={support}
+              href={partnerSupportMailto({ subject: "Partner account access" })}
+            />
+            . <span className="text-[#8A8278]">Opens your email app.</span>
+          </p>
         </Shell>
       );
     }
@@ -104,11 +121,21 @@ async function Phase1PartnerOnboardingPage() {
       outcome: "unavailable",
       error
     });
+    const support = getPartnerSupportContact();
     return (
       <Shell>
         <h1 className="text-2xl font-black">Program setup</h1>
-        <p className="mt-3 text-sm text-[#5C5750]">
-          Program setup is not available for this account. Contact your existing LegalEase support channel if you expected access.
+        <p className="mt-3 text-sm leading-6 text-[#5C5750]">
+          Program setup is not available for this account. Nothing you entered has been lost.
+          This usually means your account is not yet linked to a partner organization.
+        </p>
+        <p className="mt-3 break-words text-sm leading-6 text-[#5C5750]">
+          If you expected access, email LegalEase partner support at{" "}
+          <PartnerSupportLink
+            contact={support}
+            href={partnerSupportMailto({ subject: "Program setup access" })}
+          />
+          . <span className="text-[#8A8278]">Opens your email app.</span>
         </p>
       </Shell>
     );
@@ -174,6 +201,11 @@ async function Phase1PartnerOnboardingPage() {
           label: activity.label,
           createdAt: activity.occurredAt
         }))}
+        support={getPartnerSupportContact()}
+        supportHref={partnerSupportMailto({
+          organizationName: portal.organizationName,
+          subject: portal.workspace.blockerCopy ? "Setup question" : null
+        })}
       />
     </Shell>
   );

@@ -9,6 +9,8 @@ import type {
   OnboardingSectionKey,
   OnboardingSectionStatus
 } from "@/lib/partners/onboarding/types";
+import type { PartnerSupportContact } from "@/lib/partners/onboarding/support-contact";
+import { PartnerSupportLink } from "../PartnerSupportLink";
 
 type ReviewValue =
   | string
@@ -46,6 +48,9 @@ export type OnboardingReviewClientProps = {
   canSubmit: boolean;
   canEdit: boolean;
   isPartnerStaff: boolean;
+  // Resolved on the server: a client component cannot read a non-public env override.
+  support: PartnerSupportContact;
+  supportHref: string;
   initialSubmission: {
     submittedAt: string;
     statusLabel: string;
@@ -75,7 +80,9 @@ export function OnboardingReviewClient({
   initialSubmission,
   workspaceVersion
   ,
-  pendingPrefillSections
+  pendingPrefillSections,
+  support,
+  supportHref
 }: OnboardingReviewClientProps) {
   const [submission, setSubmission] = useState<SubmissionState>(
     initialSubmission
@@ -291,6 +298,11 @@ export function OnboardingReviewClient({
               Try submission again
             </Button>
           )}
+          <p className="mt-4 break-words text-sm leading-6 text-grayWilma-700">
+            Your answers are still saved. If this keeps happening, email LegalEase partner
+            support at <PartnerSupportLink contact={support} href={supportHref} />.{" "}
+            <span className="text-grayWilma-600">Opens your email app.</span>
+          </p>
         </Card>
       ) : null}
 
