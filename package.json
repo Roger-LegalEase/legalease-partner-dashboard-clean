@@ -213,7 +213,10 @@
     "partners:capture-launch-readiness": "node scripts/capture-onboarding-launch-readiness-acceptance.mjs",
     "partners:verify-onboarding-all": "node scripts/verify-onboarding-all.mjs",
     "partners:verify-onboarding-database": "node scripts/verify-onboarding-all.mjs --group=database",
-    "partners:verify-onboarding-inventory": "node scripts/verify-onboarding-all.mjs --list"
+    "partners:verify-onboarding-inventory": "node scripts/verify-onboarding-all.mjs --list",
+    "partners:db-up": "scripts/local-onboarding-db.sh up",
+    "partners:db-down": "scripts/local-onboarding-db.sh down",
+    "partners:verify-onboarding-tenant-isolation": "node scripts/verify-onboarding-tenant-isolation.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
