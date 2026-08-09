@@ -1582,6 +1582,16 @@ const DECISION_RECORD_COMPLETION_COMMITS = Object.freeze({
     "01b28373ad3c572fea667bb76f3fd8f4d6f08ed6"
 });
 const WAVE_WORKER_BRANCHES = Object.freeze({
+  "rcap-ma-public-official-download-100k-petition-for-expungement":
+    "rcap-factory/rcap-ma-public-official-download-100k-petition-for-expungement-5a20fc17-68d97f25",
+  "rcap-ma-public-official-download-mps-petition-to-expunge":
+    "rcap-factory/rcap-ma-public-official-download-mps-petition-to-expunge-3f05c9be-93ccd004",
+  "rcap-ma-public-official-download-ocp-petition-to-seal":
+    "rcap-factory/rcap-ma-public-official-download-ocp-petition-to-seal-ed84fb2a-289f1c4e",
+  "rcap-ma-public-official-download-tc0021":
+    "rcap-factory/rcap-ma-public-official-download-tc0021-28ac28cb-e151bd65",
+  "rcap-ma-public-official-download-tc0057":
+    "rcap-factory/rcap-ma-public-official-download-tc0057-19105562-089eb4b5",
   "rcap-ok-sb-2030-current-text-and-currency":
     "rcap-factory/rcap-ok-sb-2030-current-text-and-currency-0d923f06-3494a6f1",
   "rcap-oh-automatic-sealing-current-law-reconciliation":
@@ -1696,6 +1706,11 @@ const WAVE_WORKER_BRANCHES = Object.freeze({
     "rcap-factory/rcap-nj-guidance-implementation-technical-visual-review-d5ed9fc8-e480293a"
 });
 const WAVE_WORKER_COMMITS = Object.freeze({
+  "rcap-ma-public-official-download-100k-petition-for-expungement": "b928d29f9500945840dd36c5882c58ff56d168ac",
+  "rcap-ma-public-official-download-mps-petition-to-expunge": "3e88ec62982b1784405703aaa94c84b86318480f",
+  "rcap-ma-public-official-download-ocp-petition-to-seal": "e52e4c19d0e6cbb3ed729bab5d7c3273c0ad47fa",
+  "rcap-ma-public-official-download-tc0021": "4530c3e0f75f066e71dd51cd7467d1a3a06871ab",
+  "rcap-ma-public-official-download-tc0057": "01de5ea718a1f040b16f5d9d7a61006d4cb05b7b",
   "rcap-ok-sb-2030-current-text-and-currency":
     "c163388bf8fa713df33a799674241e90f20217da",
   "rcap-oh-automatic-sealing-current-law-reconciliation":
@@ -1810,6 +1825,31 @@ const WAVE_WORKER_COMMITS = Object.freeze({
     "123fc9a4506b242270ad527686958de522563791"
 });
 const COMPLETED_AUTHORITY_JOB_COMMITS = new Map([
+  // The five Massachusetts public official downloads. The automation block did
+  // not reproduce and every assigned endpoint answered HTTP 200 with a valid
+  // PDF, so these are ordinary downloads and each record is its own source
+  // contract. Completion commits are the captain commits that carry the exact
+  // worker blobs.
+  [
+    "rcap-ma-public-official-download-100k-petition-for-expungement",
+    "ecce8fa1bcee02b383c43d8f20f598f3dc1e6653"
+  ],
+  [
+    "rcap-ma-public-official-download-mps-petition-to-expunge",
+    "d1b58895056974ad01054be45a608a424fde15d6"
+  ],
+  [
+    "rcap-ma-public-official-download-ocp-petition-to-seal",
+    "a2af26a81e3d14cece5b42bb6ee093d237268911"
+  ],
+  [
+    "rcap-ma-public-official-download-tc0021",
+    "902894bf7e5e4b0b6e5485061c77cc5594c837e6"
+  ],
+  [
+    "rcap-ma-public-official-download-tc0057",
+    "dab71bf08c1b5c70cf183c2561833e2f8d6379c8"
+  ],
   [
     "rcap-co-in-repo-identity-reconciliation-needs-edition-reclass-not-acquisition",
     "6afe0d989bb079dbd1eab377b0547b9b6908d902"
@@ -8863,6 +8903,8 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
   const kansasRetainedIdentities = [
     {
       slug: "conviction-or-diversion-petition",
+      repositorySourcePath:
+        "private/Nationwide Record Clearing/LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
       documentId: "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
       registryArtifactId:
         "petition-for-expungement-of-conviction-or-diversion-82022",
@@ -8875,6 +8917,8 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
     },
     {
       slug: "order-denying-expungement",
+      repositorySourcePath:
+        "private/Nationwide Record Clearing/LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
       documentId: "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
       registryArtifactId:
         "order-denying-expungement-of-conviction-or-diversion-122016",
@@ -8898,11 +8942,25 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
         reconciliationIds: [`identity:KS:${retained.documentId}`],
         downloadedSourceCount: 0,
         dependencies: ["rcap-ks-excluded-route-reinstatement"],
-        ...completion(jobId),
+        // Blocked while the bytes it must re-measure are absent.
+        //
+        // These owners bind retained bytes rather than fetch them, so the whole
+        // assignment rests on the exact file being readable at the path the
+        // source-artifact registry records. In a checkout where the private
+        // corpus does not carry it, the job is not ready — it is blocked on an
+        // input nobody can supply from inside the repository, and saying "ready"
+        // would send a worker to measure a file that is not there. Derived from
+        // the path rather than asserted, so it opens by itself wherever the
+        // corpus is complete. Substituting a shadow sample for the real bytes is
+        // the failure this guards against.
+        ...(fs.existsSync(path.join(rootDir, retained.repositorySourcePath))
+          ? completion(jobId)
+          : { status: "blocked" }),
         expectedOutputs: [
           `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`
         ],
         requiredInputs: [
+          retained.repositorySourcePath,
           `${FACTORY_DATA_DIR}/legal-design-decisions/ks-excluded-route-reinstatement.json`,
           `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-project-owner-permission-authorization.json`,
           FACTORY_INPUT_PATHS.authority,
@@ -9122,6 +9180,18 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
   // record and the Edition 1.2 manifest say XFA. PROB0002 being confirmed XFA
   // settles nothing about TC0021, and resolving one by analogy to the other is
   // exactly the error to avoid.
+  //
+  // The measurement now exists: the official download opened the binary and
+  // found a full /XFA packet array. That answers what the job was waiting for,
+  // and the finding is still the job's own to make and record. Its status is
+  // derived from the retrieval it depends on rather than hard-coded blocked,
+  // which is how it stayed blocked past the moment its blocker cleared.
+  const maTc0021Retrieved = fs.existsSync(
+    path.join(
+      rootDir,
+      `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-public-official-download-tc0021.json`
+    )
+  );
   addJob({
     lane: "source_acquisition",
     jurisdiction: "MA",
@@ -9133,7 +9203,9 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       "rcap-ma-official-download-automation-blocked",
       "rcap-ma-public-official-download-tc0021"
     ],
-    status: "blocked",
+    ...(maTc0021Retrieved
+      ? completion("rcap-ma-tc0021-source-structure-resolution")
+      : { status: "blocked" }),
     expectedOutputs: [
       `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-tc0021-source-structure-resolution.json`
     ],
@@ -9155,6 +9227,202 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       "Do not resolve this by analogy to PROB0002, whose XFA structure is confirmed and says " +
       "nothing about TC0021, and do not treat the mass.gov Acrobat Reader warning as proof. Do " +
       "not choose a renderer, enable runtime, promote, or deploy. " +
+      TERMINAL_INSTRUCTION
+  });
+
+  // The four owners the five Massachusetts source contracts create.
+  //
+  // The downloads established bytes, digest, size, structure, field denominator
+  // and face revision, and each record says plainly that it is the source
+  // contract and not a receipt. What they deliberately did not do is author an
+  // Edition identity, install anything, or choose a renderer — those are three
+  // different competencies with three different failure modes, and a download
+  // job that did all three would be a receipt written from its own evidence.
+  //
+  // The order is the lifecycle: identity, then installation and receipt, then
+  // rendering policy. Each waits on the one before it, so a receipt cannot
+  // precede an admitted identity and a renderer cannot be chosen for bytes
+  // nobody has installed.
+  const massachusettsSourceContracts = [
+    "rcap-ma-public-official-download-100k-petition-for-expungement",
+    "rcap-ma-public-official-download-mps-petition-to-expunge",
+    "rcap-ma-public-official-download-ocp-petition-to-seal",
+    "rcap-ma-public-official-download-tc0021",
+    "rcap-ma-public-official-download-tc0057"
+  ];
+  const massachusettsContractsIntegrated = massachusettsSourceContracts.every(
+    (jobId) =>
+      fs.existsSync(
+        path.join(rootDir, `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`)
+      )
+  );
+  if (massachusettsContractsIntegrated) {
+    const maContractInputs = massachusettsSourceContracts.map(
+      (jobId) => `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`
+    );
+    const maEditionHandoff = "rcap-ma-edition-successor-handoff";
+    const maMaterialization = "rcap-ma-source-materialization";
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "MA",
+      jobId: maEditionHandoff,
+      strategyFamily: "edition_candidate_intake",
+      reconciliationIds: ["edition:MA:five-current-official-sources"],
+      downloadedSourceCount: 0,
+      dependencies: [...massachusettsSourceContracts],
+      ...completion(maEditionHandoff),
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/${maEditionHandoff}.json`
+      ],
+      requiredInputs: [
+        ...maContractInputs,
+        "data/record-clearing/master-library/edition-successor-plan.json",
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.sourceArtifacts
+      ],
+      model: "opus",
+      effort: "xhigh",
+      commitSubject:
+        "docs(record-clearing): hand the five MA sources to the next edition",
+      executionNote:
+        "The five source contracts are integrated and carry exact bytes. This job authors the " +
+        "Edition candidate rows the successor plan needs, and nothing else. It installs no " +
+        "bytes, writes no receipt and chooses no renderer.",
+      stopCondition:
+        "Author one Edition candidate asset row for each of the five Massachusetts documents, " +
+        "taking every value from its integrated source contract and from nowhere else: exact " +
+        "canonical identifier, workflow key, official title as published, issuer and issuing " +
+        "office, document role, scope, revision, language, asset class, canonical authority " +
+        "path, source URL, SHA-256, byte count, media type, page count, structural class and " +
+        "licence disposition. Record the successor identity each row supersedes where one " +
+        "exists, and where none does, say so. " +
+        "Revisions are the face's, not the index's. TC0057 is REV-2024-02 and 3/24 is the index " +
+        "label; the 100K petition is 12/20/18 even though the file was republished later; " +
+        "TC0021 is 11/22. The OCP petition to seal carries no printed revision and the MPS " +
+        "petition's revision is not machine-readable from its face — record each as what it is " +
+        "and do not synthesise one from CreationDate, ModDate or an index description. " +
+        "Part A boxes 1 to 4 of the OCP petition are choices inside one form. Do not author a " +
+        "sixth row for box 4. " +
+        "The retained 13,137-byte two-page flat Massachusetts Probation Service copy is a legacy " +
+        "artifact and may not stand for the current 3,131,095-byte dynamic XFA shell. " +
+        "Edition 1.3 is published and immutable: do not amend it, do not reopen its archive, and " +
+        "do not publish an edition. These rows are candidates for the next successor tranche and " +
+        "the successor plan decides admission against its own eight criteria. " +
+        "Do not install bytes, do not create a receipt, do not choose a renderer, do not declare " +
+        "a route ready, and do not enable runtime, promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    const maEditionHandoffLanded = fs.existsSync(
+      path.join(
+        rootDir,
+        `${FACTORY_DATA_DIR}/source-acquisition/${maEditionHandoff}.json`
+      )
+    );
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "MA",
+      jobId: maMaterialization,
+      strategyFamily: "source_materialization",
+      reconciliationIds: ["materialization:MA:five-current-official-sources"],
+      downloadedSourceCount: 0,
+      dependencies: [maEditionHandoff],
+      ...(maEditionHandoffLanded
+        ? completion(maMaterialization)
+        : { status: "blocked" }),
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/${maMaterialization}.json`
+      ],
+      requiredInputs: [
+        ...maContractInputs,
+        `${FACTORY_DATA_DIR}/source-acquisition/${maEditionHandoff}.json`,
+        FACTORY_INPUT_PATHS.authority
+      ],
+      model: "codex",
+      effort: "xhigh",
+      commitSubject:
+        "chore(record-clearing): materialize the five MA official sources",
+      executionNote:
+        "Blocked until the Edition handoff lands. A receipt written before the controlling " +
+        "successor identity is admitted pins bytes to an identity the authority layer has not " +
+        "issued, which is the one thing the materialization boundary exists to prevent.",
+      stopCondition:
+        "Install the five Massachusetts binaries into the sealed external materialization root " +
+        "under official-pdf/MA/, reverify each installed file against the SHA-256 and byte count " +
+        "its source contract pins, and only then write one receipt per document. " +
+        "Every precondition must hold before a receipt exists: the controlling successor " +
+        "identity is admitted, an exact source contract exists, the bytes are installed in the " +
+        "external root, and the installed bytes reverify. If any one of them does not hold, " +
+        "record which and write no receipt for that document. " +
+        "No binary enters version control. Do not amend or republish an edition, do not choose " +
+        "a renderer, do not declare a route ready, and do not enable runtime, promote, or " +
+        "deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
+  // The XFA rendering policy. Nationwide, because XFA is not a Massachusetts
+  // problem: sixteen identities across MA, CA and ME resolve
+  // nonrenderable_source_policy_required, and the lane classifier sends every
+  // one of them here rather than to an AcroForm filler.
+  //
+  // Massachusetts is what makes it urgent and what makes it concrete. Three of
+  // its documents are XFA hybrids whose widget counts are the AcroForm shadow
+  // of an XFA template — fillable through the shadow only if the shadow is
+  // authoritative, which is the question — and a fourth, the Probation Service
+  // petition, is a dynamic shell carrying /NeedsRendering with no shadow at
+  // all, so there is nothing to fill even in principle. Those are two different
+  // problems and this job must answer both rather than generalising from the
+  // easier one.
+  const xfaPolicyJobId = "rcap-nationwide-xfa-rendering-policy";
+  addJob({
+    lane: "platform_foundation",
+    jurisdiction: "NATIONWIDE",
+    jobId: xfaPolicyJobId,
+    strategyFamily: "renderer_policy",
+    dependencies: [],
+    ...completion(xfaPolicyJobId),
+    expectedOutputs: [
+      `${FACTORY_DATA_DIR}/source-acquisition/${xfaPolicyJobId}.json`
+    ],
+    requiredInputs: [
+      "data/record-clearing/production-factory/official-pdf-production-queue.json",
+      FACTORY_INPUT_PATHS.sourceArtifacts,
+      "src/lib/rcap/packets/engines/official-pdf.ts"
+    ],
+    model: "opus",
+    effort: "xhigh",
+    commitSubject:
+      "docs(record-clearing): decide the XFA rendering policy",
+    executionNote:
+      "The renderer decision for every XFA source in the corpus. It is deliberately not made " +
+      "in an integration pass and not made per jurisdiction: sixteen identities across three " +
+      "states wait on the same six questions.",
+    stopCondition:
+      "Decide, for XFA sources, and record each answer with the evidence it rests on: " +
+      "(1) the supported XFA rendering lifecycle — what the platform will and will not do with " +
+      "an XFA template, stated as a lifecycle rather than a library choice; " +
+      "(2) dynamic XFA shell handling — a shell carrying /NeedsRendering with no AcroForm " +
+      "widget shadow has no fillable surface, and the Massachusetts Probation Service petition " +
+      "is the live instance; say what happens to it, including whether the honest answer is " +
+      "that LegalEase does not generate it; " +
+      "(3) JavaScript dependence — every one of these documents carries document-level " +
+      "JavaScript, and whether a filled output is correct without executing it is a question " +
+      "about the document, not about the renderer; " +
+      "(4) participant-field classification — which fields a participant may fill, which belong " +
+      "to the court, the clerk or an outside party, and how that is decided when the field list " +
+      "is an AcroForm shadow of an XFA template rather than the template itself; " +
+      "(5) deterministic output — the same facts must produce the same bytes, and an XFA " +
+      "pipeline that embeds a timestamp or a locale does not; " +
+      "(6) source preservation — the official bytes are the authority and must survive the " +
+      "process unmodified. " +
+      "Do not choose a renderer for a document whose source is not yet materialized and " +
+      "reverified, do not treat an AcroForm widget shadow as proof the document is a clean " +
+      "AcroForm, and do not resolve one document by analogy to another. Where the answer is " +
+      "that a document cannot be generated, say so plainly: a typed stop is a real answer and a " +
+      "wrong renderer is not. " +
+      "Do not implement a renderer, modify a packet engine, declare a route ready, or enable " +
+      "runtime, promote, or deploy. " +
       TERMINAL_INSTRUCTION
   });
 
