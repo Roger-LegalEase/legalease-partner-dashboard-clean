@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "d30a3dde61080b0e46349e3d4db807341c5c63e4",
+    "baseCommit": "c61f8742ff1054ef8cf2fd19caa035c5110c6edb",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "89833e6ee779f7a7ca74d523db4cff121b0259d26c497c9bfb484c9edb85dd2c"
+        "sha256": "ae7916ecfac0f35113a383669c738b12f45759319cf3bdfad50ab753a5c9ebc9"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -581,7 +581,7 @@
     "candidateShards": 7,
     "activeJobs": 8,
     "candidateJobs": 12,
-    "awaitingIntegration": 2
+    "awaitingIntegration": 0
   },
   "shards": [
     {
@@ -1050,62 +1050,15 @@
       "status": "active",
       "ownerSession": "SESSION_A",
       "note": "Jobs whose completions are already pushed and verified, populated from the committed discovery report rather than by hand.",
-      "jobIds": [
-        "rcap-ma-edition-successor-handoff",
-        "rcap-ma-tc0021-source-structure-resolution"
-      ],
+      "jobIds": [],
       "capacity": {
-        "jobs": 2,
+        "jobs": 0,
         "assignedTracks": 0,
         "incrementalTracks": 0,
         "assignedComponents": 0,
         "incrementalComponents": 0
       },
-      "jobs": [
-        {
-          "jobId": "rcap-ma-edition-successor-handoff",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "completed",
-          "semanticFingerprint": "8d43f22579e10c0354a4000ca12c20f49c557ac5d7c50f0579dfb849c5b31070",
-          "branch": "rcap-factory/rcap-ma-edition-successor-handoff-a8fd4ab1-8d43f225",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json"
-          ],
-          "dependencies": [
-            "rcap-ma-public-official-download-100k-petition-for-expungement",
-            "rcap-ma-public-official-download-mps-petition-to-expunge",
-            "rcap-ma-public-official-download-ocp-petition-to-seal",
-            "rcap-ma-public-official-download-tc0021",
-            "rcap-ma-public-official-download-tc0057"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": true
-        },
-        {
-          "jobId": "rcap-ma-tc0021-source-structure-resolution",
-          "lane": "source_acquisition",
-          "jurisdiction": "MA",
-          "status": "completed",
-          "semanticFingerprint": "f454aa1c1cc53e5080417f9dd9fee36939ece17a427d72ef98679523a656df77",
-          "branch": "rcap-factory/rcap-ma-tc0021-source-structure-resolution-7074b7b5-f454aa1c",
-          "ownedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ma-tc0021-source-structure-resolution.json"
-          ],
-          "dependencies": [
-            "rcap-ma-official-download-automation-blocked",
-            "rcap-ma-public-official-download-tc0021"
-          ],
-          "assignedTrackIds": [],
-          "incrementalTrackIds": [],
-          "assignedComponents": 0,
-          "incrementalComponents": 0,
-          "alreadyHasPushedCompletion": true
-        }
-      ]
+      "jobs": []
     },
     {
       "wave": 5,
@@ -1552,5 +1505,5 @@
       ]
     }
   ],
-  "manifestSha256": "ca026b88a5aa7ce92db47fdd4ba4c004a9cf54b60de6101450c848fd64573f91"
+  "manifestSha256": "173feec517ac5ea0cbf7ef02dd0160c3f53fdfda31a3bf918546929891cea480"
 }
