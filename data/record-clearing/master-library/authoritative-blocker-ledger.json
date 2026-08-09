@@ -110,7 +110,7 @@
       },
       "legal_design_blocker": {
         "before": 88,
-        "after": 211
+        "after": 209
       },
       "legal_design_reconciliation_blocker": {
         "before": 7,
@@ -138,7 +138,7 @@
       },
       "source_or_currentness_blocker": {
         "before": 446,
-        "after": 844
+        "after": 846
       },
       "source_provenance_blocker": {
         "before": 0,
@@ -172,20 +172,20 @@
     "byScope": {
       "commercial_use_blocker": 14,
       "jurisdiction_input_requirement": 6,
-      "legal_design_blocker": 211,
+      "legal_design_blocker": 209,
       "legal_design_reconciliation_blocker": 14,
       "mapping_blocker": 694,
       "master_library_source_gap": 28,
       "runtime_promotion_blocker": 1,
       "source_acquisition_blocker": 168,
       "source_currentness_blocker": 4,
-      "source_or_currentness_blocker": 844,
+      "source_or_currentness_blocker": 846,
       "source_provenance_blocker": 25,
       "technical_blocker": 497,
       "visual_or_legal_output_blocker": 994
     },
-    "joinedUniqueReleaseBlockers": 3259,
-    "joinedUniqueBuildBlockers": 228,
+    "joinedUniqueReleaseBlockers": 3261,
+    "joinedUniqueBuildBlockers": 226,
     "joinedUniqueRows": 3500,
     "rowsBeforeDedupe": 3500
   },
@@ -15348,23 +15348,37 @@
       "impact": "build_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Design undetermined: The status-offense determination under Wyo. Stat. § 7-1-107(b)(iii) is not encoded. Do not assume underage alcohol, nicotine or other minor conduct is automatically a status offense, because the one-year and five-year clocks turn on it. (undetermined: waiting_period)",
+      "requiredResolution": "Open question blocks the build (eligibility_branch): Is a conviction under a city or town ordinance a \"misdemeanor\" as W.S. 6-10-101 defines it for the purposes of § 7-13-1501(m)(ii), and so can a minor-only municipal offense such as curfew be expunged under the section at all? The conduct satisfies the status-offense definition, because an adult doing it violates neither a state criminal law nor a municipal ordinance, but § 6-10-101 classifies crimes by the punishment authorized and does not say whether a municipal ordinance violation is a crime for that purpose. This is prior to the clock rather than part of it, and it decides whether a whole class of participants has a route. Answering it would take reading municipal ordinances and the law of municipal court jurisdiction, which no integrated Wyoming decision reaches.",
       "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "legal-design:WY:wy_misd_1501:design-undetermined-the-status-offense-determination-under-wyo-stat-7-1-107-b-iii-is-not-e"
+      "dedupeKey": "legal-design:WY:wy_misd_1501:open-question-blocks-the-build-eligibility-branch-is-a-conviction-under-a-city-or-town-ord"
     },
     {
       "authorityEdition": "1.2",
       "jurisdiction": "WY",
       "trackId": "wy_misd_1501",
       "documentId": null,
-      "blockerScope": "legal_design_blocker",
-      "blockerType": "undetermined_design_element",
-      "impact": "build_blocker",
+      "blockerScope": "source_or_currentness_blocker",
+      "blockerType": "open_release_question",
+      "impact": "release_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Open question blocks the build (waiting_period): What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this.",
+      "requiredResolution": "Does anything outside § 7-13-1501 entitle a person whose misdemeanor conviction is expunged to answer an inquiry as though it did not occur? The section itself gives no such entitlement, and W.S. 7-13-1401(f) is confined to its own section by its own words, so the safe copy is silence. Whether some other Wyoming provision supplies it has not been searched and is not asserted in either direction.",
       "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "legal-design:WY:wy_misd_1501:open-question-blocks-the-build-waiting-period-what-exactly-does-wyo-stat-7-1-107-b-iii-def"
+      "dedupeKey": "release-question:WY:wy_misd_1501:does-anything-outside-7-13-1501-entitle-a-person-whose-misdemeanor-conviction-is-expunged-"
+    },
+    {
+      "authorityEdition": "1.2",
+      "jurisdiction": "WY",
+      "trackId": "wy_misd_1501",
+      "documentId": null,
+      "blockerScope": "source_or_currentness_blocker",
+      "blockerType": "open_release_question",
+      "impact": "release_blocker",
+      "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
+      "currentRepositoryTreatment": "track normalized and runtime_disabled",
+      "requiredResolution": "Can a misdemeanor deferral under W.S. 7-13-301 be expunged under § 7-13-1501? Lynch v. State, 2026 WY 8 footnote 3 expressly reserves the point — \"Our interpretation of § 7-13-1501 is limited to its clear language — that the statute authorizes expungement of records of conviction — and we express no view on its broader scope\" — while observing at ¶16 that the section clearly only authorizes expungement of the records of conviction. This memo's routing of a completed misdemeanor deferral to § 7-13-1501 follows the Wyoming Judicial Branch's published guidance and is not disturbed by the reservation; what turns on the answer is who this track screens out, which is why it is release-level rather than build-level.",
+      "runtimeEffect": "runtime_disabled",
+      "dedupeKey": "release-question:WY:wy_misd_1501:can-a-misdemeanor-deferral-under-w-s-7-13-301-be-expunged-under-7-13-1501-lynch-v-state-20"
     },
     {
       "authorityEdition": "1.2",
@@ -15390,23 +15404,9 @@
       "impact": "build_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. (undetermined: eligibility_branch)",
+      "requiredResolution": "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. What is missing is exact and is stated so it can be closed: a subparagraph-level enumeration of W.S. 7-13-1502(a)(iv) as currently in force, each subparagraph carried with the statute section it names, accounting for 2014 ch. 124, which amended (a)(iii), (a)(iv)(P) and (S) and repealed (a)(iv)(H), (J), (R), (U) and (W), and for 2014 ch. 13, which amended (a)(iv)(E). The narrative list of excluded felonies this memo carries is the controlling review's summary and cannot decide a particular conviction. No integrated Wyoming decision supplies the enumeration, and standing counsel adoption does not substitute for one: counsel adopted the design, and a list nobody has written down is not part of it. (undetermined: eligibility_branch)",
       "runtimeEffect": "runtime_disabled",
       "dedupeKey": "legal-design:WY:wy_fel_1502:design-undetermined-the-7-13-1502-exclusion-list-is-long-and-statute-specific-and-is-not-e"
-    },
-    {
-      "authorityEdition": "1.2",
-      "jurisdiction": "WY",
-      "trackId": "wy_fel_1502",
-      "documentId": null,
-      "blockerScope": "legal_design_blocker",
-      "blockerType": "undetermined_design_element",
-      "impact": "build_blocker",
-      "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
-      "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Open question blocks the build (governing_mechanism): Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?",
-      "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "legal-design:WY:wy_fel_1502:open-question-blocks-the-build-governing-mechanism-does-anything-else-reach-a-completed-fe"
     },
     {
       "authorityEdition": "1.2",
@@ -15418,9 +15418,9 @@
       "impact": "release_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Is the Lynch citation accurate? The internal reference cites a Wyoming Supreme Court decision at docket S-25-0140, reported as a 2026 case, for the proposition that § 7-13-1502 requires an actual felony conviction and that a completed deferral producing a dismissal is not one. A search surfaced a different Lynch matter from 2024 on an unrelated issue. The proposition is consistent with the statutory text, which opens with 'a person convicted of a felony', but the citation could not be confirmed.",
+      "requiredResolution": "Does anything outside § 7-13-1502 entitle a person whose felony conviction is expunged to answer an inquiry as though it did not occur? Subsection (m) restores rights removed as a result of the conviction, which is a different thing. W.S. 7-13-1401(f) supplies the answer-as-if entitlement on the non-conviction route and is confined to its own section by its own words, so the safe copy on this track is silence about it. Whether some other Wyoming provision supplies it has not been searched and is not asserted in either direction.",
       "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "release-question:WY:wy_fel_1502:is-the-lynch-citation-accurate-the-internal-reference-cites-a-wyoming-supreme-court-decisi"
+      "dedupeKey": "release-question:WY:wy_fel_1502:does-anything-outside-7-13-1502-entitle-a-person-whose-felony-conviction-is-expunged-to-an"
     },
     {
       "authorityEdition": "1.2",

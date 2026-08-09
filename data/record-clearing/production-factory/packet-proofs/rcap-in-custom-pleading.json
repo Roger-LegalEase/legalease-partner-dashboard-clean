@@ -26,13 +26,147 @@
   "variantPacketCount": 3,
   "technicalFixtureCount": 6,
   "technicalFixturePageCount": 51,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "in_collateral_action",
+        "packetSetId": "in_collateral_action-set",
+        "declaredComponentCount": 3,
+        "implementedComponents": [
+          {
+            "componentId": "in_collateral_action-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "in_collateral_action-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "in_collateral_action-attachment-3",
+            "role": "attachment",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [],
+        "filingComplete": true
+      },
+      {
+        "trackId": "in_conviction_serious_felony",
+        "packetSetId": "in_conviction_serious_felony-set",
+        "declaredComponentCount": 7,
+        "implementedComponents": [
+          {
+            "componentId": "in_conviction_serious_felony-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "in_conviction_serious_felony-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "in_conviction_serious_felony-attachment-3",
+            "role": "attachment",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "in_conviction_serious_felony-instructions-7",
+            "role": "instructions",
+            "order": 7,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "in_conviction_serious_felony-attachment-4",
+            "role": "attachment",
+            "order": 4,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "in_conviction_serious_felony-attachment-5",
+            "role": "attachment",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "in_conviction_serious_felony-attachment-6",
+            "role": "attachment",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "in_conviction_serious_felony-attachment-5",
+          "in_conviction_serious_felony-attachment-6"
+        ]
+      },
+      {
+        "trackId": "in_supplemental_order",
+        "packetSetId": "in_supplemental_order-set",
+        "declaredComponentCount": 3,
+        "implementedComponents": [
+          {
+            "componentId": "in_supplemental_order-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "in_supplemental_order-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "in_supplemental_order-attachment-3",
+            "role": "attachment",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [],
+        "filingComplete": true
+      }
+    ]
+  },
   "samplePackets": [
     {
       "trackId": "in_collateral_action",
       "fixtureId": "in-collateral-action-forfeiture-section-2-1",
       "sampleRole": "canonical",
       "assembledFileName": "in-collateral-action-forfeiture-section-2-1-technical-fixture.pdf",
-      "assembledSha256": "ded52c7bcb88a8cff6ef37d07714653421e11248be1f561171e7060e56531980",
+      "assembledSha256": "db63c632d4085f2d59953c8349b494bd0661ec515f2e9b86f1ae86ee23332361",
       "assembledPageCount": 6
     },
     {
@@ -41,7 +175,7 @@
       "sampleRole": "variant",
       "variantOfTrackId": "in_collateral_action",
       "assembledFileName": "in-collateral-action-section-4-marked-expunged-2-technical-fixture.pdf",
-      "assembledSha256": "5b4c33ef5f6eb1be718066b3ed36471379a8c9d196551ebd85dec18a0979601b",
+      "assembledSha256": "e9798f9e40a48238ba000859804aa4903a6aff07d3cc9f674bad658288fca2d8",
       "assembledPageCount": 6
     },
     {
@@ -75,7 +209,7 @@
       "fixtureId": "in-supplemental-petition-section-3-1",
       "sampleRole": "canonical",
       "assembledFileName": "in-supplemental-petition-section-3-1-technical-fixture.pdf",
-      "assembledSha256": "d2a548238b382447069511c978fcade76994a6624b30b2ed4c13222220297190",
+      "assembledSha256": "087650e5c65ffce6955bc0715db96073430cb52cfb30a7484fd9e26509d0b20d",
       "assembledPageCount": 6
     }
   ],

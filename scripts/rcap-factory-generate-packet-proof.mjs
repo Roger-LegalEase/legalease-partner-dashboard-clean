@@ -186,6 +186,21 @@ const samplePackets =
         assembledPageCount: sample.assembledPageCount
       }));
 
+// What the packet set declares, and what this implementation actually renders.
+//
+// A proof that reports four rendered components and stops is read as a finished
+// packet. Wyoming is where that became visible: wy_nc_1401 declares five
+// required components, four of them custom pleading and the fifth
+// process_guidance, and the custom-pleading implementation renders four. The
+// packet is real, deterministic and reviewable, and it is not what the
+// participant files, because a required component of its own set has no
+// implementation yet.
+//
+// Derived from the committed packet-set manifest and the job's own lane, so it
+// applies to every family on the same terms and states rather than implies the
+// distinction between an implemented component, a component owned by another
+// lane, technical fixtures and a filing-complete packet.
+const componentScope = buildComponentScope();
 const proof = {
   schemaVersion: "rcap-participant-packet-proof/v1",
   jobId: job.jobId,
@@ -210,6 +225,7 @@ const proof = {
     0
   ),
   ...variantEvidence,
+  ...(componentScope ? { componentScope } : {}),
   samplePackets,
   deterministic: true,
   generatedPacketBytesTracked: false,
@@ -273,6 +289,24 @@ function parseSamples(stdout) {
     const labelled = line.match(
       /^\s+(\S+)\s+\d+\s+components?\s+(\d+)\s+pages?\s+sha256=([0-9a-f]{64})$/
     );
+
+    // A fixture the design deliberately produces no filing for.
+    //
+    // Nevada's automatic-sealing branch is a real, exercised fixture whose
+    // correct outcome is that no packet exists: the court seals the record
+    // without a filing, so there is nothing to assemble and nothing to hash.
+    // Its verifier says exactly that in the sha256 column, which is honest and
+    // which the row parsers below cannot read, so the whole family's proof
+    // could not be regenerated at all.
+    //
+    // It is admitted as a declared non-packet rather than as a packet: it must
+    // state zero components and zero pages, it contributes no sample, and it
+    // relaxes nothing for a row that claims a packet. A row claiming components
+    // or pages without a digest is still malformed and still fails.
+    const declaredNonPacket = line.match(
+      /^\s+(\S+)\s+(\S+)\s+(?:canonical|variant)\s+0\s+components?\s+0\s+pages?\s+sha256=(?![0-9a-f]{64}$)\S.*$/
+    );
+    if (declaredNonPacket) continue;
 
     let parsed = null;
     if (roleLabelled) {
@@ -380,4 +414,93 @@ function fileSha256(absolutePath) {
 function fail(message) {
   console.error(`RCAP participant packet proof generation failed: ${message}`);
   process.exit(1);
+}
+
+
+/**
+ * Declared-versus-implemented components for every assigned track.
+ *
+ * `null` where the packet-set manifest carries no set for the assigned tracks,
+ * so a family the manifest does not describe records nothing rather than
+ * recording a guess. Absence of a declaration is never read as completeness.
+ */
+function buildComponentScope() {
+  const manifestPath = path.join(
+    ROOT,
+    "data/record-clearing/legal-design-packet-set-manifests.json"
+  );
+  if (!fs.existsSync(manifestPath)) return null;
+  let sets;
+  try {
+    sets = JSON.parse(fs.readFileSync(manifestPath, "utf8")).packetSets ?? [];
+  } catch {
+    return null;
+  }
+  // The output strategy this job's lane implements. A lane the map does not
+  // name implements nothing this can classify, and says so by returning null
+  // rather than by treating every declared component as implemented.
+  const laneStrategy = {
+    custom_pleading: "custom_pleading",
+    guidance_implementation: "process_guidance",
+    acroform_fill: "official_pdf_fill",
+    flat_pdf_overlay: "official_pdf_fill"
+  }[job.lane];
+  if (!laneStrategy) return null;
+
+  const tracks = [];
+  for (const trackId of [...job.trackIds].sort()) {
+    const set = sets.find((entry) => entry.trackId === trackId);
+    if (!set) continue;
+    const describe = (component) => ({
+      componentId: component.componentId,
+      role: component.role,
+      order: component.order,
+      requirement: component.requirement,
+      outputStrategy: component.outputStrategy
+    });
+    const implemented = (set.components ?? [])
+      .filter((component) => component.outputStrategy === laneStrategy)
+      .map(describe);
+    const excluded = (set.components ?? [])
+      .filter((component) => component.outputStrategy !== laneStrategy)
+      .map((component) => ({
+        ...describe(component),
+        excludedBecause:
+          `declared under ${component.outputStrategy}, which this ${job.lane} ` +
+          "implementation does not own"
+      }));
+    const outstanding = excluded.filter(
+      (component) => component.requirement === "required"
+    );
+    tracks.push({
+      trackId,
+      packetSetId: set.packetSetId,
+      declaredComponentCount: (set.components ?? []).length,
+      implementedComponents: implemented,
+      excludedComponents: excluded,
+      filingComplete: outstanding.length === 0,
+      ...(outstanding.length > 0
+        ? {
+            filingCompleteBlockedBy: outstanding.map(
+              (component) => component.componentId
+            )
+          }
+        : {})
+    });
+  }
+  if (tracks.length === 0) return null;
+  return {
+    basis:
+      "data/record-clearing/legal-design-packet-set-manifests.json — declared " +
+      "components per track, partitioned by the output strategy this job's lane " +
+      "implements.",
+    implementedOutputStrategy: laneStrategy,
+    filingComplete: tracks.every((track) => track.filingComplete),
+    filingCompleteMeaning:
+      "False means a required component of the track's own packet set is not " +
+      "implemented here, so the assembled fixture is technical evidence and is " +
+      "not the complete filing. It says nothing about legal review, counsel " +
+      "adoption, packet readiness or runtime, which remain separate and closed.",
+    tracks
+  };
 }

@@ -118,9 +118,15 @@ check("a job with no variants writes the record it always wrote", () => {
 });
 
 check("a proof that carries variants states the model explicitly", () => {
+  // Nevada advanced from 6/4 to 8/6 when its proof could be regenerated at all.
+  // The generator rejected the whole family on one honest verifier row — the
+  // automatic-sealing branch, whose correct outcome is that no filing exists and
+  // which says so in the digest column — so the committed proof had been frozen
+  // at the shape it had before two probation-family fixtures were added. The
+  // counts are the verifier's own, not an adjustment.
   const varying = [
     ["rcap-ok-custom-pleading", 8, 3],
-    ["rcap-nv-custom-pleading", 6, 4],
+    ["rcap-nv-custom-pleading", 8, 6],
     ["rcap-sd-guidance-implementation", 4, 1]
   ];
   for (const [jobId, canonical, variants] of varying) {

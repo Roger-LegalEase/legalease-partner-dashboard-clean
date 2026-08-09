@@ -26,6 +26,49 @@
   "variantPacketCount": 2,
   "technicalFixtureCount": 3,
   "technicalFixturePageCount": 16,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "wi_exp_certificate_of_discharge_followup",
+        "packetSetId": "wi_exp_certificate_of_discharge_followup-set",
+        "declaredComponentCount": 3,
+        "implementedComponents": [
+          {
+            "componentId": "wi_exp_certificate_of_discharge_followup-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "wi_exp_certificate_of_discharge_followup-status-request-2",
+            "role": "status_request",
+            "order": 2,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "wi_exp_certificate_of_discharge_followup-filing-instructions-3",
+            "role": "filing_instructions",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "wi_exp_certificate_of_discharge_followup-filing-instructions-3"
+        ]
+      }
+    ]
+  },
   "samplePackets": [
     {
       "trackId": "wi_exp_certificate_of_discharge_followup",

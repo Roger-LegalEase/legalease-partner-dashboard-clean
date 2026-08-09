@@ -26,13 +26,174 @@
   "variantPacketCount": 3,
   "technicalFixtureCount": 6,
   "technicalFixturePageCount": 48,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "ms-drug-cd",
+        "packetSetId": "ms-drug-cd-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "ms-drug-cd-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "ms-drug-cd-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "ms-drug-cd-certificate-of-service-3",
+            "role": "certificate_of_service",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "ms-drug-cd-attachment-4",
+            "role": "attachment",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "ms-drug-cd-instructions-5",
+            "role": "instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "ms-drug-cd-attachment-4",
+          "ms-drug-cd-instructions-5"
+        ]
+      },
+      {
+        "trackId": "ms-dui",
+        "packetSetId": "ms-dui-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "ms-dui-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "ms-dui-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "ms-dui-certificate-of-service-3",
+            "role": "certificate_of_service",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "ms-dui-attachment-4",
+            "role": "attachment",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "ms-dui-instructions-5",
+            "role": "instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "ms-dui-attachment-4",
+          "ms-dui-instructions-5"
+        ]
+      },
+      {
+        "trackId": "ms-mip",
+        "packetSetId": "ms-mip-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "ms-mip-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "ms-mip-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "ms-mip-certificate-of-service-3",
+            "role": "certificate_of_service",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "ms-mip-attachment-4",
+            "role": "attachment",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "ms-mip-instructions-5",
+            "role": "instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "ms-mip-attachment-4",
+          "ms-mip-instructions-5"
+        ]
+      }
+    ]
+  },
   "samplePackets": [
     {
       "trackId": "ms-drug-cd",
       "fixtureId": "ms-drug-cd-conditional-discharge-possession-1",
       "sampleRole": "canonical",
       "assembledFileName": "ms-drug-cd-conditional-discharge-possession-1-technical-fixture.pdf",
-      "assembledSha256": "554cc246c3315e65e3b4aff2708e6ced777bc346a3f648b964b1e763d28cbe11",
+      "assembledSha256": "5eba98b311d9effd98a962f3164da7d8a93e0cce54c72e5be16542d22315a775",
       "assembledPageCount": 8
     },
     {
@@ -41,7 +202,7 @@
       "sampleRole": "variant",
       "variantOfTrackId": "ms-drug-cd",
       "assembledFileName": "ms-drug-cd-paraphernalia-justice-court-2-technical-fixture.pdf",
-      "assembledSha256": "d63bf8f6e2da51a79bed564b0bda21cef2b742c49e470a7da63b0054ee5b6cd9",
+      "assembledSha256": "d7507501e374ee3d18f851261e5cbabe5241a3920ea7b4b888afdd32bef4ac15",
       "assembledPageCount": 8
     },
     {
@@ -66,7 +227,7 @@
       "fixtureId": "ms-mip-dismissed-and-discharged-1",
       "sampleRole": "canonical",
       "assembledFileName": "ms-mip-dismissed-and-discharged-1-technical-fixture.pdf",
-      "assembledSha256": "120dd48c11f9849a521aa575a2589426670488c5e3a5535539900b4177a3cc65",
+      "assembledSha256": "ad90bd81bfa80176c08aa837e79345cf1471fc3d309399a1828f542cbd83dd6b",
       "assembledPageCount": 8
     },
     {
@@ -75,7 +236,7 @@
       "sampleRole": "variant",
       "variantOfTrackId": "ms-mip",
       "assembledFileName": "ms-mip-convicted-and-sentence-completed-2-technical-fixture.pdf",
-      "assembledSha256": "3b565066784548c3f39663e09d34a7520eb82a08ee87d3497eb3615cc17609ea",
+      "assembledSha256": "eea844bd5783b0ff024a6f76fb97a2c543b5346fb681c7971bbcc452feaa7176",
       "assembledPageCount": 8
     }
   ],

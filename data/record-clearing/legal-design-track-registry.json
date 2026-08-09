@@ -246995,7 +246995,7 @@
         "Wyo. Stat. § 6-2-313 (health care provider bar)"
       ],
       "reviewedAsOf": "2026-08-01",
-      "effectiveFrom": "2014-07-01",
+      "effectiveFrom": "2026-07-01",
       "effectiveTo": null,
       "recordTypes": [
         "conviction",
@@ -247014,15 +247014,16 @@
         "A health care provider who pled guilty or nolo contendere to, or was convicted of, an offense punishable under Wyo. Stat. § 6-2-313 committed against a patient under that provider's care.",
         "Any person who has previously received an expungement of records of conviction under § 7-13-1501; the statute permits one in a lifetime.",
         "Felony convictions, which are handled under § 7-13-1502.",
-        "Federal, tribal and out-of-state records, which Wyoming relief does not reach."
+        "Federal, tribal and out-of-state records, which Wyoming relief does not reach.",
+        "A juvenile Child in Need of Supervision adjudication under Wyo. Stat. § 14-6-402(a)(iv) — habitual truancy as defined in § 21-4-101(a)(ii), running away from home, habitually disobeying the reasonable and lawful demands of a parent, guardian, custodian or other proper authority, or being ungovernable and beyond control. Section 7-13-1501(a) reaches only a person who has pled guilty or nolo contendere to, or been convicted of, a misdemeanor, and a CHINS adjudication is none of those three things. It is outside the section whichever waiting period the word \"status\" might suggest."
       ],
       "waitingPeriods": [
         {
-          "condition": "Non-status misdemeanor offense",
+          "condition": "Non-status misdemeanor offense. This is the default branch and it takes every offense the section reaches other than one the legislature has itself labelled a status offense. Wyo. Stat. § 7-1-107(b)(iii) expressly excludes a violation of § 12-6-101(b) or (c), or any similar municipal ordinance, from the definition, so an under-twenty-one alcohol conviction under § 12-6-101(c) — purchase, attempted purchase, solicitation, possession, consumption, a measurable alcohol concentration, unaccompanied presence in a designated off-premise sales area, or dispensing or selling — takes this five-year branch and not the one-year branch. Convictions under § 6-4-305(c) or (d) are ordinary misdemeanors by § 6-4-305(f) and take this branch too. The branch is decided from the Revised Statutes section of conviction shown on the judgment and sentence, never from the participant's age at the time, never from the case having been in juvenile court, and never from the offense merely being minor.",
           "duration": "At least 5 years since the expiration of the terms of the sentence imposed by the court, including any period of probation or completion of any program ordered by the court"
         },
         {
-          "condition": "Status offense as defined by Wyo. Stat. § 7-1-107(b)(iii)",
+          "condition": "Status offense as defined by Wyo. Stat. § 7-1-107(b)(iii): an offense which, if committed by an adult, would not constitute an act punishable as a criminal offense by the laws of this state or a violation of a municipal ordinance, but which does not include a violation of W.S. 12-6-101(b) or (c) or any similar municipal ordinance. The one offense the Wyoming legislature has expressly labelled a status offense under that definition is W.S. 6-4-305(b) — a minor who knowingly disseminates a nude image of himself, or possesses a nude image of another minor at least eleven years of age, subject to the inadvertent-possession exception — because § 6-4-305(e) says so in terms and uses this same cross-reference. A conviction recorded under § 6-4-305(b) takes this one-year branch. This branch is the exception and must be justified from the charging section.",
           "duration": "At least 1 year since the expiration of the terms of the sentence imposed by the court, including any period of probation or completion of any program ordered by the court"
         }
       ],
@@ -247149,7 +247150,7 @@
           },
           {
             "kind": "complete_field",
-            "description": "Whether the offense is a status offense under § 7-1-107(b)(iii) — Petition, waiting-period allegation.",
+            "description": "Any characterisation of a municipal ordinance conviction as a \"misdemeanor\" within § 7-13-1501(m)(ii) — Petition, eligibility allegations.",
             "requirement": "required",
             "requiredBeforeFiling": true
           },
@@ -247210,7 +247211,7 @@
           "Check your answer to \"Do you know whether this conviction appears on your Wyoming Division of Criminal Investigation criminal history?\" against Wyoming DCI criminal history record, and correct the packet if they disagree.",
           "Petitioner's signature and date, and the verification — Petition, signature and verification block on the final page.",
           "Any statement that the petitioner does not represent a substantial danger to himself, any identifiable victim or society — Petition, eligibility allegations.",
-          "Whether the offense is a status offense under § 7-1-107(b)(iii) — Petition, waiting-period allegation.",
+          "Any characterisation of a municipal ordinance conviction as a \"misdemeanor\" within § 7-13-1501(m)(ii) — Petition, eligibility allegations.",
           "Hearing date — Any notice of hearing, first line.",
           "Judge's signature and the date of entry — Order for Expungement, signature block.",
           "Dates of service on the prosecuting attorney and on DCI — Certificate of service.",
@@ -247242,6 +247243,12 @@
           "title": "Criminal History FAQs — Wyoming Division of Criminal Investigation",
           "url": "https://wyomingdci.wyo.gov/criminal-justice-information-services-cjis/criminal-records-unit/criminal-history-faqs",
           "retrievedOn": "2026-08-01",
+          "sha256": null
+        },
+        {
+          "title": "2026 HB0044, House Enrolled Act No. 40, Session Laws of Wyoming 2026 ch. 98 — Revisor's bill; amends W.S. 7-13-1401(h), 7-13-1501(j) and 7-13-1502(j); signed March 7, 2026; effective July 1, 2026",
+          "url": "https://www.wyoleg.gov/2026/Enroll/HB0044.pdf",
+          "retrievedOn": "2026-08-08",
           "sha256": null
         }
       ],
@@ -247286,8 +247293,13 @@
           "requirement": "required"
         },
         {
-          "key": "statusOffenseAnswer",
-          "question": "Was this offense one that is only an offense because of your age at the time — for example an underage alcohol or nicotine charge?",
+          "key": "convictionStatuteSection",
+          "question": "Which Wyoming statute section were you convicted under? Copy it exactly as it appears on your judgment and sentence — for example \"W.S. 12-6-101(c)\" or \"W.S. 6-4-305(b)\".",
+          "requirement": "required"
+        },
+        {
+          "key": "municipalOrdinanceConviction",
+          "question": "Were you convicted in a city or town municipal court under a city or town ordinance, rather than under a Wyoming statute?",
           "requirement": "required"
         },
         {
@@ -247355,9 +247367,9 @@
           "why": "This is a discretionary judicial finding, not a fact the participant or LegalEase may assert. The packet leaves it to the court."
         },
         {
-          "item": "Whether the offense is a status offense under § 7-1-107(b)(iii)",
-          "whereInPacket": "Petition, waiting-period allegation",
-          "why": "The one-year and five-year clocks turn entirely on this classification, and the definition is not encoded. The participant's own answer is recorded but the legal characterisation is left blank for review."
+          "item": "Any characterisation of a municipal ordinance conviction as a \"misdemeanor\" within § 7-13-1501(m)(ii)",
+          "whereInPacket": "Petition, eligibility allegations",
+          "why": "Section 7-13-1501(m)(ii) takes \"misdemeanor\" from W.S. 6-10-101, which classifies crimes by the punishment authorized and does not say whether a municipal ordinance violation is a crime for that purpose. Whether such a conviction is reachable at all is unresolved, so the packet asserts nothing about it. The status-offense characterisation is no longer a manual item: the one-year and five-year branches are now determined from the Revised Statutes section of conviction."
         },
         {
           "item": "Hearing date",
@@ -247381,7 +247393,7 @@
         }
       ],
       "selfHelpBoundaries": [
-        "The offense may be a status offense under § 7-1-107(b)(iii) and the participant is unsure. The one-year and five-year clocks turn on it, and the definition is not encoded.",
+        "The participant cannot identify the Wyoming statute section of conviction from the judgment and sentence. The one-year and five-year branches under § 7-13-1501(a)(i) are decided from that section and from nothing else, so the packet fails closed rather than inferring the branch from the participant's age, from the offense sounding youthful, or from the word \"status\".",
         "The participant has already received one expungement under § 7-13-1501; the statute allows one in a lifetime.",
         "Any firearm use or attempted use in the offense.",
         "The participant is a health care provider and the offense was committed against a patient in their care.",
@@ -247393,34 +247405,65 @@
         "Immigration consequences.",
         "Federal, tribal or out-of-state records.",
         "The underlying matter was a felony deferral rather than a misdemeanor one; § 7-13-1502 requires a conviction and there may be no route. Stop and refer.",
+        "The conviction is under a city or town ordinance in a municipal court rather than under a Wyoming statute. Whether such a conviction is a \"misdemeanor\" as W.S. 6-10-101 defines it for § 7-13-1501(m)(ii) is unresolved, so this route is not offered to that participant.",
+        "The matter was a juvenile Child in Need of Supervision adjudication — truancy, running away, disobedience or being ungovernable — rather than a misdemeanor plea or conviction. Section 7-13-1501 does not reach it, and it does not become reachable because it is commonly called a status offense.",
+        "Stop where the participant cannot identify the statute section of conviction, where the conviction is under a municipal ordinance rather than a Wyoming statute, or where the matter was a juvenile Child in Need of Supervision adjudication for truancy, running away, disobedience or being ungovernable. The first makes the branch undeterminable; the second is an open question about whether the section reaches the conviction at all; the third is outside § 7-13-1501 entirely, and is the mis-screen the word \"status\" most often causes.",
         "Stop where a plea was entered to a lesser charge arising from the same incident, because that changes which statute applies."
       ],
       "postGenerationHandoffs": [],
       "packetInstructions": [
+        "The waiting period is decided from the Revised Statutes section of conviction and from nothing else. One year applies where the section of conviction is W.S. 6-4-305(b), which § 6-4-305(e) expressly labels a status offense under § 7-1-107(b)(iii). Five years applies to every other offense the section reaches, including an under-twenty-one alcohol conviction under W.S. 12-6-101(c), which § 7-1-107(b)(iii) expressly excludes from the definition, and including W.S. 6-4-305(c) and (d), which § 6-4-305(f) makes ordinary misdemeanors. Both branches run from the expiration of the terms of sentence imposed by the court, including any period of probation and the completion of any program ordered by the court. Never route the branch on the participant's age at the time, on the case having been in juvenile court, or on the offense sounding minor.",
+        "The misdemeanor packet may not promise that any right is restored, and firearm rights in particular: § 7-13-1501 restores none by its own terms, the legislature removed the provision that once did, and § 7-13-1502(m) may not be read across. It may not promise an entitlement to answer an inquiry as though the conviction did not occur, because W.S. 7-13-1401(f) is confined to its own section. It may not describe the record as destroyed, erased or gone. It may say that the court file is placed under seal, that the Division of Criminal Investigation record is reclassified out of general dissemination, and that relief is discretionary.",
         "Disclose before payment that Wyoming allows one misdemeanor expungement under § 7-13-1501 in a lifetime, and that the felony statute carries a separate once-per-lifetime limit.",
         "Tell the participant to obtain and attach proof that probation and any court-ordered program were completed. The conviction clock runs from expiration of the terms of sentence, not from the conviction date, so the completion documents are the eligibility evidence.",
         "Wyoming publishes no statewide expungement form. Call the clerk of the convicting court about local templates and formatting before finalizing, and never invent a statewide form number.",
         "No order may issue before 30 days after service on the prosecuting attorney. State that timing in the packet instructions rather than in the pleading."
       ],
       "participantQuestions": [
+        "Ask for the Wyoming statute section of conviction exactly as it appears on the judgment and sentence, and ask whether the conviction was under a city or town ordinance in a municipal court rather than under a Wyoming statute. The first decides the waiting-period branch; the second decides whether the section reaches the conviction at all. LegalEase must not supply either answer from the participant's age, from the court the case was in, or from the offense description.",
         "Ask whether the matter was handled through deferred prosecution, first-offender treatment, probation before judgment or a dismissal after probation, and whether the underlying matter was a misdemeanor or a felony. A completed misdemeanor deferral routes here rather than to § 7-13-1401 or to manual review; a completed felony deferral is a stop condition. This encodes the routing correction the review requires.",
         "Ask whether the offense involved the use or attempted use of a firearm. LegalEase must not assert that no firearm was used."
       ],
       "scopeRestrictions": [],
       "buildBlockers": [
         {
-          "question": "What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this.",
+          "question": "Is a conviction under a city or town ordinance a \"misdemeanor\" as W.S. 6-10-101 defines it for the purposes of § 7-13-1501(m)(ii), and so can a minor-only municipal offense such as curfew be expunged under the section at all? The conduct satisfies the status-offense definition, because an adult doing it violates neither a state criminal law nor a municipal ordinance, but § 6-10-101 classifies crimes by the punishment authorized and does not say whether a municipal ordinance violation is a crime for that purpose. This is prior to the clock rather than part of it, and it decides whether a whole class of participants has a route. Answering it would take reading municipal ordinances and the law of municipal court jurisdiction, which no integrated Wyoming decision reaches.",
           "impact": "build_blocker",
-          "affectedElement": "waiting_period",
+          "affectedElement": "eligibility_branch",
           "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 3",
-            "sourceStatement": "What exactly does section 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this. Build blocker for the misdemeanor track."
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "residualQuestions / wy-municipal-ordinance-misdemeanour",
+            "sourceStatement": "Whether a conviction under a municipal ordinance is a \"misdemeanor\" as W.S. 6-10-101 defines it for the purposes of W.S. 7-13-1501(m)(ii), and so whether a minor-only municipal offence such as curfew can be expunged under the section at all. ... New, and prior to the clock question rather than part of it. It is build-level because it decides whether a whole class of participants has a route.",
+            "normalizerInferred": true
           }
         }
       ],
       "releaseBlockers": [
+        {
+          "question": "Does anything outside § 7-13-1501 entitle a person whose misdemeanor conviction is expunged to answer an inquiry as though it did not occur? The section itself gives no such entitlement, and W.S. 7-13-1401(f) is confined to its own section by its own words, so the safe copy is silence. Whether some other Wyoming provision supplies it has not been searched and is not asserted in either direction.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "residualQuestions / wy-1501-answer-as-if",
+            "sourceStatement": "Whether anything outside W.S. 7-13-1501 entitles a person whose misdemeanour conviction is expunged to answer an inquiry as though it did not occur. ... The section itself gives no such entitlement and W.S. 7-13-1401(f) is confined to its own section, so the safe copy is silence. Whether some other Wyoming provision supplies it was not searched and is not asserted.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Can a misdemeanor deferral under W.S. 7-13-301 be expunged under § 7-13-1501? Lynch v. State, 2026 WY 8 footnote 3 expressly reserves the point — \"Our interpretation of § 7-13-1501 is limited to its clear language — that the statute authorizes expungement of records of conviction — and we express no view on its broader scope\" — while observing at ¶16 that the section clearly only authorizes expungement of the records of conviction. This memo's routing of a completed misdemeanor deferral to § 7-13-1501 follows the Wyoming Judicial Branch's published guidance and is not disturbed by the reservation; what turns on the answer is who this track screens out, which is why it is release-level rather than build-level.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json",
+            "sourceHeading": "residualQuestions / wy-1501-deferral-scope-reserved",
+            "sourceStatement": "Whether a misdemeanour deferral under W.S. 7-13-301 can be expunged under 7-13-1501, which Lynch footnote 3 expressly reserves. ... It is release-level rather than build-level because the misdemeanour track is generatable either way; what turns on it is who is screened out.",
+            "normalizerInferred": true
+          }
+        },
         {
           "question": "Which unpublished local filing preferences apply in the court where this petition will be filed: local cover sheet, copy count, electronic versus paper filing, filing method, chambers copy, whether the proposed Order for Expungement is submitted with the initial filing or later, any unpublished local template, any unpublished additional service document, and other court-specific filing mechanics. This is the narrowed remainder of the original packet-assembly question, which asked which Wyoming courts publish local expungement templates. The published half is answered: Wyoming publishes no statewide petition form and no statewide proposed-order template, and Casper Municipal Court is the only publicly identified local-form exception, whose packets bind that court alone. What remains is unpublished preference, which is filing mechanics rather than the legal document, so it is release-level and does not block generation of the statewide verified petition and proposed order. It is owned by rcap-wy-local-template-and-handout-survey, which remains open: no Wyoming county has been telephoned and the survey must not be recorded as complete. Escalation: if a county's answer changes the statewide legal document rather than only how it is filed, that exact issue returns to legal design before release.",
           "impact": "release_blocker",
@@ -247434,48 +247477,11 @@
         }
       ],
       "awaitingCounselClassification": [],
-      "openLegalQuestions": [
-        {
-          "question": "Does an expungement under § 7-13-1501 restore any rights? Section 7-13-1502(m) has an express restoration provision and § 7-13-1501 does not appear to, which changes what may be promised on the misdemeanor track.",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "legal_effect_or_warning",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 8",
-            "sourceStatement": "Does an expungement under section 7-13-1501 restore any rights? Section 7-13-1502(m) has an express restoration provision and section 7-13-1501 does not appear to. Nonblocking research note, but it changes what may be promised on the misdemeanor track."
-          }
-        },
-        {
-          "question": "Did the 2025 or 2026 Wyoming sessions amend § 7-13-1501? No amendment was identified, but the sessions were not swept.",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
-            "sourceStatement": "Did the 2025 or 2026 sessions amend any of the three statutes? No amendment to the expungement statutes was identified, but the sessions were not swept. Nonblocking research note with a standing monitor."
-          }
-        },
-        {
-          "question": "What is the original enactment date of Wyo. Stat. § 7-13-1501? The official Wyoming statute publication prints no source or history notes; the section is known to predate 2009 because 2009 HB0106 amended it, and effectiveFrom records the date the current operative text took effect (2014 HB0006, effective July 1, 2014).",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "counsel_confirmation_required",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
-            "sourceStatement": "Wyo. Stat. section 7-13-1501, expungement of certain misdemeanor convictions | Wyoming Legislature, via Justia | 2025 Wyoming Statutes",
-            "counselQuestion": "Should effectiveFrom carry the original enactment date of § 7-13-1501, or the date the current operative text took effect? The official wyoleg.gov statute publication omits history notes."
-          }
-        }
-      ],
-      "counselConfirmationRequired": true,
-      "counselQuestions": [
-        "Should effectiveFrom carry the original enactment date of § 7-13-1501, or the date the current operative text took effect? The official wyoleg.gov statute publication omits history notes."
-      ],
+      "openLegalQuestions": [],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
       "selfHelpStopConditions": [
-        "The offense may be a status offense under § 7-1-107(b)(iii) and the participant is unsure. The one-year and five-year clocks turn on it, and the definition is not encoded.",
+        "The participant cannot identify the Wyoming statute section of conviction from the judgment and sentence. The one-year and five-year branches under § 7-13-1501(a)(i) are decided from that section and from nothing else, so the packet fails closed rather than inferring the branch from the participant's age, from the offense sounding youthful, or from the word \"status\".",
         "The participant has already received one expungement under § 7-13-1501; the statute allows one in a lifetime.",
         "Any firearm use or attempted use in the offense.",
         "The participant is a health care provider and the offense was committed against a patient in their care.",
@@ -247486,18 +247492,45 @@
         "Any offense subject to sex offender registration.",
         "Immigration consequences.",
         "Federal, tribal or out-of-state records.",
-        "The underlying matter was a felony deferral rather than a misdemeanor one; § 7-13-1502 requires a conviction and there may be no route. Stop and refer."
+        "The underlying matter was a felony deferral rather than a misdemeanor one; § 7-13-1502 requires a conviction and there may be no route. Stop and refer.",
+        "The conviction is under a city or town ordinance in a municipal court rather than under a Wyoming statute. Whether such a conviction is a \"misdemeanor\" as W.S. 6-10-101 defines it for § 7-13-1501(m)(ii) is unresolved, so this route is not offered to that participant.",
+        "The matter was a juvenile Child in Need of Supervision adjudication — truancy, running away, disobedience or being ungovernable — rather than a misdemeanor plea or conviction. Section 7-13-1501 does not reach it, and it does not become reachable because it is commonly called a status offense."
       ],
       "unresolvedQuestions": [
         {
-          "question": "What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this.",
+          "question": "Is a conviction under a city or town ordinance a \"misdemeanor\" as W.S. 6-10-101 defines it for the purposes of § 7-13-1501(m)(ii), and so can a minor-only municipal offense such as curfew be expunged under the section at all? The conduct satisfies the status-offense definition, because an adult doing it violates neither a state criminal law nor a municipal ordinance, but § 6-10-101 classifies crimes by the punishment authorized and does not say whether a municipal ordinance violation is a crime for that purpose. This is prior to the clock rather than part of it, and it decides whether a whole class of participants has a route. Answering it would take reading municipal ordinances and the law of municipal court jurisdiction, which no integrated Wyoming decision reaches.",
           "impact": "build_blocker",
-          "affectedElement": "waiting_period",
+          "affectedElement": "eligibility_branch",
           "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 3",
-            "sourceStatement": "What exactly does section 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this. Build blocker for the misdemeanor track."
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "residualQuestions / wy-municipal-ordinance-misdemeanour",
+            "sourceStatement": "Whether a conviction under a municipal ordinance is a \"misdemeanor\" as W.S. 6-10-101 defines it for the purposes of W.S. 7-13-1501(m)(ii), and so whether a minor-only municipal offence such as curfew can be expunged under the section at all. ... New, and prior to the clock question rather than part of it. It is build-level because it decides whether a whole class of participants has a route.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Does anything outside § 7-13-1501 entitle a person whose misdemeanor conviction is expunged to answer an inquiry as though it did not occur? The section itself gives no such entitlement, and W.S. 7-13-1401(f) is confined to its own section by its own words, so the safe copy is silence. Whether some other Wyoming provision supplies it has not been searched and is not asserted in either direction.",
+          "impact": "release_blocker",
+          "affectedElement": "legal_effect_or_warning",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "residualQuestions / wy-1501-answer-as-if",
+            "sourceStatement": "Whether anything outside W.S. 7-13-1501 entitles a person whose misdemeanour conviction is expunged to answer an inquiry as though it did not occur. ... The section itself gives no such entitlement and W.S. 7-13-1401(f) is confined to its own section, so the safe copy is silence. Whether some other Wyoming provision supplies it was not searched and is not asserted.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Can a misdemeanor deferral under W.S. 7-13-301 be expunged under § 7-13-1501? Lynch v. State, 2026 WY 8 footnote 3 expressly reserves the point — \"Our interpretation of § 7-13-1501 is limited to its clear language — that the statute authorizes expungement of records of conviction — and we express no view on its broader scope\" — while observing at ¶16 that the section clearly only authorizes expungement of the records of conviction. This memo's routing of a completed misdemeanor deferral to § 7-13-1501 follows the Wyoming Judicial Branch's published guidance and is not disturbed by the reservation; what turns on the answer is who this track screens out, which is why it is release-level rather than build-level.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json",
+            "sourceHeading": "residualQuestions / wy-1501-deferral-scope-reserved",
+            "sourceStatement": "Whether a misdemeanour deferral under W.S. 7-13-301 can be expunged under 7-13-1501, which Lynch footnote 3 expressly reserves. ... It is release-level rather than build-level because the misdemeanour track is generatable either way; what turns on it is who is screened out.",
+            "normalizerInferred": true
           }
         },
         {
@@ -247510,40 +247543,6 @@
             "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 4",
             "sourceStatement": "Which Wyoming courts publish local expungement templates? Not surveyed. Build blocker for packet assembly, resolvable by a clerk survey across the 23 counties."
           }
-        },
-        {
-          "question": "Does an expungement under § 7-13-1501 restore any rights? Section 7-13-1502(m) has an express restoration provision and § 7-13-1501 does not appear to, which changes what may be promised on the misdemeanor track.",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "legal_effect_or_warning",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 8",
-            "sourceStatement": "Does an expungement under section 7-13-1501 restore any rights? Section 7-13-1502(m) has an express restoration provision and section 7-13-1501 does not appear to. Nonblocking research note, but it changes what may be promised on the misdemeanor track."
-          }
-        },
-        {
-          "question": "Did the 2025 or 2026 Wyoming sessions amend § 7-13-1501? No amendment was identified, but the sessions were not swept.",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
-            "sourceStatement": "Did the 2025 or 2026 sessions amend any of the three statutes? No amendment to the expungement statutes was identified, but the sessions were not swept. Nonblocking research note with a standing monitor."
-          }
-        },
-        {
-          "question": "What is the original enactment date of Wyo. Stat. § 7-13-1501? The official Wyoming statute publication prints no source or history notes; the section is known to predate 2009 because 2009 HB0106 amended it, and effectiveFrom records the date the current operative text took effect (2014 HB0006, effective July 1, 2014).",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "counsel_confirmation_required",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
-            "sourceStatement": "Wyo. Stat. section 7-13-1501, expungement of certain misdemeanor convictions | Wyoming Legislature, via Justia | 2025 Wyoming Statutes",
-            "counselQuestion": "Should effectiveFrom carry the original enactment date of § 7-13-1501, or the date the current operative text took effect? The official wyoleg.gov statute publication omits history notes."
-          }
         }
       ],
       "guidanceRationales": [],
@@ -247551,14 +247550,47 @@
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "legalDesignLimitations": [
         {
-          "classification": "legal_design_blocker",
-          "undeterminedElement": "waiting_period",
-          "statement": "The status-offense determination under Wyo. Stat. § 7-1-107(b)(iii) is not encoded. Do not assume underage alcohol, nicotine or other minor conduct is automatically a status offense, because the one-year and five-year clocks turn on it.",
+          "classification": "packet_instruction",
+          "statement": "The waiting period is decided from the Revised Statutes section of conviction and from nothing else. One year applies where the section of conviction is W.S. 6-4-305(b), which § 6-4-305(e) expressly labels a status offense under § 7-1-107(b)(iii). Five years applies to every other offense the section reaches, including an under-twenty-one alcohol conviction under W.S. 12-6-101(c), which § 7-1-107(b)(iii) expressly excludes from the definition, and including W.S. 6-4-305(c) and (d), which § 6-4-305(f) makes ordinary misdemeanors. Both branches run from the expiration of the terms of sentence imposed by the court, including any period of probation and the completion of any program ordered by the court. Never route the branch on the participant's age at the time, on the case having been in juvenile court, or on the offense sounding minor.",
           "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "LIMITATION CLASSIFICATION / 5",
-            "sourceStatement": "Status offense determination under section 7-1-107(b)(iii) | Legal-design blocker until the definition is encoded"
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "determination / statusOffence / 5_theDesignConsequence",
+            "sourceStatement": "The one-year branch is real but narrow. It has exactly one statutorily identified occupant that can produce a live misdemeanour conviction needing expungement: W.S. 6-4-305(b). ... For any Wyoming misdemeanour a participant is likely to bring, the clock is five years from the expiration of the terms of sentence including any period of probation and the completion of any court-ordered programme. ... What drives the branch: the Revised Statutes section the person was convicted under, taken from the court record.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask for the Wyoming statute section of conviction exactly as it appears on the judgment and sentence, and ask whether the conviction was under a city or town ordinance in a municipal court rather than under a Wyoming statute. The first decides the waiting-period branch; the second decides whether the section reaches the conviction at all. LegalEase must not supply either answer from the participant's age, from the court the case was in, or from the offense description.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "memoAmendmentImplied / wy_misd_1501 participant inputs",
+            "sourceStatement": "The one input that decides the clock is the Revised Statutes section of conviction, taken from the judgment and sentence. If the memo does not already ask for it in that form, it should.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "The misdemeanor packet may not promise that any right is restored, and firearm rights in particular: § 7-13-1501 restores none by its own terms, the legislature removed the provision that once did, and § 7-13-1502(m) may not be read across. It may not promise an entitlement to answer an inquiry as though the conviction did not occur, because W.S. 7-13-1401(f) is confined to its own section. It may not describe the record as destroyed, erased or gone. It may say that the court file is placed under seal, that the Division of Criminal Investigation record is reclassified out of general dissemination, and that relief is discretionary.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "determination / restoration / 6_whatMayBePromisedOnTheMisdemeanourTrack",
+            "sourceStatement": "Must not state: That any right is restored. Section 7-13-1501 restores none by its own terms and the legislature removed the provision that once did. That firearm rights are restored. ... That the participant may answer an inquiry as though the conviction did not occur. That the record is destroyed, erased or gone.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "self_help_boundary",
+          "statement": "Stop where the participant cannot identify the statute section of conviction, where the conviction is under a municipal ordinance rather than a Wyoming statute, or where the matter was a juvenile Child in Need of Supervision adjudication for truancy, running away, disobedience or being ungovernable. The first makes the branch undeterminable; the second is an open question about whether the section reaches the conviction at all; the third is outside § 7-13-1501 entirely, and is the mis-screen the word \"status\" most often causes.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "determination / statusOffence / 4_whichChargesFallInside",
+            "sourceStatement": "This is the single most likely mis-screen on this track. A participant who says \"I had a truancy case as a kid\" is describing a juvenile matter that 7-13-1501 does not reach, and the packet must not route them into the one-year branch on the strength of the word.",
+            "normalizerInferred": true
           }
         },
         {
@@ -247646,8 +247678,7 @@
       "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
       "implementationQueue": "C_custom_pleading",
       "legalDesignBlockers": [
-        "Design undetermined: The status-offense determination under Wyo. Stat. § 7-1-107(b)(iii) is not encoded. Do not assume underage alcohol, nicotine or other minor conduct is automatically a status offense, because the one-year and five-year clocks turn on it. (undetermined: waiting_period)",
-        "Open question blocks the build (waiting_period): What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this."
+        "Open question blocks the build (eligibility_branch): Is a conviction under a city or town ordinance a \"misdemeanor\" as W.S. 6-10-101 defines it for the purposes of § 7-13-1501(m)(ii), and so can a minor-only municipal offense such as curfew be expunged under the section at all? The conduct satisfies the status-offense definition, because an adult doing it violates neither a state criminal law nor a municipal ordinance, but § 6-10-101 classifies crimes by the punishment authorized and does not say whether a municipal ordinance violation is a crime for that purpose. This is prior to the clock rather than part of it, and it decides whether a whole class of participants has a route. Answering it would take reading municipal ordinances and the law of municipal court jurisdiction, which no integrated Wyoming decision reaches."
       ],
       "blockers": [
         {
@@ -247664,11 +247695,15 @@
         },
         {
           "kind": "legal_design_blocker",
-          "statement": "Design undetermined: The status-offense determination under Wyo. Stat. § 7-1-107(b)(iii) is not encoded. Do not assume underage alcohol, nicotine or other minor conduct is automatically a status offense, because the one-year and five-year clocks turn on it. (undetermined: waiting_period)"
+          "statement": "Open question blocks the build (eligibility_branch): Is a conviction under a city or town ordinance a \"misdemeanor\" as W.S. 6-10-101 defines it for the purposes of § 7-13-1501(m)(ii), and so can a minor-only municipal offense such as curfew be expunged under the section at all? The conduct satisfies the status-offense definition, because an adult doing it violates neither a state criminal law nor a municipal ordinance, but § 6-10-101 classifies crimes by the punishment authorized and does not say whether a municipal ordinance violation is a crime for that purpose. This is prior to the clock rather than part of it, and it decides whether a whole class of participants has a route. Answering it would take reading municipal ordinances and the law of municipal court jurisdiction, which no integrated Wyoming decision reaches."
         },
         {
-          "kind": "legal_design_blocker",
-          "statement": "Open question blocks the build (waiting_period): What exactly does Wyo. Stat. § 7-1-107(b)(iii) define as a status offense, and which common Wyoming charges fall inside it? The one-year and five-year clocks turn entirely on this."
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (legal_effect_or_warning): Does anything outside § 7-13-1501 entitle a person whose misdemeanor conviction is expunged to answer an inquiry as though it did not occur? The section itself gives no such entitlement, and W.S. 7-13-1401(f) is confined to its own section by its own words, so the safe copy is silence. Whether some other Wyoming provision supplies it has not been searched and is not asserted in either direction."
+        },
+        {
+          "kind": "release_blocker",
+          "statement": "Open question blocks release (eligibility_branch): Can a misdemeanor deferral under W.S. 7-13-301 be expunged under § 7-13-1501? Lynch v. State, 2026 WY 8 footnote 3 expressly reserves the point — \"Our interpretation of § 7-13-1501 is limited to its clear language — that the statute authorizes expungement of records of conviction — and we express no view on its broader scope\" — while observing at ¶16 that the section clearly only authorizes expungement of the records of conviction. This memo's routing of a completed misdemeanor deferral to § 7-13-1501 follows the Wyoming Judicial Branch's published guidance and is not disturbed by the reservation; what turns on the answer is who this track screens out, which is why it is release-level rather than build-level."
         },
         {
           "kind": "release_blocker",
@@ -247695,7 +247730,7 @@
         "Wyo. Stat. §§ 7-19-302(g) through (j) (sex offender registration)"
       ],
       "reviewedAsOf": "2026-08-01",
-      "effectiveFrom": "2014-07-01",
+      "effectiveFrom": "2026-07-01",
       "effectiveTo": null,
       "recordTypes": [
         "conviction",
@@ -247719,7 +247754,8 @@
         "Felonies involving the use or attempted use of a firearm, except certain Title 23 offenses.",
         "Any petitioner who has previously pled guilty or nolo contendere to, or been convicted of, a felony other than the felony or felonies being expunged.",
         "Any person who has previously received an expungement of records of conviction under § 7-13-1502; the statute permits one in a lifetime.",
-        "Federal, tribal and out-of-state records, which Wyoming relief does not reach."
+        "Federal, tribal and out-of-state records, which Wyoming relief does not reach.",
+        "A completed deferral under Wyo. Stat. § 7-13-301 that ended in discharge and dismissal. Section 7-13-1502 opens \"A person convicted of a felony\", and Lynch v. State, 2026 WY 8 holds at ¶18 that a person who completed a deferral has no conviction and does not qualify."
       ],
       "waitingPeriods": [
         {
@@ -247968,6 +248004,12 @@
           "url": "https://www.wyocourts.gov/legal-help-by-topic/expungements/",
           "retrievedOn": "2026-08-01",
           "sha256": null
+        },
+        {
+          "title": "2026 HB0044, House Enrolled Act No. 40, Session Laws of Wyoming 2026 ch. 98 — Revisor's bill; amends W.S. 7-13-1401(h), 7-13-1501(j) and 7-13-1502(j); signed March 7, 2026; effective July 1, 2026",
+          "url": "https://www.wyoleg.gov/2026/Enroll/HB0044.pdf",
+          "retrievedOn": "2026-08-08",
+          "sha256": null
         }
       ],
       "rules": {
@@ -247993,6 +248035,16 @@
         {
           "key": "offenseDescription",
           "question": "What was the felony offense, as it is written on the court record?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionStatuteSection",
+          "question": "Which Wyoming statute section were you convicted under? Copy it exactly as it appears on your judgment and sentence.",
+          "requirement": "required"
+        },
+        {
+          "key": "felonyDeferralRatherThanConviction",
+          "question": "Was this matter handled as a deferred prosecution or deferred sentencing that you completed, after which the charge was dismissed, rather than ending in a conviction?",
           "requirement": "required"
         },
         {
@@ -248125,13 +248177,13 @@
         "Any firearm use or attempted use, including where the participant believes a Title 23 carve-out applies.",
         "Any offense subject to sex offender registration under §§ 7-19-302(g) through (j).",
         "The participant has already received one expungement under § 7-13-1502; the statute allows one in a lifetime.",
-        "A completed felony deferral rather than a conviction. Section 7-13-1502 by its terms requires a conviction and § 7-13-1401 is barred by the deferral, so there may be no route at all. Stop and refer.",
+        "A completed felony deferral rather than a conviction. There is no Wyoming route: § 7-13-1401(a)(i) is barred by the deferral disposition itself, § 7-13-1502 requires a conviction the participant does not have, § 7-13-301 contains no record-clearing provision and § 7-13-307 forbids construing §§ 7-13-301 through 7-13-306 to authorize expunging the record. Stop and say so plainly rather than offering either section. Where the Division of Criminal Investigation record misdescribes the disposition, a W.S. 7-19-109 application to purge, modify or supplement inaccurate or incomplete criminal history record information is the only thing available — it corrects the record to say what actually happened and is not expungement, and it is not a track this packet offers.",
         "The prosecuting attorney files an objection, or the court sets a contested hearing.",
         "An identifiable victim is likely to object.",
         "Facts indicating human trafficking or coercion, which route to the § 6-2-708 vacatur outside this track.",
         "Immigration consequences.",
         "Federal, tribal or out-of-state records.",
-        "A completed felony deferral may have no Wyoming route at all. Stop and refer rather than guessing, and say so honestly."
+        "A completed felony deferral has no Wyoming route, and the packet says so plainly rather than guessing. Section 7-13-1401(a)(i) is barred by the deferral disposition itself, § 7-13-1502 requires a conviction the participant does not have, § 7-13-301 carries no record-clearing provision, and § 7-13-307 forbids construing §§ 7-13-301 through 7-13-306 to authorize expunging the record. Neither conviction section may be offered to that participant. Stop and refer."
       ],
       "postGenerationHandoffs": [],
       "packetInstructions": [
@@ -248139,38 +248191,30 @@
         "Tell the participant to obtain and attach proof that court-ordered restitution was paid in full, and that probation and any court-ordered program were completed. The ten-year clock runs from expiration of the terms of sentence.",
         "Disclose before payment that § 7-13-1502 allows one felony expungement in a lifetime, and that DCI, its employees and prosecuting attorneys are immune from liability under § 7-13-1502(j) for actions, inactions or omissions under the section.",
         "Recite the restoration-of-rights effect under § 7-13-1502(m) in the proposed order, and make no assertion about the effect of expungement on firearm rights beyond that statutory restoration language.",
-        "Wyoming publishes no statewide expungement form. Call the clerk of the convicting court about local templates and formatting before finalizing, and never invent a statewide form number."
+        "Wyoming publishes no statewide expungement form. Call the clerk of the convicting court about local templates and formatting before finalizing, and never invent a statewide form number.",
+        "Where a participant completed a felony deferral, say that nothing in Wyoming law clears that record and name the reason, rather than implying that some other route might be found. The only thing available is a W.S. 7-19-109 application to the district court to purge, modify or supplement inaccurate or incomplete criminal history record information, which corrects the record to show the deferral, discharge and dismissal and leaves the corrected record in place and disseminable. Never describe it as expungement, never offer it as a packet, and do not model it as a Wyoming track without its own legal-design decision.",
+        "The restoration sentence belongs to this track alone. Section 7-13-1502(m) restores any rights removed as a result of the expunged conviction and may be recited in the proposed order; § 7-13-1501 restores nothing, the provision that once did was removed by 2009 ch. 67, and the two conviction tracks may not share this copy. Neither track may promise an entitlement to answer an inquiry as though the conviction did not occur: W.S. 7-13-1401(f) gives that on the non-conviction route only and is confined to its own section."
       ],
       "participantQuestions": [
         "Ask whether the petitioner has any other felony plea, nolo plea or conviction anywhere. The other-felony bar looks at the entire record, and LegalEase must not assert that the petitioner has no other felony.",
-        "Ask whether the offense involved the use or attempted use of a firearm, including where a Title 23 carve-out may apply. LegalEase must not assert that no firearm was used."
+        "Ask whether the offense involved the use or attempted use of a firearm, including where a Title 23 carve-out may apply. LegalEase must not assert that no firearm was used.",
+        "Ask whether the matter was a deferred prosecution or deferred sentencing the participant completed, after which the charge was dismissed, rather than a conviction; and ask for the Wyoming statute section of conviction exactly as it appears on the judgment and sentence. The first drives a fail-closed screen that neither the offense description nor the case number can drive. The second is what attorney review needs to place the offense against the exclusion list, and it is the input a subparagraph-level encoding will run on when one exists."
       ],
       "scopeRestrictions": [
-        "This track carries a mandatory attorney-review gate before the packet is offered, because the restoration-of-rights payoff makes it worth doing properly once."
+        "This track carries a mandatory attorney-review gate before the packet is offered, because the restoration-of-rights payoff makes it worth doing properly once. The gate remains necessary now that the deferral rule is encoded: it was never standing in for that answer alone. Two of its three reasons are untouched — the exclusion list is still unencoded and the other-felony bar still looks at the entire record — and the third does not depend on any encoding."
       ],
-      "buildBlockers": [
-        {
-          "question": "Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?",
-          "impact": "build_blocker",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 2",
-            "sourceStatement": "Does anything else reach a completed felony deferral? If section 7-13-1401 is barred and section 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within section 7-13-301 itself? Build blocker for that population."
-          }
-        }
-      ],
+      "buildBlockers": [],
       "releaseBlockers": [
         {
-          "question": "Is the Lynch citation accurate? The internal reference cites a Wyoming Supreme Court decision at docket S-25-0140, reported as a 2026 case, for the proposition that § 7-13-1502 requires an actual felony conviction and that a completed deferral producing a dismissal is not one. A search surfaced a different Lynch matter from 2024 on an unrelated issue. The proposition is consistent with the statutory text, which opens with 'a person convicted of a felony', but the citation could not be confirmed.",
+          "question": "Does anything outside § 7-13-1502 entitle a person whose felony conviction is expunged to answer an inquiry as though it did not occur? Subsection (m) restores rights removed as a result of the conviction, which is a different thing. W.S. 7-13-1401(f) supplies the answer-as-if entitlement on the non-conviction route and is confined to its own section by its own words, so the safe copy on this track is silence about it. Whether some other Wyoming provision supplies it has not been searched and is not asserted in either direction.",
           "impact": "release_blocker",
-          "affectedElement": "eligibility_branch",
+          "affectedElement": "legal_effect_or_warning",
           "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 1",
-            "sourceStatement": "Is the Lynch citation accurate? ... Release blocker for any advice to a felony-deferral participant, because the answer determines whether they have a route or none."
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "determination / restoration / 5_aThirdAsymmetryTheMemoDidNotCarry",
+            "sourceStatement": "On both conviction routes the packet may say what the order does to the division of criminal investigation record and to the court file, and may not tell the participant they are entitled to answer an inquiry as though the conviction did not occur. That entitlement exists on the non-conviction route and, by their own terms, on the two nicotine sections. It does not exist on 7-13-1501 or 7-13-1502.",
+            "normalizerInferred": true
           }
         },
         {
@@ -248188,40 +248232,27 @@
       "awaitingCounselClassification": [],
       "openLegalQuestions": [
         {
-          "question": "Did the 2025 or 2026 Wyoming sessions amend § 7-13-1502? No amendment was identified, but the sessions were not swept.",
+          "question": "Should Wyoming model a W.S. 7-19-109 application to purge, modify or supplement inaccurate or incomplete criminal history record information as a route of its own? It is the only thing available to a person who completed a felony deferral, and the Supreme Court pointed at it in terms, saying at ¶18 that the record should be corrected to accurately reflect the deferred sentencing disposition and the ultimate dismissal. It is a different remedy with a different promise, it is correction rather than expungement, and it must not be folded into this or any other expungement track. It bears on neither this packet's selection, content, geography, filing instructions nor warnings, which is why it is recorded as a research note rather than as a blocker.",
           "impact": "nonblocking_research_note",
           "affectedElement": "governing_mechanism",
           "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
-            "sourceStatement": "Did the 2025 or 2026 sessions amend any of the three statutes? No amendment to the expungement statutes was identified, but the sessions were not swept. Nonblocking research note with a standing monitor."
-          }
-        },
-        {
-          "question": "effectiveFrom records the date the current operative text of § 7-13-1502 took effect (2014 HB0006, effective July 1, 2014) rather than its original enactment (2011 SF0088, effective July 1, 2011), because the official Wyoming statute publication prints no source or history notes and the operative-text date is what the normalization could confirm from official primary authority.",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "counsel_confirmation_required",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
-            "sourceStatement": "Wyo. Stat. section 7-13-1502, expungement of certain felony convictions | Wyoming Legislature, via FindLaw and Justia | current",
-            "counselQuestion": "Should effectiveFrom carry the original enactment date of § 7-13-1502 (2011-07-01, confirmed from 2011 SF0088) or the date the current operative text took effect (2014-07-01, confirmed from 2014 HB0006)?"
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json",
+            "sourceHeading": "residualQuestions / wy-7-19-109-record-correction-route",
+            "sourceStatement": "Whether Wyoming should model a W.S. 7-19-109 application to purge, modify or supplement inaccurate criminal history record information as a route of its own. ... It is the only thing available to a completed felony deferral, and the Supreme Court pointed at it in terms. It is a different remedy with a different promise and it must not be folded into an expungement track.",
+            "normalizerInferred": true
           }
         }
       ],
-      "counselConfirmationRequired": true,
-      "counselQuestions": [
-        "Should effectiveFrom carry the original enactment date of § 7-13-1502 (2011-07-01, confirmed from 2011 SF0088) or the date the current operative text took effect (2014-07-01, confirmed from 2014 HB0006)?"
-      ],
+      "counselConfirmationRequired": false,
+      "counselQuestions": [],
       "selfHelpStopConditions": [
         "The felony may appear on the § 7-13-1502 exclusion list. The list is long and statute-specific and is not encoded; route to attorney review.",
         "The participant has any other felony plea, nolo plea or conviction anywhere, since the other-felony bar looks at the entire record.",
         "Any firearm use or attempted use, including where the participant believes a Title 23 carve-out applies.",
         "Any offense subject to sex offender registration under §§ 7-19-302(g) through (j).",
         "The participant has already received one expungement under § 7-13-1502; the statute allows one in a lifetime.",
-        "A completed felony deferral rather than a conviction. Section 7-13-1502 by its terms requires a conviction and § 7-13-1401 is barred by the deferral, so there may be no route at all. Stop and refer.",
+        "A completed felony deferral rather than a conviction. There is no Wyoming route: § 7-13-1401(a)(i) is barred by the deferral disposition itself, § 7-13-1502 requires a conviction the participant does not have, § 7-13-301 contains no record-clearing provision and § 7-13-307 forbids construing §§ 7-13-301 through 7-13-306 to authorize expunging the record. Stop and say so plainly rather than offering either section. Where the Division of Criminal Investigation record misdescribes the disposition, a W.S. 7-19-109 application to purge, modify or supplement inaccurate or incomplete criminal history record information is the only thing available — it corrects the record to say what actually happened and is not expungement, and it is not a track this packet offers.",
         "The prosecuting attorney files an objection, or the court sets a contested hearing.",
         "An identifiable victim is likely to object.",
         "Facts indicating human trafficking or coercion, which route to the § 6-2-708 vacatur outside this track.",
@@ -248230,25 +248261,27 @@
       ],
       "unresolvedQuestions": [
         {
-          "question": "Is the Lynch citation accurate? The internal reference cites a Wyoming Supreme Court decision at docket S-25-0140, reported as a 2026 case, for the proposition that § 7-13-1502 requires an actual felony conviction and that a completed deferral producing a dismissal is not one. A search surfaced a different Lynch matter from 2024 on an unrelated issue. The proposition is consistent with the statutory text, which opens with 'a person convicted of a felony', but the citation could not be confirmed.",
+          "question": "Does anything outside § 7-13-1502 entitle a person whose felony conviction is expunged to answer an inquiry as though it did not occur? Subsection (m) restores rights removed as a result of the conviction, which is a different thing. W.S. 7-13-1401(f) supplies the answer-as-if entitlement on the non-conviction route and is confined to its own section by its own words, so the safe copy on this track is silence about it. Whether some other Wyoming provision supplies it has not been searched and is not asserted in either direction.",
           "impact": "release_blocker",
-          "affectedElement": "eligibility_branch",
+          "affectedElement": "legal_effect_or_warning",
           "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 1",
-            "sourceStatement": "Is the Lynch citation accurate? ... Release blocker for any advice to a felony-deferral participant, because the answer determines whether they have a route or none."
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "determination / restoration / 5_aThirdAsymmetryTheMemoDidNotCarry",
+            "sourceStatement": "On both conviction routes the packet may say what the order does to the division of criminal investigation record and to the court file, and may not tell the participant they are entitled to answer an inquiry as though the conviction did not occur. That entitlement exists on the non-conviction route and, by their own terms, on the two nicotine sections. It does not exist on 7-13-1501 or 7-13-1502.",
+            "normalizerInferred": true
           }
         },
         {
-          "question": "Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?",
-          "impact": "build_blocker",
+          "question": "Should Wyoming model a W.S. 7-19-109 application to purge, modify or supplement inaccurate or incomplete criminal history record information as a route of its own? It is the only thing available to a person who completed a felony deferral, and the Supreme Court pointed at it in terms, saying at ¶18 that the record should be corrected to accurately reflect the deferred sentencing disposition and the ultimate dismissal. It is a different remedy with a different promise, it is correction rather than expungement, and it must not be folded into this or any other expungement track. It bears on neither this packet's selection, content, geography, filing instructions nor warnings, which is why it is recorded as a research note rather than as a blocker.",
+          "impact": "nonblocking_research_note",
           "affectedElement": "governing_mechanism",
           "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 2",
-            "sourceStatement": "Does anything else reach a completed felony deferral? If section 7-13-1401 is barred and section 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within section 7-13-301 itself? Build blocker for that population."
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json",
+            "sourceHeading": "residualQuestions / wy-7-19-109-record-correction-route",
+            "sourceStatement": "Whether Wyoming should model a W.S. 7-19-109 application to purge, modify or supplement inaccurate criminal history record information as a route of its own. ... It is the only thing available to a completed felony deferral, and the Supreme Court pointed at it in terms. It is a different remedy with a different promise and it must not be folded into an expungement track.",
+            "normalizerInferred": true
           }
         },
         {
@@ -248261,29 +248294,6 @@
             "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 4",
             "sourceStatement": "Which Wyoming courts publish local expungement templates? Not surveyed. Build blocker for packet assembly, resolvable by a clerk survey across the 23 counties."
           }
-        },
-        {
-          "question": "Did the 2025 or 2026 Wyoming sessions amend § 7-13-1502? No amendment was identified, but the sessions were not swept.",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "explicit_state_addendum",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "UNRESOLVED QUESTIONS AND IMPACT / 6",
-            "sourceStatement": "Did the 2025 or 2026 sessions amend any of the three statutes? No amendment to the expungement statutes was identified, but the sessions were not swept. Nonblocking research note with a standing monitor."
-          }
-        },
-        {
-          "question": "effectiveFrom records the date the current operative text of § 7-13-1502 took effect (2014 HB0006, effective July 1, 2014) rather than its original enactment (2011 SF0088, effective July 1, 2011), because the official Wyoming statute publication prints no source or history notes and the operative-text date is what the normalization could confirm from official primary authority.",
-          "impact": "nonblocking_research_note",
-          "affectedElement": "governing_mechanism",
-          "provenance": {
-            "classificationBasis": "counsel_confirmation_required",
-            "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
-            "sourceHeading": "CONSOLIDATED PRIMARY SOURCES",
-            "sourceStatement": "Wyo. Stat. section 7-13-1502, expungement of certain felony convictions | Wyoming Legislature, via FindLaw and Justia | current",
-            "counselQuestion": "Should effectiveFrom carry the original enactment date of § 7-13-1502 (2011-07-01, confirmed from 2011 SF0088) or the date the current operative text took effect (2014-07-01, confirmed from 2014 HB0006)?"
-          }
         }
       ],
       "guidanceRationales": [],
@@ -248293,7 +248303,7 @@
         {
           "classification": "legal_design_blocker",
           "undeterminedElement": "eligibility_branch",
-          "statement": "The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list.",
+          "statement": "The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. What is missing is exact and is stated so it can be closed: a subparagraph-level enumeration of W.S. 7-13-1502(a)(iv) as currently in force, each subparagraph carried with the statute section it names, accounting for 2014 ch. 124, which amended (a)(iii), (a)(iv)(P) and (S) and repealed (a)(iv)(H), (J), (R), (U) and (W), and for 2014 ch. 13, which amended (a)(iv)(E). The narrative list of excluded felonies this memo carries is the controlling review's summary and cannot decide a particular conviction. No integrated Wyoming decision supplies the enumeration, and standing counsel adoption does not substitute for one: counsel adopted the design, and a list nobody has written down is not part of it.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
@@ -248303,7 +248313,7 @@
         },
         {
           "classification": "scope_restriction",
-          "statement": "This track carries a mandatory attorney-review gate before the packet is offered, because the restoration-of-rights payoff makes it worth doing properly once.",
+          "statement": "This track carries a mandatory attorney-review gate before the packet is offered, because the restoration-of-rights payoff makes it worth doing properly once. The gate remains necessary now that the deferral rule is encoded: it was never standing in for that answer alone. Two of its three reasons are untouched — the exclusion list is still unencoded and the other-felony bar still looks at the entire record — and the third does not depend on any encoding.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
@@ -248393,12 +248403,45 @@
         },
         {
           "classification": "self_help_boundary",
-          "statement": "A completed felony deferral may have no Wyoming route at all. Stop and refer rather than guessing, and say so honestly.",
+          "statement": "A completed felony deferral has no Wyoming route, and the packet says so plainly rather than guessing. Section 7-13-1401(a)(i) is barred by the deferral disposition itself, § 7-13-1502 requires a conviction the participant does not have, § 7-13-301 carries no record-clearing provision, and § 7-13-307 forbids construing §§ 7-13-301 through 7-13-306 to authorize expunging the record. Neither conviction section may be offered to that participant. Stop and refer.",
           "provenance": {
             "classificationBasis": "explicit_state_addendum",
             "sourceFile": "WY__LEGAL-REVIEW__STATEWIDE__wyoming-record-clearing-legal-review__ASOF-2026-08-01__EN.md",
             "sourceHeading": "LIMITATION CLASSIFICATION / 2",
             "sourceStatement": "Completed felony deferrals may have no route at all | Self-help boundary, and an honest disclosure"
+          }
+        },
+        {
+          "classification": "participant_question",
+          "statement": "Ask whether the matter was a deferred prosecution or deferred sentencing the participant completed, after which the charge was dismissed, rather than a conviction; and ask for the Wyoming statute section of conviction exactly as it appears on the judgment and sentence. The first drives a fail-closed screen that neither the offense description nor the case number can drive. The second is what attorney review needs to place the offense against the exclusion list, and it is the input a subparagraph-level encoding will run on when one exists.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json",
+            "sourceHeading": "determination / 5_doesAnyWyomingMechanismReachACompletedFelonyDeferral",
+            "sourceStatement": "Any Wyoming packet or screen must therefore fail closed on a completed felony deferral and must not offer 7-13-1401 or 7-13-1502 to that participant.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "Where a participant completed a felony deferral, say that nothing in Wyoming law clears that record and name the reason, rather than implying that some other route might be found. The only thing available is a W.S. 7-19-109 application to the district court to purge, modify or supplement inaccurate or incomplete criminal history record information, which corrects the record to show the deferral, discharge and dismissal and leaves the corrected record in place and disseminable. Never describe it as expungement, never offer it as a packet, and do not model it as a Wyoming track without its own legal-design decision.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-governing-mechanism-and-currency-reconciliation.json",
+            "sourceHeading": "determination / 5 / theOnlyThingThatIsAvailable",
+            "sourceStatement": "It is not expungement and must never be described as one. It corrects an inaccurate record to say what actually happened — deferral, discharge, dismissal — and leaves the accurate record in place and disseminable. A participant told otherwise would be misled about the product they were buying.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "classification": "packet_instruction",
+          "statement": "The restoration sentence belongs to this track alone. Section 7-13-1502(m) restores any rights removed as a result of the expunged conviction and may be recited in the proposed order; § 7-13-1501 restores nothing, the provision that once did was removed by 2009 ch. 67, and the two conviction tracks may not share this copy. Neither track may promise an entitlement to answer an inquiry as though the conviction did not occur: W.S. 7-13-1401(f) gives that on the non-conviction route only and is confined to its own section.",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "data/record-clearing/production-factory/legal-design-decisions/rcap-wy-eligibility-waiting-period-and-effect-reconciliation.json",
+            "sourceHeading": "determination / restoration / 7_effectOnTheFelonyTrack",
+            "sourceStatement": "None by way of change. Section 7-13-1502(m) means what it says and wy_fel_1502 may state that an expungement under that section restores any rights removed as a result of the expunged conviction. What this record adds is the reason the two tracks may not share that sentence, so that a later editor does not harmonise the copy and make the misdemeanour packet promise something the statute does not.",
+            "normalizerInferred": true
           }
         }
       ],
@@ -248406,8 +248449,7 @@
       "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
       "implementationQueue": "C_custom_pleading",
       "legalDesignBlockers": [
-        "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. (undetermined: eligibility_branch)",
-        "Open question blocks the build (governing_mechanism): Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?"
+        "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. What is missing is exact and is stated so it can be closed: a subparagraph-level enumeration of W.S. 7-13-1502(a)(iv) as currently in force, each subparagraph carried with the statute section it names, accounting for 2014 ch. 124, which amended (a)(iii), (a)(iv)(P) and (S) and repealed (a)(iv)(H), (J), (R), (U) and (W), and for 2014 ch. 13, which amended (a)(iv)(E). The narrative list of excluded felonies this memo carries is the controlling review's summary and cannot decide a particular conviction. No integrated Wyoming decision supplies the enumeration, and standing counsel adoption does not substitute for one: counsel adopted the design, and a list nobody has written down is not part of it. (undetermined: eligibility_branch)"
       ],
       "blockers": [
         {
@@ -248424,15 +248466,11 @@
         },
         {
           "kind": "legal_design_blocker",
-          "statement": "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. (undetermined: eligibility_branch)"
-        },
-        {
-          "kind": "legal_design_blocker",
-          "statement": "Open question blocks the build (governing_mechanism): Does anything else reach a completed felony deferral? If § 7-13-1401 is barred and § 7-13-1502 requires a conviction, is there any other Wyoming mechanism, including anything within § 7-13-301 itself?"
+          "statement": "Design undetermined: The § 7-13-1502 exclusion list is long and statute-specific and is not encoded. Do not offer this track without attorney review of whether the felony appears on the list. What is missing is exact and is stated so it can be closed: a subparagraph-level enumeration of W.S. 7-13-1502(a)(iv) as currently in force, each subparagraph carried with the statute section it names, accounting for 2014 ch. 124, which amended (a)(iii), (a)(iv)(P) and (S) and repealed (a)(iv)(H), (J), (R), (U) and (W), and for 2014 ch. 13, which amended (a)(iv)(E). The narrative list of excluded felonies this memo carries is the controlling review's summary and cannot decide a particular conviction. No integrated Wyoming decision supplies the enumeration, and standing counsel adoption does not substitute for one: counsel adopted the design, and a list nobody has written down is not part of it. (undetermined: eligibility_branch)"
         },
         {
           "kind": "release_blocker",
-          "statement": "Open question blocks release (eligibility_branch): Is the Lynch citation accurate? The internal reference cites a Wyoming Supreme Court decision at docket S-25-0140, reported as a 2026 case, for the proposition that § 7-13-1502 requires an actual felony conviction and that a completed deferral producing a dismissal is not one. A search surfaced a different Lynch matter from 2024 on an unrelated issue. The proposition is consistent with the statutory text, which opens with 'a person convicted of a felony', but the citation could not be confirmed."
+          "statement": "Open question blocks release (legal_effect_or_warning): Does anything outside § 7-13-1502 entitle a person whose felony conviction is expunged to answer an inquiry as though it did not occur? Subsection (m) restores rights removed as a result of the conviction, which is a different thing. W.S. 7-13-1401(f) supplies the answer-as-if entitlement on the non-conviction route and is confined to its own section by its own words, so the safe copy on this track is silence about it. Whether some other Wyoming provision supplies it has not been searched and is not asserted in either direction."
         },
         {
           "kind": "release_blocker",

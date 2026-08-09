@@ -686,8 +686,11 @@ await check("all normalized tracks reconcile exactly once and completed tranches
   // custom pleading 5, and the clean splits of Ohio 4 and Washington 2. 223 ->
   // 224 with Kentucky's clean marijuana/synthetic/salvia track, whose custom
   // unit is implemented; its AOC-334 component stays an open official-PDF
-  // dependency and does not make the track packet-ready.
-  assert.equal(reconciliation.implementationComplete, 224);
+  // dependency and does not make the track packet-ready. 224 -> 225 with
+  // Wyoming's wy_nc_1401, whose four custom-pleading components are implemented
+  // and whose process-guidance filing-instructions component stays with that
+  // lane, so the track is implemented and is not filing-complete.
+  assert.equal(reconciliation.implementationComplete, 225);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete
@@ -3967,9 +3970,10 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.tracks, normalizedRegistry.trackCount);
   assert.equal(status.totals.normalized, normalizedRegistry.trackCount);
   // 160 -> 171 with the eleven tracks the Hawaii, Ohio and Washington
-  // implementations built (5 + 4 + 2), then 172 with Kentucky's clean track.
-  assert.equal(status.totals.implementationComplete, 172);
-  assert.equal(status.totals.technicalProofPassed, 172);
+  // implementations built (5 + 4 + 2), then 172 with Kentucky's clean track,
+  // then 173 with Wyoming's wy_nc_1401.
+  assert.equal(status.totals.implementationComplete, 173);
+  assert.equal(status.totals.technicalProofPassed, 173);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);
@@ -4908,13 +4912,38 @@ await check(
     assert.deepEqual(whole.trackIds.sort(), ["wy_fel_1502", "wy_misd_1501"]);
     assert.ok((whole.supersededBy ?? []).includes("rcap-wy-custom-pleading-clean-tracks"));
 
+    // Advanced from `ready` when the clean assignment delivered. The split is
+    // what this check is about and the split is unchanged: the clean job still
+    // carries wy_nc_1401 and only wy_nc_1401, and delivering it did not sweep in
+    // either blocked conviction track.
     const clean = plan.jobs.find(
       (job) => job.jobId === "rcap-wy-custom-pleading-clean-tracks"
     );
-    assert.equal(clean.status, "ready");
+    assert.equal(clean.status, "completed");
     assert.deepEqual(clean.trackIds, ["wy_nc_1401"]);
     assert.ok(!clean.trackIds.includes("wy_misd_1501"));
     assert.ok(!clean.trackIds.includes("wy_fel_1502"));
+
+    // The delivered packet is not a filing-complete packet: the track's own
+    // packet set declares a required process-guidance component that this
+    // custom-pleading implementation does not own, and the proof says so.
+    const wyProof = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          ROOT,
+          "data/record-clearing/production-factory/packet-proofs/rcap-wy-custom-pleading-clean-tracks.json"
+        ),
+        "utf8"
+      )
+    );
+    assert.equal(wyProof.componentScope.filingComplete, false);
+    assert.deepEqual(wyProof.componentScope.tracks[0].filingCompleteBlockedBy, [
+      "wy_nc_1401-filing-instructions-5"
+    ]);
+    assert.equal(wyProof.counselAdopted, false);
+    assert.equal(wyProof.packetReady, false);
+    assert.equal(wyProof.productionEnabled, false);
+    assert.equal(wyProof.runtimeStatus, "runtime_disabled");
 
     // One owner for both remaining rules, and it owns the memo.
     const owner = plan.jobs.find(

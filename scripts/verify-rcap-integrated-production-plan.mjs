@@ -713,8 +713,9 @@ assert.equal(
   ).length
 );
 // 85 -> 88 packet modules: the Hawaii custom pleading and the clean Ohio and
-// Washington splits each landed one. 88 -> 89 with Kentucky's clean track.
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 89);
+// Washington splits each landed one. 88 -> 89 with Kentucky's clean track, and
+// 89 -> 90 with Wyoming's.
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 90);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0
@@ -759,10 +760,19 @@ assert.equal(
 // blocker; four of the ten return to unresolved_identity and the rest resolve
 // under their own dispositions. Nothing was acquired, lost or re-measured; the
 // same 328 identities are projected.
+//
+// 170 -> 174 with the same correction applied per document for Kansas, the one
+// jurisdiction whose exclusion was a hard-coded document set with no
+// supersession check. The nine attested Council documents leave
+// deliberately_excluded_commercial_license for the source problems they actually
+// have — five unresolved_identity and four source_gated_identity — and the
+// criminal cover sheet, outside the attested family, takes the licence
+// exclusion it always warranted. Still 328 identities and still nothing
+// acquired.
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  170
+  174
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -838,7 +848,16 @@ assert.deepEqual(
     // the exclusion that is still live — Kansas's scoped commercial-licence
     // decision, which covers named documents and withholds anything outside
     // them.
-    deliberately_excluded_commercial_license: 13,
+    // 35 -> 13. Indiana's identities left this bucket when its project-owner
+    // authorization superseded the historical exclusion. 13 -> 5 when the same
+    // supersession finally reached Kansas: its exclusion was a hard-coded
+    // per-document set, read straight from the superseded decision and
+    // evaluated before the supersession-aware check, so a superseded refusal
+    // outranked the grant that superseded it. The nine attested Council
+    // documents leave. What remains is exclusion that is still live, including
+    // the Kansas criminal cover sheet, which no grant names and which stays
+    // fail-closed on the open jurisdiction-level question.
+    deliberately_excluded_commercial_license: 5,
     // 60 -> 76, Indiana's identities returning to exact assignability.
     exact_worker_assignable: 76,
     // Completed acquisition decisions settled these identities. For all but one
@@ -854,10 +873,14 @@ assert.deepEqual(
     role_mismatch: 4,
     // Three fewer: Louisiana's arts. 993, 995 and 998 were source-gated PDF
     // captures of statutory text the issuer publishes only as HTML. They left
-    // the official-PDF lane with their six components.
-    source_gated_identity: 25,
-    // 173 -> 166: the seven Indiana identities above.
-    unresolved_identity: 170
+    // the official-PDF lane with their six components. 25 -> 29 with the four
+    // Kansas Council documents whose bytes are held and pinned and whose only
+    // remaining question was the licence.
+    source_gated_identity: 29,
+    // 173 -> 166: the seven Indiana identities above. 170 -> 174 with the five
+    // Kansas Council documents whose identity is still unresolved, less the
+    // criminal cover sheet, which moves the other way into the live exclusion.
+    unresolved_identity: 174
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -2392,8 +2415,10 @@ assert.equal(
 // 212 -> 223 with the eleven tracks integrated in the earlier wave: Hawaii
 // custom pleading 5, and the clean splits of Ohio 4 and Washington 2. 223 -> 224
 // with Kentucky's clean track, whose custom unit is implemented while its
-// AOC-334 component remains an open official-PDF dependency.
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 224);
+// AOC-334 component remains an open official-PDF dependency. 224 -> 225 with
+// Wyoming's wy_nc_1401, whose process-guidance filing-instructions component is
+// the same kind of open dependency.
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 225);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -
@@ -3035,9 +3060,10 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, normalizedTrackCount);
 assert.equal(status.totals.normalized, normalizedTrackCount);
-// 160 -> 172 with the eleven tracks integrated this wave (HI 5, OH 4, WA 2).
-assert.equal(status.totals.implementationComplete, 172);
-assert.equal(status.totals.technicalProofPassed, 172);
+// 160 -> 172 with the eleven tracks integrated this wave (HI 5, OH 4, WA 2) and
+// Kentucky's clean track, then 173 with Wyoming's wy_nc_1401.
+assert.equal(status.totals.implementationComplete, 173);
+assert.equal(status.totals.technicalProofPassed, 173);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);

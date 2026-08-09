@@ -3,36 +3,602 @@
   "jobId": "rcap-nv-custom-pleading",
   "parentJobId": "NEW-02-custom-pleading-families",
   "jurisdiction": "NV",
-  "completionCommit": "eccb51f2846f3df93a806981a09e991c6e841c8a",
+  "completionCommit": "f35f634669effa4bcec01a51a16205cd690ab5f8",
   "authorityEdition": "1.2",
   "verifier": {
     "path": "scripts/verify-rcap-nevada-custom-pleading.mjs",
-    "sha256": "2d37e66607bcf02e3d676a12d2a77f546e87eb6c93d20f8890bd7a29de21f4f7",
+    "sha256": "b71da61454125cad39d2f514645cf6f8510d91c49957f4dd135bf1c897bfd6fb",
     "result": "passed"
   },
   "implementationOutputs": [
     {
       "path": "src/lib/rcap/packets/jurisdictions/nevada/custom-pleading.ts",
-      "sha256": "a51e74d729c55be24033c81a290bbb9b656cac754c7937a1151a91909f4ab89c"
+      "sha256": "bf017c7d2bcc2374654f6bc5b54af609fb1c09ca84668b179218065e9df4ec76"
     },
     {
       "path": "scripts/verify-rcap-nevada-custom-pleading.mjs",
-      "sha256": "2d37e66607bcf02e3d676a12d2a77f546e87eb6c93d20f8890bd7a29de21f4f7"
+      "sha256": "b71da61454125cad39d2f514645cf6f8510d91c49957f4dd135bf1c897bfd6fb"
     }
   ],
-  "finalPdfCount": 6,
-  "assembledPageCount": 69,
-  "canonicalPacketCount": 6,
-  "variantPacketCount": 4,
-  "technicalFixtureCount": 10,
-  "technicalFixturePageCount": 116,
+  "finalPdfCount": 8,
+  "assembledPageCount": 83,
+  "canonicalPacketCount": 8,
+  "variantPacketCount": 6,
+  "technicalFixtureCount": 14,
+  "technicalFixturePageCount": 144,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "nv_repository_removal",
+        "packetSetId": "nv_repository_removal-set",
+        "declaredComponentCount": 6,
+        "implementedComponents": [
+          {
+            "componentId": "nv_repository_removal-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_repository_removal-duplicate-submission-copy-2",
+            "role": "duplicate_submission_copy",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "nv_repository_removal-explanation-3",
+            "role": "explanation",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_repository_removal-parallel-screen-4",
+            "role": "parallel_screen",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_repository_removal-exclusion-screen-5",
+            "role": "exclusion_screen",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_repository_removal-referral-instructions-6",
+            "role": "referral_instructions",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "nv_repository_removal-explanation-3",
+          "nv_repository_removal-parallel-screen-4",
+          "nv_repository_removal-exclusion-screen-5",
+          "nv_repository_removal-referral-instructions-6"
+        ]
+      },
+      {
+        "trackId": "nv_seal_conviction",
+        "packetSetId": "nv_seal_conviction-set",
+        "declaredComponentCount": 7,
+        "implementedComponents": [
+          {
+            "componentId": "nv_seal_conviction-primary-filing-2",
+            "role": "primary_filing",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_conviction-proposed-order-3",
+            "role": "proposed_order",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_conviction-declaration-and-verification-4",
+            "role": "declaration_and_verification",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_conviction-stipulation-5",
+            "role": "stipulation",
+            "order": 5,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "nv_seal_conviction-repository-record-step-1",
+            "role": "repository_record_step",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_conviction-prosecutor-submission-instructions-6",
+            "role": "prosecutor_submission_instructions",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_conviction-filing-and-service-instructions-7",
+            "role": "filing_and_service_instructions",
+            "order": 7,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "nv_seal_conviction-repository-record-step-1",
+          "nv_seal_conviction-prosecutor-submission-instructions-6",
+          "nv_seal_conviction-filing-and-service-instructions-7"
+        ]
+      },
+      {
+        "trackId": "nv_seal_decrim",
+        "packetSetId": "nv_seal_decrim-set",
+        "declaredComponentCount": 7,
+        "implementedComponents": [
+          {
+            "componentId": "nv_seal_decrim-primary-filing-2",
+            "role": "primary_filing",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_decrim-proposed-order-3",
+            "role": "proposed_order",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_decrim-declaration-and-verification-4",
+            "role": "declaration_and_verification",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_decrim-stipulation-5",
+            "role": "stipulation",
+            "order": 5,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "nv_seal_decrim-repository-record-step-1",
+            "role": "repository_record_step",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_decrim-prosecutor-submission-instructions-6",
+            "role": "prosecutor_submission_instructions",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_decrim-filing-and-service-instructions-7",
+            "role": "filing_and_service_instructions",
+            "order": 7,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "nv_seal_decrim-repository-record-step-1",
+          "nv_seal_decrim-prosecutor-submission-instructions-6",
+          "nv_seal_decrim-filing-and-service-instructions-7"
+        ]
+      },
+      {
+        "trackId": "nv_seal_multi",
+        "packetSetId": "nv_seal_multi-set",
+        "declaredComponentCount": 7,
+        "implementedComponents": [
+          {
+            "componentId": "nv_seal_multi-primary-filing-2",
+            "role": "primary_filing",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_multi-proposed-order-3",
+            "role": "proposed_order",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_multi-declaration-and-verification-4",
+            "role": "declaration_and_verification",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_multi-stipulation-5",
+            "role": "stipulation",
+            "order": 5,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "nv_seal_multi-repository-record-step-1",
+            "role": "repository_record_step",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_multi-prosecutor-submission-instructions-6",
+            "role": "prosecutor_submission_instructions",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_multi-filing-and-service-instructions-7",
+            "role": "filing_and_service_instructions",
+            "order": 7,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "nv_seal_multi-repository-record-step-1",
+          "nv_seal_multi-prosecutor-submission-instructions-6",
+          "nv_seal_multi-filing-and-service-instructions-7"
+        ]
+      },
+      {
+        "trackId": "nv_seal_nonconviction",
+        "packetSetId": "nv_seal_nonconviction-set",
+        "declaredComponentCount": 7,
+        "implementedComponents": [
+          {
+            "componentId": "nv_seal_nonconviction-primary-filing-2",
+            "role": "primary_filing",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_nonconviction-proposed-order-3",
+            "role": "proposed_order",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_nonconviction-declaration-and-verification-4",
+            "role": "declaration_and_verification",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_nonconviction-stipulation-5",
+            "role": "stipulation",
+            "order": 5,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "nv_seal_nonconviction-repository-record-step-1",
+            "role": "repository_record_step",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_nonconviction-prosecutor-submission-instructions-6",
+            "role": "prosecutor_submission_instructions",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_nonconviction-filing-and-service-instructions-7",
+            "role": "filing_and_service_instructions",
+            "order": 7,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "nv_seal_nonconviction-repository-record-step-1",
+          "nv_seal_nonconviction-prosecutor-submission-instructions-6",
+          "nv_seal_nonconviction-filing-and-service-instructions-7"
+        ]
+      },
+      {
+        "trackId": "nv_seal_pardon",
+        "packetSetId": "nv_seal_pardon-set",
+        "declaredComponentCount": 7,
+        "implementedComponents": [
+          {
+            "componentId": "nv_seal_pardon-primary-filing-2",
+            "role": "primary_filing",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_pardon-proposed-order-3",
+            "role": "proposed_order",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_pardon-declaration-and-verification-4",
+            "role": "declaration_and_verification",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_pardon-stipulation-5",
+            "role": "stipulation",
+            "order": 5,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "nv_seal_pardon-repository-record-step-1",
+            "role": "repository_record_step",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_pardon-prosecutor-submission-instructions-6",
+            "role": "prosecutor_submission_instructions",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_pardon-filing-and-service-instructions-7",
+            "role": "filing_and_service_instructions",
+            "order": 7,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "nv_seal_pardon-repository-record-step-1",
+          "nv_seal_pardon-prosecutor-submission-instructions-6",
+          "nv_seal_pardon-filing-and-service-instructions-7"
+        ]
+      },
+      {
+        "trackId": "nv_seal_probation_family",
+        "packetSetId": "nv_seal_probation_family-set",
+        "declaredComponentCount": 8,
+        "implementedComponents": [
+          {
+            "componentId": "nv_seal_probation_family-primary-filing-4",
+            "role": "primary_filing",
+            "order": 4,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_probation_family-proposed-order-5",
+            "role": "proposed_order",
+            "order": 5,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_probation_family-declaration-and-verification-6",
+            "role": "declaration_and_verification",
+            "order": 6,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "nv_seal_probation_family-detection-and-routing-1",
+            "role": "detection_and_routing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_probation_family-branch-screen-2",
+            "role": "branch_screen",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_probation_family-discharge-type-screen-3",
+            "role": "discharge_type_screen",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_probation_family-filing-and-service-instructions-7",
+            "role": "filing_and_service_instructions",
+            "order": 7,
+            "requirement": "conditional",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_probation_family-referral-instructions-8",
+            "role": "referral_instructions",
+            "order": 8,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "nv_seal_probation_family-detection-and-routing-1",
+          "nv_seal_probation_family-branch-screen-2",
+          "nv_seal_probation_family-discharge-type-screen-3",
+          "nv_seal_probation_family-referral-instructions-8"
+        ]
+      },
+      {
+        "trackId": "nv_seal_reentry",
+        "packetSetId": "nv_seal_reentry-set",
+        "declaredComponentCount": 7,
+        "implementedComponents": [
+          {
+            "componentId": "nv_seal_reentry-primary-filing-2",
+            "role": "primary_filing",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_reentry-proposed-order-3",
+            "role": "proposed_order",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_reentry-declaration-and-verification-4",
+            "role": "declaration_and_verification",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "nv_seal_reentry-stipulation-5",
+            "role": "stipulation",
+            "order": 5,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "nv_seal_reentry-repository-record-step-1",
+            "role": "repository_record_step",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_reentry-prosecutor-submission-instructions-6",
+            "role": "prosecutor_submission_instructions",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "nv_seal_reentry-filing-and-service-instructions-7",
+            "role": "filing_and_service_instructions",
+            "order": 7,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "nv_seal_reentry-repository-record-step-1",
+          "nv_seal_reentry-prosecutor-submission-instructions-6",
+          "nv_seal_reentry-filing-and-service-instructions-7"
+        ]
+      }
+    ]
+  },
   "samplePackets": [
+    {
+      "trackId": "nv_repository_removal",
+      "fixtureId": "nv-repository-removal-dismissed-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "nv-repository-removal-dismissed-1-technical-fixture.pdf",
+      "assembledSha256": "edfb94775d7ad2b98d447fd4c207c65ee396cb963aa55e032a6626caf14c749f",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "nv_repository_removal",
+      "fixtureId": "nv-repository-removal-acquitted-former-names-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "nv_repository_removal",
+      "assembledFileName": "nv-repository-removal-acquitted-former-names-2-technical-fixture.pdf",
+      "assembledSha256": "85b108f420a11e89cf518c9f9e39651f72b9c57150cf1b57a01e0f415b6ec32f",
+      "assembledPageCount": 6
+    },
     {
       "trackId": "nv_seal_conviction",
       "fixtureId": "nv-conviction-positive-1",
       "sampleRole": "canonical",
       "assembledFileName": "nv-conviction-positive-1-technical-fixture.pdf",
-      "assembledSha256": "f5f53d445d2285ab85ea72c52d106dc88731eccbc5c45d0c82a862072d2f6115",
+      "assembledSha256": "ae8e1d354f74e68a55648eab84affdb2dbd289887e26422188d34862c331272f",
       "assembledPageCount": 12
     },
     {
@@ -74,7 +640,7 @@
       "fixtureId": "nv-nonconviction-dismissed-positive-1",
       "sampleRole": "canonical",
       "assembledFileName": "nv-nonconviction-dismissed-positive-1-technical-fixture.pdf",
-      "assembledSha256": "2eb45d568ff2287af918eb68b57118932e8b45a8e8bcebd7fbd425867333b877",
+      "assembledSha256": "b69bc1009b67634f2144962210a5485a90c1fcceee925258b793842996363036",
       "assembledPageCount": 12
     },
     {
@@ -83,7 +649,7 @@
       "sampleRole": "variant",
       "variantOfTrackId": "nv_seal_nonconviction",
       "assembledFileName": "nv-nonconviction-acquitted-3-technical-fixture.pdf",
-      "assembledSha256": "9ff122786a339d45bcc1c81f72593b996e061db568fdde621ddf7b6abfe1b30c",
+      "assembledSha256": "6f5c253814458497d7f4b039d06f44d6ea8b013e03003106b65c4d2136faf220",
       "assembledPageCount": 12
     },
     {
@@ -92,7 +658,7 @@
       "sampleRole": "variant",
       "variantOfTrackId": "nv_seal_nonconviction",
       "assembledFileName": "nv-nonconviction-declined-2-technical-fixture.pdf",
-      "assembledSha256": "6b0339453e330a6d3e75fe8b7e8f4e162f3967ebe248467d83510a530b4a7d54",
+      "assembledSha256": "ea04d8ca7bbef0c572f206f3324152af52be917d05179657230c65413c14f9a7",
       "assembledPageCount": 12
     },
     {
@@ -100,8 +666,25 @@
       "fixtureId": "nv-pardon-positive-1",
       "sampleRole": "canonical",
       "assembledFileName": "nv-pardon-positive-1-technical-fixture.pdf",
-      "assembledSha256": "a570efb2a2195f3078a773a47186dc82f803d56a9e6458fe912708e5f17149b5",
+      "assembledSha256": "30ae120045c8c3393afeb67c2013bceffb6e621754173fe2fb6f4c7a2a0b6bb3",
       "assembledPageCount": 12
+    },
+    {
+      "trackId": "nv_seal_probation_family",
+      "fixtureId": "nv-probation-subsection-two-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "nv-probation-subsection-two-1-technical-fixture.pdf",
+      "assembledSha256": "56039a28b8e5e8c5f51262693462b3b9976abc78e83eeea919212a1355d9d81f",
+      "assembledPageCount": 8
+    },
+    {
+      "trackId": "nv_seal_probation_family",
+      "fixtureId": "nv-probation-mental-health-set-aside-3",
+      "sampleRole": "variant",
+      "variantOfTrackId": "nv_seal_probation_family",
+      "assembledFileName": "nv-probation-mental-health-set-aside-3-technical-fixture.pdf",
+      "assembledSha256": "5c20790d994f705bd1f571689ef096517bb6519bca02989318beb3928721e5c0",
+      "assembledPageCount": 8
     },
     {
       "trackId": "nv_seal_reentry",
@@ -115,7 +698,11 @@
   "deterministic": true,
   "generatedPacketBytesTracked": false,
   "runtimeStatus": "runtime_disabled",
+  "technicalEvidence": "complete",
   "visualProof": "pending",
+  "visualReview": "formal_visual_review_pending",
+  "completedOutputLegalReview": "pending",
   "counselAdopted": false,
+  "packetReady": false,
   "productionEnabled": false
 }

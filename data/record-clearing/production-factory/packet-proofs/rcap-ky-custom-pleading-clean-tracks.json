@@ -26,6 +26,49 @@
   "variantPacketCount": 2,
   "technicalFixtureCount": 3,
   "technicalFixturePageCount": 15,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+        "packetSetId": "ky_void_seal_marijuana_synthetic_salvia-set",
+        "declaredComponentCount": 3,
+        "implementedComponents": [
+          {
+            "componentId": "ky_void_seal_marijuana_synthetic_salvia-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "ky_void_seal_marijuana_synthetic_salvia-certificate-of-service-3",
+            "role": "certificate_of_service",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "ky_void_seal_marijuana_synthetic_salvia-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "ky_void_seal_marijuana_synthetic_salvia-proposed-order-2"
+        ]
+      }
+    ]
+  },
   "samplePackets": [
     {
       "trackId": "ky_void_seal_marijuana_synthetic_salvia",

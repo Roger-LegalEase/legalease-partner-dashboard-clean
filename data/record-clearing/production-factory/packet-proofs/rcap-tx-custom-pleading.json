@@ -22,53 +22,440 @@
   ],
   "finalPdfCount": 8,
   "assembledPageCount": 51,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "tx_exp_dismissed",
+        "packetSetId": "tx_exp_dismissed-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "tx_exp_dismissed-petition-1",
+            "role": "petition",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_dismissed-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_dismissed-one-time-use-affidavit-3",
+            "role": "one_time_use_affidavit",
+            "order": 3,
+            "requirement": "conditional",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "tx_exp_dismissed-fee-waiver-statement-4",
+            "role": "fee_waiver_statement",
+            "order": 4,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "tx_exp_dismissed-filing-and-local-practice-instructions-5",
+            "role": "filing_and_local_practice_instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "tx_exp_dismissed-filing-and-local-practice-instructions-5"
+        ]
+      },
+      {
+        "trackId": "tx_exp_limitations",
+        "packetSetId": "tx_exp_limitations-set",
+        "declaredComponentCount": 4,
+        "implementedComponents": [
+          {
+            "componentId": "tx_exp_limitations-petition-1",
+            "role": "petition",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_limitations-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "tx_exp_limitations-fee-waiver-statement-3",
+            "role": "fee_waiver_statement",
+            "order": 3,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "tx_exp_limitations-filing-and-local-practice-instructions-4",
+            "role": "filing_and_local_practice_instructions",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "tx_exp_limitations-filing-and-local-practice-instructions-4"
+        ]
+      },
+      {
+        "trackId": "tx_exp_mistaken_identity",
+        "packetSetId": "tx_exp_mistaken_identity-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "tx_exp_mistaken_identity-petition-1",
+            "role": "petition",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_mistaken_identity-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_mistaken_identity-verified-application-to-prosecutor-3",
+            "role": "verified_application_to_prosecutor",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "tx_exp_mistaken_identity-fee-waiver-statement-4",
+            "role": "fee_waiver_statement",
+            "order": 4,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "tx_exp_mistaken_identity-filing-and-local-practice-instructions-5",
+            "role": "filing_and_local_practice_instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "tx_exp_mistaken_identity-filing-and-local-practice-instructions-5"
+        ]
+      },
+      {
+        "trackId": "tx_exp_no_charge",
+        "packetSetId": "tx_exp_no_charge-set",
+        "declaredComponentCount": 4,
+        "implementedComponents": [
+          {
+            "componentId": "tx_exp_no_charge-petition-1",
+            "role": "petition",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_no_charge-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "tx_exp_no_charge-fee-waiver-statement-3",
+            "role": "fee_waiver_statement",
+            "order": 3,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "tx_exp_no_charge-filing-and-local-practice-instructions-4",
+            "role": "filing_and_local_practice_instructions",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "tx_exp_no_charge-filing-and-local-practice-instructions-4"
+        ]
+      },
+      {
+        "trackId": "tx_exp_pardon_innocence",
+        "packetSetId": "tx_exp_pardon_innocence-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "tx_exp_pardon_innocence-petition-1",
+            "role": "petition",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_pardon_innocence-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_pardon_innocence-information-package-3",
+            "role": "information_package",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "tx_exp_pardon_innocence-fee-waiver-statement-4",
+            "role": "fee_waiver_statement",
+            "order": 4,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "tx_exp_pardon_innocence-filing-and-local-practice-instructions-5",
+            "role": "filing_and_local_practice_instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "tx_exp_pardon_innocence-filing-and-local-practice-instructions-5"
+        ]
+      },
+      {
+        "trackId": "tx_exp_pardon_other",
+        "packetSetId": "tx_exp_pardon_other-set",
+        "declaredComponentCount": 4,
+        "implementedComponents": [
+          {
+            "componentId": "tx_exp_pardon_other-petition-1",
+            "role": "petition",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_pardon_other-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "tx_exp_pardon_other-fee-waiver-statement-3",
+            "role": "fee_waiver_statement",
+            "order": 3,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "tx_exp_pardon_other-filing-and-local-practice-instructions-4",
+            "role": "filing_and_local_practice_instructions",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "tx_exp_pardon_other-filing-and-local-practice-instructions-4"
+        ]
+      },
+      {
+        "trackId": "tx_exp_specialty_court",
+        "packetSetId": "tx_exp_specialty_court-set",
+        "declaredComponentCount": 6,
+        "implementedComponents": [
+          {
+            "componentId": "tx_exp_specialty_court-petition-1",
+            "role": "petition",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_specialty_court-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_specialty_court-information-package-3",
+            "role": "information_package",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_specialty_court-one-time-use-affidavit-4",
+            "role": "one_time_use_affidavit",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "tx_exp_specialty_court-fee-waiver-statement-5",
+            "role": "fee_waiver_statement",
+            "order": 5,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "tx_exp_specialty_court-filing-and-local-practice-instructions-6",
+            "role": "filing_and_local_practice_instructions",
+            "order": 6,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "tx_exp_specialty_court-filing-and-local-practice-instructions-6"
+        ]
+      },
+      {
+        "trackId": "tx_exp_unlawful_carry",
+        "packetSetId": "tx_exp_unlawful_carry-set",
+        "declaredComponentCount": 4,
+        "implementedComponents": [
+          {
+            "componentId": "tx_exp_unlawful_carry-petition-1",
+            "role": "petition",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "tx_exp_unlawful_carry-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "tx_exp_unlawful_carry-fee-waiver-statement-3",
+            "role": "fee_waiver_statement",
+            "order": 3,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "tx_exp_unlawful_carry-filing-and-local-practice-instructions-4",
+            "role": "filing_and_local_practice_instructions",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "tx_exp_unlawful_carry-filing-and-local-practice-instructions-4"
+        ]
+      }
+    ]
+  },
   "samplePackets": [
     {
       "trackId": "tx_exp_dismissed",
       "assembledFileName": "tx_exp_dismissed-technical-fixture.pdf",
-      "assembledSha256": "fb8514e1258b4dc8a69d42d2dbbf5a50795f767a0a37e3d6a9e8346076f2b428",
+      "assembledSha256": "4ae2d0cafac83d38edc4560a687bfccd523802e29a04f8f7f876f92a763952e7",
       "assembledPageCount": 7
     },
     {
       "trackId": "tx_exp_limitations",
       "assembledFileName": "tx_exp_limitations-technical-fixture.pdf",
-      "assembledSha256": "4fb638e1b157b0d2eb1ca07a64999ec799a54b354146050db8975020ad65b1cf",
+      "assembledSha256": "d738c274b2763d59a10894759b0ab1bab54620eb40cc0e7f41e0add4a2791925",
       "assembledPageCount": 5
     },
     {
       "trackId": "tx_exp_mistaken_identity",
       "assembledFileName": "tx_exp_mistaken_identity-technical-fixture.pdf",
-      "assembledSha256": "cdabcd6614f9c4ac59bfbbe0d8b27be65697ea3331e44dbc5847cdc840f4a286",
+      "assembledSha256": "8fae6da55f0146c5b44fa9affd838eb48c7ea1f0fc47f5bca670708bac1e0d1a",
       "assembledPageCount": 8
     },
     {
       "trackId": "tx_exp_no_charge",
       "assembledFileName": "tx_exp_no_charge-technical-fixture.pdf",
-      "assembledSha256": "88e4a3db593dabf5c6c1fdb61eb62ceef5ca1e8e9e16fa33385b6c18839a465d",
+      "assembledSha256": "04c7c21459312dc3dc67761e6a9bc2f3e6114e7bf5baa3fc122989d7c24196fa",
       "assembledPageCount": 5
     },
     {
       "trackId": "tx_exp_pardon_innocence",
       "assembledFileName": "tx_exp_pardon_innocence-technical-fixture.pdf",
-      "assembledSha256": "b1db65dc99182a341fabdd046948597d0ea6efad9d96eb25a1f80b2973deca5c",
+      "assembledSha256": "2b8fd498b83eb5efd6e2a4ee1998f7aa8c82b68ce77d235151a41478a2a42f2d",
       "assembledPageCount": 7
     },
     {
       "trackId": "tx_exp_pardon_other",
       "assembledFileName": "tx_exp_pardon_other-technical-fixture.pdf",
-      "assembledSha256": "d98417c933f7a3886690faae3b5acadb09883073f18c20a62510f9ad36602725",
+      "assembledSha256": "da7a5820e96e03a88d0fa37a7a6978c1d749898ae8c0ab1c47e1520945fd589c",
       "assembledPageCount": 5
     },
     {
       "trackId": "tx_exp_specialty_court",
       "assembledFileName": "tx_exp_specialty_court-technical-fixture.pdf",
-      "assembledSha256": "1c292d663b3faa8adf4beb5166b7881513fbe7c1a4dece63d6329833e473177a",
+      "assembledSha256": "697f42a5f3308194f6089abef61b9a58c861b100a5120fc19b9c01834f4a0856",
       "assembledPageCount": 9
     },
     {
       "trackId": "tx_exp_unlawful_carry",
       "assembledFileName": "tx_exp_unlawful_carry-technical-fixture.pdf",
-      "assembledSha256": "762425dc15daf944704b7794dccf77b07234f369888cde0364df4a4fc26d1402",
+      "assembledSha256": "c42f77a9b189d10b1954e9a445da44201f70be41454a58e6628dc3764668cfce",
       "assembledPageCount": 5
     }
   ],

@@ -4429,177 +4429,6 @@ export function buildFactoryPlan(options = {}) {
       sourceMaterializationFoundation.jobId
   });
 
-  // Two review assignments per implementation family, with different owners
-  // and different output paths.
-  //
-  // There was one job, and it asked a single worker for a page-by-page visual
-  // review *and* a completed-output legal review, into one file. Those are
-  // different competencies and different accountabilities: a technical
-  // reviewer confirming that no page is blank and no execution block is
-  // pre-filled is not the person qualified to say the venue is right, and
-  // neither of them is counsel. One artifact for both meant technical approval
-  // could read as legal approval, which is the one inference that must never
-  // be available.
-  const standingAdoption = standingCounselAdoption(rootDir);
-  for (const implementationJobId of COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS) {
-    const implementation = jobs.find(
-      (job) => job.jobId === implementationJobId
-    );
-    if (!implementation || implementation.status !== "completed") continue;
-    const packetProof = `${PACKET_PROOF_DIR}/${implementationJobId}.json`;
-    const reviewManifest =
-      `${REVIEW_MANIFEST_DIR}/${implementationJobId}.json`;
-    if (
-      !fs.existsSync(path.join(rootDir, packetProof)) ||
-      !fs.existsSync(path.join(rootDir, reviewManifest))
-    ) {
-      continue;
-    }
-    const technicalResultPath =
-      `${TECHNICAL_REVIEW_DIR}/${implementationJobId}.json`;
-    const legalResultPath =
-      `${LEGAL_REVIEW_DIR}/${implementationJobId}.json`;
-    const correctionRequired =
-      implementationsRequiringCorrection(rootDir).has(implementationJobId);
-    const technicalApproved =
-      technicalReviewApproved(rootDir, implementationJobId);
-
-    addJob({
-      lane: "legal_output_review",
-      jurisdiction: implementation.jurisdiction,
-      jobId: `${implementationJobId}-technical-visual-review`,
-      strategyFamily: "technical_visual_review",
-      trackIds: implementation.trackIds,
-      dependencies: [implementationJobId],
-      // Recorded once a technical result exists for this output. A
-      // correction-required implementation is not re-opened here: the current
-      // output was reviewed and found defective, and the re-review belongs to
-      // the corrected packet, which does not exist yet.
-      ...technicalReviewCompletion(rootDir, implementationJobId),
-      expectedOutputs: [technicalResultPath],
-      ownedPaths: [technicalResultPath],
-      requiredInputs: [
-        packetProof,
-        reviewManifest,
-        ...(implementation.expectedOutputs ?? [])
-      ],
-      participantPacketProofRequired: false,
-      model: "opus",
-      effort: "high",
-      focusedValidation: [
-        "node scripts/rcap-factory-plan.mjs --check-job " +
-          `${implementationJobId}-technical-visual-review`
-      ],
-      commitSubject:
-        `docs(record-clearing): technically review ${implementationJobId} output`,
-      executionNote:
-        "Technical and visual review only. Page inspection may be divided among read-only " +
-        "vision workers; one primary reviewer writes the result.",
-      stopCondition:
-        "Read every rendered page and record what is physically on it: deterministic " +
-        "rendering against the recorded packet hashes, page counts, clipping, overlap, blank " +
-        "pages, stranded headings, execution blocks, protected fields, appearance streams, " +
-        "page order, official-source visual fidelity and generated-file tracking. " +
-        "This is not a legal review. Do not assess the governing mechanism, eligibility, " +
-        "waiting period, venue, filing actor, destination, required allegations or any " +
-        "participant-facing legal statement, and do not write to the completed-output " +
-        "legal-review result — a different owner holds that path. " +
-        "Technical approval establishes nothing beyond itself: it is not legal approval, not " +
-        "counsel adoption, not packet readiness and not production enablement. Do not mark " +
-        "counsel adoption, do not mark any route packet-ready, and do not enable runtime, " +
-        "promote, or deploy. " +
-        TERMINAL_INSTRUCTION
-    });
-
-    addJob({
-      lane: "legal_output_review",
-      jurisdiction: implementation.jurisdiction,
-      jobId: `${implementationJobId}-completed-output-review`,
-      strategyFamily: "completed_output_legal_review",
-      trackIds: implementation.trackIds,
-      dependencies: [
-        implementationJobId,
-        `${implementationJobId}-technical-visual-review`
-      ],
-      // A legal read of output that is already known defective reviews a
-      // document nobody will ship. It waits for the correction and the
-      // re-review, and says so rather than sitting ready.
-      //
-      // Where external counsel has already adopted the family, this job is
-      // satisfied rather than outstanding. Leaving it ready would commission a
-      // Session R legal read of something counsel has adopted, and the only way
-      // to "complete" it would be for a worker to write recommend_adopt — a
-      // recommendation nobody made, attributed to a session that did not make
-      // it. Cancelled with its reason recorded is the honest state: the legal
-      // gate is closed, by counsel, on a different path.
-      ...(standingAdoptionCovers(
-        standingAdoption,
-        rootDir,
-        implementationJobId
-      ) && technicalApproved && !correctionRequired
-        ? { status: "cancelled" }
-        : {
-            status: correctionRequired || !technicalApproved ? "blocked" : "ready"
-          }),
-      expectedOutputs: [legalResultPath],
-      ownedPaths: [legalResultPath],
-      requiredInputs: [
-        packetProof,
-        reviewManifest,
-        technicalResultPath,
-        ...(implementation.expectedOutputs ?? []),
-        `data/record-clearing/legal-design-intake/${implementation.jurisdiction}.memo.json`,
-        FACTORY_INPUT_PATHS.normalizedTracks,
-        FACTORY_INPUT_PATHS.packetSetManifests,
-        FACTORY_INPUT_PATHS.blockerLedger
-      ],
-      participantPacketProofRequired: false,
-      model: "opus",
-      effort: "xhigh",
-      focusedValidation: [
-        "node scripts/rcap-factory-plan.mjs --check-job " +
-          `${implementationJobId}-completed-output-review`
-      ],
-      commitSubject:
-        `docs(record-clearing): review ${implementationJobId} completed output`,
-      executionNote: correctionRequired
-        ? "Blocked behind an implementation correction: the reviewed output is known " +
-          "defective and the corrected packet has not been produced or technically reviewed."
-        : standingAdoptionCovers(standingAdoption, rootDir, implementationJobId) &&
-            technicalApproved
-          ? "Satisfied, not outstanding. External counsel has adopted this family under " +
-            `${STANDING_EXTERNAL_COUNSEL_ADOPTION_PATH}` +
-            `, attested by ${standingAdoption?.attestedBy ?? "the project owner"} on ` +
-            `${standingAdoption?.adoptedOn ?? "2026-08-08"} against the legal corpus reviewed ` +
-            `through ${standingAdoption?.reviewedThrough ?? "2026-08-08"}. Do not commission a ` +
-            "Session R legal read of it: the only way to close that job would be for a worker " +
-            "to write recommend_adopt, which is a recommendation nobody made attributed to a " +
-            "session that did not make it. Technical and visual review is unaffected and " +
-            "remains required."
-          : technicalApproved
-            ? "Technical and visual review is recorded and approved. This job is the formal " +
-              "legal read of the finished participant-facing output, which no verifier performs."
-            : "Blocked until technical and visual review of this output is recorded.",
-      stopCondition:
-        "Perform, and record the result of, a completed-output legal review of the assembled " +
-        "documents. Verify the governing mechanism, the eligibility boundary, the waiting " +
-        "period, the venue, the filing actor, the destination, the required allegations, the " +
-        "document roles, the source identity, the outside-party boundaries, service, the fee " +
-        "statements, the proposed-order treatment, the self-help stops and every " +
-        "participant-facing legal statement. Confirm that nothing generated is presented as " +
-        "another party's or a court's instrument and that every outside-party field is left " +
-        "blank rather than filled. " +
-        "Record exact defects and exactly one recommendation: recommend_adopt, " +
-        "recommend_correction or recommend_hold. " +
-        "This is not a technical review and you do not own the technical result. Recording a " +
-        "recommendation is not adopting it: counsel is the adopter. Do not mark counsel " +
-        "adoption, do not edit packet text, legal conclusions, track strategy or authority " +
-        "classification, do not mark any route packet-ready, and do not enable runtime, " +
-        "promote, or deploy. " +
-        TERMINAL_INSTRUCTION
-    });
-  }
-
   // Owners created by the integrated D1 and F results. Each is exactly one
   // question with exactly one owner; none of them re-asks something a worker
   // has already answered.
@@ -4905,6 +4734,188 @@ export function buildFactoryPlan(options = {}) {
       stopCondition: split.correctionStop
     });
   }
+
+  // Review assignments are created here, after the split clean assignments
+  // exist.
+  //
+  // They used to be created before them, and looked up their implementation in
+  // the job list as it stood at that moment, so every split clean assignment —
+  // Ohio, Washington, Kentucky and now Wyoming — silently had no technical
+  // review and no completed-output review at all. The implementations were
+  // completed, their proofs and manifests were on disk, and the reviews they
+  // require were simply never assigned. Nothing reported a gap, because a job
+  // that is never created has no status to be wrong.
+  // Two review assignments per implementation family, with different owners
+  // and different output paths.
+  //
+  // There was one job, and it asked a single worker for a page-by-page visual
+  // review *and* a completed-output legal review, into one file. Those are
+  // different competencies and different accountabilities: a technical
+  // reviewer confirming that no page is blank and no execution block is
+  // pre-filled is not the person qualified to say the venue is right, and
+  // neither of them is counsel. One artifact for both meant technical approval
+  // could read as legal approval, which is the one inference that must never
+  // be available.
+  const standingAdoption = standingCounselAdoption(rootDir);
+  for (const implementationJobId of COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS) {
+    const implementation = jobs.find(
+      (job) => job.jobId === implementationJobId
+    );
+    if (!implementation || implementation.status !== "completed") continue;
+    const packetProof = `${PACKET_PROOF_DIR}/${implementationJobId}.json`;
+    const reviewManifest =
+      `${REVIEW_MANIFEST_DIR}/${implementationJobId}.json`;
+    if (
+      !fs.existsSync(path.join(rootDir, packetProof)) ||
+      !fs.existsSync(path.join(rootDir, reviewManifest))
+    ) {
+      continue;
+    }
+    const technicalResultPath =
+      `${TECHNICAL_REVIEW_DIR}/${implementationJobId}.json`;
+    const legalResultPath =
+      `${LEGAL_REVIEW_DIR}/${implementationJobId}.json`;
+    const correctionRequired =
+      implementationsRequiringCorrection(rootDir).has(implementationJobId);
+    const technicalApproved =
+      technicalReviewApproved(rootDir, implementationJobId);
+
+    addJob({
+      lane: "legal_output_review",
+      jurisdiction: implementation.jurisdiction,
+      jobId: `${implementationJobId}-technical-visual-review`,
+      strategyFamily: "technical_visual_review",
+      trackIds: implementation.trackIds,
+      dependencies: [implementationJobId],
+      // Recorded once a technical result exists for this output. A
+      // correction-required implementation is not re-opened here: the current
+      // output was reviewed and found defective, and the re-review belongs to
+      // the corrected packet, which does not exist yet.
+      ...technicalReviewCompletion(rootDir, implementationJobId),
+      expectedOutputs: [technicalResultPath],
+      ownedPaths: [technicalResultPath],
+      requiredInputs: [
+        packetProof,
+        reviewManifest,
+        ...(implementation.expectedOutputs ?? [])
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "high",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          `${implementationJobId}-technical-visual-review`
+      ],
+      commitSubject:
+        `docs(record-clearing): technically review ${implementationJobId} output`,
+      executionNote:
+        "Technical and visual review only. Page inspection may be divided among read-only " +
+        "vision workers; one primary reviewer writes the result.",
+      stopCondition:
+        "Read every rendered page and record what is physically on it: deterministic " +
+        "rendering against the recorded packet hashes, page counts, clipping, overlap, blank " +
+        "pages, stranded headings, execution blocks, protected fields, appearance streams, " +
+        "page order, official-source visual fidelity and generated-file tracking. " +
+        "This is not a legal review. Do not assess the governing mechanism, eligibility, " +
+        "waiting period, venue, filing actor, destination, required allegations or any " +
+        "participant-facing legal statement, and do not write to the completed-output " +
+        "legal-review result — a different owner holds that path. " +
+        "Technical approval establishes nothing beyond itself: it is not legal approval, not " +
+        "counsel adoption, not packet readiness and not production enablement. Do not mark " +
+        "counsel adoption, do not mark any route packet-ready, and do not enable runtime, " +
+        "promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+
+    addJob({
+      lane: "legal_output_review",
+      jurisdiction: implementation.jurisdiction,
+      jobId: `${implementationJobId}-completed-output-review`,
+      strategyFamily: "completed_output_legal_review",
+      trackIds: implementation.trackIds,
+      dependencies: [
+        implementationJobId,
+        `${implementationJobId}-technical-visual-review`
+      ],
+      // A legal read of output that is already known defective reviews a
+      // document nobody will ship. It waits for the correction and the
+      // re-review, and says so rather than sitting ready.
+      //
+      // Where external counsel has already adopted the family, this job is
+      // satisfied rather than outstanding. Leaving it ready would commission a
+      // Session R legal read of something counsel has adopted, and the only way
+      // to "complete" it would be for a worker to write recommend_adopt — a
+      // recommendation nobody made, attributed to a session that did not make
+      // it. Cancelled with its reason recorded is the honest state: the legal
+      // gate is closed, by counsel, on a different path.
+      ...(standingAdoptionCovers(
+        standingAdoption,
+        rootDir,
+        implementationJobId
+      ) && technicalApproved && !correctionRequired
+        ? { status: "cancelled" }
+        : {
+            status: correctionRequired || !technicalApproved ? "blocked" : "ready"
+          }),
+      expectedOutputs: [legalResultPath],
+      ownedPaths: [legalResultPath],
+      requiredInputs: [
+        packetProof,
+        reviewManifest,
+        technicalResultPath,
+        ...(implementation.expectedOutputs ?? []),
+        `data/record-clearing/legal-design-intake/${implementation.jurisdiction}.memo.json`,
+        FACTORY_INPUT_PATHS.normalizedTracks,
+        FACTORY_INPUT_PATHS.packetSetManifests,
+        FACTORY_INPUT_PATHS.blockerLedger
+      ],
+      participantPacketProofRequired: false,
+      model: "opus",
+      effort: "xhigh",
+      focusedValidation: [
+        "node scripts/rcap-factory-plan.mjs --check-job " +
+          `${implementationJobId}-completed-output-review`
+      ],
+      commitSubject:
+        `docs(record-clearing): review ${implementationJobId} completed output`,
+      executionNote: correctionRequired
+        ? "Blocked behind an implementation correction: the reviewed output is known " +
+          "defective and the corrected packet has not been produced or technically reviewed."
+        : standingAdoptionCovers(standingAdoption, rootDir, implementationJobId) &&
+            technicalApproved
+          ? "Satisfied, not outstanding. External counsel has adopted this family under " +
+            `${STANDING_EXTERNAL_COUNSEL_ADOPTION_PATH}` +
+            `, attested by ${standingAdoption?.attestedBy ?? "the project owner"} on ` +
+            `${standingAdoption?.adoptedOn ?? "2026-08-08"} against the legal corpus reviewed ` +
+            `through ${standingAdoption?.reviewedThrough ?? "2026-08-08"}. Do not commission a ` +
+            "Session R legal read of it: the only way to close that job would be for a worker " +
+            "to write recommend_adopt, which is a recommendation nobody made attributed to a " +
+            "session that did not make it. Technical and visual review is unaffected and " +
+            "remains required."
+          : technicalApproved
+            ? "Technical and visual review is recorded and approved. This job is the formal " +
+              "legal read of the finished participant-facing output, which no verifier performs."
+            : "Blocked until technical and visual review of this output is recorded.",
+      stopCondition:
+        "Perform, and record the result of, a completed-output legal review of the assembled " +
+        "documents. Verify the governing mechanism, the eligibility boundary, the waiting " +
+        "period, the venue, the filing actor, the destination, the required allegations, the " +
+        "document roles, the source identity, the outside-party boundaries, service, the fee " +
+        "statements, the proposed-order treatment, the self-help stops and every " +
+        "participant-facing legal statement. Confirm that nothing generated is presented as " +
+        "another party's or a court's instrument and that every outside-party field is left " +
+        "blank rather than filled. " +
+        "Record exact defects and exactly one recommendation: recommend_adopt, " +
+        "recommend_correction or recommend_hold. " +
+        "This is not a technical review and you do not own the technical result. Recording a " +
+        "recommendation is not adopting it: counsel is the adopter. Do not mark counsel " +
+        "adoption, do not edit packet text, legal conclusions, track strategy or authority " +
+        "classification, do not mark any route packet-ready, and do not enable runtime, " +
+        "promote, or deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
+
 
   // Implementation corrections opened by technical review.
   //
@@ -5847,6 +5858,18 @@ const SPLIT_CLEAN_COMPLETIONS = Object.freeze({
       "rcap-factory/rcap-wa-custom-pleading-clean-tracks-665b428f-c0ae532b",
     workerCommit: "0b19dc56f1cbef0ab5f2a82433a8b81c7eda35ab",
     completionCommit: "8b892f0ef579788bb5de9b43c59996a0b41e0006"
+  },
+  // Wyoming's clean non-conviction route. Four of the five components on
+  // wy_nc_1401: the verified petition, the proposed order, the statutory
+  // verification and the certificate of service. The filing-instructions
+  // component is process_guidance and is deliberately not implemented here, so
+  // the packet is not filing-complete. wy_misd_1501 and wy_fel_1502 stay
+  // unimplemented behind their own legal-design questions.
+  "rcap-wy-custom-pleading-clean-tracks": {
+    workerBranch:
+      "rcap-factory/rcap-wy-custom-pleading-clean-tracks-0cffbaa8-60eb3f75",
+    workerCommit: "0bb01c4c5ee672e252c8b0853ea274eebe33de92",
+    completionCommit: "7e9aef36b8d8fe1b3ba79794e13790f43ba2a82d"
   }
 });
 
@@ -6192,7 +6215,11 @@ const COMPLETED_OUTPUT_REVIEW_ASSIGNMENTS = Object.freeze([
   "rcap-vt-guidance-implementation",
   "rcap-hi-custom-pleading",
   "rcap-oh-custom-pleading-clean-tracks",
-  "rcap-wa-custom-pleading-clean-tracks"
+  "rcap-wa-custom-pleading-clean-tracks",
+  // Wyoming's clean non-conviction route. Technical review only: the standing
+  // counsel adoption is separate, and new technical evidence is not a reason to
+  // open a completed-output legal review.
+  "rcap-wy-custom-pleading-clean-tracks"
 ]);
 
 // The deliverable-identity question South Carolina's custom-pleading job waits
@@ -8621,11 +8648,181 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
 
   // --- Massachusetts ---------------------------------------------------
   //
-  // Five distinct documents, each needing a human in a browser because
-  // www.mass.gov returns HTTP 403 to every automated request on the assigned
-  // endpoints. The Part A box-4 row is deliberately absent: the decision found
-  // it is not a distinct document and is satisfied by its sibling acquisition,
-  // so a second job for it would invent a document.
+  // Five distinct documents. They were assigned as attended human-in-browser
+  // retrievals because www.mass.gov returned HTTP 403 to every automated
+  // request on the assigned endpoints, twice, on two different dates.
+  //
+  // The block no longer reproduces. The official URLs answer HTTP 200 with
+  // valid source documents and the hardened acquisition validator classifies
+  // each as `acquired_public_official_download` with `receiptEligible: true`,
+  // so the condition the attended assignment existed to work around is gone
+  // and these are ordinary public official downloads. A 403 was always an
+  // access fact about one agent, one network and one date — the record that
+  // captured it said so — and it is retired here on the same terms, without
+  // being rewritten.
+  //
+  // Each attended assignment is superseded rather than deleted: it was never
+  // executed, its slug stays addressable, and one document never has two live
+  // owners. The Part A box-4 row remains deliberately absent — it is an in-form
+  // selection on the OCP petition to seal, not a sixth document, and a job for
+  // it would invent one.
+  //
+  // Every exact URL, byte count and full digest belongs to the live source
+  // record, which the worker writes from what it measures. Nothing here is a
+  // source contract, and the face facts below are the assignment's expectation
+  // to be confirmed or corrected against the retrieved bytes, not a substitute
+  // for measuring them.
+  // Two Kansas documents the reinstatement measured at first hand.
+  //
+  // Both are held. Their bytes are in the repository, they were read and hashed
+  // from the paths the source-artifact registry records, and their faces print
+  // their own revisions. What neither has is an adopted-edition identity: they
+  // are bound by no edition, so the official-PDF projection reads them as
+  // `authority_identity_unresolved` and five routes wait on that.
+  //
+  // This is an identity-binding problem, not an acquisition problem. Assigning
+  // an attended retrieval for a document already in hand would send someone to
+  // fetch bytes the repository holds, and the retrieval would answer a question
+  // nobody asked. One exact owner per document, each binding retained bytes to
+  // the authority identity they already carry on their own face.
+  //
+  // Currentness is untouched. Neither owner may say anything about what the
+  // Kansas Judicial Council publishes today: that question is behind a
+  // perimeter no automated agent may cross, it belongs to the currentness
+  // owner, and binding a held revision to an identity is not a claim that the
+  // revision is current. Permission is untouched too — both documents are
+  // inside the attested nine, and being inside it settles the licence and
+  // nothing else.
+  const kansasRetainedIdentities = [
+    {
+      slug: "conviction-or-diversion-petition",
+      documentId: "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+      registryArtifactId:
+        "petition-for-expungement-of-conviction-or-diversion-82022",
+      face:
+        "the face prints PETITION FOR EXPUNGEMENT OF CONVICTION OR DIVERSION, " +
+        "the statute line Pursuant to K.S.A. 21-6614., and Rev. KSJC 08/2022 on all " +
+        "six pages; the reinstatement measured 234,581 bytes, six pages, an AcroForm " +
+        "whose logical, terminal and widget counts agree at 35",
+      role: "primary_filing"
+    },
+    {
+      slug: "order-denying-expungement",
+      documentId: "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+      registryArtifactId:
+        "order-denying-expungement-of-conviction-or-diversion-122016",
+      face:
+        "the face prints ORDER DENYING EXPUNGEMENT and KSJC 12/2016; the " +
+        "reinstatement measured 126,038 bytes, three pages and an AcroForm of 51 " +
+        "logical fields. It is a court-completed denial order, and whether a " +
+        "pre-drafted denial order belongs in a participant packet at all is a " +
+        "separate question with its own owner",
+      role: "proposed_order"
+    }
+  ];
+  if (fs.existsSync(ksPermission)) {
+    for (const retained of kansasRetainedIdentities) {
+      const jobId = `rcap-ks-retained-identity-binding-${retained.slug}`;
+      addJob({
+        lane: "source_acquisition",
+        jurisdiction: "KS",
+        jobId,
+        strategyFamily: "source_identity_resolution",
+        reconciliationIds: [`identity:KS:${retained.documentId}`],
+        downloadedSourceCount: 0,
+        dependencies: ["rcap-ks-excluded-route-reinstatement"],
+        ...completion(jobId),
+        expectedOutputs: [
+          `${FACTORY_DATA_DIR}/source-acquisition/${jobId}.json`
+        ],
+        requiredInputs: [
+          `${FACTORY_DATA_DIR}/legal-design-decisions/ks-excluded-route-reinstatement.json`,
+          `${FACTORY_DATA_DIR}/source-acquisition/rcap-ks-project-owner-permission-authorization.json`,
+          FACTORY_INPUT_PATHS.authority,
+          FACTORY_INPUT_PATHS.sourceArtifacts
+        ],
+        model: "codex",
+        effort: "xhigh",
+        commitSubject:
+          `chore(record-clearing): bind the retained KS ${retained.slug} identity`,
+        stopCondition:
+          `Bind the retained bytes of ${retained.documentId} to the authority identity ` +
+          "they carry, so the official-PDF projection can stop reading the document as " +
+          "identity-unresolved. Re-measure at first hand from the path the source-artifact " +
+          `registry records for ${retained.registryArtifactId} — byte count, SHA-256, page ` +
+          "count, encryption, XFA presence, AcroForm structure and the full terminal field " +
+          "list — and record the official title, the issuer and the printed revision exactly " +
+          `as the face carries them: ${retained.face}. State the document's role as ` +
+          `${retained.role} and say what the face supports it for. ` +
+          "This is an identity binding, not an acquisition. Do not retrieve anything, do not " +
+          "contact the Kansas Judicial Council, do not probe kjc.ks.gov or the Judicial Branch " +
+          "self-help channel — both refuse automation and neither perimeter may be crossed — " +
+          "and do not create a materialization receipt. " +
+          "Say nothing about currentness. Whether the Council publishes this revision today is " +
+          "unresolved, is owned by rcap-ks-form-currentness-verification, and a binding is not " +
+          "a currentness finding: record currentness as unresolved against the live Kansas " +
+          "publication channel and leave it there. Do not infer currentness from permission, " +
+          "from custody of the bytes, or from the revision printed on the face. " +
+          "Do not extend anything to the criminal cover sheet: it is outside the attested " +
+          "nine-document family on either reading of its issuer and stays fail-closed. " +
+          "Do not mutate Edition 1.2, do not publish an edition, do not choose a renderer, do " +
+          "not declare a route ready, and do not enable runtime, promote, or deploy. " +
+          TERMINAL_INSTRUCTION
+      });
+    }
+  }
+
+  const massachusettsSources = [
+    {
+      slug: "100k-petition-for-expungement",
+      acquisitionId: "acquire:MA:petition-for-expungement-g-l-c-276-100k",
+      document: "the G.L. c. 276 s. 100K Petition for Expungement",
+      expectation:
+        "printed revision 12/20/18, XFA with document-level JavaScript, 2 pages. " +
+        "12/20/18 is the form revision even where the file was republished later: a " +
+        "later publication date is not a later revision, and the face governs"
+    },
+    {
+      slug: "mps-petition-to-expunge",
+      acquisitionId:
+        "acquire:MA:massachusetts-probation-service-petition-to-expunge",
+      document: "the Massachusetts Probation Service Petition to Expunge",
+      expectation:
+        "an XFA LiveCycle shell whose printed revision is not machine-readable. " +
+        "Record that the revision could not be read from the face rather than " +
+        "supplying one from an index, a filename or the retained legacy copy"
+    },
+    {
+      slug: "ocp-petition-to-seal",
+      acquisitionId:
+        "acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation",
+      document:
+        "the Office of the Commissioner of Probation Petition to Seal",
+      expectation:
+        "AcroForm, 1 page, no printed revision. Part A boxes 1 to 4 are one " +
+        "document and box 4 is an in-form selection: do not record it as a " +
+        "separate document, and do not invent a revision because the face carries none"
+    },
+    {
+      slug: "tc0021",
+      acquisitionId: "acquire:MA:tc0021",
+      document: "TC0021",
+      expectation:
+        "printed revision 11/22, XFA with document-level JavaScript, 2 pages. " +
+        "The measured structure settles the repository's own contradiction about " +
+        "whether TC0021 is a clean AcroForm or XFA"
+    },
+    {
+      slug: "tc0057",
+      acquisitionId: "acquire:MA:tc0057",
+      document: "TC0057",
+      expectation:
+        "printed revision 2/24 on the form face, XFA with document-level " +
+        "JavaScript, 3 pages. The index label 3/24 is an index or metadata date " +
+        "and is not the printed revision: record 2/24 as the face revision and 3/24 " +
+        "as what it is"
+    }
+  ];
   const massachusettsAttendedRetrievals = [
     {
       slug: "100k-petition-for-expungement",
@@ -8657,6 +8854,52 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
         "the Massachusetts Probation Service petition to expunge, served through the Trial Court's interactive XFA form host"
     }
   ];
+  for (const source of massachusettsSources) {
+    addJob({
+      lane: "source_acquisition",
+      jurisdiction: "MA",
+      jobId: `rcap-ma-public-official-download-${source.slug}`,
+      strategyFamily: "public_official_download",
+      // The acquisition row stays owned by the completed decision that
+      // dispositioned it. This job owns the download, not the row.
+      reconciliationIds: [`download:MA:${source.slug}`],
+      downloadedSourceCount: 1,
+      dependencies: ["rcap-ma-official-download-automation-blocked"],
+      ...completion(`rcap-ma-public-official-download-${source.slug}`),
+      expectedOutputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-public-official-download-${source.slug}.json`
+      ],
+      requiredInputs: [
+        `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-official-download-automation-blocked.json`,
+        FACTORY_INPUT_PATHS.authority,
+        FACTORY_INPUT_PATHS.acquisitionDocuments
+      ],
+      model: "codex",
+      effort: "xhigh",
+      commitSubject:
+        `chore(record-clearing): download MA ${source.slug} from its official source`,
+      stopCondition:
+        `Download ${source.document} from the Commonwealth's own official source, reached ` +
+        "from the official index at https://www.mass.gov/lists/court-forms-for-criminal-records, " +
+        "and record first-hand: the exact retrieval URL, the HTTP status, the byte count, the " +
+        "SHA-256, the MIME type, the page count, whether the file is encrypted, whether it " +
+        "carries XFA and document-level JavaScript, its structural class, and the revision " +
+        "block read from the form face. This record is the source contract; nothing upstream " +
+        "of it is. " +
+        `Expect ${source.expectation}. Where the retrieved bytes disagree with that, the bytes ` +
+        "win and the disagreement is recorded rather than reconciled away. " +
+        "The earlier HTTP 403 was an access fact about one agent on one date and is retired, " +
+        "not overturned: leave the blocked record as written. Do not evade any control, spoof " +
+        "an agent or retrieve through a route the issuer does not offer, and if a URL refuses " +
+        "again, record the refusal rather than working around it. Do not substitute a held or " +
+        "commercial copy for current official bytes: the retained Massachusetts Probation " +
+        "Service copy is a legacy artifact and is not current materialization evidence. " +
+        "Do not stamp an index date onto the face revision, do not mutate an edition, do not " +
+        "publish an edition, do not choose a renderer, and do not enable runtime, promote, or " +
+        "deploy. " +
+        TERMINAL_INSTRUCTION
+    });
+  }
   for (const retrieval of massachusettsAttendedRetrievals) {
     addJob({
       lane: "source_acquisition",
@@ -8669,7 +8912,8 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       reconciliationIds: [`retrieval:MA:${retrieval.slug}`],
       downloadedSourceCount: 0,
       dependencies: ["rcap-ma-official-download-automation-blocked"],
-      status: "ready",
+      status: "cancelled",
+      supersededBy: [`rcap-ma-public-official-download-${retrieval.slug}`],
       expectedOutputs: [
         `${FACTORY_DATA_DIR}/source-acquisition/rcap-ma-attended-retrieval-${retrieval.slug}.json`
       ],
@@ -8682,7 +8926,14 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
       effort: "xhigh",
       commitSubject:
         `chore(record-clearing): retrieve MA ${retrieval.slug} under attended access`,
+      executionNote:
+        "Superseded assignment: do not execute. It was never completed. The automation " +
+        "block it existed to work around no longer reproduces, so this document is an " +
+        `ordinary public official download and is owned by ` +
+        `rcap-ma-public-official-download-${retrieval.slug}. Nothing about the document ` +
+        "changed and no bytes were acquired here.",
       stopCondition:
+        "Superseded assignment: do not execute. " +
         `Obtain ${retrieval.document} by attended human-in-browser retrieval from the ` +
         "Commonwealth's own official index at " +
         "https://www.mass.gov/lists/court-forms-for-criminal-records, and record the retrieved " +
@@ -8713,7 +8964,7 @@ function addIntegratedAuthorityDecisionOwners({ addJob, rootDir }) {
     downloadedSourceCount: 0,
     dependencies: [
       "rcap-ma-official-download-automation-blocked",
-      "rcap-ma-attended-retrieval-tc0021"
+      "rcap-ma-public-official-download-tc0021"
     ],
     status: "blocked",
     expectedOutputs: [

@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "rcap-factory-review-manifest/v1",
+  "jobId": "rcap-wy-custom-pleading-clean-tracks",
+  "lane": "custom_pleading",
+  "jurisdiction": "WY",
+  "trackIds": [
+    "wy_nc_1401"
+  ],
+  "strategyFamily": "custom_pleading",
+  "baseCommit": "7e9aef36b8d8fe1b3ba79794e13790f43ba2a82d",
+  "authorityVersion": "master-library/1.2",
+  "authorityEdition": "1.2",
+  "generatedAt": "2026-08-09T16:44:04Z",
+  "syntheticData": true,
+  "filingUseAllowed": false,
+  "correctionRequired": false,
+  "outstandingCorrections": [],
+  "provenance": {
+    "workerBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-0cffbaa8-60eb3f75",
+    "workerCommit": "0bb01c4c5ee672e252c8b0853ea274eebe33de92",
+    "captainIntegrationCommit": "7e9aef36b8d8fe1b3ba79794e13790f43ba2a82d",
+    "normalizedLegalDesign": {
+      "memoPath": "data/record-clearing/legal-design-intake/WY.memo.json",
+      "memoSha256": "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679",
+      "memoVersion": "1.0.0"
+    },
+    "unresolvedReleaseQuestionCount": 1,
+    "unresolvedReleaseQuestions": [
+      {
+        "trackId": "wy_nc_1401",
+        "affectedElement": "packet_components",
+        "question": "Which unpublished local filing preferences apply in the court where this petition will be filed: local cover sheet, copy count, electronic versus paper filing, filing method, chambers copy, whether the proposed Order for Expungement is submitted with the initial filing or later, any unpublished local template, any unpublished additional service document, and other court-specific filing mechanics. This is the narrowed remainder of the original packet-assembly question, which asked which Wyoming courts publish local expungement templates. The published half is answered: Wyoming publishes no statewide petition form and no statewide proposed-order template, and Casper Municipal Court is the only publicly identified local-form exception, whose packets bind that court alone. What remains is unpublished preference, which is filing mechanics rather than the legal document, so it is release-level and does not block generation of the statewide verified petition and proposed order. It is owned by rcap-wy-local-template-and-handout-survey, which remains open: no Wyoming county has been telephoned and the survey must not be recorded as complete. Escalation: if a county's answer changes the statewide legal document rather than only how it is filed, that exact issue returns to legal design before release."
+      }
+    ],
+    "technicalInspectionState": "worker_technical_evidence_only",
+    "formalVisualReview": "pending",
+    "completedOutputLegalReview": "pending"
+  },
+  "artifactTracking": {
+    "generatedAssetsTracked": false,
+    "artifactDirectory": "artifacts/rcap-factory/reviews/rcap-wy-custom-pleading-clean-tracks",
+    "reviewManifestTracked": true,
+    "reviewManifestPath": "data/record-clearing/production-factory/review-manifests/rcap-wy-custom-pleading-clean-tracks.json",
+    "note": "Generated PDFs and PNGs are reproducible and ignored. This JSON manifest is the tracked proof record."
+  },
+  "reproducibility": {
+    "rendererVersion": "rcap-factory-shared-layout-pdf-png/v1",
+    "fixtureVersion": "rcap-factory-synthetic-fixture/v1",
+    "fixedPdfMetadataDate": "2000-01-01T00:00:00.000Z",
+    "sharedLayoutSha256": "a4e5383f9c816f05ae0db87c895813f7aca0488fea14be8f51a3feb79a193a1a"
+  },
+  "packet": {
+    "fileName": "synthetic-review.pdf",
+    "relativePath": "artifacts/rcap-factory/reviews/rcap-wy-custom-pleading-clean-tracks/synthetic-review.pdf",
+    "sha256": "45b31fec4888e556456af4b111bf881356637b789492d1e30651e16374dd9962",
+    "bytes": 3686,
+    "pageCount": 1,
+    "structureClass": "flat_pdf"
+  },
+  "packetHashes": [
+    {
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-wy-custom-pleading-clean-tracks/synthetic-review.pdf",
+      "sha256": "45b31fec4888e556456af4b111bf881356637b789492d1e30651e16374dd9962"
+    }
+  ],
+  "pageCounts": {
+    "packet": 1,
+    "renderedImages": 1
+  },
+  "renderedPages": [
+    {
+      "page": 1,
+      "fileName": "page-001.png",
+      "relativePath": "artifacts/rcap-factory/reviews/rcap-wy-custom-pleading-clean-tracks/pages/page-001.png",
+      "sha256": "6f821c1699fc4c00016666c58672a6549a89ab319f6edcbd6d95e05e1f0b7f01",
+      "bytes": 6569,
+      "width": 612,
+      "height": 792
+    }
+  ],
+  "implementationOutputs": [
+    {
+      "relativePath": "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts",
+      "exists": true,
+      "kind": "file",
+      "bytes": 56179,
+      "sha256": "ac5a52bfd296c008a8e93cebf68a2c5fe476184a891f47c2c1396c3815e124aa"
+    },
+    {
+      "relativePath": "scripts/verify-rcap-wyoming-custom-pleading.mjs",
+      "exists": true,
+      "kind": "file",
+      "bytes": 59293,
+      "sha256": "275ecf191d717b65dc558980d25284eddafb5e613d206af6a5add4aca3c11d88"
+    }
+  ],
+  "participantPacketProof": {
+    "status": "verified",
+    "sourceType": "integration_owned_factory_packet_proof",
+    "sourceManifestPath": "data/record-clearing/production-factory/packet-proofs/rcap-wy-custom-pleading-clean-tracks.json",
+    "sourceManifestSha256": "158b53d34b57cc1098232ac234f01462ac2fc4006acf809a7d889494ac919db9",
+    "verifier": {
+      "path": "scripts/verify-rcap-wyoming-custom-pleading.mjs",
+      "sha256": "275ecf191d717b65dc558980d25284eddafb5e613d206af6a5add4aca3c11d88",
+      "result": "passed"
+    },
+    "implementationOutputs": [
+      {
+        "path": "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts",
+        "sha256": "ac5a52bfd296c008a8e93cebf68a2c5fe476184a891f47c2c1396c3815e124aa"
+      },
+      {
+        "path": "scripts/verify-rcap-wyoming-custom-pleading.mjs",
+        "sha256": "275ecf191d717b65dc558980d25284eddafb5e613d206af6a5add4aca3c11d88"
+      }
+    ],
+    "finalPdfCount": 1,
+    "assembledPageCount": 9,
+    "packets": [
+      {
+        "trackId": "wy_nc_1401",
+        "sampleRole": "canonical",
+        "fileName": "wy-1401-dismissed-by-prosecutor-1-technical-fixture.pdf",
+        "sha256": "dcff0885c8a549351ce3d955247d4f1d29303f60eecf55451dfbbad29e4f52bb",
+        "pageCount": 9
+      }
+    ],
+    "deterministic": true,
+    "runtimeStatus": "runtime_disabled",
+    "visualProof": "pending",
+    "counselAdopted": false,
+    "productionEnabled": false,
+    "verified": true
+  },
+  "officialPdfImplementationProof": {
+    "status": "not_applicable",
+    "verified": null
+  },
+  "technicalChecklist": {
+    "status": "passed",
+    "items": [
+      {
+        "id": "synthetic-data-only",
+        "status": "passed",
+        "evidence": "Packet labels every value synthetic and not for filing."
+      },
+      {
+        "id": "focused-worker-validation",
+        "status": "passed",
+        "evidence": "2 focused command(s); 0 failure(s)."
+      },
+      {
+        "id": "deterministic-pdf",
+        "status": "passed",
+        "evidence": "Two renders matched SHA-256 45b31fec4888e556456af4b111bf881356637b789492d1e30651e16374dd9962."
+      },
+      {
+        "id": "pdf-page-count",
+        "status": "passed",
+        "evidence": "1 page(s) inspected from generated bytes."
+      },
+      {
+        "id": "deterministic-page-images",
+        "status": "passed",
+        "evidence": "1 PNG render(s) reproduced byte-for-byte."
+      },
+      {
+        "id": "expected-output-hashes",
+        "status": "passed",
+        "evidence": "2 of 2 expected outputs hashed."
+      },
+      {
+        "id": "participant-packet-proof",
+        "status": "passed",
+        "evidence": "1 final participant PDF hash(es), 9 total page(s), reconciled from data/record-clearing/production-factory/packet-proofs/rcap-wy-custom-pleading-clean-tracks.json."
+      }
+    ]
+  },
+  "visualChecklist": {
+    "status": "pending",
+    "items": [
+      {
+        "id": "visual-01",
+        "label": "Confirm every page is legible at normal zoom.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-02",
+        "label": "Confirm no text is clipped, overlapped, or outside page bounds.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-03",
+        "label": "Confirm page order and track labels match the assigned job.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-04",
+        "label": "Confirm checkbox, radio, overlay, and signature placement when applicable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-05",
+        "label": "Confirm participant and third-party fields are visually distinguishable.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      },
+      {
+        "id": "visual-06",
+        "label": "Record reviewer name, date, defects, and disposition; generation itself grants no approval.",
+        "status": "pending",
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": null
+      }
+    ]
+  },
+  "technicalProofPassed": true,
+  "visualProofPassed": false,
+  "legalRecommendationComplete": false,
+  "counselAdopted": false,
+  "runtimeStatus": "runtime_disabled",
+  "stagingPassed": false,
+  "productionEnabled": false
+}

@@ -26,13 +26,123 @@
   "variantPacketCount": 2,
   "technicalFixtureCount": 4,
   "technicalFixturePageCount": 28,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "mo-311-326-minor-in-possession",
+        "packetSetId": "mo-311-326-minor-in-possession-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "mo-311-326-minor-in-possession-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "mo-311-326-minor-in-possession-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "mo-311-326-minor-in-possession-cover-sheet-3",
+            "role": "cover_sheet",
+            "order": 3,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "mo-311-326-minor-in-possession-fee-waiver-4",
+            "role": "fee_waiver",
+            "order": 4,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "mo-311-326-minor-in-possession-instructions-5",
+            "role": "instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "mo-311-326-minor-in-possession-instructions-5"
+        ]
+      },
+      {
+        "trackId": "mo-610-130-first-intoxication",
+        "packetSetId": "mo-610-130-first-intoxication-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "mo-610-130-first-intoxication-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "mo-610-130-first-intoxication-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "mo-610-130-first-intoxication-cover-sheet-3",
+            "role": "cover_sheet",
+            "order": 3,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "mo-610-130-first-intoxication-fee-waiver-4",
+            "role": "fee_waiver",
+            "order": 4,
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill",
+            "excludedBecause": "declared under official_pdf_fill, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "mo-610-130-first-intoxication-instructions-5",
+            "role": "instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "mo-610-130-first-intoxication-instructions-5"
+        ]
+      }
+    ]
+  },
   "samplePackets": [
     {
       "trackId": "mo-311-326-minor-in-possession",
       "fixtureId": "mo-311-326-first-violation-1",
       "sampleRole": "canonical",
       "assembledFileName": "mo-311-326-first-violation-1-technical-fixture.pdf",
-      "assembledSha256": "980e6c5636c9aaf113eee54b4774f0fad0ce86e8b873d037610a5f6e0fa16329",
+      "assembledSha256": "bac2c5f85367390ebc6c40160ce7b1a20d90f2e7a8d4977053b84a7d4a384e76",
       "assembledPageCount": 7
     },
     {
@@ -41,7 +151,7 @@
       "sampleRole": "variant",
       "variantOfTrackId": "mo-311-326-minor-in-possession",
       "assembledFileName": "mo-311-326-fee-waiver-needed-2-technical-fixture.pdf",
-      "assembledSha256": "313ffb49cec78f4bb2e0eea0e26e4c953f9d5580f3e71cc3077f989693b6f774",
+      "assembledSha256": "9bb858496612746fc8dd6c55ee8e266e2dc1fb6dbcd308145fa0a6e015ef79f8",
       "assembledPageCount": 7
     },
     {

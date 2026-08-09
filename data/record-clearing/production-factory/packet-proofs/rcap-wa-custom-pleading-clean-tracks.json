@@ -26,6 +26,104 @@
   "variantPacketCount": 2,
   "technicalFixtureCount": 4,
   "technicalFixturePageCount": 18,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "wa_del_nonconviction",
+        "packetSetId": "wa_del_nonconviction-set",
+        "declaredComponentCount": 4,
+        "implementedComponents": [
+          {
+            "componentId": "wa_del_nonconviction-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "wa_del_nonconviction-records-checklist-2",
+            "role": "records_checklist",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "wa_del_nonconviction-expectation-setting-3",
+            "role": "expectation_setting",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "wa_del_nonconviction-accuracy-remedy-guidance-4",
+            "role": "accuracy_remedy_guidance",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "wa_del_nonconviction-records-checklist-2",
+          "wa_del_nonconviction-expectation-setting-3",
+          "wa_del_nonconviction-accuracy-remedy-guidance-4"
+        ]
+      },
+      {
+        "trackId": "wa_vac_post_probation_9_95_240",
+        "packetSetId": "wa_vac_post_probation_9_95_240-set",
+        "declaredComponentCount": 4,
+        "implementedComponents": [
+          {
+            "componentId": "wa_vac_post_probation_9_95_240-primary-filing-1",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "wa_vac_post_probation_9_95_240-proposed-order-2",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "wa_vac_post_probation_9_95_240-records-checklist-3",
+            "role": "records_checklist",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          },
+          {
+            "componentId": "wa_vac_post_probation_9_95_240-filing-instructions-4",
+            "role": "filing_instructions",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "wa_vac_post_probation_9_95_240-records-checklist-3",
+          "wa_vac_post_probation_9_95_240-filing-instructions-4"
+        ]
+      }
+    ]
+  },
   "samplePackets": [
     {
       "trackId": "wa_del_nonconviction",
@@ -49,7 +147,7 @@
       "sampleRole": "variant",
       "variantOfTrackId": "wa_vac_post_probation_9_95_240",
       "assembledFileName": "wa-vacation-subsection-two-pre-1984-2-technical-fixture.pdf",
-      "assembledSha256": "f64eb4a896abc00b88c74ec8900ab409e26702781023d4edc2ea0eda33a1fbbb",
+      "assembledSha256": "3dacd6860cc7c1cf58f10057cfec881eb187c57a3f028bbf2f8637f45375bad1",
       "assembledPageCount": 5
     },
     {
@@ -58,7 +156,7 @@
       "sampleRole": "variant",
       "variantOfTrackId": "wa_vac_post_probation_9_95_240",
       "assembledFileName": "wa-vacation-verdict-2-technical-fixture.pdf",
-      "assembledSha256": "b227c84c7dcb7d9574441a7ce7556fbe4a5d7483e1a2e13ad81c3e41c805c35e",
+      "assembledSha256": "73adcb7469cb04730f0de8a8d82403fd396532400d090bd8ea347cc37738c9dc",
       "assembledPageCount": 5
     }
   ],
