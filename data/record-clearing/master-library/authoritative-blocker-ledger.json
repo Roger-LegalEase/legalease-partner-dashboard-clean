@@ -110,7 +110,7 @@
       },
       "legal_design_blocker": {
         "before": 88,
-        "after": 214
+        "after": 211
       },
       "legal_design_reconciliation_blocker": {
         "before": 7,
@@ -138,7 +138,7 @@
       },
       "source_or_currentness_blocker": {
         "before": 446,
-        "after": 843
+        "after": 844
       },
       "source_provenance_blocker": {
         "before": 0,
@@ -155,7 +155,7 @@
     },
     "joinedUniqueRows": {
       "before": 1701,
-      "after": 3502
+      "after": 3500
     }
   },
   "totals": {
@@ -172,22 +172,22 @@
     "byScope": {
       "commercial_use_blocker": 14,
       "jurisdiction_input_requirement": 6,
-      "legal_design_blocker": 214,
+      "legal_design_blocker": 211,
       "legal_design_reconciliation_blocker": 14,
       "mapping_blocker": 694,
       "master_library_source_gap": 28,
       "runtime_promotion_blocker": 1,
       "source_acquisition_blocker": 168,
       "source_currentness_blocker": 4,
-      "source_or_currentness_blocker": 843,
+      "source_or_currentness_blocker": 844,
       "source_provenance_blocker": 25,
       "technical_blocker": 497,
       "visual_or_legal_output_blocker": 994
     },
-    "joinedUniqueReleaseBlockers": 3258,
-    "joinedUniqueBuildBlockers": 231,
-    "joinedUniqueRows": 3502,
-    "rowsBeforeDedupe": 3502
+    "joinedUniqueReleaseBlockers": 3259,
+    "joinedUniqueBuildBlockers": 228,
+    "joinedUniqueRows": 3500,
+    "rowsBeforeDedupe": 3500
   },
   "rows": [
     {
@@ -10371,20 +10371,6 @@
     {
       "authorityEdition": "1.2",
       "jurisdiction": "OH",
-      "trackId": "oh_marijuana_expungement",
-      "documentId": null,
-      "blockerScope": "source_or_currentness_blocker",
-      "blockerType": "open_release_question",
-      "impact": "release_blocker",
-      "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:OH:present",
-      "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Whether Ohio's Issue 2 legalization created any separate or automatic relief alongside the ORC 2953.321 application route. The Moritz Drug Enforcement and Policy Center analysis covers Senate Bill 56 and Issue 2 together and was not read in full.",
-      "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "release-question:OH:oh_marijuana_expungement:whether-ohio-s-issue-2-legalization-created-any-separate-or-automatic-relief-alongside-the"
-    },
-    {
-      "authorityEdition": "1.2",
-      "jurisdiction": "OH",
       "trackId": "oh_2953_32_sealing",
       "documentId": null,
       "blockerScope": "legal_design_blocker",
@@ -14844,9 +14830,9 @@
       "impact": "build_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WA:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Open question blocks the build (correct_form): Whether a Washington Courts pattern form exists for an RCW 9.97.020 application, what the fee is, and what the notice requirement's exact recipients and timing are. The section was read at source on 2026-08-06 for eligibility, effect and the exemption list, which closes the controlling review's build blocker on what a certificate is, who issues it and what it does; the procedural detail and the form question were not resolved. The review's own note that Part 3 should be revisited if RCW 9.97.020 turns out to have no pattern form is answered in the affirmative on the evidence available.",
+      "requiredResolution": "Open question blocks the build (correct_form): Whether the Administrative Office of the Courts' Certificate of Restoration of Opportunity forms are mandatory forms a superior court must accept and a filer must use, pattern forms a filer may adapt, or optional. This reopens the question in the opposite direction from the memo's first pass, which concluded that no Washington Courts pattern form exists for an RCW 9.97.020 application: a complete statewide set has existed since 2016 under the RCW 9.97.020(11) duty — CRO 01.0100 petition, CRO 01.0200 notice, CRO 01.0300 proof of service, CRO 01.0700 order and certificate, with CRO 01.0600 the court's own dismissal order, plus instructions and a brochure. It is build-level because it decides whether this route is official_pdf_fill on the state's own forms or custom_pleading conforming to them. It is not answered here: the statutory word \"sample\" in RCW 9.97.020(11)(b) points toward pattern rather than mandatory, but the Washington court rule governing the status of Administrative Office of the Courts forms was not read, and this memo does not guess. The five binaries have also not been acquired, pinned or measured and no Washington source-materialization receipt exists for them, which is a second build-level dependency owned by the source-acquisition lane. The fee amount and the exact notice mechanics that this question previously carried are no longer part of it: the notice rule is settled at RCW 9.97.020(6) and carried in rules.notice, and the fee is a release-level amount question recorded in _venueAndFormResolution.",
       "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "legal-design:WA:wa_crop_certificate_of_restoration:open-question-blocks-the-build-correct-form-whether-a-washington-courts-pattern-form-exist"
+      "dedupeKey": "legal-design:WA:wa_crop_certificate_of_restoration:open-question-blocks-the-build-correct-form-whether-the-administrative-office-of-the-court"
     },
     {
       "authorityEdition": "1.2",
@@ -14861,20 +14847,6 @@
       "requiredResolution": "Which counties impose additional local requirements under the Washington Courts local-rule warning, and what the court filing fees for a vacation petition are in district, municipal and superior court. Neither was established at source on this pass. The packet carries a local-check instruction and does not quote a filing fee.",
       "runtimeEffect": "runtime_disabled",
       "dedupeKey": "release-question:WA:wa_crop_certificate_of_restoration:which-counties-impose-additional-local-requirements-under-the-washington-courts-local-rule"
-    },
-    {
-      "authorityEdition": "1.2",
-      "jurisdiction": "WA",
-      "trackId": "wa_crop_certificate_of_restoration",
-      "documentId": null,
-      "blockerScope": "source_or_currentness_blocker",
-      "blockerType": "open_release_question",
-      "impact": "release_blocker",
-      "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WA:present",
-      "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Which superior courts have declined to consider certificate applications, since RCW 9.97.020 permits certain superior courts to do so and the packet must not send a participant to a court that will not hear them.",
-      "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "release-question:WA:wa_crop_certificate_of_restoration:which-superior-courts-have-declined-to-consider-certificate-applications-since-rcw-9-97-02"
     },
     {
       "authorityEdition": "1.2",
@@ -15357,14 +15329,14 @@
       "jurisdiction": "WY",
       "trackId": "wy_nc_1401",
       "documentId": null,
-      "blockerScope": "legal_design_blocker",
-      "blockerType": "undetermined_design_element",
-      "impact": "build_blocker",
+      "blockerScope": "source_or_currentness_blocker",
+      "blockerType": "open_release_question",
+      "impact": "release_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+      "requiredResolution": "Which unpublished local filing preferences apply in the court where this petition will be filed: local cover sheet, copy count, electronic versus paper filing, filing method, chambers copy, whether the proposed Order for Expungement is submitted with the initial filing or later, any unpublished local template, any unpublished additional service document, and other court-specific filing mechanics. This is the narrowed remainder of the original packet-assembly question, which asked which Wyoming courts publish local expungement templates. The published half is answered: Wyoming publishes no statewide petition form and no statewide proposed-order template, and Casper Municipal Court is the only publicly identified local-form exception, whose packets bind that court alone. What remains is unpublished preference, which is filing mechanics rather than the legal document, so it is release-level and does not block generation of the statewide verified petition and proposed order. It is owned by rcap-wy-local-template-and-handout-survey, which remains open: no Wyoming county has been telephoned and the survey must not be recorded as complete. Escalation: if a county's answer changes the statewide legal document rather than only how it is filed, that exact issue returns to legal design before release.",
       "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "legal-design:WY:wy_nc_1401:open-question-blocks-the-build-packet-components-which-wyoming-courts-publish-local-expung"
+      "dedupeKey": "release-question:WY:wy_nc_1401:which-unpublished-local-filing-preferences-apply-in-the-court-where-this-petition-will-be-"
     },
     {
       "authorityEdition": "1.2",
@@ -15399,14 +15371,14 @@
       "jurisdiction": "WY",
       "trackId": "wy_misd_1501",
       "documentId": null,
-      "blockerScope": "legal_design_blocker",
-      "blockerType": "undetermined_design_element",
-      "impact": "build_blocker",
+      "blockerScope": "source_or_currentness_blocker",
+      "blockerType": "open_release_question",
+      "impact": "release_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+      "requiredResolution": "Which unpublished local filing preferences apply in the court where this petition will be filed: local cover sheet, copy count, electronic versus paper filing, filing method, chambers copy, whether the proposed Order for Expungement is submitted with the initial filing or later, any unpublished local template, any unpublished additional service document, and other court-specific filing mechanics. This is the narrowed remainder of the original packet-assembly question, which asked which Wyoming courts publish local expungement templates. The published half is answered: Wyoming publishes no statewide petition form and no statewide proposed-order template, and Casper Municipal Court is the only publicly identified local-form exception, whose packets bind that court alone. What remains is unpublished preference, which is filing mechanics rather than the legal document, so it is release-level and does not block generation of the statewide verified petition and proposed order. It is owned by rcap-wy-local-template-and-handout-survey, which remains open: no Wyoming county has been telephoned and the survey must not be recorded as complete. Escalation: if a county's answer changes the statewide legal document rather than only how it is filed, that exact issue returns to legal design before release.",
       "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "legal-design:WY:wy_misd_1501:open-question-blocks-the-build-packet-components-which-wyoming-courts-publish-local-expung"
+      "dedupeKey": "release-question:WY:wy_misd_1501:which-unpublished-local-filing-preferences-apply-in-the-court-where-this-petition-will-be-"
     },
     {
       "authorityEdition": "1.2",
@@ -15441,14 +15413,14 @@
       "jurisdiction": "WY",
       "trackId": "wy_fel_1502",
       "documentId": null,
-      "blockerScope": "legal_design_blocker",
-      "blockerType": "undetermined_design_element",
-      "impact": "build_blocker",
+      "blockerScope": "source_or_currentness_blocker",
+      "blockerType": "open_release_question",
+      "impact": "release_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Open question blocks the build (packet_components): Which Wyoming courts publish local expungement templates? Not surveyed, and resolvable by a clerk survey across the 23 counties.",
+      "requiredResolution": "Is the Lynch citation accurate? The internal reference cites a Wyoming Supreme Court decision at docket S-25-0140, reported as a 2026 case, for the proposition that § 7-13-1502 requires an actual felony conviction and that a completed deferral producing a dismissal is not one. A search surfaced a different Lynch matter from 2024 on an unrelated issue. The proposition is consistent with the statutory text, which opens with 'a person convicted of a felony', but the citation could not be confirmed.",
       "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "legal-design:WY:wy_fel_1502:open-question-blocks-the-build-packet-components-which-wyoming-courts-publish-local-expung"
+      "dedupeKey": "release-question:WY:wy_fel_1502:is-the-lynch-citation-accurate-the-internal-reference-cites-a-wyoming-supreme-court-decisi"
     },
     {
       "authorityEdition": "1.2",
@@ -15460,9 +15432,9 @@
       "impact": "release_blocker",
       "controllingLibraryRow": "LEGAL_REVIEW_COVERAGE.csv:WY:present",
       "currentRepositoryTreatment": "track normalized and runtime_disabled",
-      "requiredResolution": "Is the Lynch citation accurate? The internal reference cites a Wyoming Supreme Court decision at docket S-25-0140, reported as a 2026 case, for the proposition that § 7-13-1502 requires an actual felony conviction and that a completed deferral producing a dismissal is not one. A search surfaced a different Lynch matter from 2024 on an unrelated issue. The proposition is consistent with the statutory text, which opens with 'a person convicted of a felony', but the citation could not be confirmed.",
+      "requiredResolution": "Which unpublished local filing preferences apply in the court where this petition will be filed: local cover sheet, copy count, electronic versus paper filing, filing method, chambers copy, whether the proposed Order for Expungement is submitted with the initial filing or later, any unpublished local template, any unpublished additional service document, and other court-specific filing mechanics. This is the narrowed remainder of the original packet-assembly question, which asked which Wyoming courts publish local expungement templates. The published half is answered: Wyoming publishes no statewide petition form and no statewide proposed-order template, and Casper Municipal Court is the only publicly identified local-form exception, whose packets bind that court alone. What remains is unpublished preference, which is filing mechanics rather than the legal document, so it is release-level and does not block generation of the statewide verified petition and proposed order. It is owned by rcap-wy-local-template-and-handout-survey, which remains open: no Wyoming county has been telephoned and the survey must not be recorded as complete. Escalation: if a county's answer changes the statewide legal document rather than only how it is filed, that exact issue returns to legal design before release.",
       "runtimeEffect": "runtime_disabled",
-      "dedupeKey": "release-question:WY:wy_fel_1502:is-the-lynch-citation-accurate-the-internal-reference-cites-a-wyoming-supreme-court-decisi"
+      "dedupeKey": "release-question:WY:wy_fel_1502:which-unpublished-local-filing-preferences-apply-in-the-court-where-this-petition-will-be-"
     },
     {
       "authorityEdition": "1.2",

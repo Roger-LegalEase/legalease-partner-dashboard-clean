@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-captain-completion-discovery/v1",
-  "baseCommit": "afc51ba03dc06cdc35e87748897a175791d93c4d",
+  "baseCommit": "1d41f177b1301473f4a13baff8565a49cffc6e14",
   "fetch": {
     "remote": "origin",
     "refspecs": [
@@ -12,15 +12,15 @@
   },
   "remoteFactoryBranches": 211,
   "totals": {
-    "integrated_completion": 1,
-    "exact_completion": 9,
+    "integrated_completion": 2,
+    "exact_completion": 0,
     "valid_pre_claim_branch": 0,
     "valid_legacy_branch": 0,
     "held_alias_completion": 0,
     "partial_branch": 0,
-    "incompatible_branch": 2,
+    "incompatible_branch": 1,
     "baseline_lease": 2,
-    "no_branch": 219
+    "no_branch": 220
   },
   "jobs": [
     {
@@ -424,10 +424,10 @@
       "lane": "acroform_fill",
       "jurisdiction": "CO",
       "status": "blocked",
-      "assignmentFingerprint": "f330cf64e0d106552b38a33c6bf15f245199787ed7f3ca51e20ae746ee13310d",
-      "canonicalBranch": "rcap-factory/rcap-co-acroform-fill-175946a0-f330cf64",
+      "assignmentFingerprint": "44935d572ce6a788e2b7b3abbd3161fa9b0402c3866fb55369b623dcbb73c12f",
+      "canonicalBranch": "rcap-factory/rcap-co-acroform-fill-175946a0-44935d57",
       "legacyBranch": "rcap-factory/rcap-co-acroform-fill-175946a0",
-      "preClaimBranch": "rcap-factory/rcap-co-acroform-fill-175946a0-eede9cd3",
+      "preClaimBranch": "rcap-factory/rcap-co-acroform-fill-175946a0-da30a3a1",
       "ownedPaths": [
         "scripts/verify-rcap-colorado-acroform-fill.mjs",
         "src/lib/rcap/packets/jurisdictions/colorado/acroform.ts"
@@ -446,10 +446,10 @@
       "lane": "flat_pdf_overlay",
       "jurisdiction": "CO",
       "status": "blocked",
-      "assignmentFingerprint": "539224da27b6e469ae2a4c4be53f6b7e0f76b13e2a068cdc777d85736cc1fcec",
-      "canonicalBranch": "rcap-factory/rcap-co-flat-pdf-overlay-a4c8dfc9-539224da",
+      "assignmentFingerprint": "904e2ca80995c0ef461e736be4b229f2facbe139853c934f27db4c4f30f42055",
+      "canonicalBranch": "rcap-factory/rcap-co-flat-pdf-overlay-a4c8dfc9-904e2ca8",
       "legacyBranch": "rcap-factory/rcap-co-flat-pdf-overlay-a4c8dfc9",
-      "preClaimBranch": "rcap-factory/rcap-co-flat-pdf-overlay-a4c8dfc9-8e6d6c1b",
+      "preClaimBranch": "rcap-factory/rcap-co-flat-pdf-overlay-a4c8dfc9-ef50a77f",
       "ownedPaths": [
         "scripts/verify-rcap-colorado-flat-pdf-overlay.mjs",
         "src/lib/rcap/packets/jurisdictions/colorado/overlay.ts"
@@ -462,43 +462,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-co-jdf-2371-source-materialization",
-      "lane": "source_acquisition",
-      "jurisdiction": "CO",
-      "status": "ready",
-      "assignmentFingerprint": "222a779b266d201eb38455acde4c340e01588fb75af737cdea372e21fd0115f7",
-      "canonicalBranch": "rcap-factory/rcap-co-jdf-2371-source-materialization-4720d7df-222a779b",
-      "legacyBranch": "rcap-factory/rcap-co-jdf-2371-source-materialization-4720d7df",
-      "preClaimBranch": "rcap-factory/rcap-co-jdf-2371-source-materialization-4720d7df-222a779b",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-2371-source-materialization.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-2371-source-materialization.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-co-jdf-2371-source-materialization-4720d7df-222a779b",
-      "completionCommit": "e4f8e15d06a6e13a884595420619cc152c1bada6",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-co-jdf-2371-source-materialization-4720d7df-222a779b",
-          "commit": "e4f8e15d06a6e13a884595420619cc152c1bada6",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): materialize the Colorado JDF-2371 motion",
-          "parents": [
-            "c4010b89ce77954e641b40bc08ac700bc16c52a9"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-co-jdf-2371-source-materialization.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
     },
     {
       "jobId": "rcap-co-legal-output-review",
@@ -717,7 +680,7 @@
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-de-direct-issuer-request.json"
       ],
-      "classification": "exact_completion",
+      "classification": "integrated_completion",
       "completionBranch": "rcap-factory/rcap-de-direct-issuer-request-9e355e2d-96038923",
       "completionCommit": "15605cfede013913401a4d4f02987431f7e3a58a",
       "branches": [
@@ -735,7 +698,7 @@
           "missingOutputs": [],
           "isBaselineLease": false,
           "failures": [],
-          "classification": "exact_completion"
+          "classification": "integrated_completion"
         }
       ]
     },
@@ -1342,85 +1305,6 @@
       "branches": []
     },
     {
-      "jobId": "rcap-in-custom-pleading-completed-output-review",
-      "lane": "legal_output_review",
-      "jurisdiction": "IN",
-      "status": "blocked",
-      "assignmentFingerprint": "008085096b05b0f9d6a2542e35a590aa3491c2f0bb0eb87e339b6038ce077372",
-      "canonicalBranch": "rcap-factory/rcap-in-custom-pleading-completed-output-review-d7e57136-00808509",
-      "legacyBranch": "rcap-factory/rcap-in-custom-pleading-completed-output-review-d7e57136",
-      "preClaimBranch": "rcap-factory/rcap-in-custom-pleading-completed-output-review-d7e57136-00808509",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-in-custom-pleading.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-in-custom-pleading.json"
-      ],
-      "classification": "incompatible_branch",
-      "completionBranch": "rcap-factory/rcap-in-custom-pleading-completed-output-review-d7e57136-4ebdd0a2",
-      "completionCommit": "0491d8d5cadcb8ae93f01f55389ccd56be7a2154",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-in-custom-pleading-completed-output-review-d7e57136-4ebdd0a2",
-          "commit": "0491d8d5cadcb8ae93f01f55389ccd56be7a2154",
-          "keyKind": "unrecognized",
-          "subject": "docs(record-clearing): review rcap-in-custom-pleading completed output",
-          "parents": [
-            "7aaf916468800d42181158379c5262520c859a1b"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-in-custom-pleading.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [
-            {
-              "code": "assignment_marker_identity",
-              "message": "branch key rcap-in-custom-pleading-completed-output-review-d7e57136-4ebdd0a2 matches no assignment fingerprint this job has held"
-            }
-          ],
-          "classification": "incompatible_branch"
-        }
-      ]
-    },
-    {
-      "jobId": "rcap-in-custom-pleading-technical-visual-review",
-      "lane": "legal_output_review",
-      "jurisdiction": "IN",
-      "status": "ready",
-      "assignmentFingerprint": "093335b2191a1ced88ebe01e64d72d1e40e76d66016a18d3880f1f1bfb007e5e",
-      "canonicalBranch": "rcap-factory/rcap-in-custom-pleading-technical-visual-review-30416a40-093335b2",
-      "legacyBranch": "rcap-factory/rcap-in-custom-pleading-technical-visual-review-30416a40",
-      "preClaimBranch": "rcap-factory/rcap-in-custom-pleading-technical-visual-review-30416a40-093335b2",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-in-custom-pleading.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-in-custom-pleading.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-in-custom-pleading-technical-visual-review-30416a40-093335b2",
-      "completionCommit": "7221081d878ca0c8db276ce6469bf795c49029a9",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-in-custom-pleading-technical-visual-review-30416a40-093335b2",
-          "commit": "7221081d878ca0c8db276ce6469bf795c49029a9",
-          "keyKind": "canonical",
-          "subject": "docs(record-clearing): technically review rcap-in-custom-pleading output",
-          "parents": [
-            "afc51ba03dc06cdc35e87748897a175791d93c4d"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-in-custom-pleading.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
-    },
-    {
       "jobId": "rcap-in-legal-output-review",
       "lane": "legal_output_review",
       "jurisdiction": "IN",
@@ -1461,47 +1345,10 @@
       "branches": []
     },
     {
-      "jobId": "rcap-in-written-permission-authorization",
-      "lane": "source_acquisition",
-      "jurisdiction": "IN",
-      "status": "ready",
-      "assignmentFingerprint": "1c9d82b9af03bfb2bf64f3d9efec7f0354ba1cfad12fa9e8ef38977157087406",
-      "canonicalBranch": "rcap-factory/rcap-in-written-permission-authorization-5595d439-1c9d82b9",
-      "legacyBranch": "rcap-factory/rcap-in-written-permission-authorization-5595d439",
-      "preClaimBranch": "rcap-factory/rcap-in-written-permission-authorization-5595d439-1c9d82b9",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-in-written-permission-authorization.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-in-written-permission-authorization.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-in-written-permission-authorization-5595d439-1c9d82b9",
-      "completionCommit": "b1dd957cad45fa0c1835579f66e3728183190fa3",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-in-written-permission-authorization-5595d439-1c9d82b9",
-          "commit": "b1dd957cad45fa0c1835579f66e3728183190fa3",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): own the IN written-permission question",
-          "parents": [
-            "c4010b89ce77954e641b40bc08ac700bc16c52a9"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-in-written-permission-authorization.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
-    },
-    {
       "jobId": "rcap-ks-excluded-route-reinstatement",
       "lane": "legal_design_normalization",
       "jurisdiction": "KS",
-      "status": "blocked",
+      "status": "ready",
       "assignmentFingerprint": "4129e611840176d632b1b6356252f2fee3afeaa970857a8d86b27a17f0c4c338",
       "canonicalBranch": "rcap-factory/rcap-ks-excluded-route-reinstatement-d2f4035f-4129e611",
       "legacyBranch": "rcap-factory/rcap-ks-excluded-route-reinstatement-d2f4035f",
@@ -1516,43 +1363,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-ks-form-currentness-verification",
-      "lane": "source_acquisition",
-      "jurisdiction": "KS",
-      "status": "ready",
-      "assignmentFingerprint": "84875e4803da4a0ddeb4587a33f8ecc27094315a18b6848f3eec779caea76576",
-      "canonicalBranch": "rcap-factory/rcap-ks-form-currentness-verification-38c77485-84875e48",
-      "legacyBranch": "rcap-factory/rcap-ks-form-currentness-verification-38c77485",
-      "preClaimBranch": "rcap-factory/rcap-ks-form-currentness-verification-38c77485-84875e48",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-ks-form-currentness-verification.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-ks-form-currentness-verification.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-ks-form-currentness-verification-38c77485-84875e48",
-      "completionCommit": "5eae81962e79f5cf7c4a14d367181731d56144d9",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-ks-form-currentness-verification-38c77485-84875e48",
-          "commit": "5eae81962e79f5cf7c4a14d367181731d56144d9",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): verify the Kansas Judicial Council form revisions",
-          "parents": [
-            "c4010b89ce77954e641b40bc08ac700bc16c52a9"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-ks-form-currentness-verification.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
     },
     {
       "jobId": "rcap-ks-legal-output-review",
@@ -1635,46 +1445,6 @@
       "completionBranch": null,
       "completionCommit": null,
       "branches": []
-    },
-    {
-      "jobId": "rcap-ky-custom-pleading-clean-tracks",
-      "lane": "custom_pleading",
-      "jurisdiction": "KY",
-      "status": "ready",
-      "assignmentFingerprint": "3f5a2908d01995b74277a651c7ee8fc27ec90b16ed870af22121174339ff76ed",
-      "canonicalBranch": "rcap-factory/rcap-ky-custom-pleading-clean-tracks-70f288b6-3f5a2908",
-      "legacyBranch": "rcap-factory/rcap-ky-custom-pleading-clean-tracks-70f288b6",
-      "preClaimBranch": "rcap-factory/rcap-ky-custom-pleading-clean-tracks-70f288b6-3f5a2908",
-      "ownedPaths": [
-        "scripts/verify-rcap-kentucky-custom-pleading.mjs",
-        "src/lib/rcap/packets/jurisdictions/kentucky/custom-pleading.ts"
-      ],
-      "expectedOutputs": [
-        "src/lib/rcap/packets/jurisdictions/kentucky/custom-pleading.ts",
-        "scripts/verify-rcap-kentucky-custom-pleading.mjs"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-ky-custom-pleading-clean-tracks-70f288b6-3f5a2908",
-      "completionCommit": "5faa5ead97c054bdec3a49f7617a7cacb810ae41",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-ky-custom-pleading-clean-tracks-70f288b6-3f5a2908",
-          "commit": "5faa5ead97c054bdec3a49f7617a7cacb810ae41",
-          "keyKind": "canonical",
-          "subject": "feat(record-clearing): implement KY custom pleading",
-          "parents": [
-            "c4010b89ce77954e641b40bc08ac700bc16c52a9"
-          ],
-          "changedPaths": [
-            "scripts/verify-rcap-kentucky-custom-pleading.mjs",
-            "src/lib/rcap/packets/jurisdictions/kentucky/custom-pleading.ts"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
     },
     {
       "jobId": "rcap-ky-guidance-implementation-completed-output-review",
@@ -2399,43 +2169,6 @@
       "branches": []
     },
     {
-      "jobId": "rcap-mo-issuer-contact-authorization",
-      "lane": "source_acquisition",
-      "jurisdiction": "MO",
-      "status": "ready",
-      "assignmentFingerprint": "ddb0ae5a423a162b6d3e301d0a4a4c8573e51b02c9f11508a45ec509f7a191f7",
-      "canonicalBranch": "rcap-factory/rcap-mo-issuer-contact-authorization-2233f9df-ddb0ae5a",
-      "legacyBranch": "rcap-factory/rcap-mo-issuer-contact-authorization-2233f9df",
-      "preClaimBranch": "rcap-factory/rcap-mo-issuer-contact-authorization-2233f9df-ddb0ae5a",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-mo-issuer-contact-authorization.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/source-acquisition/rcap-mo-issuer-contact-authorization.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-mo-issuer-contact-authorization-2233f9df-ddb0ae5a",
-      "completionCommit": "b862df79201d157850fa2bf5a452fa254177a2ca",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-mo-issuer-contact-authorization-2233f9df-ddb0ae5a",
-          "commit": "b862df79201d157850fa2bf5a452fa254177a2ca",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): record the Missouri issuer-contact authorization",
-          "parents": [
-            "afc51ba03dc06cdc35e87748897a175791d93c4d"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/source-acquisition/rcap-mo-issuer-contact-authorization.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
-    },
-    {
       "jobId": "rcap-mo-legal-output-review",
       "lane": "legal_output_review",
       "jurisdiction": "MO",
@@ -2480,10 +2213,10 @@
       "lane": "legal_output_review",
       "jurisdiction": "MS",
       "status": "blocked",
-      "assignmentFingerprint": "8d58e3d00ebadc10125ceb1dbd578e80a7cb17f83c5bcad54b1248d38a7183f2",
-      "canonicalBranch": "rcap-factory/rcap-ms-custom-pleading-completed-output-review-f20967d1-8d58e3d0",
+      "assignmentFingerprint": "2a906a0155b7eae726925c323ae3eb0989fc976d44a76aa34a9465dfc99ce35a",
+      "canonicalBranch": "rcap-factory/rcap-ms-custom-pleading-completed-output-review-f20967d1-2a906a01",
       "legacyBranch": "rcap-factory/rcap-ms-custom-pleading-completed-output-review-f20967d1",
-      "preClaimBranch": "rcap-factory/rcap-ms-custom-pleading-completed-output-review-f20967d1-8d58e3d0",
+      "preClaimBranch": "rcap-factory/rcap-ms-custom-pleading-completed-output-review-f20967d1-2a906a01",
       "ownedPaths": [
         "data/record-clearing/production-factory/legal-output-reviews/completed-output/rcap-ms-custom-pleading.json"
       ],
@@ -2514,43 +2247,6 @@
             }
           ],
           "classification": "incompatible_branch"
-        }
-      ]
-    },
-    {
-      "jobId": "rcap-ms-custom-pleading-technical-visual-review",
-      "lane": "legal_output_review",
-      "jurisdiction": "MS",
-      "status": "ready",
-      "assignmentFingerprint": "033321ebeb6e276dee921c1c79c3862ff55f5f742b36f36ad0630f7e7ece75de",
-      "canonicalBranch": "rcap-factory/rcap-ms-custom-pleading-technical-visual-review-a52e30e7-033321eb",
-      "legacyBranch": "rcap-factory/rcap-ms-custom-pleading-technical-visual-review-a52e30e7",
-      "preClaimBranch": "rcap-factory/rcap-ms-custom-pleading-technical-visual-review-a52e30e7-033321eb",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-ms-custom-pleading.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-ms-custom-pleading.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-ms-custom-pleading-technical-visual-review-a52e30e7-033321eb",
-      "completionCommit": "a16fda793ef1fe2abb5c78e251c3362bf351234a",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-ms-custom-pleading-technical-visual-review-a52e30e7-033321eb",
-          "commit": "a16fda793ef1fe2abb5c78e251c3362bf351234a",
-          "keyKind": "canonical",
-          "subject": "docs(record-clearing): technically review rcap-ms-custom-pleading output",
-          "parents": [
-            "afc51ba03dc06cdc35e87748897a175791d93c4d"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/technical-visual-reviews/completed-output/rcap-ms-custom-pleading.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
         }
       ]
     },
@@ -4402,51 +4098,14 @@
       "branches": []
     },
     {
-      "jobId": "rcap-va-cc-1201-source-identity-materialization",
-      "lane": "legal_design_normalization",
-      "jurisdiction": "VA",
-      "status": "ready",
-      "assignmentFingerprint": "46fcb4f3dd6ec83fc31a1e78657161039904292bdd2f1a05be1db8f36c920c81",
-      "canonicalBranch": "rcap-factory/rcap-va-cc-1201-source-identity-materialization-e23ef250-46fcb4f3",
-      "legacyBranch": "rcap-factory/rcap-va-cc-1201-source-identity-materialization-e23ef250",
-      "preClaimBranch": "rcap-factory/rcap-va-cc-1201-source-identity-materialization-e23ef250-46fcb4f3",
-      "ownedPaths": [
-        "data/record-clearing/production-factory/legal-design-decisions/va-cc-1201-source-identity-materialization.json"
-      ],
-      "expectedOutputs": [
-        "data/record-clearing/production-factory/legal-design-decisions/va-cc-1201-source-identity-materialization.json"
-      ],
-      "classification": "exact_completion",
-      "completionBranch": "rcap-factory/rcap-va-cc-1201-source-identity-materialization-e23ef250-46fcb4f3",
-      "completionCommit": "cdc44aae747e65f2bc9ff5bd56b39cd1012b351e",
-      "branches": [
-        {
-          "branch": "rcap-factory/rcap-va-cc-1201-source-identity-materialization-e23ef250-46fcb4f3",
-          "commit": "cdc44aae747e65f2bc9ff5bd56b39cd1012b351e",
-          "keyKind": "canonical",
-          "subject": "chore(record-clearing): resolve Virginia CC-1201 source identity",
-          "parents": [
-            "afc51ba03dc06cdc35e87748897a175791d93c4d"
-          ],
-          "changedPaths": [
-            "data/record-clearing/production-factory/legal-design-decisions/va-cc-1201-source-identity-materialization.json"
-          ],
-          "missingOutputs": [],
-          "isBaselineLease": false,
-          "failures": [],
-          "classification": "exact_completion"
-        }
-      ]
-    },
-    {
       "jobId": "rcap-va-custom-pleading",
       "lane": "custom_pleading",
       "jurisdiction": "VA",
-      "status": "blocked",
-      "assignmentFingerprint": "ad63e386f9a24bb7d1293ec34a5d687408ece0ce5e23e37600274189910cca53",
-      "canonicalBranch": "rcap-factory/rcap-va-custom-pleading-9f885f82-ad63e386",
+      "status": "ready",
+      "assignmentFingerprint": "2897aaf79ae4e19bc9aa93aaa82cb7084ff61ea0196b67858895ebbc499f7de3",
+      "canonicalBranch": "rcap-factory/rcap-va-custom-pleading-9f885f82-2897aaf7",
       "legacyBranch": "rcap-factory/rcap-va-custom-pleading-9f885f82",
-      "preClaimBranch": "rcap-factory/rcap-va-custom-pleading-9f885f82-b99748bd",
+      "preClaimBranch": "rcap-factory/rcap-va-custom-pleading-9f885f82-1b9aba60",
       "ownedPaths": [
         "scripts/verify-rcap-virginia-custom-pleading.mjs",
         "src/lib/rcap/packets/jurisdictions/virginia/custom-pleading.ts"
@@ -5043,14 +4702,14 @@
       "branches": []
     },
     {
-      "jobId": "rcap-wy-custom-pleading",
+      "jobId": "rcap-wy-custom-pleading-clean-tracks",
       "lane": "custom_pleading",
       "jurisdiction": "WY",
       "status": "ready",
-      "assignmentFingerprint": "48d6b7c090a014fdca76c3abee64d570ba5f92df002e1af96438a05eaabfbce3",
-      "canonicalBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-48d6b7c0",
-      "legacyBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3",
-      "preClaimBranch": "rcap-factory/rcap-wy-custom-pleading-05f655d3-8dc10e50",
+      "assignmentFingerprint": "60eb3f7509dd42e9136419e96072004145f984c4ebfa07d906864049a65587cc",
+      "canonicalBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-0cffbaa8-60eb3f75",
+      "legacyBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-0cffbaa8",
+      "preClaimBranch": "rcap-factory/rcap-wy-custom-pleading-clean-tracks-0cffbaa8-60eb3f75",
       "ownedPaths": [
         "scripts/verify-rcap-wyoming-custom-pleading.mjs",
         "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts"
@@ -5069,10 +4728,10 @@
       "lane": "legal_output_review",
       "jurisdiction": "WY",
       "status": "blocked",
-      "assignmentFingerprint": "1080827ad64d48ed6e6460c2955ee1675c8b4be90e3f43f73cf4b446460bf16e",
-      "canonicalBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6-1080827a",
+      "assignmentFingerprint": "5af31d795db09afd58ce669697664802c4f61b64be50702d37a6457b745d28cb",
+      "canonicalBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6-5af31d79",
       "legacyBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6",
-      "preClaimBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6-1080827a",
+      "preClaimBranch": "rcap-factory/rcap-wy-legal-output-review-1b4a72b6-5af31d79",
       "ownedPaths": [
         "data/record-clearing/production-factory/legal-output-reviews/wyoming.json"
       ],
@@ -5098,6 +4757,26 @@
       ],
       "expectedOutputs": [
         "data/record-clearing/production-factory/source-acquisition/rcap-wy-local-template-and-handout-survey.json"
+      ],
+      "classification": "no_branch",
+      "completionBranch": null,
+      "completionCommit": null,
+      "branches": []
+    },
+    {
+      "jobId": "rcap-wy-remaining-track-legal-design-amendment",
+      "lane": "legal_design_normalization",
+      "jurisdiction": "WY",
+      "status": "ready",
+      "assignmentFingerprint": "570a1a0ff88c02e4768fb74220155a7f746d378025df7488296f30c44b130138",
+      "canonicalBranch": "rcap-factory/rcap-wy-remaining-track-legal-design-amendment-14eb8c33-570a1a0f",
+      "legacyBranch": "rcap-factory/rcap-wy-remaining-track-legal-design-amendment-14eb8c33",
+      "preClaimBranch": "rcap-factory/rcap-wy-remaining-track-legal-design-amendment-14eb8c33-570a1a0f",
+      "ownedPaths": [
+        "data/record-clearing/legal-design-intake/WY.memo.json"
+      ],
+      "expectedOutputs": [
+        "data/record-clearing/legal-design-intake/WY.memo.json"
       ],
       "classification": "no_branch",
       "completionBranch": null,

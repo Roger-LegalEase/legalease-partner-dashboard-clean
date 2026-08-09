@@ -66,7 +66,7 @@ const ACTIVE_SHARDS = [
     shard: "B3",
     lane: "custom_pleading",
     ownerSession: "SESSION_B",
-    jobIds: ["rcap-ky-custom-pleading-clean-tracks", "rcap-wy-custom-pleading"],
+    jobIds: ["rcap-wy-custom-pleading-clean-tracks"],
     note:
       "Wyoming joins, reissued rather than self-narrowed. Its statewide core packet is settled by the integrated memo amendment — verified petition, proposed order, filing and service instructions, route-specific supporting-item checklist, across all three tracks — with summons, praecipe, executed judicial fields, prosecutor response, victim notice, DCI action, completed proof of service and every Casper local form excluded. The 23-county local-practice survey stays open and does not gate it: what it asks is how a county wants the filing handled, and none of that changes the document. Both previously promoted rows changed shape rather than being reranked. Kentucky was one assignment over two tracks and is now one over one: ky_void_seal_controlled_substance carries an eligibility bar its own memo records and the controlling review does not — KRS 218A.275(12) absolutely bars anyone previously dismissed after a KRS 218A.14151 deferred prosecution — and that decides whether the participant receives a packet at all, not how one is worded. It is split out to a Session D owner and the combined assignment is superseded, not completed. The marijuana/synthetic/salvia sibling carries no such bar and is here on its own so one unresolved eligibility question does not hold a deliverable track for a second wave. Virginia leaves the shard entirely: both its tracks are blocked on two independent questions — which version of Va. Code § 19.2-392.2 governs a packet generated now, and whether the Office of the Executive Secretary publishes a statewide instrument for either route. The second one decides whether a custom pleading is even the right document, so drafting first would risk building the wrong artifact rather than an early draft of the right one. Nebraska is still deliberately not promoted: unresolved venue and packet-component questions, and its branch is a lease."
   },
@@ -82,7 +82,7 @@ const ACTIVE_SHARDS = [
     shard: "D1",
     lane: "legal_design_normalization",
     ownerSession: "SESSION_D",
-    jobIds: [],
+    jobIds: ["rcap-wy-remaining-track-legal-design-amendment"],
     // D2 carries the Wyoming reads; D1's carried work is not reranked.
     note:
       "Empty. The Wyoming memo amendment delivered and is integrated, recovered through an explicit held-fingerprint alias after a captain correction to the assignment metadata had orphaned its branch. Originally: refilled by the Wyoming published-source review. The project owner supplied a review of published sources — not a completed 23-county telephone survey, and it is not recorded as one — settling that Wyoming publishes no statewide petition form and no statewide proposed-order template. Both documents are therefore controlled custom pleading, which turns a standing correct_form blocker into an affirmative conclusion. A decision record cannot amend a state memo, so this owner carries the conclusions and the statutory per-route filing fees into WY.memo.json; Session B then implements from the corrected memo rather than from the decision, and Wyoming custom pleading is blocked on exactly this one job and nothing else. Earlier in the pass: both reads that refilled this shard delivered inside the same pass and are integrated: Kentucky's KRS 218A.275(12) eligibility bar, which decides whether that route offers a packet at all, and Virginia's 2026-2027 statutory cutover. Virginia custom pleading now narrows from two blocking questions to one — the official-form identity, which is Session F's and sits in F4. D2 still carries nothing new; both Wyoming reads also landed this pass. Ohio carried the marijuana mechanism into OH.memo.json with the two accuracy defects fixed — the fee is division (G), and the 60-day and 30-day figures do not govern this route. Washington carried the CROP venue conclusion. Iowa remapped the six components that two completed resolutions found pointing at documents that do not exist as such. None of the three made a track ready, which was the point. The Ohio memo now carries three recorded states rather than two; the earlier automatic-sealing amendment stays complete rather than reopening because a successor touched the same file."
@@ -117,7 +117,6 @@ const ACTIVE_SHARDS = [
     jobIds: [
       "rcap-de-attended-retrieval-five-current-forms",
       "rcap-wy-local-template-and-handout-survey",
-      "rcap-co-jdf-2371-source-materialization"
     ],
     note:
       "Minnesota left this shard satisfied: the project owner supplied all five current EXP forms and they are measured exactly under external custody, with EXP105 and EXP106 preserved as separate identities for their separate statutory routes. Delaware stays, and stays open on purpose — the drop supplied three of its five documents, and CIV_EXP_02_B and FORM-281 are still missing. A partially satisfied retrieval is not a finished one, so its two blockers are preserved rather than retired. Colorado JDF-2371 joins the shard because its licence gate opened: that job had been hard-coded blocked with the licence written only in a comment, so it stayed shut when the grant landed. It now derives from the licence and is ready to materialize. The Wyoming survey still needs a person telephoning clerks in 23 counties and is not a download."
@@ -127,9 +126,6 @@ const ACTIVE_SHARDS = [
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-mo-issuer-contact-authorization",
-      "rcap-in-written-permission-authorization",
-      "rcap-ks-form-currentness-verification"
     ],
     note:
       "The permission and follow-up owners the completed decisions created. Three have now left the shard satisfied: Colorado's grant is recorded as a successor decision, Kansas delivered its written-permission authorization, and Washington resolved the CRO form-family source identity. Indiana remains, still sitting at a withheld licence with no route out but the asking. The Missouri request is drafted and deliberately unsent and what remains is the human authorization to send it. None of these jobs sends anything: drafting is the deliverable and sending is a separate human act. The Ohio survey left the shard too: its local-form and fee question is answered and integrated. Kansas joins with a currentness owner and not a licence one: the project owner reports a hard-copy grant whose scan has not arrived, and permission would not answer this question in any case. Nine Council documents, three of them recorded from 2013 and 2016, behind an Akamai perimeter that returns 403 to automation. Whether those revisions are still current is independent of who may reproduce them, and a packet built on a superseded form is wrong whoever authorized it."
@@ -139,7 +135,6 @@ const ACTIVE_SHARDS = [
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
     jobIds: [
-      "rcap-de-direct-issuer-request",
       "rcap-ma-attended-retrieval-100k-petition-for-expungement",
       "rcap-ma-attended-retrieval-mps-petition-to-expunge",
       "rcap-ma-attended-retrieval-ocp-petition-to-seal",
@@ -162,7 +157,7 @@ const ACTIVE_SHARDS = [
     shard: "F4",
     lane: "source_acquisition",
     ownerSession: "SESSION_F",
-    jobIds: ["rcap-va-cc-1201-source-identity-materialization"],
+    jobIds: [],
     note:
       "The Virginia official-form question, and one of the two things blocking Virginia custom pleading. Establish whether the Office of the Executive Secretary publishes a separate statewide instrument for va_exp_absolute_pardon or va_exp_identity_used_by_another, and for each instrument in the current CC-1201 series: exact identity, title, role, revision and currentness, statewide against local scope, whether it is mandatory, a standard or pattern form, optional or nonexistent, and the source, Edition and output-strategy consequences. The output-strategy consequence is the point — if a statewide instrument exists, the route is official-PDF work and the custom pleading is the wrong document. Every plausible CC-1201 and CC-1203 path returned 404 on the normalization pass while CC-1473 retrieved cleanly from the same library: that is a retrieval failure, not a finding, and failure to find a form is never proof that no form exists. CC-1473 may not be substituted outside § 19.2-392.2(A)."
   },
@@ -171,8 +166,6 @@ const ACTIVE_SHARDS = [
     lane: "legal_output_review",
     ownerSession: "SESSION_R",
     jobIds: [
-      "rcap-in-custom-pleading-technical-visual-review",
-      "rcap-ms-custom-pleading-technical-visual-review",
       "rcap-nd-custom-pleading-technical-visual-review"
     ],
     reviewKind: "technical_visual_review",

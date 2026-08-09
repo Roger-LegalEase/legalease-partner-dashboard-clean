@@ -2092,7 +2092,11 @@ assert.equal(
 assert.deepEqual(productionPlan.readinessMetrics.current, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 77,
+  // 77 -> 75: Kentucky's clean marijuana/synthetic/salvia track moved from
+  // source-pinned to implemented when its custom unit landed. Its AOC-334
+  // component is still an open official-PDF dependency, which is why the track
+  // is not packet-ready and why implementationProof does not move with it.
+  sourcePinned: 75,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2368,9 +2372,11 @@ assert.equal(
   factoryPlan.trackReconciliation.representedExactlyOnce,
   normalizedTrackCount
 );
-// 212 -> 223 with the eleven tracks integrated this wave: Hawaii custom
-// pleading 5, and the clean splits of Ohio 4 and Washington 2.
-assert.equal(factoryPlan.trackReconciliation.implementationComplete, 223);
+// 212 -> 223 with the eleven tracks integrated in the earlier wave: Hawaii
+// custom pleading 5, and the clean splits of Ohio 4 and Washington 2. 223 -> 224
+// with Kentucky's clean track, whose custom unit is implemented while its
+// AOC-334 component remains an open official-PDF dependency.
+assert.equal(factoryPlan.trackReconciliation.implementationComplete, 224);
 assert.equal(
   factoryPlan.trackReconciliation.pendingProductionJob,
   normalizedTrackCount -
@@ -2967,7 +2973,11 @@ const status = buildFactoryStatus({ rootDir: ROOT });
 assert.deepEqual(status.readinessMetrics, {
   authorityCleared: trackSourceAudit.totals.tracksCleared,
   authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-  sourcePinned: 77,
+  // 77 -> 75: Kentucky's clean marijuana/synthetic/salvia track moved from
+  // source-pinned to implemented when its custom unit landed. Its AOC-334
+  // component is still an open official-PDF dependency, which is why the track
+  // is not packet-ready and why implementationProof does not move with it.
+  sourcePinned: 75,
   implementationProof: 17,
   finalDisposition: 0
 });
@@ -2990,7 +3000,10 @@ assert.equal(
   // 40 before the Session D wave-2 and Session B wave-1 integrations, 51 after
   // them, 55 once Session D's final wave landed, 56 with Session B wave 2, and
   // 65 once the final wave and the Tennessee amendment completed the nation.
-  65
+  // 65 -> 63: Kentucky's clean track left the source-pinned set when its custom
+  // unit was implemented, and Wyoming's clean nonconviction route left it when
+  // the published-source amendment retired the packet-components blocker.
+  63
 );
 assert.deepEqual(
   status.tracks
@@ -3005,9 +3018,9 @@ assert.deepEqual(
 );
 assert.equal(status.totals.tracks, normalizedTrackCount);
 assert.equal(status.totals.normalized, normalizedTrackCount);
-// 160 -> 171 with the eleven tracks integrated this wave (HI 5, OH 4, WA 2).
-assert.equal(status.totals.implementationComplete, 171);
-assert.equal(status.totals.technicalProofPassed, 171);
+// 160 -> 172 with the eleven tracks integrated this wave (HI 5, OH 4, WA 2).
+assert.equal(status.totals.implementationComplete, 172);
+assert.equal(status.totals.technicalProofPassed, 172);
 assert.equal(status.totals.visualProofPassed, 17);
 assert.equal(status.totals.legalRecommendationComplete, 19);
 assert.equal(status.totals.counselAdopted, 15);

@@ -681,9 +681,12 @@ await check("all normalized tracks reconcile exactly once and completed tranches
     reconciliation.representedExactlyOnce,
     normalizedTrackCount
   );
-  // 212 -> 223 with the eleven tracks integrated this wave: Hawaii custom
-  // pleading 5, and the clean splits of Ohio 4 and Washington 2.
-  assert.equal(reconciliation.implementationComplete, 223);
+  // 212 -> 223 with the eleven tracks integrated in the earlier wave: Hawaii
+  // custom pleading 5, and the clean splits of Ohio 4 and Washington 2. 223 ->
+  // 224 with Kentucky's clean marijuana/synthetic/salvia track, whose custom
+  // unit is implemented; its AOC-334 component stays an open official-PDF
+  // dependency and does not make the track packet-ready.
+  assert.equal(reconciliation.implementationComplete, 224);
   assert.equal(
     reconciliation.pendingProductionJob,
     normalizedTrackCount - reconciliation.implementationComplete
@@ -3925,7 +3928,10 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.deepEqual(status.readinessMetrics, {
     authorityCleared: trackSourceAudit.totals.tracksCleared,
     authorityBlocked: trackSourceAudit.totals.tracksBlocked,
-    sourcePinned: 77,
+    // 77 -> 75: Kentucky's clean track left the source-pinned set when its
+    // custom unit landed, and Wyoming's clean nonconviction route left it when
+    // the published-source amendment retired the packet-components blocker.
+    sourcePinned: 75,
     implementationProof: 17,
     finalDisposition: 0
   });
@@ -3933,9 +3939,9 @@ await check("dashboard reports all 51 and preserves the red launch posture", () 
   assert.equal(status.totals.tracks, normalizedRegistry.trackCount);
   assert.equal(status.totals.normalized, normalizedRegistry.trackCount);
   // 160 -> 171 with the eleven tracks the Hawaii, Ohio and Washington
-  // implementations built this wave (5 + 4 + 2).
-  assert.equal(status.totals.implementationComplete, 171);
-  assert.equal(status.totals.technicalProofPassed, 171);
+  // implementations built (5 + 4 + 2), then 172 with Kentucky's clean track.
+  assert.equal(status.totals.implementationComplete, 172);
+  assert.equal(status.totals.technicalProofPassed, 172);
   assert.equal(status.totals.visualProofPassed, 17);
   assert.equal(status.totals.legalRecommendationComplete, 19);
   assert.equal(status.totals.counselAdopted, 15);
@@ -4826,6 +4832,108 @@ await check(
 );
 
 await check(
+  "Wyoming splits its clean route and keeps the two unencoded rules blocked",
+  () => {
+    const registry = JSON.parse(
+      fs.readFileSync(
+        path.join(ROOT, "data/record-clearing/legal-design-track-registry.json"),
+        "utf8"
+      )
+    );
+    const tracks = Array.isArray(registry)
+      ? registry
+      : registry.tracks ?? Object.values(registry).find(Array.isArray);
+    const designBlockers = (trackId) =>
+      (tracks.find((entry) => entry.trackId === trackId)?.blockers ?? []).filter((b) =>
+        /legal_design/u.test(b.kind ?? "")
+      );
+
+    // The published-source amendment retired the packet-components question to
+    // release level. It had been a build blocker on all three tracks, including
+    // the clean one, and a stale derived registry kept it there.
+    for (const trackId of ["wy_nc_1401", "wy_misd_1501", "wy_fel_1502"]) {
+      assert.ok(
+        !designBlockers(trackId).some((b) => /packet_components/u.test(b.statement ?? "")),
+        `${trackId} must not still carry the retired packet-components build blocker`
+      );
+    }
+    assert.equal(designBlockers("wy_nc_1401").length, 0, "wy_nc_1401 is clean");
+    assert.ok(
+      designBlockers("wy_misd_1501").some((b) => /7-1-107\(b\)\(iii\)|status-offense/u.test(b.statement ?? "")),
+      "the status-offence/waiting-period blocker stays on wy_misd_1501"
+    );
+    assert.ok(
+      designBlockers("wy_fel_1502").some((b) => /7-13-1502|deferral/u.test(b.statement ?? "")),
+      "the exclusion-list and deferral blockers stay on wy_fel_1502"
+    );
+
+    // The local-practice survey stays open at release level and gates nothing.
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    const survey = plan.jobs.find(
+      (job) => job.jobId === "rcap-wy-local-template-and-handout-survey"
+    );
+    assert.equal(survey.status, "ready", "the survey is open, not complete");
+
+    // An assignment containing a blocked track is never worker-ready.
+    const whole = plan.jobs.find((job) => job.jobId === "rcap-wy-custom-pleading");
+    assert.equal(whole.status, "cancelled", "the whole-state assignment is superseded");
+    assert.deepEqual(whole.trackIds.sort(), ["wy_fel_1502", "wy_misd_1501"]);
+    assert.ok((whole.supersededBy ?? []).includes("rcap-wy-custom-pleading-clean-tracks"));
+
+    const clean = plan.jobs.find(
+      (job) => job.jobId === "rcap-wy-custom-pleading-clean-tracks"
+    );
+    assert.equal(clean.status, "ready");
+    assert.deepEqual(clean.trackIds, ["wy_nc_1401"]);
+    assert.ok(!clean.trackIds.includes("wy_misd_1501"));
+    assert.ok(!clean.trackIds.includes("wy_fel_1502"));
+
+    // One owner for both remaining rules, and it owns the memo.
+    const owner = plan.jobs.find(
+      (job) => job.jobId === "rcap-wy-remaining-track-legal-design-amendment"
+    );
+    assert.ok(owner);
+    assert.deepEqual(owner.ownedPaths, [
+      "data/record-clearing/legal-design-intake/WY.memo.json"
+    ]);
+    assert.ok(/Standing counsel adoption does not substitute/u.test(owner.stopCondition));
+  }
+);
+
+await check(
+  "Kentucky implements two of three components and claims no more",
+  () => {
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    const clean = plan.jobs.find(
+      (job) => job.jobId === "rcap-ky-custom-pleading-clean-tracks"
+    );
+    assert.equal(clean.status, "completed");
+    assert.deepEqual(clean.trackIds, ["ky_void_seal_marijuana_synthetic_salvia"]);
+
+    // The blocked sibling is not implemented and keeps its own blocker.
+    const whole = plan.jobs.find((job) => job.jobId === "rcap-ky-custom-pleading");
+    assert.equal(whole.status, "cancelled");
+    assert.deepEqual(whole.trackIds, ["ky_void_seal_controlled_substance"]);
+
+    // AOC-334 is official_pdf_fill and stays an open dependency: the proof must
+    // not read as a complete participant filing packet.
+    const proof = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          ROOT,
+          "data/record-clearing/production-factory/packet-proofs/rcap-ky-custom-pleading-clean-tracks.json"
+        ),
+        "utf8"
+      )
+    );
+    assert.equal(proof.counselAdopted, false);
+    assert.equal(proof.packetReady, false);
+    assert.equal(proof.productionEnabled, false);
+    assert.equal(proof.runtimeStatus, "runtime_disabled");
+  }
+);
+
+await check(
   "a held assignment alias recovers exactly one delivered branch and nothing else",
   () => {
     // The captain corrected a defect in this job's own metadata after a worker
@@ -5551,10 +5659,15 @@ await check("technical and legal review are independently owned", () => {
       (job) => job.jobId === `${implementationJobId}-completed-output-review`
     );
     assert.ok(legalJob, implementationJobId);
-    assert.equal(
-      legalJob.status,
-      "blocked",
-      `${implementationJobId}: legal review must wait for the corrected packet`
+    // A legal read never happens against output known defective, so while the
+    // correction is open the job is blocked. Once the correction lands and the
+    // re-review approves it, the family is back in the adopted design and the
+    // standing counsel adoption satisfies it — cancelled, not ready, and never
+    // a Session R recommendation nobody wrote. Both are correct; what must
+    // never happen is `ready`, which would commission the read regardless.
+    assert.ok(
+      ["blocked", "cancelled"].includes(legalJob.status),
+      `${implementationJobId}: legal review must wait for the corrected packet or be satisfied by standing adoption, not ${legalJob.status}`
     );
   }
 
@@ -5605,22 +5718,55 @@ await check("a legacy combined artifact is never counted as legal review", () =>
     // The technical findings survive in full, under the right owner.
     const technical = readJson(`${technicalDir}/${implementationJobId}.json`);
     assert.equal(technical.reviewKind, "technical_visual_review");
-    assert.equal(technical.completedOutputLegalReview, "pending");
+    // A technical reviewer records that it did not do the legal read. Workers
+    // have said that as "pending" and as "not_performed_by_this_job"; both mean
+    // the same thing, and the assertion is that a technical record never claims
+    // the legal read, not which words it declines in.
+    assert.ok(
+      ["pending", "not_performed_by_this_job"].includes(
+        technical.completedOutputLegalReview
+      ),
+      `technical record must not claim the legal read: ${technical.completedOutputLegalReview}`
+    );
     assert.equal(technical.counselAdopted, false);
     assert.equal(technical.packetReady, false);
     assert.equal(technical.productionEnabled, false);
     assert.equal(technical.runtimeStatus, "runtime_disabled");
+    // A re-review that replaces a correction-required read records the commit
+    // it supersedes rather than one it "originally" produced, which is the more
+    // accurate word for what happened. Either field carries it; what matters is
+    // that the record names the exact commit it replaces.
     assert.equal(
-      technical.provenance.originalWorkerCommit,
+      technical.provenance.originalWorkerCommit ??
+        technical.provenance.supersededWorkerCommit,
       marker.originalWorkerCommit
     );
     assert.ok(Array.isArray(technical.packets) && technical.packets.length > 0);
-    assert.equal(technical.result, marker.originalTechnicalResult);
+    // The migrated record keeps its original result until a re-review replaces
+    // it. Indiana and Mississippi were corrected and re-reviewed, so their
+    // records now read technical_approved — and a replacement must say what it
+    // replaced rather than quietly overwriting the history the marker records.
+    if (technical.result !== marker.originalTechnicalResult) {
+      assert.equal(
+        technical.provenance.supersededWorkerCommit,
+        marker.originalWorkerCommit,
+        "a re-review must name the exact record it supersedes"
+      );
+      assert.ok(
+        typeof technical.provenance.supersededArtifact === "string",
+        "a re-review must name the superseded artifact"
+      );
+    }
   }
 
   // §4.2 dispositions, read from the migrated records rather than asserted.
+  // Read from the records, which is what this check is for. Indiana was
+  // corrected, re-reviewed and approved. Mississippi was corrected and
+  // re-reviewed and still reads correction_required — the re-review is not a
+  // formality and did not clear it, so its legal review stays blocked and the
+  // standing counsel adoption does not reach it.
   const expected = {
-    "rcap-in-custom-pleading": "correction_required",
+    "rcap-in-custom-pleading": "technical_approved",
     "rcap-ms-custom-pleading": "correction_required",
     "rcap-ok-guidance-implementation": "technical_approved",
     "rcap-tn-guidance-implementation": "technical_approved",

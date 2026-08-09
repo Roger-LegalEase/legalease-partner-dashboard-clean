@@ -4839,6 +4839,11 @@ export function buildFactoryPlan(options = {}) {
         TERMINAL_INSTRUCTION
     });
 
+    // Some splits hand their question to an owner defined with that
+    // jurisdiction's other legal-design owners, because the answer belongs in
+    // the state memo rather than in a decision record. Creating it here too
+    // would put two jobs on one id and one owned path.
+    if (split.correctionOwnedElsewhere === true) continue;
     addJob({
       lane: "legal_design_normalization",
       jurisdiction: split.jurisdiction,
@@ -5700,6 +5705,42 @@ const WYOMING_LEGAL_DESIGN_OWNERS = Object.freeze([
       "not enable runtime, promote, or deploy."
   },
   {
+    // The two Wyoming routes the split left behind. One owner, because both are
+    // the same kind of gap — a legal rule the design states but does not encode
+    // — and both live in the same memo. Local practice and Casper are not here:
+    // they are different questions with their own owners.
+    jobId: "rcap-wy-remaining-track-legal-design-amendment",
+    lane: "legal_design_normalization",
+    strategyFamily: "legal_design_normalization_amendment",
+    ownsMemo: true,
+    jurisdiction: "WY",
+    model: "opus",
+    subject: "fix(record-clearing): encode the remaining Wyoming eligibility rules",
+    note:
+      "wy_misd_1501 and wy_fel_1502 each carry a rule the memo describes and does not encode, so neither can be implemented. Read the already-integrated Wyoming decisions first — governing mechanism and currency, eligibility and waiting period, and published-source filing requirements — and encode what they already answer rather than re-researching it. Owns WY.memo.json only.",
+    stop:
+      "For wy_misd_1501, encode the status-offence determination under Wyo. Stat. " +
+      "section 7-1-107(b)(iii): what the subsection defines as a status offence and which common " +
+      "Wyoming charges fall inside it, which branch receives the one-year period and which " +
+      "receives the five-year period, the exact anchor each period runs from, the participant " +
+      "inputs needed to route the branch, and a typed fail-closed stop where the participant " +
+      "cannot identify the offence category. Do not assume underage alcohol, nicotine or other " +
+      "minor conduct is automatically a status offence. " +
+      "For wy_fel_1502, encode whether and when a completed felony deferral reaches the " +
+      "mechanism, the exact eligibility branch, the complete section 7-13-1502 statutory " +
+      "exclusion list and how it is encoded, the participant inputs, and the exact typed stops. " +
+      "Then say whether the mandatory attorney-review gate is still necessary once the rule is " +
+      "encoded, or whether it was standing in for the missing encoding. " +
+      "Standing counsel adoption does not substitute for an unencoded exclusion list: counsel " +
+      "adopted the design, and an exclusion list nobody has written down is not part of it. Do " +
+      "not remove a blocker because adoption is standing. " +
+      "Where the integrated decisions do not answer a necessary question, keep the blocker and " +
+      "say exactly what is missing rather than closing it. Do not touch the local-practice " +
+      "survey or Casper Municipal Court; both have their own owners. " +
+      "Own only WY.memo.json. Do not implement a packet, do not declare a track ready, and do " +
+      "not enable runtime, promote, or deploy."
+  },
+  {
     jobId: "rcap-wy-local-template-and-handout-survey",
     lane: "source_acquisition",
     strategyFamily: "official_download_automation_blocked",
@@ -5765,6 +5806,16 @@ const CORRECTION_COMPLETIONS = Object.freeze({
 });
 
 const SPLIT_CLEAN_COMPLETIONS = Object.freeze({
+  // Kentucky's clean marijuana/synthetic/salvia track. Two of the design's three
+  // components: the motion and the certificate of service. AOC-334 is
+  // official_pdf_fill and stays unimplemented — the split was about the blocked
+  // sibling track, not about the official-PDF component inside this one.
+  "rcap-ky-custom-pleading-clean-tracks": {
+    workerBranch:
+      "rcap-factory/rcap-ky-custom-pleading-clean-tracks-70f288b6-3f5a2908",
+    workerCommit: "5faa5ead97c054bdec3a49f7617a7cacb810ae41",
+    completionCommit: "1d41f177b1301473f4a13baff8565a49cffc6e14"
+  },
   "rcap-oh-custom-pleading-clean-tracks": {
     workerBranch:
       "rcap-factory/rcap-oh-custom-pleading-clean-tracks-610f8666-d9d0681a",
@@ -6022,6 +6073,33 @@ const ATOMIC_IMPLEMENTATION_SPLITS = Object.freeze([
       "WA.memo.json belongs to a separate amendment. "
   },
   {
+    // Wyoming's three routes are one assignment and three different answers.
+    // wy_nc_1401 carries no remaining build or legal-design blocker once the
+    // published-source amendment retired the packet-components question to
+    // release level. The other two still do — a status-offence definition that
+    // decides which waiting period applies, and an unencoded statutory
+    // exclusion list — and Session B was right to refuse the whole thing rather
+    // than narrow it itself.
+    //
+    // Its correction owner is a memo amendment, defined with the other Wyoming
+    // owners so it owns WY.memo.json rather than a decision record.
+    lane: "custom_pleading",
+    jurisdiction: "WY",
+    cleanJobId: "rcap-wy-custom-pleading-clean-tracks",
+    correctionJobId: "rcap-wy-remaining-track-legal-design-amendment",
+    correctionOwnedElsewhere: true,
+    cleanTrackIds: ["wy_nc_1401"],
+    blockedTrackIds: ["wy_misd_1501", "wy_fel_1502"],
+    blockedQuestion:
+      "two unencoded Wyoming legal rules: what Wyo. Stat. section 7-1-107(b)(iii) defines as a " +
+      "status offence, which decides whether the one-year or the five-year waiting period applies " +
+      "to wy_misd_1501; and the section 7-13-1502 exclusion list, which is long, statute-specific " +
+      "and not encoded, and which decides whether wy_fel_1502 may be offered at all.",
+    correctionSubject:
+      "fix(record-clearing): encode the remaining Wyoming eligibility rules",
+    correctionStop: "SEE_WYOMING_OWNER"
+  },
+  {
     // Kentucky's two custom-pleading tracks are siblings in structure and not in
     // readiness. The controlled-substance track carries an eligibility bar that
     // its own memo records and the controlling review does not: KRS 218A.275(12)
@@ -6192,7 +6270,14 @@ function implementationJobOverrides(
   // run, and two carry unresolved eligibility or waiting-period questions. A
   // pleading cannot be drafted against that, and the assignment was standing
   // ready with every one of those questions open.
-  if (lane === "custom_pleading" && jurisdiction === "WY") {
+  // Once Wyoming is split, the split owns the answer: the whole-state job is
+  // superseded and its clean track belongs to the atomic assignment. Returning a
+  // readiness verdict here first would leave the superseded job holding
+  // wy_nc_1401 alongside the clean job that is supposed to have taken it.
+  const wyomingSplit = ATOMIC_IMPLEMENTATION_SPLITS.some(
+    (entry) => entry.lane === lane && entry.jurisdiction === "WY"
+  );
+  if (lane === "custom_pleading" && jurisdiction === "WY" && !wyomingSplit) {
     // Wyoming waited on three questions. Two were legal-design reads and both
     // are integrated. The third was a 23-county clerk survey, and it was the
     // wrong gate: it was holding the statewide packet on unpublished local
