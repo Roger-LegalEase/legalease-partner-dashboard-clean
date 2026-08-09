@@ -265,28 +265,104 @@ The new `verify-rcap-onboarding-partner-labels.mjs` added by this branch is in t
 position — it passes, and it gates nothing until D-2 lands. It is listed for wiring with
 the rest.
 
+## 4a. Second pass — what was closed
+
+The shared-file freeze was lifted for this branch, so the dependencies recorded above were
+worked rather than deferred. All four are closed except the parts that need a hosted
+environment.
+
+| Was | Now |
+| --- | --- |
+| D-1 support destination | **Closed.** `src/lib/partners/onboarding/support-contact.ts` resolves one address from `RCAP_PARTNER_SUPPORT_EMAIL`, defaulting to `partners@legalease.com`, and returns the mailto, label and accessible name. A malformed override falls back rather than rendering a broken link. Wired into the onboarding home, both account-access dead ends, and the submission-failure card. **Residual: the mailbox must be confirmed as forwarding and monitored before launch.** |
+| D-2 gate coverage | **Closed.** `scripts/verify-onboarding-all.mjs` owns every onboarding verifier and refuses to run when one exists that no group claims. `npm test` invokes it once; local coverage went from 11 to 23. A new `RCAP Partner Onboarding` workflow runs lint, typecheck, the local group, launch readiness, and the credential-free build on every PR. |
+| D-3 hosted staging | **Still open — external.** See §4b. |
+| D-4 credential-free build | **Closed.** Root cause was eight authenticated pages missing `export const dynamic`; sixteen siblings behind the same gate already had it. `npm run build` now completes with the Supabase variables explicitly empty, and all sixteen protected routes report as dynamic with no static HTML emitted. |
+
+Also fixed in this pass:
+
+- **`verify-launch-readiness.mjs` passes.** Three unrelated causes: `.env.example` pointed
+  `NEXT_PUBLIC_LEGALEASE_URL` at the email domain rather than the web origin defined in
+  `app-url.ts`; the intake disclaimer omitted the eligibility clause; and the internal
+  route-protection check required a `/internal/:path*` matcher entry that no longer exists
+  because the gate moved into the middleware body. The route was protected the whole time —
+  the assertion now checks the gate that exists, including the default-deny return it never
+  looked at.
+- **`verify-rcap-partner-onboarding-ui.mjs` runs at all.** It rendered four fixtures missing
+  required props and threw before its first assertion. Pre-existing, reproduces at the
+  branch base. Fixed by supplying the props, not by making them optional.
+- **Migrations verified against a live database.** All 42 apply cleanly in the correct
+  order. Ordering matters: phase number then letter suffix, so 19 precedes 19i and 35
+  precedes 35b/c/d.
+- **RLS tenant isolation proven, not asserted.** As a real authenticated role: a partner
+  sees only their own workspace, an identity-less session sees nothing, cross-tenant read,
+  update, insert and delete all fail, a disabled membership loses access, and every
+  `partner_onboarding*` table has RLS enabled.
+
+### Runtime behavior observed against a running production build
+
+With no Supabase credentials present:
+
+| Route | Result |
+| --- | --- |
+| `/internal/partners/data` | `401` — the proxy gate fails closed |
+| `/partner/onboarding`, `/partner/dashboard`, `/dashboard/partners` | `500`, Next's generic error page |
+
+The 500 responses disclose nothing: the configuration error appears in the server log only,
+and the browser body contains no mention of Supabase, no key, and no stack. So the routes
+fail closed and leak nothing, but the failure is a generic 500 rather than a legible
+message. That residual is recorded rather than claimed as polished.
+
+## 4b. The one remaining external blocker
+
+**Hosted staging access.** Authenticated browser journeys cannot run here:
+
+- `supabase.auth.signInWithPassword` and `auth.getUser()` call GoTrue, a hosted service. A
+  local PostgreSQL supplies the database but not the auth API, so no signed-in screen can
+  be reached in a browser.
+- The Supabase CLI is not installed, and Docker image pulls are blocked by the environment
+  proxy (`403` from the registry CDN), so GoTrue cannot be run locally either.
+- No staging Supabase credentials are available to this session.
+
+Everything that does not depend on it has been completed. The exact commands and the
+36-step numbered checklist are in `HOSTED_ACCEPTANCE.md`.
+
+Not run, and not claimed: hosted Auth redirects and session establishment, invitation email
+delivery and acceptance, single-use token behavior, Storage privacy and signed-URL expiry,
+browser rendering, keyboard operation, screen-reader output, and responsive verification at
+real viewports.
+
 ## 5. Status
 
 Phase 1 fixes for F-1, F-2, and F-3 are implemented on this branch. F-4 is documented
 and deferred to the D-1 handoff.
 
-**RCAP onboarding is not commercially ready.** The blocking gates that remain are D-1,
-D-2, D-3, and D-4 above. No hosted staging acceptance has been run, so no readiness claim
-is made for hosted Auth, RLS, Storage, invitation, upload, or download behavior, and
-`npm run build` is red on `main` independently of this work.
+**RCAP onboarding is not commercially ready.** One blocking gate remains: **D-3, hosted
+staging acceptance**, and it is external to the repository (§4b). D-1, D-2 and D-4 are
+closed. Every local gate is green, including two that were red on `main` before this work.
 
 ### Gates run on this branch
 
 | Gate | Result |
 | --- | --- |
-| `npm run typecheck` | pass (exit 0) |
-| `npm run lint` | pass (exit 0; 21 pre-existing warnings, none in changed files) |
-| `npm test` | pass (exit 0; 57 script files, no failing assertions) |
-| 11 onboarding verifiers run by hand | pass |
-| `scripts/verify-rcap-onboarding-partner-labels.mjs` (new) | pass, 11/11 checks |
+| `npm run typecheck` | pass |
+| `npm run lint` | pass, 0 errors (21 pre-existing warnings, none in changed files) |
+| `npm test` | pass, no failing assertions |
+| `partners:verify-onboarding-all` (local group, 23 verifiers) | pass |
+| `partners:verify-launch-readiness` | pass — **was failing on `main`** |
+| `verify-rcap-onboarding-partner-labels.mjs` | pass, 11/11 |
+| `verify-rcap-onboarding-support-contact.mjs` | pass, 11/11 |
+| `verify-rcap-partner-onboarding-ui.mjs` | pass — **was throwing on `main`** |
+| Migrations applied in order to live PostgreSQL | 42/42 |
+| `verify-onboarding-tenant-isolation.mjs` (live RLS) | pass, 8/8 |
+| `npm run build` with Supabase vars empty | pass — **was failing on `main`** |
+| Runtime probe of protected routes | fails closed, no disclosure (§4a) |
 | `git diff --check` | clean |
-| `npm run build` | **fail — pre-existing, see D-4** |
-| `partners:verify-launch-readiness` | **fail — pre-existing, see D-2** |
 
-Not run, and not claimed: hosted staging acceptance (§12), browser journeys against a
-running app, accessibility tooling, and screenshot evidence (§14). Those depend on D-3.
+Every verifier added or repaired in this work was mutation-tested: a deliberate break of
+the condition it protects makes it fail. Specifically — restoring the old closed-program
+copy; removing the owner from an agreement label; removing the proxy's deny path; removing
+the `/internal` prefix match; removing the aggregate from `npm test`; dropping a verifier
+from the registry; disabling RLS on an onboarding table; and broadening a tenant policy to
+`using (true)`.
+
+Still not run, and not claimed: everything in §4b.
