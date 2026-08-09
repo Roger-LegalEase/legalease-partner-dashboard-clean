@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ma-tc0021-source-structure-resolution",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "MA",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_identity_resolution",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "2623973b89943efc2a0d2d5a284ca4db90278b3f",
+  "generatedOn": "2026-08-09",
+
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero. This job retrieved nothing. It reads the binary the integrated source contract already pins — sha256 a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c, 1,393,680 bytes — and settles a structural question from those bytes.",
+  "reconciliationIds": [
+    "structure:MA:TC0021:acroform-or-xfa"
+  ],
+
+  "generatedFrom": [
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-official-download-automation-blocked.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0021.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-05-acquisition-campaign-tier-2.json"
+  ],
+
+  "questionOwned": "Whether TC0021 is a clean AcroForm or an XFA form, and which of the repository's two contradicting statements about it is wrong. Nothing else. This record chooses no renderer and moves no gate.",
+
+  "documentUnderResolution": {
+    "documentId": "TC0021",
+    "officialTitle": "PETITION FOR EXPUNGEMENT OF MARIJUANA OFFENSES",
+    "statutoryCitationOnFace": "G.L. c. 276, § 100K¼",
+    "issuer": "Trial Court of Massachusetts, standardized across Boston Municipal Court, District Court, Juvenile Court and Superior Court",
+    "printedRevision": "TC0021 (11/22)",
+    "resolvedRevision": "REV-2022-11",
+    "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+    "bytes": 1393680,
+    "mediaType": "application/pdf",
+    "bytesIdentityNote": "This digest is the one the integrated download contract pins, the one the source-artifact registry records, and the one Edition 1.2 holds at STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf. All three are the same bytes, so the finding below is about the document every one of those records is describing and there is no ambiguity about which copy was measured."
+  },
+
+  "method": {
+    "description": "The binary the integrated contract pins was parsed and its AcroForm dictionary, XFA packet array, document-level JavaScript name tree, terminal field tree and widget annotations were read. The result was cross-checked against the independent measurement recorded in the integrated download contract. Both readings are of the same digest.",
+    "measuredFromDigest": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+    "instrument": "scripts/rcap-factory-inspect-pdf.mjs, corroborated by the measurement in rcap-ma-public-official-download-tc0021.json",
+    "networkRequestsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "renderersChosen": 0,
+    "analogyUsed": false,
+    "analogyRefused": {
+      "candidate": "PROB0002 on courtforms.jud.state.ma.us",
+      "why": "PROB0002's XFA structure is confirmed and it is a different document served by a different host. A structural finding about one form is not evidence about another, and this record does not use it. Had TC0021 turned out to be a clean AcroForm, the PROB0002 analogy would have produced the wrong answer with the same confidence.",
+      "alsoRefused": "The mass.gov list-wide warning — 'These forms may not display properly in your browser. Please download the form(s) you need and open in Acrobat Reader' — is consistent with XFA but is a notice attached to a whole list. It is not proof about any individual file and it was not treated as proof here."
+    }
+  },
+
+  "measuredStructure": {
+    "acroFormPresent": true,
+    "xfa": true,
+    "xfaPacketArrayPresent": true,
+    "xfaPackets": ["config", "template", "localeSet", "datasets", "xmpmeta", "xfdf", "form"],
+    "xfaProducer": "Adobe LiveCycle Designer 11.0",
+    "documentLevelJavaScript": true,
+    "documentLevelJavaScriptEntries": 3,
+    "encrypted": false,
+    "needsRendering": false,
+    "structuralClass": "xfa_hybrid_with_acroform_widget_shadow",
+    "inspectorStructureClass": "xfa_pdf",
+    "structuralClassNote": "The inspector's own vocabulary calls it xfa_pdf; the registry vocabulary for the same thing is xfa_hybrid_with_acroform_widget_shadow, which is the more precise of the two because this document does carry a widget shadow and the dynamic MPS shell does not.",
+    "pageCount": 2,
+    "pageSizes": ["612x792", "612x792"],
+    "pageRotations": [0, 0],
+    "terminalFieldCount": 29,
+    "widgetAnnotationCount": 29,
+    "logicalFieldCount": 29,
+    "multiWidgetFieldCount": 0,
+    "duplicateFieldNames": [],
+    "widgetAnnotationsPerPage": [28, 1],
+    "fieldBreakdown": { "textFields": 10, "checkBoxes": 19 },
+    "terminalFieldTypesByPdfType": { "/Tx": 10, "/Btn": 19 },
+    "signatureFieldCount": 0,
+    "actionButtonCount": 0,
+    "denominatorNote": "Logical, terminal and widget counts all equal 29 and no field carries more than one widget, so TC0021 has a single unambiguous field denominator. This is why the recorded count of 29 survived the correction: the count was never the thing that was wrong.",
+    "inspectorWarnings": [
+      "XFA data detected; XFA rendering and ownership require manual review",
+      "raw and high-level field inventories disagree; manual inspection recommended"
+    ]
+  },
+
+  "terminalFieldNames": [
+    "form1[0].#subform[0].CheckBox1[0]",
+    "form1[0].#subform[0].CheckBox1[1]",
+    "form1[0].#subform[0].CheckBox1[2]",
+    "form1[0].#subform[0].CheckBox10[0]",
+    "form1[0].#subform[0].CheckBox2[0]",
+    "form1[0].#subform[0].CheckBox3[0]",
+    "form1[0].#subform[0].CheckBox3[1]",
+    "form1[0].#subform[0].CheckBox3[2]",
+    "form1[0].#subform[0].CheckBox3[3]",
+    "form1[0].#subform[0].CheckBox3[4]",
+    "form1[0].#subform[0].CheckBox3[5]",
+    "form1[0].#subform[0].CheckBox3[6]",
+    "form1[0].#subform[0].CheckBox3[7]",
+    "form1[0].#subform[0].CheckBox4[0]",
+    "form1[0].#subform[0].CheckBox5[0]",
+    "form1[0].#subform[0].CheckBox6[0]",
+    "form1[0].#subform[0].CheckBox7[0]",
+    "form1[0].#subform[0].CheckBox8[0]",
+    "form1[0].#subform[0].CheckBox9[0]",
+    "form1[0].#subform[0].TextField1[0]",
+    "form1[0].#subform[0].TextField1[1]",
+    "form1[0].#subform[0].TextField1[2]",
+    "form1[0].#subform[0].TextField1[3]",
+    "form1[0].#subform[0].TextField1[4]",
+    "form1[0].#subform[0].TextField1[5]",
+    "form1[0].#subform[0].TextField1[6]",
+    "form1[0].#subform[0].TextField1[7]",
+    "form1[0].#subform[0].TextField2[0]",
+    "form1[0].#subform[1].TextField1[8]"
+  ],
+  "terminalFieldNameFinding": {
+    "observation": "Every terminal field name is a fully qualified XFA SOM expression — form1[0].#subform[N].<Field>[i] — rather than a hand-authored AcroForm name.",
+    "whyItMatters": "This naming is generated by an XFA template. It is independent corroboration of the packet array: even without reading /XFA, a field tree named this way did not come from an AcroForm someone drew in Acrobat.",
+    "consequenceForAnyFieldMap": "A field map or ownership map must key on these SOM names. They are not stable, human-meaningful labels — CheckBox3[0] through CheckBox3[7] are eight distinct selections whose meaning lives only in the template's captions — so a map built from the names alone cannot be reviewed for correctness by reading it.",
+    "pageDistribution": "Twenty-eight fields sit in #subform[0] on page 1 and one, TextField1[8], sits in #subform[1] on page 2."
+  },
+
+  "resolution": {
+    "verdict": "xfa_controlling",
+    "isCleanAcroForm": false,
+    "isXfa": true,
+    "statementThatIsWrong": {
+      "statement": "the measured source-artifact registry row",
+      "recordPath": "data/record-clearing/source-artifact-registry.json",
+      "artifactId": "tc0021-petition-for-expungement-of-marijuana-offenses-rev-2022-11",
+      "asItRead": {
+        "technicalClass": "clean_acroform",
+        "fieldCount": 29,
+        "xfa": false
+      },
+      "whichPartsAreWrong": ["technicalClass", "xfa"],
+      "whichPartIsRight": "fieldCount 29 is correct and is confirmed by this measurement: 29 terminal fields and 29 widget annotations.",
+      "howItWentWrong": "A measurement that counts the AcroForm widget layer and stops there sees 29 clean widgets and reports a clean AcroForm. The widget layer is real; what it is not is the whole document. The row recorded a true count under a false class.",
+      "correctionState": "Already corrected in the working registry at commit d922d55, which now reads technicalClass xfa_hybrid_with_acroform_widget_shadow and xfa true. This record is the finding that ratifies that correction rather than a request to make it."
+    },
+    "statementThatIsRight": {
+      "statement": "the free text on the same record and the Edition 1.2 manifest row",
+      "editionManifestRow": "MA:TC0021:PETITION:EN in STATES/MA/STATE_MANIFEST.csv of the adopted Edition 1.2 archive",
+      "verbatim": "Official statewide form, but it is XFA. The existing runtime renderer cannot fill XFA; preserve as source-gated until converted or handled by an approved strategy.",
+      "assessment": "Right on both counts — the document is XFA and the runtime renderer cannot fill it — and right for the right reason. The instruction it drew from that fact, to preserve the form as source-gated, was also correct."
+    },
+    "theEditionRowContradictsItself": {
+      "observation": "The Edition 1.2 manifest row carries structural_class acroform_pdf in its own column while its notes column on the same line says the form is XFA.",
+      "consequence": "The wrong statement is in two places, not one. The registry copy is corrected; the Edition 1.2 copy cannot be, because Edition 1.2 is published and immutable.",
+      "whereItGetsCorrected": "rcap-ma-edition-successor-handoff carries the correction into the next successor tranche as an amendment handoff item: MA:TC0021:PETITION:EN structural_class from acroform_pdf to xfa_hybrid_with_acroform_widget_shadow.",
+      "note": "acroform_pdf is the adopted manifest's own spelling of the AcroForm class and rendererLane() accepts it as such, so the wrong value was not inert — see the renderer consequence below."
+    }
+  },
+
+  "rendererPolicyConsequence": {
+    "headline": "TC0021 leaves the AcroForm-fill lane and enters the non-renderable-source policy lane. This is the whole practical effect of the finding.",
+    "mechanism": {
+      "classifier": "rendererLane(technicalClass, encrypted, xfa) in scripts/lib/rcap-official-pdf-production-queue.mjs",
+      "rule": "The function tests encrypted === true || xfa === true first and returns nonrenderable_source_policy_required before it looks at technicalClass at all.",
+      "underTheWrongFacts": "With xfa false, control fell through to the AcroForm branch, whose accepted values include clean_acroform and the adopted manifest's acroform_pdf. TC0021 matched on both inputs and resolved to acroform_or_hybrid_candidate.",
+      "underTheCorrectFacts": "With xfa true the function short-circuits on the first test and resolves to nonrenderable_source_policy_required. The 29 widgets never enter the decision.",
+      "secondClassifierWithTheSameShape": "rendererCandidate(artifact) in scripts/lib/rcap-official-pdf-family-scaffold.mjs applies the same precedence and would previously have returned acroform_fill_candidate for the same reason."
+    },
+    "currentState": {
+      "projectionIdentity": "rcap-ma-tc0021-c27ebc60cd",
+      "rendererLaneCandidate": "nonrenderable_source_policy_required",
+      "disposition": "source_gated_identity",
+      "sourceIdentityState": "exact_source_requirement_ready",
+      "assignmentEligible": false,
+      "note": "The lane already reads correctly at this base commit because the registry correction landed at d922d55. What was missing was the record of which statement was wrong and why, which is what this job owns."
+    },
+    "conditionalDispositionChange": {
+      "rule": "officialPdfDisposition() in scripts/lib/rcap-factory/materialization-planning.mjs returns legal_design_or_technical_policy_blocked when sourceIdentityState is exact_source_requirement_ready, rendererLaneCandidate is nonrenderable_source_policy_required, and an authority asset for the document carries assetClass packet_form.",
+      "whyItHasNotFiredYet": "TC0021's Edition 1.2 asset class is source_gated, not packet_form, so the third condition is unmet and the identity stays at source_gated_identity.",
+      "whenItWillFire": "If a successor edition admits TC0021 as a packet_form asset. rcap-ma-edition-successor-handoff deliberately proposes assetClass source_gated for exactly this reason: promoting the asset class is what moves TC0021 from a source gate into a technical-policy gate, and that should be a decision somebody makes rather than a side effect somebody discovers.",
+      "notARegression": "Either way TC0021 is not assignable. The difference is which owner is being asked for what."
+    },
+    "policyOwner": {
+      "jobId": "PLAT-03-non-renderable-source-policy",
+      "title": "Decide the approved handling for docx, html, encrypted and scanned sources",
+      "whyThisDocumentBelongsToIt": "It is a form the existing renderer cannot fill, held at exact bytes, with a real participant-facing route behind it."
+    },
+    "substantiveReasonTheLaneMatters": {
+      "statement": "Filling the 29 AcroForm widgets would not fill this form.",
+      "why": "In an XFA hybrid the widget layer is a compatibility shadow of the XFA template. The document's content is rendered from the XFA datasets packet, and writing AcroForm field values does not write that packet. An AcroForm fill against these 29 widgets can therefore complete without error and produce a document whose visible content is unchanged.",
+      "whyThatIsTheDangerousCase": "The failure is silent. Nothing throws, a PDF is produced, and the defect is only visible to somebody who opens the output and reads it. That is why a wrong structural class on a row with a right field count was not a cosmetic error.",
+      "documentLevelJavaScriptCompoundsIt": "Three document-level JavaScript entries mean the form expects a viewer that executes them. A fill pipeline that ignores them is not reproducing the form the issuer publishes.",
+      "notADecision": "None of this chooses a handling strategy. Whether the answer is an XFA-capable renderer, a coordinate overlay on a flattened render, a participant-completed source, or something else, is PLAT-03's to decide and is not decided here."
+    }
+  },
+
+  "trackConsequence": {
+    "trackIds": ["ma-expunge-mj"],
+    "componentIds": ["ma-expunge-mj-primary-filing-1"],
+    "effect": "None today. The track was not assignable before this finding and is not assignable after it. What changes is that its blocker is now named correctly: it is a renderer-policy question about an XFA source, not a missing or ambiguous measurement.",
+    "trackMarkedReady": false
+  },
+
+  "unresolved": [
+    {
+      "id": "ma-tc0021-approved-handling",
+      "question": "What is the approved handling for an XFA source with a participant-facing route behind it?",
+      "status": "open",
+      "owner": "PLAT-03-non-renderable-source-policy"
+    },
+    {
+      "id": "ma-tc0021-edition-structural-class",
+      "question": "Edition 1.2 records structural_class acroform_pdf for this document and cannot be amended.",
+      "status": "carried_to_successor",
+      "owner": "rcap-ma-edition-successor-handoff and the successor tranche that admits it"
+    },
+    {
+      "id": "ma-tc0021-license-disposition",
+      "question": "Do the Commonwealth's terms permit reproducing this form in a paid packet?",
+      "status": "unresolved",
+      "why": "No restriction is published on the forms index or the how-to pages and a Commonwealth copyright and service-mark notice is present. Absence of a published restriction is not a grant. Independent of structure and not answered here.",
+      "owner": "counsel or a commercial-licence owner"
+    }
+  ],
+
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "counselAdopted": false,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "binariesMaterialized": 0,
+    "receiptsWritten": 0,
+    "renderersChosen": 0,
+    "editionMutated": false,
+    "editionPublished": false,
+    "trackMarkedReady": false,
+    "analogyUsedAsEvidence": false,
+    "evidenceFabricated": false
+  }
+}
