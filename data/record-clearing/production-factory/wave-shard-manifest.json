@@ -5,7 +5,7 @@
   "reviewShardReservationNote": "The claim schema's ownerSession enum is SESSION_B through SESSION_F, and review is none of those. R1 and R2 are therefore reserved here rather than in job-claims.json. This manifest is the reservation of record for them; widening the claim enum would change the job manifest and, through it, worker branch identity.",
   "shardIdentifiersAreNotSessions": "R1 and R2 are shard identifiers, not sessions. Both are owned by SESSION_R, which is the single human review session: R1 carries its technical and visual reads, R2 carries its completed-output legal reads, and the split exists so the two kinds of review cannot be recorded against each other's paths. They were briefly written as ownerSession SESSION_R1 and SESSION_R2, which reads as two review sessions and would have someone opening a second one. The human pool is exactly A, B, C, D, E, F and R; every shard here names one of those seven and no shard may name anything else.",
   "baseline": {
-    "baseCommit": "0ca0bae78900710231a5327dfb92519f1bbc809e",
+    "baseCommit": "55a177156ab0a955128ca94f75e71a219a96fb92",
     "authorityVersion": "master-library/1.2",
     "authorityEdition": "1.2"
   },
@@ -209,11 +209,11 @@
       },
       {
         "path": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
-        "sha256": "371cd5e98f8dc000b1f53cccd39d4113de36b64e974e4e7841f9a35f8b579649"
+        "sha256": "f1173e1024731365096660a01ec9d76f5b63ece88c776368e9b67e867b2edc6e"
       },
       {
         "path": "data/record-clearing/production-factory/official-pdf-source-contract-reconciliation.json",
-        "sha256": "0e4e57b18c821ae236484ed4060307a0fc2c2cc76b78e8bf563aecdb2032f87d"
+        "sha256": "f35af4da5eaf4e8e13c925a9b6395aef22370c2fc0ce8ba50c30dbea3c61a002"
       },
       {
         "path": "data/record-clearing/source-artifact-registry.json",
@@ -553,7 +553,7 @@
       },
       {
         "path": "planning/record-clearing-100-percent/production-plan.json",
-        "sha256": "a709a7852beb9437fe8483c7b464c6deaefec166b1ef93dbf2165e9422fa62cf"
+        "sha256": "c240b0a5908a09a1ff034a66101917ed91761d5b5c1490098a05fd86e01b873f"
       },
       {
         "path": "src/lib/rcap/jurisdictions/packet-capability.ts",
@@ -1524,5 +1524,5 @@
       ]
     }
   ],
-  "manifestSha256": "53b1d904936e7be4b0a219fbe3c70f293a0064e20d6773ce89760c65750c9daf"
+  "manifestSha256": "477570408bb124fd7a2b3b58c0dca6f247cf92b71c422df11da8099e94a24bb8"
 }

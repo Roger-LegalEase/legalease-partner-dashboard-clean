@@ -2,6 +2,11 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
+import {
+  buildSourceAuthorizationIndex,
+  permitsGeneration
+} from "./source-authorization.mjs";
+
 export const LEGAL_REVIEW_MATERIALIZATION_CONTRACT_PATH =
   "data/record-clearing/production-factory/legal-review-materialization-contract.json";
 export const OFFICIAL_PDF_SOURCE_PROJECTION_PATH =
@@ -286,28 +291,34 @@ export function buildLegalReviewMaterializationContract(rootDir) {
  * to extend a list.
  */
 function licenseDeniedJurisdictionSet(rootDir) {
-  const directory = path.join(
-    rootDir,
-    "data/record-clearing/production-factory/source-acquisition"
-  );
+  // Ask the authorization index what is true now, rather than the pile of
+  // decision files what was ever true.
+  //
+  // This scanned every commercial-licence decision and denied a jurisdiction if
+  // any of them said no. A denial is a record of what was true when it was
+  // made, and this treated it as permanent: Indiana's project-owner attestation
+  // expressly supersedes rcap-in-commercial-license and resolves authorized,
+  // and Indiana still came out of here denied, so the official-PDF projection
+  // kept excluding it on a licence question that had been answered.
+  //
+  // The index already resolves lineage — a successor that names the decision it
+  // supersedes wins over its parent — and it is the same resolver every other
+  // permission consumer uses. Reading it here means supersession works for every
+  // jurisdiction, with no per-jurisdiction exception and no list of attested
+  // states to keep in step.
+  //
+  // Fail-closed is unchanged. A denial with no successor still resolves to a
+  // non-permitting verdict and still lands in this set, and a jurisdiction with
+  // an open licence question that nobody has answered is still withheld.
+  const index = buildSourceAuthorizationIndex(rootDir);
   const denied = new Set();
-  if (!fs.existsSync(directory)) return denied;
-  for (const name of fs.readdirSync(directory).sort()) {
-    if (!name.endsWith(".json")) continue;
-    let decision;
-    try {
-      decision = JSON.parse(fs.readFileSync(path.join(directory, name), "utf8"));
-    } catch {
-      continue;
-    }
-    if (decision?.strategyFamily !== "commercial_license") continue;
-    if (typeof decision.jurisdiction !== "string") continue;
-    if (
-      decision.licenseAdopted === false &&
-      decision.generationAllowed === false
-    ) {
-      denied.add(decision.jurisdiction);
-    }
+  for (const [jurisdiction, decision] of index.decisions) {
+    if (!permitsGeneration(decision.verdict)) denied.add(jurisdiction);
+  }
+  for (const jurisdiction of index.licenseRequiredJurisdictions ?? []) {
+    // An unanswered commercial-use hold is not a grant. It denies unless a
+    // decision resolves it, which the loop above has already established.
+    if (!index.decisions.has(jurisdiction)) denied.add(jurisdiction);
   }
   return denied;
 }

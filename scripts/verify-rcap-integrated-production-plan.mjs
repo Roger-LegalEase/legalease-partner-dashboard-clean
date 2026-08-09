@@ -667,9 +667,13 @@ assert.equal(officialPdfSourceContract.totals.projectedDocumentIdentities, 328);
 // and remain so, but the Indiana licence decision withholds generation, and an
 // unauthorized source is not an exact worker assignment. The count is the
 // consequence; the rule is asserted below against the live corpus.
+// 60 -> 76: Indiana's identities became exactly assignable again once the
+// official-PDF derivation stopped treating a superseded licence denial as the
+// current verdict. Permission was the only thing removed; every other gate on
+// those identities still applies.
 assert.equal(
   officialPdfSourceContract.totals.projectedExactWorkerAssignments,
-  60
+  76
 );
 {
   const authorization = buildSourceAuthorizationIndex(ROOT);
@@ -709,8 +713,8 @@ assert.equal(
   ).length
 );
 // 85 -> 88 packet modules: the Hawaii custom pleading and the clean Ohio and
-// Washington splits each landed one.
-assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 88);
+// Washington splits each landed one. 88 -> 89 with Kentucky's clean track.
+assert.equal(officialPdfSourceContract.verifierBoundary.packetModuleCount, 89);
 assert.equal(
   officialPdfSourceContract.verifierBoundary.packetWorkerMaterializationPaths,
   0
@@ -737,27 +741,28 @@ assert.equal(
     .projectedDocumentIdentities,
   328
 );
-// Mirrors the contract total above: 63 -> 60 under the Indiana licence.
+// Mirrors the contract total above: 60 -> 76 now that the Indiana licence
+// exclusion is superseded and no longer withholds its identities.
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedExactWorkerAssignments,
-  60
+  76
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .unresolvedSourceIdentities,
   208
 );
-// 173 -> 166. Seven Indiana identities stopped being counted as merely
-// unresolved and are now classified by the reason that actually controls them:
-// deliberately_excluded_commercial_license. Together with the three that moved
-// out of exact_worker_assignable, all ten Indiana identities now name the
-// licence as their blocker instead of hiding behind "unresolved". Nothing was
-// acquired, lost or re-measured; the same 328 identities are projected.
+// 173 -> 166 when the licence exclusion classified ten Indiana identities, then
+// 166 -> 170 now that the exclusion is superseded and they are classified by the
+// source problem that actually remains. The licence is no longer any identity's
+// blocker; four of the ten return to unresolved_identity and the rest resolve
+// under their own dispositions. Nothing was acquired, lost or re-measured; the
+// same 328 identities are projected.
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
     .projectedUnresolvedIdentities,
-  166
+  170
 );
 assert.equal(
   productionPlan.officialPdfSourceContractIntegration
@@ -822,19 +827,20 @@ assert.equal(
   "runtime_disabled"
 );
 assert.equal(officialPdfSourceProjection.coverage.queueIdentityCount, 328);
-// 63 -> 60 under the Indiana licence. Eligibility is a permission fact.
-assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 60);
+// 60 -> 76 once the superseded Indiana licence exclusion stopped withholding.
+// Eligibility is a permission fact, and the permission changed.
+assert.equal(officialPdfSourceProjection.coverage.assignmentEligibleCount, 76);
 assert.deepEqual(
   officialPdfSourceProjection.coverage.countsByDisposition,
   {
-    // 25 -> 35. All ten Indiana identities moved here: three from
-    // exact_worker_assignable and seven from unresolved_identity. They are
-    // materialized and hash-verified and stay that way; what changed is that
-    // the projection now names the licence as the reason they cannot be worked,
-    // instead of leaving seven of them looking merely unresolved.
-    deliberately_excluded_commercial_license: 35,
-    // 63 -> 60, the three Indiana identities that had been assignable.
-    exact_worker_assignable: 60,
+    // 35 -> 13. Indiana's identities left this bucket when its project-owner
+    // authorization superseded the historical exclusion. What remains here is
+    // the exclusion that is still live — Kansas's scoped commercial-licence
+    // decision, which covers named documents and withholds anything outside
+    // them.
+    deliberately_excluded_commercial_license: 13,
+    // 60 -> 76, Indiana's identities returning to exact assignability.
+    exact_worker_assignable: 76,
     // Completed acquisition decisions settled these identities. For all but one
     // the adopted edition manifests no asset, so there is no portable contract
     // to assign. Vermont's 600-00228 is the exception: the edition retains the
@@ -842,16 +848,16 @@ assert.deepEqual(
     // false and records no byte count, which withholds the contract just the
     // same. None of them is eligible.
     identity_resolved_materialization_required: 26,
-    legal_design_or_technical_policy_blocked: 12,
+    legal_design_or_technical_policy_blocked: 13,
     local_scope_identity: 1,
     // One fewer: the Illinois notice-of-court-date role correction settled it.
-    role_mismatch: 3,
+    role_mismatch: 4,
     // Three fewer: Louisiana's arts. 993, 995 and 998 were source-gated PDF
     // captures of statutory text the issuer publishes only as HTML. They left
     // the official-PDF lane with their six components.
     source_gated_identity: 25,
     // 173 -> 166: the seven Indiana identities above.
-    unresolved_identity: 166
+    unresolved_identity: 170
   }
 );
 assert.equal(legalReviewMaterializationContract.assignmentCount, 24);
@@ -880,8 +886,8 @@ const assignedOfficialPdfIdentityKeys = exactOfficialPdfChildren.flatMap(
 );
 // 63 -> 60: the same three Indiana identities, seen from the implementation
 // side. An unauthorized source is assigned to no owning implementation job.
-assert.equal(assignedOfficialPdfIdentityKeys.length, 60);
-assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 60);
+assert.equal(assignedOfficialPdfIdentityKeys.length, 76);
+assert.equal(new Set(assignedOfficialPdfIdentityKeys).size, 76);
 // Every eligible identity is either assigned to an owning implementation job or
 // explicitly recorded as having no lane to own it. New Jersey's CN-10557 and New
 // York's CPL 160.59 packet are the second case: the projection resolved them
@@ -906,13 +912,14 @@ for (const identityKey of laneUnownedIdentityKeys) {
     `${identityKey} must not be assigned while no implementation lane owns it`
   );
 }
-// 61 -> 58: Indiana again.
+// 58 -> 74: Indiana again, in the other direction. Its identities are new
+// implementation work once more, now that permission is not withholding them.
 assert.equal(
   exactOfficialPdfChildren.flatMap(
     (child) =>
       child.officialPdfAssignment.newImplementationIdentityKeys
   ).length,
-  58
+  74
 );
 assert.equal(
   exactOfficialPdfChildren.flatMap(

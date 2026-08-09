@@ -916,21 +916,28 @@ await check("packet, source-materialization, and normalization readiness fail cl
     (total, job) => total + job.officialPdfAssignment.identityKeys.length,
     0
   );
-  assert.equal(officialJobs.length, 25);
-  assert.equal(exactAssignments, 60);
+  // 25 -> 28: Indiana's official-PDF jobs stopped being excluded on a licence
+  // question its successor authorization had already answered, so they now
+  // carry exact identity assignments like every other permitted jurisdiction.
+  assert.equal(officialJobs.length, 28);
+  // 60 -> 76 for the same reason: Indiana's identities are pinned to its jobs
+  // now that the retired exclusion no longer removes them from assignment.
+  assert.equal(exactAssignments, 76);
   assert.ok(
     officialJobs.every(
       (job) => job.assignmentClaim?.ownerSession === "SESSION_E"
     )
   );
-  // Unique keys track the same withholding: 63 -> 60 without Indiana's three.
+  // Unique keys track the same change: 60 -> 76 now that Indiana's identities
+  // are assignable again. The earlier note said "63 -> 60 without Indiana's
+  // three", which is the withholding this pass removed.
   assert.equal(
     new Set(
       officialJobs.flatMap(
         (job) => job.officialPdfAssignment.identityKeys
       )
     ).size,
-    60
+    76
   );
   const marylandMaterializationOnly = officialJobs
     .flatMap(
@@ -939,13 +946,15 @@ await check("packet, source-materialization, and normalization readiness fail cl
           .existingImplementationMaterializationOnlyIdentityKeys
     );
   assert.equal(marylandMaterializationOnly.length, 2);
-  // 61 -> 58 for the same reason: Indiana's three are retained and verified,
-  // and not assignable.
+  // 58 -> 74: Indiana's identities are assignable again now that its successor
+  // authorization supersedes the historical exclusion. The earlier note read
+  // "61 -> 58 ... Indiana's three are retained and verified, and not
+  // assignable", which is exactly the state this pass corrected.
   assert.equal(
     officialJobs.flatMap(
       (job) => job.officialPdfAssignment.newImplementationIdentityKeys
     ).length,
-    58
+    74
   );
   const officialProjection = readJson(
     "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json"
@@ -5115,6 +5124,123 @@ await check(
 );
 
 await check(
+  "a superseded denial stops denying, and an unsuperseded one does not",
+  () => {
+    const index = buildSourceAuthorizationIndex(ROOT);
+
+    // Indiana: the historical denial is still in the corpus and still says no.
+    const historical = JSON.parse(
+      fs.readFileSync(
+        path.join(
+          ROOT,
+          "data/record-clearing/production-factory/source-acquisition",
+          "rcap-in-commercial-license.json"
+        ),
+        "utf8"
+      )
+    );
+    assert.equal(historical.generationAllowed, false);
+    assert.equal(historical.licenseAdopted, false);
+
+    // And it is no longer the current verdict, because a successor names it.
+    const indiana = index.decisions.get("IN");
+    assert.equal(indiana.decisionJobId, "rcap-in-project-owner-permission-authorization");
+    assert.equal(indiana.supersedes, "rcap-in-commercial-license");
+    assert.equal(authorizationFor(index, { jurisdiction: "IN" }).generationAllowed, true);
+
+    // The stale exclusion is gone from the live derived layer.
+    const plan = buildFactoryPlan({ rootDir: ROOT });
+    const indianaFill = plan.jobs.find((job) => job.jobId === "rcap-in-acroform-fill");
+    const blockers = indianaFill.officialPdfAssignment?.assignmentBlockers ?? [];
+    assert.ok(
+      !blockers.includes("deliberately_excluded_commercial_license"),
+      `Indiana still carries a retired licence exclusion: ${blockers.join(", ")}`
+    );
+    // Permission removed the permission blocker and nothing else: the real
+    // source problem is still there and still blocks.
+    assert.equal(indianaFill.status, "blocked");
+    assert.ok(blockers.length > 0, "an authorized source is not thereby ready");
+
+    // A denial with no successor still denies. Asserted against the resolver
+    // rather than against a live jurisdiction, because every live licence
+    // question is currently answered and the guard must outlive that.
+    const denialOnlyRoot = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-unsuperseded-"));
+    try {
+      const fixture = authorizationFixture(denialOnlyRoot, {
+        "rcap-zz-commercial-license": {
+          jobId: "rcap-zz-commercial-license",
+          jurisdiction: "ZZ",
+          strategyFamily: "commercial_license",
+          terminalDisposition: "deliberately_excluded_commercial_license",
+          licenseAdopted: false,
+          generationAllowed: false
+        }
+      });
+      const resolved = authorizationFor(fixture, { jurisdiction: "ZZ" });
+      assert.equal(resolved.generationAllowed, false);
+      assert.equal(resolved.workerReadAuthorized, false);
+      assert.equal(
+        deriveSourceLifecycle({ receiptVerified: true, authorization: resolved })
+          .workerReady,
+        false,
+        "an unsuperseded denial must keep its source out of worker readiness"
+      );
+    } finally {
+      fs.rmSync(denialOnlyRoot, { recursive: true, force: true });
+    }
+
+    // Scope isolation: one jurisdiction's grant never reaches another's forms,
+    // and a scoped grant never reaches a document outside its named set.
+    assert.notEqual(
+      authorizationFor(index, { jurisdiction: "MO" }).decisionJobId,
+      "rcap-in-project-owner-permission-authorization"
+    );
+    assert.notEqual(
+      authorizationFor(index, { jurisdiction: "IN" }).decisionJobId,
+      "rcap-mo-project-owner-permission-authorization"
+    );
+    const outsideKansasFamily = authorizationFor(index, {
+      jurisdiction: "KS",
+      documentId: "SOME-UNRELATED-PUBLISHER-FORM"
+    });
+    assert.equal(outsideKansasFamily.generationAllowed, false);
+
+    // Missouri keeps permission and keeps its source problems.
+    assert.equal(authorizationFor(index, { jurisdiction: "MO" }).generationAllowed, true);
+    const missouriFill = plan.jobs.find((job) => job.jobId === "rcap-mo-acroform-fill");
+    const missouriBlockers =
+      missouriFill.officialPdfAssignment?.assignmentBlockers ?? [];
+    assert.ok(
+      !missouriBlockers.includes("deliberately_excluded_commercial_license"),
+      "Missouri must not carry a permission blocker"
+    );
+    assert.ok(
+      missouriBlockers.some((blocker) =>
+        ["source_gated_identity", "unresolved_identity"].includes(blocker)
+      ),
+      `Missouri must keep its real source blockers: ${missouriBlockers.join(", ")}`
+    );
+
+    // Authorization removes only the permission gate. Every other kind of
+    // blocker is still present somewhere in the live official-PDF queue.
+    const officialLanes = ["acroform_fill", "flat_pdf_overlay", "composed_route"];
+    const liveBlockers = new Set(
+      plan.jobs
+        .filter((job) => officialLanes.includes(job.lane))
+        .flatMap((job) => job.officialPdfAssignment?.assignmentBlockers ?? [])
+    );
+    for (const independent of [
+      "unresolved_identity",
+      "source_gated_identity",
+      "role_mismatch"
+    ]) {
+      assert.ok(liveBlockers.has(independent), `${independent} must still gate independently`);
+    }
+    assert.equal(plan.runtime?.packetReady ?? 0, 0);
+  }
+);
+
+await check(
   "the Missouri and Indiana attestations authorize their families and nothing else",
   () => {
     const index = buildSourceAuthorizationIndex(ROOT);
@@ -5691,14 +5817,19 @@ await check("retained evidence is auditable but never participant-facing", () =>
     assert.ok(fs.existsSync(path.join(ROOT, record.receiptPath)));
     assert.equal(record.lifecycle.runtimeEnabled, false);
     if (record.authorizationVerdict === "authorized") {
-      // Granted. Permission is real and buys exactly permission: the source is
-      // still not assignable, because a licence is not a field map.
+      // Granted. Permission is real and buys exactly permission — it never makes
+      // a source assignable by itself. A source that is assignable got there by
+      // passing every other gate too, and says so in its disposition; one that
+      // has not is permitted and waiting. Both are correct, and what must hold
+      // either way is that runtime stays off.
       assert.equal(record.lifecycle.generationAllowed, true);
       assert.equal(record.lifecycle.workerReadAuthorized, true);
-      assert.equal(record.lifecycle.implementationAssignable, false);
+      assert.equal(record.lifecycle.runtimeEnabled, false);
       assert.equal(
         record.lifecycle.disposition,
-        "materialized_evidence_permitted_pending_non_permission_gates"
+        record.lifecycle.implementationAssignable
+          ? "materialized_evidence_worker_ready"
+          : "materialized_evidence_permitted_pending_non_permission_gates"
       );
     } else {
       assert.equal(record.authorizationVerdict, "written_permission_required");
