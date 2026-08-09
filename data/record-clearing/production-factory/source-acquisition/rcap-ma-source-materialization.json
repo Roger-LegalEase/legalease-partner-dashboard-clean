@@ -1,0 +1,905 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ma-source-materialization",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "MA",
+  "lane": "source_acquisition",
+  "strategyFamily": "source_materialization",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "generatedOn": "2026-08-09",
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero. This job downloads nothing. The five binaries were retrieved by the integrated public-official-download jobs and retained under this session's custody; this job installs, reverifies and receipts them.",
+  "reconciliationIds": [
+    "materialization:MA:five-current-official-sources"
+  ],
+  "generatedFrom": [
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-100k-petition-for-expungement.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-mps-petition-to-expunge.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-ocp-petition-to-seal.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0021.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0057.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-05-acquisition-campaign-tier-2.json"
+  ],
+  "method": {
+    "description": "Five binaries installed into the external materialization root at the canonical destination each candidate Edition row implies, then reread from disk and reverified byte for byte. Nothing was fetched, transformed, repaired or substituted.",
+    "networkRequestsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesInstalled": 5,
+    "binariesReread": 5,
+    "receiptsWritten": 5,
+    "renderersChosen": 0,
+    "editionsMutated": 0,
+    "editionsPublished": 0,
+    "legacyArtifactsMaterialized": 0,
+    "byteVerificationMethod": "install_then_reread_and_rehash_from_the_sealed_root"
+  },
+  "materializationRoot": {
+    "operativeRoot": "/tmp/claude-1000/-workspaces-legalease-attorney-review-packages/ee2a9423-dc4e-4eb7-a6c6-d54fd3db21e4/scratchpad/source-root",
+    "operativeRootVolatile": true,
+    "durableMirrorRoot": "/workspaces/rcap-external-inputs",
+    "filesInOperativeRootAfterThisJob": 80,
+    "sealing": {
+      "filesMode": "0444",
+      "directoriesMode": "0555",
+      "symlinks": 0,
+      "resealedAfterInstall": true
+    }
+  },
+  "receipts": [
+    {
+      "schemaVersion": "rcap-source-materialization-result/v1",
+      "authorityEdition": "master-library/1.2",
+      "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+      "jurisdiction": "MA",
+      "documentId": "PETITION-FOR-EXPUNGEMENT-100K",
+      "documentRole": "PRIMARY_FILING",
+      "officialTitle": "PETITION FOR EXPUNGEMENT",
+      "canonicalAuthorityPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
+      "canonicalAuthorityPathStatus": "candidate_successor_row_not_yet_published; Edition 1.2 is unamended and Edition 1.3 is untouched",
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-Petition-for-Expungement.pdf",
+      "repositorySourcePathBasis": "source-artifact registry row whose measured digest equals these bytes",
+      "repositorySourcePathNote": "The repository already holds these exact bytes at this path. That is corroboration of the download, not the acquisition channel; the bytes installed here came from the issuer's own endpoint recorded in the integrated source contract.",
+      "expectedSha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+      "expectedBytes": 1387408,
+      "expectedMediaType": "application/pdf",
+      "portableLocator": "attorney-review-package://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
+      "portableLocatorSha256": "4bd028a959fb05363a32aef12d703c55280cf0203c4c9f4a7843be953942d990",
+      "materializationDestination": "official-pdf/MA/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
+      "locatorScheme": "attorney-review-package",
+      "readOnlyTreatment": "worker_read_only_no_modify",
+      "retentionPolicy": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "identityBindingStatus": "exact_pinned_identity",
+      "verificationCommand": "node scripts/verify-rcap-materialized-source.mjs --source-identity-key rcap-ma-petition-for-expungement-g-l-c-276-100k-03662c521e --sha256 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce --bytes 1387408",
+      "assignmentJobId": "rcap-ma-source-materialization",
+      "materializationOwnerJobId": "rcap-ma-source-materialization",
+      "downstreamImplementationConsumerJobId": null,
+      "assignmentBaseCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+      "assignmentManifestSha256": "df395543138d45543166a9c5a561ba6c30d1be8d1d84435973f32f1385d30dc1",
+      "localVerificationBasis": "freshly_verified_local_bytes",
+      "state": "binary_materialized_hash_verified",
+      "states": [
+        "authority_asset_known",
+        "registry_metadata_present",
+        "binary_materialized",
+        "binary_hash_verified"
+      ],
+      "statesNotReached": [
+        "worker_read_authorized",
+        "worker_ready"
+      ],
+      "actualSha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+      "actualBytes": 1387408,
+      "actualMediaType": "application/pdf",
+      "actualMode": 292,
+      "actualLinkCount": 1,
+      "hashAndMediaVerified": true,
+      "installVerification": {
+        "installedThenReread": true,
+        "rereadSha256Matches": true,
+        "rereadByteCountMatches": true,
+        "mediaTypeVerified": "application/pdf",
+        "fileMode": "0444",
+        "parentDirectoriesSealed": "0555",
+        "hardLinkToMutableSource": false,
+        "linkCount": 1,
+        "symlink": false,
+        "bytesAlteredInAnyWay": false,
+        "transformationsApplied": [],
+        "transformationsRefused": [
+          "flatten",
+          "resave",
+          "optimize",
+          "normalize",
+          "convert",
+          "strip JavaScript",
+          "alter metadata",
+          "repair"
+        ],
+        "durableMirror": {
+          "root": "/workspaces/rcap-external-inputs",
+          "destination": "official-pdf/MA/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
+          "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+          "digestMatchesPrimaryRoot": true,
+          "why": "The operative root is volatile. The same bytes are retained on a surviving filesystem so custody outlives a restart. Both roots are sealed and both verify."
+        }
+      },
+      "sourceStructure": {
+        "pdfHeader": "%PDF-",
+        "pageCount": 2,
+        "encrypted": false,
+        "xfa": true,
+        "xfaPackets": [
+          "config",
+          "template",
+          "localeSet",
+          "xmpmeta",
+          "xfdf",
+          "form",
+          "datasets"
+        ],
+        "needsRendering": false,
+        "acroFormPresent": true,
+        "documentLevelJavaScript": true,
+        "documentLevelJavaScriptEntries": 3,
+        "terminalFieldCount": 26,
+        "widgetAnnotationCount": 26,
+        "terminalFieldTypes": {
+          "/Tx": 7,
+          "/Btn": 18,
+          "/Ch": 1
+        },
+        "structuralClass": "xfa_hybrid_with_acroform_widget_shadow",
+        "printedRevision": "REV-2018-12-20",
+        "revisionStatus": "confirmed_printed_face",
+        "fieldMappingEstablished": false,
+        "rendererSelected": false
+      },
+      "usageBindings": [
+        {
+          "trackId": "ma-expunge-k",
+          "componentId": "ma-expunge-k-primary-filing-1"
+        }
+      ],
+      "provenance": {
+        "projectionPath": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
+        "sourceIdentityKey": "rcap-ma-petition-for-expungement-g-l-c-276-100k-03662c521e",
+        "sourceContractPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-100k-petition-for-expungement.json",
+        "editionCandidateRowPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json",
+        "editionCandidateRowIndex": 1,
+        "officialSourceUrl": "https://www.mass.gov/doc/petition-for-expungement-form/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "retrievalDate": "2026-08-09",
+        "retrievedByThisJob": false,
+        "retrievedByJobId": "rcap-ma-public-official-download-100k-petition-for-expungement",
+        "freshLocalVerification": true,
+        "localVerificationState": "materialized_verified_binary",
+        "registryPath": "data/record-clearing/source-artifact-registry.json",
+        "registryPresenceConfersReadiness": false,
+        "privateCorpusUsed": false,
+        "materializationPass": "rcap-session-f-ma-five-source-materialization",
+        "materializationDate": "2026-08-09",
+        "binaryReextracted": false,
+        "runtimeStatus": "runtime_disabled"
+      },
+      "authorization": {
+        "establishedByThisReceipt": [
+          "sourceIdentityExact",
+          "binaryMaterialized",
+          "binaryHashVerified",
+          "internalEvidenceRetained"
+        ],
+        "notEstablishedByThisReceipt": [
+          "generationAllowed",
+          "licenseAdopted",
+          "workerReady",
+          "implementationAssignable",
+          "runtimeEnablement"
+        ],
+        "commercialUseQuestion": "unresolved",
+        "commercialUseEvidence": "No redistribution or commercial-use restriction is published on the Commonwealth's forms index or its how-to pages, and a Commonwealth copyright and service-mark notice is present. Absence of a published restriction is not an affirmative grant.",
+        "blockerPreserved": "ma-commercial-use-authorization-unresolved",
+        "possessionIsNotPermission": "These bytes are in custody and verified. That is an evidence fact and it says nothing about whether LegalEase may reproduce them in a paid packet."
+      },
+      "workerReady": false,
+      "workerReadyReason": "Withheld deliberately. Massachusetts commercial-use authorization is unresolved, and the assignment forbids inferring worker readiness from possession or hash verification.",
+      "ready": false,
+      "materializationAction": "materialized_verified_binary"
+    },
+    {
+      "schemaVersion": "rcap-source-materialization-result/v1",
+      "authorityEdition": "master-library/1.2",
+      "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+      "jurisdiction": "MA",
+      "documentId": "MA-PROBATION-SERVICE",
+      "documentRole": "PETITION",
+      "officialTitle": null,
+      "canonicalAuthorityPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge__REV-UNREADABLE-FROM-FACE__EN.pdf",
+      "canonicalAuthorityPathStatus": "candidate_successor_row_not_yet_published; Edition 1.2 is unamended and Edition 1.3 is untouched",
+      "repositorySourcePath": null,
+      "repositorySourcePathBasis": "none — the repository holds no copy of this document at these bytes",
+      "repositorySourcePathNote": "Null, and structurally so. The repository holds only the retired 13,137-byte legacy copy, which is a different artifact. The captain-side receipt loader requires a non-empty repositorySourcePath, so this receipt cannot satisfy that check until the current bytes are imported into the repository corpus under this identity.",
+      "expectedSha256": "878ec5f84781138738c3de98a5813eb30f42d36b5bba6f468e5e768612943c81",
+      "expectedBytes": 3131095,
+      "expectedMediaType": "application/pdf",
+      "portableLocator": "attorney-review-package://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge__REV-UNREADABLE-FROM-FACE__EN.pdf",
+      "portableLocatorSha256": "3c4e89df716e39c9af62e42b5218752af0e37016fdcc27e72d3fa0197578b37f",
+      "materializationDestination": "official-pdf/MA/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge__REV-UNREADABLE-FROM-FACE__EN.pdf",
+      "locatorScheme": "attorney-review-package",
+      "readOnlyTreatment": "worker_read_only_no_modify",
+      "retentionPolicy": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "identityBindingStatus": "exact_pinned_identity",
+      "verificationCommand": "node scripts/verify-rcap-materialized-source.mjs --source-identity-key rcap-ma-massachusetts-probation-service-petition-to-expu-6f865336b7 --sha256 878ec5f84781138738c3de98a5813eb30f42d36b5bba6f468e5e768612943c81 --bytes 3131095",
+      "assignmentJobId": "rcap-ma-source-materialization",
+      "materializationOwnerJobId": "rcap-ma-source-materialization",
+      "downstreamImplementationConsumerJobId": null,
+      "assignmentBaseCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+      "assignmentManifestSha256": "df395543138d45543166a9c5a561ba6c30d1be8d1d84435973f32f1385d30dc1",
+      "localVerificationBasis": "freshly_verified_local_bytes",
+      "state": "binary_materialized_hash_verified",
+      "states": [
+        "authority_asset_known",
+        "registry_metadata_present",
+        "binary_materialized",
+        "binary_hash_verified"
+      ],
+      "statesNotReached": [
+        "worker_read_authorized",
+        "worker_ready"
+      ],
+      "actualSha256": "878ec5f84781138738c3de98a5813eb30f42d36b5bba6f468e5e768612943c81",
+      "actualBytes": 3131095,
+      "actualMediaType": "application/pdf",
+      "actualMode": 292,
+      "actualLinkCount": 1,
+      "hashAndMediaVerified": true,
+      "installVerification": {
+        "installedThenReread": true,
+        "rereadSha256Matches": true,
+        "rereadByteCountMatches": true,
+        "mediaTypeVerified": "application/pdf",
+        "fileMode": "0444",
+        "parentDirectoriesSealed": "0555",
+        "hardLinkToMutableSource": false,
+        "linkCount": 1,
+        "symlink": false,
+        "bytesAlteredInAnyWay": false,
+        "transformationsApplied": [],
+        "transformationsRefused": [
+          "flatten",
+          "resave",
+          "optimize",
+          "normalize",
+          "convert",
+          "strip JavaScript",
+          "alter metadata",
+          "repair"
+        ],
+        "durableMirror": {
+          "root": "/workspaces/rcap-external-inputs",
+          "destination": "official-pdf/MA/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge__REV-UNREADABLE-FROM-FACE__EN.pdf",
+          "sha256": "878ec5f84781138738c3de98a5813eb30f42d36b5bba6f468e5e768612943c81",
+          "digestMatchesPrimaryRoot": true,
+          "why": "The operative root is volatile. The same bytes are retained on a surviving filesystem so custody outlives a restart. Both roots are sealed and both verify."
+        }
+      },
+      "sourceStructure": {
+        "pdfHeader": "%PDF-",
+        "pageCount": 1,
+        "encrypted": false,
+        "xfa": true,
+        "xfaPackets": [
+          "config",
+          "template",
+          "localeSet",
+          "datasets",
+          "xmpmeta",
+          "xfdf",
+          "form"
+        ],
+        "needsRendering": true,
+        "acroFormPresent": true,
+        "documentLevelJavaScript": true,
+        "documentLevelJavaScriptEntries": 3,
+        "terminalFieldCount": 0,
+        "widgetAnnotationCount": 0,
+        "terminalFieldTypes": {},
+        "structuralClass": "dynamic_xfa_shell_no_acroform_widget_shadow",
+        "printedRevision": "REV-UNREADABLE-FROM-FACE",
+        "revisionStatus": "not_machine_readable_from_face",
+        "fieldMappingEstablished": false,
+        "rendererSelected": false
+      },
+      "usageBindings": [
+        {
+          "trackId": "ma-expunge-time",
+          "componentId": "ma-expunge-time-primary-filing-1"
+        }
+      ],
+      "provenance": {
+        "projectionPath": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
+        "sourceIdentityKey": "rcap-ma-massachusetts-probation-service-petition-to-expu-6f865336b7",
+        "sourceContractPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-mps-petition-to-expunge.json",
+        "editionCandidateRowPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json",
+        "editionCandidateRowIndex": 2,
+        "officialSourceUrl": "https://www.mass.gov/doc/courts-dwnld-petition-to-expunge-form/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "retrievalDate": "2026-08-09",
+        "retrievedByThisJob": false,
+        "retrievedByJobId": "rcap-ma-public-official-download-mps-petition-to-expunge",
+        "freshLocalVerification": true,
+        "localVerificationState": "materialized_verified_binary",
+        "registryPath": "data/record-clearing/source-artifact-registry.json",
+        "registryPresenceConfersReadiness": false,
+        "privateCorpusUsed": false,
+        "materializationPass": "rcap-session-f-ma-five-source-materialization",
+        "materializationDate": "2026-08-09",
+        "binaryReextracted": false,
+        "runtimeStatus": "runtime_disabled"
+      },
+      "authorization": {
+        "establishedByThisReceipt": [
+          "sourceIdentityExact",
+          "binaryMaterialized",
+          "binaryHashVerified",
+          "internalEvidenceRetained"
+        ],
+        "notEstablishedByThisReceipt": [
+          "generationAllowed",
+          "licenseAdopted",
+          "workerReady",
+          "implementationAssignable",
+          "runtimeEnablement"
+        ],
+        "commercialUseQuestion": "unresolved",
+        "commercialUseEvidence": "No redistribution or commercial-use restriction is published on the Commonwealth's forms index or its how-to pages, and a Commonwealth copyright and service-mark notice is present. Absence of a published restriction is not an affirmative grant.",
+        "blockerPreserved": "ma-commercial-use-authorization-unresolved",
+        "possessionIsNotPermission": "These bytes are in custody and verified. That is an evidence fact and it says nothing about whether LegalEase may reproduce them in a paid packet."
+      },
+      "workerReady": false,
+      "workerReadyReason": "Withheld deliberately. Massachusetts commercial-use authorization is unresolved, and the assignment forbids inferring worker readiness from possession or hash verification.",
+      "ready": false,
+      "materializationAction": "materialized_verified_binary"
+    },
+    {
+      "schemaVersion": "rcap-source-materialization-result/v1",
+      "authorityEdition": "master-library/1.2",
+      "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+      "jurisdiction": "MA",
+      "documentId": "OCP-PETITION-TO-SEAL",
+      "documentRole": "PRIMARY_FILING",
+      "officialTitle": "PETITION TO SEAL",
+      "canonicalAuthorityPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__OCP-PETITION-TO-SEAL__petition-to-seal__REV-NONE-ON-FACE__EN.pdf",
+      "canonicalAuthorityPathStatus": "candidate_successor_row_not_yet_published; Edition 1.2 is unamended and Edition 1.3 is untouched",
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+      "repositorySourcePathBasis": "source-artifact registry row whose measured digest equals these bytes",
+      "repositorySourcePathNote": "The repository already holds these exact bytes at this path. That is corroboration of the download, not the acquisition channel; the bytes installed here came from the issuer's own endpoint recorded in the integrated source contract.",
+      "expectedSha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+      "expectedBytes": 216883,
+      "expectedMediaType": "application/pdf",
+      "portableLocator": "attorney-review-package://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__OCP-PETITION-TO-SEAL__petition-to-seal__REV-NONE-ON-FACE__EN.pdf",
+      "portableLocatorSha256": "e2330037342335e009a8947fd4f364168369d61b952e29076cce0411fc8699ab",
+      "materializationDestination": "official-pdf/MA/MA__SOURCE-GATED__OCP-PETITION-TO-SEAL__petition-to-seal__REV-NONE-ON-FACE__EN.pdf",
+      "locatorScheme": "attorney-review-package",
+      "readOnlyTreatment": "worker_read_only_no_modify",
+      "retentionPolicy": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "identityBindingStatus": "exact_pinned_identity",
+      "verificationCommand": "node scripts/verify-rcap-materialized-source.mjs --source-identity-key rcap-ma-petition-to-seal-office-of-the-commissioner-of-p-bb3f0751b2 --sha256 416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce --bytes 216883",
+      "assignmentJobId": "rcap-ma-source-materialization",
+      "materializationOwnerJobId": "rcap-ma-source-materialization",
+      "downstreamImplementationConsumerJobId": null,
+      "assignmentBaseCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+      "assignmentManifestSha256": "df395543138d45543166a9c5a561ba6c30d1be8d1d84435973f32f1385d30dc1",
+      "localVerificationBasis": "freshly_verified_local_bytes",
+      "state": "binary_materialized_hash_verified",
+      "states": [
+        "authority_asset_known",
+        "registry_metadata_present",
+        "binary_materialized",
+        "binary_hash_verified"
+      ],
+      "statesNotReached": [
+        "worker_read_authorized",
+        "worker_ready"
+      ],
+      "actualSha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+      "actualBytes": 216883,
+      "actualMediaType": "application/pdf",
+      "actualMode": 292,
+      "actualLinkCount": 1,
+      "hashAndMediaVerified": true,
+      "installVerification": {
+        "installedThenReread": true,
+        "rereadSha256Matches": true,
+        "rereadByteCountMatches": true,
+        "mediaTypeVerified": "application/pdf",
+        "fileMode": "0444",
+        "parentDirectoriesSealed": "0555",
+        "hardLinkToMutableSource": false,
+        "linkCount": 1,
+        "symlink": false,
+        "bytesAlteredInAnyWay": false,
+        "transformationsApplied": [],
+        "transformationsRefused": [
+          "flatten",
+          "resave",
+          "optimize",
+          "normalize",
+          "convert",
+          "strip JavaScript",
+          "alter metadata",
+          "repair"
+        ],
+        "durableMirror": {
+          "root": "/workspaces/rcap-external-inputs",
+          "destination": "official-pdf/MA/MA__SOURCE-GATED__OCP-PETITION-TO-SEAL__petition-to-seal__REV-NONE-ON-FACE__EN.pdf",
+          "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+          "digestMatchesPrimaryRoot": true,
+          "why": "The operative root is volatile. The same bytes are retained on a surviving filesystem so custody outlives a restart. Both roots are sealed and both verify."
+        }
+      },
+      "sourceStructure": {
+        "pdfHeader": "%PDF-",
+        "pageCount": 1,
+        "encrypted": false,
+        "xfa": false,
+        "xfaPackets": [],
+        "needsRendering": false,
+        "acroFormPresent": true,
+        "documentLevelJavaScript": false,
+        "documentLevelJavaScriptEntries": 0,
+        "terminalFieldCount": 23,
+        "widgetAnnotationCount": 23,
+        "terminalFieldTypes": {
+          "/Tx": 13,
+          "/Sig": 3,
+          "/Btn": 7
+        },
+        "structuralClass": "clean_acroform",
+        "printedRevision": "REV-NONE-ON-FACE",
+        "revisionStatus": "no_printed_revision_on_face",
+        "fieldMappingEstablished": false,
+        "rendererSelected": false
+      },
+      "usageBindings": [
+        {
+          "trackId": "ma-seal-admin",
+          "componentId": "ma-seal-admin-primary-filing-1"
+        },
+        {
+          "trackId": "ma-seal-decrim",
+          "componentId": "ma-seal-decrim-primary-filing-1"
+        }
+      ],
+      "provenance": {
+        "projectionPath": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
+        "sourceIdentityKey": "rcap-ma-petition-to-seal-office-of-the-commissioner-of-p-bb3f0751b2",
+        "sourceContractPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-ocp-petition-to-seal.json",
+        "editionCandidateRowPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json",
+        "editionCandidateRowIndex": 3,
+        "officialSourceUrl": "https://www.mass.gov/doc/petition-to-seal-form/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "retrievalDate": "2026-08-09",
+        "retrievedByThisJob": false,
+        "retrievedByJobId": "rcap-ma-public-official-download-ocp-petition-to-seal",
+        "freshLocalVerification": true,
+        "localVerificationState": "materialized_verified_binary",
+        "registryPath": "data/record-clearing/source-artifact-registry.json",
+        "registryPresenceConfersReadiness": false,
+        "privateCorpusUsed": false,
+        "materializationPass": "rcap-session-f-ma-five-source-materialization",
+        "materializationDate": "2026-08-09",
+        "binaryReextracted": false,
+        "runtimeStatus": "runtime_disabled"
+      },
+      "authorization": {
+        "establishedByThisReceipt": [
+          "sourceIdentityExact",
+          "binaryMaterialized",
+          "binaryHashVerified",
+          "internalEvidenceRetained"
+        ],
+        "notEstablishedByThisReceipt": [
+          "generationAllowed",
+          "licenseAdopted",
+          "workerReady",
+          "implementationAssignable",
+          "runtimeEnablement"
+        ],
+        "commercialUseQuestion": "unresolved",
+        "commercialUseEvidence": "No redistribution or commercial-use restriction is published on the Commonwealth's forms index or its how-to pages, and a Commonwealth copyright and service-mark notice is present. Absence of a published restriction is not an affirmative grant.",
+        "blockerPreserved": "ma-commercial-use-authorization-unresolved",
+        "possessionIsNotPermission": "These bytes are in custody and verified. That is an evidence fact and it says nothing about whether LegalEase may reproduce them in a paid packet."
+      },
+      "workerReady": false,
+      "workerReadyReason": "Withheld deliberately. Massachusetts commercial-use authorization is unresolved, and the assignment forbids inferring worker readiness from possession or hash verification.",
+      "ready": false,
+      "materializationAction": "materialized_verified_binary"
+    },
+    {
+      "schemaVersion": "rcap-source-materialization-result/v1",
+      "authorityEdition": "master-library/1.2",
+      "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+      "jurisdiction": "MA",
+      "documentId": "TC0021",
+      "documentRole": "PETITION",
+      "officialTitle": "PETITION FOR EXPUNGEMENT OF MARIJUANA OFFENSES",
+      "canonicalAuthorityPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+      "canonicalAuthorityPathStatus": "candidate_successor_row_not_yet_published; Edition 1.2 is unamended and Edition 1.3 is untouched",
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/source-gated/TC0021__petition-for-expungement-of-marijuana-offenses__rev-2022-11.pdf",
+      "repositorySourcePathBasis": "source-artifact registry row whose measured digest equals these bytes",
+      "repositorySourcePathNote": "The repository already holds these exact bytes at this path. That is corroboration of the download, not the acquisition channel; the bytes installed here came from the issuer's own endpoint recorded in the integrated source contract.",
+      "expectedSha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+      "expectedBytes": 1393680,
+      "expectedMediaType": "application/pdf",
+      "portableLocator": "attorney-review-package://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+      "portableLocatorSha256": "31922ff6c9efbfc02a5cba9e34583de2c8bb71772fa10977ca42c092b0bcacd7",
+      "materializationDestination": "official-pdf/MA/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+      "locatorScheme": "attorney-review-package",
+      "readOnlyTreatment": "worker_read_only_no_modify",
+      "retentionPolicy": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "identityBindingStatus": "exact_pinned_identity",
+      "verificationCommand": "node scripts/verify-rcap-materialized-source.mjs --source-identity-key rcap-ma-tc0021-c27ebc60cd --sha256 a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c --bytes 1393680",
+      "assignmentJobId": "rcap-ma-source-materialization",
+      "materializationOwnerJobId": "rcap-ma-source-materialization",
+      "downstreamImplementationConsumerJobId": null,
+      "assignmentBaseCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+      "assignmentManifestSha256": "df395543138d45543166a9c5a561ba6c30d1be8d1d84435973f32f1385d30dc1",
+      "localVerificationBasis": "freshly_verified_local_bytes",
+      "state": "binary_materialized_hash_verified",
+      "states": [
+        "authority_asset_known",
+        "registry_metadata_present",
+        "binary_materialized",
+        "binary_hash_verified"
+      ],
+      "statesNotReached": [
+        "worker_read_authorized",
+        "worker_ready"
+      ],
+      "actualSha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+      "actualBytes": 1393680,
+      "actualMediaType": "application/pdf",
+      "actualMode": 292,
+      "actualLinkCount": 1,
+      "hashAndMediaVerified": true,
+      "installVerification": {
+        "installedThenReread": true,
+        "rereadSha256Matches": true,
+        "rereadByteCountMatches": true,
+        "mediaTypeVerified": "application/pdf",
+        "fileMode": "0444",
+        "parentDirectoriesSealed": "0555",
+        "hardLinkToMutableSource": false,
+        "linkCount": 1,
+        "symlink": false,
+        "bytesAlteredInAnyWay": false,
+        "transformationsApplied": [],
+        "transformationsRefused": [
+          "flatten",
+          "resave",
+          "optimize",
+          "normalize",
+          "convert",
+          "strip JavaScript",
+          "alter metadata",
+          "repair"
+        ],
+        "durableMirror": {
+          "root": "/workspaces/rcap-external-inputs",
+          "destination": "official-pdf/MA/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+          "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+          "digestMatchesPrimaryRoot": true,
+          "why": "The operative root is volatile. The same bytes are retained on a surviving filesystem so custody outlives a restart. Both roots are sealed and both verify."
+        }
+      },
+      "sourceStructure": {
+        "pdfHeader": "%PDF-",
+        "pageCount": 2,
+        "encrypted": false,
+        "xfa": true,
+        "xfaPackets": [
+          "config",
+          "template",
+          "localeSet",
+          "datasets",
+          "xmpmeta",
+          "xfdf",
+          "form"
+        ],
+        "needsRendering": false,
+        "acroFormPresent": true,
+        "documentLevelJavaScript": true,
+        "documentLevelJavaScriptEntries": 3,
+        "terminalFieldCount": 29,
+        "widgetAnnotationCount": 29,
+        "terminalFieldTypes": {
+          "/Tx": 10,
+          "/Btn": 19
+        },
+        "structuralClass": "xfa_hybrid_with_acroform_widget_shadow",
+        "printedRevision": "REV-2022-11",
+        "revisionStatus": "confirmed_printed_face",
+        "fieldMappingEstablished": false,
+        "rendererSelected": false
+      },
+      "usageBindings": [
+        {
+          "trackId": "ma-expunge-mj",
+          "componentId": "ma-expunge-mj-primary-filing-1"
+        }
+      ],
+      "provenance": {
+        "projectionPath": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
+        "sourceIdentityKey": "rcap-ma-tc0021-c27ebc60cd",
+        "sourceContractPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0021.json",
+        "editionCandidateRowPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json",
+        "editionCandidateRowIndex": 4,
+        "officialSourceUrl": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "retrievalDate": "2026-08-09",
+        "retrievedByThisJob": false,
+        "retrievedByJobId": "rcap-ma-public-official-download-tc0021",
+        "freshLocalVerification": true,
+        "localVerificationState": "materialized_verified_binary",
+        "registryPath": "data/record-clearing/source-artifact-registry.json",
+        "registryPresenceConfersReadiness": false,
+        "privateCorpusUsed": false,
+        "materializationPass": "rcap-session-f-ma-five-source-materialization",
+        "materializationDate": "2026-08-09",
+        "binaryReextracted": false,
+        "runtimeStatus": "runtime_disabled"
+      },
+      "authorization": {
+        "establishedByThisReceipt": [
+          "sourceIdentityExact",
+          "binaryMaterialized",
+          "binaryHashVerified",
+          "internalEvidenceRetained"
+        ],
+        "notEstablishedByThisReceipt": [
+          "generationAllowed",
+          "licenseAdopted",
+          "workerReady",
+          "implementationAssignable",
+          "runtimeEnablement"
+        ],
+        "commercialUseQuestion": "unresolved",
+        "commercialUseEvidence": "No redistribution or commercial-use restriction is published on the Commonwealth's forms index or its how-to pages, and a Commonwealth copyright and service-mark notice is present. Absence of a published restriction is not an affirmative grant.",
+        "blockerPreserved": "ma-commercial-use-authorization-unresolved",
+        "possessionIsNotPermission": "These bytes are in custody and verified. That is an evidence fact and it says nothing about whether LegalEase may reproduce them in a paid packet."
+      },
+      "workerReady": false,
+      "workerReadyReason": "Withheld deliberately. Massachusetts commercial-use authorization is unresolved, and the assignment forbids inferring worker readiness from possession or hash verification.",
+      "ready": false,
+      "materializationAction": "materialized_verified_binary"
+    },
+    {
+      "schemaVersion": "rcap-source-materialization-result/v1",
+      "authorityEdition": "master-library/1.2",
+      "authorityArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+      "jurisdiction": "MA",
+      "documentId": "TC0057",
+      "documentRole": "PRIMARY_FILING",
+      "officialTitle": "PETITION TO SEAL CRIMINAL RECORDS FOR NOLLE PROSEQUI OR DISMISSAL",
+      "canonicalAuthorityPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-2024-02__EN.pdf",
+      "canonicalAuthorityPathStatus": "candidate_successor_row_not_yet_published; Edition 1.2 is unamended and Edition 1.3 is untouched",
+      "repositorySourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/jud-tc-Petition-to-Seal-Criminal-Records-for-Nolle-Prosequi-or-Dismissal.pdf",
+      "repositorySourcePathBasis": "source-artifact registry row whose measured digest equals these bytes",
+      "repositorySourcePathNote": "The repository already holds these exact bytes at this path. That is corroboration of the download, not the acquisition channel; the bytes installed here came from the issuer's own endpoint recorded in the integrated source contract.",
+      "expectedSha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+      "expectedBytes": 1374671,
+      "expectedMediaType": "application/pdf",
+      "portableLocator": "attorney-review-package://STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-2024-02__EN.pdf",
+      "portableLocatorSha256": "4d67126005544473b2fd770d41cdb8e80c546c2bcb945188b59493c50358c4fc",
+      "materializationDestination": "official-pdf/MA/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-2024-02__EN.pdf",
+      "locatorScheme": "attorney-review-package",
+      "readOnlyTreatment": "worker_read_only_no_modify",
+      "retentionPolicy": "retain_until_worker_integration_then_captain_managed_cleanup",
+      "expectedMeasurementBasis": "carried_forward_registry_measurement",
+      "identityBindingStatus": "exact_pinned_identity",
+      "verificationCommand": "node scripts/verify-rcap-materialized-source.mjs --source-identity-key rcap-ma-tc0057-556a5972b5 --sha256 f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0 --bytes 1374671",
+      "assignmentJobId": "rcap-ma-source-materialization",
+      "materializationOwnerJobId": "rcap-ma-source-materialization",
+      "downstreamImplementationConsumerJobId": null,
+      "assignmentBaseCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+      "assignmentManifestSha256": "df395543138d45543166a9c5a561ba6c30d1be8d1d84435973f32f1385d30dc1",
+      "localVerificationBasis": "freshly_verified_local_bytes",
+      "state": "binary_materialized_hash_verified",
+      "states": [
+        "authority_asset_known",
+        "registry_metadata_present",
+        "binary_materialized",
+        "binary_hash_verified"
+      ],
+      "statesNotReached": [
+        "worker_read_authorized",
+        "worker_ready"
+      ],
+      "actualSha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+      "actualBytes": 1374671,
+      "actualMediaType": "application/pdf",
+      "actualMode": 292,
+      "actualLinkCount": 1,
+      "hashAndMediaVerified": true,
+      "installVerification": {
+        "installedThenReread": true,
+        "rereadSha256Matches": true,
+        "rereadByteCountMatches": true,
+        "mediaTypeVerified": "application/pdf",
+        "fileMode": "0444",
+        "parentDirectoriesSealed": "0555",
+        "hardLinkToMutableSource": false,
+        "linkCount": 1,
+        "symlink": false,
+        "bytesAlteredInAnyWay": false,
+        "transformationsApplied": [],
+        "transformationsRefused": [
+          "flatten",
+          "resave",
+          "optimize",
+          "normalize",
+          "convert",
+          "strip JavaScript",
+          "alter metadata",
+          "repair"
+        ],
+        "durableMirror": {
+          "root": "/workspaces/rcap-external-inputs",
+          "destination": "official-pdf/MA/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-2024-02__EN.pdf",
+          "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+          "digestMatchesPrimaryRoot": true,
+          "why": "The operative root is volatile. The same bytes are retained on a surviving filesystem so custody outlives a restart. Both roots are sealed and both verify."
+        }
+      },
+      "sourceStructure": {
+        "pdfHeader": "%PDF-",
+        "pageCount": 3,
+        "encrypted": false,
+        "xfa": true,
+        "xfaPackets": [
+          "config",
+          "template",
+          "localeSet",
+          "datasets",
+          "xmpmeta",
+          "xfdf",
+          "form"
+        ],
+        "needsRendering": false,
+        "acroFormPresent": true,
+        "documentLevelJavaScript": true,
+        "documentLevelJavaScriptEntries": 3,
+        "terminalFieldCount": 135,
+        "widgetAnnotationCount": 135,
+        "terminalFieldTypes": {
+          "/Tx": 92,
+          "/Ch": 37,
+          "/Btn": 6
+        },
+        "structuralClass": "xfa_hybrid_with_acroform_widget_shadow",
+        "printedRevision": "REV-2024-02",
+        "revisionStatus": "confirmed_printed_face",
+        "fieldMappingEstablished": false,
+        "rendererSelected": false
+      },
+      "usageBindings": [
+        {
+          "trackId": "ma-seal-court",
+          "componentId": "ma-seal-court-primary-filing-1"
+        }
+      ],
+      "provenance": {
+        "projectionPath": "data/record-clearing/production-factory/official-pdf-source-assignment-projection.json",
+        "sourceIdentityKey": "rcap-ma-tc0057-556a5972b5",
+        "sourceContractPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0057.json",
+        "editionCandidateRowPath": "data/record-clearing/production-factory/source-acquisition/rcap-ma-edition-successor-handoff.json",
+        "editionCandidateRowIndex": 5,
+        "officialSourceUrl": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "retrievalDate": "2026-08-09",
+        "retrievedByThisJob": false,
+        "retrievedByJobId": "rcap-ma-public-official-download-tc0057",
+        "freshLocalVerification": true,
+        "localVerificationState": "materialized_verified_binary",
+        "registryPath": "data/record-clearing/source-artifact-registry.json",
+        "registryPresenceConfersReadiness": false,
+        "privateCorpusUsed": false,
+        "materializationPass": "rcap-session-f-ma-five-source-materialization",
+        "materializationDate": "2026-08-09",
+        "binaryReextracted": false,
+        "runtimeStatus": "runtime_disabled"
+      },
+      "authorization": {
+        "establishedByThisReceipt": [
+          "sourceIdentityExact",
+          "binaryMaterialized",
+          "binaryHashVerified",
+          "internalEvidenceRetained"
+        ],
+        "notEstablishedByThisReceipt": [
+          "generationAllowed",
+          "licenseAdopted",
+          "workerReady",
+          "implementationAssignable",
+          "runtimeEnablement"
+        ],
+        "commercialUseQuestion": "unresolved",
+        "commercialUseEvidence": "No redistribution or commercial-use restriction is published on the Commonwealth's forms index or its how-to pages, and a Commonwealth copyright and service-mark notice is present. Absence of a published restriction is not an affirmative grant.",
+        "blockerPreserved": "ma-commercial-use-authorization-unresolved",
+        "possessionIsNotPermission": "These bytes are in custody and verified. That is an evidence fact and it says nothing about whether LegalEase may reproduce them in a paid packet."
+      },
+      "workerReady": false,
+      "workerReadyReason": "Withheld deliberately. Massachusetts commercial-use authorization is unresolved, and the assignment forbids inferring worker readiness from possession or hash verification.",
+      "ready": false,
+      "materializationAction": "materialized_verified_binary"
+    }
+  ],
+  "receiptCount": 5,
+  "sixthReceiptForPartABox4": false,
+  "sixthReceiptRationale": "Part A boxes 1 to 4 are selections inside the OCP petition. The box-4 queue identity is a second component use of the same bytes and rides on the OCP receipt's usageBindings; it is not a document and has no receipt of its own.",
+  "workerVerifierUnavailable": {
+    "command": "node scripts/verify-rcap-materialized-source.mjs",
+    "ranInWorkerScope": false,
+    "why": "loadAssignedMaterializationRequirement resolves a source identity from assignedJob.sourceMaterializationInputs. This assignment carries no such array — 32 other jobs in the plan do, one claim each, all of them per-document — so every --source-identity-key resolves to unknown_source_identity. The same loader also requires the claim's materializationDestination to appear in requiredInputs and its verificationCommand in focusedValidation; neither holds here.",
+    "consequence": "The worker-side per-document verifier could not be run for any of the five. Verification was performed by installing, rereading from the sealed root and rehashing, which is the same evidence the verifier would have produced, and by the captain-side pre-flight recorded below.",
+    "owner": "the captain who compiles the assignment. Adding the claims changes the job manifest and therefore the branch fingerprint, so it is not a worker-side fix.",
+    "notAWorkaround": "No verifier was weakened, stubbed or bypassed. It was unusable as compiled and that is recorded rather than routed around."
+  },
+  "captainVerificationPreflight": {
+    "method": "Each receipt was written to a scratch tree and passed to loadCaptainMaterializationRequirement with this job id and the receipt's own digest and byte count. Nothing in the committed record was altered to make a check pass; a scratch copy with the readiness flags flipped was used only to isolate which conditions remain.",
+    "asCommitted": "All five are refused, on readiness alone for four of them. That is the intended outcome: the loader requires ready and workerReady true, and both are deliberately false while Massachusetts commercial-use authorization is unresolved.",
+    "withReadinessIsolated": {
+      "shapeComplete": [
+        "PETITION-FOR-EXPUNGEMENT-100K",
+        "OCP-PETITION-TO-SEAL",
+        "TC0021",
+        "TC0057"
+      ],
+      "stillRefused": [
+        {
+          "documentId": "MA-PROBATION-SERVICE",
+          "condition": "repositorySourcePath must be a non-empty string",
+          "why": "The repository holds no copy of the current 3,131,095-byte dynamic XFA shell. It holds only the retired 13,137-byte flat legacy artifact, which is a different document and may not be substituted.",
+          "resolutionOptions": [
+            "import the current bytes into the repository corpus under this identity, which is an edition or corpus act and not this job's",
+            "allow a receipt whose bytes were acquired from the issuer rather than carried forward from the corpus"
+          ],
+          "owner": "the Master Library edition or corpus owner"
+        }
+      ]
+    },
+    "whatThisDoesNotMean": "It does not mean four receipts are ready and one is not. None of the five is ready, because readiness is a permission question and this job answers an evidence question."
+  },
+  "legacyArtifactNotMaterialized": {
+    "artifact": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+    "sha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+    "bytes": 13137,
+    "materialized": false,
+    "why": "Retired by the Edition handoff as a legacy artifact. It is 13,137 bytes, two pages and flat; the current document is 3,131,095 bytes, one page and a dynamic XFA shell. It was not installed, not receipted and not relabelled missing."
+  },
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "counselAdopted": false,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "editionMutated": false,
+    "editionPublished": false,
+    "renderersChosen": 0,
+    "tracksMarkedReady": 0,
+    "generationAllowedSet": false,
+    "licenseAdoptedSet": false,
+    "workerReadySet": false,
+    "evidenceFabricated": false
+  }
+}
