@@ -1,0 +1,482 @@
+{
+  "schemaVersion": "rcap-production-factory-source-acquisition/v1",
+  "jobId": "rcap-ma-edition-successor-handoff",
+  "parentJobId": "AUTH-05-acquisition-campaign-tier-2",
+  "jurisdiction": "MA",
+  "lane": "source_acquisition",
+  "strategyFamily": "edition_candidate_intake",
+  "authorityVersion": "master-library/1.2",
+  "baseCommit": "2623973b89943efc2a0d2d5a284ca4db90278b3f",
+  "generatedOn": "2026-08-09",
+
+  "downloadedSourceCount": 0,
+  "downloadedSourceCountNote": "Zero, and correctly zero. This job retrieves nothing. Every byte count, digest, page count, structure and revision below is copied from an integrated source contract; no endpoint was contacted and no document was fetched again.",
+  "reconciliationIds": [
+    "edition:MA:five-current-official-sources"
+  ],
+
+  "generatedFrom": [
+    "data/record-clearing/master-library/authority.json",
+    "data/record-clearing/master-library/edition-successor-plan.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-100k-petition-for-expungement.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-mps-petition-to-expunge.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-ocp-petition-to-seal.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0021.json",
+    "data/record-clearing/production-factory/source-acquisition/rcap-ma-public-official-download-tc0057.json",
+    "data/record-clearing/source-artifact-registry.json",
+    "planning/record-clearing-100-percent/jobs/AUTH-05-acquisition-campaign-tier-2.json"
+  ],
+
+  "method": {
+    "description": "Authoring only. Five candidate authority-asset rows for the next successor tranche, every value taken from the document's own integrated source contract. The adopted Edition 1.2 archive was read to establish what each row supersedes: its four Massachusetts source-gated entries were extracted and hashed, and its STATE_MANIFEST.csv rows were read for the workflow key, revision, structural class and field count each currently carries.",
+    "networkRequestsMade": 0,
+    "binariesDownloaded": 0,
+    "binariesMaterialized": 0,
+    "receiptsCreated": 0,
+    "renderersChosen": 0,
+    "editionsPublished": 0,
+    "editionsMutated": 0,
+    "adoptedArchiveOpenedReadOnly": true,
+    "adoptedArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+    "byteVerificationMethod": "carried_forward_from_integrated_source_contracts_plus_read_only_hash_of_the_adopted_archive_for_supersession"
+  },
+
+  "scopeOfThisJob": {
+    "authors": "five candidate authority-asset rows and the supersession each one implies",
+    "doesNotAuthor": [
+      "a sixth row for the OCP petition's Part A box 4, which is a selection inside one form",
+      "any receipt — a receipt is rcap-ma-source-materialization's artifact and that job is deliberately blocked behind this one",
+      "any renderer decision",
+      "any amendment to Edition 1.3, which is published and immutable",
+      "any correction to the source-artifact registry or the acquisition queue, both of which are forbidden paths here"
+    ],
+    "admissionIsNotThisJobs": "These are candidates. The successor plan admits or defers each against its own eight criteria, and the deferrals this record predicts are recorded below rather than argued away."
+  },
+
+  "edition13Impact": {
+    "editionAmendmentRequired": true,
+    "editionCorrectionRequired": true,
+    "publicationPerformed": false,
+    "editionMutated": false,
+    "targetEdition": "next successor tranche after 1.3",
+    "requiresNewBytes": true,
+    "requiresNewBytesNote": "True at the record level because two of the five rows carry bytes no adopted edition holds. It is not true of all five, and the per-row requiresNewBytes flag is the accurate one: three rows are metadata corrections over bytes Edition 1.2 already holds at an identical digest.",
+    "requiresLicenseDisposition": true,
+    "requiresLicenseDispositionNote": "The Commonwealth publishes these forms free, without login and without fee, and no redistribution or commercial-use restriction is published on the forms index or the how-to pages. A Commonwealth copyright and service-mark notice is present. That is an absence of a published restriction, not an affirmative grant, and it is recorded as unresolved rather than as permission. Availability is not permission.",
+    "editionThirteenUntouched": "Edition 1.3 is published and immutable. It was not amended, not reopened and not republished. These rows are for the tranche after it."
+  },
+
+  "edition13AssetSpecification": {
+    "trancheTarget": "next successor tranche",
+    "predecessorEdition": "1.2",
+    "predecessorArchiveSha256": "7edd0a0e8308b58e12f59494a326342cc83dd362bb58f787e43d6fb475ef43bd",
+    "assetRowCount": 5,
+
+    "consumerLimitationThisRecordCannotFix": {
+      "statement": "The successor planner reads one asset row per decision record. assetRowFrom() in scripts/lib/rcap-factory/edition-successor.mjs reads decision.edition13AssetSpecification.assetRow, singular. This assignment requires five rows in one record, so the planner will read none of them and every row will defer as 'the decision requires new bytes and supplies no measured asset row'.",
+      "whyNotWorkedAround": "Setting assetRow to one of the five would admit or defer that one on its merits and silently drop the other four, which is worse than a legible deferral: MA would appear to have contributed a single document. The plural key is the honest shape and the deferral it produces names the gap.",
+      "practicalEffectToday": "None of the five could be admitted at this commit in any case. Admission requires the bytes to be locatable beneath the materialization root by digest, and no Massachusetts binary is materialized — that is rcap-ma-source-materialization's work and it is blocked behind this record by design.",
+      "whenItBites": "After materialization lands. At that point these rows should become admissible on their merits and would still read as an absent measurement.",
+      "correctionRequired": "Teach assetRowFrom to read an assetRows array alongside the singular assetRow, mapping each element through the same field-name alternatives it already tolerates, and emit one candidate per row.",
+      "correctionOwner": "the factory/platform owner. scripts/lib/rcap-factory/edition-successor.mjs is a shared library and is outside this job's owned paths; it is stated here and deliberately not applied."
+    },
+
+    "assetRows": [
+      {
+        "rowIndex": 1,
+        "jurisdiction": "MA",
+        "canonicalIdentifier": "PETITION-FOR-EXPUNGEMENT-100K",
+        "workflowKey": "MA:PETITION-FOR-EXPUNGEMENT-100K:PRIMARY_FILING:EN",
+        "officialTitle": "PETITION FOR EXPUNGEMENT",
+        "officialTitleSource": "form_face_heading",
+        "statutoryCitationOnFace": "G.L. c. 276, § 100K",
+        "issuer": "Trial Court of Massachusetts",
+        "issuingOffice": "Boston Municipal Court, District Court, Juvenile Court and Superior Court departments",
+        "role": "PRIMARY_FILING",
+        "scope": "statewide",
+        "revision": "REV-2018-12-20",
+        "revisionStatus": "confirmed_printed_face",
+        "revisionEvidence": "The face prints \"(Rev. 12.20.18)\" on both pages. The file was republished later — its PDF CreationDate is 2022-07-21 — and the later date is not the revision.",
+        "language": "EN",
+        "assetClass": "source_gated",
+        "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
+        "sourceUrl": "https://www.mass.gov/doc/petition-for-expungement-form/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "sha256": "19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce",
+        "bytes": 1387408,
+        "mediaType": "application/pdf",
+        "pageCount": 2,
+        "encrypted": false,
+        "xfa": true,
+        "structuralClass": "xfa_hybrid_with_acroform_widget_shadow",
+        "documentLevelJavaScript": true,
+        "documentLevelJavaScriptEntries": 3,
+        "terminalFieldCount": 26,
+        "widgetAnnotationCount": 26,
+        "terminalFieldTypes": { "/Tx": 7, "/Btn": 18, "/Ch": 1 },
+        "needsRendering": false,
+        "licenseDisposition": "no_published_restriction_located_not_an_affirmative_grant",
+        "requiresNewBytes": false,
+        "bytesAlreadyHeldByAdoptedEdition": true,
+        "identicalToAdoptedEditionBytes": "Edition 1.2 holds this exact digest and byte count at STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf, verified by extracting and hashing the archive entry.",
+        "whatThisRowCorrects": "structure and identity metadata, not bytes",
+        "supersedes": {
+          "edition": "1.2",
+          "workflowKey": "MA:Petition for Expungement, G.L. c. 276, § 100K:PRIMARY_FILING:EN",
+          "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__PETITION-FOR-EXPUNGEMENT-100K__petition-for-expungement-gl-c-276-s-100k__REV-2018-12-20__EN.pdf",
+          "supersessionKind": "metadata_correction_same_bytes",
+          "note": "The Edition 1.2 workflow key uses the document's full title, punctuation and section symbol as its identifier. A title is not an identifier and it cannot be typed, matched or sorted reliably. The proposed key is the identifier the canonical path already uses."
+        }
+      },
+      {
+        "rowIndex": 2,
+        "jurisdiction": "MA",
+        "canonicalIdentifier": "MA-PROBATION-SERVICE",
+        "workflowKey": "MA:MA-PROBATION-SERVICE:PETITION:EN",
+        "officialTitle": null,
+        "officialTitleSource": "not_readable_from_face",
+        "officialTitleNote": "The rendered page is the Adobe LiveCycle placeholder. The form face exists only inside the XFA template, so no title can be read from the rendered document. The index calls it \"Petition to Expunge Form\"; that is an index label and is recorded as one, not as the official title.",
+        "statutoryCitationOnFace": "not readable from the retrieved face; the index and the info page cite G.L. c. 276, §§ 100F, 100G or 100H",
+        "issuer": "Massachusetts Probation Service",
+        "issuingOffice": "Massachusetts Probation Service, Trial Court of Massachusetts",
+        "role": "PETITION",
+        "scope": "statewide",
+        "revision": "REV-UNREADABLE-FROM-FACE",
+        "revisionStatus": "not_machine_readable_from_face",
+        "revisionEvidence": "The document carries /NeedsRendering true and no AcroForm widget shadow. No revision was supplied from the index, the filename or the retained legacy copy.",
+        "revisionMustNotBeSynthesised": "Do not fill this from the index's (10/11/18), from the CreationDate of 2018-10-11, or from the legacy artifact's \"Revised 10/11/2018\". Those three agree with each other and none of them is the current document's face.",
+        "language": "EN",
+        "assetClass": "source_gated",
+        "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge__REV-UNREADABLE-FROM-FACE__EN.pdf",
+        "sourceUrl": "https://www.mass.gov/doc/courts-dwnld-petition-to-expunge-form/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "sha256": "878ec5f84781138738c3de98a5813eb30f42d36b5bba6f468e5e768612943c81",
+        "bytes": 3131095,
+        "mediaType": "application/pdf",
+        "pageCount": 1,
+        "encrypted": false,
+        "xfa": true,
+        "structuralClass": "dynamic_xfa_shell_no_acroform_widget_shadow",
+        "documentLevelJavaScript": true,
+        "documentLevelJavaScriptEntries": 3,
+        "terminalFieldCount": 0,
+        "widgetAnnotationCount": 0,
+        "terminalFieldTypes": {},
+        "needsRendering": true,
+        "licenseDisposition": "no_published_restriction_located_not_an_affirmative_grant",
+        "requiresNewBytes": true,
+        "bytesAlreadyHeldByAdoptedEdition": false,
+        "supersedes": {
+          "edition": "1.2",
+          "workflowKey": "MA:MA-PROBATION-SERVICE:PETITION:EN",
+          "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__MA-PROBATION-SERVICE__petition-to-expunge-under-g-l-c-276-sections-100f-100g-or-100h__REV-2018-10-11__EN.pdf",
+          "supersessionKind": "legacy_artifact_retired_and_replaced_by_the_current_document",
+          "predecessorSha256": "5ccb13e55c07a520526cad72fe48b506f6a67c51a2c879817feb49829853b0b1",
+          "predecessorBytes": 13137,
+          "predecessorPageCount": 2,
+          "predecessorStructuralClass": "flat_pdf",
+          "predecessorTerminalFieldCount": 0
+        },
+        "legacyArtifactDisposition": {
+          "artifact": "the retained 13,137-byte, two-page, zero-field flat Massachusetts Probation Service copy",
+          "verdict": "ineligible_to_stand_for_the_current_document",
+          "why": "It is 13,137 bytes, two pages and flat. The current official binary is 3,131,095 bytes, one page and a dynamic XFA shell. They are not the same artifact and they are not the same size by two orders of magnitude. A legacy copy is not current materialization evidence.",
+          "retainedAsHistory": true,
+          "mustNotBe": [
+            "materialized as this document's bytes",
+            "receipted against this identity",
+            "used to supply this document's revision",
+            "counted as satisfying the acquisition"
+          ],
+          "relabelledMissing": false
+        }
+      },
+      {
+        "rowIndex": 3,
+        "jurisdiction": "MA",
+        "canonicalIdentifier": "OCP-PETITION-TO-SEAL",
+        "workflowKey": "MA:OCP-PETITION-TO-SEAL:PRIMARY_FILING:EN",
+        "officialTitle": "PETITION TO SEAL",
+        "officialTitleSource": "form_face_heading",
+        "statutoryCitationOnFace": "G.L. c. 276, §§ 100A and 100B, named in the Part A selections on the face",
+        "issuer": "Massachusetts Probation Service",
+        "issuingOffice": "Office of the Commissioner of Probation, One Ashburton Place, Room 405, Boston, MA 02108",
+        "role": "PRIMARY_FILING",
+        "scope": "statewide",
+        "revision": "REV-NONE-ON-FACE",
+        "revisionStatus": "no_printed_revision_on_face",
+        "revisionEvidence": "The single page carries no revision block anywhere; the full extracted text was searched and there is none. The index's \"(4/12)\" is an index description and is not a face revision.",
+        "revisionMustNotBeSynthesised": "REV-NONE-ON-FACE and REV-UNREADABLE-FROM-FACE are different states and must not be collapsed. This document has no printed revision; the MPS petition has one that cannot be read.",
+        "language": "EN",
+        "assetClass": "source_gated",
+        "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__OCP-PETITION-TO-SEAL__petition-to-seal__REV-NONE-ON-FACE__EN.pdf",
+        "sourceUrl": "https://www.mass.gov/doc/petition-to-seal-form/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "sha256": "416f9a1d1a7ade6e71ffe3964a30c2d247bd1aca3982f4ff8e55550a730506ce",
+        "bytes": 216883,
+        "mediaType": "application/pdf",
+        "pageCount": 1,
+        "encrypted": false,
+        "xfa": false,
+        "structuralClass": "clean_acroform",
+        "documentLevelJavaScript": false,
+        "documentLevelJavaScriptEntries": 0,
+        "terminalFieldCount": 23,
+        "widgetAnnotationCount": 23,
+        "terminalFieldTypes": { "/Tx": 13, "/Sig": 3, "/Btn": 7 },
+        "needsRendering": false,
+        "licenseDisposition": "no_published_restriction_located_not_an_affirmative_grant",
+        "requiresNewBytes": true,
+        "bytesAlreadyHeldByAdoptedEdition": false,
+        "bytesHeldInRepositoryCorpus": {
+          "held": true,
+          "registryArtifactId": "fillable-jud-mps-petition-to-seal",
+          "sourcePath": "private/Nationwide Record Clearing/LegalEase massachusetts/fillable-jud-mps-Petition-to-Seal.pdf",
+          "digestMatchesCurrentDownload": true,
+          "treatment": "unclassified_pre_batch_1_import",
+          "note": "The repository already holds these exact bytes under a pre-batch-1 identity. That is corroboration of the download, not an alternative source, and it does not itself make the asset admissible."
+        },
+        "supersedes": null,
+        "supersedesNote": "Nothing. Edition 1.2 holds no Office of the Commissioner of Probation petition to seal — its four Massachusetts source-gated entries are the MPS petition, the 100K petition, TC0021 and TC0057. This is a new asset row and it is the only one of the five with no predecessor identity.",
+        "partABox4": {
+          "isSeparateDocument": false,
+          "isSixthRow": false,
+          "evidence": "Part A of the single page carries boxes 1, 2, 3 and 4 in one numbered list under the single instruction \"SELECT appropriate box(es).\" Box 4 reads \"Section 100A - Chapter 276. Recorded offense which is no longer a crime, except where the elements of the offense continue to be a crime under a different designation.\"",
+          "consequence": "The queue identity acquire:MA:petition-to-seal-office-of-the-commissioner-of-probation-part-a-box-4 resolves to these same bytes and this same digest. Both official-PDF projection identities — the petition on track ma-seal-admin and the Part A box 4 identity on track ma-seal-decrim — resolve to this one row.",
+          "instruction": "Do not author a second asset row, a second canonical path or a second receipt for box 4. It is a selection inside this form."
+        }
+      },
+      {
+        "rowIndex": 4,
+        "jurisdiction": "MA",
+        "canonicalIdentifier": "TC0021",
+        "workflowKey": "MA:TC0021:PETITION:EN",
+        "officialTitle": "PETITION FOR EXPUNGEMENT OF MARIJUANA OFFENSES",
+        "officialTitleSource": "form_face_heading",
+        "statutoryCitationOnFace": "G.L. c. 276, § 100K¼",
+        "issuer": "Trial Court of Massachusetts",
+        "issuingOffice": "standardized across Boston Municipal Court, District Court, Juvenile Court and Superior Court",
+        "role": "PETITION",
+        "scope": "statewide",
+        "revision": "REV-2022-11",
+        "revisionStatus": "confirmed_printed_face",
+        "revisionEvidence": "The face prints \"Standardized (Multi - BMC, DC, JC, SC)-Criminal-TC0021 (11/22)\" on both pages.",
+        "language": "EN",
+        "assetClass": "source_gated",
+        "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+        "sourceUrl": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+        "bytes": 1393680,
+        "mediaType": "application/pdf",
+        "pageCount": 2,
+        "encrypted": false,
+        "xfa": true,
+        "structuralClass": "xfa_hybrid_with_acroform_widget_shadow",
+        "documentLevelJavaScript": true,
+        "documentLevelJavaScriptEntries": 3,
+        "terminalFieldCount": 29,
+        "widgetAnnotationCount": 29,
+        "terminalFieldTypes": { "/Tx": 10, "/Btn": 19 },
+        "needsRendering": false,
+        "licenseDisposition": "no_published_restriction_located_not_an_affirmative_grant",
+        "requiresNewBytes": false,
+        "bytesAlreadyHeldByAdoptedEdition": true,
+        "identicalToAdoptedEditionBytes": "Edition 1.2 holds this exact digest and byte count, verified by extracting and hashing the archive entry.",
+        "whatThisRowCorrects": "structural class only; bytes, revision, title, role, scope and field count are unchanged",
+        "supersedes": {
+          "edition": "1.2",
+          "workflowKey": "MA:TC0021:PETITION:EN",
+          "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+          "supersessionKind": "metadata_correction_same_bytes",
+          "predecessorStructuralClass": "acroform_pdf",
+          "note": "The Edition 1.2 row's structural_class is acroform_pdf while the notes column on the same row reads \"Official statewide form, but it is XFA. The existing runtime renderer cannot fill XFA.\" One row contradicts itself. rcap-ma-tc0021-source-structure-resolution owns the finding; this row carries its consequence into the successor."
+        }
+      },
+      {
+        "rowIndex": 5,
+        "jurisdiction": "MA",
+        "canonicalIdentifier": "TC0057",
+        "workflowKey": "MA:TC0057:PRIMARY_FILING:EN",
+        "officialTitle": "PETITION TO SEAL CRIMINAL RECORDS FOR NOLLE PROSEQUI OR DISMISSAL",
+        "officialTitleSource": "form_face_heading",
+        "statutoryCitationOnFace": null,
+        "issuer": "Trial Court of Massachusetts",
+        "issuingOffice": "standardized across Boston Municipal Court, District Court, Juvenile Court and Superior Court",
+        "role": "PRIMARY_FILING",
+        "scope": "statewide",
+        "revision": "REV-2024-02",
+        "revisionStatus": "confirmed_printed_face",
+        "revisionEvidence": "The face prints \"Standardized (Multi - BMC, DC, JC, SC) - Criminal - TC0057 (2/24)\" on all three pages. The mass.gov index label \"Rev. 3/24\" is an index date, not the printed revision; the PDF's CreationDate is 2024-02-15 and its ModDate is 2024-03-08, which is a February revision republished in March.",
+        "indexLabelRecordedNotAdopted": "Rev. 3/24",
+        "language": "EN",
+        "assetClass": "source_gated",
+        "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-2024-02__EN.pdf",
+        "sourceUrl": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download",
+        "officialIndexUrl": "https://www.mass.gov/lists/court-forms-for-criminal-records",
+        "sha256": "f83d441b6ddaf1efd02349519256996aea6e7c4bd812f3f1515ba89b58815bb0",
+        "bytes": 1374671,
+        "mediaType": "application/pdf",
+        "pageCount": 3,
+        "encrypted": false,
+        "xfa": true,
+        "structuralClass": "xfa_hybrid_with_acroform_widget_shadow",
+        "documentLevelJavaScript": true,
+        "documentLevelJavaScriptEntries": 3,
+        "terminalFieldCount": 135,
+        "widgetAnnotationCount": 135,
+        "widgetAnnotationsPerPage": [54, 12, 69],
+        "terminalFieldTypes": { "/Tx": 92, "/Ch": 37, "/Btn": 6 },
+        "needsRendering": false,
+        "licenseDisposition": "no_published_restriction_located_not_an_affirmative_grant",
+        "requiresNewBytes": false,
+        "bytesAlreadyHeldByAdoptedEdition": true,
+        "identicalToAdoptedEditionBytes": "Edition 1.2 holds this exact digest and byte count, verified by extracting and hashing the archive entry.",
+        "whatThisRowCorrects": "revision and structural class; bytes are unchanged",
+        "supersedes": {
+          "edition": "1.2",
+          "workflowKey": "MA:TC0057:PRIMARY_FILING:EN",
+          "canonicalPath": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-UNKNOWN__EN.pdf",
+          "supersessionKind": "metadata_correction_same_bytes",
+          "predecessorRevision": "REV-UNKNOWN",
+          "predecessorStructuralClass": "clean_acroform",
+          "canonicalPathChanges": true,
+          "canonicalPathChangeReason": "The path carries the revision token, so resolving REV-UNKNOWN to REV-2024-02 moves the file. This is the only one of the five whose canonical path changes."
+        }
+      }
+    ],
+
+    "amendmentHandoffItems": [
+      {
+        "item": "MA:Petition for Expungement, G.L. c. 276, § 100K:PRIMARY_FILING:EN — structural_class",
+        "from": "clean_acroform",
+        "to": "xfa_hybrid_with_acroform_widget_shadow"
+      },
+      {
+        "item": "MA:Petition for Expungement, G.L. c. 276, § 100K:PRIMARY_FILING:EN — workflow_key",
+        "from": "MA:Petition for Expungement, G.L. c. 276, § 100K:PRIMARY_FILING:EN",
+        "to": "MA:PETITION-FOR-EXPUNGEMENT-100K:PRIMARY_FILING:EN"
+      },
+      {
+        "item": "MA:Petition for Expungement, G.L. c. 276, § 100K:PRIMARY_FILING:EN — source_url",
+        "from": "https://www.mass.gov/lists/criminal-record-sealing-and-expungement-forms",
+        "to": "https://www.mass.gov/doc/petition-for-expungement-form/download"
+      },
+      {
+        "item": "MA:TC0021:PETITION:EN — structural_class",
+        "from": "acroform_pdf",
+        "to": "xfa_hybrid_with_acroform_widget_shadow"
+      },
+      {
+        "item": "MA:TC0021:PETITION:EN — source_url",
+        "from": "",
+        "to": "https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download"
+      },
+      {
+        "item": "MA:TC0057:PRIMARY_FILING:EN — revision",
+        "from": "REV-UNKNOWN",
+        "to": "REV-2024-02"
+      },
+      {
+        "item": "MA:TC0057:PRIMARY_FILING:EN — structural_class",
+        "from": "clean_acroform",
+        "to": "xfa_hybrid_with_acroform_widget_shadow"
+      },
+      {
+        "item": "MA:TC0057:PRIMARY_FILING:EN — canonical_relative_path",
+        "from": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-UNKNOWN__EN.pdf",
+        "to": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0057__petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal__REV-2024-02__EN.pdf"
+      },
+      {
+        "item": "MA:TC0057:PRIMARY_FILING:EN — source_url",
+        "from": "https://www.mass.gov/lists/criminal-record-sealing-and-expungement-forms",
+        "to": "https://www.mass.gov/doc/petition-to-seal-criminal-records-for-nolle-prosequi-or-dismissal/download"
+      },
+      {
+        "item": "MA:MA-PROBATION-SERVICE:PETITION:EN — retained artifact",
+        "from": "the 13,137-byte two-page flat copy stands as the document",
+        "to": "the 13,137-byte copy is retired as a legacy artifact and the current 3,131,095-byte dynamic XFA shell is the document"
+      }
+    ],
+
+    "notAuthored": {
+      "sixthRowForPartABox4": false,
+      "why": "Part A boxes 1 to 4 are choices inside the OCP petition. A sixth row would create a document that does not exist and a second digest for one file."
+    }
+  },
+
+  "structuralSummary": {
+    "xfaSources": 4,
+    "xfaSourceIds": ["PETITION-FOR-EXPUNGEMENT-100K", "MA-PROBATION-SERVICE", "TC0021", "TC0057"],
+    "cleanAcroFormSources": 1,
+    "cleanAcroFormSourceIds": ["OCP-PETITION-TO-SEAL"],
+    "encryptedSources": 0,
+    "revisionsConfirmedFromFace": 3,
+    "revisionsWithNoPrintedFaceRevision": 1,
+    "revisionsNotMachineReadableFromFace": 1,
+    "rowsWithNewBytes": 2,
+    "rowsCorrectingMetadataOverBytesAlreadyHeld": 3,
+    "rowsWithNoPredecessorIdentity": 1,
+    "denominatorNote": "Every one of the five has terminal field count equal to widget annotation count, so no row carries a competing field denominator. The MPS shell's zero is a real zero: a dynamic XFA form with no AcroForm widget shadow has no fillable widget layer at all."
+  },
+
+  "downstreamConsequences": {
+    "rendererLane": "Four of the five carry xfa true. rendererLane() in scripts/lib/rcap-official-pdf-production-queue.mjs tests xfa before any structural-class branch, so all four resolve to nonrenderable_source_policy_required regardless of how many widgets they carry. Only the OCP petition is an AcroForm-fill candidate on structure, and it is still source-gated on licence.",
+    "policyOwner": "PLAT-03-non-renderable-source-policy — 'Decide the approved handling for docx, html, encrypted and scanned sources'. Four Massachusetts documents now sit in its scope.",
+    "dispositionEffectOfAssetClass": "These rows propose assetClass source_gated, which is what Edition 1.2 already carries for the four it holds. If a later owner promotes any of them to packet_form, officialPdfDisposition() flips that identity from source_gated_identity to legal_design_or_technical_policy_blocked, because the branch requires exact_source_requirement_ready plus nonrenderable_source_policy_required plus a packet_form authority asset. That is a policy gate, not a regression, and it should be entered deliberately rather than discovered.",
+    "materializationOwner": "rcap-ma-source-materialization installs the bytes, reverifies them and writes one receipt per document. It is blocked behind this record by design: a receipt written before the controlling successor identity is admitted pins bytes to an identity the authority layer has not issued.",
+    "predictedSuccessorPlanOutcomeAtThisCommit": "All five defer. The three metadata corrections defer only because of the singular-assetRow reader; the two new-bytes rows would additionally defer on exact_bytes_where_applicable until materialization lands, and all five would defer on license_resolved while the commercial-use question is an absence rather than a grant. No row is silently omitted."
+  },
+
+  "residualQuestions": [
+    {
+      "id": "ma-license-disposition",
+      "question": "Do the Commonwealth's terms permit reproducing these five forms in a paid packet?",
+      "status": "unresolved",
+      "why": "No restriction is published on the forms index or the how-to pages and a Commonwealth copyright and service-mark notice is present. Absence of a published restriction is not a grant, and this record does not convert one into the other.",
+      "owner": "counsel or a commercial-licence owner"
+    },
+    {
+      "id": "ma-mps-revision-unreadable",
+      "question": "What revision does the current MPS petition print?",
+      "status": "open",
+      "why": "The face exists only inside the XFA template and the rendered page is the LiveCycle placeholder. Reading it needs an XFA-capable renderer, which is the same capability PLAT-03 is deciding.",
+      "owner": "the non-renderable-source policy owner"
+    },
+    {
+      "id": "ma-successor-plan-reads-one-row",
+      "question": "The successor planner reads a single assetRow per decision record and this record carries five.",
+      "status": "confirmed_defect_reported_not_applied",
+      "owner": "the factory/platform owner"
+    },
+    {
+      "id": "ma-ocp-index-revision",
+      "question": "The index labels the OCP petition (4/12) and the face prints no revision at all.",
+      "status": "recorded_not_reconciled",
+      "why": "An index label cannot be promoted to a face revision. Whether 4/12 is the issuer's own revision for these bytes is unresolved and is not assumed either way.",
+      "owner": "the acquisition owner"
+    }
+  ],
+
+  "gates": {
+    "packetReadyUnchanged": true,
+    "enabledJurisdictionsUnchanged": true,
+    "launchGateUnchanged": true,
+    "runtimeStatusUnchanged": true,
+    "promotionStatusUnchanged": true,
+    "counselAdopted": false,
+    "globalRegistriesRegenerated": false,
+    "binariesEnteringVersionControl": 0,
+    "binariesMaterialized": 0,
+    "receiptsWritten": 0,
+    "renderersChosen": 0,
+    "editionPublished": false,
+    "editionMutated": false,
+    "editionThirteenAmended": false,
+    "editionThirteenArchiveReopened": false,
+    "legacyArtifactRelabelledMissing": false,
+    "revisionSynthesisedFromMetadata": false,
+    "sixthRowAuthoredForPartABox4": false,
+    "evidenceFabricated": false
+  }
+}
