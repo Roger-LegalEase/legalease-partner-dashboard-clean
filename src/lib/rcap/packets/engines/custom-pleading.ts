@@ -117,14 +117,6 @@ export const CustomPleadingRenderer: PacketRenderer = {
       writer.gap();
     }
 
-    if (template.verification) {
-      writer.write("VERIFICATION", { font: "bold", size: 11 });
-      writer.gap(LINE_HEIGHT / 2);
-      writer.write(fill(template.verification), { size: 11 });
-      writer.gap();
-    }
-
-    writer.gap();
     // The execution block is one unit. A signature rule stranded at the foot of
     // a page, with the printed-name and capacity lines that identify the signer
     // overleaf, reads as a complete signature line for the wrong document — so
@@ -132,6 +124,9 @@ export const CustomPleadingRenderer: PacketRenderer = {
     //
     // Measured, not padded: an oversized block is left to ordinary pagination by
     // keepTogether, which is why nothing here can produce a blank page.
+    //
+    // Measured before the verification block because the verification heading
+    // reserves the execution block along with the statement it introduces.
     const signatureLines = template.signatureBlock.map((line) => fill(line));
     const executionBlockHeight =
       (template.signatureLabel !== null ? LINE_HEIGHT * 2 : 0) +
@@ -139,6 +134,44 @@ export const CustomPleadingRenderer: PacketRenderer = {
         (total, line) => total + writer.measureTextHeight(line, { size: 10 }),
         0
       );
+
+    if (template.verification) {
+      // VERIFICATION is emitted by the engine rather than named by the template,
+      // so the protection template headings carry never reached it: the heading
+      // could stand as the last substantive line of a page while the statement
+      // it introduces began overleaf, where it reads as a heading for whatever
+      // the reader sees next. Heading, the gap under it, the statement and the
+      // execution block that carries the participant's signature move together.
+      //
+      // Tried widest first and narrowed rather than abandoned. keepTogether
+      // declines a reservation taller than one page without moving the cursor,
+      // so a declined tier costs nothing and the next still protects the
+      // heading. Every tier is measured, so none can produce a blank page, and
+      // a packet with room for the widest tier keeps the pagination it had.
+      const verificationText = fill(template.verification);
+      const verificationLead =
+        writer.measureTextHeight("VERIFICATION", { font: "bold", size: 11 }) +
+        LINE_HEIGHT / 2;
+      const statementHeight = writer.measureTextHeight(verificationText, {
+        size: 11
+      });
+      // LINE_HEIGHT * 2 is the gap under the statement plus the gap above the
+      // execution block, both of which sit inside the protected unit.
+      if (
+        !writer.keepTogether(
+          verificationLead + statementHeight + LINE_HEIGHT * 2 + executionBlockHeight
+        ) &&
+        !writer.keepTogether(verificationLead + statementHeight)
+      ) {
+        writer.keepTogether(verificationLead + LINE_HEIGHT);
+      }
+      writer.write("VERIFICATION", { font: "bold", size: 11 });
+      writer.gap(LINE_HEIGHT / 2);
+      writer.write(verificationText, { size: 11 });
+      writer.gap();
+    }
+
+    writer.gap();
     if (executionBlockHeight > 0) writer.keepTogether(executionBlockHeight);
 
     // A proposed order is signed by the court, not the petitioner. Emitting a
@@ -152,10 +185,35 @@ export const CustomPleadingRenderer: PacketRenderer = {
 
     if (template.certificateOfService && template.certificateOfService.length > 0) {
       writer.gap();
+      // The same engine-emitted heading defect. A CERTIFICATE OF SERVICE
+      // heading alone at the foot of a page certifies nothing the reader can
+      // see, and the certificate that begins overleaf is unheaded. Heading, the
+      // gap under it and the certificate move together; where the whole
+      // certificate cannot fit, the first indivisible service unit does, and
+      // where even that cannot, the heading still keeps its first line.
+      const certificateLines = template.certificateOfService.map((line) => fill(line));
+      const certificateLead =
+        writer.measureTextHeight("CERTIFICATE OF SERVICE", {
+          font: "bold",
+          size: 11
+        }) + LINE_HEIGHT / 2;
+      const certificateHeight = certificateLines.reduce(
+        (total, line) => total + writer.measureTextHeight(line, { size: 11 }),
+        0
+      );
+      const firstUnitHeight = writer.measureTextHeight(certificateLines[0] ?? "", {
+        size: 11
+      });
+      if (
+        !writer.keepTogether(certificateLead + certificateHeight) &&
+        !writer.keepTogether(certificateLead + firstUnitHeight)
+      ) {
+        writer.keepTogether(certificateLead + LINE_HEIGHT);
+      }
       writer.write("CERTIFICATE OF SERVICE", { font: "bold", size: 11 });
       writer.gap(LINE_HEIGHT / 2);
-      for (const line of template.certificateOfService) {
-        writer.write(fill(line), { size: 11 });
+      for (const line of certificateLines) {
+        writer.write(line, { size: 11 });
       }
     }
 
