@@ -159,19 +159,20 @@
       "authorizationScope": "repository_integration_only",
       "doesNotAuthorize": [
         "application to staging or production (the A1 staging action below is prepared, not granted)",
-        "any second new file under supabase/",
         "any wildcard, prefix, directory or future-migration exception",
         "any renamed or replacement migration",
         "any change to the phase-49 files, PR #91, or their authorization",
-        "bypassing the SQL-to-TypeScript contract"
+        "bypassing the SQL-to-TypeScript contract",
+        "any new file under supabase/ beyond the phase-50 path named here; phase 51 carries its own authorization record"
       ],
       "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
       "preparedStagingAction": {
         "id": "A1-staging",
-        "action": "psql <staging> -f supabase/phase-49-rcap-packet-render-jobs.sql && psql <staging> -f supabase/phase-50-rcap-packet-delivery-hardening.sql",
+        "action": "psql <staging> -f supabase/phase-49-rcap-packet-render-jobs.sql && psql <staging> -f supabase/phase-50-rcap-packet-delivery-hardening.sql && psql <staging> -f supabase/phase-51-rcap-consumer-payment-gate.sql",
         "environment": "staging",
-        "requires": "Roger's explicit staging authorization naming both files and this environment",
-        "evidenceOnApply": "object presence for every table, function, trigger, index and role named in both files, captured to the compliance package"
+        "requires": "Roger's explicit staging authorization naming all three files and this environment",
+        "sequenceNote": "Phase 51 is not optional in this sequence. Applying 49 and 50 alone installs the consumer payment defect: every unsponsored job would be marked zero_charge AND delivery-eligible, so a packet would deliver without the consumer having paid. The two-file form of this action is superseded and must not be run.",
+        "evidenceOnApply": "object presence for every table, function, trigger, index and role named in all three files, plus finalize_packet_render_job resolving to the phase-51 definition (the consumer branch must call consumer_packet_payment_valid), captured to the compliance package"
       },
       "scopedAuthorization": {
         "repository_integration": "authorized 2026-08-10 \u2014 reconciled branch, hash-pinned",
