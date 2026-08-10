@@ -213,6 +213,37 @@ fs.mkdirSync(path.dirname(reportPath), { recursive: true });
 fs.writeFileSync(reportPath, `${lines.join("\n")}\n`, "utf8");
 console.log(`Report written: ${path.relative(rootDir, reportPath)}`);
 
+// Machine-readable sibling, consumed by the disposition register generator.
+const jsonPath = path.join(rootDir, "data/rcap-verifier-audit.json");
+fs.writeFileSync(
+  jsonPath,
+  `${JSON.stringify(
+    {
+      schemaVersion: "rcap-verifier-audit/v1",
+      timeoutMs,
+      counts: {
+        total: rows.length,
+        inChain: inChain.length,
+        orphanPassing: passing.length,
+        orphanBroken: broken.length,
+        orphanTimeout: timedOut.length,
+        generators: generators.length
+      },
+      scripts: rows.map((r) => ({
+        file: r.file,
+        status: r.status,
+        detail: r.detail || null,
+        wiredToNamedScript: r.wiredToNamedScript,
+        mutatesTrackedFiles: r.mutatedPaths.length > 0
+      }))
+    },
+    null,
+    2
+  )}\n`,
+  "utf8"
+);
+console.log(`Machine-readable: ${path.relative(rootDir, jsonPath)}`);
+
 if (strict && broken.length > 0) {
   console.error("");
   console.error(`Strict mode: ${broken.length} broken orphan verifier(s).`);
