@@ -161,7 +161,35 @@ console.log("A. phase 49 alone — the only production-authorized state");
     );
     console.log("  ok  a browser role moved sponsored credit while holding no table privilege");
 
-    // A3. anon can also steal work off the queue.
+    // A3. The charged partner is whatever the caller names. consume_rcap_packet_credit
+    // never relates the render job to the partner it bills, and in this state
+    // packet_render_jobs has no partner column at all (phase 50 adds it), so ONE
+    // job id — the participant's own, visible in /api/rcap/packets/<jobId>/download —
+    // is sufficient to bill any partner whose slug is public.
+    db.sql(`insert into partner_records (id, partner_slug) values ('${PARTNER_B}','fulton-county')`);
+    db.sql(`insert into rcap_partner_packet_allocation (partner_slug, packets_allowed) values ('fulton-county', 2)`);
+    const otherTenant = db
+      .scalar(
+        `set role anon; select row_to_json(t)::text from (select * from consume_rcap_packet_credit('fulton-county','matter-x','${jobId}')) t`
+      )
+      .replace(/^SET\s*/, "")
+      .trim();
+    check(
+      otherTenant.includes('"ok":true'),
+      `the same job id must bill an unrelated partner in this state (got ${otherTenant})`
+    );
+    const unrelatedJobColumn = db
+      .scalar(
+        `select count(*) from information_schema.columns where table_schema='public' and table_name='packet_render_jobs' and column_name='partner_id'`
+      )
+      .trim();
+    check(
+      unrelatedJobColumn === "0",
+      "phase 49 has no partner column on the job, which is why the billed partner is purely caller-supplied"
+    );
+    console.log("  ok  one job id bills any partner: the function never relates the job to the partner it charges");
+
+    // A4. anon can also steal work off the queue.
     const secondHash = createHash("sha256").update("phase49-alone-2").digest("hex");
     db.sql(
       `insert into packet_render_jobs (packet_id, route_id, renderer_kind, source_sha256, profile_id, profile_version, input_hash)

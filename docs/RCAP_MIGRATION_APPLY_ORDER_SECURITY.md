@@ -36,6 +36,29 @@ Reproduced against a real PostgreSQL 16 cluster with phase 49 applied alone:
 The direct-table denial is what makes this easy to miss: the table privileges
 look correct. The `SECURITY DEFINER` function is the bypass.
 
+### The exploit chain, end to end
+
+`consume_rcap_packet_credit` never relates the render job to the partner it
+bills. It looks the job up by id, checks that the job is validated, then bills
+whatever `p_partner_slug` the caller passed. In the phase-49-alone schema
+`packet_render_jobs` has no partner column at all — phase 50 adds it — so the
+billed partner is purely caller-supplied. One job id is therefore enough to
+drain any partner:
+
+1. `NEXT_PUBLIC_SUPABASE_ANON_KEY` ships in the browser bundle, so any visitor
+   can call PostgREST as `anon`.
+2. A participant who has downloaded one packet already knows a validated job id:
+   it is a path segment of their own `/api/rcap/packets/<jobId>/download` URL.
+3. `POST /rest/v1/rpc/consume_rcap_packet_credit` with that job id, any public
+   partner slug, and an arbitrary `p_matter_id`.
+4. Repeat with fresh matter values. Each call is a distinct matter, so the
+   uniqueness constraint does not stop it: the target's allocation burns down,
+   spills into `overage`, and then returns `reserve_exhausted` — at which point
+   real sponsored packets for that partner can no longer be credited.
+
+Reproduced: the same job id billed both `we-must-vote` and an unrelated
+`fulton-county`.
+
 ## Why this state is reachable
 
 It is not hypothetical. In `data/rcap-authorization-queue.json`:
