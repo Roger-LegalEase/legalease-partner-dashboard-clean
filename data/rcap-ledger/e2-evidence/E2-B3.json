@@ -1,0 +1,1972 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E2-B3",
+  "group": "E2-B",
+  "baseCommit": "c7225bcf8f2fb2ab0deb5c333d2278937b257694",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "webAccessAvailable": false,
+  "findings": [
+    {
+      "jobId": "E2-B-PA-path-e-age-70-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-e-age-70-expungement",
+        "registryTrackId": "pa_age70_deceased"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122(b)(1) (age-70 ground, operative eligibility text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or prosecution for 10 years following final release from confinement or supervision."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122(b)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Petition for Expungement on Age 70 or Death Grounds"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "pa_age70_deceased scope names the same 10-year age-70 condition",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Any arrest or prosecution during the ten years following final release, on the age-70 ground."
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative eligibility text of 18 Pa.C.S. § 9122(b)(1) (person 70 or older, arrest/prosecution-free for 10 years after final release), with the official Title 18 Chapter 91 statute URL. The registry track pa_age70_deceased is expressly built on 18 Pa.C.S. § 9122(b) and its scope statement restates the identical 10-year age-70 condition, so the pathway and track implement the same statutory mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-f-deceased-person-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-f-deceased-person-expungement",
+        "registryTrackId": "pa_age70_deceased"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122(b)(2) (deceased-three-years ground, operative eligibility text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Pennsylvania permits expungement when the person has been dead for three years."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122(b)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Petition for Expungement on Age 70 or Death Grounds"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative text of the § 9122(b)(2) death ground (dead for three years) with the official Chapter 91 statute URL. The registry deliberately combines the two § 9122(b) grounds into the single track pa_age70_deceased, whose legal name covers \"Age 70 or Death Grounds\", so this pathway joins the same track as path-e as its death-ground variant.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-g-underage-drinking-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-g-underage-drinking-conviction-expungement",
+        "registryTrackId": "pa_6308_underage"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 6308 (offense statute named in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Pennsylvania allows expungement for a person age 21 or older who was convicted of violating 18 Pa.C.S. 6308 for purchase, consumption, possession, or transportation of liquor or malt/brewed beverages"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 6308",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement of a Qualifying Underage Alcohol Conviction Under 18 Pa.C.S. § 6308"
+        }
+      ],
+      "reasoning": "The compiled pathway explicitly cites 18 Pa.C.S. 6308 and carries the operative § 9122(b)(3) eligibility conditions (age 21+, offense after 18, all sentence conditions satisfied including license suspension). The registry track pa_6308_underage names the same statute in its legal name and authority array — a direct shared statutory citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-h-pardon-based-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-h-pardon-based-expungement",
+        "registryTrackId": "pa_pardon_expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122(a)(2.1) (automatic expungement after unconditional pardon; operative procedure text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Pennsylvania now has automatic expungement procedures for an unconditional pardon: the Board of Pardons transmits eligible records to AOPC quarterly, AOPC sends the record to the court of common pleas, and the court orders expungement after confirming the criteria."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122(a)(2.1)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement Following an Unconditional Pardon"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative procedure of the unconditional-pardon expungement mechanism (Board of Pardons quarterly transmission to AOPC, AOPC referral to the court of common pleas, court-ordered expungement), citing the official § 9122 statute URL. The registry track pa_pardon_expungement implements exactly that mechanism under 18 Pa.C.S. § 9122(a)(2.1) and § 9122.2(a)(4).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-i-petition-for-limited-access",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-i-petition-for-limited-access",
+        "registryTrackId": "pa_9122_1_limited_access"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122.1 (cited in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Under 18 Pa.C.S. 9122.1, petition-based limited access can apply to:"
+        },
+        {
+          "kind": "official_form",
+          "value": "Petition for Limited Access Pursuant to Pa.R.Crim.P. 791",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "The statewide form is Petition for Limited Access Pursuant to Pa.R.Crim.P. 791."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122.1; Pa.R.Crim.P. 791",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Petition for Order for Limited Access Under 18 Pa.C.S. § 9122.1"
+        }
+      ],
+      "reasoning": "The compiled pathway cites 18 Pa.C.S. 9122.1 by section number and names the statewide Rule 791 limited-access petition form. The registry track pa_9122_1_limited_access carries the same section and the same Pa.R.Crim.P. 791 form in its authority array — a two-way join on both statute and official form.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-j-clean-slate-automatic-limited-access",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-j-clean-slate-automatic-limited-access",
+        "registryTrackId": "pa_9122_2_clean_slate"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122.2 (cited in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Pennsylvania Clean Slate is automatic sealing, not expungement. Under 18 Pa.C.S. 9122.2, Clean Slate limited access applies to certain records without the person filing a petition."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. § 9122.2",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Clean Slate Automatic Limited Access Under 18 Pa.C.S. § 9122.2"
+        }
+      ],
+      "reasoning": "The compiled pathway cites 18 Pa.C.S. 9122.2 by section number and states the operative character of the mechanism (automatic limited access without a petition). The registry track pa_9122_2_clean_slate is built on the same section — a direct shared statutory citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-k-human-trafficking-vacatur-expungement",
+      "outcome": "unresolved",
+      "proposedDisposition": "unresolved_ambiguity",
+      "proposedMapping": null,
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "No operative statutory citation or official form for Pennsylvania trafficking-survivor vacatur exists anywhere in the repository",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Pennsylvania recognizes vacatur for certain convictions connected to human trafficking. Wilma should treat any trafficking-survivor fact pattern as an attorney escalation path. Community Legal Services summarizes Pennsylvania record clearing as including vacatur, explaining that trafficking victims may be eligible to have certain convictions undone and expunged."
+        }
+      ],
+      "reasoning": "The compiled pathway attests that a Pennsylvania trafficking-survivor vacatur mechanism exists, but its only source is an advocacy-organization FAQ (clsphila.org/my-clean-slate/faq), not a statute or official form. Searched: the full PA compiled profile (pathways, ruleClauses, orderedDecisionRules — trafficking rules 57-59, 70, 83, 100 carry no citation), the PA state pack (src/lib/rcap/state-packs/pennsylvania/ — zero trafficking content), and a repository-wide grep for the expected vacatur section number (no hits). Outbound web access is blocked in this environment, so the operative authority (expected in 18 Pa.C.S. Chapter 30, the human-trafficking chapter) could not be verified against an official source. The registry has no PA vacatur track and no scope statement naming this authority. Recording a registry gap without a verifiable citation would manufacture authority, so this job stays honestly unresolved: missing is one official citation for the PA trafficking vacatur statute, obtainable in one web fetch of the official Pa. General Assembly site.",
+      "confidence": "low"
+    },
+    {
+      "jobId": "E2-B-RI-path-a-first-offender-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-a-first-offender-conviction-expungement",
+        "registryTrackId": "ri_first_offender_misdemeanor",
+        "registryTrackIds": [
+          "ri_first_offender_misdemeanor",
+          "ri_first_offender_felony"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 12-1.3-1 / § 12-1.3-2 (first-offender definition and motion, operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Rhode Island defines a first offender as someone convicted of a felony or misdemeanor who has not previously been convicted of or placed on probation for a felony or misdemeanor and has no pending criminal proceeding."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Waiting periods split by grade exactly as the two registry tracks split",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Misdemeanor, single first-offender conviction 5 years from completion of sentence"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 12-1.3-2",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Motion to Expunge a Single Felony Conviction as a First Offender (R.I. Gen. Laws § 12-1.3-2)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the § 12-1.3-1 first-offender definition and the § 12-1.3-2 motion mechanics with the official statute URLs, including the misdemeanor 5-year and felony 10-year waiting periods. The registry splits the same § 12-1.3-2 mechanism into ri_first_offender_misdemeanor and ri_first_offender_felony by offense grade; this single compiled pathway represents both, split on its offense_level trigger field.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-RI-path-b-multiple-misdemeanor-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-b-multiple-misdemeanor-expungement",
+        "registryTrackId": "ri_multiple_misdemeanors"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 12-1.3-2 / § 12-1.3-3 (multiple-misdemeanor route, operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Rhode Island has a separate pathway for a person with more than one but fewer than six misdemeanor convictions and no felony conviction. This route allows a motion to expunge any or all of those misdemeanors after 10 years from completion of the last sentence."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Chemical-test refusal exclusion § 31-27-2.1, matching the registry authority array",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Chemical-test refusal 31-27-2.1"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 31-27-2.1",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Motion to Expunge Multiple Misdemeanor Convictions (R.I. Gen. Laws § 12-1.3-2)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative multiple-misdemeanor criteria (more than one but fewer than six misdemeanors, no felony, 10 years from last sentence) with the official § 12-1.3-2 and § 12-1.3-3 sources, and its exclusion table names the domestic-violence chapter and § 31-27-2.1 chemical-test refusal — the exact exclusion authorities the registry records on ri_multiple_misdemeanors (ch. 12-29, § 31-27-2.1).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-RI-path-c-deferred-sentence-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-c-deferred-sentence-expungement",
+        "registryTrackId": "ri_deferred_sentence"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 12-19-19 (cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Under 12-19-19, if the court finds after a hearing that the person complied with all terms of the deferral agreement, including payment of fines, fees, costs, assessments, and restitution, the person becomes immediately eligible for consideration for expungement."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws §§ 12-19-19, 12-1.3-2(e)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Motion to Expunge Records of a Completed Deferred Sentence (R.I. Gen. Laws §§ 12-19-19, 12-1.3-2(e))"
+        }
+      ],
+      "reasoning": "The compiled pathway cites § 12-19-19 by section with its operative completion-and-eligibility rule and links the official statute URL. The registry track ri_deferred_sentence is built on §§ 12-19-19 and 12-1.3-2(e) — a direct shared statutory citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-RI-path-d-non-conviction-sealing-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-d-non-conviction-sealing-expungement",
+        "registryTrackId": "ri_nonconviction_sealing"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws §§ 12-1-12, 12-1-12.1 (cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "For non-conviction outcomes, Rhode Island uses 12-1-12 and 12-1-12.1."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "District Court Rule 48(a) branch matching the registry authority array",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "For District Court Rule 48(a) dismissals:"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws §§ 12-1-12, 12-1-12.1; R.I. Dist. Ct. R. Crim. P. 48(a)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Non-Conviction Sealing and Destruction of Identification Records (R.I. Gen. Laws §§ 12-1-12, 12-1-12.1)"
+        }
+      ],
+      "reasoning": "Although this pathway's summary opens with duplicated deferred-sentence text (a compilation artifact), its ruleClauses carry the operative non-conviction mechanism: §§ 12-1-12 and 12-1-12.1 identification-record destruction and sealing, including the District Court Rule 48(a) dismissal branches. The registry track ri_nonconviction_sealing is built on exactly those three authorities.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-RI-path-f-marijuana-possession-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-f-marijuana-possession-expungement",
+        "registryTrackId": "ri_marijuana"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 12-1.3-5 (cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Rhode Island has a special marijuana expungement statute, 12-1.3-5. A person with a prior civil violation, misdemeanor conviction, or felony conviction for possession only of a marijuana offense that has since been decriminalized is entitled to automatic expungement"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 12-1.3-5",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Automatic Expungement of Marijuana Possession Records (R.I. Gen. Laws § 12-1.3-5)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites § 12-1.3-5 by section with its operative automatic-expungement rule and the official statute URL. The registry track ri_marijuana is built on the same section — a direct shared statutory citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-RI-path-g-decriminalized-offense-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-g-decriminalized-offense-expungement",
+        "registryTrackId": "ri_decriminalized"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 12-1.3-2(g) / § 12-1.3-3(e) (operative decriminalized-offense text with both statute sources)",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Separate from marijuana, Rhode Island allows a person to file for expungement of an offense that was decriminalized after the date of conviction. The court holds a hearing and may require the petitioner to show that the prior conviction would qualify as a decriminalized offense under current Rhode Island law."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws §§ 12-1.3-2(g), 12-1.3-3(e)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Motion to Expunge an Offence Decriminalized After Conviction (R.I. Gen. Laws §§ 12-1.3-2(g), 12-1.3-3(e))"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative decriminalized-after-conviction rule (hearing, showing that the offense is decriminalized under current law, cost-free order on completed sentence) sourced to the § 12-1.3-2 and § 12-1.3-3 statute pages — the subsections (g) and (e) of which are exactly the authorities of the registry track ri_decriminalized.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-RI-path-h-commercial-sexual-activity-related-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-h-commercial-sexual-activity-related-expungement",
+        "registryTrackId": "ri_commercial_sexual_activity"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 11-34.1-5 with §§ 11-34.1-2, 11-34.1-4 and 12-10-12 (all cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Records of a person convicted, placed on probation, or whose case was filed under 12-10-12 for violations of 11-34.1-2 or 11-34.1-4 may be expunged one year after completion of sentence, and the court may grant the motion regardless of first-offender status."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 11-34.1-5",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement of Commercial Sexual Activity Records (R.I. Gen. Laws § 11-34.1-5)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites all four operative sections of the commercial-sexual-activity expungement mechanism (11-34.1-5 relief; 11-34.1-2 and 11-34.1-4 predicate offenses; 12-10-12 filed cases) with the official § 11-34.1-5 URL. The registry track ri_commercial_sexual_activity carries the identical four-section authority array.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SC-diversion-or-program-completion-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "diversion-or-program-completion-expungement",
+        "registryTrackId": "sc_pti_17_22_150",
+        "registryTrackIds": [
+          "sc_pti_17_22_150",
+          "sc_aep",
+          "sc_tep"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-22-150 (PTI completion route; operative text with the official Chapter 17-22 source)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "After successful PTI completion, the Solicitor effects a noncriminal disposition, and the person may apply to destroy official arrest records."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-22-530 (AEP) and § 17-22-330 (TEP), cited by section in the compiled routing table",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "Completed Alcohol Education Program 17-22-530 Noncriminal disposition; expungement route after completion"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-22-150(a)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Solicitor Application to Destroy Arrest Records After Successful Pretrial Intervention, S.C. Co"
+        }
+      ],
+      "reasoning": "This single compiled pathway covers the three Chapter 17-22 program-completion destruction routes and cites each by section: PTI (§ 17-22-150), AEP (§ 17-22-530), and TEP (§ 17-22-330), all with the official scstatehouse.gov Chapter 17-22 source. The registry implements the same mechanisms as three tracks — sc_pti_17_22_150, sc_aep (§§ 17-22-510 to 17-22-550) and sc_tep (§§ 17-22-310 to 17-22-350) — so the pathway represents that track set, split on program type.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SC-eligible-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "eligible-conviction-expungement",
+        "registryTrackId": "sc_22_5_910",
+        "registryTrackIds": [
+          "sc_22_5_910",
+          "sc_34_11_90e_check",
+          "sc_22_5_920_yoa",
+          "sc_22_5_930_drug",
+          "sc_56_5_750f",
+          "sc_17_1_65_handgun"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 22-5-910 (first low-level conviction, operative criteria)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "First low-level conviction - 22-5-910"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 34-11-90(e) (fraudulent check, operative criteria)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "First offense misdemeanor fraudulent check - 34-11-90(e)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 22-5-920 (Youthful Offender Act, operative criteria)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "Youthful Offender Act - 22-5-920"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 22-5-930 (first-offense drug conviction route)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "Drug conviction route - 22-5-930"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 56-5-750(F) (failure to stop for blue light, non-felony route)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "First offense failure to stop for blue light, non-felony route 56-5-750(F) 3 years after completing all sentence terms; no other convictions"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-1-65 (old unlawful handgun possession) with official form SCCA 223C",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "Old unlawful handgun possession - 17-1-65 / SCCA 223C"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 22-5-910(A)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Solicitor Application to Expunge a First Low-Level Conviction or a Domestic Violence Third-Degree Conviction"
+        }
+      ],
+      "reasoning": "This single compiled pathway is South Carolina's conviction-expungement umbrella and cites every conviction route by section with operative criteria: § 22-5-910 (low-level, 3 years / DV third degree 5 years), § 34-11-90(e) (fraudulent check, 1 year), § 22-5-920 (YOA, 5 conviction-free years), § 22-5-930 (first-offense drug), § 56-5-750(F) (failure to stop, 3 years), and § 17-1-65 (pre-2024 handgun possession, with the SCCA 223C form). Each of those six statutes is the authority of exactly one registry track, so the pathway represents the six-track conviction set, split on offense statute.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SC-general-sessions-non-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "general-sessions-non-conviction-expungement",
+        "registryTrackId": "sc_17_1_40_general_sessions"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-1-40 (cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "General Sessions non-convictions usually route through S.C. Code 17-1-40."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-1-40(A)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Solicitor Application to Destroy Arrest Records of a General Sessions Non-Conviction, S.C. Code § 17-1-40"
+        }
+      ],
+      "reasoning": "The compiled pathway cites § 17-1-40 by section, carries the operative Solicitor-fee-exemption rule for General Sessions non-convictions, and sources the Judicial Branch expungement-process page. The registry track sc_17_1_40_general_sessions is built on § 17-1-40(A)-(C) — a direct shared statutory citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SC-human-trafficking-survivor-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "SC",
+        "mechanismAuthority": [
+          "S.C. Code § 16-3-2020 (trafficking-victim provisions, Title 16 Chapter 3 trafficking article)"
+        ],
+        "why": "The registry has 12 SC tracks (Chapter 17-22 program routes, § 17-1-40 and § 17-22-950 non-convictions, and six conviction statutes) but no track for the trafficking-survivor motion to expunge offenses directly caused by or interrelated to trafficking victimization."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code Title 16, Chapter 3 trafficking article (operative survivor-relief text with the official chapter source)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "South Carolina allows trafficking survivors to seek relief when the offense was a direct result of, or interrelated to, trafficking victimization. A victim convicted or adjudicated delinquent of offenses under the trafficking article, prostitution, or another nonviolent misdemeanor or Class F felony may move the court to expunge the record if the offense was directly caused by or interrelated to trafficking."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 16-3-2020 named as the trafficking-victim provision in the coded state pack",
+          "source": "src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts",
+          "quote": "Human trafficking survivor relief (S.C. Code § 16-3-2020 trafficking-victim provisions): a victim convicted or adjudicated delinquent of offenses under the trafficking article, prostitution, or another nonviolent misdemeanor or Class F felony may move the court to expunge the record if the offense was directly caused by or interrelated to trafficking, proven by a preponderance of the evidence."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No SC registry track carries § 16-3-2020 or any trafficking authority",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Solicitor Application to Destroy Arrest Records of a General Sessions Non-Conviction, S.C. Code § 17-1-40"
+        }
+      ],
+      "reasoning": "A genuine SC trafficking-survivor expungement mechanism exists: the compiled pathway carries its operative text (motion by a victim convicted of trafficking-article, prostitution, or nonviolent misdemeanor/Class F felony offenses; preponderance standard; protection of minors) sourced to the official Title 16 Chapter 3 page, and the coded state pack names the authority as S.C. Code § 16-3-2020. No registry track carries that authority and no registry scope statement routes it out, so this is a registry gap, not a mapping failure. The precise subsection could not be confirmed because web access is blocked in this environment.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-SC-pardon-guidance-for-otherwise-ineligible-convictions",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "SC",
+        "mechanismAuthority": [
+          "South Carolina executive pardon through the Department of Probation, Parole and Pardon Services (rights-restoration route; not record clearing)",
+          "S.C. Code § 17-22-910 (Uniform Expungement Act framing under which pardon is distinct from expungement)"
+        ],
+        "why": "The registry has no SC pardon or rights-restoration routing node; the mechanism is a real clemency route for convictions no expungement statute reaches, but it does not clear the record."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-22-910 (Uniform Expungement Act authorization list, cited as the framing authority)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "Uniform Expungement Act lists the major expungement authorizations and makes clear that eligibility generally turns on the offense pled guilty to or convicted of, not necessarily the original charge."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Pardon route named with its administering authority in the coded state pack",
+          "source": "src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts",
+          "quote": "a South Carolina pardon is state forgiveness that may restore certain rights, generally through the Department of Probation, Parole and Pardon Services, but it does not remove the conviction from the record by itself."
+        }
+      ],
+      "reasoning": "This pathway is guidance for people whose convictions fall outside every § 17-22-910 expungement authorization: the remaining route is an executive pardon through the SC Department of Probation, Parole and Pardon Services, which restores rights but does not clear the record. The registry has no SC pardon/rights-restoration node and no scope statement naming the pardon route, so the guidance mechanism the pathway implements is genuinely absent from the registry. If E3 declines to add non-clearing routing nodes, the alternative adjudication is to fold this pathway into guidance copy on the six conviction tracks; the statutory citation for the pardon process itself (expected in S.C. Code Title 24, Chapter 21) is not present in any repository source and could not be web-verified.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-SC-summary-court-non-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "summary-court-non-conviction-expungement",
+        "registryTrackId": "sc_17_22_950_summary"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-22-950 (cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+          "quote": "For magistrate or municipal court cases dismissed, nolle prossed, or resulting in not guilty, South Carolina has a more direct summary-court process under 17-22-950."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "S.C. Code § 17-22-950(A)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Summary Court Expungement of a Non-Conviction, S.C. Code § 17-22-950"
+        }
+      ],
+      "reasoning": "The compiled pathway cites § 17-22-950 by section and carries its operative mechanics (court-initiated order for fingerprinted dismissals/nolle/not-guilty, 30-day objection window, no-cost application when not fingerprinted). The registry track sc_17_22_950_summary is built on § 17-22-950(A)-(G) — a direct shared statutory citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SD-automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+        "registryTrackId": "sd_23a_3_34_auto"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL § 23A-3-34 (operative automatic-removal text with the section-specific source URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "South Dakota automatically removes certain minor cases from the public record after five years if all court-ordered conditions are satisfied and the person has no further convictions during that five-year period. This applies when the highest charged offense in the case was a petty offense, municipal ordinance violation, or Class 2 misdemeanor."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL § 23A-3-34",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Automatic Removal of Non-Felony Charges or Convictions from the Public Record (SDCL § 23A-3-34)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative § 23A-3-34 rule (five years, conditions satisfied, no further convictions, petty/municipal/Class 2 ceiling) sourced to the section-specific statute URL, and even mirrors the registry track's retained-availability caveat. The registry track sd_23a_3_34_auto is built on the same single section.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SD-controlled-substance-deferred-disposition-route",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "SD",
+        "mechanismAuthority": [
+          "SDCL § 23A-27-53 (deferred controlled-substance disposition: deferred sentencing, treatment conditions, mandatory dismissal of the original drug charge after one year of compliance)"
+        ],
+        "why": "The registry's five SD tracks cover §§ 23A-3-26 to 23A-3-32 (arrest expungement), § 23A-3-34 (automatic removal), §§ 23A-3-35 to 23A-3-37 (diversion), § 24-14-11 (pardon sealing) and §§ 23A-27-13 to 23A-27-17 (suspended imposition); none carries § 23A-27-53."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL § 23A-27-53 (cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or other conditions."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No SD registry track authority array contains § 23A-27-53; the closest track, sd_sis_sealing, is limited to §§ 23A-27-13 to 23A-27-17",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of Records on Discharge and Dismissal after a Suspended Imposition of Sentence (SDCL §§ 23A-27-13 to 2"
+        }
+      ],
+      "reasoning": "The compiled pathway cites SDCL 23A-27-53 by section with its operative mechanism (deferred sentencing on a guilty plea to specified drug offenses, mandatory dismissal after one year of treatment compliance, aggravating-circumstance exclusion). No registry track carries § 23A-27-53 — the suspended-imposition track stops at § 23A-27-17 — and no scope statement routes the mechanism out, so this is a genuine registry gap.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SD-diversion-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "diversion-expungement",
+        "registryTrackId": "sd_diversion"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL §§ 23A-3-35 to 23A-3-37 (operative diversion-expungement text with the § 23A-3-35 source URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "A person who successfully completes a diversion program may be eligible for expungement of the entire criminal record related to the arrest if they are not charged with a new crime, other than petty offenses and minor traffic violations, within one year and thirty days after successful completion."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL §§ 23A-3-35 to 23A-3-37",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement of Record on Completion of a Diversion Program (SDCL §§ 23A-3-35 to 23A-3-37)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative diversion-expungement rule (one year and thirty days charge-free after completion; mandatory State's Attorney dismissal filing; mandatory expungement) sourced to the § 23A-3-35 statute URL. The registry track sd_diversion is built on §§ 23A-3-35 to 23A-3-37 — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SD-juvenile-delinquency-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "SD",
+        "mechanismAuthority": [
+          "SDCL § 26-7A-115 (petition to seal juvenile delinquency records one year after unconditional release, on findings including rehabilitation)"
+        ],
+        "why": "All five SD registry tracks are adult criminal-record mechanisms; none reaches juvenile delinquency records or carries any Title 26 authority."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL § 26-7A-115 (operative juvenile-sealing text with the section-specific source URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "A juvenile, parent, guardian, or guardian ad litem may petition to seal juvenile delinquency records."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No SD registry track carries any SDCL Title 26 (minors) authority",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Motion for Expungement of Arrest Record (SDCL §§ 23A-3-26 to 23A-3-32)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative SDCL 26-7A-115 juvenile-sealing mechanism (petition by juvenile or guardian, one-year wait from unconditional release, rehabilitation finding, limited later inspection) sourced to the section-specific statute URL. The registry's SD coverage is entirely adult (Titles 23A and 24), so the juvenile mechanism is a genuine registry gap.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SD-juvenile-trafficking-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "SD",
+        "mechanismAuthority": [
+          "SDCL § 26-7A-115.1 (expungement, vacating the underlying delinquency proceeding, for a child victim of human trafficking or sexual exploitation)"
+        ],
+        "why": "No SD registry track reaches juvenile records or trafficking-survivor relief; the five tracks cover adult arrest, automatic removal, diversion, pardon and suspended-imposition mechanisms only."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL § 26-7A-115.1 (operative text with the section-specific source URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "A child who was a victim of human trafficking or sexual exploitation may petition, directly or through a parent, guardian, or guardian ad litem, for expungement of a delinquency record that resulted from trafficking or sexual exploitation. Expungement under this statute vacates the underlying delinquency proceeding."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No SD registry track carries any SDCL Title 26 (minors) or trafficking authority",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement of Record on Completion of a Diversion Program (SDCL §§ 23A-3-35 to 23A-3-37)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative SDCL 26-7A-115.1 mechanism (petition by a trafficked or sexually exploited child, expungement that vacates the delinquency proceeding) sourced to the section-specific statute URL. The registry has no juvenile or trafficking coverage for SD, so this is a genuine registry gap distinct from the § 26-7A-115 general juvenile-sealing gap.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SD-pardon-based-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "pardon-based-sealing",
+        "registryTrackId": "sd_pardon_24_14_11"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL § 24-14-11 / SDCL ch. 24-14 (operative pardon-sealing text with the section-specific source URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "A South Dakota pardon through Chapter 24-14 releases the person from penalties and disabilities resulting from the offense. When the Governor grants a pardon under that chapter, the Governor orders official records relating to the arrest, charging document, trial, finding of guilt, pardon application, and Board of Pardons and Paroles proceedings sealed."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL § 24-14-11",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of Records on the Grant of a Chapter 24-14 Pardon (SDCL § 24-14-11)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative § 24-14-11 mechanism (sealing ordered by the Governor on a Chapter 24-14 pardon, five-year Secretary of State certificate, nonpublic DCI retention) sourced to the section-specific statute URL, and mirrors the registry's scope caution that only a Chapter 24-14 pardon carries sealing. The registry track sd_pardon_24_14_11 is built on the same authority.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-SD-suspended-imposition-of-sentence-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "suspended-imposition-of-sentence-sealing",
+        "registryTrackId": "sd_sis_sealing"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL §§ 23A-27-13 to 23A-27-17 (operative SIS discharge-and-sealing text with the § 23A-27-13 source URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "After the person completes all court conditions, the defendant is discharged and the case is dismissed without adjudication of guilt. The discharge and dismissal are not deemed a conviction for disqualifications"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL §§ 23A-27-13, 23A-27-14, 23A-27-17",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of Records on Discharge and Dismissal after a Suspended Imposition of Sentence (SDCL §§ 23A-27-13 to 2"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative suspended-imposition mechanism (first-felony eligibility under § 23A-27-13, discharge and dismissal without adjudication, mandatory sealing of official records with nonpublic DCI retention) sourced to the § 23A-27-13 statute URL. The registry track sd_sis_sealing is built on §§ 23A-27-13 to 23A-27-17 — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-TX-expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+        "registryTrackId": "tx_exp_acquittal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Code Crim. Proc. Chapter 55A streamlined acquittal procedure (art. 55A.201 30-day order, operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+          "quote": "Acquittal (found not guilty) — Ch. 55A provides a streamlined procedure; on request and after notice to the State, the court may enter an expunction order as early as the 30th day after acquittal."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Code Crim. Proc. arts. 55A.002, 55A.201",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expunction after trial court acquittal, Tex. Code Crim. Proc. arts. 55A.002 and 55A.201"
+        }
+      ],
+      "reasoning": "The compiled pathway names Chapter 55A in its identifier and carries the operative streamlined-acquittal procedure — order on request, notice to the State, as early as the 30th day after acquittal — which is the art. 55A.201 mechanism the registry track tx_exp_acquittal implements (arts. 55A.002 and 55A.201, including the 55A.201(b)-(d) timing subsections).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-TX-expunction-after-pardon-or-actual-innocence-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "expunction-after-pardon-or-actual-innocence-relief",
+        "registryTrackId": "tx_exp_pardon_innocence",
+        "registryTrackIds": [
+          "tx_exp_pardon_innocence",
+          "tx_exp_pardon_other"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Chapter 55A pardon / actual-innocence expunction category (operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+          "quote": "Pardon — a full pardon by the Governor of Texas or the President, including a pardon based on actual innocence (and certain other pardons)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Code Crim. Proc. arts. 55A.003, 55A.202",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expunction after a pardon or other relief on the basis of actual innocence, Tex. Code Crim. Proc. arts. 55A.00"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Code Crim. Proc. art. 55A.004 (pardon for a reason other than actual innocence)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expunction after a pardon granted for a reason other than actual innocence, Tex. Code Crim. Proc. art. 55A.004"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the Chapter 55A pardon expunction category in its operative form — a full gubernatorial or presidential pardon, including actual-innocence pardons and \"certain other pardons\". The registry implements that as two tracks: tx_exp_pardon_innocence (arts. 55A.003, 55A.202) and tx_exp_pardon_other (art. 55A.004). The pathway's label leads with actual innocence, so tx_exp_pardon_innocence is the primary mapping with tx_exp_pardon_other co-representing the non-innocence pardon branch the same compiled text covers.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-TX-expunction-after-qualifying-class-c-deferred-disposition",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "expunction-after-qualifying-class-c-deferred-disposition",
+        "registryTrackId": "tx_exp_dismissed"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Chapter 55A dismissal expunction with the Class C deferred-disposition carve-out (operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+          "quote": "Dismissal — the charge was dismissed and the person was never placed on court-ordered community supervision for that offense (limited exceptions for certain Class C deferred dispositions)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Code Crim. Proc. arts. 55A.051, 55A.053",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expunction where the charge was dismissed or quashed, Tex. Code Crim. Proc. arts. 55A.051 and 55A.053"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "The registry itself locates the Class C deferred-disposition question in the art. 55A.051(3) carve-out",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out."
+        }
+      ],
+      "reasoning": "A dismissal after a completed Class C deferred disposition is expunged through the Chapter 55A dismissal mechanism: the compiled text states the community-supervision bar with its express \"limited exceptions for certain Class C deferred dispositions\", and the registry's own scope statement places that exact question in the art. 55A.051(3) carve-out. Article 55A.051 is the authority of tx_exp_dismissed, so this pathway is the Class C deferred branch of that track rather than a separate mechanism. Confidence is medium because the registry records the carve-out's application as an open scope question rather than a settled criterion.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-TX-expunction-after-qualifying-dismissal-or-quash",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "expunction-after-qualifying-dismissal-or-quash",
+        "registryTrackId": "tx_exp_dismissed"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Chapter 55A dismissal / void-or-quashed-instrument expunction (operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+          "quote": "Statute of limitations expired with no charge, or a void/quashed charging instrument."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Dismissal category, operative text",
+          "source": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+          "quote": "Dismissal — the charge was dismissed and the person was never placed on court-ordered community supervision for that offense"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Code Crim. Proc. arts. 55A.051, 55A.053",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expunction where the charge was dismissed or quashed, Tex. Code Crim. Proc. arts. 55A.051 and 55A.053"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the Chapter 55A dismissal expunction category, including the void/quashed charging-instrument branch that gives the pathway its name. The registry track tx_exp_dismissed is expressly the \"dismissed or quashed\" track under arts. 55A.051 and 55A.053 (with the 55A.053(a)(2) reason subsections) — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-TX-expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+        "registryTrackId": "tx_exp_limitations",
+        "registryTrackIds": [
+          "tx_exp_limitations",
+          "tx_exp_no_charge"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Chapter 55A limitations-expired expunction (operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+          "quote": "These arrest-only waits do not apply where a disposition makes the person immediately entitled (acquittal, qualifying dismissal, prosecutor certification that records are not needed, or limitations expired)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Chapter 55A no-charge expunction with level-based waiting periods (operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+          "quote": "No charges filed — the person was arrested but the prosecutor never brought a case, and the applicable waiting period (Section 2) has passed."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Code Crim. Proc. arts. 55A.051, 55A.054",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expunction where the limitations period has expired, Tex. Code Crim. Proc. arts. 55A.051 and 55A.054"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Code Crim. Proc. arts. 55A.051, 55A.052",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expunction where no charge was filed, Tex. Code Crim. Proc. arts. 55A.051 and 55A.052"
+        }
+      ],
+      "reasoning": "The compiled pathway fuses the two Chapter 55A arrest-without-prosecution mechanisms the registry keeps separate: no-charge expunction after the level-based waiting periods (art. 55A.052, track tx_exp_no_charge) and expunction on expiry of the limitations period, which the compiled text treats as immediate entitlement (art. 55A.054, track tx_exp_limitations). The pathway name leads with the limitations period, so tx_exp_limitations is primary with tx_exp_no_charge co-representing the waiting-period branch of the same compiled text.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-TX-first-offense-dwi-nondisclosure",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "first-offense-dwi-nondisclosure",
+        "registryTrackId": "tx_nd_dwi_probation",
+        "registryTrackIds": [
+          "tx_nd_dwi_probation",
+          "tx_nd_dwi_conviction",
+          "tx_nd_dwi_deferred"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Gov't Code § 411.0731 (cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+          "quote": "§ 411.0731 / DWI: first-offense DWI nondisclosure, with a shorter wait if an ignition interlock was used for the required term."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Tex. Gov't Code 411.0731",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Order of nondisclosure after community supervision following a DWI conviction, Tex. Gov't Code 411.0731"
+        }
+      ],
+      "reasoning": "The compiled pathway cites Gov't Code § 411.0731 by section, with the operative interlock shorter-wait rule, as its first-offense DWI nondisclosure authority; the registry track tx_nd_dwi_probation is built on § 411.0731 and is the primary mapping. The registry splits first-offense DWI nondisclosure further by disposition — § 411.0736 for a conviction without qualifying community supervision (tx_nd_dwi_conviction) and § 411.0726 for DWI/BWI deferred adjudication (tx_nd_dwi_deferred) — and the compiled pathway's disposition-first routing covers those branches, so they co-represent it.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-a-automatic-clean-slate-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-a-automatic-clean-slate-expungement",
+        "registryTrackId": "ut_auto_clean_slate",
+        "registryTrackIds": [
+          "ut_auto_clean_slate",
+          "ut_auto_nonconviction",
+          "ut_auto_traffic"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah automatic expungement umbrella (Utah Code 77-40a-205/206/202 mechanisms, operative case-type table)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "Utahs Clean Slate process applies to certain acquittals, dismissals, plea-in-abeyance dismissals, lower-level misdemeanors, infractions, and drug-possession cases."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Operative timing rows matching Utah Code 77-40a-206 goals",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "Acquittal on all charges Goal: 60 days after acquittal for qualifying post-May 1, 2020 cases"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-205",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Clean Slate automatic expungement of convictions, Utah Code 77-40a-205"
+        }
+      ],
+      "reasoning": "This pathway is the umbrella over Utah's automatic expungement scheme: its operative case-type table carries the 77-40a-206 favorable-outcome goals (acquittal 60 days, dismissal with prejudice 180 days), the 77-40a-205 Clean Slate conviction waiting periods, and the 77-40a-202 automatic traffic deletion row. The registry implements that scheme as ut_auto_clean_slate (primary — the pathway is named for Clean Slate), ut_auto_nonconviction and ut_auto_traffic, which together represent this compiled text; paths B and C below carry the branch-specific mappings.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice",
+        "registryTrackId": "ut_auto_nonconviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-206 (automatic expungement after acquittal or dismissal with prejudice, operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "A Utah case may be automatically expunged if it resulted in an acquittal on all charges or was dismissed with prejudice. The statute gives the court a goal of expunging qualifying acquittals 60 days after acquittal and qualifying dismissals with prejudice 180 days after dismissal or final nonappealable order. A dismissal with prejudice after successful completion of a plea in abeyance is excluded from that favorable-outcome automatic category."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-206",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Automatic expungement after acquittal or dismissal with prejudice, Utah Code 77-40a-206"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the full operative rule of Utah Code 77-40a-206 — acquittal on all charges or dismissal with prejudice, the 60-day and 180-day statutory goals, and the plea-in-abeyance exclusion. The registry track ut_auto_nonconviction is built on 77-40a-206 with the same 77-40a-204 machinery — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+        "registryTrackId": "ut_auto_clean_slate"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-205 Clean Slate conviction categories and waiting periods (operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "Clean Slate automatic expungement can apply to cases where each conviction or charge is one of the lower-level categories allowed by statute: controlled-substance possession misdemeanor, Class B misdemeanor, Class C misdemeanor, or infraction. The automatic waiting periods are generally 5 years for Class C misdemeanors/infractions, 6 years for Class B misdemeanors, and 7 years for Class A controlled-substance possession misdemeanors."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-205",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Clean Slate automatic expungement of convictions, Utah Code 77-40a-205"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative Clean Slate conviction criteria — the eligible offense categories (controlled-substance possession misdemeanor, Class B, Class C, infraction) and the 5/6/7-year automatic waiting periods — which are the eligibility rules of Utah Code 77-40a-205 with its 77-40a-303-linked limits. The registry track ut_auto_clean_slate is built on 77-40a-205 (with 77-40a-204 and the 303(4)/(5) counting limits) — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
+        "registryTrackId": "ut_pet_conviction",
+        "registryTrackIds": [
+          "ut_pet_conviction",
+          "ut_pet_special_certificate",
+          "ut_pet_acquittal",
+          "ut_pet_dismissed_with_prejudice",
+          "ut_pet_dismissed_without_prejudice",
+          "ut_pet_no_charges",
+          "ut_pet_limitations"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah BCI certificate-of-eligibility petition procedure (Utah Code 77-40a-304/306 machinery, operative process text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "Most Utah adult expungement petitions require a Certificate of Eligibility from the Utah Bureau of Criminal Identification, known as BCI. BCI reviews the persons total criminal history, including other states and previous expungements, not just what appears in the Utah BCI file."
+        },
+        {
+          "kind": "official_form",
+          "value": "Certificate / special certificate issued by BCI (the 77-40a-304(1)(c) special-certificate branch)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "3 If BCI approves, receive a certificate or special certificate."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-303 (conviction expungement on a certificate of eligibility)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement of a conviction on a certificate of eligibility, Utah Code 77-40a-303"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-304(1)(c) (special certificate)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement on a special certificate, Utah Code 77-40a-304(1)(c) and Utah Admin. Code R722-350-4(4)"
+        }
+      ],
+      "reasoning": "This pathway is the procedural gateway shared by every Utah petition track: the BCI certificate-of-eligibility application (fingerprints, fee, 180-day filing window, prosecutor and victim response, court order), which is the Utah Code 77-40a-304 certificate machinery and the 77-40a-306 petition procedure carried in the authority arrays of all ut_pet_* tracks. Its text also distinguishes ordinary certificates from special certificates, the 77-40a-304(1)(c) branch that is its own registry track. Primary mapping is ut_pet_conviction — the registry's certificate-of-eligibility conviction track — with the certificate-based petition family co-representing the shared procedure.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-e-petition-based-non-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-e-petition-based-non-conviction-expungement",
+        "registryTrackId": "ut_pet_acquittal",
+        "registryTrackIds": [
+          "ut_pet_acquittal",
+          "ut_pet_dismissed_with_prejudice",
+          "ut_pet_dismissed_without_prejudice",
+          "ut_pet_no_charges",
+          "ut_pet_limitations"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-302(1) non-conviction certificate outcomes (operative enumeration)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-302(1)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement after acquittal, Utah Code 77-40a-302(1)"
+        }
+      ],
+      "reasoning": "The compiled pathway enumerates exactly the five statutory non-conviction outcomes of Utah Code 77-40a-302(1)(b) — no charges filed, dismissal with prejudice, dismissal without prejudice with prosecutor consent or 180 days, acquittal on all charges, and limitations expiry — plus the 30-day floor and the pending-proceeding disqualifiers. The registry implements 77-40a-302(1) as five outcome-specific tracks (ut_pet_acquittal, ut_pet_dismissed_with_prejudice, ut_pet_dismissed_without_prejudice, ut_pet_no_charges, ut_pet_limitations); this single pathway represents all five, split on its case-outcome trigger field. Primary is ut_pet_acquittal as the first-listed 302(1) track; the set mapping is the substantive result.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-f-petition-based-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-f-petition-based-conviction-expungement",
+        "registryTrackId": "ut_pet_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah petition-based conviction expungement on a BCI certificate (operative process text carried by the pathway)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "A case may fail Utah Clean Slate automatic screening but still be worth reviewing for petition-based expungement."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "BCI certificate petition procedure carried in the pathway text",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "4 File the petition in the correct Utah court within 180 days of certificate issuance."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-303",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement of a conviction on a certificate of eligibility, Utah Code 77-40a-303"
+        }
+      ],
+      "reasoning": "This pathway is the conviction branch of the Utah petition scheme: its text carries the certificate-of-eligibility procedure (BCI application, 180-day filing window, prosecutor objection, court ruling) and the Clean-Slate-failure fallback framing, and its position in the profile's pathway set (conviction petition vs path-e's non-conviction petition) fixes the mechanism as conviction expungement on a certificate — Utah Code 77-40a-303, the authority of ut_pet_conviction. Confidence is medium rather than high because the pathway's own text is largely the shared petition boilerplate and the conviction-specific 77-40a-303 criteria are carried at profile level rather than inside this pathway record.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-UT-path-i-traffic-offense-expungement-or-deletion",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-i-traffic-offense-expungement-or-deletion",
+        "registryTrackId": "ut_auto_traffic",
+        "registryTrackIds": [
+          "ut_auto_traffic",
+          "ut_pet_traffic"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-202 automatic traffic deletion (operative timing text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "Utah separates traffic cases from regular criminal expungement. Some traffic offenses are automatically deleted by the court, including traffic acquittals, dismissals with prejudice, and certain adjudicated Class C/infraction or Class B traffic cases after statutory time periods. Automatic deletion uses 5 years for Class C misdemeanor/infraction traffic cases and 6 years for Class B misdemeanor traffic cases."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-305 traffic petition without a BCI certificate (operative timing text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "A person can also petition for traffic expungement without a BCI certificate. Petition-based traffic expungement can use shorter timing: 3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B misdemeanor traffic cases"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-202",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Automatic deletion of traffic offense records, Utah Code 77-40a-202"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-305",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Traffic conviction expungement petition, Utah Code 77-40a-305"
+        }
+      ],
+      "reasoning": "The compiled pathway carries both operative traffic mechanisms with their distinguishing timing rules: automatic deletion at 5/6 years (Utah Code 77-40a-202, track ut_auto_traffic) and the certificate-free traffic petition at 3/4 years (Utah Code 77-40a-305, track ut_pet_traffic). One compiled pathway represents both registry tracks, split on whether the participant waits for automatic deletion or petitions.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-j-cannabis-possession-petition-without-a-bci-certificate",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-j-cannabis-possession-petition-without-a-bci-certificate",
+        "registryTrackId": "ut_pet_cannabis"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah cannabis-possession petition without a BCI certificate (operative medical-condition criteria)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "Utah allows a petition for expungement of a conviction related to cannabis possession without a BCI certificate if the petition shows that, at the time of the arrest or citation, the person had a qualifying medical condition and the cannabis possession was in a form and amount to medicinally treat that condition."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-305 and 77-40a-306(1), with the 26B-4 medicinal-cannabis definitions",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Cannabis possession conviction expungement petition, Utah Code 77-40a-305 and 77-40a-306(1)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative cannabis-petition criteria — no BCI certificate, qualifying medical condition at the time of arrest or citation, cannabis in a form and amount to medicinally treat that condition — which is the mechanism of Utah Code 77-40a-305 as applied through 77-40a-306(1) with the Title 26B medicinal-cannabis definitions. The registry track ut_pet_cannabis carries exactly those authorities.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-k-pardon-based-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "UT",
+        "mechanismAuthority": [
+          "Utah Board of Pardons and Parole pardoned-expungement route (official \"Board of Pardons expungement order application\" listed on the BCI expungement-forms page)"
+        ],
+        "why": "The registry's fifteen UT tracks cover the 77-40a court and automatic mechanisms plus the appellate standing order; none carries the Board of Pardons pardoned-expungement route that BCI routes people to after a certificate denial."
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "Board of Pardons expungement order application (BCI expungement-forms page)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "forms page includes a Board of Pardons expungement order application and notes that people denied through BCI may contact the Board of Pardons and Parole for further information on pardoned expungements."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Pardon route recorded as separate from ordinary court expungement in the coded state pack",
+          "source": "src/lib/rcap/state-packs/utah/eligibility-rules.ts",
+          "quote": "Pardon-based expungement: if BCI denies eligibility, a person may explore the Utah Board of Pardons and Parole pardoned-expungement route. A pardon route is separate from ordinary court expungement."
+        }
+      ],
+      "reasoning": "A distinct Utah pardoned-expungement mechanism exists and is evidenced by an official form: the BCI expungement-forms page (quoted in the compiled profile's decision rules) lists a \"Board of Pardons expungement order application\" and directs people denied a BCI certificate to the Board of Pardons and Parole. No registry track carries that mechanism and no scope statement routes it out, so this is a registry gap. The operative statutory citation (expected in Utah Code Title 77, Chapter 27) appears nowhere in the repository and could not be web-verified from this environment; E3 should acquire it before minting the track.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-UT-path-l-vacatur-human-trafficking-related-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "UT",
+        "mechanismAuthority": [
+          "Utah Code 77-40a-402 (vacatur-related expungement: delivery of a vacatur order to affected agencies with the BCI application and fingerprints)"
+        ],
+        "why": "No UT registry track carries Utah Code 77-40a-402 or the BCI \"Application for Vacatur Expungement\"; the registry's Part 4 coverage of chapter 77-40a is absent."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code 77-40a-402 (cited by section in the compiled profile with the official BCI forms source)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "forms page lists an Application for Vacatur Expungement, and Utah Code 77-40a-402 describes how a person who receives a vacatur order must deliver it to affected agencies and attach the BCI application/fingerprints for processing."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Utah Code § 77-40a-402 named in the coded state pack",
+          "source": "src/lib/rcap/state-packs/utah/eligibility-rules.ts",
+          "quote": "Vacatur / human-trafficking-related expungement (§ 77-40a-402): Utah has a separate vacatur-related expungement process; a person who receives a vacatur order must deliver it to affected agencies and attach the BCI application/fingerprints for processing."
+        },
+        {
+          "kind": "official_form",
+          "value": "Application for Vacatur Expungement (BCI expungement-forms page)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "forms page lists an Application for Vacatur Expungement"
+        }
+      ],
+      "reasoning": "The vacatur-related expungement mechanism is doubly evidenced in repository sources: the compiled profile's decision rules cite Utah Code 77-40a-402 by section together with the official BCI \"Application for Vacatur Expungement\", and the coded state pack names § 77-40a-402 for the same mechanism. No registry track carries § 77-40a-402 or the vacatur application, so this is a genuine registry gap for a statutory mechanism with an official form.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-UT-path-m-juvenile-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "UT",
+        "mechanismAuthority": [
+          "Utah juvenile-court expungement process (official BCI juvenile criminal-history application; juvenile courts require a certificate of the adult Utah criminal-history report)"
+        ],
+        "why": "All fifteen UT registry tracks are adult 77-40a or appellate mechanisms; none reaches juvenile-court records."
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "BCI juvenile criminal-history application (BCI expungement-forms page)",
+          "source": "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+          "quote": "juvenile courts require a certificate of the persons adult Utah criminal history report before applying for juvenile record expungement, and using the adult expungement application for a juvenile matter can delay the process."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Juvenile expungement recorded as separate from adult expungement in the coded state pack",
+          "source": "src/lib/rcap/state-packs/utah/eligibility-rules.ts",
+          "quote": "Juvenile expungement: Utah juvenile expungement is separate from adult expungement. Juvenile courts require a certificate of the person's adult Utah criminal-history report before applying for juvenile record expungement"
+        }
+      ],
+      "reasoning": "A separate Utah juvenile expungement mechanism exists, administered through the juvenile court with its own BCI juvenile criminal-history application (an official form named on the BCI forms page quoted in the compiled profile). No registry track reaches juvenile records, so this is a registry gap. The operative statutory citation (expected in Utah Code Title 80, Chapter 6, Part 10) appears nowhere in the repository and could not be web-verified from this environment; E3 should acquire it before minting the track.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-VT-adult-conviction-expungement-narrow-statutory-route",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-conviction-expungement-narrow-statutory-route",
+        "registryTrackId": "vt_exp_decriminalized"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7602(a)(1)/(b) (expungement limited to no-longer-prohibited conduct, operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "Under current 13 V.S.A. 7602, a person may petition to expunge a conviction record only if the person was convicted of an offense where the underlying conduct is no longer prohibited by law or no longer designated as a criminal offense."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7602(a)(1) and (b)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement of a conviction for conduct no longer prohibited, 13 V.S.A. § 7602(a)(1) and (b)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the post-Act-60 narrow expungement rule of 13 V.S.A. 7602 — petition available only where the underlying conduct is no longer prohibited or no longer criminal, with sentence completion and restitution/surcharge conditions — sourced to the official § 7602 statute page. The registry track vt_exp_decriminalized is built on § 7602(a)(1) and (b) — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-VT-adult-felony-conviction-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-felony-conviction-sealing",
+        "registryTrackId": "vt_seal_felony"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7601(4)(B) qualifying-felony list with § 7602(d) conditions (operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "Vermont felony sealing is limited to the felony categories listed in 13 V.S.A. 7601(4)(B)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7602(d) named as the source of the conditions",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "These conditions come from 13 V.S.A. 7602(d)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7602(a)(2) and (d)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of a qualifying felony conviction, 13 V.S.A. § 7602(a)(2) and (d)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites both operative sections of the felony sealing mechanism by number: the § 7601(4)(B) qualifying-felony list and the § 7602(d) conditions (7-year wait, restitution/surcharges, prosecutor interests-of-justice burden). The registry track vt_seal_felony is built on §§ 7602(a)(2), 7602(d) and 7601(4)(B) — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-VT-adult-misdemeanor-conviction-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-misdemeanor-conviction-sealing",
+        "registryTrackId": "vt_seal_misdemeanor"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7602(c) (qualifying misdemeanor sealing conditions, cited by subsection)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "These conditions come from 13 V.S.A. 7602(c)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7602(a)(2) and (c)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of a qualifying misdemeanour conviction, 13 V.S.A. § 7602(a)(2) and (c)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the misdemeanor sealing conditions (qualifying misdemeanor, 3-year wait after sentence completion, restitution/surcharges paid, prosecutor interests-of-justice burden) and cites their source as 13 V.S.A. 7602(c) by subsection. The registry track vt_seal_misdemeanor is built on § 7602(a)(2) and (c) — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-VT-dui-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "dui-sealing",
+        "registryTrackId": "vt_seal_dui"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7602(e) (DUI sealing rule, cited by subsection)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "This rule is in 13 V.S.A. 7602(e)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7602(a)(2) and (e)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of a qualifying DUI misdemeanour conviction, 13 V.S.A. § 7602(a)(2) and (e)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the DUI-specific sealing conditions (10-year wait, restitution/surcharges, no commercial driver's licence or permit, prosecutor interests-of-justice burden) and cites their source as 13 V.S.A. 7602(e) by subsection. The registry track vt_seal_dui is built on § 7602(a)(2) and (e), with the same CDL disqualifier under § 7602(a)(5) — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-VT-juvenile-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "VT",
+        "mechanismAuthority": [
+          "33 V.S.A. § 5119 juvenile-delinquency sealing provisions (post-1996 adjudications sealed two years after final discharge; application/motion sealing for older matters; sealing of dismissed juvenile matters)"
+        ],
+        "why": "The registry's eleven VT tracks cover adult chapter 230 sealing/expungement, diversion and the § 5119(g) under-25 criminal-record route; none reaches juvenile delinquency adjudication records under the delinquency subsections of § 5119."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "33 V.S.A. § 5119 delinquency sealing (operative post-1996 rule with the official section source)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "For delinquency matters adjudicated on or after July 1, 1996, Vermont generally seals the record after 2 years from final discharge unless the States Attorney objects and the court finds a listed-crime issue or lack of rehabilitation."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "The only § 5119 authority in the VT registry is the subsection (g) under-25 criminal-record track",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of records of an offence committed before age 25, 33 V.S.A. § 5119(g)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative juvenile-delinquency sealing mechanism of 33 V.S.A. § 5119 — automatic-by-default sealing two years after final discharge for post-July-1996 adjudications, application-based sealing for older matters, and sealing of dismissed juvenile matters — sourced to the official § 5119 statute page. The registry's only § 5119 coverage is the subsection (g) route for criminal records of under-25 offenders (vt_seal_under_25), which is a different mechanism for a different record class, so juvenile delinquency sealing is a genuine registry gap. The delinquency subsection letters are not quoted in the repository sources; E3 should pin them when minting the track.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-VT-non-conviction-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "non-conviction-sealing",
+        "registryTrackId": "vt_seal_nonconviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7603(a) non-conviction sealing triggers (operative text with the official chapter 230 source)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "The court should issue a sealing order within 60 days after final disposition, unless a party objects in the interests of justice, if:"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "The three § 7603(a)(1) trigger dispositions, operative text",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "the court did not find probable cause at arraignment;"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7603",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of a criminal history record where there was no conviction, 13 V.S.A. § 7603"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative § 7603(a) rule — sealing order within 60 days of final disposition absent an interests-of-justice objection, triggered by no probable cause at arraignment, pre-trial dismissal, or acquittal — plus the any-time petition and stipulation branches, sourced to the official chapter 230 page. The registry track vt_seal_nonconviction is built on § 7603(a)(1), (a)(2), (b) and (g) — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-VT-offense-before-age-25-sealing-under-33-v-s-a-5119-g",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "offense-before-age-25-sealing-under-33-v-s-a-5119-g",
+        "registryTrackId": "vt_seal_under_25"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "33 V.S.A. § 5119(g) (cited by section and subsection in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "Offenses committed before age 25 - 33 V.S.A. 5119(g) Vermont has a broader young-person sealing route for a person who pleaded guilty to or was convicted of a Vermont crime committed before age 25."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "33 V.S.A. § 5119(g)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of records of an offence committed before age 25, 33 V.S.A. § 5119(g)"
+        }
+      ],
+      "reasoning": "The compiled pathway names 33 V.S.A. 5119(g) in its own identifier and text, with the operative criteria (crime committed before age 25, 2 years since final discharge, no listed-crime conviction in the prior 10 years, no pending listed-crime proceeding). The registry track vt_seal_under_25 is built on § 5119(g) and its subdivisions — a direct shared statutory citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-VT-young-adult-sealing-for-offenses-committed-at-ages-18-21",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "young-adult-sealing-for-offenses-committed-at-ages-18-21",
+        "registryTrackId": "vt_seal_18_to_21"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7609 (cited by section in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+          "quote": "Under 13 V.S.A. 7609, a person who was 18-21 when they committed a qualifying crime may petition to seal after 30 days have passed since completing the sentence."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "13 V.S.A. § 7609",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Sealing of criminal history records of a person 18 to 21 years of age, 13 V.S.A. § 7609"
+        }
+      ],
+      "reasoning": "The compiled pathway cites 13 V.S.A. 7609 by section with its operative criteria (offense at 18-21, 30 days after sentence completion, restitution/surcharges, prosecutor burden, and the mixed-record bar that the registry also records as the § 7609(b)(1) absolute bar). The registry track vt_seal_18_to_21 is built on § 7609 — a direct shared statutory citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WA-blake-drug-possession-vacation-and-refund-route",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "blake-drug-possession-vacation-and-refund-route",
+        "registryTrackId": "wa_blake_vacatur_and_lfo_refund"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "State v. Blake void drug-possession convictions under RCW 69.50.4013 / 69.50.4014 (operative text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Blake order forms state that convictions based on RCW 69.50.4013 or RCW 69.50.4014, predecessor statutes, similar local ordinances, and certain inchoate offenses are"
+        },
+        {
+          "kind": "official_form",
+          "value": "Washington Courts Blake motion and order form set",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Washington Courts provides Blake-specific motions and orders to vacate drug-possession convictions, refund paid legal financial obligations, waive unpaid balances, and handle full or partial case vacatur in superior, district, and municipal courts."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "State v. Blake, 197 Wn.2d 170 (2021); RCW 69.50.4013; RCW 69.50.4014",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Motion to Vacate a Void Drug Possession Conviction and Refund Paid Legal Financial Obligations, State v. Blake"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative Blake mechanism — vacatur of void RCW 69.50.4013/69.50.4014 possession convictions with refund of paid legal financial obligations — and names the Washington Courts Blake-specific form set. The registry track wa_blake_vacatur_and_lfo_refund is built on the Blake decision, the same two statutes, and the same official form set.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WA-juvenile-record-sealing-under-rcw-13-50-260",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "WA",
+        "mechanismAuthority": [
+          "RCW 13.50.260 (juvenile record sealing: scheduled administrative sealing hearings, immediate sealing on acquittal or dismissal with prejudice, and motion-based sealing with class-based crime-free periods)"
+        ],
+        "why": "The registry's thirteen WA tracks are adult vacation, deletion, restoration and Blake mechanisms; none carries any Title 13 RCW juvenile authority."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 13.50.260 (cited in the compiled pathway with the official statute URL and operative scheduling rule)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Washington juvenile records use a separate sealing statute. Courts hold regular administrative sealing hearings and, at disposition, schedule a sealing hearing after the latest of the respondents 18th birthday, anticipated end of probation, or anticipated release/completion of parole from juvenile rehabilitation."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Immediate sealing branch, operative text",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "If a juvenile case ends in acquittal after fact-finding or dismissal with prejudice, the court must immediately seal the official juvenile court record, subject to any state appeal rights."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No WA registry track carries Title 13 RCW authority; the closest coverage is adult non-conviction deletion under RCW 10.97.060",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Request to Delete Non-Conviction Criminal History Record Information, RCW 10.97.060"
+        }
+      ],
+      "reasoning": "The compiled pathway names RCW 13.50.260 in its identifier and carries the statute's operative machinery (administrative sealing hearings scheduled at disposition, offense-type exclusions, immediate sealing on acquittal or dismissal with prejudice, and motion-based sealing with class-based crime-free periods), sourced to the official app.leg.wa.gov statute page. No registry track reaches juvenile records, so this is a genuine registry gap.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WA-misdemeanor-cannabis-conviction-vacation",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "misdemeanor-cannabis-conviction-vacation",
+        "registryTrackId": "wa_vac_cannabis"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.060 cannabis vacation (operative text citing RCW 69.50.4014 and the age-21 condition)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "A person convicted of a misdemeanor cannabis offense who was 21 or older at the time of the offense may apply to the sentencing court for vacation. RCW 9.96.060 says misdemeanor cannabis offenses include RCW 69.50.4014 from July 1, 2004 onward, specified predecessor statutes, and equivalent municipal ordinances; if the applicant qualifies, the court shall vacate the record."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.060(5); RCW 69.50.4014",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Petition to Vacate a Misdemeanour Cannabis Conviction, RCW 9.96.060(5)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative cannabis-vacation rule of RCW 9.96.060(5) — applicant 21 or older at the offense, offenses under RCW 69.50.4014, predecessor statutes and equivalent ordinances, mandatory vacation on qualification — sourced to the official RCW page. The registry track wa_vac_cannabis is built on RCW 9.96.060(5) with the same 69.50.4014 and predecessor authorities.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WA-victim-survivor-conviction-vacation-route",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "victim-survivor-conviction-vacation-route",
+        "registryTrackId": "wa_vac_survivor_misdemeanor",
+        "registryTrackIds": [
+          "wa_vac_survivor_misdemeanor",
+          "wa_vac_survivor_felony"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.080 (survivor vacation, misdemeanor/gross misdemeanor; cited by section with operative criteria)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "For misdemeanor/gross misdemeanor convictions, RCW 9.96.080 allows the victim or prosecutor to apply to the sentencing court."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.94A.648 (survivor vacation, Class B/C felony; cited by section)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "For Class B or Class C felony convictions, RCW 9.94A.648 allows a similar victim route."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.080",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Victim and Survivor Vacation of a Misdemeanour or Gross Misdemeanour, RCW 9.96.080"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.94A.648",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Victim and Survivor Vacation of a Class B or C Felony, RCW 9.94A.648"
+        }
+      ],
+      "reasoning": "The compiled pathway cites both survivor-vacation statutes by section with their operative criteria (victimization nexus proven by a preponderance via affidavit, pending-charge limits, new-conviction rules): RCW 9.96.080 for misdemeanors and gross misdemeanors, RCW 9.94A.648 for Class B/C felonies. Those are exactly the registry tracks wa_vac_survivor_misdemeanor and wa_vac_survivor_felony; the single compiled pathway represents both, split on offense level.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WI-adult-non-conviction-arrest-only-record-correction-or-removal",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-non-conviction-arrest-only-record-correction-or-removal",
+        "registryTrackId": "wi_nc_doj_fingerprint_removal",
+        "registryTrackIds": [
+          "wi_nc_doj_fingerprint_removal",
+          "wi_nc_doj_challenge"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "Wisconsin DOJ form DJ-LE-250B (fingerprint/arrest record removal, named in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "Wisconsin DOJ says the request uses DJ-LE-250B, requires fingerprints, has no fee, and if the removed Wisconsin arrest information had been forwarded to the FBI, the FBI will be contacted to remove it from the FBI record."
+        },
+        {
+          "kind": "official_form",
+          "value": "Wisconsin DOJ form DJ-LE-247 (criminal history record challenge, named in the compiled routing table)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "DOJ record challenge/correction DJ-LE-247 - Wisconsin Criminal History Record Challenge Form"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Wis. Stat. § 165.84; form DJ-LE-250B",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Wisconsin DOJ Fingerprint and Arrest Record Removal (form DJ-LE-250B; Wis. Stat. § 165.84)"
+        }
+      ],
+      "reasoning": "The compiled pathway routes Wisconsin non-convictions away from § 973.015 court expungement to the DOJ-CIB administrative remedies and names both official forms: DJ-LE-250B for fingerprint/arrest record removal (release without charge, dismissal, or no charges filed) and DJ-LE-247 for record challenge/correction. Those are exactly the two registry tracks wi_nc_doj_fingerprint_removal (§ 165.84, DJ-LE-250B) and wi_nc_doj_challenge (DJ-LE-247); the pathway represents both, split on removal versus correction.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WI-executive-pardon-guidance",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "WI",
+        "mechanismAuthority": [
+          "Wisconsin Governor's pardon through the Wisconsin DOJ pardon / rights-restoration process (clemency notation and rights restoration; expressly not record clearing)"
+        ],
+        "why": "The registry's eight WI tracks cover § 973.015 expungement, § 961.47 conditional discharge and the DOJ-CIB administrative remedies; there is no pardon or rights-restoration routing node and no scope statement naming the pardon route."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Wisconsin DOJ position that a pardon annotates rather than clears the record (operative guidance text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "A Wisconsin pardon is separate from expungement. Wisconsin DOJ says a pardon will not remove the arrest from the criminal history record; the disposition will show that a Governors pardon was issued and may restore certain rights."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Pardon route recorded with its administering process in the coded state pack",
+          "source": "src/lib/rcap/state-packs/wisconsin/pathways.ts",
+          "quote": "\"Pardon / rights restoration (NOT expungement) — a Governor's pardon does not remove the arrest from the criminal-history record; the disposition shows the pardon and may restore certain rights (Wisconsin DOJ pardon / rights-restoration process)\""
+        }
+      ],
+      "reasoning": "This pathway is a guidance route: because Wisconsin adult expungement must generally be ordered at sentencing, people with no expungement route are pointed to the Governor's pardon, which per Wisconsin DOJ restores rights and annotates the disposition but never removes the arrest record. The registry has no WI pardon/rights-restoration node and no scope statement naming the pardon route, so the guidance mechanism this pathway implements is genuinely absent from the registry. If E3 declines to add non-clearing routing nodes, the alternative adjudication is to fold this into guidance copy on the § 973.015 tracks; the constitutional/statutory citation for the pardon power itself appears nowhere in the repository and could not be web-verified.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-WI-juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "WI",
+        "mechanismAuthority": [
+          "Wis. Stat. § 938.355(4m) (petition after reaching age 17 to expunge the court record of a juvenile delinquency adjudication)",
+          "Official form JD-1780, Petition to Expunge Court Record of Adjudication"
+        ],
+        "why": "The registry's eight WI tracks are adult § 973.015, § 961.47 and DOJ-CIB mechanisms; none carries any chapter 938 juvenile authority or the JD-1780 form."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Wis. Stat. § 938.355(4m) (operative rule with the official statute URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "A juvenile adjudicated delinquent may petition after reaching age 17 to expunge the court record of the adjudication. The court may expunge if the juvenile satisfactorily completed the dispositional order, the juvenile will benefit, and society will not be harmed."
+        },
+        {
+          "kind": "official_form",
+          "value": "JD-1780 (official juvenile expungement petition form, named in the compiled pathway text)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "The official juvenile form is JD-1780 - Petition to Expunge Court Record of Adjudication / Recommendation of District Attorney."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No WI registry track carries chapter 938 authority; the adult expungement tracks are built on § 973.015",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Petition to Expunge Criminal Court Record of Conviction, Non-Probation/Non-Incarceration (Wis. Stat. § 973.015"
+        }
+      ],
+      "reasoning": "The compiled pathway names Wis. Stat. 938.355(4m) in its identifier, carries the operative rule (petition after age 17, satisfactory completion of the dispositional order, benefit-and-no-harm findings) sourced to the official statute page, and names the official JD-1780 petition form. No registry track reaches juvenile adjudications, so this is a genuine registry gap evidenced by both statute and official form.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WV-juvenile-record-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "WV",
+        "mechanismAuthority": [
+          "W. Va. Code § 49-5-104 (juvenile records kept confidential one year after the 18th birthday or the end of juvenile jurisdiction, with the legal effect of extinguishing the offense; § 49-5-104(e) exclusion for juveniles convicted under adult jurisdiction)"
+        ],
+        "why": "The registry's twelve WV tracks are adult §§ 61-11-25/26, drug, DUI and pardon mechanisms; none carries any chapter 49 juvenile authority."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 49-5-104 (operative confidentiality-and-extinguishment rule with the official code URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "One year after the juveniles 18th birthday, or one year after personal or juvenile jurisdiction ends, whichever is later, juvenile records may be kept in a separate secure confidential place and may not be inspected except by circuit court order."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "The extinguishment effect, operative text",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "Marking juvenile records confidential has the legal effect of extinguishing the offense as if it never occurred."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No WV registry track carries chapter 49 authority; the non-conviction tracks are built on § 61-11-25",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Civil Petition to Expunge Records of an Acquittal or Dismissal, W. Va. Code § 61-11-25(a)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative W. Va. Code § 49-5-104 mechanism — juvenile records kept confidential one year after the 18th birthday or the end of jurisdiction, with the statutory effect of extinguishing the offense, and the § 49-5-104(e) exclusion for juveniles convicted under adult criminal jurisdiction — sourced to the official code URL. No registry track reaches juvenile records, so this is a genuine registry gap.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WV-no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+        "registryTrackId": "wv_nc_acquittal_dismissal",
+        "registryTrackIds": [
+          "wv_nc_acquittal_dismissal",
+          "wv_nc_diversion_deferred"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 61-11-25 acquittal/dismissal civil petition (operative text with the official code URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "A person charged under West Virginia law who was found not guilty or whose charges were dismissed, and not dismissed in exchange for a guilty plea to another offense resulting in conviction, may file a civil petition in the circuit court where the charges were filed."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Diversion (§ 61-11-22) and deferred adjudication (§ 61-11-22a) branch, cited by section",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "A person whose charges were dismissed after successful completion of pretrial diversion under 61-11-22 or deferred adjudication under 61-11-22a may also petition for expungement of all charges originally brought"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 61-11-25(a)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Civil Petition to Expunge Records of an Acquittal or Dismissal, W. Va. Code § 61-11-25(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code §§ 61-11-22, 61-11-22a within the diversion/deferred track authority",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Civil Petition to Expunge Records Following Completion of a Pretrial Diversion or Deferred Adjudication, W. Va"
+        }
+      ],
+      "reasoning": "The compiled pathway carries both branches of the § 61-11-25 civil-petition mechanism with their sections cited: acquittal/dismissal (not traded for a guilty plea; 60-day wait; no filing fee) and dismissal after pretrial diversion under § 61-11-22 or deferred adjudication under § 61-11-22a. The registry implements them as wv_nc_acquittal_dismissal and wv_nc_diversion_deferred (with wv_common_nc_procedure as the shared procedure node); the single compiled pathway represents both outcome tracks, split on disposition.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WV-pardon-based-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "pardon-based-expungement",
+        "registryTrackId": "wv_pardon_expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 5-1-16a (operative full-and-unconditional-pardon expungement text with the official code URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "A person who receives a full and unconditional pardon from the Governor may petition the circuit court in the county of conviction to expunge the conviction. The petitioner must serve the prosecutor and publish a Class I legal advertisement notice."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Operative timing and exclusions matching the registry scope statements",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "A person is not eligible until one year after being pardoned and five years after discharge of the sentence for the pardoned conviction. Pardon-based expungement is not available for first-degree murder, treason, kidnapping, or felony sex offenses under Article 8B."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 5-1-16a",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Petition to Expunge the Record of a Conviction After a Full and Unconditional Pardon, W. Va. Code § 5-1-16a"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative § 5-1-16a mechanism sourced to the official code URL — petition in the county of conviction after a full and unconditional pardon, prosecutor service, Class I legal advertisement, the one-year/five-year timing rule, and the murder/treason/kidnapping/Article 8B exclusions that the registry records as scope statements. The registry track wv_pardon_expungement is built on § 5-1-16a(a)-(e) — the same mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-WV-sex-trafficking-victim-vacatur-and-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "WV",
+        "mechanismAuthority": [
+          "W. Va. Code § 61-14-9 (petition by a trafficking victim to vacate a prostitution conviction or juvenile adjudication and expunge the record; no rehabilitation requirement)"
+        ],
+        "why": "The registry's twelve WV tracks cover §§ 61-11-25/26 petitions, drug and DUI routes and § 5-1-16a pardon expungement; none carries § 61-14-9 or any trafficking-survivor authority."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 61-14-9 (operative vacatur-and-expungement rule with the official code URL)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "A person convicted of prostitution, or adjudicated delinquent, as a direct result of being a trafficking victim may petition the circuit court in the county of conviction or juvenile adjudication to vacate the conviction/adjudication and expunge the record."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "No-rehabilitation-requirement rule, operative text",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "No rehabilitation requirement is imposed for this trafficking-victim expungement route."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No WV registry track carries § 61-14-9 or trafficking authority",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Petition to Expunge the Record of a Conviction After a Full and Unconditional Pardon, W. Va. Code § 5-1-16a"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative W. Va. Code § 61-14-9 mechanism — petition by a trafficking victim in the county of conviction or adjudication to vacate a prostitution conviction or delinquency adjudication and expunge the record, with a direct-result finding and no rehabilitation requirement — sourced to the official code URL. No registry track carries § 61-14-9, so this is a genuine registry gap.",
+      "confidence": "high"
+    }
+  ]
+}
