@@ -3,6 +3,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES } from "./rcap-scope-allowlist.mjs";
+import { applyExactPathAuthorizations } from "./source-engine-change-scope.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -124,7 +125,8 @@ function assertNoRestrictedChanges() {
   const forbidden = changedFiles
     .filter((file) => !allowedConsumerPersistenceFiles.has(file))
     .filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
-  if (forbidden.length > 0) failures.push(`Restricted files changed: ${forbidden.join(", ")}`);
+  const stillForbidden = applyExactPathAuthorizations({ rootDir, candidates: forbidden, failures });
+  if (stillForbidden.length > 0) failures.push(`Restricted files changed: ${stillForbidden.join(", ")}`);
 }
 
 function assertIncludes(source, label, marker) {
