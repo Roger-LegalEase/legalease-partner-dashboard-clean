@@ -229,11 +229,13 @@ try {
   const port = server.address().port;
   const downloadUrl = `http://127.0.0.1:${port}/api/rcap/packets/${jobId}/download`;
 
-  // The environment pre-installs Chromium at a stable path; the project's
-  // pinned Playwright build may differ, so launch the provided executable.
+  // Some environments pre-install Chromium at a stable path that differs from
+  // the pinned Playwright build's cache; use it when present, otherwise let
+  // Playwright resolve its own browser (CI installs it via npm ci).
+  const pinnedChromium = process.env.RCAP_E2E_CHROMIUM ?? "/opt/pw-browsers/chromium";
   browser = await chromium.launch({
     headless: true,
-    executablePath: process.env.RCAP_E2E_CHROMIUM ?? "/opt/pw-browsers/chromium"
+    ...(fs.existsSync(pinnedChromium) ? { executablePath: pinnedChromium } : {})
   });
   const context = await browser.newContext({
     // iPhone-class mobile viewport.

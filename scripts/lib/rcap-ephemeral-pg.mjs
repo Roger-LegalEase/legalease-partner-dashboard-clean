@@ -12,11 +12,31 @@ import path from "node:path";
 
 const PG_BIN = "/usr/lib/postgresql/16/bin";
 
+const isRoot = typeof process.getuid === "function" && process.getuid() === 0;
+
+function findPgBin(name) {
+  const candidates = [path.join(PG_BIN, name)];
+  try {
+    const found = execFileSync("sh", ["-c", `command -v ${name}`], { encoding: "utf8" }).trim();
+    if (found) candidates.unshift(found);
+  } catch {
+    // not on PATH
+  }
+  for (const root of ["/usr/lib/postgresql", "/usr/local/pgsql"]) {
+    if (!fs.existsSync(root)) continue;
+    for (const entry of fs.readdirSync(root)) {
+      candidates.push(path.join(root, entry, "bin", name));
+    }
+  }
+  return candidates.find((candidate) => fs.existsSync(candidate)) ?? null;
+}
+
 export function ephemeralPgAvailable() {
+  if (!findPgBin("initdb") || !findPgBin("pg_ctl")) return false;
+  if (!isRoot) return true; // run the server as the current user
   try {
     execFileSync("id", ["postgres"], { stdio: "ignore" });
-    fs.accessSync(path.join(PG_BIN, "initdb"));
-    return true;
+    return true; // root drops privileges to the postgres user
   } catch {
     return false;
   }
@@ -25,15 +45,24 @@ export function ephemeralPgAvailable() {
 export function startEphemeralPg() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-epg-"));
   const port = 54000 + Math.floor(Math.random() * 2000);
-  fs.chmodSync(root, 0o777);
-  execFileSync("chown", ["postgres:postgres", root]);
-  run(`${PG_BIN}/initdb -D ${root}/data -A trust`);
-  run(`${PG_BIN}/pg_ctl -D ${root}/data -o '-p ${port} -k ${root} -c listen_addresses=' -l ${root}/pg.log start`);
+  const initdb = findPgBin("initdb");
+  const pgCtl = findPgBin("pg_ctl");
+  if (isRoot) {
+    // The server refuses to run as root; drop privileges to the postgres user.
+    fs.chmodSync(root, 0o777);
+    execFileSync("chown", ["postgres:postgres", root]);
+  }
+  run(`${initdb} -D ${root}/data -U postgres -A trust`);
+  run(`${pgCtl} -D ${root}/data -o '-p ${port} -k ${root} -c listen_addresses=' -l ${root}/pg.log start -w -t 30`);
 
   const psqlBase = ["-h", root, "-p", String(port), "-U", "postgres", "-d", "postgres", "-X", "--no-psqlrc"];
 
   function run(cmd) {
-    execFileSync("su", ["postgres", "-s", "/bin/bash", "-c", cmd], { stdio: ["ignore", "pipe", "pipe"] });
+    if (isRoot) {
+      execFileSync("su", ["postgres", "-s", "/bin/bash", "-c", cmd], { stdio: ["ignore", "pipe", "pipe"] });
+    } else {
+      execFileSync("sh", ["-c", cmd], { stdio: ["ignore", "pipe", "pipe"] });
+    }
   }
 
   return {
@@ -82,7 +111,7 @@ export function startEphemeralPg() {
     },
     stop() {
       try {
-        run(`${PG_BIN}/pg_ctl -D ${root}/data stop -m immediate`);
+        run(`${pgCtl} -D ${root}/data stop -m immediate`);
       } catch {
         // Already gone.
       }
