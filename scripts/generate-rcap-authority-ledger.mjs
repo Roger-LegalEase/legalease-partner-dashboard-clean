@@ -22,10 +22,10 @@
 // or null, never as an optimistic default.
 //
 // Usage:
-//   node scripts/generate-rcap-completion-ledger.mjs
-//   node scripts/generate-rcap-completion-ledger.mjs --ref <git-ref>
-//   node scripts/generate-rcap-completion-ledger.mjs --status-json <path>
-//   node scripts/generate-rcap-completion-ledger.mjs --check
+//   node scripts/generate-rcap-authority-ledger.mjs
+//   node scripts/generate-rcap-authority-ledger.mjs --ref <git-ref>
+//   node scripts/generate-rcap-authority-ledger.mjs --status-json <path>
+//   node scripts/generate-rcap-authority-ledger.mjs --check
 
 import fs from "node:fs";
 import os from "node:os";
@@ -227,14 +227,14 @@ const aggregates = {
 
 // --- emit ----------------------------------------------------------------------
 
-const previousPath = path.join(outDir, "completion-ledger.json");
+const previousPath = path.join(outDir, "authority-ledger.json");
 const previous = fs.existsSync(previousPath)
   ? JSON.parse(fs.readFileSync(previousPath, "utf8"))
   : null;
 
 const body = {
   schemaVersion: "rcap-completion-ledger/v2",
-  generatedBy: "scripts/generate-rcap-completion-ledger.mjs",
+  generatedBy: "scripts/generate-rcap-authority-ledger.mjs",
   authority: {
     ref: AUTHORITY_REF,
     commit: authorityCommit,
@@ -270,7 +270,7 @@ if (checkOnly) {
     process.exit(1);
   }
   if (previous.contentHash !== contentHash) {
-    console.error("Ledger drift: regenerate with npm run rcap:ledger.");
+    console.error("Ledger drift: regenerate with npm run rcap:authority-ledger.");
     process.exit(1);
   }
   console.log(`Ledger current at version ${ledgerVersion}. No drift.`);
@@ -298,7 +298,7 @@ const blockerRows = topFiveRootBlockers
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RCAP Completion Ledger v${ledgerVersion}</title>
+<title>RCAP Authority Ledger v${ledgerVersion}</title>
 <style>
   :root { color-scheme: light dark; --fg:#111; --bg:#fff; --mut:#666; --line:#ddd; --bad:#b00020; }
   @media (prefers-color-scheme: dark) { :root { --fg:#eee; --bg:#111; --mut:#aaa; --line:#333; --bad:#ff6b6b; } }
@@ -317,7 +317,7 @@ const html = `<!doctype html>
   .wrap { overflow-x:auto; }
   code { background:color-mix(in srgb, var(--fg) 8%, transparent); padding:.1em .35em; border-radius:3px; }
 </style></head><body>
-<h1>RCAP Completion Ledger</h1>
+<h1>RCAP Authority Ledger</h1>
 <div class="sub">Version ${ledgerVersion} &middot; authority <code>${esc(AUTHORITY_REF)}</code> @ <code>${esc((authorityCommit || "").slice(0, 10))}</code> &middot; edition ${esc(status.authorityEdition)} &middot; launch gate <strong class="red">${esc(aggregates.launchGate)}</strong></div>
 
 <div class="grid">
@@ -341,13 +341,13 @@ const html = `<!doctype html>
 <thead><tr><th>Code</th><th class="n">Terminal / tracks</th><th class="n">Impl complete</th><th class="n">Level 3</th></tr></thead>
 <tbody>${jurisdictionRows}</tbody></table></div>
 
-<p class="sub">Computed by <code>${esc(FACTORY_STATUS_SCRIPT)}</code> on the integration branch; recorded by <code>scripts/generate-rcap-completion-ledger.mjs</code>. Status only.</p>
+<p class="sub">Computed by <code>${esc(FACTORY_STATUS_SCRIPT)}</code> on the integration branch; recorded by <code>scripts/generate-rcap-authority-ledger.mjs</code>. Status only.</p>
 </body></html>
 `;
-fs.writeFileSync(path.join(outDir, "completion-ledger.html"), html, "utf8");
+fs.writeFileSync(path.join(outDir, "authority-ledger.html"), html, "utf8");
 
 const diff = [];
-diff.push(`# Completion Ledger Diff — v${previous?.ledgerVersion ?? "none"} to v${ledgerVersion}`);
+diff.push(`# Authority Ledger Diff — v${previous?.ledgerVersion ?? "none"} to v${ledgerVersion}`);
 diff.push("");
 if (!previous) {
   diff.push("First generation on the factory-authoritative schema.");
@@ -374,7 +374,7 @@ if (!previous) {
   diff.push(lines.length ? lines.join("\n") : "Aggregates unchanged; per-track detail moved.");
 }
 diff.push("");
-fs.writeFileSync(path.join(outDir, "completion-ledger-diff.md"), `${diff.join("\n")}\n`, "utf8");
+fs.writeFileSync(path.join(outDir, "authority-ledger-diff.md"), `${diff.join("\n")}\n`, "utf8");
 
 console.log(`ledgerVersion                  ${ledgerVersion}`);
 console.log(`authorityRef                   ${AUTHORITY_REF} @ ${(authorityCommit || "supplied").slice(0, 10)}`);
@@ -392,4 +392,4 @@ console.log("topFiveRootBlockers");
 for (const b of topFiveRootBlockers) {
   console.log(`  ${String(b.tracks).padStart(4)}  ${b.stage}  (${b.owner})`);
 }
-console.log("written: data/rcap-ledger/{completion-ledger.json,completion-ledger.html,completion-ledger-diff.md}");
+console.log("written: data/rcap-ledger/{authority-ledger.json,authority-ledger.html,authority-ledger-diff.md}");
