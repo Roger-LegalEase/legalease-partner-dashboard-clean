@@ -385,7 +385,20 @@ export const CONTENT_PLATFORM_FILES = [
   "supabase/phase-43-content-platform.sql"
 ];
 
+// Reviewed for the packet delivery gate: the authenticated packet download
+// route. It serves only jobs whose artifact was re-read and hash-verified AND
+// whose accounting disposition authorizes delivery; ownership is checked
+// through the participant's briefcase item; the browser never receives a
+// storage path or service credential. Kept file-level (no directories) per the
+// scope-guard rule. The phase-48 migration is NOT listed here — it is covered
+// by the exact-path, hash-pinned authorization record in
+// data/rcap-authorization-queue.json, enforced by source-engine-change-scope.
+export const PACKET_DELIVERY_GATE_FILES = [
+  "src/app/api/rcap/packets/[jobId]/download/route.ts"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
+  ...PACKET_DELIVERY_GATE_FILES,
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...COMMAND_CENTER_PRODUCT_EVENT_FILES,
   ...SHARED_PAYMENT_FILES,
