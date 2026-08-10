@@ -2,11 +2,11 @@
   "schemaVersion": "rcap-verifier-audit/v1",
   "timeoutMs": 20000,
   "counts": {
-    "total": 202,
-    "inChain": 62,
+    "total": 208,
+    "inChain": 70,
     "orphanPassing": 96,
-    "orphanBroken": 30,
-    "orphanTimeout": 7,
+    "orphanBroken": 31,
+    "orphanTimeout": 4,
     "generators": 7
   },
   "scripts": [
@@ -285,8 +285,8 @@
     },
     {
       "file": "verify-content-visual.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_broken",
+      "detail": "Content platform visual verification failed:",
       "wiredToNamedScript": false,
       "mutatesTrackedFiles": false
     },
@@ -321,6 +321,13 @@
     {
       "file": "verify-encrypted-pdf-rescue.mjs",
       "status": "orphan_passing",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "verify-exact-path-authorization-phase50.mjs",
+      "status": "in_chain",
       "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
@@ -425,7 +432,7 @@
     },
     {
       "file": "verify-expungement-dtc-flow-unchanged.mjs",
-      "status": "orphan_passing",
+      "status": "in_chain",
       "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
@@ -754,8 +761,8 @@
     },
     {
       "file": "verify-observability-safety.mjs",
-      "status": "orphan_broken",
-      "detail": " throw new Error(`Next dev server exited early.\\n${output}`);",
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -977,6 +984,13 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-rcap-mutation-authority.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-rcap-no-generic-fallbacks.mjs",
       "status": "orphan_passing",
       "detail": null,
@@ -1075,6 +1089,27 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-rcap-packet-delivery-contract.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "verify-rcap-packet-delivery-db.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "verify-rcap-packet-delivery-e2e.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-rcap-packet-generation-dry-run.mjs",
       "status": "orphan_passing",
       "detail": null,
@@ -1083,7 +1118,14 @@
     },
     {
       "file": "verify-rcap-packet-render-jobs.mjs",
-      "status": "orphan_passing",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "verify-rcap-packet-render-path.mjs",
+      "status": "in_chain",
       "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
@@ -1222,7 +1264,7 @@
       "mutatesTrackedFiles": false
     },
     {
-      "file": "verify-rcap-render-worker.mjs",
+      "file": "verify-rcap-render-worker-delivery.mjs",
       "status": "in_chain",
       "detail": null,
       "wiredToNamedScript": true,
@@ -1307,22 +1349,22 @@
     },
     {
       "file": "verify-state-promotion-routes.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "RCAP state promotion route verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-state-promotion.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "RCAP state promotion verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-stripe-readiness.mjs",
-      "status": "orphan_broken",
-      "detail": "Stripe readiness verification failed.",
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1363,15 +1405,15 @@
     },
     {
       "file": "verify-ut-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-vt-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1398,8 +1440,8 @@
     },
     {
       "file": "verify-wi-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1412,8 +1454,8 @@
     },
     {
       "file": "verify-wv-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
