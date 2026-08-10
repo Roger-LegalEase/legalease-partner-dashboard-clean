@@ -190,6 +190,10 @@ if (writeReport) {
   );
   lines.push("");
   lines.push(
+    "**Scope warning.** This audit reads only `src/lib/rcap/state-packs/` on this branch. It is not a measure of legal-research coverage. Statewide legal reviews exist for all 51 jurisdictions in the governed Master Library, which is not stored on main — see `docs/record-clearing/master-library-reconciliation-report.md`. A metadata-only pack below means the review has not been materialized into this branch, never that it does not exist."
+  );
+  lines.push("");
+  lines.push(
     "`scripts/verify-all50-state-packs.mjs` checks only that the generated metadata file exists and contains the required top-level keys, so a pack consisting solely of that generated metadata passes it. This audit exists to show what that check cannot see."
   );
   lines.push("");
