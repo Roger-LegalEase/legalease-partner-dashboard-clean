@@ -120,6 +120,12 @@ function defaultFor(row) {
         disposition: "quarantine",
         reason: `Exceeded the ${audit.timeoutMs}ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.`
       };
+    case "added_since_audit":
+      return {
+        disposition: "keep_available",
+        reason:
+          "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition."
+      };
     default:
       return { disposition: "fix_then_wire", reason: "Unclassified; needs a decision." };
   }
@@ -135,7 +141,33 @@ let generated = 0;
 let preserved = 0;
 let overridden = 0;
 
-for (const row of audit.scripts) {
+// Scripts added since the last audit still need a decision. Classifying them by
+// chain membership is honest and provisional: the next audit replaces the
+// guess with a measured status. Leaving them out would let a new verifier slip
+// in with no recorded decision, which is the exact gap this register closes.
+const auditedFiles = new Set(audit.scripts.map((r) => r.file));
+const onDisk = fs
+  .readdirSync(path.join(rootDir, "scripts"))
+  .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
+  .sort();
+
+const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8"));
+const testChain = pkg.scripts?.test ?? "";
+
+const rowsToProcess = [
+  ...audit.scripts,
+  ...onDisk
+    .filter((f) => !auditedFiles.has(f))
+    .map((f) => ({
+      file: f,
+      status: testChain.includes(f) ? "in_chain" : "added_since_audit",
+      detail: null,
+      wiredToNamedScript: true,
+      mutatesTrackedFiles: false
+    }))
+];
+
+for (const row of rowsToProcess) {
   if (OVERRIDES[row.file]) {
     entries[row.file] = {
       ...OVERRIDES[row.file],
