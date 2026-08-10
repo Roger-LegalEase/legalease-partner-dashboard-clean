@@ -104,6 +104,13 @@ const tracks = (blobs.registry.tracks || []).map((track) => {
     outputStrategy: track.outputStrategy ?? null,
     compositionMode: track.compositionMode ?? null,
     unitCount: Array.isArray(track.units) ? track.units.length : 0,
+    // Branch-evidence fields for adjudication licenses: an adjudicated variant
+    // or composed unit must point at a declaration that survives here, so a
+    // registry edit that withdraws the declaration turns the build red instead
+    // of silently keeping the mapping.
+    dispositions: (track.dispositions || []).map((d) => String(d).slice(0, 200)),
+    mechanismExcerpt: track.mechanism ? String(track.mechanism).slice(0, 1400) : null,
+    unitIds: (track.units || []).map((u) => (u && u.unitId ? String(u.unitId) : null)).filter(Boolean),
     officialFormRefs: [...forms].sort(),
     scopedOutStatements: scopedOutStatements(track),
     implementationQueue: track.implementationQueue ?? null,

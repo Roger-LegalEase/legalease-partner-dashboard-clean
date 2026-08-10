@@ -42,10 +42,16 @@ const JURISDICTIONS = ["ID", "LA", "MS", "OK", "PA", "SD"];
 const laneJobs = jobsDoc.jobs.filter((j) => j.group === "E2-C");
 
 check("the frozen job source carries exactly six E2-C jobs", laneJobs.length === 6, `found ${laneJobs.length}`);
+// Before integration the canonical hash must be exactly the one this evidence
+// was produced against. After integration the hash has legitimately moved —
+// precisely because these records were adjudicated in — and the canonical
+// artifact then names this lane as its adjudication source. Any other
+// combination is drift.
 check(
-  "the adjudication pins the required crosswalk content hash",
-  doc.generatedFrom?.requiredCrosswalkContentHash === crosswalk.contentHash,
-  "hash mismatch between adjudication header and canonical crosswalk"
+  "the adjudication pins its crosswalk input, or the canonical artifact names this lane as its adjudication source",
+  doc.generatedFrom?.requiredCrosswalkContentHash === crosswalk.contentHash ||
+    crosswalk.adjudicationSource?.round?.lane === "E2-C",
+  "hash mismatch and the canonical crosswalk does not carry this lane's adjudication round"
 );
 
 const records = doc.adjudications;
@@ -195,6 +201,11 @@ for (const jur of JURISDICTIONS) {
   for (const r of rs) for (const t of r.selectedRegistryTrackIds) selections.set(t, (selections.get(t) || 0) + 1);
   for (const p of crosswalk.compiledPathways) {
     if (p.jurisdiction !== jur || p.registryRelation.startsWith("unresolved")) continue;
+    // The lane's own candidate-pool rows are already counted from its records;
+    // once the adjudications land in the canonical artifact those same rows
+    // carry mappings there too, and counting both would double them. A no-op
+    // before adjudication (pool rows were all unresolved), required after.
+    if (poolKeys.has(`${p.jurisdiction}:${p.compiledPathwayId}`)) continue;
     for (const t of p.mappedRegistryTrackIds) selections.set(t, (selections.get(t) || 0) + 1);
   }
   const variantSurplus = [...selections.values()].filter((c) => c > 1).reduce((s, c) => s + c - 1, 0);

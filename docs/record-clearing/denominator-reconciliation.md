@@ -25,14 +25,14 @@ They are joined on substance by `data/rcap-ledger/track-pathway-crosswalk.json`,
 
 | Crosswalk fact | Count |
 | --- | ---: |
-| Registry tracks with a named runtime representation | 67 |
-| Registry tracks with no compiled pathway | 265 |
-| Registry tracks whose candidates stay ambiguous | 165 |
-| Compiled pathways mapped to a registry track | 67 |
+| Registry tracks with a named runtime representation | 103 |
+| Registry tracks with no compiled pathway | 235 |
+| Registry tracks whose candidates stay ambiguous | 158 |
+| Compiled pathways mapped to a registry track | 117 |
 | Compiled pathways the registry scopes out by name | 4 |
-| Compiled pathways still unresolved | 253 |
+| Compiled pathways still unresolved | 193 |
 
-**Milestone 1 item 2 is not closed.** A per-track coverage statement is now possible for the 67 mapped tracks and for no others. The remaining 253 compiled pathways and 165 registry tracks are enumerated in `unresolvedIds` in the crosswalk, each with the evidence it is missing. They are a finite named set, not an unknown.
+**Milestone 1 item 2 is not closed.** A per-track coverage statement is now possible for the 103 mapped tracks and for no others. The remaining 193 compiled pathways and 158 registry tracks are enumerated in `unresolvedIds` in the crosswalk, each with the evidence it is missing. They are a finite named set, not an unknown.
 
 The jurisdiction table below remains the count reconciliation. It is not superseded by the crosswalk: a jurisdiction can balance on count while none of its tracks are individually identified.
 

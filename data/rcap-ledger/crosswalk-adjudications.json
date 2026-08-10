@@ -1,0 +1,1672 @@
+{
+  "schemaVersion": "rcap-crosswalk-adjudications/v1",
+  "note": "Canonical adjudication input for the track-pathway crosswalk generator. Each entry maps one compiled pathway that automatic matching left unresolved, carries the machine-verifiable license the generator re-checks on every run, and cites the lane evidence record behind it. Entries apply only to rows the automatic pass leaves unresolved; any drift fails the build.",
+  "registryProjectionCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "adjudicationRound": {
+    "lane": "E2-C",
+    "laneBranch": "claude/rcap-e2-c-surplus-reconciliation",
+    "laneCommit": "e8c41ab7",
+    "acceptedRecords": 60,
+    "rejectedRecords": 0,
+    "corrections": [
+      "MS:human-trafficking-survivor-vacatur-and-expungement \u2014 operative authority restated as Miss. Code Ann. \u00a7\u00a7 97-3-54.1, 97-3-54.6 (as amended by 2026 HB 1546); the lane record cited the amending bill, which the registry also pins as supporting authority on the \u00a7 99-19-71 tracks and which therefore cannot serve as the gap discriminator on its own."
+    ],
+    "keptUnresolved": [
+      "LA:human-trafficking-survivor-expungement-fee-exempt-route",
+      "MS:dui-nonadjudication",
+      "PA:path-a-non-conviction-expungement",
+      "PA:path-k-human-trafficking-vacatur-expungement"
+    ]
+  },
+  "adjudications": [
+    {
+      "jurisdiction": "ID",
+      "compiledPathwayId": "clean-slate-shielding-under-idaho-code-67-3004-11",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "id_clean_slate_shield"
+      ],
+      "operativeAuthority": {
+        "citation": "I.C. \u00a7 67-3004",
+        "subsection": "(11)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "ID:clean-slate-shielding-under-idaho-code-67-3004-11"
+      },
+      "license": {
+        "kind": "operative_citation_in_pathway",
+        "citationTokens": [
+          "67-3004-11"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "ID",
+      "compiledPathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "I.C. \u00a7 67-3014",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "ID:human-trafficking-survivor-vacatur-and-expungement"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": [
+          "67-3014"
+        ]
+      },
+      "gapBlocker": {
+        "operativeAuthority": "I.C. \u00a7 67-3014",
+        "distinctMechanism": "trafficking-survivor vacatur and expungement",
+        "whyNoCurrentTrack": "Distinct statutory mechanism (\u00a7 67-3014) with no registry track; gap recorded for the registry owner.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "ID",
+      "compiledPathwayId": "juvenile-expungement",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "I.C. \u00a7 20-525A",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "ID:juvenile-expungement"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": [
+          "20-525a"
+        ]
+      },
+      "gapBlocker": {
+        "operativeAuthority": "I.C. \u00a7 20-525A",
+        "distinctMechanism": "juvenile adjudication/diversion expungement petition",
+        "whyNoCurrentTrack": "A distinct statutory mechanism (\u00a7 20-525A) with no registry track. Only the registry owner may add a track; recording the gap does not change the 497 denominator.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "ID",
+      "compiledPathwayId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "id_isp_expungement"
+      ],
+      "operativeAuthority": {
+        "citation": "I.C. \u00a7 67-3004",
+        "subsection": "(10)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10"
+      },
+      "license": {
+        "kind": "operative_citation_in_pathway",
+        "citationTokens": [
+          "67-3004-10"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "ID",
+      "compiledPathwayId": "withheld-judgment-idaho-code-19-2604-review-branch",
+      "relation": "routing_or_supporting_path",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "I.C. \u00a7 19-2604",
+        "subsection": "(1) (referenced, not carried)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "ID:withheld-judgment-idaho-code-19-2604-review-branch"
+      },
+      "license": {
+        "kind": "routing_architecture",
+        "pathwayTokens": [
+          "must route this answer to state-specific review"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "expungement-by-redaction-for-multi-person-records",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "la-985-expungement-by-redaction"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 985",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:expungement-by-redaction-for-multi-person-records"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "expungement by redaction",
+          "multiple people"
+        ],
+        "registryTokens": [
+          "redaction",
+          "multiple individuals"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "felony-article-893-e-set-aside-followed-by-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "la-978-felony-conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 978",
+        "subsection": "(A)(1) (art. 893(E) ground)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:felony-article-893-e-set-aside-followed-by-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "set aside and prosecution dismissed under article 893(e)"
+        ],
+        "registryTokens": [
+          "felony_conviction_set_aside_and_dismissed_art_893e"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "felony-ten-year-clean-period-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "la-978-felony-conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 978",
+        "subsection": "(A)(2) (ten-year ground)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:felony-ten-year-clean-period-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "more than ten years have passed"
+        ],
+        "registryTokens": [
+          "felony_conviction"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "first-offender-pardon-felony-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "la-978-felony-conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 978",
+        "subsection": "first-offender-pardon ground"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:first-offender-pardon-felony-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "first-offender-pardon"
+        ],
+        "registryTokens": [
+          "felony_conviction_with_first_offender_pardon"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "first-offense-marijuana-expungement-after-90-days-art-998",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "la-977d-marijuana-first-offense"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 977(D)",
+        "subsection": "with art. 998 procedure"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:first-offense-marijuana-expungement-after-90-days-art-998"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "art-998",
+          "marijuana"
+        ],
+        "registryTokens": [
+          "998",
+          "marijuana"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "la-985-1-interim-expungement"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 985.1",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "interim expungement",
+          "felony arrest"
+        ],
+        "registryTokens": [
+          "interim",
+          "felony arrest"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "la-977-misdemeanor-conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 977",
+        "subsection": "(A)(1)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "set aside and prosecution dismissed under article 894(b)"
+        ],
+        "registryTokens": [
+          "misdemeanor_conviction_set_aside_and_dismissed_art_894b"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "misdemeanor-five-year-clean-period-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "la-977-misdemeanor-conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 977",
+        "subsection": "(A)(2)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:misdemeanor-five-year-clean-period-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "more than five years have passed"
+        ],
+        "registryTokens": [
+          "misdemeanor_conviction"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "LA",
+      "compiledPathwayId": "non-conviction-arrest-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "la-976-arrest-no-conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "La. C.Cr.P. art. 976",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "LA:non-conviction-arrest-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "did not result in conviction",
+          "declined to prosecute"
+        ],
+        "registryTokens": [
+          "did not result in a conviction",
+          "district_attorney_declined_to_prosecute"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 9-11-15",
+        "subsection": "(3), with \u00a7 21-23-7(6)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "9-11-15-3",
+          "21-23-7-6"
+        ],
+        "registryTokens": [
+          "9-11-15",
+          "21-23-7"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "eligible-felony-conviction-expungement-99-19-71",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-fel"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 99-19-71",
+        "subsection": "(2)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:eligible-felony-conviction-expungement-99-19-71"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "one felony conviction",
+          "hb 1546"
+        ],
+        "registryTokens": [
+          "one felony conviction",
+          "99-19-71-2"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-misd-1st"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 99-19-71",
+        "subsection": "(1)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+      },
+      "license": {
+        "kind": "operative_citation_in_pathway",
+        "citationTokens": [
+          "99-19-71-1"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-drug-cd"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 41-29-150",
+        "subsection": "(d)(1)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:first-offense-controlled-substance-conditional-discharge-relief"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "41-29-150"
+        ],
+        "registryTokens": [
+          "41-29-150"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "first-offense-dui-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-dui"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 63-11-30",
+        "subsection": "(13)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:first-offense-dui-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "first-offense dui",
+          "circuit court"
+        ],
+        "registryTokens": [
+          "first-offence dui expungement",
+          "63-11-30"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7\u00a7 97-3-54.1, 97-3-54.6 (as amended by 2026 HB 1546)",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:human-trafficking-survivor-vacatur-and-expungement"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": [
+          "hb 1546"
+        ]
+      },
+      "gapBlocker": {
+        "operativeAuthority": "Miss. Code Ann. \u00a7\u00a7 97-3-54.1, 97-3-54.6 (as amended by 2026 HB 1546)",
+        "distinctMechanism": "trafficking-survivor vacatur of convictions/adjudications with expungement of non-violent offenses",
+        "whyNoCurrentTrack": "Vacatur is a distinct mechanism from every registered MS track; the registry pins the enacting bill but carries no track for it. Gap recorded for the registry owner.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "intervention-court-completion-expungement",
+      "relation": "composed_unit_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ms-diversion"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 9-23-23",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:intervention-court-completion-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_units",
+        "pathwayTokens": [
+          "intervention court"
+        ],
+        "registryTokens": [
+          "ms-diversion-intervention-court-verification"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "minor-in-possession-underage-alcohol-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-mip"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 67-3-70",
+        "subsection": "(6)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:minor-in-possession-underage-alcohol-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "67-3-70"
+        ],
+        "registryTokens": [
+          "67-3-70"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-nonconv"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 99-19-71",
+        "subsection": "(4)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "the court shall expunge",
+          "no disposition"
+        ],
+        "registryTokens": [
+          "99-19-71-4",
+          "did not end in conviction"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "pretrial-intervention-or-diversion-expungement",
+      "relation": "composed_unit_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ms-diversion"
+      ],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 99-15-123",
+        "subsection": "(3)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:pretrial-intervention-or-diversion-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_units",
+        "pathwayTokens": [
+          "pretrial intervention"
+        ],
+        "registryTokens": [
+          "ms-diversion-pti-expungement-petition"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "MS",
+      "compiledPathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "Miss. Code Ann. \u00a7 99-15-59",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": [
+          "99-15-59"
+        ]
+      },
+      "gapBlocker": {
+        "operativeAuthority": "Miss. Code Ann. \u00a7 99-15-59",
+        "distinctMechanism": "uncharged/unprosecuted misdemeanor expunction after 12 months",
+        "whyNoCurrentTrack": "Distinct statutory mechanism (\u00a7 99-15-59) with no registry track; gap recorded for the registry owner.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_nonconviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "acquittal/dismissal categories"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:acquittal-dismissal-or-other-no-conviction-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "acquitted"
+        ],
+        "registryTokens": [
+          "acquitted"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "arrest-with-no-charges-filed",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_nonconviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "not-charged category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:arrest-with-no-charges-filed"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "no charges of any type were filed"
+        ],
+        "registryTokens": [
+          "not_charged"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "clean-slate-automatic-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ok_clean_slate"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18b (SB 2030; formerly \u00a7 18(C)/\u00a7 19(B))",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:clean-slate-automatic-expungement"
+      },
+      "currencyFlag": "compiled rule text describes the repealed pre-SB-2030 \u00a7 18(C)/\u00a7 19(B) monthly-identification machinery; current authority is \u00a7 18b/\u00a7 19d",
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "clean slate",
+          "automatic"
+        ],
+        "registryTokens": [
+          "automatic sealing of clean slate eligible",
+          "18b"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "conviction-reversed-and-case-dismissed",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_nonconviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "reversed-and-dismissed category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:conviction-reversed-and-case-dismissed"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "reversed with instructions to dismiss"
+        ],
+        "registryTokens": [
+          "dismissed"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "deferred-sentence-court-record-expungement-under-991-c",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ok_991c_deferred"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 991c",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:deferred-sentence-court-record-expungement-under-991-c"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "991"
+        ],
+        "registryTokens": [
+          "991c",
+          "court record"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "dna-factual-innocence-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_nonconviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "factual-innocence category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:dna-factual-innocence-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "factual innocence was established by dna"
+        ],
+        "registryTokens": [
+          "factually_innocent"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "felony-reclassified-as-a-misdemeanor",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_felony_conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "reclassified-felony route"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:felony-reclassified-as-a-misdemeanor"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "reclassified as a misdemeanor"
+        ],
+        "registryTokens": [
+          "a reclassified-felony route with a short window"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "fine-only-misdemeanor-conviction-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_misdemeanor_conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "fine-only (<$501) misdemeanor category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:fine-only-misdemeanor-conviction-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "fine of less than $501"
+        ],
+        "registryTokens": [
+          "petition routes for misdemeanour convictions"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "human-trafficking-survivor-relief",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 19c",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:human-trafficking-survivor-relief"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": [
+          "19c"
+        ]
+      },
+      "gapBlocker": {
+        "operativeAuthority": "22 O.S. \u00a7 19c",
+        "distinctMechanism": "trafficking-survivor relief for prostitution-related records",
+        "whyNoCurrentTrack": "Distinct statutory mechanism (\u00a7 19c) with no registry track; gap recorded for the registry owner.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "juvenile-record-expungement",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "10A O.S. \u00a7 2-6-109",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:juvenile-record-expungement"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": [
+          "2-6-109"
+        ]
+      },
+      "gapBlocker": {
+        "operativeAuthority": "10A O.S. \u00a7 2-6-109",
+        "distinctMechanism": "juvenile-record expungement petition",
+        "whyNoCurrentTrack": "Distinct statutory mechanism (Title 10A) with no registry track; gap recorded for the registry owner.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "misdemeanor-deferred-dismissal-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_deferred_dismissal"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "misdemeanor deferred-dismissal category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:misdemeanor-deferred-dismissal-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "charged with a misdemeanor",
+          "deferred judgment or delayed sentence"
+        ],
+        "registryTokens": [
+          "deferred_dismissed"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "nonviolent-felony-deferred-dismissal-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_deferred_dismissal"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "nonviolent-felony deferred-dismissal category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:nonviolent-felony-deferred-dismissal-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "nonviolent felony",
+          "deferred judgment or delayed sentence"
+        ],
+        "registryTokens": [
+          "deferred_dismissed"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "not-more-than-two-eligible-felony-convictions-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_felony_conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "two-felony route"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:not-more-than-two-eligible-felony-convictions-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "convicted of not more than two felony offenses"
+        ],
+        "registryTokens": [
+          "petition routes for felony convictions"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "one-eligible-nonviolent-felony-conviction-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_felony_conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "one-felony route"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:one-eligible-nonviolent-felony-conviction-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "convicted of a nonviolent felony"
+        ],
+        "registryTokens": [
+          "a one-felony route carrying a separate-misdemeanour look-back"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "other-eligible-misdemeanor-conviction-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_misdemeanor_conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "other-misdemeanor category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:other-eligible-misdemeanor-conviction-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "fine greater than $500"
+        ],
+        "registryTokens": [
+          "petition routes for misdemeanour convictions"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "pardon-based-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_pardon"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "pardon category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:pardon-based-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "full pardon by the governor"
+        ],
+        "registryTokens": [
+          "pardoned"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "up-to-two-felony-deferred-dismissal-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "ok_18_19_deferred_dismissal"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 18 (with \u00a7\u00a7 19, 19a)",
+        "subsection": "two-felony deferred-dismissal category"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:up-to-two-felony-deferred-dismissal-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "not more than two felony offenses",
+          "deferred judgment or delayed sentence"
+        ],
+        "registryTokens": [
+          "deferred_dismissed"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "OK",
+      "compiledPathwayId": "victim-protective-order-record-relief",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ok_vpo_60_18"
+      ],
+      "operativeAuthority": {
+        "citation": "22 O.S. \u00a7 60.18",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "OK:victim-protective-order-record-relief"
+      },
+      "license": {
+        "kind": "operative_citation_in_pathway",
+        "citationTokens": [
+          "60-18"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-b-complete-acquittal-not-guilty-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "pa_acquittal_auto"
+      ],
+      "operativeAuthority": {
+        "citation": "18 Pa.C.S. \u00a7 9122(a)",
+        "subsection": "complete-acquittal ground"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-b-complete-acquittal-not-guilty-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "complete-acquittal"
+        ],
+        "registryTokens": [
+          "acquitted_of_all_charges_same_conduct_or_criminal_episode"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-c-summary-conviction-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "pa_summary_conviction"
+      ],
+      "operativeAuthority": {
+        "citation": "18 Pa.C.S. \u00a7 9122(b)",
+        "subsection": "summary-conviction ground (five arrest-free years)"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-c-summary-conviction-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "summary offense conviction",
+          "five years"
+        ],
+        "registryTokens": [
+          "summary conviction after five arrest-free years"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-d-ard-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "pa_ard_expungement"
+      ],
+      "operativeAuthority": {
+        "citation": "Pa.R.Crim.P. 320",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-d-ard-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "320",
+          "ard"
+        ],
+        "registryTokens": [
+          "320",
+          "accelerated rehabilitative disposition"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-e-age-70-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "pa_age70_deceased"
+      ],
+      "operativeAuthority": {
+        "citation": "18 Pa.C.S. \u00a7 9122(b)",
+        "subsection": "age-70 ground"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-e-age-70-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "70 years of age or older"
+        ],
+        "registryTokens": [
+          "age 70 or death grounds"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-f-deceased-person-expungement",
+      "relation": "compiled_variant_of_registry_track",
+      "mappedRegistryTrackIds": [
+        "pa_age70_deceased"
+      ],
+      "operativeAuthority": {
+        "citation": "18 Pa.C.S. \u00a7 9122(b)",
+        "subsection": "death ground"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-f-deceased-person-expungement"
+      },
+      "license": {
+        "kind": "registry_declared_branching",
+        "pathwayTokens": [
+          "dead for three years"
+        ],
+        "registryTokens": [
+          "age 70 or death grounds"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-g-underage-drinking-conviction-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "pa_6308_underage"
+      ],
+      "operativeAuthority": {
+        "citation": "18 Pa.C.S. \u00a7 6308",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-g-underage-drinking-conviction-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "6308"
+        ],
+        "registryTokens": [
+          "6308"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-h-pardon-based-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "pa_pardon_expungement"
+      ],
+      "operativeAuthority": {
+        "citation": "18 Pa.C.S. \u00a7 9122(a)(2.1)",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-h-pardon-based-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "unconditional pardon",
+          "board of pardons transmits"
+        ],
+        "registryTokens": [
+          "conviction_for_which_an_unconditional_pardon_was_granted"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-i-petition-for-limited-access",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "pa_9122_1_limited_access"
+      ],
+      "operativeAuthority": {
+        "citation": "18 Pa.C.S. \u00a7 9122.1",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-i-petition-for-limited-access"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "petition for limited access"
+        ],
+        "registryTokens": [
+          "petition for order for limited access"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "PA",
+      "compiledPathwayId": "path-j-clean-slate-automatic-limited-access",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "pa_9122_2_clean_slate"
+      ],
+      "operativeAuthority": {
+        "citation": "18 Pa.C.S. \u00a7 9122.2",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "PA:path-j-clean-slate-automatic-limited-access"
+      },
+      "license": {
+        "kind": "operative_citation_in_pathway",
+        "citationTokens": [
+          "9122-2"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "SD",
+      "compiledPathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "sd_arrest_expungement"
+      ],
+      "operativeAuthority": {
+        "citation": "SDCL \u00a7 23A-3-26",
+        "subsection": "motion under \u00a7 23A-3-27"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "23a-3-27"
+        ],
+        "registryTokens": [
+          "23a-3-27",
+          "arrest record"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "SD",
+      "compiledPathwayId": "automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "sd_23a_3_34_auto"
+      ],
+      "operativeAuthority": {
+        "citation": "SDCL \u00a7 23A-3-34",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases"
+      },
+      "license": {
+        "kind": "operative_citation_in_pathway",
+        "citationTokens": [
+          "23a-3-34"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "SD",
+      "compiledPathwayId": "controlled-substance-deferred-disposition-route",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "SDCL \u00a7 23A-27-53",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "SD:controlled-substance-deferred-disposition-route"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": [
+          "23a-27-53"
+        ]
+      },
+      "gapBlocker": {
+        "operativeAuthority": "SDCL \u00a7 23A-27-53",
+        "distinctMechanism": "controlled-substance deferred disposition with dismissal",
+        "whyNoCurrentTrack": "Distinct statutory mechanism (\u00a7 23A-27-53) with no registry track; gap recorded for the registry owner.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "SD",
+      "compiledPathwayId": "diversion-expungement",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "sd_diversion"
+      ],
+      "operativeAuthority": {
+        "citation": "SDCL \u00a7 23A-3-35",
+        "subsection": "\u00a7\u00a7 23A-3-35 to 23A-3-37"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "SD:diversion-expungement"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "completes a diversion program"
+        ],
+        "registryTokens": [
+          "completion of a diversion program"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "SD",
+      "compiledPathwayId": "juvenile-delinquency-sealing",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "not pinned (expected SDCL \u00a7 26-7A-115)",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "SD:juvenile-delinquency-sealing"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": []
+      },
+      "provisional": true,
+      "provisionalReason": "operative SDCL citation not yet pinned in a committed source",
+      "gapBlocker": {
+        "operativeAuthority": "not pinned (expected SDCL \u00a7 26-7A-115)",
+        "distinctMechanism": "juvenile delinquency record sealing petition",
+        "whyNoCurrentTrack": "A distinct juvenile mechanism with substantive committed procedural content and no registry candidate at all; the operative SDCL citation still needs pinning before a registry record can be drafted.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "SD",
+      "compiledPathwayId": "juvenile-trafficking-expungement",
+      "relation": "unregistered_relief_mechanism_registry_gap",
+      "mappedRegistryTrackIds": [],
+      "operativeAuthority": {
+        "citation": "not pinned (SDCL juvenile trafficking expungement provision)",
+        "subsection": null
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "SD:juvenile-trafficking-expungement"
+      },
+      "license": {
+        "kind": "unregistered_mechanism",
+        "citationTokens": []
+      },
+      "provisional": true,
+      "provisionalReason": "operative SDCL citation not yet pinned in a committed source",
+      "gapBlocker": {
+        "operativeAuthority": "not pinned (SDCL juvenile trafficking expungement provision)",
+        "distinctMechanism": "juvenile trafficking-victim expungement with vacatur",
+        "whyNoCurrentTrack": "A distinct vacatur-plus-expungement mechanism with substantive committed content and no registry candidate; operative citation needs pinning.",
+        "proposedRegistryOwnerAction": "draft and land a registry track for this mechanism through the canonical registry source branch, or record a terminal out-of-scope disposition",
+        "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+        "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered"
+      }
+    },
+    {
+      "jurisdiction": "SD",
+      "compiledPathwayId": "pardon-based-sealing",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "sd_pardon_24_14_11"
+      ],
+      "operativeAuthority": {
+        "citation": "SDCL \u00a7 24-14-11",
+        "subsection": "ch. 24-14"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "SD:pardon-based-sealing"
+      },
+      "license": {
+        "kind": "mechanism_identity",
+        "pathwayTokens": [
+          "pardon through chapter 24-14"
+        ],
+        "registryTokens": [
+          "24-14"
+        ]
+      }
+    },
+    {
+      "jurisdiction": "SD",
+      "compiledPathwayId": "suspended-imposition-of-sentence-sealing",
+      "relation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "sd_sis_sealing"
+      ],
+      "operativeAuthority": {
+        "citation": "SDCL \u00a7 23A-27-13",
+        "subsection": "\u00a7\u00a7 23A-27-13 to 23A-27-17"
+      },
+      "adjudicatedBy": "session-e3",
+      "evidenceRef": {
+        "lane": "E2-C",
+        "path": "data/rcap-crosswalk-enrichment/e2-c-surplus/surplus-pathway-adjudications.json",
+        "recordKey": "SD:suspended-imposition-of-sentence-sealing"
+      },
+      "license": {
+        "kind": "operative_citation_in_pathway",
+        "citationTokens": [
+          "23a-27-13"
+        ]
+      }
+    }
+  ]
+}
