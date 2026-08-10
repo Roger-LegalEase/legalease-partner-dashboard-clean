@@ -2,26 +2,26 @@
   "schemaVersion": "rcap-authorization-queue/v1",
   "purpose": "Production-touching actions wait here. Nothing in this file executes itself; an agent may prepare an action and record it, but only Roger authorizes it, and execution happens afterwards in one of his two daily windows.",
   "queueEnforcedFromPhase": 49,
-  "enforcementNote": "Migrations numbered at or above queueEnforcedFromPhase must have an entry here. Earlier phases predate the queue and are not retroactively enforced; their applied state must be proven by object presence, because the Supabase migration ledger holds only a baseline row.",
+  "enforcementNote": "Migrations numbered at or above queueEnforcedFromPhase must have an entry here. Earlier phases predate the queue and are not retroactively enforced; their applied state must be proven by object presence, because the Supabase migration ledger holds only a baseline row. An entry whose artifacts have moved to another branch records that branch and PR rather than an in-tree path.",
   "entries": [
     {
       "id": "auth-2026-08-10-phase-49-packet-render-jobs",
       "kind": "migration",
       "title": "Apply phase-49 durable packet render jobs and artifact-gated credit",
       "artifacts": [
-        "supabase/phase-49-rcap-packet-render-jobs.sql"
+        "(moved to branch claude/rcap-phase-49-migration, PR #91)"
       ],
-      "status": "pending_authorization",
+      "status": "authorized_scoped",
       "requestedBy": "opus-5-captain",
       "requestedAt": "2026-08-10",
-      "authorizedBy": null,
-      "authorizedAt": null,
+      "authorizedBy": "Roger Roman",
+      "authorizedAt": "2026-08-10",
       "executedAt": null,
-      "why": "A sponsored packet credit is currently consumed with no validated artifact in existence. packet/generate/route.ts records a credit when packetStatus reaches 'ready', and 'ready' is produced by an in-memory text/plain string with no render, no storage write and no read-back. This migration makes credit movement impossible without stored, checksummed bytes.",
+      "why": "A sponsored packet credit is currently consumed with no validated artifact in existence. packet/generate/route.ts records a credit when packetStatus reaches 'ready', and 'ready' is produced by an in-memory text/plain string with no render, no storage write and no read-back. This migration makes credit movement impossible without stored, checksummed bytes. Held on a dedicated migration branch because assertSourceEngineChangeScope treats supabase/ as production-forbidden; the guard is unchanged and nothing was allowlisted.",
       "risk": "low",
       "riskNote": "Additive and forward-only. Creates three new tables, one trigger and two functions. Alters no existing table, drops nothing, and backfills nothing. No application code reads these objects yet, so applying it changes no runtime behaviour on its own.",
       "preconditions": [
-        "phase-48-rcap-document-artifact-storage.sql applied, or its absence accepted — phase 49 takes no foreign key on rcap_document_artifacts and applies independently",
+        "phase-48-rcap-document-artifact-storage.sql applied, or its absence accepted \u2014 phase 49 takes no foreign key on rcap_document_artifacts and applies independently",
         "public.partner_records and public.rcap_document_packets present",
         "service_role exists"
       ],
@@ -29,12 +29,29 @@
         "Applies cleanly to a fresh PostgreSQL 16 cluster",
         "Ten behavioural assertions pass in supabase/tests/phase-49-packet-render-jobs.test.sql",
         "Mutation-tested: stripping the artifact_validated gate turns the suite red",
-        "npm run rcap:verify-packet-render-jobs"
+        "npm run rcap:verify-packet-render-jobs",
+        "Applied to an ephemeral local PostgreSQL 16 cluster under the granted authorization",
+        "SQL state machine checked against data/rcap-render/state-machine.json; drift mutation-tested"
       ],
       "rollback": "Documented at the foot of the migration: drop the two functions, the two credit tables, the trigger and its function, then packet_render_jobs. Additive, so no pre-existing row is affected.",
       "blocks": [
-        "Wiring packet-generation.ts to the job queue. Application code must not reference these objects before the migration is applied, or packet generation breaks outright."
-      ]
+        "Wiring packet-generation.ts to the job queue. Application code must not reference these objects before the migration is applied to the target environment."
+      ],
+      "branch": "claude/rcap-phase-49-migration",
+      "pullRequest": 91,
+      "scopedAuthorization": {
+        "mergeOnGreen": "authorized",
+        "applyEphemeralLocal": "authorized",
+        "applyStaging": "authorized once staging exists",
+        "applyProduction": "queued \u2014 explicit go required after the staging rehearsal passes"
+      }
     }
-  ]
+  ],
+  "statusVocabulary": {
+    "pending_authorization": "awaiting Roger",
+    "authorized_scoped": "authorized for some environments and still queued for others; see scopedAuthorization",
+    "authorized": "authorized for all listed environments",
+    "executed": "applied",
+    "declined": "refused"
+  }
 }

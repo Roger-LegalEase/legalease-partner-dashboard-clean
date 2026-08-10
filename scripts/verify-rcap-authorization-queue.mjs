@@ -45,10 +45,17 @@ const VALID_KINDS = new Set([
 ]);
 const VALID_STATUS = new Set([
   "pending_authorization",
+  // Authorized for some environments and still queued for others. The split is
+  // the normal case for a migration: local and staging can be cleared long
+  // before production, and collapsing that into one boolean loses the part that
+  // matters.
+  "authorized_scoped",
   "authorized",
   "executed",
   "declined"
 ]);
+
+const AUTHORIZED_STATUSES = new Set(["authorized", "authorized_scoped", "executed"]);
 
 const artifactsInQueue = new Set();
 for (const entry of entries) {
@@ -68,7 +75,18 @@ for (const entry of entries) {
   if (!entry.why) failures.push(`${id}: no stated reason`);
 
   // The load-bearing checks: a claim of authorization must name who and when.
-  if (entry.status === "authorized" || entry.status === "executed") {
+  if (entry.status === "authorized_scoped") {
+    const scope = entry.scopedAuthorization;
+    if (!scope || typeof scope !== "object" || Object.keys(scope).length === 0) {
+      failures.push(`${id}: authorized_scoped requires a scopedAuthorization map naming each environment`);
+    } else if (!Object.values(scope).some((v) => String(v).includes("queued"))) {
+      failures.push(
+        `${id}: authorized_scoped but no environment is still queued; use "authorized" instead`
+      );
+    }
+  }
+
+  if (AUTHORIZED_STATUSES.has(entry.status)) {
     if (!entry.authorizedBy) failures.push(`${id}: status ${entry.status} with no authorizedBy`);
     if (!entry.authorizedAt) failures.push(`${id}: status ${entry.status} with no authorizedAt`);
   }
@@ -79,8 +97,17 @@ for (const entry of entries) {
     failures.push(`${id}: pending_authorization but carries authorization or execution marks`);
   }
 
+  // An entry whose artifacts were moved to a dedicated branch cannot point at
+  // an in-tree path. It must instead name the branch and pull request, so the
+  // work is still traceable from here.
+  const offBranch = Boolean(entry.branch);
+  if (offBranch && !entry.pullRequest) {
+    failures.push(`${id}: records a branch but no pullRequest`);
+  }
+
   for (const artifact of entry.artifacts || []) {
     artifactsInQueue.add(artifact);
+    if (offBranch) continue;
     if (!fs.existsSync(path.join(rootDir, artifact))) {
       failures.push(`${id}: artifact not found in tree: ${artifact}`);
     }
@@ -118,6 +145,18 @@ for (const [status, count] of Object.entries(byStatus).sort()) {
   console.log(`  ${status}: ${count}`);
 }
 console.log(`Migrations enforced from phase ${enforcedFrom}: ${migrations.length} checked`);
+const scoped = entries.filter((e) => e.status === "authorized_scoped");
+if (scoped.length > 0) {
+  console.log("");
+  console.log("Scoped authorizations (some environments still queued):");
+  for (const entry of scoped) {
+    console.log(`  - ${entry.id}${entry.pullRequest ? ` (PR #${entry.pullRequest})` : ""}`);
+    for (const [env, state] of Object.entries(entry.scopedAuthorization || {})) {
+      console.log(`      ${env}: ${state}`);
+    }
+  }
+}
+
 const pending = entries.filter((e) => e.status === "pending_authorization");
 if (pending.length > 0) {
   console.log("");
