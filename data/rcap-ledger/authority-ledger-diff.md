@@ -1,4 +1,4 @@
-# Authority Ledger Diff — vnone to v1
+# Authority Ledger Diff — v1 to v1
 
-First generation on the factory-authoritative schema.
+No change.
 

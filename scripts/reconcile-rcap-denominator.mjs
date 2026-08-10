@@ -12,9 +12,12 @@
 // an identifier space. Authority tracks are short slugs such as `ak-courtview`;
 // compiled pathways are descriptive slugs such as
 // `confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40`.
-// No crosswalk between them is committed on main, so the reconciliation is by
-// jurisdiction count, not by identity. Until a crosswalk exists, no per-track
-// claim may be made about which of the 497 a compiled pathway serves.
+// They are joined on substance — shared statutory citations and shared official
+// forms — by data/rcap-ledger/track-pathway-crosswalk.json. That artifact is
+// read when present and never required, so this script still runs on a tree
+// carrying only the ledger; without it the reconciliation stays by jurisdiction
+// count, and with it a per-track claim is possible only for the tracks the
+// crosswalk actually resolved.
 //
 // Reads the authority ledger produced by generate-rcap-authority-ledger.mjs and
 // the compiled profiles in the working tree. Writes a markdown report. Exits 0;
@@ -37,6 +40,14 @@ if (!fs.existsSync(ledgerPath)) {
 }
 
 const ledger = JSON.parse(fs.readFileSync(ledgerPath, "utf8"));
+
+// The crosswalk closes the per-track question this report used to have to leave
+// open. It is read when present rather than required, so this script still runs
+// on a tree that carries only the ledger.
+const crosswalkPath = path.join(rootDir, "data/rcap-ledger/track-pathway-crosswalk.json");
+const crosswalk = fs.existsSync(crosswalkPath)
+  ? JSON.parse(fs.readFileSync(crosswalkPath, "utf8"))
+  : null;
 
 const authorityByJurisdiction = {};
 for (const track of ledger.tracks) {
@@ -97,18 +108,45 @@ lines.push(`| **${authorityTotal}** | **Nationwide track registry — the denomi
 lines.push("");
 lines.push("These are three snapshots of different universes, not competing counts of one.");
 lines.push("");
-lines.push("## Identifier spaces do not join");
+lines.push("## Identifier spaces do not join natively");
 lines.push("");
-lines.push(
-  "The registry and the compiled profiles use unrelated identifier schemes, and no crosswalk between them is committed on main:"
-);
+lines.push("The registry and the compiled profiles use unrelated identifier schemes:");
 lines.push("");
 lines.push(`- Authority track id: \`${authoritySample}\``);
 lines.push(`- Compiled pathway id: \`${compiledIdSample}\``);
 lines.push("");
-lines.push(
-  "Reconciliation below is therefore **by jurisdiction count only**. No claim may be made about which registry track a given compiled pathway serves until a crosswalk exists. Building that crosswalk is the prerequisite for any per-track coverage statement."
-);
+
+if (crosswalk) {
+  const c = crosswalk.aggregates;
+  lines.push(
+    "They are joined on substance by `data/rcap-ledger/track-pathway-crosswalk.json`, which maps the two universes in both directions on shared operative statutory citations and shared official forms. Name similarity is not accepted as evidence there, so the crosswalk resolves only what the sources actually support:"
+  );
+  lines.push("");
+  lines.push("| Crosswalk fact | Count |");
+  lines.push("| --- | ---: |");
+  lines.push(`| Registry tracks with a named runtime representation | ${c.tracksWithRuntimeCoverage} |`);
+  lines.push(`| Registry tracks with no compiled pathway | ${c.tracksMissingFromCompiledRuntime} |`);
+  lines.push(`| Registry tracks whose candidates stay ambiguous | ${c.tracksUnresolvedAmbiguous} |`);
+  lines.push(`| Compiled pathways mapped to a registry track | ${c.pathwaysMapped} |`);
+  lines.push(`| Compiled pathways the registry scopes out by name | ${c.pathwaysScopedOut} |`);
+  lines.push(`| Compiled pathways still unresolved | ${c.pathwaysUnresolved} |`);
+  lines.push("");
+  lines.push(
+    `**Milestone 1 item 2 is ${c.milestone1Item2Closed ? "closed" : "not closed"}.** ${
+      c.milestone1Item2Closed
+        ? "Every registry track and every compiled pathway carries a supported relationship or a terminal classification."
+        : `A per-track coverage statement is now possible for the ${c.tracksWithRuntimeCoverage} mapped tracks and for no others. The remaining ${c.pathwaysUnresolved} compiled pathways and ${c.tracksUnresolvedAmbiguous} registry tracks are enumerated in \`unresolvedIds\` in the crosswalk, each with the evidence it is missing. They are a finite named set, not an unknown.`
+    }`
+  );
+  lines.push("");
+  lines.push(
+    "The jurisdiction table below remains the count reconciliation. It is not superseded by the crosswalk: a jurisdiction can balance on count while none of its tracks are individually identified."
+  );
+} else {
+  lines.push(
+    "No crosswalk artifact is present in this tree, so reconciliation below is **by jurisdiction count only**. No claim may be made about which registry track a given compiled pathway serves until the crosswalk is generated."
+  );
+}
 lines.push("");
 lines.push("## Jurisdiction reconciliation");
 lines.push("");
@@ -150,7 +188,9 @@ lines.push(
 );
 lines.push("");
 lines.push(
-  "Level 1 and level 2 are computed from different sources and must not be summed against each other until the crosswalk above exists: level 1 is a runtime property of a compiled pathway, level 2 is a certification property of a registry track."
+  crosswalk
+    ? "Level 1 and level 2 are computed from different sources and still must not be summed. Level 1 is a runtime property of a compiled pathway; level 2 is a certification property of a registry track. The crosswalk makes the two addressable in one sentence — it does not make them the same measurement, and a mapping never promotes a track's level."
+    : "Level 1 and level 2 are computed from different sources and must not be summed against each other until a crosswalk exists: level 1 is a runtime property of a compiled pathway, level 2 is a certification property of a registry track."
 );
 lines.push("");
 
@@ -162,7 +202,14 @@ console.log(`compiledPathways       ${compiledTotal}`);
 console.log(`delta                  ${compiledTotal - authorityTotal}`);
 console.log(`jurisdictionsMismatched ${mismatched.length} / ${rows.length}`);
 console.log(`surplusJurisdictions   ${surplus.map((r) => `${r.code}+${r.delta}`).join(" ") || "none"}`);
-console.log(`identifierSpacesJoin   no (no crosswalk committed on main)`);
+console.log(
+  crosswalk
+    ? `identifierSpacesJoin   yes (track-pathway-crosswalk.json; ${crosswalk.aggregates.tracksWithRuntimeCoverage} tracks mapped, ${crosswalk.aggregates.pathwaysUnresolved} pathways unresolved)`
+    : `identifierSpacesJoin   no (no crosswalk artifact in this tree)`
+);
+console.log(
+  `milestone1Item2        ${crosswalk ? (crosswalk.aggregates.milestone1Item2Closed ? "closed" : "blocked on a named finite set") : "blocked (no crosswalk)"}`
+);
 console.log(`report                 ${path.relative(rootDir, reportPath)}`);
 
 if (strict && compiledTotal !== authorityTotal) {
