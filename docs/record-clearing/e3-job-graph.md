@@ -44,3 +44,80 @@ A correct crosswalk relationship is not the same as relief a participant can act
 - `authority_residual:LA:trafficking-certification-paragraphs` — pin the specific paragraphs of La. C.Cr.P. arts. 977/978 that carry the trafficking certification. Does not block the Louisiana trafficking mappings, which stand on the articles as committed.
 - `authority_residual:MS:dui-nonadjudication-subsection` — pin the nonadjudication subsection of Miss. Code § 63-11-30 (expected (14)). Does not block the Mississippi DUI nonadjudication mapping, which stands on the section as committed.
 
+## Breakdown by facet
+
+The same 298 jobs, projected seven ways. A job appears under every facet value that applies to it, so facet columns count jobs and do not sum to 298 where a job carries more than one value.
+
+### 1. Job class
+
+| Class | Jobs |
+| --- | ---: |
+| `correct_superseded_runtime_text` | 1 |
+| `implement_runtime_pathway` | 226 |
+| `materialize_official_source` | 7 |
+| `pin_subsection_citation` | 2 |
+| `registry_owner_action` | 31 |
+| `resolve_or_terminalize_pathway` | 30 |
+| `resolve_or_terminalize_track` | 8 |
+
+### 2. Affected tracks
+
+235 of 298 jobs touch at least one registry track; 235 distinct tracks are touched in total, out of 497.
+
+The remaining 63 jobs affect **no** track: unresolved pathways have no mapping yet, registry gaps have no track by definition, and the two residuals are citation-granularity only. This is the number to quote when asked how much of the registry this work moves — not the job count.
+
+### 3. Dependency
+
+7 jobs are blocked by an intra-job dependency, all of them the same one: primary authority must be materialized before the conclusion can close. Every other job is independently workable today.
+
+- `compiled_pathway:ME:pardon-route` — blocked by `materialize_official_source`
+- `compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement` — blocked by `materialize_official_source`
+- `compiled_pathway:SC:human-trafficking-survivor-expungement` — blocked by `materialize_official_source`
+- `compiled_pathway:SC:pardon-guidance-for-otherwise-ineligible-convictions` — blocked by `materialize_official_source`
+- `compiled_pathway:UT:path-k-pardon-based-expungement` — blocked by `materialize_official_source`
+- `compiled_pathway:UT:path-m-juvenile-expungement` — blocked by `materialize_official_source`
+- `compiled_pathway:WI:executive-pardon-guidance` — blocked by `materialize_official_source`
+
+### 4. Implementation family
+
+| Family | Jobs |
+| --- | ---: |
+| crosswalk_resolution | 38 |
+| registry_governance | 31 |
+| runtime_currentness | 1 |
+| runtime_implementation | 226 |
+| source_materialization | 9 |
+
+### 5. Owned paths
+
+What a worker on this job may write. Anything outside its family's paths is another lane's.
+
+| Family | Owned paths |
+| --- | --- |
+| crosswalk_resolution | `data/rcap-ledger/crosswalk-adjudications.json` |
+| registry_governance | `data/record-clearing/legal-design-track-registry.json` |
+| runtime_currentness | `src/lib/rcap-engine/compiled/profiles/` |
+| runtime_implementation | `src/lib/rcap-engine/compiled/profiles/` |
+| source_materialization | `private/Nationwide Record Clearing/`, `data/rcap-ledger/crosswalk-adjudications.json` |
+
+### 6. Review requirement
+
+| Requirement | Jobs |
+| --- | ---: |
+| counsel_review + visual_review | 227 |
+| counsel_review | 38 |
+| registry_owner_decision | 31 |
+| source_freshness_review | 9 |
+
+### 7. Terminal effect
+
+| Effect | Jobs |
+| --- | ---: |
+| adds a registry track (raising the 497 denominator) or records the mechanism as out of scope; no runtime effect | 31 |
+| closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage | 38 |
+| improves citation granularity only; blocks nothing and changes no total | 2 |
+| moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator | 226 |
+| restores one track to current coverage and makes it sellable; does not change the crosswalk relationship | 1 |
+
+Closing every job in this graph would not by itself make the product launchable: resolution closes the map, implementation builds the runtime, currentness makes one track sellable again, and registry governance changes the denominator. Those are four different kinds of done.
+

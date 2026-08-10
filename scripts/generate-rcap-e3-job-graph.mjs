@@ -248,10 +248,101 @@ for (const residual of RESIDUALS) {
   });
 }
 
-// --- assemble ----------------------------------------------------------------
+// --- facets ------------------------------------------------------------------
+//
+// The same 298 jobs answer different planning questions depending on who is
+// asking. A dispatcher needs owned paths and dependencies; a reviewer needs the
+// review requirement; a product owner needs the terminal effect. Rather than
+// maintain seven hand-written lists that drift apart, each job carries its
+// facets and the report projects them.
+
+// Which registry tracks a job actually moves. A pathway job affects the tracks
+// it is mapped to (or none, if it is unresolved or a gap); a track job affects
+// itself. This is what stops "298 jobs" being mistaken for "298 tracks".
+function affectedTracks(job) {
+  if (job.kind === "registry_track") return [`${job.jurisdiction}:${job.subjectId}`];
+  if (job.kind === "authority_residual") return [];
+  const p = pathwayById.get(`${job.jurisdiction}:${job.subjectId}`);
+  return (p?.mappedRegistryTrackIds ?? []).map((t) => `${job.jurisdiction}:${t}`);
+}
+
+const IMPLEMENTATION_FAMILY = {
+  resolve_or_terminalize_pathway: "crosswalk_resolution",
+  resolve_or_terminalize_track: "crosswalk_resolution",
+  materialize_official_source: "source_materialization",
+  registry_owner_action: "registry_governance",
+  implement_runtime_pathway: "runtime_implementation",
+  correct_superseded_runtime_text: "runtime_currentness",
+  pin_subsection_citation: "source_materialization"
+};
+
+const REVIEW_REQUIREMENT = {
+  // Resolution changes what the crosswalk asserts about the law, so counsel
+  // reads it before it can be relied on. It does not ship anything by itself.
+  crosswalk_resolution: "counsel_review",
+  // A citation pin is checkable against the source; no legal judgement is added.
+  source_materialization: "source_freshness_review",
+  // Adding or declining a registry track is the registry owner's decision.
+  registry_governance: "registry_owner_decision",
+  // New runtime output reaches participants, so it needs both.
+  runtime_implementation: "counsel_review + visual_review",
+  // Replacing repealed text with current authority reaches participants.
+  runtime_currentness: "counsel_review + visual_review"
+};
+
+const OWNED_PATHS = {
+  crosswalk_resolution: ["data/rcap-ledger/crosswalk-adjudications.json"],
+  source_materialization: ["private/Nationwide Record Clearing/", "data/rcap-ledger/crosswalk-adjudications.json"],
+  registry_governance: ["data/record-clearing/legal-design-track-registry.json"],
+  runtime_implementation: ["src/lib/rcap-engine/compiled/profiles/"],
+  runtime_currentness: ["src/lib/rcap-engine/compiled/profiles/"]
+};
+
+function terminalEffect(job) {
+  const names = job.obligations.map((o) => o.obligation);
+  if (names.includes("resolve_or_terminalize_pathway") || names.includes("resolve_or_terminalize_track")) {
+    return "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage";
+  }
+  if (names.includes("correct_superseded_runtime_text")) {
+    return "restores one track to current coverage and makes it sellable; does not change the crosswalk relationship";
+  }
+  if (names.includes("implement_runtime_pathway")) {
+    return "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator";
+  }
+  if (names.includes("registry_owner_action")) {
+    return "adds a registry track (raising the 497 denominator) or records the mechanism as out of scope; no runtime effect";
+  }
+  if (names.includes("pin_subsection_citation")) {
+    return "improves citation granularity only; blocks nothing and changes no total";
+  }
+  return "no terminal effect recorded";
+}
 
 const jobs = [...subjects.values()].sort((a, b) => a.id.localeCompare(b.id));
-for (const job of jobs) job.obligations.sort((a, b) => a.obligation.localeCompare(b.obligation));
+for (const job of jobs) {
+  job.obligations.sort((a, b) => a.obligation.localeCompare(b.obligation));
+
+  const families = [...new Set(job.obligations.map((o) => IMPLEMENTATION_FAMILY[o.obligation]).filter(Boolean))].sort();
+  const tracks = affectedTracks(job);
+
+  // A dependency is another obligation on this same job that must land first.
+  // Primary authority is the only such ordering in this graph: a conclusion that
+  // needs a statute cannot be resolved before the statute is in hand.
+  const dependsOn = job.obligations.some((o) => o.obligation === "materialize_official_source")
+    ? ["materialize_official_source"]
+    : [];
+
+  job.facets = {
+    jobClass: job.obligations.map((o) => o.obligation),
+    affectedTracks: tracks,
+    affectedTrackCount: tracks.length,
+    dependency: dependsOn.length > 0 ? { blockedBy: dependsOn, note: "primary authority must land before this job can close" } : { blockedBy: [], note: "no intra-job dependency" },
+    implementationFamily: families,
+    ownedPaths: [...new Set(families.flatMap((f) => OWNED_PATHS[f] ?? []))].sort(),
+    reviewRequirement: [...new Set(families.map((f) => REVIEW_REQUIREMENT[f]).filter(Boolean))].sort(),
+    terminalEffect: terminalEffect(job)
+  };
+}
 
 const obligationCounts = {};
 for (const job of jobs) {
@@ -357,6 +448,91 @@ for (const job of jobs) {
   if (!r) continue;
   lines.push(`- \`${job.id}\` — ${r.need}. Does not block ${r.doesNotBlock}.`);
 }
+lines.push("");
+
+// --- the seven facets --------------------------------------------------------
+const facetTally = (pick) => {
+  const acc = {};
+  for (const job of jobs) {
+    for (const key of [pick(job)].flat()) {
+      if (key === undefined || key === null) continue;
+      acc[String(key)] = (acc[String(key)] ?? 0) + 1;
+    }
+  }
+  return acc;
+};
+
+lines.push("## Breakdown by facet");
+lines.push("");
+lines.push(
+  `The same ${jobs.length} jobs, projected seven ways. A job appears under every facet value that applies to it, so facet columns count jobs and do not sum to ${jobs.length} where a job carries more than one value.`
+);
+lines.push("");
+
+lines.push("### 1. Job class");
+lines.push("");
+lines.push("| Class | Jobs |");
+lines.push("| --- | ---: |");
+for (const [k, v] of Object.entries(facetTally((j) => j.facets.jobClass)).sort()) lines.push(`| \`${k}\` | ${v} |`);
+lines.push("");
+
+lines.push("### 2. Affected tracks");
+lines.push("");
+const withTracks = jobs.filter((j) => j.facets.affectedTrackCount > 0);
+const distinctTracks = new Set(jobs.flatMap((j) => j.facets.affectedTracks));
+lines.push(
+  `${withTracks.length} of ${jobs.length} jobs touch at least one registry track; ${distinctTracks.size} distinct tracks are touched in total, out of ${crosswalk.aggregates.registryTracks}.`
+);
+lines.push("");
+lines.push(
+  `The remaining ${jobs.length - withTracks.length} jobs affect **no** track: unresolved pathways have no mapping yet, registry gaps have no track by definition, and the two residuals are citation-granularity only. This is the number to quote when asked how much of the registry this work moves — not the job count.`
+);
+lines.push("");
+
+lines.push("### 3. Dependency");
+lines.push("");
+const blocked = jobs.filter((j) => j.facets.dependency.blockedBy.length > 0);
+lines.push(
+  `${blocked.length} jobs are blocked by an intra-job dependency, all of them the same one: primary authority must be materialized before the conclusion can close. Every other job is independently workable today.`
+);
+lines.push("");
+for (const job of blocked) lines.push(`- \`${job.id}\` — blocked by \`${job.facets.dependency.blockedBy.join(", ")}\``);
+lines.push("");
+
+lines.push("### 4. Implementation family");
+lines.push("");
+lines.push("| Family | Jobs |");
+lines.push("| --- | ---: |");
+for (const [k, v] of Object.entries(facetTally((j) => j.facets.implementationFamily)).sort()) lines.push(`| ${k} | ${v} |`);
+lines.push("");
+
+lines.push("### 5. Owned paths");
+lines.push("");
+lines.push("What a worker on this job may write. Anything outside its family's paths is another lane's.");
+lines.push("");
+lines.push("| Family | Owned paths |");
+lines.push("| --- | --- |");
+for (const [family, paths] of Object.entries(OWNED_PATHS).sort()) {
+  lines.push(`| ${family} | ${paths.map((p) => `\`${p}\``).join(", ")} |`);
+}
+lines.push("");
+
+lines.push("### 6. Review requirement");
+lines.push("");
+lines.push("| Requirement | Jobs |");
+lines.push("| --- | ---: |");
+for (const [k, v] of Object.entries(facetTally((j) => j.facets.reviewRequirement)).sort()) lines.push(`| ${k} | ${v} |`);
+lines.push("");
+
+lines.push("### 7. Terminal effect");
+lines.push("");
+lines.push("| Effect | Jobs |");
+lines.push("| --- | ---: |");
+for (const [k, v] of Object.entries(facetTally((j) => j.facets.terminalEffect)).sort()) lines.push(`| ${k} | ${v} |`);
+lines.push("");
+lines.push(
+  "Closing every job in this graph would not by itself make the product launchable: resolution closes the map, implementation builds the runtime, currentness makes one track sellable again, and registry governance changes the denominator. Those are four different kinds of done."
+);
 lines.push("");
 
 const report = `${lines.join("\n")}\n`;

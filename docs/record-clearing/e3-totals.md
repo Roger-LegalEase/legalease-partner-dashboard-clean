@@ -53,3 +53,19 @@ Raw coverage dispositions as recorded on each track:
 
 **BLOCKED** on 30 unresolved pathways and 8 unresolved registry tracks.
 
+## Seven questions that are not the same question
+
+Each rung has its own number and its own evidence. They are ordered: satisfying a lower rung never satisfies a higher one, and quoting one as another is the most likely way this work gets misreported.
+
+| # | Question | Current state | What it does NOT tell you |
+| ---: | --- | --- | --- |
+| 1 | **Source resolution** — does the cited source exist and open? | all 935 citations resolve, 13 read at a pinned commit | nothing about whether the source says what was claimed |
+| 2 | **Source support** — does the source actually support the claim? | 935 audited rows; 30.2% non-verbatim, 2 high-severity | nothing about whether the law is completely captured |
+| 3 | **Legal authority completeness** — is the operative primary authority in hand? | 7 official-source obligations open; 2 named non-blocking subsection residuals | nothing about whether a relationship was drawn |
+| 4 | **Crosswalk relationship** — is the track↔pathway link established? | 258/324 pathways mapped, 36 terminal, 30 unresolved | nothing about whether the runtime text is current |
+| 5 | **Runtime currentness** — is the text a participant would receive current law? | 1 track renders repealed text and contributes no current coverage | nothing about whether a participant can actually be served |
+| 6 | **Participant readiness** — can a real person get this relief today? | 226 tracks have no runtime representation at all | nothing about whether the product may launch |
+| 7 | **Launch terminality** — is this shippable? | not established; staging authorization is not being requested | — |
+
+The clearest trap is rungs 4 and 6. **258 mapped pathways** is a statement about rung 4 only. A participant eligible under one of the 226 unimplemented tracks receives nothing, no matter how correct the map is; and Oklahoma's clean-slate track is correctly mapped (rung 4) while failing rung 5, which is why it contributes no current coverage and must not be sold.
+

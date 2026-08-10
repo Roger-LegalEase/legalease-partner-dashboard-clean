@@ -2,11 +2,11 @@
   "schemaVersion": "rcap-verifier-audit/v1",
   "timeoutMs": 20000,
   "counts": {
-    "total": 215,
-    "inChain": 77,
-    "orphanPassing": 91,
-    "orphanBroken": 31,
-    "orphanTimeout": 9,
+    "total": 217,
+    "inChain": 78,
+    "orphanPassing": 97,
+    "orphanBroken": 33,
+    "orphanTimeout": 2,
     "generators": 7
   },
   "scripts": [
@@ -1250,6 +1250,13 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-rcap-phase51-consumer-payment-security.mjs",
+      "status": "orphan_broken",
+      "detail": "ERROR: new row for relation \"consumer_briefcase_items\" violates check constraint \"consumer_briefcase_items_amount_cents_check\"",
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-rcap-prepay-question-gate.mjs",
       "status": "orphan_passing",
       "detail": null,
@@ -1334,6 +1341,13 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-rcap-staging-authorization-readiness.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-rcap-track-pathway-crosswalk.mjs",
       "status": "in_chain",
       "detail": null,
@@ -1384,8 +1398,8 @@
     },
     {
       "file": "verify-sd-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1412,8 +1426,8 @@
     },
     {
       "file": "verify-stripe-readiness.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_broken",
+      "detail": "Stripe readiness verification failed.",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1454,22 +1468,22 @@
     },
     {
       "file": "verify-ut-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-vt-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-wa-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1489,8 +1503,8 @@
     },
     {
       "file": "verify-wi-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1503,8 +1517,8 @@
     },
     {
       "file": "verify-wv-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },

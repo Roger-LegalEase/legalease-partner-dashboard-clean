@@ -105,6 +105,47 @@ lines.push(
 );
 lines.push("");
 
+// --- the seven distinctions --------------------------------------------------
+//
+// These are seven different questions that all sound like "is it done?". Each
+// has its own number and its own evidence, and collapsing any two of them
+// overstates readiness. The ladder is ordered: a rung cannot be climbed by
+// satisfying a lower one.
+lines.push("## Seven questions that are not the same question");
+lines.push("");
+lines.push(
+  "Each rung has its own number and its own evidence. They are ordered: satisfying a lower rung never satisfies a higher one, and quoting one as another is the most likely way this work gets misreported."
+);
+lines.push("");
+lines.push("| # | Question | Current state | What it does NOT tell you |");
+lines.push("| ---: | --- | --- | --- |");
+lines.push(
+  `| 1 | **Source resolution** — does the cited source exist and open? | all 935 citations resolve, 13 read at a pinned commit | nothing about whether the source says what was claimed |`
+);
+lines.push(
+  `| 2 | **Source support** — does the source actually support the claim? | 935 audited rows; 30.2% non-verbatim, 2 high-severity | nothing about whether the law is completely captured |`
+);
+lines.push(
+  `| 3 | **Legal authority completeness** — is the operative primary authority in hand? | 7 official-source obligations open; 2 named non-blocking subsection residuals | nothing about whether a relationship was drawn |`
+);
+lines.push(
+  `| 4 | **Crosswalk relationship** — is the track↔pathway link established? | ${a.pathwaysMapped}/${a.compiledPathways} pathways mapped, ${a.pathwaysTerminal} terminal, ${a.pathwaysUnresolved} unresolved | nothing about whether the runtime text is current |`
+);
+lines.push(
+  `| 5 | **Runtime currentness** — is the text a participant would receive current law? | ${a.tracksSupersededRuntimeText} track renders repealed text and contributes no current coverage | nothing about whether a participant can actually be served |`
+);
+lines.push(
+  `| 6 | **Participant readiness** — can a real person get this relief today? | ${a.tracksMissingFromCompiledRuntime} tracks have no runtime representation at all | nothing about whether the product may launch |`
+);
+lines.push(
+  `| 7 | **Launch terminality** — is this shippable? | not established; staging authorization is not being requested | — |`
+);
+lines.push("");
+lines.push(
+  `The clearest trap is rungs 4 and 6. **${a.pathwaysMapped} mapped pathways** is a statement about rung 4 only. A participant eligible under one of the ${a.tracksMissingFromCompiledRuntime} unimplemented tracks receives nothing, no matter how correct the map is; and Oklahoma's clean-slate track is correctly mapped (rung 4) while failing rung 5, which is why it contributes no current coverage and must not be sold.`
+);
+lines.push("");
+
 const report = `${lines.join("\n")}\n`;
 
 if (pathwaySum !== a.compiledPathways) {

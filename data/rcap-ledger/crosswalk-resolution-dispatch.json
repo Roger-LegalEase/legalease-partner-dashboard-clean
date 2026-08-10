@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "rcap-crosswalk-resolution-dispatch/v1",
+  "generatedBy": "scripts/generate-rcap-crosswalk-resolution-dispatch.mjs",
+  "purpose": "Dispatch of the 38 Milestone 1 item 2 blockers to the Opus crosswalk-resolution lane, partitioned by jurisdiction from the canonical job graph. Not an evidence wave: the E2 wave is complete and superseded.",
+  "notAnEvidenceWave": "Lanes resolve or terminalize the named subjects they are handed. They do not re-survey the corpus, do not re-open the 363-job E2 queue, and do not regenerate any shared artifact.",
+  "input": {
+    "jobGraph": "data/rcap-ledger/e3-job-graph.json",
+    "crosswalkContentHash": "964a9ac4463c31df2298862c2dbd261bcddec6988155867eee0a2a9d6acfb4d1",
+    "crosswalkEvidenceHash": "edb4caff3adfa9e86f964c7799df8cc97be4a9836fb034f2aced2df26bf91eca",
+    "jobGraphSha256": "e2832cb2757f5b3327ebdb3bc9624f1bda305918f7852ea4e0924a8342156611"
+  },
+  "totals": {
+    "blockers": 38,
+    "unresolvedPathways": 30,
+    "unresolvedTracks": 8,
+    "lanes": 4
+  },
+  "forbiddenPaths": [
+    "data/rcap-ledger/track-pathway-crosswalk.json",
+    "data/rcap-ledger/registry-crosswalk-projection.json",
+    "data/rcap-ledger/crosswalk-adjudications.json",
+    "data/rcap-ledger/e3-job-graph.json",
+    "data/rcap-ledger/e2-evidence-jobs.json",
+    "data/rcap-ledger/e2-dispatch-assignment.json",
+    "data/rcap-crosswalk-enrichment/e2-source-support-audit.json",
+    "data/rcap-ledger/e2-evidence/",
+    "package.json",
+    "supabase/",
+    "scripts/"
+  ],
+  "stopConditions": [
+    "A subject is resolved when a registry track (or compiled pathway) is named on cited authority committed in this repository.",
+    "A subject is terminalized when it is shown that no such counterpart exists, with the blocker published.",
+    "'No citation available' is not an outcome. Neither is a mapping proposed without a license the generator can re-check.",
+    "A subject blocked on primary authority that this repository does not contain is returned as still-blocked, naming the retrieval packet — not guessed."
+  ],
+  "lanes": [
+    {
+      "laneId": "E4-R1",
+      "model": "claude-opus-5",
+      "jurisdictions": [
+        "IL",
+        "MT",
+        "NH",
+        "VT"
+      ],
+      "jobIds": [
+        "compiled_pathway:IL:criminal-identity-theft-mistaken-identity-relief",
+        "compiled_pathway:IL:human-trafficking-survivor-vacatur-and-expungement",
+        "compiled_pathway:MT:marijuana-related-redesignation-expungement-under-mmrta",
+        "compiled_pathway:NH:dwi-dui-annulment",
+        "compiled_pathway:NH:out-of-state-federal-or-military-record-guidance",
+        "compiled_pathway:VT:adult-conviction-expungement-narrow-statutory-route",
+        "compiled_pathway:VT:adult-misdemeanor-conviction-sealing",
+        "compiled_pathway:VT:dui-sealing",
+        "compiled_pathway:VT:juvenile-sealing"
+      ],
+      "resolutionPath": "data/rcap-ledger/crosswalk-resolution/E4-R1.json",
+      "reportPath": "docs/record-clearing/crosswalk-resolution/E4-R1.md",
+      "jobCount": 9
+    },
+    {
+      "laneId": "E4-R2",
+      "model": "claude-opus-5",
+      "jurisdictions": [
+        "CT",
+        "MA",
+        "TX",
+        "UT"
+      ],
+      "jobIds": [
+        "compiled_pathway:CT:cannabis-conviction-erasure",
+        "compiled_pathway:MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "compiled_pathway:TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+        "compiled_pathway:TX:expunction-after-pardon-or-actual-innocence-relief",
+        "compiled_pathway:TX:expunction-after-qualifying-class-c-deferred-disposition",
+        "compiled_pathway:TX:expunction-after-qualifying-dismissal-or-quash",
+        "compiled_pathway:UT:path-a-automatic-clean-slate-expungement",
+        "compiled_pathway:UT:path-e-petition-based-non-conviction-expungement",
+        "compiled_pathway:UT:path-f-petition-based-conviction-expungement"
+      ],
+      "resolutionPath": "data/rcap-ledger/crosswalk-resolution/E4-R2.json",
+      "reportPath": "docs/record-clearing/crosswalk-resolution/E4-R2.md",
+      "jobCount": 9
+    },
+    {
+      "laneId": "E4-R3",
+      "model": "claude-opus-5",
+      "jurisdictions": [
+        "DE",
+        "MD",
+        "PA",
+        "WV"
+      ],
+      "jobIds": [
+        "compiled_pathway:DE:discretionary-court-expungement-under-11-del-c-4374",
+        "compiled_pathway:MD:juvenile-expungement",
+        "compiled_pathway:MD:second-chance-act-shielding",
+        "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+        "compiled_pathway:WV:first-offense-drug-possession-conditional-discharge-relief",
+        "registry_track:MD:md_10105_favorable",
+        "registry_track:MD:md_pardon_expungement",
+        "registry_track:WV:wv_conv_multiple_misdemeanors",
+        "registry_track:WV:wv_conv_nonviolent_felony",
+        "registry_track:WV:wv_conv_single_misdemeanor"
+      ],
+      "resolutionPath": "data/rcap-ledger/crosswalk-resolution/E4-R3.json",
+      "reportPath": "docs/record-clearing/crosswalk-resolution/E4-R3.md",
+      "jobCount": 10
+    },
+    {
+      "laneId": "E4-R4",
+      "model": "claude-opus-5",
+      "jurisdictions": [
+        "KY",
+        "MN",
+        "ND",
+        "SC"
+      ],
+      "jobIds": [
+        "compiled_pathway:KY:felony-conviction-431073",
+        "compiled_pathway:KY:juvenile-automatic-dismissal",
+        "compiled_pathway:MN:automatic-mistaken-identity-expungement-under-609a-017",
+        "compiled_pathway:MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "compiled_pathway:ND:marijuana-specific-summary-pardon-or-sealing-relief",
+        "compiled_pathway:SC:diversion-or-program-completion-expungement",
+        "compiled_pathway:SC:human-trafficking-survivor-expungement",
+        "registry_track:KY:ky_expungement_certification",
+        "registry_track:KY:ky_felony_expungement_after_pardon",
+        "registry_track:KY:ky_felony_vacatur_expungement"
+      ],
+      "resolutionPath": "data/rcap-ledger/crosswalk-resolution/E4-R4.json",
+      "reportPath": "docs/record-clearing/crosswalk-resolution/E4-R4.md",
+      "jobCount": 10
+    }
+  ]
+}

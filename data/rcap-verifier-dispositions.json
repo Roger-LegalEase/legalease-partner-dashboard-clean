@@ -3,11 +3,11 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 97,
-    "wired": 77,
-    "fix_then_wire": 26,
+    "keep_available": 103,
+    "wired": 78,
+    "fix_then_wire": 28,
     "retire": 1,
-    "quarantine": 9,
+    "quarantine": 2,
     "blocked_on_family": 5
   },
   "entries": {
@@ -1077,6 +1077,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-phase51-consumer-payment-security.mjs": {
+      "disposition": "fix_then_wire",
+      "reason": "Red when executed: ERROR: new row for relation \"consumer_briefcase_items\" violates check constraint \"consumer_briefcase_items_amount_cents_check\"",
+      "observedStatus": "orphan_broken",
+      "decidedBy": "generated"
+    },
     "verify-rcap-prepay-question-gate.mjs": {
       "disposition": "keep_available",
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
@@ -1149,6 +1155,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-staging-authorization-readiness.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-rcap-track-pathway-crosswalk.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1192,9 +1204,9 @@
       "decidedBy": "generated"
     },
     "verify-sd-state-pack.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-source-materials.mjs": {
@@ -1216,9 +1228,9 @@
       "decidedBy": "generated"
     },
     "verify-stripe-readiness.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "fix_then_wire",
+      "reason": "Red when executed: Stripe readiness verification failed.",
+      "observedStatus": "orphan_broken",
       "decidedBy": "generated"
     },
     "verify-supabase-admin-write.mjs": {
@@ -1253,21 +1265,21 @@
       "decidedBy": "recorded_decision"
     },
     "verify-ut-state-pack.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-vt-state-pack.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-wa-state-pack.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-we-must-vote-launch.mjs": {
@@ -1283,9 +1295,9 @@
       "decidedBy": "generated"
     },
     "verify-wi-state-pack.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-wilma-safety-harness.mjs": {
@@ -1295,9 +1307,9 @@
       "decidedBy": "generated"
     },
     "verify-wv-state-pack.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-wy-pleading-state.mjs": {
