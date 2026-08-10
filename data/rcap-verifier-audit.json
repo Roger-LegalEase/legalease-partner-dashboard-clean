@@ -2,11 +2,11 @@
   "schemaVersion": "rcap-verifier-audit/v1",
   "timeoutMs": 20000,
   "counts": {
-    "total": 212,
-    "inChain": 74,
-    "orphanPassing": 88,
-    "orphanBroken": 30,
-    "orphanTimeout": 13,
+    "total": 213,
+    "inChain": 75,
+    "orphanPassing": 89,
+    "orphanBroken": 31,
+    "orphanTimeout": 11,
     "generators": 7
   },
   "scripts": [
@@ -733,8 +733,8 @@
     },
     {
       "file": "verify-nh-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -761,8 +761,8 @@
     },
     {
       "file": "verify-observability-safety.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_broken",
+      "detail": " throw new Error(`Next dev server exited early.\\n${output}`);",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -936,6 +936,13 @@
     },
     {
       "file": "verify-rcap-briefcase-result-persistence.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "verify-rcap-e2-evidence-intake.mjs",
       "status": "in_chain",
       "detail": null,
       "wiredToNamedScript": true,
