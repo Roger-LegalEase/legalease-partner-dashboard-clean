@@ -3,11 +3,11 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 97,
-    "wired": 61,
-    "fix_then_wire": 23,
+    "keep_available": 93,
+    "wired": 62,
+    "fix_then_wire": 24,
     "retire": 1,
-    "quarantine": 13,
+    "quarantine": 17,
     "blocked_on_family": 5
   },
   "entries": {
@@ -282,6 +282,12 @@
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
+    "verify-exact-path-authorization.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-expungement-all51-frontend-integration.mjs": {
       "disposition": "keep_available",
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
@@ -530,9 +536,9 @@
       "decidedBy": "generated"
     },
     "verify-la-state-pack.mjs": {
-      "disposition": "keep_available",
-      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
-      "observedStatus": "orphan_passing",
+      "disposition": "quarantine",
+      "reason": "Exceeded the 12000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
+      "observedStatus": "orphan_timeout",
       "decidedBy": "generated"
     },
     "verify-launch-os-event-routing.mjs": {
@@ -566,9 +572,9 @@
       "decidedBy": "generated"
     },
     "verify-ma-state-pack.mjs": {
-      "disposition": "keep_available",
-      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
-      "observedStatus": "orphan_passing",
+      "disposition": "quarantine",
+      "reason": "Exceeded the 12000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
+      "observedStatus": "orphan_timeout",
       "decidedBy": "generated"
     },
     "verify-md-state-pack.mjs": {
@@ -578,9 +584,9 @@
       "decidedBy": "generated"
     },
     "verify-me-state-pack.mjs": {
-      "disposition": "keep_available",
-      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
-      "observedStatus": "orphan_passing",
+      "disposition": "quarantine",
+      "reason": "Exceeded the 12000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
+      "observedStatus": "orphan_timeout",
       "decidedBy": "generated"
     },
     "verify-mississippi-document-generator.mjs": {
@@ -603,9 +609,9 @@
       "decidedBy": "generated"
     },
     "verify-mt-state-pack.mjs": {
-      "disposition": "keep_available",
-      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
-      "observedStatus": "orphan_passing",
+      "disposition": "quarantine",
+      "reason": "Exceeded the 12000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
+      "observedStatus": "orphan_timeout",
       "decidedBy": "generated"
     },
     "verify-nd-pleading-state.mjs": {
@@ -621,9 +627,9 @@
       "decidedBy": "generated"
     },
     "verify-nh-state-pack.mjs": {
-      "disposition": "keep_available",
-      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
-      "observedStatus": "orphan_passing",
+      "disposition": "quarantine",
+      "reason": "Exceeded the 12000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
+      "observedStatus": "orphan_timeout",
       "decidedBy": "generated"
     },
     "verify-nm-state-pack.mjs": {
@@ -645,9 +651,9 @@
       "decidedBy": "generated"
     },
     "verify-observability-safety.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 12000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "fix_then_wire",
+      "reason": "Red when executed:  throw new Error(`Next dev server exited early.\\n${output}`);",
+      "observedStatus": "orphan_broken",
       "decidedBy": "generated"
     },
     "verify-official-pdf-implementation-gate.mjs": {
@@ -927,6 +933,12 @@
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
+    "verify-rcap-packet-render-jobs.mjs": {
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
+      "decidedBy": "generated"
+    },
     "verify-rcap-partner-access-codes.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1060,6 +1072,12 @@
       "decidedBy": "generated"
     },
     "verify-rcap-source-document-persistence.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-verifier-dispositions.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
@@ -1208,12 +1226,6 @@
       "disposition": "keep_available",
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
       "observedStatus": "orphan_passing",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-verifier-dispositions.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
       "decidedBy": "generated"
     }
   }
