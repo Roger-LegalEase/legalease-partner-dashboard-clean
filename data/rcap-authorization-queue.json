@@ -69,10 +69,8 @@
       "id": "auth-2026-08-10-phase-48-packet-delivery-gate",
       "kind": "migration",
       "title": "Apply phase-48 packet render jobs, packet accounting and delivery events",
-      "artifacts": [
-        "supabase/phase-48-rcap-packet-render-jobs.sql"
-      ],
-      "status": "superseded",
+      "artifacts": [],
+      "status": "declined",
       "requestedBy": "opus-5-captain",
       "requestedAt": "2026-08-10",
       "authorizedBy": "Roger Roman (RCAP Delivery Gate Prompt v3: the phase-48 Supabase authorization applies on the delivery branch only)",
@@ -99,7 +97,7 @@
         "Wiring the participant-facing generate flow to the job queue in production. Application code must not reference these objects in a deployed environment before the migration is applied there."
       ],
       "phase": 48,
-      "decision": "superseded",
+      "decision": "declined",
       "authorizationScope": "repository_integration_delivery_branch_only",
       "doesNotAuthorize": [
         "application to staging or production (a separate queue authorization names the environment)",
@@ -112,7 +110,9 @@
       ],
       "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
       "supersededBy": "auth-2026-08-10-phase-50-packet-delivery-hardening",
-      "supersededNote": "The phase-48 file (sha 06e6ca74...) was superseded during lane reconciliation: phase 49 (PR #91) is the canonical render-jobs base and the delivery hardening became the additive phase-50 follow-on. The prior hash grants nothing."
+      "supersededNote": "The phase-48 file (sha 06e6ca74...) was superseded during lane reconciliation: phase 49 (PR #91) is the canonical render-jobs base and the delivery hardening became the additive phase-50 follow-on. The prior hash grants nothing.",
+      "supersededSha256": "06e6ca745e0a04fac1ba6ab4370f4bdecfce61215cfc7b44b6fad0b768ffdd25",
+      "declinedReason": "Superseded during lane reconciliation: phase 49 (PR #91, owner-authorized) is the canonical render-jobs base and the delivery hardening became the additive phase-50 follow-on. The phase-48 file no longer exists in the tree and the prior digest grants nothing."
     },
     {
       "id": "auth-2026-08-10-phase-50-packet-delivery-hardening",
@@ -121,7 +121,7 @@
       "artifacts": [
         "supabase/phase-50-rcap-packet-delivery-hardening.sql"
       ],
-      "status": "authorized_repository_integration_only; staging application queued",
+      "status": "authorized_scoped",
       "requestedBy": "opus-5-captain",
       "requestedAt": "2026-08-10",
       "authorizedBy": "Roger Roman (RCAP Unification Prompt v2: reconciled integration branch and canonical migration path; repository integration only)",
@@ -172,6 +172,12 @@
         "environment": "staging",
         "requires": "Roger's explicit staging authorization naming both files and this environment",
         "evidenceOnApply": "object presence for every table, function, trigger, index and role named in both files, captured to the compliance package"
+      },
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-10 \u2014 reconciled branch, hash-pinned",
+        "local_ephemeral_test": "authorized \u2014 throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued \u2014 requires Roger to name both migration files and the staging environment",
+        "production": "queued \u2014 not requested; follows a green staging rehearsal"
       }
     }
   ],

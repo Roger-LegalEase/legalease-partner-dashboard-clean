@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
 // Exact-path production authorization.
@@ -127,11 +128,66 @@ export function applyExactPathAuthorizations({ rootDir, candidates, failures }) 
 // Condition: the SQL/TypeScript contract must hold before any authorized
 // migration change is let through. An approved migration that has drifted from
 // the contract is not the thing that was approved.
+/**
+ * Every migration the contract verifier itself reads.
+ *
+ * The cache key must cover all of the verifier's inputs, not just the three
+ * this function used to hash. The verifier now checks the state machine in two
+ * migrations as well as the fixture and the TypeScript contract, so hashing
+ * only the fixture and contract would let an edited migration reuse a cached
+ * pass — a stale green on the exact gate the authorization depends on. The
+ * paths are read out of the verifier source rather than hardcoded, so adding a
+ * migration to the verifier automatically widens the key.
+ */
+function contractVerifierMigrationInputs(rootDir) {
+  const script = path.join(rootDir, "scripts/verify-rcap-render-job-contract.mjs");
+  if (!fs.existsSync(script)) return [];
+  const source = fs.readFileSync(script, "utf8");
+  const found = new Set();
+  for (const match of source.matchAll(/["'`](supabase\/[A-Za-z0-9._/-]+\.sql)["'`]/g)) {
+    found.add(path.join(rootDir, match[1]));
+  }
+  return [...found].sort();
+}
+
 function contractVerifierPasses(rootDir) {
   const script = path.join(rootDir, "scripts/verify-rcap-render-job-contract.mjs");
+  const fixture = path.join(rootDir, "data/rcap-render/state-machine.json");
+  const contract = path.join(rootDir, "src/lib/rcap/render/job-contract.ts");
   if (!fs.existsSync(script)) return { ok: false, reason: "contract verifier is missing" };
+
+  // Content-addressed pass cache. Several verifiers chain-invoke each other
+  // through npm scripts, and each process re-running the contract verifier
+  // added ~4s per hop. The verifier's verdict depends only on the bytes of the
+  // fixture, the TypeScript contract and the verifier itself, so a pass is
+  // cached under the digest of exactly those bytes: any drift in any input
+  // changes the key and forces a real run. Failures are never cached.
+  let cacheKey = null;
+  try {
+    const h = crypto.createHash("sha256");
+    for (const f of [script, fixture, contract, ...contractVerifierMigrationInputs(rootDir)]) {
+      h.update(f);
+      h.update(fs.existsSync(f) ? fs.readFileSync(f) : "missing");
+    }
+    cacheKey = h.digest("hex");
+    const cachePath = path.join(os.tmpdir(), `rcap-contract-pass-${cacheKey}`);
+    if (fs.existsSync(cachePath)) return { ok: true };
+  } catch {
+    // Cache trouble is never a reason to skip the real check.
+    cacheKey = null;
+  }
+
   const result = spawnSync("node", [script], { cwd: rootDir, encoding: "utf8", timeout: 60000 });
-  if (result.status === 0) return { ok: true };
+  if (result.status === 0) {
+    if (cacheKey) {
+      try {
+        fs.writeFileSync(path.join(os.tmpdir(), `rcap-contract-pass-${cacheKey}`), "");
+      } catch {
+        // Failing to cache costs time, not correctness.
+      }
+    }
+    return { ok: true };
+  }
   return {
     ok: false,
     reason: (result.stderr || result.stdout || "").trim().split("\n").slice(-1)[0] || "non-zero exit"
