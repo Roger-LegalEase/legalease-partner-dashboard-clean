@@ -15,6 +15,7 @@ git fetch origin
 git checkout <FINAL_INTEGRATION_SHA>            # from Terminal A; do NOT assume e078a87f
 sha256sum supabase/phase-49-rcap-packet-render-jobs.sql   # must equal PHASE_49_SHA256 AND the queue's authorizedSha256
 sha256sum supabase/phase-50-rcap-packet-delivery-hardening.sql  # must equal PHASE_50_SHA256 AND the queue's authorizedSha256
+sha256sum supabase/phase-51-rcap-consumer-payment-gate.sql      # must equal PHASE_51_SHA256 AND the queue's authorizedSha256
 # Confirm target is staging, not production:
 psql "$STAGING_DATABASE_URL" -Atc "select current_database(), inet_server_addr()"
 ```
@@ -46,7 +47,14 @@ psql "$STAGING_DATABASE_URL" -f docs/rcap/staging-rehearsal/sql/verify-phase-49-
 sha256sum supabase/phase-50-rcap-packet-delivery-hardening.sql   # recompute at apply time
 psql "$STAGING_DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/phase-50-rcap-packet-delivery-hardening.sql
 psql "$STAGING_DATABASE_URL" -f docs/rcap/staging-rehearsal/sql/verify-phase-50-objects.sql
+
+sha256sum supabase/phase-51-rcap-consumer-payment-gate.sql       # recompute at apply time
+psql "$STAGING_DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/phase-51-rcap-consumer-payment-gate.sql
+psql "$STAGING_DATABASE_URL" -f docs/rcap/staging-rehearsal/sql/verify-phase-51-objects.sql
 ```
+
+The canonical staging sequence is now 49 → 50 → 51 (the phase-51 queue entry
+requires Roger to name all three migration files and the staging environment).
 
 Object verification asserts presence (never IF-NOT-EXISTS masking): expected
 tables, columns, constraints, indexes, triggers, functions, function ownership,
