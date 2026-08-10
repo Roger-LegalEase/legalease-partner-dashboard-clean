@@ -1,0 +1,289 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E-SPECIAL",
+  "group": "E-SPECIAL",
+  "baseCommit": "abbc48a19f79a817a4e14d4350297a9a753dbc05",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "dispatchNote": "Terminal A's frozen dispatch block arrived with unfilled placeholders and no E-SPECIAL lane exists in data/rcap-ledger/e2-dispatch-assignment.json, so the frozen values could not be copied. Every discoverable value was taken from committed state instead and is recorded here: base is the clean tip of claude/rcap-final-sprint-integration containing 72574ecc; the E2 content hash is the canonical crosswalk contentHash on that tip; the six subjects are the six enumerated in the lane brief; output and verifier paths follow the landed lane convention. The semantic fingerprint was not supplied and is not invented; queueSha256 stands in as the frozen-input pin, matching the value E2-D recorded.",
+  "e2ContentHash": "405c07ce5bf5cf3fc36f895a556635cb7ba1c7fca13c65cb4997d26598580e3e",
+  "webAccessAvailable": false,
+  "webAccessNote": "Outbound fetches to every relevant official primary source were refused by the network egress proxy in this session, verified by direct probes: www.legis.state.pa.us (18 Pa.C.S. § 3019), www.legis.la.gov (C.Cr.P. arts. 977/978), sdlegislature.gov (SDCL 26-7A-115), legislature.ms.gov — each returned EGRESS_BLOCKED. No web source is cited as evidence below; every citation is a repository path, pinned with @<ref> where the bytes live on another branch.",
+  "findings": [
+    {
+      "jobId": "E-SPECIAL-AK-as-12-55-085",
+      "subject": "Alaska AS 12.55.085 versus AS 12.55.078",
+      "outcome": "terminal",
+      "proposedDisposition": "deliberately_deferred_unregistered_mechanism",
+      "dispositionNote": "E2-D proposed registry_scoped_out_named_authority on the same evidence. The stop condition here is an upstream intake-memo deferral rather than a registry stop condition naming the authority, which is the fact pattern the committed batch-1 authority crosswalk labels reconciled_deferred_blocker / missing_from_current_normalization. Final E3 picks the canonical label; the two proposals agree on every substantive fact and differ only in vocabulary.",
+      "mechanism": "Set-aside of a conviction after successful completion of a Suspended Imposition of Sentence, granted by the sentencing court under AS 12.55.085(e), with categorical exclusions at AS 12.55.085(f). The relief is a set-aside plus certificate; the conviction record is not sealed or expunged and remains usable as a sentencing prior.",
+      "operativeAuthority": { "citation": "AS 12.55.085", "subsection": "(e) set-aside; (f) exclusions" },
+      "statuteDistinction": "AS 12.55.078 (suspended entry of judgment) is a different mechanism, not an alternate citation for the same one: SEJ withholds entry of judgment and ends in dismissal without a conviction — which is why the ak-courtview track lists an AS 12.55.078 dismissal as a non-conviction ground — while an SIS under AS 12.55.085 produces a conviction the court may later set aside. Adjacent section numbers and the shared word 'suspended' are not evidence of equivalence, and the registry's ak-sej track is additionally restricted to in-case administration with no later participant filing.",
+      "registryRelationship": "No registry track carries AS 12.55.085 as operative authority. The omission is deliberate and documented upstream: the Alaska legal-design intake memo declares an eleventh AK track ak-set-aside, legal name 'Set-Aside After a Suspended Imposition of Sentence, AS 12.55.085', authority 'AS 12.55.085, with the set-aside at (e) and the exclusions at (f)', held at legalDesignDecision.status legal_research_required because whether a person discharged years ago without a set-aside can still obtain one, and by what vehicle, is unresolved.",
+      "runtimeEffect": "The compiled pathway stays live but contributes no per-track coverage until the registry owner registers ak-set-aside or records a terminal disposition.",
+      "denominatorEffect": "None from this lane. Registering ak-set-aside would raise the denominator 497 -> 498; that decision belongs to the registry owner with counsel resolving the open legal question in the intake memo.",
+      "currentness": "No supersession issue identified in committed sources.",
+      "approvalOwner": "Registry owner with counsel (the intake memo's legal_research_required question is a counsel question).",
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "AS 12.55.085(e) set-aside with certificate; not sealing or expungement",
+          "source": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+          "quote": "Defendant received a Suspended Imposition of Sentence and has successfully completed probation. Defendant moves the Court to SET ASIDE the conviction under AS 12.55.085(e) and to issue a certificate."
+        },
+        {
+          "kind": "upstream_deferral",
+          "value": "ak-set-aside declared and deferred at legal_research_required",
+          "source": "data/record-clearing/legal-design-intake/AK.memo.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "\"trackId\": \"ak-set-aside\", \"legalName\": \"Set-Aside After a Suspended Imposition of Sentence, AS 12.55.085\" ... \"citations\": [\"AS 12.55.085, with the set-aside at (e) and the exclusions at (f)\"], \"summary\": \"AS 12.55.085(e) ties the set-aside to the moment of discharge. Whether a person discharged years ago without a set-aside can go back and ask for one, and by what vehicle, is unresolved.\""
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No AK registry track carries AS 12.55.085; ak-sej is AS 12.55.078, a distinct mechanism",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "ak-sej [\"AS 12.55.078, enacted 2016\"]"
+        },
+        {
+          "kind": "prior_lane_finding",
+          "value": "E2-D terminal disposition on the same subject, all eight tracks ruled out on operative authority",
+          "source": "data/rcap-ledger/e2-evidence/E2-D.json",
+          "quote": "They are different mechanisms: SEJ withholds entry of judgment and ends in dismissal without a conviction ... an SIS produces a conviction that the court may later set aside."
+        }
+      ],
+      "externalOfficialEvidence": [],
+      "exactMissingEvidence": []
+    },
+    {
+      "jobId": "E-SPECIAL-LA-trafficking-fee-exempt",
+      "subject": "Louisiana trafficking fee-exempt route operative relief authority",
+      "outcome": "resolved",
+      "proposedDisposition": "certification_overlay_variant_of_registry_tracks",
+      "proposedMapping": {
+        "compiledPathwayId": "human-trafficking-survivor-expungement-fee-exempt-route",
+        "registryTrackIds": ["la-978-felony-conviction", "la-977-misdemeanor-conviction"],
+        "architectureDeclaration": "The Louisiana state pack declares the trafficking-victim route as one certification overlay spanning the arts. 977 and 978 motions, which is the committed architecture the canonical crosswalk requires before a one-pathway-to-two-tracks relationship may land."
+      },
+      "mechanism": "The relief mechanism is the standard conviction-expungement motions themselves — La. C.Cr.P. art. 977 (misdemeanor) and art. 978 (felony). The trafficking element is a district-attorney certification that the offense was committed substantially because of trafficking victimization; when obtained it waives the arts. 977/978 time delays and exempts the applicant from expungement fees. It creates no separate relief vehicle.",
+      "operativeAuthority": { "citation": "La. C.Cr.P. arts. 977, 978", "subsection": "trafficking-certification paragraphs; exact paragraph letters not pinned in any committed source" },
+      "authorityClassification": "Relief authority: arts. 977/978 (the motions). Eligibility/timing overlay: the DA trafficking certification waiving the delays. Fee authority: the fee-exemption effect (art. 983 family in the compiled profile's fee discussion) — expressly NOT relief authority, and this record does not treat it as such. The compiled pathway's own rule clauses carry only the fee/intake material, which is why automatic matching correctly refused to map it; the relief identity comes from the state pack.",
+      "runtimeEffect": "Contributes runtime coverage as a certification-overlay variant of la-977/la-978 once final E3 lands the mapping.",
+      "denominatorEffect": "None. No new track: the mechanism is the registered arts. 977/978 motions.",
+      "currentness": "No supersession issue identified in committed sources.",
+      "approvalOwner": "Final E3 for the mapping; counsel to pin the exact arts. 977/978 trafficking-certification paragraphs when an official fetch is possible.",
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "DA certification waives art. 977/978 delays and fees — one overlay across both motions",
+          "source": "src/lib/rcap/state-packs/louisiana/eligibility-rules.ts",
+          "quote": "Human-trafficking-victim pathway: a trafficking victim may request DA certification that the offense was committed substantially because of trafficking victimization; if obtained, the applicable art. 977 and 978 time delays are waived and the applicant is not required to pay expungement fees"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "state-pack pathway declaration of the same overlay",
+          "source": "src/lib/rcap/state-packs/louisiana/pathways.ts",
+          "quote": "Human-trafficking-victim route — DA certification waives Art. 977/978 time delays and expungement fees (La. Code Crim. Proc. arts. 977-978)"
+        },
+        {
+          "kind": "fee_provision_distinguished",
+          "value": "the compiled pathway's committed content is fee-exemption material, not relief authority",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "Human trafficking victim certification, factual innocence/wrongful conviction compensation, certain pardons, and expedited expungement may also create fee exemptions."
+        },
+        {
+          "kind": "prior_lane_finding",
+          "value": "E2-B1 reached the same mapping through the same state-pack evidence",
+          "source": "data/rcap-ledger/e2-evidence/E2-B1.json",
+          "quote": "the trafficking-victim route is a DA-certification overlay that waives the art. 977 and art. 978 time delays and fees on the standard conviction expungement motions"
+        }
+      ],
+      "externalOfficialEvidence": [],
+      "exactMissingEvidence": [
+        "official text of the arts. 977/978 trafficking-certification paragraphs (exact paragraph letters) from www.legis.la.gov — EGRESS_BLOCKED this session; needed only to pin the subsection, not to support the mapping"
+      ]
+    },
+    {
+      "jobId": "E-SPECIAL-MS-dui-nonadjudication",
+      "subject": "Mississippi DUI nonadjudication operative citation",
+      "outcome": "resolved",
+      "proposedDisposition": "variant_of_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "dui-nonadjudication",
+        "registryTrackIds": ["ms-dui"]
+      },
+      "mechanism": "The once-only DUI nonadjudication program inside Miss. Code Ann. § 63-11-30: the court withholds adjudication and sentencing and places the person in a nonadjudication program; eligibility is once per lifetime under any nonadjudication law, all court-imposed terms must be completed, and a CDL or commercial learner's permit at the time of the offense disqualifies.",
+      "operativeAuthority": { "citation": "Miss. Code Ann. § 63-11-30", "subsection": "nonadjudication subsection — expected (14); not pinned in any committed source" },
+      "registryRelationship": "The registry consolidates § 63-11-30 relief in the ms-dui track and does so knowingly: its own routing statement bars implied-consent expunction in intervention court and sends those matters to the § 63-11-30 DUI track, and the ms-dui record itself treats a prior DUI nonadjudication as a disqualifying event — the registry situates the nonadjudication program inside this track's subject matter. ms-nonadj is statutorily distinct (§ 99-15-26).",
+      "runtimeEffect": "Contributes runtime coverage as a variant of ms-dui once final E3 lands the mapping.",
+      "denominatorEffect": "None.",
+      "currentness": "No supersession issue identified in committed sources.",
+      "approvalOwner": "Final E3 for the mapping; counsel to pin the § 63-11-30 nonadjudication subsection when an official fetch is possible. The expected subsection is (14) but no committed source states it, and this record does not assert it as fact.",
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "registry routing of implied-consent matters into the § 63-11-30 track",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "No expunction of any implied consent violation is allowed in intervention court under Section 9-23-23. Those route to the DUI track under Section 63-11-30."
+        },
+        {
+          "kind": "registry_branch_acknowledgment",
+          "value": "the ms-dui record itself names a prior DUI nonadjudication as a disqualifying event",
+          "source": "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "the person has not previously had a dui nonadjudication or a dui expungement"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "the compiled profile's committed description of the nonadjudication program (via Mississippi DPS)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Mississippi DPS explains that DUI nonadjudication means the court withholds adjudication and sentencing and places the person into a nonadjudication program. A person is eligible for nonadjudication only once under any law authorizing nonadjudication"
+        },
+        {
+          "kind": "prior_lane_finding",
+          "value": "E2-B2 reached the same mapping at medium confidence; this record adds the ms-dui exclusion-language corroboration",
+          "source": "data/rcap-ledger/e2-evidence/E2-B2.json",
+          "quote": "the nonadjudication mechanism inside Miss. Code Ann. Section 63-11-30, the DUI statute the registry's ms-dui track is anchored on"
+        }
+      ],
+      "externalOfficialEvidence": [],
+      "exactMissingEvidence": [
+        "official text pinning the § 63-11-30 nonadjudication subsection (expected (14)) — no free official government host for the Mississippi Code was reachable (legislature.ms.gov EGRESS_BLOCKED); needed only for the pin cite, not for the mapping"
+      ]
+    },
+    {
+      "jobId": "E-SPECIAL-PA-rule-490-790",
+      "subject": "Pennsylvania Rule 490/790 venue or composition discriminator",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_declared_procedural_pair",
+      "proposedMapping": {
+        "compiledPathwayId": "path-a-non-conviction-expungement",
+        "registryTrackIds": ["pa_790_nonconviction", "pa_490_nonconviction"],
+        "architectureDeclaration": "The registry itself declares the fork rule inside pa_490_nonconviction: Rule 490 governs expungement in summary cases; any case in which a summary offense was filed together with a misdemeanor, felony or murder charge proceeds under Rule 790 instead — with a matching stop condition and a venue predicate (whether the case remained at the magisterial district court). The two tracks share operative 18 Pa.C.S. § 9122(a) and identical non-conviction disposition classes."
+      },
+      "mechanism": "Petition for expungement of non-conviction records under 18 Pa.C.S. § 9122(a). The registry implements it as one mechanism with a declared procedural fork: pure summary cases before a magisterial district judge proceed under Pa.R.Crim.P. 490; court cases, including any case carrying a misdemeanor, felony or murder charge, proceed under Pa.R.Crim.P. 790.",
+      "operativeAuthority": { "citation": "18 Pa.C.S. § 9122(a)", "subsection": "(a); procedural fork Pa.R.Crim.P. 490 / 790" },
+      "discriminator": "Case composition and venue, registry-declared: summary-only case that remained at the magisterial district court -> Rule 490; otherwise -> Rule 790. The discriminator is committed; what is missing is not evidence but a compiled-profile input — path-a carries no question capturing case composition or venue.",
+      "proposedProfileCorrection": "Add one screening input to the PA profile for path-a: whether the case was a summary-offense case handled at the magisterial district court (and whether any misdemeanor, felony or murder charge was filed in the same case). Owned by the profile/implementation lane; not made by this lane.",
+      "runtimeEffect": "Contributes runtime coverage across the declared pair once final E3 lands the mapping; until the profile correction lands, packet assembly cannot select between the Rule 490 and Rule 790 form sets and the pathway should be treated as covered-with-metadata-gap.",
+      "denominatorEffect": "None.",
+      "currentness": "The registry's pa_acquittal_auto notes automatic acquittal expungement; no supersession issue affects the 490/790 fork itself in committed sources.",
+      "approvalOwner": "Final E3 for the pair mapping; the compiled-profile owner for the venue/composition question.",
+      "evidence": [
+        {
+          "kind": "registry_architecture",
+          "value": "the fork rule, declared in the registry record's own mechanism text",
+          "source": "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "Rule 490 governs expungement in summary cases. Any case in which a summary offense was filed together with a misdemeanor, felony or murder charge proceeds under Rule 790 instead."
+        },
+        {
+          "kind": "registry_architecture",
+          "value": "matching stop condition and venue predicate",
+          "source": "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "The case included a misdemeanour, felony or murder charge alongside the summary offences, which routes it to Rule 790."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "path-a's committed operative citation",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Section 18 Pa.C.S. 9122(a) provides for expungement when a court order requires nonconviction data to be expunged."
+        },
+        {
+          "kind": "prior_lane_finding",
+          "value": "E2-B2 mapped path-a to pa_790_nonconviction primary with the Rule 490 sibling recorded",
+          "source": "data/rcap-ledger/e2-evidence/E2-B2.json",
+          "quote": "Primary mapping is to pa_790_nonconviction; E3 should record the Rule 490 sibling for summary-only cases, per the registry's own Rule 490/790 routing note."
+        }
+      ],
+      "externalOfficialEvidence": [],
+      "exactMissingEvidence": []
+    },
+    {
+      "jobId": "E-SPECIAL-PA-vacatur",
+      "subject": "Pennsylvania vacatur primary authority",
+      "outcome": "unresolved",
+      "proposedDisposition": "unresolved_pending_official_fetch",
+      "proposedMapping": null,
+      "mechanism": "Asserted vacatur of certain convictions connected to human trafficking. The only committed support is a secondary advocacy-organization summary; no statute, subsection, or official form for a Pennsylvania trafficking vacatur exists anywhere in the repository, and none of the ten PA registry tracks covers vacatur.",
+      "operativeAuthority": { "citation": "not established", "subsection": "expected in 18 Pa.C.S. Chapter 30 (human trafficking), § 3019 — an expectation, not evidence" },
+      "runtimeEffect": "path-k stays unresolved and contributes no coverage.",
+      "denominatorEffect": "None. A registry-gap claim without primary authority would manufacture authority; refused.",
+      "currentness": "Cannot be assessed without the primary text.",
+      "approvalOwner": "Egress policy owner to permit one official fetch; then the registry owner on the resulting record.",
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "the compiled pathway's only support is a secondary source; treated as secondary, never as primary authority",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Pennsylvania recognizes vacatur for certain convictions connected to human trafficking. Wilma should treat any trafficking-survivor fact pattern as an attorney escalation path. Community Legal Services summarizes Pennsylvania record clearing as including vacatur"
+        },
+        {
+          "kind": "egress_probe",
+          "value": "the one fetch that would resolve this was attempted this session and refused",
+          "source": "data/rcap-ledger/e2-evidence/E-SPECIAL.json",
+          "quote": "www.legis.state.pa.us returned EGRESS_BLOCKED for https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.030.019.000..HTM (constructed from the committed legis.state.pa.us host pattern the PA profile already cites for §§ 9122/6308)"
+        },
+        {
+          "kind": "prior_lane_finding",
+          "value": "E2-B3 reached the same block for the same reason",
+          "source": "data/rcap-ledger/e2-evidence/E2-B3.json",
+          "quote": "Recording a registry gap without a verifiable citation would manufacture authority, so this job stays honestly unresolved: missing is one official citation for the PA trafficking vacatur statute, obtainable in one web fetch of the official Pa. General Assembly site."
+        }
+      ],
+      "externalOfficialEvidence": [],
+      "exactMissingEvidence": [
+        "one official fetch of the Pennsylvania General Assembly consolidated-statutes page for 18 Pa.C.S. Chapter 30 (expected § 3019) at https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.030.019.000..HTM — EGRESS_BLOCKED this session; record the retrieved section number, title, and vacatur/expungement subsection verbatim"
+      ]
+    },
+    {
+      "jobId": "E-SPECIAL-SD-juvenile-pins",
+      "subject": "The two provisional South Dakota juvenile operative SDCL citations",
+      "outcome": "resolved",
+      "proposedDisposition": "pins_committed_deprovision_gaps",
+      "proposedMapping": null,
+      "mechanism": "Two distinct juvenile mechanisms, both registry gaps: (1) petition to seal juvenile delinquency records, one year after unconditional release, with a rehabilitation showing; (2) expungement, vacating the underlying delinquency proceeding, for a child victim of human trafficking or sexual exploitation.",
+      "operativeAuthority": { "citation": "SDCL §§ 26-7A-115 to 26-7A-116 (sealing); SDCL § 26-7A-115.1 (trafficking expungement)", "subsection": null },
+      "pins": [
+        {
+          "compiledPathwayId": "juvenile-delinquency-sealing",
+          "operativeCitation": "SDCL §§ 26-7A-115 to 26-7A-116",
+          "committedAt": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json /sourceSections[1]/text (also /pathways[0]/waitingRules[12], /orderedDecisionRules[12], /waitingPeriodRules[12])"
+        },
+        {
+          "compiledPathwayId": "juvenile-trafficking-expungement",
+          "operativeCitation": "SDCL § 26-7A-115.1",
+          "committedAt": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json /sourceSections[1]/text"
+        }
+      ],
+      "registryRelationship": "Both remain registry gaps — no SD registry track carries any Title 26 authority — but the provisional flag on each falls away: the operative SDCL citations the E2-C/E3 blockers were waiting for are committed in the SD compiled profile's source sections, in fields outside the pathway rows earlier passes searched. E2-B3 independently reached the same citations.",
+      "runtimeEffect": "Unchanged: both pathways stay live and uncounted until the registry owner acts on the gaps.",
+      "denominatorEffect": "None from this lane. Registering either mechanism is the registry owner's decision.",
+      "currentness": "No supersession issue identified in committed sources.",
+      "approvalOwner": "Final E3 to de-provision the two gap blockers; registry owner on the gaps themselves.",
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "committed sealing citation with range",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "Juvenile delinquency sealing SDCL 26-7A-115 to 26-7A-116 Juvenile records after statutory waiting and rehabilitation showing"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "committed trafficking-expungement citation",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "Juvenile trafficking expungement SDCL 26-7A-115.1 Delinquency records caused by trafficking or sexual exploitation"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no SD registry track carries Title 26 authority",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Motion for Expungement of Arrest Record (SDCL §§ 23A-3-26 to 23A-3-32)"
+        },
+        {
+          "kind": "prior_lane_finding",
+          "value": "E2-B3 pinned the same two citations independently",
+          "source": "data/rcap-ledger/e2-evidence/E2-B3.json",
+          "quote": "SDCL § 26-7A-115.1 (expungement, vacating the underlying delinquency proceeding, for a child victim of human trafficking or sexual exploitation)"
+        }
+      ],
+      "externalOfficialEvidence": [],
+      "exactMissingEvidence": []
+    }
+  ]
+}
