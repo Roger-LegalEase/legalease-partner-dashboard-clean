@@ -2,11 +2,11 @@
   "schemaVersion": "rcap-verifier-audit/v1",
   "timeoutMs": 12000,
   "counts": {
-    "total": 199,
-    "inChain": 60,
-    "orphanPassing": 91,
-    "orphanBroken": 28,
-    "orphanTimeout": 13,
+    "total": 202,
+    "inChain": 62,
+    "orphanPassing": 81,
+    "orphanBroken": 37,
+    "orphanTimeout": 15,
     "generators": 7
   },
   "scripts": [
@@ -194,15 +194,15 @@
     },
     {
       "file": "verify-all51-final-approval.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "RCAP all-51 final approval verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-all51-launch-enabled.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "RCAP all-51 launch-enabled verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -326,6 +326,13 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-exact-path-authorization.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-expungement-all51-frontend-integration.mjs",
       "status": "orphan_passing",
       "detail": null,
@@ -369,15 +376,15 @@
     },
     {
       "file": "verify-expungement-consumer-checkout.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "Expungement.ai consumer checkout verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-expungement-consumer-persistence.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "Expungement.ai consumer persistence verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -509,15 +516,15 @@
     },
     {
       "file": "verify-expungement-post-payment-packet-generation.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "Expungement.ai post-payment packet generation verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-expungement-production-readiness.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "Expungement.ai production readiness verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -698,8 +705,8 @@
     },
     {
       "file": "verify-mt-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 12000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -719,8 +726,8 @@
     },
     {
       "file": "verify-nh-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 12000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1075,6 +1082,13 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-rcap-packet-render-jobs.mjs",
+      "status": "orphan_passing",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-rcap-partner-access-codes.mjs",
       "status": "in_chain",
       "detail": null,
@@ -1236,6 +1250,13 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-rcap-verifier-dispositions.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-rcap-wilma-intake.mjs",
       "status": "orphan_broken",
       "detail": "RCAP Wilma intake verification failed.",
@@ -1286,15 +1307,15 @@
     },
     {
       "file": "verify-state-promotion-routes.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "RCAP state promotion route verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-state-promotion.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "RCAP state promotion verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1384,8 +1405,8 @@
     },
     {
       "file": "verify-wilma-safety-harness.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_broken",
+      "detail": "Wilma safety harness verification failed:",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },

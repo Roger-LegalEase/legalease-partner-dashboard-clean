@@ -66,6 +66,64 @@ function fileSha256(rootDir, relPath) {
   return crypto.createHash("sha256").update(fs.readFileSync(abs)).digest("hex");
 }
 
+/**
+ * Filters an already-computed forbidden list through the exact-path
+ * authorizations, for verifiers that carry their own inline restricted-path
+ * check rather than calling assertSourceEngineChangeScope.
+ *
+ * Semantics are identical to the main guard and deliberately all-or-nothing:
+ * a path is removed only when it is exactly authorized at exactly the
+ * recorded bytes, AND no unauthorized path remains in the list, AND the
+ * SQL/TypeScript contract verifier passes. If any condition fails, the list
+ * is returned with the authorized paths still in it, so nothing sails through
+ * alongside an unauthorized change.
+ *
+ * The caller's own prefixes and allowlists are untouched: this only ever
+ * REMOVES entries the owner specifically approved, never adds tolerance for
+ * anything else.
+ */
+export function applyExactPathAuthorizations({ rootDir, candidates, failures }) {
+  if (!Array.isArray(candidates) || candidates.length === 0) return candidates ?? [];
+
+  const exactAuthorized = loadExactPathAuthorizations(rootDir, failures);
+  if (exactAuthorized.size === 0) return candidates;
+
+  const remaining = [];
+  const authorizedHits = [];
+  for (const candidate of candidates) {
+    const grant = exactAuthorized.get(candidate);
+    if (!grant) {
+      remaining.push(candidate);
+      continue;
+    }
+    const actual = fileSha256(rootDir, candidate);
+    if (actual !== grant.sha256) {
+      remaining.push(
+        `${candidate} (authorized by ${grant.id} but content hash ${actual ? actual.slice(0, 12) : "missing"}… does not match authorized ${grant.sha256.slice(0, 12)}…; authorization is void)`
+      );
+      continue;
+    }
+    authorizedHits.push(candidate);
+  }
+
+  if (authorizedHits.length === 0) return remaining;
+
+  if (remaining.length > 0) {
+    // Unauthorized paths present: the grant does not cover the set.
+    return candidates;
+  }
+
+  const contract = contractVerifierPasses(rootDir);
+  if (!contract.ok) {
+    failures.push(
+      `Authorized supabase change present but the render-job contract verifier fails (${contract.reason}); authorization requires it green`
+    );
+    return candidates;
+  }
+
+  return remaining;
+}
+
 // Condition: the SQL/TypeScript contract must hold before any authorized
 // migration change is let through. An approved migration that has drifted from
 // the contract is not the thing that was approved.
