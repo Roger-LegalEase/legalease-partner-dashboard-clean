@@ -76,6 +76,21 @@ commit;
   from `partner_packet_entitlement`, which the backfill seeds from the contract
   values, so both versions are correct throughout the rollout.
 
+## Row-level evidence record (Session C)
+
+The queued audit read had a defect that would have failed it at execution time:
+it read from `partner_onboarding_audit`, a table that exists in no migration.
+The corrected read sources cap-configure events from `rcap_record_events` as
+the onboarding writer actually records them, adds an event-sink availability
+probe to the ambiguity rule, and emits each row's CAS operand. The concrete
+backfill and rollback scripts now exist
+(`scripts/rcap-backfill-screenings-allowed.sql`,
+`scripts/rcap-rollback-screenings-allowed.sql`), with the ambiguity exclusion
+made structural rather than procedural. All of it is fixture-proven on three
+schema variants by `scripts/verify-rcap-screenings-allowed-audit.mjs`; the
+evidence, counts and remaining queued steps are in
+`docs/RCAP_SCREENINGS_ALLOWED_ROW_EVIDENCE.md`.
+
 ## Execution boundary
 
 Schema-level and code-history analysis: **done above**. Row-level reads against
