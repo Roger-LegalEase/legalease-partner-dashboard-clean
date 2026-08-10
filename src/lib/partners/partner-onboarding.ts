@@ -247,23 +247,49 @@ export async function getOnboarding(partnerSlug: string): Promise<PartnerOnboard
   const supabase = admin();
   const slug = normalizeSlug(partnerSlug);
 
-  const [onboardingRes, tasksRes, partner, entRes, accessMode, codesRes, usersRes] = await Promise.all([
+  const [onboardingRes, tasksRes, partner, partnerRowRes, accessMode, codesRes, usersRes] = await Promise.all([
     supabase.from("partner_onboarding").select("*").eq("partner_slug", slug).maybeSingle(),
     supabase.from("partner_onboarding_tasks").select("*").eq("partner_slug", slug).order("created_at", { ascending: true }),
     getPartnerRecordBySlug(slug),
-    supabase.from("partner_entitlement").select("screenings_allowed, screenings_used, overage_enabled, overage_packet_price_cents, pause_at_cap, overage_packets").eq("partner_slug", slug).maybeSingle(),
+    supabase.from("partner_records").select("id").eq("partner_slug", slug).maybeSingle(),
     getPartnerAccessMode(slug),
     supabase.from("partner_access_codes").select("id", { count: "exact", head: true }).eq("partner_slug", slug).eq("is_active", true),
     supabase.from("partner_users").select("id", { count: "exact", head: true }).eq("partner_slug", slug).eq("status", "active").in("role", ["partner_admin", "partner_staff"])
   ]);
 
+  // Packet capacity comes from the canonical packet entitlement, never from the
+  // screening allowance: the two are different products and are never blended.
+  // Usage derives from the append-only credit ledger. Before the packet
+  // accounting migration is applied these read honestly as unconfigured.
+  const partnerRecordId = (partnerRowRes.data as { id?: string } | null)?.id ?? null;
+  let packetEnt: { id?: string; packet_cap?: number; overage_enabled?: boolean; pause_at_cap?: boolean; contract_note?: string | null } = {};
+  let packetsConsumed = 0;
+  let overagePacketsConsumed = 0;
+  if (partnerRecordId) {
+    const packetEntRes = await supabase
+      .from("partner_packet_entitlement")
+      .select("id, packet_cap, overage_enabled, pause_at_cap, contract_note")
+      .eq("partner_id", partnerRecordId)
+      .eq("entitlement_scope", "sponsored_packets")
+      .maybeSingle();
+    packetEnt = (packetEntRes.data ?? {}) as typeof packetEnt;
+    if (packetEnt.id) {
+      const [consumedRes, overageRes] = await Promise.all([
+        supabase.from("packet_credit_ledger").select("id", { count: "exact", head: true }).eq("entitlement_id", packetEnt.id).eq("event_type", "consumed"),
+        supabase.from("packet_credit_ledger").select("id", { count: "exact", head: true }).eq("entitlement_id", packetEnt.id).eq("event_type", "overage_consumed")
+      ]);
+      packetsConsumed = consumedRes.count ?? 0;
+      overagePacketsConsumed = overageRes.count ?? 0;
+    }
+  }
+
   const row = onboardingRes.data as OnboardingRow | null;
   if (!row) throw new PartnerOnboardingError("not_found", "This partner has not started onboarding.");
   if (!partner) throw new PartnerOnboardingError("unknown_partner", "Unknown partner.");
 
-  const ent = (entRes.data ?? {}) as Partial<EntitlementRow>;
-  const packetCap = ent.screenings_allowed ?? 0;
-  const packetsUsed = ent.screenings_used ?? 0;
+  const packetCap = packetEnt.packet_cap ?? 0;
+  const packetsUsed = packetsConsumed;
+  const overagePriceMatch = /overage_packet_price_cents=(\d+)/.exec(packetEnt.contract_note ?? "");
   const tasks = ((tasksRes.data ?? []) as TaskRow[]).map(taskView);
 
   const view: PartnerOnboardingView = {
@@ -298,10 +324,11 @@ export async function getOnboarding(partnerSlug: string): Promise<PartnerOnboard
     packetCap,
     packetsUsed,
     remainingPackets: Math.max(0, packetCap - packetsUsed),
-    overageEnabled: Boolean(ent.overage_enabled),
-    overagePacketPriceCents: ent.overage_packet_price_cents ?? 5000,
-    pauseAtCap: Boolean(ent.pause_at_cap),
-    overagePackets: ent.overage_packets ?? 0,
+    overageEnabled: Boolean(packetEnt.overage_enabled),
+    overagePacketPriceCents: overagePriceMatch ? Number(overagePriceMatch[1]) : 5000,
+    // Fail closed until the packet entitlement is configured.
+    pauseAtCap: packetEnt.id ? Boolean(packetEnt.pause_at_cap) : true,
+    overagePackets: overagePacketsConsumed,
     accessMode,
     activeCodeCount: codesRes.count ?? 0,
     adminUserCount: usersRes.count ?? 0,
@@ -476,16 +503,30 @@ export async function configureBilling(partnerSlug: string, input: {
     throw new PartnerOnboardingError("invalid_input", "Unknown agreement status.");
   }
 
-  // partner_entitlement stays authoritative for cap/overage enforcement.
+  // Packet capacity is its own product fact and lives in
+  // partner_packet_entitlement, keyed on the immutable partner_records.id.
+  // partner_entitlement remains the screening allowance and is deliberately
+  // not written here: the previous upsert stored the packet cap into
+  // screenings_allowed, silently overwriting the partner's screening capacity
+  // with a packet number.
+  const { data: partnerRow, error: partnerError } = await supabase
+    .from("partner_records")
+    .select("id")
+    .eq("partner_slug", slug)
+    .maybeSingle();
+  if (partnerError || !partnerRow?.id) {
+    throw new PartnerOnboardingError("write_failed", "Could not resolve the partner record for packet capacity.");
+  }
   const { error: entError } = await supabase
-    .from("partner_entitlement")
+    .from("partner_packet_entitlement")
     .upsert({
-      partner_slug: slug,
-      screenings_allowed: input.packetCap,
+      partner_id: partnerRow.id,
+      entitlement_scope: "sponsored_packets",
+      packet_cap: input.packetCap,
       overage_enabled: input.overageEnabled,
-      overage_packet_price_cents: price,
-      pause_at_cap: input.pauseAtCap
-    }, { onConflict: "partner_slug" });
+      pause_at_cap: input.pauseAtCap,
+      contract_note: `overage_packet_price_cents=${price}`
+    }, { onConflict: "partner_id,entitlement_scope" });
   if (entError) throw new PartnerOnboardingError("write_failed", "Could not save packet cap and overage settings.");
 
   await patchOnboarding(supabase, slug, {
@@ -742,15 +783,6 @@ type OnboardingRow = {
   internal_approved_at: string | null;
   launched_at: string | null;
   paused_at: string | null;
-};
-
-type EntitlementRow = {
-  screenings_allowed: number;
-  screenings_used: number;
-  overage_enabled: boolean;
-  overage_packet_price_cents: number;
-  pause_at_cap: boolean;
-  overage_packets: number;
 };
 
 type TaskRow = {

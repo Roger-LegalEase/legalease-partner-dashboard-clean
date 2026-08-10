@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-render-job-state-machine/v1",
+  "note": "Shared contract for the packet render job state machine. The phase-49 migration and src/lib/rcap/render/job-contract.ts are each verified against this file, so the two cannot drift even while they live on different branches.",
+  "statuses": [
+    "artifact_validated",
+    "claimed",
+    "delivered",
+    "failed",
+    "queued",
+    "rendering",
+    "validating"
+  ],
+  "errorCodes": [
+    "checksum_mismatch",
+    "invalid_pdf_output",
+    "page_count_mismatch",
+    "profile_unknown",
+    "protected_field_populated",
+    "render_failed",
+    "source_not_whitelisted",
+    "storage_readback_failed",
+    "storage_write_failed",
+    "timeout",
+    "worker_crashed"
+  ],
+  "transitions": {
+    "queued": [
+      "claimed",
+      "failed"
+    ],
+    "claimed": [
+      "failed",
+      "queued",
+      "rendering"
+    ],
+    "rendering": [
+      "failed",
+      "validating"
+    ],
+    "validating": [
+      "artifact_validated",
+      "failed"
+    ],
+    "artifact_validated": [
+      "delivered"
+    ],
+    "delivered": [],
+    "failed": [
+      "queued"
+    ]
+  },
+  "creditableStatuses": [
+    "artifact_validated",
+    "delivered"
+  ]
+}
