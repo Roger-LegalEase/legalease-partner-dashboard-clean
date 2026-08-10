@@ -13,7 +13,17 @@ Machine work never waits on this queue — only the actions listed here do.
 > `scripts/source-engine-change-scope.mjs`. This document is the narrative
 > companion.
 
-### A1 — Apply `phase-48-rcap-packet-render-jobs.sql`
+### A1 — Apply the canonical migration sequence to STAGING (prepared, awaiting grant)
+
+The unified sequence is `phase-49-rcap-packet-render-jobs.sql` (PR #91,
+authorized) followed immediately by
+`phase-50-rcap-packet-delivery-hardening.sql`. The machine queue holds the
+hash-pinned entries and the prepared `A1-staging` action; granting it requires
+Roger to name both files and the staging environment. The rehearsal that
+follows is `docs/RCAP_STAGING_REHEARSAL_PLAN.md`. Nothing is applied anywhere
+until then.
+
+### A1-old — the superseded phase-48 request (kept for history)
 
 | | |
 |---|---|
