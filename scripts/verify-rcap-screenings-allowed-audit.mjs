@@ -55,6 +55,7 @@ const evidence = { fixture: true, variants: {}, accounting: {} };
 const AUDIT_SQL = read("scripts/rcap-audit-screenings-allowed.sql");
 const BACKFILL_SQL = read("scripts/rcap-backfill-screenings-allowed.sql");
 const ROLLBACK_SQL = read("scripts/rcap-rollback-screenings-allowed.sql");
+const READONLY_AUDIT_SQL = read("scripts/rcap-audit-screenings-allowed-readonly.sql");
 
 // psql -A -t output mixes command tags with query output; the JSON block is
 // everything between the first '[' and the last ']'.
@@ -171,6 +172,25 @@ try {
     const ambiguous = Object.values(audit1).filter((r) => r.unresolved_ambiguity).length;
     evidence.variants.V2 = { partners: Object.keys(audit1).length, affected, ambiguous };
     assert(affected === 3 && ambiguous === 1, `V2: expected 3 affected / 1 ambiguous, got ${affected}/${ambiguous}`);
+
+    // The production observation variant: it must produce the same row facts
+    // with NO authority table in the database, inside a read-only transaction.
+    // This is the file that actually runs in Roger's window, so "it runs
+    // read-only" has to be a test result rather than a claim.
+    db.sql("drop table if exists public.rcap_audit_authority");
+    const roRaw = db.sql(`begin; set transaction read only;\n${READONLY_AUDIT_SQL}\ncommit;`);
+    const ro = byPartner(jsonBlock(roRaw));
+    assert(Object.keys(ro).length === 5, `V2-ro: read-only audit returns every partner (got ${Object.keys(ro).length})`);
+    assert(ro["fixture-overwritten"]?.overwrite_suspected === true, "V2-ro: overwrite still detected without an authority table");
+    assert(ro["fixture-overwritten"]?.cas_operand === 100, "V2-ro: read-only audit emits the CAS operand");
+    assert(
+      ro["fixture-overwritten"]?.evidence_quality === "cap_event_recorded",
+      `V2-ro: cap event recorded where the sink was available (got ${ro["fixture-overwritten"]?.evidence_quality})`
+    );
+    assert(
+      db.scalar("select to_regclass('public.rcap_audit_authority') is null") === "t",
+      "V2-ro: the read-only audit created nothing"
+    );
 
     // Post-audit drift: the operator recorded cas=120, then the row changed.
     db.sql("update partner_entitlement set screenings_allowed = 90 where partner_slug = 'fixture-drift'");

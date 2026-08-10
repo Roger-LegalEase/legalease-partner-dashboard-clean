@@ -97,3 +97,58 @@ Schema-level and code-history analysis: **done above**. Row-level reads against
 production or staging execute only as a queued authorized read in Roger's
 window, or against an export he supplies. Queued as audit item A2-audit in
 `data/rcap-authorization-queue.json`'s narrative companion.
+
+## The exact read-only production command (prepared, not executed)
+
+`scripts/rcap-audit-screenings-allowed.sql` **cannot** run read-only against
+production. It left-joins `public.rcap_audit_authority`, the contract-of-record
+table an operator loads before a correction run; that table does not exist in
+production, and a read-only session cannot create it — PostgreSQL refuses
+`CREATE TABLE` in a read-only transaction, including for `TEMP` tables. That was
+verified on a real cluster rather than assumed.
+
+So the production observation runs from a separate file,
+`scripts/rcap-audit-screenings-allowed-readonly.sql`: a single `SELECT` that
+needs no authority table and writes nothing.
+
+```sh
+# Roger's window. RCAP_AUDIT_READONLY_URL must point at a role with SELECT and
+# nothing else. No credential for it exists in any agent workspace.
+psql "$RCAP_AUDIT_READONLY_URL" -X --no-psqlrc -v ON_ERROR_STOP=1 -A -t \
+  -c 'select to_regclass('"'"'public.rcap_record_events'"'"')  as record_events_present,
+             to_regclass('"'"'public.partner_entitlement'"'"') as partner_entitlement_present'
+
+# If either preflight value is null, stop and record why. Otherwise:
+psql "$RCAP_AUDIT_READONLY_URL" -X --no-psqlrc -v ON_ERROR_STOP=1 -A -t \
+  --single-transaction \
+  -c 'set transaction read only' \
+  -f scripts/rcap-audit-screenings-allowed-readonly.sql \
+  -o artifacts/screenings-allowed-production-audit.json
+```
+
+The read-only file deliberately proposes **no corrections**. A correction
+proposal needs the authoritative value, and this file has no access to one; the
+comparison against the contract of record happens offline, against the JSON it
+emits. What it does establish per partner is the current value, the `cas_operand`
+a later backfill must compare-and-swap against, whether the phase-41 columns
+exist, whether the event sink could record a cap-configure event at all, and an
+`evidence_quality` verdict carrying the corrected evidence rule: where the sink
+was unavailable, the absence of an event proves nothing and the row reads
+`sink_unavailable_absence_proves_nothing`.
+
+That the file runs to completion inside `set transaction read only` with no
+authority table present, and creates nothing, is asserted in
+`scripts/verify-rcap-screenings-allowed-audit.mjs` (V2-ro) rather than claimed
+here.
+
+**Not executed.** No production credential exists in this environment by design,
+and the environment has not been confirmed. The command above is prepared for
+Roger's window and waits there.
+
+### Fixture counts are not production counts
+
+Every number in `docs/RCAP_SCREENINGS_ALLOWED_ROW_EVIDENCE.md` comes from
+sanitized fixtures on throwaway clusters. They prove the mechanics — detection,
+CAS, structural ambiguity exclusion, rollback — and they say nothing about how
+many production partners are affected. That number is unknown until the read
+above runs, and the persistent-environment audit stays queued until it does.

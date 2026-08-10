@@ -120,3 +120,75 @@ branch and this pass does not fabricate a fact into it.
 dirty (`git checkout --`). Run it **only from a clean tree**: during this pass it
 silently reverted an uncommitted edit to the authorization queue. The audit and
 the disposition regeneration are therefore run after committing, never before.
+
+## Lane B / C / D integration window (one pass)
+
+All three lanes branched from `e078a87f`, an ancestor of the Terminal E
+integration `72574ecc`, so nothing was cherry-picked wholesale. Lane-owned files
+were taken by path; `package.json`, `package-lock.json` and
+`data/rcap-verifier-dispositions.json` are captain-owned and recreated by hand.
+
+| Lane | Branch | Tip | Imported |
+|---|---|---|---|
+| B | `claude/database-role-private-storage-security-mamuvg` | `c8fa6663` | runtime-credential boundary verifier, migration apply-order security note |
+| C | `claude/packet-cap-entitlement-audit-7u1hce` | `d06cf61f` | corrected audit read, CAS backfill, guarded rollback, row-evidence harness and report |
+| D | `claude/durable-worker-container-t6gobo` | `87a5185c` | worker drain loop, claim-lease config, runtime verifier, worker deployment spec |
+
+**Rejected shared-file changes** (recreated by hand instead): each lane's
+`package.json` edit, lane C's and lane B's `data/rcap-verifier-dispositions.json`
+edits, and lane D's `package-lock.json` edit. The recreated lock diff was checked
+byte-for-byte against lane D's — identical.
+
+Lane D's dependency move is real and load-bearing: `typescript` was a
+devDependency, and the worker image installs production dependencies only, so the
+container could not start. It is now a runtime dependency.
+
+## The consumer payment gate (phase 51)
+
+Directive item 8 asked for an explicit consumer entitlement test. Writing it
+surfaced a defect rather than confirming a guarantee.
+
+Phase 50 gave an unsponsored job the accounting result `zero_charge` **and** the
+delivery eligibility `eligible`. Those are two facts and only the first was
+true. `zero_charge` means no partner credit moved — correct, there is no
+partner. It says nothing about whether the consumer paid, and the consumer
+product is paid: `consumer_briefcase_items.amount_cents` has been constrained to
+5000 since phase 27. The delivery core gates on authentication, briefcase
+ownership, `delivery_eligibility` and artifact hash; none of those is a payment
+check, so nothing downstream caught it. **Any job enqueued without partner
+sponsorship was deliverable on the strength of having no sponsor.**
+
+`supabase/phase-51-rcap-consumer-payment-gate.sql` is additive, so phase 50's
+file and its published digest `15063ea9…` are untouched. Apply order is
+49 → 50 → 51.
+
+| Case | Result | Eligibility | Ledger rows |
+|---|---|---|---:|
+| Unsponsored, payment table absent | `consumer_payment_required` | `accounting_blocked` | 0 |
+| Unsponsored, no briefcase item | `consumer_payment_required` | `accounting_blocked` | 0 |
+| Unsponsored, `unpaid` | `consumer_payment_required` | `accounting_blocked` | 0 |
+| Unsponsored, `refunded` | `consumer_payment_required` | `accounting_blocked` | 0 |
+| Unsponsored, `paid` at 2500 cents | `consumer_payment_required` | `accounting_blocked` | 0 |
+| Unsponsored, `paid` at 5000 cents | `zero_charge` | `eligible` | 1, unattributed |
+
+The paid case consumes no partner packet credit — checked against the partner
+ledger before and after. Phase 50's
+`packet_render_jobs_eligible_requires_accounting_check` already restricts
+`eligible` to the four consuming results, so `consumer_payment_required` cannot
+be marked deliverable structurally, not merely by convention.
+
+Mutation-tested twice: returning `true` on the absent-table branch turns B3a red;
+widening the accepted `payment_status` set turns B3c red. Every delivery verifier
+now applies 49 → 50 → 51, so the tested state is the shipped state — without
+that, the gate could be deleted and the suite would stay green.
+
+## E2 dispatch
+
+`scripts/generate-rcap-e2-dispatch-assignment.mjs` partitions the 363 frozen jobs
+across eight lanes, asserting coverage and exclusivity rather than trusting them.
+Lanes write **evidence only**, to one file each; they never touch the canonical
+crosswalk or the compiled profiles, even where a frozen job's `ownedPaths` names
+them. Those paths are contended across lanes and are generated output, and a lane
+that could edit the crosswalk could close its own row on a guess. E3 adjudicates.
+
+Milestone 1 item 2 remains blocked. 497 tracks are represented, not terminal.
