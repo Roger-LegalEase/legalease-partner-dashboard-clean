@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "rcap-staging-rehearsal-identities/v1",
+  "lane": "session-f-staging-rehearsal",
+  "mode": "PREP_ONLY",
+  "status": "prepared_not_created",
+  "note": "No identity below exists yet. Creation happens in EXECUTE_STAGING Stage 6 using real Supabase Auth against the staging project only. Email domain is a placeholder until Terminal A supplies the staging test-mail domain or confirms Supabase Auth email capture/sandbox for staging; no real participant email may be sent.",
+  "emailDomainPlaceholder": "STAGING_TEST_EMAIL_DOMAIN",
+  "partners": [
+    {
+      "id": "P1",
+      "slug": "staging-rehearsal-partner-a",
+      "displayName": "Staging Rehearsal Partner A",
+      "administrator": {
+        "id": "PADM-A",
+        "email": "rcap-staging-padm-a@STAGING_TEST_EMAIL_DOMAIN",
+        "role": "partner_administrator"
+      },
+      "participants": [
+        {
+          "id": "A1",
+          "email": "rcap-staging-a1@STAGING_TEST_EMAIL_DOMAIN",
+          "displayName": "Test Participant",
+          "sessions": [
+            "A1-primary",
+            "A1-second-device-expired",
+            "A1-revoked"
+          ]
+        },
+        {
+          "id": "A2",
+          "email": "rcap-staging-a2@STAGING_TEST_EMAIL_DOMAIN",
+          "displayName": "Test ParticipantTwo",
+          "sessions": [
+            "A2-primary"
+          ]
+        }
+      ],
+      "entitlement": {
+        "id": "ENT-A",
+        "condition": "active, cap 2, overage 1",
+        "source": "docs/RCAP_STAGING_REHEARSAL_PLAN.md step 4"
+      }
+    },
+    {
+      "id": "P2",
+      "slug": "staging-rehearsal-partner-b",
+      "displayName": "Staging Rehearsal Partner B",
+      "administrator": {
+        "id": "PADM-B",
+        "email": "rcap-staging-padm-b@STAGING_TEST_EMAIL_DOMAIN",
+        "role": "partner_administrator"
+      },
+      "participants": [
+        {
+          "id": "B1",
+          "email": "rcap-staging-b1@STAGING_TEST_EMAIL_DOMAIN",
+          "displayName": "Test ParticipantThree",
+          "sessions": [
+            "B1-primary"
+          ]
+        }
+      ],
+      "entitlement": {
+        "id": "ENT-B",
+        "condition": "active, cap 1, no overage",
+        "source": "docs/RCAP_STAGING_REHEARSAL_PLAN.md step 4"
+      }
+    }
+  ],
+  "additionalStates": [
+    {
+      "id": "A1-second-device-expired",
+      "definition": "second-device session for A1 forced past expiry before use"
+    },
+    {
+      "id": "A1-revoked",
+      "definition": "session for A1 explicitly revoked via Supabase Auth admin before use"
+    },
+    {
+      "id": "ANON",
+      "definition": "browser context with no Supabase session"
+    },
+    {
+      "id": "ENT-A-FINAL-UNIT",
+      "definition": "ENT-A driven to its last remaining unit so the next two concurrent finalizations race for it"
+    },
+    {
+      "id": "ENT-ZERO-CHARGE",
+      "definition": "explicit zero-charge entitlement condition; exercised ONLY if Terminal A's gate names it authorized; zero_charge must never be reachable from a missing entitlement"
+    },
+    {
+      "id": "ACC-BLOCKED-ARTIFACT",
+      "definition": "validated artifact whose job lost the final-unit race: accounting_result=cap_reached, delivery_eligibility=accounting_blocked, artifact bytes intact"
+    }
+  ],
+  "matters": [
+    {
+      "id": "MTR-A1-1",
+      "participant": "A1",
+      "partner": "P1",
+      "routeId": "MS:misdemeanor_conviction",
+      "rendererKind": "packet_document_v1",
+      "rendererVersion": "1.0.0",
+      "profileId": "MS",
+      "profileVersion": "1.3.0",
+      "county": "Hinds",
+      "petitioner": "Test Participant"
+    },
+    {
+      "id": "MTR-A1-2",
+      "participant": "A1",
+      "partner": "P1",
+      "routeId": "MS:misdemeanor_conviction",
+      "note": "second distinct matter for the same participant; must consume separately"
+    },
+    {
+      "id": "MTR-A2-1",
+      "participant": "A2",
+      "partner": "P1",
+      "routeId": "MS:misdemeanor_conviction"
+    },
+    {
+      "id": "MTR-B1-1",
+      "participant": "B1",
+      "partner": "P2",
+      "routeId": "MS:misdemeanor_conviction"
+    },
+    {
+      "id": "MTR-RACE-1",
+      "participant": "A1",
+      "partner": "P1",
+      "routeId": "MS:misdemeanor_conviction",
+      "note": "final-unit race entrant 1"
+    },
+    {
+      "id": "MTR-RACE-2",
+      "participant": "A2",
+      "partner": "P1",
+      "routeId": "MS:misdemeanor_conviction",
+      "note": "final-unit race entrant 2"
+    },
+    {
+      "id": "MTR-C1-1",
+      "participant": "C1",
+      "partner": null,
+      "routeId": "MS:misdemeanor_conviction",
+      "note": "unpaid consumer"
+    },
+    {
+      "id": "MTR-C1-2",
+      "participant": "C1",
+      "partner": null,
+      "routeId": "MS:misdemeanor_conviction",
+      "note": "wrong-amount payment"
+    },
+    {
+      "id": "MTR-C1-3",
+      "participant": "C1",
+      "partner": null,
+      "routeId": "MS:misdemeanor_conviction",
+      "note": "refunded before finalization"
+    },
+    {
+      "id": "MTR-C1-4",
+      "participant": "C1",
+      "partner": null,
+      "routeId": "MS:misdemeanor_conviction",
+      "note": "valid $50 payment"
+    },
+    {
+      "id": "MTR-C1-5",
+      "participant": "C1",
+      "partner": null,
+      "routeId": "MS:misdemeanor_conviction",
+      "note": "second matter, payment must not transfer"
+    }
+  ],
+  "canonicalTestRoute": {
+    "routeId": "MS:misdemeanor_conviction",
+    "why": "Deterministic, currently supported, preserved legacy state; exact fixture already exercised by scripts/verify-rcap-packet-delivery-e2e.mjs with known sanitized content (petitioner 'Test Participant', Hinds County) and a stable renderer (packet_document_v1@1.0.0, profile MS@1.3.0).",
+    "expectedPdf": {
+      "magic": "%PDF-",
+      "contentMarkers": [
+        "Test Participant",
+        "Hinds"
+      ],
+      "pageCount": "pinned from the first staging golden render and then held constant for every subsequent case; the local e2e verifier asserts PDF magic and filename, so the staging golden render is the page-count authority"
+    },
+    "prohibitions": [
+      "no real participant data",
+      "no invented legal facts beyond the existing sanitized fixture"
+    ]
+  },
+  "consumers": [
+    {
+      "id": "C1",
+      "email": "rcap-staging-c1@STAGING_TEST_EMAIL_DOMAIN",
+      "displayName": "Test ConsumerOne",
+      "sponsorship": "none \u2014 unsponsored consumer path (phase 51)",
+      "sessions": [
+        "C1-primary"
+      ],
+      "briefcaseItems": [
+        {
+          "matter": "MTR-C1-1",
+          "payment": "none"
+        },
+        {
+          "matter": "MTR-C1-2",
+          "payment": "paid, amount_cents 4999 (wrong amount)"
+        },
+        {
+          "matter": "MTR-C1-3",
+          "payment": "paid then refunded before finalization"
+        },
+        {
+          "matter": "MTR-C1-4",
+          "payment": "paid, amount_cents 5000 (valid $50)"
+        },
+        {
+          "matter": "MTR-C1-5",
+          "payment": "none (must not inherit MTR-C1-4 payment)"
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "email": "rcap-staging-c2@STAGING_TEST_EMAIL_DOMAIN",
+      "displayName": "Test ConsumerTwo",
+      "sponsorship": "none",
+      "sessions": [
+        "C2-primary"
+      ],
+      "briefcaseItems": []
+    }
+  ],
+  "consumerPaymentFacts": {
+    "source": "supabase/phase-51-rcap-consumer-payment-gate.sql (consumer_packet_payment_valid)",
+    "validity": "consumer_briefcase_items.payment_status = 'paid' AND amount_cents = 5000, keyed by briefcase_item_id",
+    "failClosed": "missing table, null item, unpaid, refunded, not_applicable, wrong amount all resolve to not-proven-paid"
+  }
+}
