@@ -229,14 +229,29 @@ try {
   const port = server.address().port;
   const downloadUrl = `http://127.0.0.1:${port}/api/rcap/packets/${jobId}/download`;
 
-  // Some environments pre-install Chromium at a stable path that differs from
-  // the pinned Playwright build's cache; use it when present, otherwise let
-  // Playwright resolve its own browser (CI installs it via npm ci).
+  // Browser resolution, in order: an explicitly pinned executable, then
+  // Playwright's own cache, then a one-time managed install. This verifier
+  // does not skip itself: an environment that cannot produce a browser fails
+  // loudly rather than reporting a pass that tested nothing.
   const pinnedChromium = process.env.RCAP_E2E_CHROMIUM ?? "/opt/pw-browsers/chromium";
-  browser = await chromium.launch({
-    headless: true,
-    ...(fs.existsSync(pinnedChromium) ? { executablePath: pinnedChromium } : {})
-  });
+  const launchOptions = { headless: true };
+  if (fs.existsSync(pinnedChromium)) {
+    launchOptions.executablePath = pinnedChromium;
+  } else {
+    try {
+      browser = await chromium.launch(launchOptions);
+    } catch {
+      const { spawnSync } = await import("node:child_process");
+      const install = spawnSync("npx", ["playwright", "install", "chromium"], {
+        stdio: ["ignore", "inherit", "inherit"],
+        timeout: 300000
+      });
+      if (install.status !== 0) {
+        throw new Error("Playwright chromium is unavailable and could not be installed; the e2e cannot run.");
+      }
+    }
+  }
+  browser = browser ?? (await chromium.launch(launchOptions));
   const context = await browser.newContext({
     // iPhone-class mobile viewport.
     viewport: { width: 390, height: 844 },
