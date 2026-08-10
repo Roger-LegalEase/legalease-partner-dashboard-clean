@@ -129,3 +129,49 @@ Each carries a blocker with operative authority, distinct mechanism, owner actio
 ## Currentness
 
 One flag: `OK:clean-slate-automatic-expungement` maps to ok_clean_slate but renders repealed § 18(C)/§ 19(B) machinery text (current authority § 18b/§ 19d); it contributes no current runtime coverage and its track carries the represented_with_superseded_runtime_text disposition.
+
+## Source-support audit (Terminal C, `ca16791b`)
+
+Imported as an adjudication index and verified at its own commit (912 rows,
+deterministic, mutation cases red; drift in this tree is expected — the
+projection here carries additional license fields). Classifications: 634
+exact-verbatim, 215 faithful-paraphrase, 61 interpretive, 1 invalid pointer,
+1 unsupported. The two defective rows were the New Hampshire and Michigan
+items below; both changed evidence pointers, not conclusions, because every
+accepted relationship rests on its own generator-verified license rather than
+lane quotes. Of the 61 interpretive rows, 30 attach to accepted conclusions —
+each re-performed mechanically by license synthesis — 4 attach to rejected
+conclusions, and 27 attach to track-side or terminal findings.
+
+**New Hampshire (`nh_conviction_streamlined`).** The lane's zero-hit absence
+claim was false as written and is discarded: `nhjb-3057-dse` appears six times
+in the NH profile — all in source/form inventories, none inside `pathways[]`.
+The form identity matches the registry's `NHJB-3057-DSe` by normalized form
+slug. Every other absence token verifies true (streamlined, III(a)(2)/(b)(2),
+NHJB-2956, petition-of-eligibility, prosecutor objection window: all 0; every
+NH pathway runs on NHJB-2317). Independent disposition: the mapping proposal
+stays rejected and the track stays `missing_from_compiled_runtime`, now on
+corrected evidence — the official form is already acquired and inventoried, so
+the blocker is profile implementation, not source acquisition.
+
+**Michigan (`mi_setaside_application`).** The scope-restriction entry cited
+the MI compiled profile for a claim about registry identifier
+`mi_setaside_trafficking`, which that profile never contains. Pointer repaired
+to the registry projection record, which carries exactly the asserted
+substance (operative MCL 780.621(3), form MC 227b). Both MI mappings were
+re-adjudicated and stand on citation-grade licenses.
+
+## Official-source materialization (material set only)
+
+Only conclusions that cannot close without operative primary authority are
+carried as materialization blockers — seven, not a blanket queue:
+
+1. PA path-k trafficking vacatur — one fetch of 18 Pa.C.S. ch. 30 (expected § 3019), egress-blocked.
+2. SC trafficking-survivor gap — S.C. Code § 16-3-2020 not in any committed source.
+3-7. The five provisional pardon-family gaps (ME pardon-route, SC pardon-guidance,
+UT path-k, UT path-m, WI executive-pardon-guidance) — each needs its operative
+citation pinned before the gap blocker can leave provisional status.
+
+Subsection-granularity residuals that do **not** block their mappings (named
+pins only): LA arts. 977/978 trafficking-certification paragraphs; MS
+§ 63-11-30 nonadjudication subsection (expected (14)).

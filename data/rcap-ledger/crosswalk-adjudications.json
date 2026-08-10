@@ -19,6 +19,41 @@
     "rejectedRecords": 26,
     "conflictsPublished": 10
   },
+  "sourceSupportAudit": {
+    "artifact": "data/rcap-crosswalk-enrichment/e2-source-support-audit.json",
+    "auditCommit": "ca16791b289e83fa85efab52213faed5e1522b30",
+    "verifiedAt": "ca16791b (own tree): 912 rows, deterministic recomputation equal; drift in this tree is expected and benign \u2014 the registry projection here carries additional license fields",
+    "usage": "adjudication index only; every accepted relationship rests on its own generator-verified license, not on lane quotes",
+    "corrections": [
+      {
+        "id": "NH-nh_conviction_streamlined",
+        "auditFlag": "false_absence:NHJB-3057",
+        "action": "zero-hit proposition discarded; occurrences inspected independently",
+        "finding": "nhjb-3057-dse appears 6 times, all in source/form inventories (/source/allFolderFiles[5], /packetGenerator/formInventory[3], /packetGenerator/allSourceFiles[5]); zero occurrences inside pathways[]. Form identity matches the registry track's officialFormRefs (NHJB-3057-DSe) by the repository's normalized form-slug rule. Every other absence token verifies true: streamlined 0, III(a)(2) 0, III(b)(2) 0, NHJB-2956 0, petition of eligibility 0, prosecutor objection window 0; all NH pathways run on NHJB-2317.",
+        "disposition": "mapping rejected independently; nh_conviction_streamlined stays missing_from_compiled_runtime on corrected evidence. The official form is already acquired and inventoried \u2014 the blocker is profile implementation, not source acquisition."
+      },
+      {
+        "id": "MI-mi_setaside_application",
+        "auditFlag": "pointer_ids_absent:mi_setaside_trafficking",
+        "action": "evidence pointer repaired",
+        "finding": "the scope-restriction claim about the trafficking candidate cited the MI compiled profile, which never contains the registry identifier mi_setaside_trafficking. The correct source is the registry projection record for mi_setaside_trafficking, which carries operative MCL 780.621(3) and form MC 227b \u2014 exactly the substance the entry asserted.",
+        "repairedPointer": "data/rcap-ledger/registry-crosswalk-projection.json /tracks[trackId=mi_setaside_trafficking]/{authority,officialFormRefs}",
+        "disposition": "both MI conclusions re-adjudicated and stand: MI:set-aside-by-application-under-mcl-780-621 -> mi_setaside_application and MI:human-trafficking-related-set-aside-application -> mi_setaside_trafficking, each on its own citation-grade license from live bytes."
+      }
+    ],
+    "rowUsage": {
+      "rows": 912,
+      "exactVerbatim": 634,
+      "faithfulParaphrase": 215,
+      "interpretiveConclusion": 61,
+      "pointerInvalid": 1,
+      "unsupportedByCitedSource": 1,
+      "interpretiveAttachedToAccepted": 30,
+      "interpretiveAttachedToRejected": 4,
+      "interpretiveTrackSideOrTerminal": 27,
+      "note": "interpretive and paraphrase rows never carry acceptance on their own: each accepted relationship's reasoning was re-performed mechanically by license synthesis against live bytes, which is why the two defective rows changed evidence pointers, not conclusions"
+    }
+  },
   "adjudications": [
     {
       "jurisdiction": "AK",
