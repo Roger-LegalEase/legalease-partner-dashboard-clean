@@ -121,11 +121,11 @@
       "artifacts": [
         "supabase/phase-50-rcap-packet-delivery-hardening.sql"
       ],
-      "status": "queued_for_staging_authorization",
+      "status": "authorized_repository_integration_only; staging application queued",
       "requestedBy": "opus-5-captain",
       "requestedAt": "2026-08-10",
-      "authorizedBy": null,
-      "authorizedAt": null,
+      "authorizedBy": "Roger Roman (RCAP Unification Prompt v2: reconciled integration branch and canonical migration path; repository integration only)",
+      "authorizedAt": "2026-08-10",
       "executedAt": null,
       "why": "Reconciles the two packet-delivery lanes. Phase 49 (PR #91, authorized) stays the canonical base; this follow-on adds fencing tokens on every worker-owned mutation, retry exhaustion with terminal dispositions, the atomic finalization transaction with re-read hash verification, transmission-named delivery events written only by the authenticated route, and packet accounting keyed on immutable IDs (partner_id : entitlement_id : person_id : matter_id), superseding phase 49's slug-keyed allocation pair while both are provably unapplied. It also installs the real mutation boundary: runtime roles lose direct DML on the protected tables, so the authority GUC is coordination, not security.",
       "risk": "low",
