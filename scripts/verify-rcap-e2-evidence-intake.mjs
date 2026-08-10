@@ -34,6 +34,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -76,11 +77,36 @@ function normalizedFile(relPath) {
 }
 
 // A source may carry a trailing parenthetical note; the path is the first token.
+// It may also be pinned to a commit as `path@<ref>`, which is the stronger form:
+// it names the bytes that were actually read, and stays true when the working
+// tree moves on. Those are resolved against the ref rather than the tree.
 const sourcePath = (source) => String(source ?? "").split(/[\s(]/)[0].replace(/[,;]$/, "");
+
+function resolvesAtRef(relPath, ref) {
+  try {
+    execFileSync("git", ["cat-file", "-e", `${ref}:${relPath}`], { cwd: rootDir, stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// Evidence lives at the finding level for most groups. E2-C adjudicates a
+// jurisdiction's surplus one pathway at a time, so its evidence hangs off each
+// surplus pathway instead. Both shapes are the contract; flatten and check the
+// same way.
+function evidenceOf(finding) {
+  const direct = Array.isArray(finding.evidence) ? finding.evidence : [];
+  const nested = Array.isArray(finding.surplusPathways)
+    ? finding.surplusPathways.flatMap((p) => (Array.isArray(p.evidence) ? p.evidence : []))
+    : [];
+  return [...direct, ...nested];
+}
 
 const landed = [];
 let quotesChecked = 0;
 let quotesVerbatim = 0;
+let pinnedSources = 0;
 const outcomeTotals = {};
 
 for (const lane of assignment.lanes) {
@@ -113,7 +139,7 @@ for (const lane of assignment.lanes) {
     outcomeTotals[finding.outcome] = (outcomeTotals[finding.outcome] ?? 0) + 1;
 
     // 2. Evidence present.
-    const evidence = Array.isArray(finding.evidence) ? finding.evidence : [];
+    const evidence = evidenceOf(finding);
     if (evidence.length === 0) {
       failures.push(`${lane.laneId}: ${finding.jobId} records an outcome with no evidence`);
       continue;
@@ -132,11 +158,26 @@ for (const lane of assignment.lanes) {
         continue;
       }
 
-      const rel = sourcePath(source);
-      if (!rel) {
+      const token = sourcePath(source);
+      if (!token) {
         failures.push(`${lane.laneId}: ${finding.jobId} has an evidence entry with no source`);
         continue;
       }
+
+      // `path@<ref>` pins the bytes that were read. Resolve it there.
+      const pinned = /^(.+?)@([0-9a-f]{7,40})$/.exec(token);
+      if (pinned) {
+        const [, pinnedPath, ref] = pinned;
+        if (!resolvesAtRef(pinnedPath, ref)) {
+          failures.push(
+            `${lane.laneId}: ${finding.jobId} cites ${pinnedPath} at ${ref.slice(0, 10)}, which does not resolve there`
+          );
+        }
+        pinnedSources += 1;
+        continue; // quote fidelity is not measured against a ref this script does not check out
+      }
+
+      const rel = token;
       const abs = path.join(rootDir, rel);
       if (!fs.existsSync(abs)) {
         failures.push(`${lane.laneId}: ${finding.jobId} cites ${rel}, which does not exist`);
@@ -178,6 +219,7 @@ console.log(`  every assigned job present exactly once, every finding carries ev
 for (const [outcome, count] of Object.entries(outcomeTotals).sort()) {
   console.log(`  ${outcome.padEnd(12)} ${count}`);
 }
+console.log(`  sources pinned to a commit (verified at that ref): ${pinnedSources}`);
 console.log(`  quote verbatim in cited source: ${quotesVerbatim}/${quotesChecked} (${verbatimRate.toFixed(1)}%)`);
 if (verbatimRate < 90) {
   console.log(

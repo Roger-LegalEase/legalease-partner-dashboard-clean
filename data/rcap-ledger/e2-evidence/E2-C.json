@@ -1,0 +1,644 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E2-C",
+  "group": "E2-C",
+  "baseCommit": "c7225bcf8f2fb2ab0deb5c333d2278937b257694",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "webAccessAvailable": false,
+  "findings": [
+    {
+      "jobId": "E2-C-ID",
+      "outcome": "unresolved",
+      "delta": 1,
+      "surplusAccountedFor": 1,
+      "surplusPathways": [
+        {
+          "compiledPathwayId": "withheld-judgment-idaho-code-19-2604-review-branch",
+          "disposition": "absorbed_by_registry_scope_restriction",
+          "registryTrackId": null,
+          "namingAuthority": "I.C. § 19-2604(1)",
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "I.C. § 19-2604(1) removes this fact pattern from the id_isp_expungement track",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "A dismissal granted under § 19-2604(1) is excluded from this route. Taking the set-aside first permanently forecloses the non-conviction expungement route for that record."
+            },
+            {
+              "kind": "registry_scope_restriction",
+              "value": "I.C. § 19-2604 stop condition carried by id_isp_expungement, id_clean_slate_shield and id_set_aside_dismissal",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "A § 19-2604 dismissal already happened or is being contemplated, because the sequencing changes what relief remains."
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "I.C. § 19-2604(1)",
+              "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+              "quote": "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1)."
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "juvenile-expungement",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "I.C. § 20-525A",
+              "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+              "quote": "Record from under age 18 Track 3 — juvenile expungement petition (§20-525A)."
+            },
+            {
+              "kind": "absence_proof",
+              "value": "No ID registry track carries I.C. § 20-525A; the four ID tracks are pinned to § 67-3004(10), § 67-3004(11), § 19-2604(1) and § 19-2604(2)",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "\"authority\": [\"I.C. § 19-2604(2)\"]"
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "I.C. § 67-3014",
+              "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+              "quote": "Offense resulted from being trafficked Track 4 — vacatur and expungement (§67-3014)."
+            },
+            {
+              "kind": "absence_proof",
+              "value": "No ID registry track carries I.C. § 67-3014, and no ID scope restriction or stop condition names it",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "\"authority\": [\"I.C. § 67-3004(10)\"]"
+            }
+          ]
+        }
+      ],
+      "candidatePoolRemaining": [
+        "juvenile-expungement",
+        "human-trafficking-survivor-vacatur-and-expungement"
+      ],
+      "reasoning": "Three of the five compiled ID pathways claim no registry track of their own, not one. Two of the four registry tracks (id_set_aside_dismissal, I.C. § 19-2604(1); id_felony_reduction, I.C. § 19-2604(2)) have no compiled relief pathway, so the +1 delta is the net of three unrepresented pathways against two unrepresented tracks. Only two pathways bind on a shared operative citation: non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10 to id_isp_expungement (§ 67-3004(10)) and clean-slate-shielding-under-idaho-code-67-3004-11 to id_clean_slate_shield (§ 67-3004(11)). The withheld-judgment branch is not a relief route at all (routeType \"review\"); it is the runtime materialisation of the registry stop condition that sends a § 19-2604(1) record out of the § 67-3004(10) track, which is the WY closure pattern and accounts for the one unit of delta. The juvenile (§ 20-525A) and trafficking (§ 67-3014) pathways carry operative Idaho Code citations that appear nowhere in the registry, and — unlike WY, where three tracks each carried a stop condition naming § 6-2-708 and § 14-6-241 — no ID track names either statute. What is missing is a registry scope restriction, or a registry track, for § 20-525A and § 67-3014. Nothing here is closable on name similarity and no pathway was dropped to balance.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-C-LA",
+      "outcome": "unresolved",
+      "delta": 2,
+      "surplusAccountedFor": 3,
+      "surplusPathways": [
+        {
+          "compiledPathwayId": "felony-article-893-e-set-aside-followed-by-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "la-987-set-aside-and-dismiss",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "La. C.Cr.P. art. 987 is the instrument the compiled felony set-aside route files",
+              "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+              "quote": "Motion to Set Aside Conviction and Dismiss Prosecution - Art. 987"
+            },
+            {
+              "kind": "registry_scope_restriction",
+              "value": "la-987-set-aside-and-dismiss carries both set-aside articles, so the runtime misdemeanor 894(B) and felony 893(E) branches are two narrower variants of one track",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Motion to Set Aside Conviction and Dismiss Prosecution; Rule to Show Cause; Order of Dismissal (La. C.Cr.P. art. 987)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "La. C.Cr.P. art. 893(E) and art. 894(B) are both listed in the la-987 authority set",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "\"La. C.Cr.P. art. 987\", \"La. C.Cr.P. art. 893(E)\", \"La. C.Cr.P. art. 894(B)\""
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "first-offender-pardon-felony-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "la-978-felony-conviction",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "The first-offender-pardon route is branch 3 of the compiled Article 978 eligibility test, not a separate remedy",
+              "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+              "quote": "The person is entitled to a first offender pardon for the offense, as long as the offense is not a crime of violence or sex offense."
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "la-978-felony-conviction already carries the first-offender-pardon authorities",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "\"La. Const. art. IV, § 5(E)(1)\", \"La. R.S. 15:572\""
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "human-trafficking-survivor-expungement-fee-exempt-route",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "la-977-misdemeanor-conviction",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "The trafficking route waives Article 977 and 978 delays and fees; it is a modifier on those tracks, not an independent authority",
+              "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+              "quote": "If certification is obtained, applicable Article 977 and 978 time delays are waived, and the applicant is not required to pay expungement fees."
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "La. Code Crim. Proc. arts. 977-978",
+              "source": "src/lib/rcap/state-packs/louisiana/pathways.ts",
+              "quote": "Human-trafficking-victim route — DA certification waives Art. 977/978 time delays and expungement fees (La. Code Crim. Proc. arts. 977-978)"
+            }
+          ]
+        }
+      ],
+      "candidatePoolRemaining": [],
+      "reasoning": "Every pathway in the LA pool is accounted for, but the count is three, not two. Nine of the twelve compiled pathways bind 1:1 on a shared operative article (976, 977, 977(D)/998, 978, 985, 985.1, 985.2, 985.3 and the misdemeanor 894(B) set-aside against la-987). The three above claim no track of their own: the felony 893(E) set-aside is the second narrower variant of la-987 (whose authority set carries both 893(E) and 894(B) and whose legal name is the exact instrument the compiled profile files); the first-offender-pardon route is branch 3 of the same compiled Article 978 test that the ten-year clean-period route is branch 2 of, and la-978 already carries La. Const. art. IV § 5(E)(1) and R.S. 15:572; and the trafficking route is a certification that waives Article 977/978 delays and fees rather than a separate remedy. The remaining unit of arithmetic is a registry track with no runtime representation: la-999-expedited-expungement (arts. 999, 999.1, the age-17-at-arrest route) has no compiled LA pathway. Three unrepresented pathways minus one unrepresented track is the +2 delta. Recorded as unresolved only because surplusAccountedFor (3) does not equal delta (2) under the stop condition; the candidate pool is empty and nothing was dropped to balance. The trafficking route modifies both la-977 and la-978 — it is recorded against la-977 because the schema takes one track id, and E3 may bind it to either.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-C-MS",
+      "outcome": "unresolved",
+      "delta": 4,
+      "surplusAccountedFor": 3,
+      "surplusPathways": [
+        {
+          "compiledPathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+          "disposition": "absorbed_by_registry_scope_restriction",
+          "registryTrackId": null,
+          "namingAuthority": "Miss. Code Ann. § 97-3-54.6(6)",
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "Every one of the nine MS registry tracks carries this restriction naming § 97-3-54.6(6) and routing the matter to a handoff outside the track",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Screen gently for trafficking-survivor relief under § 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track."
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled trafficking pathway is the runtime route the restriction points at",
+              "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+              "quote": "It allows a court to vacate certain convictions or juvenile adjudications connected to victimization"
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "intervention-court-completion-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ms-diversion",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry unites pretrial intervention and intervention-court completion in one track",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Expungement After Pretrial Intervention or Intervention Court Completion (Miss. Code Ann. §§ 99-15-123, 9-23-23)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "Miss. Code Ann. § 9-23-23 is inside the ms-diversion authority set and its stop conditions",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "No expunction of any implied consent violation is allowed in intervention court under § 9-23-23. Those route to the DUI track under § 63-11-30."
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "dui-nonadjudication",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ms-dui",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "official_form",
+              "value": "Miss. Att'y Gen. Op. (Booker, 29 Sept. 2020) is an ms-dui authority and is the opinion the compiled profile quotes on nonadjudicated first-offense DUI",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Miss. Att'y Gen. Op. (Booker, 29 Sept. 2020)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled DUI block treats nonadjudication and conviction expungement as the two branches of the same § 63-11-30 scheme",
+              "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+              "quote": "although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled first-offense DUI branch excludes anyone who already used the nonadjudication branch, which is how alternative branches of one scheme behave",
+              "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+              "quote": "must not have previously had a DUI nonadjudication or expungement"
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "Miss. Code Ann. § 99-15-59",
+              "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+              "quote": "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement."
+            },
+            {
+              "kind": "absence_proof",
+              "value": "The string 99-15-59 does not occur anywhere in the 497-track registry projection; the MS non-conviction track is pinned to § 99-19-71(4), a different statute",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge the Record of a Case That Did Not End in Conviction (Miss. Code Ann. § 99-19-71(4))"
+            }
+          ]
+        }
+      ],
+      "candidatePoolRemaining": [
+        "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
+      ],
+      "reasoning": "MS is the one jurisdiction in this lane where the arithmetic premise holds exactly: nine of the thirteen compiled pathways bind 1:1 to the nine registry tracks (99-19-71(4), 99-19-71(1), 9-11-15(3)/21-23-7(6), 99-19-71(2), 99-15-26, 99-15-123, 41-29-150, 63-11-30(13), 67-3-70), so exactly four claim no track of their own and no registry track is left unrepresented. Three are absorbed. The trafficking pathway is the closest analogue to WY in the whole lane: all nine MS tracks carry a scope restriction naming § 97-3-54.6(6) and requiring a legal-aid or attorney handoff, i.e. the registry itself routes that authority outside its tracks. Intervention-court completion is a narrower variant of ms-diversion, whose legal name and authority set carry § 9-23-23 alongside § 99-15-123. DUI nonadjudication is the second branch of the § 63-11-30 DUI scheme that ms-dui names at section level; the binding rests on the shared Attorney General opinion and on the conviction branch excluding anyone who already used the nonadjudication branch, which is weaker than a shared operative subsection, so this jurisdiction is recorded at medium confidence. § 99-15-59 stays open: it is an operative Mississippi expungement statute that occurs nowhere in the registry and that no MS scope restriction names. What is missing is a registry track or scope restriction for § 99-15-59.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-C-OK",
+      "outcome": "unresolved",
+      "delta": 8,
+      "surplusAccountedFor": 8,
+      "surplusPathways": [
+        {
+          "compiledPathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ok_18_19_nonconviction",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry names this track at the level of the record class under 22 O.S. §§ 18 and 19; the runtime splits that class into numbered eligibility categories",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge a Non-Conviction or Innocence Record (22 O.S. §§ 18 and 19)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled pathway states a narrower eligibility category inside the same 22 O.S. § 18 record class",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "Acquittal Eligible if the person was acquitted."
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "conviction-reversed-and-case-dismissed",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ok_18_19_nonconviction",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry names this track at the level of the record class under 22 O.S. §§ 18 and 19; the runtime splits that class into numbered eligibility categories",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge a Non-Conviction or Innocence Record (22 O.S. §§ 18 and 19)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled pathway states a narrower eligibility category inside the same 22 O.S. § 18 record class",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "Eligible if the conviction was reversed with instructions to dismiss, or reversed and the prosecutor later dismissed the charge."
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "dna-factual-innocence-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ok_18_19_nonconviction",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry names this track at the level of the record class under 22 O.S. §§ 18 and 19; the runtime splits that class into numbered eligibility categories",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge a Non-Conviction or Innocence Record (22 O.S. §§ 18 and 19)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled pathway states a narrower eligibility category inside the same 22 O.S. § 18 record class",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "Eligible if factual innocence was established by DNA evidence after conviction."
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "nonviolent-felony-deferred-dismissal-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ok_18_19_deferred_dismissal",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry names this track at the level of the record class under 22 O.S. §§ 18 and 19; the runtime splits that class into numbered eligibility categories",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge After a Deferred or Delayed Sentence Dismissal (22 O.S. §§ 18 and 19)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled pathway states a narrower eligibility category inside the same 22 O.S. § 18 record class",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence"
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "up-to-two-felony-deferred-dismissal-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ok_18_19_deferred_dismissal",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry names this track at the level of the record class under 22 O.S. §§ 18 and 19; the runtime splits that class into numbered eligibility categories",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge After a Deferred or Delayed Sentence Dismissal (22 O.S. §§ 18 and 19)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled pathway states a narrower eligibility category inside the same 22 O.S. § 18 record class",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence"
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "fine-only-misdemeanor-conviction-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ok_18_19_misdemeanor_conviction",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry names this track at the level of the record class under 22 O.S. §§ 18 and 19; the runtime splits that class into numbered eligibility categories",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge a Misdemeanor Conviction (22 O.S. §§ 18 and 19)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled pathway states a narrower eligibility category inside the same 22 O.S. § 18 record class",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "Eligible if the person was convicted of a misdemeanor, received a fine of less than $501 with no imprisonment or suspended sentence"
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "not-more-than-two-eligible-felony-convictions-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ok_18_19_felony_conviction",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry names this track at the level of the record class under 22 O.S. §§ 18 and 19; the runtime splits that class into numbered eligibility categories",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge a Felony Conviction (22 O.S. §§ 18 and 19)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled pathway states a narrower eligibility category inside the same 22 O.S. § 18 record class",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration"
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "felony-reclassified-as-a-misdemeanor",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "ok_18_19_felony_conviction",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry names the felony-conviction track at record-class level under 22 O.S. §§ 18 and 19",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge a Felony Conviction (22 O.S. §§ 18 and 19)"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled pathway is a felony conviction record with a 30-day category condition, i.e. another numbered category of the same section",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "that was later reclassified as a misdemeanor under Oklahoma law, is not currently serving a sentence in Oklahoma or another state, at least 30 days have passed since completion or commutation of sentence"
+            },
+            {
+              "kind": "absence_proof",
+              "value": "The Oklahoma state pack cites 22 O.S. § 18a for this route while its own label places it in §§ 18-19; § 18a occurs nowhere in the registry, so E3 should confirm whether this belongs to ok_18_19_felony_conviction or ok_18_19_misdemeanor_conviction",
+              "source": "src/lib/rcap/state-packs/oklahoma/pathways.ts",
+              "quote": "citation: \"22 O.S. § 18a\""
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "human-trafficking-survivor-relief",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "22 O.S. § 19c",
+              "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "quote": "Oklahoma has a trafficking-survivor pathway under 22 O.S. 19c for prostitution-related records when the offense was committed as a result of the person being a victim of human trafficking."
+            },
+            {
+              "kind": "absence_proof",
+              "value": "No OK registry track carries § 19c and no OK stop condition names it; the ten OK tracks run on §§ 18, 18b, 19, 19a, 19d, 60.18 and 991c",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "\"22 O.S. § 18\", \"22 O.S. § 19\", \"22 O.S. § 19a\", \"22 O.S. § 60.18\", \"22 O.S. § 991c\""
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "juvenile-record-expungement",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "10A O.S. § 2-6-109",
+              "source": "src/lib/rcap/state-packs/oklahoma/pathways.ts",
+              "quote": "juvenile_expungement: \"Juvenile record expungement (10A O.S. § 2-6-109)\""
+            },
+            {
+              "kind": "absence_proof",
+              "value": "Title 10A appears nowhere in the 497-track registry projection, so no OK track and no OK stop condition reaches the juvenile route",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition to Expunge Victim Protective Order Records (22 O.S. § 60.18)"
+            }
+          ]
+        }
+      ],
+      "candidatePoolRemaining": [
+        "human-trafficking-survivor-relief",
+        "juvenile-record-expungement"
+      ],
+      "reasoning": "The whole OK surplus is one mechanism: the registry names the 22 O.S. §§ 18-19 petition family by record class — non-conviction/innocence, deferred dismissal, misdemeanor conviction, felony conviction, pardon — while the runtime splits each class into the numbered § 18 eligibility categories. Four compiled pathways sit inside ok_18_19_nonconviction, three inside ok_18_19_deferred_dismissal, two inside ok_18_19_misdemeanor_conviction and three inside ok_18_19_felony_conviction; one pathway in each group is the direct representation and the other eight are narrower variants, which is exactly the +8. The choice of which member of a group is \"direct\" is arbitrary and does not change the count. Two compiled pathways remain unaccounted for: trafficking-survivor relief (22 O.S. § 19c) and juvenile record expungement (10A O.S. § 2-6-109). Both carry operative citations absent from the registry, and no OK stop condition names either, so neither can be closed the WY way. They are offset in the arithmetic by two registry tracks with no runtime representation, ok_identity_theft and ok_osbi_portal, which is why the delta still reads +8. What is missing for the two open pathways is a registry track or a scope restriction naming § 19c and 10A § 2-6-109.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-C-PA",
+      "outcome": "unresolved",
+      "delta": 1,
+      "surplusAccountedFor": 1,
+      "surplusPathways": [
+        {
+          "compiledPathwayId": "path-f-deceased-person-expungement",
+          "disposition": "absorbed_by_variant_decomposition",
+          "registryTrackId": "pa_age70_deceased",
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "registry_scope_restriction",
+              "value": "The registry track unites the two 18 Pa.C.S. § 9122(b) grounds the runtime splits into path-e and path-f",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition for Expungement on Age 70 or Death Grounds"
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "18 Pa.C.S. § 9122(b)",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "\"18 Pa.C.S. § 9122(b)\", \"Pa.R.Crim.P. 790\""
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The death ground as the compiled profile states it",
+              "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+              "quote": "Pennsylvania permits expungement when the person has been dead for three years."
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The age-70 ground, carried by path-e, from the same section",
+              "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+              "quote": "Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or prosecution for 10 years following final release from confinement or supervision."
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "path-k-human-trafficking-vacatur-expungement",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "absence_proof",
+              "value": "The compiled pathway cites no statute at all: its only authority is a legal-aid FAQ, and it self-describes as an escalation branch",
+              "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+              "quote": "Pennsylvania recognizes vacatur for certain convictions connected to human trafficking. Wilma should treat any trafficking-survivor fact pattern as an attorney escalation path."
+            },
+            {
+              "kind": "absence_proof",
+              "value": "No PA registry track names a vacatur authority and no PA stop condition mentions trafficking; the ten PA tracks run on §§ 9122, 9122.1, 9122.2, 6308 and Pa.R.Crim.P. 320, 490, 790, 791",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "Petition for Expungement of Non-Conviction Records Pursuant to Pa.R.Crim.P. 790"
+            }
+          ]
+        }
+      ],
+      "candidatePoolRemaining": [
+        "path-k-human-trafficking-vacatur-expungement"
+      ],
+      "reasoning": "PA nets to +1 out of two offsetting facts. On the surplus side, path-e and path-f are the two grounds of a single registry track: pa_age70_deceased is authorised at 18 Pa.C.S. § 9122(b) and its legal name carries both the age-70 and the death ground, so path-f is a narrower variant and is the one unit of accounted-for surplus. On the deficit side, path-a is a single compiled pathway that covers two registry tracks at once — its own rule text routes summary cases to Pa.R.Crim.P. 490 and court cases to Pa.R.Crim.P. 790, which are pa_490_nonconviction and pa_790_nonconviction. path-k stays open and is the honest gap: it is the only compiled PA pathway with no statutory citation anywhere in its rule set, its cited source is a legal-aid FAQ rather than an official text, and no PA registry track or stop condition mentions vacatur or trafficking. What is missing is the operative PA vacatur statute on the compiled side, or a registry scope restriction naming it.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-C-SD",
+      "outcome": "unresolved",
+      "delta": 3,
+      "surplusAccountedFor": 0,
+      "surplusPathways": [
+        {
+          "compiledPathwayId": "controlled-substance-deferred-disposition-route",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "SDCL § 23A-27-53",
+              "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+              "quote": "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53."
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "SDCL § 23A-27-53",
+              "source": "src/lib/rcap/state-packs/south-dakota/pathways.ts",
+              "quote": "citation: \"SDCL § 23A-27-53\""
+            },
+            {
+              "kind": "absence_proof",
+              "value": "The five SD registry tracks are pinned to §§ 23A-3-26 to 23A-3-32, 23A-3-34, 23A-3-35 to 23A-3-37, 23A-27-13 to 23A-27-17 and 24-14-11; § 23A-27-53 occurs nowhere in the registry projection and the SIS track lists only §§ 23A-27-13, 23A-27-14 and 23A-27-17",
+              "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+              "quote": "\"SDCL § 23A-27-13\", \"SDCL § 23A-27-14\", \"SDCL § 23A-27-17\""
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "juvenile-delinquency-sealing",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "SDCL §§ 26-7A-115 to 26-7A-116",
+              "source": "src/lib/rcap/state-packs/south-dakota/pathways.ts",
+              "quote": "citation: \"SDCL §§ 26-7A-115 to 26-7A-116\""
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled juvenile sealing petition as the runtime states it",
+              "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+              "quote": "A juvenile, parent, guardian, or guardian ad litem may petition to seal juvenile delinquency records."
+            },
+            {
+              "kind": "absence_proof",
+              "value": "SDCL chapter 26-7A occurs nowhere in the registry projection, and no SD track carries a stop condition routing juvenile matters outside it — unlike WY, where wy_nc_1401 names § 14-6-241",
+              "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+              "quote": "Records of a juvenile matter, which are handled under Wyo. Stat. § 14-6-241 and § 14-6-440 outside this track."
+            }
+          ]
+        },
+        {
+          "compiledPathwayId": "juvenile-trafficking-expungement",
+          "disposition": "unresolved",
+          "registryTrackId": null,
+          "namingAuthority": null,
+          "evidence": [
+            {
+              "kind": "statutory_citation",
+              "value": "SDCL § 26-7A-115.1",
+              "source": "src/lib/rcap/state-packs/south-dakota/pathways.ts",
+              "quote": "citation: \"SDCL § 26-7A-115.1\""
+            },
+            {
+              "kind": "statutory_citation",
+              "value": "The compiled trafficking vacatur route as the runtime states it",
+              "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+              "quote": "Expungement under this statute vacates the underlying delinquency proceeding."
+            },
+            {
+              "kind": "absence_proof",
+              "value": "No SD registry track carries § 26-7A-115.1 and no SD scope restriction names it — unlike WY, where three tracks name § 6-2-708 as routed outside them",
+              "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+              "quote": "Facts indicating human trafficking or coercion, which route to the § 6-2-708 vacatur outside this track."
+            }
+          ]
+        }
+      ],
+      "candidatePoolRemaining": [
+        "controlled-substance-deferred-disposition-route",
+        "juvenile-delinquency-sealing",
+        "juvenile-trafficking-expungement"
+      ],
+      "reasoning": "SD identifies cleanly and closes on nothing. Five of the eight compiled pathways bind 1:1 on a shared operative citation — § 23A-3-27 to sd_arrest_expungement, § 23A-3-34 to sd_23a_3_34_auto, §§ 23A-3-35 to 23A-3-37 to sd_diversion, §§ 23A-27-13 to 23A-27-17 to sd_sis_sealing and § 24-14-11 to sd_pardon_24_14_11 — which uses up all five registry tracks and leaves exactly three pathways with no track, matching the +3 delta. The three run on § 23A-27-53, §§ 26-7A-115 to 26-7A-116 and § 26-7A-115.1, none of which appears anywhere in the registry. Neither closure route is available. Variant decomposition would require the target track to carry the authority: sd_sis_sealing lists §§ 23A-27-13, 23A-27-14 and 23A-27-17 and not § 23A-27-53, and the compiled drug route says only that the court must dismiss the original charge — it does not state that the dismissal produces sealing under § 23A-27-17, so treating it as a narrower variant of the SIS track would be an assumption, not evidence. A registry scope restriction is not available either: SD's three stop conditions concern Class 2 misdemeanor limits, non-chapter-24-14 pardons and §§ 22-22-1/22-22-7 teaching licensure, and none names a juvenile or trafficking authority the way WY's tracks name § 14-6-241 and § 6-2-708. What is missing is precisely that: an SD registry track or stop condition naming § 23A-27-53, chapter 26-7A, or § 26-7A-115.1. Recorded unresolved rather than guessed.",
+      "confidence": "high"
+    }
+  ]
+}

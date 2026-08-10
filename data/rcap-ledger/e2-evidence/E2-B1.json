@@ -1,0 +1,1917 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E2-B1",
+  "group": "E2-B",
+  "baseCommit": "c7225bcf8f2fb2ab0deb5c333d2278937b257694",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "webAccessAvailable": false,
+  "findings": [
+    {
+      "jobId": "E2-B-AK-executive-pardon-backstop",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "executive-pardon-backstop",
+        "registryTrackId": "ak-pardon"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Alaska Const. art. III, § 21; AS 33.20.070; AS 33.20.080",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "Governor's Pardon, Alaska Const. art. III, § 21; AS 33.20.070; AS 33.20.080"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "governor's pardon (executive clemency)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+          "quote": "For an ordinary adult conviction that fits none of the above, the only avenue is a governor's pardon (executive clemency), which forgives but does not erase."
+        }
+      ],
+      "reasoning": "The compiled pathway is Alaska's executive-clemency backstop: its operative mechanism is the governor's pardon, and Alaska has exactly one such constitutional mechanism, carried by the unmapped registry track ak-pardon (Alaska Const. art. III, § 21; AS 33.20.070; AS 33.20.080). The compiled profile names the mechanism but does not carry the AS 33.20 citation, so the join rests on the uniqueness of the executive-pardon power rather than a shared statute number; confidence is medium for that reason, not because the mechanism identity is in doubt.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-AK-set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "AK",
+        "mechanismAuthority": [
+          "AS 12.55.085",
+          "AS 12.55.085(e)",
+          "AS 12.55.085(f)"
+        ],
+        "why": "The registry has no track for the AS 12.55.085 Suspended Imposition of Sentence set-aside. Its nearest track, ak-sej, implements AS 12.55.078 (Suspended Entry of Judgment), which the compiled profile itself lists as a separate mechanism with its own exclusion list."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "AS 12.55.085",
+          "source": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+          "quote": "Set-aside after Suspended Imposition of Sentence (AS 12.55.085)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "AS 12.55.085(e)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+          "quote": "Mechanism Trigger / waiting period Authority SIS set-aside On successful completion of the SIS probation AS 12.55.085(e)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no AK registry track carries AS 12.55.085",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "AK registry tracks and their authorities: ak-courtview (AS 22.35.030), ak-juvenile (AS 47.12.300), ak-mistaken-identity (AS 12.62.180), ak-nonconviction-confidential (AS 12.62.160(b)(8)), ak-pardon (AS 33.20.070/.080), ak-sej (AS 12.55.078), ak-tf800 (form TF-800), ak-tf805 (form TF-805) — none cites AS 12.55.085."
+        }
+      ],
+      "reasoning": "The pathway's operative statute, AS 12.55.085, appears in its label and body with subsection-level detail ((e) timing, (f) exclusions). I checked every AK registry track's mechanismAuthority: none carries 12.55.085. The profile distinguishes SIS set-aside (12.55.085) from suspended entry of judgment (12.55.078, tracked as ak-sej) as two different mechanisms, so ak-sej cannot absorb it. This is a genuine registry gap for the SIS set-aside mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-AL-eligible-conviction-expungement-under-the-redeemer-act",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "eligible-conviction-expungement-under-the-redeemer-act",
+        "registryTrackId": "al-misd-conviction",
+        "coRegistryTrackIds": [
+          "al-pardoned-felony"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(b)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "quote": "Nonviolent MISDEMEANOR / violation / traffic / ordinance conviction (§ 15-27-1(b)): eligible 3 years after the date of conviction"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-2(c)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "quote": "PARDONED felony conviction (§ 15-27-2(c)): eligible 180 days after the certificate of pardon issues"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(b); § 15-27-2(c)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "al-misd-conviction: Ala. Code § 15-27-1(b), as amended by Act 2024-407 (SB 153); al-pardoned-felony: Ala. Code § 15-27-2(c)"
+        }
+      ],
+      "reasoning": "The compiled REDEEMER Act conviction pathway carries both operative citations in its rule clauses: § 15-27-1(b) for misdemeanor-level convictions and § 15-27-2(c) for pardoned felonies. These are exactly the authorities of the unmapped registry tracks al-misd-conviction and al-pardoned-felony, so this single compiled pathway joins both tracks (primary: al-misd-conviction; co-mapped: al-pardoned-felony).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-AL-human-trafficking-victim-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "human-trafficking-victim-expungement",
+        "registryTrackId": "al-trafficking"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(a)(8) / § 15-27-2(a)(8)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "quote": "D. HUMAN-TRAFFICKING VICTIM (§ 15-27-1/2(a)(8)): On proof by a preponderance that petitioner was trafficked, committed the offense during that period, and would not have but for being trafficked, even some otherwise-excluded offenses may be expunged; not subject to the usual caps."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(a)(8); § 15-27-2(a)(8); § 15-27-2(b)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "al-trafficking: Petition to Expunge Records of a Human Trafficking Survivor, Ala. Code § 15-27-1(a)(8), § 15-27-2(a)(8), § 15-27-2(b)"
+        }
+      ],
+      "reasoning": "The compiled trafficking pathway cites § 15-27-1/2(a)(8) — shorthand for § 15-27-1(a)(8) and § 15-27-2(a)(8) — which is precisely the mechanismAuthority of the unmapped registry track al-trafficking. Subsection-level statutory identity closes the mapping.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-CO-juvenile-expungement-19-1-306",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "CO",
+        "mechanismAuthority": [
+          "C.R.S. § 19-1-306"
+        ],
+        "why": "The registry has no juvenile expungement track for Colorado. All ten CO tracks implement adult sealing (C.R.S. §§ 24-72-701 to 711) or Clean Slate (§ 13-3-117); the § 19-1-306 juvenile expungement remedy, with its own form JDF 302, is absent."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.R.S. § 19-1-306",
+          "source": "src/lib/rcap-engine/compiled/profiles/CO-colorado.json",
+          "quote": "Juvenile expungement (§ 19-1-306). A separate remedy with its own form (JDF 302) and rules; minors route here, not to the adult sealing statutes."
+        },
+        {
+          "kind": "official_form",
+          "value": "JDF 302",
+          "source": "src/lib/rcap-engine/compiled/profiles/CO-colorado.json",
+          "quote": "Route by disposition first: non-conviction → JDF 417; eligible conviction → JDF 612; juvenile → JDF 302 expungement."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no CO registry track carries § 19-1-306 or JDF 302",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "CO registry tracks: co_auto_seal_arrest (§ 24-72-704), co_auto_seal_nonconviction (§ 24-72-705(1)), co_clean_slate (§ 13-3-117), co_decriminalized_conduct_seal (§ 24-72-711), co_motion_seal_conviction (§ 24-72-706), co_motion_seal_nonconviction (§ 24-72-705(2)-(3)), co_multiple_conviction_seal (§ 24-72-709), co_municipal_conviction_seal (§ 24-72-708), co_pardoned_conviction_seal (§ 24-72-710), co_petition_seal_arrest (§ 24-72-704(1)) — none cites § 19-1-306."
+        }
+      ],
+      "reasoning": "The compiled pathway's operative statute § 19-1-306 and official form JDF 302 are both stated in the profile, and the profile itself says minors route to this remedy and not to the adult sealing statutes. No CO registry track carries § 19-1-306 or JDF 302, so the registry genuinely lacks the juvenile expungement mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-CT-absolute-pardon-resulting-in-erasure",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "absolute-pardon-resulting-in-erasure",
+        "registryTrackId": "ct-pardon-erasure",
+        "coRegistryTrackIds": [
+          "ct-absolute-pardon"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "An Absolute Pardon fully erases; a Provisional Pardon / Certificate of Employability gives employment relief only."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(d)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ct-pardon-erasure: Erasure After an Absolute Pardon, C.G.S. § 54-142a(d)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 54-142a (verification duty stated in profile)",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "Absolute Pardons run through the Board of Pardons and Paroles. The agent must verify the current text of § 54-142a, the Clean Slate eligible-offense list and exclusions, the waiting periods, the actual erasure status of a given record, and the pardon process before relying on any rule here."
+        }
+      ],
+      "reasoning": "The compiled pathway is exactly the absolute-pardon-to-erasure mechanism: it guides the ePardon application and states that an absolute pardon fully erases under the § 54-142a erasure scheme the profile cites. The registry track ct-pardon-erasure carries the operative subsection § 54-142a(d) (erasure after an absolute pardon); the co-mapped track ct-absolute-pardon (Board of Pardons and Paroles application, C.G.S. §§ 54-130a to 54-130e) is the application step the same pathway walks through.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-CT-automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "registryTrackId": "ct-cleanslate-auto"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Public Act 21-42; C.G.S. § 54-142a(e)",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "Clean Slate erasure of convictions (PA 21-42). Most misdemeanors and certain lower-level felonies (Class D and E felonies and unclassified felonies carrying up to a 5-year term) entered on or after January 1, 2000 are erased. For convictions entered on or after 1/1/2000 this is AUTOMATIC once the waiting period runs;"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(e)(1)(A)(i)(I) and (ii)(I); Public Act 21-42",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ct-cleanslate-auto: Clean Slate Automatic Erasure, C.G.S. § 54-142a(e)(1)(A)(i)(I) and (ii)(I) … Public Act 21-42, amended by P.A. 23-134"
+        }
+      ],
+      "reasoning": "The compiled pathway cites the session law PA 21-42 and describes the automatic branch of Clean Slate for convictions entered on or after 1/1/2000 — the exact scope of registry track ct-cleanslate-auto, whose authority list carries both § 54-142a(e)(1)(A)…(I) (the on-or-after-1/1/2000 branches) and Public Act 21-42. The pathway body also cites § 54-142a(e)(2)(C), a subsection of the same erasure scheme.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-CT-cannabis-conviction-erasure",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "cannabis-conviction-erasure",
+        "registryTrackId": "ct-cannabis-auto",
+        "coRegistryTrackIds": [
+          "ct-cannabis-petition"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 21a-279(c) convictions, 1/1/2000–9/30/2015 window",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "Cannabis erasure Auto-erasure of § 21a-279(c) possession convictions (1/1/2000–9/30/2015); took effect Jan 2023"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "ct-cannabis-auto routes records outside the § 54-142u window to the petition track",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The conviction falls outside the § 54-142u window, which routes to the cannabis erasure petition track."
+        }
+      ],
+      "reasoning": "The compiled pathway describes automatic erasure of § 21a-279(c) cannabis possession convictions in the 1/1/2000–9/30/2015 window, effective January 2023 — the operative parameters of C.G.S. § 54-142u, the authority of registry track ct-cannabis-auto (whose own scope note confirms the § 54-142u window and routes out-of-window records to ct-cannabis-petition, § 54-142v, the pathway's petition branch). The profile does not cite § 54-142u by number — it identifies the mechanism by offense statute, window and effective date — so confidence is medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "registryTrackId": "ct-cleanslate-petition"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "JD-CR-202",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "for convictions entered BEFORE 1/1/2000 the person files petition JD-CR-202 with the sentencing court."
+        },
+        {
+          "kind": "official_form",
+          "value": "Judicial Branch form JD-CR-202, Rev. 11-23",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ct-cleanslate-petition: Petition for Clean Slate Erasure, Convictions Before 1/1/2000, C.G.S. § 54-142a(e)(1)(A)(i)(II) and (ii)(II) … Judicial Branch form JD-CR-202, Rev. 11-23"
+        }
+      ],
+      "reasoning": "Shared official form identifier: the compiled pathway names petition form JD-CR-202 in both its label and its body for pre-2000 Clean Slate convictions, and the registry track ct-cleanslate-petition carries the same Judicial Branch form JD-CR-202 together with the pre-2000 statutory branch § 54-142a(e)(1)(A)(i)(II)/(ii)(II). The projection's officialFormRefs for the track also list JD-CR-202.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-DC-dc_juvenile_sealing_16_2335",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "DC",
+        "mechanismAuthority": [
+          "D.C. Code § 16-2335"
+        ],
+        "why": "The registry has no Family Court juvenile sealing track for DC. All eight DC tracks implement adult mechanisms (D.C. Code §§ 16-802, 16-803, 16-805, 16-806) or the Youth Rehabilitation Act set-aside (§ 24-906); juvenile sealing under § 16-2335 is absent."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "D.C. Code § 16-2335",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+          "quote": "No proceeding is pending seeking such conviction or adjudication. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-2335\")"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no DC registry track carries § 16-2335",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "DC registry tracks: dc_auto_expungement (§ 16-802), dc_auto_sealing (§ 16-805), dc_correct_misattributed_arrest (§ 16-806(g)), dc_innocence_expungement (§ 16-803), dc_seal_conviction (§ 16-806(a)(3)), dc_seal_fugitive (§ 16-806(a)(2)), dc_seal_nonconviction (§ 16-806(a)(1)), dc_yra_set_aside (§ 24-906(e-1)) — none cites § 16-2335."
+        }
+      ],
+      "reasoning": "The compiled pathway's operative statute is D.C. Code § 16-2335, cited in its label and sourced in the body to the official D.C. Code URL. Every DC registry track was checked; none carries § 16-2335 or any Family Court juvenile sealing authority. The profile itself marks the route guidance-only in the adult flow, but the mechanism is real and the registry genuinely lacks it.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-DE-discretionary-court-expungement-under-11-del-c-4374",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+        "registryTrackId": "de_discretionary_superior_court",
+        "coRegistryTrackIds": [
+          "de_discretionary_family_court"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "11 Del. C. § 4374",
+          "source": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+          "quote": "Discretionary court expungement under 11 Del. C. § 4374"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "11 Del. C. § 4374; § 4374(c)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "de_discretionary_superior_court: Petition for Expungement of Adult Record, Superior Court, 11 Del. C. § 4374; de_discretionary_family_court: Petition for Expungement of Adult Record, Family Court, 11 Del. C. § 4374(c)"
+        }
+      ],
+      "reasoning": "The compiled pathway's label carries the operative citation 11 Del. C. § 4374, and its body describes the discretionary tier of Delaware's three-tier scheme. The registry implements § 4374 as two court-split tracks — Superior Court and Family Court — so the single compiled pathway joins both (primary: de_discretionary_superior_court; co-mapped: de_discretionary_family_court).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-DE-juvenile-expungement-under-10-del-c-1017-1019-1017a",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "DE",
+        "mechanismAuthority": [
+          "10 Del. C. § 1017",
+          "10 Del. C. § 1017A",
+          "10 Del. C. § 1018",
+          "10 Del. C. § 1019"
+        ],
+        "why": "All six DE registry tracks implement the adult expungement scheme in Title 11 (§§ 4373, 4373A, 4374, 4375) ; the Title 10 juvenile expungement scheme (§§ 1017–1019, 1017A) has no registry track."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "10 Del. C. §§ 1017–1019 / 1017A",
+          "source": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+          "quote": "Juvenile expungement under 10 Del. C. §§ 1017–1019 / 1017A"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no DE registry track carries any 10 Del. C. citation",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "DE registry tracks: de_attorney_general_expungement (11 Del. C. § 4374(h)), de_auto_expungement (§ 4373A), de_discretionary_family_court (§ 4374(c)), de_discretionary_superior_court (§ 4374), de_mandatory_expungement (§ 4373), de_pardon_expungement (§ 4375) — all Title 11; none cites 10 Del. C. §§ 1017–1019 or § 1017A."
+        }
+      ],
+      "reasoning": "The compiled pathway's label carries the operative juvenile citations 10 Del. C. §§ 1017–1019 / 1017A. Every DE registry track implements the Title 11 adult scheme; no track carries any Title 10 authority, so the juvenile expungement mechanism is a genuine registry gap.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-DE-mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "registryTrackId": "de_mandatory_expungement",
+        "coRegistryTrackIds": [
+          "de_auto_expungement"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "11 Del. C. § 4373; § 4373A",
+          "source": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+          "quote": "Tier 1 — Mandatory expungement (§ 4373), through the SBI / automatic (§ 4373A). The person is entitled to expungement when the criteria are met; the court has no discretion."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "11 Del. C. § 4373; 11 Del. C. § 4373A",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "de_mandatory_expungement: Mandatory Expungement by Application to the State Bureau of Identification, 11 Del. C. § 4373; de_auto_expungement: Automatic Mandatory Expungement, 11 Del. C. § 4373A, added by the Clean Slate Act"
+        }
+      ],
+      "reasoning": "The compiled pathway carries both operative citations — § 4373 (mandatory, by SBI application) and § 4373A (automatic) — in its label and body, matching the unmapped registry tracks de_mandatory_expungement and de_auto_expungement exactly. One compiled pathway spans the two tracks (primary: de_mandatory_expungement; co-mapped: de_auto_expungement).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-DE-pardon-based-discretionary-expungement-under-11-del-c-4375",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "registryTrackId": "de_pardon_expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "11 Del. C. § 4375",
+          "source": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+          "quote": "Pardon-based discretionary expungement under 11 Del. C. § 4375"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "11 Del. C. § 4375",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "de_pardon_expungement: Petition for Expungement After a Pardon, 11 Del. C. § 4375"
+        }
+      ],
+      "reasoning": "The compiled pathway's label carries the operative citation 11 Del. C. § 4375, the exact authority of the unmapped registry track de_pardon_expungement. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-FL-administrative-expunction-mistaken-or-unlawful-arrest",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "administrative-expunction-mistaken-or-unlawful-arrest",
+        "registryTrackId": "fl-administrative"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "§ 943.0581, Fla. Stat.",
+          "source": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+          "quote": "Administrative expunction is for an arrest made contrary to law or by mistake. The arresting agency, sheriff, State Attorney, or the person arrested may pursue it through FDLE … (\"https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0581.html\")"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 943.0581, Fla. Stat.",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "fl-administrative: Administrative Expunction, § 943.0581, Fla. Stat."
+        }
+      ],
+      "reasoning": "The compiled pathway sources its rule to the official Florida Legislature page for § 943.0581 (the URL embedded in the profile body cites Section 0943.0581 directly) and describes the administrative expunction mechanism for arrests made contrary to law or by mistake — the exact authority and mechanism of the unmapped registry track fl-administrative. The automated crosswalk missed it only because the section number appears in the source URL rather than the pathway label.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-GA-automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+        "registryTrackId": "ga-nonconv-post2013"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(h)",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "Non-conviction records (the core path, § 35-3-37(h))"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(j.1)",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "Automatic restriction (§ 35-3-37(j.1), 2021): certain non-conviction records are restricted automatically without any request."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(h); § 35-3-37(i)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ga-nonconv-post2013: Record Restriction of a Non-Conviction Arrest Cycle Arising from an Arrest on or after July 1, 2013 — O.C.G.A. § 35-3-37(h), § 35-3-37(i), § 35-3-37(a)(5)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the automatic restriction of post-July-1-2013 non-convictions entered through GCIC at disposition; its body carries the core-path citation § 35-3-37(h) and the 2021 automatic-restriction citation § 35-3-37(j.1). Registry track ga-nonconv-post2013 implements the same arrest-date branch on § 35-3-37(h)/(i).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-GA-non-conviction-record-restriction-through-the-agency-prosecutor-process",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "registryTrackId": "ga-nonconv-pre2013"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "GBI Request to Restrict Arrest Record form (pre-07/01/2013 arrests)",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "Arrests before July 1, 2013: the person must apply for restriction through the arresting agency using the GBI Request to Restrict Arrest Record form, with prosecutor approval."
+        },
+        {
+          "kind": "official_form",
+          "value": "GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "ga-nonconv-pre2013 officialFormRefs: \"Agency Instructions for Request to Restrict (Expunge) Arrest Record for Arrests Prior to 07/01/2013, with the three-section Request to Restrict Arrest Record\"; \"GBI-GCIC-REQUEST-TO-RESTRICT-ARREST-RECORD-PRIOR-TO-07-01-2013\""
+        }
+      ],
+      "reasoning": "Shared official form: the compiled pathway's agency/prosecutor process uses the GBI Request to Restrict Arrest Record form for pre-July-1-2013 arrests with prosecutor approval, and registry track ga-nonconv-pre2013 (O.C.G.A. § 35-3-37(n)(1)-(3)) carries that same GBI/GCIC form, including its three-section structure the profile describes ('the prosecutor completes Section Three').",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-GA-restriction-and-sealing-of-a-pardoned-felony",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+        "registryTrackId": "ga-pardon-j7",
+        "coRegistryTrackIds": [
+          "ga-seal-m"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(j)(7)",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "Felony convictions generally cannot be restricted except through a pardon (§ 35-3-37(j)(7)) or retroactive first-offender treatment."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(m)",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "directing the Georgia Crime Information Center and the arresting agency to restrict the record under § 35-3-37, and, where sought, ordering the Clerk of Court to seal the case file under § 35-3-37(m)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(j)(7); § 42-9-42",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ga-pardon-j7: Petition to Restrict Access to Criminal History Record Information Following a Pardon — O.C.G.A. § 35-3-37(j)(7), § 42-9-42, § 17-10-6.1"
+        }
+      ],
+      "reasoning": "The compiled pathway is the pardoned-felony restriction petition; its body cites § 35-3-37(j)(7) as the pardon route for felony restriction and § 35-3-37(m) for the follow-on sealing of the clerk's file. Registry track ga-pardon-j7 carries § 35-3-37(j)(7); the sealing step co-maps to ga-seal-m (§ 35-3-37(m)).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-GA-sb-288-misdemeanor-conviction-restriction-and-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "registryTrackId": "ga-misd-j4",
+        "coRegistryTrackIds": [
+          "ga-seal-m"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(j)(4)",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "Prepare a Petition for Record Restriction and Sealing citing § 35-3-37(j)(4), attaching the GCIC history and proof of completion, plus a proposed order."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(m)",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "If granted, the court orders GCIC and the arresting agency to restrict; then file the separate § 35-3-37(m) motion to seal the clerk's court file."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(j)(4)(A)-(C)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ga-misd-j4: Motion to Restrict and Seal Records of a Misdemeanor Conviction under the Georgia Second Chance Act — O.C.G.A. § 35-3-37(j)(4)(A), (B), (C)"
+        }
+      ],
+      "reasoning": "The compiled SB 288 pathway instructs the petitioner to cite § 35-3-37(j)(4) — the exact authority of registry track ga-misd-j4 — and to follow with the separate § 35-3-37(m) sealing motion, which co-maps to ga-seal-m.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-GA-youthful-first-offender-restriction-route",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "youthful-first-offender-restriction-route",
+        "registryTrackId": "ga-rfo",
+        "coRegistryTrackIds": [
+          "ga-seal-m"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 42-8-66",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "retroactive First Offender treatment (O.C.G.A. § 42-8-66) can in some cases convert a conviction into a first-offender discharge that is then restrictable."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 42-8-66(a)(1), (a)(2), (b)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ga-rfo: Petition for Retroactive First Offender Treatment, Exoneration and Discharge under O.C.G.A. § 42-8-66"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "O.C.G.A. § 35-3-37(m)",
+          "source": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+          "quote": "To close that, the person files a motion/petition to seal the clerk’s record under § 35-3-37(m). Restriction must occur first; sealing is the second step."
+        }
+      ],
+      "reasoning": "The compiled pathway's operative retroactive-first-offender citation O.C.G.A. § 42-8-66 joins it to registry track ga-rfo, with the § 35-3-37(m) sealing step co-mapping to ga-seal-m. The pathway's other branch (misdemeanors committed before age 21) is described without a distinct statutory citation in the profile; the cited-authority component of the pathway maps cleanly, so the job closes on § 42-8-66.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-HI-deferred-acceptance-one-year",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "deferred-acceptance-one-year",
+        "registryTrackId": "hi_dag_danc_expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "HRS ch. 853",
+          "source": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+          "quote": "For a deferred acceptance of guilty or nolo contendere plea under Chapter 853, the source imposes one year after discharge and dismissal before expungement."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "HRS ch. 853; HRS § 831-3.2(a)(5)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "hi_dag_danc_expungement: Expungement after Deferred Plea Discharge, Ch. 853 and HRS § 831-3.2(a)(5)"
+        }
+      ],
+      "reasoning": "The compiled pathway's operative citation is HRS Chapter 853 (deferred acceptance of guilty / nolo contendere pleas) with the one-year post-discharge wait; registry track hi_dag_danc_expungement carries exactly Ch. 853 with § 831-3.2(a)(5). The separate three-year § 712-1200 deferred-prostitution track is already mapped to a different compiled pathway, confirming this is the general route.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-HI-dui-under-21-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "dui-under-21-conviction",
+        "registryTrackId": "hi_under_21_dui_expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "HRS § 291E-0064(e)",
+          "source": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+          "quote": "The source identifies HRS § 291E-0064(e) for operating a vehicle after consuming a measurable amount of alcohol while under age 21."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "HRS § 291E-64(e)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "hi_under_21_dui_expungement: Conviction Expungement, DUI under 21, HRS § 291E-64(e)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites HRS § 291E-0064(e) — the zero-padded form of § 291E-64(e) — the exact authority of registry track hi_under_21_dui_expungement. The automated matcher missed the join only because of the zero-padding difference.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-HI-first-time-drug-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "first-time-drug-conviction",
+        "registryTrackId": "hi_first_time_drug_offender_expungement",
+        "coRegistryTrackIds": [
+          "hi_pre_2004_drug_offender_expungement"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "HRS §§ 706-622.5 and 706-622.8",
+          "source": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+          "quote": "The source identifies HRS §§ 706-622.5 and 706-622.8 first-time drug-offender routes."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "HRS § 706-622.5(4); HRS § 706-622.8",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "hi_first_time_drug_offender_expungement: Conviction Expungement, first-time drug offender, HRS § 706-622.5(4); hi_pre_2004_drug_offender_expungement: Conviction Expungement, first-time drug offender sentenced before July 1, 2004, HRS § 706-622.8"
+        }
+      ],
+      "reasoning": "The compiled pathway cites both first-time drug-offender authorities: § 706-622.5 (current route, registry track hi_first_time_drug_offender_expungement) and § 706-622.8 (pre-July-2004 sentences, hi_pre_2004_drug_offender_expungement). One compiled pathway spans the two tracks (primary: § 706-622.5 track; co-mapped: § 706-622.8 track).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ID-human-trafficking-survivor-vacatur-and-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "ID",
+        "mechanismAuthority": [
+          "I.C. § 67-3014"
+        ],
+        "why": "The registry has no Idaho trafficking-survivor vacatur-and-expungement track. Its four ID tracks implement § 67-3004(10)/(11) (ISP expungement / Clean Slate shielding) and § 19-2604(1)/(2) (set-aside / felony reduction); § 67-3014 is absent."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 67-3014",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+          "quote": "Track 4 — vacatur and expungement (§67-3014)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 67-3014 (mandatory relief on preponderance finding)",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+          "quote": "Trafficking-survivor relief Survivors of human trafficking, Court “shall” vacate and expunge for prostitution-related and other on a preponderance finding. I.C. qualifying offenses that resulted §67-3014 from acts of trafficking."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no ID registry track carries § 67-3014",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ID registry tracks: id_clean_slate_shield (I.C. § 67-3004(11)), id_felony_reduction (§ 19-2604(2)), id_isp_expungement (§ 67-3004(10)), id_set_aside_dismissal (§ 19-2604(1)) — none cites § 67-3014."
+        }
+      ],
+      "reasoning": "The compiled pathway's operative statute I.C. § 67-3014 (trafficking-survivor vacatur and expungement) is cited twice in the profile body. All four Idaho registry tracks were checked; none carries § 67-3014. Genuine registry gap for the survivor vacatur mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ID-juvenile-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "ID",
+        "mechanismAuthority": [
+          "I.C. § 20-525A"
+        ],
+        "why": "The registry has no Idaho juvenile expungement track. Its four ID tracks are adult mechanisms (§ 67-3004(10)/(11), § 19-2604(1)/(2)); the § 20-525A juvenile-court expungement petition is absent."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 20-525A",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+          "quote": "Track 3 — juvenile expungement petition (§20-525A)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 20-525A (petition to juvenile court)",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+          "quote": "Juvenile expungement Most juvenile adjudications, Petition to juvenile court; records diversions, and informal sealed. I.C. §20-525A adjustments."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no ID registry track carries § 20-525A",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ID registry tracks: id_clean_slate_shield (I.C. § 67-3004(11)), id_felony_reduction (§ 19-2604(2)), id_isp_expungement (§ 67-3004(10)), id_set_aside_dismissal (§ 19-2604(1)) — none cites § 20-525A."
+        }
+      ],
+      "reasoning": "The compiled pathway's operative statute I.C. § 20-525A (juvenile expungement petition) is cited in the profile body. No Idaho registry track carries § 20-525A or any juvenile authority. Genuine registry gap for the juvenile expungement mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IL-adult-conviction-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-conviction-sealing",
+        "registryTrackId": "il-seal-3yr",
+        "coRegistryTrackIds": [
+          "il-seal-2yr"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(c)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Illinois sealing is broader than expungement. Under 20 ILCS 2630/5.2(c), the following records may be sealed unless excluded: … Conviction, including municipal ordinance conviction Seal after waiting period unless excluded … Felony conviction Seal after waiting period unless excluded"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(c)(2)(D)-(F), (c)(3)(C)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "il-seal-3yr: Request to Seal Criminal Records, Three-Year Category — 20 ILCS 2630/5.2(c)(2)(D), (E), (F), (c)(3)(C); il-seal-2yr: Two-Year Category — 5.2(c)(2)(C), (C-5), (D), (E)"
+        }
+      ],
+      "reasoning": "The compiled pathway is conviction sealing under 20 ILCS 2630/5.2(c), cited at subsection level in the profile body with the waiting-period structure. The registry splits § 5.2(c) conviction sealing into waiting-period categories: il-seal-3yr (three-year, the general conviction category) and il-seal-2yr (two-year). The pathway spans both (primary: il-seal-3yr; co-mapped: il-seal-2yr).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IL-adult-non-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-non-conviction-expungement",
+        "registryTrackId": "il-exp-nonconv"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(b)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Under 20 ILCS 2630/5.2(b), a person may petition to expunge arrests or charges not initiated by arrest when each record resulted in: Acquittal … Dismissal … Released without charging … Conviction reversed or vacated"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(b)(1)(i)-(ii), (b)(2)(A)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "il-exp-nonconv: Request to Expunge Criminal Records of an Arrest or Charge Not Resulting in Conviction — 20 ILCS 2630/5.2(b)(1)(i), (b)(1)(ii), (b)(2)(A), (a)(3)(B)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites 20 ILCS 2630/5.2(b) and enumerates the non-conviction outcomes (acquittal, dismissal, release without charging, reversed/vacated conviction) that § 5.2(b)(1)(i)-(ii) covers — the authority of registry track il-exp-nonconv. Subsection-level statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IL-cannabis-specific-automatic-or-petition-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "cannabis-specific-automatic-or-petition-expungement",
+        "registryTrackId": "il-cannabis-vacate",
+        "coRegistryTrackIds": [
+          "il-cannabis-auto"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(i)(3)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Individuals may also file a motion to vacate and expunge certain misdemeanor or Class 4 felony cannabis convictions under 5.2(i)(3). (\"https://isp.illinois.gov/BureauOfIdentification/CannabisExpungements\")"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "automatic minor-cannabis expungement (5.2(i)(1) schedule)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Illinois State Police says eligible non-conviction minor cannabis arrest records must be automatically expunged on a phased schedule: records from Jan. 1, 2013 to June 25, 2019 by Jan. 1, 2021"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(i)(3); 5.2(i)(1)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "il-cannabis-vacate: Motion to Vacate and Expunge a Cannabis Conviction — 20 ILCS 2630/5.2(i)(3), (i)(4), (i)(10); il-cannabis-auto: Automatic Expungement of Minor Cannabis Arrest Records — 5.2(i)(1), (a)(2.5)"
+        }
+      ],
+      "reasoning": "The compiled cannabis pathway carries the operative petition citation 5.2(i)(3) (motion to vacate and expunge cannabis convictions, registry track il-cannabis-vacate) and describes the automatic phased ISP expungement of minor cannabis arrest records implemented by il-cannabis-auto (5.2(i)(1)). One compiled pathway spans the automatic and petition branches of § 5.2(i).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IL-clean-slate-automatic-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "clean-slate-automatic-sealing",
+        "registryTrackId": "il-auto-seal-2029"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Illinois Clean Slate Act automatic sealing (begins 2029)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Illinois Clean Slate Act changes some sealing rules and creates a future automatic sealing system, but it does not create automatic expungement and does not change eligibility for expungement/vacatur. Automatic sealing is expected to begin in 2029"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(k)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "il-auto-seal-2029: Clean Slate Automatic Sealing — 20 ILCS 2630/5.2(k), (k)(1), (k)(3), (k)(4)"
+        }
+      ],
+      "reasoning": "The compiled pathway describes the Clean Slate Act's future automatic sealing system beginning in 2029, covering records already eligible for petition sealing — the mechanism the registry tracks as il-auto-seal-2029 under 20 ILCS 2630/5.2(k) (the track's own name is 'Clean Slate Automatic Sealing'). The profile identifies the mechanism by the Act's name and commencement rather than the 5.2(k) subsection number, so confidence is medium. The distinct 2028 municipal-ordinance/Class C track (il-auto-seal-2028, 5.2(l)) is a narrower, separate commencement and is not this pathway's subject.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-IL-criminal-identity-theft-mistaken-identity-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "IL",
+        "mechanismAuthority": [
+          "20 ILCS 2630/5.2 (criminal identity-theft correction provision; official ILCS text of § 5.2 cited in the compiled profile)"
+        ],
+        "why": "No IL registry track implements the § 5.2 criminal identity-theft correction: a petition to the chief judge of the circuit to remove the aggrieved person’s name from arrest/conviction records and substitute the offender’s. The seventeen IL tracks cover § 5.2(b), (c), (e), (e-5), (g), (i), (j), (k) and (l) but not this correction mechanism."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2 (identity-theft correction provision)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "If someone was arrested or convicted under the name of a person whose identity was stolen or used without authorization, the aggrieved person may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records … (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\")"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no IL registry track covers the identity-theft correction mechanism",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "IL registry tracks implement 20 ILCS 2630/5.2(b) (expungement), (c) (sealing), (e)/(e-5)-(e-6) (pardon / PRB certificate), (g) (immediate sealing), (i) (cannabis), (j) (felony prostitution), (k)/(l) (automatic sealing) — none covers the petition to the chief judge to correct records after criminal identity theft."
+        }
+      ],
+      "reasoning": "The compiled pathway implements the § 5.2 criminal identity-theft correction mechanism, quoted in the profile from the official ILCS text of 20 ILCS 2630/5.2 (URL embedded in the profile body). No registry track covers a correction/name-substitution mechanism; all seventeen IL tracks implement other named subsections. The profile's source does not letter the subsection, so the gap is recorded at the statute level with the provision described; confidence medium on the citation granularity, high on the gap itself.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-IL-expungement-after-eligible-supervision-or-qualified-probation",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+        "registryTrackId": "il-exp-supervision",
+        "coRegistryTrackIds": [
+          "il-exp-qualprob"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(b)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Under 20 ILCS 2630/5.2(b), a person may petition to expunge … Successful supervision Eligible after waiting period … Successful qualified probation Eligible after waiting period"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(b)(1)(iii)/(b)(2)(B); (b)(1)(iv)/(b)(2)(C)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "il-exp-supervision: Request to Expunge Criminal Records After Successful Termination of Court Supervision — 5.2(b)(1)(iii), (b)(2)(B); il-exp-qualprob: After Successful Termination of Qualified Probation — 5.2(b)(1)(iv), (b)(2)(C)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the § 5.2(b) expungement route for successfully terminated court supervision and qualified probation, both named in the profile with their waiting-period treatment. These are the registry tracks il-exp-supervision (5.2(b)(1)(iii)) and il-exp-qualprob (5.2(b)(1)(iv)); one compiled pathway spans both (primary: il-exp-supervision; co-mapped: il-exp-qualprob).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IL-felony-prostitution-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "felony-prostitution-relief",
+        "registryTrackId": "il-prostitution-j-auto",
+        "coRegistryTrackIds": [
+          "il-prostitution-j-vacate"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(j)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Prior Class 4 felony prostitution conviction Automatic sealing and/or motion to vacate and expunge Special 5.2(j) route"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(j)(1)-(2); (j)(3)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "il-prostitution-j-auto: Automatic Sealing of Class 4 Felony Prostitution Records — 5.2(j)(1), (j)(2), (j)(6); il-prostitution-j-vacate: Motion to Vacate and Expunge a Conviction for Class 4 Felony Prostitution — 5.2(j)(3), (j)(8)"
+        }
+      ],
+      "reasoning": "The compiled pathway names the special 5.2(j) route for prior Class 4 felony prostitution convictions, expressly covering both branches: automatic sealing (registry track il-prostitution-j-auto, 5.2(j)(1)-(2)) and the motion to vacate and expunge (il-prostitution-j-vacate, 5.2(j)(3)). Shared operative subsection § 5.2(j).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IL-human-trafficking-survivor-vacatur-and-expungement",
+      "outcome": "terminal",
+      "proposedDisposition": "registry_scoped_out_named_authority",
+      "proposedMapping": null,
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "registry_scope_restriction",
+          "value": "20 ILCS 2630/5.2(h) named as the route outside the tracked registry routes",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The participant indicates their involvement resulted from trafficking, in which case the § 5.2(h) route is stronger and the questioning must change."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "20 ILCS 2630/5.2(h)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Human trafficking-related offense Vacation + expungement or immediate sealing Survivor route under 5.2(h)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the trafficking-survivor route the profile places under 20 ILCS 2630/5.2(h). The registry itself, on its il-prostitution-j-auto and il-prostitution-j-vacate tracks, records a scope restriction that routes trafficking-based cases to 'the § 5.2(h) route' — an authority the registry names but does not implement as a track. That is a registry scope restriction naming the authority (§ 5.2(h)); the pathway is deliberately routed outside the registry's tracks. If E3 prefers, the same evidence supports recording a § 5.2(h) survivor track as a gap, but the scoped-out classification follows the registry's own recorded statement.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IL-juvenile-automatic-or-petition-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "IL",
+        "mechanismAuthority": [
+          "705 ILCS 405/5-915"
+        ],
+        "why": "The registry has no Illinois juvenile expungement track. All seventeen IL tracks implement the adult 20 ILCS 2630/5.2 scheme; the Juvenile Court Act automatic and petition expungement under 705 ILCS 405/5-915 is absent."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "705 ILCS 405/5-915",
+          "source": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+          "quote": "Juvenile records use 705 ILCS 405/5-915, not the adult 20 ILCS 2630/5.2 process."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no IL registry track carries 705 ILCS 405/5-915",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "All seventeen IL registry tracks cite 20 ILCS 2630/5.2 subsections (with 730 ILCS 5/3-3-2 on il-prb-cert); none cites the Juvenile Court Act, 705 ILCS 405/5-915."
+        }
+      ],
+      "reasoning": "The compiled pathway's operative statute is 705 ILCS 405/5-915, cited directly in the profile with the express statement that juvenile records do not use the adult § 5.2 process the registry tracks. No IL registry track carries any Juvenile Court Act authority. Genuine registry gap for the juvenile automatic/petition expungement mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IN-conviction-expungement-with-records-marked-expunged",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "conviction-expungement-with-records-marked-expunged",
+        "registryTrackId": "in_conviction_felony",
+        "coRegistryTrackIds": [
+          "in_conviction_serious_felony"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9-7",
+          "source": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+          "quote": "The backend must identify whether the conviction falls under the IC 35-38-9-7 effect rather than the sealed-access effect. The supplied order says court and public records remain public but must be clearly marked or identified as expunged."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9-4 / 35-38-9-5 with 35-38-9-7 effect",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "in_conviction_felony: Petition to Expunge a Felony Conviction Not Covered by Sections 2 or 3 — I.C. 35-38-9-4, 35-38-9-8, 35-38-9-9 (authority list includes 35-38-9-7); in_conviction_serious_felony: I.C. 35-38-9-5 (authority list includes 35-38-9-7)"
+        }
+      ],
+      "reasoning": "The compiled pathway is defined by the IC 35-38-9-7 marked-expunged effect, which under the chapter attaches to convictions expunged via sections 4 and 5 — the registry tracks in_conviction_felony and in_conviction_serious_felony, both of whose authority lists carry 35-38-9-7. The shared operative citation 35-38-9-7 joins the pathway to both tracks (primary: in_conviction_felony; co-mapped: in_conviction_serious_felony).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IN-conviction-expungement-with-sealed-confidential-access",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "conviction-expungement-with-sealed-confidential-access",
+        "registryTrackId": "in_conviction_misd",
+        "coRegistryTrackIds": [
+          "in_conviction_d6"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9-6",
+          "source": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+          "quote": "For matters ordered under IC 35-38-9-6, agencies and courts seal records and restrict disclosure to listed statutory recipients."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9-9(i)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+          "quote": "The source says the one-petition limitation in IC 35-38-9-9(i) applies subject to statutory exceptions."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9-2 / 35-38-9-3 with 35-38-9-6 effect; 35-38-9-9",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "in_conviction_misd: Petition to Expunge a Misdemeanour Conviction — I.C. 35-38-9-2, 35-38-9-8, 35-38-9-9 (authority list includes 35-38-9-6); in_conviction_d6: Petition to Expunge a Class D or Level 6 Felony Conviction — I.C. 35-38-9-3 (authority list includes 35-38-9-6)"
+        }
+      ],
+      "reasoning": "The compiled pathway is defined by the IC 35-38-9-6 sealed/confidential-access effect, which attaches to convictions expunged via sections 2 and 3 — the registry tracks in_conviction_misd and in_conviction_d6, both carrying 35-38-9-6 in their authority lists; 35-38-9-9(i) is also shared. Primary: in_conviction_misd; co-mapped: in_conviction_d6.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-IN-juvenile-allegation-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "juvenile-allegation-expungement",
+        "registryTrackId": "in_section1_petition"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9 (section to be confirmed per profile)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+          "quote": "The supplied Indiana appearance form covers records of arrest, criminal charges, or juvenile delinquency allegations. … Because the supplied packet does not state every statutory eligibility tier for this route, the backend must confirm the applicable IC 35-38-9 section before packet release."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9-1(d)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "in_section1_petition: General Section 1 Petition to Expunge a Non-Conviction Record, I.C. 35-38-9-1(d)"
+        }
+      ],
+      "reasoning": "The compiled pathway's own source places juvenile delinquency allegations inside the IC 35-38-9 expungement packet alongside arrests and charges, and the chapter's non-conviction petition family is section 1, tracked as in_section1_petition (I.C. 35-38-9-1(d)). The profile carries only a chapter-level citation and itself instructs the backend to confirm the applicable section, so the mapping is to the section-1 petition track at medium confidence.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-IN-non-conviction-arrest-or-criminal-charge-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "non-conviction-arrest-or-criminal-charge-expungement",
+        "registryTrackId": "in_section1_petition",
+        "coRegistryTrackIds": [
+          "in_arrest_no_charges"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9 (section to be confirmed per profile)",
+          "source": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+          "quote": "The supplied Indiana appearance form covers records of arrest, criminal charges, or juvenile delinquency allegations. The petitioner must identify related cases and serve the county prosecutor by mail, hand delivery, or Indiana e-filing."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. 35-38-9-1(d); 35-38-9-1(c)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "in_section1_petition: General Section 1 Petition to Expunge a Non-Conviction Record, I.C. 35-38-9-1(d); in_arrest_no_charges: Petition to Expunge an Arrest Where No Charges Were Filed, I.C. 35-38-9-1(c)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the petition to expunge non-conviction arrest/charge records with prosecutor service — the IC 35-38-9-1 petition family, tracked as in_section1_petition ((d), the general non-conviction petition) with in_arrest_no_charges ((c)) as the arrest-without-charges branch. The profile cites the chapter and instructs the backend to confirm the exact section, so the mapping is recorded at medium confidence.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-KS-drug-registration-relief-coordination",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "drug-registration-relief-coordination",
+        "registryTrackId": "ks-22-4908-registration-relief"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "KSJC Petition for Expungement of Conviction or Diversion (Rev. KSJC 08/2022), registration passage",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+          "quote": "a person who is required to register as a drug offender under the Kansas Offender Registration Act may be eligible to petition for relief from registration and for expungement of the drug offense at the same time if all applicable requirements"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 22-4901 et seq. (Kansas Offender Registration Act); K.S.A. 21-6614(f)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ks-22-4908-registration-relief: Petition for Relief from Drug Offender Registration under K.S.A. 22-4908, Combined with Expungement under K.S.A. 21-6614(f) — authority includes K.S.A. 22-4908(a)-(i), K.S.A. 21-6614(f), K.S.A. 22-4901 et seq."
+        }
+      ],
+      "reasoning": "The compiled pathway is the coordinated drug-offender registration-relief-plus-expungement route. The official KSJC petition text embedded in the profile's sourceSections states that a drug offender registered under the Kansas Offender Registration Act may petition for relief from registration and expungement at the same time — the combined mechanism the registry tracks as ks-22-4908-registration-relief, whose authority names the same Act (K.S.A. 22-4901 et seq.) and the § 21-6614(f) registration bar. The profile names the Act rather than § 22-4908 by number, so confidence is medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-KS-prostitution-coercion",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "prostitution-coercion",
+        "registryTrackId": "ks-21-6614-prostitution-coercion"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "KSJC Petition for Expungement of Conviction or Diversion (Rev. KSJC 08/2022), coercion checkbox",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+          "quote": "The petition includes a specific coercion checkbox for a prostitution conviction or diversion. The source defines coercion through threats, restraint, schemes creating fear of harm, or abuse/threatened abuse of legal process."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614(b)",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+          "quote": "prostitution Not relevant 1 year 1 year 1 year Yes 21-6614(b)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614(b); K.S.A. 21-6419",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ks-21-6614-prostitution-coercion: Petition for Expungement of a Prostitution Conviction or Diversion Where the Petitioner Was Acting Under Coercion — K.S.A. 21-6614(b), K.S.A. 21-6419"
+        }
+      ],
+      "reasoning": "The compiled pathway is the coercion branch of the prostitution expungement petition. The official KSJC petition text in the profile's sourceSections assigns the prostitution category to K.S.A. 21-6614(b) (one-year wait) and carries the coercion checkbox and coercion definition the pathway restates — the exact mechanism and authority of registry track ks-21-6614-prostitution-coercion.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-KS-specialty-court-accelerated",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "specialty-court-accelerated",
+        "registryTrackId": "ks-21-6614-specialty-court"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614 (specialty-court completion route)",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+          "quote": "legal_basis: \"K.S.A. 21-6614 specialty-court completion route\""
+        },
+        {
+          "kind": "official_form",
+          "value": "KSJC Petition for Expungement (Rev. KSJC 08/2022), specialty-court passage",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+          "quote": "Completion of a Specialty Court Program A person who has completed the requirements of a specialty court program may petition for immediate expungement of any offense which is otherwise eligible for expungement after 3 years."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614(a)(3)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ks-21-6614-specialty-court: Petition for Immediate Expungement After Completing a Specialty Court Programme, K.S.A. 21-6614(a)(3)"
+        }
+      ],
+      "reasoning": "The compiled pathway's own record carries the statutory basis 'K.S.A. 21-6614 specialty-court completion route' (lawrenceRatification.legal_basis), and the official KSJC petition text in the profile describes immediate expungement after specialty-court completion for offenses otherwise eligible at three years — the exact mechanism of registry track ks-21-6614-specialty-court (K.S.A. 21-6614(a)(3), three-year-category offenses).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-KY-juvenile-automatic-dismissal",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "juvenile-automatic-dismissal",
+        "registryTrackId": "ky_juvenile_record_expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "AOC-JV-29 (Rev. 8-23), Order for Expungement of Juvenile Record Upon Dismissal",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "AOC-JV-29 Doc. Code: OEX … ORDER FOR EXPUNGEMENT … OF JUVENILE RECORD UPON KRS 610.010, .330; 635.010 … DISMISSAL"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 610.330",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "The Court having found the child in the above-referenced case not delinquent, it is hereby ORDERED pursuant to KRS 610.330 that: OR q Dismissal for any other reason. The Court having dismissed the above-referenced case for any other reason(s), it is hereby ORDERED pursuant to KRS 610.330"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 610.330",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ky_juvenile_record_expungement: Petition to Vacate and Expunge a Juvenile Record (KRS 610.330) — already mapped to compiled pathway juvenile-petition-610330"
+        }
+      ],
+      "reasoning": "The compiled pathway's 'juvenile order' is the official form AOC-JV-29 embedded in the profile's sourceSections: an Order for Expungement of Juvenile Record upon dismissal, entered pursuant to KRS 610.330 (with KRS 610.010 and 635.010) without a petition by the child. That is the automatic-dismissal branch of the same KRS 610.330 authority the registry tracks as ky_juvenile_record_expungement, which already carries the petition branch (juvenile-petition-610330). This pathway co-maps to the same track as its automatic branch.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-LA-expungement-by-redaction-for-multi-person-records",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "expungement-by-redaction-for-multi-person-records",
+        "registryTrackId": "la-985-expungement-by-redaction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 985 (expungement by redaction of multi-person records)",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "Expungement by redaction If the record includes multiple people and only one person is eligible, the court may order expungement by redaction."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "redaction pathway among the C.Cr.P. expungement routes",
+          "source": "src/lib/rcap/state-packs/louisiana/filing-instructions.ts",
+          "quote": "Determine the pathway: no-conviction (arts. 976-977), misdemeanor conviction (art. 977: art. 894(B) set-aside or 5-year route), felony conviction (art. 978: art. 893(E) set-aside, 10-year route, or first-offender pardon), first-offense marijuana (art. 998), interim expungement (arts. 994-995), redaction, trafficking-victim, or program-completion immediate expungement (art. 985.3)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 985; art. 972(3)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-985-expungement-by-redaction: Expungement by Redaction of Records with References to Multiple Individuals (La. C.Cr.P. art. 985) — La. C.Cr.P. art. 985, art. 972(3)"
+        }
+      ],
+      "reasoning": "The compiled pathway's operative rule — when a record references multiple people and only one is eligible, the court may order expungement by redaction — is the mechanism of La. C.Cr.P. art. 985, tracked as la-985-expungement-by-redaction, and the Louisiana state pack lists redaction among the C.Cr.P. expungement pathways. The profile states the rule without the article number (its citation is an embedded legis.la.gov URL that could not be fetched in this environment), so confidence is medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-LA-felony-article-893-e-set-aside-followed-by-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "felony-article-893-e-set-aside-followed-by-expungement",
+        "registryTrackId": "la-978-felony-conviction",
+        "coRegistryTrackIds": [
+          "la-987-set-aside-and-dismiss"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 893(E); art. 978(B)",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "A felony conviction may be expunged if the person is not blocked by Article 978(B) and one of these applies: 1 The conviction was set aside and prosecution dismissed under Article 893(E)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 978; art. 893(E)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-978-felony-conviction: Motion to Expunge Record of Arrest and Conviction of a Felony Offense (La. C.Cr.P. art. 978) — authority includes La. C.Cr.P. art. 893(E); la-987-set-aside-and-dismiss: Motion to Set Aside Conviction and Dismiss Prosecution — authority includes art. 893(E)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries both operative citations: Article 893(E) (the felony set-aside and dismissal) and Article 978(B) (the felony expungement bar list). Registry track la-978-felony-conviction implements the art. 978 felony expungement including the art. 893(E) branch; the set-aside motion itself co-maps to la-987-set-aside-and-dismiss, whose authority also carries art. 893(E).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-LA-felony-ten-year-clean-period-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "felony-ten-year-clean-period-expungement",
+        "registryTrackId": "la-978-felony-conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 978 (ten-year branch); art. 978(B)",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "A felony conviction may be expunged if the person is not blocked by Article 978(B) and one of these applies: … 2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 978",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-978-felony-conviction: Motion to Expunge Record of Arrest and Conviction of a Felony Offense (La. C.Cr.P. art. 978)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the ten-year clean-period branch of felony expungement; its body cites Article 978(B) (the bar list of the same article) and states the art. 978 ten-year rule. Registry track la-978-felony-conviction carries La. C.Cr.P. art. 978. Shared operative article.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-LA-first-offender-pardon-felony-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "first-offender-pardon-felony-expungement",
+        "registryTrackId": "la-978-felony-conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 978 (first-offender-pardon branch); art. 978(B)",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "A felony conviction may be expunged if the person is not blocked by Article 978(B) and one of these applies: … 3 The person is entitled to a first offender pardon for the offense, as long as the offense is not a crime of violence or sex offense."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "first-offender pardon as an art. 978 route",
+          "source": "src/lib/rcap/state-packs/louisiana/filing-instructions.ts",
+          "quote": "felony conviction (art. 978: art. 893(E) set-aside, 10-year route, or first-offender pardon)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 978",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-978-felony-conviction: Motion to Expunge Record of Arrest and Conviction of a Felony Offense (La. C.Cr.P. art. 978)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the first-offender-pardon branch of felony expungement. The profile lists it as branch 3 of the Article 978 rule (with the art. 978(B) bar), and the Louisiana state pack confirms the first-offender pardon is one of the art. 978 routes. Registry track la-978-felony-conviction carries art. 978; the automatic first-offender pardon itself (La. Const. art. IV § 5(E)) is the predicate, and the expungement mechanism the pathway delivers is art. 978.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-LA-first-offense-marijuana-expungement-after-90-days-art-998",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "first-offense-marijuana-expungement-after-90-days-art-998",
+        "registryTrackId": "la-977d-marijuana-first-offense"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 998 (cited in compiled pathway id/label)",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "First-offense marijuana expungement after 90 days (art. 998)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Article 998 special form; 90-day marijuana rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998"
+        },
+        {
+          "kind": "official_form",
+          "value": "LA-CCRP-ART-988 / ART-992 (form set shared with the track)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "la-977d-marijuana-first-offense officialFormRefs: LA-CCRP-ART-988, LA-CCRP-ART-991, LA-CCRP-ART-992"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 977(D); art. 998",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-977d-marijuana-first-offense: Motion for Expungement for Misdemeanor Conviction for a First Offense Possession of Marijuana — La. C.Cr.P. art. 977(D), art. 998, art. 983, art. 986"
+        }
+      ],
+      "reasoning": "The compiled pathway's id and label carry the operative citation art. 998 (the special marijuana expungement form article) with the 90-day rule, and the profile's misdemeanor rule text ties the 90-day first-offense marijuana route to the special Article 998 form. Registry track la-977d-marijuana-first-offense carries both art. 977(D) (the 90-day substantive rule) and art. 998; the pathway's form list (arts. 988/990/992) overlaps the track's official form refs.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-LA-human-trafficking-survivor-expungement-fee-exempt-route",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "human-trafficking-survivor-expungement-fee-exempt-route",
+        "registryTrackId": "la-978-felony-conviction",
+        "coRegistryTrackIds": [
+          "la-977-misdemeanor-conviction"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. arts. 977-978 (trafficking-victim certification overlay)",
+          "source": "src/lib/rcap/state-packs/louisiana/pathways.ts",
+          "quote": "Human-trafficking-victim route — DA certification waives Art. 977/978 time delays and expungement fees (La. Code Crim. Proc. arts. 977-978)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "trafficking certification waives art. 977/978 delays and fees",
+          "source": "src/lib/rcap/state-packs/louisiana/eligibility-rules.ts",
+          "quote": "Human-trafficking-victim pathway: a trafficking victim may request DA certification that the offense was committed substantially because of trafficking victimization; if obtained, the applicable art. 977 and 978 time delays are waived and the applicant is not required to pay expungement fees"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "fee-exemption categories including trafficking certification",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "Human trafficking victim certification, factual innocence/wrongful conviction compensation, certain pardons, and expedited expungement may also create fee exemptions."
+        }
+      ],
+      "reasoning": "The compiled pathway is not a separate expungement mechanism: per the Louisiana state pack, the trafficking-victim route is a DA-certification overlay that waives the art. 977 and art. 978 time delays and fees on the standard conviction expungement motions. It therefore maps to the tracks implementing those motions — la-978-felony-conviction (primary) and la-977-misdemeanor-conviction (co-mapped) — rather than to a missing registry track. Confidence medium because the join runs through the state pack's arts. 977-978 citation rather than a subsection-level citation in the compiled profile itself.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-LA-interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
+        "registryTrackId": "la-985-1-interim-expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "interim expungement of felony arrest reduced to misdemeanor conviction",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "Interim expungement If the person was originally arrested for a felony but the case resulted in a misdemeanor conviction, they may file an interim expungement to remove the felony arrest entry from their criminal history."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "no art. 977/978 waiting-period limit on interim expungements",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "There is no Article 977/978 waiting-period limit and no numerical cap on interim expungements."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "interim expungement (arts. 994-995)",
+          "source": "src/lib/rcap/state-packs/louisiana/filing-instructions.ts",
+          "quote": "interim expungement (arts. 994-995)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 985.1; arts. 994, 995",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-985-1-interim-expungement: Interim Motion to Expunge a Felony Arrest from Criminal History (La. C.Cr.P. art. 985.1) — authority includes art. 985.1, art. 977(C)(1), art. 994, art. 995"
+        }
+      ],
+      "reasoning": "The compiled pathway is the interim expungement of a felony arrest that resulted in a misdemeanor conviction — the exact mechanism of La. C.Cr.P. art. 985.1, tracked as la-985-1-interim-expungement. The state pack cites the interim-expungement forms as arts. 994-995, both carried in the track's authority list, and the profile's 'no Article 977/978 waiting-period limit' rule matches the track's art. 977(C)(1) authority context.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-LA-misdemeanor-article-894-b-set-aside-followed-by-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
+        "registryTrackId": "la-977-misdemeanor-conviction",
+        "coRegistryTrackIds": [
+          "la-987-set-aside-and-dismiss"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 894(B)",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "A misdemeanor conviction may be expunged if either: 1 The conviction was set aside and prosecution dismissed under Article 894(B);"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 977; art. 894(B)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-977-misdemeanor-conviction: Motion to Expunge a Record of Arrest and Conviction of a Misdemeanor Offense (La. C.Cr.P. art. 977) — authority includes La. C.Cr.P. art. 894(B); la-987-set-aside-and-dismiss: authority includes art. 894(B)"
+        }
+      ],
+      "reasoning": "The compiled pathway carries the operative citation Article 894(B) (misdemeanor set-aside and dismissal) as the trigger for misdemeanor expungement — the art. 977 motion tracked as la-977-misdemeanor-conviction, whose authority list carries art. 894(B). The set-aside motion itself co-maps to la-987-set-aside-and-dismiss.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-LA-misdemeanor-five-year-clean-period-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "misdemeanor-five-year-clean-period-expungement",
+        "registryTrackId": "la-977-misdemeanor-conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 977 (five-year branch)",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "A misdemeanor conviction may be expunged if either: … 2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "misdemeanor conviction (art. 977: art. 894(B) set-aside or 5-year route)",
+          "source": "src/lib/rcap/state-packs/louisiana/filing-instructions.ts",
+          "quote": "misdemeanor conviction (art. 977: art. 894(B) set-aside or 5-year route)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 977",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-977-misdemeanor-conviction: Motion to Expunge a Record of Arrest and Conviction of a Misdemeanor Offense (La. C.Cr.P. art. 977)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the five-year clean-period branch of misdemeanor expungement. The state pack states expressly that art. 977 comprises the art. 894(B) set-aside route and the 5-year route; registry track la-977-misdemeanor-conviction carries art. 977. Shared operative article via the state pack's explicit branch citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-LA-non-conviction-arrest-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "non-conviction-arrest-expungement",
+        "registryTrackId": "la-976-arrest-no-conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 976 (arrest not resulting in conviction)",
+          "source": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+          "quote": "A person may seek expungement of a felony or misdemeanor arrest that did not result in conviction when one of these applies: 1 The person was not prosecuted, and the time limit to prosecute has expired. 2 The district attorney declined to prosecute any offense arising from the arrest"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "no-conviction (arts. 976-977)",
+          "source": "src/lib/rcap/state-packs/louisiana/filing-instructions.ts",
+          "quote": "Determine the pathway: no-conviction (arts. 976-977), misdemeanor conviction (art. 977: …)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "La. C.Cr.P. art. 976",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "la-976-arrest-no-conviction: Motion to Expunge Record of Arrest That Did Not Result in a Conviction (La. C.Cr.P. art. 976)"
+        }
+      ],
+      "reasoning": "The compiled pathway states the grounds of the art. 976 motion (no prosecution and time limit expired; DA declined including after pretrial diversion; dismissal, sustained motion to quash, or acquittal) — the mechanism of registry track la-976-arrest-no-conviction, and the state pack cites the no-conviction pathway as arts. 976-977. The profile's own citation is an embedded legis.la.gov URL; the state pack supplies the article number.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MA-adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "registryTrackId": "ma-seal-admin",
+        "coRegistryTrackIds": [
+          "ma-seal-decrim"
+        ]
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "M.G.L. c. 276, § 100A",
+          "source": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+          "quote": "Adult conviction sealing is governed mainly by M.G.L. c. 276, 100A."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "G.L. c. 276, § 100A",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ma-seal-admin: Petition to Seal under G.L. c. 276, § 100A — authority G.L. c. 276, § 100A, § 100B, § 100C ¶3, § 100D; ma-seal-decrim: Petition to Seal an Offence That Is No Longer a Crime under G.L. c. 276, § 100A"
+        }
+      ],
+      "reasoning": "The compiled pathway cites its governing statute, M.G.L. c. 276, § 100A, in label and body — the authority of registry track ma-seal-admin (the administrative petition to the Commissioner of Probation). The pathway's 'offense no longer a crime — immediate/forthwith' branch co-maps to ma-seal-decrim, the § 100A decriminalized-offense variant.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MA-automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "registryTrackId": "ma-autoseal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "M.G.L. c. 276, § 100C (automatic branch)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+          "quote": "Not guilty Sealing 100C; should be sealed unless defendant asks not to seal"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "G.L. c. 276, § 100C ¶1",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ma-autoseal: Automatic Sealing of Not Guilty, No Bill and No Probable Cause under G.L. c. 276, § 100C ¶1"
+        }
+      ],
+      "reasoning": "The compiled pathway is the automatic § 100C sealing of not-guilty, no-bill and no-probable-cause outcomes; its label and body cite 100C and state the sealed-unless-defendant-objects rule of the first paragraph. Registry track ma-autoseal carries G.L. c. 276, § 100C ¶1 — the automatic paragraph — exactly.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MA-court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "registryTrackId": "ma-seal-court"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "M.G.L. c. 276, § 100C (dismissal / nolle prosequi branch, cited in pathway label)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+          "quote": "Court-requested sealing for dismissal or nolle prosequi (100C)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "G.L. c. 276, § 100C ¶2",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ma-seal-court: Petition to Seal Criminal Records for Nolle Prosequi or Dismissal under G.L. c. 276, § 100C ¶2"
+        }
+      ],
+      "reasoning": "The compiled pathway's label carries § 100C for the dismissal/nolle prosequi sealing request to the court — the discretionary second paragraph of § 100C, which the registry tracks as ma-seal-court (G.L. c. 276, § 100C ¶2). The automatic ¶1 outcomes are a separate compiled pathway mapped to ma-autoseal, so the paragraph split is preserved.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MA-juvenile-record-sealing-under-100b",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "juvenile-record-sealing-under-100b",
+        "registryTrackId": "ma-seal-admin"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "M.G.L. c. 276, § 100B",
+          "source": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+          "quote": "Juvenile sealing is primarily under M.G.L. c. 276, 100B."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "G.L. c. 276, § 100B",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ma-seal-admin: Petition to Seal under G.L. c. 276, § 100A — authority list includes G.L. c. 276, § 100B"
+        }
+      ],
+      "reasoning": "The compiled pathway cites its governing statute, M.G.L. c. 276, § 100B (juvenile sealing through the Commissioner of Probation). The registry carries § 100B inside the ma-seal-admin track's authority list — the administrative sealing petition covering §§ 100A and 100B — so the juvenile pathway maps to that track on the shared § 100B citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MA-marijuana-only-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "marijuana-only-expungement",
+        "registryTrackId": "ma-expunge-mj"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "Petition for Expungement of Marijuana Offenses Form (mass.gov)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+          "quote": "Massachusetts has a dedicated official form: Petition for Expungement of Marijuana Offenses Form. The official form asks the court to expunge marijuana-only charges, including possession of marijuana under G.L. c. 94C, 34. (\"https://www.mass.gov/doc/petition-for-expungement-of-marijuana-offenses-form/download\")"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "G.L. c. 276, § 100K¼",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ma-expunge-mj: Petition for Expungement of Marijuana Offences under G.L. c. 276, § 100K¼"
+        }
+      ],
+      "reasoning": "The compiled pathway is built on the dedicated official mass.gov Petition for Expungement of Marijuana Offenses form for marijuana-only charges (including G.L. c. 94C, § 34 possession) — the marijuana-specific expungement mechanism the registry tracks as ma-expunge-mj under G.L. c. 276, § 100K¼. The profile identifies the mechanism by the official form and offense statute rather than the § 100K¼ number.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MA-non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+        "registryTrackId": "ma-expunge-k"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "M.G.L. c. 276, § 100K",
+          "source": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+          "quote": "Non-time-based expungement is governed by M.G.L. c. 276, 100K."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "G.L. c. 276, § 100K",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ma-expunge-k: Petition for Expungement under G.L. c. 276, § 100K"
+        }
+      ],
+      "reasoning": "The compiled pathway cites its governing statute, M.G.L. c. 276, § 100K (non-time-based expungement for false identity, error, fraud, or decriminalized conduct) — the exact authority of registry track ma-expunge-k. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MA-time-based-expungement-under-100f-100j",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "time-based-expungement-under-100f-100j",
+        "registryTrackId": "ma-expunge-time"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "M.G.L. c. 276, §§ 100F-100J",
+          "source": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+          "quote": "Time-based expungement is available only in limited cases. It runs through 100F, 100G, 100H, 100I, and 100J."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "G.L. c. 276, §§ 100F, 100G, 100H, 100I",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ma-expunge-time: Petition to Expunge under G.L. c. 276, §§ 100F, 100G and 100H — authority G.L. c. 276, § 100F, § 100G, § 100H, § 100I"
+        }
+      ],
+      "reasoning": "The compiled pathway enumerates its governing sections — §§ 100F, 100G, 100H, 100I and 100J — matching registry track ma-expunge-time (§§ 100F/100G/100H with § 100I in its authority list). Four of the five cited sections are carried verbatim on the track; § 100J (the adjudication procedure) is part of the same time-based scheme.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ME-adult-conviction-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-conviction-sealing",
+        "registryTrackId": "me-seal-gen"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "15 M.R.S. § 2263; § 2261(6)(B)",
+          "source": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+          "quote": "A person may file a written motion in the underlying criminal proceeding, and the motion must address each statutory prerequisite. (\"https://legislature.maine.gov/statutes/15/title15sec2263.html\") … Certain marijuana convictions committed before Jan. 30, 2017 Eligible if they fall within the listed marijuana cultivation/possession categories in 2261(6)(B)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "15 M.R.S. §§ 2261-2264",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "me-seal-gen: Motion to Seal Criminal History Record Information (15 M.R.S. ch. 310-A, §§ 2262-2264) — authority 15 M.R.S. § 2261, § 2262, § 2263, § 2264"
+        }
+      ],
+      "reasoning": "The compiled pathway sources its rules to the official statute pages for 15 M.R.S. § 2263 and § 2261 (URLs embedded in the profile) and applies the § 2261(6) eligibility definitions (Class E crimes; pre-2017 marijuana categories in § 2261(6)(B)) — the general sealing motion the registry tracks as me-seal-gen under 15 M.R.S. §§ 2261-2264.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ME-adult-non-conviction-record-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "adult-non-conviction-record-relief",
+        "registryTrackId": "me-nonconv"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "16 M.R.S. § 703; § 705",
+          "source": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+          "quote": "Non-conviction records are governed differently through Maines criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. … Confidential criminal history record information may be disseminated only to listed recipients, but Maine law still allows certain specific-date inquiries about whether a named person was arrested, detained, summonsed, or had formal charges initiated on a specific date. (\"https://legislature.maine.gov/statutes/16/title16sec705.html\")"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "16 M.R.S. §§ 703-708",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "me-nonconv: Confidential Criminal History Record Information for Non-Conviction Dispositions — authority 16 M.R.S. § 703, § 704, § 705, § 708"
+        }
+      ],
+      "reasoning": "The compiled pathway sources the confidentiality treatment of Maine non-conviction records to the official statute pages for 16 M.R.S. § 703 and § 705 (URLs embedded in the profile) and restates the limited-dissemination rule — the mechanism of registry track me-nonconv (16 M.R.S. §§ 703-708).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ME-juvenile-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "ME",
+        "mechanismAuthority": [
+          "15 M.R.S. § 3308-C"
+        ],
+        "why": "The registry has no Maine juvenile sealing track. Its six ME tracks implement adult sealing (15 M.R.S. §§ 2261-2264, 2262-A, 2262-B), non-conviction confidentiality (16 M.R.S. §§ 703-708), deferred disposition routing, and screening-service disputes; the juvenile automatic-and-petition sealing scheme (15 M.R.S. § 3308-C) is absent."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "15 M.R.S. § 3308-C",
+          "source": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+          "quote": "The statute similarly provides automatic sealing after discharge notice for juvenile crimes other than murder/Class A/B/C/OUI categories. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "juvenile sealing routes (automatic and petition)",
+          "source": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+          "quote": "Maine juvenile records are separate from adult CR-218 sealing. Maines juvenile records page says some juvenile records are automatically sealed after completion of the court disposition, while others require a petition. (\"https://www.courts.maine.gov/courts/juvenile/records.html\")"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no ME registry track carries § 3308-C or any juvenile authority",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ME registry tracks: me-deferred (17-A M.R.S. ch. 67), me-nonconv (16 M.R.S. §§ 703-708), me-screening (10 M.R.S. § 1500-AA et seq.), me-seal-gen (15 M.R.S. §§ 2261-2264), me-seal-prost (§ 2262-A), me-seal-survivor (§ 2262-B) — none cites 15 M.R.S. § 3308-C."
+        }
+      ],
+      "reasoning": "The compiled pathway covers Maine juvenile sealing (automatic on completion for Class D/E-level adjudications; petition after three years for more serious ones), sourced in the profile to the official statute page for 15 M.R.S. § 3308-C and the Maine Judicial Branch juvenile records page. No ME registry track carries § 3308-C or any juvenile authority. Genuine registry gap.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ME-pardon-route",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "ME",
+        "mechanismAuthority": [
+          "Maine executive pardon (Governor; Me. DOC Pardon Board, maine.gov/corrections/pardonboard)",
+          "16 M.R.S. § 703 (pardoned conviction becomes confidential criminal history record information, per the profile’s sourced statement)"
+        ],
+        "why": "The registry has no Maine pardon/clemency track, although it carries pardon tracks in other jurisdictions (e.g. ak-pardon, al-pardon). The Maine mechanism — executive pardon rendering the conviction confidential rather than erased — has no track."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "pardon renders conviction confidential criminal-history information",
+          "source": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+          "quote": "A full and free pardon in Maine does not wipe the record clean. Maines Department of Corrections Pardon Board states that Maine does not expunge or erase criminal records and that a pardon makes the pardoned conviction confidential criminal-history information, available only under limited statutory conditions. (\"https://www.maine.gov/corrections/pardonboard\")"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no ME registry track covers pardon or clemency",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "ME registry tracks: me-deferred, me-nonconv, me-screening, me-seal-gen, me-seal-prost, me-seal-survivor — none is a pardon or clemency track and none cites the Pardon Board or clemency authority."
+        }
+      ],
+      "reasoning": "The compiled pathway is the Maine executive-pardon route, sourced in the profile to the DOC Pardon Board's official page, with the pardoned conviction becoming confidential criminal-history information under the Title 16 framework. No ME registry track covers pardon or clemency. The profile carries no statutory citation for the clemency power itself (a constitutional power), so the gap is recorded with the Pardon Board authority and the § 703 confidentiality consequence; confidence medium on citation granularity, high on the gap itself.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-ME-sex-trafficking-sexual-exploitation-survivor-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "sex-trafficking-sexual-exploitation-survivor-sealing",
+        "registryTrackId": "me-seal-survivor"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "15 M.R.S. § 2262-B; P.L. 2025, ch. 513",
+          "source": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+          "quote": "Maine enacted Public Law 2025, Chapter 513, effective without the Governors signature on January 11, 2026, creating a broader survivor-based sealing route for victims of sex trafficking or sexual exploitation. … Under the new 2262-B route, criminal history record information relating to any current or former crime may be sealed"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "15 M.R.S. § 2262-B",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json",
+          "quote": "me-seal-survivor: Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation (15 M.R.S. § 2262-B) — authority 15 M.R.S. § 2262-B, § 2261(6)(C), § 2261(8), § 2261(9)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites the operative statute § 2262-B directly ('Under the new 2262-B route') together with its session law, Public Law 2025 ch. 513 — the exact authority of registry track me-seal-survivor. Direct statutory identity.",
+      "confidence": "high"
+    }
+  ]
+}

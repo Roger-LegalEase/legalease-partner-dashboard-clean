@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E2-D",
+  "group": "E2-D",
+  "baseCommit": "c7225bcf8f2fb2ab0deb5c333d2278937b257694",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "webAccessAvailable": false,
+  "webAccessNote": "Outbound fetches to every official Alaska source were refused by the network egress proxy: www.akleg.gov (AS 12.55.085), courts.alaska.gov and public.courts.alaska.gov (TF-800 / TF-805 / TF-810 and Administrative Rules 37.6 and 40), and dps.alaska.gov, each returning EGRESS_BLOCKED. Web search returned result listings but no official page body was retrieved, so no web source is cited as evidence below. Every citation in this file is a repository path, and each is reproducible with git show at the revision named in the source field.",
+  "findings": [
+    {
+      "jobId": "E2-D-AK-as-12-55-085",
+      "outcome": "terminal",
+      "proposedDisposition": "registry_scoped_out_named_authority",
+      "proposedMapping": null,
+      "proposedRegistryTrack": null,
+      "tracksExamined": [
+        {
+          "registryTrackId": "ak-courtview",
+          "coversAs125085": false,
+          "why": "Its operative authority is AS 22.35.030 and Alaska Administrative Rule 40(a), and the relief it produces is non-publication of a case on the public online index. Its own record shows it treats an SIS set-aside as an incoming fact, not as relief it grants: the conditional participant filing requirement 'Proof of the suspended imposition of sentence and any set-aside order', obtained from 'The sentencing court', applies 'On the SIS ground only'. A track that asks the participant to attach a set-aside order the sentencing court already issued is downstream of AS 12.55.085(e), not an implementation of it. Citation spines carried by the track are 22.35.30 only."
+        },
+        {
+          "registryTrackId": "ak-juvenile",
+          "coversAs125085": false,
+          "why": "Authority is AS 47.12.300 and AS 47.12.030, the juvenile delinquency sealing provisions; record types are juvenile records reached automatically after the eighteenth birthday or release of jurisdiction. AS 12.55.085 is an adult sentencing provision in Title 12 and is not within Title 47 juvenile jurisdiction. Citation spines carried by the track are 47.12.300 and 47.12.30."
+        },
+        {
+          "registryTrackId": "ak-mistaken-identity",
+          "coversAs125085": false,
+          "why": "Authority is AS 12.62.180 and 13 AAC 68.205, an agency sealing request limited to information that resulted from mistaken identity or false accusation proven beyond a reasonable doubt. An SIS set-aside presupposes a valid conviction the participant actually incurred, which is the opposite of the mistaken-identity predicate. Citation spines carried by the track are 12.62.180 and 68.205."
+        },
+        {
+          "registryTrackId": "ak-nonconviction-confidential",
+          "coversAs125085": false,
+          "why": "Authority is AS 12.62.160(b)(8) and 13 AAC 68.310, governing agency confidentiality of non-conviction records. A conviction on which sentence imposition was suspended is a conviction; AS 12.55.085(e) sets the conviction aside but the compiled profile records that the record is neither sealed nor destroyed and the conviction remains usable as a sentencing prior. The track's record-type predicate is therefore never satisfied. Citation spines carried by the track are 12.62.160 and 68.310."
+        },
+        {
+          "registryTrackId": "ak-pardon",
+          "coversAs125085": false,
+          "why": "Authority is Alaska Const. art. III, section 21, AS 33.20.070 and AS 33.20.080 — executive clemency by the Governor. A set-aside under AS 12.55.085(e) is granted by the sentencing court on discharge, not by the executive, and the compiled profile treats the pardon as the residual backstop 'For an ordinary adult conviction that fits none of the above'. Citation spines carried by the track are 33.20.70 and 33.20.80."
+        },
+        {
+          "registryTrackId": "ak-sej",
+          "coversAs125085": false,
+          "why": "The closest candidate and the one name similarity most invites. Its authority is AS 12.55.078, suspended entry of judgment — a different section from AS 12.55.085, suspended imposition of sentence — and the two mechanisms differ in kind: SEJ withholds entry of judgment and ends in dismissal without a conviction, while an SIS produces a conviction that the court may later set aside under (e). The registry's own scope restriction removes the track from participant-initiated filing entirely: 'Suspended entry of judgment is selected and administered inside the active criminal case; the review did not identify a later participant filing that LegalEase can initiate.' Its citation spine is 12.55.78; the compiled pathway's spine is 12.55.85. Shared use of the word 'suspended' is not evidence and is not relied on here in either direction."
+        },
+        {
+          "registryTrackId": "ak-tf800",
+          "coversAs125085": false,
+          "why": "Authority is Alaska Court System form TF-800 (5/25) and Alaska Administrative Rule 37.6, and the mechanism is a request that a judge seal a case or specified records under a public-access balancing standard. Sealing court records and setting aside a conviction are different reliefs with different operative authorities; the track cites no statute in Title 12 Chapter 55. Its only citation spine is 37.6. Nothing in the track record names AS 12.55.085 or a suspended imposition of sentence."
+        },
+        {
+          "registryTrackId": "ak-tf805",
+          "coversAs125085": false,
+          "why": "Authority is Alaska Court System form TF-805 (5/25) alone, and the relief is name-only removal from the public index; dispositions are stated only as 'as stated in the grounds section of TF-805'. It carries no statutory citation at all — the spine extraction yields an empty set — so there is no operative authority on which it could reach AS 12.55.085, and removing a name from the public index is not a set-aside of the conviction."
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "AS 12.55.085(e) and AS 12.55.085(f)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+          "quote": "'Defendant received a Suspended Imposition of Sentence and has successfully completed probation. Defendant moves the Court to SET ASIDE the conviction under AS 12.55.085(e) and to issue a certificate.' (NOTE: this does NOT seal or expunge; the record remains and may appear on background checks.)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "AS 12.55.085 relief is narrower than sealing or expungement",
+          "source": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+          "quote": "Set-aside is not erasure. Even when granted, the conviction remains on the record, can be a sentencing prior (AS 12.55.155(c)(8)), and may support licensing denials."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No Alaska registry track carries AS 12.55.085 in its authority, legal name, or official form references",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The eight AK authority arrays in full: ak-courtview [\"AS 22.35.030\",\"Alaska Administrative Rule 40(a)\"]; ak-juvenile [\"AS 47.12.300\",\"AS 47.12.030\"]; ak-mistaken-identity [\"AS 12.62.180\",\"13 AAC 68.205\"]; ak-nonconviction-confidential [\"AS 12.62.160(b)(8)\",\"13 AAC 68.310\"]; ak-pardon [\"Alaska Const. art. III, \\u00a7 21\",\"AS 33.20.070\",\"AS 33.20.080\"]; ak-sej [\"AS 12.55.078, enacted 2016\"]; ak-tf800 [\"Alaska Court System form TF-800 (5/25)\",\"Alaska Administrative Rule 37.6\"]; ak-tf805 [\"Alaska Court System form TF-805 (5/25)\"]. AS 12.55.085 appears in none of them."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "Mechanical spine comparison under the crosswalk generator's own citation rule: pathway spine 12.55.85 matches no AK registry track spine",
+          "source": "scripts/generate-rcap-track-pathway-crosswalk.mjs",
+          "quote": "A spine is the ordered tuple of numeric groups inside one citation, joined only by . - : / \\u2014 the punctuation every state uses inside a section number. `AS 12.55.085` and the compiled slug `...-as-12-55-085` both yield 12\\u00b755\\u00b785. Replaying that function over the projection yields: ak-courtview 22.35.30; ak-juvenile 47.12.300, 47.12.30; ak-mistaken-identity 12.62.180, 68.205; ak-nonconviction-confidential 12.62.160, 68.310; ak-pardon 33.20.70, 33.20.80; ak-sej 12.55.78; ak-tf800 37.6; ak-tf805 (none). No track yields 12.55.85."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "The pinned 497-track registry source contains no occurrence of the string 12.55.085 anywhere, in any jurisdiction",
+          "source": "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "sha256 of the retrieved blob is 9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9, matching the sha256 pinned for that file in data/rcap-ledger/registry-crosswalk-projection.json. A full-text scan of the 497 track records returns zero hits for '12.55.085'; the companion pinned file data/record-clearing/legal-design-track-source-relationships.json (sha256 8376337488a0e07eb0b476f7623bfbb623272d167ecd15b23c93cbb47922b826) likewise returns zero hits."
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "The registry's own upstream legal-design intake declares an AS 12.55.085 track and deliberately withholds it from the registry",
+          "source": "data/record-clearing/legal-design-intake/AK.memo.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "trackId 'ak-set-aside', legalName 'Set-Aside After a Suspended Imposition of Sentence, AS 12.55.085', legalDesignDecision.status 'legal_research_required', rationale: \"Original review: 'Additional research required.' The amendment retains AK-4 as a true blocker and states that the unresolved question 'determines whether any packet exists' \\u2014 route existence, not merely form identity. Counsel's decision is preserved unchanged; the track is deferred rather than imported. ... The track is deferred, unregistered and unreachable.\""
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "The named stop condition is legal-design blocker AK-4, an explicit state addendum from counsel's Alaska review",
+          "source": "data/record-clearing/legal-design-intake/AK.memo.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "unresolvedQuestions[0].impact 'build_blocker', affectedElement 'governing_mechanism', provenance.classificationBasis 'explicit_state_addendum', provenance.sourceFile 'LegalEase-Alaska-Legal-Review.md', provenance.sourceHeading 'Alaska operational amendments / True blockers retained', provenance.sourceStatement: \"**AK-4:** whether a person discharged long ago without a set-aside may file later, and the legally correct vehicle for doing so, remain unresolved. This determines whether any packet exists.\""
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "The batch delta report records ak-set-aside as a deferred track with no runtime registration",
+          "source": "data/record-clearing/legal-design-batch-delta-report.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "deferredTracks[2]: {\"jurisdiction\":\"AK\",\"trackId\":\"ak-set-aside\",\"publicName\":\"Setting aside a conviction after an SIS\",\"outputStrategy\":null,\"outputStrategyStatus\":\"unresolved\",\"packetIdentity\":\"unresolved\",\"runtimeRegistration\":\"none\",\"runtimeReachable\":false,\"legalDesignStatus\":\"legal_research_required\",\"authority\":[\"AS 12.55.085, with the set-aside at (e) and the exclusions at (f)\"],\"mechanism\":\"AS 12.55.085(e) ties the set-aside to the moment of discharge. Whether a person discharged years ago without a set-aside can go back and ask for one, and by what vehicle, is unresolved.\"}"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "The implementation queue and the batch-1 completion record independently carry the same deferral",
+          "source": "data/record-clearing/legal-design-implementation-queue.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5 and data/record-clearing/legal-design-batch-1-completion.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "implementation queue deferredTracks[0]: {\"jurisdiction\":\"AK\",\"trackId\":\"ak-set-aside\"}; batch-1 completion sourceIdReconciliation.deferredTracks[0]: {\"jurisdiction\":\"AK\",\"trackId\":\"ak-set-aside\",\"outputStrategy\":null,\"outputStrategyStatus\":\"unresolved\",\"packetIdentity\":\"unresolved\",\"runtimeRegistration\":\"none\",\"runtimeReachable\":false,\"unresolvedElements\":[\"governing_mechanism\"]}"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "The 11-to-8 delta between the AK intake memo and the registry is exactly the three legal_research_required tracks",
+          "source": "data/record-clearing/legal-design-intake/AK.memo.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "The memo declares eleven AK tracks: ak-courtview, ak-tf805, ak-tf800, ak-set-aside, ak-sej, ak-mistaken-identity, ak-cannabis-seal, ak-nonconviction-confidential, ak-correct-record, ak-pardon, ak-juvenile. Exactly three carry legalDesignDecision.status 'legal_research_required' \\u2014 ak-set-aside, ak-cannabis-seal, ak-correct-record \\u2014 and exactly those three are absent from the registry's eight AK tracks. The other eight all carry 'legal_design_approved_with_limitations'."
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "ak-sej is itself scoped out of participant-initiated filing, so it could not absorb an SIS set-aside even if the statutes were the same",
+          "source": "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "ak-sej scopeRestrictions: \"Suspended entry of judgment is selected and administered inside the active criminal case; the review did not identify a later participant filing that LegalEase can initiate.\""
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "ak-courtview consumes a set-aside order as an attachment rather than producing one",
+          "source": "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "ak-courtview participantFilingRequirements: {\"name\":\"Proof of the suspended imposition of sentence and any set-aside order\",\"obtainedFrom\":\"The sentencing court\",\"requirement\":\"conditional\",\"conditionDescription\":\"On the SIS ground only.\",\"requiredBeforeFiling\":true,\"howToObtain\":\"Ask the sentencing court for proof of the SIS and any set-aside order, and attach them.\"}"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "The registry does not categorically exclude set-aside relief that leaves the record public; Arizona's is carried in the same registry",
+          "source": "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "quote": "az_set_aside mechanism: \"Set aside the judgment of guilt. It is not sealing and not expungement. Discretionary: \\u00a7 13-905(C) lists seven factors the court must consider. The record stays public with a set-aside annotation.\" Fifty-three registry tracks across AZ, CA, DC, ID, LA, MI, ND, NE, NH, NV, OR, WA and WI turn on set-aside, vacatur or deferred-imposition relief."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No official Alaska source could be fetched to test the deferred question independently",
+          "source": "data/rcap-ledger/e2-evidence/E2-D.json (webAccessNote in this file)",
+          "quote": "www.akleg.gov, courts.alaska.gov, public.courts.alaska.gov and dps.alaska.gov each returned EGRESS_BLOCKED from the network egress proxy, so the current text of AS 12.55.085(e) and (f), Administrative Rule 40(a), and the TF-800 / TF-805 / TF-810 form bodies were not retrieved in this lane."
+        }
+      ],
+      "reasoning": "The question is whether the compiled pathway set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 belongs to one of the eight Alaska registry tracks, is deliberately routed outside them, or is a gap the registry ought to fill. It is the second, and the routing is documented in the registry's own upstream artifacts rather than inferred.\n\nFirst, coverage. AS 12.55.085 appears nowhere in the pinned 497-track registry — not in an authority array, not in a legal name, not in a form reference, not in free text, in any jurisdiction. That is verified two ways: by reading the eight AK authority arrays out of registry-crosswalk-projection.json, and by full-text scanning the pinned registry blob at 3b6f4c10, whose sha256 matches the hash the projection pins for it. Replaying the crosswalk generator's own citation-spine function confirms the same result mechanically: the pathway yields the spine 12.55.85 and no AK track yields it.\n\nEach of the eight tracks was then ruled out on its operative authority rather than on its name. Four are non-starters on subject matter: ak-juvenile is Title 47 juvenile jurisdiction; ak-mistaken-identity requires mistaken identity or false accusation proven beyond a reasonable doubt, the opposite predicate to a valid SIS conviction; ak-nonconviction-confidential reaches non-conviction records, and a set-aside conviction remains a conviction usable as a sentencing prior under AS 12.55.155(c)(8) per the compiled profile; ak-pardon is executive clemency, whereas the AS 12.55.085(e) set-aside is granted by the sentencing court. Two are court-records tracks whose relief is a different thing from a set-aside: ak-tf800 is a Rule 37.6 sealing request and ak-tf805 is name-only removal from the public index, and ak-tf805 carries no statutory citation at all.\n\nak-courtview needed care, because its record does mention the SIS. It carries a conditional supporting document, 'Proof of the suspended imposition of sentence and any set-aside order', obtained from the sentencing court, applying 'On the SIS ground only'. That is the registry treating an already-issued set-aside order as an input fact to a CourtView-exclusion request under AS 22.35.030 and Administrative Rule 40(a). The relief ak-courtview produces is non-publication on the public online index; the relief the compiled pathway produces is a court order setting the conviction aside under (e) plus a certificate. A track that asks the participant to attach the set-aside order does not grant it. I could not fetch Administrative Rule 40(a) to confirm which enumerated ground the record calls 'the SIS ground' — the registry's own packetInstructions note 'Build all ten grounds, not three', so the enumeration in the track record is admittedly partial — but the direction of the relationship is settled by the field itself regardless of which ground it is.\n\nak-sej is the one the slug invites and the one the evidence rules must be applied to hardest. It is AS 12.55.078, suspended entry of judgment, not AS 12.55.085, suspended imposition of sentence. The two adjoin in the code and share the word 'suspended', and neither fact is evidence. They are different mechanisms: SEJ withholds entry of judgment and ends in dismissal without a conviction, which is why ak-courtview lists 'all charges were dismissed after a suspended entry of judgment under AS 12.55.078' as a dismissal-family ground; an SIS produces a conviction that the court may later set aside. Independently, ak-sej is scoped out of participant filing altogether: the registry restricts it to what is 'selected and administered inside the active criminal case', with no later participant filing LegalEase can initiate.\n\nSecond, whether the omission is deliberate. It is, and the stop condition is named. The Alaska legal-design intake memo — the registry's upstream source — declares eleven AK tracks, one of which is 'ak-set-aside', legal name 'Set-Aside After a Suspended Imposition of Sentence, AS 12.55.085', authority 'AS 12.55.085, with the set-aside at (e) and the exclusions at (f)'. Its legalDesignDecision.status is legal_research_required and its rationale ends 'The track is deferred, unregistered and unreachable.' The blocker is identified by name: AK-4, classified explicit_state_addendum, sourced to LegalEase-Alaska-Legal-Review.md under 'Alaska operational amendments / True blockers retained', reading 'whether a person discharged long ago without a set-aside may file later, and the legally correct vehicle for doing so, remain unresolved. This determines whether any packet exists.' The memo is explicit that this goes to route existence, not form identity, and that counsel's tentative custom_pleading strategy was withheld rather than adopted because 'A concrete strategy may not stand in for what counsel has not decided.' Three further artifacts carry the same deferral independently: the batch delta report (runtimeRegistration 'none', runtimeReachable false), the implementation queue, and the batch-1 completion record (unresolvedElements ['governing_mechanism']). The 11-to-8 delta between memo and registry is exactly the three legal_research_required tracks — ak-set-aside, ak-cannabis-seal, ak-correct-record — which shows the deferral is the registry's general import rule operating, not an Alaska-specific oversight.\n\nThird, what this is not. It is not a registry gap in the sense of an unnoticed omission: the registry considered AS 12.55.085 by name and declined to register it under a recorded blocker. It is also not a categorical scope-out of set-aside relief. Fifty-three registry tracks turn on set-aside, vacatur or deferred-imposition relief, and az_set_aside is carried even though its own mechanism text says 'It is not sealing and not expungement ... The record stays public with a set-aside annotation' — the same legal character as AS 12.55.085. So the scope-out is specific to AK-4's unresolved question about the post-discharge vehicle, and it dissolves if AK-4 is answered.\n\nConsequences for the crosswalk, recorded for E3 and not acted on here. The crosswalk currently gives this pathway registryRelation 'unresolved_no_candidate' with unresolvedReason 'no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction' and missingEvidence 'a statutory citation in the compiled pathway id or label'. Read against the generator, that string is the boilerplate emitted whenever the candidate set is empty; it is not a finding that the pathway lacks a citation. The pathway does carry one, the generator does extract it, and the accurate reason is that AS 12.55.085 resolves to a deferred, unregistered legal-design track rather than to any of the eight registered ones. If E3 needs a disposition vocabulary term, this row is a registry scope-out on named authority (AK-4), not a missing citation. If AK-4 is ever answered, the track record the registry would then carry is already drafted in the memo: jurisdiction AK, mechanism authority AS 12.55.085 with the set-aside at (e) and the exclusions at (f), relief type a court-granted set-aside of the conviction and issuance of a certificate that neither seals nor destroys the record, destination the sentencing court in the existing criminal case, output strategy a custom pleading because no Alaska Court System form for a post-discharge request was located. I name no slug for it and propose no mapping, and the compiled pathway should be preserved: it is the only place in the runtime where an Alaskan with an SIS is told what the set-aside is and, correctly, that it is not expungement.\n\nOne limitation stated plainly. Every official Alaska source was unreachable — akleg.gov, courts.alaska.gov, public.courts.alaska.gov and dps.alaska.gov all returned EGRESS_BLOCKED — so I could not read the current text of AS 12.55.085(e) and (f), Administrative Rule 40(a), or the TF-800 / TF-805 / TF-810 bodies. That limits two things and neither changes the disposition: I cannot independently answer AK-4 (which is the blocker's whole point, and answering it is counsel's call, not this lane's), and I cannot say which enumerated Rule 40(a) ground the ak-courtview record calls 'the SIS ground'. The finding that no registry track carries AS 12.55.085, and that the registry deferred it by a named decision, rests entirely on repository artifacts and is not affected.",
+      "confidence": "high"
+    }
+  ]
+}
