@@ -9,15 +9,16 @@
       "kind": "migration",
       "title": "Apply phase-49 durable packet render jobs and artifact-gated credit",
       "artifacts": [
-        "(moved to branch claude/rcap-phase-49-migration, PR #91)"
+        "supabase/phase-49-rcap-packet-render-jobs.sql",
+        "supabase/tests/phase-49-packet-render-jobs.test.sql"
       ],
-      "status": "authorized_scoped",
+      "status": "authorized",
       "requestedBy": "opus-5-captain",
       "requestedAt": "2026-08-10",
       "authorizedBy": "Roger Roman",
       "authorizedAt": "2026-08-10",
       "executedAt": null,
-      "why": "A sponsored packet credit is currently consumed with no validated artifact in existence. packet/generate/route.ts records a credit when packetStatus reaches 'ready', and 'ready' is produced by an in-memory text/plain string with no render, no storage write and no read-back. This migration makes credit movement impossible without stored, checksummed bytes. Held on a dedicated migration branch because assertSourceEngineChangeScope treats supabase/ as production-forbidden; the guard is unchanged and nothing was allowlisted.",
+      "why": "A sponsored packet credit is currently consumed with no validated artifact in existence. packet/generate/route.ts records a credit when packetStatus reaches 'ready', and 'ready' is produced by an in-memory text/plain string with no render, no storage write and no read-back. This migration makes credit movement impossible without stored, checksummed bytes. The migration stays in the canonical supabase/ directory: relocating it would create a fake distinction between the code and the schema it requires.",
       "risk": "low",
       "riskNote": "Additive and forward-only. Creates three new tables, one trigger and two functions. Alters no existing table, drops nothing, and backfills nothing. No application code reads these objects yet, so applying it changes no runtime behaviour on its own.",
       "preconditions": [
@@ -29,21 +30,39 @@
         "Applies cleanly to a fresh PostgreSQL 16 cluster",
         "Ten behavioural assertions pass in supabase/tests/phase-49-packet-render-jobs.test.sql",
         "Mutation-tested: stripping the artifact_validated gate turns the suite red",
-        "npm run rcap:verify-packet-render-jobs",
-        "Applied to an ephemeral local PostgreSQL 16 cluster under the granted authorization",
-        "SQL state machine checked against data/rcap-render/state-machine.json; drift mutation-tested"
+        "SQL, shared fixture and TypeScript contract all agree; drift mutation-tested on both sides",
+        "npm run rcap:verify-packet-render-jobs"
       ],
       "rollback": "Documented at the foot of the migration: drop the two functions, the two credit tables, the trigger and its function, then packet_render_jobs. Additive, so no pre-existing row is affected.",
       "blocks": [
         "Wiring packet-generation.ts to the job queue. Application code must not reference these objects before the migration is applied to the target environment."
       ],
-      "branch": "claude/rcap-phase-49-migration",
-      "pullRequest": 91,
-      "scopedAuthorization": {
-        "mergeOnGreen": "authorized",
+      "phase": 49,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-49-rcap-packet-render-jobs.sql",
+        "supabase/tests/phase-49-packet-render-jobs.test.sql"
+      ],
+      "authorizedSha256": [
+        "2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6",
+        "ac3a29f6b0c49b0418376bf55c0c42d2d28b31971cc278889cd25f6ae9930c2e"
+      ],
+      "authorizationScope": "repository_integration_and_conditional_production_application",
+      "doesNotAuthorize": [
+        "any third file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any renamed or replacement migration",
+        "any unrelated policy, function, seed, config or schema change",
+        "bypassing the SQL-to-TypeScript contract",
+        "enabling credits on a successful SQL exit without post-apply read-back",
+        "later Supabase work of any kind"
+      ],
+      "voidsOn": "Any change to either authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "environmentConditions": {
+        "repositoryIntegration": "authorized",
         "applyEphemeralLocal": "authorized",
-        "applyStaging": "authorized once staging exists",
-        "applyProduction": "queued \u2014 explicit go required after the staging rehearsal passes"
+        "applyStaging": "authorized",
+        "applyProduction": "authorized conditionally \u2014 only after staging read-back and behaviour checks pass; no second business authorization required unless a path or its bytes change"
       }
     }
   ],
@@ -53,5 +72,6 @@
     "authorized": "authorized for all listed environments",
     "executed": "applied",
     "declined": "refused"
-  }
+  },
+  "exactPathAuthorizationNote": "supabase/ remains globally forbidden by assertSourceEngineChangeScope. An entry may name authorizedPaths with matching authorizedSha256, which permits those exact files at those exact bytes and nothing else. This distinguishes an unauthorized production change from a specifically approved one; it does not widen the prefix."
 }
