@@ -271,6 +271,7 @@ export async function getOnboarding(partnerSlug: string): Promise<PartnerOnboard
       .select("id, packet_cap, overage_enabled, pause_at_cap, contract_note")
       .eq("partner_id", partnerRecordId)
       .eq("entitlement_scope", "sponsored_packets")
+      .is("expires_at", null)
       .maybeSingle();
     packetEnt = (packetEntRes.data ?? {}) as typeof packetEnt;
     if (packetEnt.id) {
@@ -517,16 +518,28 @@ export async function configureBilling(partnerSlug: string, input: {
   if (partnerError || !partnerRow?.id) {
     throw new PartnerOnboardingError("write_failed", "Could not resolve the partner record for packet capacity.");
   }
-  const { error: entError } = await supabase
+  // One ACTIVE entitlement per partner and program (partial unique index on
+  // expires_at is null), so this is select-then-write rather than an upsert.
+  const { data: activeEnt } = await supabase
     .from("partner_packet_entitlement")
-    .upsert({
-      partner_id: partnerRow.id,
-      entitlement_scope: "sponsored_packets",
-      packet_cap: input.packetCap,
-      overage_enabled: input.overageEnabled,
-      pause_at_cap: input.pauseAtCap,
-      contract_note: `overage_packet_price_cents=${price}`
-    }, { onConflict: "partner_id,entitlement_scope" });
+    .select("id")
+    .eq("partner_id", partnerRow.id)
+    .eq("entitlement_scope", "sponsored_packets")
+    .is("expires_at", null)
+    .maybeSingle();
+  const entValues = {
+    packet_cap: input.packetCap,
+    overage_enabled: input.overageEnabled,
+    pause_at_cap: input.pauseAtCap,
+    contract_note: `overage_packet_price_cents=${price}`
+  };
+  const { error: entError } = activeEnt?.id
+    ? await supabase.from("partner_packet_entitlement").update(entValues).eq("id", activeEnt.id)
+    : await supabase.from("partner_packet_entitlement").insert({
+        partner_id: partnerRow.id,
+        entitlement_scope: "sponsored_packets",
+        ...entValues
+      });
   if (entError) throw new PartnerOnboardingError("write_failed", "Could not save packet cap and overage settings.");
 
   await patchOnboarding(supabase, slug, {

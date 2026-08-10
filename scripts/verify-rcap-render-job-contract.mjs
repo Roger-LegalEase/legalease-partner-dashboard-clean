@@ -1,15 +1,16 @@
 // SQL <-> fixture <-> TypeScript parity for the packet render job contract.
 //
 // The shared fixture data/rcap-render/state-machine.json is the single
-// contract artifact: the phase-48 migration's transition trigger and the
-// TypeScript RENDER_JOB_TRANSITIONS map are each verified against it here, so
-// the three cannot drift even while parallel lanes carry their own migrations.
-// The exact-path authorization guard executes this script before it honors any
+// contract artifact. The unified migration sequence carries the machine twice
+// — phase 49's CASE-form guard and phase 50's replacement clause-form guard —
+// and the TypeScript RENDER_JOB_TRANSITIONS map carries it a third time. All
+// three are verified against the fixture here, so none can drift. The
+// exact-path authorization guard executes this script before it honors any
 // authorized supabase/ change, so drift also voids the authorization.
 //
-// Mutation stance: the SQL comparison parses the trigger's transition clauses
-// out of the migration text and reconstructs the machine; deleting a guard
-// clause, adding a transition, or reordering statuses turns this red.
+// Mutation stance: both SQL comparisons parse the transition rules out of the
+// migration text and reconstruct the machine; deleting a guard clause, adding
+// a transition, or reordering statuses turns this red.
 import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
@@ -23,7 +24,8 @@ function assert(condition, message) {
 }
 
 const fixture = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-render/state-machine.json"), "utf8"));
-const sql = fs.readFileSync(path.join(rootDir, "supabase/phase-48-rcap-packet-render-jobs.sql"), "utf8");
+const sql = fs.readFileSync(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"), "utf8");
+const sql49 = fs.readFileSync(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"), "utf8");
 const contract = await import("../src/lib/rcap/render/job-contract.ts");
 
 const fixtureStatuses = [...fixture.statuses].sort();
@@ -94,9 +96,31 @@ for (const status of fixture.statuses) {
   );
 }
 
-// The status CHECK constraint carries exactly the fixture statuses.
-const statusCheck = sql.match(/constraint packet_render_jobs_status_check check \(\s*status in \(([^)]+)\)/s);
-assert(statusCheck !== null, "phase-48 must constrain status to the fixture statuses");
+// Phase 49's CASE-form guard also matches the fixture: the sequence carries
+// one machine, twice.
+{
+  const caseBlock = /allowed := case old\.status([\s\S]*?)end;/.exec(sql49);
+  assert(caseBlock !== null, "phase-49 transition CASE block must be present");
+  if (caseBlock) {
+    const sql49Transitions = {};
+    for (const m of caseBlock[1].matchAll(/when\s+'([a-z_]+)'\s+then\s+array\[([^\]]*)\]/g)) {
+      sql49Transitions[m[1]] = [...m[2].matchAll(/'([a-z_]+)'/g)].map((x) => x[1]).sort();
+    }
+    for (const status of fixture.statuses) {
+      const fixtureTargets = [...(fixtureTransitions[status] ?? [])].sort();
+      const got = [...(sql49Transitions[status] ?? [])].sort();
+      assert(
+        JSON.stringify(got) === JSON.stringify(fixtureTargets),
+        `phase-49 transitions from ${status}: ${JSON.stringify(got)} != fixture ${JSON.stringify(fixtureTargets)}`
+      );
+    }
+  }
+}
+
+// The status CHECK constraint (defined in phase 49) carries exactly the
+// fixture statuses.
+const statusCheck = sql49.match(/constraint packet_render_jobs_status_check check \(\s*status in \(([^)]+)\)/s);
+assert(statusCheck !== null, "phase-49 must constrain status to the fixture statuses");
 if (statusCheck) {
   const sqlStatuses = statusCheck[1].split(",").map((part) => part.replaceAll("'", "").trim()).sort();
   assert(

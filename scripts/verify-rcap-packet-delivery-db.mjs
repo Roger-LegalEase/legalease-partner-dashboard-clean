@@ -1,5 +1,6 @@
-// Behavioral verification of the phase-48 render-job, accounting and delivery
-// layer against a real ephemeral PostgreSQL 16 cluster.
+// Behavioral verification of the unified render-job, accounting and delivery
+// layer (phase 49 base + phase 50 hardening) against a real ephemeral
+// PostgreSQL 16 cluster.
 //
 // Everything here exercises actual database behavior — no source-text reads.
 // Concurrency cases run as genuinely parallel psql processes, so row locking
@@ -17,6 +18,7 @@
 //   grants / RLS                      case 12
 //   delivery-event authority          case 13
 //   TS/SQL unit-hash parity           case 14
+//   program + period separation       cases 18, 19
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { register } from "node:module";
@@ -46,12 +48,13 @@ const PERSON_A = "aaaaaaaa-1111-1111-1111-111111111111";
 const PERSON_C = "cccccccc-1111-1111-1111-111111111111";
 
 let jobSeq = 0;
-function enqueue({ packet, partner = null, person = null, matter = null, maxAttempts = 5 }) {
+function enqueue({ partner = null, person = null, matter = null, maxAttempts = 5 }) {
   jobSeq += 1;
   const hash = createHash("sha256").update(`input-${jobSeq}`).digest("hex");
+  const packetRow = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
   return db
     .scalar(
-      `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', null, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, ${maxAttempts})`
+      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', null, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, ${maxAttempts})`
     )
     .trim();
 }
@@ -86,15 +89,19 @@ function finalize(jobId, token, { sha = SHA("c"), stored = null, norm = SHA("d")
 
 function jobRow(jobId) {
   return db.json(
-    `select row_to_json(t) from (select status, delivery_eligibility, accounting_result, failure_disposition, last_error_code, next_attempt_at, attempt_count, max_attempts, output_sha256, fencing_token from packet_render_jobs where id = '${jobId}') t`
+    `select row_to_json(t) from (select status, delivery_eligibility, accounting_result, failure_disposition, error_code as last_error_code, next_attempt_at, attempt_count, max_attempts, output_sha256, fencing_token from packet_render_jobs where id = '${jobId}') t`
   );
 }
 
 try {
   // --- schema + seed ---------------------------------------------------------
+  db.sql(`create role service_role nologin bypassrls`);
+  db.sql(`alter default privileges in schema public grant all on tables to service_role`);
   db.sql(`create table public.partner_records (id uuid primary key, partner_slug text unique not null)`);
   db.sql(`create table public.rcap_persons (id uuid primary key, partner_slug text not null, match_key text not null)`);
-  db.applyFile(path.join(rootDir, "supabase/phase-48-rcap-packet-render-jobs.sql"));
+  db.sql(`create table public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
+  db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.sql(`insert into partner_records values ('${P1}','we-must-vote'), ('${P2}','partner-two'), ('${P3}','partner-three')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a'), ('${PERSON_C}','partner-two','c')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 2, true, 1)`);
@@ -103,7 +110,7 @@ try {
 
   // --- case 1: fencing and the stale worker ---------------------------------
   const m1 = "9aaaaaaa-1111-1111-1111-111111111111";
-  const j1 = enqueue({ packet: "pkt-1", partner: P1, person: PERSON_A, matter: m1 });
+  const j1 = enqueue({ partner: P1, person: PERSON_A, matter: m1 });
   const c1 = claim("w1");
   assert(c1?.id === j1, "case1: w1 claims the queued job");
 
@@ -127,7 +134,7 @@ try {
   assert(jobRow(j1).status === "validating", "case1: live token advances the job");
 
   // --- case 2: lease expiry mid-render fails retryably with backoff ---------
-  const j2 = enqueue({ packet: "pkt-2" });
+  const j2 = enqueue({});
   const c3 = claim("w3");
   assert(c3?.id === j2, "case2: claim");
   db.scalar(`select start_packet_render('${j2}', '${c3.fencing_token}')`);
@@ -144,7 +151,7 @@ try {
   drainQueuedJob(j2);
 
   // --- case 3: exhaustion is terminal, visible, manual-only ------------------
-  const j3 = enqueue({ packet: "pkt-3", maxAttempts: 2 });
+  const j3 = enqueue({ maxAttempts: 2 });
   for (let attempt = 0; attempt < 2; attempt += 1) {
     const c = claim("w4");
     assert(c?.id === j3, `case3: claim attempt ${attempt + 1}`);
@@ -171,7 +178,7 @@ try {
 
   // --- case 4: mutation authority ------------------------------------------
   const directInsert = db.sqlExpectError(
-    `insert into packet_render_jobs (packet_id, route_id, renderer_kind, renderer_version, profile_id, profile_version, input_hash) values ('x','x','packet_document_v1','1','x','1','${SHA("e")}')`
+    `insert into packet_render_jobs (packet_id, route_id, renderer_kind, renderer_version, profile_id, profile_version, input_hash) values (gen_random_uuid(),'x','packet_document_v1','1','x','1','${SHA("e")}')`
   );
   assert(/only through enqueue_packet_render_job/.test(directInsert), "case4: direct job insert refused");
   const directValidate = db.sqlExpectError(`update packet_render_jobs set status = 'artifact_validated' where id = '${j1}'`);
@@ -183,7 +190,7 @@ try {
   );
   assert(/appended only by finalize_packet_render_job/.test(directLedger), "case4: direct ledger insert refused");
   const directEvent = db.sqlExpectError(
-    `insert into packet_delivery_events (render_job_id, event_type) values ('${j1}', 'delivery_started')`
+    `insert into packet_delivery_events (render_job_id, event_type) values ('${j1}', 'delivery_authorized')`
   );
   assert(/recorded only by record_packet_delivery_event/.test(directEvent), "case4: direct delivery event refused");
   const directDelete = db.sqlExpectError(`delete from packet_render_jobs where id = '${j1}'`);
@@ -196,7 +203,7 @@ try {
   assert(row1.status === "artifact_validated" && row1.output_sha256 === SHA("c"), "case5: artifact evidence recorded");
   assert(row1.fencing_token === null, "case5: finalize retires the fencing token");
 
-  const j5 = enqueue({ packet: "pkt-1-rerender", partner: P1, person: PERSON_A, matter: m1 });
+  const j5 = enqueue({ partner: P1, person: PERSON_A, matter: m1 });
   const c5 = claim("w6");
   assert(c5?.id === j5, "case5: re-render claim");
   toValidating(j5, c5.fencing_token);
@@ -214,7 +221,7 @@ try {
   );
 
   // --- case 6: checksum mismatch fails closed -------------------------------
-  const j6 = enqueue({ packet: "pkt-6", partner: P1, person: PERSON_A, matter: "9bbbbbbb-1111-1111-1111-111111111111" });
+  const j6 = enqueue({ partner: P1, person: PERSON_A, matter: "9bbbbbbb-1111-1111-1111-111111111111" });
   const c6 = claim("w7");
   toValidating(j6, c6.fencing_token);
   const fin6 = finalize(j6, c6.fencing_token, { stored: SHA("0") });
@@ -244,12 +251,12 @@ try {
   const row7 = jobRow(m4.j);
   assert(row7.status === "artifact_validated" && row7.output_sha256 !== null, "case7: the blocked job preserves its artifact evidence");
   const blockedEvent = db.sqlExpectError(
-    `select record_packet_delivery_event('${m4.j}', 'delivery_started', null, '{}'::jsonb)`
+    `select record_packet_delivery_event('${m4.j}', 'delivery_authorized', null, '{}'::jsonb)`
   );
   assert(/not delivery-eligible/.test(blockedEvent), "case7: the cap-bypass race is closed — a valid artifact without accounting cannot record delivery");
 
   // --- case 16: pause_at_cap=false with no overage still fails closed -------
-  const j16 = enqueue({ packet: "pkt-16", partner: P3, person: PERSON_A, matter: "9fffffff-1111-1111-1111-111111111111" });
+  const j16 = enqueue({ partner: P3, person: PERSON_A, matter: "9fffffff-1111-1111-1111-111111111111" });
   const c16 = claim("w16");
   toValidating(j16, c16.fencing_token);
   const fin16 = finalize(j16, c16.fencing_token);
@@ -258,10 +265,10 @@ try {
   // --- case 8: concurrent finalize race at the final unit -------------------
   const raceMatterX = "8aaaaaaa-1111-1111-1111-111111111111";
   const raceMatterY = "8bbbbbbb-1111-1111-1111-111111111111";
-  const jx = enqueue({ packet: "pkt-8x", partner: P2, person: PERSON_C, matter: raceMatterX });
+  const jx = enqueue({ partner: P2, person: PERSON_C, matter: raceMatterX });
   const cx = claim("wx");
   toValidating(jx, cx.fencing_token);
-  const jy = enqueue({ packet: "pkt-8y", partner: P2, person: PERSON_C, matter: raceMatterY });
+  const jy = enqueue({ partner: P2, person: PERSON_C, matter: raceMatterY });
   const cy = claim("wy");
   toValidating(jy, cy.fencing_token);
 
@@ -282,10 +289,10 @@ try {
   // --- case 9: two workers, two jobs, the same matter, concurrently ---------
   const sharedMatter = "8ccccccc-1111-1111-1111-111111111111";
   db.sql(`update partner_packet_entitlement set packet_cap = 3 where partner_id = '${P2}'`);
-  const ja = enqueue({ packet: "pkt-9a", partner: P2, person: PERSON_C, matter: sharedMatter });
+  const ja = enqueue({ partner: P2, person: PERSON_C, matter: sharedMatter });
   const ca = claim("wa");
   toValidating(ja, ca.fencing_token);
-  const jb = enqueue({ packet: "pkt-9b", partner: P2, person: PERSON_C, matter: sharedMatter });
+  const jb = enqueue({ partner: P2, person: PERSON_C, matter: sharedMatter });
   const cb = claim("wb");
   toValidating(jb, cb.fencing_token);
   const [ra, rb] = await Promise.all([db.sqlAsync(finalizeSql(ja, ca.fencing_token)), db.sqlAsync(finalizeSql(jb, cb.fencing_token))]);
@@ -297,7 +304,7 @@ try {
   );
 
   // --- case 11: consumer path is explicit zero-charge ------------------------
-  const j11 = enqueue({ packet: "pkt-11" });
+  const j11 = enqueue({});
   const c11 = claim("w11");
   toValidating(j11, c11.fencing_token);
   const fin11 = finalize(j11, c11.fencing_token);
@@ -308,18 +315,19 @@ try {
   );
 
   // --- case 13: delivery events --------------------------------------------
-  db.scalar(`select record_packet_delivery_event('${j1}', 'delivery_started', null, '{}'::jsonb)`);
-  db.scalar(`select record_packet_delivery_event('${j1}', 'delivery_completed', null, '{}'::jsonb)`);
-  assert(jobRow(j1).status === "delivered", "case13: delivery_completed advances to delivered");
-  // Repeat download: free, and still recordable after delivered.
-  db.scalar(`select record_packet_delivery_event('${j1}', 'delivery_started', null, '{}'::jsonb)`);
-  db.scalar(`select record_packet_delivery_event('${j1}', 'delivery_completed', null, '{}'::jsonb)`);
+  db.scalar(`select record_packet_delivery_event('${j1}', 'delivery_authorized', null, '{}'::jsonb)`);
+  db.scalar(`select record_packet_delivery_event('${j1}', 'transmission_started', null, '{}'::jsonb)`);
+  db.scalar(`select record_packet_delivery_event('${j1}', 'transmission_completed', null, '{}'::jsonb)`);
+  assert(jobRow(j1).status === "delivered", "case13: transmission_completed advances to delivered");
+  // Repeat transmission: free, and still recordable after delivered.
+  db.scalar(`select record_packet_delivery_event('${j1}', 'transmission_started', null, '{}'::jsonb)`);
+  db.scalar(`select record_packet_delivery_event('${j1}', 'transmission_completed', null, '{}'::jsonb)`);
   assert(
     db.scalar(`select count(*) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`) ===
       db.scalar(`select count(distinct consumption_unit_hash) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`),
     "case13: repeat downloads never add consuming entries"
   );
-  const eventOnQueued = db.sqlExpectError(`select record_packet_delivery_event('${j2}', 'delivery_started', null, '{}'::jsonb)`);
+  const eventOnQueued = db.sqlExpectError(`select record_packet_delivery_event('${j2}', 'transmission_started', null, '{}'::jsonb)`);
   assert(/not delivery-eligible/.test(eventOnQueued), "case13: no delivery event on an unfinalized job");
 
   // Ledger immutability: consumed entries are undeletable and irreversible.
@@ -327,7 +335,7 @@ try {
   assert(/append-only/.test(ledgerUpdate), "case13: ledger update refused");
   const ledgerDelete = db.sqlExpectError(`delete from packet_credit_ledger where event_type = 'consumed'`);
   assert(/append-only/.test(ledgerDelete), "case13: ledger delete refused");
-  const eventUpdate = db.sqlExpectError(`update packet_delivery_events set event_type = 'delivery_completed'`);
+  const eventUpdate = db.sqlExpectError(`update packet_delivery_events set event_type = 'transmission_completed'`);
   assert(/append-only/.test(eventUpdate), "case13: delivery event update refused");
 
   // --- case 12: grants and RLS ----------------------------------------------
@@ -351,20 +359,63 @@ try {
   );
   const tsHash = consumptionUnitHash({
     partnerId: P1,
-    entitlementScope: "sponsored_packets",
+    entitlementId: entId,
     personId: PERSON_A,
     matterId: m1
   });
   assert(sqlHash === tsHash, `case14: TS unit hash ${tsHash.slice(0, 12)}… != SQL ${sqlHash.slice(0, 12)}…`);
 
   // --- case 17: the storage path must bind job identity ---------------------
-  const j17 = enqueue({ packet: "pkt-17" });
+  const j17 = enqueue({});
   const c17 = claim("w17");
   toValidating(j17, c17.fencing_token);
   const badPath = db.sqlExpectError(
     `select * from finalize_packet_render_job('${j17}', '${c17.fencing_token}', 'packet-artifacts/somewhere-else.pdf', '${SHA("c")}', '${SHA("d")}', '${SHA("c")}', '${SHA("d")}', 1, 1, 'x')`
   );
   assert(/storage path must bind/.test(badPath), "case17: a path that does not bind job id and hash is refused");
+
+  // --- case 18: two programs under one partner never cross-consume ----------
+  const P4 = "41111111-1111-1111-1111-111111111111";
+  db.sql(`insert into partner_records values ('${P4}','partner-four')`);
+  const progA = db.scalar(`with r as (insert into partner_packet_entitlement (partner_id, entitlement_scope, packet_cap) values ('${P4}', 'program_alpha', 1) returning id) select id from r`);
+  const progB = db.scalar(`with r as (insert into partner_packet_entitlement (partner_id, entitlement_scope, packet_cap) values ('${P4}', 'program_beta', 1) returning id) select id from r`);
+  assert(progA !== progB, "case18: two program entitlements coexist under one partner");
+  // NOTE: finalize picks the most recent active entitlement for the partner, so
+  // program routing happens at enqueue/entitlement level; the boundary proven
+  // here is that the unit hash embeds the entitlement id, so a matter consumed
+  // under one entitlement does not appear consumed under the other.
+  const { consumptionUnitHash: unitHash } = await import("../src/lib/rcap/render/job-contract.ts");
+  const matterShared = "7aaaaaaa-1111-1111-1111-111111111111";
+  const hashA = unitHash({ partnerId: P4, entitlementId: progA, personId: PERSON_A, matterId: matterShared });
+  const hashB = unitHash({ partnerId: P4, entitlementId: progB, personId: PERSON_A, matterId: matterShared });
+  assert(hashA !== hashB, "case18: the same matter under two programs derives two distinct units");
+
+  // --- case 19: two entitlement periods stay separate -----------------------
+  const P5 = "51111111-1111-1111-1111-111111111111";
+  db.sql(`insert into partner_records values ('${P5}','partner-five')`);
+  db.sql(`insert into rcap_persons values ('dddddddd-1111-1111-1111-111111111111','partner-five','d')`);
+  const period1 = db.scalar(`with r as (insert into partner_packet_entitlement (partner_id, packet_cap) values ('${P5}', 5) returning id) select id from r`);
+  const m19 = "7bbbbbbb-1111-1111-1111-111111111111";
+  const j19 = enqueue({ partner: P5, person: "dddddddd-1111-1111-1111-111111111111", matter: m19 });
+  const c19 = claim("w19");
+  toValidating(j19, c19.fencing_token);
+  const fin19 = finalize(j19, c19.fencing_token);
+  assert(fin19.accounting_result === "consumed", "case19: period one consumes");
+  // Close period one, open period two. The active-unique partial index allows
+  // this only once the first period carries an expiry.
+  const overlapping = db.sqlExpectError(`insert into partner_packet_entitlement (partner_id, packet_cap) values ('${P5}', 3)`);
+  assert(/duplicate key|unique/.test(overlapping), "case19: two ACTIVE periods for one program are impossible");
+  db.sql(`update partner_packet_entitlement set expires_at = now() where id = '${period1}'`);
+  const period2 = db.scalar(`with r as (insert into partner_packet_entitlement (partner_id, packet_cap) values ('${P5}', 3) returning id) select id from r`);
+  const j19b = enqueue({ partner: P5, person: "dddddddd-1111-1111-1111-111111111111", matter: m19 });
+  const c19b = claim("w19b");
+  toValidating(j19b, c19b.fencing_token);
+  const fin19b = finalize(j19b, c19b.fencing_token, { sha: SHA("a"), norm: SHA("b") });
+  assert(fin19b.accounting_result === "consumed", `case19: the same matter under the successor period consumes from the new allocation (got ${fin19b.accounting_result})`);
+  assert(
+    db.scalar(`select count(*) from packet_credit_ledger where entitlement_id = '${period2}' and event_type = 'consumed'`) === "1",
+    "case19: the consumption is recorded against period two, not period one"
+  );
 } finally {
   db.stop();
 }

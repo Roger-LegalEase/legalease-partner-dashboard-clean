@@ -1,8 +1,8 @@
 {
   "schemaVersion": "rcap-delivery-gate-evidence/v1",
   "generatedOn": "2026-08-10",
-  "branch": "claude/rcap-packet-delivery-gate",
-  "purpose": "Canonical machine-readable evidence for Milestone 1 item 1 (deployed packet serving path) produced by the delivery-gate lane. The completion ledger's canonical inputs are owned by the reconciliation lane; this artifact is the delivery lane's item-1 source, and the queued instruction below tells the ledger owner exactly how to consume it without touching item-2 state.",
+  "branch": "claude/rcap-delivery-unification",
+  "purpose": "Canonical machine-readable evidence for Milestone 1 item 1 (deployed packet serving path) produced by the delivery-gate lane, reconciled onto the phase-49 base (PR #91) by the unification captain. The completion ledger's canonical inputs are owned by the reconciliation lane; this artifact is the delivery lane's item-1 source, and the queued instruction below tells the ledger owner exactly how to consume it without touching item-2 state.",
   "ledgerDisposition": {
     "sharedLedgerTouched": false,
     "note": "Neither data/rcap-ledger/* (reconciliation lane) nor data/rcap-all50/completion-ledger.json (earlier captain branch) exists on or was modified by this branch.",
@@ -30,7 +30,7 @@
       "verifier": "verify-rcap-packet-delivery-db case 6; verify-rcap-render-worker-delivery happy path"
     },
     {
-      "claim": "A missing, corrupted, replaced (including another job's valid PDF), or unparseable stored object fails delivery closed with a recorded delivery_failed event",
+      "claim": "A missing, corrupted, replaced (including another job's valid PDF), or unparseable stored object fails delivery closed with a recorded transmission_failed event",
       "verifier": "verify-rcap-render-worker-delivery storage failure matrix"
     },
     {
@@ -46,11 +46,11 @@
       "verifier": "verify-rcap-packet-delivery-db cases 8, 9"
     },
     {
-      "claim": "A mobile-viewport Chromium received the exact validated artifact bytes over real HTTP through the identical authorization and streaming core the production route uses, with delivery_started and delivery_completed recorded at the defined boundaries and an unauthenticated browser denied",
+      "claim": "A mobile-viewport Chromium received the exact validated artifact bytes over real HTTP through the identical authorization and streaming core the production route uses, with delivery_authorized + transmission_started and transmission_completed recorded at the defined boundaries and an unauthenticated browser denied",
       "verifier": "verify-rcap-packet-delivery-e2e"
     },
     {
-      "claim": "delivery_completed is recorded only when the response stream closes cleanly; a client abort mid-stream records delivery_aborted; headersSent alone is never evidence",
+      "claim": "transmission_completed is recorded only when the response stream closes cleanly; a client abort mid-stream records delivery_aborted; headersSent alone is never evidence",
       "verifier": "verify-rcap-render-worker-delivery streaming semantics; packet-delivery.ts"
     },
     {
@@ -62,8 +62,16 @@
       "verifier": "verify-rcap-render-job-contract"
     },
     {
-      "claim": "The phase-48 migration file is covered by an exact-path, SHA-256-pinned authorization record whose negative regressions prove drift, renames, siblings, malformed records, widened paths, and a red contract verifier all void or withhold the grant",
-      "verifier": "verify-exact-path-authorization-phase48; data/rcap-authorization-queue.json entry auth-2026-08-10-phase-48-packet-delivery-gate"
+      "claim": "The phase-50 migration file is covered by an exact-path, SHA-256-pinned authorization record whose negative regressions prove drift, renames, siblings, malformed records, widened paths, and a red contract verifier all void or withhold the grant",
+      "verifier": "verify-exact-path-authorization-phase50; data/rcap-authorization-queue.json entry auth-2026-08-10-phase-50-packet-delivery-hardening"
+    },
+    {
+      "claim": "The mutation boundary is grants plus definer functions, proven by forgery: every protected operation denied for service_role (BYPASSRLS, Supabase-default privileges), worker, delivery, anon and authenticated roles with the authority GUC set via SET and SET LOCAL; the GUC is coordination only",
+      "verifier": "scripts/verify-rcap-mutation-authority.mjs"
+    },
+    {
+      "claim": "The consumption unit embeds the entitlement id: two programs or two entitlement periods under one partner never cross-consume, and one active entitlement per (partner, program) is enforced by a partial unique index",
+      "verifier": "verify-rcap-packet-delivery-db cases 18-19"
     }
   ],
   "remainingOpen": [
@@ -76,5 +84,6 @@
       "detail": "Write-once semantics are enforced by the adapter (upsert:false) and proven against the filesystem stub honoring the same contract; the Supabase bucket's own rejection of overwrites should be confirmed on staging."
     }
   ],
-  "migrationDisposition": "supabase/phase-48-rcap-packet-render-jobs.sql applied only to ephemeral local PostgreSQL 16 clusters created and destroyed inside verifier runs. Not applied to staging or production; both remain queued in data/rcap-authorization-queue.json."
+  "migrationDisposition": "Canonical sequence: phase-49 (PR #91, unaltered, owner-authorized) then phase-50-rcap-packet-delivery-hardening.sql. Applied only to ephemeral local clusters inside verifier runs. Staging and production remain queued; the prepared A1 staging action names both files.",
+  "storageGuarantee": "Content-addressed and tamper-evident, not immutable: the adapter refuses overwrites, every delivery re-reads and hash-verifies the stored object before serving, altered bytes fail closed. The service-role credential bypasses Storage RLS; the least-privilege worker credential is specified for staging (deployment doc) and the real-credential storage authority test is step 12 of the rehearsal plan."
 }

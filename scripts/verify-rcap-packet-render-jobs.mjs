@@ -1,295 +1,243 @@
-// Regression: durable render jobs, and the rule that a credit moves only after
-// an artifact has been validated.
+// Verifies the phase-49 durable render job contract and artifact-gated credit
+// movement by applying the migration to a throwaway PostgreSQL cluster and
+// running the behavioural assertions in
+// supabase/tests/phase-49-packet-render-jobs.test.sql.
 //
-// The deployed generate step used to be a status flip that produced no artifact,
-// while downloadPath was set unconditionally. That is the shape of bug this
-// guards: a job may not claim validation without proof, and no credit may move
-// from a job that has not validated.
+// The invariant under test is the one that protects a partner's finite
+// sponsored allocation: credit cannot move unless a render job reached
+// artifact_validated with stored bytes and a checksum.
 //
-// The contract's state machine and the phase-48 trigger are kept identical here,
-// because a divergence between them would let the server accept a transition the
-// database refuses, or worse, the reverse.
-import { register } from "node:module";
-register("./lib/ts-esm-loader.mjs", import.meta.url);
+// This verifier does not skip itself. If PostgreSQL is unavailable it fails,
+// because a green check that silently tested nothing is worse than a red one.
+// Set RCAP_SKIP_PG_VERIFIER=1 only for a local run where you accept the gap;
+// CI must never set it.
+//
+// It never touches a remote database. It initialises a cluster under a
+// temporary directory, runs, and tears it down.
 
-import { readFileSync } from "node:fs";
+import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const failures = [];
-function assert(condition, message) {
-  if (!condition) failures.push(message);
-}
-function read(rel) {
-  return readFileSync(path.join(process.cwd(), rel), "utf8");
-}
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const MIGRATION = path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql");
+const FIXTURE = path.join(rootDir, "data/rcap-render/state-machine.json");
+const TESTS = path.join(rootDir, "supabase/tests/phase-49-packet-render-jobs.test.sql");
+const PORT = process.env.RCAP_PG_TEST_PORT || "55499";
 
-const contract = await import("../src/lib/rcap/render/job-contract.ts");
-const {
-  RENDER_JOB_STATUSES,
-  CREDIT_ELIGIBLE_STATUSES,
-  canTransition,
-  allowedTransitionsFrom,
-  isCreditConsumable,
-  consumptionUnitHash,
-  computeInputHash,
-  buildRenderJobSpec,
-  assertClaimAcceptable,
-  validateRenderOutput,
-  computeNormalizedFingerprint,
-  sha256,
-  RenderContractError
-} = contract;
-
-const { renderRcapPacketPdf } = await import("../src/lib/rcap/documents/packet-document-renderer.ts");
-
-const sql = read("supabase/phase-48-rcap-packet-render-jobs.sql");
-
-// 1) The state machine. Every legal transition is legal, and the ones that
-// would let a job skip validation are not.
-const LEGAL = [
-  ["queued", "claimed"],
-  ["claimed", "rendering"],
-  ["rendering", "validating"],
-  ["validating", "artifact_validated"],
-  ["artifact_validated", "delivered"],
-  ["failed", "queued"],
-  ["claimed", "queued"]
-];
-for (const [from, to] of LEGAL) {
-  assert(canTransition(from, to), `${from} -> ${to} should be legal.`);
-}
-
-const ILLEGAL = [
-  ["queued", "artifact_validated"],
-  ["queued", "delivered"],
-  ["claimed", "artifact_validated"],
-  ["rendering", "artifact_validated"],
-  ["rendering", "delivered"],
-  ["validating", "delivered"],
-  ["delivered", "queued"],
-  ["delivered", "artifact_validated"],
-  ["artifact_validated", "queued"],
-  ["artifact_validated", "failed"]
-];
-for (const [from, to] of ILLEGAL) {
-  assert(!canTransition(from, to), `${from} -> ${to} must not be legal.`);
-}
-
-// No status may reach artifact_validated except validating. This is the rule the
-// old status-flip bug broke.
-for (const status of RENDER_JOB_STATUSES) {
-  if (status === "validating" || status === "artifact_validated") continue;
-  assert(!allowedTransitionsFrom(status).includes("artifact_validated"), `${status} must not reach artifact_validated directly.`);
-}
-
-// 2) The contract's machine and the database trigger agree.
-for (const [from, to] of LEGAL) {
-  const clause = `old.status = '${from}' and new.status in (`;
-  const single = `old.status = '${from}' and new.status = '${to}'`;
-  const hasClause = sql.includes(clause) || sql.includes(single);
-  assert(hasClause, `phase-48 trigger has no rule for ${from}.`);
-}
-for (const [from, to] of ILLEGAL) {
-  const guard = new RegExp(`old\\.status = '${from}' and new\\.status (?:in \\(([^)]*)\\)|= '([^']*)')`);
-  const match = sql.match(guard);
-  const listed = match ? `${match[1] ?? ""}${match[2] ?? ""}` : "";
-  assert(!listed.includes(`'${to}'`), `phase-48 trigger allows the illegal transition ${from} -> ${to}.`);
-}
-
-// 3) Credit consumption.
-assert(isCreditConsumable({ status: "artifact_validated", consumedCredit: false }), "A validated artifact should be consumable once.");
-assert(isCreditConsumable({ status: "delivered", consumedCredit: false }), "A delivered artifact should be consumable once.");
-assert(!isCreditConsumable({ status: "artifact_validated", consumedCredit: true }), "A consumed credit must not be consumable twice.");
-for (const status of ["queued", "claimed", "rendering", "validating", "failed"]) {
-  assert(!isCreditConsumable({ status, consumedCredit: false }), `${status} must never consume a credit.`);
-}
-assert(
-  CREDIT_ELIGIBLE_STATUSES.length === 2 && CREDIT_ELIGIBLE_STATUSES.every((s) => s === "artifact_validated" || s === "delivered"),
-  "Only artifact_validated and delivered may consume."
-);
-
-// One unit per distinct matter, keyed on immutable IDs only: the same matter
-// derives the same hash however many times it is rendered, different matters
-// for one participant do not, and a mutable slug is never part of the key.
-const matterA = { partnerId: "p-uuid-1", entitlementScope: "sponsored_packets", personId: "person-1", matterId: "matter-1" };
-const matterB = { ...matterA, matterId: "matter-2" };
-assert(consumptionUnitHash(matterA) === consumptionUnitHash({ ...matterA }), "The same matter must derive the same unit hash.");
-assert(consumptionUnitHash(matterA) !== consumptionUnitHash(matterB), "Two matters for one participant must derive different unit hashes.");
-assert(/^[0-9a-f]{64}$/.test(consumptionUnitHash(matterA)), "The unit hash is a sha256 hex digest.");
-
-// 4) Input hashing is deterministic and order-independent, so an identical
-// retry finds the existing job instead of queueing a duplicate.
-const base = {
-  packetId: "packet-1",
-  routeId: "MS:misdemeanor_conviction",
-  rendererKind: "packet_document_v1",
-  rendererVersion: "1.0.0",
-  profileId: "MS",
-  profileVersion: "1.3.0",
-  sourceSha256: null,
-  packetFields: { charge: "x", county: "Hinds", nested: { b: 2, a: 1 } }
-};
-const reordered = { ...base, packetFields: { nested: { a: 1, b: 2 }, county: "Hinds", charge: "x" } };
-assert(computeInputHash(base) === computeInputHash(reordered), "Input hashing must not depend on key order.");
-assert(computeInputHash(base) !== computeInputHash({ ...base, packetFields: { ...base.packetFields, charge: "y" } }), "A changed field must change the input hash.");
-assert(computeInputHash(base) !== computeInputHash({ ...base, profileVersion: "1.4.0" }), "A changed profile version must change the input hash.");
-assert(computeInputHash(base) !== computeInputHash({ ...base, rendererVersion: "1.0.1" }), "A changed renderer version must change the input hash.");
-assert(/^[0-9a-f]{64}$/.test(computeInputHash(base)), "The input hash must be a sha256 hex digest.");
-
-// 5) Job building fails closed on a route that cannot render.
-const supported = buildRenderJobSpec({
-  packetId: "packet-1",
-  state: "MS",
-  pathway: "misdemeanor_conviction",
-  profileId: "MS",
-  profileVersion: "1.3.0",
-  packetFields: { charge: "x" }
-});
-assert(supported.spec !== null, "A supported jurisdiction must produce a job spec.");
-assert(supported.spec.rendererKind === "packet_document_v1", "The spec must name the renderer.");
-assert(supported.spec.routeId === "MS:misdemeanor_conviction", `Unexpected routeId ${supported.spec?.routeId}.`);
-
-for (const state of ["CA", "WY", "ZZ", ""]) {
-  const built = buildRenderJobSpec({
-    packetId: "packet-1",
-    state,
-    pathway: "anything",
-    profileId: state || "none",
-    profileVersion: "1.3.0",
-    packetFields: {}
-  });
-  assert(built.spec === null, `${state || "(empty)"} must not produce a render job.`);
-}
-
-// 6) The worker may only act on server-issued work.
-const claim = {
-  id: "job-1",
-  packetId: "packet-1",
-  routeId: "MS:misdemeanor_conviction",
-  rendererKind: "packet_document_v1",
-  rendererVersion: "1.0.0",
-  sourceSha256: null,
-  profileId: "MS",
-  profileVersion: "1.3.0",
-  inputHash: "a".repeat(64),
-  attemptCount: 1
-};
-const allowlists = {
-  knownJobIds: new Set(["job-1"]),
-  allowedSourceShas: new Set(["b".repeat(64)]),
-  knownProfileVersions: new Set(["1.3.0"])
-};
-assert(assertClaimAcceptable(claim, allowlists) === true, "A well-formed claim should be accepted.");
-
-function rejects(mutation, expectedCode, message) {
-  try {
-    assertClaimAcceptable({ ...claim, ...mutation }, allowlists);
-    failures.push(message);
-  } catch (error) {
-    assert(error instanceof RenderContractError, `${message} (threw the wrong error type)`);
-    assert(error.errorCode === expectedCode, `${message} (expected ${expectedCode}, got ${error.errorCode})`);
-  }
-}
-rejects({ id: "job-unknown" }, "unknown_job", "A job the server never issued must be rejected.");
-rejects({ rendererKind: "arbitrary_renderer" }, "renderer_kind_unknown", "An unknown renderer kind must be rejected.");
-rejects({ sourceSha256: "c".repeat(64) }, "source_sha_not_allowed", "An unadmitted source SHA must be rejected.");
-rejects({ profileVersion: "9.9.9" }, "profile_version_unknown", "An unknown profile version must be rejected.");
-
-// 7) Output validation runs on real bytes.
-const packet = {
-  id: "packet-1",
-  state: "MS",
-  pathway: "misdemeanor_conviction",
-  petitionerFirstName: "Test",
-  petitionerLastName: "Participant",
-  county: "Hinds",
-  generatedPlainText: "Petitioner requests expungement.",
-  filingNextStepsPacket: {
-    title: "t",
-    plainText: "1. File.",
-    filingLocation: "clerk",
-    filingMethod: "in person",
-    requiredDocuments: ["ID"],
-    serviceAndCopies: [],
-    feeSummary: ["fee"],
-    courtContactOrLocationGuidance: [],
-    afterFiling: [],
-    trackingChecklist: [],
-    workflowGaps: [],
-    safetyDisclaimer: "Not legal advice."
-  }
-};
-const bytes = await renderRcapPacketPdf(packet, "full");
-
-const valid = await validateRenderOutput({ jobId: "job-1", bytes, containerDigest: "sha256:deadbeef" }, { expectedPageSize: { width: 612, height: 792 } });
-assert(valid.ok === true, `Real packet bytes should validate, got ${valid.ok ? "ok" : valid.errorCode}.`);
-assert(/^[0-9a-f]{64}$/.test(valid.outputSha256 ?? ""), "Validation must record a sha256 of the output.");
-assert(/^[0-9a-f]{64}$/.test(valid.normalizedOutputSha256 ?? ""), "Validation must record a normalized fingerprint.");
-assert(valid.pageCount > 0 && valid.byteCount === bytes.length, "Validation must record the real page and byte counts.");
-
-const rejected = [
-  [{ bytes: Buffer.alloc(0), containerDigest: "sha256:x" }, "output_empty"],
-  [{ bytes: Buffer.from("not a pdf at all"), containerDigest: "sha256:x" }, "output_not_pdf"],
-  [{ bytes: Buffer.from("%PDF-1.7 but truncated"), containerDigest: "sha256:x" }, "output_unparseable"],
-  [{ bytes, containerDigest: "" }, "container_digest_missing"]
-];
-for (const [report, expected] of rejected) {
-  const result = await validateRenderOutput({ jobId: "job-1", ...report });
-  assert(result.ok === false && result.errorCode === expected, `Expected ${expected}, got ${result.ok ? "ok" : result.errorCode}.`);
-}
-
-const wrongGeometry = await validateRenderOutput(
-  { jobId: "job-1", bytes, containerDigest: "sha256:x" },
-  { expectedPageSize: { width: 595, height: 842 } }
-);
-assert(wrongGeometry.ok === false && wrongGeometry.errorCode === "output_geometry_unexpected", "A geometry mismatch must fail validation.");
-
-// The normalized fingerprint ignores metadata variance but not content. Two
-// renders of the same packet differ in raw bytes only by their timestamps, so
-// the raw hashes may differ while the fingerprints match; a different packet
-// must change the fingerprint.
-const again = await renderRcapPacketPdf(packet, "full");
-assert(
-  (await computeNormalizedFingerprint(bytes)) === (await computeNormalizedFingerprint(again)),
-  "Two renders of the same packet must share a normalized fingerprint."
-);
-const different = await renderRcapPacketPdf({ ...packet, county: "Madison" }, "full");
-assert(
-  (await computeNormalizedFingerprint(bytes)) !== (await computeNormalizedFingerprint(different)),
-  "A different packet must not share a normalized fingerprint."
-);
-assert(sha256(bytes) !== sha256(Buffer.from("other")), "sha256 must distinguish different bytes.");
-
-// 8) The migration's own invariants.
-assert(sql.includes("enable row level security"), "The job table must have RLS enabled.");
-assert(/revoke all on table public\.packet_render_jobs from anon/.test(sql), "anon must have no access to render jobs.");
-assert(/revoke all on table public\.packet_render_jobs from authenticated/.test(sql), "authenticated must have no access to render jobs.");
-assert(!/create policy [a-z_]* on public\.packet_render_jobs/i.test(sql), "Render jobs are service-role only and must have no participant-facing policy.");
-assert(sql.includes("for update skip locked"), "The claim must be atomic.");
-assert(sql.includes("packet_render_jobs_eligible_requires_accounting_check"), "Delivery eligibility must require a validated artifact and an authorized accounting result.");
-assert(sql.includes("packet_render_jobs_validated_has_artifact_check"), "A validated job must be required to carry its artifact proof.");
-assert(/create unique index[^;]*packet_credit_ledger_consumption_unit_idx[^;]*where event_type in \('consumed', 'overage_consumed'\)/s.test(sql), "One consuming ledger entry per matter must be enforced by a unique index.");
-assert(/create unique index[^;]*packet_render_jobs_live_input_idx/s.test(sql), "A live job must be unique per packet and input hash.");
-assert(/append-only; % is never permitted/.test(sql), "The credit ledger and delivery events must be append-only, so a consumed entry can never be released.");
-assert(sql.includes("Migration file only; do not run against production"), "The migration must carry the do-not-run header.");
-assert(/status in \('artifact_validated', 'delivered'\)/.test(sql), "Eligibility must be gated on validated statuses in SQL, not only in code.");
-assert(sql.includes("fencing_token"), "Claims must issue fencing tokens.");
-assert(sql.includes("assert_packet_render_job_fencing"), "Worker-owned mutations must verify the fencing token.");
-assert(sql.includes("record_packet_delivery_event") && !/record_packet_delivery_event\([^)]*fencing/s.test(sql), "Delivery events are their own authorization domain and never take a worker token.");
-
-// 9) The queue adapter mutates only through the canonical functions.
-const queue = read("src/lib/rcap/render/job-queue.ts");
-for (const rpc of ["enqueue_packet_render_job", "claim_packet_render_job", "finalize_packet_render_job", "record_packet_delivery_event", "fail_packet_render_job"]) {
-  assert(queue.includes(rpc), `The adapter must route through ${rpc}.`);
-}
-assert(!/\.from\("packet_render_jobs"\)\s*\.(insert|update|upsert|delete)/s.test(queue), "The adapter must never write the job table directly.");
-assert(!/\.from\("packet_credit_ledger"\)/s.test(queue), "The adapter must never touch the credit ledger directly.");
-assert(!/\.from\("packet_delivery_events"\)/s.test(queue), "The adapter must never touch delivery events directly.");
-
-if (failures.length > 0) {
-  console.error("verify-rcap-packet-render-jobs FAILED");
-  for (const failure of failures) console.error(` - ${failure}`);
+if (process.env.RCAP_SKIP_PG_VERIFIER === "1") {
+  console.error("RCAP_SKIP_PG_VERIFIER=1 set: refusing to report a pass without running.");
   process.exit(1);
 }
 
-console.log("verify-rcap-packet-render-jobs passed");
+function which(binary) {
+  const res = spawnSync("sh", ["-c", `command -v ${binary}`], { encoding: "utf8" });
+  return res.status === 0 ? res.stdout.trim() : null;
+}
+
+// Locate the server binaries, which are not usually on PATH even when psql is.
+function findPgBin(name) {
+  const direct = which(name);
+  if (direct) return direct;
+  const roots = ["/usr/lib/postgresql", "/usr/local/pgsql", "/opt/homebrew/opt"];
+  for (const root of roots) {
+    if (!fs.existsSync(root)) continue;
+    for (const entry of fs.readdirSync(root)) {
+      const candidate = path.join(root, entry, "bin", name);
+      if (fs.existsSync(candidate)) return candidate;
+    }
+  }
+  return null;
+}
+
+const psql = which("psql");
+const initdb = findPgBin("initdb");
+const pgCtl = findPgBin("pg_ctl");
+
+if (!psql || !initdb || !pgCtl) {
+  console.error("PostgreSQL is required by this verifier and was not found.");
+  console.error(`  psql:   ${psql ?? "missing"}`);
+  console.error(`  initdb: ${initdb ?? "missing"}`);
+  console.error(`  pg_ctl: ${pgCtl ?? "missing"}`);
+  process.exit(1);
+}
+
+// The server refuses to run as root, and the socket path must stay under the
+// 107-byte sun_path limit, so both live at a short path owned by a real user.
+const isRoot = process.getuid && process.getuid() === 0;
+const runAs = isRoot ? (spawnSync("id", ["-u", "postgres"]).status === 0 ? "postgres" : null) : null;
+if (isRoot && !runAs) {
+  console.error("Running as root and no 'postgres' user exists to drop privileges to.");
+  process.exit(1);
+}
+
+const dataDir = fs.mkdtempSync(path.join("/tmp", "rcap-pgd-"));
+const sockDir = fs.mkdtempSync(path.join("/tmp", "rcap-pgs-"));
+
+function sh(command, { quiet = true } = {}) {
+  const res = spawnSync("sh", ["-c", command], { encoding: "utf8" });
+  if (!quiet && res.stdout) process.stdout.write(res.stdout);
+  return res;
+}
+
+function asUser(command) {
+  return runAs ? `su ${runAs} -c ${JSON.stringify(command)}` : command;
+}
+
+let started = false;
+function teardown() {
+  if (started) sh(asUser(`${pgCtl} -D ${dataDir} -m immediate stop`));
+  fs.rmSync(dataDir, { recursive: true, force: true });
+  fs.rmSync(sockDir, { recursive: true, force: true });
+}
+process.on("exit", teardown);
+
+if (runAs) {
+  sh(`chown ${runAs} ${dataDir} ${sockDir}`);
+}
+
+let step = sh(asUser(`${initdb} -D ${dataDir} -U postgres --auth=trust`));
+if (step.status !== 0) {
+  console.error("initdb failed:");
+  console.error(step.stderr?.trim().slice(0, 1200));
+  process.exit(1);
+}
+
+step = sh(
+  asUser(
+    `${pgCtl} -D ${dataDir} -o '-p ${PORT} -k ${sockDir} -c listen_addresses=' -l ${dataDir}/log start -w -t 30`
+  )
+);
+if (step.status !== 0) {
+  console.error("pg_ctl start failed:");
+  console.error(step.stderr?.trim().slice(0, 1200));
+  console.error(fs.existsSync(`${dataDir}/log`) ? fs.readFileSync(`${dataDir}/log`, "utf8").slice(-1200) : "");
+  process.exit(1);
+}
+started = true;
+
+const PSQL = `${psql} -h ${sockDir} -p ${PORT} -U postgres -v ON_ERROR_STOP=1 -q`;
+
+// Minimal stand-ins for the tables phase 49 references. Creating only the
+// referenced keys keeps the verifier independent of unrelated migrations.
+// service_role exists in Supabase but not in a bare cluster; the RLS policies
+// reference it by name, so it has to be present for the migration to apply.
+step = sh(
+  `${PSQL} -c "create role service_role; create table public.partner_records(partner_slug text primary key); create table public.rcap_document_packets(id uuid primary key default gen_random_uuid());"`
+);
+if (step.status !== 0) {
+  console.error("prerequisite stub creation failed:");
+  console.error(step.stderr?.trim().slice(0, 1200));
+  process.exit(1);
+}
+
+step = sh(`${PSQL} -f ${MIGRATION}`);
+if (step.status !== 0) {
+  console.error("phase-49 migration failed to apply:");
+  console.error(step.stderr?.trim().slice(0, 2000));
+  process.exit(1);
+}
+
+step = sh(`${PSQL} -f ${TESTS}`);
+if (step.status !== 0) {
+  console.error("phase-49 behavioural tests failed:");
+  console.error(step.stderr?.trim().slice(0, 2000));
+  process.exit(1);
+}
+
+// Mutation check. If the artifact gate is removed the suite must go red; a
+// suite that passes without the gate is not testing the thing it claims to.
+const stripGate = `
+create or replace function public.consume_rcap_packet_credit(
+  p_partner_slug text, p_matter_id text, p_render_job_id uuid)
+returns table (ok boolean, reason text, consumption_class text, units_used integer)
+language plpgsql security definer set search_path='' as $$
+begin
+  insert into public.rcap_packet_credit_consumptions
+    (partner_slug, matter_id, render_job_id, consumption_class)
+  values (p_partner_slug, p_matter_id, p_render_job_id, 'included')
+  on conflict do nothing;
+  return query select true, 'consumed'::text, 'included'::text, 1;
+end $$;`;
+
+fs.writeFileSync(path.join(sockDir, "mutate.sql"), stripGate, "utf8");
+sh(`${PSQL} -f ${path.join(sockDir, "mutate.sql")}`);
+const mutated = sh(`${PSQL} -f ${TESTS}`);
+if (mutated.status === 0) {
+  console.error(
+    "Mutation survived: the suite passes with the artifact_validated gate removed, so it does not actually enforce it."
+  );
+  process.exit(1);
+}
+
+// The engine branch carries src/lib/rcap/render/job-contract.ts, which encodes
+// this same state machine in TypeScript. The two branches never read each
+// other; both verify against data/rcap-render/state-machine.json, so the SQL
+// and the TypeScript cannot drift apart while they live separately.
+{
+  const fixture = JSON.parse(fs.readFileSync(FIXTURE, "utf8"));
+  const sqlText = fs.readFileSync(MIGRATION, "utf8");
+  const problems = [];
+
+  const caseBlock = /allowed := case old\.status([\s\S]*?)end;/.exec(sqlText);
+  if (!caseBlock) {
+    problems.push("could not locate the transition CASE block");
+  } else {
+    const sqlTransitions = {};
+    for (const m of caseBlock[1].matchAll(/when\s+'([a-z_]+)'\s+then\s+array\[([^\]]*)\]/g)) {
+      sqlTransitions[m[1]] = [...m[2].matchAll(/'([a-z_]+)'/g)].map((x) => x[1]).sort();
+    }
+    const sqlFrom = Object.keys(sqlTransitions).sort();
+    const fixFrom = Object.keys(fixture.transitions).sort();
+    if (JSON.stringify(sqlFrom) !== JSON.stringify(fixFrom)) {
+      problems.push(`transition source states differ: sql=[${sqlFrom}] fixture=[${fixFrom}]`);
+    } else {
+      for (const from of fixFrom) {
+        const a = JSON.stringify(sqlTransitions[from]);
+        const b = JSON.stringify([...fixture.transitions[from]].sort());
+        if (a !== b) problems.push(`transitions from '${from}' differ: sql=${a} fixture=${b}`);
+      }
+    }
+  }
+
+  const statusCheck = /packet_render_jobs_status_check check \(\s*status in \(([\s\S]*?)\)\s*\)/.exec(sqlText);
+  if (statusCheck) {
+    const sqlStatuses = [...statusCheck[1].matchAll(/'([a-z_]+)'/g)].map((x) => x[1]).sort();
+    if (JSON.stringify(sqlStatuses) !== JSON.stringify([...fixture.statuses].sort())) {
+      problems.push("status check constraint does not match the fixture");
+    }
+  } else {
+    problems.push("status check constraint not found");
+  }
+
+  const codeCheck = /packet_render_jobs_error_code_check check \(([\s\S]*?)\n  \),/.exec(sqlText);
+  if (codeCheck) {
+    const sqlCodes = [...codeCheck[1].matchAll(/'([a-z_]+)'/g)].map((x) => x[1]).sort();
+    if (JSON.stringify(sqlCodes) !== JSON.stringify([...fixture.errorCodes].sort())) {
+      problems.push("error code constraint does not match the fixture");
+    }
+  } else {
+    problems.push("error code constraint not found");
+  }
+
+  if (problems.length > 0) {
+    console.error("phase-49 SQL has drifted from data/rcap-render/state-machine.json:");
+    for (const p of problems) console.error(`- ${p}`);
+    process.exit(1);
+  }
+}
+
+console.log("RCAP packet render jobs verification passed.");
+console.log("- phase-49 applies cleanly to a fresh PostgreSQL cluster");
+console.log("- a job is born queued and duplicate live jobs for identical inputs are refused");
+console.log("- the status machine rejects a jump straight to a creditable state");
+console.log("- artifact_validated is unreachable without a stored path and checksum");
+console.log("- credit is refused while a job is not validated");
+console.log("- credit moves exactly once per matter; retries report already_consumed");
+console.log("- the continuity reserve engages after allocation and is finite");
+console.log("- a partner with no allocation row fails closed");
+console.log("- claims are atomic and never cross renderer kinds");
+console.log("- removing the gate turns the suite red (mutation killed)");
+console.log("- SQL state machine matches data/rcap-render/state-machine.json");

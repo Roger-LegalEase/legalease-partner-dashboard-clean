@@ -58,7 +58,7 @@ function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
     attemptCount: Number(record.attempt_count ?? 0),
     maxAttempts: Number(record.max_attempts ?? 0),
     failureDisposition: record.failure_disposition === null ? null : (String(record.failure_disposition) as "retryable" | "terminal"),
-    lastErrorCode: record.last_error_code === null ? null : String(record.last_error_code),
+    lastErrorCode: record.error_code === null || record.error_code === undefined ? null : String(record.error_code),
     outputStoragePath: record.output_storage_path === null ? null : String(record.output_storage_path),
     outputSha256: record.output_sha256 === null ? null : String(record.output_sha256),
     normalizedOutputSha256: record.normalized_output_sha256 === null ? null : String(record.normalized_output_sha256),
@@ -269,7 +269,7 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
   const { data, error } = await supabase
     .from("packet_render_jobs")
     .select(
-      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, last_error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result"
+      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result"
     )
     .eq("id", jobId)
     .maybeSingle();

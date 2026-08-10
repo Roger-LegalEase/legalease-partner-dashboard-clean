@@ -3,10 +3,12 @@
 The worker renders packets outside the request path. This is the whole of what
 it may do; anything not listed here it may not do.
 
-Schema: `supabase/phase-48-rcap-packet-render-jobs.sql`
+Schema: `supabase/phase-49-rcap-packet-render-jobs.sql` (base) +
+`supabase/phase-50-rcap-packet-delivery-hardening.sql` (hardening)
 Rules in code: `src/lib/rcap/render/job-contract.ts`
 Queue adapter: `src/lib/rcap/render/job-queue.ts`
-Held by: `scripts/verify-rcap-packet-render-jobs.mjs` (in `npm test`)
+Held by: `verify-rcap-render-job-contract`, `verify-rcap-packet-delivery-contract`,
+`verify-rcap-packet-delivery-db`, `verify-rcap-mutation-authority` (all in `npm test`)
 
 ## The lifecycle
 
@@ -88,28 +90,41 @@ behind it cannot be written.
 
 ## Credit consumption
 
-A sponsored allocation or paid entitlement moves in exactly one place:
-`consume_packet_render_credit`. It returns false — not an error — when the job
-has not validated an artifact or the unit is already counted. That is what makes
-a retry free.
+A sponsored allocation moves in exactly one place: inside
+`finalize_packet_render_job`, the atomic finalization transaction, after the
+stored bytes are re-read and hash-verified.
 
-- The unit is **one distinct supported matter**, keyed
-  `partnerSlug:personId:matterId`. One participant with several matters consumes
-  one unit per matter.
+- The unit is **one distinct supported matter**, keyed on immutable IDs only:
+  `partner_id : entitlement_id : person_id : matter_id`. The entitlement id
+  carries the program and period dimension, so two programs or two periods
+  under one partner never cross-consume. One participant with several matters
+  consumes one unit per matter.
 - Retries, downloads, re-downloads, corrected versions and failed attempts
-  consume nothing. They derive the same unit key, and the partial unique index
-  on `consumption_unit_key where consumed_credit = true` makes a second
-  consumption impossible even under a race.
-- A consumed credit is never released by a later status change; the trigger
-  raises if one is.
+  consume nothing: same unit hash, and the partial unique index on the
+  append-only `packet_credit_ledger` makes a second consuming entry impossible
+  even under a race.
+- A consumed entry is irreversible: the ledger refuses UPDATE and DELETE at the
+  trigger level, for every role including the owner.
+- Consumer-paid packets record an explicit `zero_charge` ledger entry; a
+  sponsored job whose entitlement lookup fails is `unauthorized` and
+  accounting-blocked, never zero-charged.
 - No participant is ever charged because a partner neared or reached capacity.
 
-## Access
+## Access — the boundary, stated exactly
 
-RLS is enabled and **no policy is created** for `anon` or `authenticated`, and
-both are revoked on the table. Render jobs are service-role only: the server and
-the worker read and write them, participants never do. Partner-facing counts come
-from the accounting layer, not from exposing this table.
+The mutation boundary is **role grants plus owner-executed SECURITY DEFINER
+functions**. Runtime roles — service_role included — hold SELECT and EXECUTE
+only; their direct DML on the job table, ledger and delivery events is revoked,
+so the `rcap.packet_mutation_authority` GUC is trigger *coordination*, not
+security: `verify-rcap-mutation-authority` proves every protected mutation is
+denied for every runtime role with the GUC deliberately forged. Dedicated
+`rcap_render_worker` and `rcap_packet_delivery` roles hold disjoint function
+sets — a worker token or role is never authority to record delivery.
+
+Storage is **content-addressed and tamper-evident, not immutable**: the adapter
+refuses overwrites and every delivery re-reads and hash-verifies the object
+before serving a byte, so altered bytes fail closed; the least-privilege worker
+storage credential is specified in the deployment doc for staging.
 
 ## Built and proven on this branch
 
@@ -125,7 +140,7 @@ from the accounting layer, not from exposing this table.
   typed results, atomic under true concurrency.
 - Authorized delivery: `packet-delivery.ts` + the authenticated route at
   `src/app/api/rcap/packets/[jobId]/download/route.ts`, with
-  delivery_started/completed/aborted/failed recorded at honest boundaries.
+  delivery_authorized / transmission_started / transmission_completed / transmission_aborted / transmission_failed recorded at honest boundaries; server stream completion never implies a human opened the file.
 - Verifiers: `verify-rcap-render-job-contract`, `verify-rcap-packet-delivery-db`,
   `verify-rcap-render-worker-delivery`, `verify-rcap-packet-delivery-e2e`,
   `verify-exact-path-authorization-phase48` — all in `npm test`.

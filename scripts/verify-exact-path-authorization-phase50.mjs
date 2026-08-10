@@ -1,9 +1,9 @@
-// Negative regressions for the phase-48 exact-path, hash-pinned authorization
+// Negative regressions for the phase-50 exact-path, hash-pinned authorization
 // in assertSourceEngineChangeScope — the same escape-route checks the phase-49
 // grant carries, applied to this branch's grant.
 //
 // The grant lets exactly one file exist under supabase/ at exact bytes:
-// supabase/phase-48-rcap-packet-render-jobs.sql. Every case below constructs a
+// supabase/phase-50-rcap-packet-delivery-hardening.sql. Every case below constructs a
 // condition the authorization must NOT cover and requires the guard to reject
 // it. Cases run in a throwaway git clone so nothing here can touch the real
 // tree, the real queue, or the real HEAD.
@@ -16,7 +16,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const realRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const AUTHORIZED_SQL = "supabase/phase-48-rcap-packet-render-jobs.sql";
+const AUTHORIZED_SQL = "supabase/phase-50-rcap-packet-delivery-hardening.sql";
 
 const sandbox = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-authz48-"));
 function sh(cmd) {
@@ -30,8 +30,8 @@ function writeQueue(queue) {
 }
 function entry(overrides = {}) {
   return {
-    id: "auth-test-phase-48",
-    phase: 48,
+    id: "auth-test-phase-50",
+    phase: 50,
     decision: "approved",
     authorizedBy: "Roger Roman",
     authorizedAt: "2026-08-10",
@@ -81,7 +81,7 @@ function commitAll(message) {
 }
 function resetToGood() {
   sh("git checkout -q work && git reset -q --hard");
-  const extra = path.join(sandbox, "supabase/phase-48b-extra.sql");
+  const extra = path.join(sandbox, "supabase/phase-50b-extra.sql");
   if (fs.existsSync(extra)) fs.rmSync(extra);
 }
 
@@ -99,21 +99,21 @@ assert.ok(
 sh("git reset -q --hard HEAD~1");
 
 // --- case 2: a renamed migration is not the authorized file -----------------
-sh(`git mv ${AUTHORIZED_SQL} supabase/phase-48-renamed.sql`);
+sh(`git mv ${AUTHORIZED_SQL} supabase/phase-50-renamed.sql`);
 commitAll("rename");
 failures = runGuard();
 assert.ok(
-  failures.some((failure) => /phase-48-renamed\.sql/.test(failure)),
+  failures.some((failure) => /phase-50-renamed\.sql/.test(failure)),
   `a renamed file must be refused (got ${JSON.stringify(failures)})`
 );
 sh("git reset -q --hard HEAD~1");
 
 // --- case 3: an unauthorized sibling defeats the whole set ------------------
-fs.writeFileSync(path.join(sandbox, "supabase/phase-48b-extra.sql"), "select 1;\n");
+fs.writeFileSync(path.join(sandbox, "supabase/phase-50b-extra.sql"), "select 1;\n");
 commitAll("sibling");
 failures = runGuard();
 assert.ok(
-  failures.some((failure) => /phase-48b-extra\.sql/.test(failure)),
+  failures.some((failure) => /phase-50b-extra\.sql/.test(failure)),
   `an unauthorized sibling must be refused (got ${JSON.stringify(failures)})`
 );
 // The guard's all-or-nothing rule: with an unauthorized path in the set, the
@@ -130,7 +130,7 @@ for (const bad of [
   entry({ authorizedSha256: undefined }),
   entry({ authorizedSha256: ["not-a-sha"] }),
   entry({ authorizedBy: "" }),
-  entry({ phase: "forty-eight" })
+  entry({ phase: "fifty" })
 ]) {
   writeQueue({ entries: [bad] });
   commitAll("malformed");
@@ -143,7 +143,7 @@ for (const bad of [
 }
 
 // --- case 5: wildcard and prefix paths grant nothing ------------------------
-for (const widened of [["supabase/"], ["supabase/*"], ["supabase/phase-48-*.sql"]]) {
+for (const widened of [["supabase/"], ["supabase/*"], ["supabase/phase-50-*.sql"]]) {
   writeQueue({ entries: [entry({ authorizedPaths: widened, authorizedSha256: [crypto.createHash("sha256").update("x").digest("hex")] })] });
   commitAll("widened");
   failures = runGuard();
@@ -164,4 +164,4 @@ assert.ok(
 );
 
 fs.rmSync(sandbox, { recursive: true, force: true });
-console.log("verify-exact-path-authorization-phase48 passed: the phase-48 grant covers exactly one path at exact bytes and nothing else.");
+console.log("verify-exact-path-authorization-phase50 passed: the phase-50 grant covers exactly one path at exact bytes and nothing else.");

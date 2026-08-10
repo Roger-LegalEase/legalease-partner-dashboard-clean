@@ -1,0 +1,22 @@
+# RCAP Render Worker Deployment Specification
+
+How the worker stays running outside a developer shell. Nothing here is
+deployed by this document; it specifies the artifact and its operation.
+
+| Item | Specification |
+|---|---|
+| Container definition | `deploy/rcap-render-worker/Dockerfile` |
+| Image build | `docker build -f deploy/rcap-render-worker/Dockerfile -t rcap-render-worker:<git-sha> .` — the resulting image digest is the `container_digest` recorded on every finalized artifact |
+| Process start | `node scripts/rcap-render-worker.mjs --loop` (container CMD); `--once` exists for smoke runs and cron-style operation |
+| Operating model | long-lived `--loop` poller is canonical; each cycle runs housekeeping (`release_expired_packet_render_claims`, `requeue_retryable_packet_render_jobs`) then claims at most one job; 3s idle sleep |
+| Deployment target class | any container host outside Vercel (Fly.io machine, Railway service, ECS task, or a supervised container on the staging host). Requirements: outbound HTTPS to the Supabase stack only, no inbound ports, no browser |
+| Health check | container HEALTHCHECK (process liveness) plus an operational check: `packet_render_jobs` rows with `status='queued'` and `next_attempt_at < now() - interval '10 minutes'` should be ~0 while a worker is healthy; alert when the oldest claimable job exceeds that age |
+| Restart policy | `restart: always` (or the platform equivalent). Crash-safety is proven by the failure-injection suite: an abandoned claim expires, is released or failed retryably, and a retry converges with no duplicate consumption |
+| Concurrency | one job per worker cycle; scale by running N containers — `claim_packet_render_job` uses `FOR UPDATE SKIP LOCKED`, so parallel workers never share a job. Start staging with 1; the fencing token makes over-provisioning safe rather than dangerous |
+| Lease vs termination | claim lease default 600s; platform kill grace (SIGTERM→SIGKILL) must be shorter than the lease so a terminated worker's claim always expires rather than being half-alive. Graceful shutdown: finish the in-flight cycle, do not start another; a hard kill mid-cycle is the injected-crash case and converges |
+| Environment variables | `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (staging/dev keys only — production secrets never exist on a build machine; the staging deploy uses the platform secret store), `RCAP_WORKER_CONTAINER_DIGEST` (image digest), optional `RCAP_WORKER_CLAIM_SECONDS` |
+| Secret source | the deployment platform's secret manager exclusively; no secret in the image, the repo, or a shell profile |
+| Least-privilege path | phase 50 creates `rcap_render_worker` (EXECUTE on worker functions only, no table DML). Staging step: mint a Supabase JWT with `role: rcap_render_worker` for the worker instead of the service key, and a storage credential limited to insert + verification reads on `rcap-packet-artifacts-private`. Until then the worker runs on the service key and the storage guarantee is tamper-evidence (re-read verification), not immutability |
+| Logs | stdout JSON lines (one per non-idle cycle: outcome, jobId, accountingResult) to the platform log drain |
+| Metrics | derived from the job table, which is the source of truth: cycle outcomes, failed_render_jobs_24h (`status='failed'`), terminal backlog (below) |
+| Dead-letter / terminal monitoring | `select count(*) from packet_render_jobs where status='failed' and failure_disposition='terminal'` — alert at >0; these never auto-requeue and each needs a human decision through `requeue_packet_render_job_manual(job, authorizer)` |

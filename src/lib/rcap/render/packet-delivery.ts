@@ -8,14 +8,15 @@ import "server-only";
 // caller — every fact is re-derived from the database and storage.
 //
 // Delivery-event semantics:
-//   delivery_started    recorded only after authorization succeeds AND the
-//                       immutable storage object has been opened and verified
-//   delivery_completed  recorded only after the PDF response stream finishes
-//                       without source error, response error, or client abort
-//   delivery_aborted    the client went away mid-stream
-//   delivery_failed     the pipeline broke for any other reason
-// headersSent alone is never delivery evidence, and repeat downloads are free:
-// no delivery event consumes anything.
+//   delivery_authorized     authorization passed and the stored object was
+//                           opened and hash-verified
+//   transmission_started    the response stream began producing bytes
+//   transmission_completed  the stream closed cleanly, without source error,
+//                           response error, or observed client abort
+//   transmission_aborted    the client went away mid-stream
+//   transmission_failed     the pipeline broke for any other reason
+// headersSent alone is never evidence, server stream completion never implies
+// a human opened or saved the file, and repeat transmission consumes nothing.
 
 import { isDeliverable, sha256, type DeliveryEventType } from "@/lib/rcap/render/job-contract";
 import type { PacketArtifactStorage } from "@/lib/rcap/render/artifact-storage";
@@ -91,20 +92,20 @@ export async function authorizePacketDownload(
     return { ok: false, status: 409, code: "artifact_missing", message: "This packet is not ready to download." };
   }
   if (!job.outputStoragePath.includes(job.id) || !job.outputStoragePath.includes(job.outputSha256)) {
-    await ports.recordEvent({ jobId: job.id, eventType: "delivery_failed", actorUserId: input.userId, requestContext: { reason: "path_identity_mismatch" } });
+    await ports.recordEvent({ jobId: job.id, eventType: "transmission_failed", actorUserId: input.userId, requestContext: { reason: "path_identity_mismatch" } });
     return { ok: false, status: 409, code: "artifact_identity_mismatch", message: "This packet could not be verified." };
   }
   const bytes = await ports.storage.read(job.outputStoragePath);
   if (!bytes) {
-    await ports.recordEvent({ jobId: job.id, eventType: "delivery_failed", actorUserId: input.userId, requestContext: { reason: "object_missing" } });
+    await ports.recordEvent({ jobId: job.id, eventType: "transmission_failed", actorUserId: input.userId, requestContext: { reason: "object_missing" } });
     return { ok: false, status: 409, code: "artifact_unavailable", message: "This packet could not be retrieved." };
   }
   if (sha256(bytes) !== job.outputSha256) {
-    await ports.recordEvent({ jobId: job.id, eventType: "delivery_failed", actorUserId: input.userId, requestContext: { reason: "hash_mismatch" } });
+    await ports.recordEvent({ jobId: job.id, eventType: "transmission_failed", actorUserId: input.userId, requestContext: { reason: "hash_mismatch" } });
     return { ok: false, status: 409, code: "artifact_corrupt", message: "This packet could not be verified." };
   }
   if (bytes.subarray(0, 5).toString("latin1") !== "%PDF-") {
-    await ports.recordEvent({ jobId: job.id, eventType: "delivery_failed", actorUserId: input.userId, requestContext: { reason: "not_pdf" } });
+    await ports.recordEvent({ jobId: job.id, eventType: "transmission_failed", actorUserId: input.userId, requestContext: { reason: "not_pdf" } });
     return { ok: false, status: 409, code: "artifact_corrupt", message: "This packet could not be verified." };
   }
 
@@ -113,9 +114,11 @@ export async function authorizePacketDownload(
 
 /**
  * Wraps verified bytes in a Response whose stream fate is recorded honestly:
- * delivery_started after the object was opened and verified (that already
- * happened), delivery_completed only when the stream closes cleanly,
- * delivery_aborted on client cancel.
+ * delivery_authorized after the object was opened and verified (that already
+ * happened), transmission_started when the stream begins producing bytes,
+ * transmission_completed only when it closes cleanly, transmission_aborted on
+ * client cancel. A cancelled stream can never record transmission_completed:
+ * the settled flag is flipped exactly once.
  */
 export async function streamAuthorizedPacket(
   ports: DeliveryPorts,
@@ -126,7 +129,7 @@ export async function streamAuthorizedPacket(
 
   await ports.recordEvent({
     jobId: job.id,
-    eventType: "delivery_started",
+    eventType: "delivery_authorized",
     actorUserId: input.userId,
     requestContext: input.requestContext
   });
@@ -134,9 +137,19 @@ export async function streamAuthorizedPacket(
   const CHUNK = input.chunkSize ?? 64 * 1024;
   let offset = 0;
   let settled = false;
+  let transmitting = false;
 
   const body = new ReadableStream<Uint8Array>({
     pull: (controller) => {
+      if (!transmitting) {
+        transmitting = true;
+        void ports.recordEvent({
+          jobId: job.id,
+          eventType: "transmission_started",
+          actorUserId: input.userId,
+          requestContext: input.requestContext
+        });
+      }
       if (offset < bytes.length) {
         controller.enqueue(new Uint8Array(bytes.subarray(offset, Math.min(offset + CHUNK, bytes.length))));
         offset += CHUNK;
@@ -148,7 +161,7 @@ export async function streamAuthorizedPacket(
         // The source produced every byte and the response accepted them.
         void ports.recordEvent({
           jobId: job.id,
-          eventType: "delivery_completed",
+          eventType: "transmission_completed",
           actorUserId: input.userId,
           requestContext: input.requestContext
         });
@@ -159,7 +172,7 @@ export async function streamAuthorizedPacket(
         settled = true;
         void ports.recordEvent({
           jobId: job.id,
-          eventType: "delivery_aborted",
+          eventType: "transmission_aborted",
           actorUserId: input.userId,
           requestContext: input.requestContext
         });

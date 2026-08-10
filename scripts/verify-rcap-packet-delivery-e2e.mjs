@@ -60,7 +60,7 @@ const storage = {
 
 function jobRow(jobId) {
   return db.json(
-    `select row_to_json(t) from (select id, status, delivery_eligibility, accounting_result, briefcase_item_id, route_id, output_storage_path, output_sha256, normalized_output_sha256, attempt_count, partner_id, person_id, matter_id, renderer_kind, renderer_version, max_attempts, failure_disposition, last_error_code from packet_render_jobs where id = '${jobId}') t`
+    `select row_to_json(t) from (select id, status, delivery_eligibility, accounting_result, briefcase_item_id, route_id, output_storage_path, output_sha256, normalized_output_sha256, attempt_count, partner_id, person_id, matter_id, renderer_kind, renderer_version, max_attempts, failure_disposition, error_code as last_error_code from packet_render_jobs where id = '${jobId}') t`
   );
 }
 
@@ -106,18 +106,23 @@ const deliveryPorts = {
 let server;
 let browser;
 try {
+  db.sql(`create role service_role nologin bypassrls`);
+  db.sql(`alter default privileges in schema public grant all on tables to service_role`);
   db.sql(`create table public.partner_records (id uuid primary key, partner_slug text unique not null)`);
   db.sql(`create table public.rcap_persons (id uuid primary key, partner_slug text not null, match_key text not null)`);
-  db.applyFile(path.join(rootDir, "supabase/phase-48-rcap-packet-render-jobs.sql"));
+  db.sql(`create table public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
+  db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.sql(`insert into partner_records values ('${P1}','we-must-vote')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 5, false, 0)`);
 
   // Produce a real validated, consumed artifact through the worker.
   const inputHash = createHash("sha256").update("e2e-input").digest("hex");
+  const packetRow = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
   const jobId = db
     .scalar(
-      `select id from enqueue_packet_render_job('e2e-pkt', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${inputHash}', '${BRIEFCASE_ITEM}', '${P1}', '${PERSON_A}', '9aaaaaaa-3333-1111-1111-111111111111', 5)`
+      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${inputHash}', '${BRIEFCASE_ITEM}', '${P1}', '${PERSON_A}', '9aaaaaaa-3333-1111-1111-111111111111', 5)`
     )
     .trim();
 
@@ -268,8 +273,8 @@ try {
   const events = db.json(
     `select coalesce(json_object_agg(event_type, n), '{}'::json) from (select event_type, count(*) n from packet_delivery_events where render_job_id = '${jobId}' group by event_type) s`
   );
-  assert(events.delivery_started >= 1, `e2e: delivery_started recorded (${JSON.stringify(events)})`);
-  assert(events.delivery_completed >= 1, `e2e: delivery_completed recorded after the pipeline finished (${JSON.stringify(events)})`);
+  assert(events.delivery_authorized >= 1, `e2e: delivery_authorized recorded (${JSON.stringify(events)})`);
+  assert(events.transmission_completed >= 1, `e2e: transmission_completed recorded after the pipeline finished (${JSON.stringify(events)})`);
   assert(jobRow(jobId).status === "delivered", "e2e: the job is delivered");
 
   // Repeat download consumes nothing.

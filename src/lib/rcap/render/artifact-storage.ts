@@ -1,19 +1,24 @@
 import "server-only";
 
-// Private immutable artifact storage.
+// Private, content-addressed, tamper-evident artifact storage.
 //
-// The bucket is not public, has no browser-role policy, and is reached only
-// through the server's service-role client. Objects are written once at a
-// server-derived path that binds the owner IDs, the job id and the output
-// hash; a validated object is never overwritten, and the raw path is never
-// sent to a browser. A storage_path column value is not evidence — callers
-// re-read the object and hash-verify it before trusting it.
+// The guarantee, stated exactly: the bucket is not public, has no browser-role
+// policy, and is reached only through the server's storage client. Objects are
+// written at a server-derived path binding the owner IDs, the job id and the
+// output hash; the adapter refuses to overwrite (upsert: false); and every
+// delivery re-reads the object and verifies its hash before serving a byte, so
+// altered bytes fail closed. This is TAMPER EVIDENCE, not immutability: the
+// service-role credential bypasses Storage RLS and could rewrite an object,
+// which is why no read is ever trusted without re-verification, and why the
+// worker deployment specification calls for a least-privilege storage
+// credential (insert plus verification reads only) before staging. A
+// storage_path column value is never evidence.
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { PACKET_ARTIFACT_BUCKET } from "@/lib/rcap/render/job-contract";
 
 export type PacketArtifactStorage = {
-  /** Write once. Overwriting an existing object is an error, never an upsert. */
+  /** Write once at the adapter level. Overwriting is an error, never an upsert. */
   upload(path: string, bytes: Buffer): Promise<{ ok: true } | { ok: false; reason: string }>;
   /** Read the exact stored bytes back, or null when the object is missing. */
   read(path: string): Promise<Buffer | null>;

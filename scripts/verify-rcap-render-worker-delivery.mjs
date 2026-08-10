@@ -156,19 +156,20 @@ const baseDeps = (renderer = realRenderer) => ({
 });
 
 let jobSeq = 0;
-function enqueue({ packet, briefcase = null, partner = null, person = null, matter = null }) {
+function enqueue({ briefcase = null, partner = null, person = null, matter = null }) {
   jobSeq += 1;
   const hash = createHash("sha256").update(`wd-input-${jobSeq}`).digest("hex");
+  const packetRow = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
   return db
     .scalar(
-      `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', ${briefcase ? `'${briefcase}'` : "null"}, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, 5)`
+      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', ${briefcase ? `'${briefcase}'` : "null"}, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, 5)`
     )
     .trim();
 }
 
 function jobRow(jobId) {
   return db.json(
-    `select row_to_json(t) from (select id, status, delivery_eligibility, accounting_result, briefcase_item_id, route_id, output_storage_path, output_sha256, normalized_output_sha256, attempt_count, partner_id, person_id, matter_id, renderer_kind, renderer_version, max_attempts, failure_disposition, last_error_code from packet_render_jobs where id = '${jobId}') t`
+    `select row_to_json(t) from (select id, status, delivery_eligibility, accounting_result, briefcase_item_id, route_id, output_storage_path, output_sha256, normalized_output_sha256, attempt_count, partner_id, person_id, matter_id, renderer_kind, renderer_version, max_attempts, failure_disposition, error_code as last_error_code from packet_render_jobs where id = '${jobId}') t`
   );
 }
 
@@ -232,16 +233,20 @@ async function readAll(response) {
 const consumedCount = () => db.scalar(`select count(*) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`);
 
 try {
+  db.sql(`create role service_role nologin bypassrls`);
+  db.sql(`alter default privileges in schema public grant all on tables to service_role`);
   db.sql(`create table public.partner_records (id uuid primary key, partner_slug text unique not null)`);
   db.sql(`create table public.rcap_persons (id uuid primary key, partner_slug text not null, match_key text not null)`);
-  db.applyFile(path.join(rootDir, "supabase/phase-48-rcap-packet-render-jobs.sql"));
+  db.sql(`create table public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
+  db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.sql(`insert into partner_records values ('${P1}','we-must-vote')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 10, false, 0)`);
 
   // --- worker happy path -----------------------------------------------------
   const m1 = "9aaaaaaa-2222-1111-1111-111111111111";
-  const jobA = enqueue({ packet: "wd-1", briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m1 });
+  const jobA = enqueue({ briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m1 });
   const happy = await runWorkerCycle(baseDeps());
   assert(happy.outcome === "finalized" && happy.jobId === jobA, `worker: happy path finalizes (${JSON.stringify(happy)})`);
   assert(happy.accountingResult === "consumed" && happy.deliveryEligibility === "eligible", "worker: happy path consumes and is eligible");
@@ -254,7 +259,7 @@ try {
   // 1. Crash after claim: the claim leases out, the worker dies, the lease
   //    expires, the job returns to the queue, a later cycle completes it.
   const m2 = "9bbbbbbb-2222-1111-1111-111111111111";
-  const jobB = enqueue({ packet: "wd-2", briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m2 });
+  const jobB = enqueue({ briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m2 });
   const crashedClaim = await queuePort.claim("crash-after-claim");
   assert(crashedClaim?.id === jobB, "crash1: claim taken then abandoned");
   db.sql(`update packet_render_jobs set claim_expires_at = now() - interval '1 minute' where id = '${jobB}'`);
@@ -265,7 +270,7 @@ try {
   // 2. Crash during render: the renderer throws; the job fails retryably and a
   //    later cycle converges. Same matter as a consumed one? No — new matter.
   const m3 = "9ccccccc-2222-1111-1111-111111111111";
-  const jobC = enqueue({ packet: "wd-3", briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m3 });
+  const jobC = enqueue({ briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m3 });
   let renderCalls = 0;
   const flakyRenderer = {
     render: async (claim) => {
@@ -283,7 +288,7 @@ try {
   // 3. Crash after upload, before re-read: deterministic bytes so the retry
   //    lands on the same content-addressed path and re-uses the object.
   const m4 = "9ddddddd-2222-1111-1111-111111111111";
-  const jobD = enqueue({ packet: "wd-4", briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m4 });
+  const jobD = enqueue({ briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: m4 });
   const fixedBytes = await realRenderer.render({ packetId: "wd-4" });
   const fixedRenderer = { render: async () => fixedBytes };
   let readCalls = 0;
@@ -330,7 +335,7 @@ try {
   assert(delivered.length === okDecision.bytes.length && delivered.subarray(0, 5).toString("latin1") === "%PDF-", "delivery: the streamed bytes are the artifact");
   await new Promise((resolve) => setTimeout(resolve, 50));
   let counts = eventCounts(jobA);
-  assert(counts.delivery_started === 1 && counts.delivery_completed === 1, `delivery: started+completed recorded (${JSON.stringify(counts)})`);
+  assert(counts.delivery_authorized === 1 && counts.transmission_completed === 1, `delivery: started+completed recorded (${JSON.stringify(counts)})`);
   assert(jobRow(jobA).status === "delivered", "delivery: completion advances the job");
 
   // Repeat download: free.
@@ -339,7 +344,7 @@ try {
   await readAll(await streamAuthorizedPacket(deliveryPorts, again, { userId: USER_OWNER }));
   await new Promise((resolve) => setTimeout(resolve, 50));
   counts = eventCounts(jobA);
-  assert(counts.delivery_completed === 2, "delivery: repeat download recorded");
+  assert(counts.transmission_completed === 2, "delivery: repeat download recorded");
   assert(Number(consumedCount()) === Number(beforeLedger3) + 1, "delivery: repeat downloads consume nothing");
 
   // Abort mid-stream.
@@ -352,7 +357,7 @@ try {
   await reader.cancel();
   await new Promise((resolve) => setTimeout(resolve, 50));
   counts = eventCounts(jobA);
-  assert(counts.delivery_aborted === 1, `delivery: client abort recorded as delivery_aborted (${JSON.stringify(counts)})`);
+  assert(counts.transmission_aborted === 1, `delivery: client abort recorded as transmission_aborted (${JSON.stringify(counts)})`);
 
   // Denials: unauthenticated, cross-person.
   const noAuth = await authorizePacketDownload(deliveryPorts, { jobId: jobA, userId: null });
@@ -365,7 +370,7 @@ try {
   // A valid artifact that is accounting-blocked is refused before storage.
   db.sql(`update partner_packet_entitlement set packet_cap = 0 where partner_id = '${P1}'`);
   const mBlocked = "9eeeeeee-2222-1111-1111-111111111111";
-  const jobBlocked = enqueue({ packet: "wd-blocked", briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: mBlocked });
+  const jobBlocked = enqueue({ briefcase: BRIEFCASE_ITEM, partner: P1, person: PERSON_A, matter: mBlocked });
   const blockedCycle = await runWorkerCycle(baseDeps());
   assert(blockedCycle.outcome === "finalized" && blockedCycle.deliveryEligibility === "accounting_blocked", `delivery: cap-lost artifact is accounting_blocked (${JSON.stringify(blockedCycle)})`);
   const blockedDecision = await authorizePacketDownload(deliveryPorts, { jobId: jobBlocked, userId: USER_OWNER });
@@ -405,7 +410,7 @@ try {
 
   // Failure events were recorded for the integrity failures.
   counts = eventCounts(jobA);
-  assert((counts.delivery_failed ?? 0) >= 3, `storage: integrity failures recorded as delivery_failed (${JSON.stringify(counts)})`);
+  assert((counts.transmission_failed ?? 0) >= 3, `storage: integrity failures recorded as transmission_failed (${JSON.stringify(counts)})`);
 
   // Write-once: uploading over an existing object is refused by the adapter.
   const overwrite = await storage.upload(evidencePath, Buffer.from("evil"));

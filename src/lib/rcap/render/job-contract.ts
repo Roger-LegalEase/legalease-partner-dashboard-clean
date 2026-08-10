@@ -77,11 +77,11 @@ export const DELIVERY_AUTHORIZED_ACCOUNTING_RESULTS: readonly PacketAccountingRe
 export type DeliveryEligibility = "not_evaluated" | "eligible" | "accounting_blocked";
 
 export const DELIVERY_EVENT_TYPES = [
-  "delivery_started",
-  "delivery_completed",
-  "delivery_failed",
-  "delivery_aborted",
-  "delivery_issued"
+  "delivery_authorized",
+  "transmission_started",
+  "transmission_completed",
+  "transmission_aborted",
+  "transmission_failed"
 ] as const;
 
 export type DeliveryEventType = (typeof DELIVERY_EVENT_TYPES)[number];
@@ -226,20 +226,22 @@ export function isCreditConsumable(job: { status: RenderJobStatus; consumedCredi
  * The unit of consumption is one distinct supported matter, not one packet and
  * not one download. The identity is immutable database IDs only — a slug or any
  * other mutable display identifier is never an accounting boundary, because a
- * rename must not mint fresh capacity. This mirrors the hash the phase-48
- * finalization computes in SQL; the DB verifier holds the two identical.
+ * rename must not mint fresh capacity. The entitlement id carries the program
+ * and period dimension, so two programs or two periods under one partner never
+ * cross-consume. This mirrors the hash the phase-50 finalization computes in
+ * SQL; the DB verifier holds the two identical.
  */
 export function consumptionUnitHash(input: {
   partnerId: string;
-  entitlementScope: string;
+  entitlementId: string;
   personId: string;
   matterId: string;
 }) {
   const partnerId = requireValue(input.partnerId, "partnerId");
-  const entitlementScope = requireValue(input.entitlementScope, "entitlementScope");
+  const entitlementId = requireValue(input.entitlementId, "entitlementId");
   const personId = requireValue(input.personId, "personId");
   const matterId = requireValue(input.matterId, "matterId");
-  return sha256(Buffer.from(`${partnerId}:${entitlementScope}:${personId}:${matterId}`, "utf8"));
+  return sha256(Buffer.from(`${partnerId}:${entitlementId}:${personId}:${matterId}`, "utf8"));
 }
 
 /**
