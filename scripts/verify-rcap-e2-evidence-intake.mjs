@@ -103,13 +103,46 @@ function evidenceOf(finding) {
   return [...direct, ...nested];
 }
 
+// The eight dispatched lanes come from the frozen assignment. E-SPECIAL is a
+// ninth evidence package, authored during final E3 for the six subjects no lane
+// owned. It is not in the assignment, so enumerating only assignment.lanes would
+// leave its citations out of the denominator entirely — the corpus is 935
+// citations, not the 912 the lanes alone contribute. It has no frozen jobId
+// list, so scope is taken from its own findings; every other check applies.
+const EXTRA_PACKAGES = [
+  { laneId: "E-SPECIAL", evidencePath: "data/rcap-ledger/e2-evidence/E-SPECIAL.json", jobIds: null }
+];
+
+const packages = (() => {
+  const named = new Set(assignment.lanes.map((l) => l.laneId));
+  return [...assignment.lanes, ...EXTRA_PACKAGES.filter((p) => !named.has(p.laneId))];
+})();
+
+/** Reads a `path@<ref>` pin at its ref, so pinned quotes are measured, not skipped. */
+function normalizedBlobAtRef(relPath, ref) {
+  const key = `${relPath}@${ref}`;
+  if (!fileCache.has(key)) {
+    try {
+      const raw = execFileSync("git", ["show", `${ref}:${relPath}`], {
+        cwd: rootDir,
+        encoding: "utf8",
+        maxBuffer: 64 * 1024 * 1024
+      });
+      fileCache.set(key, normalize(raw));
+    } catch {
+      fileCache.set(key, null);
+    }
+  }
+  return fileCache.get(key);
+}
+
 const landed = [];
 let quotesChecked = 0;
 let quotesVerbatim = 0;
 let pinnedSources = 0;
 const outcomeTotals = {};
 
-for (const lane of assignment.lanes) {
+for (const lane of packages) {
   const file = path.join(rootDir, lane.evidencePath);
   if (!fs.existsSync(file)) {
     if (strict) failures.push(`${lane.laneId}: --strict but ${lane.evidencePath} has not landed`);
@@ -127,13 +160,15 @@ for (const lane of assignment.lanes) {
 
   const findings = Array.isArray(document.findings) ? document.findings : [];
   const seen = new Set();
-  const assigned = new Set(lane.jobIds);
+  // A package with no frozen jobId list (E-SPECIAL) defines its own scope; there
+  // is no assignment to contradict, so only duplication is checkable.
+  const assigned = Array.isArray(lane.jobIds) ? new Set(lane.jobIds) : null;
 
   // 1. Coverage and exclusivity.
   for (const finding of findings) {
     if (seen.has(finding.jobId)) failures.push(`${lane.laneId}: ${finding.jobId} appears more than once`);
     seen.add(finding.jobId);
-    if (!assigned.has(finding.jobId)) {
+    if (assigned && !assigned.has(finding.jobId)) {
       failures.push(`${lane.laneId}: ${finding.jobId} is not in this lane's scope`);
     }
     outcomeTotals[finding.outcome] = (outcomeTotals[finding.outcome] ?? 0) + 1;
@@ -164,17 +199,26 @@ for (const lane of assignment.lanes) {
         continue;
       }
 
-      // `path@<ref>` pins the bytes that were read. Resolve it there.
+      // `path@<ref>` pins the bytes that were read. Resolve it there, and
+      // measure its quote against the pinned blob — skipping these would drop
+      // them from the denominator, which is exactly how the corpus was
+      // previously undercounted.
       const pinned = /^(.+?)@([0-9a-f]{7,40})$/.exec(token);
       if (pinned) {
         const [, pinnedPath, ref] = pinned;
-        if (!resolvesAtRef(pinnedPath, ref)) {
+        const blob = normalizedBlobAtRef(pinnedPath, ref);
+        if (blob === null) {
           failures.push(
             `${lane.laneId}: ${finding.jobId} cites ${pinnedPath} at ${ref.slice(0, 10)}, which does not resolve there`
           );
+          continue;
         }
         pinnedSources += 1;
-        continue; // quote fidelity is not measured against a ref this script does not check out
+        if (item.quote) {
+          quotesChecked += 1;
+          if (blob.includes(normalize(item.quote))) quotesVerbatim += 1;
+        }
+        continue;
       }
 
       const rel = token;
@@ -193,7 +237,7 @@ for (const lane of assignment.lanes) {
     }
   }
 
-  const missing = lane.jobIds.filter((id) => !seen.has(id));
+  const missing = Array.isArray(lane.jobIds) ? lane.jobIds.filter((id) => !seen.has(id)) : [];
   if (missing.length > 0) {
     failures.push(
       `${lane.laneId}: ${missing.length} assigned job(s) missing from the evidence file, first: ${missing[0]}`
@@ -212,19 +256,46 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
+// The source-support audit walks the same corpus with a far more careful
+// classifier (smallest supporting span, citation-core verification). Two
+// independent counts of one corpus are only useful if they are reconciled, so
+// the denominators are compared and a disagreement is a hard failure: it means
+// one of the two is not seeing the whole corpus, which is the exact defect that
+// produced the 903 undercount.
+const AUDIT_JSON = path.join(rootDir, "data/rcap-crosswalk-enrichment/e2-source-support-audit.json");
+let auditNote = null;
+if (fs.existsSync(AUDIT_JSON)) {
+  const audit = JSON.parse(fs.readFileSync(AUDIT_JSON, "utf8"));
+  const auditRows = Array.isArray(audit.rows) ? audit.rows.length : 0;
+  if (auditRows !== quotesChecked) {
+    console.error("verify-rcap-e2-evidence-intake FAILED");
+    console.error(
+      ` - denominator disagreement: intake counted ${quotesChecked} citations, the source-support audit counted ${auditRows}.\n` +
+        `   One of them is not seeing the whole corpus. Reconcile before trusting either rate.`
+    );
+    process.exit(1);
+  }
+  auditNote = audit.aggregates?.totals?.nonVerbatimRate ?? null;
+}
+
 const verbatimRate = quotesChecked > 0 ? (100 * quotesVerbatim) / quotesChecked : 100;
 
-console.log(`verify-rcap-e2-evidence-intake passed. Lanes landed: ${landed.length}/${assignment.lanes.length} (${landed.join(", ")})`);
+console.log(`verify-rcap-e2-evidence-intake passed. Packages landed: ${landed.length}/${packages.length} (${landed.join(", ")})`);
 console.log(`  every assigned job present exactly once, every finding carries evidence, every source resolves`);
 for (const [outcome, count] of Object.entries(outcomeTotals).sort()) {
   console.log(`  ${outcome.padEnd(12)} ${count}`);
 }
-console.log(`  sources pinned to a commit (verified at that ref): ${pinnedSources}`);
-console.log(`  quote verbatim in cited source: ${quotesVerbatim}/${quotesChecked} (${verbatimRate.toFixed(1)}%)`);
-if (verbatimRate < 90) {
+console.log(`  citations in corpus: ${quotesChecked} (pinned to a commit and read there: ${pinnedSources})`);
+console.log(`  quote verbatim by substring test: ${quotesVerbatim}/${quotesChecked} (${verbatimRate.toFixed(1)}%)`);
+if (auditNote !== null) {
+  console.log(`  authoritative non-verbatim rate (source-support audit): ${auditNote}%`);
   console.log(
-    `  NOTE for E3: ${(100 - verbatimRate).toFixed(1)}% of quotes are a paraphrase or a conclusion rather than\n` +
-      `  source text. Those findings are not thereby wrong, but their quote cannot be taken as\n` +
-      `  the evidence — re-read the cited source before adjudicating them.`
+    `  The audit's classifier is the one to quote. This substring rate is a coarse cross-check\n` +
+      `  on the same ${quotesChecked} citations, not a second opinion worth citing.`
   );
 }
+console.log(
+  `  A non-verbatim quote is a REREAD PRIORITY, not a mapping failure: the finding may be\n` +
+    `  correct, but its quote cannot carry its own proof, so the cited source must be reread\n` +
+    `  before the row is adjudicated.`
+);

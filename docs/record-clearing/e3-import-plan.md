@@ -1,7 +1,8 @@
-# E3 import plan — gated, not yet executed
+# E3 import plan — EXECUTED
 
-Recorded so the sequence survives a context loss. **Nothing in this file has been
-executed.** The work below starts only when final E3 returns.
+Final E3 returned at `c85d0c38` and this sequence has been carried out. Kept as
+the record of what was imported, what was refused, and the decisions taken along
+the way. The open question flagged below was resolved; how, is recorded.
 
 ## Status
 
@@ -9,14 +10,12 @@ executed.** The work below starts only when final E3 returns.
 | --- | --- |
 | Eight E2 evidence lanes | Landed on the captain line at `abbc48a1` (912 entries, 363 jobs) |
 | Terminal C source-support audit | **Accepted input.** `claude/rcap-e2-source-support-audit` @ `ca16791b` |
-| Final E3 | **Not returned.** `claude/rcap-e3-crosswalk-finalizer` @ `6e735902` adjudicates E2-C only, on a base predating the eight landed lanes |
+| Final E3 | **Returned and imported.** `claude/rcap-e3-final` @ `c85d0c38`, parent `934410ba`, base `abbc48a1` — linear, verified against the remote tip |
 
 The audit branch is **not merged wholesale**. It is an accepted input to Terminal
 E, imported path-by-path under the sequence below.
 
-## The gated sequence
-
-Run in order, only after final E3 returns:
+## The sequence, as executed
 
 1. Import accepted crosswalk-owned and evidence-audit paths.
 2. Recreate the `package.json` wiring by hand.
@@ -43,15 +42,17 @@ denominator: 912 − 9 = **903**. The fix for step 4 is to measure the pinned ni
 against the blob at their ref (`git show <ref>:<path>`) instead of skipping them,
 so the denominator is the whole corpus.
 
-**Open decision for step 4, do not settle it silently.** The audit reports
-**30.5% non-verbatim over 912**. Adding nine verbatim matches to the intake
-verifier's current 609/903 would give ~32.2%, not 30.5% — the audit locates a
-smallest supporting span and verifies citation cores, which is a more careful
-classifier than the intake check's normalized-substring test. The two will not
-agree merely by fixing the denominator. Preferred resolution: have the intake
-verifier consume the audit artifact's classification when it is present rather
-than run a second, weaker classifier alongside it. Decide at execution time; do
-not hardcode 30.5%.
+**Open decision — RESOLVED.** The concern was that fixing the denominator alone
+would not reconcile the two numbers: the audit reported 30.5% non-verbatim over
+912, while adding nine verbatim matches to intake's 609/903 gives ~32.2%. The
+audit locates a smallest supporting span and verifies citation cores; intake ran
+a normalized-substring test. Two classifiers, one corpus, two rates.
+
+Resolved by not letting the weaker number circulate. Intake measures the full
+corpus, cross-checks its denominator against the audit and fails hard on
+disagreement, then prints the audit's rate as authoritative and labels its own
+count a coarse cross-check. Nothing was hardcoded; both figures are recomputed
+from committed bytes on every run.
 
 ## What the rate means
 
@@ -85,3 +86,38 @@ The general lesson for the intake check: it verifies that a source *resolves*,
 which is a weaker claim than that it *supports*. An `absence_proof` in particular
 has no quote to match and so passes intake unexamined — exactly the shape of the
 NH defect. Closing that gap belongs with step 4.
+
+
+## How it was resolved
+
+**Corpus.** E-SPECIAL turned out to be a ninth evidence package, 23 citations
+across six subjects, absent from the 912-row audit (which covered exactly the
+eight lanes: 156+114+97+153+157+162+59+14). The corrected corpus is **935**.
+Both the audit and the intake check now enumerate lanes plus E-SPECIAL from one
+shared helper, and a silently omitted package is a mutation-tested failure.
+
+**Two classifiers, one number.** Rather than let the intake check publish a
+second, weaker rate beside the audit's, intake now cross-checks its denominator
+against the audit and *fails* on disagreement, then prints the audit's rate as
+the authoritative one and labels its own substring count as a coarse
+cross-check. A disagreement can no longer hide; nor can two numbers circulate
+for the same thing.
+
+**Reproducibility.** The audit as imported passed only at `ca16791b` and failed
+at the integration tip — the thing the instruction forbade. Taken by
+regeneration against the final integrated tree, not by pinning. It and all eight
+of its mutations now pass from the integration tip.
+
+**Hashes.** `contentHash` covers the crosswalk object alone and is a *semantic
+relationship hash* — the generator reads no evidence file at all. A separate
+`evidenceHash` now pins the eleven evidence files (nine packages, the
+adjudication input, the audit). `contentHash` is unchanged at `964a9ac4…`
+because `evidenceHash` is excluded from its preimage.
+
+**Queue.** The 363-job queue is superseded and kept, not regenerated:
+nine evidence packages are keyed to its jobIds, and regenerating would
+re-partition them and break intake coverage for finished work. Its check now
+proves integrity rather than currency. The dispatch assignment's pin was moved
+from whole-file bytes to the job set, so queue metadata cannot invalidate a
+partition the landed evidence depends on — the partition was proven identical
+before and after.

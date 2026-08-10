@@ -2,11 +2,11 @@
   "schemaVersion": "rcap-verifier-audit/v1",
   "timeoutMs": 20000,
   "counts": {
-    "total": 213,
-    "inChain": 75,
-    "orphanPassing": 89,
+    "total": 215,
+    "inChain": 77,
+    "orphanPassing": 91,
     "orphanBroken": 31,
-    "orphanTimeout": 11,
+    "orphanTimeout": 9,
     "generators": 7
   },
   "scripts": [
@@ -138,6 +138,13 @@
     },
     {
       "file": "test-partner-write-layer.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "test-rcap-source-support-audit-mutations.mjs",
       "status": "in_chain",
       "detail": null,
       "wiredToNamedScript": true,
@@ -949,6 +956,13 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-rcap-e2-source-support-audit.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-rcap-evaluator-all51-provability.mjs",
       "status": "orphan_passing",
       "detail": null,
@@ -1356,15 +1370,15 @@
     },
     {
       "file": "verify-ri-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-sc-state-pack.mjs",
-      "status": "orphan_timeout",
-      "detail": "exceeded 20000ms",
+      "status": "orphan_passing",
+      "detail": null,
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },

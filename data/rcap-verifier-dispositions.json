@@ -3,11 +3,11 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 95,
-    "wired": 75,
+    "keep_available": 97,
+    "wired": 77,
     "fix_then_wire": 26,
     "retire": 1,
-    "quarantine": 11,
+    "quarantine": 9,
     "blocked_on_family": 5
   },
   "entries": {
@@ -120,6 +120,12 @@
       "decidedBy": "generated"
     },
     "test-partner-write-layer.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "test-rcap-source-support-audit-mutations.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
@@ -819,6 +825,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-e2-source-support-audit.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-rcap-evaluator-all51-provability.mjs": {
       "disposition": "keep_available",
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
@@ -1168,15 +1180,15 @@
       "decidedBy": "generated"
     },
     "verify-ri-state-pack.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-sc-state-pack.mjs": {
-      "disposition": "quarantine",
-      "reason": "Exceeded the 20000ms budget; either genuinely slow or hung. Needs a bounded runtime before any gate can depend on it.",
-      "observedStatus": "orphan_timeout",
+      "disposition": "keep_available",
+      "reason": "Green but no milestone gate depends on it; useful ad hoc.",
+      "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
     "verify-sd-state-pack.mjs": {

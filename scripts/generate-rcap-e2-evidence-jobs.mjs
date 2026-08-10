@@ -223,6 +223,47 @@ const report = `${reportLines.join("\n")}`;
 
 if (check) {
   const currentJson = fs.existsSync(outputPath) ? fs.readFileSync(outputPath, "utf8") : "";
+
+  // A superseded queue is checked for INTEGRITY, not currency.
+  //
+  // These 363 jobs were derived from the pre-adjudication crosswalk and have
+  // since been worked: nine evidence packages are keyed to these exact jobIds.
+  // Final E3 then moved the crosswalk, so regenerating this file would produce a
+  // different, smaller set and re-partition the jobIds the landed evidence is
+  // keyed to — silently breaking intake coverage for work that is already done.
+  //
+  // So once the queue declares itself superseded, the honest check is not "does
+  // this still match the crosswalk" (it cannot, and should not) but "is the
+  // frozen record still exactly what the workers were dispatched against, and
+  // does its replacement exist". Currency belongs to the successor.
+  if (currentJson) {
+    const committed = JSON.parse(currentJson);
+    if (committed.superseded) {
+      const failures = [];
+      const s = committed.superseded;
+      const jobsSha = crypto.createHash("sha256").update(JSON.stringify(committed.jobs)).digest("hex");
+      if (jobsSha !== s.jobsSha256) {
+        failures.push(`frozen job set altered: sha256 ${jobsSha.slice(0, 12)} != recorded ${String(s.jobsSha256).slice(0, 12)}`);
+      }
+      if (committed.totalJobs !== committed.jobs.length) {
+        failures.push(`totalJobs ${committed.totalJobs} != ${committed.jobs.length} jobs present`);
+      }
+      if (committed.input?.crosswalkContentHash !== s.frozenAtCrosswalkContentHash) {
+        failures.push("the recorded input pin no longer matches the hash this queue was frozen at");
+      }
+      if (s.supersededBy && !fs.existsSync(path.join(rootDir, s.supersededBy))) {
+        failures.push(`successor ${s.supersededBy} does not exist; a superseded queue with no replacement leaves the work unaccounted for`);
+      }
+      if (failures.length > 0) {
+        console.error("E2 evidence jobs (superseded) FAILED integrity check");
+        for (const f of failures) console.error(` - ${f}`);
+        process.exit(1);
+      }
+      console.log(`E2 evidence jobs SUPERSEDED and intact. ${committed.jobs.length} frozen jobs, replaced by ${s.supersededBy}.`);
+      process.exit(0);
+    }
+  }
+
   const currentReport = fs.existsSync(reportPath) ? fs.readFileSync(reportPath, "utf8") : "";
   if (currentJson !== serialized || currentReport !== report) {
     console.error("E2 evidence jobs are stale. Run: npm run rcap:e2-evidence-jobs");
