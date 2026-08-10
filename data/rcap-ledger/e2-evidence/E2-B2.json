@@ -1,0 +1,1869 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E2-B2",
+  "group": "E2-B",
+  "baseCommit": "c7225bcf8f2fb2ab0deb5c333d2278937b257694",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "webAccessAvailable": false,
+  "findings": [
+    {
+      "jobId": "E2-B-MI-first-offense-owi-set-aside-by-application",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "first-offense-owi-set-aside-by-application",
+        "registryTrackId": "mi_setaside_first_owi"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621c; MCL 780.621d",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "Traffic offenses generally -- except a first-violation OWI is now set-aside-eligible by application; most other traffic offenses, and any causing injury/death, remain ineligible."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621(4)(d); MCL 780.621d(2); MCL 780.621c(d)(i)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId mi_setaside_first_owi, authority: [MCL 780.621(4)(d), MCL 780.621d(2), MCL 780.621c(d)(i)]"
+        },
+        {
+          "kind": "official_form",
+          "value": "MC 227 item 2.c",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Once only. MC 227 item 2.c requires an affirmation that the applicant has not previously applied for and received a first-violation OWI set-aside."
+        }
+      ],
+      "reasoning": "The compiled pathway is the application route for a first-violation OWI set-aside created by the Clean Slate traffic carve-back: its rule text cites MCL 780.621c (the never-eligible list) with the express first-violation-OWI exception and routes through the MCL 780.621d application procedure. The registry track mi_setaside_first_owi is anchored on exactly those operative provisions -- MCL 780.621(4)(d), 780.621d(2) and the 780.621c(d)(i) carve-out -- and carries the SCAO MC 227 item 2.c affirmation specific to this relief. The join is on shared operative statute and official form, not name.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MN-automatic-clean-slate-expungement-under-609a-015",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "automatic-clean-slate-expungement-under-609a-015",
+        "registryTrackId": "mn_auto_clean_slate"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. Section 609A.015",
+          "source": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+          "quote": "id automatic-clean-slate-expungement-under-609a-015, label: Automatic Clean Slate expungement under Section 609A.015"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. ch. 609A; Laws 2023, ch. 52",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId mn_auto_clean_slate, legalName: Automatic Expungement under the Clean Slate Act, authority: [Minn. Stat. ch. 609A, Laws 2023, ch. 52, Laws 2026, ch. 70, Section 5]"
+        }
+      ],
+      "reasoning": "The compiled pathway carries Section 609A.015 in its id and label. Section 609A.015 is the automatic-expungement section codified within Minn. Stat. ch. 609A, and the registry track cites the Clean Slate Act session law (Laws 2023, ch. 52) that enacted it together with ch. 609A. The pathway's statutory citation falls squarely inside the track's cited authority; the join is statutory containment plus the enacting session law, not label wording.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MN-automatic-mistaken-identity-expungement-under-609a-017",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "automatic-mistaken-identity-expungement-under-609a-017",
+        "registryTrackId": "mn_mistaken_identity_court"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. Section 609A.017",
+          "source": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+          "quote": "id automatic-mistaken-identity-expungement-under-609a-017, label: Automatic mistaken-identity expungement under Section 609A.017, routeType: automatic"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. ch. 609A",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId mn_mistaken_identity_court, legalName: Mistaken Identity; Automatic Court Expungement, authority: [Minn. Stat. ch. 609A]"
+        }
+      ],
+      "reasoning": "The compiled pathway carries Section 609A.017 -- the automatic court-expungement provision for mistaken identity -- in its id and label, and Section 609A.017 sits inside the track's cited authority, Minn. Stat. ch. 609A. The registry keeps two mistaken-identity tracks and the discriminator is statutory: mn_mistaken_identity_iddata cites Section 299C.11 (destruction of identification data held by the BCA), while this compiled pathway is the ch. 609A automatic court-record expungement, which joins it to mn_mistaken_identity_court.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MN-cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "registryTrackId": "mn_auto_cannabis_nonfelony"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. Sections 609A.055-.06",
+          "source": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+          "quote": "id cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06, label: Cannabis automatic or board-reviewed expungement under Sections 609A.055-.06"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. ch. 609A; Laws 2023, ch. 63",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId mn_auto_cannabis_nonfelony, legalName: Automatic Expungement of Certain Non-Felony Cannabis Offences, authority: [Minn. Stat. ch. 609A, Laws 2023, ch. 63]"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. ch. 609A; Laws 2023, ch. 63",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId mn_ceb_felony_cannabis, legalName: Cannabis Expungement Board Review and Resentencing, authority: [Minn. Stat. ch. 609A, Laws 2023, ch. 63]"
+        }
+      ],
+      "reasoning": "The compiled pathway is a composite of the two cannabis mechanisms enacted by Laws 2023, ch. 63 and codified at Sections 609A.055-.06 within ch. 609A: automatic expungement of certain non-felony cannabis offenses (Section 609A.055 -> mn_auto_cannabis_nonfelony) and Cannabis Expungement Board review for felony-level offenses (Section 609A.06 -> mn_ceb_felony_cannabis). Both registry tracks cite the same enacting session law and chapter. Primary mapping is recorded to mn_auto_cannabis_nonfelony; E3 should treat this as a two-track composite split on Section 609A.055 versus Section 609A.06.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MO-marijuana-expungement-under-missouri-constitution-article-xiv",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
+        "registryTrackId": "mo-art-xiv-marijuana"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Mo. Const. art. XIV, Section 2",
+          "source": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+          "quote": "Article XIV, 2 legalizes personal-use possession and conduct for adults 21+ within limits, including possession of three ounces or less of dried marijuana or equivalent and registered home cultivation within plant limits. (https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Mo. Const. art. XIV, Section 2; SJRC (10-24) CR375",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId mo-art-xiv-marijuana, legalName: Marijuana Expungement, Vacatur and Release from Supervision (Mo. Const. art. XIV, Section 2); officialFormRefs include Petition for Expungement -- Marijuana-Related Offense(s), SJRC (10-24) CR375"
+        }
+      ],
+      "reasoning": "The compiled pathway cites Mo. Const. art. XIV, Section 2 by name and by revisor.mo.gov URL as its operative authority, including the incarcerated-person vacatur branch. The registry track mo-art-xiv-marijuana is anchored on the same constitutional provision and carries the marijuana-specific statewide form CR375. Identical operative authority on both sides.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-additional-justice-or-municipal-court-misdemeanor-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
+        "registryTrackId": "ms-misd-addl"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Sections 9-11-15(3), 21-23-7(6)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Under 9-11-15(3) and 21-23-7(6), the court may expunge any or all misdemeanors in that court if, after notice to the prosecutor and a showing"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 9-11-15(3); Section 21-23-7(6)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ms-misd-addl, authority: [Miss. Code Ann. Section 9-11-15(3), Miss. Code Ann. Section 21-23-7(6), Miss. Code Ann. tit. 63]"
+        }
+      ],
+      "reasoning": "The compiled pathway cites Sections 9-11-15(3) and 21-23-7(6) as its operative authority for discretionary expungement of additional justice-court and municipal-court misdemeanors; the registry track ms-misd-addl cites exactly the same two sections. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-dui-nonadjudication",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "dui-nonadjudication",
+        "registryTrackId": "ms-dui"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 63-11-30",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ms-dui, legalName: First-Offense DUI Expungement (Miss. Code Ann. Section 63-11-30); officialFormRefs include Miss. Code Ann. Section 63-11-30 -- Driving under the influence; penalties; expungement"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "Section 9-23-23 implied-consent bar routing to Section 63-11-30",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "No expunction of any implied consent violation is allowed in intervention court under Section 9-23-23. Those route to the DUI track under Section 63-11-30."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "DUI nonadjudication program elements (Miss. DPS description of the Section 63-11-30 nonadjudication program)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Mississippi DPS explains that DUI nonadjudication means the court withholds adjudication and sentencing and places the person into a nonadjudication program. A person is eligible for nonadjudication only once under any law authorizing nonadjudication, must successfully complete all court-imposed terms, and must not have held a CDL or commercial learners permit at the time of the offense."
+        }
+      ],
+      "reasoning": "The compiled pathway is the once-only DUI nonadjudication program the profile describes via Mississippi DPS guidance (withheld adjudication, one-time eligibility, CDL bar) -- the nonadjudication mechanism inside Miss. Code Ann. Section 63-11-30, the DUI statute the registry's ms-dui track is anchored on. The registry's own routing statement sends every implied-consent matter to the Section 63-11-30 DUI track, and ms-nonadj is statutorily distinct (Section 99-15-26, which is not the DUI program). The compiled profile carries no pin cite (63-11-30 subsection) and web verification was unavailable in this environment, so confidence is medium; the mapping rests on the track's cited statute plus the registry's own routing restriction, not on the slug.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-MS-first-offense-controlled-substance-conditional-discharge-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
+        "registryTrackId": "ms-drug-cd"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 41-29-150",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Under 41-29-150, a first-time eligible drug possession or paraphernalia case may be handled without entering a judgment of guilt. After successful probation/discharge and dismissal, the person may apply to the court for expungement, while a nonpublic record can be retained for future eligibility checks."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 41-29-150(d)(1), (d)(2)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ms-drug-cd, legalName: Controlled-Substance Conditional Discharge and Expungement (Miss. Code Ann. Section 41-29-150), authority: [Miss. Code Ann. Section 41-29-150(d)(1), Miss. Code Ann. Section 41-29-150(d)(2), ...]"
+        }
+      ],
+      "reasoning": "The compiled pathway cites Section 41-29-150 as its operative authority for first-offense controlled-substance conditional discharge and post-dismissal expungement; the registry track ms-drug-cd is anchored on Section 41-29-150(d)(1)-(d)(2). Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-first-offense-dui-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "first-offense-dui-expungement",
+        "registryTrackId": "ms-dui"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 63-11-30(13)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ms-dui, authority: [Miss. Code Ann. Section 63-11-30(13), Miss. Code Ann. Section 63-11-30(2)(c), Miss. Code Ann. Section 63-11-30(2)(d), Miss. Att'y Gen. Op. (Booker, 29 Sept. 2020)]"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Section 63-11-30(13) eligibility elements",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learners permit at the time of the offense, must not have refused the blood/breath test,"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "refusal / .16 exclusions mirror the compiled conditions",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Any refusal of the test, any test result at or above .16, or any missing test documentation."
+        }
+      ],
+      "reasoning": "The compiled pathway states the first-offense DUI expungement conditions -- circuit court of the county of conviction, five years after completion, no CDL at the time of offense, no test refusal -- which are the distinctive eligibility elements of Miss. Code Ann. Section 63-11-30(13), the section the registry track ms-dui cites; the track's scope restrictions (refusal, .16 result) mirror the same statutory conditions. The compiled profile describes the statute's elements without the pin cite, so the join is element-for-element to the track's cited authority.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-human-trafficking-survivor-vacatur-and-expungement",
+      "outcome": "terminal",
+      "proposedDisposition": "registry_scoped_out_named_authority",
+      "proposedMapping": null,
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "registry_scope_restriction",
+          "value": "Miss. Code Ann. Section 97-3-54.6(6) (as amended by 2026 HB 1546)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Screen gently for trafficking-survivor relief under Section 97-3-54.6(6) on every Mississippi intake, because it reaches any misdemeanour or non-violent felony at any time with no waiting period and no first-offender limit, and is therefore broader and faster than this track. Use trauma-sensitive screening, require a legal-aid, attorney or qualified survivor-services handoff"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "2026 Miss. HB 1546; Section 97-3-2 crime-of-violence classification",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "HB 1546 creates important trafficking-survivor relief effective July 1, 2026. It allows a court to vacate certain convictions or juvenile adjudications connected to victimization, and it allows expungement of a misdemeanor or felony offense not classified as a crime of violence under 97-3-2 if the court finds by a preponderance of the evidence"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No MS registry track carries Section 97-3-54.6 as its mechanism authority",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The nine Mississippi tracks (ms-diversion, ms-drug-cd, ms-dui, ms-fel, ms-mip, ms-misd-1st, ms-misd-addl, ms-nonadj, ms-nonconv) cite Sections 99-15-123/9-23-23, 41-29-150, 63-11-30, 99-19-71, 67-3-70, 9-11-15/21-23-7 and 99-15-26; none carries Section 97-3-54.6 as its operative authority."
+        }
+      ],
+      "reasoning": "The registry deliberately routes Mississippi trafficking-survivor vacatur and expungement (Section 97-3-54.6(6), as amended by 2026 HB 1546) outside its tracks: a uniform scope restriction on every Mississippi track directs trauma-sensitive screening and a mandatory legal-aid/attorney/survivor-services handoff for this relief rather than a self-help packet. The compiled pathway describes the same HB 1546 mechanism. This is a scope restriction that names its authority, not a gap -- the registry knows the mechanism and excludes it by design.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-intervention-court-completion-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "intervention-court-completion-expungement",
+        "registryTrackId": "ms-diversion"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 9-23-23",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Mississippi intervention court completion can result in expungement. Under 9-23-23, if the participant completes all intervention court requirements, including fines and fees not waived by the court, the charge and prosecution are dismissed."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 9-23-23; Section 9-23-5(c)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ms-diversion, legalName: Expungement After Pretrial Intervention or Intervention Court Completion (Miss. Code Ann. Sections 99-15-123, 9-23-23)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites Section 9-23-23 as the operative intervention-court expunction authority; the registry track ms-diversion carries Section 9-23-23 (and Section 9-23-5(c)) in its authority array for exactly the intervention-court branch. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-minor-in-possession-underage-alcohol-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "minor-in-possession-underage-alcohol-expungement",
+        "registryTrackId": "ms-mip"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 67-3-70",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 67-3-70(6)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ms-mip, legalName: Underage Alcohol Possession Expungement (Miss. Code Ann. Section 67-3-70), authority: [Miss. Code Ann. Section 67-3-70(6), Miss. Code Ann. Section 67-3-70(1), Miss. Code Ann. Section 67-3-70(2)]"
+        }
+      ],
+      "reasoning": "The compiled pathway cites Section 67-3-70 as its operative authority for underage-alcohol expungement; the registry track ms-mip is anchored on Section 67-3-70(6). Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "registryTrackId": "ms-nonconv"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Sections 99-15-26(5), 99-19-71(4)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Mississippi has a broad non-conviction pathway. Upon petition, the court shall expunge a case where an arrest was made, the person was released, and the case was dismissed, the charges were dropped, there was no disposition, or the person was found not guilty at trial. This appears in both 99-15-26(5) and 99-19-71(4)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 99-19-71(4)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ms-nonconv, legalName: Petition to Expunge the Record of a Case That Did Not End in Conviction (Miss. Code Ann. Section 99-19-71(4))"
+        }
+      ],
+      "reasoning": "The compiled non-conviction pathway cites its dual statutory basis, Sections 99-15-26(5) and 99-19-71(4). The registry splits that basis across two tracks: ms-nonconv is anchored on Section 99-19-71(4) (the general non-conviction petition) and ms-nonadj carries Section 99-15-26(5). The pathway's primary mechanism -- petition to expunge a case that did not end in conviction -- maps to ms-nonconv on the shared Section 99-19-71(4) citation; E3 should note the Section 99-15-26(5) overlap that the registry itself flags as a routing ambiguity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-pretrial-intervention-or-diversion-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "pretrial-intervention-or-diversion-expungement",
+        "registryTrackId": "ms-diversion"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 99-15-123",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Under Mississippi's pretrial intervention statutes, successful completion results in a noncriminal disposition of the pending charge or charges. If the person violates the agreement, prosecution resumes. (https://law.justia.com/codes/mississippi/title-99/chapter-15/pretrial-intervention-program/section-99-15-123/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 99-15-123(1), (3); Section 99-15-103",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ms-diversion, authority: [Miss. Code Ann. Section 99-15-123(1), Miss. Code Ann. Section 99-15-123(3), Miss. Code Ann. Section 99-15-103, Miss. Code Ann. Section 9-23-23, ...]"
+        }
+      ],
+      "reasoning": "The compiled pathway cites the pretrial-intervention statute Section 99-15-123 (by section URL) as its operative authority; the registry track ms-diversion is anchored on Section 99-15-123(1) and (3) for the same mechanism. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MS-uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "MS",
+        "mechanismAuthority": [
+          "Miss. Code Ann. Section 99-15-59"
+        ],
+        "why": "The registry has no track for expunction of a misdemeanor arrest, citation or hold that was never formally charged or prosecuted within twelve months of arrest. Section 99-15-59 is a distinct petition mechanism (court with jurisdiction over the would-be charge) that none of the nine Mississippi tracks carries."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. Section 99-15-59",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No MS registry track cites Section 99-15-59",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all nine Mississippi tracks were searched: ms-diversion (99-15-123, 9-23-23), ms-drug-cd (41-29-150), ms-dui (63-11-30), ms-fel (99-19-71(2)), ms-mip (67-3-70), ms-misd-1st (99-19-71(1)), ms-misd-addl (9-11-15(3), 21-23-7(6)), ms-nonadj (99-15-26), ms-nonconv (99-19-71(4)). The string 99-15-59 appears in none of them."
+        }
+      ],
+      "reasoning": "The compiled pathway carries Section 99-15-59 in its id and its rule text with the full operative description. The registry's non-conviction coverage runs on Section 99-19-71(4) and Section 99-15-26(5), which require a case that was brought and ended favorably; Section 99-15-59 reaches the uncharged/unprosecuted misdemeanor arrest after twelve months, a mechanism the registry genuinely lacks. Recorded as a registry gap with the mechanism and authority named.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MT-deferred-sentence-dismissal-or-confidentiality-route",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
+        "registryTrackId": "mt_deferred_dismissal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Mont. Code Ann. Section 46-18-204",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId mt_deferred_dismissal, legalName: Motion to Strike Plea or Verdict, Dismiss Charge, and Seal Case After a Completed Deferred Imposition (Mont. Code Ann. Section 46-18-204); officialFormRefs include Mont. Code Ann. Section 46-18-204 -- Dismissal after deferred imposition of sentence"
+        },
+        {
+          "kind": "official_form",
+          "value": "Dismissal After Completing a Deferred Sentence packet (DS-100, DS-200)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "the Dismissal After Completing a Deferred Sentence packet (DS-100 and DS-200) are stamped (c) 2025 Montana Legal Services Association and Montana Supreme Court Access to Justice Commission."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "deferred-dismissal routing in the compiled decision flow",
+          "source": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+          "quote": "Next Step: [Get CRISS record, get final judgment, complete misdemeanor packet, complete MMRTA Form A/B, request deferred dismissal, or consult attorney]"
+        }
+      ],
+      "reasoning": "The compiled pathway is the deferred-sentence branch of the Montana flow: its next-step routing is 'request deferred dismissal' and the profile's routing table records 'Deferred sentence -- Dismissal can make records confidential.' The registry track mt_deferred_dismissal is the motion to strike the plea or verdict, dismiss and seal after a completed deferred imposition under Mont. Code Ann. Section 46-18-204, and it carries the DS-100/DS-200 packet identity for the same mechanism. The compiled profile does not carry the Section 46-18-204 pin cite itself, so the join is mechanism-to-cited-authority.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-MT-doj-record-removal-update-request",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "doj-record-removal-update-request",
+        "registryTrackId": "mt_misdemeanor_expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "Expungement/Removal Request Form -- Montana DOJ CRISS, updated 29 April 2024",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Expungement/Removal Request Form -- Montana Department of Justice, Criminal Records Information Services Section (CRISS), updated 29 April 2024"
+        },
+        {
+          "kind": "official_form",
+          "value": "the same DOJ form and fingerprint-card submission described by the compiled pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+          "quote": "DOJ says the petitioner must submit the court order, expungement form, and fingerprint card to CRISS, and CRISS verifies the person has not previously used the law and confirms identity before removing arrest/conviction data from the Computerized Criminal History system."
+        },
+        {
+          "kind": "official_form",
+          "value": "Conviction Expungement Process -- Montana DOJ, Division of Criminal Investigation",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Conviction Expungement Process -- Montana DOJ, Division of Criminal Investigation"
+        }
+      ],
+      "reasoning": "The compiled pathway is not a freestanding relief mechanism: it is the DOJ CRISS execution step that follows a granted court expungement -- submit the order, the DOJ Expungement/Removal Request Form and a fingerprint card to CRISS. That official form identifier is carried in the registry's officialFormRefs on the Montana court tracks, most centrally mt_misdemeanor_expungement (the Title 46, ch. 18, pt. 11 petition whose Conviction Expungement Process follow-up this is). Mapped there on the shared official form; E3 should note the same DOJ tail equally serves mt_deferred_dismissal and the two MMRTA tracks.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-MT-marijuana-related-redesignation-expungement-under-mmrta",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "marijuana-related-redesignation-expungement-under-mmrta",
+        "registryTrackId": "mt_mmrta_completed"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "MMRTA Form A / MMRTA Form B, Montana Office of the Court Administrator",
+          "source": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+          "quote": "For marijuana-related cases, the Montana Judicial Branch provides: MMRTA Form A Currently serving sentence; request expungement or resentencing MMRTA Form B Sentence completed; request expungement or redesignation Proposed Order Submitted with petition Certificate of Service Shows service on county attorney"
+        },
+        {
+          "kind": "official_form",
+          "value": "MMRTA Form B (MT-FORM-B)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "MMRTA Form B -- Petition for Expungement or Redesignation of Conviction (sentence completed), Montana Office of the Court Administrator"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Mont. Code Ann. Section 16-12-113",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Mont. Code Ann. Section 16-12-113 -- Decriminalized acts; petition for expungement, resentencing or redesignation"
+        }
+      ],
+      "reasoning": "The compiled pathway names the two official MMRTA petition forms -- Form A (currently serving) and Form B (sentence completed) -- which are precisely the official form identifiers the registry carries on mt_mmrta_serving (MT-FORM-A) and mt_mmrta_completed (MT-FORM-B), both anchored on Mont. Code Ann. Section 16-12-113. Primary mapping is to mt_mmrta_completed (Form B); E3 should treat this as a two-track composite split on Form A versus Form B.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-MT-non-conviction-criminal-history-removal-through-criss",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "non-conviction-criminal-history-removal-through-criss",
+        "registryTrackId": "mt_nonconviction_removal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "CRISS non-conviction removal mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+          "quote": "Possible Montana DOJ CRISS non-conviction removal or sealing. Check whether the charge was dismissed, acquitted, dropped, not filed, or dismissed after deferred prosecution."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Mont. Code Ann. Section 44-5-202(8)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId mt_nonconviction_removal, legalName: Non-Conviction Record Removal Request to DOJ CRISS (Mont. Code Ann. Section 44-5-202(8))"
+        },
+        {
+          "kind": "official_form",
+          "value": "Non-Conviction Record Removal Flowchart / Expungement/Removal Request Form -- Montana DOJ CRISS",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Non-Conviction Record Removal Flowchart -- Montana DOJ, CRISS; Expungement/Removal Request Form -- Montana Department of Justice, Criminal Records Information Services Section (CRISS), updated 29 April 2024"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "compiled routing table pinning the mechanism to Section 44-5-202",
+          "source": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+          "quote": "Non-convictions CRISS removal/sealing under 44-5-202 process"
+        }
+      ],
+      "reasoning": "The compiled pathway is the DOJ CRISS non-conviction removal request for dismissed, acquitted, dropped, not-filed and deferred-prosecution-dismissed charges, and the profile's routing table pins the mechanism to the 44-5-202 process. The registry track mt_nonconviction_removal is the same request under Mont. Code Ann. Section 44-5-202(8) with the CRISS form and flowchart. The registry's automatic sibling (mt_auto_nonconviction) covers post-July-2017 dispositions removed without a request; the compiled pathway is the request route, so it maps to mt_nonconviction_removal.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ND-deferred-imposition-dismissal-and-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "deferred-imposition-dismissal-and-sealing",
+        "registryTrackId": "nd-deferred-imposition-records"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. Sections 12.1-32-07.1, 12.1-32-07.2",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "When imposition of sentence is deferred and the guilty plea is withdrawn or the guilty verdict is set aside under 12.1-32-07.1, the records and papers are generally accessible only to the clerk, judge, juvenile commissioner, probation officers, the defendant or defense counsel"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "restricted-access confirmation in the compiled routing",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "Check whether the court entered final discharge, allowed withdrawal of plea or set aside verdict, and dismissed the case. If yes, records may be restricted under 12.1-32-07.2. If no, gather final-order status."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. Section 12.1-32-07.1; Section 12.1-32-07.2; N.D.R.Crim.P. 32.1",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nd-deferred-imposition-records, authority: [N.D.R.Crim.P. 32.1, N.D.C.C. Section 12.1-32-07.1, N.D.C.C. Section 12.1-32-07.2, ...]"
+        }
+      ],
+      "reasoning": "The compiled pathway cites Section 12.1-32-07.1 (withdrawal of plea / set-aside of verdict and dismissal after deferred imposition) and Section 12.1-32-07.2 (restricted access to the records) as its operative authority. The registry track nd-deferred-imposition-records is anchored on exactly those two sections plus N.D.R.Crim.P. 32.1. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ND-dui-record-sealing-under-the-separate-dui-statute",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "dui-record-sealing-under-the-separate-dui-statute",
+        "registryTrackId": "nd-dui-record-seal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. Section 39-08-01.6",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "DUI records cannot be sealed through the general Chapter 12-60.1 process. They use N.D.C.C. 39-08-01.6. A person may ask a North Dakota municipal or state court to seal a DUI record if: 1 They pled guilty, pled nolo contendere, or were found guilty of violating N.D.C.C. 39-08-01 or an equivalent municipal ordinance"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. Section 39-08-01.6(1), (2)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nd-dui-record-seal, legalName: Petition to Seal a Driving Under the Influence Record (N.D.C.C. Section 39-08-01.6)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites N.D.C.C. Section 39-08-01.6 (and the underlying Section 39-08-01 offense) as the separate DUI sealing statute; the registry track nd-dui-record-seal is anchored on Section 39-08-01.6(1)-(2). Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ND-first-offense-possession-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "first-offense-possession-sealing",
+        "registryTrackId": "nd-marijuana-first-offense-seal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. Section 19-03.1-23(9) mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "If a person pleads guilty or is found guilty of a first offense involving possession of one ounce or less of marijuana or two grams or less of THC, and judgment is entered, the court, on motion, must seal the court record if the person is not subsequently convicted within two years of a further controlled-substance violation. Once sealed, the court record may not be opened even by court order."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. Section 19-03.1-23(9)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nd-marijuana-first-offense-seal, legalName: Motion to Seal a First Marijuana or THC Possession Conviction (N.D.C.C. Section 19-03.1-23(9))"
+        }
+      ],
+      "reasoning": "The compiled pathway states the exact Section 19-03.1-23(9) mechanism -- first offense, one ounce or less of marijuana or two grams or less of THC, mandatory sealing on motion absent a further controlled-substance conviction within two years, and the may-not-be-opened rule -- and the profile carries the 19-03.1-23 citation. The registry track nd-marijuana-first-offense-seal is anchored on the same subsection. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-ND-marijuana-specific-summary-pardon-or-sealing-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "marijuana-specific-summary-pardon-or-sealing-relief",
+        "registryTrackId": "nd-summary-marijuana-pardon"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "Summary Pardon Application (SFN 61663)",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "North Dakota also has a Summary Pardon Application for certain marijuana offenses. The Pardon Advisory Board says people prosecuted and convicted of misdemeanor marijuana possession, marijuana ingestion, or marijuana paraphernalia who have had no other criminal convictions in the past five years may submit a Summary Pardon Application. Felony convictions are not eligible for the summary marijuana"
+        },
+        {
+          "kind": "official_form",
+          "value": "SFN 61663, ND Pardon Advisory Board Application to Pardon Eligible Marijuana Offenses",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "SFN 61663, North Dakota Pardon Advisory Board Application to Pardon Eligible Marijuana Offenses (02-2020)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. Section 12-55.1-01(4)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nd-summary-marijuana-pardon, authority: [N.D.C.C. Section 12-55.1-01(4), N.D.C.C. Section 12-55.1-04, N.D.C.C. Section 12-55.1-06, N.D.C.C. Section 12-55.1-07]"
+        }
+      ],
+      "reasoning": "The compiled pathway describes the Pardon Advisory Board Summary Pardon Application for misdemeanor marijuana possession/ingestion/paraphernalia with the five-year no-other-convictions condition and the felony exclusion -- the exact scope of official form SFN 61663 that the registry track nd-summary-marijuana-pardon carries under N.D.C.C. ch. 12-55.1. Shared official form identifier; the track's own scope note also distinguishes the Section 19-03.1-23(9) court-seal sibling.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NE-juvenile-petition-backstop",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "juvenile-petition-backstop",
+        "registryTrackId": "ne-juvenile-sealing-routing"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Neb. Rev. Stat. Section 43-2,108.03 motion mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "If not automatically sealed, the juvenile, parent, or guardian may move once the juvenile reaches 18 or six months after case closure, whichever is sooner. No objection requires grant; an objection leads to a hearing and rehabilitation determination."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Neb. Rev. Stat. Sections 43-2,108.01 to 43-2,108.05",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "label: Juvenile automatic sealing under Sections 43-2,108.01 to 43-2,108.05"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Neb. Rev. Stat. Section 43-2,108.03; Section 43-2,108.05",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ne-juvenile-sealing-routing, authority: [Neb. Rev. Stat. Section 43-2,108.01, Neb. Rev. Stat. Section 43-2,108.03, Neb. Rev. Stat. Section 43-2,108.05]; officialFormRefs include Neb. Rev. Stat. Section 43-2,108.03, Juvenile records; motion to seal"
+        }
+      ],
+      "reasoning": "The compiled pathway is the petition backstop of the Sections 43-2,108.01-.05 juvenile sealing scheme the profile cites for its automatic sibling: the motion by the juvenile, parent or guardian at 18 or six months after closure, mandatory grant absent objection. That is the Section 43-2,108.03 motion-to-seal mechanism the registry track ne-juvenile-sealing-routing carries by section and title. Statutory join within the same cited range.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NH-annulment-after-dismissal-acquittal-or-nonprosecution",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "annulment-after-dismissal-acquittal-or-nonprosecution",
+        "registryTrackId": "nh_petition_nonconviction_pre2019"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5 non-conviction annulment, pre/post-2019 split",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "For offenses disposed of before January 1, 2019, a person whose arrest resulted in a finding of not guilty, dismissal, or non-prosecution may petition for annulment at any time."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5, II",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nh_petition_nonconviction_pre2019, legalName: Petition to Annul the Record of a Non-Conviction Disposed of Before January 1, 2019 (RSA 651:5, II)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5, II-a(a)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nh_auto_nonconviction, legalName: Automatic Annulment of a Non-Conviction Disposed of On or After January 1, 2019 (RSA 651:5, II-a(a))"
+        }
+      ],
+      "reasoning": "The compiled pathway covers annulment after not guilty, dismissal or non-prosecution and splits on the January 1, 2019 disposition date exactly as RSA 651:5 does: petition at any time for pre-2019 dispositions (RSA 651:5, II) and automatic annulment for post-2019 ones (RSA 651:5, II-a(a)). Primary mapping is to nh_petition_nonconviction_pre2019, the petition branch that generates a filing; E3 should record the automatic branch join to nh_auto_nonconviction on the same statute.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NH-annulment-of-a-vacated-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "annulment-of-a-vacated-conviction",
+        "registryTrackId": "nh_auto_vacated"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5 vacated-conviction annulment",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "If a conviction was later vacated by a court, RSA 651:5 allows annulment of the arrest record, court record, or both. For qualifying post-2019 vacated convictions, the statute says the arrest and court record shall be annulled."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5, II-a(b)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nh_auto_vacated, legalName: Automatic Annulment After a Vacated Conviction Disposed of On or After January 1, 2019 (RSA 651:5, II-a(b))"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5, II, second sentence",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nh_petition_vacated, legalName: Petition to Annul the Record of a Vacated Conviction Outside the Automatic Route (RSA 651:5, II, second sentence)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites RSA 651:5 and states the shall-be-annulled rule for qualifying post-2019 vacated convictions, which is RSA 651:5, II-a(b) -- the authority of registry track nh_auto_vacated. Primary mapping is to nh_auto_vacated; vacated convictions outside the automatic route fall to nh_petition_vacated under RSA 651:5, II, second sentence, which E3 should record as the petition fallback of the same pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NH-dwi-dui-annulment",
+      "outcome": "terminal",
+      "proposedDisposition": "registry_scoped_out_named_authority",
+      "proposedMapping": null,
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "registry_scope_restriction",
+          "value": "RSA 265-A:21",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Any DWI, OHRV or boating-under-influence conviction, which runs on the RSA 265-A:21 clock."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 265-A:21 carve-out",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "DWI is a special category. New Hampshire's main statute carves out RSA 265-A:21 from the ordinary waiting-period structure."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No NH registry track carries RSA 265-A:21 as its mechanism authority",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The eight New Hampshire tracks are all RSA 651:5 / 651:5-b tracks (nh_auto_nonconviction, nh_auto_vacated, nh_conviction_standard, nh_conviction_streamlined, nh_marijuana_annulment, nh_petition_nonconviction_pre2019, nh_petition_vacated, nh_supreme_court_record); none cites RSA 265-A:21 as an operative track authority."
+        }
+      ],
+      "reasoning": "The registry deliberately routes DWI/DUI annulment outside its tracks and names the authority for doing so: the standard conviction track nh_conviction_standard excludes any DWI, OHRV or boating-under-influence conviction, which runs on the RSA 265-A:21 clock, and the compiled pathway cites the same RSA 265-A:21 carve-out from the ordinary waiting-period structure. This is a scope restriction with named authority, not an evidentiary gap: the registry knows the mechanism and its ten-year clock and has excluded it from self-help packet scope.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NH-out-of-state-federal-or-military-record-guidance",
+      "outcome": "terminal",
+      "proposedDisposition": "registry_scoped_out_named_authority",
+      "proposedMapping": null,
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "registry_scope_restriction",
+          "value": "RSA 651:5, VI-a",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Out-of-state convictions requiring the RSA 651:5, VI-a comparison."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "compiled pathway is declared out of scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "id out-of-state-federal-or-military-record-guidance, routeType: out_of_scope"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No NH registry track reaches federal or military records",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "All eight New Hampshire tracks operate under RSA 651:5 / 651:5-b on New Hampshire state records; none asserts authority over a federal, military or other-state record."
+        }
+      ],
+      "reasoning": "The compiled pathway is guidance-only for records New Hampshire courts cannot annul, and the profile marks it out_of_scope. The registry's standard conviction track scopes out out-of-state convictions by naming the RSA 651:5, VI-a comparison as the authority under which they leave self-help scope, and no track asserts reach over federal or military records. Recorded as a scope restriction with named authority; the residual federal/military portion rests on the pathway's own out-of-scope designation rather than a registry statement, hence medium confidence.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-NJ-marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "NJ",
+        "mechanismAuthority": [
+          "N.J.S.A. 2C:52-5.1",
+          "N.J.S.A. 2C:52-5.2",
+          "N.J.S.A. 2C:52-6.1"
+        ],
+        "why": "The registry has no track for New Jersey's marijuana/hashish-specific expungement mechanism: immediate (no-wait) expungement of enumerated cannabis offenses on completion of sentence under 2C:52-5.1/-6.1 and the three-year distribution tier under 2C:52-5.2. Its six NJ tracks cover 2C:52-2, -3, -4, -5.3, -5.4 and -6 only."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.J.S.A. 2C:52-5.1; 2C:35-5b(12)",
+          "source": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+          "quote": "No waiting period (immediate after payment/completion/release) for simple possession, failure to make lawful disposition, being under the influence, paraphernalia, and distribution/PWID of less than one ounce of marijuana or less than five grams of hashish (2C:35-5b(12)), including school-zone/public-housing variants."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Sections 2C:52-5.1, -5.2, -6.1 in the pathway identity",
+          "source": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+          "quote": "id marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1, label: Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No NJ registry track cites 2C:52-5.1, -5.2 or -6.1",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all six New Jersey tracks were searched: nj_arrest_no_conviction (2C:52-6 family), nj_automated_clean_slate (2C:52-5.4), nj_clean_slate (2C:52-5.3), nj_disorderly_persons (2C:52-3), nj_indictable_conviction (2C:52-2, incl. 2C:35-5(b)(11)-(12) as offense references), nj_ordinance (2C:52-4). None cites N.J.S.A. 2C:52-5.1, 2C:52-5.2 or 2C:52-6.1."
+        }
+      ],
+      "reasoning": "The compiled pathway carries its operative citations in its id and label (Sections 2C:52-5.1, -5.2, -6.1) and states the distinctive mechanism -- immediate expungement with no waiting period for enumerated marijuana/hashish offenses, including sub-ounce distribution under 2C:35-5b(12), with a three-year tier for larger distribution. No registry track carries any of those sections; the indictable-conviction track's references to 2C:35-5(b)(12) are offense-eligibility references inside the 2C:52-2 petition, not the marijuana-specific immediate mechanism. Recorded as a registry gap with the mechanism and authorities named.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NM-cannabis-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "cannabis-expungement",
+        "registryTrackId": "nm_cannabis"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-3A-8 automatic cannabis expungement",
+          "source": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+          "quote": "If a person was charged with an offense involving cannabis that is no longer a crime as of June 29, 2021, or would have resulted in a lesser offense under the Cannabis Regulation Act, public records relating to the arrest or conviction are automatically expunged two years after the conviction date, or two years after the arrest date if there was no conviction"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-3A-8",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nm_cannabis, legalName: Automatic Expungement of Cannabis Arrest and Conviction Records, and the Administrative Office of the Courts Verification and Expedited-Request Procedure (NMSA 1978, Section 29-3A-8)"
+        }
+      ],
+      "reasoning": "The compiled pathway states the automatic cannabis expungement mechanism created by the Cannabis Regulation Act -- offenses no longer criminal or lesser as of June 29, 2021, automatically expunged two years after conviction or arrest -- which is NMSA 1978, Section 29-3A-8, the authority of registry track nm_cannabis. Direct mechanism-to-cited-statute join; the track's scope note routes incarcerated persons to Section 29-3A-9, matching the sibling pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NM-cannabis-sentence-dismissal-incarcerated-person-pathway",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "cannabis-sentence-dismissal-incarcerated-person-pathway",
+        "registryTrackId": "nm_cannabis_sentence"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-3A-9 dismissal of sentence",
+          "source": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+          "quote": "For people currently incarcerated for a cannabis offense that is no longer a crime or would have been a lesser offense under the Cannabis Regulation Act, correctional facilities, jails, or juvenile correctional facilities were required to notify the court that the case may be reopened for dismissal of sentence or expungement. The court must reopen and dismiss the sentence if it is legally invalid."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-3A-9",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nm_cannabis_sentence, legalName: Dismissal of Sentence, Vacatur and Redesignation for Cannabis Convictions (NMSA 1978, Section 29-3A-9)"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "nm_cannabis routes incarcerated persons to Section 29-3A-9",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Anyone currently or formerly incarcerated on a cannabis conviction, who belongs in the Section 29-3A-9 track."
+        }
+      ],
+      "reasoning": "The compiled pathway is the incarcerated-person cannabis mechanism -- mandatory reopening and dismissal of a legally invalid cannabis sentence -- which is NMSA 1978, Section 29-3A-9, the authority of registry track nm_cannabis_sentence; the registry's own scope statement on nm_cannabis routes exactly this population to the Section 29-3A-9 track. Direct statutory join.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NM-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "conviction",
+        "registryTrackId": "nm_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-3A-5 conviction expungement petition",
+          "source": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+          "quote": "A person convicted of a municipal ordinance violation, misdemeanor, or felony may petition after completing the sentence and paying fines or fees owed to the state for that conviction. The petition is filed in the district court where the person was convicted, and notice goes to the district attorney, DPS, and the law enforcement agency that arrested the person."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-3A-5; Form 4-953 NMRA",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nm_conviction, legalName: Petition to Expunge Arrest Records and Public Records upon Conviction (NMSA 1978, Section 29-3A-5); officialFormRefs include Form 4-953 NMRA, Petition to expunge arrest records and public records; upon conviction"
+        }
+      ],
+      "reasoning": "The compiled pathway states the Section 29-3A-5 mechanism -- petition upon conviction of a municipal ordinance violation, misdemeanor or felony, filed in the convicting district court after sentence completion and payment, with notice to the district attorney, DPS and the arresting agency -- which is the authority and procedure of registry track nm_conviction, carried with the official Form 4-953 NMRA. Direct mechanism-to-cited-statute join.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NM-dna-sample-profile-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "NM",
+        "mechanismAuthority": [
+          "NMSA 1978, Section 29-16-10"
+        ],
+        "why": "The registry has no track for expungement of a DNA sample and DNA records from New Mexico's DNA identification system (with CODIS follow-through) under the DNA Identification Act. Its five NM tracks are the 29-3A expungement petitions and the cannabis routes; none reaches the Section 29-16-10 administrative DNA-removal mechanism."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-16-10",
+          "source": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+          "quote": "DNA sample/profile expungement 29-16-10 Separate request to remove DNA sample/profile from DNA identification system/CODIS"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "official-source URL for Section 29-16-10 carried by the profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+          "quote": "https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No NM registry track cites Section 29-16-10 or the DNA Identification Act",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all five New Mexico tracks were searched: nm_cannabis (29-3A-8), nm_cannabis_sentence (29-3A-9), nm_conviction (29-3A-5), nm_identity_theft (29-3A-3), nm_release_without_conviction (29-3A-4). None cites NMSA 1978, Section 29-16-10 or any ch. 29, art. 16 provision."
+        }
+      ],
+      "reasoning": "The compiled pathway is a distinct administrative mechanism: a written request to remove a DNA sample and profile from the state DNA identification system (and CODIS) where the triggering conviction was reversed or the arrest ended without qualifying conviction, under NMSA 1978, Section 29-16-10, which the profile cites by section and source URL. The registry's New Mexico coverage is confined to the Section 29-3A court-record petitions and the cannabis routes. Recorded as a registry gap with the mechanism and authority named.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NM-no-conviction-released-without-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "no-conviction-released-without-conviction",
+        "registryTrackId": "nm_release_without_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-3A-4 release-without-conviction petition",
+          "source": "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json",
+          "quote": "A person released without conviction may file one year after the final disposition in the district where the charges originated. This route covers municipal ordinance violations, misdemeanors, felonies, certain Criminal Code or Motor Vehicle Code penalty assessments, and Motor Vehicle Code violations/deferred sentences."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NMSA 1978, Section 29-3A-4; Form 4-952 NMRA",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nm_release_without_conviction, legalName: Petition to Expunge Arrest Records and Public Records upon Release Without Conviction (NMSA 1978, Section 29-3A-4); officialFormRefs include Form 4-952 NMRA, Petition to expunge arrest records and public records; upon release without conviction"
+        }
+      ],
+      "reasoning": "The compiled pathway states the release-without-conviction petition -- one year after final disposition, filed in the originating district, covering ordinance violations through felonies and Motor Vehicle Code matters -- which is NMSA 1978, Section 29-3A-4, the authority of registry track nm_release_without_conviction with official Form 4-952 NMRA. Direct mechanism-to-cited-statute join.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NV-controlled-substance-possession-sealing-under-nrs-453-3365",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "NV",
+        "mechanismAuthority": [
+          "NRS 453.3365",
+          "NRS 453.3363"
+        ],
+        "why": "The registry has no track for sealing under NRS 453.3365, the controlled-substance-specific sealing that follows an NRS 453.3363 suspension-of-proceedings/discharge for first-offense possession. Its nine NV tracks run on NRS 179, 179A, 176.211 and 176A; none cites chapter 453."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 453.3365 in the pathway identity",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "id controlled-substance-possession-sealing-under-nrs-453-3365, label: Controlled-substance possession sealing under NRS 453.3365"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 453.3363 and NRS 453.3365 cited in the compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "NRS 453.3363, NRS 453.3365 (compiled pathway citation set for the Nevada profile's controlled-substance pathway)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No NV registry track cites NRS 453.3363 or 453.3365",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all nine Nevada tracks were searched: nv_repository_removal (179A.160), nv_seal_conviction (179.245 family), nv_seal_decrim (179.271), nv_seal_deferred (176.211), nv_seal_multi (179.2595), nv_seal_nonconviction (179.255), nv_seal_pardon (179.273), nv_seal_probation_family (176A.245/.265/.295), nv_seal_reentry (179.259). None cites NRS 453.3363 or NRS 453.3365."
+        }
+      ],
+      "reasoning": "The compiled pathway carries NRS 453.3365 in its id and label and cites both NRS 453.3363 (the first-offense possession suspension/discharge program) and NRS 453.3365 (the sealing that follows it). That chapter-453 mechanism is distinct from the ch. 179 petitions and the 176.211/176A treatment-court seals the registry covers, and no Nevada track cites either section. Recorded as a registry gap with the mechanism and authorities named.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NV-non-conviction-record-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "non-conviction-record-sealing",
+        "registryTrackId": "nv_seal_nonconviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 179.255(1) petition conditions",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "Outcome When petition may be filed Charges dismissed Any time after dismissal Acquittal Any time after acquittal Prosecution declined After statute of limitations runs, or 8 years after arrest, or by stipulation"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 179.255",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "NRS 179.255 (compiled pathway citation set for the Nevada non-conviction pathway)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 179.255(1), (3), (4), (9)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nv_seal_nonconviction, legalName: Petition to Seal Records After Dismissal, Declination of Prosecution or Acquittal (NRS 179.255(1))"
+        }
+      ],
+      "reasoning": "The compiled pathway cites NRS 179.255 and states its subsection (1) filing windows -- any time after dismissal or acquittal, and after limitations, eight years, or stipulation where prosecution was declined. The registry track nv_seal_nonconviction is anchored on NRS 179.255(1) with the same three branches. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NV-probation-or-specialty-court-dismissal-set-aside-sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "probation-or-specialty-court-dismissal-set-aside-sealing",
+        "registryTrackId": "nv_seal_probation_family"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 176A.245, 176A.265, 176A.295",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "Under NRS 176A.245, 176A.265, and 176A.295, after certain probation discharges, dismissals, conditional dismissals, or set-asides, the court must order records sealed if the defendant fulfilled the terms and conditions, unless the Division petitions for good cause and requests a hearing."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 176A.245; 176A.265; 176A.295",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId nv_seal_probation_family, legalName: Sealing After a Treatment-Program Discharge, Conditional Dismissal or Set-Aside (NRS 176A.245, 176A.265 and 176A.295)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites NRS 176A.245, 176A.265 and 176A.295 by section as its operative authority for post-discharge/dismissal/set-aside sealing; the registry track nv_seal_probation_family is anchored on exactly those three sections. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NV-trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "NV",
+        "mechanismAuthority": [
+          "NRS 179.247"
+        ],
+        "why": "The registry has no track for the NRS 179.247 petition to vacate the judgment and seal records of a trafficking or involuntary-servitude victim's qualifying conviction. Its nine NV tracks seal existing dispositions; none vacates a judgment, and none cites NRS 179.247."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 179.247 in the pathway identity",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "id trafficking-victim-vacatur-and-sealing-under-nrs-179-247, label: Trafficking-victim vacatur and sealing under NRS 179.247"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 179.247 vacatur mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "Nevada allows certain people to petition to vacate judgment and seal records if the conviction was for prostitution/solicitation-related conduct, certain nonviolent Nevada crimes, or loitering for prostitution/solicitation, and the person's participation resulted from being a victim of trafficking or involuntary servitude."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No NV registry track cites NRS 179.247",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all nine Nevada tracks were searched (nv_repository_removal, nv_seal_conviction, nv_seal_decrim, nv_seal_deferred, nv_seal_multi, nv_seal_nonconviction, nv_seal_pardon, nv_seal_probation_family, nv_seal_reentry). None cites NRS 179.247; the only trafficking reference in the projection is the NRS 179.245(9) fee waiver, which the registry itself notes is confined to petitions under NRS 179.245."
+        }
+      ],
+      "reasoning": "The compiled pathway carries NRS 179.247 in its id and label and states the mechanism: vacatur of the judgment plus sealing for qualifying convictions caused by trafficking or involuntary servitude. No registry track cites NRS 179.247, and the registry's only trafficking-adjacent content is the Section 179.245(9) fee waiver expressly confined to Section 179.245 petitions. Recorded as a registry gap with the mechanism and authority named.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NY-conditional-treatment-sealing-under-cpl-160-58",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "NY",
+        "mechanismAuthority": [
+          "N.Y. Crim. Proc. Law Section 160.58"
+        ],
+        "why": "The registry has no track for CPL Section 160.58 conditional sealing after successful completion of judicial diversion or a court-ordered drug/specified-offense treatment program. Its six NY tracks cover CPL 160.50, 160.57, 160.59 and the MRTA; none cites Section 160.58."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "CPL Section 160.58 in the pathway identity",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "id conditional-treatment-sealing-under-cpl-160-58, label: Conditional / treatment sealing under CPL 160.58"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "CPL 160.58 treatment-sealing mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "A person convicted of certain drug or specified offenses who successfully completes a judicial-diversion or"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No NY registry track cites CPL Section 160.58",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all six New York tracks were searched: ny_160_50_nonconviction (Section 160.50), ny_160_59_petition (Section 160.59 family), ny_clean_slate_convictions (Section 160.57(1)(b)), ny_clean_slate_dwai (Section 160.57(1)(a)), ny_clean_slate_manual_review (Section 160.57), ny_mrta_marijuana (MRTA with Section 160.50(5) and Section 160.59). None cites N.Y. Crim. Proc. Law Section 160.58."
+        }
+      ],
+      "reasoning": "The compiled pathway carries CPL Section 160.58 in its id and label and describes its distinct mechanism: discretionary sealing, on motion after successful completion of judicial diversion or an equivalent court-ordered treatment program. That mechanism is neither the Section 160.50 favorable-termination seal, the Section 160.57 automatic Clean Slate seal, nor the Section 160.59 ten-year petition, and no registry track cites Section 160.58. Recorded as a registry gap with the mechanism and authority named.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-NY-marijuana-record-destruction-under-the-mrta",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "marijuana-record-destruction-under-the-mrta",
+        "registryTrackId": "ny_mrta_marijuana"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "MRTA automatic expungement with optional destruction request",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "Convictions for unlawful possession and 5th-degree possession of marijuana are expunged/destroyed automatically. An optional request to OCA can confirm destruction. These do NOT count toward the 160.59 two-conviction limit."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Marihuana Regulation and Taxation Act; CPL Section 160.50(5)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ny_mrta_marijuana, legalName: Marijuana Conviction Expungement and Destruction under the Marihuana Regulation and Taxation Act, with CPL Section 160.50; authority includes N.Y. Crim. Proc. Law Section 160.50(5)(a)"
+        },
+        {
+          "kind": "official_form",
+          "value": "APPLICATION TO DESTROY EXPUNGED MARIHUANA CONVICTION RECORD (MRTA-DESTRUCTION-REQUEST)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "APPLICATION TO DESTROY EXPUNGED MARIHUANA CONVICTION RECORD, form and instructions, New York State Unified Court System statewide forms library"
+        }
+      ],
+      "reasoning": "The compiled pathway is the MRTA automatic expungement of the two covered marijuana conviction categories with the optional destruction request to the court system -- exactly the mechanism of registry track ny_mrta_marijuana, which pairs the MRTA with CPL Section 160.50(5) and carries the official statewide destruction-request form. The compiled note that these convictions do not consume the Section 160.59 limit matches the track's Section 160.59 cross-reference. Statute-and-form join.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OH-juvenile-sealing-and-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "OH",
+        "mechanismAuthority": [
+          "Ohio Rev. Code Section 2151.356"
+        ],
+        "why": "The registry has no track for Ohio juvenile record sealing and expungement. The juvenile scheme runs under R.C. 2151.356 (with its companion juvenile-record sections) in juvenile court, separate from the adult ch. 2953 tracks that make up the registry's entire Ohio coverage."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ohio Rev. Code Section 2151.356",
+          "source": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+          "quote": "Juvenile records use separate law. Under 2151.356, records for delinquency adjudications involving aggravated murder, murder, or rape cannot be sealed. The juvenile court must promptly seal records in several circumstances, including no complaint filed after referral, successful diversion for certain underage alcohol charges, and some dismissals or not-delinquent findings."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No OH registry track cites any juvenile-record provision",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all eight Ohio tracks were searched: oh_2953_32_expungement, oh_2953_32_sealing, oh_2953_33_nonconviction, oh_2953_35_firearm, oh_2953_36_trafficking, oh_2953_39_prosecutor, oh_2953_521_trafficking_nonconviction, oh_marijuana_expungement. Every operative authority is in ch. 2953 (with offense cross-references); none cites R.C. 2151.356 or any Section 2151 juvenile provision."
+        }
+      ],
+      "reasoning": "The compiled pathway is Ohio's juvenile sealing and expungement scheme, which the profile anchors on R.C. 2151.356 with its mandatory-sealing triggers and its aggravated-murder/murder/rape exclusions. The registry's Ohio coverage is entirely the adult ch. 2953 family. Recorded as a registry gap with the mechanism and authority named; the compiled profile carries Section 2151.356 itself, so the gap is documented from the repository without web access.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-acquittal-dismissal-or-other-no-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+        "registryTrackId": "ok_18_19_nonconviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Acquittal Eligible if the person was acquitted. Wilma status: likely_eligible_acquittal"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_nonconviction, legalName: Petition to Expunge a Non-Conviction or Innocence Record (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the acquittal/dismissal category of the 22 O.S. Section 18(A) eligibility table the profile reproduces (sourced to the Section 18 statute URL throughout). The registry groups all Section 18(A) non-conviction categories into ok_18_19_nonconviction under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 authority.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-arrest-with-no-charges-filed",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "arrest-with-no-charges-filed",
+        "registryTrackId": "ok_18_19_nonconviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Arrest, no charges filed Eligible if the person was arrested, no charges of any type were filed, and either the statute of limitations expired or the prosecutor declined to file charges. ... A Section 18/19 expungement can seal criminal records and related public civil records"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_nonconviction, legalName: Petition to Expunge a Non-Conviction or Innocence Record (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the no-charges-filed category of 22 O.S. Section 18(A) and its own text names the Section 18/19 expungement as the operative mechanism. The registry's ok_18_19_nonconviction groups the Section 18(A) non-conviction categories under Sections 18 and 19. Shared Section 18 authority named on both sides.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-clean-slate-automatic-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "clean-slate-automatic-expungement",
+        "registryTrackId": "ok_clean_slate"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Oklahoma created a Clean Slate process for automatic sealing of certain arrest records. The statute directs OSBI to identify eligible records monthly, notify the prosecutor/arresting agency, allow a 45-day objection window, and then provide unobjectioned eligible cases to courts for signed expungement orders."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_clean_slate, legalName: Clean Slate Sealing Without Petition (22 O.S. Sections 18b and 19d, as enacted by Senate Bill 2030, Laws 2026, c. 282)"
+        }
+      ],
+      "reasoning": "The compiled pathway describes Oklahoma's only automatic clean-slate mechanism -- OSBI monthly identification, prosecutor/agency notice, a 45-day objection window, and court-signed orders for unobjected cases -- which is the sealing-without-petition process the registry track ok_clean_slate carries under 22 O.S. Sections 18b and 19d as enacted by SB 2030 (Laws 2026, c. 282). The compiled profile lacks the Section 18b/19d pin cites, but the mechanism is statutorily unique and the track names its enacting authority.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-conviction-reversed-and-case-dismissed",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "conviction-reversed-and-case-dismissed",
+        "registryTrackId": "ok_18_19_nonconviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Eligible if the conviction was reversed with instructions to dismiss, or reversed and the prosecutor later dismissed the charge. Wilma status: likely_eligible_reversed_and_dismissed"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_nonconviction, legalName: Petition to Expunge a Non-Conviction or Innocence Record (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the reversed-and-dismissed category of the 22 O.S. Section 18(A) eligibility table. The registry's ok_18_19_nonconviction expressly covers non-conviction and innocence records under Sections 18 and 19, which is where a reversed-then-dismissed conviction lands. Category-to-grouped-track join on the Section 18 scheme; the compiled pathway's own text does not repeat the Section 18 citation, so confidence is medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-OK-deferred-sentence-court-record-expungement-under-991-c",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "deferred-sentence-court-record-expungement-under-991-c",
+        "registryTrackId": "ok_991c_deferred"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 991c",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Section 991(c) applies when the court deferred judgment and the person successfully completed all conditions. Upon completion and payment of ordered fines, fees, and monetary assessments, the person is discharged without a judgment of guilt, the plea is expunged from the record, and the charge is dismissed with prejudice."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 991c",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_991c_deferred, legalName: Motion to Expunge the Court Record of a Completed Deferred Sentence (22 O.S. Section 991c)"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "Section 991c reaches the court record only",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "A Section 991c expungement updates a completed deferred sentence so the case shows as dismissed. It does not remove the arrest record. OSBI says so directly."
+        }
+      ],
+      "reasoning": "The compiled pathway cites Section 991(c) and states its mechanism -- discharge without judgment of guilt, expungement of the plea and dismissal with prejudice on completion of a deferred sentence -- which is exactly the registry track ok_991c_deferred under 22 O.S. Section 991c, including the registry's caution that the arrest record needs the separate Section 18 route. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-dna-factual-innocence-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "dna-factual-innocence-expungement",
+        "registryTrackId": "ok_18_19_nonconviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Eligible if factual innocence was established by DNA evidence after conviction. Wilma status: likely_eligible_dna_exoneration"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_nonconviction, legalName: Petition to Expunge a Non-Conviction or Innocence Record (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the DNA-factual-innocence category of the 22 O.S. Section 18(A) eligibility table. The registry track ok_18_19_nonconviction is expressly the non-conviction or innocence petition under Sections 18 and 19, and factual innocence established by DNA is an innocence category within that scheme. Category-to-grouped-track join; the compiled pathway's own text does not repeat the Section 18 citation, so confidence is medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-OK-felony-reclassified-as-a-misdemeanor",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "felony-reclassified-as-a-misdemeanor",
+        "registryTrackId": "ok_18_19_felony_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "571 that was later reclassified as a misdemeanor under Oklahoma law, is not currently serving a sentence in Oklahoma or another state, at least 30 days have passed since completion or commutation of sentence, restitution has been paid in full, and any court-ordered treatment program has been successfully completed. (https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_felony_conviction, legalName: Petition to Expunge a Felony Conviction (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the reclassified-felony category of 22 O.S. Section 18(A), sourced in the profile to the Section 18 statute URL: a felony conviction whose offense was later reclassified as a misdemeanor, expungeable 30 days after completion or commutation with restitution paid. The record being expunged is a felony conviction, so within the registry's grouping it belongs to ok_18_19_felony_conviction under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 citation; the grouping choice between the felony and misdemeanor petition tracks is the residual judgment, hence medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-OK-fine-only-misdemeanor-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "fine-only-misdemeanor-conviction-expungement",
+        "registryTrackId": "ok_18_19_misdemeanor_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Misdemeanor fine-only under $501 Eligible if the person was convicted of a misdemeanor, received a fine of less than $501 with no imprisonment or suspended sentence, the fine has been paid or satisfied by time served, the person has not been convicted of a felony, and no felony/misdemeanor charges are pending. (https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_misdemeanor_conviction, legalName: Petition to Expunge a Misdemeanor Conviction (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the fine-only misdemeanor category of 22 O.S. Section 18(A), cited in the profile to the Section 18 statute URL. The registry groups the Section 18(A) misdemeanor-conviction categories into ok_18_19_misdemeanor_conviction under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-human-trafficking-survivor-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "OK",
+        "mechanismAuthority": [
+          "22 O.S. Section 19c"
+        ],
+        "why": "The registry has no track for Oklahoma's trafficking-survivor relief under 22 O.S. Section 19c for prostitution-related records where the offense resulted from the person being trafficked. Its ten OK tracks cite Sections 18, 18b, 19, 19a, 19d, 60.18 and 991c; none cites Section 19c."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 19c",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Oklahoma has a trafficking-survivor pathway under 22 O.S. 19c for prostitution-related records when the offense was committed as a result of the person being a victim of human trafficking. Relief can be by court motion or petition, and it is narrower than general expungement but can avoid some ordinary timing/prior-record barriers."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No OK registry track cites 22 O.S. Section 19c",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all ten Oklahoma tracks were searched: ok_18_19_deferred_dismissal, ok_18_19_felony_conviction, ok_18_19_misdemeanor_conviction, ok_18_19_nonconviction, ok_18_19_pardon, ok_991c_deferred, ok_clean_slate, ok_identity_theft, ok_osbi_portal, ok_vpo_60_18. Their authorities are 22 O.S. Sections 18, 18b, 19, 19a, 19d, 60.18 and 991c plus SB 2030; the string 19c appears in none of them."
+        }
+      ],
+      "reasoning": "The compiled pathway names 22 O.S. Section 19c as the trafficking-survivor mechanism -- motion or petition relief for prostitution-related records caused by trafficking victimization, with relaxed timing and prior-record barriers. No registry track carries Section 19c. Recorded as a registry gap with the mechanism and authority named.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-juvenile-record-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "registry_gap",
+      "proposedMapping": null,
+      "proposedRegistryTrack": {
+        "jurisdiction": "OK",
+        "mechanismAuthority": [
+          "10A O.S. Section 2-6-109"
+        ],
+        "why": "The registry has no track for Oklahoma juvenile record expungement under 10A O.S. Section 2-6-109 -- the district-court petition to expunge juvenile court records after completion of informal adjustment, deferred adjudication, probation or custody. All ten OK tracks are Title 22 adult-record mechanisms."
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "10A O.S. Section 2-6-109",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Juvenile record expungement 10A O.S. 2-6-109 Juvenile court records after completion/dismissal"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "official-source URL for Section 2-6-109 carried by the profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "https://law.justia.com/codes/oklahoma/title-10a/section-10a-2-6-109/"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "No OK registry track cites any Title 10A provision",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "The authority arrays of all ten Oklahoma tracks contain only Title 22 citations (22 O.S. Sections 18, 18b, 19, 19a, 19d, 60.18, 991c) and SB 2030. No track cites 10A O.S. Section 2-6-109 or any Title 10A juvenile provision."
+        }
+      ],
+      "reasoning": "The compiled pathway is the juvenile record expungement petition, which the profile pins to 10A O.S. Section 2-6-109 by section and source URL, with the completion, no-pending-adult-charges and costs-paid conditions stated. The registry's Oklahoma coverage is entirely adult Title 22 mechanisms. Recorded as a registry gap with the mechanism and authority named.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-misdemeanor-deferred-dismissal-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "misdemeanor-deferred-dismissal-expungement",
+        "registryTrackId": "ok_18_19_deferred_dismissal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_deferred_dismissal, legalName: Petition to Expunge After a Deferred or Delayed Sentence Dismissal (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the one-year misdemeanor deferred-dismissal category of 22 O.S. Section 18(A), cited in the profile to the Section 18 statute URL. The registry groups the Section 18(A) deferred/delayed-sentence dismissal categories into ok_18_19_deferred_dismissal under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-nonviolent-felony-deferred-dismissal-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "nonviolent-felony-deferred-dismissal-expungement",
+        "registryTrackId": "ok_18_19_deferred_dismissal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_deferred_dismissal, legalName: Petition to Expunge After a Deferred or Delayed Sentence Dismissal (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the five-year nonviolent-felony deferred-dismissal category of 22 O.S. Section 18(A) (with the 57 O.S. Section 571 violent-offense screen), cited in the profile to the Section 18 statute URL. It groups into ok_18_19_deferred_dismissal under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-not-more-than-two-eligible-felony-convictions-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "not-more-than-two-eligible-felony-convictions-expungement",
+        "registryTrackId": "ok_18_19_felony_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_felony_conviction, legalName: Petition to Expunge a Felony Conviction (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the ten-year two-felony category of 22 O.S. Section 18(A) (with the 21 O.S. Section 13.1 and sex-offender-registration screens), cited in the profile to the Section 18 statute URL. It groups into ok_18_19_felony_conviction under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-one-eligible-nonviolent-felony-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "one-eligible-nonviolent-felony-conviction-expungement",
+        "registryTrackId": "ok_18_19_felony_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_felony_conviction, legalName: Petition to Expunge a Felony Conviction (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the five-year single-nonviolent-felony category of 22 O.S. Section 18(A), cited in the profile to the Section 18 statute URL. It groups into ok_18_19_felony_conviction under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-other-eligible-misdemeanor-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "other-eligible-misdemeanor-conviction-expungement",
+        "registryTrackId": "ok_18_19_misdemeanor_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_misdemeanor_conviction, legalName: Petition to Expunge a Misdemeanor Conviction (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the five-year misdemeanor category of 22 O.S. Section 18(A) for sentences beyond fine-only, cited in the profile to the Section 18 statute URL. It groups into ok_18_19_misdemeanor_conviction under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-pardon-based-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "pardon-based-expungement",
+        "registryTrackId": "ok_18_19_pardon"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "A person who received a full pardon by the Governor for the crime may seek expungement. A person under 18 at the time of the offense who received a full pardon also has a separate eligibility category. (https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_pardon, legalName: Petition to Expunge After a Pardon (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway comprises the two full-pardon categories of 22 O.S. Section 18(A) (adult pardon, and pardon for an offense committed under 18), cited in the profile to the Section 18 statute URL. The registry carries the pardon-based Section 18/19 petition as ok_18_19_pardon. Category-to-grouped-track join on the shared Section 18 citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-up-to-two-felony-deferred-dismissal-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "up-to-two-felony-deferred-dismissal-expungement",
+        "registryTrackId": "ok_18_19_deferred_dismissal"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 18 eligibility category (OSBI Section 18/19 petition scheme)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "OSBI's 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 years have passed since dismissal."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Sections 18, 19",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_18_19_deferred_dismissal, legalName: Petition to Expunge After a Deferred or Delayed Sentence Dismissal (22 O.S. Sections 18 and 19)"
+        }
+      ],
+      "reasoning": "The compiled pathway is the ten-year up-to-two-felony deferred-dismissal category of the OSBI Section 18(A) eligibility table (with the 21 O.S. Section 13.1 and registration screens). It groups into ok_18_19_deferred_dismissal under Sections 18 and 19. Category-to-grouped-track join on the shared Section 18 scheme.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OK-victim-protective-order-record-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "victim-protective-order-record-relief",
+        "registryTrackId": "ok_vpo_60_18"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 60.18",
+          "source": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "quote": "Victim Protective Order records Oklahoma allows expungement/sealing of certain VPO court records under 22 O.S. Victim protective order sealing 22 O.S. 60.18 Certain VPO court records"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "22 O.S. Section 60.18",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId ok_vpo_60_18, legalName: Petition to Expunge Victim Protective Order Records (22 O.S. Section 60.18)"
+        }
+      ],
+      "reasoning": "The compiled pathway cites 22 O.S. Section 60.18 as the authority for sealing certain victim-protective-order court records; the registry track ok_vpo_60_18 is the petition under the same section. Direct statutory identity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-OR-marijuana-specific-set-aside-redesignation",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "marijuana-specific-set-aside-redesignation",
+        "registryTrackId": "or_conviction_setaside"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "ORS 137.225",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "A pre-7/1/2015 marijuana offense is reclassified to the level it would carry today for set-aside purposes, which often makes it eligible immediately or after a much shorter wait."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "ORS 137.225 cited by the compiled pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Route by disposition. Dismissal -> set aside with little/no wait; acquittal -> any time; uncharged arrest -> 60 days after the DA declines; conviction -> complete the sentence, then the class-based wait."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "ORS 137.225(1)(a), (1)(b)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId or_conviction_setaside, legalName: Motion to Set Aside a Conviction (ORS 137.225(1)(a) and (1)(b))"
+        }
+      ],
+      "reasoning": "The compiled marijuana pathway is not a separate mechanism: its own routing text sends every disposition through the ORS 137.225 motion (dismissal, acquittal, uncharged arrest, conviction after the class-based wait) and treats the pre-July-2015 reclassification purely as an eligibility/wait modifier for that motion. The pathway cites ORS 137.225, the authority of registry track or_conviction_setaside. Mapped there on the shared statute; the marijuana reclassification sub-rule carries no distinct citation in either artifact (and web verification was unavailable), so E3 should note that residual authority question. Confidence medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-B-PA-path-a-non-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-a-non-conviction-expungement",
+        "registryTrackId": "pa_790_nonconviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. Section 9122(a)",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Section 18 Pa.C.S. 9122(a) provides for expungement when a court order requires nonconviction data to be expunged. (https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091.022.000..HTM)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. Section 9122(a); Pa.R.Crim.P. 790",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId pa_790_nonconviction, legalName: Petition for Expungement of Non-Conviction Records Pursuant to Pa.R.Crim.P. 790, authority: [18 Pa.C.S. Section 9122(a), 18 Pa.C.S. Section 9102, Pa.R.Crim.P. 790]"
+        }
+      ],
+      "reasoning": "The compiled Path A cites 18 Pa.C.S. Section 9122(a) (by section and official legis.state.pa.us URL) for expungement of non-conviction data. The registry implements Section 9122(a) non-conviction expungement as two procedural tracks: pa_790_nonconviction (Rule 790, court of common pleas) and pa_490_nonconviction (Rule 490, summary cases before an MDJ). Primary mapping is to pa_790_nonconviction; E3 should record the Rule 490 sibling for summary-only cases, per the registry's own Rule 490/790 routing note.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-b-complete-acquittal-not-guilty-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-b-complete-acquittal-not-guilty-expungement",
+        "registryTrackId": "pa_acquittal_auto"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. Section 9122(a)",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Section 18 Pa.C.S. 9122(a) provides for expungement when a court order requires nonconviction data to be expunged. (https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091.022.000..HTM)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. Section 9122(a)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId pa_acquittal_auto, legalName: Automatic Expungement Following Complete Acquittal, authority: [18 Pa.C.S. Section 9122(a)]"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "complete-acquittal boundary",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Do not offer this track for a partial acquittal. Section 9122(a) reaches acquittal of all charges based on the same conduct or arising from the same criminal episode."
+        }
+      ],
+      "reasoning": "The compiled Path B is the complete-acquittal branch of 18 Pa.C.S. Section 9122(a), which the registry carries as its own track pa_acquittal_auto under the same subsection, with the registry's boundary note confining it to acquittal of all charges from the same episode. Shared operative citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-c-summary-conviction-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-c-summary-conviction-expungement",
+        "registryTrackId": "pa_summary_conviction"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. Section 9122(b) summary-conviction ground",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution for five years following the conviction. Pennsylvania law states this summary-conviction expungement pathway is only for summary offenses. (https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "18 Pa.C.S. Section 9122(b); Pa.R.Crim.P. 490/790",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId pa_summary_conviction, legalName: Petition for Expungement of a Summary Conviction After Five Arrest-Free Years, authority: [18 Pa.C.S. Section 9122(b), Pa.R.Crim.P. 490, Pa.R.Crim.P. 790]"
+        }
+      ],
+      "reasoning": "The compiled Path C states the summary-conviction expungement ground -- summary offense only, five arrest-free years after conviction -- with the official statute URL; that is 18 Pa.C.S. Section 9122(b), the authority of registry track pa_summary_conviction with its Rule 490/790 procedure. Shared operative citation and identical eligibility elements.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-B-PA-path-d-ard-expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "mapped_to_registry_track",
+      "proposedMapping": {
+        "compiledPathwayId": "path-d-ard-expungement",
+        "registryTrackId": "pa_ard_expungement"
+      },
+      "proposedRegistryTrack": null,
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Pa.R.Crim.P. 320",
+          "source": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
+          "quote": "Under Pa.R.Crim.P. 320, when the judge orders dismissal of charges after successful ARD completion, the judge also orders expungement of the defendant's arrest record unless the Commonwealth objects and proves a reason to retain it. (https://www.pacodeandbulletin.gov/secure/pacode/data/234/chapter3/s320.html)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Pa.R.Crim.P. 320; 18 Pa.C.S. Section 9122(b.1)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "trackId pa_ard_expungement, legalName: Expungement of the Arrest Record on Successful Completion of Accelerated Rehabilitative Disposition, authority: [Pa.R.Crim.P. 320, 18 Pa.C.S. Section 9122(b.1)]"
+        }
+      ],
+      "reasoning": "The compiled Path D cites Pa.R.Crim.P. 320 (with the official pacodeandbulletin.gov URL) for expungement of the arrest record on successful ARD completion absent Commonwealth objection; the registry track pa_ard_expungement is anchored on Rule 320 with the Section 9122(b.1) sexual-offense limitation. Direct rule-citation identity.",
+      "confidence": "high"
+    }
+  ]
+}
