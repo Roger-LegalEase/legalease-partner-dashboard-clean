@@ -2,11 +2,11 @@
   "schemaVersion": "rcap-verifier-audit/v1",
   "timeoutMs": 20000,
   "counts": {
-    "total": 208,
-    "inChain": 70,
-    "orphanPassing": 96,
-    "orphanBroken": 31,
-    "orphanTimeout": 4,
+    "total": 212,
+    "inChain": 74,
+    "orphanPassing": 88,
+    "orphanBroken": 30,
+    "orphanTimeout": 13,
     "generators": 7
   },
   "scripts": [
@@ -285,8 +285,8 @@
     },
     {
       "file": "verify-content-visual.mjs",
-      "status": "orphan_broken",
-      "detail": "Content platform visual verification failed:",
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": false,
       "mutatesTrackedFiles": false
     },
@@ -733,8 +733,8 @@
     },
     {
       "file": "verify-nh-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1271,7 +1271,28 @@
       "mutatesTrackedFiles": false
     },
     {
+      "file": "verify-rcap-render-worker-runtime.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "verify-rcap-runtime-credential-boundary.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
       "file": "verify-rcap-screening-analytics.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "verify-rcap-screenings-allowed-audit.mjs",
       "status": "in_chain",
       "detail": null,
       "wiredToNamedScript": true,
@@ -1286,6 +1307,13 @@
     },
     {
       "file": "verify-rcap-source-document-persistence.mjs",
+      "status": "in_chain",
+      "detail": null,
+      "wiredToNamedScript": true,
+      "mutatesTrackedFiles": false
+    },
+    {
+      "file": "verify-rcap-track-pathway-crosswalk.mjs",
       "status": "in_chain",
       "detail": null,
       "wiredToNamedScript": true,
@@ -1321,22 +1349,22 @@
     },
     {
       "file": "verify-ri-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-sc-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-sd-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1405,15 +1433,15 @@
     },
     {
       "file": "verify-ut-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
     {
       "file": "verify-vt-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1440,8 +1468,8 @@
     },
     {
       "file": "verify-wi-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
@@ -1454,8 +1482,8 @@
     },
     {
       "file": "verify-wv-state-pack.mjs",
-      "status": "orphan_passing",
-      "detail": null,
+      "status": "orphan_timeout",
+      "detail": "exceeded 20000ms",
       "wiredToNamedScript": true,
       "mutatesTrackedFiles": false
     },
