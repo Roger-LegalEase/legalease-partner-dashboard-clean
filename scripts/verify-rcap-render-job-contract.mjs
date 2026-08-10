@@ -1,11 +1,13 @@
 // Verifies the render job contract module and, most importantly, that its
-// status machine has not drifted from the one the phase-49 trigger enforces.
+// status machine has not drifted from the shared contract.
 //
-// Two copies of a transition table is a drift risk. The database is the
-// authority; the TypeScript copy exists so the worker can reject an illegal
-// transition without a round trip. This check parses the transition table out
-// of the SQL trigger and requires the two to agree exactly, so a change to one
-// without the other turns CI red.
+// The phase-49 migration lives on a separate migration branch, because
+// assertSourceEngineChangeScope treats `supabase/` as production-forbidden and
+// this engine branch must not change it. Both sides therefore verify against
+// data/rcap-render/state-machine.json rather than against each other: this
+// script checks the TypeScript, and the migration branch checks the SQL. Two
+// artifacts pinned to one fixture cannot drift even while they live apart, and
+// neither branch needs to read the other.
 //
 // Pure Node plus the repo's TypeScript loader. No database, no network.
 
@@ -18,7 +20,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const MIGRATION = path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql");
+const FIXTURE = path.join(rootDir, "data/rcap-render/state-machine.json");
 
 const contract = await import("../src/lib/rcap/render/job-contract.ts");
 const {
@@ -45,63 +47,37 @@ function check(label, fn) {
 // 1. The SQL and TypeScript transition tables must agree.
 // ---------------------------------------------------------------------------
 
-const sql = fs.readFileSync(MIGRATION, "utf8");
+const fixture = JSON.parse(fs.readFileSync(FIXTURE, "utf8"));
 
-// Parse the CASE arms of packet_render_jobs_guard_transition().
-const caseBlock = /allowed := case old\.status([\s\S]*?)end;/.exec(sql);
-assert.ok(caseBlock, "could not locate the transition CASE block in the migration");
-
-const sqlTransitions = {};
-const armPattern = /when\s+'([a-z_]+)'\s+then\s+array\[([^\]]*)\]/g;
-let arm;
-while ((arm = armPattern.exec(caseBlock[1])) !== null) {
-  const from = arm[1];
-  const body = arm[2].trim();
-  const targets =
-    body === ""
-      ? []
-      : [...body.matchAll(/'([a-z_]+)'/g)].map((m) => m[1]);
-  sqlTransitions[from] = targets.sort();
-}
-
-check("the migration's transition table parses", () => {
-  assert.ok(Object.keys(sqlTransitions).length > 0, "no transition arms parsed");
+check("the shared state-machine fixture is present and well formed", () => {
+  assert.ok(fixture.transitions && typeof fixture.transitions === "object");
+  assert.ok(Array.isArray(fixture.statuses) && fixture.statuses.length > 0);
+  assert.ok(Array.isArray(fixture.errorCodes) && fixture.errorCodes.length > 0);
 });
 
-check("SQL and TypeScript transition tables cover the same statuses", () => {
-  const sqlFrom = Object.keys(sqlTransitions).sort();
+check("TypeScript and fixture cover the same statuses", () => {
+  assert.deepEqual([...RENDER_JOB_STATUSES].sort(), [...fixture.statuses].sort());
+});
+
+check("every transition arm matches the fixture exactly", () => {
+  const fixtureFrom = Object.keys(fixture.transitions).sort();
   const tsFrom = Object.keys(RENDER_JOB_TRANSITIONS).sort();
-  assert.deepEqual(
-    sqlFrom,
-    tsFrom,
-    `status sets differ. sql=${sqlFrom.join(",")} ts=${tsFrom.join(",")}`
-  );
-});
-
-check("every transition arm matches exactly", () => {
-  for (const from of Object.keys(sqlTransitions)) {
-    const fromSql = sqlTransitions[from];
-    const fromTs = [...RENDER_JOB_TRANSITIONS[from]].sort();
+  assert.deepEqual(tsFrom, fixtureFrom, "transition source states differ");
+  for (const from of fixtureFrom) {
     assert.deepEqual(
-      fromTs,
-      fromSql,
-      `transitions from '${from}' differ. sql=[${fromSql.join(",")}] ts=[${fromTs.join(",")}]`
+      [...RENDER_JOB_TRANSITIONS[from]].sort(),
+      [...fixture.transitions[from]].sort(),
+      `transitions from '${from}' differ from the shared contract`
     );
   }
 });
 
-check("declared statuses match the migration's status check constraint", () => {
-  const constraint = /packet_render_jobs_status_check check \(\s*status in \(([\s\S]*?)\)\s*\)/.exec(sql);
-  assert.ok(constraint, "status check constraint not found");
-  const sqlStatuses = [...constraint[1].matchAll(/'([a-z_]+)'/g)].map((m) => m[1]).sort();
-  assert.deepEqual([...RENDER_JOB_STATUSES].sort(), sqlStatuses);
+check("declared error codes match the fixture", () => {
+  assert.deepEqual([...RENDER_JOB_ERROR_CODES].sort(), [...fixture.errorCodes].sort());
 });
 
-check("declared error codes match the migration's error code constraint", () => {
-  const constraint = /packet_render_jobs_error_code_check check \(([\s\S]*?)\n  \),/.exec(sql);
-  assert.ok(constraint, "error code constraint not found");
-  const sqlCodes = [...constraint[1].matchAll(/'([a-z_]+)'/g)].map((m) => m[1]).sort();
-  assert.deepEqual([...RENDER_JOB_ERROR_CODES].sort(), sqlCodes);
+check("creditable statuses match the fixture", () => {
+  assert.deepEqual([...CREDITABLE_STATUSES].sort(), [...fixture.creditableStatuses].sort());
 });
 
 // ---------------------------------------------------------------------------
