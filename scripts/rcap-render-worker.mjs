@@ -15,6 +15,7 @@
 
 import os from "node:os";
 import { register } from "node:module";
+import { resolveClaimSeconds, runRenderWorkerLoop } from "./lib/rcap-render-worker-loop.mjs";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { runWorkerCycle, localContainerDigest } = await import("../src/lib/rcap/render/render-worker.ts");
@@ -27,6 +28,14 @@ const { PACKET_RENDERER_KIND } = await import("../src/lib/rcap/documents/packet-
 
 const mode = process.argv.includes("--loop") ? "loop" : "once";
 const workerId = `${os.hostname()}-${process.pid}`;
+
+let claimSeconds;
+try {
+  claimSeconds = resolveClaimSeconds();
+} catch (error) {
+  console.error(`rcap-render-worker: ${error instanceof Error ? error.message : error}`);
+  process.exit(2);
+}
 
 const storage = getPacketArtifactStorage();
 if (!storage) {
@@ -60,7 +69,8 @@ const deps = {
     supportedRendererKinds: new Set([PACKET_RENDERER_KIND])
   },
   workerId,
-  containerDigest: process.env.RCAP_WORKER_CONTAINER_DIGEST ?? localContainerDigest(workerId)
+  containerDigest: process.env.RCAP_WORKER_CONTAINER_DIGEST ?? localContainerDigest(workerId),
+  claimSeconds
 };
 
 async function main() {
@@ -69,13 +79,9 @@ async function main() {
     console.log(JSON.stringify(result));
     return;
   }
-  console.log(`rcap-render-worker ${workerId} polling; ctrl-c to stop`);
-  const idleDelayMs = 3000;
-  for (;;) {
-    const result = await runWorkerCycle(deps);
-    if (result.outcome !== "idle") console.log(JSON.stringify(result));
-    if (result.outcome === "idle") await new Promise((resolve) => setTimeout(resolve, idleDelayMs));
-  }
+  console.log(`rcap-render-worker ${workerId} polling; SIGTERM/SIGINT drains and stops`);
+  await runRenderWorkerLoop({ runCycle: () => runWorkerCycle(deps), idleDelayMs: 3000 });
+  process.exit(0);
 }
 
 await main();
