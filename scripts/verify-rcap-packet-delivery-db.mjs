@@ -48,13 +48,13 @@ const PERSON_A = "aaaaaaaa-1111-1111-1111-111111111111";
 const PERSON_C = "cccccccc-1111-1111-1111-111111111111";
 
 let jobSeq = 0;
-function enqueue({ partner = null, person = null, matter = null, maxAttempts = 5 }) {
+function enqueue({ partner = null, person = null, matter = null, briefcaseItem = null, maxAttempts = 5 }) {
   jobSeq += 1;
   const hash = createHash("sha256").update(`input-${jobSeq}`).digest("hex");
   const packetRow = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
   return db
     .scalar(
-      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', null, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, ${maxAttempts})`
+      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', ${briefcaseItem ? `'${briefcaseItem}'` : "null"}, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, ${maxAttempts})`
     )
     .trim();
 }
@@ -102,6 +102,7 @@ try {
   db.sql(`create table public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
   db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
   db.sql(`insert into partner_records values ('${P1}','we-must-vote'), ('${P2}','partner-two'), ('${P3}','partner-three')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a'), ('${PERSON_C}','partner-two','c')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 2, true, 1)`);
@@ -303,14 +304,43 @@ try {
     `case9: same matter twice = one consumed, one already_consumed (got ${JSON.stringify(sameMatterResults)})`
   );
 
-  // --- case 11: consumer path is explicit zero-charge ------------------------
-  const j11 = enqueue({});
+  // --- case 11: the consumer payment gate (phase 51) -------------------------
+  // Unsponsored is not the same as free. zero_charge describes the partner
+  // ledger doing nothing; delivery still requires the consumer to have paid.
+  db.sql(`create table if not exists public.consumer_briefcase_items (
+            id uuid primary key,
+            payment_status text not null default 'not_applicable',
+            amount_cents integer
+          )`);
+  const BC_PAID = "c1000000-0000-4000-8000-000000000001";
+  const BC_UNPAID = "c1000000-0000-4000-8000-000000000002";
+  db.sql(`insert into consumer_briefcase_items values
+            ('${BC_PAID}', 'paid', 5000), ('${BC_UNPAID}', 'unpaid', 5000)
+          on conflict (id) do nothing`);
+
+  const j11 = enqueue({ briefcaseItem: BC_UNPAID });
   const c11 = claim("w11");
   toValidating(j11, c11.fencing_token);
   const fin11 = finalize(j11, c11.fencing_token);
-  assert(fin11.accounting_result === "zero_charge" && fin11.delivery_eligibility === "eligible", "case11: consumer packet records an explicit zero-charge disposition");
   assert(
-    db.scalar(`select count(*) from packet_credit_ledger where render_job_id = '${j11}' and event_type = 'zero_charge'`) === "1",
+    fin11.accounting_result === "consumer_payment_required" && fin11.delivery_eligibility === "accounting_blocked",
+    "case11: an unpaid consumer packet is accounting-blocked, not zero-charge"
+  );
+  assert(
+    db.scalar(`select count(*) from packet_credit_ledger where render_job_id = '${j11}'`) === "0",
+    "case11: a payment-blocked job writes no ledger row"
+  );
+
+  const j11b = enqueue({ briefcaseItem: BC_PAID });
+  const c11b = claim("w11b");
+  toValidating(j11b, c11b.fencing_token);
+  const fin11b = finalize(j11b, c11b.fencing_token);
+  assert(
+    fin11b.accounting_result === "zero_charge" && fin11b.delivery_eligibility === "eligible",
+    "case11: a paid consumer packet records an explicit zero-charge disposition"
+  );
+  assert(
+    db.scalar(`select count(*) from packet_credit_ledger where render_job_id = '${j11b}' and event_type = 'zero_charge'`) === "1",
     "case11: zero-charge is written to the ledger for audit"
   );
 

@@ -48,6 +48,7 @@ try {
   db.sql(`create table public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
   db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
 
   db.sql(`insert into partner_records (id, partner_slug) values ('${P1}','we-must-vote')`);
   db.sql(`insert into rcap_persons (id, partner_slug, match_key) values ('${PERSON_A}','we-must-vote','a')`);

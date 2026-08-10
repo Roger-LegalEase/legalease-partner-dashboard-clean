@@ -179,6 +179,62 @@
         "staging": "queued \u2014 requires Roger to name both migration files and the staging environment",
         "production": "queued \u2014 not requested; follows a green staging rehearsal"
       }
+    },
+    {
+      "id": "auth-2026-08-10-phase-51-consumer-payment-gate",
+      "kind": "migration",
+      "title": "Apply phase-51 consumer payment gate (after phases 49 and 50)",
+      "artifacts": [
+        "supabase/phase-51-rcap-consumer-payment-gate.sql"
+      ],
+      "status": "authorized_scoped",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-10",
+      "authorizedBy": "Roger Roman (Terminal C integration directive item 8: unsponsored without a valid consumer payment entitlement is non-deliverable; zero_charge cannot bypass the $50 consumer payment gate) \u2014 repository integration only",
+      "authorizedAt": "2026-08-10",
+      "executedAt": null,
+      "why": "Phase 50 marked every unsponsored job zero_charge AND delivery-eligible. Those are two different facts and only the first was true: zero_charge means no partner credit moved, which says nothing about whether the consumer paid. The consumer product is paid \u2014 consumer_briefcase_items.amount_cents is constrained to 5000 by phase 27 \u2014 and the delivery core gates on authentication, briefcase ownership, delivery_eligibility and artifact hash, none of which is a payment check. Any job enqueued without partner sponsorship was therefore deliverable on the strength of having no sponsor. This migration makes the payment the authority for an unsponsored delivery.",
+      "risk": "low",
+      "riskNote": "Additive and forward-only. Extends one check constraint with a new typed result, adds one stable SECURITY DEFINER probe, and replaces finalize_packet_render_job with a copy identical to phase 50's apart from the consumer branch. No table is created, altered or dropped, and no row is backfilled. The change is restrictive: it can only move an unsponsored job from eligible to accounting_blocked, never the reverse.",
+      "preconditions": [
+        "phase-49-rcap-packet-render-jobs.sql and phase-50-rcap-packet-delivery-hardening.sql applied immediately before, in the same authorized window",
+        "public.consumer_briefcase_items present with payment_status and amount_cents (phases 26 and 27) \u2014 absent, the probe fails closed and every unsponsored packet is blocked"
+      ],
+      "evidence": [
+        "Applies cleanly after phases 49 and 50 on a fresh PostgreSQL 16 cluster",
+        "B3a-B3d in verify-rcap-screenings-allowed-audit prove: payment table absent -> blocked; no briefcase item -> blocked; unpaid, refunded and paid-at-2500-cents -> blocked; paid at 5000 cents -> zero_charge, eligible, and no partner credit consumed",
+        "Mutation-tested twice: making the absent-table probe return true turns B3a red, and widening the accepted payment_status set turns B3c red",
+        "verify-rcap-packet-delivery-db case 11 rebuilt on both sides of the gate and passing",
+        "The phase-50 constraint packet_render_jobs_eligible_requires_accounting_check makes it structurally impossible for consumer_payment_required to be marked eligible",
+        "Every delivery verifier now applies 49 -> 50 -> 51, so the tested state is the shipped state"
+      ],
+      "rollback": "Re-apply phase 50's finalize_packet_render_job to restore the ungated consumer branch, then drop public.consumer_packet_payment_valid(uuid) and narrow the accounting_result constraint back. No data is written by this migration, so nothing is lost; note that rolling back restores the defect.",
+      "blocks": [
+        "The staging rehearsal and any consumer packet delivery in a paid environment"
+      ],
+      "phase": 51,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-51-rcap-consumer-payment-gate.sql"
+      ],
+      "authorizedSha256": [
+        "3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba"
+      ],
+      "authorizationScope": "repository_integration_only",
+      "doesNotAuthorize": [
+        "application to staging or production",
+        "any further new file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any change to the phase-49 or phase-50 files or their authorizations",
+        "any change to consumer pricing; 5000 cents is read from the phase-27 constraint, not set here"
+      ],
+      "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-10 \u2014 hash-pinned to 3c3e971c1fdb3382",
+        "local_ephemeral_test": "authorized \u2014 throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued \u2014 requires Roger to name all three migration files and the staging environment",
+        "production": "queued \u2014 not requested; follows a green staging rehearsal"
+      }
     }
   ],
   "statusVocabulary": {

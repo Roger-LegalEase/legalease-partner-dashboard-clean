@@ -62,6 +62,10 @@ export const PACKET_ACCOUNTING_RESULTS = [
   "cap_reached",
   "not_validated",
   "not_found",
+  // Unsponsored and unpaid. Distinct from `unauthorized`, which is a sponsored
+  // job whose partner entitlement did not authorize it: this one has no partner
+  // to charge and no consumer payment to deliver on. Phase 51.
+  "consumer_payment_required",
   "unauthorized"
 ] as const;
 
