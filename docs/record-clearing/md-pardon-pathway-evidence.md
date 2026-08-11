@@ -103,3 +103,37 @@ license:        operative_citation_in_pathway — the track's controlling
                 carrying it)
 confidence:     high
 ```
+
+## Completion under counsel approval (2026-08-11)
+
+Counsel approved the pathway; the fail-closed review posture is replaced by
+a fully verified deadline contract:
+
+- **Pardon-date fact**: optional `pardon_signed_date` question
+  (`date_or_unknown`, convention-matching) added to the compiled MD profile
+  and to the designer public profile (`compiled/all51.json` MD entry, the
+  actual public question source; fixture copy re-exported with the
+  repository's own `export-expungement-ai-public-fixtures.mjs`). Optional so
+  non-pardon participants are never blocked; the pardon route demands it via
+  `missing_anchor` → `md.md_pardon_date_needed`.
+- **Deadline semantics, both directions**: the timing carve-out asks for the
+  date; `mdPardonDeadlineSafetyGate` bars filing when today is more than 10
+  years after the pardon was signed (`likely_not_eligible`,
+  `md.md_pardon_deadline_not_eligible`, § 10-105(c)(4) cited). Within the
+  deadline, timing is satisfied — no minimum wait exists in the statute and
+  none is fabricated.
+- **Payment ratification**: the route joined `RATIFIED_DEPLOYABLE_ROUTES`
+  (counsel signoff recorded in the list comment) and the pathway's
+  `lawrenceRatification` moved to `ratified_deployable` citing
+  § 10-105(a)(8)/(c)(4). Verified end-to-end: the qualifying fixture reaches
+  `packet_ready_with_caution` with `paymentAllowed: true` and the
+  official-form packet plan; the barred and missing-date fixtures keep
+  payment shut — the both-direction proof the evaluator's own ratification
+  contract requires.
+- **Mutation red re-proven**: removing the ratified-allowlist entry turns
+  the verifier red (exit 1); restored, it passes. Deterministic evaluation
+  clock via `RCAP_EVALUATOR_TODAY=2026-08-11` in fixtures and verifier.
+- **Neighbors**: `verify-public-profile-projection` and
+  `verify-rcap-evaluator-all51-provability` pass;
+  `verify-public-profile-route`'s NextResponse crash reproduces identically
+  at base (pre-existing, unrelated).

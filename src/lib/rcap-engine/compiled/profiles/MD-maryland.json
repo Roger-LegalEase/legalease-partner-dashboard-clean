@@ -171,7 +171,8 @@
       "questionIds": [
         "sentence_completion_date",
         "financial_obligations",
-        "pending_cases"
+        "pending_cases",
+        "pardon_signed_date"
       ],
       "screenType": "conditional_question_sequence"
     },
@@ -559,6 +560,15 @@
       "type": "yes_no_unsure",
       "options": null,
       "required": true,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
+      "id": "pardon_signed_date",
+      "stage": "timing_and_completion",
+      "prompt": "When did the Governor sign your full and unconditional pardon?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": false,
       "source": "derived_from_state_rule_fields"
     },
     {
@@ -1528,7 +1538,8 @@
       ],
       "triggerFields": [
         "case_outcome",
-        "pardon_status"
+        "pardon_status",
+        "pardon_signed_date"
       ],
       "caseOutcomes": [
         "pardon"
@@ -1552,11 +1563,11 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hard_gate_pending",
-        "packet_capable": false,
-        "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Md. Code, Crim. Proc. § 10-105(a)(8), (c)(4) — counsel approved 2026-08-11",
+        "lawrence_review": "first_pass_ratified"
       }
     }
   ],

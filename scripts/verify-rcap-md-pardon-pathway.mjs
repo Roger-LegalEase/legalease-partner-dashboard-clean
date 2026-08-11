@@ -5,8 +5,11 @@
 // § 10-105(a)(8)/(c)(4) authority (mutation-red on drift), the routing
 // pointers (rule-11, pardon case outcome, packet generator form binding),
 // the untouched survival of the seven pre-existing MD pathways, and live
-// evaluator routing via the canonical fixtures — including the fail-closed
-// deadline posture (no fabricated minimum wait, payment shut).
+// evaluator routing via the canonical fixtures — including both directions
+// of the counsel-approved (2026-08-11) contract: an in-deadline pardon opens
+// the caution packet and payment; a passed § 10-105(c)(4) deadline is barred
+// and a missing pardon date is requested, with payment shut in both.
+process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY || "2026-08-11";
 import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
@@ -75,9 +78,28 @@ assert(
   (pathway.waitingRules ?? []).length === 0,
   "no waiting rules: § 10-105(c)(4) is a filing deadline, and encoding it as a minimum wait would invert the statute"
 );
+assert(
+  (pathway.triggerFields ?? []).includes("pardon_signed_date"),
+  "the pardon-date fact is a trigger field"
+);
+const compiledDateQuestion = (profile.questions ?? []).find((q) => q.id === "pardon_signed_date");
+assert(
+  compiledDateQuestion?.type === "date_or_unknown" && compiledDateQuestion?.required === false,
+  "compiled profile carries the optional pardon_signed_date date question"
+);
+const designerAll51 = JSON.parse(
+  fs.readFileSync(path.join(rootDir, "src/lib/rcap-engine/compiled/all51.json"), "utf8")
+);
+const designerDateQuestion = (designerAll51.MD?.questions ?? []).find((q) => q.id === "pardon_signed_date");
+assert(
+  designerDateQuestion?.type === "date_or_unknown" && designerDateQuestion?.required === false,
+  "designer public profile (all51.json MD) exposes the pardon_signed_date question"
+);
 assert(pathway.routeType === "court_filing" && pathway.filingRequired === true && pathway.automatic === false, "output posture: court-filed petition route");
 assert(pathway.suggestedResultCode === "packet_ready_with_caution", "suggested result code matches rule-11's caution posture");
-assert(pathway.lawrenceRatification?.status === "hard_gate_pending", "Lawrence ratification hard gate is recorded, not bypassed");
+assert(pathway.lawrenceRatification?.status === "ratified_deployable", "counsel-approved ratification recorded on the pathway");
+assert(pathway.lawrenceRatification?.payment_allowed_when_engine_confirms === true, "ratification permits engine-confirmed payment");
+assert(String(pathway.lawrenceRatification?.legal_basis ?? "").includes("10-105(a)(8)"), "ratification legal basis cites § 10-105(a)(8)");
 
 // --- routing pointers -------------------------------------------------------
 
@@ -113,8 +135,12 @@ assert(
   "evaluator carries the MD pardon timing carve-out keyed to the pathway id"
 );
 assert(
-  evaluatorSource.includes("md_pardon_deadline_review"),
-  "evaluator carries the § 10-105(c)(4) deadline review reason"
+  evaluatorSource.includes("md_pardon_date_needed") && evaluatorSource.includes("md_pardon_deadline_not_eligible"),
+  "evaluator carries the pardon-date request and the § 10-105(c)(4) deadline bar"
+);
+assert(
+  /RATIFIED_DEPLOYABLE_ROUTES = new Set\(\[[^\]]*MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8/s.test(evaluatorSource),
+  "the route is in the ratified-deployable payment allowlist (counsel approval 2026-08-11)"
 );
 
 // --- live routing via canonical fixtures ------------------------------------
@@ -148,7 +174,24 @@ for (const fixtureCase of fixtures.cases) {
     evaluation.paymentAllowed === fixtureCase.expect.paymentAllowed,
     `fixture ${fixtureCase.id}: paymentAllowed === ${fixtureCase.expect.paymentAllowed}`
   );
+  if (fixtureCase.expect.pathwayId) {
+    assert(
+      evaluation.pathwayId === fixtureCase.expect.pathwayId,
+      `fixture ${fixtureCase.id}: pathwayId ${evaluation.pathwayId} === ${fixtureCase.expect.pathwayId}`
+    );
+  }
+  if (fixtureCase.expect.missingQuestionId) {
+    assert(
+      evaluation.missingQuestionIds.includes(fixtureCase.expect.missingQuestionId),
+      `fixture ${fixtureCase.id}: asks for ${fixtureCase.expect.missingQuestionId}`
+    );
+  }
 }
+const paymentDirections = fixtures.cases.map((c) => c.expect.paymentAllowed);
+assert(
+  paymentDirections.includes(true) && paymentDirections.includes(false),
+  "both-direction payment proof: at least one fixture opens payment and at least one keeps it shut"
+);
 
 if (failures.length > 0) {
   console.error("verify-rcap-md-pardon-pathway FAILED");
@@ -156,5 +199,5 @@ if (failures.length > 0) {
   process.exit(1);
 }
 console.log(
-  "verify-rcap-md-pardon-pathway passed: the § 10-105(a)(8)/(c)(4) pardon pathway is schema-shaped, uniquely routed, authority-pinned, fail-closed on the filing deadline, and the seven pre-existing Maryland pathways survive."
+  "verify-rcap-md-pardon-pathway passed: the § 10-105(a)(8)/(c)(4) pardon pathway is schema-shaped, uniquely routed, authority-pinned, deadline-verified in both directions with counsel-approved payment, and the seven pre-existing Maryland pathways survive."
 );
