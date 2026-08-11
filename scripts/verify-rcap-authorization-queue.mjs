@@ -41,7 +41,13 @@ const VALID_KINDS = new Set([
   "deploy",
   "flag_change",
   "route_enablement",
-  "milestone_flip"
+  "milestone_flip",
+  // A source file under a restricted prefix, named by exact path and pinned to
+  // exact bytes. Distinct from route_enablement on purpose: that kind means a
+  // route may serve traffic somewhere, and reusing it for "this file may exist
+  // in the repository" would let a later reader take the existence of the file
+  // as permission to turn it on.
+  "restricted_path_source_change"
 ]);
 const VALID_STATUS = new Set([
   "pending_authorization",
