@@ -1,30 +1,34 @@
-# F0 Staging Preflight Report — Session F (Phase 49→53 revision)
+# F0 Staging Preflight Report — Session F (Phase 49→54 revision)
 
 - Lane: session-f-staging-preflight (execution and evidence lane; no implementation)
 - MODE: PREP_ONLY (nothing applied, deployed, published, enabled, or altered)
 - Date: 2026-08-11
-- Branch: `claude/rcap-staging-preflight-phase53`
-- Base: `origin/claude/rcap-final-sprint-integration` @ `7e1b2c4dc1e433c07f9d0819c8125e228da4b236` (fetched and pinned this session; canonical branch per the in-repo branch ruling; the action file's `finalAcceptedSha` is null by construction and is NOT this SHA)
+- Branch: `claude/rcap-staging-preflight-phase54`
+- Base: `origin/claude/rcap-final-sprint-integration` @ `d6310fd20a4d38ecaa1afdcf92773510c6fffa59` (fetched and pinned this session; canonical branch per the in-repo branch ruling; the action file's `finalAcceptedSha` is null by construction and is NOT this SHA)
 - Worktree: separate clean worktree (0 dirty paths at creation); all lane changes under `docs/rcap/staging-rehearsal/`
 
-## 1. The five-migration sequence (every value verified against disk bytes and the queue this session)
+## 1. The six-migration sequence (verified against disk bytes and the queue at d6310fd2 this session)
 
 | Pos | Phase | Path | SHA-256 (disk = queue) | Authorization ID | Staging disposition |
 |---|---|---|---|---|---|
 | 1 | 49 | `supabase/phase-49-rcap-packet-render-jobs.sql` | `2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6` | auth-2026-08-10-phase-49-packet-render-jobs | **authorized** |
 | 2 | 50 | `supabase/phase-50-rcap-packet-delivery-hardening.sql` | `15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62` | auth-2026-08-10-phase-50-packet-delivery-hardening | queued |
 | 3 | 51 | `supabase/phase-51-rcap-consumer-payment-gate.sql` | `3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba` | auth-2026-08-10-phase-51-consumer-payment-gate | queued |
-| 4 | 52 | `supabase/phase-52-rcap-consumer-payment-authority.sql` | `c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3` | auth-2026-08-11-phase-52-consumer-payment-authority | queued (names all four) |
-| 5 | 53 | `supabase/phase-53-rcap-consumer-job-binding.sql` | `469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f` | auth-2026-08-11-phase-53-consumer-job-binding | queued (names all five) |
+| 4 | 52 | `supabase/phase-52-rcap-consumer-payment-authority.sql` | `c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3` | auth-2026-08-11-phase-52-consumer-payment-authority | queued |
+| 5 | 53 | `supabase/phase-53-rcap-consumer-job-binding.sql` | `469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f` | auth-2026-08-11-phase-53-consumer-job-binding | queued |
+| 6 | 54 | `supabase/phase-54-rcap-person-namespace-hardening.sql` | `3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac` | auth-2026-08-11-phase-54-person-namespace-hardening | queued — **explicitly withheld by the authorizing instruction** |
 
-Canonical action: `data/rcap-staging-action.json` — `staging-action-five-migrations`,
-status `prepared_queued_not_authorized`, order 49→50→51→52→53, security
-checkpoint SHA `13e356c4`, phases 52/53 indivisible. Superseded action IDs, with
-recorded reasons: `staging-action-two-migrations` (unpaid consumers deliverable),
-`staging-action-three-migrations` (payer-bypassable, RCAP-SEC-001),
-`staging-action-four-migrations` (gate correct but unreachable). The legacy
-three-file A1-staging text on the phase-50 entry is historical; the five-file
-action is the current record. Phase 48 remains declined/superseded.
+Canonical action: `staging-action-six-migrations`, `prepared_queued_not_authorized`,
+order 49→50→51→52→53→54, regeneration-verified from current bytes this session
+(`generate-rcap-staging-action.mjs --check`: "staging action current — 6
+migrations, 8 required environment value(s) still unpopulated"). Superseded
+action IDs: two-, three-, four- AND five-migration forms. Apply-evidence:
+`verify-rcap-migration-apply-evidence` — 33/33 on ephemeral self-test this
+session, now covering all six migrations.
+
+Phase 54 closes what the namespace verifier flagged: RLS ON for `rcap_persons`,
+browser-role grants revoked, the reserved consumer slug unclaimable by partner
+registration, and namespace membership constrained both ways.
 
 ## 2. Application-first precondition (audited in src/ at 7e1b2c4d this session) — NOW SATISFIED IN-REPO
 
@@ -48,7 +52,9 @@ action is the current record. Phase 48 remains declined/superseded.
 | `test-rcap-phase53-mutations` | PASS 8/8 mutations red |
 | `verify-rcap-migration-apply-evidence` | PASS 32/32 |
 | `verify-rcap-packet-delivery-db` | PASS |
-| `verify-rcap-render-worker-delivery` | PASS this run at 7e1b2c4d — SF-DEFECT-001 remains LATENT (no fix landed to the implicated files; nondeterministic by mechanism) |
+| `verify-rcap-render-worker-delivery` | **FLAKY — REPRODUCED on the Phase 54 base: pass/pass/FAIL/pass in four runs this session; SF-DEFECT-001 stays OPEN** |
+| `verify-rcap-consumer-person-namespace` (Phase 54) | PASS 14/14 properties — RLS on, browser roles revoked, reserved slug unclaimable |
+| `test-rcap-phase54-mutations` | PASS 5/5 mutations red |
 | `verify-expungement-consumer-payment-http` (new) | PASS 18/18 |
 | `test-rcap-consumer-payment-http-mutations` (new) | PASS 7/7 mutations red |
 | `verify-rcap-consumer-person-namespace` (new) | PASS 8/8 — note: rcap_persons still carries no table-level RLS, Roger's to authorize |
@@ -124,7 +130,7 @@ report.
 
 1. `readyToRequestAuthorization: false` in the captain's own readiness record — authorization is not even being requested yet.
 2. Roger's staging grant for phases 50–53 (all five files + environment) — all queued.
-3. SF-DEFECT-001 — latent (passed this run; no fix landed): CI green at 7e1b2c4d is observed but not proven determinate.
+3. SF-DEFECT-001 — REPRODUCED on the Phase 54 base (1 of 4 runs failed, same substitution assert; fixture and renderer unchanged): stays open, CI green is real but not determinate.
 4. Application-first precondition — SATISFIED in-repo at 7e1b2c4d; "deployed" still requires a staging environment to exist.
 5. `finalAcceptedSha` null by construction — must be populated at the accepted tip after CI green + Terminal B re-audit.
 6. GHCR publication workflow not run — no worker digest exists.

@@ -15,9 +15,9 @@ AUTHORIZATION_TIMESTAMP:         BLANK
 STAGING_ENVIRONMENT_NAME:        BLANK — no environment named anywhere in repo or container
 STAGING_SUPABASE_PROJECT:        BLANK — with credentials via session secret store only
 FINAL_INTEGRATION_BRANCH:        claude/rcap-final-sprint-integration (VERIFIED — canonical per the branch ruling)
-FINAL_INTEGRATION_SHA:           BLANK by construction — action file's finalAcceptedSha is null (a record cannot name the commit containing it); populate at the accepted tip after CI + Terminal B re-audit. Preflight base this session: 7e1b2c4dc1e433c07f9d0819c8125e228da4b236
+FINAL_INTEGRATION_SHA:           BLANK by construction — action file's finalAcceptedSha is null (a record cannot name the commit containing it); populate at the accepted tip after CI + Terminal B re-audit. Preflight base this session: d6310fd20a4d38ecaa1afdcf92773510c6fffa59
 SECURITY_CHECKPOINT_SHA:         13e356c49bd484e6f946ba604076718d904bca86 (VERIFIED from the action file)
-REQUIRED_GITHUB_CHECKS_GREEN:    OBSERVED GREEN at 7e1b2c4d (both required workflows success, GitHub API this session) — caveat: SF-DEFECT-001 latent, green not yet proven determinate
+REQUIRED_GITHUB_CHECKS_GREEN:    OBSERVED GREEN at d6310fd2 (both required workflows success, GitHub API this session) — caveat: SF-DEFECT-001 REPRODUCED locally on this base, green not determinate
 PHASE_49_MIGRATION_PATH:         supabase/phase-49-rcap-packet-render-jobs.sql (VERIFIED)
 PHASE_49_SHA256:                 2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6 (VERIFIED = queue)
 PHASE_49_AUTHORIZATION_ID:       auth-2026-08-10-phase-49-packet-render-jobs (VERIFIED — applyStaging: authorized)
@@ -33,8 +33,11 @@ PHASE_52_AUTHORIZATION_ID:       auth-2026-08-11-phase-52-consumer-payment-autho
 PHASE_53_MIGRATION_PATH:         supabase/phase-53-rcap-consumer-job-binding.sql (VERIFIED)
 PHASE_53_SHA256:                 469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f (VERIFIED = queue)
 PHASE_53_AUTHORIZATION_ID:       auth-2026-08-11-phase-53-consumer-job-binding (VERIFIED — staging queued; "all five files")
-FIVE_FILE_ACTION:                staging-action-five-migrations, order 49→50→51→52→53, indivisible 52/53 (VERIFIED)
-SUPERSEDED_ACTIONS:              staging-action-two-migrations; staging-action-three-migrations; staging-action-four-migrations (VERIFIED with reasons in the action file)
+SIX_FILE_ACTION:                 staging-action-six-migrations, order 49→50→51→52→53→54, regeneration-verified from current bytes (VERIFIED)
+PHASE_54_MIGRATION_PATH:         supabase/phase-54-rcap-person-namespace-hardening.sql (VERIFIED)
+PHASE_54_SHA256:                 3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac (VERIFIED = queue)
+PHASE_54_AUTHORIZATION_ID:       auth-2026-08-11-phase-54-person-namespace-hardening (VERIFIED — staging queued, explicitly withheld)
+SUPERSEDED_ACTIONS:              two-, three-, four- and five-migration actions (VERIFIED with reasons in the action file)
 APPLY_EVIDENCE_CHECKS:           finalize→consumer_packet_payment_valid (proven discriminating in a prior session run); record_consumer_packet_payment present; exactly one enqueue signature with the two binding params (commands §11)
 APPLICATION_FIRST_PRECONDITION:  VERIFIED IN-REPO at 7e1b2c4d — signed webhook → single payment writer (server_webhook authority), consumer render route → Phase 53 binding from the verified server session, no old-signature caller; "deployed" still awaits a staging environment
 FEATURE_DISABLED_DURING_APPLY:   VERIFIED — RCAP_CONSUMER_DELIVERY_ROUTE_STATE defaults to disabled (fail-closed, server-only); staging_scoped refused in production runtimes
