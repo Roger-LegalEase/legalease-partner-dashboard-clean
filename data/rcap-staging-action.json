@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "rcap-staging-action/v1",
+  "generatedBy": "scripts/generate-rcap-staging-action.mjs",
+  "id": "staging-action-four-migrations",
+  "status": "prepared_queued_not_authorized",
+  "environment": "staging",
+  "note": "Prepared and machine-derived. This record authorizes nothing. Staging execution requires Roger to name the environment values below AND to grant staging scope on all four authorizations; production is separately queued and is not requested here.",
+  "canonicalIntegrationBranch": "claude/rcap-final-sprint-integration",
+  "securityCheckpointSha": "13e356c49bd484e6f946ba604076718d904bca86",
+  "finalAcceptedSha": null,
+  "finalAcceptedShaNote": "Null by construction. A record cannot name the commit that contains it. Populate from the tip once this preparation lands, CI is green on that exact SHA, and Terminal B has re-audited it.",
+  "migrationsInApplyOrder": [
+    {
+      "sequencePosition": 1,
+      "phase": 49,
+      "path": "supabase/phase-49-rcap-packet-render-jobs.sql",
+      "sha256": "2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6",
+      "authorizationId": "auth-2026-08-10-phase-49-packet-render-jobs",
+      "authorizationScope": "repository_integration_and_conditional_production_application",
+      "standingEnvironmentConditions": {
+        "repositoryIntegration": "authorized",
+        "applyEphemeralLocal": "authorized",
+        "applyStaging": "authorized",
+        "applyProduction": "authorized conditionally — only after staging read-back and behaviour checks pass; no second business authorization required unless a path or its bytes change"
+      },
+      "scopedAuthorization": null
+    },
+    {
+      "sequencePosition": 2,
+      "phase": 50,
+      "path": "supabase/phase-50-rcap-packet-delivery-hardening.sql",
+      "sha256": "15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62",
+      "authorizationId": "auth-2026-08-10-phase-50-packet-delivery-hardening",
+      "authorizationScope": "repository_integration_only",
+      "standingEnvironmentConditions": null,
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-10 — reconciled branch, hash-pinned",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name both migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      }
+    },
+    {
+      "sequencePosition": 3,
+      "phase": 51,
+      "path": "supabase/phase-51-rcap-consumer-payment-gate.sql",
+      "sha256": "3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba",
+      "authorizationId": "auth-2026-08-10-phase-51-consumer-payment-gate",
+      "authorizationScope": "repository_integration_only",
+      "standingEnvironmentConditions": null,
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-10 — hash-pinned to 3c3e971c1fdb3382",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all three migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      }
+    },
+    {
+      "sequencePosition": 4,
+      "phase": 52,
+      "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
+      "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
+      "authorizationId": "auth-2026-08-11-phase-52-consumer-payment-authority",
+      "authorizationScope": "repository_integration_only",
+      "standingEnvironmentConditions": null,
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-11 — hash-pinned to c906068f7800df7d",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all four migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      }
+    }
+  ],
+  "indivisibility": {
+    "rule": "Phases 51 and 52 are operationally indivisible in every environment where a consumer can be charged.",
+    "why": "Phase 50 marks every unsponsored job zero_charge AND delivery-eligible with no payment check. Phase 51 gates that on a payment the payer can forge (RCAP-SEC-001, audit f82f842). Phase 52 is what makes the payment fact unforgeable and correctly keyed. Stopping at 50 ships free delivery; stopping at 51 ships the proven bypass.",
+    "forbiddenSequences": [
+      "49 alone in an environment where consumer delivery can be enabled",
+      "49 -> 50 (the superseded two-migration action)",
+      "49 -> 50 -> 51 (the superseded three-migration action)",
+      "51 without 52",
+      "52 before 51",
+      "any renamed or replacement sibling file whose bytes are not pinned above"
+    ],
+    "phase49StandingGrantConstraint": "auth-2026-08-10-phase-49-packet-render-jobs carries environmentConditions applyStaging=authorized and applyProduction=authorized conditionally, which the other three do not. That grant is for phase 49 in isolation and its own doesNotAuthorize already excludes \"later Supabase work of any kind\". It is NOT authority to begin this sequence and stop inside it. Executing any part of this action requires staging scope on all four authorizations."
+  },
+  "requiredEnvironment": {
+    "stagingSupabaseProject": {
+      "value": null,
+      "owner": "Roger",
+      "why": "The action names one environment. Without the project ref there is nothing to apply to and nothing to verify the connection against."
+    },
+    "applicationDeploymentTarget": {
+      "value": null,
+      "owner": "Roger",
+      "why": "The application must be deployed and confirmed pointing at staging before any migration runs."
+    },
+    "applicationDeploymentSha": {
+      "value": null,
+      "owner": "captain",
+      "why": "The application must carry the Phase 52 payment writer, and the deployed commit must be the final accepted integration SHA — a descendant of the 13e356c4 checkpoint, re-derived once this preparation lands and CI is green on it."
+    },
+    "workerImageDigest": {
+      "value": null,
+      "owner": "Terminal D",
+      "why": "An immutable registry digest, not a local image ID. Minted by the publication workflow at the final accepted SHA."
+    },
+    "workerDeploymentTarget": {
+      "value": null,
+      "owner": "Roger",
+      "why": "Where the worker runs, and which identity pulls the private package."
+    },
+    "featureFlagState": {
+      "value": null,
+      "owner": "Roger",
+      "why": "Consumer packet delivery and checkout must be provably disabled at step 1 and re-enabled only in the controlled staging scope at step 8."
+    },
+    "rollbackOwner": {
+      "value": null,
+      "owner": "Roger",
+      "why": "A named human who executes the documented rollback, not a role."
+    },
+    "observabilityDestination": {
+      "value": null,
+      "owner": "Roger",
+      "why": "Where apply logs, read-back output and worker logs land, so the evidence is retrievable after the window closes."
+    }
+  },
+  "executionOrder": [
+    {
+      "step": 1,
+      "action": "Confirm consumer packet delivery and checkout are disabled",
+      "gate": "featureFlagState proves both are off before anything else runs"
+    },
+    {
+      "step": 2,
+      "action": "Deploy the application at applicationDeploymentSha",
+      "requires": [
+        "record_consumer_packet_payment present",
+        "service-role payment writer wired",
+        "Phase 52-compatible payment-adapter calls",
+        "Phase 52-compatible enqueue fields (consumer_briefcase_item_id, consumer_auth_user_id, person_id, matter_id)",
+        "Phase 52-compatible finalization behaviour"
+      ]
+    },
+    {
+      "step": 3,
+      "action": "Verify the deployed application is connected to the staging project, not production",
+      "gate": "connection check names stagingSupabaseProject"
+    },
+    {
+      "step": 4,
+      "action": "Apply 49 -> 50 -> 51 -> 52 as one controlled sequence",
+      "gate": "all four hashes match at apply time"
+    },
+    {
+      "step": 5,
+      "action": "Verify database objects, grants, functions and policies",
+      "gate": "scripts/verify-rcap-migration-apply-evidence.mjs passes against the staging project"
+    },
+    {
+      "step": 6,
+      "action": "Deploy the worker image by immutable digest with claiming disabled",
+      "gate": "workerImageDigest is a registry digest, not a local image ID"
+    },
+    {
+      "step": 7,
+      "action": "Run controlled sponsored and paid-consumer staging cases",
+      "gate": "sponsored consumes partner credit; paid consumer is zero_charge and consumes none"
+    },
+    {
+      "step": 8,
+      "action": "Enable only the controlled staging scope",
+      "gate": "no production surface is touched"
+    }
+  ],
+  "hardStop": {
+    "condition": "The deployed application still writes payment facts through the participant-authenticated client.",
+    "behaviour": "STOP BEFORE STEP 4. Do not apply any migration.",
+    "why": "Phase 52 revokes INSERT and UPDATE on the payment columns from anon and authenticated. If the application still writes payment facts as the participant, applying the sequence makes a provider payment succeed while the application cannot record its authoritative server-side evidence: money captured, no record. The application must move to record_consumer_packet_payment first, which is why step 2 precedes step 4.",
+    "invariant": "A provider payment must never succeed while the application is unable to record its authoritative server-side payment evidence."
+  },
+  "postApplyEvidence": {
+    "verifier": "scripts/verify-rcap-migration-apply-evidence.mjs",
+    "mustProve": [
+      "all four migrations appear in the migration evidence",
+      "finalize_packet_render_job is the Phase 52 definition, not a familiar name",
+      "record_consumer_packet_payment exists",
+      "its search_path is pinned",
+      "PUBLIC, anon and authenticated cannot execute it",
+      "service_role holds only the intended execution authority",
+      "anon and authenticated cannot write payment columns",
+      "safe nonpayment Briefcase operations remain available",
+      "packet_render_jobs carries the required consumer bindings",
+      "consumer payment uniqueness covers the paid Briefcase item and the provider receipt",
+      "a raw uniqueness conflict cannot strand a job in validating",
+      "a pre-finalization refunded payment is ineligible",
+      "sponsored accounting remains separate",
+      "the migration authorization path and bytes still match"
+    ],
+    "outputPaths": [
+      "data/rcap-render/staging-apply-evidence.json",
+      "docs/record-clearing/staging-apply-evidence.md"
+    ]
+  },
+  "imageInputs": {
+    "note": "Exactly the paths the Dockerfile copies. package.json changed between the recorded publication proof (abbc48a1) and the candidate SHA, so the image bytes differ from that proof and the publishable digest MUST be minted by a rebuild at the final accepted SHA.",
+    "dockerfile": "deploy/rcap-render-worker/Dockerfile",
+    "inputs": [
+      {
+        "path": "package.json",
+        "sha256": "b4a627bef2c9889634cf98ca8e02eb15d13f1ea55b1f94784cfb819dce4b14ab"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7"
+      },
+      {
+        "path": "tsconfig.json",
+        "sha256": "f096fb57605f57b18db33441a4b4b85901e1ad816183a87d6d8dc086f7e088b5"
+      },
+      {
+        "path": "scripts/rcap-render-worker.mjs",
+        "sha256": "e021e936bb677ea98283823bc0a1ac3ad7295a8d61b2fd21635feda718020b70"
+      },
+      {
+        "path": "scripts/lib/",
+        "treeSha": "6276149b76728ebf86169d80c91c4ab28e3392f7"
+      },
+      {
+        "path": "src/",
+        "treeSha": "bd87f46dd44a81d4671fcb177e8cfe86238d0f0a"
+      },
+      {
+        "path": "deploy/rcap-render-worker/Dockerfile",
+        "sha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7"
+      }
+    ]
+  },
+  "supersedes": [
+    {
+      "id": "staging-action-two-migrations",
+      "was": "Apply phases 49 and 50 to staging",
+      "reason": "Phase 50 alone marks every unsponsored job delivery-eligible with no payment check."
+    },
+    {
+      "id": "staging-action-three-migrations",
+      "was": "Apply phases 49, 50 and 51 to staging",
+      "reason": "Phase 51 as written is bypassable by the payer (RCAP-SEC-001)."
+    }
+  ],
+  "authorizes": [],
+  "doesNotAuthorize": [
+    "application of any migration to staging or production",
+    "deployment of the application",
+    "publication of the worker image",
+    "deployment or claiming by the worker",
+    "enabling any feature flag",
+    "any change to production"
+  ],
+  "readyToRequestAuthorization": false,
+  "missingRequiredEnvironment": [
+    "stagingSupabaseProject",
+    "applicationDeploymentTarget",
+    "applicationDeploymentSha",
+    "workerImageDigest",
+    "workerDeploymentTarget",
+    "featureFlagState",
+    "rollbackOwner",
+    "observabilityDestination"
+  ]
+}
