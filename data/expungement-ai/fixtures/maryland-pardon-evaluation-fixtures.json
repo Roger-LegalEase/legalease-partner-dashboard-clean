@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "md-pardon-evaluation-fixtures/v1",
+  "purpose": "Canonical routing fixtures for the MD pardoned-conviction pathway under Crim. Proc. § 10-105(a)(8)/(c)(4). Consumed by scripts/verify-rcap-md-pardon-pathway.mjs against the real evaluator.",
+  "jurisdiction": "MD",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "pathwayId": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+  "cases": [
+    {
+      "id": "pardoned-conviction-routes-to-pardon-pathway-and-fails-closed-on-deadline",
+      "answers": {
+        "case_outcome": "Pardoned conviction",
+        "pardon_status": "yes",
+        "ownership_scope": "yes",
+        "jurisdiction_scope": "yes",
+        "offense_level": "Misdemeanor",
+        "age_at_offense": "adult",
+        "prior_relief": "no",
+        "sentence_completion_date": "years_3_to_5",
+        "financial_obligations": "yes",
+        "pending_cases": "no",
+        "state_exclusion_categories": "None of these"
+      },
+      "expect": {
+        "resultCode": "needs_review",
+        "reasonCode": "md.md_pardon_deadline_review",
+        "paymentAllowed": false
+      },
+      "why": "The route is selected for a pardoned conviction and fails closed pending confirmation of the § 10-105(c)(4) ten-year filing deadline; no minimum wait is fabricated and payment stays shut."
+    },
+    {
+      "id": "pardoned-conviction-with-missing-facts-asks-for-facts",
+      "answers": {
+        "case_outcome": "Pardoned conviction",
+        "pardon_status": "yes"
+      },
+      "expect": {
+        "resultCode": "needs_more_info",
+        "reasonCode": "md.missing_required_facts",
+        "paymentAllowed": false
+      },
+      "why": "Routing never invents participant facts: an incomplete pardon screening asks for the standard required facts."
+    },
+    {
+      "id": "control-plain-misdemeanor-conviction-routing-unchanged",
+      "answers": {
+        "case_outcome": "Misdemeanor conviction",
+        "pardon_status": "no",
+        "ownership_scope": "yes",
+        "jurisdiction_scope": "yes",
+        "offense_level": "Misdemeanor",
+        "age_at_offense": "adult",
+        "prior_relief": "no",
+        "sentence_completion_date": "years_3_to_5",
+        "financial_obligations": "yes",
+        "pending_cases": "no",
+        "state_exclusion_categories": "None of these"
+      },
+      "expect": {
+        "resultCode": "needs_more_info",
+        "reasonCode": "md.waiting_anchor_missing",
+        "paymentAllowed": false
+      },
+      "why": "Regression control captured byte-identical at base a29c22c and after this lane's change: a non-pardon conviction still follows the pre-existing § 10-110 route behavior."
+    }
+  ]
+}
