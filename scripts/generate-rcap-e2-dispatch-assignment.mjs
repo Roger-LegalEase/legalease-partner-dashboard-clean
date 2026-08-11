@@ -47,7 +47,12 @@ if (!fs.existsSync(jobsPath)) {
 
 const jobsRaw = fs.readFileSync(jobsPath, "utf8");
 const queue = JSON.parse(jobsRaw);
-const queueDigest = crypto.createHash("sha256").update(jobsRaw).digest("hex");
+// Pin the job set, not the file. The partition is a function of the jobs and
+// nothing else, so queue metadata — notably the supersession record added once
+// this queue was replaced — must not invalidate a partition the landed evidence
+// is already keyed to. Digesting whole-file bytes would report a frozen, worked
+// partition as stale and invite a regeneration that re-partitions jobIds.
+const queueDigest = crypto.createHash("sha256").update(JSON.stringify(queue.jobs)).digest("hex");
 
 // Shared paths an evidence lane may never write. Contention on any of these is
 // what makes eight concurrent lanes safe or unsafe; the list is machine-readable

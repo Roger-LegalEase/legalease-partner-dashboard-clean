@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "rcap-crosswalk-resolution/v1",
+  "laneId": "E4-R1",
+  "jurisdictions": ["IL", "MT", "NH", "VT"],
+  "baseCommit": "8744a701391e2d963c867c2a25f7af7869fe8611",
+  "crosswalkContentHash": "964a9ac4463c31df2298862c2dbd261bcddec6988155867eee0a2a9d6acfb4d1",
+  "jobGraphSha256": "e2832cb2757f5b3327ebdb3bc9624f1bda305918f7852ea4e0924a8342156611",
+  "webAccessAvailable": false,
+  "webAccessNote": "No network access. The agent proxy refused outbound HTTPS (CONNECT tunnel failed, response 403), and the sprint source inventory 'private/Nationwide Record Clearing/' is not present in this checkout. Every citation below is therefore taken from authority already committed to this repository: the compiled runtime profiles under src/lib/rcap-engine/compiled/profiles/, the coded state packs under src/lib/rcap/state-packs/, and the read-only ledger artifacts. The URLs quoted inside compiled ruleClauses were NOT fetched or re-verified; they are reported only as the provenance the compiler recorded, and the operative statutory text relied on is the text committed in-repo. No subject below required primary authority the repository does not contain, so no subject is returned as still_blocked and no retrieval packet is named.",
+  "resolutions": [
+    {
+      "jobId": "compiled_pathway:IL:criminal-identity-theft-mistaken-identity-relief",
+      "subject": "Illinois — Criminal identity-theft / mistaken-identity relief",
+      "outcome": "terminalized",
+      "counterpart": null,
+      "operativeAuthority": {
+        "citation": "20 ILCS 2630/5.2 (Criminal Identification Act), identified as the Illinois primary statute in the compiled profile's agent-training corpus",
+        "subsection": "Not pinned in this repository. The compiled pathway states the operative rule without a paragraph cite: an aggrieved person whose name was used without authorization may petition the chief judge of the circuit where the arrest occurred to correct the arrest/conviction and official records by removing their name and substituting the offender's name if known."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/e3-job-graph.json"
+      ],
+      "license": "Mechanism-class exclusion over a closed set. track-pathway-crosswalk.json carries exactly 17 registryTracks with jurisdiction 'IL' (il-auto-seal-2028, il-auto-seal-2029, il-cannabis-auto, il-cannabis-vacate, il-exp-nonconv, il-exp-pardon, il-exp-precompletion, il-exp-qualprob, il-exp-supervision, il-immediate-seal, il-prb-cert, il-prostitution-j-auto, il-prostitution-j-vacate, il-seal-2yr, il-seal-3yr, il-seal-edu, il-seal-nonconv). Every one of them is an expungement, sealing, or vacatur mechanism; their mechanismAuthority entries fall under 20 ILCS 2630/5.2 subsections (b), (c), (d), (e), (e-5), (e-6), (g), (i), (j), (k), (l), plus 410 ILCS 705/10-5, 730 ILCS 5/3-3-2(a)(10), 730 ILCS 5/5-5.5, Ill. S. Ct. R. 9 and R. 298, and P.A. 104-0459. None of the 17 is a record-CORRECTION mechanism — none substitutes the true offender's name on a record taken in a stolen or misused name. The compiled profile itself classifies this pathway as a different mechanism class, instructing the runtime to 'route to the criminal-identity-theft correction process, not ordinary expungement/sealing first.' Re-check rule: if a registry track is later added to this jurisdiction whose legalName or mechanismAuthority covers correction of a criminal record entered under a stolen or misused identity, map this pathway to it; until then the gap stands. This licence is re-checkable offline against track-pathway-crosswalk.json alone.",
+      "terminalizationBasis": "Registry gap. The Illinois registry catalogues only record-clearing mechanisms (expungement, sealing, vacatur) and contains no name-correction mechanism. The compiled pathway implements a distinct remedy — correcting the identity recorded on an arrest or conviction — which no registry track in this jurisdiction covers. Confidence is medium rather than high solely because the operative subsection of 20 ILCS 2630/5.2 is not pinned anywhere in this repository; the gap finding does not depend on that pin, but a later pass should pin it (a pin_subsection_citation-class residual, not a mapping blocker).",
+      "retrievalPacket": null,
+      "confidence": "medium",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:IL:human-trafficking-survivor-vacatur-and-expungement",
+      "subject": "Illinois — Human-trafficking-survivor vacatur and expungement",
+      "outcome": "terminalized",
+      "counterpart": null,
+      "operativeAuthority": {
+        "citation": "20 ILCS 2630/5.2 (Criminal Identification Act)",
+        "subsection": "20 ILCS 2630/5.2(h) — the trafficking-survivor route. The compiled profile pins this subsection expressly: 'Human trafficking-related offense — Vacation + expungement or immediate sealing — Survivor route under 5.2(h)'."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json"
+      ],
+      "license": "Subsection-token absence proof over a closed set. The token '5.2(h)' occurs 7 times in src/lib/rcap-engine/compiled/profiles/IL-illinois.json — in terminology.pathwayLabels, in sourceSections['How Wilma should route Illinois cases'], and in the orderedDecisionRules entry 'rule-13-human-trafficking-related-offense-vacation-expungement-' whose candidatePathwayIds include this pathway — and 0 times anywhere in data/rcap-ledger/track-pathway-crosswalk.json. No Illinois registryTrack names subsection (h) in its mechanismAuthority, and no Illinois registryTrack legalName refers to human trafficking. The nearest-looking track, il-prostitution-j-vacate ('Motion to Vacate and Expunge a Conviction for Class 4 Felony Prostitution'), is scoped to 20 ILCS 2630/5.2(j)(3), (j)(8) and is already mapped to the compiled pathway felony-prostitution-relief; the profile keeps the two apart, labelling prostitution the 'Special 5.2(j) route' and trafficking the 'Survivor route under 5.2(h)'. Re-check rule: grep '5.2(h)' over track-pathway-crosswalk.json; if it returns 0 hits the gap stands, and if a track later carries subsection (h) map this pathway to it. Fully re-checkable offline.",
+      "terminalizationBasis": "Registry gap. 20 ILCS 2630/5.2(h) is a live Illinois relief mechanism implemented in the compiled runtime but absent from the registry: no Illinois registry track carries subsection (h) or covers trafficking-survivor vacatur. The gap is on the registry side, not the runtime side — the runtime is ahead of the registry here, and the registry owner should add a 5.2(h) track.",
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:MT:marijuana-related-redesignation-expungement-under-mmrta",
+      "subject": "Montana — Marijuana-related redesignation / expungement under MMRTA",
+      "outcome": "resolved",
+      "counterpart": "mt_mmrta_completed",
+      "operativeAuthority": {
+        "citation": "Mont. Code Ann. § 16-12-113 (Montana Marijuana Regulation and Taxation Act); Mont. Sup. Ct. AF 22-0129 (order adopting the MMRTA forms)",
+        "subsection": "§ 16-12-113(5)-(10), (12) — sentence completed; petition for expungement or redesignation; Montana Judicial Branch MMRTA Form B. The same compiled pathway also carries § 16-12-113(1)-(4), (8)-(12) — currently serving; expungement or resentencing; MMRTA Form A — which is registry track mt_mmrta_serving."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+        "src/lib/rcap/state-packs/montana/pathways.ts",
+        "src/lib/rcap/state-packs/montana/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/montana/filing-instructions.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json"
+      ],
+      "license": "Shared operative statutory citation plus shared official form, with a composite split. (1) Citation identity: the Montana state pack pins this pathway to 'Mont. Code Ann. § 16-12-113' as an explicit `citation` field in src/lib/rcap/state-packs/montana/pathways.ts, and both candidate registry tracks (mt_mmrta_completed, mt_mmrta_serving) list 'Mont. Code Ann. § 16-12-113' first in mechanismAuthority. No other Montana compiled pathway carries § 16-12-113 — the other four are scoped to Title 46 ch. 18 pt. 11 (§ 46-18-1104), § 44-5-202/CRISS, and § 46-18-204 — so the statute isolates this pathway uniquely. (2) Form identity: the compiled ruleClauses enumerate 'MMRTA Form A — Currently serving sentence; request expungement or resentencing' and 'MMRTA Form B — Sentence completed; request expungement or redesignation', the two Montana Judicial Branch forms adopted by Mont. Sup. Ct. AF 22-0129, which both tracks cite. (3) Composite split — THIS IS A ONE-TO-TWO MAPPING. The single compiled pathway is the runtime vehicle for BOTH registry tracks and dispatches between them at 'Step 2 — Determine whether sentence is current or completed'. Apply: sentence completed => MMRTA Form B => mt_mmrta_completed; currently serving => MMRTA Form A => mt_mmrta_serving. `counterpart` names mt_mmrta_completed as primary because the pathway's own id and label carry the operative verbs 'redesignation / expungement', which are Form B's verbs; 'resentencing', Form A's distinguishing verb, appears nowhere in the pathway id or label. A generator closing coverage must credit BOTH tracks to this pathway, not one. Re-checkable offline against MT-montana.json, montana/pathways.ts and track-pathway-crosswalk.json.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:NH:dwi-dui-annulment",
+      "subject": "New Hampshire — DWI / DUI annulment",
+      "outcome": "resolved",
+      "counterpart": "nh_conviction_standard",
+      "operativeAuthority": {
+        "citation": "RSA 651:5 (annulment of criminal records), with the DWI waiting-period carve-out at RSA 265-A:21",
+        "subsection": "RSA 651:5, III — the conviction waiting-period subsection, whose span the registry track states as 'RSA 651:5, III(a)(1), (b)(1) and (c) through (i)'. RSA 265-A:21 supplies the 10-year DWI wait that displaces the ordinary class-based period. The specific paragraph of RSA 651:5, III that carries the carve-out is not pinned in this repository."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+        "src/lib/rcap/state-packs/new-hampshire/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/new-hampshire/waiting-periods.ts",
+        "src/lib/rcap/state-packs/new-hampshire/disqualifying-offenses.ts",
+        "src/lib/rcap/state-packs/new-hampshire/pathways.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json"
+      ],
+      "license": "Waiting-period variant of a single petition vehicle. RSA 265-A:21 does not create a separate annulment petition; it lengthens the wait for one class of conviction annulled under RSA 651:5. Two committed sources establish that the DWI rule sits INSIDE the RSA 651:5 conviction-annulment structure rather than beside it: (a) the compiled ruleClause states that 'New Hampshire's main statute carves out RSA 265-A:21 from the ordinary waiting-period structure' — the carve-out is an exception within RSA 651:5, whose subject is the waiting period, not the remedy; and (b) src/lib/rcap/state-packs/new-hampshire/eligibility-rules.ts enumerates 'Conviction waiting periods (RSA 651:5): violation — 1 year; Class B misdemeanor — 2 years; ... DWI/DUI-type offense — special 10-year rule (verify under RSA 265-A:21)', placing the DWI period as the final entry in the RSA 651:5 conviction waiting-period list itself. The registry counterpart is therefore the RSA 651:5 conviction-annulment petition track, nh_conviction_standard, whose mechanismAuthority includes RSA 651:5, III and whose stated span 'III(a)(1), (b)(1) and (c) through (i)' contains the class-by-class waiting periods. This pathway is a compiled VARIANT co-mapped to nh_conviction_standard alongside the already-mapped pathway conviction-annulment-under-rsa-651-5; it does not add a new track to the denominator. Discriminator that rules out the only other unmapped NH conviction track: nh_conviction_streamlined is the mandatory streamlined route for violations and Class B misdemeanours under RSA 651:5, III(a)(2) and III(b)(2), whose defining feature is short mandatory timing — incompatible with a pathway whose defining feature is being carved OUT of the ordinary timing onto a 10-year wait. Re-check rule: a compiled pathway that alters only the waiting period for an offence class, and files the same petition, maps to the registry track that owns that petition. Re-checkable offline.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "medium",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:NH:out-of-state-federal-or-military-record-guidance",
+      "subject": "New Hampshire — Out-of-state, federal, or military record guidance",
+      "outcome": "terminalized",
+      "counterpart": null,
+      "operativeAuthority": {
+        "citation": "RSA 651:5 (and RSA 651:5-b) — the New Hampshire annulment power, which reaches only New Hampshire court records",
+        "subsection": "Territorial scope of RSA 651:5. Not pinned to a subsection in this repository; the scope limit is stated as a rule, not quoted from statutory text: 'New Hampshire courts can only annul New Hampshire records ... A New Hampshire annulment petition can address New Hampshire arrests, charges, convictions, and sentences. It does not directly annul a federal, military, Tribal, or out-of-state conviction.'"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+        "src/lib/rcap/state-packs/new-hampshire/filing-instructions.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json"
+      ],
+      "license": "Terminal by construction — the pathway is not a relief mechanism, so no registry track can be its counterpart. Four committed markers on the compiled pathway object itself establish the class, and any one of them is decisive: routeType == 'out_of_scope'; filingRequired == false; suggestedResultCode == 'not_covered_yet'; packetMode == 'automatic_relief_verification_and_guidance' (crosswalk). Its operative content is the assertion that New Hampshire offers NO remedy for the record in question and that relief must be sought in the issuing jurisdiction — corroborated by src/lib/rcap/state-packs/new-hampshire/filing-instructions.ts: 'Federal/military/Tribal/out-of-state records cannot be annulled through a New Hampshire court.' The registry enumerates New Hampshire statutory relief mechanisms; a pathway whose content is the absence of one has no possible registry counterpart, and mapping it to any of the 8 NH tracks would assert relief that this pathway exists to deny. Re-check rule: a compiled pathway with routeType 'out_of_scope' and filingRequired false is routing/guidance, not a mechanism, and terminalizes as scoped_out rather than mapping. Re-checkable offline against NH-new-hampshire.json.",
+      "terminalizationBasis": "Scoped out / routing. This is a jurisdictional-referral advisory, not a New Hampshire relief mechanism: routeType 'out_of_scope', no filing, result code 'not_covered_yet'. It tells a user that New Hampshire courts cannot annul federal, military, Tribal, or out-of-state records and that relief lies in the issuing jurisdiction. There is no counterpart to name because the registry catalogues New Hampshire remedies and this pathway asserts that none applies. Note for QA: this is a correct and legally necessary guardrail, and terminalizing it removes it from the coverage denominator without removing it from the runtime.",
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:VT:adult-conviction-expungement-narrow-statutory-route",
+      "subject": "Vermont — Adult conviction expungement, narrow statutory route",
+      "outcome": "resolved",
+      "counterpart": "vt_exp_decriminalized",
+      "operativeAuthority": {
+        "citation": "13 V.S.A. § 7602",
+        "subsection": "§ 7602(a)(1) — eligibility trigger: conviction for an offence whose underlying conduct is no longer prohibited by law or no longer designated as a criminal offence; and § 7602(b) — grant standard: the court grants on completion of sentence/supervision with restitution and surcharges paid unless waived."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/vermont/pathways.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json"
+      ],
+      "license": "Two-element operative-rule identity. The registry track vt_exp_decriminalized is 'Expungement of a conviction for conduct no longer prohibited, 13 V.S.A. § 7602(a)(1) and (b)'. The compiled pathway's defining clause states both elements in the same order: the § 7602(a)(1) trigger ('may petition to expunge a conviction record only if the person was convicted of an offense where the underlying conduct is no longer prohibited by law or no longer designated as a criminal offense') and the § 7602(b) grant standard ('The court grants if the person completed sentence/supervision and paid restitution and surcharges, unless surcharges were waived'). The Vermont state pack carries the same rule with the explicit `citation` field '13 V.S.A. § 7602' for this pathway. Discriminators against the other unmapped Vermont EXPUNGEMENT track: vt_exp_deferred_sentence is scoped to 13 V.S.A. § 7041(e) and 28 V.S.A. §§ 204/204a (discharge from a deferred sentence), a different statute that appears nowhere in this pathway. The pathway is expungement, not sealing, so the § 7602(a)(2) sealing tracks are excluded on the face of § 7602(a). Re-check rule: match on the pair (trigger = conduct no longer prohibited, grant = sentence complete + restitution/surcharges) under 13 V.S.A. § 7602. Re-checkable offline.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:VT:adult-misdemeanor-conviction-sealing",
+      "subject": "Vermont — Adult misdemeanor-conviction sealing",
+      "outcome": "resolved",
+      "counterpart": "vt_seal_misdemeanor",
+      "operativeAuthority": {
+        "citation": "13 V.S.A. § 7602; qualifying-crime definition at 13 V.S.A. § 7601(4)(A)",
+        "subsection": "§ 7602(a)(2) — sealing of a qualifying conviction; and § 7602(c) — the misdemeanour conditions: 3 years after completion of sentence terms and conditions, restitution and surcharges paid unless waived, and the prosecutor not showing that sealing is contrary to the interests of justice."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/vermont/pathways.ts",
+        "src/lib/rcap/state-packs/vermont/waiting-periods.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json"
+      ],
+      "license": "Express pin cite in the compiled pathway. Its ruleClauses set out the four conditions — qualifying misdemeanour; 3 years after completion of sentence terms and conditions; restitution/surcharges paid unless the surcharge is waived; prosecutor must not show sealing is contrary to the interests of justice — and then states the cite verbatim: 'These conditions come from 13 V.S.A. 7602(c).' The registry track vt_seal_misdemeanor is 'Sealing of a qualifying misdemeanour conviction, 13 V.S.A. § 7602(a)(2) and (c)'. The pathway additionally enumerates the § 7601(4)(A) misdemeanour qualifying-crime exclusion list (listed crimes, child sexual exploitation, abuse-prevention/stalking/protective-order violations, vulnerable-adult abuse, voyeurism, animal cruelty, sex-offender-registry failure, hate-motivated crimes, CDL motor-vehicle offences, and offences requiring sex-offender registration), and § 7601(4)(A) is in vt_seal_misdemeanor's mechanismAuthority. Discriminators: vt_seal_pardon also lists § 7602(c) among its authorities but is defined by 13 V.S.A. § 7601(4)(B)(iv) and § 7602(d) — the unconditional-pardon and felony provisions — neither of which this pathway implements; vt_seal_felony is § 7602(d) with a 7-year wait, already mapped to adult-felony-conviction-sealing; vt_seal_dui is § 7602(e) with a 10-year wait and a CDL bar. The 3-year period plus the § 7601(4)(A) misdemeanour exclusion list isolates § 7602(c) uniquely. Re-checkable offline.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:VT:dui-sealing",
+      "subject": "Vermont — DUI sealing",
+      "outcome": "resolved",
+      "counterpart": "vt_seal_dui",
+      "operativeAuthority": {
+        "citation": "13 V.S.A. § 7602; underlying offence at 23 V.S.A. § 1201(a); filing fee at 32 V.S.A. § 1431(e)",
+        "subsection": "§ 7602(a)(2) and § 7602(e) — a qualifying DUI misdemeanour may be sealed 10 years after sentence completion, restitution and surcharges paid or waived, the petitioner not being a commercial driver's licence or commercial-permit holder, and the prosecutor not showing that sealing is contrary to the interests of justice."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/vermont/pathways.ts",
+        "src/lib/rcap/state-packs/vermont/waiting-periods.ts",
+        "src/lib/rcap/state-packs/vermont/disqualifying-offenses.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json"
+      ],
+      "license": "Express pin cite plus a three-citation identity. The compiled pathway states the four DUI conditions (10 years after sentence completion; restitution/surcharges paid or waived; petitioner not a CDL or commercial-permit holder; prosecutor does not show sealing is contrary to the interests of justice) and then cites them: 'This rule is in 13 V.S.A. 7602(e).' The registry track vt_seal_dui is 'Sealing of a qualifying DUI misdemeanour conviction, 13 V.S.A. § 7602(a)(2) and (e)'. Two further citations in vt_seal_dui's mechanismAuthority are matched independently in the pathway: 23 V.S.A. § 1201(a), the DUI offence — the pathway conditions the fee on 'sealing a DUI conviction under 23 V.S.A. 1201(a) committed when the person was 25 or older'; and 32 V.S.A. § 1431(e), the court-fee provision — the pathway states that it 'lists the DUI sealing filing fee as $90 and says that fee does not apply to other motions to seal or expunge criminal history', which is the same fee carve-out. The Vermont state pack pins the pathway with the composite `citation` field '13 V.S.A. § 7602(e); 23 V.S.A. § 1201(a)'. § 7602(e) and the 10-year/CDL pair appear in no other Vermont track. The pathway's cross-reference to 33 V.S.A. § 5119 for a DUI committed under age 25 is a routing note to the separate under-25 track, not a competing mapping. Re-checkable offline.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:VT:juvenile-sealing",
+      "subject": "Vermont — Juvenile sealing",
+      "outcome": "terminalized",
+      "counterpart": null,
+      "operativeAuthority": {
+        "citation": "33 V.S.A. § 5119 (sealing of juvenile delinquency records)",
+        "subsection": "The delinquency branch of § 5119 — sealing of delinquency records generally 2 years after final discharge for matters adjudicated on or after 1 July 1996, absent a State's Attorney objection with a listed-crime or rehabilitation finding; and immediate sealing on dismissal for juvenile matters charged on or after 1 July 2006 before the age of majority, or 2 years after dismissal for older matters. This is a different branch of § 5119 from subsection (g). The delinquency paragraph letters are not pinned in this repository."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/vermont/pathways.ts",
+        "src/lib/rcap/state-packs/vermont/waiting-periods.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json"
+      ],
+      "license": "Subsection-branch exclusion over a closed set. No registryTrack with jurisdiction 'VT' mentions juvenile or delinquency records anywhere in its record — a case-insensitive search for 'juvenile' or 'delinquen' over the 11 VT registryTracks in track-pathway-crosswalk.json returns 0 hits. Two VT tracks cite 33 V.S.A. § 5119 and neither is the delinquency branch: vt_seal_under_25 is scoped by its mechanismAuthority to § 5119(g), (g)(1)-(3), (j), (k), (m) and is 'Sealing of records of an offence committed before age 25' — an ADULT criminal-court route for young offenders, already mapped to the compiled pathway offense-before-age-25-sealing-under-33-v-s-a-5119-g; vt_seal_dui lists § 5119 only as a cross-reference for a DUI committed under 25. The compiled runtime keeps the branches apart, and so does the state pack, which lists 'Under-25 sealing ... (33 V.S.A. § 5119(g))' and 'Juvenile sealing — delinquency records ... (33 V.S.A. § 5119)' as separate pathway entries with separate `citation` fields, and gives them separate waiting-period rules ('Under-25 sealing (33 V.S.A. § 5119(g)): 2 years after final discharge, plus no listed-crime conviction/adjudication in the prior 10 years' versus 'Juvenile delinquency sealing (33 V.S.A. § 5119): generally 2 years after final discharge for adjudications on/after July 1, 1996'). Re-check rule: § 5119(g) is taken by vt_seal_under_25; the delinquency branch of § 5119 has no VT registry track, so this pathway terminalizes as a registry gap. If a VT track is later added for juvenile delinquency sealing, map this pathway to it. Re-checkable offline.",
+      "terminalizationBasis": "Registry gap. Vermont juvenile delinquency-record sealing under 33 V.S.A. § 5119 is implemented in the compiled runtime but has no registry track: the Vermont registry's only § 5119 track, vt_seal_under_25, is expressly the subsection (g) offence-before-age-25 route and is already mapped to its own compiled pathway. The runtime is ahead of the registry here; the registry owner should add a juvenile delinquency sealing track. The paragraph letters of the delinquency branch are unpinned in this repository, which is a citation-granularity residual and does not affect the gap finding, since the gap rests on a complete enumeration of the 11 committed VT tracks.",
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    }
+  ]
+}

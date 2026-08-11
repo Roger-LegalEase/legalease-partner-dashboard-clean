@@ -7,6 +7,7 @@ import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES } from "./rcap-scope-allowlist.mjs";
+import { applyExactPathAuthorizations } from "./source-engine-change-scope.mjs";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
@@ -173,7 +174,19 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("supabase/phase-31-legalease-os-support-queue.sql"))
     .filter((line) => !isReviewedExpungementScopeLine(line))
     .join("\n");
-  assert.equal(liveRouteStatus.trim(), "");
+
+  // Same reasoning as the sibling guard in
+  // test-inspect-local-record-clearing-pdfs.mjs: supabase/ stays globally
+  // forbidden, and room for an authorized migration comes from the queue's
+  // path+hash grant rather than a literal that would never expire.
+  const authFailures = [];
+  const remaining = applyExactPathAuthorizations({
+    rootDir,
+    candidates: liveRouteStatus.split("\n").filter(Boolean).map((line) => line.slice(3).trim()),
+    failures: authFailures,
+  });
+  assert.deepEqual(authFailures, [], authFailures.join("; "));
+  assert.equal(remaining.join("\n").trim(), "");
 }
 
 function isReviewedExpungementScopeLine(line) {

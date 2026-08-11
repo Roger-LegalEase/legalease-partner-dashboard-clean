@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "rcap-staging-authorization-readiness/v1",
+  "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
+  "readyToRequestAuthorization": false,
+  "note": "Authorization is NOT being requested. Phase 52 closes RCAP-SEC-001 in the repository and is hash-pinned for integration only; the finding stays open because no environment has been named or migrated. The three-migration staging action is superseded by a four-migration action, which is prepared and queued for both staging and production.",
+  "fields": {
+    "finalIntegrationSha": {
+      "status": "populated",
+      "value": "set at the integration tip; re-derive immediately before any apply — never reuse a SHA quoted in a report",
+      "owner": "captain"
+    },
+    "requiredGithubChecksGreen": {
+      "status": "blank",
+      "owner": "captain",
+      "note": "Green on the previous tip. Re-observed per push; SF-DEFECT-001 (nondeterministic verify-rcap-render-worker-delivery) did not reproduce in 3 consecutive runs here, which is not the same as proven determinate."
+    },
+    "phase49": {
+      "status": "populated",
+      "value": "supabase/phase-49-rcap-packet-render-jobs.sql sha256 2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6, auth-2026-08-10-phase-49-packet-render-jobs, applyStaging authorized",
+      "owner": "captain"
+    },
+    "phase50": {
+      "status": "blocked",
+      "owner": "Roger",
+      "note": "supabase/phase-50-rcap-packet-delivery-hardening.sql sha256 15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62, auth-2026-08-10-phase-50-packet-delivery-hardening. Staging still queued: Roger must name all three files and the environment."
+    },
+    "phase51": {
+      "status": "blocked",
+      "owner": "Roger",
+      "note": "supabase/phase-51-rcap-consumer-payment-gate.sql sha256 3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba, auth-2026-08-10-phase-51-consumer-payment-gate. Staging queued. Independently blocked by RCAP-SEC-001 below."
+    },
+    "stagingSupabaseProject": {
+      "status": "blank",
+      "owner": "Roger",
+      "note": "No staging environment is identified anywhere in the repository or container."
+    },
+    "applicationDeploymentTarget": {
+      "status": "blank",
+      "owner": "Roger",
+      "note": "Vercel per docs/PHASE_17; the exact project is unnamed."
+    },
+    "workerImageSourceAndDigest": {
+      "status": "blocked",
+      "owner": "Roger",
+      "note": "No canonical registry or push credential exists in the repository, CI, or the authorization queue. The worker lane proved a clean build and recorded a local image ID, which is explicitly NOT a registry digest. Publication needs a registry name from Roger first."
+    },
+    "workerDeploymentTarget": {
+      "status": "blank",
+      "owner": "Roger",
+      "note": "Fly.io / Railway / ECS / supervised container per the deployment spec; not chosen."
+    },
+    "featureFlag": {
+      "status": "blank",
+      "owner": "Roger",
+      "note": "No in-code flag exists in the delivery path; the real mechanism must be named."
+    },
+    "evidencePaths": {
+      "status": "populated",
+      "value": "docs/rcap/staging-rehearsal/{evidence/<testId>/, sql/}",
+      "owner": "captain"
+    },
+    "rollbackOwner": {
+      "status": "blank",
+      "owner": "Roger"
+    },
+    "observabilityDestination": {
+      "status": "blank",
+      "owner": "Roger",
+      "note": "Worker emits JSON to stdout; the platform drain is unnamed."
+    },
+    "phase52": {
+      "status": "blocked",
+      "owner": "Roger",
+      "note": "supabase/phase-52-rcap-consumer-payment-authority.sql sha256 c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3, auth-2026-08-11-phase-52-consumer-payment-authority. Repository integration authorized and hash-pinned; staging queued. Must be applied in the same window as 51."
+    }
+  },
+  "blockers": [
+    {
+      "id": "RCAP-SEC-001",
+      "severity": "critical",
+      "resolved": false,
+      "summary": "The Phase 51 consumer payment gate is bypassable by the participant it charges.",
+      "detail": "RLS on consumer_briefcase_items is owner-scoped but restricts no column, and nothing in supabase/ revokes or triggers on payment_status or amount_cents. On default Supabase privileges, authenticated holds column-level UPDATE on payment_status: a participant can mark their own row paid/5000, or insert a row already marked paid with no checkout, and finalization then returns zero_charge/eligible. The delivery route's ownership check does not help because the forger owns the item.",
+      "reproduced": "Independently on an ephemeral cluster at this tip: 13/17 gate cases pass, 4 fail (G1, G1b critical; G11, G12 high). Mutations 3/3 behaved as expected.",
+      "alsoFound": "G11 — the consumption unit is keyed on job id, so one $50 purchase authorizes unlimited packets across unlimited matters, and the ledger uniqueness index excludes zero_charge entirely. G12 — the gate does not compare the item's user_id to the job's participant at the database layer; enqueue being service_role-only and the delivery ownership check mitigate this at the route layer, but the database does not enforce it.",
+      "fixture": "scripts/verify-rcap-phase51-consumer-payment-security.mjs (exits non-zero while the four expectations fail)",
+      "recommendation": "docs/RCAP_PHASE51_CONSUMER_PAYMENT_SECURITY.md carries two patches, both validated on the audit cluster, including the caveat that the second must catch unique_violation and return a typed result rather than raise, or a rejected redemption rolls back the artifact evidence and strands the job in validating.",
+      "requiresAuthorization": "Yes. A fix means a new file under supabase/ and touches RLS/privileges, both of which need Roger's explicit authorization before they are written or applied. Not taken unilaterally.",
+      "consequence": "Applying 49+50+51 to staging today would deploy a payment gate that a paying participant can defeat. Phase 51 still fixes the regression it was written for; it does not survive a hostile payer.",
+      "repositoryRemediation": {
+        "phase": 52,
+        "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
+        "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
+        "evidence": "verify-rcap-phase52-consumer-payment-authority 32/32; test-rcap-phase52-mutations 12/12; G1, G1b, G11 and G12 re-run and closed",
+        "whyStillUnresolved": "The fix exists in the repository and is proven against an ephemeral cluster. It is not applied to any environment: staging and production are both queued and no environment has been named. A finding is resolved when the environment it describes is fixed, not when a migration that would fix it is merged."
+      }
+    }
+  ],
+  "supersededStagingAction": {
+    "id": "staging-action-three-migrations",
+    "status": "superseded",
+    "supersededAt": "2026-08-11",
+    "was": "Apply phases 49, 50 and 51 to staging in one authorized window.",
+    "supersededBy": "staging-action-four-migrations",
+    "reason": "Phase 51 as written is bypassable by the payer (RCAP-SEC-001, audit commit f82f842). Applying 49 -> 50 -> 51 to any environment that takes payment would ship the proven bypass, so the three-migration action must not be executed in that form. Phase 52 is additive and must be applied in the same window, which makes the action a four-migration one."
+  },
+  "preparedStagingAction": {
+    "id": "staging-action-four-migrations",
+    "status": "prepared_not_requested",
+    "preparedAt": "2026-08-11",
+    "environmentsQueued": [
+      "staging",
+      "production"
+    ],
+    "note": "Prepared, not requested. Roger must name all four migration files AND the staging environment before this becomes an authorization request. Nothing here executes itself, and preparing it authorizes nothing.",
+    "migrationsInOrder": [
+      {
+        "phase": 49,
+        "path": "supabase/phase-49-rcap-packet-render-jobs.sql",
+        "sha256": "2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6",
+        "authorization": "auth-2026-08-10-phase-49-packet-render-jobs"
+      },
+      {
+        "phase": 50,
+        "path": "supabase/phase-50-rcap-packet-delivery-hardening.sql",
+        "sha256": "15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62",
+        "authorization": "auth-2026-08-10-phase-50-packet-delivery-hardening"
+      },
+      {
+        "phase": 51,
+        "path": "supabase/phase-51-rcap-consumer-payment-gate.sql",
+        "sha256": "3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba",
+        "authorization": "auth-2026-08-10-phase-51-consumer-payment-gate"
+      },
+      {
+        "phase": 52,
+        "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
+        "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
+        "authorization": "auth-2026-08-11-phase-52-consumer-payment-authority"
+      }
+    ],
+    "indivisible": "51 and 52 must be applied in the same window. Applying 51 without 52 ships the proven bypass; applying 52 without 51 leaves the consumer branch ungated in the phase-50 shape. Neither half is a valid stopping point.",
+    "applicationPrecondition": "The consumer checkout path must already write payments through record_consumer_packet_payment. Phase 52 revokes the participant's ability to write payment facts, so any environment taking live payments with the old write path will capture money at the provider and fail to record it.",
+    "stillBlank": [
+      "stagingSupabaseProject",
+      "applicationDeploymentTarget",
+      "workerImageSourceAndDigest",
+      "workerDeploymentTarget",
+      "featureFlag",
+      "evidencePaths",
+      "rollbackOwner",
+      "observabilityDestination"
+    ]
+  }
+}

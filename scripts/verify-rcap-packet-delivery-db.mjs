@@ -103,6 +103,7 @@ try {
   db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
   db.sql(`insert into partner_records values ('${P1}','we-must-vote'), ('${P2}','partner-two'), ('${P3}','partner-three')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a'), ('${PERSON_C}','partner-two','c')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 2, true, 1)`);
@@ -307,15 +308,28 @@ try {
   // --- case 11: the consumer payment gate (phase 51) -------------------------
   // Unsponsored is not the same as free. zero_charge describes the partner
   // ledger doing nothing; delivery still requires the consumer to have paid.
+  // Phase 52 widened what "paid" means: the row must also name its owner, the
+  // currency, and the server-written provider evidence, and the job must be
+  // bound to that same owner. The stub carries those columns so this case
+  // exercises the authority model rather than the phase-51 shape it replaced.
   db.sql(`create table if not exists public.consumer_briefcase_items (
             id uuid primary key,
+            user_id uuid,
             payment_status text not null default 'not_applicable',
-            amount_cents integer
+            amount_cents integer,
+            currency text,
+            provider_event_id text,
+            payment_authority text,
+            payment_recorded_at timestamptz
           )`);
   const BC_PAID = "c1000000-0000-4000-8000-000000000001";
   const BC_UNPAID = "c1000000-0000-4000-8000-000000000002";
-  db.sql(`insert into consumer_briefcase_items values
-            ('${BC_PAID}', 'paid', 5000), ('${BC_UNPAID}', 'unpaid', 5000)
+  const BC_OWNER = "c2000000-0000-4000-8000-00000000000a";
+  db.sql(`insert into consumer_briefcase_items
+            (id, user_id, payment_status, amount_cents, currency, provider_event_id, payment_authority, payment_recorded_at)
+          values
+            ('${BC_PAID}', '${BC_OWNER}', 'paid', 5000, 'usd', 'evt_case11', 'server_webhook', now()),
+            ('${BC_UNPAID}', '${BC_OWNER}', 'unpaid', 5000, null, null, null, null)
           on conflict (id) do nothing`);
 
   const j11 = enqueue({ briefcaseItem: BC_UNPAID });
@@ -331,7 +345,14 @@ try {
     "case11: a payment-blocked job writes no ledger row"
   );
 
-  const j11b = enqueue({ briefcaseItem: BC_PAID });
+  // Requirement 4 is a four-tuple: item, consumer, person and matter. A
+  // consumer job missing any part of it is refused, so the fixture supplies all
+  // four the way a real enqueue does.
+  const M11 = "b1100000-0000-4000-8000-000000000011";
+  const j11b = enqueue({ briefcaseItem: BC_PAID, person: PERSON_A, matter: M11 });
+  db.sql(`update packet_render_jobs
+             set consumer_briefcase_item_id = '${BC_PAID}', consumer_auth_user_id = '${BC_OWNER}'
+           where id = '${j11b}'`);
   const c11b = claim("w11b");
   toValidating(j11b, c11b.fencing_token);
   const fin11b = finalize(j11b, c11b.fencing_token);

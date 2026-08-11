@@ -42,8 +42,17 @@ const projection = JSON.parse(fs.readFileSync(projectionPath, "utf8"));
 const MAPPED_RELATIONS = new Set([
   "direct_runtime_representation",
   "compiled_variant_of_registry_track",
+  "composed_unit_of_registry_track",
 ]);
-const TERMINAL_RELATIONS = new Set(["registry_scoped_out_named_authority"]);
+const TERMINAL_RELATIONS = new Set([
+  "registry_scoped_out_named_authority",
+  "routing_or_supporting_path",
+  "unregistered_relief_mechanism_registry_gap",
+  // Terminal for CROSSWALK purposes only: an E4 lane established that no
+  // registry counterpart exists. It closes the mapping question, never the
+  // relief question, and carries no launch-ledger effect.
+  "crosswalk_terminal_classified",
+]);
 const UNRESOLVED_RELATIONS = new Set([
   "unresolved_ambiguous_candidates",
   "unresolved_no_candidate",
@@ -53,6 +62,7 @@ const ALL_RELATIONS = new Set([...MAPPED_RELATIONS, ...TERMINAL_RELATIONS, ...UN
 const TRACK_DISPOSITIONS = new Set([
   "exact_current_pathway",
   "represented_by_compiled_variants",
+  "represented_with_superseded_runtime_text",
   "missing_from_compiled_runtime",
   "unresolved_ambiguous_candidates",
 ]);
@@ -142,17 +152,31 @@ check(
 // operative citation or a form unique to one track. Name similarity is not
 // evidence, and a mapped row with no evidence is the failure this guards.
 
+// An adjudicated mapping is acceptable only when it names its adjudication
+// provenance and a license the generator re-verified; the determinism check
+// below re-runs the generator, so a license that stopped verifying cannot
+// reach a green verifier.
 const ACCEPTABLE_EVIDENCE = new Set([
   "shared_operative_statutory_citation",
   "shared_official_form",
   "shared_supporting_statutory_citation",
 ]);
+const isAdjudicatedEvidence = (p) =>
+  (p.adjudicated === true &&
+    p.mappingEvidence.some((e) => e.startsWith("adjudicated_")) &&
+    Boolean(p.evidenceDetail?.adjudication?.evidenceRef?.recordKey) &&
+    Boolean(p.evidenceDetail?.license?.kind)) ||
+  // E4 crosswalk-resolution adjudications carry their licence on evidenceDetail.e4
+  // and are re-checked against the pinned evidence by the generator on every run.
+  (p.e4Adjudicated === true &&
+    p.mappingEvidence.includes("e4_adjudicated") &&
+    Boolean(p.evidenceDetail?.e4?.license));
 
 const unevidencedMappings = pathways.filter(
   (p) =>
     MAPPED_RELATIONS.has(p.registryRelation) &&
     (p.mappingEvidence.length === 0 ||
-      !p.mappingEvidence.some((e) => ACCEPTABLE_EVIDENCE.has(e)) ||
+      !(p.mappingEvidence.some((e) => ACCEPTABLE_EVIDENCE.has(e)) || isAdjudicatedEvidence(p)) ||
       p.mappedRegistryTrackIds.length === 0)
 );
 check(
@@ -164,6 +188,7 @@ check(
 const supportingOnly = pathways.filter(
   (p) =>
     MAPPED_RELATIONS.has(p.registryRelation) &&
+    !isAdjudicatedEvidence(p) &&
     !p.mappingEvidence.includes("shared_operative_statutory_citation") &&
     !p.mappingEvidence.includes("shared_official_form")
 );
@@ -171,6 +196,57 @@ check(
   "no mapping rests on a supporting citation alone",
   supportingOnly.length === 0,
   supportingOnly.slice(0, 3).map((p) => p.compiledPathwayId).join(", ")
+);
+
+// Currency discipline: an exact historical relationship must not read as
+// current runtime coverage, and the flag must flow through to the track side.
+const currencyLeaks = pathways.filter((p) => p.currencyFlag && p.contributesToRuntimeCoverage !== false);
+check(
+  "no currency-flagged pathway claims current runtime coverage",
+  currencyLeaks.length === 0,
+  currencyLeaks.map((p) => p.compiledPathwayId).join(", ")
+);
+
+// Terminal classifications carry their own obligations.
+const routingWithoutBasis = pathways.filter(
+  (p) => p.registryRelation === "routing_or_supporting_path" && !isAdjudicatedEvidence(p)
+);
+check(
+  "every routing/supporting classification is adjudicated with a license",
+  routingWithoutBasis.length === 0,
+  routingWithoutBasis.map((p) => p.compiledPathwayId).join(", ")
+);
+
+const gapRows = pathways.filter((p) => p.registryRelation === "unregistered_relief_mechanism_registry_gap");
+const gapBlockerKeys = new Set(
+  (crosswalk.registryGapBlockers || []).map((g) => `${g.jurisdiction}:${g.compiledPathwayId}`)
+);
+check(
+  "every registry-gap pathway has exactly one blocker record",
+  gapRows.length === (crosswalk.registryGapBlockers || []).length &&
+    gapRows.every((p) => gapBlockerKeys.has(`${p.jurisdiction}:${p.compiledPathwayId}`)),
+  `${gapRows.length} gap rows vs ${(crosswalk.registryGapBlockers || []).length} blockers`
+);
+check(
+  "every gap blocker names authority, mechanism, owner action and impacts",
+  (crosswalk.registryGapBlockers || []).every(
+    (g) =>
+      g.operativeAuthority &&
+      g.distinctMechanism &&
+      g.whyNoCurrentTrack &&
+      g.proposedRegistryOwnerAction &&
+      g.denominatorImpact &&
+      g.runtimeImpact
+  ),
+  "a blocker record is missing required fields"
+);
+const unpinnedNonProvisional = (crosswalk.registryGapBlockers || []).filter(
+  (g) => /not pinned/i.test(String(g.operativeAuthority)) && g.provisional !== true
+);
+check(
+  "a gap without a pinned operative citation is marked provisional",
+  unpinnedNonProvisional.length === 0,
+  unpinnedNonProvisional.map((g) => g.compiledPathwayId).join(", ")
 );
 
 const unresolvedWithoutReason = pathways.filter(
@@ -183,7 +259,8 @@ check(
 );
 
 const mappedWithoutCoverage = pathways.filter(
-  (p) => MAPPED_RELATIONS.has(p.registryRelation) !== (p.contributesToRuntimeCoverage === true)
+  (p) =>
+    (MAPPED_RELATIONS.has(p.registryRelation) && !p.currencyFlag) !== (p.contributesToRuntimeCoverage === true)
 );
 check(
   "runtime-coverage flag agrees with the relationship",
@@ -241,13 +318,14 @@ check(
   `counts ${surplusFromCounts.join(",")} vs reconciled ${surplusReported.join(",")}`
 );
 
-const surplusMissingDetail = crosswalk.surplusReconciliation.filter(
-  (s) =>
-    s.absorbedByVariantDecomposition.length +
-      s.absorbedByRegistryScopeRestriction.length +
-      s.unexplainedSurplusCandidates.length ===
-    0
-);
+const surplusNamed = (s) =>
+  s.absorbedByVariantDecomposition.length +
+  s.absorbedByRegistryScopeRestriction.length +
+  (s.absorbedByRoutingOrSupporting || []).length +
+  (s.absorbedByRegistryGap || []).length +
+  s.unexplainedSurplusCandidates.length;
+
+const surplusMissingDetail = crosswalk.surplusReconciliation.filter((s) => surplusNamed(s) === 0);
 check(
   "no surplus jurisdiction is reconciled without naming pathways",
   surplusMissingDetail.length === 0,
@@ -258,12 +336,7 @@ check(
 // are still on the books. If the candidate pool were smaller than the delta,
 // pathways would have been absorbed into mappings they do not support.
 const surplusUncontained = crosswalk.surplusReconciliation.filter(
-  (s) =>
-    !s.fullyExplained &&
-    s.absorbedByVariantDecomposition.length +
-      s.absorbedByRegistryScopeRestriction.length +
-      s.unexplainedSurplusCandidates.length <
-      s.delta
+  (s) => !s.fullyExplained && surplusNamed(s) < s.delta
 );
 check(
   "an unidentified surplus is contained by its candidate pool",
@@ -299,15 +372,25 @@ check(
 // --- aggregates are arithmetic, not assertions ---------------------------------
 
 const a = crosswalk.aggregates;
+const relationSum =
+  a.pathwaysDirect +
+  a.pathwaysVariant +
+  a.pathwaysComposedUnit +
+  a.pathwaysRoutingOrSupporting +
+  a.pathwaysRegistryGap +
+  a.pathwaysScopedOut +
+  a.pathwaysCrosswalkTerminalClassified +
+  a.pathwaysUnresolved;
 check(
   "relationship totals account for every compiled pathway",
-  a.pathwaysDirect + a.pathwaysVariant + a.pathwaysScopedOut + a.pathwaysUnresolved === pathways.length,
-  `${a.pathwaysDirect + a.pathwaysVariant + a.pathwaysScopedOut + a.pathwaysUnresolved} vs ${pathways.length}`
+  relationSum === pathways.length,
+  `${relationSum} vs ${pathways.length}`
 );
 check(
   "coverage dispositions account for every registry track",
   a.tracksExactPathway +
     a.tracksRepresentedByVariants +
+    a.tracksSupersededRuntimeText +
     a.tracksUnresolvedAmbiguous +
     a.tracksMissingFromCompiledRuntime ===
     tracks.length,

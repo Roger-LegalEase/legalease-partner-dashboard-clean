@@ -10,15 +10,16 @@ The registry and the compiled profiles share no identifier space, and no committ
 | --- | ---: |
 | Registry tracks | 497 |
 | Compiled pathways | 324 |
-| Registry tracks with an exact compiled pathway | 67 |
-| Registry tracks represented by compiled variants | 0 |
-| Registry tracks with no compiled pathway | 265 |
-| Registry tracks unresolved (ambiguous candidates) | 165 |
-| Compiled pathways mapped to a registry track | 67 |
-| Compiled pathways scoped out by a registry stop condition | 4 |
-| Compiled pathways unresolved | 253 |
+| Registry tracks with an exact compiled pathway | 259 |
+| Registry tracks represented by compiled variants | 25 |
+| Registry tracks represented only by superseded runtime text | 1 |
+| Registry tracks with no compiled pathway | 211 |
+| Registry tracks unresolved (ambiguous candidates) | 1 |
+| Compiled pathways mapped to a registry track | 281 |
+| Compiled pathways terminally classified (scoped-out, routing, registry gap) | 41 |
+| Compiled pathways unresolved | 2 |
 
-**Milestone 1 item 2: blocked.** 253 compiled pathways and 165 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
+**Milestone 1 item 2: blocked.** 2 compiled pathways and 1 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
 
 ## Relationship vocabulary
 
@@ -29,86 +30,128 @@ The registry and the compiled profiles share no identifier space, and no committ
 | `missing_from_compiled_runtime` | registry | No compiled pathway shares this track's authority or forms. |
 | `direct_runtime_representation` | compiled | One-to-one with a registry track. |
 | `compiled_variant_of_registry_track` | compiled | A narrower runtime slice of one registry track. |
+| `represented_with_superseded_runtime_text` | registry | Mapped, but every runtime representation renders from superseded authority text; current coverage is not claimed. |
 | `registry_scoped_out_named_authority` | compiled | A registry stop condition names this authority as routed outside its tracks. |
+| `composed_unit_of_registry_track` | compiled | One declared unit of a registry track whose composition the registry itself declares. |
+| `routing_or_supporting_path` | compiled | A router or support surface, not an independent relief mechanism; the remedy it points at is registered separately. |
+| `unregistered_relief_mechanism_registry_gap` | compiled | A substantive relief mechanism the runtime carries but no registry track registers; a blocker for the registry owner, never a denominator change here. |
 | `unresolved_ambiguous_candidates` | both | Candidates exist; no evidence isolates one. |
 | `unresolved_no_candidate` | compiled | No shared citation, form or scope restriction in the jurisdiction. |
 
+## Adjudicated relationships
+
+251 rows were resolved by adjudication (round: lane E3-final @ `?`, 223 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
+
+## Registry-gap blockers
+
+Substantive relief mechanisms the runtime carries with no registry track. Recording a gap changes nothing here — the 497 denominator moves only when the registry owner lands a track through the canonical registry source branch, or records a terminal out-of-scope disposition.
+
+| Juris | Compiled pathway | Operative authority | Provisional |
+| --- | --- | --- | --- |
+| AK | `set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085` | AS 12.55.085 | no |
+| CO | `juvenile-expungement-19-1-306` | C.R.S. § 19-1-306 | no |
+| DC | `dc_juvenile_sealing_16_2335` | D.C. Code § 16-2335 | no |
+| DE | `juvenile-expungement-under-10-del-c-1017-1019-1017a` | 10 Del. C. § 1017 | no |
+| ID | `human-trafficking-survivor-vacatur-and-expungement` | I.C. § 67-3014 | no |
+| ID | `juvenile-expungement` | I.C. § 20-525A | no |
+| IL | `juvenile-automatic-or-petition-expungement` | 705 ILCS 405/5-915 | no |
+| ME | `juvenile-sealing` | 15 M.R.S. § 3308-C | no |
+| ME | `pardon-route` | Maine executive pardon (Governor; Me. DOC Pardon Board, maine.gov/corrections/pardonboard) (no statutory citation; provisional) | yes — operative citation not yet pinned |
+| MS | `human-trafficking-survivor-vacatur-and-expungement` | Miss. Code Ann. §§ 97-3-54.1, 97-3-54.6 (as amended by 2026 HB 1546) | no |
+| MS | `uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59` | Miss. Code Ann. § 99-15-59 | no |
+| NJ | `marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1` | N.J.S.A. 2C:52-5.1 | no |
+| NM | `dna-sample-profile-expungement` | NMSA 1978, Section 29-16-10 | no |
+| NV | `controlled-substance-possession-sealing-under-nrs-453-3365` | NRS 453.3365 | no |
+| NV | `trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | NRS 179.247 | no |
+| NY | `conditional-treatment-sealing-under-cpl-160-58` | N.Y. Crim. Proc. Law Section 160.58 | no |
+| OH | `juvenile-sealing-and-expungement` | Ohio Rev. Code Section 2151.356 | no |
+| OK | `human-trafficking-survivor-relief` | 22 O.S. § 19c | no |
+| OK | `juvenile-record-expungement` | 10A O.S. § 2-6-109 | no |
+| SC | `pardon-guidance-for-otherwise-ineligible-convictions` | South Carolina executive pardon through the Department of Probation, Parole and Pardon Services (rights-restoration route; not record clearing) (no statutory citation; provisional) | yes — operative citation not yet pinned |
+| SD | `controlled-substance-deferred-disposition-route` | SDCL § 23A-27-53 | no |
+| SD | `juvenile-delinquency-sealing` | SDCL §§ 26-7A-115 to 26-7A-116 | no |
+| SD | `juvenile-trafficking-expungement` | SDCL § 26-7A-115.1 | no |
+| UT | `path-k-pardon-based-expungement` | Utah Board of Pardons and Parole pardoned-expungement route (official "Board of Pardons expungement order application" listed on the BCI expungement-forms page) (no statutory citation; provisional) | yes — operative citation not yet pinned |
+| UT | `path-l-vacatur-human-trafficking-related-expungement` | Utah Code 77-40a-402 (vacatur-related expungement: delivery of a vacatur order to affected agencies with the BCI application and fingerprints) | no |
+| UT | `path-m-juvenile-expungement` | Utah juvenile-court expungement process (official BCI juvenile criminal-history application; juvenile courts require a certificate of the adult Utah criminal-history report) (no statutory citation; provisional) | yes — operative citation not yet pinned |
+| WA | `juvenile-record-sealing-under-rcw-13-50-260` | RCW 13.50.260 (juvenile record sealing: scheduled administrative sealing hearings, immediate sealing on acquittal or dismissal with prejudice, and motion-based sealing with class-based crime-free periods) | no |
+| WI | `executive-pardon-guidance` | Wisconsin Governor's pardon through the Wisconsin DOJ pardon / rights-restoration process (clemency notation and rights restoration; expressly not record clearing) (no statutory citation; provisional) | yes — operative citation not yet pinned |
+| WI | `juvenile-adjudication-expungement-under-wis-stat-938-355-4m` | Wis. Stat. § 938.355(4m) (petition after reaching age 17 to expunge the court record of a juvenile delinquency adjudication) | no |
+| WV | `juvenile-record-relief` | W. Va. Code § 49-5-104 (juvenile records kept confidential one year after the 18th birthday or the end of juvenile jurisdiction, with the legal effect of extinguishing the offense; § 49-5-104(e) exclusion for juveniles convicted under adult jurisdiction) | no |
+| WV | `sex-trafficking-victim-vacatur-and-expungement` | W. Va. Code § 61-14-9 (petition by a trafficking victim to vacate a prostitution conviction or juvenile adjudication and expunge the record; no rehabilitation requirement) | no |
+
 ## Surplus reconciliation
 
-Jurisdictions where the runtime compiles more pathways than the registry lists. A surplus is absorbed when a pathway claims no registry track of its own — it is a finer variant of one, or an authority the registry explicitly routes outside its tracks. No registry track was created and no compiled pathway was dropped to make these balance.
+Jurisdictions where the runtime compiles more pathways than the registry lists. A surplus is absorbed when a pathway claims no registry track of its own — a finer variant or declared unit of one, an authority the registry routes outside its tracks, a routing surface, or an unregistered mechanism recorded as a registry-owner blocker. No registry track was created and no compiled pathway was dropped to make these balance.
 
-`Candidate pool` is every unresolved pathway in the jurisdiction. The surplus must come out of that pool, so while the pool is non-empty the surplus cannot be pinned to named pathways — the delta is accounted for as a quantity, not yet as an identity. The pool is always at least as large as the delta; no pathway is dropped to make a jurisdiction balance.
-
-| Juris | Delta | Absorbed as variants | Absorbed as scoped-out | Candidate pool | Surplus identified |
-| --- | ---: | ---: | ---: | ---: | --- |
-| ID | +1 | 0 | 0 | 5 | no |
-| LA | +2 | 0 | 0 | 10 | no |
-| MS | +4 | 0 | 0 | 12 | no |
-| OK | +8 | 0 | 0 | 18 | no |
-| PA | +1 | 0 | 0 | 11 | no |
-| SD | +3 | 0 | 0 | 8 | no |
-| WY | +2 | 0 | 2 | 0 | yes |
-
-**WY +2 is fully identified.** `human-trafficking-victim-vacatur-w-s-6-2-708`, `juvenile-minor-expungement-w-s-14-6-241` — each named by a registry stop condition as a matter routed outside its tracks, so the registry accounts for the mechanism without carrying a track for it.
+| Juris | Delta | Variants/units | Scoped-out | Routing | Registry gaps | Still unresolved | Surplus identified |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| ID | +1 | 0 | 0 | 1 | 2 | 0 | yes |
+| LA | +2 | 6 | 0 | 0 | 0 | 0 | yes |
+| MS | +4 | 4 | 0 | 0 | 2 | 0 | yes |
+| OK | +8 | 12 | 0 | 0 | 2 | 0 | yes |
+| PA | +1 | 2 | 0 | 0 | 0 | 1 | no |
+| SD | +3 | 0 | 0 | 0 | 3 | 0 | yes |
+| WY | +2 | 0 | 2 | 0 | 0 | 0 | yes |
 
 ## Per-jurisdiction coverage
 
 | Juris | Registry | Compiled | Delta | Tracks mapped | Pathways mapped | Scoped out | Unresolved |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| AK | 8 | 5 | -3 | 3 | 3 | 0 | 2 |
-| AL | 9 | 4 | -5 | 0 | 0 | 0 | 4 |
-| AR | 12 | 3 | -9 | 2 | 2 | 0 | 1 |
-| AZ | 9 | 3 | -6 | 0 | 0 | 0 | 3 |
-| CA | 12 | 7 | -5 | 1 | 1 | 1 | 5 |
-| CO | 10 | 4 | -6 | 2 | 2 | 0 | 2 |
-| CT | 14 | 5 | -9 | 0 | 0 | 0 | 5 |
-| DC | 8 | 7 | -1 | 3 | 3 | 0 | 4 |
-| DE | 6 | 4 | -2 | 0 | 0 | 0 | 4 |
-| FL | 9 | 8 | -1 | 6 | 6 | 0 | 2 |
-| GA | 15 | 5 | -10 | 0 | 0 | 0 | 5 |
-| HI | 9 | 5 | -4 | 2 | 2 | 0 | 3 |
+| AK | 8 | 5 | -3 | 4 | 4 | 0 | 0 |
+| AL | 9 | 4 | -5 | 4 | 4 | 0 | 0 |
+| AR | 12 | 3 | -9 | 3 | 3 | 0 | 0 |
+| AZ | 9 | 3 | -6 | 3 | 3 | 0 | 0 |
+| CA | 12 | 7 | -5 | 4 | 6 | 1 | 0 |
+| CO | 10 | 4 | -6 | 3 | 3 | 0 | 0 |
+| CT | 14 | 5 | -9 | 6 | 5 | 0 | 0 |
+| DC | 8 | 7 | -1 | 5 | 6 | 0 | 0 |
+| DE | 6 | 4 | -2 | 4 | 3 | 0 | 0 |
+| FL | 9 | 8 | -1 | 8 | 8 | 0 | 0 |
+| GA | 15 | 5 | -10 | 6 | 5 | 0 | 0 |
+| HI | 9 | 5 | -4 | 6 | 5 | 0 | 0 |
 | IA | 7 | 5 | -2 | 5 | 5 | 0 | 0 |
-| ID | 4 | 5 | +1 | 0 | 0 | 0 | 5 |
-| IL | 17 | 9 | -8 | 0 | 0 | 0 | 9 |
-| IN | 10 | 4 | -6 | 0 | 0 | 0 | 4 |
-| KS | 8 | 4 | -4 | 0 | 0 | 0 | 4 |
-| KY | 12 | 5 | -7 | 2 | 2 | 0 | 3 |
-| LA | 10 | 12 | +2 | 2 | 2 | 0 | 10 |
-| MA | 8 | 7 | -1 | 0 | 0 | 0 | 7 |
-| MD | 11 | 7 | -4 | 3 | 3 | 0 | 4 |
-| ME | 6 | 5 | -1 | 0 | 0 | 0 | 5 |
-| MI | 11 | 5 | -6 | 1 | 1 | 0 | 4 |
-| MN | 12 | 6 | -6 | 2 | 2 | 0 | 4 |
-| MO | 10 | 7 | -3 | 6 | 6 | 0 | 1 |
-| MS | 9 | 13 | +4 | 1 | 1 | 0 | 12 |
-| MT | 6 | 5 | -1 | 0 | 0 | 0 | 5 |
-| NC | 7 | 3 | -4 | 1 | 1 | 0 | 2 |
-| ND | 15 | 6 | -9 | 0 | 0 | 1 | 5 |
-| NE | 14 | 8 | -6 | 2 | 2 | 0 | 6 |
-| NH | 8 | 6 | -2 | 0 | 0 | 0 | 6 |
-| NJ | 6 | 4 | -2 | 2 | 2 | 0 | 2 |
-| NM | 5 | 5 | 0 | 0 | 0 | 0 | 5 |
-| NV | 9 | 7 | -2 | 3 | 3 | 0 | 4 |
-| NY | 6 | 5 | -1 | 2 | 2 | 0 | 3 |
-| OH | 8 | 7 | -1 | 5 | 5 | 0 | 2 |
-| OK | 10 | 18 | +8 | 0 | 0 | 0 | 18 |
-| OR | 5 | 3 | -2 | 0 | 0 | 0 | 3 |
-| PA | 10 | 11 | +1 | 0 | 0 | 0 | 11 |
-| RI | 9 | 8 | -1 | 1 | 1 | 0 | 7 |
-| SC | 12 | 7 | -5 | 1 | 1 | 0 | 6 |
-| SD | 5 | 8 | +3 | 0 | 0 | 0 | 8 |
-| TN | 13 | 4 | -9 | 0 | 0 | 0 | 4 |
-| TX | 19 | 9 | -10 | 3 | 3 | 0 | 6 |
-| UT | 15 | 11 | -4 | 0 | 0 | 0 | 11 |
-| VA | 12 | 3 | -9 | 0 | 0 | 0 | 3 |
-| VT | 11 | 8 | -3 | 0 | 0 | 0 | 8 |
-| WA | 13 | 7 | -6 | 2 | 2 | 0 | 5 |
-| WI | 8 | 5 | -3 | 0 | 0 | 0 | 5 |
-| WV | 12 | 7 | -5 | 1 | 1 | 0 | 6 |
+| ID | 4 | 5 | +1 | 2 | 2 | 0 | 0 |
+| IL | 17 | 9 | -8 | 10 | 6 | 0 | 0 |
+| IN | 10 | 4 | -6 | 6 | 4 | 0 | 0 |
+| KS | 8 | 4 | -4 | 4 | 4 | 0 | 0 |
+| KY | 12 | 5 | -7 | 5 | 5 | 0 | 0 |
+| LA | 10 | 12 | +2 | 8 | 12 | 0 | 0 |
+| MA | 8 | 7 | -1 | 6 | 7 | 0 | 0 |
+| MD | 11 | 7 | -4 | 7 | 6 | 0 | 0 |
+| ME | 6 | 5 | -1 | 3 | 3 | 0 | 0 |
+| MI | 11 | 5 | -6 | 5 | 5 | 0 | 0 |
+| MN | 12 | 6 | -6 | 6 | 6 | 0 | 0 |
+| MO | 10 | 7 | -3 | 7 | 7 | 0 | 0 |
+| MS | 9 | 13 | +4 | 9 | 11 | 0 | 0 |
+| MT | 6 | 5 | -1 | 4 | 5 | 0 | 0 |
+| NC | 7 | 3 | -4 | 3 | 3 | 0 | 0 |
+| ND | 15 | 6 | -9 | 5 | 5 | 1 | 0 |
+| NE | 14 | 8 | -6 | 7 | 8 | 0 | 0 |
+| NH | 8 | 6 | -2 | 4 | 5 | 0 | 0 |
+| NJ | 6 | 4 | -2 | 3 | 3 | 0 | 0 |
+| NM | 5 | 5 | 0 | 4 | 4 | 0 | 0 |
+| NV | 9 | 7 | -2 | 5 | 5 | 0 | 0 |
+| NY | 6 | 5 | -1 | 4 | 4 | 0 | 0 |
+| OH | 8 | 7 | -1 | 6 | 6 | 0 | 0 |
+| OK | 10 | 18 | +8 | 8 | 16 | 0 | 0 |
+| OR | 5 | 3 | -2 | 3 | 3 | 0 | 0 |
+| PA | 10 | 11 | +1 | 10 | 10 | 0 | 1 |
+| RI | 9 | 8 | -1 | 9 | 8 | 0 | 0 |
+| SC | 12 | 7 | -5 | 9 | 5 | 0 | 1 |
+| SD | 5 | 8 | +3 | 5 | 5 | 0 | 0 |
+| TN | 13 | 4 | -9 | 4 | 4 | 0 | 0 |
+| TX | 19 | 9 | -10 | 9 | 9 | 0 | 0 |
+| UT | 15 | 11 | -4 | 12 | 8 | 0 | 0 |
+| VA | 12 | 3 | -9 | 3 | 3 | 0 | 0 |
+| VT | 11 | 8 | -3 | 7 | 7 | 0 | 0 |
+| WA | 13 | 7 | -6 | 7 | 6 | 0 | 0 |
+| WI | 8 | 5 | -3 | 3 | 3 | 0 | 0 |
+| WV | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
 | WY | 3 | 5 | +2 | 3 | 3 | 2 | 0 |
-| **Total** | **497** | **324** | **-173** | **67** | **67** | **4** | **253** |
+| **Total** | **497** | **324** | **-173** | **284** | **281** | **4** | **2** |
 
 ## What this does not claim
 
-A mapping is a statement about identity, not about readiness. 67 of 497 tracks now have a named runtime representation; none of that makes a track implemented, certified or terminal. Terminal disposition stays a certification property computed by the production factory and recorded in the authority ledger.
+A mapping is a statement about identity, not about readiness. 284 of 497 tracks now have a named runtime representation; none of that makes a track implemented, certified or terminal. Terminal disposition stays a certification property computed by the production factory and recorded in the authority ledger.
 

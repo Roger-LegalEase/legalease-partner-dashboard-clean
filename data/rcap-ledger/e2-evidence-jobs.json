@@ -13,6 +13,13 @@
     "reason": "The crosswalk resolves 67 of 497 registry tracks and 67 of 324 compiled pathways. The remainder is a named finite set enumerated by these jobs; the block is preserved until every one is supported or terminalized.",
     "closesWhen": "jobs.length === 0 on a regenerated crosswalk"
   },
+  "superseded": {
+    "supersededBy": "data/rcap-ledger/e3-job-graph.json",
+    "supersededAtCrosswalkContentHash": "964a9ac4463c31df2298862c2dbd261bcddec6988155867eee0a2a9d6acfb4d1",
+    "frozenAtCrosswalkContentHash": "405c07ce5bf5cf3fc36f895a556635cb7ba1c7fca13c65cb4997d26598580e3e",
+    "jobsSha256": "b08410eea96f4eae20a743bab11c5acd7533a008e2c7d9d65fa0d64cfc785ac1",
+    "why": "These 363 jobs were derived from the pre-adjudication crosswalk and have been worked: nine evidence packages (eight E2 lanes plus E-SPECIAL) are keyed to these exact jobIds. Final E3 moved the crosswalk, so this set no longer describes remaining work. It is NOT regenerated, because regenerating would re-partition the jobIds the landed evidence is keyed to and silently break intake coverage for work already done. Checked for integrity, not currency; currency belongs to the successor."
+  },
   "counts": {
     "E2-A": 165,
     "E2-B": 191,

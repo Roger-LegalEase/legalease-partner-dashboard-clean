@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-crosswalk-resolution-schema/v1",
+  "owner": "captain",
+  "purpose": "Transport contract for the E4-R crosswalk-resolution lanes, and the adjudication semantics the captain applies on top of them. Lane files are EVIDENCE INPUTS. Nothing in a lane file transitions the launch ledger by itself.",
+  "consumptionRule": {
+    "laneFilesAre": "evidence_input",
+    "laneFilesAreNot": "launch_ledger_transition",
+    "note": "A lane resolution records what a lane concluded and on what authority. Promotion of any state, track or pathway remains a separate captain action gated on QA, counsel review and source freshness. No consumer may read a lane outcome as a build-status or launch-ledger change."
+  },
+  "outcomes": {
+    "resolved": {
+      "meaning": "A counterpart is named on cited authority that a generator can re-check.",
+      "requires": ["counterpart", "operativeAuthority.citation", "license", "repositoryEvidence"],
+      "launchLedgerEffect": "none",
+      "crosswalkTerminalOnly": false
+    },
+    "terminalized": {
+      "transportName": "crosswalk_terminal_classified",
+      "meaning": "No counterpart exists in the registry as it stands. This is a CROSSWALK classification only: it closes the mapping question, never the relief question, and never implies a state or track is finished, unavailable or launch-ready.",
+      "requires": ["terminalizationBasis", "repositoryEvidence"],
+      "launchLedgerEffect": "none",
+      "crosswalkTerminalOnly": true,
+      "enforcement": "A consumer that reads `terminalized` MUST treat it as `crosswalk_terminal_classified` with crosswalkTerminalOnly true and launchLedgerEffect none. The verifier fails any consumer mapping that promotes a terminalized row into a ledger state."
+    },
+    "still_blocked": {
+      "meaning": "Blocked on primary authority this repository does not contain. Names its retrieval packet; proposes nothing.",
+      "requires": ["retrievalPacket"],
+      "launchLedgerEffect": "none",
+      "crosswalkTerminalOnly": false
+    }
+  },
+  "evidenceRules": {
+    "ordinaryPath": "Resolves at the lane base commit.",
+    "pinnedPath": {
+      "form": "<path>@<commit>",
+      "note": "Off-branch immutable evidence is a supported input. The pinned commit need NOT be an ancestor of the lane base — it remains re-checkable offline from the object store, which is what the stop conditions require.",
+      "requires": [
+        "a full resolvable commit",
+        "git show <commit>:<path> succeeds",
+        "the cited pointer or record exists in that blob",
+        "the source branch or receipt is recorded where available"
+      ],
+      "failsOnlyWhen": [
+        "the commit is unavailable",
+        "the blob is unavailable",
+        "the pointer is invalid",
+        "the cited bytes do not support the proposition"
+      ]
+    },
+    "propositionSupport": {
+      "resolved": "The blob must name the subject or its counterpart. Absence means the bytes do not support the mapping.",
+      "terminalized": "The claim is that no counterpart exists, so the citation supports it BY ABSENCE. The corpus must cover the subject's jurisdiction, or its silence proves nothing. Requiring the subject token here would test the opposite of the claim.",
+      "still_blocked": "No proposition is asserted; nothing to support."
+    }
+  },
+  "counterpartRules": {
+    "direction": "The crosswalk is bidirectional. A compiled_pathway subject maps TO a registry track. A registry_track subject maps TO a compiled pathway.",
+    "idFormat": "Accepted qualified (registry_track:CT:ct-cannabis-auto) or bare (vt_seal_dui). Consumers normalise on the last colon-separated segment. The dispatch contract did not pin this; it is a contract gap, not a lane error.",
+    "manyToOne": "Several subjects may share a counterpart where one statute carries several registry tracks, or where a pathway is a compiled VARIANT of a track already mapped. A variant does not add a track to the denominator. Every many-to-one pairing requires an explicit captain adjudication before it is consumed."
+  }
+}

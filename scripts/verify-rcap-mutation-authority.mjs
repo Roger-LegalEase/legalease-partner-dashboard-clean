@@ -50,6 +50,7 @@ try {
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
 
+  db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
   db.sql(`insert into partner_records (id, partner_slug) values ('${P1}','we-must-vote')`);
   db.sql(`insert into rcap_persons (id, partner_slug, match_key) values ('${PERSON_A}','we-must-vote','a')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap) values ('${P1}', 5)`);
