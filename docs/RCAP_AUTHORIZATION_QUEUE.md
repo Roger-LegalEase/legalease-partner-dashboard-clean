@@ -65,4 +65,4 @@ cap into `screenings_allowed`, silently overwriting screening capacity.
 - **Test-data cleanup in the We Must Vote dashboard.** Real and needed — Roger's
   personal account sits in the partner's dashboard — but it requires production
   data access this build environment does not and must not have. It belongs to
-  external register item 9.
+  item 9 of `docs/RCAP_EXTERNAL_ACTION_REGISTER.md`.
