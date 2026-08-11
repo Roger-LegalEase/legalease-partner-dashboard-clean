@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "rcap-crosswalk-resolution/v1",
+  "laneId": "E4-R4",
+  "jurisdictions": ["KY", "MN", "ND", "SC"],
+  "baseCommit": "8744a701391e2d963c867c2a25f7af7869fe8611",
+  "crosswalkContentHash": "964a9ac4463c31df2298862c2dbd261bcddec6988155867eee0a2a9d6acfb4d1",
+  "jobGraphSha256": "e2832cb2757f5b3327ebdb3bc9624f1bda305918f7852ea4e0924a8342156611",
+  "webAccessAvailable": false,
+  "webAccessNote": "No outbound access to legislative hosts. Probed at lane start: https://www.scstatehouse.gov/code/t16c003.php returned 000, https://www.revisor.mn.gov/statutes/cite/609A.017 returned 000, https://api.github.com returned 200 — the same egress posture the retrieval packets record. Every conclusion below therefore rests on bytes already committed to this repository: the compiled runtime profiles, the coded state packs, the registry projection and the authority ledger. One consequence: S.C. Code section 16-3-2020 could not be read, so compiled_pathway:SC:human-trafficking-survivor-expungement is returned still_blocked rather than guessed. No other subject in this lane depended on a text this repository does not hold.",
+  "resolutions": [
+    {
+      "jobId": "compiled_pathway:KY:felony-conviction-431073",
+      "subject": "Kentucky compiled pathway 'Eligible felony conviction vacatur and expungement under KRS 431.073'",
+      "outcome": "resolved",
+      "counterpart": "registry_track:KY:ky_felony_vacatur_expungement",
+      "operativeAuthority": {
+        "citation": "KRS 431.073",
+        "subsection": "KRS 431.073(1)(a) and (1)(d) (head track ky_felony_vacatur_expungement); KRS 431.073(1)(c) (co-mapped track ky_felony_expungement_after_pardon)"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/e2-evidence/E2-A2.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "official_form_identity. The discriminator that breaks the published three-way conflict is the AOC form number, not the statute. KY-kentucky.json sourceSections[0] is the committed body text of AOC-496.3 Rev. 6-23 and it enumerates the eligibility branches on one form: 'the offense is one of the eligible offenses listed in KRS 431.073(1)(a)', 'the offenses are a series of eligible offenses listed in KRS 431.073(1)(a) which arose from a single incident', 'a full pardon has been granted by the Governor, a copy of which is attached', and sourceSections[1] adds '(Complete this section only if applying for expungement under KRS 431.073(1)(d)'. In registry-crosswalk-projection.json, officialFormRefs contains 'AOC-496.3' for exactly two tracks — ky_felony_vacatur_expungement and ky_felony_expungement_after_pardon — and NOT for ky_expungement_certification, whose officialFormRefs carry 'AOC-RU-009' instead. Re-check rule: a compiled pathway whose committed source text is one official form maps to the set of registry tracks carrying that form identifier in officialFormRefs, and to no track carrying a different form identifier. Relation is composed_unit_of_registry_track over bare track ids ['ky_felony_vacatur_expungement','ky_felony_expungement_after_pardon']; head token 'AOC-496.3'; excluded token 'AOC-RU-009'.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:KY:juvenile-automatic-dismissal",
+      "subject": "Kentucky compiled pathway 'Juvenile automatic expungement on qualifying dismissal'",
+      "outcome": "resolved",
+      "counterpart": "registry_track:KY:ky_juvenile_record_expungement",
+      "operativeAuthority": {
+        "citation": "KRS 610.330",
+        "subsection": "KRS 610.330(7)"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts",
+        "data/rcap-ledger/e2-evidence/E2-B1.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "registry_declared_branching. The E3 rejection reads 'track ky_juvenile_record_expungement declares no branching', which is true of the track's structured fields (compositionMode null, unitIds empty) but false of its committed prose. In registry-crosswalk-projection.json the mechanismExcerpt for ky_juvenile_record_expungement states: 'There is a separate automatic branch under KRS 610.330(7) where a petition is dismissed or the child is found not delinquent, which requires no action by the child.' KRS 610.330(7) is also in that track's authority array. The compiled pathway is that branch verbatim: KY-kentucky.json sourceSections[1] carries the body of AOC-JV-29 Rev. 8-23, 'ORDER FOR EXPUNGEMENT OF JUVENILE RECORD UPON DISMISSAL / FINDING-ADJUDICATION OF NOT DELINQUENT', headed 'the following expungements are required by law and DO NOT require any petition, motion, or other action of the child', with Section II entered 'pursuant to KRS 610.330' on a finding of not delinquent or a dismissal for any other reason. The sibling pathway juvenile-petition-610330 is the AOC-JV-30 / AOC-JV-29.1 petition branch, and AOC-JV-29.1 says on its face 'ORDERS FOR EXPUNGEMENT UPON DISMISSAL OF PETITION OR FINDING/ADJUDICATION OF NOT DELINQUENT SHOULD BE COMPLETED ON THE AOC-JV-29', which separates the two branches by form. Re-check rule: where a registry track's mechanismExcerpt names a subsection and describes a no-petition branch, a compiled pathway implementing that branch is a compiled_variant_of_registry_track of that track even though the track declares no structured composition. Bare track id 'ky_juvenile_record_expungement'; branch token 'KRS 610.330(7)'; form tokens 'AOC-JV-29' (automatic) vs 'AOC-JV-30'/'AOC-JV-29.1' (petition).",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:MN:automatic-mistaken-identity-expungement-under-609a-017",
+      "subject": "Minnesota compiled pathway 'Automatic mistaken-identity expungement under section 609A.017'",
+      "outcome": "resolved",
+      "counterpart": "registry_track:MN:mn_mistaken_identity_court",
+      "operativeAuthority": {
+        "citation": "Minn. Stat. ch. 609A",
+        "subsection": "Minn. Stat. section 609A.017"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+        "src/lib/rcap/state-packs/minnesota/pathways.ts",
+        "src/lib/rcap/state-packs/minnesota/eligibility-rules.ts",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/e2-evidence/E2-B2.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "remedy_type_identity_with_state_pack_section_binding. The E3 rejection is 'identity tie in MN (3 vs 8)' — chapter-level token matching cannot separate eight ch. 609A candidates. The discriminator is remedy type, and it is pinned in committed code. src/lib/rcap/state-packs/minnesota/pathways.ts binds each Minnesota mechanism to exactly one section and one remedyType: mistaken_identity_automatic -> citation 'Minn. Stat. section 609A.017', remedyType 'automatic_expungement', requiresPetition false; arrest_record_destruction -> citation 'Minn. Stat. section 299C.11', remedyType 'arrest_record_destruction'. The registry keeps exactly two mistaken-identity tracks and their mechanismExcerpts in registry-crosswalk-projection.json split on the same axis: mn_mistaken_identity_court reads 'Where a record was created through mistaken identity, the court expunges it without a participant petition' (authority: Minn. Stat. ch. 609A), while mn_mistaken_identity_iddata reads 'Identification data created through mistaken identity is destroyed without a participant petition' (authority: Minn. Stat. section 299C.11). Section 609A.017 is inside ch. 609A, so the refinement is consistent; and the higher-scoring 'automatic twin' mn_auto_clean_slate is unavailable because the state pack binds it to section 609A.015 and the crosswalk already holds it in a direct 1:1 with automatic-clean-slate-expungement-under-609a-015. Re-check rule: refine a chapter-level registry authority to a section using the coded state pack's mechanism->citation table, then require the remedyType of the pathway (court expungement) to equal the remedyType named in the track's mechanismExcerpt. Bare track id 'mn_mistaken_identity_court'; section token '609A.017'; excluded tokens '299C.11', '609A.015'.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "subject": "Minnesota compiled pathway 'Cannabis automatic or board-reviewed expungement under sections 609A.055-.06'",
+      "outcome": "resolved",
+      "counterpart": "registry_track:MN:mn_auto_cannabis_nonfelony",
+      "operativeAuthority": {
+        "citation": "Minn. Stat. ch. 609A; Laws 2023, ch. 63",
+        "subsection": "Minn. Stat. section 609A.055 (head track mn_auto_cannabis_nonfelony); Minn. Stat. section 609A.06 (co-mapped track mn_ceb_felony_cannabis)"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+        "src/lib/rcap/state-packs/minnesota/pathways.ts",
+        "src/lib/rcap/state-packs/minnesota/eligibility-rules.ts",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B2.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "composed_unit_of_registry_track, declared by the pathway's own label. The E3 rejection is 'only 2 distinctive tokens shared with mn_auto_cannabis_nonfelony' — correct, because this pathway is not a single-track match and should never have been scored as one. Its label is 'Cannabis automatic or board-reviewed expungement under sections 609A.055-.06': the disjunction is the composition. Its own rule clauses in MN-minnesota.json carry both halves separately — 'Certain nonfelony cannabis records may be automatically expunged under 609A.055. The BCA identifies eligible records and seals them without an application, petition, or motion' and 'For felony and some other cannabis-related cases, Minnesota created the Cannabis Expungement Board. The Board reviews eligible cases ... (609A.06)'. src/lib/rcap/state-packs/minnesota/pathways.ts splits the same two mechanisms at section level: cannabis_automatic -> 'Minn. Stat. section 609A.055', cannabis_board_review -> 'Minn. Stat. section 609A.06'. The registry carries exactly those two and no third: mn_auto_cannabis_nonfelony ('The Bureau of Criminal Apprehension identifies qualifying non-felony cannabis records and expunges them automatically') and mn_ceb_felony_cannabis ('The Cannabis Expungement Board reviews felony cannabis records on its own initiative and orders expungement or resentencing'), both cited to Minn. Stat. ch. 609A and Laws 2023, ch. 63. Re-check rule: when a compiled pathway label joins two section citations with 'or', decompose it into one component per section, bind each component to the registry track whose mechanismExcerpt describes that component's actor and trigger, and record composed_unit_of_registry_track over the resulting set. Bare track ids ['mn_auto_cannabis_nonfelony','mn_ceb_felony_cannabis']; section tokens '609A.055' (nonfelony/BCA) and '609A.06' (felony/Board).",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:ND:marijuana-specific-summary-pardon-or-sealing-relief",
+      "subject": "North Dakota compiled pathway 'Marijuana-specific summary-pardon or sealing relief'",
+      "outcome": "resolved",
+      "counterpart": "registry_track:ND:nd-summary-marijuana-pardon",
+      "operativeAuthority": {
+        "citation": "N.D.C.C. ch. 12-55.1",
+        "subsection": "N.D.C.C. section 12-55.1-01(4)"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+        "src/lib/rcap/state-packs/north-dakota/pathways.ts",
+        "src/lib/rcap/state-packs/north-dakota/eligibility-rules.ts",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/e2-evidence/E2-B2.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "registry_declared_scope_restriction plus residual-component exclusion. The E3 rejection is 'identity tie in ND (4 vs 4)' — the tie is against nd-regular-pardon, which shares all four ch. 12-55.1 citations. Two committed facts break it. First, the pathway's own rule clauses in ND-north-dakota.json state the summary form's scope exactly: 'people prosecuted and convicted of misdemeanor marijuana possession, marijuana ingestion, or marijuana paraphernalia who have had no other criminal convictions in the past five years may submit a Summary Pardon Application. Felony convictions are not eligible for the summary marijuana application and must use the regular pardon application.' That three-element scope is nd-summary-marijuana-pardon's mechanismExcerpt ('the summary marijuana process uses SFN 61663 and covers misdemeanor convictions for possession of marijuana, ingestion of marijuana and possession of marijuana paraphernalia'), and the felony exclusion is nd-regular-pardon's own claim ('It is the required route for any felony and for any applicant excluded from the summary marijuana process'), so the pathway affirmatively excludes the tied candidate. Second, the pathway's disjunctive label resolves by exclusion: its 'sealing' component is the N.D.C.C. section 19-03.1-23(9) motion, and the crosswalk already holds that component in a direct 1:1 (first-offense-possession-sealing -> nd-marijuana-first-offense-seal), leaving the summary-pardon component as the only unbound half. The pathway itself keeps the two apart — 'Marijuana sealing and marijuana summary pardon are not the same thing. One is a court-record sealing process; the other is an executive pardon process' — which is the runtime implementation of nd-summary-marijuana-pardon's own scopedOutStatement about 'a participant confusing the executive pardon with the court sealing route under N.D.C.C. section 19-03.1-23(9)'. src/lib/rcap/state-packs/north-dakota/pathways.ts keeps the same two entries, marijuana_first_offense_sealing (N.D.C.C. section 19-03.1-23(9)) and marijuana_summary_pardon (ND Pardon Advisory Board - Summary Pardon Application). Re-check rule: on a citation tie between two tracks in one chapter, prefer the track whose scope tokens the pathway reproduces and whose rival the pathway names as the excluded alternative; then confirm no component of the pathway is left double-bound. Bare track id 'nd-summary-marijuana-pardon'; form token 'SFN 61663'; excluded form token 'SFN 14859'.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:SC:diversion-or-program-completion-expungement",
+      "subject": "South Carolina compiled pathway 'Diversion or program-completion expungement'",
+      "outcome": "resolved",
+      "counterpart": "registry_track:SC:sc_pti_17_22_150",
+      "operativeAuthority": {
+        "citation": "S.C. Code Title 17, Chapter 22; S.C. Code section 44-53-450",
+        "subsection": "section 17-22-150(a) (sc_pti_17_22_150); section 17-22-530(A) (sc_aep); section 17-22-330(A) (sc_tep); section 44-53-450(b) (sc_conditional_discharge_44_53_450)"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+        "src/lib/rcap/state-packs/south-carolina/pathways.ts",
+        "src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "composed_unit_of_registry_track over four program-completion routes. The E3 rejection is 'only 2 distinctive tokens shared with sc_pti_17_22_150', which is the right verdict on a one-track proposal and the wrong question: this pathway is four mechanisms, not one. Its ten rule clauses in SC-south-carolina.json are four labelled blocks and nothing else — Pretrial Intervention/PTI, 'Alcohol Education Program - AEP', 'Traffic Education Program - TEP', and 'Conditional discharge - drug possession' with its own '44-53-450' clause and fee clause. src/lib/rcap/state-packs/south-carolina/pathways.ts binds each program name to exactly one section: PTI -> 'S.C. Code section 17-22-150', AEP -> 'S.C. Code section 17-22-530', TEP -> 'S.C. Code section 17-22-330', conditional discharge -> 'S.C. Code section 44-53-450'. Each of those four sections is the naming (head) citation of exactly one registry track in registry-crosswalk-projection.json — sc_pti_17_22_150, sc_aep, sc_tep, sc_conditional_discharge_44_53_450 — and all four are presently unmapped. The head-citation qualifier matters: sc_22_5_930_drug also lists section 44-53-450 in its authority array, but its naming citation is section 22-5-930 and the crosswalk already binds it to eligible-conviction-expungement. Mentions of these sections inside juvenile-expungement and pardon-guidance-for-otherwise-ineligible-convictions are routing-table rows listing every South Carolina route, not pathway-defining clauses, and are disregarded under the same rule the Alabama lane used. Re-check rule: decompose a compiled pathway whose own clause blocks enumerate N named programs, bind each program to a section via the coded state pack, and map to the registry track whose legalName carries that section as its naming citation. Bare track ids ['sc_pti_17_22_150','sc_aep','sc_tep','sc_conditional_discharge_44_53_450']; section tokens '17-22-150','17-22-530','17-22-330','44-53-450'. This corrects E2-B3, which named only the first three and omitted the conditional-discharge component.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+      "subject": "South Carolina compiled pathway 'Human-trafficking-survivor expungement'",
+      "outcome": "still_blocked",
+      "counterpart": null,
+      "operativeAuthority": {
+        "citation": "S.C. Code section 16-3-2020 (asserted by the coded state pack; unverifiable in this repository)",
+        "subsection": "not pinned — no committed source in this repository contains the text of section 16-3-2020, and the state pack itself records the subsection as unconfirmed"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+        "src/lib/rcap/state-packs/south-carolina/pathways.ts",
+        "src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "No license can be issued. This subject carries a blocking materialize_official_source obligation in e3-job-graph.json ('S.C. Code section 16-3-2020', 'not present in any committed source') with the dependency note 'primary authority must land before this job can close'. The repository evidence goes as far as it can and stops short: SC-south-carolina.json carries the operative rule in prose ('A victim convicted or adjudicated delinquent of offenses under the trafficking article, prostitution, or another nonviolent misdemeanor or Class F felony may move the court to expunge the record if the offense was directly caused by or interrelated to trafficking'), and src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts attaches the number section 16-3-2020 to it — but src/lib/rcap/state-packs/south-carolina/pathways.ts contradicts the pin in its own citation field, recording 'S.C. Code (trafficking-victim expungement provision; exact subsection unconfirmed in Nationwide source)' with the comment that the Nationwide reference does not state it. The E3 review records the same failure: 'gap citation \"S.C. Code section 16-3-2020\" not found in committed pathway/profile text'. The candidate disposition is a registry gap — no South Carolina registry track carries any trafficking authority, and none of the twelve routes them out — but publishing that gap requires proving section 16-3-2020 grants or withholds record relief, which cannot be done without the text. Web access to scstatehouse.gov is blocked (probe returned 000), so the blocker is returned intact rather than terminalized on an unverifiable citation.",
+      "terminalizationBasis": null,
+      "retrievalPacket": "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md",
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "registry_track:KY:ky_expungement_certification",
+      "subject": "Kentucky registry track 'Expungement Certification Request to the Administrative Office of the Courts (KRS 431.079)'",
+      "outcome": "terminalized",
+      "counterpart": null,
+      "operativeAuthority": {
+        "citation": "KRS 431.079",
+        "subsection": "KRS 431.079(1), read with KRS 431.073(2)(a) and KRS 431.078(3)"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts",
+        "data/rcap-ledger/authority-ledger.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/e2-evidence/E2-A1.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "absence_proof plus official_form_disjointness — terminal class missing_from_compiled_runtime. Three mechanical checks, each reproducible against committed bytes. (1) The string '431.079' does not occur anywhere in src/lib/rcap-engine/compiled/profiles/KY-kentucky.json: zero hits. No compiled pathway implements this section. (2) The track's own official form is disjoint from both candidates'. registry-crosswalk-projection.json gives ky_expungement_certification officialFormRefs ['AOC-RU-009', 'AOC-RU-009, Expungement Certification Request, Rev. 12-22', ...], while the two candidate pathways are compiled from AOC-496.3 and AOC-497.2; the string 'AOC-RU-009' occurs in no compiled profile and in no state pack, only in the registry projection and the authority ledger. (3) The track's own mechanismExcerpt disclaims relief: 'The certification is an evidentiary attachment: it decides nothing, and an adverse certification does not stop the clerk from accepting a petition.' The two candidate pathways carry it in exactly that posture — misdemeanor-violation-traffic-conviction: 'The source requires an eligibility certification, a separate petition for each case...'; felony-conviction-431073: 'The source requires eligibility certification, prosecutor response within 60 days...'. Re-check rule: a registry track whose operative section appears zero times in the jurisdiction's compiled profile, whose official form identifier appears in no compiled profile, and whose mechanismExcerpt describes an evidentiary prerequisite rather than a remedy, is terminal as missing_from_compiled_runtime; it must not be mapped to the pathways that merely require it. Bare track id 'ky_expungement_certification'; absent tokens '431.079', 'AOC-RU-009'.",
+      "terminalizationBasis": "KRS 431.079 certification is a precondition instrument, not a relief mechanism, so no compiled pathway counterpart exists or should exist. The participant obtains it on AOC-RU-009 from the AOC Records Unit before filing; KRS 431.073(2)(a) and KRS 431.078(3) make it a required attachment to the felony application and the misdemeanor petition respectively. Mapping it to either conviction pathway would double-count a single remedy, and mapping it to both would assert a one-to-many relationship the registry does not declare. Published blocker: ky_expungement_certification has no runtime representation and adds none; it stays out of the runtime-coverage numerator. Its separate authority-clearance blocker is unaffected by this terminalization and remains open in data/rcap-ledger/authority-ledger.json — whether the AOC waives the $40 certification fee on indigency, and on what criteria, which AOC-RU-009 and the published AOC process do not state. Implementation note for the packet lane, not for the crosswalk: because no pathway implements the certification step, the felony and misdemeanor packets must keep carrying it as a prerequisite instruction.",
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "registry_track:KY:ky_felony_expungement_after_pardon",
+      "subject": "Kentucky registry track 'Application to Vacate and Expunge a Felony Conviction After a Full Pardon (KRS 431.073(1)(c))'",
+      "outcome": "resolved",
+      "counterpart": "compiled_pathway:KY:felony-conviction-431073",
+      "operativeAuthority": {
+        "citation": "KRS 431.073",
+        "subsection": "KRS 431.073(1)(c)"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/e2-evidence/E2-A1.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "operative_citation_in_pathway, form-confirmed. The track has one candidate and it holds. KRS 431.073(1)(c) is the full-pardon eligibility ground, and the sole candidate pathway carries that ground in its own rule clause: 'The offense must be on an eligible statutory list, be an eligible series from one incident, qualify under the additional subsection stated in the form, or have a full gubernatorial pardon attached.' The clause is not decorative — the pathway's caseOutcomes array includes 'pardon' and its triggerFields include 'pardon_status', so the pardon branch is a live runtime branch and not prose. It is confirmed on the form: KY-kentucky.json sourceSections[0] is the AOC-496.3 Rev. 6-23 eligibility block and its third checkbox reads 'a full pardon has been granted by the Governor, a copy of which is attached'; registry-crosswalk-projection.json lists 'AOC-496.3' in this track's officialFormRefs. The track's own scopeRestriction ('This branch is for a full pardon only. A conditional pardon, a partial pardon or a commutation is not within KRS 431.073(1)(c)') is the branch condition, not a separate remedy. The track was published as unresolved only because its candidate pathway was itself unresolved (see the E3 review's 'resolves automatically when its candidates clear'); that dependency is discharged by the resolution of compiled_pathway:KY:felony-conviction-431073 in this same lane. Re-check rule: a registry track with exactly one candidate pathway resolves to that pathway when the track's operative subsection appears as a named eligibility branch in the pathway's own rule clauses and the two share an official form identifier. Bare pathway id 'felony-conviction-431073'; subsection token '431.073(1)(c)'; form token 'AOC-496.3'; branch tokens 'full pardon', 'pardon_status'.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "registry_track:KY:ky_felony_vacatur_expungement",
+      "subject": "Kentucky registry track 'Application to Vacate and Expunge a Class D Felony Conviction (KRS 431.073)'",
+      "outcome": "resolved",
+      "counterpart": "compiled_pathway:KY:felony-conviction-431073",
+      "operativeAuthority": {
+        "citation": "KRS 431.073",
+        "subsection": "KRS 431.073(1)(a); KRS 431.073(2)(a) five-year wait; KRS 431.073(1)(d) discretionary branch"
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/authority-ledger.json",
+        "data/rcap-ledger/e2-evidence/E2-A2.json",
+        "docs/record-clearing/e3-adjudication-review.md"
+      ],
+      "license": "operative_citation_in_pathway, form-confirmed. The track has one candidate and it holds. The pathway is labelled 'Eligible felony conviction vacatur and expungement under KRS 431.073' — the track's naming citation — and KY-kentucky.json sourceSections[0] is the committed body of the track's own official form, ending 'AOC-496.3 Rev. 6-23', with the first two checkboxes reading 'the offense is one of the eligible offenses listed in KRS 431.073(1)(a)' and 'the offenses are a series of eligible offenses listed in KRS 431.073(1)(a) which arose from a single incident', and item 5 carrying the KRS 431.073(2)(a) five-year wait. sourceSections[1] carries the (1)(d) discretionary questionnaire, matching the pathway clause 'The form collects rehabilitation, law-abiding conduct, life impact, and other discretionary facts for the subsection (1)(d) route'. registry-crosswalk-projection.json lists 'AOC-496.3' and 'AOC-496.4' in this track's officialFormRefs. The other two Kentucky conviction pathways implement KRS 431.078 and KRS 431.076, so the naming citation isolates this candidate. Like its pardon sibling, this track was published as unresolved only because its candidate was unresolved; that dependency is discharged in this lane. Currentness flag carried forward, not resolved here: data/rcap-ledger/authority-ledger.json records that the enumerated Class D felony list in KRS 431.073(1)(a) changes on 30 April 2027 under 2026 Ky. Acts ch. 126 sec. 31, so the eligibility list must be date-parameterised before release. That affects the pathway's content, not the identity of the mapping. Bare pathway id 'felony-conviction-431073'; subsection token '431.073(1)(a)'; form token 'AOC-496.3'.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    }
+  ]
+}
