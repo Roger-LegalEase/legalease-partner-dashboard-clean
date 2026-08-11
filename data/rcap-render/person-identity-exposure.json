@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "rcap-person-identity-exposure/v1",
+  "generatedBy": "scripts/verify-rcap-person-identity-exposure.mjs",
+  "lane": "person-identity-adversarial-audit",
+  "auditedCommit": "7e1b2c4dc1e433c07f9d0819c8125e228da4b236",
+  "subject": "public.rcap_persons",
+  "totals": {
+    "cases": 17,
+    "passed": 6,
+    "failed": 11,
+    "skipped": 0
+  },
+  "findings": [
+    {
+      "id": "P1",
+      "surface": "posture",
+      "title": "row level security is enabled on rcap_persons",
+      "expectation": "relrowsecurity = t with at least one policy",
+      "passed": false,
+      "observed": "relrowsecurity=f, policies=0",
+      "severity": "critical"
+    },
+    {
+      "id": "P2",
+      "surface": "1",
+      "title": "anon holds no write privilege on rcap_persons",
+      "expectation": "INSERT, UPDATE and DELETE are all false",
+      "passed": false,
+      "observed": "S/I/U/D = true/true/true/true",
+      "severity": "critical"
+    },
+    {
+      "id": "P3",
+      "surface": "2",
+      "title": "authenticated holds no write privilege on rcap_persons",
+      "expectation": "INSERT, UPDATE and DELETE are all false",
+      "passed": false,
+      "observed": "S/I/U/D = true/true/true/true",
+      "severity": "critical"
+    },
+    {
+      "id": "P4",
+      "surface": "1",
+      "title": "an anonymous caller cannot read participant identities",
+      "expectation": "anon reads no rows",
+      "passed": false,
+      "observed": "anon read: we-must-vote -> email:participant@example.org | fulton-county -> name:jordan lee",
+      "severity": "critical"
+    },
+    {
+      "id": "P5",
+      "surface": "1",
+      "title": "an anonymous caller cannot insert into a partner's keyspace",
+      "expectation": "the INSERT is refused",
+      "passed": false,
+      "observed": "anon created person c2595277-142c-444e-afd1-b92a40cc489e under we-must-vote",
+      "severity": "critical"
+    },
+    {
+      "id": "P6",
+      "surface": "2",
+      "title": "a browser role cannot rewrite an existing participant identity",
+      "expectation": "the UPDATE matches zero rows",
+      "passed": false,
+      "observed": "anon updated 1 row(s)",
+      "severity": "critical"
+    },
+    {
+      "id": "P7",
+      "surface": "3",
+      "title": "one consumer cannot enumerate another consumer's person row",
+      "expectation": "an authenticated caller reads no other consumer's rows",
+      "passed": false,
+      "observed": "authenticated read 1 consumer row(s)",
+      "severity": "high"
+    },
+    {
+      "id": "P8",
+      "surface": "3",
+      "title": "a consumer's row cannot be located from their auth user id alone",
+      "expectation": "the derived key does not resolve for another caller",
+      "passed": false,
+      "observed": "a caller who knows the target's auth user id located 1 row(s) via the published derivation",
+      "severity": "high"
+    },
+    {
+      "id": "P9",
+      "surface": "4",
+      "title": "a partner admin cannot read other partners' people",
+      "expectation": "a partner-scoped caller sees only its own namespace",
+      "passed": false,
+      "observed": "an authenticated caller reads 3 distinct partner namespaces",
+      "severity": "high"
+    },
+    {
+      "id": "P10",
+      "surface": "5",
+      "title": "a browser role cannot alter a partner's reported population",
+      "expectation": "the partner's distinct-people count is unchanged",
+      "passed": false,
+      "observed": "anon deleted 1 person row(s); distinct people 1 -> 0",
+      "severity": "high"
+    },
+    {
+      "id": "P11",
+      "surface": "6",
+      "title": "forged person rows cannot move partner packet entitlement",
+      "expectation": "packet accounting derives from the ledger, which no browser role can write",
+      "passed": true,
+      "observed": "the credit ledger is not part of this schema slice; accounting is unreachable from rcap_persons alone",
+      "severity": null
+    },
+    {
+      "id": "P12",
+      "surface": "7",
+      "title": "the resolver fails closed if the reserved slug becomes a real partner",
+      "expectation": "resolveConsumerPersonId checks partner_records and refuses on collision",
+      "passed": true,
+      "observed": "guard present in consumer-identity.ts",
+      "severity": null
+    },
+    {
+      "id": "P13",
+      "surface": "7",
+      "title": "the reserved consumer keyspace cannot be written by a browser role",
+      "expectation": "the INSERT into the reserved namespace is refused",
+      "passed": false,
+      "observed": "anon inserted ea2a242f-6a04-4c1b-9fcc-ffcf6d982e25 into the reserved consumer namespace",
+      "severity": "high"
+    },
+    {
+      "id": "P14",
+      "surface": "8",
+      "title": "same auth user resolves to one stable person key",
+      "expectation": "the derivation is deterministic for a given user",
+      "passed": true,
+      "observed": "consumer:6e89542f151fcd3… stable=true",
+      "severity": null
+    },
+    {
+      "id": "P15",
+      "surface": "9",
+      "title": "a different auth user resolves to a different person key",
+      "expectation": "distinct users never share a match key",
+      "passed": true,
+      "observed": "userA=6e89542f151f… userB=33884a76dfbf…",
+      "severity": null
+    },
+    {
+      "id": "P16",
+      "surface": "10",
+      "title": "the matter is derived from the Briefcase item, not the browser",
+      "expectation": "one item yields one stable, well-formed matter; distinct items differ",
+      "passed": true,
+      "observed": "item1=5fec74d7-65fa-4dc4-b31b-291d8ac8fdb3 stable=true distinctFromItem2=true",
+      "severity": null
+    },
+    {
+      "id": "P17",
+      "surface": "10",
+      "title": "the reserved namespace is a constant, not a partner slug",
+      "expectation": "CONSUMER_PERSON_NAMESPACE is exported and fixed",
+      "passed": true,
+      "observed": "expungement-ai-consumer",
+      "severity": null
+    }
+  ],
+  "notes": [
+    "rcap_persons is created by supabase/phase-30-rcap-person-identity.sql with no RLS, no policy and no grant. On Supabase, default privileges then give anon and authenticated full CRUD.",
+    "Partner match keys are 'email:<address>' or 'name:<full name>' (src/lib/rcap/person-identity.ts deriveRcapPersonMatchKey), so the table stores participant contact identity in near-plaintext.",
+    "Consumer rows added by src/lib/expungement-ai/consumer-identity.ts digest their key; that mitigation does not extend to the partner rows beside them.",
+    "Reporting counts distinct person_id on rcap_document_packets; person_id is ON DELETE SET NULL, so deleting a person row silently removes packets from a partner's reported population."
+  ]
+}
