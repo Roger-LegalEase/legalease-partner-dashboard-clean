@@ -1,8 +1,12 @@
 # `rcap_persons` after Phase 54 — independent post-hardening audit
 
 Lane: person-identity post-Phase-54 audit (audit-owned; owns no product code)
-Base: `d6310fd20a4d38ecaa1afdcf92773510c6fffa59` on
+Base: `df14fb76552ed2c46eaeb3aa0b1c58275f802745` on
 `origin/claude/rcap-final-sprint-integration`
+(re-run from `d6310fd`; the delta is tooling only — a scope guard, a
+mutation-restore guard and harness signal handling — and `phase-30`, `phase-54`,
+`consumer-identity.ts` and `person-identity.ts` are byte-identical across it,
+verified by digest before re-running)
 Sequence applied: 26 → 27 → 28 → 30 → 49 → 50 → 51 → 52 → 53 → 54
 Before-state evidence: `origin/claude/rcap-person-identity-audit` @ `83c0446`
 (reference only; its failing fixture is not treated as an acceptance result)

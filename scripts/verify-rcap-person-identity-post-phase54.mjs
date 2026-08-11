@@ -5,6 +5,10 @@
 // authenticated held full CRUD and could read participant email addresses. That
 // branch is before-state evidence only; nothing here inherits its result.
 //
+// Re-run at df14fb7. The delta from d6310fd is tooling only (scope guard,
+// mutation-restore guard, harness signal handling); phase-30, phase-54,
+// consumer-identity.ts and person-identity.ts are byte-identical across it.
+//
 // This runs the real sequence 26 -> 27 -> 28 -> 30 -> 49 -> 50 -> 51 -> 52 ->
 // 53 -> 54 against an ephemeral PostgreSQL 16 cluster configured the way
 // Supabase configures a project — anon / authenticated / service_role created
@@ -192,8 +196,12 @@ try {
   const key = consumerKey(USER_A);
   const first = asRole(db, "service_role",
     `with r as (insert into rcap_persons (partner_slug, match_key) values ('${NS}','${key}') returning id) select id from r`);
+  // The id itself is a gen_random_uuid() and must not reach the tracked
+  // evidence, or every run would rewrite this line. The assertion still checks
+  // the real returned value; only the recorded observation is shape, not bytes.
   R("R10", "service_role still resolves a consumer person", "the insert succeeds and returns an id",
-    /^[0-9a-f-]{36}$/.test(first), first || "no id returned", "critical");
+    /^[0-9a-f-]{36}$/.test(first),
+    first ? "insert returned a well-formed person id" : "no id returned", "critical");
 
   const dupe = asRoleErr(db, "service_role",
     `insert into rcap_persons (partner_slug, match_key) values ('${NS}','${key}')`);
@@ -499,7 +507,8 @@ const report = {
   schemaVersion: "rcap-person-identity-post-phase54/v1",
   generatedBy: "scripts/verify-rcap-person-identity-post-phase54.mjs",
   lane: "person-identity-post-phase54-audit",
-  auditedCommit: "d6310fd20a4d38ecaa1afdcf92773510c6fffa59",
+  auditedCommit: "df14fb76552ed2c46eaeb3aa0b1c58275f802745",
+  auditedSurfaceUnchangedSince: "d6310fd20a4d38ecaa1afdcf92773510c6fffa59",
   beforeStateEvidence: "origin/claude/rcap-person-identity-audit @ 83c0446 (reference only)",
   migrationSequence: [26, 27, 28, 30, 49, 50, 51, 52, 53, 54],
   catalog,
