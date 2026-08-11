@@ -114,6 +114,16 @@ try {
   }
 } finally {
   fs.writeFileSync(target, original);
+  // Restoring the migration is not enough. Each mutated run rewrote the
+  // verifier's evidence artifact to record the failure it was supposed to
+  // provoke, so leaving now would strand a committed report claiming a
+  // breakage that no longer exists. One clean run puts the artifact back in
+  // step with the restored migration.
+  if (verifierIsRed()) {
+    console.error('\ntest-rcap-phase53-mutations FAILED: the verifier is red against the RESTORED migration.');
+    console.error('The evidence artifact was not returned to a truthful state; investigate before trusting it.');
+    process.exit(1);
+  }
 }
 
 console.log('');
@@ -122,4 +132,4 @@ if (survived.length > 0) {
   for (const s of survived) console.error(`  - ${s}`);
   process.exit(1);
 }
-console.log(`test-rcap-phase53-mutations passed: ${caught}/${MUTATIONS.length} mutations red, migration restored.`);
+console.log(`test-rcap-phase53-mutations passed: ${caught}/${MUTATIONS.length} mutations red, migration and evidence artifact restored.`);

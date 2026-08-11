@@ -238,7 +238,10 @@ if (checkOnly) {
     console.error('data/rcap-staging-action.json is stale; re-run without --check');
     process.exit(1);
   }
-  console.log(`staging action current — 4 migrations, ${missing.length} required environment value(s) still unpopulated`);
+  // Derived, not typed: this line read "4 migrations" for a while after the
+  // sequence became five, which is exactly the sort of quiet drift the rest of
+  // this generator exists to prevent.
+  console.log(`staging action current — ${migrations.length} migrations, ${missing.length} required environment value(s) still unpopulated`);
 } else {
   fs.writeFileSync(outPath, next);
   console.log(`wrote ${outPath}`);

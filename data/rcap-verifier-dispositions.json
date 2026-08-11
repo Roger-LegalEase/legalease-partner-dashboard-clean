@@ -1078,10 +1078,15 @@
       "decidedBy": "generated"
     },
     "verify-rcap-phase51-consumer-payment-security.mjs": {
-      "disposition": "fix_then_wire",
-      "reason": "Red when executed: ERROR: new row for relation \"consumer_briefcase_items\" violates check constraint \"consumer_briefcase_items_amount_cents_check\"",
-      "observedStatus": "orphan_broken",
-      "decidedBy": "generated"
+      "disposition": "wired",
+      "reason": "The single canonical independent payment acceptance proof. Owned by the Phase 51 security-audit lane, imported byte-identical from f237c89 and never edited here. It audits the full 26-27-28-49-50-51-52-53 sequence and is the only audit that observes the gate through sanctioned roles and functions alone, so nothing else may stand in for it. Green at 21/21 gate, 5/5 reach, 3/3 mutations.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "role": "independent_payment_acceptance_proof",
+      "sourceCommit": "f237c89f3a3ed0eab44d9c84f07833de822eea54",
+      "auditOwned": true,
+      "knownNondeterminism": "The G6 observed string embeds the fixture briefcase item id, which is gen_random_uuid() per run, so data/rcap-render/phase51-consumer-payment-security.json is not byte-reproducible across runs. One line only; totals and pass state are stable. Referred to the audit lane rather than patched here, because the artifact is audit-owned.",
+      "supersedes": "the Phase 52-ending revision of the same audit (19/19 gate, 0/3 reach); no second payment audit is maintained"
     },
     "verify-rcap-prepay-question-gate.mjs": {
       "disposition": "keep_available",

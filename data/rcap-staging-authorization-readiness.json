@@ -2,7 +2,20 @@
   "schemaVersion": "rcap-staging-authorization-readiness/v1",
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
-  "note": "Authorization is NOT being requested. The four-migration staging action is prepared and machine-derived at data/rcap-staging-action.json; the GHCR publication workflow is prepared but not run. Staging and production are both queued and no environment has been named. RCAP-SEC-001 remains open because the fix is merged, not deployed.",
+  "note": "Authorization is NOT being requested. The five-migration staging action is prepared and machine-derived at data/rcap-staging-action.json; the GHCR publication workflow is prepared but not run. Staging and production are both queued and no environment has been named. RCAP-SEC-001 remains open because the fix is merged, not deployed.",
+  "independent_security_proven": true,
+  "sanctioned_consumer_reachability_proven": true,
+  "staging_precondition_status": "satisfied",
+  "preconditionEvidence": {
+    "audit": "scripts/verify-rcap-phase51-consumer-payment-security.mjs, owned by the Phase 51 security-audit lane, imported byte-identical from f237c89f3a3ed0eab44d9c84f07833de822eea54 and unmodified here.",
+    "result": "Gate 21/21, Reach 5/5, Mutations 3/3 across the full 26-27-28-49-50-51-52-53 sequence.",
+    "whyItCounts": "The audit reaches the payment gate only through anon, authenticated and service_role, and calls only enqueue_packet_render_job, record_consumer_packet_payment and finalize_packet_render_job. It holds no owner-level write against any gate surface; its four privileged statements are confined to the M2 and M3 mutation setups, whose purpose is to break the defence and observe the suite go red. So the proof is that a real caller can reach the gate, not that a privileged fixture can stage one.",
+    "reachabilityClosure": "The lane's own regression at 25f6b09 — gate correct but 0/3 reachable — is closed by Phase 53 and re-proven at 5/5 by the same lane.",
+    "captainSideCorroboration": "verify-rcap-phase52-consumer-payment-authority 32/32; test-rcap-phase52-mutations 12/12; verify-rcap-phase53-consumer-job-binding 24/24; test-rcap-phase53-mutations 8/8; verify-rcap-migration-apply-evidence 32/32.",
+    "scopeOfTheClaim": "These three marks say the repository's payment gate is independently proven secure and reachable. They do not say any environment is fixed: staging and production remain queued and unnamed, and RCAP-SEC-001 stays open until the sequence is applied somewhere.",
+    "knownArtifactNondeterminism": "None of the three payment evidence artifacts is byte-reproducible. Each records observed strings that embed gen_random_uuid() fixture ids — and, in phase 52, the consumption-unit hashes derived from them — so a handful of lines change per run while totals and pass state stay fixed. They are run records, not deterministic generated artifacts, and should not be gated on byte equality. The phase-51 file is audit-owned, so its churn is left for that lane to settle rather than patched here; the committed bytes are the audit's own from f237c89.",
+    "artifactTruthfulnessFix": "A separate and real defect was found and closed while running this battery: test-rcap-phase52-mutations and test-rcap-phase53-mutations restored the migration they mutate but not the evidence artifact the verifier rewrites on each mutated run, so both left a committed report claiming 31/32 and 23/24 with failures that no longer existed. Each harness now re-runs the verifier against the restored migration in its finally block and fails if that run is red, so a mutation sweep can no longer strand a false failure in the repository."
+  },
   "fields": {
     "finalIntegrationSha": {
       "status": "populated",
@@ -72,6 +85,11 @@
       "status": "blocked",
       "owner": "Roger",
       "note": "supabase/phase-52-rcap-consumer-payment-authority.sql sha256 c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3, auth-2026-08-11-phase-52-consumer-payment-authority. Repository integration authorized and hash-pinned; staging queued. Indivisible with phase 51."
+    },
+    "phase53": {
+      "status": "blocked",
+      "owner": "Roger",
+      "note": "supabase/phase-53-rcap-consumer-job-binding.sql sha256 469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f, auth-2026-08-11-phase-53-consumer-job-binding. Repository integration authorized and hash-pinned; staging queued. Indivisible with phases 51 and 52: it drops the 13-argument enqueue, so applying 52 without 53 leaves the gate correct but unreachable, and applying 53 without 52 leaves the binding bound to a gate that is not yet unforgeable."
     }
   },
   "blockers": [
@@ -88,24 +106,34 @@
       "requiresAuthorization": "Yes. A fix means a new file under supabase/ and touches RLS/privileges, both of which need Roger's explicit authorization before they are written or applied. Not taken unilaterally.",
       "consequence": "Applying 49+50+51 to staging today would deploy a payment gate that a paying participant can defeat. Phase 51 still fixes the regression it was written for; it does not survive a hostile payer.",
       "repositoryRemediation": {
-        "phase": 52,
-        "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
-        "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
-        "evidence": "verify-rcap-phase52-consumer-payment-authority 32/32; test-rcap-phase52-mutations 12/12; G1, G1b, G11 and G12 re-run and closed",
-        "whyStillUnresolved": "The fix exists in the repository and is proven against an ephemeral cluster. It is not applied to any environment: staging and production are both queued and no environment has been named. A finding is resolved when the environment it describes is fixed, not when a migration that would fix it is merged."
+        "phases": [
+          {
+            "phase": 52,
+            "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
+            "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
+            "closes": "G1, G1b, G11 and G12 — the payment authority becomes correct and unforgeable",
+            "evidence": "verify-rcap-phase52-consumer-payment-authority 32/32; test-rcap-phase52-mutations 12/12"
+          },
+          {
+            "phase": 53,
+            "path": "supabase/phase-53-rcap-consumer-job-binding.sql",
+            "sha256": "469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f",
+            "closes": "the reachability regression Phase 52 left behind — the gate becomes reachable by a legitimate paid consumer without widening it",
+            "evidence": "verify-rcap-phase53-consumer-job-binding 24/24; test-rcap-phase53-mutations 8/8"
+          }
+        ],
+        "independentAcceptance": "The lane that raised this finding re-audited the pair at f237c89 and returned Gate 21/21, Reach 5/5, Mutations 3/3, using sanctioned roles and functions only. That audit is now a blocking step in npm test.",
+        "whyStillUnresolved": "The fix exists in the repository and is independently proven against an ephemeral cluster. It is not applied to any environment: staging and production are both queued and no environment has been named. A finding is resolved when the environment it describes is fixed, not when a migration that would fix it is merged."
       }
     }
   ],
-  "supersededStagingAction": {
-    "id": "staging-action-three-migrations",
-    "status": "superseded",
-    "supersededAt": "2026-08-11",
-    "was": "Apply phases 49, 50 and 51 to staging in one authorized window.",
-    "supersededBy": "staging-action-four-migrations (data/rcap-staging-action.json)",
-    "reason": "Phase 51 as written is bypassable by the payer (RCAP-SEC-001, audit commit f82f842). Applying 49 -> 50 -> 51 to any environment that takes payment would ship the proven bypass, so the three-migration action must not be executed in that form. Phase 52 is additive and must be applied in the same window, which makes the action a four-migration one."
+  "supersededStagingActions": {
+    "canonicalRecord": "data/rcap-staging-action.json, field `supersedes`",
+    "note": "The full supersession chain is generated, not restated here, so this file cannot drift from the action it describes. In summary: the two-, three- and four-migration actions are all superseded. Each was retired for the same reason in a different place — a shorter sequence applied to an environment that takes payment ships either a proven bypass (stopping at 51), or a gate no legitimate paid consumer can reach (stopping at 52).",
+    "supersededBy": "staging-action-five-migrations (data/rcap-staging-action.json)"
   },
   "preparedStagingAction": {
-    "id": "staging-action-four-migrations",
+    "id": "staging-action-five-migrations",
     "canonicalRecord": "data/rcap-staging-action.json",
     "generatedBy": "scripts/generate-rcap-staging-action.mjs",
     "status": "prepared_queued_not_authorized",

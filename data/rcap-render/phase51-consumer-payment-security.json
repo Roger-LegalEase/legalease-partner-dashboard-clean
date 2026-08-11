@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "rcap-phase51-consumer-payment-security/v2",
+  "schemaVersion": "rcap-phase51-consumer-payment-security/v3",
   "generatedBy": "scripts/verify-rcap-phase51-consumer-payment-security.mjs",
   "lane": "consumer-payment-gate-adversarial-audit",
-  "auditedCommit": "13e356c49bd484e6f946ba604076718d904bca86",
+  "auditedCommit": "f79fb0d9",
   "migrationSequence": [
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
@@ -10,13 +10,15 @@
     "supabase/phase-49-rcap-packet-render-jobs.sql",
     "supabase/phase-50-rcap-packet-delivery-hardening.sql",
     "supabase/phase-51-rcap-consumer-payment-gate.sql",
-    "supabase/phase-52-rcap-consumer-payment-authority.sql"
+    "supabase/phase-52-rcap-consumer-payment-authority.sql",
+    "supabase/phase-53-rcap-consumer-job-binding.sql"
   ],
+  "privilegedFixtureWrites": "none on any gate surface; upstream seeding and mutation function replacement only",
   "totals": {
-    "gateCases": 19,
-    "gatePassed": 19,
-    "reachCases": 3,
-    "reachPassed": 0,
+    "gateCases": 21,
+    "gatePassed": 21,
+    "reachCases": 5,
+    "reachPassed": 5,
     "mutations": 3,
     "mutationsPassed": 3
   },
@@ -48,7 +50,7 @@
     {
       "id": "G4",
       "title": "payment is recorded only through record_consumer_packet_payment under service role",
-      "expectation": "authenticated is denied EXECUTE; service_role records paid",
+      "expectation": "authenticated denied EXECUTE; service_role returns recorded_paid",
       "passed": true,
       "observed": "authenticated=ERROR:  permission denied for function record_consumer_packet_payment | service_role=recorded_paid",
       "severity": null
@@ -56,7 +58,7 @@
     {
       "id": "G5",
       "title": "a Phase-51-shaped paid row without the Phase 52 fields cannot exist",
-      "expectation": "the paid_requires_server_evidence constraint refuses it",
+      "expectation": "paid_requires_server_evidence refuses it even for service_role",
       "passed": true,
       "observed": "ERROR:  new row for relation \"consumer_briefcase_items\" violates check constraint \"consumer_briefcase_items_paid_requires_server_evidence\"",
       "severity": null
@@ -64,9 +66,9 @@
     {
       "id": "G6",
       "title": "participant A cannot spend participant B's payment",
-      "expectation": "consumer_payment_owner_mismatch / accounting_blocked",
+      "expectation": "the bound enqueue refuses: item not owned by the expected user",
       "passed": true,
-      "observed": "consumer_payment_owner_mismatch / accounting_blocked",
+      "observed": "ERROR:  packet_render_jobs: consumer briefcase item f1b0688e-bc35-4f2e-bf6e-66e1f4eba97a is not owned by the expected user",
       "severity": "high"
     },
     {
@@ -90,13 +92,13 @@
       "title": "same item, person and matter remains idempotently eligible",
       "expectation": "zero_charge / eligible with exactly one consumption row",
       "passed": true,
-      "observed": "zero_charge / eligible, consumption rows=1",
+      "observed": "zero_charge / eligible, rows=1",
       "severity": null
     },
     {
       "id": "G10",
       "title": "a missing or non-USD currency cannot become a payment",
-      "expectation": "the RPC refuses both, and the item never becomes deliverable",
+      "expectation": "the RPC refuses both; the item never becomes deliverable",
       "passed": true,
       "observed": "eur=invalid_payment_evidence null=invalid_payment_evidence finalize=consumer_payment_required",
       "severity": null
@@ -104,7 +106,7 @@
     {
       "id": "G11",
       "title": "a payment with no provider receipt or no server authority fails",
-      "expectation": "the RPC refuses both, and the item never becomes deliverable",
+      "expectation": "the RPC refuses both; the item never becomes deliverable",
       "passed": true,
       "observed": "no_event=invalid_payment_evidence bad_authority=invalid_authority finalize=consumer_payment_required",
       "severity": null
@@ -159,18 +161,34 @@
     },
     {
       "id": "G18",
-      "title": "a job with no briefcase item fails closed",
-      "expectation": "consumer_payment_required / accounting_blocked",
+      "title": "a consumer job cannot be created without item, user and matter",
+      "expectation": "the bound enqueue refuses each missing part",
       "passed": true,
-      "observed": "consumer_payment_required / accounting_blocked",
+      "observed": "item=ERROR:  packet_render_jobs: an unsponsored consumer job requires a consumer briefcase item | user=ERROR:  packet_render_jobs: an unsponsored consumer job requires the expected consumer user id | matter=ERROR:  packet_render_jobs: an unsponsored consumer job requires a matter id",
       "severity": null
     },
     {
       "id": "G19",
-      "title": "a schema with no consumer payment storage fails closed",
-      "expectation": "consumer_payment_required, not a crash and not a pass",
+      "title": "a sponsored job cannot carry consumer binding fields",
+      "expectation": "the bound enqueue refuses the mixed shape",
       "passed": true,
-      "observed": "consumer_payment_required / accounting_blocked",
+      "observed": "ERROR:  packet_render_jobs: a sponsored job must not carry consumer binding fields",
+      "severity": null
+    },
+    {
+      "id": "G20",
+      "title": "browser roles cannot reach the bound enqueue",
+      "expectation": "permission denied for both",
+      "passed": true,
+      "observed": "anon=ERROR:  permission denied for function enqueue_packet_render_job | authenticated=ERROR:  permission denied for function enqueue_packet_render_job",
+      "severity": null
+    },
+    {
+      "id": "G21",
+      "title": "a schema with no consumer payment storage fails closed",
+      "expectation": "the bound enqueue refuses to create a consumer job",
+      "passed": true,
+      "observed": "ERROR:  packet_render_jobs: consumer payment storage is absent; a consumer job cannot be bound",
       "severity": null
     }
   ],
@@ -178,32 +196,48 @@
     {
       "id": "R1",
       "title": "enqueue_packet_render_job accepts the consumer binding",
-      "expectation": "p_consumer_auth_user_id (and item) are parameters of the only sanctioned insert path",
-      "passed": false,
-      "observed": "signature has no consumer binding: p_packet_id uuid, p_route_id text, p_renderer_kind text, p_renderer_version text, p_source_sha256 text, p_profile_id text, p_profile_version text, p_input_hash text, p_briefcase_item_id uuid, p_partner_id uuid, p_person_id uuid, p_matter_id uuid, p_max_attempts integer",
+      "expectation": "the consumer item and expected user are parameters of the sanctioned insert path",
+      "passed": true,
+      "observed": "p_packet_id uuid, p_route_id text, p_renderer_kind text, p_renderer_version text, p_source_sha256 text, p_profile_id text, p_profile_version text, p_input_hash text, p_briefcase_item_id uuid, p_partner_id uuid, p_person_id uuid, p_matter_id uuid, p_max_attempts integer, p_consumer_briefcase_item_id uuid, p_expected_consumer_auth_user_id uuid",
       "severity": "high"
     },
     {
       "id": "R2",
-      "title": "some runtime role can populate the binding",
-      "expectation": "service_role (or another runtime role) holds UPDATE on packet_render_jobs",
-      "passed": false,
-      "observed": "service_role UPDATE on packet_render_jobs = f (phase 50 revoked it)",
+      "title": "the fix did not restore direct DML on packet_render_jobs",
+      "expectation": "service_role still holds no UPDATE — the binding happens in the insert",
+      "passed": true,
+      "observed": "service_role UPDATE = f",
       "severity": "high"
     },
     {
       "id": "R3",
       "title": "a genuinely paid consumer is served through sanctioned paths only",
-      "expectation": "zero_charge / eligible",
-      "passed": false,
-      "observed": "payment=recorded_paid, job consumer_auth_user_id=NULL, finalize=consumer_payment_required / accounting_blocked",
+      "expectation": "zero_charge / eligible with the binding stored at insert",
+      "passed": true,
+      "observed": "payment=recorded_paid, consumer_auth_user_id=1a1a1a1a-1111-4111-8111-111111111111, finalize=zero_charge / eligible",
       "severity": "high"
+    },
+    {
+      "id": "R4",
+      "title": "the old unbound 13-argument enqueue no longer resolves",
+      "expectation": "an unbound consumer job is impossible by signature",
+      "passed": true,
+      "observed": "ERROR:  function enqueue_packet_render_job(unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, integer) does not exist",
+      "severity": "high"
+    },
+    {
+      "id": "R5",
+      "title": "the stored binding is the item's canonical owner",
+      "expectation": "consumer_auth_user_id equals the Briefcase item's user_id",
+      "passed": true,
+      "observed": "stored=2b2b2b2b-2222-4222-8222-222222222222 expected=2b2b2b2b-2222-4222-8222-222222222222",
+      "severity": null
     }
   ],
   "mutations": [
     {
       "id": "M1",
-      "title": "without phases 51/52 an unpaid consumer packet is deliverable",
+      "title": "without phases 51/52/53 an unpaid consumer packet is deliverable",
       "expectation": "zero_charge / eligible on 49+50 alone",
       "passed": true,
       "observed": "zero_charge / eligible",
@@ -227,8 +261,8 @@
     }
   ],
   "notes": [
-    "Phase 51's four proven failures (G1, G1b, G11, G12) are closed by Phase 52: G1/G2 permission denied, G6 owner mismatch, G8 matter conflict.",
-    "Gate cases write the Phase 52 consumer binding as the table owner so the gate logic is exercised on its intended inputs. The REACH section tests whether any runtime path can supply that binding.",
-    "Post-delivery refund remains a product-policy question and is not asserted here; the pre-finalization refunded case is G12."
+    "Every gate and reach case runs as anon, authenticated or service_role. The owner-level binding write used in the previous revision is removed.",
+    "Phase 53 closes the reachability regression this lane reported at 25f6b09: the binding is written inside the enqueue insert and the unbound 13-argument signature is dropped.",
+    "Post-delivery refund remains a product-policy question; the pre-finalization refunded case is G12."
   ]
 }
