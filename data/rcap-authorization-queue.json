@@ -455,6 +455,51 @@
         "staging": "queued",
         "production": "queued"
       }
+    },
+    {
+      "id": "auth-2026-08-11-partner-onboarding-packet-entitlement-read",
+      "kind": "restricted_path_source_change",
+      "phase": 50,
+      "title": "Record the partner dashboard read that follows the phase 49/50 packet-entitlement split",
+      "artifacts": [
+        "src/lib/partners/partner-onboarding.ts"
+      ],
+      "status": "authorized_scoped",
+      "decision": "approved",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Substantively covered by auth-2026-08-10-phase-49-packet-render-jobs and auth-2026-08-10-phase-50-packet-delivery-hardening, which separated sponsored packet entitlement from the screening allowance. Recorded by exact path here because those authorizations name only the supabase/ files, not the application read that had to follow. FLAGGED FOR ROGER'S CONFIRMATION: this is partner code, and the record is bookkeeping for a change already merged and CI-green, not a new grant.",
+      "authorizedAt": "2026-08-11",
+      "authorizationScope": "repository_integration_only",
+      "executedAt": null,
+      "why": "Found by fixing a scope guard, not declared up front. verify-expungement-consumer-adapter derived its change set from `git status --short` \u2014 the working tree \u2014 so in CI it inspected nothing and this file reached the branch unpoliced across many commits. The change itself is the direct consequence of the phase 49/50 accounting split: the partner dashboard stopped reading packet capacity from partner_entitlement (the screening allowance) and now reads partner_packet_entitlement plus the append-only packet_credit_ledger, which is exactly the separation those phases exist to enforce. Before the accounting migration is applied it reads as unconfigured rather than blending the two products.",
+      "risk": "low",
+      "riskNote": "No privilege, RLS, auth or billing behaviour changes. It is a read repointed at the canonical packet-accounting tables, already covered by the delivery lane's own verifiers (verify-rcap-partner-entitlement, verify-rcap-slot-lifecycle, verify-rcap-partner-onboarding) which are all in the blocking chain and green.",
+      "rollback": "Revert the file to its pre-phase-49 form, which reads packet capacity from partner_entitlement. That reintroduces the blending of screening allowance and packet entitlement the delivery lane removed, so the revert is only correct alongside reverting phases 49 and 50.",
+      "evidence": [
+        "scripts/verify-expungement-consumer-adapter.mjs \u2014 the now-committed-diff scope guard admits it only by this authorization and only at these exact bytes; a byte change voids it",
+        "scripts/verify-rcap-partner-entitlement.mjs, verify-rcap-slot-lifecycle.mjs, verify-rcap-partner-onboarding.mjs \u2014 all in npm test and green"
+      ],
+      "authorizedPaths": [
+        "src/lib/partners/partner-onboarding.ts"
+      ],
+      "authorizedSha256": [
+        "5ce96d8167c9accb47ebd1c6ae5b9155e8e8c4b5f07c1b7c78dd772ee3808757"
+      ],
+      "voidsOn": "Any byte change to the authorized path voids this authorization; the guard re-hashes the file on every run.",
+      "doesNotAuthorize": [
+        "any further change to partner billing, partner RLS, or partner auth",
+        "any change to the screening allowance product"
+      ],
+      "scopedAuthorization": {
+        "repository": "authorized \u2014 the change may exist on the integration branch",
+        "staging": "queued \u2014 carried by the phase 49/50 staging authorizations, not separately granted here",
+        "production": "queued"
+      },
+      "environmentConditions": {
+        "staging": "queued",
+        "production": "queued"
+      }
     }
   ],
   "statusVocabulary": {

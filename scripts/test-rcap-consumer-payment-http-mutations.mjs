@@ -28,6 +28,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { registerMutationRestore } from './lib/mutation-restore-guard.mjs';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const verifier = path.join(rootDir, 'scripts/verify-expungement-consumer-payment-http.mjs');
@@ -87,6 +88,10 @@ for (const [, file] of MUTATIONS) {
 function restoreAll() {
   for (const [file, text] of originals) fs.writeFileSync(file, text);
 }
+
+// `finally` does not run on a signal. Without this, a step timeout leaves the
+// deleted payment-authority check sitting in tracked source.
+registerMutationRestore(restoreAll);
 
 try {
   for (const [name, file, mutate] of MUTATIONS) {
