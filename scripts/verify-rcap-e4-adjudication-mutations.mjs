@@ -30,6 +30,34 @@ function checkIsRed() {
 const clone = () => JSON.parse(original);
 const firstOf = (doc, pred) => doc.canonicalRelationships.find(pred);
 
+// The live table carries no still_blocked rows since the official-source and
+// MD lifts resolved them, but the blocked code path is still load-bearing —
+// any lift regression re-emits blocked rows. These classes therefore inject a
+// well-formed synthetic blocked row on a real subject and then break it; a
+// well-formed injection alone passes, so each catch below is the named defect.
+const injectBlocked = (d) => {
+  const row = {
+    jobId: 'compiled_pathway:AL:human-trafficking-victim-expungement',
+    lane: 'E4-MUTATION-SYNTHETIC',
+    subjectKind: 'compiled_pathway',
+    jurisdiction: 'AL',
+    subjectId: 'human-trafficking-victim-expungement',
+    relationshipType: 'still_blocked',
+    counterpart: null,
+    laneOutcome: 'still_blocked',
+    laneConfidence: 'high',
+    evidence: [],
+    evidencePins: [],
+    missingEvidence: 'Synthetic blocked row injected by the mutation harness for discipline checks.',
+    owner: 'mutation harness',
+    nextAction: 'Not applicable; this row exists only inside a mutation run.',
+    blockerKind: 'official_source_gap',
+    milestone1Item2Effect: 'none; synthetic',
+  };
+  d.canonicalRelationships.push(row);
+  return row;
+};
+
 const MUTATIONS = [
   ['input removed entirely (consumption proof)', () => null],
   ['canonicalRelationships emptied', (d) => { d.canonicalRelationships = []; return d; }],
@@ -39,9 +67,9 @@ const MUTATIONS = [
     return d;
   }],
   ['false closure: a still_blocked row flipped to resolved', (d) => {
-    const r = firstOf(d, (x) => x.relationshipType === 'still_blocked');
+    const r = injectBlocked(d);
     r.relationshipType = 'direct_runtime_representation';
-    r.counterpart = 'nh_conviction_standard';
+    r.counterpart = 'al-trafficking';
     r.license = 'x'.repeat(60);
     return d;
   }],
@@ -110,17 +138,17 @@ const MUTATIONS = [
     return d;
   }],
   ['still_blocked record loses its owner', (d) => {
-    const r = firstOf(d, (x) => x.relationshipType === 'still_blocked');
+    const r = injectBlocked(d);
     r.owner = '';
     return d;
   }],
   ['still_blocked record loses its next action', (d) => {
-    const r = firstOf(d, (x) => x.relationshipType === 'still_blocked');
+    const r = injectBlocked(d);
     delete r.nextAction;
     return d;
   }],
   ['still_blocked record given vague missing evidence', (d) => {
-    const r = firstOf(d, (x) => x.relationshipType === 'still_blocked');
+    const r = injectBlocked(d);
     r.missingEvidence = 'unnamed';
     return d;
   }],

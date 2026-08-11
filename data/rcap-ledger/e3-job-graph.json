@@ -9,15 +9,15 @@
   },
   "input": {
     "crosswalk": "data/rcap-ledger/track-pathway-crosswalk.json",
-    "crosswalkContentHash": "065f9116a76c75618404d7c23f93aa841d9b428ff26caea805f53fc8dade3f15",
-    "crosswalkEvidenceHash": "4d97d0a26ddf3423b9a7421f19a972fe909b75d0bcd0bc7c4e55f395df419d70",
+    "crosswalkContentHash": "13ed7157db3397286510caf4f1e7292470964377124fa908ef2ebc0350abcd24",
+    "crosswalkEvidenceHash": "a8c1f3de6422faefd1124a9ef3a50451acd36924a2cb5fbcf57ee68acf895f53",
     "registryTracks": 497,
     "compiledPathways": 325
   },
   "milestone1Item2": {
-    "closed": false,
+    "closed": true,
     "blockedBy": {
-      "unresolvedPathways": 2,
+      "unresolvedPathways": 0,
       "unresolvedTracks": 0
     },
     "note": "Item 2 closes when both sets are empty. No other obligation in this graph blocks it."
@@ -26,12 +26,11 @@
     "jobs": 247,
     "obligations": 254,
     "blockingJobs": 8,
-    "milestone1Item2Jobs": 2,
+    "milestone1Item2Jobs": 0,
     "byObligation": {
       "pin_subsection_citation": 2,
-      "registry_owner_action": 31,
+      "registry_owner_action": 33,
       "materialize_official_source": 7,
-      "resolve_or_terminalize_pathway": 2,
       "implement_runtime_pathway": 211,
       "correct_superseded_runtime_text": 1
     },
@@ -945,30 +944,30 @@
         {
           "obligation": "materialize_official_source",
           "blocking": true,
-          "milestone1Item2": true,
+          "milestone1Item2": false,
           "authority": "18 Pa.C.S. ch. 30 (expected § 3019)",
           "note": "one fetch; egress-blocked in every lane that tried",
           "surplusBlocker": true,
           "stopCondition": "the operative primary authority is committed to the repository and cited by the conclusion that depends on it"
         },
         {
-          "obligation": "resolve_or_terminalize_pathway",
-          "blocking": true,
-          "milestone1Item2": true,
-          "need": [
-            "a statutory citation in the compiled pathway id or label",
-            "or an official form identifier shared with a registry track"
-          ],
-          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+          "obligation": "registry_owner_action",
+          "blocking": false,
+          "milestone1Item2": false,
+          "provisional": false,
+          "operativeAuthority": "18 Pa.C.S. § 3019(d)-(g)",
+          "ownerAction": "draft and land a registry track through the canonical registry source branch, or record a terminal out-of-scope disposition",
+          "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+          "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered; it currently treats the mechanism at guidance depth (attorney escalation, Lawrence hold_guidance, packet_capable false), which is conservative relative to the statute's closed offense enumeration and procedural requirements",
+          "stopCondition": "the registry owner adds or declines the track; declining must record why the mechanism is out of scope"
         }
       ],
       "label": "Path K — Human-trafficking vacatur / expungement",
-      "profilePath": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json",
-      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "reason": "relief mechanism with no registry track",
       "facets": {
         "jobClass": [
           "materialize_official_source",
-          "resolve_or_terminalize_pathway"
+          "registry_owner_action"
         ],
         "affectedTracks": [],
         "affectedTrackCount": 0,
@@ -979,18 +978,19 @@
           "note": "primary authority must land before this job can close"
         },
         "implementationFamily": [
-          "crosswalk_resolution",
+          "registry_governance",
           "source_materialization"
         ],
         "ownedPaths": [
           "data/rcap-ledger/crosswalk-adjudications.json",
+          "data/record-clearing/legal-design-track-registry.json",
           "private/Nationwide Record Clearing/"
         ],
         "reviewRequirement": [
-          "counsel_review",
+          "registry_owner_decision",
           "source_freshness_review"
         ],
-        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+        "terminalEffect": "adds a registry track (raising the 497 denominator) or records the mechanism as out of scope; no runtime effect"
       }
     },
     {
@@ -1002,30 +1002,30 @@
         {
           "obligation": "materialize_official_source",
           "blocking": true,
-          "milestone1Item2": true,
+          "milestone1Item2": false,
           "authority": "S.C. Code § 16-3-2020",
           "note": "not present in any committed source",
           "surplusBlocker": false,
           "stopCondition": "the operative primary authority is committed to the repository and cited by the conclusion that depends on it"
         },
         {
-          "obligation": "resolve_or_terminalize_pathway",
-          "blocking": true,
-          "milestone1Item2": true,
-          "need": [
-            "a statutory citation in the compiled pathway id or label",
-            "or an official form identifier shared with a registry track"
-          ],
-          "stopCondition": "a registry track is named on cited authority, or the pathway is terminally classified (registry gap, scoped out, routing) with a published blocker"
+          "obligation": "registry_owner_action",
+          "blocking": false,
+          "milestone1Item2": false,
+          "provisional": false,
+          "operativeAuthority": "S.C. Code § 16-3-2020(F)",
+          "ownerAction": "draft and land a registry track through the canonical registry source branch, or record a terminal out-of-scope disposition",
+          "denominatorImpact": "none until the registry owner acts; a new track would raise the 497 denominator by 1",
+          "runtimeImpact": "the compiled pathway stays live but uncounted for per-track coverage until registered; packet flow must add the § 16-3-2020(F) notice steps (original prosecuting agency; victims per the Victim's Bill of Rights) before any unattended filing use — carried as a counsel-review requirement",
+          "stopCondition": "the registry owner adds or declines the track; declining must record why the mechanism is out of scope"
         }
       ],
       "label": "Human-trafficking-survivor expungement",
-      "profilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
-      "reason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
+      "reason": "relief mechanism with no registry track",
       "facets": {
         "jobClass": [
           "materialize_official_source",
-          "resolve_or_terminalize_pathway"
+          "registry_owner_action"
         ],
         "affectedTracks": [],
         "affectedTrackCount": 0,
@@ -1036,18 +1036,19 @@
           "note": "primary authority must land before this job can close"
         },
         "implementationFamily": [
-          "crosswalk_resolution",
+          "registry_governance",
           "source_materialization"
         ],
         "ownedPaths": [
           "data/rcap-ledger/crosswalk-adjudications.json",
+          "data/record-clearing/legal-design-track-registry.json",
           "private/Nationwide Record Clearing/"
         ],
         "reviewRequirement": [
-          "counsel_review",
+          "registry_owner_decision",
           "source_freshness_review"
         ],
-        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
+        "terminalEffect": "adds a registry track (raising the 497 denominator) or records the mechanism as out of scope; no runtime effect"
       }
     },
     {

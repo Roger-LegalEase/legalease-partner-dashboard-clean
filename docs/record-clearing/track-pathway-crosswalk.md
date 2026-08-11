@@ -16,10 +16,10 @@ The registry and the compiled profiles share no identifier space, and no committ
 | Registry tracks with no compiled pathway | 211 |
 | Registry tracks unresolved (ambiguous candidates) | 0 |
 | Compiled pathways mapped to a registry track | 282 |
-| Compiled pathways terminally classified (scoped-out, routing, registry gap) | 41 |
-| Compiled pathways unresolved | 2 |
+| Compiled pathways terminally classified (scoped-out, routing, registry gap) | 43 |
+| Compiled pathways unresolved | 0 |
 
-**Milestone 1 item 2: blocked.** 2 compiled pathways and 0 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
+**Milestone 1 item 2: closed.** Every track and every pathway carries a supported relationship or a terminal classification.
 
 ## Relationship vocabulary
 
@@ -40,7 +40,7 @@ The registry and the compiled profiles share no identifier space, and no committ
 
 ## Adjudicated relationships
 
-252 rows were resolved by adjudication (round: lane E3-final @ `?`, 223 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
+254 rows were resolved by adjudication (round: lane E3-final @ `?`, 225 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
 
 ## Registry-gap blockers
 
@@ -67,6 +67,8 @@ Substantive relief mechanisms the runtime carries with no registry track. Record
 | OH | `juvenile-sealing-and-expungement` | Ohio Rev. Code Section 2151.356 | no |
 | OK | `human-trafficking-survivor-relief` | 22 O.S. § 19c | no |
 | OK | `juvenile-record-expungement` | 10A O.S. § 2-6-109 | no |
+| PA | `path-k-human-trafficking-vacatur-expungement` | 18 Pa.C.S. § 3019(d)-(g) | no |
+| SC | `human-trafficking-survivor-expungement` | S.C. Code § 16-3-2020(F) | no |
 | SC | `pardon-guidance-for-otherwise-ineligible-convictions` | South Carolina executive pardon through the Department of Probation, Parole and Pardon Services (rights-restoration route; not record clearing) (no statutory citation; provisional) | yes — operative citation not yet pinned |
 | SD | `controlled-substance-deferred-disposition-route` | SDCL § 23A-27-53 | no |
 | SD | `juvenile-delinquency-sealing` | SDCL §§ 26-7A-115 to 26-7A-116 | no |
@@ -90,7 +92,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | LA | +2 | 6 | 0 | 0 | 0 | 0 | yes |
 | MS | +4 | 4 | 0 | 0 | 2 | 0 | yes |
 | OK | +8 | 12 | 0 | 0 | 2 | 0 | yes |
-| PA | +1 | 2 | 0 | 0 | 0 | 1 | no |
+| PA | +1 | 2 | 0 | 0 | 1 | 0 | yes |
 | SD | +3 | 0 | 0 | 0 | 3 | 0 | yes |
 | WY | +2 | 0 | 2 | 0 | 0 | 0 | yes |
 
@@ -136,9 +138,9 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | OH | 8 | 7 | -1 | 6 | 6 | 0 | 0 |
 | OK | 10 | 18 | +8 | 8 | 16 | 0 | 0 |
 | OR | 5 | 3 | -2 | 3 | 3 | 0 | 0 |
-| PA | 10 | 11 | +1 | 10 | 10 | 0 | 1 |
+| PA | 10 | 11 | +1 | 10 | 10 | 0 | 0 |
 | RI | 9 | 8 | -1 | 9 | 8 | 0 | 0 |
-| SC | 12 | 7 | -5 | 9 | 5 | 0 | 1 |
+| SC | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
 | SD | 5 | 8 | +3 | 5 | 5 | 0 | 0 |
 | TN | 13 | 4 | -9 | 4 | 4 | 0 | 0 |
 | TX | 19 | 9 | -10 | 9 | 9 | 0 | 0 |
@@ -149,7 +151,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | WI | 8 | 5 | -3 | 3 | 3 | 0 | 0 |
 | WV | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
 | WY | 3 | 5 | +2 | 3 | 3 | 2 | 0 |
-| **Total** | **497** | **325** | **-172** | **285** | **282** | **4** | **2** |
+| **Total** | **497** | **325** | **-172** | **285** | **282** | **4** | **0** |
 
 ## What this does not claim
 

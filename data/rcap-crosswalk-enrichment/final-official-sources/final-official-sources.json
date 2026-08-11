@@ -90,28 +90,28 @@
    "jurisdiction": "PA",
    "assertedMechanism": "Human-trafficking victim vacatur / expungement of qualifying convictions (Path K of the PA compiled pathways)",
    "expectedAuthority": "18 Pa.C.S. § 3019 (expected — within 18 Pa.C.S. ch. 30); marked 'expected', never established in committed form",
-   "verifiedOperativeAuthority": null,
+   "verifiedOperativeAuthority": "18 Pa.C.S. § 3019(d)-(g) — motion to vacate trafficking-caused convictions with mandatory expungement on grant",
    "verificationAgainstRepository": {
     "profileTokenScan": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json at this base contains 'trafficking' 86 times and 'vacatur' 69 times but the token '3019' zero times — the mechanism is described, its statutory pin is not committed anywhere",
     "registryScan": "no PA registry track in data/rcap-ledger/registry-crosswalk-projection.json contains 'traffick', 'vacatur' or '3019'",
     "conclusion": "The expected citation cannot be confirmed or refuted from committed evidence; asserting § 3019 as verified operative authority would exceed the sources."
    },
    "officialIssuingBody": "Pennsylvania General Assembly",
-   "officialSourceUrl": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.030.019.000..HTM (constructed from the legislature's Title-18 HTM naming carried by the registry for §§ 9102/9122; unverified — never fetched)",
-   "retrievalTimestamp": null,
-   "sourcePath": null,
-   "sha256": null,
-   "sectionPointer": null,
-   "verbatimOperativeSpan": null,
-   "sourceCurrentness": null,
-   "supportsProposedRelationship": null,
-   "exactMissingEvidence": "Official bytes only. Required: the CURRENT consolidated text of 18 Pa.C.S. § 3019, subsections (d) through (g) (the motion-to-vacate and expungement provisions), as served by the Pennsylvania General Assembly (palegis.us or legis.state.pa.us) — not a pending bill's text. The substantive content is no longer unknown (see operatorConfirmation); what is missing is the served bytes to hash, receipt and span-verify.",
+   "officialSourceUrl": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.030..HTM",
+   "retrievalTimestamp": "2026-08-11",
+   "sourcePath": "data/rcap-crosswalk-enrichment/final-official-sources/files/PA/PA_18_PaCS_3019_d-g_official_2026-08-11.txt",
+   "sha256": "0dc688b98962d565ab96c1ad4bbbf33a730dc0fdf51117765e733a4fe53c7dc4",
+   "sectionPointer": "18 Pa.C.S. § 3019, subsections (d) through (g)",
+   "verbatimOperativeSpan": "the court shall vacate the conviction, strike the adjudication of guilt and order the expungement of the record of the criminal proceedings",
+   "sourceCurrentness": "Text extract of the current consolidated section as served 2026-08-11 (operator-attested retrieval date). The extract carries no internal amendment history; currentness rests on the retrieval date. Section heading as served: '§ 3019. Victim protection during prosecution.'",
+   "supportsProposedRelationship": true,
+   "exactMissingEvidence": null,
    "operatorConfirmation": {
     "confirmedBy": "Roger (project owner), via independent web-capable research relayed to this lane 2026-08-11",
     "finding": "Current official 18 Pa.C.S. § 3019 provides a motion to vacate specified convictions resulting from human trafficking; requires Commonwealth consent and supporting evidence; on grant the court vacates the conviction and orders expungement of related criminal records. Confirms path-k rests on a real vacatur-and-expungement mechanism.",
     "standing": "Operator-supplied substantive confirmation. Resolves the legal-research unknown and re-scopes this blocker to byte transfer only. NOT final authority for the receipt: the receipt's verified authority, operative span, currentness and support verdict fill only from the served official bytes, and E must still compare the compiled pathway's eligible-offense list, consent requirement and participant treatment against the exact statute text."
    },
-   "blockerScope": "byte_transfer_only",
+   "blockerScope": "cleared_2026-08-11",
    "retrievalPacket": {
     "path": "docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md",
     "sha256": "ef2e8bd10e567ed54658f672dcb565ed28b05b2a3b8302433364024427269a7c",
@@ -123,16 +123,30 @@
     "path": "data/rcap-ledger/crosswalk-resolution/E4-R3.json",
     "outcome": "still_blocked"
    },
-   "resolution": "still_blocked",
-   "recommendedE3Disposition": "byte-transfer hold only — the substantive mechanism is operator-confirmed (vacatur with Commonwealth consent, expungement of related records on grant), so E may plan the path-k relationship against it; the relationship cannot be CONFIRMED, and the receipt cannot be issued, until the served bytes of § 3019(d)-(g) land and the eligible-offense list, consent requirement and participant treatment are compared against the exact statute text. Do not terminalize; do not treat EGRESS_BLOCKED as a project-level legal blocker — it is a limitation of the coding terminals only.",
-   "blockerOwner": "web-capable retrieval owner (Roger or any web-capable lane): fetch the current § 3019 page, drop the bytes as served under data/rcap-crosswalk-enrichment/final-official-sources/files/PA/, fill the receipt fields, run the lane verifier"
+   "resolution": "materialized",
+   "recommendedE3Disposition": "proceed — official text is preserved and receipted; adjudicate the relationship on the pinned bytes. PA: compare compiled path-k's offense scope against the closed (d)(1) enumeration before naming the relationship exact.",
+   "blockerOwner": null,
+   "supportFinding": "Supports the path-k mechanism as asserted: (d)(1) enumerates the eligible convictions (§§ 3503, 5503, 5506, 5507, 5902, and simple possession of a controlled substance) committed as a direct result of being a trafficking victim; (d)(2)(ii) requires consent by the attorney for the Commonwealth; (d)(2)(iii)-(iv) and (e) set the evidentiary requirements and the official-documentation presumption; (f) sets the grant standard; (g) mandates vacatur, striking of the adjudication of guilt, and expungement of all related records. E must still compare the compiled pathway's eligible-offense list, consent handling and participant treatment against this enumerated scope — the statute's offense list is closed, not general.",
+   "provenance": {
+    "bytesSuppliedBy": "Roger (project owner)",
+    "transferMethod": "uploaded into this Claude Code session's conversation (individual files, then the package ZIP) after legislative-host egress remained policy-blocked in every coding terminal",
+    "originalWorkspace": "retrieved via OpenAI web tooling in Roger's ChatGPT workspace; supplied as exact official-source text extracts, not raw HTML page snapshots (operator metadata note preserved verbatim at data/rcap-crosswalk-enrichment/final-official-sources/operator-package-metadata-2026-08-11.json, sha256 df02069c6342f7749583bd5aa386c0ab203ca13573dc25323cddc6a6058af745)",
+    "urlVerifiedFromThisEnvironment": false,
+    "operatorAttestation": "Roger supplied the official URLs, the 2026-08-11 retrieval date, and the member SHA-256 values in-conversation; uploaded member bytes hash-match his published values exactly",
+    "containerNote": "The package ZIP received here hashes ca8fb7db700bd1e3af996a00ef3bd02ccbb2667f269d61f87b93a2534305e0a3, not the published 6c1d09fef3da40a7f02244e5f5c3724c40c9f033e87d230a7f5c0ebaa359f0cf; the received container is a macOS Finder re-zip (nested folder + __MACOSX entries). All three member files hash exactly to the published member values, and member bytes are what these receipts pin.",
+    "uploadPaths": [
+     "/root/.claude/uploads/c0294f25-bb42-5810-b2cd-466e8c9696dc/2c35a450-PA_18_PaCS_3019_dg_official_20260811.txt",
+     "/root/.claude/uploads/c0294f25-bb42-5810-b2cd-466e8c9696dc/12166b4d-SC_Code_1632020_F_official_20260811.txt",
+     "/root/.claude/uploads/c0294f25-bb42-5810-b2cd-466e8c9696dc/9934ae76-RCAP_PA_SC_official_source_package_20260811.zip"
+    ]
+   }
   },
   {
    "subjectId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
    "jurisdiction": "SC",
    "assertedMechanism": "Trafficking-survivor motion to expunge convictions/adjudications for trafficking-article offenses, prostitution, or another nonviolent misdemeanor or Class F felony shown to be caused by or interrelated to trafficking",
    "expectedAuthority": "S.C. Code § 16-3-2020 (asserted by the coded state pack; unverified in any committed source)",
-   "verifiedOperativeAuthority": null,
+   "verifiedOperativeAuthority": "S.C. Code § 16-3-2020(F) — survivor motion to expunge trafficking-related convictions/adjudications (as rewritten by 2024 Act No. 213, § 2, eff July 2, 2024; retroactive per Act 213 § 6)",
    "verificationAgainstRepository": {
     "assertionSite": "src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts:21 pins § 16-3-2020 to the operative prose",
     "selfContradiction": "src/lib/rcap/state-packs/south-carolina/pathways.ts:185 records the citation as 'S.C. Code (trafficking-victim expungement provision; exact subsection unconfirmed in Nationwide source)'",
@@ -140,21 +154,21 @@
     "conclusion": "The asserted citation is internally contradicted and no committed source contains the section text; whether § 16-3-2020 grants expungement, vacatur, sealing, eligibility, procedure, or is only a substantive offense provision cannot be determined from the repository."
    },
    "officialIssuingBody": "South Carolina Legislature",
-   "officialSourceUrl": "https://www.scstatehouse.gov/code/t16c003.php (Title 16, Chapter 3 chapter page — file-identity pattern carried by the registry for six other SC chapters; unverified — never fetched)",
-   "retrievalTimestamp": null,
-   "sourcePath": null,
-   "sha256": null,
-   "sectionPointer": null,
-   "verbatimOperativeSpan": null,
-   "sourceCurrentness": null,
-   "supportsProposedRelationship": null,
-   "exactMissingEvidence": "Official bytes only. Required: the CURRENT text of S.C. Code § 16-3-2020 with subsection (F) (the survivor motion-to-expunge provision), including the 2024 amendment and its retroactive-rights editor's note, as served by scstatehouse.gov. The substantive classification is no longer unknown (see operatorConfirmation); what is missing is the served bytes to hash, receipt and span-verify.",
+   "officialSourceUrl": "https://www.scstatehouse.gov/code/t16c003.php",
+   "retrievalTimestamp": "2026-08-11",
+   "sourcePath": "data/rcap-crosswalk-enrichment/final-official-sources/files/SC/SC_Code_16-3-2020_F_official_2026-08-11.txt",
+   "sha256": "b7f64d13388ca43175931e2b1aee357703bd99031b0b64879de690b7893dd630",
+   "sectionPointer": "S.C. Code § 16-3-2020(F)",
+   "verbatimOperativeSpan": "may motion the court to expunge the record of the conviction or adjudication for a nonviolent misdemeanor or Class F felony offense committed as a direct result of, or interrelated to trafficking",
+   "sourceCurrentness": "HISTORY line current through 2024 Act No. 213 (S.142), § 2, eff July 2, 2024, which rewrote (F) and (G); Editor's Note preserves Act 213 § 6: 'The rights delineated under SECTION 2 of this act shall apply retroactively.' Retrieved 2026-08-11 (operator-attested).",
+   "supportsProposedRelationship": true,
+   "exactMissingEvidence": null,
    "operatorConfirmation": {
     "confirmedBy": "Roger (project owner), via independent web-capable research relayed to this lane 2026-08-11",
     "finding": "Current S.C. Code § 16-3-2020(F) expressly permits a trafficking victim to move to expunge a conviction or delinquency adjudication for specified nonviolent misdemeanor or Class F felony offenses committed as a direct result of, or interrelated to, trafficking; preponderance standard; reasonable notice to the original prosecuting agency and affected victims. An expungement mechanism under current law, not merely an offense statute.",
     "standing": "Operator-supplied substantive confirmation. Resolves the offense-only-versus-relief question and re-scopes this blocker to byte transfer only. NOT final authority for the receipt: the receipt's verified authority, operative span, currentness (including the 2024 amendment and editor's note) and support verdict fill only from the served official bytes."
    },
-   "blockerScope": "byte_transfer_only",
+   "blockerScope": "cleared_2026-08-11",
    "retrievalPacket": {
     "path": "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md",
     "sha256": "6ad5c8d749a4eb68923c734bdad61f7871f5eb510634fc78022d481c4b00d536",
@@ -166,9 +180,23 @@
     "path": "data/rcap-ledger/crosswalk-resolution/E4-R4.json",
     "outcome": "still_blocked"
    },
-   "resolution": "still_blocked",
-   "recommendedE3Disposition": "byte-transfer hold only — the offense-only question is operator-resolved (§ 16-3-2020(F) is an expungement mechanism under current law), so E may plan the survivor-expungement relationship against it; the candidate registry-gap disposition and the receipt still require the served bytes of § 16-3-2020 including subsection (F), the 2024 amendment and its retroactive-rights editor's note, span-verified. Do not terminalize; do not treat EGRESS_BLOCKED as a project-level legal blocker — it is a limitation of the coding terminals only.",
-   "blockerOwner": "web-capable retrieval owner (Roger or any web-capable lane): fetch the current Title 16 Ch. 3 page, drop the bytes as served under data/rcap-crosswalk-enrichment/final-official-sources/files/SC/, fill the receipt fields, run the lane verifier"
+   "resolution": "materialized",
+   "recommendedE3Disposition": "proceed — official text is preserved and receipted; adjudicate the relationship on the pinned bytes. SC: the registry-gap analysis can now be completed against a proven expungement mechanism, including 2024 retroactivity.",
+   "blockerOwner": null,
+   "supportFinding": "Relief classification from the bytes: EXPUNGEMENT — (F) grants a motion-based expungement remedy (not vacatur, sealing, or an offense-only provision): a trafficking victim convicted or adjudicated delinquent of a violation of the trafficking article, prostitution, or any other nonviolent misdemeanor or Class F felony (defined by reference to § 16-1-20(A)(6)-(9)) may motion to expunge; grant standard is preponderance that participation was a direct result of or interrelated to being a victim; reasonable notice to the original prosecuting agency and to victims per the Victim's Bill of Rights is required. (F) also carries a distinct affirmative-defense clause for prosecutions — E should treat the defense and the expungement remedy as separate operative effects of the same subsection.",
+   "provenance": {
+    "bytesSuppliedBy": "Roger (project owner)",
+    "transferMethod": "uploaded into this Claude Code session's conversation (individual files, then the package ZIP) after legislative-host egress remained policy-blocked in every coding terminal",
+    "originalWorkspace": "retrieved via OpenAI web tooling in Roger's ChatGPT workspace; supplied as exact official-source text extracts, not raw HTML page snapshots (operator metadata note preserved verbatim at data/rcap-crosswalk-enrichment/final-official-sources/operator-package-metadata-2026-08-11.json, sha256 df02069c6342f7749583bd5aa386c0ab203ca13573dc25323cddc6a6058af745)",
+    "urlVerifiedFromThisEnvironment": false,
+    "operatorAttestation": "Roger supplied the official URLs, the 2026-08-11 retrieval date, and the member SHA-256 values in-conversation; uploaded member bytes hash-match his published values exactly",
+    "containerNote": "The package ZIP received here hashes ca8fb7db700bd1e3af996a00ef3bd02ccbb2667f269d61f87b93a2534305e0a3, not the published 6c1d09fef3da40a7f02244e5f5c3724c40c9f033e87d230a7f5c0ebaa359f0cf; the received container is a macOS Finder re-zip (nested folder + __MACOSX entries). All three member files hash exactly to the published member values, and member bytes are what these receipts pin.",
+    "uploadPaths": [
+     "/root/.claude/uploads/c0294f25-bb42-5810-b2cd-466e8c9696dc/2c35a450-PA_18_PaCS_3019_dg_official_20260811.txt",
+     "/root/.claude/uploads/c0294f25-bb42-5810-b2cd-466e8c9696dc/12166b4d-SC_Code_1632020_F_official_20260811.txt",
+     "/root/.claude/uploads/c0294f25-bb42-5810-b2cd-466e8c9696dc/9934ae76-RCAP_PA_SC_official_source_package_20260811.zip"
+    ]
+   }
   }
  ],
  "environmentEvidence": {
@@ -178,5 +206,17 @@
  "materializationContract": {
   "filesRoot": "data/rcap-crosswalk-enrichment/final-official-sources/files/<JUR>/",
   "onArrival": "Drop bytes as served, fill sourcePath, sha256, retrievalTimestamp, sectionPointer, verbatimOperativeSpan, sourceCurrentness, verifiedOperativeAuthority and supportsProposedRelationship on the subject, set resolution to 'materialized', and run scripts/verify-rcap-final-official-sources.mjs — it hash-verifies the bytes, requires the cited section and the verbatim span to be present in them, and refuses any non-official host as final authority."
+ },
+ "ingestion": {
+  "ingestedAt": "2026-08-11",
+  "laneBranch": "claude/rcap-final-official-sources-ingested",
+  "baseCommit": "d6310fd2 (Phase 54 base: phase-54-rcap-person-namespace-hardening.sql present)",
+  "operatorPackage": {
+   "zipReceivedSha256": "ca8fb7db700bd1e3af996a00ef3bd02ccbb2667f269d61f87b93a2534305e0a3",
+   "zipPublishedSha256": "6c1d09fef3da40a7f02244e5f5c3724c40c9f033e87d230a7f5c0ebaa359f0cf",
+   "zipDelta": "Finder re-zip (nested folder + __MACOSX); member bytes identical",
+   "memberHashesVerified": true,
+   "metadataPreservedAt": "data/rcap-crosswalk-enrichment/final-official-sources/operator-package-metadata-2026-08-11.json"
+  }
  }
 }

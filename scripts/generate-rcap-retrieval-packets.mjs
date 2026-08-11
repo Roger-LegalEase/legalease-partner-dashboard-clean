@@ -26,6 +26,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -214,6 +215,31 @@ for (const id of targets) {
   L.push("");
 
   files.set(path.join(outDir, `${slug}.md`), `${L.join("\n")}\n`);
+}
+
+// A packet whose obligation has been CLOSED by a materialized, hash-receipted
+// official source is no longer a live instruction — it is preserved retrieval
+// evidence, pinned by sha256 in the final-official-sources receipts. Freezing
+// happens here: when the committed packet bytes match the receipt's pin, those
+// bytes are canonical and regeneration must not rewrite them. If the committed
+// bytes have drifted from the pin, the computed body stands and the drift
+// surfaces as staleness here and as a hash failure in the source verifier.
+const officialSourcesRecordPath = path.join(
+  rootDir,
+  "data/rcap-crosswalk-enrichment/final-official-sources/final-official-sources.json"
+);
+if (fs.existsSync(officialSourcesRecordPath)) {
+  const record = JSON.parse(fs.readFileSync(officialSourcesRecordPath, "utf8"));
+  for (const subject of record.subjects || []) {
+    if (subject.resolution !== "materialized") continue;
+    if (subject.retrievalPacket?.preserved !== true || !subject.retrievalPacket.sha256) continue;
+    const packetAbs = path.join(rootDir, subject.retrievalPacket.path);
+    if (!fs.existsSync(packetAbs)) continue;
+    const committed = fs.readFileSync(packetAbs);
+    if (crypto.createHash("sha256").update(committed).digest("hex") === subject.retrievalPacket.sha256) {
+      files.set(packetAbs, committed.toString("utf8"));
+    }
+  }
 }
 
 const manifest = {

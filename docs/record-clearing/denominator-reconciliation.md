@@ -30,9 +30,9 @@ They are joined on substance by `data/rcap-ledger/track-pathway-crosswalk.json`,
 | Registry tracks whose candidates stay ambiguous | 0 |
 | Compiled pathways mapped to a registry track | 282 |
 | Compiled pathways the registry scopes out by name | 4 |
-| Compiled pathways still unresolved | 2 |
+| Compiled pathways still unresolved | 0 |
 
-**Milestone 1 item 2 is not closed.** A per-track coverage statement is now possible for the 285 mapped tracks and for no others. The remaining 2 compiled pathways and 0 registry tracks are enumerated in `unresolvedIds` in the crosswalk, each with the evidence it is missing. They are a finite named set, not an unknown.
+**Milestone 1 item 2 is closed.** Every registry track and every compiled pathway carries a supported relationship or a terminal classification.
 
 The jurisdiction table below remains the count reconciliation. It is not superseded by the crosswalk: a jurisdiction can balance on count while none of its tracks are individually identified.
 

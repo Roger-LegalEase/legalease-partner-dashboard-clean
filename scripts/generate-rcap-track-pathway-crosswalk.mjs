@@ -567,6 +567,70 @@ if (adjudicationDoc) {
           adjudicationFailure(`${key} non-provisional gap without citation tokens`);
         }
       }
+      // A gap whose operative authority is established by preserved official
+      // statutory bytes rather than the pathway's own citations carries an
+      // officialSource block. Everything it asserts is re-verified here on
+      // every run: the receipt subject, the byte hash, the receipt's own
+      // verbatim span, every required operative span, and the registry-absence
+      // of the operative authority. Any drift re-fails the license, which
+      // re-opens the blocker — the classification can never outlive its bytes.
+      if (license.officialSource) {
+        const os = license.officialSource;
+        const recPath = path.join(rootDir, os.record ?? "");
+        if (!os.record || !fs.existsSync(recPath)) {
+          adjudicationFailure(`${key} official-source record ${os.record} is not in the tree`);
+        } else {
+          const rec = JSON.parse(fs.readFileSync(recPath, "utf8"));
+          const subject = (rec.subjects || []).find((s) => s.subjectId === os.subjectId);
+          if (!subject) {
+            adjudicationFailure(`${key} official-source record has no subject ${os.subjectId}`);
+          } else {
+            if (subject.resolution !== "materialized") {
+              adjudicationFailure(`${key} official-source subject ${os.subjectId} is not materialized`);
+            }
+            if (subject.supportsProposedRelationship !== true) {
+              adjudicationFailure(`${key} official source does not support the proposed relationship`);
+            }
+            if (subject.sourcePath !== os.sourcePath || subject.sha256 !== os.sha256) {
+              adjudicationFailure(`${key} official-source license pin drifted from the committed receipt`);
+            }
+            const bytesPath = path.join(rootDir, os.sourcePath ?? "");
+            if (!os.sourcePath || !fs.existsSync(bytesPath)) {
+              adjudicationFailure(`${key} official-source bytes ${os.sourcePath} are not in the tree`);
+            } else {
+              const bytes = fs.readFileSync(bytesPath);
+              if (crypto.createHash("sha256").update(bytes).digest("hex") !== os.sha256) {
+                adjudicationFailure(`${key} official-source bytes drifted from receipt hash ${String(os.sha256).slice(0, 12)}…`);
+              }
+              const foldedBytes = foldText(bytes.toString("utf8"));
+              if (subject.verbatimOperativeSpan && !foldedBytes.includes(foldText(subject.verbatimOperativeSpan))) {
+                adjudicationFailure(`${key} receipt's verbatim operative span is absent from the official bytes`);
+              }
+              if ((os.requiredSpans || []).length === 0) {
+                adjudicationFailure(`${key} official-source license without required operative spans`);
+              }
+              for (const span of os.requiredSpans || []) {
+                if (!foldedBytes.includes(foldText(span))) {
+                  adjudicationFailure(`${key} required official-text span "${String(span).slice(0, 60)}" is absent from the official bytes`);
+                }
+              }
+              if ((os.operativeAuthorityTokens || []).length === 0) {
+                adjudicationFailure(`${key} official-source license without operative authority tokens`);
+              }
+              for (const token of os.operativeAuthorityTokens || []) {
+                if (!foldedBytes.includes(foldText(token))) {
+                  adjudicationFailure(`${key} official operative authority token "${token}" is absent from the official bytes`);
+                }
+                for (const track of registryByJurisdiction.get(adj.jurisdiction) || []) {
+                  if (new RegExp(`(?<![0-9a-z])${foldText(token).replace(/[-]/g, "\\-")}(?![0-9a-z])`).test(foldText((track.authority || [""])[0]))) {
+                    adjudicationFailure(`${key} official operative authority "${token}" is carried operatively by track ${track.trackId}`);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     } else {
       adjudicationFailure(`${key} unknown adjudicated relation "${adj.relation}"`);
     }
@@ -663,6 +727,7 @@ const e4Doc = fs.existsSync(e4Path) ? JSON.parse(fs.readFileSync(e4Path, "utf8")
 const e4Blocked = [];
 const e4Terminal = [];
 const e4Review = [];
+const e4OfficialSourceGaps = [];
 let e4Consumed = 0;
 
 function e4Failure(message) {
@@ -810,6 +875,45 @@ if (e4Doc) {
         });
       }
       e4Terminal.push({ jobId, jurisdiction, subjectKind, subjectId, lane: row.lane });
+      e4Consumed += 1;
+      continue;
+    }
+
+    // (11) a registry-gap adjudication is a fail-closed cross-check, not an
+    //      independent classifier: the pathway must already stand classified
+    //      unregistered_relief_mechanism_registry_gap by the license-verified
+    //      adjudication input (whose officialSource block re-verifies the
+    //      preserved statutory bytes on every run). If that classification is
+    //      absent — the adjudication row was removed, its license failed, or
+    //      the row reads anything else — this E4 lift has outrun its evidence
+    //      and the build fails rather than closing on a one-sided claim.
+    if (relationshipType === "unregistered_relief_mechanism_registry_gap") {
+      if (subjectKind !== "compiled_pathway") {
+        e4Failure(`${jobId} adjudicates a registry gap on a non-pathway subject`);
+      }
+      if (typeof row.license !== "string" || row.license.trim().length < 40) {
+        e4Failure(`${jobId} is a registry-gap adjudication without a re-checkable licence`);
+      }
+      const current = pathwayResults.get(key);
+      if (!current || current.registryRelation !== "unregistered_relief_mechanism_registry_gap") {
+        e4Failure(
+          `${jobId} adjudicates a registry gap but the license-verified adjudication input classifies this pathway as "${current?.registryRelation ?? "unclassified"}"`
+        );
+      } else {
+        pathwayResults.set(key, {
+          ...current,
+          mappingEvidence: [...new Set([...(current.mappingEvidence || []), "e4_adjudicated"])],
+          evidenceDetail: {
+            ...(current.evidenceDetail || {}),
+            e4: { lane: row.lane, license: row.license, operativeAuthority: row.operativeAuthority },
+          },
+          e4Adjudicated: true,
+        });
+      }
+      e4OfficialSourceGaps.push({ jobId, jurisdiction, subjectKind, subjectId, lane: row.lane });
+      if (row.reviewRequirement) {
+        e4Review.push({ jobId, jurisdiction, subjectKind, subjectId, ...row.reviewRequirement });
+      }
       e4Consumed += 1;
       continue;
     }
@@ -1128,6 +1232,7 @@ const aggregates = {
   e4AdjudicationsConsumed: e4Consumed,
   e4CrosswalkTerminalClassifications: e4Terminal.length,
   e4CounselReviewRequirements: e4Review.length,
+  e4OfficialSourceGapAdjudications: e4OfficialSourceGaps.length,
   e4StillBlocked: e4Blocked.length,
 };
 aggregates.tracksWithRuntimeCoverage = aggregates.tracksExactPathway + aggregates.tracksRepresentedByVariants;
@@ -1186,6 +1291,7 @@ const crosswalk = {
     : null,
   e4CrosswalkTerminalClassifications: e4Terminal,
   e4CounselReviewRequirements: e4Review,
+  e4OfficialSourceGapAdjudications: e4OfficialSourceGaps,
   e4StillBlocked: e4Blocked,
   aggregates,
   unresolvedIds,
@@ -1227,7 +1333,10 @@ const EVIDENCE_CORPUS = [
     .sort()
     .map((f) => `data/rcap-ledger/e2-evidence/${f}`),
   "data/rcap-ledger/crosswalk-adjudications.json",
-  "data/rcap-crosswalk-enrichment/e2-source-support-audit.json"
+  "data/rcap-crosswalk-enrichment/e2-source-support-audit.json",
+  "data/rcap-crosswalk-enrichment/final-official-sources/final-official-sources.json",
+  "data/rcap-crosswalk-enrichment/final-official-sources/files/PA/PA_18_PaCS_3019_d-g_official_2026-08-11.txt",
+  "data/rcap-crosswalk-enrichment/final-official-sources/files/SC/SC_Code_16-3-2020_F_official_2026-08-11.txt"
 ];
 
 const evidenceFiles = {};
