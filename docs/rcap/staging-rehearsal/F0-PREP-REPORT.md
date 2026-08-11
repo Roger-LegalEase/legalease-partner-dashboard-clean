@@ -4,7 +4,7 @@
 - MODE: PREP_ONLY (nothing applied, deployed, published, enabled, or altered)
 - Date: 2026-08-11
 - Branch: `claude/rcap-staging-preflight-phase54`
-- Base: `origin/claude/rcap-final-sprint-integration` @ `d6310fd20a4d38ecaa1afdcf92773510c6fffa59` (fetched and pinned this session; canonical branch per the in-repo branch ruling; the action file's `finalAcceptedSha` is null by construction and is NOT this SHA)
+- Base: `origin/claude/rcap-final-sprint-integration` @ `df14fb76552ed2c46eaeb3aa0b1c58275f802745` (fetched and pinned this session; canonical branch per the in-repo branch ruling; the action file's `finalAcceptedSha` is null by construction and is NOT this SHA)
 - Worktree: separate clean worktree (0 dirty paths at creation); all lane changes under `docs/rcap/staging-rehearsal/`
 
 ## 1. The six-migration sequence (verified against disk bytes and the queue at d6310fd2 this session)
@@ -109,6 +109,20 @@ wiring, not an optional hardening.
 | `F0-PHONE-ACCEPTANCE.md` | Both journeys (sponsored + paid consumer), ten steps each, combined pass/fail form |
 | `F0-DEFECT-REPORT-001.md` | Substitution-assert flake — now with the 5f0ec4df reproduction record |
 | `F0-PREP-REPORT.md` | This report |
+
+## 5a2. df14fb76 delta (verified this session)
+
+One commit past the Phase 54 base: scripts-only (the scope guard now reads
+committed diffs rather than `git status`, and the mutation harnesses survive
+signals). No supabase/, src/, or action-file change; the six migration hashes
+are unchanged and `generate-rcap-staging-action.mjs --check` still returns
+"staging action current — 6 migrations". The only queue change is a new
+bookkeeping entry `auth-2026-08-11-partner-onboarding-packet-entitlement-read`
+(restricted_path_source_change for `src/lib/partners/partner-onboarding.ts`,
+already merged and CI-green, FLAGGED FOR ROGER'S CONFIRMATION) — it grants no
+environment scope and does not alter the six-migration action. Updated
+harnesses re-run green here: phase-54 mutations 5/5 red, consumer-payment HTTP
+mutations 7/7 red.
 
 ## 5b. CI observation (this session)
 

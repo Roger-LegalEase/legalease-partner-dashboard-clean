@@ -15,9 +15,9 @@ AUTHORIZATION_TIMESTAMP:         BLANK
 STAGING_ENVIRONMENT_NAME:        BLANK — no environment named anywhere in repo or container
 STAGING_SUPABASE_PROJECT:        BLANK — with credentials via session secret store only
 FINAL_INTEGRATION_BRANCH:        claude/rcap-final-sprint-integration (VERIFIED — canonical per the branch ruling)
-FINAL_INTEGRATION_SHA:           BLANK by construction — action file's finalAcceptedSha is null (a record cannot name the commit containing it); populate at the accepted tip after CI + Terminal B re-audit. Preflight base this session: d6310fd20a4d38ecaa1afdcf92773510c6fffa59
+FINAL_INTEGRATION_SHA:           BLANK by construction — action file's finalAcceptedSha is null (a record cannot name the commit containing it); populate at the accepted tip after CI + Terminal B re-audit. Preflight base this session: df14fb76552ed2c46eaeb3aa0b1c58275f802745
 SECURITY_CHECKPOINT_SHA:         13e356c49bd484e6f946ba604076718d904bca86 (VERIFIED from the action file)
-REQUIRED_GITHUB_CHECKS_GREEN:    OBSERVED GREEN at d6310fd2 (both required workflows success, GitHub API this session) — caveat: SF-DEFECT-001 REPRODUCED locally on this base, green not determinate
+REQUIRED_GITHUB_CHECKS_GREEN:    OBSERVED GREEN at d6310fd2 (df14fb76 CI pending observation) (both required workflows success, GitHub API this session) — caveat: SF-DEFECT-001 REPRODUCED locally on this base, green not determinate
 PHASE_49_MIGRATION_PATH:         supabase/phase-49-rcap-packet-render-jobs.sql (VERIFIED)
 PHASE_49_SHA256:                 2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6 (VERIFIED = queue)
 PHASE_49_AUTHORIZATION_ID:       auth-2026-08-10-phase-49-packet-render-jobs (VERIFIED — applyStaging: authorized)
