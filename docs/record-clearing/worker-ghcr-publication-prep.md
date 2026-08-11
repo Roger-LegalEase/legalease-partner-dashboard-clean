@@ -166,3 +166,25 @@ re-hashes Dockerfile/lockfile/workflow at that SHA against the published
 fingerprint, dispatches with the full SHA, observes to completion, records
 the digest from the publication artifact, pulls by digest, and runs the
 startup/health/readiness/shutdown/secret battery on the pulled image.
+
+## Owner authorization received (2026-08-11)
+
+Roger authorized `ghcr.io/roger-legalease/rcap-render-worker` as the private
+canonical RCAP worker image registry, publication-only: the grant covers
+building and publishing the image from the exact `WORKER_SOURCE_FREEZE_SHA`
+declared by Terminal A after local verification and required GitHub checks
+are green. It does not authorize worker deployment, migration application,
+staging feature enablement, production changes, or the nationwide launch.
+
+Authorization status accordingly moves from missing to granted. Remaining
+blockers, re-audited at this timestamp (integration tip still `d6310fd`):
+
+1. `WORKER_SOURCE_FREEZE_SHA` — still undeclared; Terminal A/A2 declares it
+   after B/E/F integrate and checks are green.
+2. Workflow registration — `main` (at `2dced50`) still carries only the two
+   verification workflows; `.github/workflows/publish-rcap-render-worker.yml`
+   must land on the default branch before GitHub will accept any dispatch.
+
+This lane holds armed: on declaration it verifies ancestry and fingerprints,
+dispatches, observes to success, and returns the immutable digest with
+pull-by-digest and runtime proof — publication only, no deployment.
