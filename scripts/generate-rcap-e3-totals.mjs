@@ -37,6 +37,7 @@ const pathwaySide = [
   ["routing/supporting", a.pathwaysRoutingOrSupporting, "routing or supporting path, not relief in itself"],
   ["scoped-out", a.pathwaysScopedOut, "terminal: named authority the registry deliberately does not cover"],
   ["registry-gap", a.pathwaysRegistryGap, "terminal: real relief mechanism with no registry track"],
+  ["crosswalk-terminal", a.pathwaysCrosswalkTerminalClassified, "terminal for CROSSWALK purposes only: an E4 lane established that no registry counterpart exists. Closes the mapping question, never the relief question, and carries no launch-ledger effect"],
   ["unresolved", a.pathwaysUnresolved, "no conclusion on the evidence available"]
 ];
 const pathwaySum = pathwaySide.reduce((s, [, n]) => s + n, 0);

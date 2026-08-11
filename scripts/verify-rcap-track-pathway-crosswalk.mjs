@@ -48,6 +48,10 @@ const TERMINAL_RELATIONS = new Set([
   "registry_scoped_out_named_authority",
   "routing_or_supporting_path",
   "unregistered_relief_mechanism_registry_gap",
+  // Terminal for CROSSWALK purposes only: an E4 lane established that no
+  // registry counterpart exists. It closes the mapping question, never the
+  // relief question, and carries no launch-ledger effect.
+  "crosswalk_terminal_classified",
 ]);
 const UNRESOLVED_RELATIONS = new Set([
   "unresolved_ambiguous_candidates",
@@ -158,10 +162,15 @@ const ACCEPTABLE_EVIDENCE = new Set([
   "shared_supporting_statutory_citation",
 ]);
 const isAdjudicatedEvidence = (p) =>
-  p.adjudicated === true &&
-  p.mappingEvidence.some((e) => e.startsWith("adjudicated_")) &&
-  Boolean(p.evidenceDetail?.adjudication?.evidenceRef?.recordKey) &&
-  Boolean(p.evidenceDetail?.license?.kind);
+  (p.adjudicated === true &&
+    p.mappingEvidence.some((e) => e.startsWith("adjudicated_")) &&
+    Boolean(p.evidenceDetail?.adjudication?.evidenceRef?.recordKey) &&
+    Boolean(p.evidenceDetail?.license?.kind)) ||
+  // E4 crosswalk-resolution adjudications carry their licence on evidenceDetail.e4
+  // and are re-checked against the pinned evidence by the generator on every run.
+  (p.e4Adjudicated === true &&
+    p.mappingEvidence.includes("e4_adjudicated") &&
+    Boolean(p.evidenceDetail?.e4?.license));
 
 const unevidencedMappings = pathways.filter(
   (p) =>
@@ -370,6 +379,7 @@ const relationSum =
   a.pathwaysRoutingOrSupporting +
   a.pathwaysRegistryGap +
   a.pathwaysScopedOut +
+  a.pathwaysCrosswalkTerminalClassified +
   a.pathwaysUnresolved;
 check(
   "relationship totals account for every compiled pathway",

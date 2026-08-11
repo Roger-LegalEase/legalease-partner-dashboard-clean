@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-official-source-jobs/v1",
+  "generatedBy": "scripts/generate-rcap-official-source-jobs.mjs",
+  "derivedFrom": {
+    "path": "data/rcap-ledger/track-pathway-crosswalk.json",
+    "contentHash": "73094ea13fa34b4ad44dd435f3152748b27abd08327e783512a80d69828e8fe4",
+    "unresolvedPathways": [
+      "PA:path-k-human-trafficking-vacatur-expungement",
+      "SC:human-trafficking-survivor-expungement"
+    ],
+    "unresolvedTracks": [
+      "MD:md_pardon_expungement"
+    ]
+  },
+  "note": "One job per unresolved crosswalk subject. The count is derived from the generated crosswalk on every run and is never hardcoded. Two are official-retrieval obligations blocked on primary authority this repository does not hold; one is a compiled-runtime gap whose authority is already committed.",
+  "jobCount": 3,
+  "jobs": [
+    {
+      "jobId": "official-source:compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+      "subject": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+      "jurisdiction": "PA",
+      "subjectKind": "compiled_pathway",
+      "subjectId": "path-k-human-trafficking-vacatur-expungement",
+      "blockerKind": "official_source_gap",
+      "jobKind": "official_retrieval",
+      "expectedPrimaryAuthority": "18 Pa.C.S. § 3019",
+      "authorityScope": "Within 18 Pa.C.S. ch. 30. The operative vacatur/expungement provision itself — a definitions or penalties section of ch. 30 does not close this.",
+      "issuingBody": "Pennsylvania General Assembly, via the Legislative Reference Bureau",
+      "requiredOfficialText": "Verbatim statutory text of the human-trafficking victim vacatur/expungement remedy: who may petition, for which offences, on what showing, and what relief the court orders. Any official petition form referenced by the section.",
+      "officialSources": [
+        "https://www.legis.state.pa.us — Pa. Consolidated Statutes, Title 18, ch. 30",
+        "https://www.palegis.us statute browser"
+      ],
+      "repositoryDestination": "private/Nationwide Record Clearing/Pennsylvania/statutes/18-pacs-3019.(txt|pdf) with the citation recorded in src/lib/rcap/state-packs/pennsylvania/",
+      "sourceReceipt": "docs/record-clearing/source-receipts/PA-18-pacs-3019.md — retrieval URL, retrieval date, issuing body, and the SHA-256 of the committed file",
+      "owner": "external-retrieval lane (outbound access or law-library access required)",
+      "stopCondition": "The committed text states the vacatur/expungement remedy operatively, OR the retrieved chapter is shown to contain no such remedy. A proven absence closes this as a crosswalk terminal classification just as well as a proven text.",
+      "milestone1Item2Effect": "Closes one of the two remaining pathway blockers, and closes the PA surplus — Pennsylvania is the only jurisdiction of seven whose compiled surplus is not fully explained, and this pathway is the reason.",
+      "researchExhaustion": "Repository-only research is already recorded as exhausted for this subject. Do not re-run it; every coding terminal in this sprint is egress-blocked to legislative hosts.",
+      "missingEvidence": "Official primary authority named in docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md; not committed to this repository.",
+      "nextAction": "Retrieve the official primary text per docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md, commit it, then re-run the canonical generator."
+    },
+    {
+      "jobId": "official-source:compiled_pathway:SC:human-trafficking-survivor-expungement",
+      "subject": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+      "jurisdiction": "SC",
+      "subjectKind": "compiled_pathway",
+      "subjectId": "human-trafficking-survivor-expungement",
+      "blockerKind": "official_source_gap",
+      "jobKind": "official_retrieval",
+      "expectedPrimaryAuthority": "S.C. Code § 16-3-2020",
+      "authorityScope": "Title 16, ch. 3. The section must be shown to grant or withhold record relief.",
+      "issuingBody": "South Carolina Legislative Council",
+      "requiredOfficialText": "Verbatim text of the trafficking-survivor relief provision, including any expungement or vacatur remedy it grants and the conditions on it. Any official form the section names.",
+      "officialSources": [
+        "https://www.scstatehouse.gov — S.C. Code of Laws, Title 16, ch. 3",
+        "South Carolina Legislative Council code browser"
+      ],
+      "repositoryDestination": "private/Nationwide Record Clearing/South Carolina/statutes/sc-code-16-3-2020.(txt|pdf) with the citation recorded in src/lib/rcap/state-packs/south-carolina/",
+      "sourceReceipt": "docs/record-clearing/source-receipts/SC-16-3-2020.md — retrieval URL, retrieval date, issuing body, and the SHA-256 of the committed file",
+      "owner": "external-retrieval lane (outbound access or law-library access required)",
+      "stopCondition": "The committed text grants record relief, OR § 16-3-2020 is shown to be definitional or penal only. Either outcome closes the obligation; the second closes it as a crosswalk terminal classification.",
+      "milestone1Item2Effect": "Closes the second of the two remaining pathway blockers. No committed source contains this section, so the current conclusion rests on an unverifiable citation.",
+      "researchExhaustion": "Repository-only research is already recorded as exhausted for this subject. Do not re-run it.",
+      "missingEvidence": "Official primary authority named in docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md; not committed to this repository.",
+      "nextAction": "Retrieve the official primary text per docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md, commit it, then re-run the canonical generator."
+    },
+    {
+      "jobId": "official-source:registry_track:MD:md_pardon_expungement",
+      "subject": "registry_track:MD:md_pardon_expungement",
+      "jurisdiction": "MD",
+      "subjectKind": "registry_track",
+      "subjectId": "md_pardon_expungement",
+      "blockerKind": "compiled_runtime_gap",
+      "jobKind": "source_materialization",
+      "expectedPrimaryAuthority": "Md. Code, Crim. Proc. § 10-105(a)(8) and § 10-105(c)(4)",
+      "authorityScope": "Already committed and cited in the registry projection. This job needs no retrieval — the gap is in the compiled runtime, not in the authority.",
+      "issuingBody": "Maryland General Assembly (statute already held); Maryland Judiciary for the petition form",
+      "requiredOfficialText": "The current Maryland petition form for expungement after a full and unconditional pardon, plus confirmation of the filing route. The statutory text is already committed.",
+      "officialSources": [
+        "https://mdcourts.gov/legalhelp/expungement — Maryland Judiciary expungement forms"
+      ],
+      "repositoryDestination": "A new top-level pathway in src/lib/rcap-engine/compiled/profiles/MD-maryland.json representing the § 10-105(a)(8) pardon route, with orderedDecisionRules rule-11-full-and-unconditional-governor-pardon-10-105-route-onl repointed at it.",
+      "sourceReceipt": "docs/record-clearing/source-receipts/MD-10-105-pardon-pathway.md — form identifier, revision date, and the profile commit that adds the pathway",
+      "owner": "compiled-profile build lane (MD)",
+      "stopCondition": "A pardoned-conviction participant is routed to a pathway that represents the § 10-105(a)(8) remedy, and the canonical generator classifies md_pardon_expungement as exact_current_pathway without a captain override.",
+      "milestone1Item2Effect": "Closes the one remaining registry-track blocker. Until then md_pardon_expungement stays unresolved by captain decision rather than being absorbed into missing_from_compiled_runtime.",
+      "researchExhaustion": "Not a research task at all. The MD profile was read directly: seven top-level pathways, none covering pardon, and rule-11 routes pardon applicants to four pathways that are not pardon-expungement vehicles.",
+      "missingEvidence": "A compiled runtime pathway representing the Md. Crim. Proc. § 10-105(a)(8) full-and-unconditional-pardon expungement route. The statutory authority is committed; what is absent is a top-level pathway in src/lib/rcap-engine/compiled/profiles/MD-maryland.json that a pardoned-conviction participant is routed to.",
+      "nextAction": "Author an MD pardon-expungement pathway under § 10-105(a)(8)/(c)(4), then repoint rule-11 candidatePathwayIds at it. Re-run the canonical generator; md_pardon_expungement resolves to exact_current_pathway once that pathway exists."
+    }
+  ]
+}

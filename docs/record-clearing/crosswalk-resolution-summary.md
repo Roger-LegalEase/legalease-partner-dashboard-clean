@@ -4,6 +4,18 @@ Integration of four Opus lanes (E4-R1, E4-R2, E4-R3, E4-R4) dispatched from `dat
 
 Build status only. Every resolution carries `reviewStatus: qa_review_pending`; none of this is counsel-reviewed or approved for live.
 
+## Canonicalized — and one lane mapping corrected
+
+The E4 adjudications are now a consumed input to the canonical crosswalk generator, not a document beside it. `data/rcap-ledger/crosswalk-resolution-adjudication.json` carries 38 canonical relationships; `scripts/generate-rcap-track-pathway-crosswalk.mjs` reads them, re-checks every licence and evidence pin on each run, and fails closed on eleven distinct conditions. `scripts/verify-rcap-e4-adjudication-mutations.mjs` proves the dependency: 27 mutations of the input each turn the crosswalk check red.
+
+**The R3 dead-pin finding published in `2e53a327` was wrong and is retracted in `8af8d4b2`.** The nine E4-R3 citations pinning `data/record-clearing/legal-design-track-registry.json@3b6f4c10` are valid. The commit resolves, the blob resolves at 497 tracks, and all five cited records are present. The ancestor requirement that produced the finding was invented by the captain's first verifier and appears in neither the dispatch stop conditions nor the lane brief. E4-R3 was owed no corrective commit. See `data/rcap-ledger/crosswalk-resolution-adjudication.json` for the full retraction and the three verifier errors behind it.
+
+**One lane mapping did not survive substantive adjudication.** `registry_track:MD:md_pardon_expungement` was mapped by E4-R3 to `adult-non-conviction-expungement-under-crim-proc-10-105`. That pathway is expressly scoped to cases that did not end in a conviction and mentions "pardon" zero times, while the track carries the single disposition `pardoned_conviction`. The MD profile refutes the mapping directly: `rule-11-full-and-unconditional-governor-pardon-10-105-route-onl` carries `candidatePathwayIds` of cannabis, automatic, second-chance and juvenile — it routes pardon applicants away from the proposed pathway, and none of the seven committed MD pathways represents the pardon route. The track is held `still_blocked` rather than absorbed into `missing_from_compiled_runtime`, so the blocker stays visible in the unresolved count.
+
+The Maryland, West Virginia and Kentucky collisions were re-examined against the compiled profiles. WV and KY hold: the WV pathway names all three conviction classes in its own text, and the KY pathway is labelled for vacatur and states the pardon predicate. Both keep their exact relationships, with the counsel questions preserved as separate `reviewRequirement` records that carry no launch-ledger effect.
+
+**Unresolved: 3.** `PA:path-k-human-trafficking-vacatur-expungement` and `SC:human-trafficking-survivor-expungement` remain blocked on official primary authority; `MD:md_pardon_expungement` is blocked on a compiled-runtime pathway. Each has an exact job in `docs/record-clearing/official-source-jobs.md`. Milestone 1 item 2 is not closed.
+
 ## Totals
 
 | Outcome | Count |

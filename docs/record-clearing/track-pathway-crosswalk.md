@@ -10,16 +10,16 @@ The registry and the compiled profiles share no identifier space, and no committ
 | --- | ---: |
 | Registry tracks | 497 |
 | Compiled pathways | 324 |
-| Registry tracks with an exact compiled pathway | 243 |
-| Registry tracks represented by compiled variants | 19 |
+| Registry tracks with an exact compiled pathway | 259 |
+| Registry tracks represented by compiled variants | 25 |
 | Registry tracks represented only by superseded runtime text | 1 |
-| Registry tracks with no compiled pathway | 226 |
-| Registry tracks unresolved (ambiguous candidates) | 8 |
-| Compiled pathways mapped to a registry track | 258 |
-| Compiled pathways terminally classified (scoped-out, routing, registry gap) | 36 |
-| Compiled pathways unresolved | 30 |
+| Registry tracks with no compiled pathway | 211 |
+| Registry tracks unresolved (ambiguous candidates) | 1 |
+| Compiled pathways mapped to a registry track | 281 |
+| Compiled pathways terminally classified (scoped-out, routing, registry gap) | 41 |
+| Compiled pathways unresolved | 2 |
 
-**Milestone 1 item 2: blocked.** 30 compiled pathways and 8 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
+**Milestone 1 item 2: blocked.** 2 compiled pathways and 1 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
 
 ## Relationship vocabulary
 
@@ -40,7 +40,7 @@ The registry and the compiled profiles share no identifier space, and no committ
 
 ## Adjudicated relationships
 
-223 rows were resolved by adjudication (round: lane E3-final @ `?`, 223 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
+251 rows were resolved by adjudication (round: lane E3-final @ `?`, 223 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
 
 ## Registry-gap blockers
 
@@ -104,31 +104,31 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | AZ | 9 | 3 | -6 | 3 | 3 | 0 | 0 |
 | CA | 12 | 7 | -5 | 4 | 6 | 1 | 0 |
 | CO | 10 | 4 | -6 | 3 | 3 | 0 | 0 |
-| CT | 14 | 5 | -9 | 5 | 4 | 0 | 1 |
+| CT | 14 | 5 | -9 | 6 | 5 | 0 | 0 |
 | DC | 8 | 7 | -1 | 5 | 6 | 0 | 0 |
-| DE | 6 | 4 | -2 | 3 | 2 | 0 | 1 |
+| DE | 6 | 4 | -2 | 4 | 3 | 0 | 0 |
 | FL | 9 | 8 | -1 | 8 | 8 | 0 | 0 |
 | GA | 15 | 5 | -10 | 6 | 5 | 0 | 0 |
 | HI | 9 | 5 | -4 | 6 | 5 | 0 | 0 |
 | IA | 7 | 5 | -2 | 5 | 5 | 0 | 0 |
 | ID | 4 | 5 | +1 | 2 | 2 | 0 | 0 |
-| IL | 17 | 9 | -8 | 10 | 6 | 0 | 2 |
+| IL | 17 | 9 | -8 | 10 | 6 | 0 | 0 |
 | IN | 10 | 4 | -6 | 6 | 4 | 0 | 0 |
 | KS | 8 | 4 | -4 | 4 | 4 | 0 | 0 |
-| KY | 12 | 5 | -7 | 3 | 3 | 0 | 2 |
+| KY | 12 | 5 | -7 | 5 | 5 | 0 | 0 |
 | LA | 10 | 12 | +2 | 8 | 12 | 0 | 0 |
-| MA | 8 | 7 | -1 | 5 | 6 | 0 | 1 |
-| MD | 11 | 7 | -4 | 5 | 5 | 0 | 2 |
+| MA | 8 | 7 | -1 | 6 | 7 | 0 | 0 |
+| MD | 11 | 7 | -4 | 7 | 6 | 0 | 0 |
 | ME | 6 | 5 | -1 | 3 | 3 | 0 | 0 |
 | MI | 11 | 5 | -6 | 5 | 5 | 0 | 0 |
-| MN | 12 | 6 | -6 | 4 | 4 | 0 | 2 |
+| MN | 12 | 6 | -6 | 6 | 6 | 0 | 0 |
 | MO | 10 | 7 | -3 | 7 | 7 | 0 | 0 |
 | MS | 9 | 13 | +4 | 9 | 11 | 0 | 0 |
-| MT | 6 | 5 | -1 | 3 | 4 | 0 | 1 |
+| MT | 6 | 5 | -1 | 4 | 5 | 0 | 0 |
 | NC | 7 | 3 | -4 | 3 | 3 | 0 | 0 |
-| ND | 15 | 6 | -9 | 4 | 4 | 1 | 1 |
+| ND | 15 | 6 | -9 | 5 | 5 | 1 | 0 |
 | NE | 14 | 8 | -6 | 7 | 8 | 0 | 0 |
-| NH | 8 | 6 | -2 | 4 | 4 | 0 | 2 |
+| NH | 8 | 6 | -2 | 4 | 5 | 0 | 0 |
 | NJ | 6 | 4 | -2 | 3 | 3 | 0 | 0 |
 | NM | 5 | 5 | 0 | 4 | 4 | 0 | 0 |
 | NV | 9 | 7 | -2 | 5 | 5 | 0 | 0 |
@@ -138,20 +138,20 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | OR | 5 | 3 | -2 | 3 | 3 | 0 | 0 |
 | PA | 10 | 11 | +1 | 10 | 10 | 0 | 1 |
 | RI | 9 | 8 | -1 | 9 | 8 | 0 | 0 |
-| SC | 12 | 7 | -5 | 8 | 4 | 0 | 2 |
+| SC | 12 | 7 | -5 | 9 | 5 | 0 | 1 |
 | SD | 5 | 8 | +3 | 5 | 5 | 0 | 0 |
 | TN | 13 | 4 | -9 | 4 | 4 | 0 | 0 |
-| TX | 19 | 9 | -10 | 6 | 5 | 0 | 4 |
-| UT | 15 | 11 | -4 | 12 | 5 | 0 | 3 |
+| TX | 19 | 9 | -10 | 9 | 9 | 0 | 0 |
+| UT | 15 | 11 | -4 | 12 | 8 | 0 | 0 |
 | VA | 12 | 3 | -9 | 3 | 3 | 0 | 0 |
-| VT | 11 | 8 | -3 | 4 | 4 | 0 | 4 |
+| VT | 11 | 8 | -3 | 7 | 7 | 0 | 0 |
 | WA | 13 | 7 | -6 | 7 | 6 | 0 | 0 |
 | WI | 8 | 5 | -3 | 3 | 3 | 0 | 0 |
-| WV | 12 | 7 | -5 | 5 | 4 | 0 | 1 |
+| WV | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
 | WY | 3 | 5 | +2 | 3 | 3 | 2 | 0 |
-| **Total** | **497** | **324** | **-173** | **262** | **258** | **4** | **30** |
+| **Total** | **497** | **324** | **-173** | **284** | **281** | **4** | **2** |
 
 ## What this does not claim
 
-A mapping is a statement about identity, not about readiness. 262 of 497 tracks now have a named runtime representation; none of that makes a track implemented, certified or terminal. Terminal disposition stays a certification property computed by the production factory and recorded in the authority ledger.
+A mapping is a statement about identity, not about readiness. 284 of 497 tracks now have a named runtime representation; none of that makes a track implemented, certified or terminal. Terminal disposition stays a certification property computed by the production factory and recorded in the authority ledger.
 

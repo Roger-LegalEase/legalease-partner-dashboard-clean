@@ -26,6 +26,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -643,6 +644,296 @@ if (adjudicationDoc) {
 }
 
 // ---------------------------------------------------------------------------
+// E4 crosswalk-resolution adjudications
+//
+// The four E4-R lane files are evidence inputs; this file is the canonical
+// decision input built from them by
+// scripts/generate-rcap-crosswalk-resolution-adjudication.mjs. It carries one
+// canonical relationship per subject the automatic pass left unresolved.
+//
+// Every condition below is a hard failure. The point is that this input cannot
+// be edited, reordered, retyped or silently weakened without turning the build
+// red — which is what makes the generated crosswalk a consumer of it rather
+// than a coincidence alongside it.
+// ---------------------------------------------------------------------------
+
+const e4Path = path.join(rootDir, "data/rcap-ledger/crosswalk-resolution-adjudication.json");
+const e4Doc = fs.existsSync(e4Path) ? JSON.parse(fs.readFileSync(e4Path, "utf8")) : null;
+
+const e4Blocked = [];
+const e4Terminal = [];
+const e4Review = [];
+let e4Consumed = 0;
+
+function e4Failure(message) {
+  console.error(`E4 adjudication drift: ${message}`);
+  process.exit(1);
+}
+
+if (e4Doc) {
+  const rows = e4Doc.canonicalRelationships || [];
+  if (rows.length === 0) e4Failure("adjudication input carries no canonical relationships");
+
+  const vocab = e4Doc.canonicalVocabulary || {};
+  const PATHWAY_REL = new Set(vocab.pathwayRelations || []);
+  const TRACK_REL = new Set(vocab.trackRelations || []);
+  const TERMINAL = vocab.terminal;
+  const BLOCKED = vocab.blocked;
+  if (!TERMINAL || !BLOCKED) e4Failure("canonicalVocabulary must name both a terminal and a blocked relation");
+  if (TERMINAL !== "crosswalk_terminal_classified") {
+    e4Failure(`terminal relation must be crosswalk_terminal_classified, got "${TERMINAL}"`);
+  }
+
+  const pathwayByKeyE4 = new Map(compiledPathways.map((p) => [keyOf(p.jurisdiction, p.pathwayId), p]));
+  const trackByKeyE4 = new Map(registryTracks.map((t) => [keyOf(t.jurisdiction, t.trackId), t]));
+
+  const seen = new Set();
+  const counterpartClaims = new Map();
+
+  for (const row of rows) {
+    const { jobId, subjectKind, jurisdiction, subjectId, relationshipType } = row;
+    const key = keyOf(jurisdiction, subjectId);
+
+    // (2) a job may appear exactly once
+    if (seen.has(jobId)) e4Failure(`${jobId} appears more than once`);
+    seen.add(jobId);
+
+    // (4) the relationship type must be canonical for the subject's direction
+    const legal =
+      relationshipType === TERMINAL ||
+      relationshipType === BLOCKED ||
+      (subjectKind === "compiled_pathway" ? PATHWAY_REL : TRACK_REL).has(relationshipType);
+    if (!legal) e4Failure(`${jobId} carries non-canonical relationship type "${relationshipType}"`);
+
+    // (1) the adjudicated subject must exist in its own universe
+    if (subjectKind === "compiled_pathway") {
+      if (!pathwayByKeyE4.has(key)) e4Failure(`${jobId} names a compiled pathway that does not exist`);
+    } else if (subjectKind === "registry_track") {
+      if (!trackByKeyE4.has(key)) e4Failure(`${jobId} names a registry track that does not exist`);
+    } else {
+      e4Failure(`${jobId} has unknown subjectKind "${subjectKind}"`);
+    }
+
+    // (8) every pinned citation must still resolve: commit, blob and pointer
+    for (const citation of row.evidencePins || []) {
+      const raw = String(citation).split("#")[0];
+      const at = raw.lastIndexOf("@");
+      const p = raw.slice(0, at);
+      const pin = raw.slice(at + 1);
+      try {
+        execSync(`git cat-file -e '${pin}^{commit}'`, { stdio: "ignore" });
+      } catch {
+        e4Failure(`${jobId} evidence pin ${pin} no longer resolves to a commit`);
+      }
+      try {
+        execSync(`git cat-file -e '${pin}:${p}'`, { stdio: "ignore" });
+      } catch {
+        e4Failure(`${jobId} evidence blob ${p}@${pin} no longer resolves`);
+      }
+      // Pointer: the blob must still name the subject OR its counterpart. Which
+      // one depends on the blob — a registry blob carries track ids, not compiled
+      // pathway ids, so a track subject is found by its own id while a pathway
+      // subject is found by its counterpart. Requiring a specific side would fail
+      // honest citations. A terminal classification asserts that no counterpart
+      // exists, so it is supported by absence and is not pointer-checked here.
+      const blob = execSync(`git show '${pin}:${p}'`, { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+      const pointers = [subjectId, row.counterpart].filter(Boolean);
+      if (relationshipType !== TERMINAL && !pointers.some((t) => blob.includes(t))) {
+        e4Failure(
+          `${jobId} evidence pointer drift: neither "${pointers.join('" nor "')}" is present in ${p}@${pin.slice(0, 10)}`
+        );
+      }
+    }
+    // ordinary in-tree citations must still be present
+    for (const citation of row.evidence || []) {
+      if ((row.evidencePins || []).includes(citation)) continue;
+      const p = String(citation).split("#")[0];
+      if (!fs.existsSync(path.join(rootDir, p))) {
+        e4Failure(`${jobId} cites ${p}, which is no longer in the tree`);
+      }
+    }
+
+    // (7) a still-blocked record must name exact missing evidence, owner and next action
+    if (relationshipType === BLOCKED) {
+      for (const field of ["missingEvidence", "owner", "nextAction"]) {
+        const v = row[field];
+        if (typeof v !== "string" || v.trim().length < 12 || v.trim() === "unnamed") {
+          e4Failure(`${jobId} is still_blocked but ${field} is missing or not exact`);
+        }
+      }
+      e4Blocked.push({
+        jobId,
+        jurisdiction,
+        subjectKind,
+        subjectId,
+        blockerKind: row.blockerKind ?? null,
+        missingEvidence: row.missingEvidence,
+        owner: row.owner,
+        nextAction: row.nextAction,
+        milestone1Item2Effect: row.milestone1Item2Effect ?? null,
+        ...(row.retrievalPacket ? { retrievalPacket: row.retrievalPacket } : {}),
+        ...(row.captainOverride ? { captainOverride: row.captainOverride } : {}),
+      });
+      continue; // a blocked subject is deliberately left unresolved
+    }
+
+    // (6) a crosswalk terminal classification may never touch the launch ledger
+    if (relationshipType === TERMINAL) {
+      if (row.crosswalkTerminalOnly !== true) {
+        e4Failure(`${jobId} is a terminal classification without crosswalkTerminalOnly true`);
+      }
+      if (row.launchLedgerEffect !== "none") {
+        e4Failure(`${jobId} terminal classification declares launchLedgerEffect "${row.launchLedgerEffect}"`);
+      }
+      for (const forbidden of ["tracksTerminal", "finalDisposition", "terminalTrackDisposition"]) {
+        if (Object.prototype.hasOwnProperty.call(row, forbidden)) {
+          e4Failure(`${jobId} terminal classification attempts to set launch-ledger field ${forbidden}`);
+        }
+      }
+      if (subjectKind === "compiled_pathway") {
+        const current = pathwayResults.get(key);
+        if (!current || !current.registryRelation.startsWith("unresolved")) {
+          e4Failure(`${jobId} terminal classification lands on ${current?.registryRelation ?? "unclassified"}, not an unresolved row`);
+        }
+        pathwayResults.set(key, {
+          ...current,
+          registryRelation: TERMINAL,
+          crosswalkTerminalOnly: true,
+          launchLedgerEffect: "none",
+          mappedRegistryTrackIds: [],
+          mappingEvidence: ["e4_crosswalk_terminal_classified"],
+          evidenceDetail: { e4: { lane: row.lane, basis: row.terminalizationBasis } },
+          unresolvedReason: null,
+          missingEvidence: [],
+          adjudicated: true,
+          e4Adjudicated: true,
+        });
+      }
+      e4Terminal.push({ jobId, jurisdiction, subjectKind, subjectId, lane: row.lane });
+      e4Consumed += 1;
+      continue;
+    }
+
+    // (5) a resolved relationship must carry a licence
+    if (typeof row.license !== "string" || row.license.trim().length < 40) {
+      e4Failure(`${jobId} is a resolved relationship without a re-checkable licence`);
+    }
+    if (!row.counterpart) e4Failure(`${jobId} is resolved but names no counterpart`);
+
+    // (3) the counterpart must exist in the OPPOSITE universe
+    const counterpartKey = keyOf(jurisdiction, row.counterpart);
+    if (subjectKind === "compiled_pathway") {
+      if (!trackByKeyE4.has(counterpartKey)) {
+        e4Failure(`${jobId} names counterpart "${row.counterpart}", which is not a registry track in ${jurisdiction}`);
+      }
+    } else if (!pathwayByKeyE4.has(counterpartKey)) {
+      e4Failure(`${jobId} names counterpart "${row.counterpart}", which is not a compiled pathway in ${jurisdiction}`);
+    }
+
+    // (10) two adjudications may not make conflicting claims about one pairing.
+    //      Checked before the override guard because the reciprocal-agreement
+    //      branch below needs the pairing key.
+    //
+    //      The two directions name the same relationship differently:
+    //      direct_runtime_representation (pathway -> track) is the same claim as
+    //      exact_current_pathway (track -> pathway). Compare the normalised
+    //      semantic, or every reciprocally dispatched pair reads as a conflict.
+    const pairSemantic =
+      relationshipType === "compiled_variant_of_registry_track" ? "variant" : "exact";
+    const pairKey = subjectKind === "compiled_pathway" ? `${key}->${counterpartKey}` : `${counterpartKey}->${key}`;
+    if (counterpartClaims.has(pairKey)) {
+      const prior = counterpartClaims.get(pairKey);
+      if (prior.pairSemantic !== pairSemantic) {
+        e4Failure(
+          `${jobId} conflicts with ${prior.jobId}: same pairing claimed as "${prior.pairSemantic}" and "${pairSemantic}"`
+        );
+      }
+    }
+
+    // (9) an adjudication may only refine an unresolved row, never override a
+    //     stronger relationship the automatic pass or an earlier lane established
+    if (subjectKind === "compiled_pathway") {
+      const current = pathwayResults.get(key);
+      if (!current || !current.registryRelation.startsWith("unresolved")) {
+        e4Failure(`${jobId} would override the stronger existing relationship "${current?.registryRelation ?? "unclassified"}"`);
+      }
+    } else {
+      // The crosswalk is bidirectional and E4 dispatched some pairs from both
+      // sides. A mapping already standing to the SAME counterpart is reciprocal
+      // agreement and applies idempotently; a mapping to a DIFFERENT pathway is
+      // the override this guard exists to refuse.
+      const existingMappings = trackMappings.get(key) || [];
+      const disagreeing = existingMappings.filter((m) => m.pathwayId !== row.counterpart);
+      if (disagreeing.length > 0) {
+        e4Failure(`${jobId} would override an existing track mapping to ${disagreeing.map((m) => m.pathwayId).join(", ")}`);
+      }
+      if (existingMappings.length > 0) {
+        counterpartClaims.set(pairKey, { jobId, relationshipType, pairSemantic });
+        e4Consumed += 1;
+        if (row.reviewRequirement) e4Review.push({ jobId, jurisdiction, subjectKind, subjectId, ...row.reviewRequirement });
+        continue;
+      }
+    }
+
+    counterpartClaims.set(pairKey, { jobId, relationshipType, pairSemantic });
+
+    // Apply
+    if (subjectKind === "compiled_pathway") {
+      const relation =
+        relationshipType === "compiled_variant_of_registry_track"
+          ? "compiled_variant_of_registry_track"
+          : "direct_runtime_representation";
+      pathwayResults.set(key, {
+        ...pathwayResults.get(key),
+        registryRelation: relation,
+        mappedRegistryTrackIds: [row.counterpart],
+        mappingEvidence: ["e4_adjudicated"],
+        evidenceDetail: { e4: { lane: row.lane, license: row.license, operativeAuthority: row.operativeAuthority } },
+        contributesToRuntimeCoverage: true,
+        contributesToRegistryDenominator: false,
+        unresolvedReason: null,
+        missingEvidence: [],
+        adjudicated: true,
+        e4Adjudicated: true,
+      });
+      addTrackMapping(jurisdiction, row.counterpart, {
+        pathwayId: subjectId,
+        relation,
+        evidence: ["e4_adjudicated"],
+      });
+    } else {
+      addTrackMapping(jurisdiction, subjectId, {
+        pathwayId: row.counterpart,
+        relation: "direct_runtime_representation",
+        evidence: ["e4_adjudicated"],
+      });
+      // Keep the pathway side in step. A track-direction adjudication that only
+      // wrote the track row would leave a one-sided mapping: the track names the
+      // pathway, the pathway does not name the track. Where one pathway carries
+      // several tracks — W. Va. § 61-11-26 carries three — every one of them has
+      // to appear on the pathway row or the bidirectional check is a fiction.
+      const cpKey = keyOf(jurisdiction, row.counterpart);
+      const cpRow = pathwayResults.get(cpKey);
+      if (cpRow && !(cpRow.mappedRegistryTrackIds || []).includes(subjectId)) {
+        pathwayResults.set(cpKey, {
+          ...cpRow,
+          mappedRegistryTrackIds: [...(cpRow.mappedRegistryTrackIds || []), subjectId].sort(),
+          mappingEvidence: [...new Set([...(cpRow.mappingEvidence || []), "e4_adjudicated"])],
+          e4Adjudicated: true,
+        });
+      }
+    }
+
+    if (row.reviewRequirement) {
+      e4Review.push({ jobId, jurisdiction, subjectKind, subjectId, ...row.reviewRequirement });
+    }
+    e4Consumed += 1;
+  }
+
+  if (seen.size !== rows.length) e4Failure(`consumed ${seen.size} of ${rows.length} adjudications`);
+}
+
+// ---------------------------------------------------------------------------
 // Registry-side rows
 // ---------------------------------------------------------------------------
 
@@ -667,8 +958,18 @@ const trackRows = registryTracks.map((track) => {
         !(r.mappedRegistryTrackIds || []).includes(track.trackId)
     );
 
+  // A track the captain adjudicated still_blocked stays unresolved by decision.
+  // Without this the exhaustion rule below would quietly reclassify it as
+  // missing_from_compiled_runtime — a closed disposition — and the blocker
+  // would disappear from the unresolved count instead of being carried.
+  const e4BlockedTrack = e4Blocked.find(
+    (b) => b.subjectKind === "registry_track" && b.jurisdiction === track.jurisdiction && b.subjectId === track.trackId
+  );
+
   let disposition;
-  if (mappings.length >= 1 && mappings.every((m) => m.currencyFlag)) {
+  if (e4BlockedTrack) {
+    disposition = "unresolved_ambiguous_candidates";
+  } else if (mappings.length >= 1 && mappings.every((m) => m.currencyFlag)) {
     // Every runtime representation of this track renders from superseded
     // authority text; identity holds but current coverage may not be claimed.
     disposition = "represented_with_superseded_runtime_text";
@@ -682,8 +983,9 @@ const trackRows = registryTracks.map((track) => {
     disposition = "missing_from_compiled_runtime";
   }
 
-  const blocker =
-    mappings.length > 0
+  const blocker = e4BlockedTrack
+    ? e4BlockedTrack.missingEvidence
+    : mappings.length > 0
       ? null
       : ambiguous.length > 0 && !ambiguityExhausted
         ? "candidate compiled pathways exist but no evidence identifies exactly one"
@@ -801,12 +1103,20 @@ const aggregates = {
   pathwaysCurrencyFlagged: pathwayRows.filter((p) => p.currencyFlag).length,
   pathwaysUnresolvedAmbiguous: count(pathwayRows, "registryRelation", "unresolved_ambiguous_candidates"),
   pathwaysUnresolvedNoCandidate: count(pathwayRows, "registryRelation", "unresolved_no_candidate"),
+  pathwaysCrosswalkTerminalClassified: count(pathwayRows, "registryRelation", "crosswalk_terminal_classified"),
+  e4AdjudicationsConsumed: e4Consumed,
+  e4CrosswalkTerminalClassifications: e4Terminal.length,
+  e4CounselReviewRequirements: e4Review.length,
+  e4StillBlocked: e4Blocked.length,
 };
 aggregates.tracksWithRuntimeCoverage = aggregates.tracksExactPathway + aggregates.tracksRepresentedByVariants;
 aggregates.pathwaysMapped =
   aggregates.pathwaysDirect + aggregates.pathwaysVariant + aggregates.pathwaysComposedUnit;
 aggregates.pathwaysTerminal =
-  aggregates.pathwaysScopedOut + aggregates.pathwaysRoutingOrSupporting + aggregates.pathwaysRegistryGap;
+  aggregates.pathwaysScopedOut +
+  aggregates.pathwaysRoutingOrSupporting +
+  aggregates.pathwaysRegistryGap +
+  aggregates.pathwaysCrosswalkTerminalClassified;
 aggregates.pathwaysUnresolved = aggregates.pathwaysUnresolvedAmbiguous + aggregates.pathwaysUnresolvedNoCandidate;
 aggregates.milestone1Item2Closed =
   aggregates.pathwaysUnresolved === 0 && aggregates.tracksUnresolvedAmbiguous === 0;
@@ -839,6 +1149,23 @@ const crosswalk = {
         entries: (adjudicationDoc.adjudications || []).length,
       }
     : null,
+  // Consumption proof. These fields are derived from the E4 adjudication input
+  // on every run; remove or retype a canonical relationship there and the
+  // counts, the id lists and the content hash below all move.
+  e4AdjudicationSource: e4Doc
+    ? {
+        path: "data/rcap-ledger/crosswalk-resolution-adjudication.json",
+        generatedBy: e4Doc.generatedBy ?? null,
+        canonicalRelationships: (e4Doc.canonicalRelationships || []).length,
+        consumed: e4Consumed,
+        terminalRelation: e4Doc.canonicalVocabulary?.terminal ?? null,
+        inputSha256: crypto.createHash("sha256").update(fs.readFileSync(e4Path)).digest("hex"),
+        consumedJobIds: (e4Doc.canonicalRelationships || []).map((r) => r.jobId).sort(),
+      }
+    : null,
+  e4CrosswalkTerminalClassifications: e4Terminal,
+  e4CounselReviewRequirements: e4Review,
+  e4StillBlocked: e4Blocked,
   aggregates,
   unresolvedIds,
   registryGapBlockers: registryGapBlockers.sort((a, b) =>

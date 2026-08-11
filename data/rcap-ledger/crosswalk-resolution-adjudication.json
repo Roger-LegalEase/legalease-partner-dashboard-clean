@@ -7,7 +7,6 @@
   "purpose": "Captain adjudications applied on top of the four E4-R lane files. Lane files are consumed as evidence inputs only; nothing here transitions the launch ledger.",
   "consumedAs": "evidence_input",
   "launchLedgerEffect": "none",
-
   "retractedFinding": {
     "finding": "E4-R3 dead-pin defect",
     "assertedIn": "commit 2e53a327, docs/record-clearing/crosswalk-resolution-summary.md",
@@ -17,12 +16,20 @@
     "verification": {
       "gitCatFileCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5 — resolves",
       "gitShowBlob": "data/record-clearing/legal-design-track-registry.json — resolves, 497 tracks",
-      "citedRecordsPresent": ["md_10105_favorable", "md_pardon_expungement", "wv_conv_multiple_misdemeanors", "wv_conv_nonviolent_felony", "wv_conv_single_misdemeanor"],
-      "sourceRefs": ["origin/feat/record-clearing-production-integration", "origin/rcap-factory/rcap-ma-source-materialization-e01cc36e-2b1fab98"]
+      "citedRecordsPresent": [
+        "md_10105_favorable",
+        "md_pardon_expungement",
+        "wv_conv_multiple_misdemeanors",
+        "wv_conv_nonviolent_felony",
+        "wv_conv_single_misdemeanor"
+      ],
+      "sourceRefs": [
+        "origin/feat/record-clearing-production-integration",
+        "origin/rcap-factory/rcap-ma-source-materialization-e01cc36e-2b1fab98"
+      ]
     },
     "effect": "E4-R3 has no dead-pin defect. No corrective commit was requested of the lane, and none is owed."
   },
-
   "captainVerifierErrors": [
     {
       "error": "required cited evidence commits to be ancestors of the lane base",
@@ -40,7 +47,6 @@
       "correctedBy": "outcome-aware proposition support; terminalized rows require jurisdiction coverage, not subject presence"
     }
   ],
-
   "confidenceAdjudications": [
     {
       "lane": "E4-R1",
@@ -60,12 +66,14 @@
       "reviewStatus": "qa_review_pending"
     }
   ],
-
   "collisionAdjudications": [
     {
       "counterpart": "tx_exp_dismissed",
       "lane": "E4-R2",
-      "subjects": ["compiled_pathway:TX:expunction-after-qualifying-dismissal-or-quash", "compiled_pathway:TX:expunction-after-qualifying-class-c-deferred-disposition"],
+      "subjects": [
+        "compiled_pathway:TX:expunction-after-qualifying-dismissal-or-quash",
+        "compiled_pathway:TX:expunction-after-qualifying-class-c-deferred-disposition"
+      ],
       "verdict": "ACCEPTED — primary plus compiled variant",
       "reasoning": "dismissal-or-quash is the primary mapping by name identity with the registry legalName 'Expunction where the charge was dismissed or quashed'. class-c-deferred is a compiled VARIANT: a Class C deferred disposition is the express exception written into the community-supervision bar at art. 55A.051(3), which is tx_exp_dismissed's own authority, not an independent article. A variant does not add a track to the denominator.",
       "residual": "Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out is an open ELIGIBILITY question the registry itself flags. It does not disturb the mapping: either way the pathway lives inside art. 55A.051. Routed to counsel.",
@@ -74,7 +82,10 @@
     {
       "counterpart": "adult-non-conviction-expungement-under-crim-proc-10-105",
       "lane": "E4-R3",
-      "subjects": ["registry_track:MD:md_10105_favorable", "registry_track:MD:md_pardon_expungement"],
+      "subjects": [
+        "registry_track:MD:md_10105_favorable",
+        "registry_track:MD:md_pardon_expungement"
+      ],
       "verdict": "ACCEPTED PROVISIONALLY — needs counsel",
       "reasoning": "Both tracks are petitions under Md. Crim. Proc. § 10-105, so a single compiled pathway covering § 10-105 can legitimately host both. The pinned registry confirms both trackIds exist and are distinct petitions (favorable-disposition vs post-pardon).",
       "residual": "A pardon-based expungement and a favorable-disposition expungement are different eligibility gates sharing a statute. Collapsing them onto one pathway may erase a distinction a participant depends on. Counsel must confirm the pathway genuinely covers both entry routes.",
@@ -83,7 +94,11 @@
     {
       "counterpart": "eligible-conviction-expungement-under-w-va-code-61-11-26",
       "lane": "E4-R3",
-      "subjects": ["registry_track:WV:wv_conv_single_misdemeanor", "registry_track:WV:wv_conv_multiple_misdemeanors", "registry_track:WV:wv_conv_nonviolent_felony"],
+      "subjects": [
+        "registry_track:WV:wv_conv_single_misdemeanor",
+        "registry_track:WV:wv_conv_multiple_misdemeanors",
+        "registry_track:WV:wv_conv_nonviolent_felony"
+      ],
       "verdict": "ACCEPTED PROVISIONALLY — needs counsel",
       "reasoning": "W. Va. Code § 61-11-26 carries all three conviction classes in one section, so one compiled pathway over that section can host all three registry tracks.",
       "residual": "The three tracks carry materially different waiting periods and eligibility bars. A single pathway must express those differences or it will misprice eligibility for two of the three. Highest-risk collision of the four.",
@@ -92,14 +107,16 @@
     {
       "counterpart": "felony-conviction-431073",
       "lane": "E4-R4",
-      "subjects": ["registry_track:KY:ky_felony_expungement_after_pardon", "registry_track:KY:ky_felony_vacatur_expungement"],
+      "subjects": [
+        "registry_track:KY:ky_felony_expungement_after_pardon",
+        "registry_track:KY:ky_felony_vacatur_expungement"
+      ],
       "verdict": "ACCEPTED PROVISIONALLY — needs counsel",
       "reasoning": "Both are felony expungement routes under KRS 431.073, which the compiled pathway names.",
       "residual": "Post-pardon and post-vacatur are distinct predicates. Counsel must confirm KRS 431.073 is the operative vehicle for both rather than one being a separate mechanism.",
       "denominatorEffect": "none"
     }
   ],
-
   "stillBlocked": [
     {
       "jobId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
@@ -115,10 +132,1036 @@
       "captainDirection": "Remains still_blocked and keeps naming its packet."
     }
   ],
-
   "milestone1Item2": {
     "closed": false,
     "reason": "Two of the 38 blockers remain unresolved, and closure requires the canonical generator to reach zero unresolved mappings. It has not been re-run against these resolutions, and both still-blocked subjects need primary authority this repository does not contain.",
-    "blocking": ["compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement", "compiled_pathway:SC:human-trafficking-survivor-expungement"]
-  }
+    "blocking": [
+      "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+      "compiled_pathway:SC:human-trafficking-survivor-expungement"
+    ]
+  },
+  "generatedBy": "scripts/generate-rcap-crosswalk-resolution-adjudication.mjs",
+  "canonicalVocabulary": {
+    "pathwayRelations": [
+      "direct_runtime_representation",
+      "compiled_variant_of_registry_track"
+    ],
+    "trackRelations": [
+      "exact_current_pathway"
+    ],
+    "terminal": "crosswalk_terminal_classified",
+    "blocked": "still_blocked",
+    "note": "transport value \"terminalized\" is translated to crosswalk_terminal_classified here and never appears downstream"
+  },
+  "canonicalTotals": {
+    "direct_runtime_representation": 21,
+    "crosswalk_terminal_classified": 6,
+    "compiled_variant_of_registry_track": 2,
+    "still_blocked": 3,
+    "exact_current_pathway": 6
+  },
+  "reviewRequirementDefinitions": {
+    "wv-61-11-26-class-fidelity": {
+      "question": "W. Va. Code § 61-11-26 carries three conviction classes with materially different waiting periods and bars. One pathway represents all three tracks. Counsel must confirm the pathway expresses the per-class differences rather than flattening them.",
+      "relationshipExactness": "EXACT. The pathway text names each class in its own words — \"a misdemeanor offense or offenses\" covers the single and multiple misdemeanour tracks, \"a nonviolent felony offense or offenses arising from the same transaction\" covers the felony track. Representation is established; only per-class fidelity is open.",
+      "owner": "counsel review",
+      "launchLedgerEffect": "none"
+    },
+    "ky-431073-predicate-fidelity": {
+      "question": "KRS 431.073 is reached by two distinct predicates, vacatur and full gubernatorial pardon. Counsel must confirm both entry routes are expressed rather than one being assumed.",
+      "relationshipExactness": "EXACT. The pathway is labelled \"Eligible felony conviction vacatur and expungement under KRS 431.073\" and its summary states the offence may \"have a full gubernatorial pardon attached\", so both predicates are named in the committed pathway text.",
+      "owner": "counsel review",
+      "launchLedgerEffect": "none"
+    },
+    "tx-55a051-3-class-c-eligibility": {
+      "question": "Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out. The registry flags this itself.",
+      "relationshipExactness": "EXACT as a mapping. The question is an eligibility question: either way the pathway lives inside art. 55A.051, so the counterpart track does not change.",
+      "owner": "counsel review",
+      "launchLedgerEffect": "none"
+    }
+  },
+  "canonicalRelationships": [
+    {
+      "jobId": "compiled_pathway:CT:cannabis-conviction-erasure",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "CT",
+      "subjectId": "cannabis-conviction-erasure",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "ct-cannabis-auto",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-A1.json",
+        "data/rcap-ledger/e2-evidence/E2-B1.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json"
+      ],
+      "evidencePins": [],
+      "license": "Connecticut splits cannabis erasure into an automatic branch (§ 54-142u, track ct-cannabis-auto) and a petition branch (§ 54-142v, track ct-cannabis-petition); the registry legalNames state that split expressly. The compiled pathway is automatic:true, filingRequired:false, routeType:\"automatic\", suggestedResultCode:\"guidance_only\", and its pathway-defining clause is \"Cannabis erasure Auto-erasure of § 21a-279(c) possession convictions (1/1/2000-9/30/2015); took effect Jan 2023\" — the offense statute, window and effective date of the automatic branch. The projection's own scope note confirms the window belongs to § 54-142u and routes out-of-window convictions elsewhere: \"The conviction falls outside the § 54-142u window, which routes to the cannabis erasure petition track.\" Re-checkable rule: a CT cannabis pathway whose route is automatic and whose window is 1/1/2000-9/30/2015 is § 54-142u / ct-cannabis-auto; a CT cannabis pathway requiring a filing, or reaching convictions outside that window, is § 54-142v / ct-cannabis-petition. This pathway carries no filing branch, so ct-cannabis-petition is NOT co-mapped — resolving the conflict between E2-B1 (which proposed it as a co-track) and E2-A1 (which found ct-cannabis-petition terminal / missing_from_compiled_runtime) in favour of E2-A1, which is what the committed crosswalk already records.",
+      "operativeAuthority": {
+        "citation": "Conn. Gen. Stat. § 54-142u (Automatic Erasure of Certain Cannabis Possession Convictions)",
+        "subsection": "§ 54-142u as a whole for the erasure grant, which this repository does not pin at paragraph granularity; the committed authority set pins § 54-142u(b) (multi-count bar), (f) (no partial redaction required), (g) (no DMV erasure required) and (h) (legal effect)."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:DE:discretionary-court-expungement-under-11-del-c-4374",
+      "lane": "E4-R3",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "DE",
+      "subjectId": "discretionary-court-expungement-under-11-del-c-4374",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "de_discretionary_superior_court",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B1.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/DE-delaware.json"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "license": "Shared operative citation plus forum identity, both re-checkable. (1) The pathway id and label carry the bare citation '11 Del. C. § 4374' with no subsection; exactly one DE registry track carries the same bare citation as its whole authority — de_discretionary_superior_court, authority ['11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10']. (2) Forum: the DE profile fixes this pathway in Superior Court — packetGenerator.filingDestinationRules[0] 'Mandatory is handled by the SBI; discretionary is filed with the Superior Court (Family Court for juvenile)'; packetGenerator.sourceFormStatements[7] 'Expungement Petition packet (Superior ... available at courts.delaware.gov under Superior Court → Expungement)'; sourceSections[13] captions its worked example 'SUPERIOR COURT OF THE STATE OF DELAWARE ... PETITION FOR DISCRETIONARY EXPUNGEMENT (11 Del. C. 4374)'. The strings '281', 'Form 281' and 'FORM-281' — the Family Court track's only primary filing — appear nowhere in DE-delaware.json. (3) The prosecutor track is excluded on actor: the pathway makes the Attorney General the objector ('the Attorney General may object within 120 days'), while de_attorney_general_expungement is defined by the prosecutor being the movant and the participant not filing. A generator re-applies this as: bare-section citation match, then forum match against packetGenerator.filingDestinationRules, then movant match.",
+      "operativeAuthority": {
+        "citation": "11 Del. C. § 4374",
+        "subsection": "§ 4374 generally (discretionary petition on a manifest-injustice showing, with the Attorney General as opposing party). § 4374(c) is the forum provision and is the discriminator: it compels Family Court filing only where every charge and conviction sought was disposed of in Family Court, leaving the general § 4374 Superior Court route as the one this pathway implements. § 4374(f) and (h) carry the prosecutor-initiated route and are not implemented here."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:IL:criminal-identity-theft-mistaken-identity-relief",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "IL",
+      "subjectId": "criminal-identity-theft-mistaken-identity-relief",
+      "relationshipType": "crosswalk_terminal_classified",
+      "counterpart": null,
+      "laneOutcome": "terminalized",
+      "laneConfidence": "medium",
+      "evidence": [
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/IL-illinois.json"
+      ],
+      "evidencePins": [],
+      "crosswalkTerminalOnly": true,
+      "launchLedgerEffect": "none",
+      "terminalizationBasis": "Registry gap. The Illinois registry catalogues only record-clearing mechanisms (expungement, sealing, vacatur) and contains no name-correction mechanism. The compiled pathway implements a distinct remedy — correcting the identity recorded on an arrest or conviction — which no registry track in this jurisdiction covers. Confidence is medium rather than high solely because the operative subsection of 20 ILCS 2630/5.2 is not pinned anywhere in this repository; the gap finding does not depend on that pin, but a later pass should pin it (a pin_subsection_citation-class residual, not a mapping blocker)."
+    },
+    {
+      "jobId": "compiled_pathway:IL:human-trafficking-survivor-vacatur-and-expungement",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "IL",
+      "subjectId": "human-trafficking-survivor-vacatur-and-expungement",
+      "relationshipType": "crosswalk_terminal_classified",
+      "counterpart": null,
+      "laneOutcome": "terminalized",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/IL-illinois.json"
+      ],
+      "evidencePins": [],
+      "crosswalkTerminalOnly": true,
+      "launchLedgerEffect": "none",
+      "terminalizationBasis": "Registry gap. 20 ILCS 2630/5.2(h) is a live Illinois relief mechanism implemented in the compiled runtime but absent from the registry: no Illinois registry track carries subsection (h) or covers trafficking-survivor vacatur. The gap is on the registry side, not the runtime side — the runtime is ahead of the registry here, and the registry owner should add a 5.2(h) track."
+    },
+    {
+      "jobId": "compiled_pathway:KY:felony-conviction-431073",
+      "lane": "E4-R4",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "KY",
+      "subjectId": "felony-conviction-431073",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "ky_felony_vacatur_expungement",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-A2.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
+      ],
+      "evidencePins": [],
+      "license": "official_form_identity. The discriminator that breaks the published three-way conflict is the AOC form number, not the statute. KY-kentucky.json sourceSections[0] is the committed body text of AOC-496.3 Rev. 6-23 and it enumerates the eligibility branches on one form: 'the offense is one of the eligible offenses listed in KRS 431.073(1)(a)', 'the offenses are a series of eligible offenses listed in KRS 431.073(1)(a) which arose from a single incident', 'a full pardon has been granted by the Governor, a copy of which is attached', and sourceSections[1] adds '(Complete this section only if applying for expungement under KRS 431.073(1)(d)'. In registry-crosswalk-projection.json, officialFormRefs contains 'AOC-496.3' for exactly two tracks — ky_felony_vacatur_expungement and ky_felony_expungement_after_pardon — and NOT for ky_expungement_certification, whose officialFormRefs carry 'AOC-RU-009' instead. Re-check rule: a compiled pathway whose committed source text is one official form maps to the set of registry tracks carrying that form identifier in officialFormRefs, and to no track carrying a different form identifier. Relation is composed_unit_of_registry_track over bare track ids ['ky_felony_vacatur_expungement','ky_felony_expungement_after_pardon']; head token 'AOC-496.3'; excluded token 'AOC-RU-009'.",
+      "operativeAuthority": {
+        "citation": "KRS 431.073",
+        "subsection": "KRS 431.073(1)(a) and (1)(d) (head track ky_felony_vacatur_expungement); KRS 431.073(1)(c) (co-mapped track ky_felony_expungement_after_pardon)"
+      }
+    },
+    {
+      "jobId": "compiled_pathway:KY:juvenile-automatic-dismissal",
+      "lane": "E4-R4",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "KY",
+      "subjectId": "juvenile-automatic-dismissal",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "ky_juvenile_record_expungement",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B1.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
+      ],
+      "evidencePins": [],
+      "license": "registry_declared_branching. The E3 rejection reads 'track ky_juvenile_record_expungement declares no branching', which is true of the track's structured fields (compositionMode null, unitIds empty) but false of its committed prose. In registry-crosswalk-projection.json the mechanismExcerpt for ky_juvenile_record_expungement states: 'There is a separate automatic branch under KRS 610.330(7) where a petition is dismissed or the child is found not delinquent, which requires no action by the child.' KRS 610.330(7) is also in that track's authority array. The compiled pathway is that branch verbatim: KY-kentucky.json sourceSections[1] carries the body of AOC-JV-29 Rev. 8-23, 'ORDER FOR EXPUNGEMENT OF JUVENILE RECORD UPON DISMISSAL / FINDING-ADJUDICATION OF NOT DELINQUENT', headed 'the following expungements are required by law and DO NOT require any petition, motion, or other action of the child', with Section II entered 'pursuant to KRS 610.330' on a finding of not delinquent or a dismissal for any other reason. The sibling pathway juvenile-petition-610330 is the AOC-JV-30 / AOC-JV-29.1 petition branch, and AOC-JV-29.1 says on its face 'ORDERS FOR EXPUNGEMENT UPON DISMISSAL OF PETITION OR FINDING/ADJUDICATION OF NOT DELINQUENT SHOULD BE COMPLETED ON THE AOC-JV-29', which separates the two branches by form. Re-check rule: where a registry track's mechanismExcerpt names a subsection and describes a no-petition branch, a compiled pathway implementing that branch is a compiled_variant_of_registry_track of that track even though the track declares no structured composition. Bare track id 'ky_juvenile_record_expungement'; branch token 'KRS 610.330(7)'; form tokens 'AOC-JV-29' (automatic) vs 'AOC-JV-30'/'AOC-JV-29.1' (petition).",
+      "operativeAuthority": {
+        "citation": "KRS 610.330",
+        "subsection": "KRS 610.330(7)"
+      }
+    },
+    {
+      "jobId": "compiled_pathway:MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "MA",
+      "subjectId": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "ma-expunge-k",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B1.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "src/lib/rcap/state-packs/massachusetts/official-forms.ts",
+        "src/lib/rcap/state-packs/massachusetts/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "Two independent identities, either of which reproduces the mapping. (1) Statutory identity: the compiled profile states \"Non-time-based expungement is governed by M.G.L. c. 276, 100K.\" and the registry legalName for ma-expunge-k is \"Petition for Expungement under G.L. c. 276, § 100K\" — same section, same remedy. (2) Official-form identity: src/lib/rcap/state-packs/massachusetts/official-forms.ts carries officialName \"Petition for Expungement (non-time-based)\", role \"non_time_based_expungement\", citation \"M.G.L. c. 276, § 100K\", blankPdfInSource true — the same official petition the registry track is named for. Re-checkable rule: an MA expungement pathway grounded in § 100K and served by the \"Petition for Expungement\" form is ma-expunge-k; an MA expungement pathway grounded in § 100K-1/4 and served by the \"Petition for Expungement of Marijuana Offenses\" form is ma-expunge-mj (already mapped to marijuana-only-expungement); an MA expungement pathway grounded in §§ 100F-100J is ma-expunge-time. Note for QA: official-forms.ts records the marijuana form's citation as \"M.G.L. c. 276, § 100K\" where the registry has § 100K-1/4 — a state-pack citation slip that does not disturb this mapping, because the official-form names still discriminate the two tracks cleanly.",
+      "operativeAuthority": {
+        "citation": "Mass. Gen. Laws c. 276, § 100K (Petition for Expungement, non-time-based)",
+        "subsection": "§ 100K, the enumerated-grounds provision. The compiled profile reproduces all seven grounds — false identification; unauthorized use or theft of identity; offense no longer a crime; law-enforcement error; civilian or expert-witness error; court-employee error; fraud on the court — together with the clear-and-convincing standard and the written-findings requirement, but neither the profile nor the registry pins them at paragraph granularity, so no paragraph pin is asserted."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:MD:juvenile-expungement",
+      "lane": "E4-R3",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "MD",
+      "subjectId": "juvenile-expungement",
+      "relationshipType": "crosswalk_terminal_classified",
+      "counterpart": null,
+      "laneOutcome": "terminalized",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "src/lib/rcap/state-packs/maryland/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/maryland/official-forms.ts",
+        "src/lib/rcap/state-packs/maryland/pathways.ts"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "crosswalkTerminalOnly": true,
+      "launchLedgerEffect": "none",
+      "terminalizationBasis": "No Maryland registry track represents juvenile-court record expungement. The registry's eleven MD tracks are all adult Criminal Procedure Title 10 mechanisms; the juvenile route runs on Cts. & Jud. Proc. § 3-8A-27.1 and Md. Rule 11-506, on its own petition form and with no filing fee, and is described in the coded state pack as a 'separate process'. This is an unregistered relief mechanism — a registry gap on the registry owner, not an unresolved mapping — the same disposition already adjudicated for the sibling juvenile pathways DE:juvenile-expungement-under-10-del-c-1017-1019-1017a and WV:juvenile-record-relief. The blocker to publish: MD registry has no juvenile track; add one under CJP § 3-8A-27.1 / Md. Rule 11-506 or record the mechanism as deliberately out of registry scope."
+    },
+    {
+      "jobId": "compiled_pathway:MD:second-chance-act-shielding",
+      "lane": "E4-R3",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "MD",
+      "subjectId": "second-chance-act-shielding",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "md_second_chance_shielding",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "src/lib/rcap/state-packs/maryland/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/maryland/official-forms.ts",
+        "src/lib/rcap/state-packs/maryland/pathways.ts",
+        "src/lib/rcap/state-packs/maryland/waiting-periods.ts"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "license": "Official form identifier unique to one track, plus mechanism-name identity — exactly the discriminator the job named as missing. (1) Form: the MD profile binds this pathway's own form row 'Shielding CC-DC-CR-148 - Petition for Shielding Under Maryland Second Chance Act' (MD-maryland.json sourceSections[2], and pathways[second-chance-act-shielding].ruleClauses[23]); CC-DC-CR-148 appears in the packetSet of exactly one MD registry track, md_second_chance_shielding, as its primary filing. (2) Named mechanism: pathway label 'Second Chance Act shielding' and profile terminology.pathwayLabels[4] 'Shielding under Maryland Second Chance Act' against registry legalName 'Petition for Shielding Under the Maryland Second Chance Act'. (3) Substantive identity: the pathway's leading clauses state the twelve-offence shieldable list, the three-year post-sentence wait and the once-per-lifetime limit; the registry mechanism states the same three rules. (4) Authority: src/lib/rcap/state-packs/maryland/official-forms.ts binds CC-DC-CR-148 to 'Md. Code, Crim. Proc. §§ 10-301 to 10-306', the registry track's authority verbatim. A generator re-applies this as: take the form id bound to the pathway's own row in the profile form table, then select the unique registry track whose packetSet carries that form id. Note the crosswalk's five ambiguous candidates were produced by matching the whole profile form table rather than the pathway's own row; md_second_chance_shielding was not among them because it was separately classed 'missing_from_compiled_runtime'. Resolving this pathway closes that track's gap as well.",
+      "operativeAuthority": {
+        "citation": "Md. Code, Crim. Proc. §§ 10-301 through 10-306; Md. Rule 16-934",
+        "subsection": "§ 10-305 is the only subsection pinned in committed sources (a shielded conviction is not a conviction for the subsequent-conviction rule). The three-year post-sentence wait and the one-petition-per-lifetime limit are committed at section-range granularity, §§ 10-301 through 10-306."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:MN:automatic-mistaken-identity-expungement-under-609a-017",
+      "lane": "E4-R4",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "MN",
+      "subjectId": "automatic-mistaken-identity-expungement-under-609a-017",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "mn_mistaken_identity_court",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B2.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+        "src/lib/rcap/state-packs/minnesota/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/minnesota/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "remedy_type_identity_with_state_pack_section_binding. The E3 rejection is 'identity tie in MN (3 vs 8)' — chapter-level token matching cannot separate eight ch. 609A candidates. The discriminator is remedy type, and it is pinned in committed code. src/lib/rcap/state-packs/minnesota/pathways.ts binds each Minnesota mechanism to exactly one section and one remedyType: mistaken_identity_automatic -> citation 'Minn. Stat. section 609A.017', remedyType 'automatic_expungement', requiresPetition false; arrest_record_destruction -> citation 'Minn. Stat. section 299C.11', remedyType 'arrest_record_destruction'. The registry keeps exactly two mistaken-identity tracks and their mechanismExcerpts in registry-crosswalk-projection.json split on the same axis: mn_mistaken_identity_court reads 'Where a record was created through mistaken identity, the court expunges it without a participant petition' (authority: Minn. Stat. ch. 609A), while mn_mistaken_identity_iddata reads 'Identification data created through mistaken identity is destroyed without a participant petition' (authority: Minn. Stat. section 299C.11). Section 609A.017 is inside ch. 609A, so the refinement is consistent; and the higher-scoring 'automatic twin' mn_auto_clean_slate is unavailable because the state pack binds it to section 609A.015 and the crosswalk already holds it in a direct 1:1 with automatic-clean-slate-expungement-under-609a-015. Re-check rule: refine a chapter-level registry authority to a section using the coded state pack's mechanism->citation table, then require the remedyType of the pathway (court expungement) to equal the remedyType named in the track's mechanismExcerpt. Bare track id 'mn_mistaken_identity_court'; section token '609A.017'; excluded tokens '299C.11', '609A.015'.",
+      "operativeAuthority": {
+        "citation": "Minn. Stat. ch. 609A",
+        "subsection": "Minn. Stat. section 609A.017"
+      }
+    },
+    {
+      "jobId": "compiled_pathway:MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "lane": "E4-R4",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "MN",
+      "subjectId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "mn_auto_cannabis_nonfelony",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B2.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+        "src/lib/rcap/state-packs/minnesota/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/minnesota/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "composed_unit_of_registry_track, declared by the pathway's own label. The E3 rejection is 'only 2 distinctive tokens shared with mn_auto_cannabis_nonfelony' — correct, because this pathway is not a single-track match and should never have been scored as one. Its label is 'Cannabis automatic or board-reviewed expungement under sections 609A.055-.06': the disjunction is the composition. Its own rule clauses in MN-minnesota.json carry both halves separately — 'Certain nonfelony cannabis records may be automatically expunged under 609A.055. The BCA identifies eligible records and seals them without an application, petition, or motion' and 'For felony and some other cannabis-related cases, Minnesota created the Cannabis Expungement Board. The Board reviews eligible cases ... (609A.06)'. src/lib/rcap/state-packs/minnesota/pathways.ts splits the same two mechanisms at section level: cannabis_automatic -> 'Minn. Stat. section 609A.055', cannabis_board_review -> 'Minn. Stat. section 609A.06'. The registry carries exactly those two and no third: mn_auto_cannabis_nonfelony ('The Bureau of Criminal Apprehension identifies qualifying non-felony cannabis records and expunges them automatically') and mn_ceb_felony_cannabis ('The Cannabis Expungement Board reviews felony cannabis records on its own initiative and orders expungement or resentencing'), both cited to Minn. Stat. ch. 609A and Laws 2023, ch. 63. Re-check rule: when a compiled pathway label joins two section citations with 'or', decompose it into one component per section, bind each component to the registry track whose mechanismExcerpt describes that component's actor and trigger, and record composed_unit_of_registry_track over the resulting set. Bare track ids ['mn_auto_cannabis_nonfelony','mn_ceb_felony_cannabis']; section tokens '609A.055' (nonfelony/BCA) and '609A.06' (felony/Board).",
+      "operativeAuthority": {
+        "citation": "Minn. Stat. ch. 609A; Laws 2023, ch. 63",
+        "subsection": "Minn. Stat. section 609A.055 (head track mn_auto_cannabis_nonfelony); Minn. Stat. section 609A.06 (co-mapped track mn_ceb_felony_cannabis)"
+      }
+    },
+    {
+      "jobId": "compiled_pathway:MT:marijuana-related-redesignation-expungement-under-mmrta",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "MT",
+      "subjectId": "marijuana-related-redesignation-expungement-under-mmrta",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "mt_mmrta_completed",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+        "src/lib/rcap/state-packs/montana/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/montana/filing-instructions.ts",
+        "src/lib/rcap/state-packs/montana/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "Shared operative statutory citation plus shared official form, with a composite split. (1) Citation identity: the Montana state pack pins this pathway to 'Mont. Code Ann. § 16-12-113' as an explicit `citation` field in src/lib/rcap/state-packs/montana/pathways.ts, and both candidate registry tracks (mt_mmrta_completed, mt_mmrta_serving) list 'Mont. Code Ann. § 16-12-113' first in mechanismAuthority. No other Montana compiled pathway carries § 16-12-113 — the other four are scoped to Title 46 ch. 18 pt. 11 (§ 46-18-1104), § 44-5-202/CRISS, and § 46-18-204 — so the statute isolates this pathway uniquely. (2) Form identity: the compiled ruleClauses enumerate 'MMRTA Form A — Currently serving sentence; request expungement or resentencing' and 'MMRTA Form B — Sentence completed; request expungement or redesignation', the two Montana Judicial Branch forms adopted by Mont. Sup. Ct. AF 22-0129, which both tracks cite. (3) Composite split — THIS IS A ONE-TO-TWO MAPPING. The single compiled pathway is the runtime vehicle for BOTH registry tracks and dispatches between them at 'Step 2 — Determine whether sentence is current or completed'. Apply: sentence completed => MMRTA Form B => mt_mmrta_completed; currently serving => MMRTA Form A => mt_mmrta_serving. `counterpart` names mt_mmrta_completed as primary because the pathway's own id and label carry the operative verbs 'redesignation / expungement', which are Form B's verbs; 'resentencing', Form A's distinguishing verb, appears nowhere in the pathway id or label. A generator closing coverage must credit BOTH tracks to this pathway, not one. Re-checkable offline against MT-montana.json, montana/pathways.ts and track-pathway-crosswalk.json.",
+      "operativeAuthority": {
+        "citation": "Mont. Code Ann. § 16-12-113 (Montana Marijuana Regulation and Taxation Act); Mont. Sup. Ct. AF 22-0129 (order adopting the MMRTA forms)",
+        "subsection": "§ 16-12-113(5)-(10), (12) — sentence completed; petition for expungement or redesignation; Montana Judicial Branch MMRTA Form B. The same compiled pathway also carries § 16-12-113(1)-(4), (8)-(12) — currently serving; expungement or resentencing; MMRTA Form A — which is registry track mt_mmrta_serving."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:ND:marijuana-specific-summary-pardon-or-sealing-relief",
+      "lane": "E4-R4",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "ND",
+      "subjectId": "marijuana-specific-summary-pardon-or-sealing-relief",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "nd-summary-marijuana-pardon",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B2.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+        "src/lib/rcap/state-packs/north-dakota/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/north-dakota/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "registry_declared_scope_restriction plus residual-component exclusion. The E3 rejection is 'identity tie in ND (4 vs 4)' — the tie is against nd-regular-pardon, which shares all four ch. 12-55.1 citations. Two committed facts break it. First, the pathway's own rule clauses in ND-north-dakota.json state the summary form's scope exactly: 'people prosecuted and convicted of misdemeanor marijuana possession, marijuana ingestion, or marijuana paraphernalia who have had no other criminal convictions in the past five years may submit a Summary Pardon Application. Felony convictions are not eligible for the summary marijuana application and must use the regular pardon application.' That three-element scope is nd-summary-marijuana-pardon's mechanismExcerpt ('the summary marijuana process uses SFN 61663 and covers misdemeanor convictions for possession of marijuana, ingestion of marijuana and possession of marijuana paraphernalia'), and the felony exclusion is nd-regular-pardon's own claim ('It is the required route for any felony and for any applicant excluded from the summary marijuana process'), so the pathway affirmatively excludes the tied candidate. Second, the pathway's disjunctive label resolves by exclusion: its 'sealing' component is the N.D.C.C. section 19-03.1-23(9) motion, and the crosswalk already holds that component in a direct 1:1 (first-offense-possession-sealing -> nd-marijuana-first-offense-seal), leaving the summary-pardon component as the only unbound half. The pathway itself keeps the two apart — 'Marijuana sealing and marijuana summary pardon are not the same thing. One is a court-record sealing process; the other is an executive pardon process' — which is the runtime implementation of nd-summary-marijuana-pardon's own scopedOutStatement about 'a participant confusing the executive pardon with the court sealing route under N.D.C.C. section 19-03.1-23(9)'. src/lib/rcap/state-packs/north-dakota/pathways.ts keeps the same two entries, marijuana_first_offense_sealing (N.D.C.C. section 19-03.1-23(9)) and marijuana_summary_pardon (ND Pardon Advisory Board - Summary Pardon Application). Re-check rule: on a citation tie between two tracks in one chapter, prefer the track whose scope tokens the pathway reproduces and whose rival the pathway names as the excluded alternative; then confirm no component of the pathway is left double-bound. Bare track id 'nd-summary-marijuana-pardon'; form token 'SFN 61663'; excluded form token 'SFN 14859'.",
+      "operativeAuthority": {
+        "citation": "N.D.C.C. ch. 12-55.1",
+        "subsection": "N.D.C.C. section 12-55.1-01(4)"
+      }
+    },
+    {
+      "jobId": "compiled_pathway:NH:dwi-dui-annulment",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "NH",
+      "subjectId": "dwi-dui-annulment",
+      "relationshipType": "compiled_variant_of_registry_track",
+      "counterpart": "nh_conviction_standard",
+      "laneOutcome": "resolved",
+      "laneConfidence": "medium",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+        "src/lib/rcap/state-packs/new-hampshire/disqualifying-offenses.ts",
+        "src/lib/rcap/state-packs/new-hampshire/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/new-hampshire/pathways.ts",
+        "src/lib/rcap/state-packs/new-hampshire/waiting-periods.ts"
+      ],
+      "evidencePins": [],
+      "license": "RSA 265-A:21 lengthens the RSA 651:5 conviction waiting period for one offence class; it files the same petition. eligibility-rules.ts lists the DWI 10-year rule as the final entry inside the \"Conviction waiting periods (RSA 651:5)\" list, and nh_conviction_streamlined carries only III(a)(2)/III(b)(2), so the streamlined route stays distinguishable.",
+      "operativeAuthority": {
+        "citation": "RSA 651:5 (annulment of criminal records), with the DWI waiting-period carve-out at RSA 265-A:21",
+        "subsection": "RSA 651:5, III — the conviction waiting-period subsection, whose span the registry track states as 'RSA 651:5, III(a)(1), (b)(1) and (c) through (i)'. RSA 265-A:21 supplies the 10-year DWI wait that displaces the ordinary class-based period. The specific paragraph of RSA 651:5, III that carries the carve-out is not pinned in this repository."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:NH:out-of-state-federal-or-military-record-guidance",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "NH",
+      "subjectId": "out-of-state-federal-or-military-record-guidance",
+      "relationshipType": "crosswalk_terminal_classified",
+      "counterpart": null,
+      "laneOutcome": "terminalized",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+        "src/lib/rcap/state-packs/new-hampshire/filing-instructions.ts"
+      ],
+      "evidencePins": [],
+      "crosswalkTerminalOnly": true,
+      "launchLedgerEffect": "none",
+      "terminalizationBasis": "Scoped out / routing. This is a jurisdictional-referral advisory, not a New Hampshire relief mechanism: routeType 'out_of_scope', no filing, result code 'not_covered_yet'. It tells a user that New Hampshire courts cannot annul federal, military, Tribal, or out-of-state records and that relief lies in the issuing jurisdiction. There is no counterpart to name because the registry catalogues New Hampshire remedies and this pathway asserts that none applies. Note for QA: this is a correct and legally necessary guardrail, and terminalizing it removes it from the coverage denominator without removing it from the runtime."
+    },
+    {
+      "jobId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+      "lane": "E4-R3",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "PA",
+      "subjectId": "path-k-human-trafficking-vacatur-expungement",
+      "relationshipType": "still_blocked",
+      "counterpart": null,
+      "laneOutcome": "still_blocked",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E-SPECIAL.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md",
+        "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json"
+      ],
+      "evidencePins": [],
+      "missingEvidence": "Official primary authority named in docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md; not committed to this repository.",
+      "owner": "external-retrieval lane (outbound access required)",
+      "nextAction": "Retrieve the official primary text per docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md, commit it, then re-run the canonical generator.",
+      "blockerKind": "official_source_gap",
+      "milestone1Item2Effect": "blocks closure until the official text is committed",
+      "retrievalPacket": "docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md"
+    },
+    {
+      "jobId": "compiled_pathway:SC:diversion-or-program-completion-expungement",
+      "lane": "E4-R4",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "SC",
+      "subjectId": "diversion-or-program-completion-expungement",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "sc_pti_17_22_150",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+        "src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/south-carolina/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "composed_unit_of_registry_track over four program-completion routes. The E3 rejection is 'only 2 distinctive tokens shared with sc_pti_17_22_150', which is the right verdict on a one-track proposal and the wrong question: this pathway is four mechanisms, not one. Its ten rule clauses in SC-south-carolina.json are four labelled blocks and nothing else — Pretrial Intervention/PTI, 'Alcohol Education Program - AEP', 'Traffic Education Program - TEP', and 'Conditional discharge - drug possession' with its own '44-53-450' clause and fee clause. src/lib/rcap/state-packs/south-carolina/pathways.ts binds each program name to exactly one section: PTI -> 'S.C. Code section 17-22-150', AEP -> 'S.C. Code section 17-22-530', TEP -> 'S.C. Code section 17-22-330', conditional discharge -> 'S.C. Code section 44-53-450'. Each of those four sections is the naming (head) citation of exactly one registry track in registry-crosswalk-projection.json — sc_pti_17_22_150, sc_aep, sc_tep, sc_conditional_discharge_44_53_450 — and all four are presently unmapped. The head-citation qualifier matters: sc_22_5_930_drug also lists section 44-53-450 in its authority array, but its naming citation is section 22-5-930 and the crosswalk already binds it to eligible-conviction-expungement. Mentions of these sections inside juvenile-expungement and pardon-guidance-for-otherwise-ineligible-convictions are routing-table rows listing every South Carolina route, not pathway-defining clauses, and are disregarded under the same rule the Alabama lane used. Re-check rule: decompose a compiled pathway whose own clause blocks enumerate N named programs, bind each program to a section via the coded state pack, and map to the registry track whose legalName carries that section as its naming citation. Bare track ids ['sc_pti_17_22_150','sc_aep','sc_tep','sc_conditional_discharge_44_53_450']; section tokens '17-22-150','17-22-530','17-22-330','44-53-450'. This corrects E2-B3, which named only the first three and omitted the conditional-discharge component.",
+      "operativeAuthority": {
+        "citation": "S.C. Code Title 17, Chapter 22; S.C. Code section 44-53-450",
+        "subsection": "section 17-22-150(a) (sc_pti_17_22_150); section 17-22-530(A) (sc_aep); section 17-22-330(A) (sc_tep); section 44-53-450(b) (sc_conditional_discharge_44_53_450)"
+      }
+    },
+    {
+      "jobId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+      "lane": "E4-R4",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "SC",
+      "subjectId": "human-trafficking-survivor-expungement",
+      "relationshipType": "still_blocked",
+      "counterpart": null,
+      "laneOutcome": "still_blocked",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md",
+        "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+        "src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/south-carolina/pathways.ts"
+      ],
+      "evidencePins": [],
+      "missingEvidence": "Official primary authority named in docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md; not committed to this repository.",
+      "owner": "external-retrieval lane (outbound access required)",
+      "nextAction": "Retrieve the official primary text per docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md, commit it, then re-run the canonical generator.",
+      "blockerKind": "official_source_gap",
+      "milestone1Item2Effect": "blocks closure until the official text is committed",
+      "retrievalPacket": "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md"
+    },
+    {
+      "jobId": "compiled_pathway:TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "TX",
+      "subjectId": "expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "tx_exp_acquittal",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/TX-texas.json"
+      ],
+      "evidencePins": [],
+      "license": "All five Texas expunction pathways in the compiled profile share one summary and one ruleClauses block — the profile's \"Eligible categories\" list — so the shared corpus does not discriminate and only the pathway-defining label may be used, exactly as the Alabama precedent in E2-A1 requires. Each label selects one row of that shared list. This label selects: \"Acquittal (found not guilty) — Ch. 55A provides a streamlined procedure; on request and after notice to the State, the court may enter an expunction order as early as the 30th day after acquittal.\" That is the art. 55A.201 mechanism, and tx_exp_acquittal is the track the registry names for it (\"Expunction after trial court acquittal, Tex. Code Crim. Proc. arts. 55A.002 and 55A.201\"). Re-checkable rule and discriminator: the acquittal row's operative marker is the 30-day-after-acquittal order on request — trial-court acquittal, art. 55A.201. It is therefore not tx_exp_discretionary (art. 55A.101), which the registry reserves for appellate acquittal or prosecutor recommendation; neither trigger appears in this pathway's label or in the acquittal row.",
+      "operativeAuthority": {
+        "citation": "Tex. Code Crim. Proc. arts. 55A.002 and 55A.201 (expunction after trial court acquittal)",
+        "subsection": "art. 55A.201(b)-(d) — the streamlined acquittal procedure: entry of the expunction order on request and after notice to the State, available as early as the 30th day after acquittal. Subsections (b), (c) and (d) are pinned in the committed authority set for tx_exp_acquittal."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:TX:expunction-after-pardon-or-actual-innocence-relief",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "TX",
+      "subjectId": "expunction-after-pardon-or-actual-innocence-relief",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "tx_exp_pardon_innocence",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/TX-texas.json"
+      ],
+      "evidencePins": [],
+      "license": "Name identity on the pathway-defining label, which is the only discriminating text in the Texas profile (all five expunction pathways share one ruleClauses block). The compiled label \"Expunction after pardon or actual-innocence relief\" reproduces the registry legalName \"Expunction after a pardon or other relief on the basis of actual innocence\" — same remedy, same disjunction, modulo hyphenation and the dropped word \"other\". The corresponding row of the shared eligible-categories list is \"Pardon — a full pardon by the Governor of Texas or the President, including a pardon based on actual innocence (and certain other pardons).\" Re-checkable rule: a Texas pardon-expunction pathway whose label carries the actual-innocence ground is arts. 55A.003/55A.202 (tx_exp_pardon_innocence); art. 55A.004 (tx_exp_pardon_other, pardon granted for a reason other than actual innocence) is a separate track. Scope limit deliberately not overreached: the parenthetical \"(and certain other pardons)\" is the only text touching art. 55A.004, and a parenthetical is not a pathway-defining label, so tx_exp_pardon_other is NOT claimed here and remains missing_from_compiled_runtime for the registry-owner-action lane. This narrows E2-B3, which proposed both tracks.",
+      "operativeAuthority": {
+        "citation": "Tex. Code Crim. Proc. arts. 55A.003 and 55A.202 (expunction after a pardon or other relief on the basis of actual innocence)",
+        "subsection": "art. 55A.202(b), pinned in the committed authority set for tx_exp_pardon_innocence alongside arts. 55A.204, 55A.205, 55A.252 and 55A.253."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:TX:expunction-after-qualifying-class-c-deferred-disposition",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "TX",
+      "subjectId": "expunction-after-qualifying-class-c-deferred-disposition",
+      "relationshipType": "compiled_variant_of_registry_track",
+      "counterpart": "tx_exp_dismissed",
+      "laneOutcome": "resolved",
+      "laneConfidence": "medium",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/TX-texas.json"
+      ],
+      "evidencePins": [],
+      "license": "A Class C deferred disposition is the express exception written into the community-supervision bar at art. 55A.051(3), which is tx_exp_dismissed's own authority, not an independent article. expunction-after-qualifying-dismissal-or-quash is the primary relationship for that track by name identity with the registry legalName.",
+      "operativeAuthority": {
+        "citation": "Tex. Code Crim. Proc. arts. 55A.051 and 55A.053 (expunction where the charge was dismissed or quashed)",
+        "subsection": "art. 55A.051(3), the court-ordered-community-supervision carve-out. The registry's own scope statement places the Class C question in exactly that carve-out: \"Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out.\""
+      },
+      "reviewRequirement": {
+        "id": "tx-55a051-3-class-c-eligibility",
+        "question": "Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out. The registry flags this itself.",
+        "relationshipExactness": "EXACT as a mapping. The question is an eligibility question: either way the pathway lives inside art. 55A.051, so the counterpart track does not change.",
+        "owner": "counsel review",
+        "launchLedgerEffect": "none"
+      }
+    },
+    {
+      "jobId": "compiled_pathway:TX:expunction-after-qualifying-dismissal-or-quash",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "TX",
+      "subjectId": "expunction-after-qualifying-dismissal-or-quash",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "tx_exp_dismissed",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/TX-texas.json"
+      ],
+      "evidencePins": [],
+      "license": "Name identity on the pathway-defining label. \"Expunction after qualifying dismissal or quash\" reproduces the registry legalName \"Expunction where the charge was dismissed or quashed\" — both disjuncts, same order. The two rows of the shared eligible-categories list it selects are \"Dismissal — the charge was dismissed and the person was never placed on court-ordered community supervision for that offense\" and \"Statute of limitations expired with no charge, or a void/quashed charging instrument\", which are the dismissal and quash branches of arts. 55A.051/55A.053. Re-checkable rule: a Texas expunction pathway naming dismissal or quash maps to tx_exp_dismissed. Discriminator against the neighbouring track: the limitations-with-no-charge branch alone belongs to tx_exp_limitations (art. 55A.054), already exactly mapped to expunction-for-arrest-with-no-charge-filed-after-the-limitations-period; the quash branch is what makes this pathway tx_exp_dismissed rather than that one.",
+      "operativeAuthority": {
+        "citation": "Tex. Code Crim. Proc. arts. 55A.051 and 55A.053 (expunction where the charge was dismissed or quashed)",
+        "subsection": "art. 55A.053(a)(2), the dismissal-reason provision, together with the further subsections pinned in the committed authority set — art. 55A.053(b), (c) and (d)."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:UT:path-a-automatic-clean-slate-expungement",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "UT",
+      "subjectId": "path-a-automatic-clean-slate-expungement",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "ut_auto_clean_slate",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "src/lib/rcap/state-packs/utah/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "Path A is the umbrella node over Utah's whole automatic-expungement scheme, and the registry represents that scheme as three tracks rather than one. The pathway's defining summary carries the four-row automatic case-type table: acquittal on all charges (goal 60 days), dismissal with prejudice (goal 180 days, excluding plea-in-abeyance dismissals), Clean Slate eligible conviction or dismissal after the statutory waiting period, and certain traffic cases by automatic deletion. Those rows are § 77-40a-206, § 77-40a-206, § 77-40a-205 and § 77-40a-202 respectively — the authorities of ut_auto_nonconviction, ut_auto_clean_slate and ut_auto_traffic. The state pack states the same union in one sentence: \"Automatic Clean Slate expungement — the court identifies and clears eligible cases without a petition: acquittals (goal 60 days), dismissals with prejudice excluding plea-in-abeyance dismissals (goal 180 days), and eligible lower-level convictions/charges after the Clean Slate waiting period\". Re-checkable rule, and the reason this is a resolution rather than a routing terminalization: the crosswalk already treats the parallel petition-side umbrella, path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility, as a direct_runtime_representation of all seven petition tracks at once; Path A gets the identical treatment on the automatic side. Primary counterpart is ut_auto_clean_slate because the pathway is named for Clean Slate; the co-mapped set is ut_auto_clean_slate, ut_auto_nonconviction and ut_auto_traffic. No double-count arises: paths B, C and I carry the branch-specific one-to-one mappings and Path A carries the umbrella, the same one-track-to-several-pathways shape the crosswalk records for ma-seal-admin.",
+      "operativeAuthority": {
+        "citation": "Utah Code §§ 77-40a-202, 77-40a-205 and 77-40a-206, administered under § 77-40a-204",
+        "subsection": "§ 77-40a-205 for the Clean Slate conviction branch the pathway is named for; § 77-40a-206 supplies the acquittal and dismissal-with-prejudice rows; § 77-40a-202 supplies the automatic traffic-deletion row; § 77-40a-204, including § 77-40a-204(3), is the shared automatic-process authority the committed authority set cites inside all three tracks."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:UT:path-e-petition-based-non-conviction-expungement",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "UT",
+      "subjectId": "path-e-petition-based-non-conviction-expungement",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "ut_pet_acquittal",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "src/lib/rcap/state-packs/utah/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/utah/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "The pathway's defining summary enumerates the § 77-40a-302(1) non-conviction certificate outcomes verbatim and exhaustively: \"A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.\" The state pack repeats the same enumeration and the same disqualifier list. The registry decomposes § 77-40a-302(1) into exactly five outcome-specific tracks, and every one of them carries \"Utah Code 77-40a-302(1)\" in its authority set: ut_pet_acquittal, ut_pet_dismissed_with_prejudice, ut_pet_dismissed_without_prejudice, ut_pet_no_charges and ut_pet_limitations. Re-checkable rule: a Utah petition pathway whose eligibility set is the § 77-40a-302(1) outcome list maps to precisely those UT registry tracks whose mechanismAuthority contains \"Utah Code 77-40a-302(1)\" — a mechanical set membership test over the committed crosswalk. Primary counterpart is ut_pet_acquittal as the first-listed 302(1) track; the five-track set is the substantive result. The discriminator against Path F is conviction status: § 77-40a-302 governs non-conviction records, § 77-40a-303 governs convictions.",
+      "operativeAuthority": {
+        "citation": "Utah Code § 77-40a-302(1) (certificate of eligibility for expungement of a non-conviction record)",
+        "subsection": "§ 77-40a-302(1) and its outcome paragraphs; the committed authority set pins § 77-40a-302(1)(b)(v) for the limitations branch (ut_pet_limitations) and § 77-40a-306(2) for the dismissed-without-prejudice branch (ut_pet_dismissed_without_prejudice)."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:UT:path-f-petition-based-conviction-expungement",
+      "lane": "E4-R2",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "UT",
+      "subjectId": "path-f-petition-based-conviction-expungement",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "ut_pet_conviction",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-B3.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "src/lib/rcap/state-packs/utah/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/utah/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "The compiled Path F record's own body is the shared Utah petition boilerplate, so the discriminating authority is taken from the coded state pack, which names the identical pathway taxonomy the profile uses and attaches the statute. src/lib/rcap/state-packs/utah/eligibility-rules.ts enumerates the same nine Utah pathways as the profile — \"automatic Clean Slate expungement, petition-based expungement with a BCI Certificate of Eligibility, petition-based non-conviction expungement, petition-based conviction expungement, traffic offense deletion/petition, cannabis-possession petition without a BCI certificate, pardon-based expungement, juvenile expungement, or vacatur/human-trafficking expungement\" — and assigns the conviction branch its statute: \"Certificate eligibility bars (§ 77-40a-303): Utah bars ordinary certificate eligibility for a capital felony, first-degree felony, violent felony, felony DUI under § 41-6a-501(2), and sex/kidnap/child-abuse registry offenses...\". src/lib/rcap/state-packs/utah/pathways.ts states the same link as a data field: pathway \"petition_certificate_conviction_expungement\", citation \"Utah Code Title 77, Chapter 40a; § 77-40a-303\". The registry names § 77-40a-303 for exactly one track: ut_pet_conviction, \"Expungement of a conviction on a certificate of eligibility, Utah Code 77-40a-303\". Re-checkable rule: the conviction branch of the Utah petition scheme is § 77-40a-303 and maps to ut_pet_conviction; the non-conviction branch is § 77-40a-302(1) and maps to the five 302(1) tracks (Path E). This upgrades E2-B3's medium confidence, which rested on the boilerplate profile text alone and did not reach the state pack's explicit § 77-40a-303 assignment.",
+      "operativeAuthority": {
+        "citation": "Utah Code § 77-40a-303 (eligibility for expungement of a conviction on a certificate of eligibility)",
+        "subsection": "§ 77-40a-303 and its certificate-bar paragraphs; the committed authority set pins § 77-40a-303(1), (4), (5), (6) and (7)."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:VT:adult-conviction-expungement-narrow-statutory-route",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "VT",
+      "subjectId": "adult-conviction-expungement-narrow-statutory-route",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "vt_exp_decriminalized",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/vermont/pathways.ts"
+      ],
+      "evidencePins": [],
+      "license": "Two-element operative-rule identity. The registry track vt_exp_decriminalized is 'Expungement of a conviction for conduct no longer prohibited, 13 V.S.A. § 7602(a)(1) and (b)'. The compiled pathway's defining clause states both elements in the same order: the § 7602(a)(1) trigger ('may petition to expunge a conviction record only if the person was convicted of an offense where the underlying conduct is no longer prohibited by law or no longer designated as a criminal offense') and the § 7602(b) grant standard ('The court grants if the person completed sentence/supervision and paid restitution and surcharges, unless surcharges were waived'). The Vermont state pack carries the same rule with the explicit `citation` field '13 V.S.A. § 7602' for this pathway. Discriminators against the other unmapped Vermont EXPUNGEMENT track: vt_exp_deferred_sentence is scoped to 13 V.S.A. § 7041(e) and 28 V.S.A. §§ 204/204a (discharge from a deferred sentence), a different statute that appears nowhere in this pathway. The pathway is expungement, not sealing, so the § 7602(a)(2) sealing tracks are excluded on the face of § 7602(a). Re-check rule: match on the pair (trigger = conduct no longer prohibited, grant = sentence complete + restitution/surcharges) under 13 V.S.A. § 7602. Re-checkable offline.",
+      "operativeAuthority": {
+        "citation": "13 V.S.A. § 7602",
+        "subsection": "§ 7602(a)(1) — eligibility trigger: conviction for an offence whose underlying conduct is no longer prohibited by law or no longer designated as a criminal offence; and § 7602(b) — grant standard: the court grants on completion of sentence/supervision with restitution and surcharges paid unless waived."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:VT:adult-misdemeanor-conviction-sealing",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "VT",
+      "subjectId": "adult-misdemeanor-conviction-sealing",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "vt_seal_misdemeanor",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/vermont/pathways.ts",
+        "src/lib/rcap/state-packs/vermont/waiting-periods.ts"
+      ],
+      "evidencePins": [],
+      "license": "Express pin cite in the compiled pathway. Its ruleClauses set out the four conditions — qualifying misdemeanour; 3 years after completion of sentence terms and conditions; restitution/surcharges paid unless the surcharge is waived; prosecutor must not show sealing is contrary to the interests of justice — and then states the cite verbatim: 'These conditions come from 13 V.S.A. 7602(c).' The registry track vt_seal_misdemeanor is 'Sealing of a qualifying misdemeanour conviction, 13 V.S.A. § 7602(a)(2) and (c)'. The pathway additionally enumerates the § 7601(4)(A) misdemeanour qualifying-crime exclusion list (listed crimes, child sexual exploitation, abuse-prevention/stalking/protective-order violations, vulnerable-adult abuse, voyeurism, animal cruelty, sex-offender-registry failure, hate-motivated crimes, CDL motor-vehicle offences, and offences requiring sex-offender registration), and § 7601(4)(A) is in vt_seal_misdemeanor's mechanismAuthority. Discriminators: vt_seal_pardon also lists § 7602(c) among its authorities but is defined by 13 V.S.A. § 7601(4)(B)(iv) and § 7602(d) — the unconditional-pardon and felony provisions — neither of which this pathway implements; vt_seal_felony is § 7602(d) with a 7-year wait, already mapped to adult-felony-conviction-sealing; vt_seal_dui is § 7602(e) with a 10-year wait and a CDL bar. The 3-year period plus the § 7601(4)(A) misdemeanour exclusion list isolates § 7602(c) uniquely. Re-checkable offline.",
+      "operativeAuthority": {
+        "citation": "13 V.S.A. § 7602; qualifying-crime definition at 13 V.S.A. § 7601(4)(A)",
+        "subsection": "§ 7602(a)(2) — sealing of a qualifying conviction; and § 7602(c) — the misdemeanour conditions: 3 years after completion of sentence terms and conditions, restitution and surcharges paid unless waived, and the prosecutor not showing that sealing is contrary to the interests of justice."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:VT:dui-sealing",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "VT",
+      "subjectId": "dui-sealing",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "vt_seal_dui",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "src/lib/rcap/state-packs/vermont/disqualifying-offenses.ts",
+        "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/vermont/pathways.ts",
+        "src/lib/rcap/state-packs/vermont/waiting-periods.ts"
+      ],
+      "evidencePins": [],
+      "license": "Express pin cite plus a three-citation identity. The compiled pathway states the four DUI conditions (10 years after sentence completion; restitution/surcharges paid or waived; petitioner not a CDL or commercial-permit holder; prosecutor does not show sealing is contrary to the interests of justice) and then cites them: 'This rule is in 13 V.S.A. 7602(e).' The registry track vt_seal_dui is 'Sealing of a qualifying DUI misdemeanour conviction, 13 V.S.A. § 7602(a)(2) and (e)'. Two further citations in vt_seal_dui's mechanismAuthority are matched independently in the pathway: 23 V.S.A. § 1201(a), the DUI offence — the pathway conditions the fee on 'sealing a DUI conviction under 23 V.S.A. 1201(a) committed when the person was 25 or older'; and 32 V.S.A. § 1431(e), the court-fee provision — the pathway states that it 'lists the DUI sealing filing fee as $90 and says that fee does not apply to other motions to seal or expunge criminal history', which is the same fee carve-out. The Vermont state pack pins the pathway with the composite `citation` field '13 V.S.A. § 7602(e); 23 V.S.A. § 1201(a)'. § 7602(e) and the 10-year/CDL pair appear in no other Vermont track. The pathway's cross-reference to 33 V.S.A. § 5119 for a DUI committed under age 25 is a routing note to the separate under-25 track, not a competing mapping. Re-checkable offline.",
+      "operativeAuthority": {
+        "citation": "13 V.S.A. § 7602; underlying offence at 23 V.S.A. § 1201(a); filing fee at 32 V.S.A. § 1431(e)",
+        "subsection": "§ 7602(a)(2) and § 7602(e) — a qualifying DUI misdemeanour may be sealed 10 years after sentence completion, restitution and surcharges paid or waived, the petitioner not being a commercial driver's licence or commercial-permit holder, and the prosecutor not showing that sealing is contrary to the interests of justice."
+      }
+    },
+    {
+      "jobId": "compiled_pathway:VT:juvenile-sealing",
+      "lane": "E4-R1",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "VT",
+      "subjectId": "juvenile-sealing",
+      "relationshipType": "crosswalk_terminal_classified",
+      "counterpart": null,
+      "laneOutcome": "terminalized",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+        "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/vermont/pathways.ts",
+        "src/lib/rcap/state-packs/vermont/waiting-periods.ts"
+      ],
+      "evidencePins": [],
+      "crosswalkTerminalOnly": true,
+      "launchLedgerEffect": "none",
+      "terminalizationBasis": "Registry gap. Vermont juvenile delinquency-record sealing under 33 V.S.A. § 5119 is implemented in the compiled runtime but has no registry track: the Vermont registry's only § 5119 track, vt_seal_under_25, is expressly the subsection (g) offence-before-age-25 route and is already mapped to its own compiled pathway. The runtime is ahead of the registry here; the registry owner should add a juvenile delinquency sealing track. The paragraph letters of the delinquency branch are unpinned in this repository, which is a citation-granularity residual and does not affect the gap finding, since the gap rests on a complete enumeration of the 11 committed VT tracks."
+    },
+    {
+      "jobId": "compiled_pathway:WV:first-offense-drug-possession-conditional-discharge-relief",
+      "lane": "E4-R3",
+      "subjectKind": "compiled_pathway",
+      "jurisdiction": "WV",
+      "subjectId": "first-offense-drug-possession-conditional-discharge-relief",
+      "relationshipType": "direct_runtime_representation",
+      "counterpart": "wv_drug_conditional_discharge",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+        "src/lib/rcap/state-packs/west-virginia/disqualifying-offenses.ts",
+        "src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/west-virginia/filing-instructions.ts"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "license": "Operative citation in the pathway, resolving to exactly one track. The pathway carries § 60A-4-407 in its own rule clauses — WV-west-virginia.json pathways[first-offense-drug-possession-conditional-discharge-relief].ruleClauses[23] '1 Conditional discharge order under 60A-4-407' and ruleClauses[26] '6 Proposed order expunging official records of arrest, trial, and conviction under 60A-4-407'. Exactly one WV registry track carries '60A-4-407' in its authority: wv_drug_conditional_discharge, 'Application to Expunge Records of Arrest, Trial and Conviction After a First-Offence Controlled Substance Conditional Discharge, W. Va. Code § 60A-4-407(b)'. Label identity is verbatim on both sides ('first-offence controlled substance conditional discharge'), and the WV profile's own route table independently names the pair — pathways[eligible-conviction-expungement-under-w-va-code-61-11-26].ruleClauses[10] 'First-offense controlled-substance possession conditional discharge 60A-4-407 First possession offense discharged/dismissed'. A generator re-applies this as: extract citation tokens from the pathway's own rule clauses, select the unique registry track whose authority contains them. The six candidates the crosswalk offered came from shared-official-form matching on the SCA-C903/C906 form list that bleeds into every WV pathway; wv_drug_conditional_discharge was not among them because it uses no official form at all (custom_pleading, officialFormId null throughout its packetSet) — which is why the form signal could not find it and the citation signal can.",
+      "operativeAuthority": {
+        "citation": "W. Va. Code § 60A-4-407",
+        "subsection": "§ 60A-4-407(b) — the application to expunge all records of the arrest, trial and conviction, filed no sooner than six months after the probation term expires, granted where the court finds no serious or repeated violation of probation conditions. § 60A-4-407(a) supplies the conditional discharge itself and § 60A-4-401(c) the qualifying possession offence."
+      }
+    },
+    {
+      "jobId": "registry_track:KY:ky_expungement_certification",
+      "lane": "E4-R4",
+      "subjectKind": "registry_track",
+      "jurisdiction": "KY",
+      "subjectId": "ky_expungement_certification",
+      "relationshipType": "crosswalk_terminal_classified",
+      "counterpart": null,
+      "laneOutcome": "terminalized",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/authority-ledger.json",
+        "data/rcap-ledger/e2-evidence/E2-A1.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
+      ],
+      "evidencePins": [],
+      "crosswalkTerminalOnly": true,
+      "launchLedgerEffect": "none",
+      "terminalizationBasis": "KRS 431.079 certification is a precondition instrument, not a relief mechanism, so no compiled pathway counterpart exists or should exist. The participant obtains it on AOC-RU-009 from the AOC Records Unit before filing; KRS 431.073(2)(a) and KRS 431.078(3) make it a required attachment to the felony application and the misdemeanor petition respectively. Mapping it to either conviction pathway would double-count a single remedy, and mapping it to both would assert a one-to-many relationship the registry does not declare. Published blocker: ky_expungement_certification has no runtime representation and adds none; it stays out of the runtime-coverage numerator. Its separate authority-clearance blocker is unaffected by this terminalization and remains open in data/rcap-ledger/authority-ledger.json — whether the AOC waives the $40 certification fee on indigency, and on what criteria, which AOC-RU-009 and the published AOC process do not state. Implementation note for the packet lane, not for the crosswalk: because no pathway implements the certification step, the felony and misdemeanor packets must keep carrying it as a prerequisite instruction."
+    },
+    {
+      "jobId": "registry_track:KY:ky_felony_expungement_after_pardon",
+      "lane": "E4-R4",
+      "subjectKind": "registry_track",
+      "jurisdiction": "KY",
+      "subjectId": "ky_felony_expungement_after_pardon",
+      "relationshipType": "exact_current_pathway",
+      "counterpart": "felony-conviction-431073",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-A1.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json"
+      ],
+      "evidencePins": [],
+      "license": "operative_citation_in_pathway, form-confirmed. The track has one candidate and it holds. KRS 431.073(1)(c) is the full-pardon eligibility ground, and the sole candidate pathway carries that ground in its own rule clause: 'The offense must be on an eligible statutory list, be an eligible series from one incident, qualify under the additional subsection stated in the form, or have a full gubernatorial pardon attached.' The clause is not decorative — the pathway's caseOutcomes array includes 'pardon' and its triggerFields include 'pardon_status', so the pardon branch is a live runtime branch and not prose. It is confirmed on the form: KY-kentucky.json sourceSections[0] is the AOC-496.3 Rev. 6-23 eligibility block and its third checkbox reads 'a full pardon has been granted by the Governor, a copy of which is attached'; registry-crosswalk-projection.json lists 'AOC-496.3' in this track's officialFormRefs. The track's own scopeRestriction ('This branch is for a full pardon only. A conditional pardon, a partial pardon or a commutation is not within KRS 431.073(1)(c)') is the branch condition, not a separate remedy. The track was published as unresolved only because its candidate pathway was itself unresolved (see the E3 review's 'resolves automatically when its candidates clear'); that dependency is discharged by the resolution of compiled_pathway:KY:felony-conviction-431073 in this same lane. Re-check rule: a registry track with exactly one candidate pathway resolves to that pathway when the track's operative subsection appears as a named eligibility branch in the pathway's own rule clauses and the two share an official form identifier. Bare pathway id 'felony-conviction-431073'; subsection token '431.073(1)(c)'; form token 'AOC-496.3'; branch tokens 'full pardon', 'pardon_status'.",
+      "operativeAuthority": {
+        "citation": "KRS 431.073",
+        "subsection": "KRS 431.073(1)(c)"
+      },
+      "reviewRequirement": {
+        "id": "ky-431073-predicate-fidelity",
+        "question": "KRS 431.073 is reached by two distinct predicates, vacatur and full gubernatorial pardon. Counsel must confirm both entry routes are expressed rather than one being assumed.",
+        "relationshipExactness": "EXACT. The pathway is labelled \"Eligible felony conviction vacatur and expungement under KRS 431.073\" and its summary states the offence may \"have a full gubernatorial pardon attached\", so both predicates are named in the committed pathway text.",
+        "owner": "counsel review",
+        "launchLedgerEffect": "none"
+      }
+    },
+    {
+      "jobId": "registry_track:KY:ky_felony_vacatur_expungement",
+      "lane": "E4-R4",
+      "subjectKind": "registry_track",
+      "jurisdiction": "KY",
+      "subjectId": "ky_felony_vacatur_expungement",
+      "relationshipType": "exact_current_pathway",
+      "counterpart": "felony-conviction-431073",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/authority-ledger.json",
+        "data/rcap-ledger/e2-evidence/E2-A2.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "docs/record-clearing/e3-adjudication-review.md",
+        "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json"
+      ],
+      "evidencePins": [],
+      "license": "operative_citation_in_pathway, form-confirmed. The track has one candidate and it holds. The pathway is labelled 'Eligible felony conviction vacatur and expungement under KRS 431.073' — the track's naming citation — and KY-kentucky.json sourceSections[0] is the committed body of the track's own official form, ending 'AOC-496.3 Rev. 6-23', with the first two checkboxes reading 'the offense is one of the eligible offenses listed in KRS 431.073(1)(a)' and 'the offenses are a series of eligible offenses listed in KRS 431.073(1)(a) which arose from a single incident', and item 5 carrying the KRS 431.073(2)(a) five-year wait. sourceSections[1] carries the (1)(d) discretionary questionnaire, matching the pathway clause 'The form collects rehabilitation, law-abiding conduct, life impact, and other discretionary facts for the subsection (1)(d) route'. registry-crosswalk-projection.json lists 'AOC-496.3' and 'AOC-496.4' in this track's officialFormRefs. The other two Kentucky conviction pathways implement KRS 431.078 and KRS 431.076, so the naming citation isolates this candidate. Like its pardon sibling, this track was published as unresolved only because its candidate was unresolved; that dependency is discharged in this lane. Currentness flag carried forward, not resolved here: data/rcap-ledger/authority-ledger.json records that the enumerated Class D felony list in KRS 431.073(1)(a) changes on 30 April 2027 under 2026 Ky. Acts ch. 126 sec. 31, so the eligibility list must be date-parameterised before release. That affects the pathway's content, not the identity of the mapping. Bare pathway id 'felony-conviction-431073'; subsection token '431.073(1)(a)'; form token 'AOC-496.3'.",
+      "operativeAuthority": {
+        "citation": "KRS 431.073",
+        "subsection": "KRS 431.073(1)(a); KRS 431.073(2)(a) five-year wait; KRS 431.073(1)(d) discretionary branch"
+      },
+      "reviewRequirement": {
+        "id": "ky-431073-predicate-fidelity",
+        "question": "KRS 431.073 is reached by two distinct predicates, vacatur and full gubernatorial pardon. Counsel must confirm both entry routes are expressed rather than one being assumed.",
+        "relationshipExactness": "EXACT. The pathway is labelled \"Eligible felony conviction vacatur and expungement under KRS 431.073\" and its summary states the offence may \"have a full gubernatorial pardon attached\", so both predicates are named in the committed pathway text.",
+        "owner": "counsel review",
+        "launchLedgerEffect": "none"
+      }
+    },
+    {
+      "jobId": "registry_track:MD:md_10105_favorable",
+      "lane": "E4-R3",
+      "subjectKind": "registry_track",
+      "jurisdiction": "MD",
+      "subjectId": "md_10105_favorable",
+      "relationshipType": "exact_current_pathway",
+      "counterpart": "adult-non-conviction-expungement-under-crim-proc-10-105",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-A2.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "src/lib/rcap/state-packs/maryland/official-forms.ts",
+        "src/lib/rcap/state-packs/maryland/pathways.ts"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "license": "Operative citation in the pathway, plus disposition-set identity, against two candidates founded on different chapters. (1) Citation: the track's first and controlling authority is 'Md. Code, Crim. Proc. § 10-105'; the candidate pathway's id and label carry the same operative citation ('Adult non-conviction expungement under Crim. Proc. § 10-105'), and the crosswalk already records its license as operative_citation_in_pathway, citationTokens ['10-105']. The other two candidates carry no § 10-105 anywhere in their operative authority: juvenile-expungement runs on Cts. & Jud. Proc. § 3-8A-27.1 / Md. Rule 11-506, second-chance-act-shielding on Crim. Proc. §§ 10-301 through 10-306. (2) Disposition set: the track's dispositions (acquittal, dismissal, probation_before_judgment, nolle_prosequi, stet, compromise_criminal_law_3_207, transfer_to_juvenile_court, not_criminally_responsible, nuisance_crime_conviction, act_no_longer_a_crime, conviction_vacated_8_302) are the pathway's leading rule clauses item for item. (3) Form: the track's primary filing is CC-DC-CR-072A, which src/lib/rcap/state-packs/maryland/official-forms.ts binds to 'Md. Code, Crim. Proc. § 10-105' on the non-conviction route. A generator re-applies this as: match the track's first authority token against pathway operative-citation tokens within the jurisdiction; a single hit resolves. Two registry tracks now map to this pathway (md_10105_early on § 10-105(c)(1), md_10105_favorable on § 10-105 generally), which is the ordinary many-tracks-to-one-pathway shape already accepted for PA path-a and WV no-conviction.",
+      "operativeAuthority": {
+        "citation": "Md. Code, Crim. Proc. § 10-105",
+        "subsection": "§ 10-105(a) — the favorable-disposition grounds, with § 10-105(b) venue and § 10-105(d)(2) directing the court to pass the order absent a timely State's Attorney objection."
+      }
+    },
+    {
+      "jobId": "registry_track:MD:md_pardon_expungement",
+      "lane": "E4-R3",
+      "subjectKind": "registry_track",
+      "jurisdiction": "MD",
+      "subjectId": "md_pardon_expungement",
+      "relationshipType": "still_blocked",
+      "counterpart": null,
+      "laneOutcome": "resolved",
+      "laneConfidence": "medium",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-A2.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "src/lib/rcap/state-packs/maryland/pathways.ts"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "missingEvidence": "A compiled runtime pathway representing the Md. Crim. Proc. § 10-105(a)(8) full-and-unconditional-pardon expungement route. The statutory authority is committed; what is absent is a top-level pathway in src/lib/rcap-engine/compiled/profiles/MD-maryland.json that a pardoned-conviction participant is routed to.",
+      "owner": "compiled-profile build lane (MD)",
+      "nextAction": "Author an MD pardon-expungement pathway under § 10-105(a)(8)/(c)(4), then repoint rule-11 candidatePathwayIds at it. Re-run the canonical generator; md_pardon_expungement resolves to exact_current_pathway once that pathway exists.",
+      "blockerKind": "compiled_runtime_gap",
+      "milestone1Item2Effect": "blocks closure until the MD pardon pathway is authored",
+      "captainOverride": {
+        "laneProposed": "adult-non-conviction-expungement-under-crim-proc-10-105",
+        "rejectionBasis": "The proposed pathway is expressly scoped to cases that did not end in a conviction and mentions \"pardon\" zero times, while md_pardon_expungement carries the single disposition pardoned_conviction under Md. Crim. Proc. § 10-105(a)(8) and (c)(4). The MD profile refutes the mapping directly: orderedDecisionRules rule-11-full-and-unconditional-governor-pardon-10-105-route-onl carries candidatePathwayIds [cannabis-specific-expungement, automatic-expungement-under-crim-proc-10-105-1, second-chance-act-shielding, juvenile-expungement] — it routes pardon applicants AWAY from the proposed pathway. None of the seven committed MD pathways represents the pardon route."
+      }
+    },
+    {
+      "jobId": "registry_track:WV:wv_conv_multiple_misdemeanors",
+      "lane": "E4-R3",
+      "subjectKind": "registry_track",
+      "jurisdiction": "WV",
+      "subjectId": "wv_conv_multiple_misdemeanors",
+      "relationshipType": "exact_current_pathway",
+      "counterpart": "eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-A3.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+        "src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/west-virginia/filing-instructions.ts",
+        "src/lib/rcap/state-packs/west-virginia/official-forms.ts"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "license": "Subsection containment against a candidate from a different chapter. The track's operative paragraphs § 61-11-26(a)(1) and (b)(2) are contained in § 61-11-26, the operative citation of eligible-conviction-expungement-under-w-va-code-61-11-26 (crosswalk license: operative_citation_in_pathway, citationTokens ['61-11-26']). The competing candidate, first-offense-drug-possession-conditional-discharge-relief, is founded on W. Va. Code § 60A-4-407 in chapter 60A and shares no citation with this track; this lane maps that pathway to wv_drug_conditional_discharge on its own citation, which removes it from contention. Three independent corroborations, all in-tree: (1) the pathway's own route table names this branch — WV-west-virginia.json pathways[eligible-conviction-expungement-under-w-va-code-61-11-26].ruleClauses[7] 'Misdemeanor conviction expungement 61-11-26 Eligible single or multiple misdemeanors'; (2) the registry's wv_common_conv_procedure node, already mapped to this same pathway, declares that it 'routes to wv_conv_single_misdemeanor, wv_conv_multiple_misdemeanors, wv_conv_nonviolent_felony or wv_acc_treatment_job_readiness'; (3) src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts states the two-year multiple-misdemeanour clock under § 61-11-26, and official-forms.ts binds the track's form SCA-C906 to § 61-11-26. A generator re-applies this as: expand the track's paragraph citations to their parent section and match against pathway operative-citation tokens.",
+      "operativeAuthority": {
+        "citation": "W. Va. Code § 61-11-26",
+        "subsection": "§ 61-11-26(a)(1) — a person convicted of a misdemeanour offence or offences may petition the circuit court of conviction; and § 61-11-26(b)(2) — no eligibility until two years after the last conviction, completion of incarceration, or completion of supervision for that last conviction, whichever is later. The § 61-11-26(d) proviso requires a multiple-misdemeanour petition to identify and group the information by circuit court."
+      },
+      "reviewRequirement": {
+        "id": "wv-61-11-26-class-fidelity",
+        "question": "W. Va. Code § 61-11-26 carries three conviction classes with materially different waiting periods and bars. One pathway represents all three tracks. Counsel must confirm the pathway expresses the per-class differences rather than flattening them.",
+        "relationshipExactness": "EXACT. The pathway text names each class in its own words — \"a misdemeanor offense or offenses\" covers the single and multiple misdemeanour tracks, \"a nonviolent felony offense or offenses arising from the same transaction\" covers the felony track. Representation is established; only per-class fidelity is open.",
+        "owner": "counsel review",
+        "launchLedgerEffect": "none"
+      }
+    },
+    {
+      "jobId": "registry_track:WV:wv_conv_nonviolent_felony",
+      "lane": "E4-R3",
+      "subjectKind": "registry_track",
+      "jurisdiction": "WV",
+      "subjectId": "wv_conv_nonviolent_felony",
+      "relationshipType": "exact_current_pathway",
+      "counterpart": "eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-A3.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+        "src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/west-virginia/filing-instructions.ts",
+        "src/lib/rcap/state-packs/west-virginia/official-forms.ts"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "license": "Subsection containment against a candidate from a different chapter. The track's operative paragraphs § 61-11-26(a)(2), (b)(3) and (p)(2)/(p)(3)/(p)(5) are all contained in § 61-11-26, the operative citation of eligible-conviction-expungement-under-w-va-code-61-11-26. The competing candidate is founded on W. Va. Code § 60A-4-407 (chapter 60A) and shares no citation with this track; this lane maps that pathway to wv_drug_conditional_discharge on its own citation. Corroborations in-tree: (1) the pathway's route table names this branch — WV-west-virginia.json pathways[eligible-conviction-expungement-under-w-va-code-61-11-26].ruleClauses[8] 'Nonviolent felony conviction expungement 61-11-26 Eligible nonviolent felony/felonies from same transaction', and its leading clause restates the (a)(2) same-transaction rule; (2) the registry's wv_common_conv_procedure node, already mapped to this pathway, names wv_conv_nonviolent_felony as one of the four routes it selects; (3) src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts states the five-year nonviolent-felony clock under § 61-11-26 and official-forms.ts binds the track's form SCA-C907 to § 61-11-26. A generator re-applies this as: expand the track's paragraph citations to their parent section and match against pathway operative-citation tokens.",
+      "operativeAuthority": {
+        "citation": "W. Va. Code § 61-11-26",
+        "subsection": "§ 61-11-26(a)(2) — a person convicted of a nonviolent felony offence, or of multiple nonviolent felonies arising from the same transaction or series of transactions, may petition the circuit court of conviction; and § 61-11-26(b)(3) — eligibility opens five years after conviction, completion of incarceration, or completion of supervision, whichever is later. § 61-11-26(p)(5) supplies the nonviolent-felony definition, two limbs of which are express judicial findings."
+      },
+      "reviewRequirement": {
+        "id": "wv-61-11-26-class-fidelity",
+        "question": "W. Va. Code § 61-11-26 carries three conviction classes with materially different waiting periods and bars. One pathway represents all three tracks. Counsel must confirm the pathway expresses the per-class differences rather than flattening them.",
+        "relationshipExactness": "EXACT. The pathway text names each class in its own words — \"a misdemeanor offense or offenses\" covers the single and multiple misdemeanour tracks, \"a nonviolent felony offense or offenses arising from the same transaction\" covers the felony track. Representation is established; only per-class fidelity is open.",
+        "owner": "counsel review",
+        "launchLedgerEffect": "none"
+      }
+    },
+    {
+      "jobId": "registry_track:WV:wv_conv_single_misdemeanor",
+      "lane": "E4-R3",
+      "subjectKind": "registry_track",
+      "jurisdiction": "WV",
+      "subjectId": "wv_conv_single_misdemeanor",
+      "relationshipType": "exact_current_pathway",
+      "counterpart": "eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "laneOutcome": "resolved",
+      "laneConfidence": "high",
+      "evidence": [
+        "data/rcap-ledger/e2-evidence/E2-A3.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+        "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+        "src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts",
+        "src/lib/rcap/state-packs/west-virginia/filing-instructions.ts",
+        "src/lib/rcap/state-packs/west-virginia/official-forms.ts"
+      ],
+      "evidencePins": [
+        "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+      ],
+      "license": "Subsection containment against a candidate from a different chapter. The track's operative paragraphs § 61-11-26(a)(1) and (b)(1) are contained in § 61-11-26, the operative citation of eligible-conviction-expungement-under-w-va-code-61-11-26. The competing candidate is founded on W. Va. Code § 60A-4-407 (chapter 60A) and shares no citation with this track; this lane maps that pathway to wv_drug_conditional_discharge on its own citation. Corroborations in-tree: (1) the pathway's route table names this branch — WV-west-virginia.json pathways[eligible-conviction-expungement-under-w-va-code-61-11-26].ruleClauses[7] 'Misdemeanor conviction expungement 61-11-26 Eligible single or multiple misdemeanors', and its leading clause restates the (a)(1) rule; (2) the registry's wv_common_conv_procedure node, already mapped to this pathway, names wv_conv_single_misdemeanor as one of the four routes it selects; (3) src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts states the one-year single-misdemeanour clock under § 61-11-26 and official-forms.ts binds the track's form SCA-C906 to § 61-11-26. A generator re-applies this as: expand the track's paragraph citations to their parent section and match against pathway operative-citation tokens. The (b)(1) one-year clock is what separates this track from wv_conv_multiple_misdemeanors' (b)(2) two-year clock; both resolve to the same compiled pathway, which implements the shared § 61-11-26 procedure.",
+      "operativeAuthority": {
+        "citation": "W. Va. Code § 61-11-26",
+        "subsection": "§ 61-11-26(a)(1) — a person convicted of a misdemeanour offence may petition the circuit court in which the conviction occurred; and § 61-11-26(b)(1) — eligibility opens one year after conviction, completion of any sentence of incarceration, or completion of any period of supervision, whichever is later."
+      },
+      "reviewRequirement": {
+        "id": "wv-61-11-26-class-fidelity",
+        "question": "W. Va. Code § 61-11-26 carries three conviction classes with materially different waiting periods and bars. One pathway represents all three tracks. Counsel must confirm the pathway expresses the per-class differences rather than flattening them.",
+        "relationshipExactness": "EXACT. The pathway text names each class in its own words — \"a misdemeanor offense or offenses\" covers the single and multiple misdemeanour tracks, \"a nonviolent felony offense or offenses arising from the same transaction\" covers the felony track. Representation is established; only per-class fidelity is open.",
+        "owner": "counsel review",
+        "launchLedgerEffect": "none"
+      }
+    }
+  ]
 }

@@ -164,6 +164,29 @@ for (const lane of lanes) {
 
 const report = `${L.join("\n")}\n`;
 
+// A dispatch that has been executed is frozen. Its lanes were verified against
+// the crosswalk state it was cut from; recomputing it against a crosswalk those
+// same lanes have since resolved would destroy the contract the lane files and
+// the lane verifier depend on. Once `executed` is set, --check verifies the
+// frozen contract is internally consistent instead of regenerating it.
+const committed = fs.existsSync(outputPath) ? JSON.parse(fs.readFileSync(outputPath, "utf8")) : null;
+if (check && committed?.executed) {
+  const problems = [];
+  const total = (committed.lanes || []).reduce((n, l) => n + l.jobCount, 0);
+  if (total !== (committed.blockerCount ?? total)) problems.push(`lane job counts sum to ${total}, blockerCount is ${committed.blockerCount}`);
+  for (const lane of committed.lanes || []) {
+    if ((lane.jobIds || []).length !== lane.jobCount) problems.push(`${lane.laneId}: ${lane.jobIds?.length} jobIds for jobCount ${lane.jobCount}`);
+    if (!fs.existsSync(path.join(rootDir, lane.resolutionPath))) problems.push(`${lane.laneId}: resolution file missing`);
+  }
+  if (problems.length) {
+    console.error("Frozen crosswalk resolution dispatch is inconsistent:");
+    for (const p of problems) console.error(`  - ${p}`);
+    process.exit(1);
+  }
+  console.log(`Crosswalk resolution dispatch frozen and consistent: ${committed.lanes.length} lanes, ${total} blockers, executed ${committed.executed}.`);
+  process.exit(0);
+}
+
 if (check) {
   const currentJson = fs.existsSync(outputPath) ? fs.readFileSync(outputPath, "utf8") : "";
   const currentReport = fs.existsSync(reportPath) ? fs.readFileSync(reportPath, "utf8") : "";
