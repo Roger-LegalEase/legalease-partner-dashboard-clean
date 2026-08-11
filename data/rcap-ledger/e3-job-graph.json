@@ -9,37 +9,36 @@
   },
   "input": {
     "crosswalk": "data/rcap-ledger/track-pathway-crosswalk.json",
-    "crosswalkContentHash": "73094ea13fa34b4ad44dd435f3152748b27abd08327e783512a80d69828e8fe4",
+    "crosswalkContentHash": "065f9116a76c75618404d7c23f93aa841d9b428ff26caea805f53fc8dade3f15",
     "crosswalkEvidenceHash": "4d97d0a26ddf3423b9a7421f19a972fe909b75d0bcd0bc7c4e55f395df419d70",
     "registryTracks": 497,
-    "compiledPathways": 324
+    "compiledPathways": 325
   },
   "milestone1Item2": {
     "closed": false,
     "blockedBy": {
       "unresolvedPathways": 2,
-      "unresolvedTracks": 1
+      "unresolvedTracks": 0
     },
     "note": "Item 2 closes when both sets are empty. No other obligation in this graph blocks it."
   },
   "counts": {
-    "jobs": 248,
-    "obligations": 255,
-    "blockingJobs": 9,
-    "milestone1Item2Jobs": 3,
+    "jobs": 247,
+    "obligations": 254,
+    "blockingJobs": 8,
+    "milestone1Item2Jobs": 2,
     "byObligation": {
       "pin_subsection_citation": 2,
       "registry_owner_action": 31,
       "materialize_official_source": 7,
       "resolve_or_terminalize_pathway": 2,
       "implement_runtime_pathway": 211,
-      "resolve_or_terminalize_track": 1,
       "correct_superseded_runtime_text": 1
     },
     "bySubjectKind": {
       "authority_residual": 2,
       "compiled_pathway": 33,
-      "registry_track": 213
+      "registry_track": 212
     }
   },
   "jobs": [
@@ -6136,55 +6135,6 @@
           "counsel_review + visual_review"
         ],
         "terminalEffect": "moves one track from uncompiled to represented; raises runtime coverage against the 497 denominator"
-      }
-    },
-    {
-      "id": "registry_track:MD:md_pardon_expungement",
-      "kind": "registry_track",
-      "jurisdiction": "MD",
-      "subjectId": "md_pardon_expungement",
-      "obligations": [
-        {
-          "obligation": "resolve_or_terminalize_track",
-          "blocking": true,
-          "milestone1Item2": true,
-          "need": "a discriminator that selects among the candidate pathways, or proof that no candidate represents this track",
-          "candidates": [
-            "adult-non-conviction-expungement-under-crim-proc-10-105",
-            "juvenile-expungement",
-            "second-chance-act-shielding"
-          ],
-          "stopCondition": "exactly one candidate is selected on cited authority, or the track is terminally classified"
-        }
-      ],
-      "label": "Petition for Expungement After a Full and Unconditional Pardon",
-      "mechanismAuthority": [
-        "Md. Code, Crim. Proc. § 10-105(a)(8)",
-        "Md. Code, Crim. Proc. § 10-105(c)(4)"
-      ],
-      "reason": "candidate compiled pathways remain ambiguous",
-      "facets": {
-        "jobClass": [
-          "resolve_or_terminalize_track"
-        ],
-        "affectedTracks": [
-          "MD:md_pardon_expungement"
-        ],
-        "affectedTrackCount": 1,
-        "dependency": {
-          "blockedBy": [],
-          "note": "no intra-job dependency"
-        },
-        "implementationFamily": [
-          "crosswalk_resolution"
-        ],
-        "ownedPaths": [
-          "data/rcap-ledger/crosswalk-adjudications.json"
-        ],
-        "reviewRequirement": [
-          "counsel_review"
-        ],
-        "terminalEffect": "closes one of the 38 Milestone 1 item 2 blockers; does not by itself add runtime coverage"
       }
     },
     {

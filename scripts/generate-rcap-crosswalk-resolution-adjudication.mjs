@@ -49,8 +49,53 @@ const VARIANTS = new Map([
 
 // Lane mappings the captain rejected on substance. Each becomes still_blocked and
 // MUST name exact missing evidence, an owner and a next action.
-const OVERRIDES = new Map([
-  ['registry_track:MD:md_pardon_expungement', {
+//
+// The MD pardon override is evidence-conditional: its own next action named the
+// lift condition (author the § 10-105(a)(8)/(c)(4) pathway and repoint rule-11
+// at it). resolveMdPardonOverride() re-checks the MD profile on every run and
+// yields the resolved relationship only while both conditions hold in the
+// committed bytes; any regression returns the original blocked record, so the
+// resolution can never outlive its evidence.
+function resolveMdPardonOverride(blocked) {
+  const PATHWAY_ID = 'pardoned-conviction-expungement-under-crim-proc-10-105-a-8';
+  try {
+    const profile = JSON.parse(
+      fs.readFileSync(path.join(rootDir, 'src/lib/rcap-engine/compiled/profiles/MD-maryland.json'), 'utf8')
+    );
+    const pathwayRow = (profile.pathways || []).find((p) => p.id === PATHWAY_ID);
+    if (!pathwayRow) return blocked;
+    const corpus = JSON.stringify(pathwayRow).toLowerCase();
+    const hasA8 = corpus.includes('10-105(a)(8)');
+    const hasC4 = corpus.includes('10-105(c)(4)');
+    const rule11 = (profile.orderedDecisionRules || []).find((r) =>
+      String(r.id || '').startsWith('rule-11-full-and-unconditional-governor-pardon')
+    );
+    const cands = rule11 ? rule11.candidatePathwayIds || (rule11.then || {}).candidatePathwayIds : null;
+    const repointed = Array.isArray(cands) && cands.length === 1 && cands[0] === PATHWAY_ID;
+    if (!(hasA8 && hasC4 && repointed)) return blocked;
+    return {
+      relationshipType: 'exact_current_pathway',
+      counterpartId: PATHWAY_ID,
+      license:
+        'Subsection-exact, both directions, condition-lifted per the blocked record\'s own next action: the authored pathway ' +
+        'carries \u00a7 10-105(a)(8) (full and unconditional pardon, one criminal act, not a crime of violence) and ' +
+        '\u00a7 10-105(c)(4) (no filing later than 10 years after the Governor signed) in its own rule clauses, matching ' +
+        'md_pardon_expungement\'s entire authority [\u00a7 10-105(a)(8), \u00a7 10-105(c)(4)] and sole disposition ' +
+        'pardoned_conviction; and rule-11 candidatePathwayIds now routes pardon applicants to exactly this pathway. ' +
+        'Re-checked against the committed profile bytes on every generation; regression of either condition re-blocks.',
+      extraEvidence: [
+        'src/lib/rcap-engine/compiled/profiles/MD-maryland.json',
+        'docs/record-clearing/md-pardon-pathway-evidence.md',
+        'scripts/verify-rcap-md-pardon-pathway.mjs',
+      ],
+      liftedFrom: blocked,
+    };
+  } catch {
+    return blocked;
+  }
+}
+
+const MD_PARDON_BLOCKED = {
     relationshipType: BLOCKED_RELATION,
     laneProposed: 'adult-non-conviction-expungement-under-crim-proc-10-105',
     rejectionBasis:
@@ -62,7 +107,10 @@ const OVERRIDES = new Map([
       'Author an MD pardon-expungement pathway under § 10-105(a)(8)/(c)(4), then repoint rule-11 candidatePathwayIds at it. Re-run the canonical generator; md_pardon_expungement resolves to exact_current_pathway once that pathway exists.',
     milestone1Item2Effect: 'blocks closure until the MD pardon pathway is authored',
     blockerKind: 'compiled_runtime_gap',
-  }],
+  };
+
+const OVERRIDES = new Map([
+  ['registry_track:MD:md_pardon_expungement', resolveMdPardonOverride(MD_PARDON_BLOCKED)],
 ]);
 
 // Counsel questions that survive an EXACT relationship. These never gate the
@@ -116,6 +164,7 @@ for (const lane of dispatch.lanes) {
     const override = OVERRIDES.get(r.jobId);
     const counterpart = r.counterpart ? String(r.counterpart).split(':').pop() : null;
 
+    const overrideCounterpart = override && override.counterpartId ? override.counterpartId : null;
     let relationshipType;
     if (override) relationshipType = override.relationshipType;
     else if (r.outcome === 'terminalized') relationshipType = TERMINAL_RELATION;
@@ -131,7 +180,10 @@ for (const lane of dispatch.lanes) {
       jurisdiction,
       subjectId,
       relationshipType,
-      counterpart: relationshipType === TERMINAL_RELATION || relationshipType === BLOCKED_RELATION ? null : counterpart,
+      counterpart:
+        relationshipType === TERMINAL_RELATION || relationshipType === BLOCKED_RELATION
+          ? null
+          : overrideCounterpart ?? counterpart,
       laneOutcome: r.outcome,
       laneConfidence: r.confidence ?? null,
       // Every citation the lane offered, so the generator can re-check that each

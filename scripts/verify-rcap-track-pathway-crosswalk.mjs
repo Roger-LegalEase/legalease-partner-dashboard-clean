@@ -249,6 +249,18 @@ check(
   unpinnedNonProvisional.map((g) => g.compiledPathwayId).join(", ")
 );
 
+// A mapping standing on a row that still reads unresolved is a half-state the
+// generator must never emit: the pairing would count on both sides of the
+// milestone gate at once.
+const mappedButUnresolved = pathways.filter(
+  (p) => UNRESOLVED_RELATIONS.has(p.registryRelation) && (p.mappedRegistryTrackIds || []).length > 0
+);
+check(
+  "no unresolved pathway carries a standing track mapping",
+  mappedButUnresolved.length === 0,
+  mappedButUnresolved.map((p) => p.compiledPathwayId).slice(0, 3).join(", ")
+);
+
 const unresolvedWithoutReason = pathways.filter(
   (p) => UNRESOLVED_RELATIONS.has(p.registryRelation) && (!p.unresolvedReason || p.missingEvidence.length === 0)
 );

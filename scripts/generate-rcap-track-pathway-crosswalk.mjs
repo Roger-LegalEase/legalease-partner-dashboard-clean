@@ -915,8 +915,29 @@ if (e4Doc) {
       const cpKey = keyOf(jurisdiction, row.counterpart);
       const cpRow = pathwayResults.get(cpKey);
       if (cpRow && !(cpRow.mappedRegistryTrackIds || []).includes(subjectId)) {
+        // A pathway row still unresolved at this point is being resolved BY this
+        // track-direction adjudication: exact_current_pathway (track -> pathway)
+        // is the same claim as direct_runtime_representation (pathway -> track),
+        // so promote the row rather than leaving a mapping on an unresolved
+        // relation — that half-state would count the same pairing as both
+        // mapped and unresolved.
+        const promoting = cpRow.registryRelation.startsWith("unresolved");
         pathwayResults.set(cpKey, {
           ...cpRow,
+          ...(promoting
+            ? {
+                registryRelation: "direct_runtime_representation",
+                contributesToRuntimeCoverage: true,
+                contributesToRegistryDenominator: false,
+                unresolvedReason: null,
+                missingEvidence: [],
+                evidenceDetail: {
+                  ...(cpRow.evidenceDetail || {}),
+                  e4: { lane: row.lane, license: row.license, operativeAuthority: row.operativeAuthority },
+                },
+                adjudicated: true,
+              }
+            : {}),
           mappedRegistryTrackIds: [...(cpRow.mappedRegistryTrackIds || []), subjectId].sort(),
           mappingEvidence: [...new Set([...(cpRow.mappingEvidence || []), "e4_adjudicated"])],
           e4Adjudicated: true,

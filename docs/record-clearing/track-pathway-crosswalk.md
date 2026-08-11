@@ -9,17 +9,17 @@ The registry and the compiled profiles share no identifier space, and no committ
 | Figure | Count |
 | --- | ---: |
 | Registry tracks | 497 |
-| Compiled pathways | 324 |
-| Registry tracks with an exact compiled pathway | 259 |
+| Compiled pathways | 325 |
+| Registry tracks with an exact compiled pathway | 260 |
 | Registry tracks represented by compiled variants | 25 |
 | Registry tracks represented only by superseded runtime text | 1 |
 | Registry tracks with no compiled pathway | 211 |
-| Registry tracks unresolved (ambiguous candidates) | 1 |
-| Compiled pathways mapped to a registry track | 281 |
+| Registry tracks unresolved (ambiguous candidates) | 0 |
+| Compiled pathways mapped to a registry track | 282 |
 | Compiled pathways terminally classified (scoped-out, routing, registry gap) | 41 |
 | Compiled pathways unresolved | 2 |
 
-**Milestone 1 item 2: blocked.** 2 compiled pathways and 1 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
+**Milestone 1 item 2: blocked.** 2 compiled pathways and 0 registry tracks remain unresolved. The exact set is enumerated in `unresolvedIds` in the JSON and cannot be closed without the missing evidence named on each row.
 
 ## Relationship vocabulary
 
@@ -40,7 +40,7 @@ The registry and the compiled profiles share no identifier space, and no committ
 
 ## Adjudicated relationships
 
-251 rows were resolved by adjudication (round: lane E3-final @ `?`, 223 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
+252 rows were resolved by adjudication (round: lane E3-final @ `?`, 223 entries in `data/rcap-ledger/crosswalk-adjudications.json`). Every adjudication carries a machine-verifiable license — tokens that must still exist in the pathway's committed text and in the pinned registry projection — re-checked on every generator run, and may only land on a row automatic matching left unresolved.
 
 ## Registry-gap blockers
 
@@ -118,7 +118,7 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | KY | 12 | 5 | -7 | 5 | 5 | 0 | 0 |
 | LA | 10 | 12 | +2 | 8 | 12 | 0 | 0 |
 | MA | 8 | 7 | -1 | 6 | 7 | 0 | 0 |
-| MD | 11 | 7 | -4 | 7 | 6 | 0 | 0 |
+| MD | 11 | 8 | -3 | 8 | 7 | 0 | 0 |
 | ME | 6 | 5 | -1 | 3 | 3 | 0 | 0 |
 | MI | 11 | 5 | -6 | 5 | 5 | 0 | 0 |
 | MN | 12 | 6 | -6 | 6 | 6 | 0 | 0 |
@@ -149,9 +149,9 @@ Jurisdictions where the runtime compiles more pathways than the registry lists. 
 | WI | 8 | 5 | -3 | 3 | 3 | 0 | 0 |
 | WV | 12 | 7 | -5 | 9 | 5 | 0 | 0 |
 | WY | 3 | 5 | +2 | 3 | 3 | 2 | 0 |
-| **Total** | **497** | **324** | **-173** | **284** | **281** | **4** | **2** |
+| **Total** | **497** | **325** | **-172** | **285** | **282** | **4** | **2** |
 
 ## What this does not claim
 
-A mapping is a statement about identity, not about readiness. 284 of 497 tracks now have a named runtime representation; none of that makes a track implemented, certified or terminal. Terminal disposition stays a certification property computed by the production factory and recorded in the authority ledger.
+A mapping is a statement about identity, not about readiness. 285 of 497 tracks now have a named runtime representation; none of that makes a track implemented, certified or terminal. Terminal disposition stays a certification property computed by the production factory and recorded in the authority ledger.
 

@@ -157,8 +157,8 @@
     "direct_runtime_representation": 21,
     "crosswalk_terminal_classified": 6,
     "compiled_variant_of_registry_track": 2,
-    "still_blocked": 3,
-    "exact_current_pathway": 6
+    "still_blocked": 2,
+    "exact_current_pathway": 7
   },
   "reviewRequirementDefinitions": {
     "wv-61-11-26-class-fidelity": {
@@ -1034,8 +1034,8 @@
       "subjectKind": "registry_track",
       "jurisdiction": "MD",
       "subjectId": "md_pardon_expungement",
-      "relationshipType": "still_blocked",
-      "counterpart": null,
+      "relationshipType": "exact_current_pathway",
+      "counterpart": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
       "laneOutcome": "resolved",
       "laneConfidence": "medium",
       "evidence": [
@@ -1048,14 +1048,10 @@
       "evidencePins": [
         "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
       ],
-      "missingEvidence": "A compiled runtime pathway representing the Md. Crim. Proc. § 10-105(a)(8) full-and-unconditional-pardon expungement route. The statutory authority is committed; what is absent is a top-level pathway in src/lib/rcap-engine/compiled/profiles/MD-maryland.json that a pardoned-conviction participant is routed to.",
-      "owner": "compiled-profile build lane (MD)",
-      "nextAction": "Author an MD pardon-expungement pathway under § 10-105(a)(8)/(c)(4), then repoint rule-11 candidatePathwayIds at it. Re-run the canonical generator; md_pardon_expungement resolves to exact_current_pathway once that pathway exists.",
-      "blockerKind": "compiled_runtime_gap",
-      "milestone1Item2Effect": "blocks closure until the MD pardon pathway is authored",
-      "captainOverride": {
-        "laneProposed": "adult-non-conviction-expungement-under-crim-proc-10-105",
-        "rejectionBasis": "The proposed pathway is expressly scoped to cases that did not end in a conviction and mentions \"pardon\" zero times, while md_pardon_expungement carries the single disposition pardoned_conviction under Md. Crim. Proc. § 10-105(a)(8) and (c)(4). The MD profile refutes the mapping directly: orderedDecisionRules rule-11-full-and-unconditional-governor-pardon-10-105-route-onl carries candidatePathwayIds [cannabis-specific-expungement, automatic-expungement-under-crim-proc-10-105-1, second-chance-act-shielding, juvenile-expungement] — it routes pardon applicants AWAY from the proposed pathway. None of the seven committed MD pathways represents the pardon route."
+      "license": "Subsection containment, corroborated by the profile's own pathway-routing rule. (1) Containment: the track's entire authority is § 10-105(a)(8) and § 10-105(c)(4); both are paragraphs of § 10-105, which is the operative citation of adult-non-conviction-expungement-under-crim-proc-10-105 — the same containment license E2-A1 applied to the Alabama § 15-27-2(a) paragraphs. Neither remaining candidate contains them: juvenile-expungement is Cts. & Jud. Proc. § 3-8A-27.1, second-chance-act-shielding is Crim. Proc. §§ 10-301 through 10-306. (2) Corroboration: the MD profile routes this exact fact pattern to this exact route — orderedDecisionRules[id 'rule-11-full-and-unconditional-governor-pardon-10-105-route-onl'], stage pathway_routing, sourceConditionText 'Full and unconditional governor pardon 10-105 route Only if one criminal act and not crime of violence; timing constraints apply', which restates the track's mechanism; the same row appears in the profile's primary routing table at sourceSections[18]. (3) The pathway's label understates its scope rather than contradicting the mapping: it already reaches conviction-based § 10-105 grounds, carrying 'Acts no longer crimes (§ 10-105(a)(11)) and convictions vacated under § 8-302' in its own leading clauses. A generator re-applies this as: expand the track's paragraph citations to their parent section, then match against pathway operative-citation tokens. QA flag for counsel, recorded here rather than suppressed: the runtime pathway does not yet implement the (a)(8) one-criminal-act and crime-of-violence limits or the (c)(4) ten-year filing deadline, and does not bind the track's primary filing CC-DC-CR-072B, which the coded state pack catalogs against § 10-110. That is an implementation gap on a correctly identified counterpart, not a competing mapping — no § 10-110 pathway was offered as a candidate and the track cites no § 10-110.",
+      "operativeAuthority": {
+        "citation": "Md. Code, Crim. Proc. § 10-105",
+        "subsection": "§ 10-105(a)(8) — conviction of only one criminal act, not a crime of violence under Crim. Law § 14-101(a), for which the Governor granted a full and unconditional pardon; and § 10-105(c)(4) — the petition may not be filed later than 10 years after the Governor signed the pardon."
       }
     },
     {

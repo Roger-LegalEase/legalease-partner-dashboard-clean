@@ -58,6 +58,30 @@
    "attemptedAt": "2026-08-11T13:38:47Z",
    "tool": "WebFetch",
    "result": "EGRESS_BLOCKED — 'Access to www.scstatehouse.gov is blocked by the network egress proxy.' (re-probe on dispatch re-issue)"
+  },
+  {
+   "subjectId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+   "url": "https://www.palegis.us/statutes/consolidated/view-statute?ttl=18&chpt=30&sctn=19&subsctn=0",
+   "issuingBody": "Pennsylvania General Assembly (palegis.us)",
+   "attemptedAt": "2026-08-11T14:05:00Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED (re-probe after operator confirmed the substantive content; § 3019(d)-(g) targeted)"
+  },
+  {
+   "subjectId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+   "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.030.019.000..HTM",
+   "issuingBody": "Pennsylvania General Assembly (legis.state.pa.us)",
+   "attemptedAt": "2026-08-11T14:05:00Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED (re-probe after operator confirmation)"
+  },
+  {
+   "subjectId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+   "url": "https://www.scstatehouse.gov/code/t16c003.php",
+   "issuingBody": "South Carolina Legislature",
+   "attemptedAt": "2026-08-11T14:05:00Z",
+   "tool": "WebFetch+curl",
+   "result": "EGRESS_BLOCKED via WebFetch and CONNECT 403 via curl (re-probe after operator confirmation; § 16-3-2020(F) targeted)"
   }
  ],
  "subjects": [
@@ -81,7 +105,13 @@
    "verbatimOperativeSpan": null,
    "sourceCurrentness": null,
    "supportsProposedRelationship": null,
-   "exactMissingEvidence": "The current official text of 18 Pa.C.S. ch. 30's vacatur/expungement provision (expected § 3019): who may petition, for which offenses, on what showing, and what relief the court orders — fetched from the Pennsylvania General Assembly and committed as served.",
+   "exactMissingEvidence": "Official bytes only. Required: the CURRENT consolidated text of 18 Pa.C.S. § 3019, subsections (d) through (g) (the motion-to-vacate and expungement provisions), as served by the Pennsylvania General Assembly (palegis.us or legis.state.pa.us) — not a pending bill's text. The substantive content is no longer unknown (see operatorConfirmation); what is missing is the served bytes to hash, receipt and span-verify.",
+   "operatorConfirmation": {
+    "confirmedBy": "Roger (project owner), via independent web-capable research relayed to this lane 2026-08-11",
+    "finding": "Current official 18 Pa.C.S. § 3019 provides a motion to vacate specified convictions resulting from human trafficking; requires Commonwealth consent and supporting evidence; on grant the court vacates the conviction and orders expungement of related criminal records. Confirms path-k rests on a real vacatur-and-expungement mechanism.",
+    "standing": "Operator-supplied substantive confirmation. Resolves the legal-research unknown and re-scopes this blocker to byte transfer only. NOT final authority for the receipt: the receipt's verified authority, operative span, currentness and support verdict fill only from the served official bytes, and E must still compare the compiled pathway's eligible-offense list, consent requirement and participant treatment against the exact statute text."
+   },
+   "blockerScope": "byte_transfer_only",
    "retrievalPacket": {
     "path": "docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md",
     "sha256": "ef2e8bd10e567ed54658f672dcb565ed28b05b2a3b8302433364024427269a7c",
@@ -94,8 +124,8 @@
     "outcome": "still_blocked"
    },
    "resolution": "still_blocked",
-   "recommendedE3Disposition": "hold — do not terminalize as a registry gap and do not map; the gap cannot be published until the operative authority text is committed. One externally owned act unblocks it: a fetch of 18 Pa.C.S. ch. 30 from the Pennsylvania General Assembly by an operator with normal egress, filed per the retrieval packet, hash-pinned here.",
-   "blockerOwner": "external retrieval operator (Roger or any machine with outbound access to legis.state.pa.us / palegis.us)"
+   "recommendedE3Disposition": "byte-transfer hold only — the substantive mechanism is operator-confirmed (vacatur with Commonwealth consent, expungement of related records on grant), so E may plan the path-k relationship against it; the relationship cannot be CONFIRMED, and the receipt cannot be issued, until the served bytes of § 3019(d)-(g) land and the eligible-offense list, consent requirement and participant treatment are compared against the exact statute text. Do not terminalize; do not treat EGRESS_BLOCKED as a project-level legal blocker — it is a limitation of the coding terminals only.",
+   "blockerOwner": "web-capable retrieval owner (Roger or any web-capable lane): fetch the current § 3019 page, drop the bytes as served under data/rcap-crosswalk-enrichment/final-official-sources/files/PA/, fill the receipt fields, run the lane verifier"
   },
   {
    "subjectId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
@@ -118,7 +148,13 @@
    "verbatimOperativeSpan": null,
    "sourceCurrentness": null,
    "supportsProposedRelationship": null,
-   "exactMissingEvidence": "The current official text of S.C. Code § 16-3-2020 from the South Carolina Legislature, sufficient to classify it as granting expungement / vacatur / sealing / eligibility / procedure, or as a substantive offense provision only — either finding closes the obligation.",
+   "exactMissingEvidence": "Official bytes only. Required: the CURRENT text of S.C. Code § 16-3-2020 with subsection (F) (the survivor motion-to-expunge provision), including the 2024 amendment and its retroactive-rights editor's note, as served by scstatehouse.gov. The substantive classification is no longer unknown (see operatorConfirmation); what is missing is the served bytes to hash, receipt and span-verify.",
+   "operatorConfirmation": {
+    "confirmedBy": "Roger (project owner), via independent web-capable research relayed to this lane 2026-08-11",
+    "finding": "Current S.C. Code § 16-3-2020(F) expressly permits a trafficking victim to move to expunge a conviction or delinquency adjudication for specified nonviolent misdemeanor or Class F felony offenses committed as a direct result of, or interrelated to, trafficking; preponderance standard; reasonable notice to the original prosecuting agency and affected victims. An expungement mechanism under current law, not merely an offense statute.",
+    "standing": "Operator-supplied substantive confirmation. Resolves the offense-only-versus-relief question and re-scopes this blocker to byte transfer only. NOT final authority for the receipt: the receipt's verified authority, operative span, currentness (including the 2024 amendment and editor's note) and support verdict fill only from the served official bytes."
+   },
+   "blockerScope": "byte_transfer_only",
    "retrievalPacket": {
     "path": "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md",
     "sha256": "6ad5c8d749a4eb68923c734bdad61f7871f5eb510634fc78022d481c4b00d536",
@@ -131,8 +167,8 @@
     "outcome": "still_blocked"
    },
    "resolution": "still_blocked",
-   "recommendedE3Disposition": "hold — the candidate registry-gap disposition stays unpublishable until § 16-3-2020's text proves it grants or withholds record relief. One externally owned act unblocks it: a fetch of the Title 16 Chapter 3 page (or the section text) from scstatehouse.gov by an operator with normal egress, filed per the retrieval packet, hash-pinned here.",
-   "blockerOwner": "external retrieval operator (Roger or any machine with outbound access to scstatehouse.gov)"
+   "recommendedE3Disposition": "byte-transfer hold only — the offense-only question is operator-resolved (§ 16-3-2020(F) is an expungement mechanism under current law), so E may plan the survivor-expungement relationship against it; the candidate registry-gap disposition and the receipt still require the served bytes of § 16-3-2020 including subsection (F), the 2024 amendment and its retroactive-rights editor's note, span-verified. Do not terminalize; do not treat EGRESS_BLOCKED as a project-level legal blocker — it is a limitation of the coding terminals only.",
+   "blockerOwner": "web-capable retrieval owner (Roger or any web-capable lane): fetch the current Title 16 Ch. 3 page, drop the bytes as served under data/rcap-crosswalk-enrichment/final-official-sources/files/SC/, fill the receipt fields, run the lane verifier"
   }
  ],
  "environmentEvidence": {

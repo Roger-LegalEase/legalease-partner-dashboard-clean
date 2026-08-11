@@ -5,7 +5,31 @@ Verifier: `node scripts/verify-rcap-final-official-sources.mjs` (not wired into 
 Base: canonical branch `claude/rcap-final-sprint-integration` (Roger's 2026-08-11
 ruling, recorded at `8744a701`), clean tip `f79fb0d9`.
 
-## Outcome: both subjects reduced to one exact externally owned retrieval blocker each
+## Update 2026-08-11: blockers re-scoped to byte transfer only
+
+Roger independently located and read both official primary sources and relayed
+the substantive findings to this lane: **18 Pa.C.S. § 3019** provides a
+Commonwealth-consent motion to vacate trafficking-caused convictions with
+expungement of related records on grant, and **S.C. Code § 16-3-2020(F)** is an
+express survivor motion-to-expunge (preponderance standard, notice to the
+original prosecuting agency and affected victims) — an expungement mechanism
+under current law, not an offense-only statute. The substantive legal
+questions are therefore **no longer unknown**, and `EGRESS_BLOCKED` is not a
+project-level legal blocker — it is a limitation of the coding terminals only.
+
+What remains is mechanical and is pre-staged in the lane record: fetch the
+served bytes (PA: current consolidated § 3019(d)–(g), not a pending bill;
+SC: current § 16-3-2020 with subsection (F), the 2024 amendment and its
+retroactive-rights editor's note), drop them under
+`files/<JUR>/`, fill the receipt fields, run the lane verifier. The receipt's
+verified authority, operative span, currentness and support verdict fill only
+from those served bytes — the operator summary is recorded as
+`operatorConfirmation`, never as final authority. This terminal re-probed all
+three official endpoints after the confirmation (WebFetch and curl) and each
+still answers `EGRESS_BLOCKED`/CONNECT-403, so the byte transfer belongs to a
+web-capable owner.
+
+## Original reduction: both subjects reduced to one exact externally owned retrieval blocker each
 
 Neither official primary text is obtainable from this environment, and that is
 verified this session, not assumed: fresh fetches of the Pennsylvania General
