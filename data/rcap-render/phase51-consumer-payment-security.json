@@ -2,7 +2,8 @@
   "schemaVersion": "rcap-phase51-consumer-payment-security/v3",
   "generatedBy": "scripts/verify-rcap-phase51-consumer-payment-security.mjs",
   "lane": "consumer-payment-gate-adversarial-audit",
-  "auditedCommit": "f79fb0d9",
+  "auditedCommit": "a29c22c573935845cdd7b2bfbb2580903f1cb0fd",
+  "migrationBytesUnchangedSince": "f79fb0d9",
   "migrationSequence": [
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
@@ -68,7 +69,7 @@
       "title": "participant A cannot spend participant B's payment",
       "expectation": "the bound enqueue refuses: item not owned by the expected user",
       "passed": true,
-      "observed": "ERROR:  packet_render_jobs: consumer briefcase item 7ea9d330-42d3-4910-bb1e-3576470b15de is not owned by the expected user",
+      "observed": "ERROR:  packet_render_jobs: consumer briefcase item 91b05fde-75bb-42e4-bde9-31b198775231 is not owned by the expected user",
       "severity": "high"
     },
     {
@@ -263,6 +264,7 @@
   "notes": [
     "Every gate and reach case runs as anon, authenticated or service_role. The owner-level binding write used in the previous revision is removed.",
     "Phase 53 closes the reachability regression this lane reported at 25f6b09: the binding is written inside the enqueue insert and the unbound 13-argument signature is dropped.",
-    "Post-delivery refund remains a product-policy question; the pre-finalization refunded case is G12."
+    "Post-delivery refund remains a product-policy question; the pre-finalization refunded case is G12.",
+    "Fixture identifiers are deterministic (duuid) and evidence is written only under --write, so ordinary verification is non-mutating and repeatable."
   ]
 }
