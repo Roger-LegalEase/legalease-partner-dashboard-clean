@@ -1,0 +1,337 @@
+{
+  "schemaVersion": "rcap-person-identity-post-phase54/v1",
+  "generatedBy": "scripts/verify-rcap-person-identity-post-phase54.mjs",
+  "lane": "person-identity-post-phase54-audit",
+  "auditedCommit": "d6310fd20a4d38ecaa1afdcf92773510c6fffa59",
+  "beforeStateEvidence": "origin/claude/rcap-person-identity-audit @ 83c0446 (reference only)",
+  "migrationSequence": [
+    26,
+    27,
+    28,
+    30,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54
+  ],
+  "catalog": {
+    "relrowsecurity": "t",
+    "owner": "postgres",
+    "relacl": "postgres=arwdDxt/postgres,service_role=arwdDxt/postgres",
+    "policies": [
+      "rcap_persons_service_role_all for ALL to service_role"
+    ],
+    "rolePrivileges": {
+      "anon": {
+        "SELECT": "f",
+        "INSERT": "f",
+        "UPDATE": "f",
+        "DELETE": "f"
+      },
+      "authenticated": {
+        "SELECT": "f",
+        "INSERT": "f",
+        "UPDATE": "f",
+        "DELETE": "f"
+      },
+      "service_role": {
+        "SELECT": "t",
+        "INSERT": "t",
+        "UPDATE": "t",
+        "DELETE": "t"
+      }
+    },
+    "functionGrants": {
+      "public.rcap_consumer_person_namespace()": {
+        "anon": "t",
+        "authenticated": "t",
+        "service_role": "t"
+      },
+      "public.rcap_guard_reserved_partner_slug()": {
+        "anon": "t",
+        "authenticated": "t",
+        "service_role": "t"
+      }
+    }
+  },
+  "totals": {
+    "roleCases": 14,
+    "tenantCases": 13,
+    "mutations": 6,
+    "passed": 33,
+    "failed": 0,
+    "skipped": 0
+  },
+  "roleCases": [
+    {
+      "id": "R1",
+      "title": "PUBLIC holds no table access",
+      "expectation": "no PUBLIC entry in the table ACL",
+      "passed": true,
+      "observed": "PUBLIC ACL entries: 0 (relacl=postgres=arwdDxt/postgres,service_role=arwdDxt/postgres)",
+      "severity": "critical"
+    },
+    {
+      "id": "R2",
+      "title": "anon SELECT is denied",
+      "expectation": "the statement is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "critical"
+    },
+    {
+      "id": "R3",
+      "title": "anon INSERT is denied",
+      "expectation": "the statement is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "critical"
+    },
+    {
+      "id": "R4",
+      "title": "anon UPDATE is denied",
+      "expectation": "the statement is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "critical"
+    },
+    {
+      "id": "R5",
+      "title": "anon DELETE is denied",
+      "expectation": "the statement is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "critical"
+    },
+    {
+      "id": "R6",
+      "title": "authenticated SELECT is denied",
+      "expectation": "the statement is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "critical"
+    },
+    {
+      "id": "R7",
+      "title": "authenticated INSERT is denied",
+      "expectation": "the statement is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "critical"
+    },
+    {
+      "id": "R8",
+      "title": "authenticated UPDATE is denied",
+      "expectation": "the statement is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "critical"
+    },
+    {
+      "id": "R9",
+      "title": "authenticated DELETE is denied",
+      "expectation": "the statement is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "critical"
+    },
+    {
+      "id": "R10",
+      "title": "service_role still resolves a consumer person",
+      "expectation": "the insert succeeds and returns an id",
+      "passed": true,
+      "observed": "a2afb9c5-5b51-4132-bbe6-3829ca852f43",
+      "severity": "critical"
+    },
+    {
+      "id": "R11",
+      "title": "service_role resolution is idempotent",
+      "expectation": "a duplicate is refused by the unique index and the same row resolves",
+      "passed": true,
+      "observed": "duplicate=ERROR:  duplicate key value violates unique constraint \"rcap_persons_partner_match_key_idx\" | resolved=same row",
+      "severity": null
+    },
+    {
+      "id": "R12",
+      "title": "one auth user cannot resolve another user's consumer person",
+      "expectation": "user A's derived key never selects user B's row",
+      "passed": true,
+      "observed": "A-key rows other than A's own=0, B-key matching A's row=0",
+      "severity": null
+    },
+    {
+      "id": "R13",
+      "title": "a browser role cannot squat the reserved consumer namespace",
+      "expectation": "the insert into the reserved namespace is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "high"
+    },
+    {
+      "id": "R14",
+      "title": "a real partner slug cannot collide with the reserved namespace",
+      "expectation": "both INSERT and UPDATE of partner_records to the reserved slug are refused",
+      "passed": true,
+      "observed": "insert=ERROR:  partner_records: expungement-ai-consumer is the reserved direct-to-consumer person namespace and cannot be registered as a partner slug | update=ERROR:  partner_records: expungement-ai-consumer is the reserved direct-to-consumer person namespace and cannot be registered as a partner slug",
+      "severity": "high"
+    }
+  ],
+  "tenantCases": [
+    {
+      "id": "T1",
+      "title": "partner-admin queries cannot read consumer-person rows",
+      "expectation": "the read is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "high"
+    },
+    {
+      "id": "T2",
+      "title": "partner-admin queries cannot mutate consumer-person rows",
+      "expectation": "the write is refused",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table rcap_persons",
+      "severity": "high"
+    },
+    {
+      "id": "T3",
+      "title": "consumer-person rows do not enter partner participant counts",
+      "expectation": "the partner's distinct-people count counts only its own person",
+      "passed": true,
+      "observed": "distinct people for we-must-vote = 1",
+      "severity": null
+    },
+    {
+      "id": "T4",
+      "title": "consumer-person rows do not alter partner packet reporting",
+      "expectation": "no packet attributed to the partner resolves to a consumer person",
+      "passed": true,
+      "observed": "consumer-backed packets under we-must-vote = 0",
+      "severity": null
+    },
+    {
+      "id": "T5",
+      "title": "consumer-person rows do not enter partner entitlement lookup",
+      "expectation": "no entitlement resolves through the reserved namespace",
+      "passed": true,
+      "observed": "entitlements reachable via expungement-ai-consumer = 0",
+      "severity": null
+    },
+    {
+      "id": "T7",
+      "title": "consumer-person rows do not enter packet-cap consumption",
+      "expectation": "no consuming ledger event is keyed to a consumer person",
+      "passed": true,
+      "observed": "consuming ledger rows for consumer people = 0",
+      "severity": null
+    },
+    {
+      "id": "T6",
+      "title": "consumer-person rows do not enter sponsored attribution",
+      "expectation": "a job cannot carry both a partner and a consumer binding",
+      "passed": true,
+      "observed": "ERROR:  packet_render_jobs: a sponsored job must not carry consumer binding fields",
+      "severity": null
+    },
+    {
+      "id": "T8",
+      "title": "a DTC consumer cannot receive sponsored packet context",
+      "expectation": "no job holds a partner and a consumer identity at once",
+      "passed": true,
+      "observed": "jobs holding both = 0",
+      "severity": null
+    },
+    {
+      "id": "T11",
+      "title": "browser-supplied identity cannot control canonical identity",
+      "expectation": "the reserved namespace admits only digest keys, and no partner namespace admits one",
+      "passed": true,
+      "observed": "email-in-reserved=ERROR:  new row for relation \"rcap_persons\" violates check constraint \"rcap_persons_reserved_namespace_shape\" | consumer-in-partner=ERROR:  new row for relation \"rcap_persons\" violates check constraint \"rcap_persons_reserved_namespace_shape\"",
+      "severity": null
+    },
+    {
+      "id": "T12",
+      "title": "existing sponsored person resolution remains unchanged",
+      "expectation": "a partner person still inserts and still dedupes on (partner_slug, match_key)",
+      "passed": true,
+      "observed": "insert=ok dedupe=ERROR:  duplicate key value violates unique constraint \"rcap_persons_partner_match_key_idx\"",
+      "severity": null
+    },
+    {
+      "id": "T9",
+      "title": "matter id is stable for one Briefcase item",
+      "expectation": "the same item yields the same matter",
+      "passed": true,
+      "observed": "4f6fbf1b-9385-4b46-bd5e-af6d6dbcd407 stable=true",
+      "severity": null
+    },
+    {
+      "id": "T10",
+      "title": "distinct Briefcase items produce distinct matter ids",
+      "expectation": "different items never share a matter",
+      "passed": true,
+      "observed": "item1=4f6fbf1b-9385… item2=ab184fe2-d29c…",
+      "severity": null
+    },
+    {
+      "id": "T11b",
+      "title": "the reserved namespace constant agrees with the database function",
+      "expectation": "the module constant equals the migration's namespace",
+      "passed": true,
+      "observed": "expungement-ai-consumer",
+      "severity": null
+    }
+  ],
+  "mutations": [
+    {
+      "id": "X1",
+      "title": "RLS disabled alone does not reopen the table",
+      "expectation": "the other defence still denies every participant row",
+      "passed": true,
+      "observed": "before=protected, after: error= permission denied for table rcap_pers",
+      "severity": null
+    },
+    {
+      "id": "X2",
+      "title": "a re-granted authenticated SELECT alone does not reopen the table",
+      "expectation": "the other defence still denies every participant row",
+      "passed": true,
+      "observed": "before=protected, after: rows=0",
+      "severity": null
+    },
+    {
+      "id": "X3",
+      "title": "removing RLS and the revoke together turns the audit red",
+      "expectation": "protected before; participant rows readable after",
+      "passed": true,
+      "observed": "before=protected, after rows=2",
+      "severity": null
+    },
+    {
+      "id": "X4",
+      "title": "removing the reserved-slug guard turns the audit red",
+      "expectation": "refused before, accepted after",
+      "passed": true,
+      "observed": "before= partner_records: expungement-ai-consumer is the rese | after=accepted",
+      "severity": null
+    },
+    {
+      "id": "X5",
+      "title": "dropping the partner filter from reporting turns the audit red",
+      "expectation": "the scoped count excludes the consumer person; the unscoped count includes it",
+      "passed": true,
+      "observed": "scoped=1 unscoped=2",
+      "severity": null
+    },
+    {
+      "id": "X6",
+      "title": "letting the reserved namespace become a partner turns the audit red",
+      "expectation": "no entitlement resolves through the namespace while the guard stands; one does once it falls",
+      "passed": true,
+      "observed": "guarded=0 afterGuardRemoved=1",
+      "severity": null
+    }
+  ]
+}
