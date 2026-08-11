@@ -124,6 +124,17 @@ for (const subject of record.subjects ?? []) {
     const host = hostOf(subject.officialSourceUrl);
     assert(host && OFFICIAL_HOSTS.includes(host), `${id}: materialized from non-official host ${host}`);
 
+    // Operator-provenance is mandatory on ingested receipts: bytes that were
+    // not fetched by this terminal must say exactly who supplied them and how.
+    const prov = subject.provenance;
+    assert(prov && typeof prov === "object", `${id}: materialized receipt lacks operator provenance`);
+    if (prov) {
+      assert(typeof prov.bytesSuppliedBy === "string" && prov.bytesSuppliedBy.length > 0, `${id}: provenance lacks bytesSuppliedBy`);
+      assert(typeof prov.transferMethod === "string" && prov.transferMethod.length > 0, `${id}: provenance lacks transferMethod`);
+      assert(typeof prov.urlVerifiedFromThisEnvironment === "boolean", `${id}: provenance lacks urlVerifiedFromThisEnvironment`);
+      assert(typeof prov.operatorAttestation === "string" && prov.operatorAttestation.length > 0, `${id}: provenance lacks operatorAttestation`);
+    }
+
     const bytesPath = path.join(rootDir, subject.sourcePath ?? "");
     if (!fs.existsSync(bytesPath)) {
       failures.push(`${id}: source path ${subject.sourcePath} does not resolve`);
