@@ -599,6 +599,14 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   const juvenile = profile.pathways.find((pathway) => /juvenile|minor/i.test(`${pathway.label} ${pathway.summary}`));
   if (/juvenile|minor/.test(outcome) && juvenile) return juvenile;
 
+  // A pardoned conviction is still a conviction by token, so the pardon branch
+  // must run before the generic conviction branch or MD pardon participants
+  // land on the first "non-conviction"-labeled pathway (label token overlap).
+  if (profile.jurisdiction.code === "MD" && /pardon/.test(outcome)) {
+    const pardoned = profile.pathways.find((pathway) => /pardon/i.test(pathway.label));
+    if (pardoned) return pardoned;
+  }
+
   const conviction = profile.pathways.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`));
   if (/conviction|misdemeanor|felony/.test(outcome) && conviction) return conviction;
 
@@ -866,6 +874,17 @@ function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway
 
 function specialRouteTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult | undefined {
   const key = routeKey(profile, pathway);
+  if (key === "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8") {
+    // Crim. Proc. § 10-105(a)(8) carries no minimum wait; § 10-105(c)(4) is the
+    // opposite constraint — filing is barred more than 10 years AFTER the
+    // Governor signed the pardon. The generic engine parses waiting rules as
+    // minimum waits and no committed question captures the pardon date, so the
+    // route fails closed to review instead of inheriting a fabricated wait.
+    return {
+      status: "needs_review",
+      reason: reason(profile.jurisdiction.code, "md_pardon_deadline_review", "The § 10-105(c)(4) filing deadline — no later than 10 years after the Governor signed the pardon — must be confirmed from the pardon date before a packet decision.", rule.sourceRef ?? pathway.sourceRef)
+    };
+  }
   if (key === "CA:tool-1-dismissal-set-aside" || key === "CA:tool-4-arrest-record-sealing") return { status: "satisfied" };
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
   if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied" };
