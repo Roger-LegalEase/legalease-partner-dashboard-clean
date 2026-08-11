@@ -250,7 +250,9 @@
     "rcap:verify-phase51-payment-security": "node scripts/verify-rcap-phase51-consumer-payment-security.mjs",
     "rcap:verify-staging-readiness": "node scripts/verify-rcap-staging-authorization-readiness.mjs",
     "rcap:crosswalk-resolution-dispatch": "node scripts/generate-rcap-crosswalk-resolution-dispatch.mjs",
-    "rcap:crosswalk-resolution-dispatch:check": "node scripts/generate-rcap-crosswalk-resolution-dispatch.mjs --check"
+    "rcap:crosswalk-resolution-dispatch:check": "node scripts/generate-rcap-crosswalk-resolution-dispatch.mjs --check",
+    "rcap:verify-crosswalk-resolution-lane": "node scripts/verify-rcap-crosswalk-resolution-lane.mjs",
+    "rcap:verify-crosswalk-resolution": "for L in E4-R1 E4-R2 E4-R3 E4-R4; do node scripts/verify-rcap-crosswalk-resolution-lane.mjs $L || exit 1; done"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "rcap-crosswalk-resolution-adjudication/v1",
+  "owner": "captain",
+  "schema": "data/rcap-ledger/crosswalk-resolution-schema.json",
+  "verifier": "scripts/verify-rcap-crosswalk-resolution-lane.mjs",
+  "baseCommit": "8744a701391e2d963c867c2a25f7af7869fe8611",
+  "purpose": "Captain adjudications applied on top of the four E4-R lane files. Lane files are consumed as evidence inputs only; nothing here transitions the launch ledger.",
+  "consumedAs": "evidence_input",
+  "launchLedgerEffect": "none",
+
+  "retractedFinding": {
+    "finding": "E4-R3 dead-pin defect",
+    "assertedIn": "commit 2e53a327, docs/record-clearing/crosswalk-resolution-summary.md",
+    "status": "RETRACTED — the finding was wrong",
+    "whatWasClaimed": "Nine E4-R3 citations pinning data/record-clearing/legal-design-track-registry.json@3b6f4c103d were called not re-checkable because the commit is not an ancestor of the lane base.",
+    "whyItWasWrong": "The ancestor requirement was invented by the captain's first verifier. It appears in neither the dispatch stop conditions nor the lane brief. Off-branch immutable evidence is a supported input in this repository: the pin resolves, the blob resolves, and the cited records are present, so the citation is re-checkable offline from the object store — which is what the stop conditions actually require.",
+    "verification": {
+      "gitCatFileCommit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5 — resolves",
+      "gitShowBlob": "data/record-clearing/legal-design-track-registry.json — resolves, 497 tracks",
+      "citedRecordsPresent": ["md_10105_favorable", "md_pardon_expungement", "wv_conv_multiple_misdemeanors", "wv_conv_nonviolent_felony", "wv_conv_single_misdemeanor"],
+      "sourceRefs": ["origin/feat/record-clearing-production-integration", "origin/rcap-factory/rcap-ma-source-materialization-e01cc36e-2b1fab98"]
+    },
+    "effect": "E4-R3 has no dead-pin defect. No corrective commit was requested of the lane, and none is owed."
+  },
+
+  "captainVerifierErrors": [
+    {
+      "error": "required cited evidence commits to be ancestors of the lane base",
+      "consequence": "falsely flagged 9 valid E4-R3 citations",
+      "correctedBy": "off-branch pins accepted when commit, blob and pointer all resolve"
+    },
+    {
+      "error": "assumed every counterpart is a registry track",
+      "consequence": "falsely flagged 5 valid E4-R3 registry_track rows whose counterpart is correctly a compiled pathway",
+      "correctedBy": "direction-aware counterpart validation"
+    },
+    {
+      "error": "required the subject token to appear in evidence cited for a terminalized row",
+      "consequence": "falsely flagged compiled_pathway:MD:juvenile-expungement, whose citation supports a gap claim BY ABSENCE",
+      "correctedBy": "outcome-aware proposition support; terminalized rows require jurisdiction coverage, not subject presence"
+    }
+  ],
+
+  "confidenceAdjudications": [
+    {
+      "lane": "E4-R1",
+      "jobId": "compiled_pathway:NH:dwi-dui-annulment",
+      "laneConfidence": "medium",
+      "laneOutcome": "resolved",
+      "question": "Demote to still_blocked unless the exact license passes.",
+      "licenseRule": "A compiled pathway that alters only the waiting period for an offence class, and files the same petition, maps to the registry track that owns that petition.",
+      "executed": [
+        "src/lib/rcap/state-packs/new-hampshire/eligibility-rules.ts line 10 lists 'DWI/DUI-type offense — special 10-year rule (verify under RSA 265-A:21)' as the final entry inside the 'Conviction waiting periods (RSA 651:5)' list — the DWI rule sits INSIDE the RSA 651:5 structure",
+        "line 14 states DWI 'is carved out of the ordinary waiting-period structure', i.e. a period variant, not a separate petition vehicle",
+        "registry nh_conviction_standard carries RSA 651:5 I, III, IV, V, VI, VI-a, VII, VIII — it owns the conviction-annulment petition",
+        "discriminator holds: nh_conviction_streamlined carries only RSA 651:5 III(a)(2) and III(b)(2), the short mandatory route for violations and Class B misdemeanours, which cannot host a pathway defined by a 10-year carve-out"
+      ],
+      "verdict": "LICENSE PASSES — no demotion",
+      "residual": "The exact paragraph of RSA 651:5, III carrying the carve-out is not pinned in this repository. The lane declared this residual itself; it is why the row is medium, not a reason the mapping fails.",
+      "reviewStatus": "qa_review_pending"
+    }
+  ],
+
+  "collisionAdjudications": [
+    {
+      "counterpart": "tx_exp_dismissed",
+      "lane": "E4-R2",
+      "subjects": ["compiled_pathway:TX:expunction-after-qualifying-dismissal-or-quash", "compiled_pathway:TX:expunction-after-qualifying-class-c-deferred-disposition"],
+      "verdict": "ACCEPTED — primary plus compiled variant",
+      "reasoning": "dismissal-or-quash is the primary mapping by name identity with the registry legalName 'Expunction where the charge was dismissed or quashed'. class-c-deferred is a compiled VARIANT: a Class C deferred disposition is the express exception written into the community-supervision bar at art. 55A.051(3), which is tx_exp_dismissed's own authority, not an independent article. A variant does not add a track to the denominator.",
+      "residual": "Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out is an open ELIGIBILITY question the registry itself flags. It does not disturb the mapping: either way the pathway lives inside art. 55A.051. Routed to counsel.",
+      "denominatorEffect": "none"
+    },
+    {
+      "counterpart": "adult-non-conviction-expungement-under-crim-proc-10-105",
+      "lane": "E4-R3",
+      "subjects": ["registry_track:MD:md_10105_favorable", "registry_track:MD:md_pardon_expungement"],
+      "verdict": "ACCEPTED PROVISIONALLY — needs counsel",
+      "reasoning": "Both tracks are petitions under Md. Crim. Proc. § 10-105, so a single compiled pathway covering § 10-105 can legitimately host both. The pinned registry confirms both trackIds exist and are distinct petitions (favorable-disposition vs post-pardon).",
+      "residual": "A pardon-based expungement and a favorable-disposition expungement are different eligibility gates sharing a statute. Collapsing them onto one pathway may erase a distinction a participant depends on. Counsel must confirm the pathway genuinely covers both entry routes.",
+      "denominatorEffect": "none"
+    },
+    {
+      "counterpart": "eligible-conviction-expungement-under-w-va-code-61-11-26",
+      "lane": "E4-R3",
+      "subjects": ["registry_track:WV:wv_conv_single_misdemeanor", "registry_track:WV:wv_conv_multiple_misdemeanors", "registry_track:WV:wv_conv_nonviolent_felony"],
+      "verdict": "ACCEPTED PROVISIONALLY — needs counsel",
+      "reasoning": "W. Va. Code § 61-11-26 carries all three conviction classes in one section, so one compiled pathway over that section can host all three registry tracks.",
+      "residual": "The three tracks carry materially different waiting periods and eligibility bars. A single pathway must express those differences or it will misprice eligibility for two of the three. Highest-risk collision of the four.",
+      "denominatorEffect": "none"
+    },
+    {
+      "counterpart": "felony-conviction-431073",
+      "lane": "E4-R4",
+      "subjects": ["registry_track:KY:ky_felony_expungement_after_pardon", "registry_track:KY:ky_felony_vacatur_expungement"],
+      "verdict": "ACCEPTED PROVISIONALLY — needs counsel",
+      "reasoning": "Both are felony expungement routes under KRS 431.073, which the compiled pathway names.",
+      "residual": "Post-pardon and post-vacatur are distinct predicates. Counsel must confirm KRS 431.073 is the operative vehicle for both rather than one being a separate mechanism.",
+      "denominatorEffect": "none"
+    }
+  ],
+
+  "stillBlocked": [
+    {
+      "jobId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+      "lane": "E4-R3",
+      "retrievalPacket": "docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md",
+      "expectedCitation": "18 Pa.C.S. § 3019",
+      "captainDirection": "Remains still_blocked and keeps naming its packet. The lane is NOT to guess or resolve it without the official primary source."
+    },
+    {
+      "jobId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+      "lane": "E4-R4",
+      "retrievalPacket": "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md",
+      "captainDirection": "Remains still_blocked and keeps naming its packet."
+    }
+  ],
+
+  "milestone1Item2": {
+    "closed": false,
+    "reason": "Two of the 38 blockers remain unresolved, and closure requires the canonical generator to reach zero unresolved mappings. It has not been re-run against these resolutions, and both still-blocked subjects need primary authority this repository does not contain.",
+    "blocking": ["compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement", "compiled_pathway:SC:human-trafficking-survivor-expungement"]
+  }
+}

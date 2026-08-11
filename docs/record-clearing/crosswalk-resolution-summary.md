@@ -24,23 +24,13 @@ Build status only. Every resolution carries `reviewStatus: qa_review_pending`; n
 
 ## Carried defects — must clear before `approved_for_live`
 
-### Unreachable evidence pins (9 citations, lane E4-R3)
+### Off-branch pinned evidence (9 citations) — accepted
 
-9 citations pin `data/record-clearing/legal-design-track-registry.json` to commit `3b6f4c103d`, which is **not an ancestor of the integration base**. That file exists only on `origin/feat/record-clearing-production-integration` and is absent from `main` and from this branch, so a generator cannot re-check those citations from here — which stop condition 3 requires.
+9 citations pin `data/record-clearing/legal-design-track-registry.json@3b6f4c103d`. Off-branch immutable evidence is a supported input: each pin resolves to a full commit, the blob resolves, and the cited records are present, so a generator can re-check them offline. The pinned commit is **not** required to be an ancestor of the lane base.
 
-Each affected subject also carries 3–6 in-tree citations that do resolve, so no mapping rests on the unreachable pin alone. The mappings stand; the citation list needs the dead pin dropped or re-pinned to in-tree authority.
+An earlier captain pass wrongly called these unreachable and published that as a defect in commit `2e53a327`. That finding is retracted; see `data/rcap-ledger/crosswalk-resolution-adjudication.json`.
 
-| Lane | Subject |
-| --- | --- |
-| E4-R3 | `compiled_pathway:DE:discretionary-court-expungement-under-11-del-c-4374` |
-| E4-R3 | `compiled_pathway:MD:juvenile-expungement` |
-| E4-R3 | `compiled_pathway:MD:second-chance-act-shielding` |
-| E4-R3 | `compiled_pathway:WV:first-offense-drug-possession-conditional-discharge-relief` |
-| E4-R3 | `registry_track:MD:md_10105_favorable` |
-| E4-R3 | `registry_track:MD:md_pardon_expungement` |
-| E4-R3 | `registry_track:WV:wv_conv_multiple_misdemeanors` |
-| E4-R3 | `registry_track:WV:wv_conv_nonviolent_felony` |
-| E4-R3 | `registry_track:WV:wv_conv_single_misdemeanor` |
+No unreachable evidence pins.
 
 ### Counterpart id format is not uniform across lanes
 
