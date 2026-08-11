@@ -1,10 +1,10 @@
 {
   "schemaVersion": "rcap-staging-action/v1",
   "generatedBy": "scripts/generate-rcap-staging-action.mjs",
-  "id": "staging-action-five-migrations",
+  "id": "staging-action-six-migrations",
   "status": "prepared_queued_not_authorized",
   "environment": "staging",
-  "note": "Prepared and machine-derived. This record authorizes nothing. Staging execution requires Roger to name the environment values below AND to grant staging scope on all four authorizations; production is separately queued and is not requested here.",
+  "note": "Prepared and machine-derived. This record authorizes nothing. Staging execution requires Roger to name the environment values below AND to grant staging scope on every authorization in the sequence; production is separately queued and is not requested here.",
   "canonicalIntegrationBranch": "claude/rcap-final-sprint-integration",
   "securityCheckpointSha": "13e356c49bd484e6f946ba604076718d904bca86",
   "finalAcceptedSha": null,
@@ -83,6 +83,23 @@
         "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
         "staging": "queued — requires Roger to name all five migration files and the staging environment",
         "production": "queued — not requested; follows a green staging rehearsal"
+      }
+    },
+    {
+      "sequencePosition": 6,
+      "phase": 54,
+      "path": "supabase/phase-54-rcap-person-namespace-hardening.sql",
+      "sha256": "3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac",
+      "authorizationId": "auth-2026-08-11-phase-54-person-namespace-hardening",
+      "authorizationScope": "repository_integration_and_ephemeral_local_testing_only",
+      "standingEnvironmentConditions": {
+        "staging": "queued",
+        "production": "queued"
+      },
+      "scopedAuthorization": {
+        "repository": "authorized — the migration may exist and be applied to ephemeral local databases for testing",
+        "staging": "queued — explicitly withheld by the authorizing instruction",
+        "production": "queued — explicitly withheld by the authorizing instruction"
       }
     }
   ],
@@ -168,8 +185,8 @@
     },
     {
       "step": 4,
-      "action": "Apply 49 -> 50 -> 51 -> 52 -> 53 as one controlled sequence",
-      "gate": "all 5 hashes match at apply time"
+      "action": "Apply 49 -> 50 -> 51 -> 52 -> 53 -> 54 as one controlled sequence",
+      "gate": "all 6 hashes match at apply time"
     },
     {
       "step": 5,
@@ -209,7 +226,7 @@
   "postApplyEvidence": {
     "verifier": "scripts/verify-rcap-migration-apply-evidence.mjs",
     "mustProve": [
-      "all 5 migrations appear in the migration evidence",
+      "all 6 migrations appear in the migration evidence",
       "finalize_packet_render_job is the Phase 52 definition, not a familiar name",
       "record_consumer_packet_payment exists",
       "its search_path is pinned",
@@ -235,7 +252,7 @@
     "inputs": [
       {
         "path": "package.json",
-        "sha256": "37ee215c94ec631375301e147eb9433bf1b5d8a5d15b9457563363540f852b49"
+        "sha256": "fbca87ad0f67c29d11ec51cc21653b02d27fd2eb088cc6d3476a33b6a7a5c19b"
       },
       {
         "path": "package-lock.json",
@@ -278,6 +295,11 @@
       "id": "staging-action-four-migrations",
       "was": "Apply phases 49, 50, 51 and 52 to staging",
       "reason": "Phase 52 closes the bypass but leaves the gate unreachable through the sanctioned enqueue path; a legitimate paid consumer is refused. Phase 53 must be applied in the same window."
+    },
+    {
+      "id": "staging-action-five-migrations",
+      "was": "Apply phases 49 through 53 to staging",
+      "reason": "Phase 53 puts direct-to-consumer person rows into rcap_persons, which carried no row-level security, no policies and no explicit grants. Applying 53 without 54 would place consumer identities in a table any browser role could read."
     }
   ],
   "authorizes": [],

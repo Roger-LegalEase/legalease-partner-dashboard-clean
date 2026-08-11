@@ -183,6 +183,14 @@ for (const file of changedFiles) {
   // creates the public.web_analytics_events store. Allowlisted like the prior consumer migrations.
   if (file === "supabase/phase-40-web-analytics-events.sql") continue;
   if (file === "supabase/phase-43-content-platform.sql") continue;
+  // Phase 54 hardens public.rcap_persons — RLS, browser-role revokes, the
+  // reserved-namespace guards — under Roger's bounded authorization
+  // (auth-2026-08-11-phase-54-person-namespace-hardening). Named explicitly
+  // rather than left to pass by being committed: this loop reads
+  // `git status --short`, so it only ever sees the working tree, and every
+  // earlier phase migration is admitted by that accident rather than by a
+  // decision. An explicit entry survives if that is ever tightened.
+  if (file === "supabase/phase-54-rcap-person-namespace-hardening.sql") continue;
   for (const pattern of restrictedPatterns) {
     assert(!file.includes(pattern), `Restricted file touched: ${file}`);
   }

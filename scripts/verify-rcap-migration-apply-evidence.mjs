@@ -81,7 +81,7 @@ for (const m of MIGRATIONS) {
 check(
   'A-order',
   'the apply order is exactly 49 -> 50 -> 51 -> 52 -> 53',
-  MIGRATIONS.map((m) => m.phase).join(',') === '49,50,51,52,53'
+  MIGRATIONS.map((m) => m.phase).join(',') === '49,50,51,52,53,54'
     && MIGRATIONS.every((m, i) => m.sequencePosition === i + 1),
   MIGRATIONS.map((m) => `${m.sequencePosition}:${m.phase}`).join(' ')
 );

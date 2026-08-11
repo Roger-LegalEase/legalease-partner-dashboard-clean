@@ -408,6 +408,53 @@
         "staging": "queued \u2014 enabling the route in staging is a separate authorization",
         "production": "queued \u2014 enabling the route in production is a separate authorization"
       }
+    },
+    {
+      "id": "auth-2026-08-11-phase-54-person-namespace-hardening",
+      "kind": "migration",
+      "phase": 54,
+      "title": "Harden public.rcap_persons and enforce the reserved direct-to-consumer person namespace",
+      "artifacts": [
+        "supabase/phase-54-rcap-person-namespace-hardening.sql"
+      ],
+      "status": "authorized_scoped",
+      "decision": "approved",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Roger Roman \u2014 explicit bounded authorization for an additive Phase 54: inspect and record current privileges, enable RLS on public.rcap_persons, revoke direct anon and authenticated access, preserve narrowly required server-side access, add a database-enforced reserved-namespace collision guard, update legitimate callers, add executable role/tenant/reporting/entitlement/attribution/namespace-isolation tests, exact-path SHA-pinned repository authorization, ephemeral local application for testing only",
+      "authorizedAt": "2026-08-11",
+      "authorizationScope": "repository_integration_and_ephemeral_local_testing_only",
+      "executedAt": null,
+      "why": "rcap_persons carried no row-level security, no policies and no explicit grants anywhere in supabase/, so it inherited whatever default privileges hand anon and authenticated. That predates the consumer namespace and was already wrong for partner intake identities; Phase 53's consumer binding put direct-to-consumer person rows in the same table and made it urgent. Two further gaps had no database enforcement at all: partner_slug is free text, so a real partner could register the reserved slug and absorb every consumer person into their keyspace, and nothing constrained which identities may sit in the reserved namespace, leaving attribution ambiguous in both directions.",
+      "risk": "medium",
+      "riskNote": "Privilege-removing rather than additive in effect, which is the risk worth naming: if any caller read rcap_persons as anon or authenticated it would break. Every caller in src/ uses the service-role admin client (source-repository.ts, rcap-intake/repository.ts, consumer-identity.ts, and the partner outcome summary), and service_role is BYPASSRLS, so the revoke removes no access anything relies on. Verified by R6, a positive control proving the sanctioned server-side path still reads and writes after the lockdown.",
+      "rollback": "Apply the inverse in one transaction: disable row level security on public.rcap_persons, drop policy rcap_persons_service_role_all, drop trigger rcap_guard_reserved_partner_slug_trg on public.partner_records, drop constraint rcap_persons_reserved_namespace_shape, and re-grant whatever the pre-change privilege record in the apply log shows. Section 0 of the migration prints that pre-state precisely so the rollback does not have to guess. No data is written or rewritten, so nothing needs restoring.",
+      "evidence": [
+        "scripts/verify-rcap-consumer-person-namespace.mjs \u2014 14/14: N1-N8 namespace properties plus R1 role, R2 tenant, R3 reporting, R4 entitlement, R5 attribution, R6 isolation positive control",
+        "scripts/test-rcap-phase54-mutations.mjs \u2014 5/5 mutations red: phase omitted, RLS not enabled, revokes dropped, reserved slug claimable, shape constraint stops discriminating",
+        "scripts/verify-rcap-migration-apply-evidence.mjs \u2014 post-apply read-back extended to the 49-54 sequence"
+      ],
+      "authorizedPaths": [
+        "supabase/phase-54-rcap-person-namespace-hardening.sql"
+      ],
+      "authorizedSha256": [
+        "3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac"
+      ],
+      "voidsOn": "Any byte change to the authorized path voids this authorization; the scope guard re-hashes the file on every run.",
+      "doesNotAuthorize": [
+        "applying Phase 54 to staging or production \u2014 both remain queued pending the complete staging package, final CI, worker digest and explicit staging authorization",
+        "any change to Supabase auth or session logic beyond the named table",
+        "enabling row level security on any other table"
+      ],
+      "scopedAuthorization": {
+        "repository": "authorized \u2014 the migration may exist and be applied to ephemeral local databases for testing",
+        "staging": "queued \u2014 explicitly withheld by the authorizing instruction",
+        "production": "queued \u2014 explicitly withheld by the authorizing instruction"
+      },
+      "environmentConditions": {
+        "staging": "queued",
+        "production": "queued"
+      }
     }
   ],
   "statusVocabulary": {

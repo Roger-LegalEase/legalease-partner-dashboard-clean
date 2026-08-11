@@ -35,6 +35,7 @@ const SEQUENCE = [
   { phase: 51, path: 'supabase/phase-51-rcap-consumer-payment-gate.sql', authorizationId: 'auth-2026-08-10-phase-51-consumer-payment-gate' },
   { phase: 52, path: 'supabase/phase-52-rcap-consumer-payment-authority.sql', authorizationId: 'auth-2026-08-11-phase-52-consumer-payment-authority' },
   { phase: 53, path: 'supabase/phase-53-rcap-consumer-job-binding.sql', authorizationId: 'auth-2026-08-11-phase-53-consumer-job-binding' },
+  { phase: 54, path: 'supabase/phase-54-rcap-person-namespace-hardening.sql', authorizationId: 'auth-2026-08-11-phase-54-person-namespace-hardening' },
 ];
 
 // Exactly the paths the Dockerfile copies. Anything outside this set cannot
@@ -117,11 +118,11 @@ const REQUIRED_ENVIRONMENT = {
 const action = {
   schemaVersion: 'rcap-staging-action/v1',
   generatedBy: 'scripts/generate-rcap-staging-action.mjs',
-  id: 'staging-action-five-migrations',
+  id: 'staging-action-six-migrations',
   status: 'prepared_queued_not_authorized',
   environment: 'staging',
   note:
-    'Prepared and machine-derived. This record authorizes nothing. Staging execution requires Roger to name the environment values below AND to grant staging scope on all four authorizations; production is separately queued and is not requested here.',
+    'Prepared and machine-derived. This record authorizes nothing. Staging execution requires Roger to name the environment values below AND to grant staging scope on every authorization in the sequence; production is separately queued and is not requested here.',
 
   canonicalIntegrationBranch: CANONICAL_BRANCH,
   // The security checkpoint the migrations were verified at. NOT the final
@@ -224,6 +225,7 @@ const action = {
     { id: 'staging-action-two-migrations', was: 'Apply phases 49 and 50 to staging', reason: 'Phase 50 alone marks every unsponsored job delivery-eligible with no payment check.' },
     { id: 'staging-action-three-migrations', was: 'Apply phases 49, 50 and 51 to staging', reason: 'Phase 51 as written is bypassable by the payer (RCAP-SEC-001).' },
     { id: 'staging-action-four-migrations', was: 'Apply phases 49, 50, 51 and 52 to staging', reason: 'Phase 52 closes the bypass but leaves the gate unreachable through the sanctioned enqueue path; a legitimate paid consumer is refused. Phase 53 must be applied in the same window.' },
+    { id: 'staging-action-five-migrations', was: 'Apply phases 49 through 53 to staging', reason: 'Phase 53 puts direct-to-consumer person rows into rcap_persons, which carried no row-level security, no policies and no explicit grants. Applying 53 without 54 would place consumer identities in a table any browser role could read.' },
   ],
 
   authorizes: [],

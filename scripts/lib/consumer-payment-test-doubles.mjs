@@ -158,12 +158,12 @@ async function run(state) {
   }
 }
 
-function rpc(name, params) {
+function rpc(name, params, role = null) {
   const args = Object.entries(params ?? {})
     .map(([key, value]) => `${key} => ${quote(value)}`)
     .join(", ");
   try {
-    const rows = rowsFromJson(`select * from ${name}(${args})`);
+    const rows = rowsFromJson(`select * from ${name}(${args})`, { role });
     return Promise.resolve({ data: rows, error: null });
   } catch (error) {
     return Promise.resolve({
@@ -173,10 +173,18 @@ function rpc(name, params) {
   }
 }
 
-/** Stands in for the service-role client. */
+/**
+ * Stands in for the service-role client.
+ *
+ * Bound to `service_role` rather than left on the owner connection. After
+ * phase 54 that distinction is load-bearing: rcap_persons has RLS enabled and
+ * no grant for browser roles, and the owner is exempt from RLS while
+ * service_role passes it by BYPASSRLS. Running these calls as the owner would
+ * prove the application works with privileges it does not hold in production.
+ */
 export function getSupabaseAdminClient() {
   if (!db) return null;
-  return { from: table, rpc };
+  return { from: (name) => table(name, "service_role"), rpc: (name, params) => rpc(name, params, "service_role") };
 }
 
 /**

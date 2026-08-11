@@ -8,14 +8,12 @@
  * key on `partner_slug` is what makes that POSSIBLE; it is not what makes it
  * SAFE. These eight cases are the difference.
  *
- * One property is deliberately proven at a lower level than its name suggests,
- * and said so plainly rather than overclaimed: N2. `rcap_persons` carries no
- * row-level security and no explicit grants anywhere in supabase/ — it inherits
- * whatever the project's default privileges give `authenticated`. That predates
- * the consumer namespace. What is proven here is that no partner-SCOPED read
- * can return a consumer person, and that a consumer row carries no account
- * identifier even to a reader who reaches the table. Table-level RLS on
- * rcap_persons would close the rest and is Roger's to authorize.
+ * N2 used to be scoped down: `rcap_persons` had no row-level security and no
+ * explicit grants, so the strongest honest claim was that partner-SCOPED reads
+ * could not return consumer persons. Phase 54 closes that, and N2 now asserts
+ * the thing it always wanted to — that a browser role reaches no row at all —
+ * alongside R1-R6 below, which cover the role, tenant, reporting, entitlement,
+ * attribution and isolation dimensions directly.
  *
  *   node scripts/verify-rcap-consumer-person-namespace.mjs
  */
@@ -41,7 +39,8 @@ const SEQUENCE = [
   "supabase/phase-50-rcap-packet-delivery-hardening.sql",
   "supabase/phase-51-rcap-consumer-payment-gate.sql",
   "supabase/phase-52-rcap-consumer-payment-authority.sql",
-  "supabase/phase-53-rcap-consumer-job-binding.sql"
+  "supabase/phase-53-rcap-consumer-job-binding.sql",
+  "supabase/phase-54-rcap-person-namespace-hardening.sql"
 ];
 
 const NAMESPACE = "expungement-ai-consumer";
@@ -133,8 +132,7 @@ try {
 
   // --- N2 ------------------------------------------------------------------
   // A partner-scoped read cannot return a consumer person, and the consumer row
-  // carries no account identifier. See the header note: this is not a claim
-  // that rcap_persons is RLS-protected, because it is not.
+  // carries no account identifier.
   const partnerScoped = db.json(
     `select coalesce(json_agg(match_key), '[]'::json) from public.rcap_persons where partner_slug='${PARTNER_SLUG}'`
   );
@@ -294,6 +292,142 @@ try {
       finalB?.delivery_eligibility === "accounting_blocked",
     JSON.stringify(finalB)
   );
+
+  // =========================================================================
+  // Phase 54 dimensions: role, tenant, reporting, entitlement, attribution and
+  // isolation. N1-N8 prove the namespace behaves; these prove the database
+  // enforces it rather than the application remembering to.
+  // =========================================================================
+
+  // --- R1 role -------------------------------------------------------------
+  // A browser role reaches no row. Both halves are asserted because either
+  // alone can be undone: RLS without the revoke leaves a confusing grant, and
+  // the revoke without RLS is re-granted by the next `alter default privileges`.
+  const rlsOn = db
+    .sql(`select relrowsecurity from pg_class where oid = 'public.rcap_persons'::regclass`)
+    .trim();
+  const browserGrants = db
+    .sql(
+      `select count(*) from information_schema.role_table_grants
+        where table_schema='public' and table_name='rcap_persons' and grantee in ('anon','authenticated')`
+    )
+    .trim();
+  const anonRead = db.sqlExpectError(`set role anon; select count(*) from public.rcap_persons`);
+  db.sql(`reset role`);
+  const authRead = db.sqlExpectError(`set role authenticated; select count(*) from public.rcap_persons`);
+  db.sql(`reset role`);
+  check(
+    "R1",
+    "no browser role can read or write rcap_persons",
+    rlsOn === "t" &&
+      browserGrants === "0" &&
+      /permission denied/i.test(anonRead) &&
+      /permission denied/i.test(authRead),
+    `rls=${rlsOn} browserGrants=${browserGrants} anon=${anonRead.split("\n")[0]}`
+  );
+
+  // --- R2 tenant -----------------------------------------------------------
+  // The reserved slug cannot be registered as a partner. This is the collision
+  // the application guard also checks; here the database refuses it outright,
+  // so a direct INSERT or a slug rename cannot create it either.
+  const claimInsert = db.sqlExpectError(
+    `insert into public.partner_records (partner_slug) values ('${NAMESPACE}')`
+  );
+  const claimRename = db.sqlExpectError(
+    `update public.partner_records set partner_slug='${NAMESPACE}' where partner_slug='${PARTNER_SLUG}'`
+  );
+  check(
+    "R2",
+    "a real partner cannot claim the reserved namespace, by insert or by rename",
+    /reserved direct-to-consumer person namespace/.test(claimInsert) &&
+      /reserved direct-to-consumer person namespace/.test(claimRename),
+    `${claimInsert.split("\n")[0]} | ${claimRename.split("\n")[0]}`
+  );
+
+  // --- R3 reporting --------------------------------------------------------
+  // The partner outcome summary counts distinct people for one partner slug.
+  // A consumer person must never appear in it, for any partner and for the
+  // reserved slug itself when asked as though it were one.
+  const summaryForPartner = db
+    .sql(`select count(distinct id) from public.rcap_persons where partner_slug='${PARTNER_SLUG}'`)
+    .trim();
+  const summaryForReserved = db
+    .sql(
+      `select count(distinct p.id) from public.rcap_persons p
+         join public.partner_records r on r.partner_slug = p.partner_slug
+        where p.partner_slug='${NAMESPACE}'`
+    )
+    .trim();
+  check(
+    "R3",
+    "consumer persons never enter a partner reporting count",
+    summaryForPartner === "1" && summaryForReserved === "0",
+    `partner=${summaryForPartner} reservedViaPartnerJoin=${summaryForReserved}`
+  );
+
+  // --- R4 entitlement ------------------------------------------------------
+  // No entitlement row can be reached through the reserved namespace, because
+  // entitlement is keyed on a partner id and the reserved slug has no partner.
+  const entitlementReach = db
+    .sql(
+      `select count(*) from public.partner_packet_entitlement e
+         join public.partner_records r on r.id = e.partner_id
+        where r.partner_slug = '${NAMESPACE}'`
+    )
+    .trim();
+  check(
+    "R4",
+    "no partner entitlement is reachable through the reserved namespace",
+    entitlementReach === "0",
+    `entitlementsReachable=${entitlementReach}`
+  );
+
+  // --- R5 attribution ------------------------------------------------------
+  // Attribution is unambiguous in both directions: a partner identity cannot
+  // sit in the consumer namespace, and a consumer-shaped identity cannot sit
+  // under a partner slug.
+  const partnerKeyInReserved = db.sqlExpectError(
+    `insert into public.rcap_persons (partner_slug, match_key) values ('${NAMESPACE}','email:client@partner.test')`
+  );
+  const consumerKeyUnderPartner = db.sqlExpectError(
+    `insert into public.rcap_persons (partner_slug, match_key) values ('${PARTNER_SLUG}','${matchKeyFor(USER_A)}')`
+  );
+  check(
+    "R5",
+    "attribution cannot be blurred in either direction",
+    /rcap_persons_reserved_namespace_shape/.test(partnerKeyInReserved) &&
+      /rcap_persons_reserved_namespace_shape/.test(consumerKeyUnderPartner),
+    `partnerKeyInReserved=${partnerKeyInReserved.split("\n")[0]}`
+  );
+
+  // --- R6 isolation --------------------------------------------------------
+  // A positive control. Everything above proves a door is locked; this proves
+  // the building still works — the server-side path that legitimately resolves
+  // consumer persons is unaffected by the lockdown.
+  const serviceRead = db
+    .sql(`set role service_role; select count(*) from public.rcap_persons where partner_slug='${NAMESPACE}'`)
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l && l !== "SET")
+    .pop();
+  db.sql(`reset role`);
+  const newUser = duuid("user-c");
+  const serviceWrite = db
+    .sql(
+      `set role service_role; with r as (insert into public.rcap_persons (partner_slug, match_key)
+         values ('${NAMESPACE}','${matchKeyFor(newUser)}') returning id) select id from r`
+    )
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => /^[0-9a-f-]{36}$/.test(l))
+    .pop();
+  db.sql(`reset role`);
+  check(
+    "R6",
+    "the sanctioned server-side path still resolves consumer persons",
+    serviceRead === "2" && Boolean(serviceWrite),
+    `serviceRead=${serviceRead} serviceWrite=${serviceWrite}`
+  );
 } finally {
   db.stop();
 }
@@ -305,5 +439,5 @@ if (passed !== results.length) {
   process.exit(1);
 }
 console.log(
-  "Reserved namespace holds. Note: rcap_persons still carries no table-level RLS — that remains Roger's to authorize."
+  "Reserved namespace holds, and Phase 54 enforces it in the database: RLS on, browser roles revoked, the reserved slug unclaimable, and attribution unambiguous both ways."
 );

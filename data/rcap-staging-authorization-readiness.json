@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-staging-authorization-readiness/v1",
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
-  "note": "Authorization is NOT being requested. The five-migration staging action is prepared and machine-derived at data/rcap-staging-action.json; the GHCR publication workflow is prepared but not run. Staging and production are both queued and no environment has been named. RCAP-SEC-001 remains open because the fix is merged, not deployed.",
+  "note": "Authorization is NOT being requested. The six-migration staging action is prepared and machine-derived at data/rcap-staging-action.json; the GHCR publication workflow is prepared but not run. Staging and production are both queued and no environment has been named. RCAP-SEC-001 remains open because the fix is merged, not deployed.",
   "independent_security_proven": true,
   "sanctioned_consumer_reachability_proven": true,
   "staging_precondition_status": "satisfied",
@@ -10,16 +10,17 @@
     "audit": "scripts/verify-rcap-phase51-consumer-payment-security.mjs, owned by the Phase 51 security-audit lane, imported byte-identical from f237c89f3a3ed0eab44d9c84f07833de822eea54 and unmodified here.",
     "result": "Gate 21/21, Reach 5/5, Mutations 3/3 across the full 26-27-28-49-50-51-52-53 sequence.",
     "whyItCounts": "The audit reaches the payment gate only through anon, authenticated and service_role, and calls only enqueue_packet_render_job, record_consumer_packet_payment and finalize_packet_render_job. It holds no owner-level write against any gate surface; its four privileged statements are confined to the M2 and M3 mutation setups, whose purpose is to break the defence and observe the suite go red. So the proof is that a real caller can reach the gate, not that a privileged fixture can stage one.",
-    "reachabilityClosure": "The lane's own regression at 25f6b09 — gate correct but 0/3 reachable — is closed by Phase 53 and re-proven at 5/5 by the same lane.",
+    "reachabilityClosure": "The lane's own regression at 25f6b09 \u2014 gate correct but 0/3 reachable \u2014 is closed by Phase 53 and re-proven at 5/5 by the same lane.",
     "captainSideCorroboration": "verify-rcap-phase52-consumer-payment-authority 32/32; test-rcap-phase52-mutations 12/12; verify-rcap-phase53-consumer-job-binding 24/24; test-rcap-phase53-mutations 8/8; verify-rcap-migration-apply-evidence 32/32.",
     "scopeOfTheClaim": "These three marks say the repository's payment gate is independently proven secure and reachable. They do not say any environment is fixed: staging and production remain queued and unnamed, and RCAP-SEC-001 stays open until the sequence is applied somewhere.",
-    "knownArtifactNondeterminism": "None of the three payment evidence artifacts is byte-reproducible. Each records observed strings that embed gen_random_uuid() fixture ids — and, in phase 52, the consumption-unit hashes derived from them — so a handful of lines change per run while totals and pass state stay fixed. They are run records, not deterministic generated artifacts, and should not be gated on byte equality. The phase-51 file is audit-owned, so its churn is left for that lane to settle rather than patched here; the committed bytes are the audit's own from f237c89.",
-    "artifactTruthfulnessFix": "A separate and real defect was found and closed while running this battery: test-rcap-phase52-mutations and test-rcap-phase53-mutations restored the migration they mutate but not the evidence artifact the verifier rewrites on each mutated run, so both left a committed report claiming 31/32 and 23/24 with failures that no longer existed. Each harness now re-runs the verifier against the restored migration in its finally block and fails if that run is red, so a mutation sweep can no longer strand a false failure in the repository."
+    "knownArtifactNondeterminism": "None of the three payment evidence artifacts is byte-reproducible. Each records observed strings that embed gen_random_uuid() fixture ids \u2014 and, in phase 52, the consumption-unit hashes derived from them \u2014 so a handful of lines change per run while totals and pass state stay fixed. They are run records, not deterministic generated artifacts, and should not be gated on byte equality. The phase-51 file is audit-owned, so its churn is left for that lane to settle rather than patched here; the committed bytes are the audit's own from f237c89.",
+    "artifactTruthfulnessFix": "A separate and real defect was found and closed while running this battery: test-rcap-phase52-mutations and test-rcap-phase53-mutations restored the migration they mutate but not the evidence artifact the verifier rewrites on each mutated run, so both left a committed report claiming 31/32 and 23/24 with failures that no longer existed. Each harness now re-runs the verifier against the restored migration in its finally block and fails if that run is red, so a mutation sweep can no longer strand a false failure in the repository.",
+    "personNamespaceHardening": "Phase 54 closes the open item recorded against rcap_persons: RLS enabled with a service_role-only policy, anon and authenticated revoked, a trigger refusing the reserved slug on partner_records, and a two-way namespace shape constraint keeping attribution unambiguous. Proven by verify-rcap-consumer-person-namespace 14/14 (N1-N8 plus role, tenant, reporting, entitlement, attribution and an isolation positive control) and test-rcap-phase54-mutations 5/5."
   },
   "fields": {
     "finalIntegrationSha": {
       "status": "populated",
-      "value": "set at the integration tip; re-derive immediately before any apply — never reuse a SHA quoted in a report",
+      "value": "set at the integration tip; re-derive immediately before any apply \u2014 never reuse a SHA quoted in a report",
       "owner": "captain"
     },
     "requiredGithubChecksGreen": {
@@ -55,7 +56,7 @@
     "workerImageSourceAndDigest": {
       "status": "blocked",
       "owner": "Roger",
-      "note": "Publication workflow prepared at .github/workflows/publish-rcap-render-worker.yml (sha256 53a746405b540565…). Still blocked: no digest exists until Terminal D runs it at the final accepted SHA, and a local image ID is not a registry digest."
+      "note": "Publication workflow prepared at .github/workflows/publish-rcap-render-worker.yml (sha256 53a746405b540565\u2026). Still blocked: no digest exists until Terminal D runs it at the final accepted SHA, and a local image ID is not a registry digest."
     },
     "workerDeploymentTarget": {
       "status": "blank",
@@ -90,6 +91,11 @@
       "status": "blocked",
       "owner": "Roger",
       "note": "supabase/phase-53-rcap-consumer-job-binding.sql sha256 469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f, auth-2026-08-11-phase-53-consumer-job-binding. Repository integration authorized and hash-pinned; staging queued. Indivisible with phases 51 and 52: it drops the 13-argument enqueue, so applying 52 without 53 leaves the gate correct but unreachable, and applying 53 without 52 leaves the binding bound to a gate that is not yet unforgeable."
+    },
+    "phase54": {
+      "status": "blocked",
+      "owner": "Roger",
+      "note": "supabase/phase-54-rcap-person-namespace-hardening.sql sha256 3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac, auth-2026-08-11-phase-54-person-namespace-hardening. Repository integration and ephemeral local testing authorized; staging and production explicitly withheld by the authorizing instruction. Indivisible with 53: applying 53 without 54 places direct-to-consumer person rows in a table that had no row-level security, no policies and no explicit grants."
     }
   },
   "blockers": [
@@ -100,7 +106,7 @@
       "summary": "The Phase 51 consumer payment gate is bypassable by the participant it charges.",
       "detail": "RLS on consumer_briefcase_items is owner-scoped but restricts no column, and nothing in supabase/ revokes or triggers on payment_status or amount_cents. On default Supabase privileges, authenticated holds column-level UPDATE on payment_status: a participant can mark their own row paid/5000, or insert a row already marked paid with no checkout, and finalization then returns zero_charge/eligible. The delivery route's ownership check does not help because the forger owns the item.",
       "reproduced": "Independently on an ephemeral cluster at this tip: 13/17 gate cases pass, 4 fail (G1, G1b critical; G11, G12 high). Mutations 3/3 behaved as expected.",
-      "alsoFound": "G11 — the consumption unit is keyed on job id, so one $50 purchase authorizes unlimited packets across unlimited matters, and the ledger uniqueness index excludes zero_charge entirely. G12 — the gate does not compare the item's user_id to the job's participant at the database layer; enqueue being service_role-only and the delivery ownership check mitigate this at the route layer, but the database does not enforce it.",
+      "alsoFound": "G11 \u2014 the consumption unit is keyed on job id, so one $50 purchase authorizes unlimited packets across unlimited matters, and the ledger uniqueness index excludes zero_charge entirely. G12 \u2014 the gate does not compare the item's user_id to the job's participant at the database layer; enqueue being service_role-only and the delivery ownership check mitigate this at the route layer, but the database does not enforce it.",
       "fixture": "scripts/verify-rcap-phase51-consumer-payment-security.mjs (exits non-zero while the four expectations fail)",
       "recommendation": "docs/RCAP_PHASE51_CONSUMER_PAYMENT_SECURITY.md carries two patches, both validated on the audit cluster, including the caveat that the second must catch unique_violation and return a typed result rather than raise, or a rejected redemption rolls back the artifact evidence and strands the job in validating.",
       "requiresAuthorization": "Yes. A fix means a new file under supabase/ and touches RLS/privileges, both of which need Roger's explicit authorization before they are written or applied. Not taken unilaterally.",
@@ -111,14 +117,14 @@
             "phase": 52,
             "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
             "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
-            "closes": "G1, G1b, G11 and G12 — the payment authority becomes correct and unforgeable",
+            "closes": "G1, G1b, G11 and G12 \u2014 the payment authority becomes correct and unforgeable",
             "evidence": "verify-rcap-phase52-consumer-payment-authority 32/32; test-rcap-phase52-mutations 12/12"
           },
           {
             "phase": 53,
             "path": "supabase/phase-53-rcap-consumer-job-binding.sql",
             "sha256": "469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f",
-            "closes": "the reachability regression Phase 52 left behind — the gate becomes reachable by a legitimate paid consumer without widening it",
+            "closes": "the reachability regression Phase 52 left behind \u2014 the gate becomes reachable by a legitimate paid consumer without widening it",
             "evidence": "verify-rcap-phase53-consumer-job-binding 24/24; test-rcap-phase53-mutations 8/8"
           }
         ],
@@ -129,11 +135,11 @@
   ],
   "supersededStagingActions": {
     "canonicalRecord": "data/rcap-staging-action.json, field `supersedes`",
-    "note": "The full supersession chain is generated, not restated here, so this file cannot drift from the action it describes. In summary: the two-, three- and four-migration actions are all superseded. Each was retired for the same reason in a different place — a shorter sequence applied to an environment that takes payment ships either a proven bypass (stopping at 51), or a gate no legitimate paid consumer can reach (stopping at 52).",
-    "supersededBy": "staging-action-five-migrations (data/rcap-staging-action.json)"
+    "note": "The full supersession chain is generated, not restated here, so this file cannot drift from the action it describes. In summary: the two-, three-, four- and five-migration actions are all superseded. Each was retired for the same reason in a different place \u2014 a shorter sequence applied to an environment that takes payment ships either a proven bypass (stopping at 51), or a gate no legitimate paid consumer can reach (stopping at 52).",
+    "supersededBy": "staging-action-six-migrations (data/rcap-staging-action.json)"
   },
   "preparedStagingAction": {
-    "id": "staging-action-five-migrations",
+    "id": "staging-action-six-migrations",
     "canonicalRecord": "data/rcap-staging-action.json",
     "generatedBy": "scripts/generate-rcap-staging-action.mjs",
     "status": "prepared_queued_not_authorized",
@@ -148,7 +154,7 @@
     "workflowSha256": "53a746405b5405651fe3fc259ea2a2acafb22b112065e5231506161a4ee43f0f",
     "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
     "tagPolicy": "full commit SHA only; no mutable latest or moving alias",
-    "packageVisibility": "private — Roger has not separately authorized public package visibility, so the package stays private",
+    "packageVisibility": "private \u2014 Roger has not separately authorized public package visibility, so the package stays private",
     "stagingWorkerHostReadPermission": "The staging worker host must authenticate to ghcr.io and hold read:packages for the private package ghcr.io/roger-legalease/rcap-render-worker. In practice that is a GitHub token or a GitHub App installation token with package read scope on Roger-LegalEase, supplied to the host as a registry pull secret. It must NOT be the workflow's GITHUB_TOKEN, which does not exist outside the run.",
     "imageBytesChanged": "package.json changed between the recorded publication proof (abbc48a1) and the candidate SHA. The image bytes therefore differ from that proof and the publishable digest must be minted by a rebuild at the final accepted SHA.",
     "owner": "Terminal D executes the publication after the final SHA is cleared; this terminal does not run it."

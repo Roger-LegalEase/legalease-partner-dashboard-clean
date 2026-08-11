@@ -63,7 +63,8 @@ const SEQUENCE = [
   "supabase/phase-50-rcap-packet-delivery-hardening.sql",
   "supabase/phase-51-rcap-consumer-payment-gate.sql",
   "supabase/phase-52-rcap-consumer-payment-authority.sql",
-  "supabase/phase-53-rcap-consumer-job-binding.sql"
+  "supabase/phase-53-rcap-consumer-job-binding.sql",
+  "supabase/phase-54-rcap-person-namespace-hardening.sql"
 ];
 
 const USER_A = fixtureUuid("user-a");
