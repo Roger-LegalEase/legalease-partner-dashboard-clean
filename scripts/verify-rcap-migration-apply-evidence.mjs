@@ -80,8 +80,8 @@ for (const m of MIGRATIONS) {
 // Apply order is a property of the action itself.
 check(
   'A-order',
-  'the apply order is exactly 49 -> 50 -> 51 -> 52',
-  MIGRATIONS.map((m) => m.phase).join(',') === '49,50,51,52'
+  'the apply order is exactly 49 -> 50 -> 51 -> 52 -> 53',
+  MIGRATIONS.map((m) => m.phase).join(',') === '49,50,51,52,53'
     && MIGRATIONS.every((m, i) => m.sequencePosition === i + 1),
   MIGRATIONS.map((m) => `${m.sequencePosition}:${m.phase}`).join(' ')
 );
@@ -143,6 +143,11 @@ try {
     [50, `exists (select 1 from pg_constraint where conname = 'packet_render_jobs_eligible_requires_accounting_check')`],
     [51, `to_regprocedure('public.consumer_packet_payment_valid(uuid)') is not null`],
     [52, `to_regprocedure('public.consumer_packet_payment_authority(uuid, uuid)') is not null`],
+    // Phase 53's marker is the SIGNATURE: the bound 15-argument form present and
+    // the old unbound 13-argument form gone. A database carrying both would let
+    // an unbound consumer job be created, which is the shape phase 53 removes.
+    [53, `to_regprocedure('public.enqueue_packet_render_job(uuid, text, text, text, text, text, text, text, uuid, uuid, uuid, uuid, integer, uuid, uuid)') is not null
+          and to_regprocedure('public.enqueue_packet_render_job(uuid, text, text, text, text, text, text, text, uuid, uuid, uuid, uuid, integer)') is null`],
   ];
   for (const [phase, expr] of MARKERS) {
     check(`M${phase}`, `phase ${phase} is present in the database`, b(db.scalar(`select ${expr}`)), `${expr} is false`);
@@ -251,7 +256,7 @@ try {
       seq += 1;
       const packet = first(db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`));
       const id = first(db.scalar(
-        `select id from enqueue_packet_render_job('${packet}','MS:x','packet_document_v1','1.0.0',null,'MS','1.3.0','${SHA(`ev-${seq}`)}',${it ? `'${it}'` : 'null'},${partner ? `'${partner}'` : 'null'},'${P}','${matter}',5)`));
+        `select id from enqueue_packet_render_job('${packet}','MS:x','packet_document_v1','1.0.0',null,'MS','1.3.0','${SHA(`ev-${seq}`)}',${it ? `'${it}'` : 'null'},${partner ? `'${partner}'` : 'null'},'${P}','${matter}',5,${it ? `'${it}'` : 'null'},${it ? `'${user}'` : 'null'})`));
       if (it) db.sql(`update packet_render_jobs set consumer_briefcase_item_id='${it}', consumer_auth_user_id='${user}' where id='${id}'`);
       return id;
     };

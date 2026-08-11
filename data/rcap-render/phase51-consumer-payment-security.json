@@ -1,129 +1,156 @@
 {
-  "schemaVersion": "rcap-phase51-consumer-payment-security/v1",
+  "schemaVersion": "rcap-phase51-consumer-payment-security/v2",
   "generatedBy": "scripts/verify-rcap-phase51-consumer-payment-security.mjs",
   "lane": "consumer-payment-gate-adversarial-audit",
+  "auditedCommit": "13e356c49bd484e6f946ba604076718d904bca86",
   "migrationSequence": [
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
     "supabase/phase-28-consumer-packet-generation-status.sql",
     "supabase/phase-49-rcap-packet-render-jobs.sql",
     "supabase/phase-50-rcap-packet-delivery-hardening.sql",
-    "supabase/phase-51-rcap-consumer-payment-gate.sql"
+    "supabase/phase-51-rcap-consumer-payment-gate.sql",
+    "supabase/phase-52-rcap-consumer-payment-authority.sql"
   ],
   "totals": {
-    "gateCases": 17,
-    "gatePassed": 13,
-    "gateFailed": 4,
+    "gateCases": 19,
+    "gatePassed": 19,
+    "reachCases": 3,
+    "reachPassed": 0,
     "mutations": 3,
     "mutationsPassed": 3
   },
   "gateCases": [
     {
       "id": "G1",
-      "title": "an authenticated participant cannot self-declare payment",
-      "expectation": "the UPDATE is refused, or payment_status/amount are unchanged",
-      "passed": false,
-      "observed": "participant wrote payment_status/amount = paid/5000",
-      "severity": "critical"
-    },
-    {
-      "id": "G1b",
-      "title": "a self-declared payment does not open delivery",
-      "expectation": "accounting_result consumer_payment_required, eligibility accounting_blocked",
-      "passed": false,
-      "observed": "accounting_result=zero_charge eligibility=eligible",
+      "title": "a participant cannot UPDATE payment columns",
+      "expectation": "permission denied",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table consumer_briefcase_items",
       "severity": "critical"
     },
     {
       "id": "G2",
-      "title": "payment_status='unpaid' amount=5000 fails closed",
-      "expectation": "consumer_payment_required / accounting_blocked",
+      "title": "a participant cannot INSERT a row already marked paid",
+      "expectation": "permission denied",
       "passed": true,
-      "observed": "accounting_result=consumer_payment_required eligibility=accounting_blocked",
-      "severity": null
+      "observed": "ERROR:  permission denied for table consumer_briefcase_items",
+      "severity": "critical"
     },
     {
       "id": "G3",
-      "title": "payment_status='refunded' amount=5000 fails closed",
-      "expectation": "consumer_payment_required / accounting_blocked",
+      "title": "safe nonpayment participant INSERT and UPDATE still work",
+      "expectation": "the participant creates and edits their own non-payment fields",
       "passed": true,
-      "observed": "accounting_result=consumer_payment_required eligibility=accounting_blocked",
+      "observed": "TX/waiting",
       "severity": null
     },
     {
       "id": "G4",
-      "title": "payment_status='not_applicable' amount=5000 fails closed",
-      "expectation": "consumer_payment_required / accounting_blocked",
+      "title": "payment is recorded only through record_consumer_packet_payment under service role",
+      "expectation": "authenticated is denied EXECUTE; service_role records paid",
       "passed": true,
-      "observed": "accounting_result=consumer_payment_required eligibility=accounting_blocked",
+      "observed": "authenticated=ERROR:  permission denied for function record_consumer_packet_payment | service_role=recorded_paid",
       "severity": null
     },
     {
       "id": "G5",
-      "title": "payment_status='paid' amount=null fails closed",
-      "expectation": "consumer_payment_required / accounting_blocked",
+      "title": "a Phase-51-shaped paid row without the Phase 52 fields cannot exist",
+      "expectation": "the paid_requires_server_evidence constraint refuses it",
       "passed": true,
-      "observed": "accounting_result=consumer_payment_required eligibility=accounting_blocked",
+      "observed": "ERROR:  new row for relation \"consumer_briefcase_items\" violates check constraint \"consumer_briefcase_items_paid_requires_server_evidence\"",
       "severity": null
     },
     {
       "id": "G6",
-      "title": "an amount below the canonical $50 cannot be stored",
-      "expectation": "the phase-27 CHECK rejects amount_cents <> 5000",
+      "title": "participant A cannot spend participant B's payment",
+      "expectation": "consumer_payment_owner_mismatch / accounting_blocked",
       "passed": true,
-      "observed": "rejected by check constraint",
-      "severity": null
+      "observed": "consumer_payment_owner_mismatch / accounting_blocked",
+      "severity": "high"
     },
     {
       "id": "G7",
-      "title": "a job with no briefcase item fails closed",
-      "expectation": "consumer_payment_required / accounting_blocked",
+      "title": "a genuinely paid, owned item opens delivery once",
+      "expectation": "zero_charge / eligible",
       "passed": true,
-      "observed": "accounting_result=consumer_payment_required eligibility=accounting_blocked",
+      "observed": "zero_charge / eligible",
       "severity": null
     },
     {
       "id": "G8",
-      "title": "a genuinely paid item opens delivery as zero_charge",
-      "expectation": "zero_charge / eligible",
+      "title": "the same payment cannot authorize a second matter",
+      "expectation": "consumer_payment_matter_conflict / accounting_blocked",
       "passed": true,
-      "observed": "accounting_result=zero_charge eligibility=eligible",
-      "severity": null
+      "observed": "consumer_payment_matter_conflict / accounting_blocked",
+      "severity": "high"
     },
     {
       "id": "G9",
-      "title": "a paid consumer packet consumes no partner credit",
-      "expectation": "one zero_charge ledger row with null entitlement and null partner",
+      "title": "same item, person and matter remains idempotently eligible",
+      "expectation": "zero_charge / eligible with exactly one consumption row",
+      "passed": true,
+      "observed": "zero_charge / eligible, consumption rows=1",
+      "severity": null
+    },
+    {
+      "id": "G10",
+      "title": "a missing or non-USD currency cannot become a payment",
+      "expectation": "the RPC refuses both, and the item never becomes deliverable",
+      "passed": true,
+      "observed": "eur=invalid_payment_evidence null=invalid_payment_evidence finalize=consumer_payment_required",
+      "severity": null
+    },
+    {
+      "id": "G11",
+      "title": "a payment with no provider receipt or no server authority fails",
+      "expectation": "the RPC refuses both, and the item never becomes deliverable",
+      "passed": true,
+      "observed": "no_event=invalid_payment_evidence bad_authority=invalid_authority finalize=consumer_payment_required",
+      "severity": null
+    },
+    {
+      "id": "G12",
+      "title": "a refund before finalization blocks delivery",
+      "expectation": "consumer_payment_required / accounting_blocked",
+      "passed": true,
+      "observed": "consumer_payment_required / accounting_blocked",
+      "severity": null
+    },
+    {
+      "id": "G13",
+      "title": "sponsored accounting is unchanged by the consumer gate",
+      "expectation": "consumed / eligible against a real entitlement",
+      "passed": true,
+      "observed": "consumed / eligible ledger={\"event_type\":\"consumed\",\"has_entitlement\":true}",
+      "severity": null
+    },
+    {
+      "id": "G14",
+      "title": "a paid consumer packet consumes no partner packet credit",
+      "expectation": "one zero_charge row with null entitlement and null partner",
       "passed": true,
       "observed": "{\"event_type\":\"zero_charge\",\"entitlement_id\":null,\"partner_id\":null}",
       "severity": null
     },
     {
-      "id": "G10",
-      "title": "repeat download requires no new payment and consumes nothing",
-      "expectation": "the ledger row count is unchanged across repeated deliveries",
+      "id": "G15",
+      "title": "repeat download requires neither another payment nor another ledger event",
+      "expectation": "the ledger row count is unchanged",
       "passed": true,
-      "observed": "ledger rows before=1 after=1",
+      "observed": "before=1 after=1",
       "severity": null
     },
     {
-      "id": "G11",
-      "title": "one paid item cannot authorize a second distinct matter",
-      "expectation": "the second matter is refused (consumer_payment_required)",
-      "passed": false,
-      "observed": "second matter on the same paid item -> accounting_result=zero_charge eligibility=eligible",
-      "severity": "high"
+      "id": "G16",
+      "title": "a uniqueness conflict is typed, and never strands a job in validating",
+      "expectation": "the conflicted job is artifact_validated with a typed blocked result",
+      "passed": true,
+      "observed": "status=artifact_validated result=consumer_payment_matter_conflict",
+      "severity": null
     },
     {
-      "id": "G12",
-      "title": "participant B's payment cannot authorize a job for participant A",
-      "expectation": "the gate refuses a payment owned by a different participant",
-      "passed": false,
-      "observed": "job bound to B's paid item -> accounting_result=zero_charge eligibility=eligible",
-      "severity": "high"
-    },
-    {
-      "id": "G13",
+      "id": "G17",
       "title": "a payment-blocked job cannot record any delivery event",
       "expectation": "record_packet_delivery_event refuses a non-eligible job",
       "passed": true,
@@ -131,54 +158,77 @@
       "severity": null
     },
     {
-      "id": "G14",
-      "title": "a sponsored packet is not forced through the consumer gate",
-      "expectation": "consumed / eligible with a partner ledger row",
+      "id": "G18",
+      "title": "a job with no briefcase item fails closed",
+      "expectation": "consumer_payment_required / accounting_blocked",
       "passed": true,
-      "observed": "accounting_result=consumed eligibility=eligible",
+      "observed": "consumer_payment_required / accounting_blocked",
       "severity": null
     },
     {
-      "id": "G15",
-      "title": "the sponsored packet consumed partner credit, not a consumer zero_charge",
-      "expectation": "event_type consumed against a real entitlement",
-      "passed": true,
-      "observed": "{\"event_type\":\"consumed\",\"has_entitlement\":true}",
-      "severity": null
-    },
-    {
-      "id": "G16",
+      "id": "G19",
       "title": "a schema with no consumer payment storage fails closed",
       "expectation": "consumer_payment_required, not a crash and not a pass",
       "passed": true,
-      "observed": "accounting_result=consumer_payment_required eligibility=accounting_blocked",
+      "observed": "consumer_payment_required / accounting_blocked",
       "severity": null
+    }
+  ],
+  "reachCases": [
+    {
+      "id": "R1",
+      "title": "enqueue_packet_render_job accepts the consumer binding",
+      "expectation": "p_consumer_auth_user_id (and item) are parameters of the only sanctioned insert path",
+      "passed": false,
+      "observed": "signature has no consumer binding: p_packet_id uuid, p_route_id text, p_renderer_kind text, p_renderer_version text, p_source_sha256 text, p_profile_id text, p_profile_version text, p_input_hash text, p_briefcase_item_id uuid, p_partner_id uuid, p_person_id uuid, p_matter_id uuid, p_max_attempts integer",
+      "severity": "high"
+    },
+    {
+      "id": "R2",
+      "title": "some runtime role can populate the binding",
+      "expectation": "service_role (or another runtime role) holds UPDATE on packet_render_jobs",
+      "passed": false,
+      "observed": "service_role UPDATE on packet_render_jobs = f (phase 50 revoked it)",
+      "severity": "high"
+    },
+    {
+      "id": "R3",
+      "title": "a genuinely paid consumer is served through sanctioned paths only",
+      "expectation": "zero_charge / eligible",
+      "passed": false,
+      "observed": "payment=recorded_paid, job consumer_auth_user_id=NULL, finalize=consumer_payment_required / accounting_blocked",
+      "severity": "high"
     }
   ],
   "mutations": [
     {
       "id": "M1",
-      "title": "without Phase 51 an unpaid consumer packet becomes deliverable",
+      "title": "without phases 51/52 an unpaid consumer packet is deliverable",
+      "expectation": "zero_charge / eligible on 49+50 alone",
       "passed": true,
-      "observed": "accounting_result=zero_charge eligibility=eligible"
+      "observed": "zero_charge / eligible",
+      "severity": null
     },
     {
       "id": "M2",
-      "title": "weakening the amount check opens a paid row carrying no amount",
+      "title": "weakening the amount and currency clause opens an underpaid row",
+      "expectation": "zero_charge / eligible once the clause is gone",
       "passed": true,
-      "observed": "accounting_result=zero_charge eligibility=eligible"
+      "observed": "zero_charge / eligible",
+      "severity": null
     },
     {
       "id": "M3",
       "title": "deleting the gate makes an unpaid packet deliverable",
+      "expectation": "zero_charge / eligible",
       "passed": true,
-      "observed": "accounting_result=zero_charge eligibility=eligible"
+      "observed": "zero_charge / eligible",
+      "severity": null
     }
   ],
   "notes": [
-    "consumer_briefcase_items has no currency column, so requirement 8's currency clause is not represented in the schema.",
-    "payment_status admits only not_applicable, unpaid, paid, refunded. pending, failed, canceled and disputed cannot be stored, so those cases are structurally unreachable rather than gated.",
-    "amount_cents carries a CHECK of 5000 or null, so a lower amount cannot be persisted at all.",
-    "Post-delivery refund behaviour is a product-policy question and is deliberately not asserted here; the pre-delivery refunded case is G3."
+    "Phase 51's four proven failures (G1, G1b, G11, G12) are closed by Phase 52: G1/G2 permission denied, G6 owner mismatch, G8 matter conflict.",
+    "Gate cases write the Phase 52 consumer binding as the table owner so the gate logic is exercised on its intended inputs. The REACH section tests whether any runtime path can supply that binding.",
+    "Post-delivery refund remains a product-policy question and is not asserted here; the pre-finalization refunded case is G12."
   ]
 }

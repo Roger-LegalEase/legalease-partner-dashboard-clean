@@ -51,6 +51,7 @@ try {
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
 
   db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-53-rcap-consumer-job-binding.sql"));
   db.sql(`insert into partner_records (id, partner_slug) values ('${P1}','we-must-vote')`);
   db.sql(`insert into rcap_persons (id, partner_slug, match_key) values ('${PERSON_A}','we-must-vote','a')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap) values ('${P1}', 5)`);
@@ -59,7 +60,7 @@ try {
   const packetRow = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
   const inputHash = createHash("sha256").update("authority-input").digest("hex");
   const jobId = db.scalar(
-    `select id from enqueue_packet_render_job('${packetRow}', 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${inputHash}', null, '${P1}', '${PERSON_A}', '33333333-3333-3333-3333-333333333333', 5)`
+    `select id from enqueue_packet_render_job('${packetRow}', 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${inputHash}', null, '${P1}', '${PERSON_A}', '33333333-3333-3333-3333-333333333333', 5, null, null)`
   );
   const claim = db.json(`select row_to_json(t) from (select id, fencing_token from claim_packet_render_job('w1', null, 600)) t`);
   const oldToken = claim.fencing_token;
@@ -112,7 +113,7 @@ try {
   const packet2 = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
   const hash2 = createHash("sha256").update("authority-input-2").digest("hex");
   const job2 = db.scalar(
-    `select id from enqueue_packet_render_job('${packet2}', 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash2}', null, '${P1}', '${PERSON_A}', '43333333-3333-3333-3333-333333333333', 5)`
+    `select id from enqueue_packet_render_job('${packet2}', 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash2}', null, '${P1}', '${PERSON_A}', '43333333-3333-3333-3333-333333333333', 5, null, null)`
   );
   const claimA = db.json(`select row_to_json(t) from (select id, fencing_token from claim_packet_render_job('wA', null, 60)) t`);
   db.sql(`update packet_render_jobs set claim_expires_at = now() - interval '1 minute' where id = '${job2}'`);

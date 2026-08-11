@@ -34,6 +34,7 @@ const SEQUENCE = [
   { phase: 50, path: 'supabase/phase-50-rcap-packet-delivery-hardening.sql', authorizationId: 'auth-2026-08-10-phase-50-packet-delivery-hardening' },
   { phase: 51, path: 'supabase/phase-51-rcap-consumer-payment-gate.sql', authorizationId: 'auth-2026-08-10-phase-51-consumer-payment-gate' },
   { phase: 52, path: 'supabase/phase-52-rcap-consumer-payment-authority.sql', authorizationId: 'auth-2026-08-11-phase-52-consumer-payment-authority' },
+  { phase: 53, path: 'supabase/phase-53-rcap-consumer-job-binding.sql', authorizationId: 'auth-2026-08-11-phase-53-consumer-job-binding' },
 ];
 
 // Exactly the paths the Dockerfile copies. Anything outside this set cannot
@@ -116,7 +117,7 @@ const REQUIRED_ENVIRONMENT = {
 const action = {
   schemaVersion: 'rcap-staging-action/v1',
   generatedBy: 'scripts/generate-rcap-staging-action.mjs',
-  id: 'staging-action-four-migrations',
+  id: 'staging-action-five-migrations',
   status: 'prepared_queued_not_authorized',
   environment: 'staging',
   note:
@@ -134,13 +135,14 @@ const action = {
   migrationsInApplyOrder: migrations,
 
   indivisibility: {
-    rule: 'Phases 51 and 52 are operationally indivisible in every environment where a consumer can be charged.',
+    rule: 'Phases 51, 52 and 53 are operationally indivisible in every environment where a consumer can be charged.',
     why:
-      'Phase 50 marks every unsponsored job zero_charge AND delivery-eligible with no payment check. Phase 51 gates that on a payment the payer can forge (RCAP-SEC-001, audit f82f842). Phase 52 is what makes the payment fact unforgeable and correctly keyed. Stopping at 50 ships free delivery; stopping at 51 ships the proven bypass.',
+      'Phase 50 marks every unsponsored job zero_charge AND delivery-eligible with no payment check. Phase 51 gates that on a payment the payer can forge (RCAP-SEC-001, audit f82f842). Phase 52 makes the payment fact unforgeable and correctly keyed. Phase 53 makes that gate reachable by binding consumer identity in the creating INSERT — without it the gate is correct and every legitimate paid consumer is refused (re-audit 25f6b09: 19 of 19 payment cases pass, 0 of 3 reachability cases). Stopping at 50 ships free delivery; stopping at 51 ships the proven bypass; stopping at 52 ships a product that takes payment and never delivers.',
     forbiddenSequences: [
       '49 alone in an environment where consumer delivery can be enabled',
       '49 -> 50 (the superseded two-migration action)',
       '49 -> 50 -> 51 (the superseded three-migration action)',
+      '49 -> 50 -> 51 -> 52 (the superseded four-migration action: correct, and unable to serve a paying consumer)',
       '51 without 52',
       '52 before 51',
       'any renamed or replacement sibling file whose bytes are not pinned above',
@@ -155,7 +157,7 @@ const action = {
   // prose in a runbook that can drift from it.
   executionOrder: [
     { step: 1, action: 'Confirm consumer packet delivery and checkout are disabled', gate: 'featureFlagState proves both are off before anything else runs' },
-    { step: 2, action: 'Deploy the application at applicationDeploymentSha', requires: ['record_consumer_packet_payment present', 'service-role payment writer wired', 'Phase 52-compatible payment-adapter calls', 'Phase 52-compatible enqueue fields (consumer_briefcase_item_id, consumer_auth_user_id, person_id, matter_id)', 'Phase 52-compatible finalization behaviour'] },
+    { step: 2, action: 'Deploy the application at applicationDeploymentSha', requires: ['record_consumer_packet_payment present', 'service-role payment writer wired', 'consumer checkout writes payment facts through record_consumer_packet_payment', 'consumer enqueue calls the 15-argument Phase 53 signature', 'the server passes the authenticated user identity and the Briefcase item identity, never client input', 'no deployed application calls the old 13-argument unbound signature', 'Phase 52-compatible finalization behaviour'] },
     { step: 3, action: 'Verify the deployed application is connected to the staging project, not production', gate: 'connection check names stagingSupabaseProject' },
     { step: 4, action: 'Apply 49 -> 50 -> 51 -> 52 as one controlled sequence', gate: 'all four hashes match at apply time' },
     { step: 5, action: 'Verify database objects, grants, functions and policies', gate: 'scripts/verify-rcap-migration-apply-evidence.mjs passes against the staging project' },
@@ -206,6 +208,7 @@ const action = {
   supersedes: [
     { id: 'staging-action-two-migrations', was: 'Apply phases 49 and 50 to staging', reason: 'Phase 50 alone marks every unsponsored job delivery-eligible with no payment check.' },
     { id: 'staging-action-three-migrations', was: 'Apply phases 49, 50 and 51 to staging', reason: 'Phase 51 as written is bypassable by the payer (RCAP-SEC-001).' },
+    { id: 'staging-action-four-migrations', was: 'Apply phases 49, 50, 51 and 52 to staging', reason: 'Phase 52 closes the bypass but leaves the gate unreachable through the sanctioned enqueue path; a legitimate paid consumer is refused. Phase 53 must be applied in the same window.' },
   ],
 
   authorizes: [],

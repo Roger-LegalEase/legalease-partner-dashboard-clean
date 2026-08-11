@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "rcap-phase53-consumer-job-binding/v1",
+  "generatedBy": "scripts/verify-rcap-phase53-consumer-job-binding.mjs",
+  "lane": "consumer-job-binding-reachability",
+  "migrationSequence": [
+    "supabase/phase-26-consumer-briefcase-items.sql",
+    "supabase/phase-27-consumer-checkout-metadata.sql",
+    "supabase/phase-28-consumer-packet-generation-status.sql",
+    "supabase/phase-49-rcap-packet-render-jobs.sql",
+    "supabase/phase-50-rcap-packet-delivery-hardening.sql",
+    "supabase/phase-51-rcap-consumer-payment-gate.sql",
+    "supabase/phase-52-rcap-consumer-payment-authority.sql",
+    "supabase/phase-53-rcap-consumer-job-binding.sql"
+  ],
+  "closes": {
+    "audit": "data/rcap-render/phase51-consumer-payment-security.json",
+    "auditCommit": "25f6b09",
+    "reachCasesWere": "0 of 3"
+  },
+  "totals": {
+    "cases": 24,
+    "passed": 24,
+    "failed": 0
+  },
+  "cases": [
+    {
+      "id": "R1",
+      "title": "a paid, server-authoritative Briefcase item passes through sanctioned enqueue",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R2",
+      "title": "the created job carries item, consumer, person and matter",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R3",
+      "title": "finalization reaches zero_charge and eligible for the legitimate paid consumer",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R4",
+      "title": "a missing consumer item is rejected at enqueue",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R5",
+      "title": "an item owned by another authenticated user is rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R6",
+      "title": "a spoofed expected user id is rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R7a",
+      "title": "an unsponsored request with no consumer item is rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R7b",
+      "title": "an unsponsored request with no expected user is rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R7c",
+      "title": "an unsponsored request with no matter is rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R8",
+      "title": "an unbound legacy consumer job remains blocked by Phase 52",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R9",
+      "title": "sponsored enqueue remains valid with null consumer fields",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R9b",
+      "title": "a sponsored job carrying consumer bindings is rejected",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R10-participant",
+      "title": "participant cannot mutate the binding after insert",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R10-service_role",
+      "title": "service_role cannot mutate the binding after insert",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R10-anon",
+      "title": "anon cannot mutate the binding after insert",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R10-owner",
+      "title": "even the table owner cannot re-point the binding",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R11",
+      "title": "the old 13-argument unbound signature no longer resolves",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R11b",
+      "title": "exactly one enqueue signature exists",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R12",
+      "title": "same item, user, person and matter remains idempotent",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "R13",
+      "title": "the same payment on a different matter remains accounting_blocked",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "G-anon",
+      "title": "anon cannot execute the bound enqueue",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "G-authenticated",
+      "title": "authenticated cannot execute the bound enqueue",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "G-service",
+      "title": "service_role can execute the bound enqueue",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "G-searchpath",
+      "title": "the bound enqueue pins search_path",
+      "passed": true,
+      "observed": null
+    }
+  ]
+}

@@ -24,11 +24,16 @@
       "phase": 52,
       "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
       "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    {
+      "phase": 53,
+      "path": "supabase/phase-53-rcap-consumer-job-binding.sql",
+      "sha256": "469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f"
     }
   ],
   "totals": {
-    "checks": 30,
-    "passed": 29,
+    "checks": 32,
+    "passed": 31,
     "failed": 1
   },
   "checks": [
@@ -57,8 +62,14 @@
       "observed": "disk=c906068f7800 action=ffffffffffff authorization=c906068f7800"
     },
     {
+      "id": "A53",
+      "title": "phase 53 authorization path and bytes still match",
+      "passed": true,
+      "observed": null
+    },
+    {
       "id": "A-order",
-      "title": "the apply order is exactly 49 -> 50 -> 51 -> 52",
+      "title": "the apply order is exactly 49 -> 50 -> 51 -> 52 -> 53",
       "passed": true,
       "observed": null
     },
@@ -83,6 +94,12 @@
     {
       "id": "M52",
       "title": "phase 52 is present in the database",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "M53",
+      "title": "phase 53 is present in the database",
       "passed": true,
       "observed": null
     },

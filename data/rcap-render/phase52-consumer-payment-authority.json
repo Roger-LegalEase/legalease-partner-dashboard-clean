@@ -20,8 +20,8 @@
   },
   "totals": {
     "cases": 32,
-    "passed": 31,
-    "failed": 1
+    "passed": 32,
+    "failed": 0
   },
   "cases": [
     {
@@ -64,31 +64,31 @@
       "id": "R10-amount",
       "title": "a payment that is not 5000 cents is refused",
       "passed": true,
-      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"8489de6b-239c-4975-925c-a2c2f9e4358b\",\"provider_event_id\":null}"
+      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"103f4496-a836-4a51-9a80-874c6aa6a188\",\"provider_event_id\":null}"
     },
     {
       "id": "R10-currency",
       "title": "a payment that is not USD is refused",
       "passed": true,
-      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"8489de6b-239c-4975-925c-a2c2f9e4358b\",\"provider_event_id\":null}"
+      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"103f4496-a836-4a51-9a80-874c6aa6a188\",\"provider_event_id\":null}"
     },
     {
       "id": "R10-evidence",
       "title": "a payment with no provider receipt is refused",
       "passed": true,
-      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"8489de6b-239c-4975-925c-a2c2f9e4358b\",\"provider_event_id\":null}"
+      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"103f4496-a836-4a51-9a80-874c6aa6a188\",\"provider_event_id\":null}"
     },
     {
       "id": "R3-record",
       "title": "the server path records a valid payment",
       "passed": true,
-      "observed": "{\"outcome\":\"recorded_paid\",\"briefcase_item_id\":\"8489de6b-239c-4975-925c-a2c2f9e4358b\",\"provider_event_id\":\"evt_A\"}"
+      "observed": "{\"outcome\":\"recorded_paid\",\"briefcase_item_id\":\"103f4496-a836-4a51-9a80-874c6aa6a188\",\"provider_event_id\":\"evt_A\"}"
     },
     {
       "id": "R10-receipt-unique",
       "title": "a replayed provider receipt is a typed refusal, not a second authorization",
       "passed": true,
-      "observed": "{\"outcome\":\"duplicate_provider_event\",\"briefcase_item_id\":\"db8e5f0f-f834-4c22-804e-7f0e946d0f7d\",\"provider_event_id\":\"evt_A\"}"
+      "observed": "{\"outcome\":\"duplicate_provider_event\",\"briefcase_item_id\":\"7162fd89-59e6-401a-acff-5321a6da3130\",\"provider_event_id\":\"evt_A\"}"
     },
     {
       "id": "R4-immutable-item",
@@ -118,7 +118,7 @@
       "id": "R6-first",
       "title": "a genuinely paid, owned item opens delivery",
       "passed": true,
-      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"50d060b26e46ca3e219696a6224fa6972ef56862dc3a9e77d6c3ea3b27ace6af\",\"credit_ledger_id\":\"f4bbb367-6df7-45dd-a7ca-025eae17b3ba\"}"
+      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"6f189292a86dbe179277a94f09f5501c2f7cf6503dd71eb38d10e80903292633\",\"credit_ledger_id\":\"35443860-44fd-4db5-a0fc-21647c2431f6\"}"
     },
     {
       "id": "R6-unit",
@@ -130,13 +130,13 @@
       "id": "R7-idempotent",
       "title": "same item, same matter retries into the same authorization",
       "passed": true,
-      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"50d060b26e46ca3e219696a6224fa6972ef56862dc3a9e77d6c3ea3b27ace6af\",\"credit_ledger_id\":\"f4bbb367-6df7-45dd-a7ca-025eae17b3ba\"} ledgerRows=1"
+      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"6f189292a86dbe179277a94f09f5501c2f7cf6503dd71eb38d10e80903292633\",\"credit_ledger_id\":\"35443860-44fd-4db5-a0fc-21647c2431f6\"} ledgerRows=1"
     },
     {
       "id": "R6-keyed-on-item",
       "title": "the consumption unit is derived from the item, receipt and matter — not the job id",
       "passed": true,
-      "observed": "recorded=50d060b26e46ca3e219696a6224fa6972ef56862dc3a9e77d6c3ea3b27ace6af expected=50d060b26e46ca3e219696a6224fa6972ef56862dc3a9e77d6c3ea3b27ace6af"
+      "observed": "recorded=6f189292a86dbe179277a94f09f5501c2f7cf6503dd71eb38d10e80903292633 expected=6f189292a86dbe179277a94f09f5501c2f7cf6503dd71eb38d10e80903292633"
     },
     {
       "id": "R6-item-unique-index",
@@ -154,7 +154,7 @@
       "id": "R8-G11",
       "title": "one paid item cannot authorize a second distinct matter",
       "passed": true,
-      "observed": "{\"accounting_result\":\"consumer_payment_matter_conflict\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":\"ea937269ddb38a3027367c85af1ed0bc2c28323714d48606ded1f4db21ccfcfd\",\"credit_ledger_id\":null}"
+      "observed": "{\"accounting_result\":\"consumer_payment_matter_conflict\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":\"e53f119910dfb2edd137a566cfeaab7f368a6fa8d46a716b72080db842e7f9ad\",\"credit_ledger_id\":null}"
     },
     {
       "id": "R9-not-stranded",
@@ -166,7 +166,7 @@
       "id": "R10-forged-row",
       "title": "a paid row with no server evidence is refused by the table constraint",
       "passed": true,
-      "observed": "ERROR:  new row for relation \"consumer_briefcase_items\" violates check constraint \"consumer_briefcase_items_paid_requires_server_evidence\"\nDETAIL:  Failing row contains (e8ac85cd-2f8e-411b-91b1-823d12512b99, aaaaaaaa-0000-0000-0000-00000000000a, packet, MS, null, null, null, f, packet_ready, {}, [], {}, paid, not_started, null, null, 2026-08-11 11:34:24.123935+00, 2026-08-11 11:34:24.123935+00, null, null, null, 5000, null, usd, null, null, null, null).\n"
+      "observed": "ERROR:  new row for relation \"consumer_briefcase_items\" violates check constraint \"consumer_briefcase_items_paid_requires_server_evidence\"\nDETAIL:  Failing row contains (3840d22e-5e25-48ba-8e99-aac4bb3d38f0, aaaaaaaa-0000-0000-0000-00000000000a, packet, MS, null, null, null, f, packet_ready, {}, [], {}, paid, not_started, null, null, 2026-08-11 12:11:12.963568+00, 2026-08-11 12:11:12.963568+00, null, null, null, 5000, null, usd, null, null, null, null).\n"
     },
     {
       "id": "R10-probe-independent",
@@ -177,20 +177,20 @@
     {
       "id": "R11-pre-refund",
       "title": "a refund before finalization blocks delivery",
-      "passed": false,
-      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"71899011d1d692bbf6f5d83129cd511d58f7f516a693384767c0cefba14f3f4a\",\"credit_ledger_id\":\"693209af-246c-44bf-ad74-e4f8f4ba941a\"}"
+      "passed": true,
+      "observed": "{\"accounting_result\":\"consumer_payment_required\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":null,\"credit_ledger_id\":null}"
     },
     {
       "id": "R12-artifact-preserved",
       "title": "a post-delivery refund preserves the already-delivered matter",
       "passed": true,
-      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"50d060b26e46ca3e219696a6224fa6972ef56862dc3a9e77d6c3ea3b27ace6af\",\"credit_ledger_id\":\"f4bbb367-6df7-45dd-a7ca-025eae17b3ba\"}"
+      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"6f189292a86dbe179277a94f09f5501c2f7cf6503dd71eb38d10e80903292633\",\"credit_ledger_id\":\"35443860-44fd-4db5-a0fc-21647c2431f6\"}"
     },
     {
       "id": "R12-no-new-matter",
       "title": "a refunded payment cannot authorize a new matter",
       "passed": true,
-      "observed": "{\"accounting_result\":\"consumer_payment_matter_conflict\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":\"5ca86e27bb6c2a6c54fbdc35fb71eadde76eb56a4b33fe0240157199d31464e9\",\"credit_ledger_id\":null}"
+      "observed": "{\"accounting_result\":\"consumer_payment_required\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":null,\"credit_ledger_id\":null}"
     },
     {
       "id": "R12-no-first-render",
@@ -202,7 +202,7 @@
       "id": "R13-sponsored",
       "title": "a sponsored packet still consumes partner credit, unchanged",
       "passed": true,
-      "observed": "{\"accounting_result\":\"consumed\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"0d7a6995e1306fda016d4b646ee207552f6f5cf7fcde0467160a7631f4ecb681\",\"credit_ledger_id\":\"662bab65-8c1c-4a78-b553-af9defa65ab6\"} ledger={\"event_type\":\"consumed\",\"has_entitlement\":true}"
+      "observed": "{\"accounting_result\":\"consumed\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"3a932b2966e8cbc62fc5da29baf1989c3fc564d58025207f5690ef0ac83ef777\",\"credit_ledger_id\":\"7f4880bf-ba19-469a-83bb-03ec0e9da732\"} ledger={\"event_type\":\"consumed\",\"has_entitlement\":true}"
     },
     {
       "id": "R11-unpaid",

@@ -219,7 +219,7 @@ function enqueue({ matter, maxAttempts = 5 }) {
   const packetRow = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
   return db
     .scalar(
-      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', '${BRIEFCASE_ITEM}', '${P1}', '${PERSON_A}', '${matter}', ${maxAttempts})`
+      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', '${BRIEFCASE_ITEM}', '${P1}', '${PERSON_A}', '${matter}', ${maxAttempts}, null, null)`
     )
     .trim();
 }
@@ -247,6 +247,7 @@ try {
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-53-rcap-consumer-job-binding.sql"));
   db.sql(`insert into partner_records values ('${P1}','we-must-vote')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 10, false, 0)`);

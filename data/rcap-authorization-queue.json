@@ -305,6 +305,62 @@
           "G12"
         ]
       }
+    },
+    {
+      "id": "auth-2026-08-11-phase-53-consumer-job-binding",
+      "kind": "migration",
+      "title": "Apply phase-53 consumer job binding (after phases 49, 50, 51 and 52)",
+      "artifacts": [
+        "supabase/phase-53-rcap-consumer-job-binding.sql"
+      ],
+      "status": "authorized_scoped",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Roger Roman (Phase 53 directive: bind consumer identity in the original job INSERT; no post-insert binding RPC, no unbound consumer job, no restored UPDATE authority) — repository integration only",
+      "authorizedAt": "2026-08-11",
+      "executedAt": null,
+      "why": "Terminal B's re-audit at 25f6b09 found the Phase 52 payment gate correct (19 of 19 cases) but unreachable (0 of 3): enqueue_packet_render_job had no parameter for the consumer binding and service_role holds no UPDATE on packet_render_jobs, so the sanctioned path produced consumer_auth_user_id null and finalization correctly refused a legitimate paid consumer. This binds identity inside the creating INSERT. It widens no authority: the gate, the grants and the immutability trigger are untouched.",
+      "risk": "medium",
+      "riskNote": "Additive to the schema but BREAKING to the function signature. The 13-argument enqueue_packet_render_job is dropped and replaced by a 15-argument form whose two consumer parameters carry no defaults, so any deployed caller still using the old arity fails with 'function does not exist' rather than silently creating an unbound job. That is the intended direction and the reason the application must be deployed before this is applied. Sponsored accounting is unchanged; the partner branch of finalization is not touched.",
+      "preconditions": [
+        "phases 49, 50, 51 and 52 applied immediately before, in the same authorized window",
+        "the deployed application already calls the 15-argument signature and derives the consumer user id from a verified server session",
+        "public.consumer_briefcase_items present — absent, a consumer job cannot be bound and enqueue refuses it"
+      ],
+      "evidence": [
+        "Applies cleanly after 26,27,28,49,50,51,52 on a fresh PostgreSQL 16 cluster",
+        "verify-rcap-phase53-consumer-job-binding: 24/24 cases including R1-R13, using sanctioned functions only and no privileged fixture write on the paid path",
+        "R11/R11b: exactly one enqueue signature exists and the old 13-argument form no longer resolves",
+        "R10: participant, service_role, anon and even the table owner cannot mutate the binding after insert",
+        "Six delivery verifiers rebuilt on 49->50->51->52->53 and passing"
+      ],
+      "rollback": "Drop the 15-argument enqueue_packet_render_job and re-create the phase-50 13-argument form, then reapply the phase-50 grant block. No data is written by this migration. Note that rolling back restores an enqueue that cannot bind consumer identity, which makes every paid consumer packet non-deliverable again.",
+      "blocks": [
+        "The staging rehearsal and any consumer packet delivery in a paid environment"
+      ],
+      "phase": 53,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-53-rcap-consumer-job-binding.sql"
+      ],
+      "authorizedSha256": [
+        "469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f"
+      ],
+      "authorizationScope": "repository_integration_only",
+      "doesNotAuthorize": [
+        "application to staging or production",
+        "any further new file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any change to the phase-49 through phase-52 files or their authorizations",
+        "publication or deployment of the worker image"
+      ],
+      "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-11 — hash-pinned to 469ece83b54ef840",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all five migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      }
     }
   ],
   "statusVocabulary": {

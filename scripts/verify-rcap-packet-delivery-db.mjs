@@ -48,13 +48,13 @@ const PERSON_A = "aaaaaaaa-1111-1111-1111-111111111111";
 const PERSON_C = "cccccccc-1111-1111-1111-111111111111";
 
 let jobSeq = 0;
-function enqueue({ partner = null, person = null, matter = null, briefcaseItem = null, maxAttempts = 5 }) {
+function enqueue({ partner = null, person = null, matter = null, briefcaseItem = null, maxAttempts = 5, consumerItem = null, consumerUser = null }) {
   jobSeq += 1;
   const hash = createHash("sha256").update(`input-${jobSeq}`).digest("hex");
   const packetRow = db.scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`);
   return db
     .scalar(
-      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', ${briefcaseItem ? `'${briefcaseItem}'` : "null"}, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, ${maxAttempts})`
+      `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', ${briefcaseItem ? `'${briefcaseItem}'` : "null"}, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, ${maxAttempts}, ${consumerItem ? `'${consumerItem}'` : "null"}, ${consumerUser ? `'${consumerUser}'` : "null"})`
     )
     .trim();
 }
@@ -104,6 +104,7 @@ try {
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-53-rcap-consumer-job-binding.sql"));
   db.sql(`insert into partner_records values ('${P1}','we-must-vote'), ('${P2}','partner-two'), ('${P3}','partner-three')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a'), ('${PERSON_C}','partner-two','c')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 2, true, 1)`);
@@ -136,7 +137,7 @@ try {
   assert(jobRow(j1).status === "validating", "case1: live token advances the job");
 
   // --- case 2: lease expiry mid-render fails retryably with backoff ---------
-  const j2 = enqueue({});
+  const j2 = enqueue({ partner: P1, person: PERSON_A, matter: "9c000000-1111-1111-1111-111111111112" });
   const c3 = claim("w3");
   assert(c3?.id === j2, "case2: claim");
   db.scalar(`select start_packet_render('${j2}', '${c3.fencing_token}')`);
@@ -153,7 +154,7 @@ try {
   drainQueuedJob(j2);
 
   // --- case 3: exhaustion is terminal, visible, manual-only ------------------
-  const j3 = enqueue({ maxAttempts: 2 });
+  const j3 = enqueue({ partner: P1, person: PERSON_A, matter: "9c000000-1111-1111-1111-111111111113", maxAttempts: 2 });
   for (let attempt = 0; attempt < 2; attempt += 1) {
     const c = claim("w4");
     assert(c?.id === j3, `case3: claim attempt ${attempt + 1}`);
@@ -332,7 +333,15 @@ try {
             ('${BC_UNPAID}', '${BC_OWNER}', 'unpaid', 5000, null, null, null, null)
           on conflict (id) do nothing`);
 
-  const j11 = enqueue({ briefcaseItem: BC_UNPAID });
+  // Phase 53 binds consumer identity at insert, so an unsponsored job without
+  // a consumer binding is now refused at enqueue rather than created and then
+  // blocked at finalize. That is the stronger property; assert it here.
+  const unboundEnqueue = db.sqlExpectError(
+    `select id from enqueue_packet_render_job((select id from rcap_document_packets limit 1), 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${SHA("9")}', null, null, null, null, 5, null, null)`);
+  assert(/requires a consumer briefcase item/.test(unboundEnqueue),
+    "case11: an unsponsored job with no consumer binding is refused at enqueue");
+
+  const j11 = enqueue({ briefcaseItem: BC_UNPAID, person: PERSON_A, matter: "b1100000-0000-4000-8000-000000000012", consumerItem: BC_UNPAID, consumerUser: BC_OWNER });
   const c11 = claim("w11");
   toValidating(j11, c11.fencing_token);
   const fin11 = finalize(j11, c11.fencing_token);
@@ -349,7 +358,7 @@ try {
   // consumer job missing any part of it is refused, so the fixture supplies all
   // four the way a real enqueue does.
   const M11 = "b1100000-0000-4000-8000-000000000011";
-  const j11b = enqueue({ briefcaseItem: BC_PAID, person: PERSON_A, matter: M11 });
+  const j11b = enqueue({ briefcaseItem: BC_PAID, person: PERSON_A, matter: M11, consumerItem: BC_PAID, consumerUser: BC_OWNER });
   db.sql(`update packet_render_jobs
              set consumer_briefcase_item_id = '${BC_PAID}', consumer_auth_user_id = '${BC_OWNER}'
            where id = '${j11b}'`);
@@ -417,7 +426,7 @@ try {
   assert(sqlHash === tsHash, `case14: TS unit hash ${tsHash.slice(0, 12)}… != SQL ${sqlHash.slice(0, 12)}…`);
 
   // --- case 17: the storage path must bind job identity ---------------------
-  const j17 = enqueue({});
+  const j17 = enqueue({ partner: P1, person: PERSON_A, matter: "9c000000-1111-1111-1111-111111111117" });
   const c17 = claim("w17");
   toValidating(j17, c17.fencing_token);
   const badPath = db.sqlExpectError(
