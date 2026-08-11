@@ -1398,6 +1398,13 @@
       "decidedBy": "captain",
       "sourceCommit": "1d71919d605edb966084f3b18abc0f2658602b34",
       "laneOwned": true
+    },
+    "verify-rcap-consumer-person-namespace.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the eight properties the reserved consumer person namespace depends on, against a real cluster. Exists because packet_render_jobs.person_id is a FK to a partner-shaped table and the absence of a foreign key on partner_slug makes the namespace possible, not safe. N2 is deliberately scoped to what is true: rcap_persons carries no table-level RLS, so the proof is that partner-scoped reads cannot return consumer persons and consumer rows carry no account identifier.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "openItemForOwner": "Table-level RLS on rcap_persons is absent and predates the consumer namespace. Adding it is a Supabase RLS change and requires Roger's authorization."
     }
   }
 }

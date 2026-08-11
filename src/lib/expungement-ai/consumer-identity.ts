@@ -36,6 +36,7 @@ export const CONSUMER_PERSON_NAMESPACE = "expungement-ai-consumer";
 
 /** Fixed namespace seeds. Changing either would re-identify existing rows. */
 const MATTER_NAMESPACE = "rcap:consumer-matter:v1";
+const PERSON_MATCH_NAMESPACE = "rcap:consumer-person:v1";
 
 function deterministicUuid(seed: string): string {
   const h = createHash("sha256").update(seed).digest("hex");
@@ -70,13 +71,47 @@ export type ConsumerPersonResolution =
  * carries no new PII: the match key is an opaque identifier we already hold, not
  * an email or a name.
  */
+/**
+ * The match key is a digest, not the user id.
+ *
+ * `rcap_persons` carries no row-level security of its own and no explicit
+ * grants — it has always relied on whatever default privileges the project
+ * gives `authenticated`. That was tolerable while it held partner intake
+ * identities; putting consumer rows beside them means a reader of that table
+ * should not learn WHICH account each row belongs to. A digest keeps resolution
+ * deterministic while making the stored value carry no account identifier.
+ *
+ * This is a mitigation, not a substitute for table-level RLS on `rcap_persons`,
+ * which is Roger's to authorize.
+ */
+export function consumerPersonMatchKey(authUserId: string): string {
+  return `consumer:${createHash("sha256").update(`${PERSON_MATCH_NAMESPACE}:${authUserId}`).digest("hex")}`;
+}
+
 export async function resolveConsumerPersonId(authUserId: string): Promise<ConsumerPersonResolution> {
   if (!authUserId) return { ok: false, reason: "an authenticated user id is required" };
 
   const supabase = getSupabaseAdminClient();
   if (!supabase) return { ok: false, reason: "the service-role Supabase client is not configured" };
 
-  const matchKey = `auth_user:${authUserId}`;
+  // The reserved namespace is only reserved if nothing else claims it. A real
+  // partner registered under this slug would put consumer people inside a
+  // partner's keyspace, where partner-scoped queries would find them — so this
+  // fails closed rather than trusting the name to stay unused.
+  const collision = await supabase
+    .from("partner_records")
+    .select("partner_slug")
+    .eq("partner_slug", CONSUMER_PERSON_NAMESPACE)
+    .maybeSingle<{ partner_slug: string }>();
+
+  if (collision.data?.partner_slug) {
+    return {
+      ok: false,
+      reason: `the reserved consumer namespace ${CONSUMER_PERSON_NAMESPACE} collides with a registered partner slug`
+    };
+  }
+
+  const matchKey = consumerPersonMatchKey(authUserId);
 
   const existing = await supabase
     .from("rcap_persons")

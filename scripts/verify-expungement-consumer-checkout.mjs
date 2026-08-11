@@ -76,7 +76,14 @@ assert(paymentAdapter.includes("isConsumerCheckoutDryRunEnabled"), "Checkout mus
 assert(paymentAdapter.includes('EXPUNGEMENT_AI_CHECKOUT_DRY_RUN === "true"'), "Dry-run checkout must require EXPUNGEMENT_AI_CHECKOUT_DRY_RUN=true.");
 assert(paymentAdapter.includes("!isProductionRuntime()"), "Dry-run checkout must be impossible in production runtime.");
 assert(paymentAdapter.includes("ConsumerCheckoutTemporarilyUnavailableError"), "Missing Stripe config must fail closed with a temporary-unavailable error.");
-assert(paymentAdapter.includes('packetStatus: item.packetStatus === "ready" ? "ready" : "pending"'), "Payment confirmation must not mark packets ready before artifact generation.");
+// The packet-status guard moved when the payment adapter stopped writing
+// payment facts. Its home is now the signature-verified webhook, which is the
+// only thing that records a payment at all — so it is asserted there. Asserting
+// it on the adapter would pass only while the adapter still wrote state it must
+// no longer write.
+assert(checkoutReconciliation.includes('item.packetStatus === "ready" ? "ready" : "pending"'), "Payment confirmation must not mark packets ready before artifact generation.");
+assert(!/payment_status:\s*["']paid["']/.test(paymentAdapter), "The payment adapter must not write a paid payment status; the server-only writer owns that.");
+assert(!paymentAdapter.includes("updateBriefcasePaymentMetadata("), "The participant-authenticated payment writer must not return; phase 52 revokes those columns from authenticated.");
 assert(!paymentAdapter.includes("partner_billing") && !paymentAdapter.includes("partner_billing_requests"), "Payment adapter must not touch partner billing.");
 
 assert(stripeServer.includes("isProductionRuntime"), "Stripe server helper must expose production runtime detection.");
@@ -111,7 +118,14 @@ assert(checkoutReconciliation.includes('session.metadata.user_id') && checkoutRe
 assert(checkoutReconciliation.includes('session.payment_status !== "paid"'), "Consumer Checkout webhook must require paid Checkout Sessions.");
 assert(checkoutReconciliation.includes("session.client_reference_id !== briefcaseItemId"), "Consumer Checkout webhook must validate client reference consistency.");
 assert(checkoutReconciliation.includes("getBriefcaseItemForWebhook(userId, briefcaseItemId)"), "Consumer Checkout webhook must load the owned Briefcase item.");
-assert(checkoutReconciliation.includes("updateBriefcasePaymentMetadataForWebhook"), "Consumer Checkout webhook must record Stripe payment confirmation.");
+// Payment is recorded through the service-role-only RPC, never a column write.
+// The old marker named a direct update that phase 52's paid_requires_server_evidence
+// constraint would now refuse outright, so asserting it would demand the broken shape.
+assert(checkoutReconciliation.includes("recordConsumerPacketPayment"), "Consumer Checkout webhook must record Stripe payment confirmation.");
+assert(checkoutReconciliation.includes('authority: "server_webhook"'), "Consumer Checkout webhook must record payment under the server_webhook authority.");
+assert(!/\.from\("consumer_briefcase_items"\)[\s\S]{0,200}?\.update\(/.test(checkoutReconciliation), "Consumer Checkout webhook must not write payment columns directly.");
+assert(checkoutReconciliation.includes("session.amount_total !== consumerPacketPriceCents"), "Consumer Checkout webhook must verify the charged amount against the signed event.");
+assert(checkoutReconciliation.includes("CONSUMER_PACKET_CURRENCY"), "Consumer Checkout webhook must verify the currency against the signed event.");
 assert(checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must generate the paid packet.");
 assert(checkoutReconciliation.includes("claimProcessedStripeEvent(event.id") && checkoutReconciliation.includes('return "duplicate"'), "Consumer Checkout webhook must be idempotent for duplicate deliveries.");
 assert(!checkoutReconciliation.includes("console.") && !checkoutReconciliation.includes("logSecurity"), "Consumer Checkout webhook must not log customer data, metadata values, payment IDs, or secrets.");
