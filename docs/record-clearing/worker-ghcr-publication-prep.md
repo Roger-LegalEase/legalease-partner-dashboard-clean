@@ -133,3 +133,36 @@ scaffolds live outside the repository; the repository Dockerfile built
 byte-for-byte unmodified. The local image is proof of buildability and
 runtime behavior only — the publishable bytes are produced by the GitHub
 runner, which needs no such scaffolding.
+
+## Workflow verification and start-condition audit (2026-08-11, second pass)
+
+The captain-owned workflow now exists at
+`.github/workflows/publish-rcap-render-worker.yml` on the canonical
+integration branch (verified at tip `d6310fd`), sha256
+`53a746405b5405651fe3fc259ea2a2acafb22b112065e5231506161a4ee43f0f`. Byte-level audit: every required
+invariant holds — `workflow_dispatch` only with a full-40-hex-validated
+`integration_sha` input, ancestry check against the canonical integration
+branch, exact-SHA detached checkout, `contents: read` / `packages: write`,
+canonical Dockerfile, exactly one full-SHA tag, explicitly no `latest`,
+digest output with a hard failure when the registry returns none, input
+hashes recorded, a machine-readable publication artifact, per-SHA
+concurrency guard, and no deploy / worker-start / staging / production
+step. (It relies on tag + artifact + ancestry for source-to-digest
+correspondence rather than an OCI revision label — acceptable; noted.)
+
+Publication remains blocked by the start condition, audited in this order:
+
+1. **`WORKER_SOURCE_FREEZE_SHA` is not declared** anywhere on the
+   integration tip, in tags, or in any remote branch — Terminal A2 declares
+   it after integrating B/E/F per the lane plan.
+2. **No image-input fingerprint is published** to verify against.
+3. **The workflow is not dispatchable yet**: the GitHub API returns 404 for
+   its runs because `workflow_dispatch` workflows register only from the
+   default branch. `.github/workflows/publish-rcap-render-worker.yml` must
+   land on `main` before any dispatch can happen, regardless of clearance.
+
+On declaration this lane verifies the freeze SHA is in canonical ancestry,
+re-hashes Dockerfile/lockfile/workflow at that SHA against the published
+fingerprint, dispatches with the full SHA, observes to completion, records
+the digest from the publication artifact, pulls by digest, and runs the
+startup/health/readiness/shutdown/secret battery on the pulled image.
