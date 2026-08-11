@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-staging-authorization-readiness/v1",
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
-  "note": "Authorization is NOT being requested. Phase 52 closes RCAP-SEC-001 in the repository and is hash-pinned for integration only; the finding stays open because no environment has been named or migrated. The three-migration staging action is superseded by a four-migration action, which is prepared and queued for both staging and production.",
+  "note": "Authorization is NOT being requested. The four-migration staging action is prepared and machine-derived at data/rcap-staging-action.json; the GHCR publication workflow is prepared but not run. Staging and production are both queued and no environment has been named. RCAP-SEC-001 remains open because the fix is merged, not deployed.",
   "fields": {
     "finalIntegrationSha": {
       "status": "populated",
@@ -42,7 +42,7 @@
     "workerImageSourceAndDigest": {
       "status": "blocked",
       "owner": "Roger",
-      "note": "No canonical registry or push credential exists in the repository, CI, or the authorization queue. The worker lane proved a clean build and recorded a local image ID, which is explicitly NOT a registry digest. Publication needs a registry name from Roger first."
+      "note": "Publication workflow prepared at .github/workflows/publish-rcap-render-worker.yml (sha256 53a746405b540565…). Still blocked: no digest exists until Terminal D runs it at the final accepted SHA, and a local image ID is not a registry digest."
     },
     "workerDeploymentTarget": {
       "status": "blank",
@@ -71,7 +71,7 @@
     "phase52": {
       "status": "blocked",
       "owner": "Roger",
-      "note": "supabase/phase-52-rcap-consumer-payment-authority.sql sha256 c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3, auth-2026-08-11-phase-52-consumer-payment-authority. Repository integration authorized and hash-pinned; staging queued. Must be applied in the same window as 51."
+      "note": "supabase/phase-52-rcap-consumer-payment-authority.sql sha256 c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3, auth-2026-08-11-phase-52-consumer-payment-authority. Repository integration authorized and hash-pinned; staging queued. Indivisible with phase 51."
     }
   },
   "blockers": [
@@ -101,55 +101,28 @@
     "status": "superseded",
     "supersededAt": "2026-08-11",
     "was": "Apply phases 49, 50 and 51 to staging in one authorized window.",
-    "supersededBy": "staging-action-four-migrations",
+    "supersededBy": "staging-action-four-migrations (data/rcap-staging-action.json)",
     "reason": "Phase 51 as written is bypassable by the payer (RCAP-SEC-001, audit commit f82f842). Applying 49 -> 50 -> 51 to any environment that takes payment would ship the proven bypass, so the three-migration action must not be executed in that form. Phase 52 is additive and must be applied in the same window, which makes the action a four-migration one."
   },
   "preparedStagingAction": {
     "id": "staging-action-four-migrations",
-    "status": "prepared_not_requested",
-    "preparedAt": "2026-08-11",
+    "canonicalRecord": "data/rcap-staging-action.json",
+    "generatedBy": "scripts/generate-rcap-staging-action.mjs",
+    "status": "prepared_queued_not_authorized",
+    "note": "The action itself is generated, not written here. This entry is a pointer so the readiness file and the action cannot drift; read data/rcap-staging-action.json for the migration list, hashes, execution order and preconditions.",
     "environmentsQueued": [
       "staging",
       "production"
-    ],
-    "note": "Prepared, not requested. Roger must name all four migration files AND the staging environment before this becomes an authorization request. Nothing here executes itself, and preparing it authorizes nothing.",
-    "migrationsInOrder": [
-      {
-        "phase": 49,
-        "path": "supabase/phase-49-rcap-packet-render-jobs.sql",
-        "sha256": "2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6",
-        "authorization": "auth-2026-08-10-phase-49-packet-render-jobs"
-      },
-      {
-        "phase": 50,
-        "path": "supabase/phase-50-rcap-packet-delivery-hardening.sql",
-        "sha256": "15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62",
-        "authorization": "auth-2026-08-10-phase-50-packet-delivery-hardening"
-      },
-      {
-        "phase": 51,
-        "path": "supabase/phase-51-rcap-consumer-payment-gate.sql",
-        "sha256": "3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba",
-        "authorization": "auth-2026-08-10-phase-51-consumer-payment-gate"
-      },
-      {
-        "phase": 52,
-        "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
-        "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
-        "authorization": "auth-2026-08-11-phase-52-consumer-payment-authority"
-      }
-    ],
-    "indivisible": "51 and 52 must be applied in the same window. Applying 51 without 52 ships the proven bypass; applying 52 without 51 leaves the consumer branch ungated in the phase-50 shape. Neither half is a valid stopping point.",
-    "applicationPrecondition": "The consumer checkout path must already write payments through record_consumer_packet_payment. Phase 52 revokes the participant's ability to write payment facts, so any environment taking live payments with the old write path will capture money at the provider and fail to record it.",
-    "stillBlank": [
-      "stagingSupabaseProject",
-      "applicationDeploymentTarget",
-      "workerImageSourceAndDigest",
-      "workerDeploymentTarget",
-      "featureFlag",
-      "evidencePaths",
-      "rollbackOwner",
-      "observabilityDestination"
     ]
+  },
+  "workerImagePublication": {
+    "workflow": ".github/workflows/publish-rcap-render-worker.yml",
+    "workflowSha256": "53a746405b5405651fe3fc259ea2a2acafb22b112065e5231506161a4ee43f0f",
+    "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
+    "tagPolicy": "full commit SHA only; no mutable latest or moving alias",
+    "packageVisibility": "private — Roger has not separately authorized public package visibility, so the package stays private",
+    "stagingWorkerHostReadPermission": "The staging worker host must authenticate to ghcr.io and hold read:packages for the private package ghcr.io/roger-legalease/rcap-render-worker. In practice that is a GitHub token or a GitHub App installation token with package read scope on Roger-LegalEase, supplied to the host as a registry pull secret. It must NOT be the workflow's GITHUB_TOKEN, which does not exist outside the run.",
+    "imageBytesChanged": "package.json changed between the recorded publication proof (abbc48a1) and the candidate SHA. The image bytes therefore differ from that proof and the publishable digest must be minted by a rebuild at the final accepted SHA.",
+    "owner": "Terminal D executes the publication after the final SHA is cleared; this terminal does not run it."
   }
 }

@@ -339,6 +339,7 @@ try {
     db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
 
     db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
+    db.applyFile(path.join(rootDir, "supabase/phase-53-rcap-consumer-job-binding.sql"));
     const SP1 = "b1000000-0000-4000-8000-000000000001"; // no entitlement
     const SP2 = "b1000000-0000-4000-8000-000000000002"; // expired entitlement
     const SP3 = "b1000000-0000-4000-8000-000000000003"; // active entitlement
@@ -354,19 +355,25 @@ try {
       const hash = createHash("sha256").update(`evidence-${seq}`).digest("hex");
       const packet = db.scalar("with r as (insert into rcap_document_packets default values returning id) select id from r");
       return db.scalar(
-        `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', null, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, 5)`
+        `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', null, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, 5, null, null)`
       );
     };
     // Phase 52 requirement 4: a consumer job binds item, consumer, person and
     // matter. Each call gets its own matter so one payment is never asked to
     // authorize two of them by accident.
+    // Phase 53 requires a person on a consumer job; these cases previously
+    // passed null because only the payment gate was under test.
+    const PERSON_FOR_CONSUMER = "b7000000-0000-4000-8000-00000000000f";
+    db.sql(`insert into rcap_persons (id, partner_slug, match_key)
+            values ('${PERSON_FOR_CONSUMER}', (select partner_slug from partner_records limit 1), 'p53c')
+            on conflict do nothing`);
     const enqueueConsumer = (briefcaseItemId, owner = null) => {
       seq += 1;
       const hash = createHash("sha256").update(`evidence-${seq}`).digest("hex");
       const packet = db.scalar("with r as (insert into rcap_document_packets default values returning id) select id from r");
       const matter = `b6000000-0000-4000-8000-${String(seq).padStart(12, "0")}`;
       const id = db.scalar(
-        `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', '${briefcaseItemId}', null, null, '${matter}', 5)`
+        `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', '${briefcaseItemId}', null, '${PERSON_FOR_CONSUMER}', '${matter}', 5, '${briefcaseItemId}', ${owner ? `'${owner}'` : "null"})`
       ).trim();
       if (owner) {
         db.sql(`update packet_render_jobs
@@ -413,15 +420,14 @@ try {
     // blocked — not as an error, and not as a pass. The id must be non-null
     // here or the probe's null check short-circuits and this case would prove
     // nothing about the absent-table path.
-    const j3a = enqueueConsumer("b4000000-0000-4000-8000-000000000009");
-    const f3a = finalize(j3a, driveToValidating(j3a));
-    assert(
-      f3a.accounting_result === "consumer_payment_required" && f3a.delivery_eligibility === "accounting_blocked",
-      "B3a: unsponsored job is blocked when payment cannot be proven"
-    );
-    assert(ledgerRows(j3a) === 0, "B3a: a payment-blocked job writes no ledger row of any kind");
-    const d3a = db.sqlExpectError(`select record_packet_delivery_event('${j3a}', 'delivery_authorized', null)`);
-    assert(d3a.includes("not delivery-eligible"), "B3a: delivery event refused for the payment-blocked job");
+    // Phase 53 moves this refusal earlier: on a schema with no payment table a
+    // consumer job cannot be BOUND, so it cannot be created at all. "Cannot
+    // prove payment" is now "cannot create the job", which is strictly stronger
+    // than creating it and blocking at finalization.
+    const b3aErr = db.sqlExpectError(
+      `select id from enqueue_packet_render_job((select id from rcap_document_packets limit 1), 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${"a".repeat(64)}', 'b4000000-0000-4000-8000-000000000009', null, '${PERSON_FOR_CONSUMER}', 'b6000000-0000-4000-8000-000000000099', 5, 'b4000000-0000-4000-8000-000000000009', 'b5000000-0000-4000-8000-00000000000a')`);
+    assert(/consumer payment storage is absent|does not exist/.test(b3aErr),
+      `B3a: a consumer job cannot be bound where payment storage is absent (got: ${b3aErr})`);
 
     // The consumer payment record as phases 26/27 define it. The real table
     // references auth.users, which an ephemeral cluster has no reason to carry;
@@ -452,13 +458,12 @@ try {
               ('${BC(5)}', '${BC_OWNER}', 'not_applicable', null, null, null, null, null)`);
 
     // B3b: unsponsored with no briefcase item at all.
-    const j3b = enqueue(null, null, null);
-    const f3b = finalize(j3b, driveToValidating(j3b));
-    assert(
-      f3b.accounting_result === "consumer_payment_required" && f3b.delivery_eligibility === "accounting_blocked",
-      "B3b: unsponsored job without a briefcase item is non-deliverable"
-    );
-    assert(ledgerRows(j3b) === 0, "B3b: no ledger row without a payment");
+    // Phase 53: an unsponsored job with no consumer binding is refused at
+    // enqueue, so it can no longer reach finalization to be blocked there.
+    const b3bErr = db.sqlExpectError(
+      `select id from enqueue_packet_render_job((select id from rcap_document_packets limit 1), 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${"b".repeat(64)}', null, null, null, null, 5, null, null)`);
+    assert(/requires a consumer briefcase item/.test(b3bErr),
+      "B3b: unsponsored job without a consumer binding is refused at enqueue");
 
     // B3c: every non-paying state is blocked — including a paid-but-mispriced
     // checkout, so a partial capture cannot open delivery.
@@ -534,14 +539,14 @@ try {
 
     // B6: a sponsored job cannot even be enqueued without person + matter.
     const b6 = db.sqlExpectError(
-      `select id from enqueue_packet_render_job((select id from rcap_document_packets limit 1), 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${"f".repeat(64)}', null, '${SP3}', null, null, 5)`
+      `select id from enqueue_packet_render_job((select id from rcap_document_packets limit 1), 'MS:x', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${"f".repeat(64)}', null, '${SP3}', null, null, 5, null, null)`
     );
     assert(b6.includes("packet_render_jobs_partner_identity_check"), "B6: sponsored enqueue without person/matter violates the identity constraint");
 
     evidence.accounting = {
       missing_entitlement: f1.accounting_result,
       expired_entitlement: f2.accounting_result,
-      consumer_no_payment_proof: f3a.accounting_result,
+      consumer_no_payment_proof: "refused_at_enqueue_phase_53",
       consumer_unpaid_or_refunded: "consumer_payment_required",
       consumer_paid: f3d.accounting_result,
       unit_hash_parity: f4.consumption_unit_hash === expectedHash,

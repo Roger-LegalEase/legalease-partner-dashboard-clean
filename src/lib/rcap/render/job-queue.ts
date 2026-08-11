@@ -70,16 +70,57 @@ function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
 }
 
 /**
+ * Which kind of job is being created. The two modes are a discriminated union
+ * rather than a bag of optional fields because the database refuses a job that
+ * mixes them: a sponsored job carrying consumer bindings, or an unsponsored one
+ * without them, is an error there. Modelling that here means the mistake is a
+ * type error rather than a runtime exception from Postgres.
+ */
+export type RenderJobIdentity =
+  | {
+      mode: "sponsored";
+      partnerId: string;
+      personId?: string | null;
+      matterId?: string | null;
+    }
+  | {
+      mode: "consumer";
+      /** The Briefcase item the packet is being rendered for. */
+      consumerBriefcaseItemId: string;
+      /**
+       * Derived from the VERIFIED server-side session and nothing else.
+       *
+       * This must never be read from request JSON, form data, query parameters
+       * or any other client-controlled input. The database independently loads
+       * the Briefcase item, reads its canonical owner, and refuses the insert
+       * unless the two agree — so a spoofed value cannot create a job. Passing
+       * client input here would not breach the gate, but it would turn a
+       * server-side identity check into a round-trip that only looks like one.
+       */
+      expectedConsumerAuthUserId: string;
+      personId: string;
+      matterId: string;
+    };
+
+/**
  * Idempotent by (packet_id, input_hash) inside the database function: a retry
  * of an identical request returns the live or completed job rather than
  * queueing a second one that could deliver twice.
+ *
+ * A consumer job is created with its identity bound in the same insert. There
+ * is deliberately no follow-up call that attaches the binding afterwards: the
+ * phase-52 immutability trigger exists precisely to forbid that window, and
+ * service_role holds no direct UPDATE on the table to perform it with.
  */
 export async function enqueueRenderJob(
   spec: RenderJobSpec,
-  identity: { partnerId?: string | null; personId?: string | null; matterId?: string | null } = {}
+  identity: RenderJobIdentity,
+  options: { maxAttempts?: number } = {}
 ): Promise<RenderJobRow | null> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) return null;
+
+  const sponsored = identity.mode === "sponsored";
 
   const { data, error } = await supabase.rpc("enqueue_packet_render_job", {
     p_packet_id: spec.packetId,
@@ -91,9 +132,12 @@ export async function enqueueRenderJob(
     p_profile_version: spec.profileVersion,
     p_input_hash: spec.inputHash,
     p_briefcase_item_id: spec.briefcaseItemId,
-    p_partner_id: identity.partnerId ?? null,
+    p_partner_id: sponsored ? identity.partnerId : null,
     p_person_id: identity.personId ?? null,
-    p_matter_id: identity.matterId ?? null
+    p_matter_id: identity.matterId ?? null,
+    p_max_attempts: options.maxAttempts ?? 5,
+    p_consumer_briefcase_item_id: sponsored ? null : identity.consumerBriefcaseItemId,
+    p_expected_consumer_auth_user_id: sponsored ? null : identity.expectedConsumerAuthUserId
   });
   if (error || !data) return null;
   const record = Array.isArray(data) ? data[0] : data;
