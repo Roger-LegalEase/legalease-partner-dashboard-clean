@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "rcap-phase52-consumer-payment-authority/v1",
+  "generatedBy": "scripts/verify-rcap-phase52-consumer-payment-authority.mjs",
+  "lane": "consumer-payment-authority",
+  "migrationSequence": [
+    "supabase/phase-49-rcap-packet-render-jobs.sql",
+    "supabase/phase-50-rcap-packet-delivery-hardening.sql",
+    "supabase/phase-51-rcap-consumer-payment-gate.sql",
+    "supabase/phase-52-rcap-consumer-payment-authority.sql"
+  ],
+  "closes": {
+    "audit": "data/rcap-render/phase51-consumer-payment-security.json",
+    "auditCommit": "f82f842",
+    "failuresClosed": [
+      "G1",
+      "G1b",
+      "G11",
+      "G12"
+    ]
+  },
+  "totals": {
+    "cases": 32,
+    "passed": 31,
+    "failed": 1
+  },
+  "cases": [
+    {
+      "id": "R1-G1",
+      "title": "an authenticated participant cannot self-declare payment",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table consumer_briefcase_items\n"
+    },
+    {
+      "id": "R1-anon",
+      "title": "anon cannot write a payment fact",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table consumer_briefcase_items\n"
+    },
+    {
+      "id": "R1-insert",
+      "title": "an authenticated participant cannot insert a paid item",
+      "passed": true,
+      "observed": "ERROR:  permission denied for table consumer_briefcase_items\n"
+    },
+    {
+      "id": "R2-safe-update",
+      "title": "a safe nonpayment column remains writable",
+      "passed": true,
+      "observed": ""
+    },
+    {
+      "id": "R2-safe-insert",
+      "title": "a nonpayment insert remains available",
+      "passed": true,
+      "observed": ""
+    },
+    {
+      "id": "R3-rpc-denied",
+      "title": "the payment RPC is not reachable by an authenticated participant",
+      "passed": true,
+      "observed": "ERROR:  permission denied for function record_consumer_packet_payment\n"
+    },
+    {
+      "id": "R10-amount",
+      "title": "a payment that is not 5000 cents is refused",
+      "passed": true,
+      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"c4d1c817-f393-4715-978e-0b2506e0f2da\",\"provider_event_id\":null}"
+    },
+    {
+      "id": "R10-currency",
+      "title": "a payment that is not USD is refused",
+      "passed": true,
+      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"c4d1c817-f393-4715-978e-0b2506e0f2da\",\"provider_event_id\":null}"
+    },
+    {
+      "id": "R10-evidence",
+      "title": "a payment with no provider receipt is refused",
+      "passed": true,
+      "observed": "{\"outcome\":\"invalid_payment_evidence\",\"briefcase_item_id\":\"c4d1c817-f393-4715-978e-0b2506e0f2da\",\"provider_event_id\":null}"
+    },
+    {
+      "id": "R3-record",
+      "title": "the server path records a valid payment",
+      "passed": true,
+      "observed": "{\"outcome\":\"recorded_paid\",\"briefcase_item_id\":\"c4d1c817-f393-4715-978e-0b2506e0f2da\",\"provider_event_id\":\"evt_A\"}"
+    },
+    {
+      "id": "R10-receipt-unique",
+      "title": "a replayed provider receipt is a typed refusal, not a second authorization",
+      "passed": true,
+      "observed": "{\"outcome\":\"duplicate_provider_event\",\"briefcase_item_id\":\"78634c4c-cbef-401c-90ff-e6ae353ea4b8\",\"provider_event_id\":\"evt_A\"}"
+    },
+    {
+      "id": "R4-immutable-item",
+      "title": "consumer_briefcase_item_id cannot be re-pointed once set",
+      "passed": true,
+      "observed": "ERROR:  packet_render_jobs: consumer_briefcase_item_id is immutable once set\nCONTEXT:  PL/pgSQL function packet_render_jobs_consumer_binding_immutable() line 6 at RAISE\n"
+    },
+    {
+      "id": "R4-immutable-user",
+      "title": "consumer_auth_user_id cannot be re-pointed once set",
+      "passed": true,
+      "observed": "ERROR:  packet_render_jobs: consumer_auth_user_id is immutable once set\nCONTEXT:  PL/pgSQL function packet_render_jobs_consumer_binding_immutable() line 10 at RAISE\n"
+    },
+    {
+      "id": "R4-immutable-matter",
+      "title": "matter_id cannot be re-pointed once set",
+      "passed": true,
+      "observed": "ERROR:  packet_render_jobs: matter_id is immutable\nCONTEXT:  PL/pgSQL function public.guard_packet_render_job_transition() line 87 at RAISE\n"
+    },
+    {
+      "id": "R5-G12",
+      "title": "participant B's job cannot spend participant A's payment",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"consumer_payment_owner_mismatch\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":null,\"credit_ledger_id\":null}"
+    },
+    {
+      "id": "R6-first",
+      "title": "a genuinely paid, owned item opens delivery",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"14479969d46658d07e3d67f709eb473356b8b37eb6fa86c1f89f44c8545b9625\",\"credit_ledger_id\":\"9f7ee6c1-54c9-4d90-9efd-3828425d3793\"}"
+    },
+    {
+      "id": "R6-unit",
+      "title": "exactly one consumption row is keyed on the Briefcase item",
+      "passed": true,
+      "observed": "rows=1"
+    },
+    {
+      "id": "R7-idempotent",
+      "title": "same item, same matter retries into the same authorization",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"14479969d46658d07e3d67f709eb473356b8b37eb6fa86c1f89f44c8545b9625\",\"credit_ledger_id\":\"9f7ee6c1-54c9-4d90-9efd-3828425d3793\"} ledgerRows=1"
+    },
+    {
+      "id": "R6-keyed-on-item",
+      "title": "the consumption unit is derived from the item, receipt and matter — not the job id",
+      "passed": true,
+      "observed": "recorded=14479969d46658d07e3d67f709eb473356b8b37eb6fa86c1f89f44c8545b9625 expected=14479969d46658d07e3d67f709eb473356b8b37eb6fa86c1f89f44c8545b9625"
+    },
+    {
+      "id": "R6-item-unique-index",
+      "title": "the Briefcase item consumption key is UNIQUE",
+      "passed": true,
+      "observed": "CREATE UNIQUE INDEX consumer_packet_payment_consumption_item_uk ON public.consumer_packet_payment_consumption USING btree (consumer_briefcase_item_id)"
+    },
+    {
+      "id": "R6-receipt-unique-index",
+      "title": "the provider receipt consumption key is UNIQUE",
+      "passed": true,
+      "observed": "CREATE UNIQUE INDEX consumer_packet_payment_consumption_receipt_uk ON public.consumer_packet_payment_consumption USING btree (provider_event_id) WHERE (provider_event_id IS NOT NULL)"
+    },
+    {
+      "id": "R8-G11",
+      "title": "one paid item cannot authorize a second distinct matter",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"consumer_payment_matter_conflict\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":\"01208cffe7c64839aa6a397b16f9778267ee8bfeeb3d26f65eb0b4acb2cfafcd\",\"credit_ledger_id\":null}"
+    },
+    {
+      "id": "R9-not-stranded",
+      "title": "a conflicted job is finalized and typed, never stranded",
+      "passed": true,
+      "observed": "status=artifact_validated"
+    },
+    {
+      "id": "R10-forged-row",
+      "title": "a paid row with no server evidence is refused by the table constraint",
+      "passed": true,
+      "observed": "ERROR:  new row for relation \"consumer_briefcase_items\" violates check constraint \"consumer_briefcase_items_paid_requires_server_evidence\"\nDETAIL:  Failing row contains (e899efa3-cb01-4eba-a390-596ed673a516, aaaaaaaa-0000-0000-0000-00000000000a, packet, MS, null, null, null, f, packet_ready, {}, [], {}, paid, not_started, null, null, 2026-08-11 10:08:15.025767+00, 2026-08-11 10:08:15.025767+00, null, null, null, 5000, null, usd, null, null, null, null).\n"
+    },
+    {
+      "id": "R10-probe-independent",
+      "title": "the authority probe refuses a forged paid row on its own",
+      "passed": true,
+      "observed": "{\"valid\":false,\"reason\":\"no_server_payment_evidence\",\"provider_event_id\":null}"
+    },
+    {
+      "id": "R11-pre-refund",
+      "title": "a refund before finalization blocks delivery",
+      "passed": false,
+      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"692f830ff43b96d47c51758c955b1de57c964786deecacbf5f5d6a65120f7243\",\"credit_ledger_id\":\"7c7e73bd-c7d3-4b89-bd76-b4f6f553c147\"}"
+    },
+    {
+      "id": "R12-artifact-preserved",
+      "title": "a post-delivery refund preserves the already-delivered matter",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"zero_charge\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"14479969d46658d07e3d67f709eb473356b8b37eb6fa86c1f89f44c8545b9625\",\"credit_ledger_id\":\"9f7ee6c1-54c9-4d90-9efd-3828425d3793\"}"
+    },
+    {
+      "id": "R12-no-new-matter",
+      "title": "a refunded payment cannot authorize a new matter",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"consumer_payment_matter_conflict\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":\"f4bb6aa8e9aa2bbfe7736bba2c3f1a98e08d5b22bc290548d439e76167be59d3\",\"credit_ledger_id\":null}"
+    },
+    {
+      "id": "R12-no-first-render",
+      "title": "a refunded payment cannot authorize a new first-time render",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"consumer_payment_required\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":null,\"credit_ledger_id\":null}"
+    },
+    {
+      "id": "R13-sponsored",
+      "title": "a sponsored packet still consumes partner credit, unchanged",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"consumed\",\"delivery_eligibility\":\"eligible\",\"consumption_unit_hash\":\"1deeeafbe56767c3f54ffa9c40b0593b1295da2930099ef82fec9a4766306dd6\",\"credit_ledger_id\":\"4b5357a4-4f86-4758-989d-e8f37a8c3df5\"} ledger={\"event_type\":\"consumed\",\"has_entitlement\":true}"
+    },
+    {
+      "id": "R11-unpaid",
+      "title": "an unpaid item is still blocked",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"consumer_payment_required\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":null,\"credit_ledger_id\":null}"
+    },
+    {
+      "id": "G7-no-item",
+      "title": "a job with no briefcase item is still blocked",
+      "passed": true,
+      "observed": "{\"accounting_result\":\"consumer_payment_required\",\"delivery_eligibility\":\"accounting_blocked\",\"consumption_unit_hash\":null,\"credit_ledger_id\":null}"
+    }
+  ]
+}

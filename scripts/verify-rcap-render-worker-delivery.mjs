@@ -241,6 +241,7 @@ try {
   db.applyFile(path.join(rootDir, "supabase/phase-49-rcap-packet-render-jobs.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-50-rcap-packet-delivery-hardening.sql"));
   db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
+  db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
   db.sql(`insert into partner_records values ('${P1}','we-must-vote')`);
   db.sql(`insert into rcap_persons values ('${PERSON_A}','we-must-vote','a')`);
   db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${P1}', 10, false, 0)`);

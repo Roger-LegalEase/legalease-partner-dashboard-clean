@@ -22,7 +22,7 @@
       "risk": "low",
       "riskNote": "Additive and forward-only. Creates three new tables, one trigger and two functions. Alters no existing table, drops nothing, and backfills nothing. No application code reads these objects yet, so applying it changes no runtime behaviour on its own.",
       "preconditions": [
-        "phase-48-rcap-document-artifact-storage.sql applied, or its absence accepted \u2014 phase 49 takes no foreign key on rcap_document_artifacts and applies independently",
+        "phase-48-rcap-document-artifact-storage.sql applied, or its absence accepted — phase 49 takes no foreign key on rcap_document_artifacts and applies independently",
         "public.partner_records and public.rcap_document_packets present",
         "service_role exists"
       ],
@@ -62,7 +62,7 @@
         "repositoryIntegration": "authorized",
         "applyEphemeralLocal": "authorized",
         "applyStaging": "authorized",
-        "applyProduction": "authorized conditionally \u2014 only after staging read-back and behaviour checks pass; no second business authorization required unless a path or its bytes change"
+        "applyProduction": "authorized conditionally — only after staging read-back and behaviour checks pass; no second business authorization required unless a path or its bytes change"
       }
     },
     {
@@ -175,10 +175,10 @@
         "evidenceOnApply": "object presence for every table, function, trigger, index and role named in all three files, plus finalize_packet_render_job resolving to the phase-51 definition (the consumer branch must call consumer_packet_payment_valid), captured to the compliance package"
       },
       "scopedAuthorization": {
-        "repository_integration": "authorized 2026-08-10 \u2014 reconciled branch, hash-pinned",
-        "local_ephemeral_test": "authorized \u2014 throwaway clusters created and destroyed inside verifier runs",
-        "staging": "queued \u2014 requires Roger to name both migration files and the staging environment",
-        "production": "queued \u2014 not requested; follows a green staging rehearsal"
+        "repository_integration": "authorized 2026-08-10 — reconciled branch, hash-pinned",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name both migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
       }
     },
     {
@@ -191,15 +191,15 @@
       "status": "authorized_scoped",
       "requestedBy": "opus-5-captain",
       "requestedAt": "2026-08-10",
-      "authorizedBy": "Roger Roman (Terminal C integration directive item 8: unsponsored without a valid consumer payment entitlement is non-deliverable; zero_charge cannot bypass the $50 consumer payment gate) \u2014 repository integration only",
+      "authorizedBy": "Roger Roman (Terminal C integration directive item 8: unsponsored without a valid consumer payment entitlement is non-deliverable; zero_charge cannot bypass the $50 consumer payment gate) — repository integration only",
       "authorizedAt": "2026-08-10",
       "executedAt": null,
-      "why": "Phase 50 marked every unsponsored job zero_charge AND delivery-eligible. Those are two different facts and only the first was true: zero_charge means no partner credit moved, which says nothing about whether the consumer paid. The consumer product is paid \u2014 consumer_briefcase_items.amount_cents is constrained to 5000 by phase 27 \u2014 and the delivery core gates on authentication, briefcase ownership, delivery_eligibility and artifact hash, none of which is a payment check. Any job enqueued without partner sponsorship was therefore deliverable on the strength of having no sponsor. This migration makes the payment the authority for an unsponsored delivery.",
+      "why": "Phase 50 marked every unsponsored job zero_charge AND delivery-eligible. Those are two different facts and only the first was true: zero_charge means no partner credit moved, which says nothing about whether the consumer paid. The consumer product is paid — consumer_briefcase_items.amount_cents is constrained to 5000 by phase 27 — and the delivery core gates on authentication, briefcase ownership, delivery_eligibility and artifact hash, none of which is a payment check. Any job enqueued without partner sponsorship was therefore deliverable on the strength of having no sponsor. This migration makes the payment the authority for an unsponsored delivery.",
       "risk": "low",
       "riskNote": "Additive and forward-only. Extends one check constraint with a new typed result, adds one stable SECURITY DEFINER probe, and replaces finalize_packet_render_job with a copy identical to phase 50's apart from the consumer branch. No table is created, altered or dropped, and no row is backfilled. The change is restrictive: it can only move an unsponsored job from eligible to accounting_blocked, never the reverse.",
       "preconditions": [
         "phase-49-rcap-packet-render-jobs.sql and phase-50-rcap-packet-delivery-hardening.sql applied immediately before, in the same authorized window",
-        "public.consumer_briefcase_items present with payment_status and amount_cents (phases 26 and 27) \u2014 absent, the probe fails closed and every unsponsored packet is blocked"
+        "public.consumer_briefcase_items present with payment_status and amount_cents (phases 26 and 27) — absent, the probe fails closed and every unsponsored packet is blocked"
       ],
       "evidence": [
         "Applies cleanly after phases 49 and 50 on a fresh PostgreSQL 16 cluster",
@@ -231,10 +231,79 @@
       ],
       "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
       "scopedAuthorization": {
-        "repository_integration": "authorized 2026-08-10 \u2014 hash-pinned to 3c3e971c1fdb3382",
-        "local_ephemeral_test": "authorized \u2014 throwaway clusters created and destroyed inside verifier runs",
-        "staging": "queued \u2014 requires Roger to name all three migration files and the staging environment",
-        "production": "queued \u2014 not requested; follows a green staging rehearsal"
+        "repository_integration": "authorized 2026-08-10 — hash-pinned to 3c3e971c1fdb3382",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all three migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      }
+    },
+    {
+      "id": "auth-2026-08-11-phase-52-consumer-payment-authority",
+      "kind": "migration",
+      "title": "Apply phase-52 consumer payment authority (after phases 49, 50 and 51)",
+      "artifacts": [
+        "supabase/phase-52-rcap-consumer-payment-authority.sql"
+      ],
+      "status": "authorized_scoped",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Roger Roman (Phase 52 directive: anon and authenticated cannot insert or update any payment fact; all legitimate payment writes move to a server-only admin/webhook path) — repository integration only",
+      "authorizedAt": "2026-08-11",
+      "executedAt": null,
+      "why": "Terminal B proved the phase-51 gate is bypassable by the payer it charges (audit commit f82f842, RCAP-SEC-001). Four failures: an authenticated participant wrote payment_status='paid' and amount_cents=5000 on their own row and opened delivery (G1/G1b), because the phase-26 RLS UPDATE policy scopes rows and not columns; one paid item authorized a second distinct matter (G11), because the consumption unit hashed the render job id and every new job is a new id; and participant B's paid item authorized a job for participant A (G12), because the probe took an item id and never asked who owned it. This migration makes payment facts unwritable by the payer, moves legitimate writes to a server-only path with unique provider evidence, rekeys consumption onto the Briefcase item and the provider receipt, and binds every consumer job to an immutable item, consumer, person and matter.",
+      "risk": "medium",
+      "riskNote": "Additive and forward-only: no table is dropped, no row is backfilled, and the partner branch of finalize_packet_render_job is unchanged, so sponsored accounting is untouched. The change is restrictive in two directions that matter operationally. First, anon and authenticated lose INSERT and UPDATE on the payment columns of consumer_briefcase_items; any application code that writes payment_status, amount_cents or the checkout metadata directly from a participant session will start failing with permission denied and must move to record_consumer_packet_payment. Second, an unsponsored job is now deliverable only when it carries the full four-tuple, so consumer jobs enqueued before this phase — which have no consumer_auth_user_id — fail closed rather than delivering. That is the intended direction, but it is a behaviour change on existing queued work and is why this is medium rather than low.",
+      "preconditions": [
+        "phases 49, 50 and 51 applied immediately before, in the same authorized window",
+        "public.consumer_briefcase_items present with payment_status and amount_cents (phases 26 and 27) — absent, every payment-fact statement is skipped and every unsponsored packet stays blocked",
+        "a service_role exists to receive execute on record_consumer_packet_payment; absent, the grant is skipped and no role can record a payment",
+        "the application's consumer checkout path is repointed at record_consumer_packet_payment BEFORE this is applied to any environment that takes live payments, or paid checkouts will succeed at the provider and fail to record"
+      ],
+      "evidence": [
+        "Applies cleanly after 49 -> 50 -> 51 on a fresh PostgreSQL 16 cluster, and on a partner-only schema where consumer_briefcase_items is absent",
+        "verify-rcap-phase52-consumer-payment-authority: 32/32 cases, including the four audit failures G1, G1b, G11 and G12 re-run and now closed, and the thirteen phase-51 passing cases still passing",
+        "test-rcap-phase52-mutations: 12/12 mutations red — reverting any single defence (column grants, server-evidence constraint, owner clause, item keying, either uniqueness key, the RPC grant, the RPC's amount and currency check, binding immutability, or the refund block) turns the verifier red",
+        "All six delivery verifiers rebuilt on 49 -> 50 -> 51 -> 52 and passing",
+        "The phase-50 constraint packet_render_jobs_eligible_requires_accounting_check makes every new typed result structurally incapable of being marked eligible"
+      ],
+      "rollback": "Re-apply phase 51's finalize_packet_render_job, then drop public.consumer_packet_payment_authority(uuid, uuid), public.record_consumer_packet_payment(...), the packet_render_jobs_consumer_binding_immutable_trg trigger and its function, and narrow the accounting_result constraint back. Restore the table-wide grants on consumer_briefcase_items. public.consumer_packet_payment_consumption may be left in place — it is additive and holds the record of what was already delivered; dropping it discards that evidence. Note that rolling back restores a payment gate the payer can bypass.",
+      "blocks": [
+        "The staging rehearsal and any consumer packet delivery in a paid environment"
+      ],
+      "phase": 52,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-52-rcap-consumer-payment-authority.sql"
+      ],
+      "authorizedSha256": [
+        "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3"
+      ],
+      "authorizationScope": "repository_integration_only",
+      "doesNotAuthorize": [
+        "application to staging or production",
+        "any further new file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any change to the phase-49, phase-50 or phase-51 files or their authorizations",
+        "any change to consumer pricing; 5000 cents is read from the phase-27 constraint, not set here",
+        "publication of the worker image"
+      ],
+      "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-11 — hash-pinned to c906068f7800df7d",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all four migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      },
+      "closesFinding": {
+        "id": "RCAP-SEC-001",
+        "auditBranch": "origin/claude/rcap-phase51-payment-security-audit",
+        "auditCommit": "f82f842",
+        "gateCasesClosed": [
+          "G1",
+          "G1b",
+          "G11",
+          "G12"
+        ]
       }
     }
   ],

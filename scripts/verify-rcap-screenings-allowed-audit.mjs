@@ -338,6 +338,7 @@ try {
     // payment probe fails closed on a schema that does not carry it.
     db.applyFile(path.join(rootDir, "supabase/phase-51-rcap-consumer-payment-gate.sql"));
 
+    db.applyFile(path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql"));
     const SP1 = "b1000000-0000-4000-8000-000000000001"; // no entitlement
     const SP2 = "b1000000-0000-4000-8000-000000000002"; // expired entitlement
     const SP3 = "b1000000-0000-4000-8000-000000000003"; // active entitlement
@@ -356,13 +357,23 @@ try {
         `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', null, ${partner ? `'${partner}'` : "null"}, ${person ? `'${person}'` : "null"}, ${matter ? `'${matter}'` : "null"}, 5)`
       );
     };
-    const enqueueConsumer = (briefcaseItemId) => {
+    // Phase 52 requirement 4: a consumer job binds item, consumer, person and
+    // matter. Each call gets its own matter so one payment is never asked to
+    // authorize two of them by accident.
+    const enqueueConsumer = (briefcaseItemId, owner = null) => {
       seq += 1;
       const hash = createHash("sha256").update(`evidence-${seq}`).digest("hex");
       const packet = db.scalar("with r as (insert into rcap_document_packets default values returning id) select id from r");
-      return db.scalar(
-        `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', '${briefcaseItemId}', null, null, null, 5)`
-      );
+      const matter = `b6000000-0000-4000-8000-${String(seq).padStart(12, "0")}`;
+      const id = db.scalar(
+        `select id from enqueue_packet_render_job('${packet}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', '${briefcaseItemId}', null, null, '${matter}', 5)`
+      ).trim();
+      if (owner) {
+        db.sql(`update packet_render_jobs
+                   set consumer_briefcase_item_id = '${briefcaseItemId}', consumer_auth_user_id = '${owner}'
+                 where id = '${id}'`);
+      }
+      return id;
     };
     const driveToValidating = (jobId) => {
       const c = db.json(`select row_to_json(t) from (select id, fencing_token from claim_packet_render_job('w-evidence', null, 120)) t`);
@@ -415,18 +426,30 @@ try {
     // The consumer payment record as phases 26/27 define it. The real table
     // references auth.users, which an ephemeral cluster has no reason to carry;
     // the columns the gate reads are what matters.
+    // Phase 52 widened "paid": the row must also name its owner, the currency
+    // and the server-written provider evidence, and the job must be bound to
+    // that same owner. BC(2) therefore carries a full authority record; every
+    // other row stays short of it and is expected to remain blocked.
     db.sql(`create table public.consumer_briefcase_items (
               id uuid primary key,
+              user_id uuid,
               payment_status text not null default 'not_applicable',
-              amount_cents integer
+              amount_cents integer,
+              currency text,
+              provider_event_id text,
+              payment_authority text,
+              payment_recorded_at timestamptz
             )`);
     const BC = (n) => `b4000000-0000-4000-8000-00000000000${n}`;
-    db.sql(`insert into consumer_briefcase_items values
-              ('${BC(1)}', 'unpaid', 5000),
-              ('${BC(2)}', 'paid', 5000),
-              ('${BC(3)}', 'refunded', 5000),
-              ('${BC(4)}', 'paid', 2500),
-              ('${BC(5)}', 'not_applicable', null)`);
+    const BC_OWNER = "b5000000-0000-4000-8000-00000000000a";
+    db.sql(`insert into consumer_briefcase_items
+              (id, user_id, payment_status, amount_cents, currency, provider_event_id, payment_authority, payment_recorded_at)
+            values
+              ('${BC(1)}', '${BC_OWNER}', 'unpaid', 5000, null, null, null, null),
+              ('${BC(2)}', '${BC_OWNER}', 'paid', 5000, 'usd', 'evt_b3d', 'server_webhook', now()),
+              ('${BC(3)}', '${BC_OWNER}', 'refunded', 5000, 'usd', 'evt_b3c3', 'server_webhook', now()),
+              ('${BC(4)}', '${BC_OWNER}', 'paid', 2500, 'usd', 'evt_b3c4', 'server_webhook', now()),
+              ('${BC(5)}', '${BC_OWNER}', 'not_applicable', null, null, null, null, null)`);
 
     // B3b: unsponsored with no briefcase item at all.
     const j3b = enqueue(null, null, null);
@@ -440,7 +463,7 @@ try {
     // B3c: every non-paying state is blocked — including a paid-but-mispriced
     // checkout, so a partial capture cannot open delivery.
     for (const [n, label] of [[1, "unpaid"], [3, "refunded"], [4, "paid at 2500 cents"], [5, "not_applicable"]]) {
-      const job = enqueueConsumer(BC(n));
+      const job = enqueueConsumer(BC(n), BC_OWNER);
       const fin = finalize(job, driveToValidating(job));
       assert(
         fin.accounting_result === "consumer_payment_required" && fin.delivery_eligibility === "accounting_blocked",
@@ -452,7 +475,7 @@ try {
     // B3d: paid at the product price — deliverable, and it costs no partner
     // anything. zero_charge is reachable only on this side of the gate.
     const partnerLedgerBefore = db.scalar("select count(*) from packet_credit_ledger where partner_id is not null");
-    const j3d = enqueueConsumer(BC(2));
+    const j3d = enqueueConsumer(BC(2), BC_OWNER);
     const f3d = finalize(j3d, driveToValidating(j3d));
     assert(
       f3d.accounting_result === "zero_charge" && f3d.delivery_eligibility === "eligible",
