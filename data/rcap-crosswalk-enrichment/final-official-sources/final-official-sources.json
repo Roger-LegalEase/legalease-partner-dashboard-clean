@@ -8,6 +8,16 @@
   "baseCommit": "f79fb0d9"
  },
  "sourceStandard": "Official legislature, court, agency or recognized official government publisher only. Search snippets, commercial code sites, practice guides and lane paraphrases are never final authority. A materialized entry must carry bytes as served, sha256, exact section pointer and a verbatim operative span.",
+ "subjectCurrencyVerification": {
+  "verifiedAt": "2026-08-11T13:38:47Z",
+  "against": {
+   "record": "docs/record-clearing/e4-e1-canonical-verification.md",
+   "ref": "origin/claude/rcap-e4-e1-canonical",
+   "commit": "b1279ed3"
+  },
+  "finding": "The E1 wave's generator-derived unresolved set names exactly these two pathway subjects as the current official-source blockers (the third unresolved ID, MD:md_pardon_expungement, is profile-implementation blocked, not source-blocked, and is outside this lane). E1 independently re-confirms that neither 18 Pa.C.S. § 3019 nor S.C. Code § 16-3-2020 appears in any committed source, including the PA/SC official-source store manifests at 66e0fa4b (zero hits for either token). The subject IDs in this record are therefore the current generated job IDs, not older narrative IDs.",
+  "canonicalBranchNote": "claude/rcap-final-sprint-integration advanced from f79fb0d9 to a29c22c5 (payment-audit integration commits) after this lane branched; f79fb0d9 remains in the canonical ancestry and nothing in the advance touches either subject."
+ },
  "retrievalAttempts": [
   {
    "subjectId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
@@ -32,6 +42,22 @@
    "attemptedAt": "2026-08-11T12:47:00Z",
    "tool": "WebFetch",
    "result": "EGRESS_BLOCKED — 'Access to www.scstatehouse.gov is blocked by the network egress proxy.'"
+  },
+  {
+   "subjectId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+   "url": "https://www.palegis.us/statutes/consolidated/view-statute?ttl=18&chpt=30",
+   "issuingBody": "Pennsylvania General Assembly (palegis.us)",
+   "attemptedAt": "2026-08-11T13:38:47Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED — 'Access to www.palegis.us is blocked by the network egress proxy.' (re-probe on dispatch re-issue)"
+  },
+  {
+   "subjectId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+   "url": "https://www.scstatehouse.gov/code/t16c003.php",
+   "issuingBody": "South Carolina Legislature",
+   "attemptedAt": "2026-08-11T13:38:47Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED — 'Access to www.scstatehouse.gov is blocked by the network egress proxy.' (re-probe on dispatch re-issue)"
   }
  ],
  "subjects": [
