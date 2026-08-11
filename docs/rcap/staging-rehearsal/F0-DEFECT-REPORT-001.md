@@ -86,3 +86,11 @@ All other verifiers at this tip pass (payment audit Gate 21/21 | Reach 5/5 |
 Mutations 3/3; phase-52 32/32 + 12/12; phase-53 24/24 + 8/8;
 migration-apply-evidence 32/32; delivery-db, worker-runtime, e2e,
 mutation-authority, credential-boundary all green).
+
+## Status update — 2026-08-11, tip 7e1b2c4d
+
+Passed on this run at `7e1b2c4d` (single execution). No commit has touched the
+implicated files since the report, so the timing mechanism is unchanged and the
+defect remains LATENT, not fixed. CI at 7e1b2c4d is green; that coexistence is
+exactly what a timing flake predicts. Disposition unchanged: fix belongs to
+Terminal A; this lane reruns the case on a corrected SHA.
