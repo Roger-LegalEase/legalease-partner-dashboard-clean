@@ -12,11 +12,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { registerMutationRestore } from './lib/mutation-restore-guard.mjs';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const target = path.join(rootDir, 'data/rcap-ledger/crosswalk-resolution-adjudication.json');
 const generator = path.join(rootDir, 'scripts/generate-rcap-track-pathway-crosswalk.mjs');
 const original = fs.readFileSync(target, 'utf8');
+
+// A signal bypasses `finally`; a killed run must not leave the adjudication
+// artifact mutated on disk.
+registerMutationRestore(() => fs.writeFileSync(target, original));
 
 function checkIsRed() {
   try {

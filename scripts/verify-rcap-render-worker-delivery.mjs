@@ -123,7 +123,20 @@ const packetFor = (packetId) => ({
   petitionerFirstName: "Test",
   petitionerLastName: "Participant",
   county: "Hinds",
-  generatedPlainText: "Petitioner requests expungement.",
+  // The packet id is folded into RENDERED content on purpose.
+  //
+  // SF-DEFECT-001: this fixture used to give every packet identical visible
+  // text, and `id` is never drawn into the document. pdf-lib stamps a
+  // creation/modification timestamp with one-second granularity, so two
+  // different jobs rendered inside the same second produced BYTE-IDENTICAL
+  // artifacts. The substitution case below then substituted jobA's own bytes
+  // for jobA's, they hash-matched, delivery correctly served them, and the
+  // "fails closed" assert failed — a flake whose frequency depended on where a
+  // second boundary happened to land.
+  //
+  // With the id in the text, two jobs can never render the same bytes, so the
+  // case tests what it claims to: a genuinely different artifact is refused.
+  generatedPlainText: `Petitioner requests expungement. Packet ${packetId}.`,
   filingNextStepsPacket: {
     title: "t",
     plainText: "1. File.",
@@ -396,7 +409,22 @@ try {
   assert(corrupted.ok === false && corrupted.code === "artifact_corrupt", "storage: a corrupted object fails closed");
 
   // Replaced with another job's perfectly valid PDF.
+  //
+  // SF-DEFECT-001 precondition, asserted rather than assumed. The case below is
+  // only meaningful if jobD's artifact is genuinely a DIFFERENT artifact. When
+  // the fixture rendered content-identical packets, two jobs landing in the same
+  // one-second pdf-lib timestamp window produced the same bytes, the
+  // substitution substituted jobA's own artifact for itself, and the "fails
+  // closed" assert failed for a reason that had nothing to do with delivery.
+  // Asserting the precondition turns that timing-dependent flake into a
+  // deterministic, self-explaining failure the moment the fixture stops
+  // distinguishing packets.
   const otherValid = fs.readFileSync(path.join(storageRoot, jobRow(jobD).output_storage_path));
+  assert(
+    !otherValid.equals(originalBytes),
+    "SF-DEFECT-001: jobD's artifact is byte-identical to jobA's, so the substitution case " +
+      "would be vacuous. The packet fixture must render distinguishing content per packet id."
+  );
   fs.writeFileSync(evidenceAbs, otherValid);
   const replaced = await authorizePacketDownload(deliveryPorts, { jobId: jobA, userId: USER_OWNER });
   assert(replaced.ok === false && replaced.code === "artifact_corrupt", "storage: another job's valid PDF at this path fails closed");
