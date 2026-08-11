@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
+import { changedFilesForScopeGuard } from "./lib/changed-files-scope.mjs";
+import { applyExactPathAuthorizations } from "./source-engine-change-scope.mjs";
 
 const root = process.cwd();
 const failures = [];
@@ -150,50 +151,69 @@ const restrictedPatterns = [
   ".env",
   "secrets"
 ];
-const gitStatus = spawnSync("git", ["status", "--short"], { cwd: root, encoding: "utf8" }).stdout ?? "";
-const changedFiles = process.env.EXPUNGEMENT_VERIFY_CHANGED_FILES?.split("\n").filter(Boolean) ?? gitStatus
-  .split(/\r?\n/)
-  .filter(Boolean)
-  .map((line) => line.slice(3).trim());
-for (const file of changedFiles) {
-  if ([
-    ".env.example",
-    "src/lib/app-url.ts",
-    "src/lib/partners/add-partner-user.ts",
-    "src/app/api/stripe/webhook/route.ts",
-    "src/lib/stripe/server.ts",
-    "src/lib/stripe/webhook-handler.ts",
-    "src/lib/expungement-ai/briefcase.ts",
-    "src/lib/expungement-ai/checkout-reconciliation.ts",
-    "src/lib/expungement-ai/packet-generation.ts",
-    "src/lib/expungement-ai/payment-adapter.ts",
-    "scripts/verify-expungement-consumer-checkout.mjs",
-    "scripts/verify-expungement-consumer-adapter.mjs"
-  ].includes(file)) continue;
-  if (file === "supabase/phase-26-consumer-briefcase-items.sql") continue;
-  if (file === "supabase/phase-27-consumer-checkout-metadata.sql") continue;
-  if (file === "supabase/phase-28-consumer-packet-generation-status.sql") continue;
-  if (file === "supabase/phase-29-consumer-wilma-telemetry.sql") continue;
-  if (file === "supabase/phase-31-legalease-os-support-queue.sql") continue;
-  if (file === "supabase/phase-32-expungement-screening-sessions.sql") continue;
-  if (file === "supabase/phase-33-expungement-screening-resume-links.sql") continue;
-  if (file === "supabase/phase-38-expungement-pending-screening-results.sql") continue;
-  if (file === "supabase/phase-39-rcap-partner-packet-cap.sql") continue;
-  // First-party web analytics migration (phase 40). Unrelated to the consumer payment adapter;
-  // creates the public.web_analytics_events store. Allowlisted like the prior consumer migrations.
-  if (file === "supabase/phase-40-web-analytics-events.sql") continue;
-  if (file === "supabase/phase-43-content-platform.sql") continue;
-  // Phase 54 hardens public.rcap_persons — RLS, browser-role revokes, the
-  // reserved-namespace guards — under Roger's bounded authorization
-  // (auth-2026-08-11-phase-54-person-namespace-hardening). Named explicitly
-  // rather than left to pass by being committed: this loop reads
-  // `git status --short`, so it only ever sees the working tree, and every
-  // earlier phase migration is admitted by that accident rather than by a
-  // decision. An explicit entry survives if that is ever tightened.
-  if (file === "supabase/phase-54-rcap-person-namespace-hardening.sql") continue;
-  for (const pattern of restrictedPatterns) {
-    assert(!file.includes(pattern), `Restricted file touched: ${file}`);
-  }
+// Historical allowlist: files this lane has always been permitted to touch,
+// and the consumer-era migrations that predate the authorization queue. Kept
+// literal because that is what they are — decisions already made, with no
+// authorization record to point at.
+const HISTORICAL_ALLOWED = new Set([
+  ".env.example",
+  "src/lib/app-url.ts",
+  "src/lib/partners/add-partner-user.ts",
+  "src/app/api/stripe/webhook/route.ts",
+  "src/lib/stripe/server.ts",
+  "src/lib/stripe/webhook-handler.ts",
+  "src/lib/expungement-ai/briefcase.ts",
+  "src/lib/expungement-ai/checkout-reconciliation.ts",
+  "src/lib/expungement-ai/packet-generation.ts",
+  "src/lib/expungement-ai/payment-adapter.ts",
+  "scripts/verify-expungement-consumer-checkout.mjs",
+  "scripts/verify-expungement-consumer-adapter.mjs",
+  "supabase/phase-26-consumer-briefcase-items.sql",
+  "supabase/phase-27-consumer-checkout-metadata.sql",
+  "supabase/phase-28-consumer-packet-generation-status.sql",
+  "supabase/phase-29-consumer-wilma-telemetry.sql",
+  "supabase/phase-31-legalease-os-support-queue.sql",
+  "supabase/phase-32-expungement-screening-sessions.sql",
+  "supabase/phase-33-expungement-screening-resume-links.sql",
+  "supabase/phase-38-expungement-pending-screening-results.sql",
+  "supabase/phase-39-rcap-partner-packet-cap.sql",
+  "supabase/phase-40-web-analytics-events.sql",
+  "supabase/phase-43-content-platform.sql"
+]);
+
+// The change set is now committed-diff ∪ working-tree, and fails closed when
+// the base cannot be resolved. Previously it was the working tree alone, which
+// in CI is always empty — so this loop ran zero times and the guard passed by
+// having nothing to inspect.
+const scope = changedFilesForScopeGuard({
+  rootDir: root,
+  failures,
+  envOverride: "EXPUNGEMENT_VERIFY_CHANGED_FILES"
+});
+
+const restrictedCandidates = scope.files.filter(
+  (file) => !HISTORICAL_ALLOWED.has(file) && restrictedPatterns.some((pattern) => file.includes(pattern))
+);
+
+// Anything restricted must be named by an owner authorization, by exact path
+// AND exact bytes. A hand-maintained list in this file would drift from the
+// authorization queue that actually records the decisions; this consults the
+// queue itself, so a migration is admitted because someone approved it and the
+// bytes still match, not because a literal was added here.
+const unauthorized = applyExactPathAuthorizations({
+  rootDir: root,
+  candidates: restrictedCandidates,
+  failures
+});
+
+for (const entry of unauthorized) {
+  // A voided authorization already explains itself in the returned string;
+  // prefixing it with "without an exact-path authorization" would misreport a
+  // file that HAS one whose bytes no longer match.
+  const message = entry.includes("authorization is void")
+    ? `Restricted file touched: ${entry}`
+    : `Restricted file touched without an exact-path authorization: ${entry}`;
+  assert(false, message);
 }
 
 function paymentAllowedForFixture(resultCode) {

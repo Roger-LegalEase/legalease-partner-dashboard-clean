@@ -12,11 +12,15 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { registerMutationRestore } from "./lib/mutation-restore-guard.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const target = path.join(rootDir, "supabase/phase-52-rcap-consumer-payment-authority.sql");
 const verifier = path.join(rootDir, "scripts/verify-rcap-phase52-consumer-payment-authority.mjs");
 const original = fs.readFileSync(target, "utf8");
+
+// A signal bypasses `finally`; a killed run must not leave the migration mutated.
+registerMutationRestore(() => fs.writeFileSync(target, original));
 
 function verifierIsRed() {
   try {
