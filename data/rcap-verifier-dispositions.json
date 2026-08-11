@@ -1086,6 +1086,7 @@
       "sourceCommit": "f237c89f3a3ed0eab44d9c84f07833de822eea54",
       "auditOwned": true,
       "knownNondeterminism": "The G6 observed string embeds the fixture briefcase item id, which is gen_random_uuid() per run, so data/rcap-render/phase51-consumer-payment-security.json is not byte-reproducible across runs. One line only; totals and pass state are stable. Referred to the audit lane rather than patched here, because the artifact is audit-owned.",
+      "committedArtifactRule": "The committed bytes of data/rcap-render/phase51-consumer-payment-security.json are the audit lane's own, from f237c89. Running npm test rewrites that file in the working tree with this machine's fixture ids; that rewrite is a local side effect and must not be staged. Restore it from f237c89 before committing. This is not pedantry — the file is the audit's record of what the audit observed, and overwriting it with a captain-side run quietly replaces independent evidence with self-issued evidence.",
       "supersedes": "the Phase 52-ending revision of the same audit (19/19 gate, 0/3 reach); no second payment audit is maintained"
     },
     "verify-rcap-prepay-question-gate.mjs": {
