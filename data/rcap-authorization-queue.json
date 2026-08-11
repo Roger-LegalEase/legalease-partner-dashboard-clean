@@ -468,7 +468,7 @@
       "decision": "approved",
       "requestedBy": "opus-5-captain",
       "requestedAt": "2026-08-11",
-      "authorizedBy": "Substantively covered by auth-2026-08-10-phase-49-packet-render-jobs and auth-2026-08-10-phase-50-packet-delivery-hardening, which separated sponsored packet entitlement from the screening allowance. Recorded by exact path here because those authorizations name only the supabase/ files, not the application read that had to follow. FLAGGED FOR ROGER'S CONFIRMATION: this is partner code, and the record is bookkeeping for a change already merged and CI-green, not a new grant.",
+      "authorizedBy": "Roger Roman \u2014 explicitly confirmed 2026-08-11. The authorized change is limited to the already-integrated Phase 49/50 packet-accounting correction that reads packet capacity and usage from the canonical partner packet entitlement and packet credit ledger rather than the legacy screenings allowance. Substantively covered by auth-2026-08-10-phase-49-packet-render-jobs and auth-2026-08-10-phase-50-packet-delivery-hardening, which name only the supabase/ files; this record names the application read those phases required.",
       "authorizedAt": "2026-08-11",
       "authorizationScope": "repository_integration_only",
       "executedAt": null,
@@ -488,8 +488,14 @@
       ],
       "voidsOn": "Any byte change to the authorized path voids this authorization; the guard re-hashes the file on every run.",
       "doesNotAuthorize": [
-        "any further change to partner billing, partner RLS, or partner auth",
-        "any change to the screening allowance product"
+        "broader partner-portal changes",
+        "widened path prefixes",
+        "future byte drift on the authorized path",
+        "migration application",
+        "deployment",
+        "staging changes",
+        "production changes",
+        "any change to the legacy screenings allowance product"
       ],
       "scopedAuthorization": {
         "repository": "authorized \u2014 the change may exist on the integration branch",
@@ -499,6 +505,13 @@
       "environmentConditions": {
         "staging": "queued",
         "production": "queued"
+      },
+      "ownerConfirmation": {
+        "confirmedBy": "Roger Roman",
+        "confirmedAt": "2026-08-11",
+        "scope": "Exact-path and exact-bytes pinned. Limited to the Phase 49/50 packet-accounting correction described above.",
+        "pinnedSha256": "5ce96d8167c9accb47ebd1c6ae5b9155e8e8c4b5f07c1b7c78dd772ee3808757",
+        "supersedesCaptainFlag": "This record was previously marked FLAGGED FOR ROGER'S CONFIRMATION because it is partner code and was written as bookkeeping for an already-merged change. The flag is now resolved by explicit owner confirmation."
       }
     }
   ],
