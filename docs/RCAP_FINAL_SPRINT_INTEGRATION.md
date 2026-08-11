@@ -8,6 +8,27 @@ This record supplements `docs/RCAP_DELIVERY_LANE_RECONCILIATION.md`, which holds
 the delivery-lane overlap matrix and the phase-49/phase-50 disposition. Nothing
 here changes those decisions.
 
+## Canonical branch for the remainder of the sprint
+
+Ruled by Roger on 2026-08-11: `claude/rcap-final-sprint-integration` is the
+canonical integration branch for the rest of this sprint, and work continues
+from the PR #93 tip.
+
+Earlier session instructions named `claude/rcap-nationwide-build-pkbkeh` as the
+standing development branch. **That instruction is stale.** It is recorded here
+so a later reader does not act on it: this lane was cut from the verified
+delivery base rather than from that branch, and it reapplied and superseded the
+work that branch carried — phase-48 SQL by `phase-49`, and
+`completion-ledger.json` v1 by `data/rcap-ledger/authority-ledger.json` at
+schemaVersion `rcap-completion-ledger/v2`.
+
+`claude/rcap-nationwide-build-pkbkeh` is preserved as **superseded, read-only
+history**. It is not to be force-pushed, merged, retargeted or rewritten, and
+PR #93 is not to be retargeted onto it. The one file on it that this lane had
+neither carried over nor superseded — `docs/RCAP_EXTERNAL_ACTION_REGISTER.md`,
+whose item 9 the authorization queue cites — has been restored here, so no live
+reference depends on that branch remaining readable.
+
 ## Entry gate
 
 | Fact | Value |
