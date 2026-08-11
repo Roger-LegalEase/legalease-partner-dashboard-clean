@@ -1411,6 +1411,30 @@
       "reason": "Proves each Phase 54 defence is load-bearing: 5 mutations \u2014 phase omitted, RLS not enabled, browser-role revokes dropped, reserved slug claimable, shape constraint stops discriminating \u2014 all turn the namespace proof red.",
       "observedStatus": "in_chain",
       "decidedBy": "captain"
+    },
+    "verify-rcap-person-identity-post-phase54.mjs": {
+      "disposition": "wired",
+      "reason": "Terminal B's independent post-Phase-54 audit of public.rcap_persons, imported byte-identical from 338629ae. This is the audit that supersedes 83c04469, which audited 7e1b2c4d with no Phase 54 in its tree and correctly reported the pre-hardening exposure. Green from the integrated tree.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "role": "independent_person_isolation_proof",
+      "sourceCommit": "338629ae",
+      "laneOwned": true
+    },
+    "verify-rcap-md-pardon-pathway.mjs": {
+      "disposition": "wired",
+      "reason": "Both-direction proof for the counsel-approved MD pardoned-conviction pathway under Crim. Proc. 10-105(a)(8)/(c)(4): a qualifying in-deadline case opens payment; passed-deadline and missing-date cases stay shut. Owned by the crosswalk lane, imported from 10b62516.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-official-source-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the PA/SC official-source discipline is load-bearing: 8 mutations turn the canonical check red. Imported from 10b62516.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "laneOwned": true
     }
-  }
+  },
+  "registerRegenerationHazard": "Do not regenerate this register wholesale. The generator re-derives each entry by executing the verifier, and verify-rcap-phase51-consumer-payment-security.mjs reads red on any machine without the audit lane's environment. Regeneration therefore demotes a captain-pinned 'wired' entry that is the single canonical independent payment acceptance proof. Terminal E hit this, tested it, and reverted byte-identically rather than shipping it. Add entries by hand."
 }

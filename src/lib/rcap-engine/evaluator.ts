@@ -34,6 +34,10 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "IL:juvenile-automatic-or-petition-expungement",
   "KS:specialty-court-accelerated",
   "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
+  // MD pardoned-conviction expungement (Crim. Proc. § 10-105(a)(8)/(c)(4)): counsel approved
+  // 2026-08-11; both-direction proof lives in scripts/verify-rcap-md-pardon-pathway.mjs (qualifying
+  // in-deadline case opens payment, passed-deadline and missing-date cases stay shut).
+  "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
   "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
   "ND:first-offense-possession-sealing",
   "ND:marijuana-specific-summary-pardon-or-sealing-relief",
@@ -599,6 +603,14 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   const juvenile = profile.pathways.find((pathway) => /juvenile|minor/i.test(`${pathway.label} ${pathway.summary}`));
   if (/juvenile|minor/.test(outcome) && juvenile) return juvenile;
 
+  // A pardoned conviction is still a conviction by token, so the pardon branch
+  // must run before the generic conviction branch or MD pardon participants
+  // land on the first "non-conviction"-labeled pathway (label token overlap).
+  if (profile.jurisdiction.code === "MD" && /pardon/.test(outcome)) {
+    const pardoned = profile.pathways.find((pathway) => /pardon/i.test(pathway.label));
+    if (pardoned) return pardoned;
+  }
+
   const conviction = profile.pathways.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`));
   if (/conviction|misdemeanor|felony/.test(outcome) && conviction) return conviction;
 
@@ -659,6 +671,22 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   if (deGate) return deGate;
   const akGate = akCourtViewExclusionSafetyGate(profile, answers, pathway);
   if (akGate) return akGate;
+  const mdPardonGate = mdPardonDeadlineSafetyGate(profile, answers, pathway);
+  if (mdPardonGate) return mdPardonGate;
+  return undefined;
+}
+
+// Maryland pardoned-conviction deadline bar (counsel approved 2026-08-11): Md. Crim. Proc.
+// § 10-105(c)(4) bars the pardon-based petition more than 10 years after the Governor signed the
+// pardon. A missing date is not a bar — the timing carve-out asks for it instead.
+function mdPardonDeadlineSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (routeKey(profile, pathway) !== "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8") return undefined;
+  const pardonDate = parseDateAnswer(answers.pardon_signed_date);
+  if (!pardonDate) return undefined;
+  const deadline = addDuration(pardonDate, 10, "years");
+  if (deadline && deadline < evaluationToday()) {
+    return reason(profile.jurisdiction.code, "md_pardon_deadline_not_eligible", "Md. Crim. Proc. \u00a7 10-105(c)(4) bars filing the pardon-based expungement petition more than 10 years after the Governor signed the pardon.", pathway.sourceRef);
+  }
   return undefined;
 }
 
@@ -866,6 +894,22 @@ function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway
 
 function specialRouteTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult | undefined {
   const key = routeKey(profile, pathway);
+  if (key === "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8") {
+    // Crim. Proc. § 10-105(a)(8) carries no minimum wait; § 10-105(c)(4) is the
+    // opposite constraint — filing is barred more than 10 years AFTER the
+    // Governor signed the pardon. The generic engine parses waiting rules as
+    // minimum waits, so this route asks for the pardon date instead; the
+    // passed-deadline bar is enforced by mdPardonDeadlineSafetyGate.
+    const pardonDate = parseDateAnswer(answers.pardon_signed_date);
+    if (!pardonDate) {
+      return {
+        status: "missing_anchor",
+        reason: reason(profile.jurisdiction.code, "md_pardon_date_needed", "The date the Governor signed the pardon is needed to confirm the \u00a7 10-105(c)(4) ten-year filing deadline.", rule.sourceRef ?? pathway.sourceRef),
+        missingQuestionIds: ["pardon_signed_date"]
+      };
+    }
+    return { status: "satisfied" };
+  }
   if (key === "CA:tool-1-dismissal-set-aside" || key === "CA:tool-4-arrest-record-sealing") return { status: "satisfied" };
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
   if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied" };

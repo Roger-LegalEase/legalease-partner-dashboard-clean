@@ -15,9 +15,9 @@ AUTHORIZATION_TIMESTAMP:         BLANK
 STAGING_ENVIRONMENT_NAME:        BLANK — no environment named anywhere in repo or container
 STAGING_SUPABASE_PROJECT:        BLANK — with credentials via session secret store only
 FINAL_INTEGRATION_BRANCH:        claude/rcap-final-sprint-integration (VERIFIED — canonical per the branch ruling)
-FINAL_INTEGRATION_SHA:           BLANK by construction — action file's finalAcceptedSha is null (a record cannot name the commit containing it); populate at the accepted tip after CI + Terminal B re-audit. Preflight base this session: a29c22c573935845cdd7b2bfbb2580903f1cb0fd
+FINAL_INTEGRATION_SHA:           BLANK by construction — action file's finalAcceptedSha is null (a record cannot name the commit containing it); populate at the accepted tip after CI + Terminal B re-audit. Preflight base this session: df14fb76552ed2c46eaeb3aa0b1c58275f802745
 SECURITY_CHECKPOINT_SHA:         13e356c49bd484e6f946ba604076718d904bca86 (VERIFIED from the action file)
-REQUIRED_GITHUB_CHECKS_GREEN:    BLOCKED — SF-DEFECT-001 REPRODUCED at 5f0ec4df in this session (verify-rcap-render-worker-delivery, same assert); the chain is nondeterministically red
+REQUIRED_GITHUB_CHECKS_GREEN:    OBSERVED GREEN at d6310fd2 (df14fb76 CI pending observation) (both required workflows success, GitHub API this session) — caveat: SF-DEFECT-001 REPRODUCED locally on this base, green not determinate
 PHASE_49_MIGRATION_PATH:         supabase/phase-49-rcap-packet-render-jobs.sql (VERIFIED)
 PHASE_49_SHA256:                 2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6 (VERIFIED = queue)
 PHASE_49_AUTHORIZATION_ID:       auth-2026-08-10-phase-49-packet-render-jobs (VERIFIED — applyStaging: authorized)
@@ -33,17 +33,20 @@ PHASE_52_AUTHORIZATION_ID:       auth-2026-08-11-phase-52-consumer-payment-autho
 PHASE_53_MIGRATION_PATH:         supabase/phase-53-rcap-consumer-job-binding.sql (VERIFIED)
 PHASE_53_SHA256:                 469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f (VERIFIED = queue)
 PHASE_53_AUTHORIZATION_ID:       auth-2026-08-11-phase-53-consumer-job-binding (VERIFIED — staging queued; "all five files")
-FIVE_FILE_ACTION:                staging-action-five-migrations, order 49→50→51→52→53, indivisible 52/53 (VERIFIED)
-SUPERSEDED_ACTIONS:              staging-action-two-migrations; staging-action-three-migrations; staging-action-four-migrations (VERIFIED with reasons in the action file)
+SIX_FILE_ACTION:                 staging-action-six-migrations, order 49→50→51→52→53→54, regeneration-verified from current bytes (VERIFIED)
+PHASE_54_MIGRATION_PATH:         supabase/phase-54-rcap-person-namespace-hardening.sql (VERIFIED)
+PHASE_54_SHA256:                 3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac (VERIFIED = queue)
+PHASE_54_AUTHORIZATION_ID:       auth-2026-08-11-phase-54-person-namespace-hardening (VERIFIED — staging queued, explicitly withheld)
+SUPERSEDED_ACTIONS:              two-, three-, four- and five-migration actions (VERIFIED with reasons in the action file)
 APPLY_EVIDENCE_CHECKS:           finalize→consumer_packet_payment_valid (proven discriminating in a prior session run); record_consumer_packet_payment present; exactly one enqueue signature with the two binding params (commands §11)
-APPLICATION_FIRST_PRECONDITION:  BLOCKED — the only enqueue RPC callsite uses the 15-arg Phase 53 signature and no old-signature caller exists (VERIFIED), BUT enqueueRenderJob has zero route callers and record_consumer_packet_payment has zero app callsites: the server payment writer and consumer enqueue wiring are NOT deployed anywhere, and no staging app exists to deploy to
-FEATURE_DISABLED_DURING_APPLY:   structurally true today (no live route reaches the durable queue); the named flag mechanism is still BLANK
+APPLICATION_FIRST_PRECONDITION:  VERIFIED IN-REPO at 7e1b2c4d — signed webhook → single payment writer (server_webhook authority), consumer render route → Phase 53 binding from the verified server session, no old-signature caller; "deployed" still awaits a staging environment
+FEATURE_DISABLED_DURING_APPLY:   VERIFIED — RCAP_CONSUMER_DELIVERY_ROUTE_STATE defaults to disabled (fail-closed, server-only); staging_scoped refused in production runtimes
 APPLICATION_DEPLOYMENT_TARGET:   BLANK — Vercel per docs/PHASE_17; project unnamed
 WORKER_IMAGE_SOURCE:             .github/workflows/publish-rcap-render-worker.yml → ghcr.io/roger-legalease/rcap-render-worker, full-SHA tags, private package (VERIFIED prepared, NOT run)
 WORKER_IMAGE_DIGEST:             BLANK — produced by that workflow at the final accepted SHA; host pulls with its own read:packages secret
 WORKER_DEPLOYMENT_TARGET:        BLANK — Fly.io / Railway / ECS / supervised container per spec
 STAGING_EVIDENCE_OWNED_PATHS:    PROPOSED — docs/rcap/staging-rehearsal/{evidence/<testId>/, sql/}
-STAGING_FEATURE_FLAG:            BLANK — no in-code flag exists; mechanism must be named
+STAGING_FEATURE_FLAG:            RCAP_CONSUMER_DELIVERY_ROUTE_STATE (+ RCAP_CONSUMER_DELIVERY_STAGING_SCOPE) — VERIFIED in code; staging VALUES still unset
 ROLLBACK_OWNER:                  BLANK
 OBSERVABILITY_DESTINATION:       BLANK — worker stdout JSON to platform drain; drain unnamed
 STAGING_TEST_EMAIL:              BLOCKED — test-mail capture unconfirmed (real-email stop condition)

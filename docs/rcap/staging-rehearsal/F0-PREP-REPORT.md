@@ -1,46 +1,45 @@
-# F0 Staging Preflight Report — Session F (Phase 49→53 revision)
+# F0 Staging Preflight Report — Session F (Phase 49→54 revision)
 
 - Lane: session-f-staging-preflight (execution and evidence lane; no implementation)
 - MODE: PREP_ONLY (nothing applied, deployed, published, enabled, or altered)
 - Date: 2026-08-11
-- Branch: `claude/rcap-staging-preflight-phase53`
-- Base: `origin/claude/rcap-final-sprint-integration` @ `a29c22c573935845cdd7b2bfbb2580903f1cb0fd` (fetched and pinned this session; canonical branch per the in-repo branch ruling; the action file's `finalAcceptedSha` is null by construction and is NOT this SHA)
+- Branch: `claude/rcap-staging-preflight-phase54`
+- Base: `origin/claude/rcap-final-sprint-integration` @ `df14fb76552ed2c46eaeb3aa0b1c58275f802745` (fetched and pinned this session; canonical branch per the in-repo branch ruling; the action file's `finalAcceptedSha` is null by construction and is NOT this SHA)
 - Worktree: separate clean worktree (0 dirty paths at creation); all lane changes under `docs/rcap/staging-rehearsal/`
 
-## 1. The five-migration sequence (every value verified against disk bytes and the queue this session)
+## 1. The six-migration sequence (verified against disk bytes and the queue at d6310fd2 this session)
 
 | Pos | Phase | Path | SHA-256 (disk = queue) | Authorization ID | Staging disposition |
 |---|---|---|---|---|---|
 | 1 | 49 | `supabase/phase-49-rcap-packet-render-jobs.sql` | `2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6` | auth-2026-08-10-phase-49-packet-render-jobs | **authorized** |
 | 2 | 50 | `supabase/phase-50-rcap-packet-delivery-hardening.sql` | `15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62` | auth-2026-08-10-phase-50-packet-delivery-hardening | queued |
 | 3 | 51 | `supabase/phase-51-rcap-consumer-payment-gate.sql` | `3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba` | auth-2026-08-10-phase-51-consumer-payment-gate | queued |
-| 4 | 52 | `supabase/phase-52-rcap-consumer-payment-authority.sql` | `c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3` | auth-2026-08-11-phase-52-consumer-payment-authority | queued (names all four) |
-| 5 | 53 | `supabase/phase-53-rcap-consumer-job-binding.sql` | `469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f` | auth-2026-08-11-phase-53-consumer-job-binding | queued (names all five) |
+| 4 | 52 | `supabase/phase-52-rcap-consumer-payment-authority.sql` | `c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3` | auth-2026-08-11-phase-52-consumer-payment-authority | queued |
+| 5 | 53 | `supabase/phase-53-rcap-consumer-job-binding.sql` | `469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f` | auth-2026-08-11-phase-53-consumer-job-binding | queued |
+| 6 | 54 | `supabase/phase-54-rcap-person-namespace-hardening.sql` | `3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac` | auth-2026-08-11-phase-54-person-namespace-hardening | queued — **explicitly withheld by the authorizing instruction** |
 
-Canonical action: `data/rcap-staging-action.json` — `staging-action-five-migrations`,
-status `prepared_queued_not_authorized`, order 49→50→51→52→53, security
-checkpoint SHA `13e356c4`, phases 52/53 indivisible. Superseded action IDs, with
-recorded reasons: `staging-action-two-migrations` (unpaid consumers deliverable),
-`staging-action-three-migrations` (payer-bypassable, RCAP-SEC-001),
-`staging-action-four-migrations` (gate correct but unreachable). The legacy
-three-file A1-staging text on the phase-50 entry is historical; the five-file
-action is the current record. Phase 48 remains declined/superseded.
+Canonical action: `staging-action-six-migrations`, `prepared_queued_not_authorized`,
+order 49→50→51→52→53→54, regeneration-verified from current bytes this session
+(`generate-rcap-staging-action.mjs --check`: "staging action current — 6
+migrations, 8 required environment value(s) still unpopulated"). Superseded
+action IDs: two-, three-, four- AND five-migration forms. Apply-evidence:
+`verify-rcap-migration-apply-evidence` — 33/33 on ephemeral self-test this
+session, now covering all six migrations.
 
-## 2. Application-first precondition (audited in src/ this session)
+Phase 54 closes what the namespace verifier flagged: RLS ON for `rcap_persons`,
+browser-role grants revoked, the reserved consumer slug unclaimable by partner
+registration, and namespace membership constrained both ways.
+
+## 2. Application-first precondition (audited in src/ at 7e1b2c4d this session) — NOW SATISFIED IN-REPO
 
 | Requirement | Finding |
 |---|---|
-| Consumer enqueue uses the Phase 53 signature | VERIFIED — the single `rpc("enqueue_packet_render_job")` callsite (`src/lib/rcap/render/job-queue.ts`) passes 15 args including `p_consumer_briefcase_item_id` and `p_expected_consumer_auth_user_id` |
-| No deployed code calls the old unbound signature | VERIFIED in-repo — zero other callsites; Phase 53 SQL drops the 13-arg function |
-| Server payment writer deployed | **BLOCKED** — `record_consumer_packet_payment` exists only in Phase 52 SQL; **zero app callsites** anywhere in src/ |
-| Identities passed by the server | **BLOCKED** — the identity contract exists (`RenderJobIdentity` with `expectedConsumerAuthUserId`) but `enqueueRenderJob` has **zero route callers**; no server path constructs it yet |
-| Feature disabled during apply | structurally true — no live route reaches the durable queue; a named flag mechanism still does not exist |
-
-Consequence: "application-first" cannot be satisfied by deploying the current
-tip alone — the consumer enqueue route and server payment-writer wiring are
-not yet written, and no staging app exists to deploy to. Whether that wiring
-is a prerequisite Terminal A intends to land before staging, or Stage-6+ test
-harness code stands in for it, is the captain's call to state in the gate.
+| Server payment writer present | VERIFIED — single writer `consumer-payment-authority.ts` calling `rpc("record_consumer_packet_payment")`; authority constrained to server_webhook/server_admin; "the only remaining way the application can record that money changed hands" |
+| Signed webhook | VERIFIED — `src/lib/stripe/webhook-handler.ts` requires the stripe-signature header and `stripe.webhooks.constructEvent` (400 on missing/invalid), then `reconcileExpungementAiCheckoutEvent` → the payment authority; nothing is driven by a request body |
+| Consumer enqueue route | VERIFIED — `src/app/api/expungement-ai/packet/render/route.ts` → `requestConsumerPacketRender` |
+| Phase 53 callsite | VERIFIED — the request passes `consumerBriefcaseItemId` and `expectedConsumerAuthUserId` derived from the verified server session (consumer-identity.ts); the single enqueue RPC uses the 15-arg signature; no old-signature caller exists |
+| Server-side route control | VERIFIED — `consumer-delivery-control.ts`: `RCAP_CONSUMER_DELIVERY_ROUTE_STATE` ∈ disabled/staging_scoped/live, server-only (never NEXT_PUBLIC), unrecognized value ⇒ disabled, `staging_scoped` refused outright in a production runtime, plus `RCAP_CONSUMER_DELIVERY_STAGING_SCOPE` for the named staging test users; route authorized by exact path and bytes (5833b148) |
+| Feature disabled during apply | VERIFIED — default state is `disabled`; the control exists precisely for the migration window |
 
 ## 3. Verifier evidence at this tip (all run in this session, ephemeral clusters + pinned chromium)
 
@@ -53,7 +52,12 @@ harness code stands in for it, is the captain's call to state in the gate.
 | `test-rcap-phase53-mutations` | PASS 8/8 mutations red |
 | `verify-rcap-migration-apply-evidence` | PASS 32/32 |
 | `verify-rcap-packet-delivery-db` | PASS |
-| `verify-rcap-render-worker-delivery` | **FAIL — SF-DEFECT-001 reproduced twice at this tip** (same substitution assert; captain's readiness note of 3 clean runs is now contradicted) |
+| `verify-rcap-render-worker-delivery` | **FLAKY — REPRODUCED on the Phase 54 base: pass/pass/FAIL/pass in four runs this session; SF-DEFECT-001 stays OPEN** |
+| `verify-rcap-consumer-person-namespace` (Phase 54) | PASS 14/14 properties — RLS on, browser roles revoked, reserved slug unclaimable |
+| `test-rcap-phase54-mutations` | PASS 5/5 mutations red |
+| `verify-expungement-consumer-payment-http` (new) | PASS 18/18 |
+| `test-rcap-consumer-payment-http-mutations` (new) | PASS 7/7 mutations red |
+| `verify-rcap-consumer-person-namespace` (new) | PASS 8/8 — note: rcap_persons still carries no table-level RLS, Roger's to authorize |
 | `verify-rcap-render-worker-runtime` | PASS |
 | `verify-rcap-packet-delivery-e2e` (mobile Chromium) | PASS |
 | `verify-rcap-mutation-authority` | PASS |
@@ -73,7 +77,7 @@ named. `readyToRequestAuthorization: false`.
 | Database access | psql 16 client + PG16 server binaries present; staging connection string absent |
 | Auth/Storage readiness | unverifiable without project; bucket `rcap-packet-artifacts-private`; email-verification capture unconfirmed (stop condition) |
 | Current staging app SHA / worker digest | unknown — nothing deployed, nothing published |
-| Feature flags | no in-code mechanism (env reads unchanged); must be named in the gate |
+| Feature flags | NAMED — `RCAP_CONSUMER_DELIVERY_ROUTE_STATE` (disabled/staging_scoped/live, fail-closed, server-only) + `RCAP_CONSUMER_DELIVERY_STAGING_SCOPE` |
 | Secret source | platform secret manager; none here (verified zero matching env vars) |
 | Logs/metrics | worker stdout JSON → unnamed drain; job table is source of truth |
 | Mobile-browser environment | pinned chromium `/opt/pw-browsers/chromium` — exercised by e2e this session |
@@ -81,12 +85,10 @@ named. `readyToRequestAuthorization: false`.
 
 ## 4b. Provider path (facts from this session)
 
-The consumer payment provider path — webhook → `record_consumer_packet_payment`
-with `p_authority='server_webhook'` — is NOT wired anywhere in src/ (zero
-callsites; verified again at this tip). Neither existing Stripe webhook route
-(`src/app/api/stripe/webhook/route.ts`,
-`src/app/api/method/expungement.api.payment.stripe_webhook/route.ts`) contains
-provider signature verification (grep this session). The writer's SQL contract
+The consumer payment provider path IS now wired (verified at 7e1b2c4d):
+both webhook routes delegate to `src/lib/stripe/webhook-handler.ts`, which
+verifies the provider signature (`constructEvent`, 400 on failure, never logs
+the secret/body) before reconciliation reaches the single payment writer. The writer's SQL contract
 carries the fields the provider cases exercise: `p_amount_cents`, `p_currency`,
 `p_payment_provider`, `p_provider_event_id` (uniqueness key),
 `p_checkout_session_id`, `p_payment_intent_id`, `p_authority`
@@ -108,12 +110,42 @@ wiring, not an optional hardening.
 | `F0-DEFECT-REPORT-001.md` | Substitution-assert flake — now with the 5f0ec4df reproduction record |
 | `F0-PREP-REPORT.md` | This report |
 
+## 5a2. df14fb76 delta (verified this session)
+
+One commit past the Phase 54 base: scripts-only (the scope guard now reads
+committed diffs rather than `git status`, and the mutation harnesses survive
+signals). No supabase/, src/, or action-file change; the six migration hashes
+are unchanged and `generate-rcap-staging-action.mjs --check` still returns
+"staging action current — 6 migrations". The only queue change is a new
+bookkeeping entry `auth-2026-08-11-partner-onboarding-packet-entitlement-read`
+(restricted_path_source_change for `src/lib/partners/partner-onboarding.ts`,
+already merged and CI-green, FLAGGED FOR ROGER'S CONFIRMATION) — it grants no
+environment scope and does not alter the six-migration action. Updated
+harnesses re-run green here: phase-54 mutations 5/5 red, consumer-payment HTTP
+mutations 7/7 red.
+
+## 5b. CI observation (this session)
+
+GitHub Actions on the canonical branch: both required workflows — "RCAP All50
+Handoff Verification" and "Expungement.ai Consumer Adapter Verification" —
+completed **success at 7e1b2c4d** (88e55e2f: both failed; 5833b148: one fixed;
+7e1b2c4d: both green). First fully green SHA of the wired system, observed via
+the GitHub API this session. The SF-DEFECT-001 flake remains latent, so green
+is real but not yet proven determinate.
+
+## 5c. Phase 54 anticipation
+
+If/when Terminal A lands a Phase 54, this lane extends `migrationsInApplyOrder`,
+the apply/verification commands, the gate block, and the matrix accordingly —
+against the queue record and bytes on disk at that tip, never from a status
+report.
+
 ## 6. Exact blockers to EXECUTE_STAGING
 
 1. `readyToRequestAuthorization: false` in the captain's own readiness record — authorization is not even being requested yet.
 2. Roger's staging grant for phases 50–53 (all five files + environment) — all queued.
-3. SF-DEFECT-001 — reproduced twice at this tip in this session; chain nondeterministically red, so no trustworthy CI-green attestation.
-4. Application-first precondition — server payment writer and consumer enqueue route have zero app callsites; nothing to deploy that exercises the Phase 53 path.
+3. SF-DEFECT-001 — REPRODUCED on the Phase 54 base (1 of 4 runs failed, same substitution assert; fixture and renderer unchanged): stays open, CI green is real but not determinate.
+4. Application-first precondition — SATISFIED in-repo at 7e1b2c4d; "deployed" still requires a staging environment to exist.
 5. `finalAcceptedSha` null by construction — must be populated at the accepted tip after CI green + Terminal B re-audit.
 6. GHCR publication workflow not run — no worker digest exists.
 7. Every environment/credential field blank: Supabase project, DB URL, Auth/Storage keys, Vercel project/token, worker host + pull secret, flag mechanism, rollback owner, log drain, test-mail confirmation.

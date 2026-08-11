@@ -144,7 +144,8 @@
   "canonicalVocabulary": {
     "pathwayRelations": [
       "direct_runtime_representation",
-      "compiled_variant_of_registry_track"
+      "compiled_variant_of_registry_track",
+      "unregistered_relief_mechanism_registry_gap"
     ],
     "trackRelations": [
       "exact_current_pathway"
@@ -157,8 +158,8 @@
     "direct_runtime_representation": 21,
     "crosswalk_terminal_classified": 6,
     "compiled_variant_of_registry_track": 2,
-    "still_blocked": 3,
-    "exact_current_pathway": 6
+    "unregistered_relief_mechanism_registry_gap": 2,
+    "exact_current_pathway": 7
   },
   "reviewRequirementDefinitions": {
     "wv-61-11-26-class-fidelity": {
@@ -176,6 +177,18 @@
     "tx-55a051-3-class-c-eligibility": {
       "question": "Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out. The registry flags this itself.",
       "relationshipExactness": "EXACT as a mapping. The question is an eligibility question: either way the pathway lives inside art. 55A.051, so the counterpart track does not change.",
+      "owner": "counsel review",
+      "launchLedgerEffect": "none"
+    },
+    "pa-3019-guidance-depth-fidelity": {
+      "question": "The official 18 Pa.C.S. § 3019(d)-(g) bytes establish a closed eligible-conviction set (§§ 3503, 5503, 5506, 5507, 5902, simple possession), a written-motion requirement, Commonwealth consent, particularized supporting evidence, an official-documentation presumption, and a mandatory grant standard. The compiled path-k pathway represents the mechanism at guidance depth (attorney escalation, Lawrence hold_guidance, packet_capable false) and encodes none of those procedural elements. Counsel must confirm the escalation-only treatment remains in force until the statutory procedure is encoded, and that no packet flow asserts eligibility beyond the closed (d)(1) enumeration.",
+      "relationshipExactness": "EXACT as a registry-gap classification. The mechanism is proven by the preserved official bytes, the pathway carries it without asserting anything the statute refutes, and no registry track registers § 3019. What is open is compiled-side procedural depth, not the classification.",
+      "owner": "counsel review",
+      "launchLedgerEffect": "none"
+    },
+    "sc-16-3-2020-procedural-fidelity": {
+      "question": "The official S.C. Code § 16-3-2020(F) bytes require reasonable notice of the expungement motion to the original prosecuting agency and reasonable notice given or attempted to any victims under the Victim’s Bill of Rights, and 2024 Act No. 213 § 6 makes the rewritten subsection retroactive. The compiled pathway carries the victim-status, offense-class, nexus, preponderance and expungement elements in near-statutory language but omits both notice requirements and the express retroactivity note. Counsel must confirm the packet flow adds the notice steps before any unattended filing use and that retroactive reach is reflected in eligibility screening.",
+      "relationshipExactness": "EXACT as a registry-gap classification. The mechanism is proven by the preserved official bytes including the 2024 amendment, the pathway carries it without asserting anything the statute refutes, and no registry track registers § 16-3-2020. What is open is compiled-side procedural completeness, not the classification.",
       "owner": "counsel review",
       "launchLedgerEffect": "none"
     }
@@ -547,7 +560,7 @@
       "subjectKind": "compiled_pathway",
       "jurisdiction": "PA",
       "subjectId": "path-k-human-trafficking-vacatur-expungement",
-      "relationshipType": "still_blocked",
+      "relationshipType": "unregistered_relief_mechanism_registry_gap",
       "counterpart": null,
       "laneOutcome": "still_blocked",
       "laneConfidence": "high",
@@ -560,12 +573,15 @@
         "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json"
       ],
       "evidencePins": [],
-      "missingEvidence": "Official primary authority named in docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md; not committed to this repository.",
-      "owner": "external-retrieval lane (outbound access required)",
-      "nextAction": "Retrieve the official primary text per docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md, commit it, then re-run the canonical generator.",
-      "blockerKind": "official_source_gap",
-      "milestone1Item2Effect": "blocks closure until the official text is committed",
-      "retrievalPacket": "docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md"
+      "license": "Official-source registry gap, condition-lifted per the blocked record’s own next action: the operator-supplied 18 Pa.C.S. § 3019(d)-(g) bytes are committed and hash-receipted (sha256 0dc688b9…), and read directly they establish a motion-to-vacate mechanism for a closed conviction set (§§ 3503, 5503, 5506, 5507, 5902, simple possession) committed as a direct result of being a trafficking victim, with written motion, Commonwealth consent, particularized evidence, an official-documentation presumption, a mandatory grant standard, and vacatur plus expungement of all related records on grant. The compiled path-k pathway carries this mechanism at guidance depth and no PA registry track carries § 3019 operatively, so the pathway is an unregistered relief mechanism — a registry-owner blocker, never a denominator change. Re-checked against the committed receipt, bytes, registry projection and profile on every generation; any drift re-blocks.",
+      "operativeAuthority": "18 Pa.C.S. § 3019(d)-(g)",
+      "reviewRequirement": {
+        "id": "pa-3019-guidance-depth-fidelity",
+        "question": "The official 18 Pa.C.S. § 3019(d)-(g) bytes establish a closed eligible-conviction set (§§ 3503, 5503, 5506, 5507, 5902, simple possession), a written-motion requirement, Commonwealth consent, particularized supporting evidence, an official-documentation presumption, and a mandatory grant standard. The compiled path-k pathway represents the mechanism at guidance depth (attorney escalation, Lawrence hold_guidance, packet_capable false) and encodes none of those procedural elements. Counsel must confirm the escalation-only treatment remains in force until the statutory procedure is encoded, and that no packet flow asserts eligibility beyond the closed (d)(1) enumeration.",
+        "relationshipExactness": "EXACT as a registry-gap classification. The mechanism is proven by the preserved official bytes, the pathway carries it without asserting anything the statute refutes, and no registry track registers § 3019. What is open is compiled-side procedural depth, not the classification.",
+        "owner": "counsel review",
+        "launchLedgerEffect": "none"
+      }
     },
     {
       "jobId": "compiled_pathway:SC:diversion-or-program-completion-expungement",
@@ -599,7 +615,7 @@
       "subjectKind": "compiled_pathway",
       "jurisdiction": "SC",
       "subjectId": "human-trafficking-survivor-expungement",
-      "relationshipType": "still_blocked",
+      "relationshipType": "unregistered_relief_mechanism_registry_gap",
       "counterpart": null,
       "laneOutcome": "still_blocked",
       "laneConfidence": "high",
@@ -613,12 +629,15 @@
         "src/lib/rcap/state-packs/south-carolina/pathways.ts"
       ],
       "evidencePins": [],
-      "missingEvidence": "Official primary authority named in docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md; not committed to this repository.",
-      "owner": "external-retrieval lane (outbound access required)",
-      "nextAction": "Retrieve the official primary text per docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md, commit it, then re-run the canonical generator.",
-      "blockerKind": "official_source_gap",
-      "milestone1Item2Effect": "blocks closure until the official text is committed",
-      "retrievalPacket": "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md"
+      "license": "Official-source registry gap, condition-lifted per the blocked record’s own next action: the operator-supplied S.C. Code § 16-3-2020(F) bytes are committed and hash-receipted (sha256 b7f64d13…) with the 2024 Act No. 213 history and the Act 213 § 6 retroactivity note, and read directly they establish a motion-based expungement remedy for a trafficking victim’s conviction or delinquency adjudication (trafficking-article, prostitution, or other nonviolent misdemeanor or Class F felony per § 16-1-20(A)(6)-(9)) on a preponderance finding of the direct-result-or-interrelated nexus, with notice to the original prosecuting agency and to victims. The compiled pathway carries the mechanism in near-statutory language and no SC registry track carries § 16-3-2020 operatively, so the pathway is an unregistered relief mechanism — a registry-owner blocker, never a denominator change. Re-checked against the committed receipt, bytes, registry projection and profile on every generation; any drift re-blocks.",
+      "operativeAuthority": "S.C. Code § 16-3-2020(F) (as rewritten by 2024 Act No. 213 § 2, eff July 2, 2024; retroactive per Act 213 § 6)",
+      "reviewRequirement": {
+        "id": "sc-16-3-2020-procedural-fidelity",
+        "question": "The official S.C. Code § 16-3-2020(F) bytes require reasonable notice of the expungement motion to the original prosecuting agency and reasonable notice given or attempted to any victims under the Victim’s Bill of Rights, and 2024 Act No. 213 § 6 makes the rewritten subsection retroactive. The compiled pathway carries the victim-status, offense-class, nexus, preponderance and expungement elements in near-statutory language but omits both notice requirements and the express retroactivity note. Counsel must confirm the packet flow adds the notice steps before any unattended filing use and that retroactive reach is reflected in eligibility screening.",
+        "relationshipExactness": "EXACT as a registry-gap classification. The mechanism is proven by the preserved official bytes including the 2024 amendment, the pathway carries it without asserting anything the statute refutes, and no registry track registers § 16-3-2020. What is open is compiled-side procedural completeness, not the classification.",
+        "owner": "counsel review",
+        "launchLedgerEffect": "none"
+      }
     },
     {
       "jobId": "compiled_pathway:TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
@@ -1034,8 +1053,8 @@
       "subjectKind": "registry_track",
       "jurisdiction": "MD",
       "subjectId": "md_pardon_expungement",
-      "relationshipType": "still_blocked",
-      "counterpart": null,
+      "relationshipType": "exact_current_pathway",
+      "counterpart": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
       "laneOutcome": "resolved",
       "laneConfidence": "medium",
       "evidence": [
@@ -1048,14 +1067,10 @@
       "evidencePins": [
         "data/record-clearing/legal-design-track-registry.json@3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
       ],
-      "missingEvidence": "A compiled runtime pathway representing the Md. Crim. Proc. § 10-105(a)(8) full-and-unconditional-pardon expungement route. The statutory authority is committed; what is absent is a top-level pathway in src/lib/rcap-engine/compiled/profiles/MD-maryland.json that a pardoned-conviction participant is routed to.",
-      "owner": "compiled-profile build lane (MD)",
-      "nextAction": "Author an MD pardon-expungement pathway under § 10-105(a)(8)/(c)(4), then repoint rule-11 candidatePathwayIds at it. Re-run the canonical generator; md_pardon_expungement resolves to exact_current_pathway once that pathway exists.",
-      "blockerKind": "compiled_runtime_gap",
-      "milestone1Item2Effect": "blocks closure until the MD pardon pathway is authored",
-      "captainOverride": {
-        "laneProposed": "adult-non-conviction-expungement-under-crim-proc-10-105",
-        "rejectionBasis": "The proposed pathway is expressly scoped to cases that did not end in a conviction and mentions \"pardon\" zero times, while md_pardon_expungement carries the single disposition pardoned_conviction under Md. Crim. Proc. § 10-105(a)(8) and (c)(4). The MD profile refutes the mapping directly: orderedDecisionRules rule-11-full-and-unconditional-governor-pardon-10-105-route-onl carries candidatePathwayIds [cannabis-specific-expungement, automatic-expungement-under-crim-proc-10-105-1, second-chance-act-shielding, juvenile-expungement] — it routes pardon applicants AWAY from the proposed pathway. None of the seven committed MD pathways represents the pardon route."
+      "license": "Subsection containment, corroborated by the profile's own pathway-routing rule. (1) Containment: the track's entire authority is § 10-105(a)(8) and § 10-105(c)(4); both are paragraphs of § 10-105, which is the operative citation of adult-non-conviction-expungement-under-crim-proc-10-105 — the same containment license E2-A1 applied to the Alabama § 15-27-2(a) paragraphs. Neither remaining candidate contains them: juvenile-expungement is Cts. & Jud. Proc. § 3-8A-27.1, second-chance-act-shielding is Crim. Proc. §§ 10-301 through 10-306. (2) Corroboration: the MD profile routes this exact fact pattern to this exact route — orderedDecisionRules[id 'rule-11-full-and-unconditional-governor-pardon-10-105-route-onl'], stage pathway_routing, sourceConditionText 'Full and unconditional governor pardon 10-105 route Only if one criminal act and not crime of violence; timing constraints apply', which restates the track's mechanism; the same row appears in the profile's primary routing table at sourceSections[18]. (3) The pathway's label understates its scope rather than contradicting the mapping: it already reaches conviction-based § 10-105 grounds, carrying 'Acts no longer crimes (§ 10-105(a)(11)) and convictions vacated under § 8-302' in its own leading clauses. A generator re-applies this as: expand the track's paragraph citations to their parent section, then match against pathway operative-citation tokens. QA flag for counsel, recorded here rather than suppressed: the runtime pathway does not yet implement the (a)(8) one-criminal-act and crime-of-violence limits or the (c)(4) ten-year filing deadline, and does not bind the track's primary filing CC-DC-CR-072B, which the coded state pack catalogs against § 10-110. That is an implementation gap on a correctly identified counterpart, not a competing mapping — no § 10-110 pathway was offered as a candidate and the track cites no § 10-110.",
+      "operativeAuthority": {
+        "citation": "Md. Code, Crim. Proc. § 10-105",
+        "subsection": "§ 10-105(a)(8) — conviction of only one criminal act, not a crime of violence under Crim. Law § 14-101(a), for which the Governor granted a full and unconditional pardon; and § 10-105(c)(4) — the petition may not be filed later than 10 years after the Governor signed the pardon."
       }
     },
     {
