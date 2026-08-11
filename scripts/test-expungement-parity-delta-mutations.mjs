@@ -52,13 +52,37 @@ function repin(file) {
   writeJson(RECORD, record);
 }
 
+/**
+ * Each case runs the real verifier in a child process, under a hard deadline.
+ *
+ * The deadline is not decoration. The verifier shells out to `git show` for
+ * every compared file, and a git invocation can block indefinitely on a host
+ * this harness does not control — a lock, a credential prompt, a partial-clone
+ * fetch. Without a bound, one such case turns a blocking CI step into a job that
+ * runs until the platform kills it, which is indistinguishable from "still
+ * working" and is exactly the failure mode SF-DEFECT-001 was about.
+ *
+ * A timeout is reported as a harness FAILURE, never as a caught mutation: a case
+ * that did not finish proved nothing.
+ */
+const VERIFIER_TIMEOUT_MS = 300_000;
+
 function runVerifier() {
   const result = spawnSync(process.execPath, ["scripts/verify-expungement-plain-language-values.mjs"], {
     cwd: root,
     encoding: "utf8",
-    maxBuffer: 100 * 1024 * 1024
+    maxBuffer: 100 * 1024 * 1024,
+    timeout: VERIFIER_TIMEOUT_MS,
+    killSignal: "SIGKILL",
+    // The child must never wait on an interactive prompt in a non-interactive
+    // run; failing closed is the only acceptable outcome.
+    env: { ...process.env, GIT_TERMINAL_PROMPT: "0", GIT_OPTIONAL_LOCKS: "0" }
   });
-  return { status: result.status, output: `${result.stdout ?? ""}${result.stderr ?? ""}` };
+  return {
+    status: result.status,
+    timedOut: result.error?.code === "ETIMEDOUT" || result.signal === "SIGKILL",
+    output: `${result.stdout ?? ""}${result.stderr ?? ""}`
+  };
 }
 
 const results = [];
@@ -75,9 +99,14 @@ function mutation(name, mutate, expectedMarker) {
     return;
   }
 
-  const { status, output } = runVerifier();
+  const { status, timedOut, output } = runVerifier();
   restore();
 
+  if (timedOut) {
+    console.error(`  TIMEOUT  ${name}: the verifier did not finish within ${VERIFIER_TIMEOUT_MS / 1000}s`);
+    failed += 1;
+    return;
+  }
   if (status === 0) {
     console.error(`  SURVIVED ${name}: the parity verifier still passed`);
     failed += 1;
