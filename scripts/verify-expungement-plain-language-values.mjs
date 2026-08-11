@@ -2,6 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
+import {
+  APPROVED_DELTAS_PATH,
+  authorizedBaseline,
+  findProjection,
+  loadApprovedParityDeltas
+} from "./lib/screening-parity-deltas.mjs";
+
 const root = process.cwd();
 const profileRoot = "src/lib/rcap-engine/compiled/profiles";
 const aggregateFiles = [
@@ -10,6 +17,18 @@ const aggregateFiles = [
 ];
 const failures = [];
 const baselineRef = resolveBaselineRef();
+
+/**
+ * Reviewed screening changes arrive as a delta record that is APPLIED to the
+ * baseline, producing the exact shape the tree must match. Nothing below is
+ * skipped for an approved change — the comparison is the same one, run against
+ * a fully specified expectation. A malformed record throws here rather than
+ * being treated as "no approval", because a broken approval is not an absent
+ * one and must not read as permission.
+ */
+const approvedDeltas = loadApprovedParityDeltas({ rootDir: root });
+/** Ids whose bytes the approval pins directly, so the prompt spec table does not apply. */
+const hashPinnedQuestionIds = new Set(approvedDeltas.deltas.map((delta) => delta.questionId));
 
 const expectedPromptById = {
   jurisdiction_scope: (state) => `Did this case happen in ${state} (not a federal case)?`,
@@ -95,7 +114,29 @@ function questionKey(code, question) {
   return `${code}:${question.id}`;
 }
 
-function compareProfile(code, before, after) {
+/**
+ * Applies any reviewed delta covering this exact file and jurisdiction, giving
+ * back the baseline the tree is expected to match. When the tree does not match
+ * the record, the untransformed baseline comes back and the ordinary comparison
+ * stays red — a stale or wrong approval never turns into permission.
+ */
+function baselineFor(filePath, jurisdictionCode, baseline, current, label) {
+  const match = findProjection(approvedDeltas.deltas, { filePath, jurisdictionCode });
+  if (!match) return { baseline, pinned: new Set() };
+
+  const transformed = authorizedBaseline({
+    delta: match.delta,
+    projection: match.projection,
+    baseline,
+    current,
+    onFailure: (reason) => assert(false, `${label} ${reason}`)
+  });
+  if (!transformed) return { baseline, pinned: new Set() };
+
+  return { baseline: transformed, pinned: new Set([match.delta.questionId]) };
+}
+
+function compareProfile(code, before, after, pinnedIds = new Set()) {
   assert(before.questions.length === after.questions.length, `${code} question count changed.`);
   assert(stable(before.questions.map((question) => question.id)) === stable(after.questions.map((question) => question.id)), `${code} question order changed.`);
   assert(stable(before.flowStages) === stable(after.flowStages), `${code} flow stage/order metadata changed.`);
@@ -117,6 +158,10 @@ function compareProfile(code, before, after) {
       assert(afterQuestion.prompt === expected, `${questionKey(code, afterQuestion)} prompt was "${afterQuestion.prompt}", expected "${expected}".`);
     } else if (unchangedPromptIds.has(afterQuestion.id)) {
       assert(afterQuestion.prompt === beforeQuestion.prompt, `${questionKey(code, afterQuestion)} should have stayed unchanged.`);
+    } else if (pinnedIds.has(afterQuestion.id)) {
+      // Covered by the reviewed delta's content hash instead, which is a
+      // stricter statement than the spec table: not "the wording follows a
+      // pattern" but "the wording is exactly what was approved".
     } else if (!String(afterQuestion.id).startsWith("source_question")) {
       assert(false, `${questionKey(code, afterQuestion)} is not covered by the plain-language spec table.`);
     }
@@ -143,16 +188,23 @@ function compareProfile(code, before, after) {
 
 const profileFiles = fs.readdirSync(path.join(root, profileRoot)).filter((file) => file.endsWith(".json")).sort();
 for (const file of profileFiles) {
-  const current = readJson(`${profileRoot}/${file}`);
-  const baseline = readBaselineJson(`${profileRoot}/${file}`);
-  compareProfile(current.jurisdiction.code, baseline, current);
+  const filePath = `${profileRoot}/${file}`;
+  const current = readJson(filePath);
+  const baseline = readBaselineJson(filePath);
+  const code = current.jurisdiction.code;
+  const authorized = baselineFor(filePath, code, baseline, current, code);
+  compareProfile(code, authorized.baseline, current, authorized.pinned);
 }
 
 for (const file of aggregateFiles) {
   const current = readJson(file);
   const baseline = readBaselineJson(file);
   assert(stable(Object.keys(current).sort()) === stable(Object.keys(baseline).sort()), `${file} jurisdiction set changed.`);
-  for (const code of Object.keys(current).sort()) compareProfile(`${file}:${code}`, baseline[code], current[code]);
+  for (const code of Object.keys(current).sort()) {
+    const label = `${file}:${code}`;
+    const authorized = baselineFor(file, code, baseline[code], current[code], label);
+    compareProfile(label, authorized.baseline, current[code], authorized.pinned);
+  }
 }
 
 if (failures.length) {
