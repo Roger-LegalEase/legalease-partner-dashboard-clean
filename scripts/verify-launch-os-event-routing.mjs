@@ -115,8 +115,17 @@ assertIncludes("src/lib/expungement-ai/payment-adapter.ts", [
   "unit_amount: consumerPacketPriceCents",
   "consumerPacketPriceCents = 5000",
   "assertCheckoutAllowed",
-  "isConsumerPaymentAllowed",
-  "packetStatus: item.packetStatus === \"ready\" ? \"ready\" : \"pending\""
+  "isConsumerPaymentAllowed"
+]);
+
+// The packet-status transition on a confirmed payment moved out of the payment
+// adapter when the adapter stopped writing payment facts. Its home is now the
+// signature-verified webhook, which is the only thing that records a payment at
+// all — so that is where this marker has to be asserted, or the check would
+// pass while nothing set the status.
+assertIncludes("src/lib/expungement-ai/checkout-reconciliation.ts", [
+  "updateBriefcasePacketStatusForWebhook",
+  "item.packetStatus === \"ready\" ? \"ready\" : \"pending\""
 ]);
 
 for (const envName of ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "NEXT_PUBLIC_PARTNER_APP_URL", "NEXT_PUBLIC_EXPUNGEMENT_AI_URL"]) {

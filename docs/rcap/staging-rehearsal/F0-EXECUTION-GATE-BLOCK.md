@@ -1,45 +1,55 @@
-# Execution Authorization Block — prepared, NOT granted
+# Execution Authorization Block — five-migration system, prepared, NOT granted
 
-Every field below must be supplied/confirmed before EXECUTE_STAGING. Fields
-this lane could verify from the repository in this session are filled and
-marked VERIFIED; everything else is visibly BLANK or BLOCKED. A chat-level
-"authorized" does not fill any field: the migration grants must match the
-captain-owned queue record (`data/rcap-authorization-queue.json`).
+Mirrors the captain's data-driven readiness record
+(`data/rcap-staging-authorization-readiness.json`, readyToRequestAuthorization:
+**false**) and the machine-derived action (`data/rcap-staging-action.json`,
+`staging-action-five-migrations`, status `prepared_queued_not_authorized`).
+Fields verified from the repository in this session are marked VERIFIED;
+everything else is visibly BLANK or BLOCKED. A chat-level grant fills nothing:
+migration grants must land in the captain-owned queue record.
 
 ```
-EXECUTE_STAGING_AUTHORIZED:      BLANK — not granted
+EXECUTE_STAGING_AUTHORIZED:      BLANK — not granted; readiness record says authorization is NOT being requested yet
 AUTHORIZED_BY:                   BLANK — must be Roger Roman
 AUTHORIZATION_TIMESTAMP:         BLANK
-STAGING_ENVIRONMENT_NAME:        BLANK — no staging environment identified anywhere in repo or container
-STAGING_SUPABASE_PROJECT:        BLANK — must come with credentials via the session secret store
-FINAL_INTEGRATION_BRANCH:        claude/rcap-final-sprint-integration (VERIFIED present)
-FINAL_INTEGRATION_SHA:           BLANK — Terminal A names it; preflight base this session: abbc48a19f79a817a4e14d4350297a9a753dbc05
-REQUIRED_GITHUB_CHECKS_GREEN:    BLOCKED — SF-DEFECT-001 makes verify-rcap-render-worker-delivery nondeterministically red (pass/FAIL/FAIL observed on identical trees); no attestation is trustworthy until Terminal A lands a fix
-PHASE_49_MIGRATION_PATH:         supabase/phase-49-rcap-packet-render-jobs.sql (VERIFIED on disk)
-PHASE_49_SHA256:                 2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6 (VERIFIED — matches queue authorizedSha256)
+STAGING_ENVIRONMENT_NAME:        BLANK — no environment named anywhere in repo or container
+STAGING_SUPABASE_PROJECT:        BLANK — with credentials via session secret store only
+FINAL_INTEGRATION_BRANCH:        claude/rcap-final-sprint-integration (VERIFIED — canonical per the branch ruling)
+FINAL_INTEGRATION_SHA:           BLANK by construction — action file's finalAcceptedSha is null (a record cannot name the commit containing it); populate at the accepted tip after CI + Terminal B re-audit. Preflight base this session: a29c22c573935845cdd7b2bfbb2580903f1cb0fd
+SECURITY_CHECKPOINT_SHA:         13e356c49bd484e6f946ba604076718d904bca86 (VERIFIED from the action file)
+REQUIRED_GITHUB_CHECKS_GREEN:    BLOCKED — SF-DEFECT-001 REPRODUCED at 5f0ec4df in this session (verify-rcap-render-worker-delivery, same assert); the chain is nondeterministically red
+PHASE_49_MIGRATION_PATH:         supabase/phase-49-rcap-packet-render-jobs.sql (VERIFIED)
+PHASE_49_SHA256:                 2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6 (VERIFIED = queue)
 PHASE_49_AUTHORIZATION_ID:       auth-2026-08-10-phase-49-packet-render-jobs (VERIFIED — applyStaging: authorized)
-PHASE_49_STAGING_AUTHORIZED:     yes (VERIFIED in queue)
-PHASE_50_MIGRATION_PATH:         supabase/phase-50-rcap-packet-delivery-hardening.sql (VERIFIED on disk)
-PHASE_50_SHA256:                 15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62 (VERIFIED — matches queue authorizedSha256)
-PHASE_50_AUTHORIZATION_ID:       auth-2026-08-10-phase-50-packet-delivery-hardening (VERIFIED)
-PHASE_50_STAGING_AUTHORIZED:     BLOCKED — queue says staging: queued; Roger must name all three files and the environment in the queue record
-PHASE_51_MIGRATION_PATH:         supabase/phase-51-rcap-consumer-payment-gate.sql (VERIFIED on disk)
-PHASE_51_SHA256:                 3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba (VERIFIED — matches queue authorizedSha256)
-PHASE_51_AUTHORIZATION_ID:       auth-2026-08-10-phase-51-consumer-payment-gate (VERIFIED)
-PHASE_51_STAGING_AUTHORIZED:     BLOCKED — queue says staging: queued
-THREE_FILE_ACTION:               A1-staging names 49 && 50 && 51 in order; the two-file form is explicitly superseded and "must not be run" (VERIFIED in queue sequenceNote)
-APPLY_EVIDENCE_CHECK:            finalize_packet_render_job must contain consumer_packet_payment_valid (VERIFIED discriminating on an ephemeral cluster this session: f after 49+50, t after 51)
-APPLICATION_DEPLOYMENT_TARGET:   BLANK — Vercel per docs/PHASE_17; exact project unnamed
-WORKER_IMAGE_SOURCE:             BLANK — CI/platform builder (no Docker daemon in this container)
-WORKER_IMAGE_DIGEST:             BLANK — supplied by Terminal A from the builder; must equal RCAP_WORKER_CONTAINER_DIGEST at deploy
-WORKER_DEPLOYMENT_TARGET:        BLANK — Fly.io / Railway / ECS / supervised container per deployment spec
-STAGING_EVIDENCE_OWNED_PATHS:    PROPOSED — docs/rcap/staging-rehearsal/{evidence/<testId>/, sql/}; awaiting A's confirmation
-STAGING_FEATURE_FLAG:            BLANK — no in-code flag exists in the delivery path; A must name the real mechanism
+PHASE_50_MIGRATION_PATH:         supabase/phase-50-rcap-packet-delivery-hardening.sql (VERIFIED)
+PHASE_50_SHA256:                 15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62 (VERIFIED = queue)
+PHASE_50_AUTHORIZATION_ID:       auth-2026-08-10-phase-50-packet-delivery-hardening (VERIFIED — staging queued)
+PHASE_51_MIGRATION_PATH:         supabase/phase-51-rcap-consumer-payment-gate.sql (VERIFIED)
+PHASE_51_SHA256:                 3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba (VERIFIED = queue)
+PHASE_51_AUTHORIZATION_ID:       auth-2026-08-10-phase-51-consumer-payment-gate (VERIFIED — staging queued)
+PHASE_52_MIGRATION_PATH:         supabase/phase-52-rcap-consumer-payment-authority.sql (VERIFIED)
+PHASE_52_SHA256:                 c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3 (VERIFIED = queue)
+PHASE_52_AUTHORIZATION_ID:       auth-2026-08-11-phase-52-consumer-payment-authority (VERIFIED — staging queued)
+PHASE_53_MIGRATION_PATH:         supabase/phase-53-rcap-consumer-job-binding.sql (VERIFIED)
+PHASE_53_SHA256:                 469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f (VERIFIED = queue)
+PHASE_53_AUTHORIZATION_ID:       auth-2026-08-11-phase-53-consumer-job-binding (VERIFIED — staging queued; "all five files")
+FIVE_FILE_ACTION:                staging-action-five-migrations, order 49→50→51→52→53, indivisible 52/53 (VERIFIED)
+SUPERSEDED_ACTIONS:              staging-action-two-migrations; staging-action-three-migrations; staging-action-four-migrations (VERIFIED with reasons in the action file)
+APPLY_EVIDENCE_CHECKS:           finalize→consumer_packet_payment_valid (proven discriminating in a prior session run); record_consumer_packet_payment present; exactly one enqueue signature with the two binding params (commands §11)
+APPLICATION_FIRST_PRECONDITION:  BLOCKED — the only enqueue RPC callsite uses the 15-arg Phase 53 signature and no old-signature caller exists (VERIFIED), BUT enqueueRenderJob has zero route callers and record_consumer_packet_payment has zero app callsites: the server payment writer and consumer enqueue wiring are NOT deployed anywhere, and no staging app exists to deploy to
+FEATURE_DISABLED_DURING_APPLY:   structurally true today (no live route reaches the durable queue); the named flag mechanism is still BLANK
+APPLICATION_DEPLOYMENT_TARGET:   BLANK — Vercel per docs/PHASE_17; project unnamed
+WORKER_IMAGE_SOURCE:             .github/workflows/publish-rcap-render-worker.yml → ghcr.io/roger-legalease/rcap-render-worker, full-SHA tags, private package (VERIFIED prepared, NOT run)
+WORKER_IMAGE_DIGEST:             BLANK — produced by that workflow at the final accepted SHA; host pulls with its own read:packages secret
+WORKER_DEPLOYMENT_TARGET:        BLANK — Fly.io / Railway / ECS / supervised container per spec
+STAGING_EVIDENCE_OWNED_PATHS:    PROPOSED — docs/rcap/staging-rehearsal/{evidence/<testId>/, sql/}
+STAGING_FEATURE_FLAG:            BLANK — no in-code flag exists; mechanism must be named
 ROLLBACK_OWNER:                  BLANK
 OBSERVABILITY_DESTINATION:       BLANK — worker stdout JSON to platform drain; drain unnamed
-STAGING_TEST_EMAIL:              BLOCKED — test-mail capture unconfirmed; a rehearsal that could email a real participant is a stop condition
+STAGING_TEST_EMAIL:              BLOCKED — test-mail capture unconfirmed (real-email stop condition)
+RCAP-SEC-001:                    OPEN — fix merged (52+53) and independently proven on ephemeral clusters; resolved only when applied to the environment it describes
 ```
 
-Recompute rule: every SHA above is re-derived from the exact bytes on disk at
-the named FINAL_INTEGRATION_SHA immediately before application. A value from
-this document, an earlier status report, or chat is never used directly.
+Recompute rule: every SHA is re-derived from bytes on disk at the accepted
+FINAL_INTEGRATION_SHA immediately before application; no value above is used
+directly.

@@ -1086,7 +1086,7 @@
       "sourceCommit": "f237c89f3a3ed0eab44d9c84f07833de822eea54",
       "auditOwned": true,
       "knownNondeterminism": "The G6 observed string embeds the fixture briefcase item id, which is gen_random_uuid() per run, so data/rcap-render/phase51-consumer-payment-security.json is not byte-reproducible across runs. One line only; totals and pass state are stable. Referred to the audit lane rather than patched here, because the artifact is audit-owned.",
-      "committedArtifactRule": "The committed bytes of data/rcap-render/phase51-consumer-payment-security.json are the audit lane's own, from f237c89. Running npm test rewrites that file in the working tree with this machine's fixture ids; that rewrite is a local side effect and must not be staged. Restore it from f237c89 before committing. This is not pedantry — the file is the audit's record of what the audit observed, and overwriting it with a captain-side run quietly replaces independent evidence with self-issued evidence.",
+      "committedArtifactRule": "The committed bytes of data/rcap-render/phase51-consumer-payment-security.json are the audit lane's own, from f237c89. Running npm test rewrites that file in the working tree with this machine's fixture ids; that rewrite is a local side effect and must not be staged. Restore it from f237c89 before committing. This is not pedantry \u2014 the file is the audit's record of what the audit observed, and overwriting it with a captain-side run quietly replaces independent evidence with self-issued evidence.",
       "supersedes": "the Phase 52-ending revision of the same audit (19/19 gate, 0/3 reach); no second payment audit is maintained"
     },
     "verify-rcap-prepay-question-gate.mjs": {
@@ -1377,6 +1377,27 @@
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
+    },
+    "verify-expungement-consumer-payment-http.mjs": {
+      "disposition": "wired",
+      "reason": "The application-to-job boundary proof: P1-P18 driven through the real webhook and consumer render routes, with signatures produced by the Stripe SDK and migrations 26-53 applied to an ephemeral cluster. It is the only coverage that executes the raw-body/signature wiring rather than grepping for it.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "role": "application_payment_and_enqueue_proof"
+    },
+    "test-rcap-consumer-payment-http-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the P1-P18 suite is load-bearing: 7 mutations, each removing one guarantee, all turn it red. Two further guarantees are named in the harness as intentionally unmutated because the application layer is not their only defence.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain"
+    },
+    "verify-rcap-final-official-sources.mjs": {
+      "disposition": "wired",
+      "reason": "Owned by the official-source materialization lane, imported byte-identical from 1d71919d. Holds the two still-blocked subjects to official-host discipline and bounds their conclusions.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "sourceCommit": "1d71919d605edb966084f3b18abc0f2658602b34",
+      "laneOwned": true
     }
   }
 }

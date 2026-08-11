@@ -1,0 +1,146 @@
+{
+ "schemaVersion": "rcap-final-official-sources/v1",
+ "purpose": "Materialization lane record for the final two crosswalk official-source blockers (PA path-k, SC survivor expungement). Each subject either carries hash-pinned official bytes under files/<JUR>/ with a receipt, or one exact externally owned retrieval blocker. Nothing here adjudicates the crosswalk relationship; the recommended dispositions are inputs to E3.",
+ "laneBranch": "claude/rcap-final-official-source-materialization",
+ "canonicalBase": {
+  "branch": "claude/rcap-final-sprint-integration",
+  "ruling": "Roger ruled 2026-08-11 that claude/rcap-final-sprint-integration is the canonical integration branch (recorded at 8744a701, 'canonical branch ruling'); this lane starts from its clean tip.",
+  "baseCommit": "f79fb0d9"
+ },
+ "sourceStandard": "Official legislature, court, agency or recognized official government publisher only. Search snippets, commercial code sites, practice guides and lane paraphrases are never final authority. A materialized entry must carry bytes as served, sha256, exact section pointer and a verbatim operative span.",
+ "subjectCurrencyVerification": {
+  "verifiedAt": "2026-08-11T13:38:47Z",
+  "against": {
+   "record": "docs/record-clearing/e4-e1-canonical-verification.md",
+   "ref": "origin/claude/rcap-e4-e1-canonical",
+   "commit": "b1279ed3"
+  },
+  "finding": "The E1 wave's generator-derived unresolved set names exactly these two pathway subjects as the current official-source blockers (the third unresolved ID, MD:md_pardon_expungement, is profile-implementation blocked, not source-blocked, and is outside this lane). E1 independently re-confirms that neither 18 Pa.C.S. § 3019 nor S.C. Code § 16-3-2020 appears in any committed source, including the PA/SC official-source store manifests at 66e0fa4b (zero hits for either token). The subject IDs in this record are therefore the current generated job IDs, not older narrative IDs.",
+  "canonicalBranchNote": "claude/rcap-final-sprint-integration advanced from f79fb0d9 to a29c22c5 (payment-audit integration commits) after this lane branched; f79fb0d9 remains in the canonical ancestry and nothing in the advance touches either subject."
+ },
+ "retrievalAttempts": [
+  {
+   "subjectId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+   "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.030.019.000..HTM",
+   "issuingBody": "Pennsylvania General Assembly",
+   "attemptedAt": "2026-08-11T12:47:00Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED — 'Access to www.legis.state.pa.us is blocked by the network egress proxy.'"
+  },
+  {
+   "subjectId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+   "url": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=HTM&ttl=18&div=0&chpt=30&sctn=19&subsctn=0",
+   "issuingBody": "Pennsylvania General Assembly (palegis.us)",
+   "attemptedAt": "2026-08-11T12:47:00Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED — 'Access to www.palegis.us is blocked by the network egress proxy.'"
+  },
+  {
+   "subjectId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+   "url": "https://www.scstatehouse.gov/code/t16c003.php",
+   "issuingBody": "South Carolina Legislature",
+   "attemptedAt": "2026-08-11T12:47:00Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED — 'Access to www.scstatehouse.gov is blocked by the network egress proxy.'"
+  },
+  {
+   "subjectId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+   "url": "https://www.palegis.us/statutes/consolidated/view-statute?ttl=18&chpt=30",
+   "issuingBody": "Pennsylvania General Assembly (palegis.us)",
+   "attemptedAt": "2026-08-11T13:38:47Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED — 'Access to www.palegis.us is blocked by the network egress proxy.' (re-probe on dispatch re-issue)"
+  },
+  {
+   "subjectId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+   "url": "https://www.scstatehouse.gov/code/t16c003.php",
+   "issuingBody": "South Carolina Legislature",
+   "attemptedAt": "2026-08-11T13:38:47Z",
+   "tool": "WebFetch",
+   "result": "EGRESS_BLOCKED — 'Access to www.scstatehouse.gov is blocked by the network egress proxy.' (re-probe on dispatch re-issue)"
+  }
+ ],
+ "subjects": [
+  {
+   "subjectId": "compiled_pathway:PA:path-k-human-trafficking-vacatur-expungement",
+   "jurisdiction": "PA",
+   "assertedMechanism": "Human-trafficking victim vacatur / expungement of qualifying convictions (Path K of the PA compiled pathways)",
+   "expectedAuthority": "18 Pa.C.S. § 3019 (expected — within 18 Pa.C.S. ch. 30); marked 'expected', never established in committed form",
+   "verifiedOperativeAuthority": null,
+   "verificationAgainstRepository": {
+    "profileTokenScan": "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json at this base contains 'trafficking' 86 times and 'vacatur' 69 times but the token '3019' zero times — the mechanism is described, its statutory pin is not committed anywhere",
+    "registryScan": "no PA registry track in data/rcap-ledger/registry-crosswalk-projection.json contains 'traffick', 'vacatur' or '3019'",
+    "conclusion": "The expected citation cannot be confirmed or refuted from committed evidence; asserting § 3019 as verified operative authority would exceed the sources."
+   },
+   "officialIssuingBody": "Pennsylvania General Assembly",
+   "officialSourceUrl": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.030.019.000..HTM (constructed from the legislature's Title-18 HTM naming carried by the registry for §§ 9102/9122; unverified — never fetched)",
+   "retrievalTimestamp": null,
+   "sourcePath": null,
+   "sha256": null,
+   "sectionPointer": null,
+   "verbatimOperativeSpan": null,
+   "sourceCurrentness": null,
+   "supportsProposedRelationship": null,
+   "exactMissingEvidence": "The current official text of 18 Pa.C.S. ch. 30's vacatur/expungement provision (expected § 3019): who may petition, for which offenses, on what showing, and what relief the court orders — fetched from the Pennsylvania General Assembly and committed as served.",
+   "retrievalPacket": {
+    "path": "docs/record-clearing/retrieval-packets/compiled_pathway_PA_path-k-human-trafficking-vacatur-expungement.md",
+    "sha256": "ef2e8bd10e567ed54658f672dcb565ed28b05b2a3b8302433364024427269a7c",
+    "preserved": true
+   },
+   "priorLaneRecord": {
+    "ref": "origin/claude/rcap-crosswalk-resolution-E4-R3",
+    "commit": "4f1ac592e2a5e497f90a06a106f36cf545900c37",
+    "path": "data/rcap-ledger/crosswalk-resolution/E4-R3.json",
+    "outcome": "still_blocked"
+   },
+   "resolution": "still_blocked",
+   "recommendedE3Disposition": "hold — do not terminalize as a registry gap and do not map; the gap cannot be published until the operative authority text is committed. One externally owned act unblocks it: a fetch of 18 Pa.C.S. ch. 30 from the Pennsylvania General Assembly by an operator with normal egress, filed per the retrieval packet, hash-pinned here.",
+   "blockerOwner": "external retrieval operator (Roger or any machine with outbound access to legis.state.pa.us / palegis.us)"
+  },
+  {
+   "subjectId": "compiled_pathway:SC:human-trafficking-survivor-expungement",
+   "jurisdiction": "SC",
+   "assertedMechanism": "Trafficking-survivor motion to expunge convictions/adjudications for trafficking-article offenses, prostitution, or another nonviolent misdemeanor or Class F felony shown to be caused by or interrelated to trafficking",
+   "expectedAuthority": "S.C. Code § 16-3-2020 (asserted by the coded state pack; unverified in any committed source)",
+   "verifiedOperativeAuthority": null,
+   "verificationAgainstRepository": {
+    "assertionSite": "src/lib/rcap/state-packs/south-carolina/eligibility-rules.ts:21 pins § 16-3-2020 to the operative prose",
+    "selfContradiction": "src/lib/rcap/state-packs/south-carolina/pathways.ts:185 records the citation as 'S.C. Code (trafficking-victim expungement provision; exact subsection unconfirmed in Nationwide source)'",
+    "profileScan": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json contains '16-3-2020' zero times",
+    "conclusion": "The asserted citation is internally contradicted and no committed source contains the section text; whether § 16-3-2020 grants expungement, vacatur, sealing, eligibility, procedure, or is only a substantive offense provision cannot be determined from the repository."
+   },
+   "officialIssuingBody": "South Carolina Legislature",
+   "officialSourceUrl": "https://www.scstatehouse.gov/code/t16c003.php (Title 16, Chapter 3 chapter page — file-identity pattern carried by the registry for six other SC chapters; unverified — never fetched)",
+   "retrievalTimestamp": null,
+   "sourcePath": null,
+   "sha256": null,
+   "sectionPointer": null,
+   "verbatimOperativeSpan": null,
+   "sourceCurrentness": null,
+   "supportsProposedRelationship": null,
+   "exactMissingEvidence": "The current official text of S.C. Code § 16-3-2020 from the South Carolina Legislature, sufficient to classify it as granting expungement / vacatur / sealing / eligibility / procedure, or as a substantive offense provision only — either finding closes the obligation.",
+   "retrievalPacket": {
+    "path": "docs/record-clearing/retrieval-packets/compiled_pathway_SC_human-trafficking-survivor-expungement.md",
+    "sha256": "6ad5c8d749a4eb68923c734bdad61f7871f5eb510634fc78022d481c4b00d536",
+    "preserved": true
+   },
+   "priorLaneRecord": {
+    "ref": "origin/claude/rcap-crosswalk-resolution-E4-R4",
+    "commit": "9b296be5d03996dc246408ef14d7824b2a38b9f8",
+    "path": "data/rcap-ledger/crosswalk-resolution/E4-R4.json",
+    "outcome": "still_blocked"
+   },
+   "resolution": "still_blocked",
+   "recommendedE3Disposition": "hold — the candidate registry-gap disposition stays unpublishable until § 16-3-2020's text proves it grants or withholds record relief. One externally owned act unblocks it: a fetch of the Title 16 Chapter 3 page (or the section text) from scstatehouse.gov by an operator with normal egress, filed per the retrieval packet, hash-pinned here.",
+   "blockerOwner": "external retrieval operator (Roger or any machine with outbound access to scstatehouse.gov)"
+  }
+ ],
+ "environmentEvidence": {
+  "egressPolicy": "Every official legislative host answers EGRESS_BLOCKED from this environment (fresh probes this session, recorded above); the retrieval packets record the identical condition for every prior coding terminal in the sprint ('probes return 000 while api.github.com returns 200').",
+  "packetFilingPathNote": "Both retrieval packets file returned bytes under private/Nationwide Record Clearing/<JUR>/official-sources/. private/ is gitignored (.gitignore line 'private/'), so committed receipts land here instead: bytes under data/rcap-crosswalk-enrichment/final-official-sources/files/<JUR>/ with the receipt fields filled in this file. The private/ copy remains Roger's local convention and is not a substitute for the committed receipt."
+ },
+ "materializationContract": {
+  "filesRoot": "data/rcap-crosswalk-enrichment/final-official-sources/files/<JUR>/",
+  "onArrival": "Drop bytes as served, fill sourcePath, sha256, retrievalTimestamp, sectionPointer, verbatimOperativeSpan, sourceCurrentness, verifiedOperativeAuthority and supportsProposedRelationship on the subject, set resolution to 'materialized', and run scripts/verify-rcap-final-official-sources.mjs — it hash-verifies the bytes, requires the cited section and the verbatim span to be present in them, and refuses any non-official host as final authority."
+ }
+}

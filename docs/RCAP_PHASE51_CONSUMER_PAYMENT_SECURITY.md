@@ -1,7 +1,8 @@
 # Consumer payment gate — independent adversarial audit
 
 Lane: consumer-payment-gate adversarial audit (audit-owned; owns no gate code)
-Audited commit: `f79fb0d9` on `origin/claude/rcap-final-sprint-integration`
+Audited commit: `a29c22c` on `origin/claude/rcap-final-sprint-integration`
+(audited migration bytes unchanged since `f79fb0d9`)
 Sequence: 26 → 27 → 28 → 49 → 50 → 51 → 52 → 53
 Fixture: `scripts/verify-rcap-phase51-consumer-payment-security.mjs`
 Result data: `data/rcap-render/phase51-consumer-payment-security.json`
@@ -9,6 +10,39 @@ Result data: `data/rcap-render/phase51-consumer-payment-security.json`
 Verdict: **the consumer payment gate is both unforgeable and reachable.**
 21/21 security cases, 5/5 reachability cases, 3/3 mutations — with no privileged
 fixture write anywhere in either proving section.
+
+## How to run it
+
+```
+node scripts/verify-rcap-phase51-consumer-payment-security.mjs           # verify
+node scripts/verify-rcap-phase51-consumer-payment-security.mjs --write   # refresh evidence
+```
+
+Ordinary verification is **non-mutating**. It runs every case and then requires
+the committed evidence to be byte-for-byte what this run produces, so a stale
+artifact left by an older audit — or one edited by hand to claim a pass — fails
+the run instead of being trusted. Evidence is rewritten only under `--write`.
+
+The repository's *generators* take the opposite polarity, writing by default and
+checking under `--check`. This is a verifier, so its default is the safe one.
+
+### Determinism
+
+Fixture rows previously took their tables' `gen_random_uuid()` defaults, so every
+run minted a fresh Briefcase item id — and G6 records an error message that
+quotes that id. Two consecutive runs therefore differed in exactly one line of
+tracked evidence.
+
+Fixture identifiers are now derived from case identity via `duuid(label)`:
+sha256 of a stable label, formatted as an RFC-4122 v4 UUID. They remain real,
+distinct values, so uniqueness, identity binding, ledger hashing and conflict
+handling are exercised exactly as before — they are derived from the case rather
+than from the clock. Verified: every generated id matches the v4 shape, all are
+distinct, and G6's recorded id is now the derived constant
+`91b05fde-75bb-42e4-bde9-31b198775231` on every run.
+
+Nothing was replaced with a placeholder and no case was weakened to obtain
+determinism; the case counts are unchanged at 21 / 5 / 3.
 
 ## The audit's own history, closed out
 

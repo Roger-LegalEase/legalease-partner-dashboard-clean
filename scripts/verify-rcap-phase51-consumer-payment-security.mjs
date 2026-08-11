@@ -1,7 +1,7 @@
 // Independent adversarial audit of the consumer payment gate.
 //
-// Re-audited at f79fb0d9 across the full sequence
-// 26 -> 27 -> 28 -> 49 -> 50 -> 51 -> 52 -> 53.
+// Re-audited at a29c22c (audited migration bytes unchanged since f79fb0d9) across
+// the full sequence 26 -> 27 -> 28 -> 49 -> 50 -> 51 -> 52 -> 53.
 //
 // NO PRIVILEGED FIXTURE WRITES.
 //
@@ -37,6 +37,27 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 if (!ephemeralPgAvailable()) {
   console.error("verify-rcap-phase51-consumer-payment-security: PostgreSQL 16 is not available.");
   process.exit(1);
+}
+
+// --- determinism -------------------------------------------------------------
+// Ordinary verification is non-mutating; tracked evidence is written only under
+// --write. (The repository's GENERATORS default to writing and take --check;
+// this is a verifier, so the polarity is deliberately reversed.)
+const WRITE_MODE = process.argv.includes("--write");
+
+/**
+ * A stable, distinct, valid UUID derived from a test-case label.
+ *
+ * Fixture rows previously took their tables' gen_random_uuid() defaults, which
+ * is what put a fresh UUID into G6's recorded error text on every run. These
+ * are real, distinct identifiers — uniqueness, identity binding, ledger hashing
+ * and conflict handling are still exercised against genuinely different values.
+ * They are derived from the case rather than from the clock.
+ */
+function duuid(label) {
+  const h = createHash("sha256").update(`rcap-payment-audit/${label}`).digest("hex");
+  const variantNibble = ((parseInt(h[16], 16) & 0x3) | 0x8).toString(16);
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-${variantNibble}${h.slice(17, 20)}-${h.slice(20, 32)}`;
 }
 
 const SHA = (c) => c.repeat(64);
@@ -151,10 +172,15 @@ function boot({ through = SEQUENCE.length, withConsumerStorage = true } = {}) {
 
 // --- sanctioned operations ---------------------------------------------------
 
-/** The participant creates their own item, naming no payment column. */
-function createItemAsParticipant(db, userId) {
-  const sql = `with r as (insert into consumer_briefcase_items (user_id, item_type, jurisdiction, status)
-     values ('${userId}','packet','MS','packet_ready') returning id) select id from r`;
+/**
+ * The participant creates their own item, naming no payment column.
+ * `label` fixes the row's identity so the same case yields the same UUID on
+ * every run; the id is still a distinct real value per case.
+ */
+function createItemAsParticipant(db, userId, label) {
+  const id = duuid(`item/${label}`);
+  const sql = `with r as (insert into consumer_briefcase_items (id, user_id, item_type, jurisdiction, status)
+     values ('${id}','${userId}','packet','MS','packet_ready') returning id) select id from r`;
   assertNoPrivilegedGateWrite(`set role authenticated; ${sql}`);
   return asRole(db, "authenticated", sql, { sub: userId });
 }
@@ -163,7 +189,7 @@ function createItemAsParticipant(db, userId) {
 function recordPayment(db, itemId, opts = {}) {
   const {
     status = "paid", amount = 5000, currency = "usd",
-    event = `evt_${createHash("sha1").update(itemId + status + String(amount) + String(currency)).digest("hex").slice(0, 12)}`,
+    event = `evt_${createHash("sha1").update(`${itemId}/${status}/${amount}/${currency}`).digest("hex").slice(0, 12)}`,
     authority = "server_webhook"
   } = opts;
   return asRole(db, "service_role",
@@ -172,14 +198,15 @@ function recordPayment(db, itemId, opts = {}) {
       `'stripe',${event === null ? "null" : `'${event}'`},'cs','pi','http://r','${authority}','webhook')`);
 }
 
-function newPacket(db) {
+function newPacket(db, label) {
+  const id = duuid(`packet/${label}`);
   return asRole(db, "service_role",
-    `with r as (insert into rcap_document_packets default values returning id) select id from r`);
+    `with r as (insert into rcap_document_packets (id) values ('${id}') returning id) select id from r`);
 }
 
 /** Phase 53 bound enqueue, consumer mode. */
 function enqueueConsumer(db, { item, expectedUser, personId = PERSON_A, matterId, seed }) {
-  const packetId = newPacket(db);
+  const packetId = newPacket(db, seed);
   const inputHash = createHash("sha256").update(seed).digest("hex");
   return asRole(db, "service_role",
     `select id from enqueue_packet_render_job('${packetId}','MS:x','packet_document_v1','1.0.0',null,'MS','1.3.0','${inputHash}',` +
@@ -187,7 +214,7 @@ function enqueueConsumer(db, { item, expectedUser, personId = PERSON_A, matterId
       `${item ? `'${item}'` : "null"},${expectedUser ? `'${expectedUser}'` : "null"})`);
 }
 function enqueueConsumerExpectError(db, { item, expectedUser, personId = PERSON_A, matterId, seed }) {
-  const packetId = newPacket(db);
+  const packetId = newPacket(db, seed);
   const inputHash = createHash("sha256").update(seed).digest("hex");
   return asRoleExpectError(db, "service_role",
     `select id from enqueue_packet_render_job('${packetId}','MS:x','packet_document_v1','1.0.0',null,'MS','1.3.0','${inputHash}',` +
@@ -197,7 +224,7 @@ function enqueueConsumerExpectError(db, { item, expectedUser, personId = PERSON_
 
 /** Phase 53 bound enqueue, sponsored mode. */
 function enqueueSponsored(db, { partnerId, personId = PERSON_A, matterId, seed }) {
-  const packetId = newPacket(db);
+  const packetId = newPacket(db, seed);
   const inputHash = createHash("sha256").update(seed).digest("hex");
   return asRole(db, "service_role",
     `select id from enqueue_packet_render_job('${packetId}','MS:x','packet_document_v1','1.0.0',null,'MS','1.3.0','${inputHash}',` +
@@ -227,7 +254,7 @@ console.log("GATE — security expectations, sanctioned roles only");
 {
   const db = boot();
   try {
-    const item = createItemAsParticipant(db, USER_A);
+    const item = createItemAsParticipant(db, USER_A, "g1-forge-target");
 
     // G1 / G2 — the participant cannot write a payment fact, either way.
     const updErr = asRoleExpectError(db, "authenticated",
@@ -245,7 +272,7 @@ console.log("GATE — security expectations, sanctioned roles only");
     // G3 — the safe nonpayment surface still works for the participant.
     let safeOk = true, safeObserved = "";
     try {
-      const own = createItemAsParticipant(db, USER_A);
+      const own = createItemAsParticipant(db, USER_A, "g3-safe-surface");
       asRole(db, "authenticated",
         `update consumer_briefcase_items set jurisdiction='TX', status='waiting' where id='${own}'`, { sub: USER_A });
       safeObserved = asRole(db, "authenticated",
@@ -274,7 +301,7 @@ console.log("GATE — security expectations, sanctioned roles only");
       /paid_requires_server_evidence/.test(legacyErr), legacyErr.split("\n")[0]);
 
     // G6 — cross-user payment is refused at enqueue, before a job exists.
-    const itemB = createItemAsParticipant(db, USER_B);
+    const itemB = createItemAsParticipant(db, USER_B, "g6-cross-user-b");
     recordPayment(db, itemB, { event: "evt_g6_b" });
     const crossErr = enqueueConsumerExpectError(db,
       { item: itemB, expectedUser: USER_A, matterId: MATTER_1, seed: "g6-cross" });
@@ -283,7 +310,7 @@ console.log("GATE — security expectations, sanctioned roles only");
       /not owned by the expected user/.test(crossErr), crossErr.split("\n")[0], "high");
 
     // G7 — the legitimate journey, end to end, sanctioned roles only.
-    const paidItem = createItemAsParticipant(db, USER_A);
+    const paidItem = createItemAsParticipant(db, USER_A, "g7-paid");
     recordPayment(db, paidItem, { event: "evt_g7" });
     const first = consumerRun(db, { item: paidItem, expectedUser: USER_A, matterId: MATTER_1, seed: "g7-first" });
     G("G7", "a genuinely paid, owned item opens delivery once", "zero_charge / eligible",
@@ -308,7 +335,7 @@ console.log("GATE — security expectations, sanctioned roles only");
       `${repeat.accounting_result} / ${repeat.delivery_eligibility}, rows=${consumptionRows}`);
 
     // G10 — currency.
-    const curItem = createItemAsParticipant(db, USER_A);
+    const curItem = createItemAsParticipant(db, USER_A, "g10-currency");
     const eur = recordPayment(db, curItem, { currency: "eur", event: "evt_g10a" });
     const nul = recordPayment(db, curItem, { currency: null, event: "evt_g10b" });
     const curRun = consumerRun(db, { item: curItem, expectedUser: USER_A, matterId: MATTER_1, seed: "g10" });
@@ -319,7 +346,7 @@ console.log("GATE — security expectations, sanctioned roles only");
       `eur=${eur} null=${nul} finalize=${curRun.accounting_result}`);
 
     // G11 — provider evidence.
-    const evItem = createItemAsParticipant(db, USER_A);
+    const evItem = createItemAsParticipant(db, USER_A, "g11-evidence");
     const noEvent = recordPayment(db, evItem, { event: null });
     const badAuth = asRole(db, "service_role",
       `select outcome from record_consumer_packet_payment('${evItem}','paid',5000,'usd','stripe','evt_g11','cs','pi','r','self_asserted','w')`);
@@ -331,7 +358,7 @@ console.log("GATE — security expectations, sanctioned roles only");
       `no_event=${noEvent} bad_authority=${badAuth} finalize=${evRun.accounting_result}`);
 
     // G12 — pre-finalization refund.
-    const refItem = createItemAsParticipant(db, USER_A);
+    const refItem = createItemAsParticipant(db, USER_A, "g12-refund");
     recordPayment(db, refItem, { event: "evt_g12" });
     recordPayment(db, refItem, { status: "refunded", event: "evt_g12" });
     const refRun = consumerRun(db, { item: refItem, expectedUser: USER_A, matterId: MATTER_1, seed: "g12" });
@@ -395,7 +422,7 @@ console.log("GATE — security expectations, sanctioned roles only");
       `item=${unbound.split("\n")[0]} | user=${noUser.split("\n")[0]} | matter=${noMatter.split("\n")[0]}`);
 
     // G19 — sponsored mode may not borrow consumer fields.
-    const packetX = newPacket(db);
+    const packetX = newPacket(db, "g19-mixed-mode");
     const hashX = createHash("sha256").update("g19").digest("hex");
     const mixed = asRoleExpectError(db, "service_role",
       `select id from enqueue_packet_render_job('${packetX}','MS:x','packet_document_v1','1.0.0',null,'MS','1.3.0','${hashX}',` +
@@ -455,7 +482,7 @@ console.log("\nREACH — is the paid consumer served through sanctioned paths on
       svc === "f", `service_role UPDATE = ${svc}`, "high");
 
     // R3 — the whole journey, no privileged write anywhere.
-    const item = createItemAsParticipant(db, USER_A);
+    const item = createItemAsParticipant(db, USER_A, "r3-reach");
     const paid = recordPayment(db, item, { event: "evt_reach" });
     const jobId = enqueueConsumer(db, { item, expectedUser: USER_A, matterId: MATTER_1, seed: "reach-e2e" });
     const bound = read(db, `select coalesce(consumer_auth_user_id::text,'NULL') from packet_render_jobs where id='${jobId}'`);
@@ -467,7 +494,7 @@ console.log("\nREACH — is the paid consumer served through sanctioned paths on
       "high");
 
     // R4 — the unbound 13-argument signature is gone, not merely discouraged.
-    const packetId = newPacket(db);
+    const packetId = newPacket(db, "r4-legacy-signature");
     const hash13 = createHash("sha256").update("r4").digest("hex");
     const legacy = asRoleExpectError(db, "service_role",
       `select enqueue_packet_render_job('${packetId}','MS:x','packet_document_v1','1.0.0',null,'MS','1.3.0','${hash13}',null,null,'${PERSON_A}','${MATTER_1}',5)`);
@@ -476,7 +503,7 @@ console.log("\nREACH — is the paid consumer served through sanctioned paths on
       /does not exist/.test(legacy), legacy.split("\n")[0], "high");
 
     // R5 — the database stores its own canonical owner, not the caller's claim.
-    const itemB = createItemAsParticipant(db, USER_B);
+    const itemB = createItemAsParticipant(db, USER_B, "r5-canonical-b");
     recordPayment(db, itemB, { event: "evt_r5" });
     const jobB = enqueueConsumer(db, { item: itemB, expectedUser: USER_B, matterId: MATTER_2, seed: "r5" });
     const storedB = read(db, `select consumer_auth_user_id::text from packet_render_jobs where id='${jobB}'`);
@@ -495,7 +522,7 @@ console.log("\nMUT — this lane's three mutations (function replacement is the 
   const db = boot({ through: 5 });
   try {
     // 49+50 only: no consumer gate at all. Old signature still present here.
-    const packetId = newPacket(db);
+    const packetId = newPacket(db, "m1-no-gate");
     const h = createHash("sha256").update("m1").digest("hex");
     const jobId = asRole(db, "service_role",
       `select id from enqueue_packet_render_job('${packetId}','MS:x','packet_document_v1','1.0.0',null,'MS','1.3.0','${h}',null,null,'${PERSON_A}','${MATTER_1}',5)`);
@@ -509,7 +536,7 @@ console.log("\nMUT — this lane's three mutations (function replacement is the 
 {
   const db = boot();
   try {
-    const item = createItemAsParticipant(db, USER_A);
+    const item = createItemAsParticipant(db, USER_A, "m2-weakened");
     recordPayment(db, item, { event: "evt_m2" });
     // Mutation: strip amount and currency from the authority probe, and remove
     // the constraint that would otherwise keep the row honest.
@@ -546,7 +573,7 @@ console.log("\nMUT — this lane's three mutations (function replacement is the 
       `create or replace function public.consumer_packet_payment_authority(p_briefcase_item_id uuid, p_consumer_auth_user_id uuid)
        returns table (valid boolean, reason text, provider_event_id text)
        language sql stable security definer set search_path='' as $$ select true, 'forced'::text, 'evt_forced'::text $$;`);
-    const item = createItemAsParticipant(db, USER_A);
+    const item = createItemAsParticipant(db, USER_A, "m3-forced");
     const out = consumerRun(db, { item, expectedUser: USER_A, matterId: MATTER_1, seed: "m3" });
     M("M3", "deleting the gate makes an unpaid packet deliverable",
       "zero_charge / eligible", out.accounting_result === "zero_charge" && out.delivery_eligibility === "eligible",
@@ -564,7 +591,8 @@ const report = {
   schemaVersion: "rcap-phase51-consumer-payment-security/v3",
   generatedBy: "scripts/verify-rcap-phase51-consumer-payment-security.mjs",
   lane: "consumer-payment-gate-adversarial-audit",
-  auditedCommit: "f79fb0d9",
+  auditedCommit: "a29c22c573935845cdd7b2bfbb2580903f1cb0fd",
+  migrationBytesUnchangedSince: "f79fb0d9",
   migrationSequence: SEQUENCE,
   privilegedFixtureWrites: "none on any gate surface; upstream seeding and mutation function replacement only",
   totals: {
@@ -576,14 +604,12 @@ const report = {
   notes: [
     "Every gate and reach case runs as anon, authenticated or service_role. The owner-level binding write used in the previous revision is removed.",
     "Phase 53 closes the reachability regression this lane reported at 25f6b09: the binding is written inside the enqueue insert and the unbound 13-argument signature is dropped.",
-    "Post-delivery refund remains a product-policy question; the pre-finalization refunded case is G12."
+    "Post-delivery refund remains a product-policy question; the pre-finalization refunded case is G12.",
+    "Fixture identifiers are deterministic (duuid) and evidence is written only under --write, so ordinary verification is non-mutating and repeatable."
   ]
 };
-fs.mkdirSync(path.join(rootDir, "data/rcap-render"), { recursive: true });
-fs.writeFileSync(
-  path.join(rootDir, "data/rcap-render/phase51-consumer-payment-security.json"),
-  `${JSON.stringify(report, null, 2)}\n`
-);
+const EVIDENCE_PATH = path.join(rootDir, "data/rcap-render/phase51-consumer-payment-security.json");
+const serialized = `${JSON.stringify(report, null, 2)}\n`;
 
 console.log(`\nGate ${gatePassed}/${gate.length} | Reach ${reachPassed}/${reach.length} | Mutations ${mutPassed}/${mutations.length}`);
 
@@ -600,4 +626,41 @@ if (failures.length > 0) {
   }
   process.exit(1);
 }
+
+// --- evidence: written only under --write, checked otherwise -----------------
+// Ordinary verification touches no tracked file. It instead requires that the
+// committed evidence is exactly what this run produces, so a stale artifact
+// (left behind by an older audit) or a fabricated one (hand-edited to claim a
+// pass) fails the run rather than being trusted.
+if (WRITE_MODE) {
+  fs.mkdirSync(path.dirname(EVIDENCE_PATH), { recursive: true });
+  fs.writeFileSync(EVIDENCE_PATH, serialized);
+  console.log(`\nEvidence written: ${path.relative(rootDir, EVIDENCE_PATH)}`);
+} else {
+  if (!fs.existsSync(EVIDENCE_PATH)) {
+    console.error(
+      `\nEvidence artifact missing: ${path.relative(rootDir, EVIDENCE_PATH)}\n` +
+        "Ordinary verification does not create it. Re-run with --write."
+    );
+    process.exit(1);
+  }
+  const committed = fs.readFileSync(EVIDENCE_PATH, "utf8");
+  if (committed !== serialized) {
+    const committedLines = committed.split("\n");
+    const freshLines = serialized.split("\n");
+    const firstDrift = freshLines.findIndex((line, i) => line !== committedLines[i]);
+    console.error(
+      `\nEvidence artifact does not match this run: ${path.relative(rootDir, EVIDENCE_PATH)}\n` +
+        "The committed evidence is stale or was edited by hand. Re-run with --write.\n" +
+        (firstDrift >= 0
+          ? `  first difference at line ${firstDrift + 1}:\n` +
+            `    committed: ${(committedLines[firstDrift] ?? "<missing>").trim().slice(0, 160)}\n` +
+            `    this run : ${(freshLines[firstDrift] ?? "<missing>").trim().slice(0, 160)}`
+          : "")
+    );
+    process.exit(1);
+  }
+  console.log(`\nEvidence verified unchanged: ${path.relative(rootDir, EVIDENCE_PATH)}`);
+}
+
 console.log("\nConsumer payment authority and reachability: every expectation held, with no privileged fixture write.");

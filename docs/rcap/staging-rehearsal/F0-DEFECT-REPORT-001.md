@@ -73,3 +73,16 @@ Matrix case SF-DEN-13 (wrong-job valid PDF) now records the byte-identity
 caveat: with real, distinct participant content the case is meaningful; for
 byte-identical artifacts the raw-hash guarantee is vacuously satisfied and the
 serve is byte-equivalent, not a cross-artifact exposure.
+
+## Status update — 2026-08-11, tip 5f0ec4df
+
+Reproduced twice more in this session on `5f0ec4df843ad2fc7e6753169c94b91cacf5b2cf`
+(same assert, "storage: another job's valid PDF at this path fails closed"):
+once inside `npm run rcap:verify-packet-delivery` and once standalone. The
+captain's readiness record notes it "did not reproduce in 3 consecutive runs
+here, which is not the same as proven determinate" — this session's
+reproductions confirm the flake is still live and timing-dependent, not fixed.
+All other verifiers at this tip pass (payment audit Gate 21/21 | Reach 5/5 |
+Mutations 3/3; phase-52 32/32 + 12/12; phase-53 24/24 + 8/8;
+migration-apply-evidence 32/32; delivery-db, worker-runtime, e2e,
+mutation-authority, credential-boundary all green).

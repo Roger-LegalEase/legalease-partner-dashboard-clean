@@ -38,6 +38,22 @@ function check(id, title, ok, observed) {
 import crypto from "node:crypto";
 const SHA = (s) => crypto.createHash("sha256").update(String(s)).digest("hex");
 
+/**
+ * A stable, distinct, valid UUID derived from a label.
+ *
+ * Fixture rows used to take their tables' gen_random_uuid() defaults, which put
+ * a fresh id into this verifier's recorded evidence on every run and left the
+ * committed artifact permanently dirty. The values are still real and distinct
+ * per fixture — uniqueness, binding and conflict handling are exercised against
+ * genuinely different ids — they are just derived from the case rather than the
+ * clock. Mirrors the approach the payment-audit lane adopted at c8ade58.
+ */
+function duuid(label) {
+  const h = SHA(`rcap-phase52-fixture/${label}`);
+  const variant = ((parseInt(h[16], 16) & 0x3) | 0x8).toString(16);
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-${variant}${h.slice(17, 20)}-${h.slice(20, 32)}`;
+}
+
 const db = startEphemeralPg();
 try {
   // --- schema ---------------------------------------------------------------
@@ -69,9 +85,15 @@ try {
   // psql prints the RETURNING row first and the command tag ("INSERT 0 1")
   // after it, so the id is the FIRST non-empty line, not the last.
   const lastLine = (out) => String(out).split("\n").map((l) => l.trim()).filter(Boolean)[0] ?? "";
-  const newItem = (user) => lastLine(db.scalar(
-    `insert into consumer_briefcase_items (user_id, item_type, status, jurisdiction) values ('${user}','packet','packet_ready','MS') returning id`
-  ));
+  let itemSeq = 0;
+  const newItem = (user) => {
+    itemSeq += 1;
+    const id = duuid(`item-${itemSeq}`);
+    db.sql(
+      `insert into consumer_briefcase_items (id, user_id, item_type, status, jurisdiction) values ('${id}','${user}','packet','packet_ready','MS')`
+    );
+    return id;
+  };
 
   // The helper's sqlExpectError throws when SQL succeeds, which is the wrong
   // shape for cases that must succeed. This returns null on success and the
@@ -155,8 +177,8 @@ try {
   function mkJob(item, user, matter) {
     jobSeq += 1;
     const hash = SHA(`input-${jobSeq}`);
-    const packetRow = lastLine(db.scalar(
-      `with r as (insert into rcap_document_packets default values returning id) select id from r`));
+    const packetRow = duuid(`packet-${jobSeq}`);
+    db.sql(`insert into rcap_document_packets (id) values ('${packetRow}')`);
     const id = lastLine(db.scalar(
       `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', ${item ? `'${item}'` : "null"}, null, '${PERSON}', ${matter ? `'${matter}'` : "null"}, 5)`));
     db.sql(`update packet_render_jobs set consumer_briefcase_item_id = ${item ? `'${item}'` : "null"}, consumer_auth_user_id = ${user ? `'${user}'` : "null"} where id = '${id}'`);
@@ -166,8 +188,8 @@ try {
   function mkSponsoredJob(partner, matter) {
     jobSeq += 1;
     const hash = SHA(`input-${jobSeq}`);
-    const packetRow = lastLine(db.scalar(
-      `with r as (insert into rcap_document_packets default values returning id) select id from r`));
+    const packetRow = duuid(`sponsored-packet-${jobSeq}`);
+    db.sql(`insert into rcap_document_packets (id) values ('${packetRow}')`);
     return lastLine(db.scalar(
       `select id from enqueue_packet_render_job('${packetRow}', 'MS:misdemeanor_conviction', 'packet_document_v1', '1.0.0', null, 'MS', '1.3.0', '${hash}', null, '${partner}', '${PERSON}', '${matter}', 5)`));
   }
@@ -333,8 +355,11 @@ try {
     outFirst?.delivery_eligibility === "accounting_blocked", JSON.stringify(outFirst));
 
   // ===== Requirement 13: sponsored accounting unchanged ====================
-  db.sql(`insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap)
-          values ('11111111-0000-0000-0000-000000000001', 2, true, 1)`);
+  // The entitlement id is pinned because the sponsored consumption unit hashes
+  // it (phase 50), so letting the table default it made this case's recorded
+  // hash different on every run.
+  db.sql(`insert into partner_packet_entitlement (id, partner_id, packet_cap, overage_enabled, overage_cap)
+          values ('${duuid("sponsored-entitlement")}', '11111111-0000-0000-0000-000000000001', 2, true, 1)`);
   const MATTER_S = "d0000000-0000-0000-0000-00000000000f";
   const jobS = mkSponsoredJob('11111111-0000-0000-0000-000000000001', MATTER_S);
   const outS = finalize(jobS);
@@ -364,6 +389,20 @@ try {
 
 const outPath = path.join(rootDir, "data/rcap-render/phase52-consumer-payment-authority.json");
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
+/**
+ * Removes the two values in recorded evidence that no fixture can pin: an id the
+ * database mints for a ledger row, and the timestamps Postgres prints inside a
+ * constraint-violation DETAIL. Both are incidental to what each case proves, and
+ * leaving them in kept the committed artifact permanently dirty. The pass/fail
+ * verdicts and every asserted value are untouched — this only affects the
+ * written record, and only after the checks have run.
+ */
+function redactVolatile(text) {
+  return String(text ?? "")
+    .replace(/("credit_ledger_id":")[0-9a-f-]{36}(")/g, "$1<db-generated>$2")
+    .replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d+)?\+\d{2}/g, "<timestamp>");
+}
+
 fs.writeFileSync(outPath, `${JSON.stringify({
   schemaVersion: "rcap-phase52-consumer-payment-authority/v1",
   generatedBy: "scripts/verify-rcap-phase52-consumer-payment-authority.mjs",
@@ -375,7 +414,7 @@ fs.writeFileSync(outPath, `${JSON.stringify({
     failuresClosed: ["G1", "G1b", "G11", "G12"],
   },
   totals: { cases: results.length, passed: results.filter((r) => r.passed).length, failed },
-  cases: results,
+  cases: results.map((r) => ({ ...r, observed: redactVolatile(r.observed) })),
 }, null, 2)}\n`);
 
 console.log("");

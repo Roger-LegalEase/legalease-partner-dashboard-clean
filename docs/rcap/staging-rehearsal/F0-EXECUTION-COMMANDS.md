@@ -16,6 +16,8 @@ git checkout <FINAL_INTEGRATION_SHA>            # from Terminal A; do NOT assume
 sha256sum supabase/phase-49-rcap-packet-render-jobs.sql   # must equal PHASE_49_SHA256 AND the queue's authorizedSha256
 sha256sum supabase/phase-50-rcap-packet-delivery-hardening.sql  # must equal PHASE_50_SHA256 AND the queue's authorizedSha256
 sha256sum supabase/phase-51-rcap-consumer-payment-gate.sql      # must equal PHASE_51_SHA256 AND the queue's authorizedSha256
+sha256sum supabase/phase-52-rcap-consumer-payment-authority.sql  # must equal PHASE_52_SHA256 AND the queue's authorizedSha256
+sha256sum supabase/phase-53-rcap-consumer-job-binding.sql        # must equal PHASE_53_SHA256 AND the queue's authorizedSha256
 # Confirm target is staging, not production:
 psql "$STAGING_DATABASE_URL" -Atc "select current_database(), inet_server_addr()"
 ```
@@ -53,8 +55,20 @@ psql "$STAGING_DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/phase-51-rcap-consum
 psql "$STAGING_DATABASE_URL" -f docs/rcap/staging-rehearsal/sql/verify-phase-51-objects.sql
 ```
 
-The canonical staging sequence is now 49 → 50 → 51 (the phase-51 queue entry
-requires Roger to name all three migration files and the staging environment).
+sha256sum supabase/phase-52-rcap-consumer-payment-authority.sql   # recompute at apply time
+psql "$STAGING_DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/phase-52-rcap-consumer-payment-authority.sql
+psql "$STAGING_DATABASE_URL" -f docs/rcap/staging-rehearsal/sql/verify-phase-52-objects.sql
+
+sha256sum supabase/phase-53-rcap-consumer-job-binding.sql         # recompute at apply time
+psql "$STAGING_DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/phase-53-rcap-consumer-job-binding.sql
+psql "$STAGING_DATABASE_URL" -f docs/rcap/staging-rehearsal/sql/verify-phase-53-objects.sql
+
+The canonical staging sequence is 49 → 50 → 51 → 52 → 53 in one authorized
+window, per data/rcap-staging-action.json (staging-action-five-migrations).
+The two-, three- and four-file forms are all superseded and must not be run:
+49+50 alone delivers unpaid consumers; +51 is payer-bypassable (RCAP-SEC-001);
++52 is correct but unreachable for a legitimate paid consumer. Phases 52/53
+are indivisible.
 
 Object verification asserts presence (never IF-NOT-EXISTS masking): expected
 tables, columns, constraints, indexes, triggers, functions, function ownership,
@@ -170,3 +184,32 @@ Supplied by: Terminal A, from the CI/platform builder that runs
 the digest can only be consumed here, never produced. It must match
 `RCAP_WORKER_CONTAINER_DIGEST` in the worker's environment and the
 `container_digest` recorded on every finalized artifact.
+
+
+## 11. Phase-52/53 apply-evidence checks
+
+```sql
+-- phase 52: the sanctioned payment writer exists and forgery surfaces are closed
+select exists (select 1 from pg_proc where proname = 'record_consumer_packet_payment');  -- true
+-- phase 53: the unbound 13-argument enqueue signature is GONE and the bound one exists
+select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+ where n.nspname='public' and p.proname='enqueue_packet_render_job';                      -- exactly 1
+select pg_get_function_identity_arguments(p.oid) from pg_proc p
+ join pg_namespace n on n.oid=p.pronamespace
+ where n.nspname='public' and p.proname='enqueue_packet_render_job';
+--   must include p_consumer_briefcase_item_id and p_expected_consumer_auth_user_id (15 args)
+```
+
+Repo-side corroboration (run green in this session): payment-security audit
+Gate 21/21 | Reach 5/5 | Mutations 3/3; phase-52 32/32 (+12/12 mutations);
+phase-53 24/24 (+8/8 mutations); migration-apply-evidence 32/32.
+
+## 12. Worker image publication (GHCR)
+
+Per data/rcap-staging-authorization-readiness.json:
+workflow `.github/workflows/publish-rcap-render-worker.yml` (prepared, NOT run);
+image `ghcr.io/roger-legalease/rcap-render-worker`; tag policy: full commit SHA
+only, no mutable tags; package PRIVATE. The staging worker host needs its own
+registry pull secret with read:packages on Roger-LegalEase (NOT the workflow's
+GITHUB_TOKEN). `WORKER_IMAGE_DIGEST` comes from that workflow run at the final
+accepted SHA.

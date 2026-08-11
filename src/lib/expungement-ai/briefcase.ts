@@ -99,12 +99,11 @@ export async function createBriefcaseItem(input: CreateConsumerBriefcaseItemInpu
       summary_json: { text: input.summary },
       next_steps_json: input.nextSteps,
       artifact_refs_json: input.artifactRefs ?? {},
-      payment_status: input.paymentStatus ?? (input.paymentAllowed ? "unpaid" : "not_applicable"),
-      payment_provider: input.paymentProvider ?? null,
-      checkout_session_id: input.checkoutSessionId ?? null,
-      payment_intent_id: input.paymentIntentId ?? null,
-      amount_cents: input.amountCents ?? (input.paymentAllowed ? 5000 : null),
-      receipt_url: input.receiptUrl ?? null,
+      // Payment columns are deliberately absent. Phase 52 revokes them from
+      // `authenticated`, and naming them here would make every item creation
+      // fail once it is applied. `payment_status` defaults to
+      // 'not_applicable'; a payment-allowed item is moved to its real opening
+      // state just below, through the service role.
       packet_status: input.packetStatus ?? "not_started",
       reminder_at: input.reminderAt ?? null,
       source_session_id: input.sourceSessionId ?? null
@@ -117,7 +116,45 @@ export async function createBriefcaseItem(input: CreateConsumerBriefcaseItemInpu
     return fallbackItem;
   }
 
-  return rowToBriefcaseItem(data);
+  const opening = await initializeBriefcasePaymentState(data.id, input);
+  return rowToBriefcaseItem(opening ?? data);
+}
+
+/**
+ * Sets the opening payment state for a newly created item.
+ *
+ * Only 'not_applicable' and 'unpaid' are reachable from here: an item cannot be
+ * born paid. Even if a caller asked for that, the `paid_requires_server_evidence`
+ * constraint would refuse it, because creation supplies no provider event and no
+ * server authority. Skipped entirely when the opening state is already the
+ * column default, so the common non-payment item still costs one write.
+ */
+async function initializeBriefcasePaymentState(
+  itemId: string,
+  input: CreateConsumerBriefcaseItemInput
+): Promise<ConsumerBriefcaseRow | null> {
+  const paymentStatus = input.paymentStatus ?? (input.paymentAllowed ? "unpaid" : "not_applicable");
+  const amountCents = input.amountCents ?? (input.paymentAllowed ? 5000 : null);
+  if (paymentStatus === "not_applicable" && amountCents === null) return null;
+  if (paymentStatus === "paid" || paymentStatus === "refunded") return null;
+
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return null;
+
+  const { data } = await supabase
+    .from("consumer_briefcase_items")
+    .update({
+      payment_status: paymentStatus,
+      payment_provider: input.paymentProvider ?? null,
+      checkout_session_id: input.checkoutSessionId ?? null,
+      amount_cents: amountCents,
+      updated_at: new Date().toISOString()
+    })
+    .eq("id", itemId)
+    .select("*")
+    .maybeSingle<ConsumerBriefcaseRow>();
+
+  return data ?? null;
 }
 
 export async function listBriefcaseItems(userId: string): Promise<ConsumerBriefcaseItem[]> {
@@ -231,16 +268,29 @@ export async function updateBriefcaseItemStatus(
   return rowToBriefcaseItem(data);
 }
 
-export async function updateBriefcasePaymentMetadata(
+/**
+ * Records the Checkout Session the user was sent to, before any money moves.
+ *
+ * Split out from the old combined payment-metadata writer for two reasons.
+ * Phase 52 revokes `checkout_session_id` from `authenticated` along with the
+ * rest of the payment columns, so this cannot run as the participant any more.
+ * And keeping it separate means the only code that can write `payment_status =
+ * 'paid'` is the server-only payment writer — this helper's type does not admit
+ * the value, and the `paid_requires_server_evidence` constraint would refuse it
+ * anyway, since nothing here supplies a provider event or a named authority.
+ */
+export async function updateBriefcaseCheckoutSessionMetadata(
   userId: string,
   itemId: string,
-  metadata: Pick<
-    ConsumerBriefcaseItem,
-    "paymentStatus" | "paymentProvider" | "checkoutSessionId" | "paymentIntentId" | "amountCents" | "receiptUrl" | "packetStatus"
-  >
+  metadata: {
+    paymentStatus: "unpaid";
+    paymentProvider: NonNullable<ConsumerBriefcaseItem["paymentProvider"]>;
+    checkoutSessionId: string;
+    amountCents: NonNullable<ConsumerBriefcaseItem["amountCents"]>;
+    packetStatus: ConsumerBriefcaseItem["packetStatus"];
+  }
 ): Promise<ConsumerBriefcaseItem | null> {
-  const supabase = await getConsumerBriefcaseClient();
-
+  const supabase = getSupabaseAdminClient();
   if (!supabase) {
     const items = fallbackItemsForUser(userId);
     const index = items.findIndex((item) => item.id === itemId);
@@ -256,9 +306,7 @@ export async function updateBriefcasePaymentMetadata(
       payment_status: metadata.paymentStatus,
       payment_provider: metadata.paymentProvider,
       checkout_session_id: metadata.checkoutSessionId,
-      payment_intent_id: metadata.paymentIntentId,
       amount_cents: metadata.amountCents,
-      receipt_url: metadata.receiptUrl,
       packet_status: metadata.packetStatus,
       updated_at: new Date().toISOString()
     })
@@ -271,29 +319,28 @@ export async function updateBriefcasePaymentMetadata(
   return rowToBriefcaseItem(data);
 }
 
-export async function updateBriefcasePaymentMetadataForWebhook(
+/**
+ * Packet status is not a payment fact, so it stays an ordinary application
+ * write and keeps working after Phase 52.
+ */
+export async function updateBriefcasePacketStatusForWebhook(
   userId: string,
   itemId: string,
-  metadata: Pick<
-    ConsumerBriefcaseItem,
-    "paymentStatus" | "paymentProvider" | "checkoutSessionId" | "paymentIntentId" | "amountCents" | "receiptUrl" | "packetStatus"
-  >
+  packetStatus: ConsumerBriefcaseItem["packetStatus"]
 ): Promise<ConsumerBriefcaseItem | null> {
   const supabase = getSupabaseAdminClient();
-  if (!supabase) return updateBriefcasePaymentMetadata(userId, itemId, metadata);
+  if (!supabase) {
+    const items = fallbackItemsForUser(userId);
+    const index = items.findIndex((item) => item.id === itemId);
+    if (index === -1) return null;
+    items[index] = { ...items[index], packetStatus };
+    fallbackItemsByUser.set(userId, items);
+    return items[index];
+  }
 
   const { data, error } = await supabase
     .from("consumer_briefcase_items")
-    .update({
-      payment_status: metadata.paymentStatus,
-      payment_provider: metadata.paymentProvider,
-      checkout_session_id: metadata.checkoutSessionId,
-      payment_intent_id: metadata.paymentIntentId,
-      amount_cents: metadata.amountCents,
-      receipt_url: metadata.receiptUrl,
-      packet_status: metadata.packetStatus,
-      updated_at: new Date().toISOString()
-    })
+    .update({ packet_status: packetStatus, updated_at: new Date().toISOString() })
     .eq("user_id", userId)
     .eq("id", itemId)
     .select("*")

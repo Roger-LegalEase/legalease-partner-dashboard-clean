@@ -3,7 +3,7 @@ import "server-only";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
-import { updateBriefcasePaymentMetadata } from "@/lib/expungement-ai/briefcase";
+import { getBriefcaseItem, updateBriefcaseCheckoutSessionMetadata } from "@/lib/expungement-ai/briefcase";
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
 export const consumerPacketPriceCents = 5000;
@@ -106,7 +106,7 @@ export async function createConsumerPacketCheckout({
       ]
     });
 
-    await updateBriefcasePaymentMetadata(userId, item.id, {
+    await updateBriefcaseCheckoutSessionMetadata(userId, item.id, {
       paymentStatus: "unpaid",
       paymentProvider: "stripe",
       checkoutSessionId: session.id,
@@ -128,7 +128,7 @@ export async function createConsumerPacketCheckout({
     }
 
     const dryRunSessionId = dryRunCheckoutSessionId(item.id);
-    await updateBriefcasePaymentMetadata(userId, item.id, {
+    await updateBriefcaseCheckoutSessionMetadata(userId, item.id, {
       paymentStatus: "unpaid",
       paymentProvider: "dry_run",
       checkoutSessionId: dryRunSessionId,
@@ -198,6 +198,24 @@ export async function getConsumerCheckoutStatus({
   };
 }
 
+/**
+ * Reports the server-recorded payment state when the user returns from Stripe.
+ *
+ * This used to write `payment_status = 'paid'` itself, through the participant's
+ * own Supabase client. That made it a second payment writer, and the weaker of
+ * the two: it ran on a browser-initiated return, whereas the webhook runs on a
+ * signature-verified event. Two writers also meant two provider identities for
+ * one payment — the session/intent id here, the event id there — which can flip
+ * `provider_event_id` on a row that the receipt uniqueness index depends on.
+ *
+ * So it now reads rather than writes. The signature-verified webhook is the only
+ * thing that records a payment, and this reports what it recorded.
+ *
+ * The consequence worth naming: a user who returns before the webhook lands sees
+ * an unpaid item for those seconds. That is the honest answer — the payment is
+ * not yet server-recorded — and the webhook's own recovery path already handles
+ * finishing a packet whose first delivery attempt failed.
+ */
 export async function recordConsumerPaymentConfirmation({
   userId,
   item,
@@ -209,15 +227,10 @@ export async function recordConsumerPaymentConfirmation({
 }): Promise<ConsumerBriefcaseItem | null> {
   if (!status.paid) return item;
 
-  return updateBriefcasePaymentMetadata(userId, item.id, {
-    paymentStatus: "paid",
-    paymentProvider: status.mode,
-    checkoutSessionId: status.checkoutSessionId,
-    paymentIntentId: status.paymentIntentId,
-    amountCents: status.amountCents,
-    receiptUrl: status.receiptUrl,
-    packetStatus: item.packetStatus === "ready" ? "ready" : "pending"
-  });
+  // Re-read rather than trust the caller's copy: the webhook may have recorded
+  // the payment between the page load and this call.
+  const current = await getBriefcaseItem(userId, item.id);
+  return current ?? item;
 }
 
 export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {

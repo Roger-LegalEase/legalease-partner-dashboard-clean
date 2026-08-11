@@ -159,7 +159,13 @@ const action = {
     { step: 1, action: 'Confirm consumer packet delivery and checkout are disabled', gate: 'featureFlagState proves both are off before anything else runs' },
     { step: 2, action: 'Deploy the application at applicationDeploymentSha', requires: ['record_consumer_packet_payment present', 'service-role payment writer wired', 'consumer checkout writes payment facts through record_consumer_packet_payment', 'consumer enqueue calls the 15-argument Phase 53 signature', 'the server passes the authenticated user identity and the Briefcase item identity, never client input', 'no deployed application calls the old 13-argument unbound signature', 'Phase 52-compatible finalization behaviour'] },
     { step: 3, action: 'Verify the deployed application is connected to the staging project, not production', gate: 'connection check names stagingSupabaseProject' },
-    { step: 4, action: 'Apply 49 -> 50 -> 51 -> 52 as one controlled sequence', gate: 'all four hashes match at apply time' },
+    {
+      step: 4,
+      // Derived from SEQUENCE so this line cannot drift from the migrations the
+      // action actually pins, the way the hardcoded "four" did.
+      action: `Apply ${SEQUENCE.map((m) => m.phase).join(' -> ')} as one controlled sequence`,
+      gate: `all ${SEQUENCE.length} hashes match at apply time`,
+    },
     { step: 5, action: 'Verify database objects, grants, functions and policies', gate: 'scripts/verify-rcap-migration-apply-evidence.mjs passes against the staging project' },
     { step: 6, action: 'Deploy the worker image by immutable digest with claiming disabled', gate: 'workerImageDigest is a registry digest, not a local image ID' },
     { step: 7, action: 'Run controlled sponsored and paid-consumer staging cases', gate: 'sponsored consumes partner credit; paid consumer is zero_charge and consumes none' },
@@ -172,12 +178,21 @@ const action = {
     why:
       'Phase 52 revokes INSERT and UPDATE on the payment columns from anon and authenticated. If the application still writes payment facts as the participant, applying the sequence makes a provider payment succeed while the application cannot record its authoritative server-side evidence: money captured, no record. The application must move to record_consumer_packet_payment first, which is why step 2 precedes step 4.',
     invariant: 'A provider payment must never succeed while the application is unable to record its authoritative server-side payment evidence.',
+    repositoryStatus: 'RESOLVED IN THE REPOSITORY, NOT YET IN ANY ENVIRONMENT.',
+    repositoryEvidence: [
+      'The signature-verified Stripe webhook records payment through record_consumer_packet_payment under service_role (src/lib/expungement-ai/consumer-payment-authority.ts).',
+      'No application path writes a payment column as the participant: the participant-authenticated payment writer is deleted, item creation no longer names payment columns, and the polled confirm path reads instead of writing.',
+      'One authenticated route reaches the Phase 53 bound enqueue with server-derived identity (src/app/api/expungement-ai/packet/render/route.ts).',
+      'scripts/verify-expungement-consumer-payment-http.mjs proves P1-P18 through the real routes; 7 mutations turn it red.',
+    ],
+    stillRequiredAtApplyTime:
+      'The condition is about the DEPLOYED application, so it must be re-checked against the deployed SHA at step 2. Merged is not deployed.',
   },
 
   postApplyEvidence: {
     verifier: 'scripts/verify-rcap-migration-apply-evidence.mjs',
     mustProve: [
-      'all four migrations appear in the migration evidence',
+      `all ${SEQUENCE.length} migrations appear in the migration evidence`,
       'finalize_packet_render_job is the Phase 52 definition, not a familiar name',
       'record_consumer_packet_payment exists',
       'its search_path is pinned',

@@ -4,13 +4,32 @@ import Stripe from "stripe";
 
 import {
   getBriefcaseItemForWebhook,
-  updateBriefcasePaymentMetadataForWebhook
+  updateBriefcasePacketStatusForWebhook
 } from "@/lib/expungement-ai/briefcase";
+import {
+  CONSUMER_PACKET_CURRENCY,
+  isAlreadyRecordedOutcome,
+  isPaidOutcome,
+  recordConsumerPacketPayment
+} from "@/lib/expungement-ai/consumer-payment-authority";
 import { scheduleConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
 import { generatePaidConsumerPacket } from "@/lib/expungement-ai/packet-generation";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+
+/**
+ * A rejected provider event, distinguishable from an ordinary processing fault.
+ *
+ * The webhook returns 500 for both, so Stripe retries either way, but the type
+ * makes "we refused this evidence" auditable separately from "we fell over".
+ */
+export class ConsumerCheckoutEvidenceError extends Error {
+  constructor(readonly detail: string) {
+    super(`Consumer checkout evidence rejected: ${detail}`);
+    this.name = "ConsumerCheckoutEvidenceError";
+  }
+}
 
 const CONSUMER_CHANNEL = "expungement_ai_consumer";
 const CHECKOUT_EVENTS = new Set(["checkout.session.completed", "checkout.session.async_payment_succeeded"]);
@@ -42,6 +61,19 @@ export async function reconcileExpungementAiCheckoutEvent(
     throw new Error("Consumer checkout session reference mismatch.");
   }
 
+  // Amount and currency come from the signed event, never from the constant we
+  // happen to charge. Reading `consumerPacketPriceCents` here instead would make
+  // the check tautological: a session for $5 would be recorded as $50 because
+  // that is what the code assumed it must be.
+  if (session.amount_total !== consumerPacketPriceCents) {
+    throw new ConsumerCheckoutEvidenceError(
+      `amount_total ${String(session.amount_total)} is not ${consumerPacketPriceCents}`
+    );
+  }
+  if ((session.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {
+    throw new ConsumerCheckoutEvidenceError(`currency ${String(session.currency)} is not ${CONSUMER_PACKET_CURRENCY}`);
+  }
+
   const item = await getBriefcaseItemForWebhook(userId, briefcaseItemId);
   if (!item) {
     throw new Error("Consumer checkout Briefcase item not found.");
@@ -60,32 +92,55 @@ export async function reconcileExpungementAiCheckoutEvent(
     // the metadata update is keyed by (userId, itemId) and generation is re-entrant, so no
     // duplicate charge or duplicate artifact can result.
     if (item.packetStatus === "ready") return "duplicate";
-    await finalizePaidCheckoutSession(userId, item, session);
+    await finalizePaidCheckoutSession(userId, item, session, event.id);
     return "recovered";
   }
 
-  await finalizePaidCheckoutSession(userId, item, session);
+  await finalizePaidCheckoutSession(userId, item, session, event.id);
   return "processed";
 }
 
 async function finalizePaidCheckoutSession(
   userId: string,
   item: ConsumerBriefcaseItem,
-  session: Stripe.Checkout.Session
+  session: Stripe.Checkout.Session,
+  providerEventId: string
 ): Promise<void> {
-  const updated = await updateBriefcasePaymentMetadataForWebhook(userId, item.id, {
+  // The payment fact goes through the server-only writer, never through a
+  // column update. Phase 52 revoked the application's privilege to set these
+  // columns precisely because holding it is what let a payer forge them, and
+  // the `paid_requires_server_evidence` constraint refuses a paid row that
+  // carries no provider event and no named server authority — which a direct
+  // update cannot supply.
+  const recorded = await recordConsumerPacketPayment({
+    briefcaseItemId: item.id,
     paymentStatus: "paid",
+    amountCents: session.amount_total,
+    currency: session.currency,
     paymentProvider: "stripe",
+    providerEventId,
     checkoutSessionId: session.id,
-    paymentIntentId: paymentIntentIdFor(session),
-    amountCents: consumerPacketPriceCents,
-    receiptUrl: undefined,
-    packetStatus: item.packetStatus === "ready" ? "ready" : "pending"
+    paymentIntentId: paymentIntentIdFor(session) ?? null,
+    receiptUrl: null,
+    authority: "server_webhook",
+    recordedBy: "expungement_ai_stripe_webhook"
   });
 
-  if (!updated) {
-    throw new Error("Unable to update consumer checkout payment state.");
+  // A replayed provider event is a success for this caller: the payment is
+  // already on the row and no second entitlement was created. Anything else
+  // that is not a fresh paid record must stop the journey here.
+  if (!isPaidOutcome(recorded.outcome) && !isAlreadyRecordedOutcome(recorded.outcome)) {
+    throw new ConsumerCheckoutEvidenceError(
+      `payment writer refused the event: ${recorded.outcome}${recorded.reason ? ` (${recorded.reason})` : ""}`
+    );
   }
+
+  // Packet status is not a payment fact and is still the application's to set.
+  await updateBriefcasePacketStatusForWebhook(
+    userId,
+    item.id,
+    item.packetStatus === "ready" ? "ready" : "pending"
+  );
 
   // Authoritative paid signal: unlike the polled confirmation route, this fires even if the user
   // never returns to the site. Both producers are deduped to one funnel event by the shared
