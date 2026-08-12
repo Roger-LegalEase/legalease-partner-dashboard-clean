@@ -134,9 +134,16 @@
       "why": "The application must carry the Phase 52 payment writer, and the deployed commit must be the final accepted integration SHA — a descendant of the 13e356c4 checkpoint, re-derived once this preparation lands and CI is green on it."
     },
     "workerImageDigest": {
-      "value": null,
+      "value": "sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
       "owner": "Terminal D",
-      "why": "An immutable registry digest, not a local image ID. Minted by the publication workflow at the final accepted SHA."
+      "why": "An immutable registry digest, not a local image ID. Minted by the publication workflow at the freeze SHA and read from committed evidence (data/rcap-render/worker-publication-evidence.json), never typed.",
+      "evidence": {
+        "sourceSha": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
+        "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:5987870ca0d70ea4437d0711c430b9eda299a0ef",
+        "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
+        "workflowRunId": 31556968201,
+        "registryPullByDigestStatus": "pending_credentialed_staging_host"
+      }
     },
     "workerDeploymentTarget": {
       "value": null,
@@ -290,7 +297,7 @@
     "scriptsLibTreeHash": "e8f80d8b59b889061363f4ea24d3d4f8c30b129c",
     "srcTreeHash": "6ae7362894fe118ce9ac231f7ef8913e3cb7feee"
   },
-  "imageInputFingerprintBaseSha": "763bb42e1955da66383dfd54aa04753bad6e51fd",
+  "imageInputFingerprintBaseSha": "b8598d53ebb377dd703c0b5cda0653fa9b93ed7b",
   "imageInputEquivalenceRequired": true,
   "imageInputEquivalenceRule": "git diff --quiet {imageInputFingerprintBaseSha} HEAD -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs scripts/lib src deploy/rcap-render-worker/Dockerfile must exit 0; a commit that changes any image-input path invalidates this fingerprint and requires regeneration.",
   "supersedes": [
@@ -329,7 +336,6 @@
     "stagingSupabaseProject",
     "applicationDeploymentTarget",
     "applicationDeploymentSha",
-    "workerImageDigest",
     "workerDeploymentTarget",
     "featureFlagState",
     "rollbackOwner",

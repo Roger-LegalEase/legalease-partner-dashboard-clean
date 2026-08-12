@@ -191,6 +191,23 @@ for (const [key, value] of Object.entries(imageInputFingerprint)) {
   if (value === null) problems.push(`imageInputFingerprint.${key} could not be derived; a partial fingerprint is not a fingerprint`);
 }
 
+// Terminal D's publication evidence, if it has been imported. The digest is
+// only ever read from committed evidence that names the exact freeze SHA —
+// never typed in — so a digest for the wrong source cannot be recorded here.
+const PUBLICATION_EVIDENCE_PATH = path.join(rootDir, 'data/rcap-render/worker-publication-evidence.json');
+let publicationEvidence = null;
+if (fs.existsSync(PUBLICATION_EVIDENCE_PATH)) {
+  const candidate = JSON.parse(fs.readFileSync(PUBLICATION_EVIDENCE_PATH, 'utf8'));
+  const digestShape = /^sha256:[0-9a-f]{64}$/.test(String(candidate.immutableRegistryDigest || ''));
+  if (!digestShape) {
+    problems.push('worker publication evidence carries a malformed immutable digest');
+  } else if (candidate.packageVisibility !== 'private' || candidate.mutableLatestTagCreated !== false || candidate.publishOnlyNoDeploy !== true) {
+    problems.push('worker publication evidence violates the publication contract (visibility/latest/publish-only)');
+  } else {
+    publicationEvidence = candidate;
+  }
+}
+
 // Required environment values. Anything null here keeps the action unrequestable.
 const REQUIRED_ENVIRONMENT = {
   stagingSupabaseProject: { value: null, owner: 'Roger', why: 'The action names one environment. Without the project ref there is nothing to apply to and nothing to verify the connection against.' },
@@ -201,7 +218,28 @@ const REQUIRED_ENVIRONMENT = {
   // name a commit that is already superseded, so it is re-derived at the final
   // accepted tip instead.
   applicationDeploymentSha: { value: null, owner: 'captain', why: 'The application must carry the Phase 52 payment writer, and the deployed commit must be the final accepted integration SHA — a descendant of the 13e356c4 checkpoint, re-derived once this preparation lands and CI is green on it.' },
-  workerImageDigest: { value: null, owner: 'Terminal D', why: 'An immutable registry digest, not a local image ID. Minted by the publication workflow at the final accepted SHA.' },
+  workerImageDigest: {
+    // Populated from committed publication evidence only, and only when the
+    // evidence's Dockerfile and lockfile hashes agree with this record's own
+    // fingerprint — the digest and the fingerprint must describe one build.
+    value:
+      publicationEvidence &&
+      publicationEvidence.dockerfileSha256 === imageInputFingerprint.dockerfileSha256 &&
+      publicationEvidence.lockfileSha256 === imageInputFingerprint.packageLockSha256
+        ? publicationEvidence.immutableRegistryDigest
+        : null,
+    owner: 'Terminal D',
+    why: 'An immutable registry digest, not a local image ID. Minted by the publication workflow at the freeze SHA and read from committed evidence (data/rcap-render/worker-publication-evidence.json), never typed.',
+    evidence: publicationEvidence
+      ? {
+          sourceSha: publicationEvidence.sourceSha,
+          imageReference: `${publicationEvidence.imageRepository}:${publicationEvidence.imageTag}`,
+          digestPinnedReference: publicationEvidence.digestPinnedReference,
+          workflowRunId: publicationEvidence.workflowRunId,
+          registryPullByDigestStatus: publicationEvidence.registryPullByDigestStatus,
+        }
+      : null,
+  },
   workerDeploymentTarget: { value: null, owner: 'Roger', why: 'Where the worker runs, and which identity pulls the private package.' },
   featureFlagState: { value: null, owner: 'Roger', why: 'Consumer packet delivery and checkout must be provably disabled at step 1 and re-enabled only in the controlled staging scope at step 8.' },
   rollbackOwner: { value: null, owner: 'Roger', why: 'A named human who executes the documented rollback, not a role.' },
