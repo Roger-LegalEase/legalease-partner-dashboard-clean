@@ -1,15 +1,43 @@
 {
-  "schemaVersion": "rcap-overflow-report/v2",
+  "schemaVersion": "rcap-overflow-report/v3-lane-d1c",
   "boundaryFixtureApplied": true,
+  "minimumReadableFontSize": 6,
+  "policy": "A value that cannot be drawn at 6pt or larger inside its own widget is refused and the field is left blank. Nothing is clipped and nothing is shrunk below legibility.",
+  "unfittableCanonical": [],
+  "unfittableBoundary": [
+    {
+      "field": "Docket Number",
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 452.8,
+        "y": 709.3,
+        "width": 121.9,
+        "height": 18.7
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
+    }
+  ],
   "findings": [
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "field": "Docket Number",
-      "check": "clipping",
-      "widgetWidth": 122,
-      "textWidthAt": 196.8,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 452.8,
+        "y": 709.3,
+        "width": 121.9,
+        "height": 18.7
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
     }
   ]
 }

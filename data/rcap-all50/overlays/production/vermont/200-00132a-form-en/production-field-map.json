@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-acroform-map/v5",
+  "schemaVersion": "rcap-acroform-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "200-00132a-form-en",
-  "documentOwnership": "participant_completed",
+  "jurisdiction": "VT",
+  "documentId": "200-00132A",
+  "revision": "REV-2025-07",
   "sha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "participant_completed",
+  "documentOwnershipBasis": "manifest_document_role_PACKET",
+  "captionOnly": false,
   "pageGeometry": [
     {
       "page": 1,
@@ -17,60 +24,324 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [
     {
       "field": "Docket Number",
-      "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "valueType": "string",
+      "subject": "Docket Number",
+      "subjectBasis": "acroform_field_name"
     },
     {
       "field": "Defendant",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "valueType": "string",
+      "subject": "Defendant",
+      "subjectBasis": "acroform_field_name"
     },
     {
       "field": "DOB",
-      "class": "participant",
-      "factId": "participant.date_of_birth"
+      "factId": "participant.date_of_birth",
+      "valueType": "date",
+      "subject": "DOB",
+      "subjectBasis": "acroform_field_name"
+    },
+    {
+      "field": "34h",
+      "factId": "participant.phone",
+      "valueType": "string",
+      "subject": "Phone Number",
+      "subjectBasis": "measured_printed_label_positional_widget_name"
     }
   ],
-  "unwritableFields": [],
-  "manualFields": [
-    "Unit",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "28",
-    "29",
-    "30",
-    "31",
-    "32",
-    "33",
-    "34",
-    "34a",
-    "35",
-    "36",
-    "check box 1",
-    "chec box 2",
-    "34b",
-    "34c",
-    "34d",
-    "34e",
-    "34f",
-    "34g",
-    "34h",
-    "34i",
-    "34j",
-    "34k",
-    "34l"
+  "bindingRefusals": [
+    {
+      "field": "Unit",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Unit",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "22",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "subject": "Description of Offense",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "23",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "subject": "Date of Offense",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "24",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "subject": "Date of Offense",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "25",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "subject": "Docket Number (if any",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "26",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "26",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "27",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "27",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "28",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "28",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "29",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "29",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "30",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "30",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "31",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "31",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "32",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "32",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "33",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "33",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "34",
+      "reason": "protected_category",
+      "category": "agency",
+      "subject": "State Agency",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "35",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "35",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "36",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "36",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "check box 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "check box 1",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "chec box 2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "chec box 2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "34b",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Date",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "34c",
+      "reason": "protected_category",
+      "category": "signature",
+      "subject": "Signature",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "34f",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "34f",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "34g",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "34g",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "34j",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Date",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "34k",
+      "reason": "protected_category",
+      "category": "signature",
+      "subject": "Signature",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "34d",
+      "reason": "two_measured_labels_claim_the_same_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "Printed Name",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "34l"
+      ]
+    },
+    {
+      "field": "34l",
+      "reason": "two_measured_labels_claim_the_same_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "Printed Name",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "34d"
+      ]
+    },
+    {
+      "field": "34a",
+      "reason": "two_measured_labels_claim_the_same_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "Address",
+      "wouldHaveWritten": "participant.street_address",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "34e",
+        "34i"
+      ]
+    },
+    {
+      "field": "34e",
+      "reason": "two_measured_labels_claim_the_same_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "Mailing Address",
+      "wouldHaveWritten": "participant.street_address",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "34a",
+        "34i"
+      ]
+    },
+    {
+      "field": "34i",
+      "reason": "shared_descriptor_list_resolved_this_label_to_a_less_specific_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "Email Address",
+      "wouldHaveWritten": "participant.street_address",
+      "expectedFactId": "participant.email",
+      "conflictsWith": []
+    }
   ],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": [
+      {
+        "field": "34d",
+        "label": "Printed Name",
+        "factId": "participant.full_legal_name",
+        "reason": "two_measured_labels_claim_the_same_fact",
+        "peers": [
+          "34l"
+        ]
+      },
+      {
+        "field": "34l",
+        "label": "Printed Name",
+        "factId": "participant.full_legal_name",
+        "reason": "two_measured_labels_claim_the_same_fact",
+        "peers": [
+          "34d"
+        ]
+      },
+      {
+        "field": "34a",
+        "label": "Address",
+        "factId": "participant.street_address",
+        "reason": "two_measured_labels_claim_the_same_fact",
+        "peers": [
+          "34e",
+          "34i"
+        ]
+      },
+      {
+        "field": "34e",
+        "label": "Mailing Address",
+        "factId": "participant.street_address",
+        "reason": "two_measured_labels_claim_the_same_fact",
+        "peers": [
+          "34a",
+          "34i"
+        ]
+      },
+      {
+        "field": "34i",
+        "label": "Email Address",
+        "factId": "participant.street_address",
+        "reason": "shared_descriptor_list_resolved_this_label_to_a_less_specific_fact",
+        "expectedFactId": "participant.email",
+        "peers": []
+      }
+    ]
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": []
+  },
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

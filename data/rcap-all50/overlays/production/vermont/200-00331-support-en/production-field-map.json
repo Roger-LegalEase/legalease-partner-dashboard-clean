@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-acroform-map/v5",
+  "schemaVersion": "rcap-acroform-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "200-00331-support-en",
-  "documentOwnership": "participant_completed",
+  "jurisdiction": "VT",
+  "documentId": "200-00331",
+  "revision": "REV-2026-05",
   "sha256": "6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "participant_completed",
+  "documentOwnershipBasis": "manifest_document_role_RECORD_REQUEST",
+  "captionOnly": false,
   "pageGeometry": [
     {
       "page": 1,
@@ -17,44 +24,263 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
-  "bindings": [],
-  "unwritableFields": [],
-  "manualFields": [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "29",
-    "28",
-    "30"
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
+  "bindings": [
+    {
+      "field": "5",
+      "factId": "participant.street_address",
+      "valueType": "string",
+      "subject": "Mailing Address",
+      "subjectBasis": "measured_printed_label_positional_widget_name"
+    }
   ],
+  "bindingRefusals": [
+    {
+      "field": "1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Date of Request",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "r(equired",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "r(equired",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "8",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Record found?",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "9",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Record found?",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "10",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "11",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "☐ Yes ☐ No",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "12",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "☐ Yes ☐ No",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "13",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "☐ Yes ☐ No",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "14",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "14",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "15",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "15",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "16",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "16",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "17",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "17",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "18",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "18",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "19",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "☐ Yes ☐",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "20",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "20",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "21",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "21",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "22",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "22",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "23",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "23",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "24",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "24",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "25",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "25",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "26",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "26",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "27",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "27",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "29",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "29",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "28",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "☐ 1990 - present",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "30",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "30",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "3",
+      "reason": "two_measured_labels_claim_the_same_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "Phone",
+      "wouldHaveWritten": "participant.phone",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "4"
+      ]
+    },
+    {
+      "field": "4",
+      "reason": "two_measured_labels_claim_the_same_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "Phone",
+      "wouldHaveWritten": "participant.phone",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "3"
+      ]
+    }
+  ],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": [
+      {
+        "field": "3",
+        "label": "Phone",
+        "factId": "participant.phone",
+        "reason": "two_measured_labels_claim_the_same_fact",
+        "peers": [
+          "4"
+        ]
+      },
+      {
+        "field": "4",
+        "label": "Phone",
+        "factId": "participant.phone",
+        "reason": "two_measured_labels_claim_the_same_fact",
+        "peers": [
+          "3"
+        ]
+      }
+    ]
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": []
+  },
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

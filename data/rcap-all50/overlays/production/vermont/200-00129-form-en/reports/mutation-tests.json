@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "rcap-mutation-tests/v1-lane-d1c",
+  "basis": "Each mutation removes one guarantee and asserts the pipeline refuses. A guard that cannot be made to fail is not known to be load-bearing.",
+  "allRed": true,
+  "mutations": [
+    {
+      "mutation": "source_drift_detected",
+      "refusedAsExpected": true,
+      "error": "Error: source drift: expected 6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5, read 23d58cc1b9b2094bc91b2bd66464a57d1dd37bb5f717f9672b6d2ba64696595e"
+    },
+    {
+      "mutation": "non_filing_notice_refuses_fill",
+      "refusedAsExpected": true,
+      "error": "NonFilingHoldError: document states it is not for filing: DO NOT COMPLETE THIS FORM FOR FILING"
+    },
+    {
+      "mutation": "contact_sheet_rejects_unflattened_panel",
+      "refusedAsExpected": true,
+      "error": "ContactSheetProofError: finalized artifact does not visibly contain 5 expected value(s)"
+    }
+  ]
+}

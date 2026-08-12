@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-acroform-map/v5",
+  "schemaVersion": "rcap-acroform-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "600-00228-support-en",
-  "documentOwnership": "participant_completed",
+  "jurisdiction": "VT",
+  "documentId": "600-00228",
+  "revision": "REV-2026-04",
   "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "participant_completed",
+  "documentOwnershipBasis": "manifest_document_role_FEE_WAIVER",
+  "captionOnly": false,
   "pageGeometry": [
     {
       "page": 1,
@@ -17,103 +24,586 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [
     {
       "field": "Docket Number",
-      "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "valueType": "string",
+      "subject": "Docket Number",
+      "subjectBasis": "acroform_field_name"
     },
     {
       "field": "Case Name",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "valueType": "string",
+      "subject": "Case Name",
+      "subjectBasis": "acroform_field_name"
+    },
+    {
+      "field": "117",
+      "factId": "participant.full_legal_name",
+      "valueType": "string",
+      "subject": "Printed Name",
+      "subjectBasis": "measured_printed_label_positional_widget_name"
     }
   ],
-  "unwritableFields": [],
-  "manualFields": [
-    "Division",
-    "Unit",
-    "3",
-    "2",
-    "5",
-    "6",
-    "7",
-    "8",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "4",
-    "5a",
-    "27",
-    "29",
-    "31",
-    "33",
-    "35",
-    "MonthlyTotal",
-    "41",
-    "45",
-    "46",
-    "47",
-    "48",
-    "49",
-    "50",
-    "51",
-    "52",
-    "53",
-    "54",
-    "55",
-    "56",
-    "57",
-    "72",
-    "73",
-    "74",
-    "75",
-    "76",
-    "77",
-    "78",
-    "79",
-    "80",
-    "81",
-    "82",
-    "83",
-    "84",
-    "85",
-    "86",
-    "87",
-    "88",
-    "89",
-    "90",
-    "91",
-    "92",
-    "93",
-    "94",
-    "95",
-    "96",
-    "97",
-    "98",
-    "99",
-    "100",
-    "101",
-    "102",
-    "103",
-    "104",
-    "105",
-    "113",
-    "115",
-    "116",
-    "117"
+  "bindingRefusals": [
+    {
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Division",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Unit",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Unit",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "3",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "5",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "6",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "7",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "8",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "15",
+      "reason": "protected_category",
+      "category": "outside_party",
+      "subject": "Employer Name",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "16",
+      "reason": "protected_category",
+      "category": "outside_party",
+      "subject": "Employer Name",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "17",
+      "reason": "protected_category",
+      "category": "outside_party",
+      "subject": "Employer Name",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "18",
+      "reason": "protected_category",
+      "category": "outside_party",
+      "subject": "Employer Address",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "19",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "19",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "20",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "20",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "21",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "21",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "22",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "22",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "23",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "income sensitive criteria?",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "24",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "24",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "4",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "5a",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "5a",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "27",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "27",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "29",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "29",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "31",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "31",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "33",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "33",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "35",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "including Social Security Disability Income",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "MonthlyTotal",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "MonthlyTotal",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "41",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "41",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "45",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "45",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "46",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "46",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "47",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "47",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "48",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "48",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "49",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "49",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "50",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "50",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "51",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "51",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "52",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "52",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "53",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "53",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "54",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "54",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "55",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "55",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "56",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "56",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "57",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "57",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "72",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Section 3: Other Assets",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "73",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "73",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "74",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "74",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "75",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "FMV",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "76",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "76",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "77",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "77",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "78",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "78",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "79",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "79",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "80",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "80",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "81",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "81",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "82",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "82",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "83",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "83",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "84",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "84",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "85",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "85",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "86",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "86",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "87",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "87",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "88",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "88",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "89",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "89",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "90",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Real Property",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "91",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "FMV",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "92",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Mortgage",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "93",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Net Value",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "94",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "94",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "95",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "95",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "96",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "96",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "97",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "97",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "98",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "98",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "99",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "99",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "100",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Savings Accounts",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "101",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Total Cash Assets",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "102",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "vehicles, electronics,",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "103",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "103",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "104",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "vehicles, electronics,",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "105",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "105",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "113",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "113",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "115",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Date",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "116",
+      "reason": "protected_category",
+      "category": "signature",
+      "subject": "Applicant Signature",
+      "fallbackLabelTried": null
+    }
   ],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": []
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": []
+  },
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

@@ -1,160 +1,518 @@
 {
-  "schemaVersion": "rcap-field-classification/v4-nine-class",
+  "schemaVersion": "rcap-field-classification/v5-typed-fail-closed",
   "documentOwnership": "participant_completed",
-  "ownershipBasis": "document role, canonical filename and official title, re-checked field by field",
-  "classCounts": {
-    "manual": 30
+  "bindingBasis": "scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding, unmodified",
+  "captionOnly": false,
+  "documentAcceptsFill": true,
+  "counts": {
+    "total": 30,
+    "writable": 1,
+    "refused": 29,
+    "suppressedByOverlapGuard": 0,
+    "suppressedBySourceDefaultGuard": 0,
+    "suppressedByMeasuredLabelConflictGuard": 2
   },
   "entries": [
     {
-      "name": "1",
+      "field": "1",
       "type": "text",
-      "class": "manual"
+      "subject": "Date of Request",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Date of Request",
+        "raw": "Date of Request",
+        "position": "above",
+        "distance": 12.5,
+        "captionX": 41.64,
+        "captionY": 631.6,
+        "midY": 615.4
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "2",
+      "field": "2",
       "type": "text",
-      "class": "manual"
+      "subject": "2",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "Email Address (all results will be emailed unless otherwise requested",
+        "position": "above",
+        "distance": 13.3,
+        "captionX": 299.04,
+        "captionY": 631.6,
+        "midY": 614.6
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "3",
+      "field": "3",
       "type": "text",
-      "class": "manual"
+      "subject": "Phone",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Phone",
+        "raw": "Phone",
+        "position": "above",
+        "distance": 7.6,
+        "captionX": 389.04,
+        "captionY": 592.2,
+        "midY": 580.9
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": "participant.phone",
+      "refusalReason": "two_measured_labels_claim_the_same_fact",
+      "refusalCategory": null
     },
     {
-      "name": "4",
+      "field": "4",
       "type": "text",
-      "class": "manual"
+      "subject": "Phone",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Phone",
+        "raw": "Phone",
+        "position": "above",
+        "distance": 7.4,
+        "captionX": 389.04,
+        "captionY": 592.2,
+        "midY": 581.1
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": "participant.phone",
+      "refusalReason": "two_measured_labels_claim_the_same_fact",
+      "refusalCategory": null
     },
     {
-      "name": "5",
+      "field": "5",
       "type": "text",
-      "class": "manual"
+      "subject": "Mailing Address",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Mailing Address",
+        "raw": "Mailing Address",
+        "position": "above",
+        "distance": 12,
+        "captionX": 41.64,
+        "captionY": 561.2,
+        "midY": 545.5
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "participant.street_address",
+      "refusalReason": null,
+      "refusalCategory": null
     },
     {
-      "name": "6",
+      "field": "6",
       "type": "text",
-      "class": "manual"
+      "subject": "r(equired",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "r(equired",
+        "raw": "r(equired",
+        "position": "above",
+        "distance": 12,
+        "captionX": 380.74,
+        "captionY": 481.9,
+        "midY": 466.2
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "7",
+      "field": "7",
       "type": "text",
-      "class": "manual"
+      "subject": "r(equired",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "r(equired",
+        "raw": "r(equired",
+        "position": "above",
+        "distance": 11,
+        "captionX": 380.74,
+        "captionY": 481.9,
+        "midY": 467.2
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "8",
+      "field": "8",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "Record found?",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Record found?",
+        "raw": "Record found?",
+        "position": "above",
+        "distance": 13,
+        "captionX": 490.8,
+        "captionY": 481.9,
+        "midY": 467.7
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "9",
+      "field": "9",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "Record found?",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Record found?",
+        "raw": "Record found?",
+        "position": "above",
+        "distance": 13,
+        "captionX": 490.8,
+        "captionY": 481.9,
+        "midY": 467.7
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "10",
+      "field": "10",
       "type": "text",
-      "class": "manual"
+      "subject": "10",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "11",
+      "field": "11",
       "type": "text",
-      "class": "manual"
+      "subject": "☐ Yes ☐ No",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "☐ Yes ☐ No",
+        "raw": "☐ Yes ☐ No",
+        "position": "above",
+        "distance": 14.9,
+        "captionX": 482.76,
+        "captionY": 464.7,
+        "midY": 446.1
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "12",
+      "field": "12",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "☐ Yes ☐ No",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "☐ Yes ☐ No",
+        "raw": "☐ Yes ☐ No",
+        "position": "above",
+        "distance": 16.2,
+        "captionX": 482.76,
+        "captionY": 464.7,
+        "midY": 447.3
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "13",
+      "field": "13",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "☐ Yes ☐ No",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "☐ Yes ☐ No",
+        "raw": "☐ Yes ☐ No",
+        "position": "above",
+        "distance": 16.2,
+        "captionX": 482.76,
+        "captionY": 464.7,
+        "midY": 447.3
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "14",
+      "field": "14",
       "type": "text",
-      "class": "manual"
+      "subject": "14",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "15",
+      "field": "15",
       "type": "text",
-      "class": "manual"
+      "subject": "15",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "16",
+      "field": "16",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "16",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "17",
+      "field": "17",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "17",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "18",
+      "field": "18",
       "type": "text",
-      "class": "manual"
+      "subject": "18",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "19",
+      "field": "19",
       "type": "text",
-      "class": "manual"
+      "subject": "☐ Yes ☐",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "☐ Yes ☐",
+        "raw": "☐ Yes ☐",
+        "position": "beneath",
+        "distance": 16.8,
+        "captionX": 482.76,
+        "captionY": 380.1,
+        "midY": 404.6
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "20",
+      "field": "20",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "20",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "21",
+      "field": "21",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "21",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "22",
+      "field": "22",
       "type": "text",
-      "class": "manual"
+      "subject": "22",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "label_contains_unmapped_glyphs",
+        "raw": "�����",
+        "position": "beneath"
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "23",
+      "field": "23",
       "type": "text",
-      "class": "manual"
+      "subject": "23",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "label_contains_unmapped_glyphs",
+        "raw": "�����",
+        "position": "beneath"
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "24",
+      "field": "24",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "24",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "25",
+      "field": "25",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "25",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "26",
+      "field": "26",
       "type": "text",
-      "class": "manual"
+      "subject": "26",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "27",
+      "field": "27",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "27",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "The requested search is for (approximately)",
+        "position": "above",
+        "distance": 13,
+        "captionX": 36,
+        "captionY": 242.2,
+        "midY": 228
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "29",
+      "field": "29",
       "type": "text",
-      "class": "manual"
+      "subject": "29",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "28",
+      "field": "28",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "☐ 1990 - present",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "☐ 1990 - present",
+        "raw": "☐ 1990 - present",
+        "position": "above",
+        "distance": 13.3,
+        "captionX": 45,
+        "captionY": 223.8,
+        "midY": 209.3
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "30",
+      "field": "30",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "30",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "Payment is required before the request will be processed",
+        "position": "above",
+        "distance": 14.9,
+        "captionX": 36,
+        "captionY": 163.7,
+        "midY": 147.6
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     }
   ]
 }

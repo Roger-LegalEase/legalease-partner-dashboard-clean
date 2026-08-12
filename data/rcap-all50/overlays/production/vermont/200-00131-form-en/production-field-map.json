@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-acroform-map/v5",
+  "schemaVersion": "rcap-acroform-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "200-00131-form-en",
-  "documentOwnership": "outside_party_completed",
+  "jurisdiction": "VT",
+  "documentId": "200-00131",
+  "revision": "REV-2018-07",
   "sha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "outside_party_completed",
+  "documentOwnershipBasis": "manifest_document_role_RESPONSE",
+  "captionOnly": false,
   "pageGeometry": [
     {
       "page": 1,
@@ -11,33 +18,172 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [],
-  "unwritableFields": [],
-  "manualFields": [
-    "Unit",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "11",
-    "8",
-    "9",
-    "10",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18"
+  "bindingRefusals": [
+    {
+      "field": "Unit",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "Unit",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Docket Number",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "Docket Number",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Defendant",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "Defendant",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "1",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "1",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "2",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "3",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "3",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "4",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "4",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "5",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "5",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "6",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "6",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "7",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "7",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "11",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "11",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "8",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "8",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "9",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "9",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "10",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "10",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "12",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "Victim Response",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "13",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "13",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "14",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "receive one;",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "15",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "receive one;",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "16",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "Date of Signature",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "17",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "Printed Name of State’s Attorney",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "18",
+      "reason": "document_does_not_accept_fill",
+      "category": null,
+      "subject": "State’s Attorney Office",
+      "fallbackLabelTried": null
+    }
   ],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": []
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": []
+  },
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

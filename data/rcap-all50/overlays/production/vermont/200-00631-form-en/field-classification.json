@@ -1,60 +1,153 @@
 {
-  "schemaVersion": "rcap-field-classification/v4-nine-class",
-  "documentOwnership": "participant_completed",
-  "ownershipBasis": "document role, canonical filename and official title, re-checked field by field",
-  "classCounts": {
-    "manual": 10
+  "schemaVersion": "rcap-field-classification/v5-typed-fail-closed",
+  "documentOwnership": "court_issued_caption_only",
+  "bindingBasis": "scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding, unmodified",
+  "captionOnly": true,
+  "documentAcceptsFill": true,
+  "counts": {
+    "total": 10,
+    "writable": 1,
+    "refused": 9,
+    "suppressedByOverlapGuard": 0,
+    "suppressedBySourceDefaultGuard": 0,
+    "suppressedByMeasuredLabelConflictGuard": 0
   },
   "entries": [
     {
-      "name": "2",
+      "field": "2",
       "type": "text",
-      "class": "manual"
+      "subject": "Name of Requestor’s Criminal Justice Agency",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Name of Requestor’s Criminal Justice Agency",
+        "raw": "Name of Requestor’s Criminal Justice Agency",
+        "position": "above",
+        "distance": 9.3,
+        "captionX": 49.56,
+        "captionY": 592.2,
+        "midY": 595.4
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "protected_category",
+      "refusalCategory": "agency"
     },
     {
-      "name": "3",
+      "field": "3",
       "type": "text",
-      "class": "manual"
+      "subject": "3",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "4",
+      "field": "4",
       "type": "text",
-      "class": "manual"
+      "subject": "4",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "5",
+      "field": "5",
       "type": "text",
-      "class": "manual"
+      "subject": "5",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "6",
+      "field": "6",
       "type": "text",
-      "class": "manual"
+      "subject": "6",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "7",
+      "field": "7",
       "type": "text",
-      "class": "manual"
+      "subject": "7",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "8",
+      "field": "8",
       "type": "text",
-      "class": "manual"
+      "subject": "8",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "9",
+      "field": "9",
       "type": "text",
-      "class": "manual"
+      "subject": "9",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "10",
+      "field": "10",
       "type": "text",
-      "class": "manual"
+      "subject": "10",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "1",
+      "field": "1",
       "type": "text",
-      "class": "manual"
+      "subject": "Name of Person Requesting Sealing Order",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Name of Person Requesting Sealing Order",
+        "raw": "Name of Person Requesting Sealing Order",
+        "position": "left",
+        "distance": 33.6,
+        "captionX": 49.56,
+        "captionY": 616,
+        "midY": 618.4
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "participant.full_legal_name",
+      "refusalReason": null,
+      "refusalCategory": null
     }
   ]
 }
