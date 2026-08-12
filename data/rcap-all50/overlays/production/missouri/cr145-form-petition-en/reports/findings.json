@@ -3,9 +3,9 @@
   "family": "cr145-form-petition-en",
   "findings": [
     {
-      "severity": "blocker",
-      "finding": "source_carries_rich_text_field_d0_factory_cannot_finalize",
-      "detail": "Rich-text field(s) 'Other Defendants', 'Address at Time of Arrest'. pdf-lib throws RichTextFieldReadError from updateFieldAppearances inside sanitizeAndFlatten, so no finalized artifact can be produced for this family until the shared factory handles rich-text fields. No fill is claimed and the source was not modified."
+      "severity": "informational",
+      "finding": "source_carries_rich_text_field_converted_by_d0_v3",
+      "detail": "Rich-text field(s) 'Other Defendants', 'Address at Time of Arrest'. Before D0-v3 these threw RichTextFieldReadError from updateFieldAppearances and no artifact could be produced for this family at all. They are now converted to ordinary text fields before appearances are generated, with the participant-visible value preserved and the /RV packet dropped."
     }
   ]
 }

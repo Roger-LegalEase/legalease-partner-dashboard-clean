@@ -301,6 +301,12 @@ export const WITHHOLD = "withheld.subject_not_supplied_by_an_allowlisted_fact";
 // from its name alone.
 export const WITHHOLDING_RULES = [
   {
+    states: ["MO"],
+    match: /^County Where Arrest Occurred$/,
+    rationale:
+      "The county the arrest happened in, which is a property of the arrest and not of the participant. The binder reaches it through matter.county, so it printed the filing county into a box asking where the arrest occurred. Independent review returned it twice: a field naming the locality of an arrest, offence or conviction may bind only from a fact describing that event, and no such fact exists in this set."
+  },
+  {
     states: ["CO"],
     match: /^Court Address$/,
     rationale:
@@ -881,13 +887,17 @@ export async function buildFamily(opts) {
   // the source to clear the flag, because the source is the thing being
   // certified. The family is inventoried and left unfilled, and the gap is
   // reported as a defect in the shared factory rather than in this state.
-  if (attemptFill && (census?.richTextFields?.length ?? 0) > 0) {
-    attemptFill = false;
-    extraHolds.push("d0_factory_cannot_finalize_rich_text_acroform");
+  // D0-v3 converts rich-text fields to ordinary ones before any appearance is
+  // generated, so the block this lane put on itself is lifted. The source is
+  // still not modified: the conversion happens on the in-memory document, keeps
+  // the plain value /RV formats, and recovers the text from the packet where
+  // /V is empty. The inventory entry stays, because which fields were rich text
+  // is a fact about the source worth recording either way.
+  if ((census?.richTextFields?.length ?? 0) > 0) {
     findings.push({
-      severity: "blocker",
-      finding: "source_carries_rich_text_field_d0_factory_cannot_finalize",
-      detail: `Rich-text field(s) ${census.richTextFields.map((n) => `'${n}'`).join(", ")}. pdf-lib throws RichTextFieldReadError from updateFieldAppearances inside sanitizeAndFlatten, so no finalized artifact can be produced for this family until the shared factory handles rich-text fields. No fill is claimed and the source was not modified.`
+      severity: "informational",
+      finding: "source_carries_rich_text_field_converted_by_d0_v3",
+      detail: `Rich-text field(s) ${census.richTextFields.map((n) => `'${n}'`).join(", ")}. Before D0-v3 these threw RichTextFieldReadError from updateFieldAppearances and no artifact could be produced for this family at all. They are now converted to ordinary text fields before appearances are generated, with the participant-visible value preserved and the /RV packet dropped.`
     });
   }
 

@@ -22,13 +22,32 @@ Participant-completed filing: participant and deterministic fields may bind; eve
 - participant: 11
 - protected: 14
 
-## No fill produced
+## What was written
 
-This family is participant-completed but no fill was produced; the reason is recorded in the holds below and in `reports/`.
+11 field(s) bound from the canonical fixture; 37 refused.
+
+- `Other Defendants` ← `participant.full_legal_name`
+- `Criminal Case Number` ← `matter.case_number`
+- `Petitioner` ← `participant.full_legal_name`
+- `Case Number` ← `matter.case_number`
+- `County` ← `matter.county`
+- `Full Name` ← `participant.full_legal_name`
+- `Date of Birth` ← `participant.date_of_birth`
+- `Address at Time of Arrest` ← `participant.street_address`
+- `Arrest Citation Number` ← `matter.citation_number`
+- `County where Petitioner was arrested` ← `matter.county`
+- `Case Number of the Offense` ← `matter.case_number`
+
+## Evidence
+
+- Contact sheet: built from the finalized artifact; every expected value proven visible and the two panels proven different
+- Deterministic: two renders of identical inputs produced identical bytes
+- Source drift: a perturbed source binary was refused
+- Mutations: 4/4 held
+- Boundary fixture refused 1 value(s) below the 6pt readable floor rather than writing them illegibly
 
 ## Holds carried forward
 
-- `d0_factory_cannot_finalize_rich_text_acroform`
 - `d3a_lane_output_not_self_approved`
 - `edition_1_runtime_disabled`
 - `f_independent_visual_review_required`
@@ -38,7 +57,7 @@ This family is participant-completed but no fill was produced; the reason is rec
 
 ## Findings
 
-- **blocker** `source_carries_rich_text_field_d0_factory_cannot_finalize` — Rich-text field(s) 'Other Defendants', 'Address at Time of Arrest'. pdf-lib throws RichTextFieldReadError from updateFieldAppearances inside sanitizeAndFlatten, so no finalized artifact can be produced for this family until the shared factory handles rich-text fields. No fill is claimed and the source was not modified.
+- **informational** `source_carries_rich_text_field_converted_by_d0_v3` — Rich-text field(s) 'Other Defendants', 'Address at Time of Arrest'. Before D0-v3 these threw RichTextFieldReadError from updateFieldAppearances and no artifact could be produced for this family at all. They are now converted to ordinary text fields before appearances are generated, with the participant-visible value preserved and the /RV packet dropped.
 
 ## Review status
 

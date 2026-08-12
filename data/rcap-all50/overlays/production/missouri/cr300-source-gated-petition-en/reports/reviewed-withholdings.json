@@ -1,8 +1,12 @@
 {
   "schemaVersion": "rcap-reviewed-withholdings/v1",
   "basis": "the field is named with a fact its own name does not resolve to, so D0's binder fails closed with explicit_mapping_conflicts_with_field_name; no protection was weakened and the shared binder was not edited",
-  "count": 7,
+  "count": 8,
   "withheld": [
+    {
+      "field": "County Where Arrest Occurred",
+      "rationale": "The county the arrest happened in, which is a property of the arrest and not of the participant. The binder reaches it through matter.county, so it printed the filing county into a box asking where the arrest occurred. Independent review returned it twice: a field naming the locality of an arrest, offence or conviction may bind only from a fact describing that event, and no such fact exists in this set."
+    },
     {
       "field": "County/City of St. Louis",
       "rationale": "The caption's venue selector — the circuit's county or the City of St. Louis — not the participant's city of residence."

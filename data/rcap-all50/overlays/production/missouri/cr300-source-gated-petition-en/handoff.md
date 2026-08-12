@@ -19,19 +19,18 @@ Participant-completed filing: participant and deterministic fields may bind; eve
 
 - election_control: 14
 - manual: 8
-- participant: 9
+- participant: 8
 - protected: 16
-- withheld_by_review: 7
+- withheld_by_review: 8
 
 ## What was written
 
-8 field(s) bound from the canonical fixture; 46 refused.
+7 field(s) bound from the canonical fixture; 47 refused.
 
 - `Petitioner` ← `participant.full_legal_name`
 - `Petitioner Full Name` ← `participant.full_legal_name`
 - `Date of Birth Petitioner` ← `participant.date_of_birth`
 - `Arrest Citation Number` ← `matter.citation_number`
-- `County Where Arrest Occurred` ← `matter.county`
 - `Case Number` ← `matter.case_number`
 - `Petitioner Address` ← `participant.street_address`
 - `Case number` ← `matter.case_number`
