@@ -1,0 +1,41 @@
+{
+  "fixtureId": "canonical",
+  "description": "Obviously synthetic canonical participant. Protected/outside-party fields (docket number, OTN, judge, prosecutor position) stay blank and render as confirm-with-clerk placeholders.",
+  "expectations": {
+    "qaPassed": true
+  },
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Taylor Sample",
+      "petitionerAddress": "1234 Example Street, Bismarck, ND 58501",
+      "otherNamesUsed": "Taylor Q. Sample"
+    },
+    "caseData": {
+      "countyName": "Ward",
+      "judicialDistrict": "North Central Judicial District"
+    },
+    "chargeData": {
+      "chargeDescription": "Criminal mischief",
+      "offenseGrade": "Class A misdemeanor",
+      "disposition": "Convicted; subsequently granted an unconditional pardon",
+      "dispositionDate": "06/01/2015",
+      "arrestDate": "02/01/2015",
+      "arrestingAgency": "Minot Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Conviction sealing supported by an unconditional gubernatorial pardon under N.D.C.C. Chapter 12-60.1",
+      "additionalFacts": [
+        "Petitioner has been granted an unconditional pardon for the conviction in this case.",
+        "All terms of imprisonment and probation are complete and all restitution has been paid.",
+        "Petitioner must prove the sealing factors by clear and convincing evidence."
+      ]
+    },
+    "attachments": [
+      "Proposed Order to Seal Criminal Records",
+      "Proof of Service on the prosecuting attorney",
+      "Certificate of Pardon (unconditional)"
+    ],
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

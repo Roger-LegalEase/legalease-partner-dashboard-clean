@@ -1,0 +1,30 @@
+{
+  "fixtureId": "negative",
+  "description": "Must fail QA: uses prohibited expungement vocabulary on a sealing-first North Dakota track.",
+  "statedFailureReason": "North Dakota Chapter 12-60.1 relief is sealing, never expungement; the eligibility basis below deliberately uses the prohibited term 'expungement' so vocabulary QA must reject the render.",
+  "expectations": {
+    "qaPassed": false,
+    "expectedFailureSnippet": "expungement"
+  },
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Negative Sample"
+    },
+    "caseData": {
+      "countyName": "Burleigh"
+    },
+    "chargeData": {
+      "chargeDescription": "Theft of property",
+      "offenseGrade": "Class C felony",
+      "disposition": "Convicted (guilty plea)",
+      "dispositionDate": "06/01/2019",
+      "arrestDate": "02/01/2019",
+      "arrestingAgency": "Bismarck Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Expungement of the record under N.D.C.C. Chapter 12-60.1"
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

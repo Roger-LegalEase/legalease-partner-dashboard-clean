@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "rcap-c3-pleading-config/v1",
+  "jobId": "T-C-ND-production-packet",
+  "windowId": "2026-08-12-w1",
+  "ledgerTrackId": "nd-seal-misdemeanor-conviction",
+  "registryLegalName": "Petition to Seal a Misdemeanor Conviction (N.D.C.C. § 12-60.1-02(1)(a))",
+  "config": {
+    "jurisdictionCode": "ND",
+    "trackId": "nd-seal-misdemeanor-conviction",
+    "templateGrade": "legal_ops_custom_pleading",
+    "templateLifecycle": "replacement_candidate",
+    "primaryReliefTerm": "sealing",
+    "documentTitleFull": "PETITION TO SEAL CRIMINAL RECORDS PURSUANT TO N.D.C.C. CHAPTER 12-60.1",
+    "courtCaption": "IN THE DISTRICT COURT OF THE STATE OF NORTH DAKOTA",
+    "primaryStatutoryAuthority": [
+      {
+        "citation": "N.D.C.C. Chapter 12-60.1",
+        "description": "Conviction sealing under N.D.C.C. § 12-60.1-02: a misdemeanor conviction (guilty plea or finding) may be sealed with no new conviction for at least 3 years before filing; a felony conviction with no new conviction for at least 5 years before filing; and an unconditional gubernatorial pardon can support a sealing petition."
+      },
+      {
+        "citation": "N.D.C.C. § 12-60.1-02",
+        "description": "For a conviction-sealing petition the petitioner must prove, by clear and convincing evidence, good cause, that the benefit to the petitioner outweighs the presumption of openness, completion of all imprisonment and probation, payment of all restitution, and that reformation/rehabilitation warrants relief."
+      }
+    ],
+    "verificationStatute": {
+      "citation": null,
+      "description": "North Dakota petition verification: confirm the required verification/notarization form and any applicable statute with counsel; the source does not specify one."
+    },
+    "includeProposedOrder": true,
+    "includeCertificateOfService": true,
+    "serviceNote": "Serve the petition and proposed order on the prosecuting attorney; the prosecutor is expected, to the extent practicable, to notify and seek input from law enforcement, witnesses, victims, and correctional authorities.",
+    "presentation": {
+      "sovereignPartyName": "STATE OF NORTH DAKOTA",
+      "sovereignPartyProper": "the State of North Dakota",
+      "sovereignRole": "Plaintiff",
+      "movantRole": "Petitioner",
+      "filingNoun": "Petition",
+      "divisionLine": "",
+      "usesCounty": false,
+      "courtName": "District Court of {county} County, North Dakota",
+      "venueDescriptor": "{county} County, North Dakota",
+      "recordCustodianLead": "The Clerk of the District Court and the prosecuting attorney",
+      "verificationVerb": "verify",
+      "verificationPenaltyLabel": "the penalties for a false statement",
+      "serviceRecipientLabel": "the prosecuting attorney",
+      "serviceRecipientAddressLabel": "[PROSECUTING ATTORNEY ADDRESS — CONFIRM WITH CLERK OF COURT]",
+      "reliefActionVerb": "seal",
+      "orderActionVerb": "seal",
+      "recordsScopePhrase": "the criminal record (court and prosecution records)"
+    },
+    "counselFlags": [
+      "Sealing is not expungement: North Dakota usually offers sealing or closing, not broad expungement. Sealing limits disclosure of court and prosecution records; it may not delete records or remove records held by BCI, law enforcement, federal systems, private background-check companies, or licensing agencies.",
+      "Agency scope: Chapter 12-60.1 sealing does not reach BCI criminal history record information or Criminal Justice Data Information Sharing System data; federal, tribal, out-of-state, and private background-check records are not cleared by North Dakota sealing.",
+      "Attorney review: Excluded offenses, felonies involving violence or intimidation, firearm-disability issues, registration offenses, human-trafficking vacatur, immigration consequences, BCI record issues, unpaid restitution, pending charges, unclear deferred-imposition status, and plea-tied dismissals should trigger attorney review before filing.",
+      "North Dakota petition verification: confirm the required verification/notarization form and any applicable statute with counsel; the source does not specify one.",
+      "Caption should name the specific county and judicial district and be filed in the existing North Dakota criminal case per local rules; confirm before filing.",
+      "Waiting period — misdemeanor: Misdemeanor conviction sealing under Chapter 12-60.1: no new conviction for at least 3 years before filing. Felony: Felony conviction sealing under Chapter 12-60.1: no new conviction for at least 5 years before filing. Conviction sealing requires that all terms of imprisonment and probation are complete and all restitution has been paid.",
+      "Burden and timing: The court may hold a hearing no earlier than 45 days after filing; the petitioner must prove the sealing factors by clear and convincing evidence. If denied, the court may prohibit refiling for up to one year for good cause.",
+      "Excluded offenses — registration: Offenses requiring registration under N.D.C.C. § 12.1-32-15 (including offenders against children and sexual offenders) are barred from Chapter 12-60.1 sealing. Violence/intimidation: Certain felony offenses involving violence or intimidation during the firearm-disability period are excluded from Chapter 12-60.1 sealing."
+    ]
+  },
+  "runtimePreexisting": {
+    "module": "src/lib/record-clearing/north-dakota-config.ts",
+    "exportName": "ndConvictionSealingConfig",
+    "runtimeTrackId": "adult_conviction_sealing",
+    "runtimeVerifier": "scripts/verify-nd-pleading-state.mjs",
+    "note": "The North Dakota pleading-state runtime config pre-exists this terminalization window. This data artifact is generated from ndConvictionSealingConfig (trackId aside, byte-identical); the felony, misdemeanor and pardoned grounds are eligibility paths of the same Chapter 12-60.1 petition, not separate runtime configs."
+  },
+  "eligibilityPath": {
+    "id": "conviction_sealing_misdemeanor",
+    "label": "Misdemeanor conviction sealing under Chapter 12-60.1",
+    "statute": {
+      "citation": "N.D.C.C. § 12-60.1-02",
+      "description": "Misdemeanor conviction sealing under Chapter 12-60.1: no new conviction for at least 3 years before filing."
+    }
+  },
+  "qa": {
+    "prohibitedTerms": [
+      "expungement",
+      "expunge",
+      "set aside",
+      "set-aside",
+      "annulment",
+      "vacatur"
+    ]
+  },
+  "registryExcerpt": {
+    "legalName": "Petition to Seal a Misdemeanor Conviction (N.D.C.C. § 12-60.1-02(1)(a))",
+    "publicName": "Ask a North Dakota court to seal a misdemeanor conviction",
+    "authority": [
+      "N.D.C.C. § 12-60.1-02(1)(a)",
+      "N.D.C.C. § 12-60.1-03",
+      "N.D.C.C. § 12-60.1-04",
+      "N.D.C.C. § 12-60.1-01(7)",
+      "N.D.C.C. § 12-60.1-02(2)",
+      "N.D.R.Ct. 3.4",
+      "N.D.R.Crim.P. 49"
+    ],
+    "venue": "The existing criminal case for the offence, under N.D.C.C. § 12-60.1-03(1). There is no separate civil action. District court or municipal court, whichever holds the case.",
+    "destinationName": "Clerk of Court of the existing criminal case",
+    "waitingPeriods": [
+      {
+        "condition": "No conviction of a new crime in the look-back period",
+        "duration": "three years immediately before the petition is filed"
+      },
+      {
+        "condition": "Court findings under § 12-60.1-04(1)(c) and (d)",
+        "duration": "all terms of imprisonment and probation complete and all restitution paid; these are findings rather than waiting periods"
+      }
+    ],
+    "exclusions": [
+      "Any offence for which the offender has been ordered to register under N.D.C.C. § 12.1-32-15.",
+      "Impaired-driving offences, which the official guides route to the separate seal under N.D.C.C. § 39-08-01.6."
+    ]
+  },
+  "componentInventory": {
+    "caption": {
+      "status": "present",
+      "detail": "Caption of the existing North Dakota criminal case (State of North Dakota, Plaintiff, v. petitioner, Defendant style, rendered sovereign-first with the Petitioner role for the movant); the petition is filed in the criminal case itself per N.D.C.C. § 12-60.1-03(1), and the county/judicial-district line is supplied at runtime."
+    },
+    "court_party_identity": {
+      "status": "present",
+      "detail": "Sovereign party is the State of North Dakota (Plaintiff); movant is the Petitioner. The respondent office (city prosecutor or county State's Attorney) is identified in service materials, never asserted as a named individual."
+    },
+    "title": {
+      "status": "present",
+      "detail": "PETITION TO SEAL CRIMINAL RECORDS PURSUANT TO N.D.C.C. CHAPTER 12-60.1."
+    },
+    "allegations": {
+      "status": "present",
+      "detail": "Facts and case-history allegations plus eligibility allegations built solely from participant-supplied case facts and the state-pack waiting-period/finding texts; the reasons-for-sealing and reformation narrative stays a participant-completed field (manual completion item) and is never asserted by LegalEase."
+    },
+    "statutory_basis": {
+      "status": "present",
+      "detail": "N.D.C.C. Chapter 12-60.1 and § 12-60.1-02, with descriptions taken verbatim from the ND state pack."
+    },
+    "requested_relief": {
+      "status": "present",
+      "detail": "Seal the criminal record (court and prosecution records) — scope narrowed per the state pack because ND sealing does not reach BCI criminal-history or CJDISS data."
+    },
+    "verification": {
+      "status": "present",
+      "detail": "Signature declaration only. N.D.C.C. § 12-60.1-03 imposes no verification requirement and the chapter contains no verification clause, so no verification statute is asserted (citation null + counsel flag)."
+    },
+    "signatures": {
+      "status": "present",
+      "detail": "Petitioner signature and date blocks on the petition and the proof of service; the judge's signature block on the proposed order stays blank for the court."
+    },
+    "proposed_order": {
+      "status": "present",
+      "detail": "Mandatory under N.D.C.C. § 12-60.1-03(3): the proposed order is filed with the petition, and a petition without one is incomplete."
+    },
+    "certificate_of_service": {
+      "status": "present",
+      "detail": "Proof of service on the prosecuting attorney under N.D.C.C. § 12-60.1-03(4) via N.D.R.Crim.P. 49 and N.D.R.Civ.P. 5(b); service precedes filing and proof is filed with the petition."
+    },
+    "notice_affidavit": {
+      "status": "absent",
+      "detail": "Absent by design: the § 12-60.1-04(4) canvass of law enforcement, witnesses, victims and correctional authorities is the prosecutor's duty, and the source prescribes no participant notice or affidavit document."
+    },
+    "participant_cover_sheet": {
+      "status": "present",
+      "detail": "participant-instructions.md — participant-only completion/signing/service/filing guide, separate from the court documents."
+    },
+    "filing_instructions": {
+      "status": "present",
+      "detail": "Serve the prosecuting attorney first, then file the petition, mandatory proposed order and proof of service with the clerk of the existing criminal case; fee not established — confirm with the clerk."
+    }
+  },
+  "counselNotes": [
+    "Registry release blocker: the filing fee for a Chapter 12-60.1 petition is not established; the participant must confirm with the clerk before paying anything.",
+    "Registry release blocker: the impaired-driving exclusion from Chapter 12-60.1 appears only in ND Courts guides, not in § 12-60.1-02(2); confirm the basis before release."
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/north-dakota/index.ts",
+      "src/lib/rcap/state-packs/north-dakota/eligibility-rules.ts",
+      "src/lib/rcap/state-packs/north-dakota/waiting-periods.ts",
+      "src/lib/rcap/state-packs/north-dakota/filing-instructions.ts",
+      "src/lib/rcap/state-packs/north-dakota/disqualifying-offenses.ts",
+      "src/lib/rcap/state-packs/north-dakota/safety-language.ts",
+      "src/lib/rcap/state-packs/north-dakota/fee-notes.ts",
+      "src/lib/rcap/state-packs/north-dakota/pathways.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+    "registryPin": {
+      "ref": "origin/feat/record-clearing-production-integration",
+      "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+      "file": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+    },
+    "fingerprint": "7396f7a8e07bfa588cc6075f930237b7fada380d30cbbca7f07f0ec0675ed473"
+  }
+}
