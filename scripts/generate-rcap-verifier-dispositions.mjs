@@ -67,6 +67,11 @@ const OVERRIDES = {
     reason:
       "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain."
   },
+  "verify-rcap-component-deferral-runtime.mjs": {
+    disposition: "wired",
+    reason:
+      "The captain-owned runtime proof for the ten dependency-bearing composed routes: all 31 component treatments resolve, English and Spanish are complete and genuinely distinct, every participant claim cites a resolving evidence carrier, payment and checkout stay closed, no packet or partner credit is consumed, no render job is built, and the Briefcase handoff is present. Includes --mutations, which requires ten deliberate breakages — among them making the deferred route sellable in the resolver and removing either engine adapter's clamp — to come back red. Wired by the captain in window 2026-08-12-w3. It proves runtime behaviour only; it promotes nothing."
+  },
   "verify-rcap-terminalize-c1.mjs": {
     disposition: "wired",
     reason:
