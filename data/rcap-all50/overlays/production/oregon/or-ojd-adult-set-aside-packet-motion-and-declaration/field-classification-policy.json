@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2",
+  "lane": "D3B",
+  "factoryVersion": "d0-remediated-v1",
+  "policy": "Every field starts protected. Writing requires all of: no protect rule matches the field name or its measured label; the PDF type is text or dropdown; the name matches an allowlisted fact descriptor; the resolved value matches the descriptor's declared type; a sensitive descriptor has been named for that exact field; and an indexed charge row resolves to a charge actually supplied.",
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "bindingCorrections": {
+    "p4.r295.2.x144": "matter.charges[n].charge",
+    "p4.r282.1.x477": "matter.charges[n].count_number",
+    "p4.r128.4.x126": "matter.charges[n].citation_or_arrest_offense",
+    "p5.r115.6.x288": "service_recipient.certifying_defendant_name"
+  },
+  "bindingCorrectionRationale": {
+    "p4.r295.2.x144": "'Name of Charges' is the header of a seven-row charge table, and the descriptor list resolves it to participant.full_legal_name on a bare name match. A charge row may only be written from an indexed participant fact this lane does not supply, so every row stays blank.",
+    "p4.r282.1.x477": "second column of the same charge table ('Count #'), resolved to participant.full_legal_name by the header above it for the same reason.",
+    "p4.r128.4.x126": "'Name of Citation/Arrest Offenses' heads a second five-row table and resolves the same way. Offence rows are charge-row facts.",
+    "p5.r115.6.x288": "'Defendant Name' inside the certificate of mailing. The block records service on the prosecuting attorney, and D0 keeps service blocks blank."
+  },
+  "explicitFactMappingsAuthorized": [
+    {
+      "slot": "p5.r303.2.x72",
+      "factId": "participant.city_state_zip",
+      "rationale": "the caption printed under this span is 'City, State, ZIP', and the city_state_zip descriptor matches /city\\\\s*state\\\\s*zip/, which the commas this form sets between the words defeat. The binder therefore resolves the span to participant.city alone and would write only 'Springfield' onto a mailing line that has to carry the state and postal code as well. The override names the fact the caption names; writability is still D0's decision and every protect rule still runs against this label."
+    }
+  ],
+  "explicitSensitiveMappingsAuthorized": [],
+  "weakeningsApplied": "none — no D0 protect rule, type guard or readable-size floor was relaxed for this family"
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-source-fidelity/v1",
+  "packManifestIsAuthority": true,
+  "sha256Matches": true,
+  "byteLengthMatches": true,
+  "declaredVsObserved": {
+    "structuralClass": {
+      "declared": "flat_pdf",
+      "observed": "flat"
+    },
+    "pages": {
+      "declared": 5,
+      "observed": 5
+    },
+    "fieldCount": {
+      "declared": 0,
+      "observed": 0
+    }
+  },
+  "statePackFidelityFindings": [
+    "The compiled Oregon profile's legacy formInventory carries `CriminalSetAside_AdultCases2.pdf` at sha256 6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a (253,599 bytes). Edition 1's packet is b22cc346cd8cd8730e9992d74016e948180d92b379b6592ab333b06ac880071 at 256,978 bytes, revision January 2026. Different binaries; the pack manifest wins and the profile is not edited.",
+    "Sub-region evidence: the address rule on page 5 spans x 72 to 540 and carries three captions beneath it — 'Address' at x 72, 'City, State, ZIP' at x 252 and 'Phone' at x 504. Each sub-region runs from its own caption's left edge to the next caption's left edge. The phone span is only 34 points wide, which is the form's geometry rather than this lane's choice; whether a telephone number fits it at or above the six-point readable floor is left to D0's fitter and recorded in the overflow report.",
+    "Date presentation, recorded for D0 rather than for Oregon: this form captions its date-of-birth blank MM/DD/YYYY, and the factory writes 1991-04-17. D0's type check requires date facts in ISO 8601 form and there is no presentation layer between the fact and the page, so every date this factory writes is ISO. The value is correct and unambiguous, but it does not follow the caption. A per-form date format belongs in the shared factory, not in a lane.",
+    "The STATE_README records one open item for Oregon — OJD or county set-aside packets for supported counties plus OSP fingerprint materials, classed `local_jurisdiction_required` / `jurisdiction_input_required`. It is carried forward as a hold, not cleared."
+  ],
+  "nonFilingHold": null
+}

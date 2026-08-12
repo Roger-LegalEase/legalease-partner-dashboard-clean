@@ -349,6 +349,20 @@ function underscoreRules(lines) {
 // is inferred: both candidate labels are strings the document draws, and the
 // rectangle is bounded by a mark the document makes.
 function labelRule(rule, lines) {
+  // A PDF draws "FOR THE COUNTY OF" as separate show operations with the word
+  // spacing carried in the positions, not in space characters. Joining the
+  // runs naively yields "FORTHECOUNTYOF", which matches no descriptor and
+  // would quietly cost the county its binding. So a space is reinserted
+  // wherever the gap between two runs is wide enough to be one.
+  const joinRuns = (runs, size) => {
+    let out = "";
+    for (let i = 0; i < runs.length; i += 1) {
+      if (i > 0 && runs[i].x - runs[i - 1].x2 > 0.14 * (size || 10)) out += " ";
+      out += runs[i].text;
+    }
+    return out.replace(/\s+/g, " ").trim();
+  };
+
   // Text sitting on the rule: the same baseline band, ending at or before the
   // rule's left edge.
   const sameBand = lines.filter((l) => l.y >= rule.y - 1.5 && l.y <= rule.y + 13);
@@ -358,24 +372,30 @@ function labelRule(rule, lines) {
     if (before.length === 0) continue;
     // Walk back from the rule while the text stays contiguous, so a label is
     // isolated from the sentence that happens to precede it.
-    let phrase = "", prev = null;
+    const picked = [];
     for (let i = before.length - 1; i >= 0; i -= 1) {
       const r = before[i];
-      if (prev && prev.x - r.x2 > 7) break;
-      phrase = `${r.text}${phrase}`;
-      prev = r;
-      if (phrase.replace(/\s+/g, " ").trim().length >= 48) break;
+      if (picked.length && picked[0].x - r.x2 > 7) break;
+      picked.unshift(r);
+      if (joinRuns(picked, l.size).length >= 48) break;
     }
-    phrase = phrase.replace(/\s+/g, " ").trim();
+    const phrase = joinRuns(picked, l.size);
     if (phrase.length > leftLabel.length) leftLabel = phrase;
   }
 
   // Caption beneath: the small-type line under the rule, restricted to the
   // runs that actually sit over this blank.
   let belowLabel = "";
+  // The nearest line beneath a rule is not always the one that names it: a
+  // two-column caption puts the other column's text on an intervening
+  // baseline, and Oregon's defendant-name rule sits under "DECLARATION OF
+  // ELIGIBILITY" in the right column before it sits under "Defendant" in the
+  // left. So the candidates are walked nearest-first and the first one with
+  // text actually over this blank wins.
   const under = lines
     .filter((l) => rule.y - l.y > 1.5 && rule.y - l.y <= 14)
-    .sort((a, b) => b.y - a.y)[0];
+    .sort((a, b) => b.y - a.y)
+    .find((l) => l.runs.some((r) => !isBlankRun(r.text) && r.x2 > rule.x - 2 && r.x < rule.x2 + 2));
   if (under) {
     const solid = under.runs.filter((r) => !isBlankRun(r.text));
     const overlapping = solid.filter((r) => r.x2 > rule.x - 2 && r.x < rule.x2 + 2);
@@ -389,11 +409,32 @@ function labelRule(rule, lines) {
       let hi = solid.indexOf(overlapping[overlapping.length - 1]);
       while (lo > 0 && solid[lo].x - solid[lo - 1].x2 <= 7) lo -= 1;
       while (hi + 1 < solid.length && solid[hi + 1].x - solid[hi].x2 <= 7) hi += 1;
-      belowLabel = solid.slice(lo, hi + 1).map((r) => r.text).join("").replace(/\s+/g, " ").trim();
+      belowLabel = joinRuns(solid.slice(lo, hi + 1), under.size);
     }
   }
 
-  return { leftLabel, belowLabel, effectiveLabel: belowLabel.length >= 3 ? belowLabel : leftLabel };
+  // Which of the two names the blank. A caption beneath is the usual
+  // convention, but not when it is a parenthetical instruction — Oregon's
+  // "Case No: ____" carries "(leave blank if no court case)" underneath, and
+  // the instruction is not the field's name. A left label ending in a colon is
+  // the form naming the blank outright.
+  const parenthetical = /^[({\[]/.test(belowLabel);
+  const colonLabelled = /[:#]\s*$/.test(leftLabel);
+  let effectiveLabel, labelChoiceBasis;
+  if (leftLabel && (colonLabelled || parenthetical || belowLabel.length === 0)) {
+    effectiveLabel = leftLabel;
+    labelChoiceBasis = colonLabelled ? "left_label_ends_in_colon"
+      : parenthetical ? "caption_beneath_is_a_parenthetical_instruction"
+      : "no_caption_beneath";
+  } else if (belowLabel.length >= 3) {
+    effectiveLabel = belowLabel;
+    labelChoiceBasis = "caption_printed_beneath_the_rule";
+  } else {
+    effectiveLabel = leftLabel;
+    labelChoiceBasis = "text_printed_to_the_left_of_the_rule";
+  }
+
+  return { leftLabel, belowLabel, effectiveLabel, labelChoiceBasis };
 }
 
 function censusFlatSlots(pdfDoc) {
@@ -408,7 +449,7 @@ function censusFlatSlots(pdfDoc) {
       .sort((a, b) => b.y - a.y || a.x - b.x);
 
     for (const rule of all) {
-      const { leftLabel, belowLabel, effectiveLabel } = labelRule(rule, lines);
+      const { leftLabel, belowLabel, effectiveLabel, labelChoiceBasis } = labelRule(rule, lines);
       if (effectiveLabel.length === 0) continue;
       const nearbySize = lines
         .filter((l) => Math.abs(l.y - rule.y) <= 14)
@@ -425,6 +466,7 @@ function censusFlatSlots(pdfDoc) {
         leftLabel,
         belowLabel,
         effectiveLabel,
+        labelChoiceBasis,
         baselineFontSize: round2(fontSize),
         widgets: [{
           page: pageIndex + 1,
@@ -659,8 +701,145 @@ export const FAMILY_SPECS = {
       "The profile's legacy `jud-Petition-for-Expungement.pdf` (sha256 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce, 1,387,408 bytes) is not this binary. Edition 1's TC0021 is a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c at 1,393,680 bytes, revision 11/22. The pack manifest wins; the profile is not edited.",
       "The manifest classes TC0021 as `acroform_pdf` with 29 fields, which the binary confirms, and separately notes that it is XFA. Both are true: an XFA form ships an AcroForm fallback layer. The fallback is what pdf-lib can see, and its field names carry no semantics."
     ]
+  },
+
+  // ------------------------------------------------------------ Oregon -----
+  "OR:OR-OJD-ADULT-SET-ASIDE-PACKET": {
+    slug: "or-ojd-adult-set-aside-packet-motion-and-declaration",
+    title: "OJD Criminal Set-Aside Adult Packet — Motion to Set Aside and Seal, and Declaration of Eligibility",
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      "A five-page OJD packet. Pages 1 to 3 are participant instructions and eligibility tables and carry no blanks a participant fills; pages 4 and 5 are the motion and declaration the participant signs and files. The caption, the defendant's identity block and the declaration's own contact block belong to the participant. The charge and offence tables, the citing agency, the arrest date, the fingerprint and SID numbers, both signature lines and the certificate of mailing do not.",
+    participantFillable: true,
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: [
+      "participant.full_legal_name", "participant.date_of_birth", "participant.street_address",
+      "participant.city_state_zip", "participant.phone", "participant.email",
+      "matter.county", "matter.case_number"
+    ],
+    bindingCorrections: {
+      "p4.r295.2.x144": "matter.charges[n].charge",
+      "p4.r282.1.x477": "matter.charges[n].count_number",
+      "p4.r128.4.x126": "matter.charges[n].citation_or_arrest_offense",
+      "p5.r115.6.x288": "service_recipient.certifying_defendant_name"
+    },
+    bindingCorrectionRationale: {
+      "p4.r295.2.x144": "'Name of Charges' is the header of a seven-row charge table, and the descriptor list resolves it to participant.full_legal_name on a bare name match. A charge row may only be written from an indexed participant fact this lane does not supply, so every row stays blank.",
+      "p4.r282.1.x477": "second column of the same charge table ('Count #'), resolved to participant.full_legal_name by the header above it for the same reason.",
+      "p4.r128.4.x126": "'Name of Citation/Arrest Offenses' heads a second five-row table and resolves the same way. Offence rows are charge-row facts.",
+      "p5.r115.6.x288": "'Defendant Name' inside the certificate of mailing. The block records service on the prosecuting attorney, and D0 keeps service blocks blank."
+    },
+    slotBindings: [
+      { slot: "p4.r693.7.x305", factId: "matter.county" },
+      { slot: "p4.r666.5.x395", factId: "matter.case_number" },
+      { slot: "p4.r611.9.x72", factId: "participant.full_legal_name" },
+      { slot: "p4.r585.6.x102", factId: "participant.date_of_birth" },
+      { slot: "p5.r340.8.x288", factId: "participant.full_legal_name" },
+      { slot: "p5.r340.8.x72", factId: "participant.email" },
+      { slot: "p5.r303.2.x72", subRegion: { xFrom: 74, xTo: 248 }, label: "Address", factId: "participant.street_address" },
+      {
+        slot: "p5.r303.2.x72", subRegion: { xFrom: 252, xTo: 500 }, label: "City, State, ZIP",
+        factId: "participant.city_state_zip",
+        explicitFactMapping: {
+          factId: "participant.city_state_zip",
+          rationale: "the caption printed under this span is 'City, State, ZIP', and the city_state_zip descriptor matches /city\\\\s*state\\\\s*zip/, which the commas this form sets between the words defeat. The binder therefore resolves the span to participant.city alone and would write only 'Springfield' onto a mailing line that has to carry the state and postal code as well. The override names the fact the caption names; writability is still D0's decision and every protect rule still runs against this label."
+        }
+      },
+      { slot: "p5.r303.2.x72", subRegion: { xFrom: 504, xTo: 538 }, label: "Phone", factId: "participant.phone" }
+    ],
+    fidelityFindings: [
+      "The compiled Oregon profile's legacy formInventory carries `CriminalSetAside_AdultCases2.pdf` at sha256 6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a (253,599 bytes). Edition 1's packet is b22cc346cd8cd8730e9992d74016e948180d92b379b6592ab333b06ac880071 at 256,978 bytes, revision January 2026. Different binaries; the pack manifest wins and the profile is not edited.",
+      "Sub-region evidence: the address rule on page 5 spans x 72 to 540 and carries three captions beneath it — 'Address' at x 72, 'City, State, ZIP' at x 252 and 'Phone' at x 504. Each sub-region runs from its own caption's left edge to the next caption's left edge. The phone span is only 34 points wide, which is the form's geometry rather than this lane's choice; whether a telephone number fits it at or above the six-point readable floor is left to D0's fitter and recorded in the overflow report.",
+      "Date presentation, recorded for D0 rather than for Oregon: this form captions its date-of-birth blank MM/DD/YYYY, and the factory writes 1991-04-17. D0's type check requires date facts in ISO 8601 form and there is no presentation layer between the fact and the page, so every date this factory writes is ISO. The value is correct and unambiguous, but it does not follow the caption. A per-form date format belongs in the shared factory, not in a lane.",
+      "The STATE_README records one open item for Oregon — OJD or county set-aside packets for supported counties plus OSP fingerprint materials, classed `local_jurisdiction_required` / `jurisdiction_input_required`. It is carried forward as a hold, not cleared."
+    ]
+  },
+  "OR:OR-OJD-MJ-PCR": {
+    slug: "or-ojd-motion-and-declaration-to-set-aside-marijuana-conviction",
+    title: "Motion and Declaration to Modify or Set Aside Marijuana Conviction",
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      "A defendant's own motion and declaration under ORS 475C.397 and ORS 137.222. The caption, the identity block and the declaration's contact block are the participant's. The crime description, the SID and fingerprint numbers, both signature lines and the certificate of mailing are not.",
+    participantFillable: true,
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: [
+      "participant.full_legal_name", "participant.date_of_birth", "participant.street_address",
+      "participant.city_state_zip", "participant.phone", "matter.county", "matter.case_number"
+    ],
+    bindingCorrections: {
+      "p2.r371.6.x288": "service_recipient.certifying_party_name"
+    },
+    bindingCorrectionRationale: {
+      "p2.r371.6.x288": "'Name (typed or printed)' inside the certificate of mailing rather than the declaration. The identical caption appears in both blocks; only the declaration's copy is written."
+    },
+    slotBindings: [
+      { slot: "p1.r693.7.x305", factId: "matter.county" },
+      { slot: "p1.r666.5.x395", factId: "matter.case_number" },
+      { slot: "p1.r611.9.x72", factId: "participant.full_legal_name" },
+      { slot: "p1.r586.8.x99", factId: "participant.date_of_birth" },
+      { slot: "p2.r613.1.x293", factId: "participant.full_legal_name" },
+      { slot: "p2.r579.0.x72", subRegion: { xFrom: 74, xTo: 212 }, label: "Address", factId: "participant.street_address" },
+      { slot: "p2.r579.0.x72", subRegion: { xFrom: 216, xTo: 430 }, label: "City/State/Zip", factId: "participant.city_state_zip" },
+      { slot: "p2.r579.0.x468", factId: "participant.phone" }
+    ],
+    fidelityFindings: [
+      "The compiled Oregon profile's legacy formInventory holds no binary for this motion at all — its only Oregon PDF is the adult set-aside packet, at a hash Edition 1 does not carry. Oregon's coded state pack is behind Edition 1 on both packet forms.",
+      "Date presentation, recorded for D0 rather than for Oregon: this form captions its date-of-birth blank MM/DD/YYYY, and the factory writes 1991-04-17. D0's type check requires date facts in ISO 8601 form and there is no presentation layer between the fact and the page, so every date this factory writes is ISO. The value is correct and unambiguous, but it does not follow the caption. A per-form date format belongs in the shared factory, not in a lane.",
+      "This form's captions use slashes rather than commas ('City/State/Zip'), which the city_state_zip descriptor matches directly. No explicit fact mapping is needed here, unlike the adult packet's comma-separated caption for the same field."
+    ]
   }
 };
+
+// The two Oregon record-check requests are byte-distinct binaries that share an
+// identical form: 22 fields, the same names, the same rectangles, 23 bytes
+// apart in size. The manifest gives them different document ids and different
+// roles — one is the OJD request, one is the Oregon State Police request with
+// instructions — so they are built as two families and the near-duplication is
+// recorded rather than collapsed.
+function oregonRecordCheckSpec({ slug, title, agency }) {
+  return {
+    slug,
+    title,
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      `A participant's own request to ${agency} for the criminal record check a set-aside requires. Identity, date of birth and telephone number are the participant's. The ten numbered case rows, the alias lines, the composite mailing line, the fee election and the fingerprint-card election are not written.`,
+    participantFillable: true,
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: ["participant.full_legal_name", "participant.date_of_birth", "participant.phone"],
+    bindingCorrections: {
+      "ALIAS NAME1": "participant.alias_1",
+      "ALIAS NAME2": "participant.alias_2",
+      "ALIAS NAME3": "participant.alias_3",
+      "Street, City, State, Zip code": "participant.mailing_address_single_line"
+    },
+    bindingCorrectionRationale: {
+      "ALIAS NAME1": "the descriptor list resolves any field whose name contains a bare 'name' to participant.full_legal_name, so all three alias lines would receive the petitioner's legal name — three times, on a form whose whole purpose is to disclose names other than the legal one. An alias is a distinct fact this lane does not hold.",
+      "ALIAS NAME2": "second alias line, same resolution and same refusal.",
+      "ALIAS NAME3": "third alias line, same resolution and same refusal.",
+      "Street, City, State, Zip code": "the field asks for the street, city, state and postal code on one line and the binder resolves it to participant.city_state_zip, which would return the record check to a city and postal code with no street. No single fact matches the field's full span, so it is refused rather than under-filled."
+    },
+    slotBindings: [],
+    fidelityFindings: [
+      "This binary and the other Oregon record-check request share all 22 field names and all 22 widget rectangles and differ by 23 bytes. Their sha256 values differ, the manifest assigns them different document ids and roles, and both are carried as separate families on that authority. A reviewer comparing the two packages should expect the field census to be identical.",
+      "Date presentation, recorded for D0 rather than for Oregon: this form captions its DATE OF BIRTH field MM/DD/YYYY, and the factory writes 1991-04-17. D0's type check requires date facts in ISO 8601 form and there is no presentation layer between the fact and the page, so every date this factory writes is ISO. The value is correct and unambiguous, but it does not follow the caption. A per-form date format belongs in the shared factory, not in a lane.",
+      "The 'AREA CODE' field is refused for want of an allowlisted fact: no descriptor describes an area code on its own. The complete telephone number is written into 'PHONE NUMBER', which is the field the form labels for it, and the area-code box is left to the participant."
+    ]
+  };
+}
+
+FAMILY_SPECS["OR:OR-OJD-CLA-SET-ASIDE-CHECK"] = oregonRecordCheckSpec({
+  slug: "or-ojd-cla-request-for-set-aside-criminal-record-check",
+  title: "OJD Request for Set-Aside Criminal Record Check",
+  agency: "the Oregon Judicial Department"
+});
+FAMILY_SPECS["OR:OR-OSP-SET-ASIDE-CCH"] = oregonRecordCheckSpec({
+  slug: "or-osp-set-aside-criminal-history-request-and-instructions",
+  title: "Oregon State Police Set-Aside Criminal History Request and Instructions",
+  agency: "the Oregon State Police"
+});
 
 // ---------------------------------------------------------------------------
 // Source resolution
@@ -713,6 +892,20 @@ async function inspectBinary(bytes) {
 // one measured slot, and nothing in the label protects it. An ambiguous or
 // unresolved name is a defect in the spec and stops the build rather than
 // silently writing somewhere else.
+// The only facts an explicit anchor mapping may name. Every sensitive
+// descriptor is absent by construction: an arrest, offence, conviction or
+// disposition date and a charge describe the criminal event itself, and D0
+// already requires those to be named field by field on the AcroForm path. The
+// flat path takes no explicitMappings at all, so allowing an override to reach
+// them here would be a way around a protection rather than a use of one.
+const OVERRIDABLE_FACTS = new Set([
+  "participant.full_legal_name", "participant.first_name", "participant.middle_name",
+  "participant.last_name", "participant.date_of_birth", "participant.street_address",
+  "participant.city", "participant.state", "participant.zip", "participant.city_state_zip",
+  "participant.phone", "participant.email", "matter.county", "matter.court",
+  "matter.case_number", "matter.citation_number", "deterministic.filing_date"
+]);
+
 function anchorsFor(spec, slots) {
   const anchors = [], notes = [];
   const corrections = spec.bindingCorrections ?? {};
@@ -735,14 +928,63 @@ function anchorsFor(spec, slots) {
       notes.push({ slot: slot.name, label: slot.effectiveLabel, refused: "protected_by_adjacent_label", category: leftProtect ?? belowProtect });
       continue;
     }
+    // One long rule sometimes serves several blanks, with the captions printed
+    // beneath it side by side — Oregon draws the address, city/state/zip and
+    // telephone line that way. A sub-region narrows the write box to the span
+    // one caption sits under. The label must still be text the document prints
+    // over that span, or the narrowing would be a place to smuggle in a name
+    // the form never used.
+    const rect = { ...slot.widgets[0].rect };
+    if (binding.subRegion) {
+      const { xFrom, xTo } = binding.subRegion;
+      if (xFrom < rect.x - 1 || xTo > rect.x + rect.width + 1) {
+        throw new Error(`sub-region ${xFrom}..${xTo} falls outside measured rule ${rect.x}..${round2(rect.x + rect.width)} for ${slot.name}`);
+      }
+      rect.x = round2(xFrom);
+      rect.width = round2(xTo - xFrom);
+    }
+    let label = slot.effectiveLabel;
+    if (binding.label) {
+      const printed = `${slot.leftLabel} ${slot.belowLabel}`.replace(/\s+/g, " ").toLowerCase();
+      if (!printed.includes(binding.label.replace(/\s+/g, " ").toLowerCase())) {
+        throw new Error(`label override "${binding.label}" is not text this document prints beside ${slot.name} (printed: "${printed}")`);
+      }
+      label = binding.label;
+    }
+    // An explicit fact mapping. D0's binder decides writability first and
+    // keeps deciding it: the protect rules and the type guard run against this
+    // label whatever the mapping says. What the mapping changes is only which
+    // allowlisted fact is written, and only where the printed caption names a
+    // composite the descriptor list has no single regex for — Oregon's
+    // "City, State, ZIP" resolves to participant.city alone, because the
+    // city_state_zip descriptor matches "city state zip" and not the commas
+    // this form sets between them. Under-filling a mailing line is a defect;
+    // so is writing a fact the caption does not name, which is why the
+    // override is confined to the non-sensitive descriptors.
+    let factIdOverride = null;
+    if (binding.explicitFactMapping) {
+      const { factId: wanted, rationale } = binding.explicitFactMapping;
+      if (!OVERRIDABLE_FACTS.has(wanted)) {
+        throw new Error(`explicit fact mapping ${wanted} for ${slot.name} is not an overridable fact`);
+      }
+      if (!rationale) throw new Error(`explicit fact mapping for ${slot.name} carries no rationale`);
+      const decision = decideBinding({ name: label, pdfType: "text", effectiveLabel: label }, {});
+      if (!decision.writable) {
+        throw new Error(`explicit fact mapping for ${slot.name} would override a refusal (${decision.reason}); overrides may not create a binding`);
+      }
+      factIdOverride = wanted;
+    }
     anchors.push({
-      label: slot.effectiveLabel,
+      label,
       page: slot.page,
-      writeBox: slot.widgets[0].rect,
+      writeBox: rect,
       fontSize: Math.max(MIN_READABLE_FONT_SIZE, Math.min(11, slot.baselineFontSize)),
       captionOnly: spec.captionOnly === true,
       slot: slot.name,
-      expectedFactId: binding.factId
+      subRegion: binding.subRegion ?? null,
+      factId: factIdOverride ?? undefined,
+      explicitFactMapping: binding.explicitFactMapping ?? null,
+      expectedFactId: factIdOverride ?? binding.factId
     });
   }
   return { anchors, notes };
@@ -1166,6 +1408,9 @@ function emitFamily({ state, row, spec, dir, result, readme }) {
     ],
     bindingCorrections: spec.bindingCorrections ?? {},
     bindingCorrectionRationale: spec.bindingCorrectionRationale ?? {},
+    explicitFactMappingsAuthorized: (spec.slotBindings ?? [])
+      .filter((b) => b.explicitFactMapping)
+      .map((b) => ({ slot: b.slot, factId: b.explicitFactMapping.factId, rationale: b.explicitFactMapping.rationale })),
     explicitSensitiveMappingsAuthorized: [],
     weakeningsApplied: "none — no D0 protect rule, type guard or readable-size floor was relaxed for this family"
   });
@@ -1185,7 +1430,7 @@ function emitFamily({ state, row, spec, dir, result, readme }) {
       ? populated.map((w) => ({ field: w.field ?? w.anchor, factId: w.factId, kind: w.kind ?? "flat_overlay_text", fontSize: w.fontSize ?? null, outcome: w.outcome ?? null }))
       : [],
     anchors: strategy === "flat_overlay"
-      ? anchors.map((a) => ({ label: a.label, page: a.page, writeBox: a.writeBox, fontSize: a.fontSize, slot: a.slot, factId: a.expectedFactId }))
+      ? anchors.map((a) => ({ label: a.label, page: a.page, writeBox: a.writeBox, fontSize: a.fontSize, slot: a.slot, subRegion: a.subRegion, factId: a.expectedFactId, explicitFactMapping: a.explicitFactMapping }))
       : null,
     anchorRefusals: anchorNotes,
     unwritableFields: classification.filter((c) => !c.writable).map((c) => c.name),
@@ -1561,10 +1806,19 @@ function reportBuild(summary) {
   if (mutOk !== mutTotal) { console.error("MUTATION TESTS FAILED"); process.exitCode = 1; }
 }
 
-const [, , mode = "build", only] = process.argv;
-if (!["census", "build"].includes(mode)) {
-  console.error("usage: d3b-regenerate.mjs <census|build> [ST]");
-  process.exit(2);
+export { run, censusFlatSlots, censusAcroForm, classifyCensus, buildFamily };
+
+// Importing this module must not run it. D0 was bitten by exactly this: the
+// build was a top-level side effect, so anything that imported the module —
+// a test, a helper, an editor's language server — rewrote the corpus on
+// import.
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (invokedDirectly) {
+  const [, , mode = "build", only] = process.argv;
+  if (!["census", "build"].includes(mode)) {
+    console.error("usage: d3b-regenerate.mjs <census|build> [ST]");
+    process.exit(2);
+  }
+  const summary = await run(mode, only);
+  if (mode === "census") reportCensus(summary); else reportBuild(summary);
 }
-const summary = await run(mode, only);
-if (mode === "census") reportCensus(summary); else reportBuild(summary);

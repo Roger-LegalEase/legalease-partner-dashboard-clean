@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "rcap-source-fidelity/v1",
+  "packManifestIsAuthority": true,
+  "sha256Matches": true,
+  "byteLengthMatches": true,
+  "declaredVsObserved": {
+    "structuralClass": {
+      "declared": "flat_pdf",
+      "observed": "flat"
+    },
+    "pages": {
+      "declared": 2,
+      "observed": 2
+    },
+    "fieldCount": {
+      "declared": 0,
+      "observed": 0
+    }
+  },
+  "statePackFidelityFindings": [
+    "The compiled Oregon profile's legacy formInventory holds no binary for this motion at all — its only Oregon PDF is the adult set-aside packet, at a hash Edition 1 does not carry. Oregon's coded state pack is behind Edition 1 on both packet forms.",
+    "Date presentation, recorded for D0 rather than for Oregon: this form captions its date-of-birth blank MM/DD/YYYY, and the factory writes 1991-04-17. D0's type check requires date facts in ISO 8601 form and there is no presentation layer between the fact and the page, so every date this factory writes is ISO. The value is correct and unambiguous, but it does not follow the caption. A per-form date format belongs in the shared factory, not in a lane.",
+    "This form's captions use slashes rather than commas ('City/State/Zip'), which the city_state_zip descriptor matches directly. No explicit fact mapping is needed here, unlike the adult packet's comma-separated caption for the same field."
+  ],
+  "nonFilingHold": null
+}
