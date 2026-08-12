@@ -1,0 +1,646 @@
+#!/usr/bin/env node
+// Lane C2 terminalization verifier + render harness (controlled pleadings).
+//
+// Covers the eight lane-C2 jobs frozen in data/rcap-ledger/track-terminalization.json:
+// GA, TN, DC, HI, AZ, MA, ME, NC production packets (24 tracks). For each assigned
+// track this script can (a) render the canonical fixture through the real
+// custom-pleading renderer and write the production artifacts, and (b) verify the
+// committed artifacts against the QA gates.
+//
+// Usage:
+//   node scripts/verify-rcap-terminalize-c2.mjs render [state-slug...]
+//   node scripts/verify-rcap-terminalize-c2.mjs verify [state-slug...]   (default: all 8)
+//
+// Verification fails on: missing track dir for an assigned trackId; config missing
+// a required field; invented values (statutory citations or verification statute
+// not present in committed evidence; asserted service address where the sources
+// record none); canonical fixture failing pleading QA; negative fixture NOT
+// failing pleading QA; unparseable or zero-page PDF; placeholder leaks;
+// protected-field leaks (docket, OTN, judge, SSN/DOB values in canonical output);
+// manifest drift from the ledger; and any dirty git path outside lane C2's owned
+// paths.
+
+import { register } from "node:module";
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+const { PDFDocument, StandardFonts } = await import("pdf-lib");
+const rendererMod = await import(
+  pathToFileURL(path.join(rootDir, "src/lib/record-clearing/renderers/custom-pleading-renderer.ts")).href
+);
+const qaMod = await import(
+  pathToFileURL(path.join(rootDir, "src/lib/record-clearing/pleading-qa.ts")).href
+);
+const { renderCustomPleading } = rendererMod;
+const { runPleadingQa } = qaMod;
+
+// --- Lane assignment (frozen manifest; trackIds re-read from the ledger) ---
+
+const LANE_JOB_IDS = [
+  "T-C-GA-production-packet",
+  "T-C-TN-production-packet",
+  "T-C-DC-production-packet",
+  "T-C-HI-production-packet",
+  "T-C-AZ-production-packet",
+  "T-C-MA-production-packet",
+  "T-C-ME-production-packet",
+  "T-C-NC-production-packet"
+];
+
+const JURISDICTION_SLUGS = {
+  GA: "georgia",
+  TN: "tennessee",
+  DC: "dc",
+  HI: "hawaii",
+  AZ: "arizona",
+  MA: "massachusetts",
+  ME: "maine",
+  NC: "north-carolina"
+};
+
+const PROFILE_FILES = {
+  GA: "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+  TN: "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+  DC: "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+  HI: "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+  AZ: "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+  MA: "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+  ME: "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+  NC: "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json"
+};
+
+const STATE_PACK_DIRS = {
+  GA: "src/lib/rcap/state-packs/georgia",
+  TN: "src/lib/rcap/state-packs/tennessee",
+  DC: "src/lib/rcap/state-packs/dc",
+  HI: "src/lib/rcap/state-packs/hawaii",
+  AZ: "src/lib/rcap/state-packs/arizona",
+  MA: "src/lib/rcap/state-packs/massachusetts",
+  ME: "src/lib/rcap/state-packs/maine",
+  NC: "src/lib/rcap/state-packs/north-carolina"
+};
+
+const REGISTRY_PIN = "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5";
+const REGISTRY_FILE = "data/record-clearing/legal-design-track-registry.json";
+
+const OWNED_PATH_PREFIXES = [
+  ...Object.values(JURISDICTION_SLUGS).map((slug) => `data/rcap-all50/pleadings/${slug}/`),
+  "scripts/verify-rcap-terminalize-c2.mjs",
+  "docs/record-clearing/terminalize-c/"
+];
+
+// Renderer confirm-with-clerk brackets are deliberate; these tokens are leaks.
+const PLACEHOLDER_LEAK_PATTERN =
+  /PLACEHOLDER|\bTODO\b|\bFIXME\b|\bTBD\b|LOREM|INSERT HERE|\bXXX\b|\{\{|\}\}|<<|>>/i;
+
+const REQUIRED_PRESENTATION_FIELDS = [
+  "sovereignPartyName",
+  "sovereignPartyProper",
+  "sovereignRole",
+  "movantRole",
+  "filingNoun",
+  "divisionLine",
+  "usesCounty",
+  "courtName",
+  "venueDescriptor",
+  "recordCustodianLead",
+  "verificationVerb",
+  "verificationPenaltyLabel",
+  "serviceRecipientLabel",
+  "serviceRecipientAddressLabel"
+];
+
+const REQUIRED_CONFIG_FIELDS = [
+  "jurisdictionCode",
+  "trackId",
+  "templateGrade",
+  "templateLifecycle",
+  "primaryReliefTerm",
+  "documentTitleFull",
+  "courtCaption",
+  "primaryStatutoryAuthority",
+  "verificationStatute",
+  "includeProposedOrder",
+  "includeCertificateOfService",
+  "serviceNote",
+  "counselFlags",
+  "presentation"
+];
+
+// componentInventory entries must map to a real render/packet location.
+const COMPONENT_STATUSES = new Set(["present", "absent", "blocked_dependency"]);
+
+// --- Helpers ---
+
+function sha256(buf) {
+  return crypto.createHash("sha256").update(buf).digest("hex");
+}
+
+function readJson(file) {
+  return JSON.parse(fs.readFileSync(file, "utf8"));
+}
+
+function ledgerJobs() {
+  const ledger = readJson(path.join(rootDir, "data/rcap-ledger/track-terminalization.json"));
+  const jobs = ledger.jobs.filter((j) => LANE_JOB_IDS.includes(j.jobId));
+  if (jobs.length !== LANE_JOB_IDS.length) {
+    throw new Error(`Ledger is missing lane C2 jobs: found ${jobs.length}/${LANE_JOB_IDS.length}.`);
+  }
+  return jobs;
+}
+
+function stateEvidenceText(code) {
+  // Committed evidence: coded state pack + compiled profile. Registry evidence is
+  // carried per-track in provenance.registryAuthority / registryExcerpt.
+  let text = "";
+  const packDir = path.join(rootDir, STATE_PACK_DIRS[code]);
+  if (fs.existsSync(packDir)) {
+    for (const f of fs.readdirSync(packDir)) {
+      if (f.endsWith(".ts")) text += fs.readFileSync(path.join(packDir, f), "utf8");
+    }
+  }
+  const profile = path.join(rootDir, PROFILE_FILES[code]);
+  if (fs.existsSync(profile)) text += fs.readFileSync(profile, "utf8");
+  return text;
+}
+
+function pinnedRegistryTrack(trackId) {
+  // Best effort: the pinned commit may not be present in a shallow clone. When it
+  // is available, cross-check provenance excerpts against the pin itself.
+  const probe = spawnSync("git", ["cat-file", "-e", `${REGISTRY_PIN}^{commit}`], { cwd: rootDir });
+  if (probe.status !== 0) return { available: false, track: null };
+  const show = spawnSync("git", ["show", `${REGISTRY_PIN}:${REGISTRY_FILE}`], {
+    cwd: rootDir,
+    encoding: "utf8",
+    maxBuffer: 256 * 1024 * 1024
+  });
+  if (show.status !== 0) return { available: false, track: null };
+  const registry = JSON.parse(show.stdout);
+  const track = registry.tracks.find((t) => t.trackId === trackId) ?? null;
+  return { available: true, track };
+}
+
+function wrapLine(line, width) {
+  if (line.length <= width) return [line];
+  const out = [];
+  let current = "";
+  for (const word of line.split(" ")) {
+    if (word.length > width) {
+      if (current) {
+        out.push(current);
+        current = "";
+      }
+      for (let i = 0; i < word.length; i += width) out.push(word.slice(i, i + width));
+      continue;
+    }
+    if (!current) current = word;
+    else if (current.length + 1 + word.length <= width) current += ` ${word}`;
+    else {
+      out.push(current);
+      current = word;
+    }
+  }
+  if (current) out.push(current);
+  return out;
+}
+
+function pdfSafe(line) {
+  // StandardFonts are WinAnsi; normalize curly quotes, keep Latin-1 + en/em
+  // dashes, replace anything else.
+  return line
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[^\x20-\x7E\u00A0-\u00FF\u2013\u2014]/g, "?");
+}
+
+async function textToPdf(fullText) {
+  // Letter geometry (612x792) to match the repo's packet renderer convention.
+  const doc = await PDFDocument.create();
+  const font = await doc.embedFont(StandardFonts.Courier);
+  const fontSize = 9.5;
+  const margin = 54;
+  const lineHeight = 12.5;
+  const width = 612;
+  const height = 792;
+  const maxChars = Math.floor((width - margin * 2) / (fontSize * 0.6));
+  let page = doc.addPage([width, height]);
+  let y = height - margin;
+  for (const raw of fullText.split("\n")) {
+    for (const line of wrapLine(raw, maxChars)) {
+      if (y < margin) {
+        page = doc.addPage([width, height]);
+        y = height - margin;
+      }
+      page.drawText(pdfSafe(line), { x: margin, y, size: fontSize, font });
+      y -= lineHeight;
+    }
+  }
+  return doc.save();
+}
+
+function buildRenderInput(config, fixture) {
+  const cfg = fixture.configOverrides ? { ...config, ...fixture.configOverrides } : config;
+  return {
+    config: cfg,
+    partyData: fixture.partyData,
+    caseData: fixture.caseData,
+    chargeData: fixture.chargeData,
+    eligibilityData: fixture.eligibilityData,
+    attachments: fixture.attachments,
+    productName: fixture.productName ?? "LegalEase RCAP",
+    shadowMode: fixture.shadowMode ?? true
+  };
+}
+
+function scanPlaceholders(text) {
+  const leaks = [];
+  const match = text.match(PLACEHOLDER_LEAK_PATTERN);
+  if (match) leaks.push(match[0]);
+  const deliberateBrackets = [...new Set(text.match(/\[[^\]\n]+\]/g) ?? [])];
+  return { leaks, deliberateBrackets };
+}
+
+function scanProtectedFields(text, fixture) {
+  // Canonical output must keep outside-party/court fields blank: no docket
+  // number, OTN, judge, prosecutor identity, SSN or DOB values.
+  const violations = [];
+  if (/\b\d{3}-\d{2}-\d{4}\b/.test(text)) violations.push("SSN-shaped value present");
+  if (/\bDOB\b\s*:?\s*\d/i.test(text)) violations.push("DOB value present");
+  if (/date of birth\s*:?\s*\d/i.test(text)) violations.push("date-of-birth value present");
+  const docketLines = text.match(/^DOCKET NO\.: .*$/gm) ?? [];
+  for (const line of docketLines) {
+    if (!/\[(?:TO BE CONFIRMED|DOCKET NUMBER TO BE CONFIRMED)\]/.test(line)) {
+      violations.push(`docket number asserted: "${line.trim()}"`);
+    }
+  }
+  if (/^OTN:/m.test(text)) violations.push("OTN asserted");
+  if (/assigned judge is/i.test(text)) violations.push("judge name asserted");
+  const c = fixture.caseData ?? {};
+  for (const key of ["docketNumber", "otn", "judgeName", "judgeAddress"]) {
+    if (c[key]) violations.push(`canonical fixture supplies protected field ${key}`);
+  }
+  return violations;
+}
+
+function trackDir(slug, trackId) {
+  return path.join(rootDir, "data/rcap-all50/pleadings", slug, trackId);
+}
+
+function loadTrackFiles(slug, trackId, failures) {
+  const dir = trackDir(slug, trackId);
+  if (!fs.existsSync(dir)) {
+    failures.push(`[${trackId}] missing track directory ${path.relative(rootDir, dir)}`);
+    return null;
+  }
+  const configPath = path.join(dir, "pleading-config.json");
+  if (!fs.existsSync(configPath)) {
+    failures.push(`[${trackId}] missing pleading-config.json`);
+    return null;
+  }
+  const doc = readJson(configPath);
+  const fixtures = {};
+  for (const name of ["canonical", "boundary", "negative", "multiline"]) {
+    const f = path.join(dir, "fixtures", `${name}.json`);
+    if (fs.existsSync(f)) fixtures[name] = readJson(f);
+  }
+  return { dir, doc, fixtures };
+}
+
+function validateConfigShape(trackId, doc, failures) {
+  const cfg = doc.config;
+  if (!cfg) {
+    failures.push(`[${trackId}] pleading-config.json has no "config" object`);
+    return;
+  }
+  for (const field of REQUIRED_CONFIG_FIELDS) {
+    if (!(field in cfg)) failures.push(`[${trackId}] config missing required field "${field}"`);
+  }
+  if (cfg.trackId !== trackId) failures.push(`[${trackId}] config.trackId is "${cfg.trackId}"`);
+  if (cfg.templateGrade !== "legal_ops_custom_pleading")
+    failures.push(`[${trackId}] templateGrade must be legal_ops_custom_pleading`);
+  if (cfg.templateLifecycle !== "replacement_candidate")
+    failures.push(`[${trackId}] templateLifecycle must be replacement_candidate`);
+  if (!Array.isArray(cfg.primaryStatutoryAuthority) || cfg.primaryStatutoryAuthority.length === 0)
+    failures.push(`[${trackId}] primaryStatutoryAuthority must be a non-empty array`);
+  if (!Array.isArray(cfg.counselFlags) || cfg.counselFlags.length === 0)
+    failures.push(`[${trackId}] counselFlags must be non-empty`);
+  if (cfg.presentation) {
+    for (const field of REQUIRED_PRESENTATION_FIELDS) {
+      if (!(field in cfg.presentation))
+        failures.push(`[${trackId}] presentation missing "${field}"`);
+    }
+  }
+  if (!Array.isArray(doc.componentInventory) || doc.componentInventory.length === 0) {
+    failures.push(`[${trackId}] componentInventory missing or empty`);
+  } else {
+    for (const entry of doc.componentInventory) {
+      if (!entry.component || !COMPONENT_STATUSES.has(entry.status)) {
+        failures.push(`[${trackId}] componentInventory entry invalid: ${JSON.stringify(entry)}`);
+      } else if (entry.status !== "present" && !entry.reason) {
+        failures.push(`[${trackId}] componentInventory "${entry.component}" is ${entry.status} without a reason`);
+      }
+    }
+  }
+  const prov = doc.provenance;
+  if (!prov) {
+    failures.push(`[${trackId}] provenance missing`);
+  } else {
+    if (!Array.isArray(prov.statePackFiles)) failures.push(`[${trackId}] provenance.statePackFiles missing`);
+    if (!prov.profilePath) failures.push(`[${trackId}] provenance.profilePath missing`);
+    if (prov.registryPin !== REGISTRY_PIN)
+      failures.push(`[${trackId}] provenance.registryPin must be ${REGISTRY_PIN}`);
+    if (!prov.fingerprint) failures.push(`[${trackId}] provenance.fingerprint missing`);
+    if (!Array.isArray(prov.registryAuthority) || prov.registryAuthority.length === 0)
+      failures.push(`[${trackId}] provenance.registryAuthority missing`);
+  }
+  if (!Array.isArray(doc.qaProhibitedTerms))
+    failures.push(`[${trackId}] qaProhibitedTerms missing (may be empty array)`);
+}
+
+function validateProvenance(trackId, doc, failures, warnings) {
+  const prov = doc.provenance ?? {};
+  if (prov.profilePath) {
+    const profileFile = path.join(rootDir, prov.profilePath);
+    if (!fs.existsSync(profileFile)) {
+      failures.push(`[${trackId}] provenance.profilePath does not exist: ${prov.profilePath}`);
+    } else if (prov.fingerprint !== sha256(fs.readFileSync(profileFile))) {
+      failures.push(`[${trackId}] provenance.fingerprint does not match sha256 of ${prov.profilePath}`);
+    }
+  }
+  const pinned = pinnedRegistryTrack(trackId);
+  if (pinned.available) {
+    if (!pinned.track) {
+      failures.push(`[${trackId}] not found in pinned registry ${REGISTRY_PIN}`);
+    } else {
+      const pinnedAuthority = JSON.stringify(pinned.track.authority);
+      if (JSON.stringify(prov.registryAuthority) !== pinnedAuthority) {
+        failures.push(
+          `[${trackId}] provenance.registryAuthority drifts from pinned registry: ${pinnedAuthority}`
+        );
+      }
+    }
+  } else {
+    warnings.push(`[${trackId}] pinned registry commit not available locally; authority cross-check skipped`);
+  }
+}
+
+function validateNoInvention(trackId, doc, code, failures) {
+  const cfg = doc.config;
+  const evidence =
+    stateEvidenceText(code) +
+    JSON.stringify(doc.provenance?.registryAuthority ?? []) +
+    JSON.stringify(doc.provenance?.registryExcerpt ?? "");
+  for (const auth of cfg.primaryStatutoryAuthority ?? []) {
+    if (auth.citation && !evidence.includes(auth.citation)) {
+      failures.push(`[${trackId}] statutory citation not found in committed evidence: "${auth.citation}"`);
+    }
+  }
+  const v = cfg.verificationStatute;
+  if (v && v.citation && !evidence.includes(v.citation)) {
+    failures.push(`[${trackId}] verification statute citation not found in committed evidence: "${v.citation}"`);
+  }
+  const addr = cfg.presentation?.serviceRecipientAddressLabel ?? "";
+  if (addr && !/\[[^\]]*CONFIRM[^\]]*\]/.test(addr)) {
+    failures.push(
+      `[${trackId}] serviceRecipientAddressLabel asserts an address instead of a confirm bracket: "${addr}"`
+    );
+  }
+}
+
+async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
+  const loaded = loadTrackFiles(slug, trackId, failures);
+  if (!loaded) return null;
+  const { dir, doc, fixtures } = loaded;
+  if (!fixtures.canonical) {
+    failures.push(`[${trackId}] fixtures/canonical.json missing`);
+    return null;
+  }
+  if (!fixtures.boundary) failures.push(`[${trackId}] fixtures/boundary.json missing`);
+  if (!fixtures.negative) failures.push(`[${trackId}] fixtures/negative.json missing`);
+
+  const results = {};
+  for (const [name, fixture] of Object.entries(fixtures)) {
+    const input = buildRenderInput(doc.config, fixture);
+    const renderResult = renderCustomPleading(input);
+    const qa = runPleadingQa({
+      config: input.config,
+      renderResult,
+      prohibitedTerms: doc.qaProhibitedTerms ?? []
+    });
+    results[name] = { fixture, renderResult, qa };
+  }
+
+  // Canonical must pass QA; boundary and multiline must pass; negative must fail
+  // for its stated reason.
+  for (const name of ["canonical", "boundary", "multiline"]) {
+    const r = results[name];
+    if (!r) continue;
+    if (!r.qa.passed) {
+      failures.push(`[${trackId}] ${name} fixture failed QA: ${r.qa.failures.join("; ")}`);
+    }
+  }
+  const neg = results.negative;
+  if (neg) {
+    if (neg.qa.passed) {
+      failures.push(`[${trackId}] negative fixture unexpectedly PASSED QA`);
+    } else {
+      const expected = neg.fixture.expectedQaFailureSubstring;
+      if (!expected) {
+        failures.push(`[${trackId}] negative fixture missing expectedQaFailureSubstring`);
+      } else if (!neg.qa.failures.some((f) => f.includes(expected))) {
+        failures.push(
+          `[${trackId}] negative fixture failed QA but not for the stated reason "${expected}": ${neg.qa.failures.join("; ")}`
+        );
+      }
+    }
+  }
+
+  const canonical = results.canonical;
+  const text = canonical.renderResult.fullText;
+  const placeholderScan = scanPlaceholders(text);
+  if (placeholderScan.leaks.length > 0) {
+    failures.push(`[${trackId}] placeholder leak in canonical output: ${placeholderScan.leaks.join(", ")}`);
+  }
+  const protectedViolations = scanProtectedFields(text, canonical.fixture);
+  if (protectedViolations.length > 0) {
+    failures.push(`[${trackId}] protected-field leak: ${protectedViolations.join("; ")}`);
+  }
+
+  // Component inventory ↔ rendered sections cross-check.
+  const sectionIds = new Set(canonical.renderResult.sections.map((s) => s.sectionId));
+  for (const entry of doc.componentInventory ?? []) {
+    if (entry.status === "present" && entry.sectionId && !sectionIds.has(entry.sectionId)) {
+      failures.push(
+        `[${trackId}] componentInventory "${entry.component}" marked present with sectionId "${entry.sectionId}" but that section did not render`
+      );
+    }
+  }
+
+  const renderedDir = path.join(dir, "rendered");
+  const pdfPath = path.join(renderedDir, "canonical.pdf");
+  const txtPath = path.join(renderedDir, "canonical.txt");
+  const reportPath = path.join(renderedDir, "render-report.json");
+
+  if (writeArtifacts) {
+    fs.mkdirSync(renderedDir, { recursive: true });
+    const pdfBytes = await textToPdf(text);
+    fs.writeFileSync(pdfPath, pdfBytes);
+    fs.writeFileSync(txtPath, `${text}\n`);
+    const parsed = await PDFDocument.load(fs.readFileSync(pdfPath));
+    const report = {
+      trackId,
+      jurisdiction: doc.config.jurisdictionCode,
+      fixture: "canonical",
+      pageCount: parsed.getPageCount(),
+      pdfByteSize: fs.statSync(pdfPath).size,
+      pdfSha256: sha256(fs.readFileSync(pdfPath)),
+      textSha256: sha256(fs.readFileSync(txtPath)),
+      qa: { passed: canonical.qa.passed, failures: canonical.qa.failures, warnings: canonical.qa.warnings },
+      placeholderScan: {
+        leaks: placeholderScan.leaks,
+        deliberateConfirmBrackets: placeholderScan.deliberateBrackets
+      },
+      protectedFieldReport: {
+        violations: protectedViolations,
+        blankInCanonical: ["docketNumber", "otn", "judgeName", "judgeAddress", "prosecutor", "ssn", "dob"]
+      },
+      rendererWarnings: canonical.renderResult.warnings,
+      counselFlagCount: doc.config.counselFlags.length
+    };
+    fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
+  } else {
+    // Verify previously written artifacts.
+    for (const f of [pdfPath, txtPath, reportPath]) {
+      if (!fs.existsSync(f)) {
+        failures.push(`[${trackId}] missing rendered artifact ${path.relative(dir, f)}`);
+      }
+    }
+    if (fs.existsSync(txtPath)) {
+      const committedText = fs.readFileSync(txtPath, "utf8");
+      if (committedText !== `${text}\n`) {
+        failures.push(`[${trackId}] rendered/canonical.txt does not match a fresh render of the canonical fixture`);
+      }
+    }
+    if (fs.existsSync(pdfPath)) {
+      try {
+        const parsed = await PDFDocument.load(fs.readFileSync(pdfPath));
+        if (parsed.getPageCount() === 0) failures.push(`[${trackId}] canonical.pdf has zero pages`);
+        if (fs.existsSync(reportPath)) {
+          const report = readJson(reportPath);
+          if (report.pageCount !== parsed.getPageCount())
+            failures.push(`[${trackId}] render-report pageCount drift`);
+          if (report.pdfSha256 !== sha256(fs.readFileSync(pdfPath)))
+            failures.push(`[${trackId}] render-report pdfSha256 drift`);
+          if (report.textSha256 !== sha256(fs.readFileSync(txtPath)))
+            failures.push(`[${trackId}] render-report textSha256 drift`);
+        }
+      } catch (err) {
+        failures.push(`[${trackId}] canonical.pdf unparseable: ${err.message}`);
+      }
+    }
+    for (const extra of ["participant-instructions.md", "handoff.md"]) {
+      if (!fs.existsSync(path.join(dir, extra))) failures.push(`[${trackId}] missing ${extra}`);
+    }
+    const instructions = path.join(dir, "participant-instructions.md");
+    if (fs.existsSync(instructions)) {
+      const body = fs.readFileSync(instructions, "utf8");
+      for (const internalTerm of ["templateLifecycle", "replacement_candidate", "shadowMode", "state pack", "state-pack", "registry pin", "lane C", "verifier"]) {
+        if (body.toLowerCase().includes(internalTerm.toLowerCase())) {
+          failures.push(`[${trackId}] participant-instructions.md contains internal implementation language: "${internalTerm}"`);
+        }
+      }
+    }
+  }
+  return { doc, results };
+}
+
+function verifyManifest(slug, job, failures) {
+  const manifestPath = path.join(rootDir, "data/rcap-all50/pleadings", slug, "manifest.json");
+  if (!fs.existsSync(manifestPath)) {
+    failures.push(`[${slug}] missing jurisdiction manifest.json`);
+    return;
+  }
+  const manifest = readJson(manifestPath);
+  if (manifest.jobId !== job.jobId) failures.push(`[${slug}] manifest.jobId "${manifest.jobId}" != "${job.jobId}"`);
+  const ledgerIds = [...job.trackIds].sort();
+  const manifestIds = [...(manifest.trackIds ?? [])].sort();
+  if (JSON.stringify(ledgerIds) !== JSON.stringify(manifestIds)) {
+    failures.push(`[${slug}] manifest.trackIds drift from ledger: ${JSON.stringify(manifestIds)}`);
+  }
+  for (const tid of job.trackIds) {
+    const entry = manifest.tracks?.[tid];
+    if (!entry || !entry.status || typeof entry.componentCount !== "number") {
+      failures.push(`[${slug}] manifest.tracks["${tid}"] missing status/componentCount`);
+    }
+  }
+}
+
+function verifyOwnedPaths(failures) {
+  const status = spawnSync("git", ["status", "--porcelain", "-uall"], { cwd: rootDir, encoding: "utf8" });
+  for (const line of status.stdout.split("\n")) {
+    if (!line.trim()) continue;
+    const file = line.slice(3).trim().replace(/^"|"$/g, "");
+    const target = file.includes(" -> ") ? file.split(" -> ")[1] : file;
+    if (!OWNED_PATH_PREFIXES.some((p) => target === p || target.startsWith(p))) {
+      failures.push(`file changed outside lane C2 owned paths: ${target}`);
+    }
+  }
+}
+
+// --- Main ---
+
+const argv = process.argv.slice(2);
+const mode = argv[0] === "render" || argv[0] === "verify" ? argv[0] : "verify";
+const slugArgs = (argv[0] === "render" || argv[0] === "verify" ? argv.slice(1) : argv).filter(Boolean);
+
+const jobs = ledgerJobs();
+const selected = jobs.filter(
+  (j) => slugArgs.length === 0 || slugArgs.includes(JURISDICTION_SLUGS[j.jurisdiction])
+);
+if (selected.length === 0) {
+  console.error(`No lane C2 jobs match ${JSON.stringify(slugArgs)}.`);
+  process.exit(1);
+}
+
+const failures = [];
+const warnings = [];
+let trackCount = 0;
+
+for (const job of selected) {
+  const slug = JURISDICTION_SLUGS[job.jurisdiction];
+  for (const trackId of job.trackIds) {
+    trackCount += 1;
+    const loadedFailures = [];
+    const rendered = await renderTrack(slug, trackId, mode === "render", loadedFailures, warnings);
+    if (rendered && mode === "verify") {
+      validateConfigShape(trackId, rendered.doc, loadedFailures);
+      validateProvenance(trackId, rendered.doc, loadedFailures, warnings);
+      validateNoInvention(trackId, rendered.doc, job.jurisdiction, loadedFailures);
+    }
+    failures.push(...loadedFailures);
+    const state = loadedFailures.length === 0 ? "ok" : "FAIL";
+    console.log(`  [${mode}] ${slug}/${trackId}: ${state}`);
+  }
+  if (mode === "verify") verifyManifest(slug, job, failures);
+}
+
+if (mode === "verify") verifyOwnedPaths(failures);
+
+console.log("");
+if (warnings.length > 0) {
+  console.log("Warnings:");
+  for (const w of warnings) console.log(`  ~ ${w}`);
+}
+if (failures.length > 0) {
+  console.error(`Lane C2 ${mode} FAILED (${failures.length} failure(s) across ${trackCount} track(s)):`);
+  for (const f of failures) console.error(`  - ${f}`);
+  process.exit(1);
+}
+console.log(`Lane C2 ${mode} PASSED: ${selected.length} job(s), ${trackCount} track(s).`);
