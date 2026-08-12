@@ -1,0 +1,1835 @@
+{
+  "schema": "rcap-d-corrections-v2-review/shard-0/v1",
+  "shard": 0,
+  "shardRule": "sha256(familyId) modulo 3, over the full hex digest",
+  "shardRuleRecomputed": {
+    "agrees": true,
+    "method": "int(hashlib.sha256(familyId.encode()).hexdigest(), 16) % 3, recomputed in this session for all 61 correction_required families",
+    "observedCounts": {
+      "0": 34,
+      "1": 19,
+      "2": 8
+    },
+    "declaredCounts": {
+      "0": 34,
+      "1": 19,
+      "2": 8
+    },
+    "membershipDisagreements": []
+  },
+  "reviewer": "independent read-only reviewer, shard 0",
+  "reviewScope": "the 34 correction_required families in shard 0; the 104 technical_approved and 88 held_on_source_or_design families were not re-reviewed",
+  "sourcePacks": {
+    "releaseTag": "rcap-d-source-packs-2026-08-12",
+    "verifiedSha256": {
+      "RCAP_D_D1_SOURCE_PACK.zip": "01ab34d2eee2ae5621e18fa74e4c03f24df667965eb27a4e3bf7f80c3216acaa",
+      "RCAP_D_D2_SOURCE_PACK.zip": "8f7ef41b7077105dc0bc23e7e3963cff88104004db0745012bf76e6b47c14557",
+      "RCAP_D_D3_SOURCE_PACK.zip": "70c9a6f759a744bc95f6f969ecd0a5fe7cbdfbfff08062dd2d968597a447753b"
+    },
+    "allThreeMatched": true,
+    "extractedOutsideEveryGitWorktree": "/tmp/rcap-source-packs"
+  },
+  "correctionBranchHeads": {
+    "claude/rcap-d1a-corrections-v2": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+    "claude/rcap-d1b-corrections-v2": "994e976d92befc9078309e08f065a761362ba7b7",
+    "claude/rcap-d1c-corrections-v2": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+    "claude/rcap-d2a-corrections-v2": "bc139e24c987728dda585a58e0736ec14b6a996a",
+    "claude/rcap-d2b-corrections-v2": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+    "claude/rcap-d3a-corrections-v2": "86446de3632711b0364e8ae82717086563fe9461",
+    "claude/rcap-d3b-corrections-v2": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56"
+  },
+  "totals": {
+    "familiesInShard": 34,
+    "familiesReviewed": 34,
+    "rerenderExpected": 22,
+    "evidenceOnly": 8,
+    "blockedOutOfScope": 4,
+    "artifactsOpened": 87,
+    "findings": 13
+  },
+  "dispositionCounts": {
+    "technical_approved": 23,
+    "correction_required": 7,
+    "held_on_source_or_design": 4
+  },
+  "families": [
+    {
+      "familyId": "AZ:aoccrsl1f-050825-form-en",
+      "jurisdiction": "AZ",
+      "lane": "D2A",
+      "correctionBranch": "claude/rcap-d2a-corrections-v2",
+      "commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/arizona/aoccrsl1f-050825-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/arizona/aoccrsl1f-050825-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arizona/aoccrsl1f-050825-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+      "sourceSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 1,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "widget": 485
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 1 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "AZ:aoccrsl2f-050825-form-en",
+      "jurisdiction": "AZ",
+      "lane": "D2A",
+      "correctionBranch": "claude/rcap-d2a-corrections-v2",
+      "commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/arizona/aoccrsl2f-050825-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/arizona/aoccrsl2f-050825-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arizona/aoccrsl2f-050825-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+      "sourceSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 1,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "widget": 135
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 1 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "CO:jdf-2371-form-motion-en",
+      "jurisdiction": "CO",
+      "lane": "D3A",
+      "correctionBranch": "claude/rcap-d3a-corrections-v2",
+      "commit": "86446de3632711b0364e8ae82717086563fe9461",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+      "sourceSha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "3/3",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 24,
+            "js": 24,
+            "aa": 12,
+            "widget": 177
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defects B and C: the contact sheet went from {'javascript': 24, 'js': 24, 'aa': 12, 'widget': 177} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "IL:fw-civ-application-form-en",
+      "jurisdiction": "IL",
+      "lane": "D2A",
+      "correctionBranch": "claude/rcap-d2a-corrections-v2",
+      "commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/illinois/fw-civ-application-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/illinois/fw-civ-application-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/illinois/fw-civ-application-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__FW-CIV-APPLICATION__application-for-waiver-of-court-fees-civil__REV-2025-08__EN.pdf",
+      "sourceSha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "2/2",
+        "nonPrintingWidgetsInSource": 8,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 420,
+            "js": 420,
+            "aa": 184,
+            "uri": 4,
+            "widget": 520
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defects B and C: the contact sheet went from {'javascript': 420, 'js': 420, 'aa': 184, 'uri': 4, 'widget': 520} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "jurisdiction": "KY",
+      "lane": "D1B",
+      "correctionBranch": "claude/rcap-d1b-corrections-v2",
+      "commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+      "sourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 2,
+        "textRunsRemovedVsLaneHead": 3,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 2,
+            "js": 2,
+            "aa": 4,
+            "widget": 20
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 2 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'javascript': 2, 'js': 2, 'aa': 4, 'widget': 20} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Every field the family's own production-field-map records as withheld_by_lane_review (Defendants ssn) is blank in every fixture; each value the re-render dropped sits inside one of those widgets or inside a charge row the map already refused as repeating_row_without_indexed_fact. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "jurisdiction": "KY",
+      "lane": "D1B",
+      "correctionBranch": "claude/rcap-d1b-corrections-v2",
+      "commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+      "sourceSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 2,
+        "textRunsRemovedVsLaneHead": 5,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 14,
+            "js": 14,
+            "aa": 18,
+            "widget": 70
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 2 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'javascript': 14, 'js': 14, 'aa': 18, 'widget': 70} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Every field the family's own production-field-map records as withheld_by_lane_review (Def.Address.City, Def.Address.State, Def.Address.Zip, Def.Info.JailId, Def.VitalStats.SSN) is blank in every fixture; each value the re-render dropped sits inside one of those widgets or inside a charge row the map already refused as repeating_row_without_indexed_fact. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "jurisdiction": "KY",
+      "lane": "D1B",
+      "correctionBranch": "claude/rcap-d1b-corrections-v2",
+      "commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+      "sourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 2,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "aa": 2,
+            "widget": 70
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 2 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'aa': 2, 'widget': 70} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "KY:aoc-496-4-form-en",
+      "jurisdiction": "KY",
+      "lane": "D1B",
+      "correctionBranch": "claude/rcap-d1b-corrections-v2",
+      "commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
+      "sourceSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 2,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "aa": 8,
+            "widget": 376
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 2 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'aa': 8, 'widget': 376} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "jurisdiction": "KY",
+      "lane": "D1B",
+      "correctionBranch": "claude/rcap-d1b-corrections-v2",
+      "commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496__expungement-order__REV-2016-07__EN.pdf",
+      "sourceSha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 2,
+        "textRunsRemovedVsLaneHead": 2,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 10,
+            "js": 10,
+            "aa": 16,
+            "widget": 72
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 2 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'javascript': 10, 'js': 10, 'aa': 16, 'widget': 72} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Every field the family's own production-field-map records as withheld_by_lane_review (Def.Info.JailId, Def.VitalStats.SSN) is blank in every fixture; each value the re-render dropped sits inside one of those widgets or inside a charge row the map already refused as repeating_row_without_indexed_fact. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "jurisdiction": "KY",
+      "lane": "D1B",
+      "correctionBranch": "claude/rcap-d1b-corrections-v2",
+      "commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+      "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 2,
+        "textRunsRemovedVsLaneHead": 4,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 4,
+            "js": 4,
+            "aa": 5,
+            "widget": 33
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 2 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'javascript': 4, 'js': 4, 'aa': 5, 'widget': 33} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Every field the family's own production-field-map records as withheld_by_lane_review (address2) is blank in every fixture; each value the re-render dropped sits inside one of those widgets or inside a charge row the map already refused as repeating_row_without_indexed_fact. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "NE:cc-6-11-2-form-en",
+      "jurisdiction": "NE",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "orchestrator_manifest_source_pointer",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+      "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 7,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 4,
+            "js": 4,
+            "aa": 19,
+            "uri": 3,
+            "widget": 9
+          }
+        }
+      },
+      "findings": [
+        {
+          "id": "indexed_charge_row_write_supersedes_a_recorded_binding_refusal",
+          "severity": "minor",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/fixtures/boundary-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "field \"Text2\" (label \", Case No\"), widget p1 rect [377.28, 144.21, 506.62, 158.61]",
+          "visibleDefect": "The boundary fixture prints a case number inside the Text2 widget rect, while the family's own field-classification.json records Text2 as writable:false with factId:null and refusalReason repeating_row_without_indexed_fact, and production-field-map.json lists it under bindingRefusals. populated-fields.json records the write as matter.charges[1].case_number. Read carefully the two are reconcilable -- the refusal is conditional on there being no indexed fact, and the boundary fact set supplies indexed charges -- so this is not called a defect against these bytes. It is recorded because the sibling lane now resolves the same situation the opposite way: D1B's correction narrows the render census to exclude every lane-refused field, which is exactly what removed the KY CHARGE_2 and CHARGE_3 writes in this same review. Two lanes now behave differently on the same question. Pre-existing and unchanged by this cycle: populated-fields.json is byte-identical to the lane head.",
+          "likelyOwner": "Cross-lane policy \u2014 D1C indexed-charge-row mapping vs D1B render-census narrowing",
+          "acceptanceCondition": "Decide, once, across lanes whether an indexed-charge-row mapping may supersede a name-based binding refusal, and make the classification record state the condition rather than a flat writable:false.",
+          "evidenceBasis": "text runs decoded from the committed boundary-filled.pdf at the correction branch head and tested against the Text2 widget rect read out of the pack source binary; field-classification.json, production-field-map.json and populated-fields.json read at the same commit and diffed against the lane head"
+        }
+      ],
+      "rationale": "Defect A: the source carries 7 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'javascript': 4, 'js': 4, 'aa': 19, 'uri': 3, 'widget': 9} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. The manifest source pointer now resolves to pack bytes matching the recorded sha256. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "NE:cc-6-11-form-en",
+      "jurisdiction": "NE",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "orchestrator_manifest_source_pointer",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
+      "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 7,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 6,
+            "js": 6,
+            "aa": 20,
+            "uri": 3,
+            "widget": 19
+          }
+        }
+      },
+      "findings": [
+        {
+          "id": "indexed_charge_row_write_supersedes_a_recorded_binding_refusal",
+          "severity": "minor",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/fixtures/boundary-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "field \"Text2\" (label \", Case No\"), widget p1 rect [377.28, 144.21, 506.62, 158.61]",
+          "visibleDefect": "The boundary fixture prints a case number inside the Text2 widget rect, while the family's own field-classification.json records Text2 as writable:false with factId:null and refusalReason repeating_row_without_indexed_fact, and production-field-map.json lists it under bindingRefusals. populated-fields.json records the write as matter.charges[1].case_number. Read carefully the two are reconcilable -- the refusal is conditional on there being no indexed fact, and the boundary fact set supplies indexed charges -- so this is not called a defect against these bytes. It is recorded because the sibling lane now resolves the same situation the opposite way: D1B's correction narrows the render census to exclude every lane-refused field, which is exactly what removed the KY CHARGE_2 and CHARGE_3 writes in this same review. Two lanes now behave differently on the same question. Pre-existing and unchanged by this cycle: populated-fields.json is byte-identical to the lane head.",
+          "likelyOwner": "Cross-lane policy \u2014 D1C indexed-charge-row mapping vs D1B render-census narrowing",
+          "acceptanceCondition": "Decide, once, across lanes whether an indexed-charge-row mapping may supersede a name-based binding refusal, and make the classification record state the condition rather than a flat writable:false.",
+          "evidenceBasis": "text runs decoded from the committed boundary-filled.pdf at the correction branch head and tested against the Text2 widget rect read out of the pack source binary; field-classification.json, production-field-map.json and populated-fields.json read at the same commit and diffed against the lane head"
+        }
+      ],
+      "rationale": "Defect A: the source carries 7 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'javascript': 6, 'js': 6, 'aa': 20, 'uri': 3, 'widget': 19} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. The manifest source pointer now resolves to pack bytes matching the recorded sha256. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "NE:cc-6-11a-instructions-en",
+      "jurisdiction": "NE",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "artifactsOpened": [],
+      "sourceCanonicalPath": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-11A__completing-the-petition-to-set-aside-a-criminal-conviction__REV-UNKNOWN__EN.pdf",
+      "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "familyEmitsNoArtifactsByDesign": true,
+        "familyDirectoryByteIdenticalToLaneHead": true
+      },
+      "observations": {},
+      "findings": [],
+      "rationale": "Evidence-only family: its sole defect was the review manifest reporting a null source pointer, and it emits no filled fixture or contact sheet. The manifest now records a pack-relative path that resolves to a real file in the extracted pack whose bytes hash to the recorded sha256 \u2014 I recomputed the digest from the pack rather than reading the recorded value back. The family directory is byte-identical to its lane head, as designed, and its currentness and legal-design holds are intact. Approved on that basis; this is a technical review only and carries no visual, counsel or source-freshness clearance."
+    },
+    {
+      "familyId": "NE:cc-6-12-instructions-en",
+      "jurisdiction": "NE",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "artifactsOpened": [],
+      "sourceCanonicalPath": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+      "sourceSha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "familyEmitsNoArtifactsByDesign": true,
+        "familyDirectoryByteIdenticalToLaneHead": true
+      },
+      "observations": {},
+      "findings": [],
+      "rationale": "Evidence-only family: its sole defect was the review manifest reporting a null source pointer, and it emits no filled fixture or contact sheet. The manifest now records a pack-relative path that resolves to a real file in the extracted pack whose bytes hash to the recorded sha256 \u2014 I recomputed the digest from the pack rather than reading the recorded value back. The family directory is byte-identical to its lane head, as designed, and its currentness and legal-design holds are intact. Approved on that basis; this is a technical review only and carries no visual, counsel or source-freshness clearance."
+    },
+    {
+      "familyId": "NE:dc-1-15-form-en",
+      "jurisdiction": "NE",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "artifactsOpened": [],
+      "sourceCanonicalPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+      "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "familyEmitsNoArtifactsByDesign": true,
+        "familyDirectoryByteIdenticalToLaneHead": true
+      },
+      "observations": {},
+      "findings": [],
+      "rationale": "Evidence-only family: its sole defect was the review manifest reporting a null source pointer, and it emits no filled fixture or contact sheet. The manifest now records a pack-relative path that resolves to a real file in the extracted pack whose bytes hash to the recorded sha256 \u2014 I recomputed the digest from the pack rather than reading the recorded value back. The family directory is byte-identical to its lane head, as designed, and its currentness and legal-design holds are intact. Approved on that basis; this is a technical review only and carries no visual, counsel or source-freshness clearance."
+    },
+    {
+      "familyId": "NE:dc-6-7-2-form-en",
+      "jurisdiction": "NE",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "orchestrator_manifest_source_pointer",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/nebraska/dc-6-7-2-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/nebraska/dc-6-7-2-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/nebraska/dc-6-7-2-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-6-7.2__dc-6-7-2-order-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf",
+      "sourceSha256": "33765f661ddeaacfbc623b77e4e0b873b24816bfda472fa2c6b0f093945d96be",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 18,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 8,
+            "js": 8,
+            "aa": 58,
+            "uri": 4,
+            "widget": 116
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 18 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'javascript': 8, 'js': 8, 'aa': 58, 'uri': 4, 'widget': 116} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. The manifest source pointer now resolves to pack bytes matching the recorded sha256. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "NE:dc-6-7-2a-instructions-en",
+      "jurisdiction": "NE",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "artifactsOpened": [],
+      "sourceCanonicalPath": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__DC-6-7.2A__instructions-for-dc-6-7-2-order-to-proceed-in-forma-pauperis__REV-2025-03__EN.pdf",
+      "sourceSha256": "8b2a1679046fc5502728526d7cf2c272791f95f91f7b2400834cf5031b2502e0",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "familyEmitsNoArtifactsByDesign": true,
+        "familyDirectoryByteIdenticalToLaneHead": true
+      },
+      "observations": {},
+      "findings": [],
+      "rationale": "Evidence-only family: its sole defect was the review manifest reporting a null source pointer, and it emits no filled fixture or contact sheet. The manifest now records a pack-relative path that resolves to a real file in the extracted pack whose bytes hash to the recorded sha256 \u2014 I recomputed the digest from the pack rather than reading the recorded value back. The family directory is byte-identical to its lane head, as designed, and its currentness and legal-design holds are intact. Approved on that basis; this is a technical review only and carries no visual, counsel or source-freshness clearance."
+    },
+    {
+      "familyId": "NH:nhjb-2317-form-petition-en",
+      "jurisdiction": "NH",
+      "lane": "D3A",
+      "correctionBranch": "claude/rcap-d3a-corrections-v2",
+      "commit": "86446de3632711b0364e8ae82717086563fe9461",
+      "disposition": "correction_required",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "overflow_ledger_missing_refusal",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+      "sourceSha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true,
+        "overflowLedgerRecordsABoundaryRefusalForCaseNumber": true,
+        "overflowLedgerMeetsStatedAcceptanceConditionVerbatim": false
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/3",
+        "nonPrintingWidgetsInSource": 5,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 303,
+            "js": 303,
+            "aa": 117,
+            "widget": 132
+          }
+        }
+      },
+      "findings": [
+        {
+          "id": "overflow_ledger_refusal_recorded_under_a_different_mechanism",
+          "severity": "minor",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/reports/overflow-and-clipping.json",
+          "page": 1,
+          "fieldOrRegion": "field \"case number\" (matter.case_number), boundary fixture",
+          "visibleDefect": "The ledger gap is substantially closed: the report now carries a boundary refusal for \"case number\" (refused_exceeds_form_declared_max_length, declaredMaxLength 17, valueLength 60) plus two previously undisclosed DefDate refusals, and refusalsRecorded is 3 where it was absent. But the acceptance condition as written is not met: refusedBelowFloor is still 0, there is no refused_below_readable_floor entry, and the entry names neither the widget rect nor requiredWidthAtMin 210.4 the way the sibling CO/TX entries do. Reading the source binary, the lane's recorded mechanism is the correct primary one \u2014 the field declares /MaxLen 17, so the length gate fires before the font-fitting floor is ever reached \u2014 but the value also exceeds the widget width at the 6pt floor, and a reader auditing \"was anything dropped as unreadably small?\" still gets 0.",
+          "likelyOwner": "Lane D3A \u2014 NH renderer path; or the finding owner, if the acceptance condition should be amended to the true mechanism",
+          "acceptanceCondition": "Either record both constraints for this field (the /MaxLen refusal and the below-floor width refusal, with widget rect and requiredWidthAtMin), or amend the acceptance condition to the /MaxLen mechanism the source binary actually shows and state why refusedBelowFloor is correctly 0.",
+          "evidenceBasis": "reports/overflow-and-clipping.json read at the correction branch head and diffed against the lane head; /MaxLen and /Rect read directly out of the pack source binary for all three NH forms in this session"
+        }
+      ],
+      "rationale": "Defects A and B are verified fixed on the bytes: zero non-printing widget ink in either fixture, nothing legitimate removed, and the contact sheet went from 303/81/69 JavaScript markers with 117/32/25 /AA and 132/36/28 widget objects to an object graph with none of them, byte-inspectable and free of embedded widgets. Page count, page order, participant values, protected-field refusals and determinism all hold. The family is held back only by its third, lane-specific defect: the overflow ledger now records the refusal it was missing, but not in the form the acceptance condition names, and refusedBelowFloor remains 0 for a value that does fall below the floor on width. That is a narrow evidence-completeness gap, not an artifact defect."
+    },
+    {
+      "familyId": "NH:nhjb-3056-form-petition-en",
+      "jurisdiction": "NH",
+      "lane": "D3A",
+      "correctionBranch": "claude/rcap-d3a-corrections-v2",
+      "commit": "86446de3632711b0364e8ae82717086563fe9461",
+      "disposition": "correction_required",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "overflow_ledger_missing_refusal",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3056__petition-of-eligibility-for-annulment-of-record-non-conviction__REV-2019-06__EN.pdf",
+      "sourceSha256": "2cbfbd02979fd3714c87b52d87f64c2667c86f57b4fcc2d638dd61dddf5f5928",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true,
+        "overflowLedgerRecordsABoundaryRefusalForCaseNumber": true,
+        "overflowLedgerMeetsStatedAcceptanceConditionVerbatim": false
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/3",
+        "nonPrintingWidgetsInSource": 4,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 81,
+            "js": 81,
+            "aa": 32,
+            "widget": 36
+          }
+        }
+      },
+      "findings": [
+        {
+          "id": "overflow_ledger_refusal_recorded_under_a_different_mechanism",
+          "severity": "minor",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/reports/overflow-and-clipping.json",
+          "page": 1,
+          "fieldOrRegion": "field \"case number\" (matter.case_number), boundary fixture",
+          "visibleDefect": "The ledger gap is substantially closed: the report now carries a boundary refusal for \"case number\" (refused_exceeds_form_declared_max_length, declaredMaxLength 17, valueLength 60) plus two previously undisclosed DefDate refusals, and refusalsRecorded is 3 where it was absent. But the acceptance condition as written is not met: refusedBelowFloor is still 0, there is no refused_below_readable_floor entry, and the entry names neither the widget rect nor requiredWidthAtMin 210.4 the way the sibling CO/TX entries do. Reading the source binary, the lane's recorded mechanism is the correct primary one \u2014 the field declares /MaxLen 17, so the length gate fires before the font-fitting floor is ever reached \u2014 but the value also exceeds the widget width at the 6pt floor, and a reader auditing \"was anything dropped as unreadably small?\" still gets 0.",
+          "likelyOwner": "Lane D3A \u2014 NH renderer path; or the finding owner, if the acceptance condition should be amended to the true mechanism",
+          "acceptanceCondition": "Either record both constraints for this field (the /MaxLen refusal and the below-floor width refusal, with widget rect and requiredWidthAtMin), or amend the acceptance condition to the /MaxLen mechanism the source binary actually shows and state why refusedBelowFloor is correctly 0.",
+          "evidenceBasis": "reports/overflow-and-clipping.json read at the correction branch head and diffed against the lane head; /MaxLen and /Rect read directly out of the pack source binary for all three NH forms in this session"
+        }
+      ],
+      "rationale": "Defects A and B are verified fixed on the bytes: zero non-printing widget ink in either fixture, nothing legitimate removed, and the contact sheet went from 303/81/69 JavaScript markers with 117/32/25 /AA and 132/36/28 widget objects to an object graph with none of them, byte-inspectable and free of embedded widgets. Page count, page order, participant values, protected-field refusals and determinism all hold. The family is held back only by its third, lane-specific defect: the overflow ledger now records the refusal it was missing, but not in the form the acceptance condition names, and refusedBelowFloor remains 0 for a value that does fall below the floor on width. That is a narrow evidence-completeness gap, not an artifact defect."
+    },
+    {
+      "familyId": "NH:nhjb-3124-form-petition-en",
+      "jurisdiction": "NH",
+      "lane": "D3A",
+      "correctionBranch": "claude/rcap-d3a-corrections-v2",
+      "commit": "86446de3632711b0364e8ae82717086563fe9461",
+      "disposition": "correction_required",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "overflow_ledger_missing_refusal",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
+      "sourceSha256": "eee788220b7e624f0294d00b01024bff251d5d1dbfe61062c9a8f78fab58529c",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true,
+        "overflowLedgerRecordsABoundaryRefusalForCaseNumber": true,
+        "overflowLedgerMeetsStatedAcceptanceConditionVerbatim": false
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/3",
+        "nonPrintingWidgetsInSource": 3,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 69,
+            "js": 69,
+            "aa": 25,
+            "widget": 28
+          }
+        }
+      },
+      "findings": [
+        {
+          "id": "overflow_ledger_refusal_recorded_under_a_different_mechanism",
+          "severity": "minor",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/reports/overflow-and-clipping.json",
+          "page": 1,
+          "fieldOrRegion": "field \"case number\" (matter.case_number), boundary fixture",
+          "visibleDefect": "The ledger gap is substantially closed: the report now carries a boundary refusal for \"case number\" (refused_exceeds_form_declared_max_length, declaredMaxLength 17, valueLength 60) plus two previously undisclosed DefDate refusals, and refusalsRecorded is 3 where it was absent. But the acceptance condition as written is not met: refusedBelowFloor is still 0, there is no refused_below_readable_floor entry, and the entry names neither the widget rect nor requiredWidthAtMin 210.4 the way the sibling CO/TX entries do. Reading the source binary, the lane's recorded mechanism is the correct primary one \u2014 the field declares /MaxLen 17, so the length gate fires before the font-fitting floor is ever reached \u2014 but the value also exceeds the widget width at the 6pt floor, and a reader auditing \"was anything dropped as unreadably small?\" still gets 0.",
+          "likelyOwner": "Lane D3A \u2014 NH renderer path; or the finding owner, if the acceptance condition should be amended to the true mechanism",
+          "acceptanceCondition": "Either record both constraints for this field (the /MaxLen refusal and the below-floor width refusal, with widget rect and requiredWidthAtMin), or amend the acceptance condition to the /MaxLen mechanism the source binary actually shows and state why refusedBelowFloor is correctly 0.",
+          "evidenceBasis": "reports/overflow-and-clipping.json read at the correction branch head and diffed against the lane head; /MaxLen and /Rect read directly out of the pack source binary for all three NH forms in this session"
+        }
+      ],
+      "rationale": "Defects A and B are verified fixed on the bytes: zero non-printing widget ink in either fixture, nothing legitimate removed, and the contact sheet went from 303/81/69 JavaScript markers with 117/32/25 /AA and 132/36/28 widget objects to an object graph with none of them, byte-inspectable and free of embedded widgets. Page count, page order, participant values, protected-field refusals and determinism all hold. The family is held back only by its third, lane-specific defect: the overflow ledger now records the refusal it was missing, but not in the form the acceptance condition names, and refusedBelowFloor remains 0 for a value that does fall below the floor on width. That is a narrow evidence-completeness gap, not an artifact defect."
+    },
+    {
+      "familyId": "NM:nm-san-juan-nonconviction-packet-en",
+      "jurisdiction": "NM",
+      "lane": "D2B",
+      "correctionBranch": "claude/rcap-d2b-corrections-v2",
+      "commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-san-juan-nonconviction-packet-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-san-juan-nonconviction-packet-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-san-juan-nonconviction-packet-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-san-juan-nonconviction-packet-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-SAN-JUAN-NONCONVICTION-PACKET__petition-to-expunge__REV-UNKNOWN__EN.pdf",
+      "sourceSha256": "d804959b212e2a0df2e3aa51f17609ef237d583ff2cc189747e76b38c2520638",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "3/3",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "uri": 26
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defects B and C: the contact sheet went from {'uri': 26} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "TX:tx-gc-411-0726-form-petition-en",
+      "jurisdiction": "TX",
+      "lane": "D3A",
+      "correctionBranch": "claude/rcap-d3a-corrections-v2",
+      "commit": "86446de3632711b0364e8ae82717086563fe9461",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0726-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0726-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0726-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0726-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0726__petition-for-order-of-nondisclosure-under-411-0726__REV-2022-02__EN.pdf",
+      "sourceSha256": "0ef70a8afe2521b0173a210b8ac22eee503c6231c0cf71fcd3c6a91af82db27d",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "3/3",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 6,
+            "js": 6,
+            "aa": 3,
+            "widget": 16
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defects B and C: the contact sheet went from {'javascript': 6, 'js': 6, 'aa': 3, 'widget': 16} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "TX:tx-gc-411-0728-form-petition-en",
+      "jurisdiction": "TX",
+      "lane": "D3A",
+      "correctionBranch": "claude/rcap-d3a-corrections-v2",
+      "commit": "86446de3632711b0364e8ae82717086563fe9461",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0728-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0728-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0728-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0728-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0728__petition-for-order-of-nondisclosure-under-411-0728__REV-2022-02__EN.pdf",
+      "sourceSha256": "e1db8112912f1d51bd1a145be72c3fd09e8a013414a6b0b218badd4af75a412e",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "3/3",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 4,
+            "js": 4,
+            "aa": 2,
+            "widget": 18
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defects B and C: the contact sheet went from {'javascript': 4, 'js': 4, 'aa': 2, 'widget': 18} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "TX:tx-gc-411-0729-form-petition-en",
+      "jurisdiction": "TX",
+      "lane": "D3A",
+      "correctionBranch": "claude/rcap-d3a-corrections-v2",
+      "commit": "86446de3632711b0364e8ae82717086563fe9461",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0729-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0729-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0729-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0729-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0729__petition-for-order-of-nondisclosure-under-411-0729__REV-2022-02__EN.pdf",
+      "sourceSha256": "5fbe7c7fe7efb752b2d3bce84298d66305f0384b9e30710ca660107ce6fc6c10",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "3/3",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 4,
+            "js": 4,
+            "aa": 2,
+            "widget": 13
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defects B and C: the contact sheet went from {'javascript': 4, 'js': 4, 'aa': 2, 'widget': 13} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "TX:tx-gc-411-073-411-0732-form-petition-en",
+      "jurisdiction": "TX",
+      "lane": "D3A",
+      "correctionBranch": "claude/rcap-d3a-corrections-v2",
+      "commit": "86446de3632711b0364e8ae82717086563fe9461",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-073-411-0732-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-073-411-0732-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-073-411-0732-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-073-411-0732-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.073-411.0732__petition-for-order-of-nondisclosure-under-411-073-411-0732__REV-2022-02__EN.pdf",
+      "sourceSha256": "0f60ff4c10f3f670356907a4d571285e247b796980c674c9bd64737cdd6a068a",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "3/3",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 8,
+            "js": 8,
+            "aa": 4,
+            "widget": 20
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defects B and C: the contact sheet went from {'javascript': 8, 'js': 8, 'aa': 4, 'widget': 20} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "jurisdiction": "VA",
+      "lane": "D1B",
+      "correctionBranch": "claude/rcap-d1b-corrections-v2",
+      "commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "disposition": "technical_approved",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+      "sourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": true,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "0/2",
+        "nonPrintingWidgetsInSource": 1,
+        "textRunsRemovedVsLaneHead": 6,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "javascript": 148,
+            "js": 148,
+            "aa": 72,
+            "widget": 412
+          }
+        }
+      },
+      "findings": [],
+      "rationale": "Defect A: the source carries 1 non-printing widget(s); every text run that the old flatten drew inside one is gone from the corrected artifact, and no run remains inside a non-printing rect that is neither owned by an overlapping printing widget nor drawn by the source's own page content. Defects B and C: the contact sheet went from {'javascript': 148, 'js': 148, 'aa': 72, 'widget': 412} to an object graph with no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, no /Widget and no /AcroForm, and raw bytes with no object streams, so the fail-closed gate judges bytes it can actually read. Every field the family's own production-field-map records as withheld_by_lane_review (User.AncillaryCityOrCounty, User.AncillaryFullNameOfArrest, User.CityOrCounty, User.FullNameOfArrest) is blank in every fixture; each value the re-render dropped sits inside one of those widgets or inside a charge row the map already refused as repeating_row_without_indexed_fact. Source sha256 matches the pack bytes, page count and per-page order are preserved against the source, expected participant values are visible, no protected-category field is written, recorded artifact hashes match the committed bytes, and the currentness and legal-design holds are intact. Approved on technical grounds only; visual, counsel and source-freshness review remain outstanding and this carries no clearance beyond the technical track."
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "jurisdiction": "VT",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "correction_required",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/vermont/200-00132-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00132-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00132-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "sourceSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": false,
+        "contactSheetsCarryNoWidgetOrAcroForm": false,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "2/2",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "widget": 33
+          }
+        }
+      },
+      "findings": [
+        {
+          "id": "contact_sheet_not_byte_inspectable_and_pre_fix",
+          "severity": "major",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00132-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": null,
+          "fieldOrRegion": "whole document",
+          "visibleDefect": "The contact sheet is byte-identical to its lane head and was never re-built by the corrected factory. Its raw bytes contain 3 /Type /ObjStm object stream(s), so scanBytesForActiveContent returns inspectable:false and assertInspectableAndClean would raise UninspectableArtifactError rather than emit it. It also carries 33 orphaned /Widget annotation objects copied out of the unsanitized blank panel \u2014 /FT, /T, /DA and /Rect intact, /P pointing at a page of the original source form, absent from every page /Annots array but present in the bytes \u2014 which is exactly the residue defect B was written to remove. Its contact-sheet-proof.json carries none of the fields the corrected builder emits (no activeContentScan, no panelScans, no panelsSanitizedBeforeEmbedding), confirming it predates the fix. Resolving the object streams myself, I found no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, so this is a fail-closed and residue finding, not an executable-code finding.",
+          "likelyOwner": "Lane D1C \u2014 the family was classified evidence-only and excluded from the re-render, but its contact sheet is a pre-fix artifact",
+          "acceptanceCondition": "Re-build the contact sheet with the corrected rcap-contact-sheet.mjs so both panels are sanitized before embedding and the composed sheet is saved with { useObjectStreams: false } and passes assertInspectableAndClean; the sheet must then contain no object streams and no /Widget objects.",
+          "evidenceBasis": "raw-byte scan and full xref object-graph walk of the committed sheet at the correction branch head, performed in this session with object streams resolved; sha256 comparison against the same path at laneHeadReviewed; contact-sheet-proof.json schema comparison against re-rendered families"
+        }
+      ],
+      "rationale": "The dispositioned defect is cured: the review manifest now records a source pointer that resolves, pack-relative, to a real file whose bytes hash to the recorded sha256, which I confirmed against the extracted pack. Its filled fixtures are clean, byte-inspectable, carry no active-content keys, preserve page count and order, and show every expected participant value. But the family also ships a contact sheet that was never re-built by the corrected factory and does not pass the fail-closed inspection rule this cycle established: object streams in the raw bytes make it uninspectable to the factory's own scanner, and it still carries orphaned widget objects from an unsanitized blank panel. Reviewing on the bytes rather than on the classification, it cannot be approved."
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "jurisdiction": "VT",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "correction_required",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "sourceSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": false,
+        "contactSheetsCarryNoWidgetOrAcroForm": false,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "2/2",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "widget": 33
+          }
+        }
+      },
+      "findings": [
+        {
+          "id": "contact_sheet_not_byte_inspectable_and_pre_fix",
+          "severity": "major",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": null,
+          "fieldOrRegion": "whole document",
+          "visibleDefect": "The contact sheet is byte-identical to its lane head and was never re-built by the corrected factory. Its raw bytes contain 2 /Type /ObjStm object stream(s), so scanBytesForActiveContent returns inspectable:false and assertInspectableAndClean would raise UninspectableArtifactError rather than emit it. It also carries 33 orphaned /Widget annotation objects copied out of the unsanitized blank panel \u2014 /FT, /T, /DA and /Rect intact, /P pointing at a page of the original source form, absent from every page /Annots array but present in the bytes \u2014 which is exactly the residue defect B was written to remove. Its contact-sheet-proof.json carries none of the fields the corrected builder emits (no activeContentScan, no panelScans, no panelsSanitizedBeforeEmbedding), confirming it predates the fix. Resolving the object streams myself, I found no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, so this is a fail-closed and residue finding, not an executable-code finding.",
+          "likelyOwner": "Lane D1C \u2014 the family was classified evidence-only and excluded from the re-render, but its contact sheet is a pre-fix artifact",
+          "acceptanceCondition": "Re-build the contact sheet with the corrected rcap-contact-sheet.mjs so both panels are sanitized before embedding and the composed sheet is saved with { useObjectStreams: false } and passes assertInspectableAndClean; the sheet must then contain no object streams and no /Widget objects.",
+          "evidenceBasis": "raw-byte scan and full xref object-graph walk of the committed sheet at the correction branch head, performed in this session with object streams resolved; sha256 comparison against the same path at laneHeadReviewed; contact-sheet-proof.json schema comparison against re-rendered families"
+        }
+      ],
+      "rationale": "The dispositioned defect is cured: the review manifest now records a source pointer that resolves, pack-relative, to a real file whose bytes hash to the recorded sha256, which I confirmed against the extracted pack. Its filled fixtures are clean, byte-inspectable, carry no active-content keys, preserve page count and order, and show every expected participant value. But the family also ships a contact sheet that was never re-built by the corrected factory and does not pass the fail-closed inspection rule this cycle established: object streams in the raw bytes make it uninspectable to the factory's own scanner, and it still carries orphaned widget objects from an unsanitized blank panel. Reviewing on the bytes rather than on the classification, it cannot be approved."
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "jurisdiction": "VT",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "correction_required",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+      "sourceSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": false,
+        "contactSheetsCarryNoWidgetOrAcroForm": false,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "2/2",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {
+            "widget": 11
+          }
+        }
+      },
+      "findings": [
+        {
+          "id": "contact_sheet_not_byte_inspectable_and_pre_fix",
+          "severity": "major",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": null,
+          "fieldOrRegion": "whole document",
+          "visibleDefect": "The contact sheet is byte-identical to its lane head and was never re-built by the corrected factory. Its raw bytes contain 1 /Type /ObjStm object stream(s), so scanBytesForActiveContent returns inspectable:false and assertInspectableAndClean would raise UninspectableArtifactError rather than emit it. It also carries 11 orphaned /Widget annotation objects copied out of the unsanitized blank panel \u2014 /FT, /T, /DA and /Rect intact, /P pointing at a page of the original source form, absent from every page /Annots array but present in the bytes \u2014 which is exactly the residue defect B was written to remove. Its contact-sheet-proof.json carries none of the fields the corrected builder emits (no activeContentScan, no panelScans, no panelsSanitizedBeforeEmbedding), confirming it predates the fix. Resolving the object streams myself, I found no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, so this is a fail-closed and residue finding, not an executable-code finding.",
+          "likelyOwner": "Lane D1C \u2014 the family was classified evidence-only and excluded from the re-render, but its contact sheet is a pre-fix artifact",
+          "acceptanceCondition": "Re-build the contact sheet with the corrected rcap-contact-sheet.mjs so both panels are sanitized before embedding and the composed sheet is saved with { useObjectStreams: false } and passes assertInspectableAndClean; the sheet must then contain no object streams and no /Widget objects.",
+          "evidenceBasis": "raw-byte scan and full xref object-graph walk of the committed sheet at the correction branch head, performed in this session with object streams resolved; sha256 comparison against the same path at laneHeadReviewed; contact-sheet-proof.json schema comparison against re-rendered families"
+        }
+      ],
+      "rationale": "The dispositioned defect is cured: the review manifest now records a source pointer that resolves, pack-relative, to a real file whose bytes hash to the recorded sha256, which I confirmed against the extracted pack. Its filled fixtures are clean, byte-inspectable, carry no active-content keys, preserve page count and order, and show every expected participant value. But the family also ships a contact sheet that was never re-built by the corrected factory and does not pass the fail-closed inspection rule this cycle established: object streams in the raw bytes make it uninspectable to the factory's own scanner, and it still carries orphaned widget objects from an unsanitized blank panel. Reviewing on the bytes rather than on the classification, it cannot be approved."
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "jurisdiction": "WA",
+      "lane": "D2A",
+      "correctionBranch": "claude/rcap-d2a-corrections-v2",
+      "commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "disposition": "held_on_source_or_design",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "anchor_decoder_subset_font"
+      ],
+      "artifactsOpened": [],
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-006__blake-006-record-vacatur-form__REV-2025-05__EN.pdf",
+      "sourceSha256": "85bfbe2da7687db133432b4382aac07156ef7b7b1c1574f65007b607cae74ade",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "familyEmitsNoArtifactsByDesign": true,
+        "familyDirectoryByteIdenticalToLaneHead": true
+      },
+      "observations": {},
+      "findings": [
+        {
+          "id": "anchor_decoder_subset_font_unaddressed",
+          "severity": "blocker",
+          "file": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+          "page": null,
+          "fieldOrRegion": "loadFonts()",
+          "visibleDefect": "The family is unchanged from its lane head: git diff over its artifact directory is empty, and it emits no filled fixture or contact sheet. rcap-pdf-anchor-capture.mjs is byte-identical to the D0 base (blob 25358c46fb0e894b43ccd15a1689f257f9131e88) on all seven correction branches, and loadFonts() still contains no /ToUnicode or /Encoding /Differences handling. Reading the source binary directly, the text layer decodes cleanly for me, including the subset fonts on the CrRLJ forms, so the \"no extractable text\" premise remains false.",
+          "likelyOwner": "D0 shared factory \u2014 scope decision required; this cycle authorized only defects A, B and C",
+          "acceptanceCondition": "loadFonts() must consult /ToUnicode and /Encoding /Differences so a subset-font text layer decodes, after which the family must be re-dispositioned on a correct premise.",
+          "evidenceBasis": "git diff of the family directory between laneHeadReviewed and the correction branch head; git rev-parse of the anchor-capture blob on all seven branches; independent text decode of the pack source binary in this session"
+        }
+      ],
+      "rationale": "Unchanged this cycle, as scoped, and not approved. The only defect against this family is the D0 anchor decoder ignoring /ToUnicode and /Encoding /Differences, which the correction cycle did not authorize; the shared anchor-capture module is byte-identical to the D0 base on every correction branch and the family emits no artifacts. Its source pointer resolves to pack bytes matching the recorded sha256. It cannot clear until the scope decision on that decoder is made."
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "jurisdiction": "WA",
+      "lane": "D2A",
+      "correctionBranch": "claude/rcap-d2a-corrections-v2",
+      "commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "disposition": "held_on_source_or_design",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "anchor_decoder_subset_font"
+      ],
+      "artifactsOpened": [],
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-008__blake-008-record-vacatur-form__REV-2025-05__EN.pdf",
+      "sourceSha256": "8c861a358be2cdfc38b43a567c030ae4a36b11add031d8cab6e35d7f3b402426",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "familyEmitsNoArtifactsByDesign": true,
+        "familyDirectoryByteIdenticalToLaneHead": true
+      },
+      "observations": {},
+      "findings": [
+        {
+          "id": "anchor_decoder_subset_font_unaddressed",
+          "severity": "blocker",
+          "file": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+          "page": null,
+          "fieldOrRegion": "loadFonts()",
+          "visibleDefect": "The family is unchanged from its lane head: git diff over its artifact directory is empty, and it emits no filled fixture or contact sheet. rcap-pdf-anchor-capture.mjs is byte-identical to the D0 base (blob 25358c46fb0e894b43ccd15a1689f257f9131e88) on all seven correction branches, and loadFonts() still contains no /ToUnicode or /Encoding /Differences handling. Reading the source binary directly, the text layer decodes cleanly for me, including the subset fonts on the CrRLJ forms, so the \"no extractable text\" premise remains false.",
+          "likelyOwner": "D0 shared factory \u2014 scope decision required; this cycle authorized only defects A, B and C",
+          "acceptanceCondition": "loadFonts() must consult /ToUnicode and /Encoding /Differences so a subset-font text layer decodes, after which the family must be re-dispositioned on a correct premise.",
+          "evidenceBasis": "git diff of the family directory between laneHeadReviewed and the correction branch head; git rev-parse of the anchor-capture blob on all seven branches; independent text decode of the pack source binary in this session"
+        }
+      ],
+      "rationale": "Unchanged this cycle, as scoped, and not approved. The only defect against this family is the D0 anchor decoder ignoring /ToUnicode and /Encoding /Differences, which the correction cycle did not authorize; the shared anchor-capture module is byte-identical to the D0 base on every correction branch and the family emits no artifacts. Its source pointer resolves to pack bytes matching the recorded sha256. It cannot clear until the scope decision on that decoder is made."
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "jurisdiction": "WA",
+      "lane": "D2A",
+      "correctionBranch": "claude/rcap-d2a-corrections-v2",
+      "commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "disposition": "held_on_source_or_design",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "anchor_decoder_subset_font"
+      ],
+      "artifactsOpened": [],
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+      "sourceSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "familyEmitsNoArtifactsByDesign": true,
+        "familyDirectoryByteIdenticalToLaneHead": true
+      },
+      "observations": {},
+      "findings": [
+        {
+          "id": "anchor_decoder_subset_font_unaddressed",
+          "severity": "blocker",
+          "file": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+          "page": null,
+          "fieldOrRegion": "loadFonts()",
+          "visibleDefect": "The family is unchanged from its lane head: git diff over its artifact directory is empty, and it emits no filled fixture or contact sheet. rcap-pdf-anchor-capture.mjs is byte-identical to the D0 base (blob 25358c46fb0e894b43ccd15a1689f257f9131e88) on all seven correction branches, and loadFonts() still contains no /ToUnicode or /Encoding /Differences handling. Reading the source binary directly, the text layer decodes cleanly for me, including the subset fonts on the CrRLJ forms, so the \"no extractable text\" premise remains false.",
+          "likelyOwner": "D0 shared factory \u2014 scope decision required; this cycle authorized only defects A, B and C",
+          "acceptanceCondition": "loadFonts() must consult /ToUnicode and /Encoding /Differences so a subset-font text layer decodes, after which the family must be re-dispositioned on a correct premise.",
+          "evidenceBasis": "git diff of the family directory between laneHeadReviewed and the correction branch head; git rev-parse of the anchor-capture blob on all seven branches; independent text decode of the pack source binary in this session"
+        }
+      ],
+      "rationale": "Unchanged this cycle, as scoped, and not approved. The only defect against this family is the D0 anchor decoder ignoring /ToUnicode and /Encoding /Differences, which the correction cycle did not authorize; the shared anchor-capture module is byte-identical to the D0 base on every correction branch and the family emits no artifacts. Its source pointer resolves to pack bytes matching the recorded sha256. It cannot clear until the scope decision on that decoder is made."
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "jurisdiction": "WA",
+      "lane": "D2A",
+      "correctionBranch": "claude/rcap-d2a-corrections-v2",
+      "commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "disposition": "held_on_source_or_design",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "anchor_decoder_subset_font"
+      ],
+      "artifactsOpened": [],
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0870__crrlj-09-0870-crrlj-09-0870-orderpetvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
+      "sourceSha256": "a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "familyEmitsNoArtifactsByDesign": true,
+        "familyDirectoryByteIdenticalToLaneHead": true
+      },
+      "observations": {},
+      "findings": [
+        {
+          "id": "anchor_decoder_subset_font_unaddressed",
+          "severity": "blocker",
+          "file": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+          "page": null,
+          "fieldOrRegion": "loadFonts()",
+          "visibleDefect": "The family is unchanged from its lane head: git diff over its artifact directory is empty, and it emits no filled fixture or contact sheet. rcap-pdf-anchor-capture.mjs is byte-identical to the D0 base (blob 25358c46fb0e894b43ccd15a1689f257f9131e88) on all seven correction branches, and loadFonts() still contains no /ToUnicode or /Encoding /Differences handling. Reading the source binary directly, the text layer decodes cleanly for me, including the subset fonts on the CrRLJ forms, so the \"no extractable text\" premise remains false.",
+          "likelyOwner": "D0 shared factory \u2014 scope decision required; this cycle authorized only defects A, B and C",
+          "acceptanceCondition": "loadFonts() must consult /ToUnicode and /Encoding /Differences so a subset-font text layer decodes, after which the family must be re-dispositioned on a correct premise.",
+          "evidenceBasis": "git diff of the family directory between laneHeadReviewed and the correction branch head; git rev-parse of the anchor-capture blob on all seven branches; independent text decode of the pack source binary in this session"
+        }
+      ],
+      "rationale": "Unchanged this cycle, as scoped, and not approved. The only defect against this family is the D0 anchor decoder ignoring /ToUnicode and /Encoding /Differences, which the correction cycle did not authorize; the shared anchor-capture module is byte-identical to the D0 base on every correction branch and the family emits no artifacts. Its source pointer resolves to pack bytes matching the recorded sha256. It cannot clear until the scope decision on that decoder is made."
+    },
+    {
+      "familyId": "WI:cr-267-form-en",
+      "jurisdiction": "WI",
+      "lane": "D1C",
+      "correctionBranch": "claude/rcap-d1c-corrections-v2",
+      "commit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "disposition": "correction_required",
+      "priorDisposition": "correction_required",
+      "defectClasses": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "artifactsOpened": [
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en/contact-sheet/blank-vs-filled.pdf",
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "sourceCanonicalPath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+      "sourceSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "verified": {
+        "shardAssignmentRecomputed": true,
+        "sourceSha256MatchesPackBytes": true,
+        "manifestSourcePointerResolvesToPackBytes": true,
+        "currentnessAndLegalDesignHoldsPreserved": true,
+        "pageCountPreserved": true,
+        "pageOrderPreserved": true,
+        "noPrintFlagInkLeak": true,
+        "noLegitimateTextRemoved": true,
+        "noUnexplainedTextAdded": true,
+        "allEmittedArtifactsFreeOfActiveContentKeys": true,
+        "allEmittedArtifactsByteInspectable": false,
+        "contactSheetsCarryNoWidgetOrAcroForm": true,
+        "contactSheetExpectedValuesVisible": true,
+        "expectedParticipantValuesVisible": true,
+        "noProtectedCategoryFieldWritten": true,
+        "withheldFieldsBlankInEveryFixture": true,
+        "recordedArtifactHashesMatchCommittedBytes": true,
+        "deterministicOutput": true
+      },
+      "observations": {
+        "fixturesByteIdenticalToLaneHead": "2/2",
+        "nonPrintingWidgetsInSource": 0,
+        "textRunsRemovedVsLaneHead": 0,
+        "contactSheetActiveContentBefore": {
+          "blank-vs-filled.pdf": {}
+        }
+      },
+      "findings": [
+        {
+          "id": "contact_sheet_not_byte_inspectable_and_pre_fix",
+          "severity": "major",
+          "file": "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": null,
+          "fieldOrRegion": "whole document",
+          "visibleDefect": "The contact sheet is byte-identical to its lane head and was never re-built by the corrected factory. Its raw bytes contain 2 /Type /ObjStm object stream(s), so scanBytesForActiveContent returns inspectable:false and assertInspectableAndClean would raise UninspectableArtifactError rather than emit it. Its contact-sheet-proof.json carries none of the fields the corrected builder emits (no activeContentScan, no panelScans, no panelsSanitizedBeforeEmbedding), confirming it predates the fix. Resolving the object streams myself, I found no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData or /URI in any object, so this is a fail-closed and residue finding, not an executable-code finding.",
+          "likelyOwner": "Lane D1C \u2014 the family was classified evidence-only and excluded from the re-render, but its contact sheet is a pre-fix artifact",
+          "acceptanceCondition": "Re-build the contact sheet with the corrected rcap-contact-sheet.mjs so both panels are sanitized before embedding and the composed sheet is saved with { useObjectStreams: false } and passes assertInspectableAndClean; the sheet must then contain no object streams and no /Widget objects.",
+          "evidenceBasis": "raw-byte scan and full xref object-graph walk of the committed sheet at the correction branch head, performed in this session with object streams resolved; sha256 comparison against the same path at laneHeadReviewed; contact-sheet-proof.json schema comparison against re-rendered families"
+        }
+      ],
+      "rationale": "The dispositioned defect is cured: the review manifest now records a source pointer that resolves, pack-relative, to a real file whose bytes hash to the recorded sha256, which I confirmed against the extracted pack. Its filled fixtures are clean, byte-inspectable, carry no active-content keys, preserve page count and order, and show every expected participant value. But the family also ships a contact sheet that was never re-built by the corrected factory and does not pass the fail-closed inspection rule this cycle established: object streams in the raw bytes make it uninspectable to the factory's own scanner. Reviewing on the bytes rather than on the classification, it cannot be approved."
+    }
+  ]
+}
