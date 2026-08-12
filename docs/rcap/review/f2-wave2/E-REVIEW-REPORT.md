@@ -101,4 +101,33 @@ The hold is enforced, not merely described: CR-106 has its own `profile.json` wi
 
 **Non-blocking exactness notes for the owner:** (1) the 45-day criminal-history expiry in `whatToGather` is supported by committed bytes (`DE-delaware.json` states it repeatedly — verified) but is not among the pinned quotes, so `legalIntegrityDisposition`'s "every claim traces to a verbatim quote in a pinned carrier" slightly overstates; pin the quote or cite `DE-delaware.json`. (2) "Photo identification" over-specifies the carrier, which says only "along with your identification" — match the carrier's word.
 
-*(ME deferral section lands as its own atomic group.)*
+## ME CR-289 Motion to Seal — exact_supported_deferral → **technical_approved**
+
+**F2-06 corrected at its root.** The adopted Maine legal design the adjudication cites — which wave 1 found cited but absent from the repository — is now pinned into the family, and every previously-uncarried claim quotes it. This review verified independently, against the committed bytes:
+
+- `evidence/ME_LEGAL-REVIEW_maine-record-clearing_ASOF-2026-07-30.md` — 93,459 bytes, sha256 matches the pin (`fe11e0a4fb17…`).
+- `evidence/ME_CR-289_REV-2024-10.pdf` — 166,837 bytes, sha256 matches the pin (`bbf89387690d…`) **and** matches the `formCandidate` sha256 already pinned in `ME-maine.json`; the extracted-text companion matches its recorded sha256.
+- **All seven `quotesRelieduponVerbatim` are present** in the committed bytes (re-checked by this review).
+- The three claims wave 1 flagged are now carrier-backed verbatim: the deferral premise (c. 513 repealed the § 2262-A(1) prerequisite; "Release blocker for participant-facing accuracy…"), the no-self-reporting claim (grounded in the quoted § 2264(7) carve-out), and the CR-307 next step, which the pinned review states in the profile's exact words ("reaches any conviction and has no waiting period").
+- Additionally located verbatim in the pinned carrier: the CR-218 contrast (four-year clock, lifetime self-reporting on the general track), the § 2262-A one-year route, § 2264(5) "shall grant the motion" on a preponderance — the participant text's "greater weight of the evidence" is the plain-language equivalent — and the blocker's harmless-in-most-cases reasoning for former § 853-A convictions.
+
+**Deferral completeness:** exact — Rev. 10/24 predates PL 2025 c. 513, paragraph 1 recites a repealed prerequisite, and signing would assert a condition the law no longer imposes; both unblock branches (revised form issued / Rev. 10/24 confirmed current with counsel recording the recital harmless) are spelled out with owner and next action.
+
+**No payment surface on the deferred route:** `checkoutProhibited` and `paymentProhibited` at both levels, enforced by `verify-rcap-hard-form-dispositions.mjs` (pass); structurally, ME is absent from `LEGACY_VERIFIED_JURISDICTIONS`, so `resolvePacketRoute` returns `guidance_only` with `sellable: false`.
+
+**F2-07** corrected (en/es key-for-key). **F2-18** reconciled in both places (profile `ledgerReconciliation`; ledger `candidateTreatment`/`candidateEvidence`).
+
+## Cross-cutting observations (non-blocking, for the owner and counsel)
+
+- The Spanish participant strings across all lane-E profiles are written without diacritics ("peticion", "esta", "unicamente"). Key parity and translation are machine-checked and pass; orthography is a counsel-review item, which remains an open gate before `approved_for_live`.
+- `quotesVerifiedAtPinTime` is a pin-time self-report; no verifier re-checks pinned quotes at verify time. This review re-checked them all manually. A small verifier loop over `pinnedCarriers` would make the quote discipline machine-enforced.
+
+## Totals
+
+| Outcome | F2 | F3 |
+| --- | --- | --- |
+| technical_approved | 5 (CR-181, CR-409, CR-410, DE 281, ME CR-289) | 4 (CR-180, CR-181, CR-409, CR-410) |
+| correction_required | 1 (CR-180) | 0 |
+| held_on_source_or_design | 0 closed (CR-106 hold verified preserved, not closed) | 0 |
+
+All six lane-E F2 jobs and all four lane-E F3 jobs in the wave-2 manifests are closed. Every CA approval is eligible for captain integration only — the six CA packet routes additionally require F3 approval, runtime wiring, legal-adoption continuity and staging acceptance before any terminal promotion.
