@@ -1,0 +1,1188 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "emptyFactSetRender": {
+    "written": 0,
+    "refused": 121,
+    "refusedFields": [
+      {
+        "field": "1 - County",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.county"
+      },
+      {
+        "field": "2 - Plaintiff/Petitioner or In RE",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "3 - Defendant/Respondent",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "5 - Checkboxes",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "6 - Your Name",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "8 - # of Adults",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "9 - Number of Children Under 18",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "10 - SSI",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "11 - AABD",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "12 - GA",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "13 - SNAP",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "14 - TANF",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "4 - Case Number",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.case_number"
+      },
+      {
+        "field": "15 - Checkboxes",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "16 - Checkboxes",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "17 - No Income",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "18 - My Employment",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "19 - My Employment Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "20 - Social Security",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "21 - Social Security Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "22 - Child Support",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "23 - Child Support Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "24 - Unemployment",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "25 - Unemployment Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "26 - Pension",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "27 - Pension Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "28 - Money from Other Household Members",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "29 - Money from Other Household Members Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "30 - Other Income",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "31 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "32 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "33 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "34 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "35 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "36 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "37 - Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "38 - No Income",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "39 - My Employment",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "40 - My Employment Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "41 - Social Security",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "42 - Social Security Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "43 - Child Support",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "44 - Child Support Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "45 - Unemployment",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "46 - Unemployment Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "47 - Pension",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "48 - Pension Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "49 - Money from Other Household Members",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "50 - Money from Other Household Members Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "51 - Other Income",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "52 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "53 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "54 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "55 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "56 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "57 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "58 - Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "59 - Rent",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "60 - Rent Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "61 - Home Mortgage",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "62 - Home Mortgage Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "63 - Other Mortgage",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "64 - Other Mortgage Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "65 - Utilities",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "66 - Utilities Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "67 - Food",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "68 - Food Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "69 - Medical",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "70 - Medical Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "71 - Vehicle",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "72 - Vehicle Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "73 - Childcare",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "74 - Childcare Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "75 - Child Support",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "76 - Child Support Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "77 - Other Checkbox",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "78 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "79 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "80 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "81 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "82 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "83 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "84 - Total",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "85 - None of the Above",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "86 - Bank Accounts and Cash",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "87 - Value",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "88 - Home",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "89 - Value",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "90 - Total Home Mortgage",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "91 - Other Real Estate",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "92 - Value",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "93 - 1st Vehicle Worth",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "94 - Value",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "95 - Yes/No",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "96 - 2nd Vehicle Worth",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "97 - Value",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "98 - Yes/No",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "99 - Other",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "100 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "101 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "102 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "103 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "104 - Type",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "105 - Amount from Other",
+        "reason": "protected_category",
+        "category": "money"
+      },
+      {
+        "field": "106 - Other",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "107-110 - Hardship",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "111 - Checkboxes",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Last - Signature",
+        "reason": "protected_category",
+        "category": "signature"
+      },
+      {
+        "field": "Last - Print Name",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "Last - Completing this form myself checkbox",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Last - Telephone",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.phone"
+      },
+      {
+        "field": "Last - Email",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.email"
+      },
+      {
+        "field": "Last - Street Address",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.street_address"
+      },
+      {
+        "field": "Last - Lawyer completing the form checkbox",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Last - Client Name",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "Last - Lawyer Name",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "Last - Attorney Number",
+        "reason": "protected_category",
+        "category": "attorney"
+      },
+      {
+        "field": "Last - Lawyer Phone Number",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "Last - Law Firm",
+        "reason": "protected_category",
+        "category": "attorney"
+      },
+      {
+        "field": "Last - Lawyer Email",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "Last - Lawyer Address",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      }
+    ]
+  },
+  "refusedFields": [
+    {
+      "field": "2 - Plaintiff/Petitioner or In RE",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "3 - Defendant/Respondent",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "5 - Checkboxes",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "8 - # of Adults",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "9 - Number of Children Under 18",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "10 - SSI",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "11 - AABD",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "12 - GA",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "13 - SNAP",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "14 - TANF",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "15 - Checkboxes",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "16 - Checkboxes",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "17 - No Income",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "18 - My Employment",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "19 - My Employment Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "20 - Social Security",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "21 - Social Security Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "22 - Child Support",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "23 - Child Support Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "24 - Unemployment",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "25 - Unemployment Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "26 - Pension",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "27 - Pension Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "28 - Money from Other Household Members",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "29 - Money from Other Household Members Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "30 - Other Income",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "31 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "32 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "33 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "34 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "35 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "36 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "37 - Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "38 - No Income",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "39 - My Employment",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "40 - My Employment Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "41 - Social Security",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "42 - Social Security Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "43 - Child Support",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "44 - Child Support Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "45 - Unemployment",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "46 - Unemployment Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "47 - Pension",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "48 - Pension Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "49 - Money from Other Household Members",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "50 - Money from Other Household Members Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "51 - Other Income",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "52 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "53 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "54 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "55 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "56 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "57 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "58 - Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "59 - Rent",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "60 - Rent Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "61 - Home Mortgage",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "62 - Home Mortgage Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "63 - Other Mortgage",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "64 - Other Mortgage Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "65 - Utilities",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "66 - Utilities Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "67 - Food",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "68 - Food Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "69 - Medical",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "70 - Medical Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "71 - Vehicle",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "72 - Vehicle Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "73 - Childcare",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "74 - Childcare Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "75 - Child Support",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "76 - Child Support Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "77 - Other Checkbox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "78 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "79 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "80 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "81 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "82 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "83 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "84 - Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "85 - None of the Above",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "86 - Bank Accounts and Cash",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "87 - Value",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "88 - Home",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "89 - Value",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "90 - Total Home Mortgage",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "91 - Other Real Estate",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "92 - Value",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "93 - 1st Vehicle Worth",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "94 - Value",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "95 - Yes/No",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "96 - 2nd Vehicle Worth",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "97 - Value",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "98 - Yes/No",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "99 - Other",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "100 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "101 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "102 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "103 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "104 - Type",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "105 - Amount from Other",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "106 - Other",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "107-110 - Hardship",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "111 - Checkboxes",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Last - Signature",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "Last - Completing this form myself checkbox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Last - Lawyer completing the form checkbox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Last - Client Name",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "Last - Lawyer Name",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "Last - Attorney Number",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "Last - Lawyer Phone Number",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "Last - Law Firm",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "Last - Lawyer Email",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "Last - Lawyer Address",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    }
+  ]
+}

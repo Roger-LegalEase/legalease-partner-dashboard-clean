@@ -1,0 +1,1478 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "emptyFactSetRender": {
+    "written": 0,
+    "refused": 151,
+    "refusedFields": [
+      {
+        "field": "1 - County",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.county"
+      },
+      {
+        "field": "2 - Your name",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "3 - Other name",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "4 - Date of birth",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.date_of_birth"
+      },
+      {
+        "field": "5 - Race",
+        "reason": "protected_category",
+        "category": "race"
+      },
+      {
+        "field": "6 - Gender",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Page 1 - Request to Expunge Records",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "7 - Case Number",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.case_number"
+      },
+      {
+        "field": "Arrest or Case Number - 1",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Arresting Agency - 1",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 1",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "Date of Arrest - 1",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Arresting Agency - 2",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 2",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 2",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arrest or Case Number - 3",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Arresting Agency - 3",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 3",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 3",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 3",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arresting Agency - 4",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 4",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 4",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 4",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arrest or Case Number - 5",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Arresting Agency - 5",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 5",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 5",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 5",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arrest or Case Number - 6",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Arresting Agency - 6",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 6",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 6",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 6",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arrest or Case Number - 7",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Arresting Agency - 7",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 8",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "List all charges for each case number - 7",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 7",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 7",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arrest or Case Number - 8",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Arresting Agency - 8",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 8",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 8",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Arrest or Case Number - 9",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Arresting Agency - 9",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 9",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 9",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 9",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arrest or Case Number - 10",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Arresting Agency - 10",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "List all charges for each case number - 10",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Date of Arrest - 10",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 10",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Page 2 - I have listed additional arrests or cases on the Additional Arrests or Cases for Expungement form",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "4 - For at least one case, I was arrested and released, and no charges were filed against me",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "5 - For at least one case, I was arrested for a minor traffic offense and released from custody without being charged",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "6ab - Checkboxes",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "7 - For at least one case, I was charged, but was later acquitted or the case was dismissed",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "8 - received a sentence of Qualified Probation and at least 5 years have passed since my Qualified Probation ended successfully",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "9 - For at least one case, I received a sentence of supervision",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "9ab - Checkboxes",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "10 - I am NOT seeking to expunge any arrests or charges that resulted in supervision",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "11 -For at least one case, I received a sentence of supervision for Reckless Driving",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "6 - For at least one case, I participated in a problem-solving court, pre-plea diversion, or post-plea diversion program",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "12 - Seal Records",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Outcome - For example RV S or P - 1",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arrest or Case Number - 2",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arrest or Case Number - 2",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 1",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - Arresting Agency - 2",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 2",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 1",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Date of Arrest - 2",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 1",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 - Outcome - 2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 - Arrest or Case Number - 1",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "4 - Arrest or Case Number - 3",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 3",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 1",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "4 - List all charges for each case number - 3",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 3",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 3",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Arrest or Case Number - 4",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arrest or Case Number - 4",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 4",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 4",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 4",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 4",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 - Arrest or Case Number - 5",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 5",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 5",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 5",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 5",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 - Arrest or Case Number - 6",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 6",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 6",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 6",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 6",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 - Arrest or Case Number - 7",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 7",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 7",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 7",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 7",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 - Arrest or Case Number - 8",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 8",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 8",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 8",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 8",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 - Arrest or Case Number - 9",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 9",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 9",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 9",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 9",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 - Arrest or Case Number - 10",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Arresting Agency - 10",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "4 - List all charges for each case number - 10",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "4 - Date of Arrest - 10",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "4 - Outcome - 10",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "4 -  I have listed additional arrests or cases on the attached Additional Arrests or Cases for Sealing form",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "15 - Asking to Seal",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "16 -",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "20 - I am not asking to seal a felony conviction for which I currently have to register on a public registry",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "21 - For at least one case, I received a Certificate of Eligibility for Sealing by the Prisoner Review Board",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "22 -  I have completed my last sentence and may now ask the court to seal eligible felony convictions because all of the following are true",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "23 -  I am eligible to seal all eligible cases upon completion of my LAST sentence because I am a trafficking victim",
+        "reason": "protected_category",
+        "category": "outside_party"
+      },
+      {
+        "field": "24 - For at least one case, I received a conviction for Reckless Driving",
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      {
+        "field": "P6 - Signature2",
+        "reason": "protected_category",
+        "category": "signature"
+      },
+      {
+        "field": "P6 - Print Name2",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "P6 - Completing this form myself checkbox2",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "P6 - Telephone2",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.phone"
+      },
+      {
+        "field": "P6 - Email2",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.email"
+      },
+      {
+        "field": "P6 - Street Address2",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.street_address"
+      },
+      {
+        "field": "P6 - Lawyer completing the form checkbox2",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "P6 - Client Name2",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "P6 - Lawyer Name2",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "P6 - Attorney Number2",
+        "reason": "protected_category",
+        "category": "attorney"
+      },
+      {
+        "field": "P6 - Lawyer Phone Number2",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "P6 - Law Firm2",
+        "reason": "protected_category",
+        "category": "attorney"
+      },
+      {
+        "field": "P6 - Lawyer Email2",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "P6 - Lawyer Address2",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "Page 2 -  Section3A",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Page 2 -  Section3b",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Page 2 -  Section3C",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Page 2 -  Section3D",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      }
+    ]
+  },
+  "refusedFields": [
+    {
+      "field": "3 - Other name",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "5 - Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "6 - Gender",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Page 1 - Request to Expunge Records",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Arresting Agency - 1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "Date of Arrest - 1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Arresting Agency - 2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest or Case Number - 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Arresting Agency - 3",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arresting Agency - 4",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest or Case Number - 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Arresting Agency - 5",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest or Case Number - 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Arresting Agency - 6",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest or Case Number - 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Arresting Agency - 7",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "List all charges for each case number - 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 7",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest or Case Number - 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Arresting Agency - 8",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 8",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Arrest or Case Number - 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Arresting Agency - 9",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 9",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest or Case Number - 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Arresting Agency - 10",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "List all charges for each case number - 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Date of Arrest - 10",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Page 2 - I have listed additional arrests or cases on the Additional Arrests or Cases for Expungement form",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "4 - For at least one case, I was arrested and released, and no charges were filed against me",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "5 - For at least one case, I was arrested for a minor traffic offense and released from custody without being charged",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "6ab - Checkboxes",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "7 - For at least one case, I was charged, but was later acquitted or the case was dismissed",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "8 - received a sentence of Qualified Probation and at least 5 years have passed since my Qualified Probation ended successfully",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "9 - For at least one case, I received a sentence of supervision",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "9ab - Checkboxes",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "10 - I am NOT seeking to expunge any arrests or charges that resulted in supervision",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "11 -For at least one case, I received a sentence of supervision for Reckless Driving",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "6 - For at least one case, I participated in a problem-solving court, pre-plea diversion, or post-plea diversion program",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "12 - Seal Records",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Outcome - For example RV S or P - 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest or Case Number - 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arrest or Case Number - 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - Arresting Agency - 2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Date of Arrest - 2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 - Outcome - 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "4 - Arrest or Case Number - 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 3",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "4 - List all charges for each case number - 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest or Case Number - 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arrest or Case Number - 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 4",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 5",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 6",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 7",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 7",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 8",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 8",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 9",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 9",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Arresting Agency - 10",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "4 - List all charges for each case number - 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "4 - Date of Arrest - 10",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "4 - Outcome - 10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "4 -  I have listed additional arrests or cases on the attached Additional Arrests or Cases for Sealing form",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "15 - Asking to Seal",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "16 -",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "20 - I am not asking to seal a felony conviction for which I currently have to register on a public registry",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "21 - For at least one case, I received a Certificate of Eligibility for Sealing by the Prisoner Review Board",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "22 -  I have completed my last sentence and may now ask the court to seal eligible felony convictions because all of the following are true",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "23 -  I am eligible to seal all eligible cases upon completion of my LAST sentence because I am a trafficking victim",
+      "reason": "protected_category",
+      "category": "outside_party"
+    },
+    {
+      "field": "24 - For at least one case, I received a conviction for Reckless Driving",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "P6 - Signature2",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "P6 - Completing this form myself checkbox2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "P6 - Lawyer completing the form checkbox2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "P6 - Client Name2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "P6 - Lawyer Name2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "P6 - Attorney Number2",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "P6 - Lawyer Phone Number2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "P6 - Law Firm2",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "P6 - Lawyer Email2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "P6 - Lawyer Address2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "Page 2 -  Section3A",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Page 2 -  Section3b",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Page 2 -  Section3C",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Page 2 -  Section3D",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    }
+  ]
+}

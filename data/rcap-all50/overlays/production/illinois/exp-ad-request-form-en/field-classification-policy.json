@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-d0",
+  "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — every field starts protected",
+  "laneAddition": "The fact is selected by D0 from the field name alone. Four further gates may then refuse it and can never write anything D0 would not: the nine-class classifier, this lane's additional deny rules (applied to the field name and to the text measured beside the widget), a refusal of any name matching more than one allowlisted descriptor unless this lane reviewed the binary, and per-field decisions authored against the printed form.",
+  "laneProtectRules": [
+    {
+      "category": "attorney",
+      "pattern": "/\\blawyer\\b|\\battorneys\\b|\\bcounsel\\b|\\bclient\\b|\\blaw\\s*firm\\b|\\bprosecutors\\b/"
+    },
+    {
+      "category": "other_name",
+      "pattern": "/\\bother\\s*name|\\balias|\\bmaiden\\b|formerly\\s*known|\\ba\\.?k\\.?a\\.?\\b|name\\s*at\\s*(the\\s*time\\s*of\\s*)?arrest|name\\s*used/"
+    },
+    {
+      "category": "court",
+      "pattern": "/\\bdivision\\b|\\bcourtroom\\b|\\bdepartment\\s*(no|num|number)\\b/"
+    },
+    {
+      "category": "court",
+      "pattern": "/judicial\\s*(district|circuit)/"
+    },
+    {
+      "category": "court",
+      "pattern": "/\\bcourt\\s*(address|street|mailing)|address\\s*of\\s*(the\\s*)?court/"
+    },
+    {
+      "category": "service_block",
+      "pattern": "/\\bthis\\s*address\\b|\\bserved\\s*at\\b|\\bmailed\\s*to\\b|\\bdelivered\\s*to\\b/"
+    }
+  ],
+  "laneFieldDecisions": {
+    "List all charges for each case number - 1": {
+      "refuse": true,
+      "why": "The column asks for the charges on the case. D0 resolves the field's name to the case number, because `case number` appears in it, so the value offered is the wrong fact for the column."
+    },
+    "4 - List all charges for each case number - 1": {
+      "refuse": true,
+      "why": "As above, in the sealing section."
+    },
+    "4 - Arrest or Case Number - 1": {
+      "refuse": true,
+      "why": "Section 4 requests sealing where section 3 requests expungement. A case belongs in one section, and choosing between them is the participant's election; listing the same case in both would request contradictory relief."
+    }
+  },
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "explicitMappings": {},
+  "explicitMappingRationale": null,
+  "laneEnforcedRefusals": [
+    "3 - Other name",
+    "List all charges for each case number - 1",
+    "4 - Arrest or Case Number - 1",
+    "4 - List all charges for each case number - 1",
+    "P6 - Client Name2",
+    "P6 - Lawyer Name2",
+    "P6 - Lawyer Phone Number2",
+    "P6 - Lawyer Email2",
+    "P6 - Lawyer Address2"
+  ]
+}

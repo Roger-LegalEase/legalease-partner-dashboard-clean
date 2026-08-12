@@ -1,0 +1,2623 @@
+{
+  "schemaVersion": "rcap-acroform-map/v5",
+  "family": "exp-ad-request-form-en",
+  "documentOwnership": "participant_completed",
+  "sha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 3,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 4,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 5,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 6,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
+  "bindings": [
+    {
+      "field": "1 - County",
+      "class": "participant",
+      "factId": "matter.county"
+    },
+    {
+      "field": "2 - Your name",
+      "class": "participant",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "4 - Date of birth",
+      "class": "participant",
+      "factId": "participant.date_of_birth"
+    },
+    {
+      "field": "7 - Case Number",
+      "class": "participant",
+      "factId": "matter.case_number"
+    },
+    {
+      "field": "Arrest or Case Number - 1",
+      "class": "participant",
+      "factId": "matter.charges[0].case_number"
+    },
+    {
+      "field": "P6 - Print Name2",
+      "class": "participant",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "P6 - Telephone2",
+      "class": "participant",
+      "factId": "participant.phone"
+    },
+    {
+      "field": "P6 - Email2",
+      "class": "participant",
+      "factId": "participant.email"
+    },
+    {
+      "field": "P6 - Street Address2",
+      "class": "participant",
+      "factId": "participant.street_address"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "3 - Other name",
+      "reason": "lane_protect_rule",
+      "category": "other_name",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "participant.full_legal_name"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Your First, Middle, and Last Name",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 609.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "5 - Race",
+      "reason": "protected_category",
+      "category": "race",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "protected",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "sed In These Cases",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 576.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "6 - Gender",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "________________________",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 576.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Page 1 - Request to Expunge Records",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "1. I am request",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 347,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 1",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "(list a",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 675,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "List all charges for each case number - 1",
+      "reason": "lane_first_hand_review_refused",
+      "category": "lane_review",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "matter.charges[0].case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": "The column asks for the charges on the case. D0 resolves the field's name to the case number, because `case number` appears in it, so the value offered is the wrong fact for the column.",
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "(list all charges for each case number)",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 675,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Date of Arrest - 1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "S",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 675,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 2",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Outcome - For example RV S or P - 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arrest or Case Number - 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "2",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 602,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 3",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Outcome - For example RV S or P - 3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arresting Agency - 4",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Outcome - For example RV S or P - 4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arrest or Case Number - 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "4",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 530,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 5",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Outcome - For example RV S or P - 5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arrest or Case Number - 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "5",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 492,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 6",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Outcome - For example RV S or P - 6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arrest or Case Number - 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "6",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 456,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 7",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Outcome - For example RV S or P - 8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 7",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Outcome - For example RV S or P - 7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arrest or Case Number - 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "7",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 420,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 8",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 8",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arrest or Case Number - 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "8",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 383,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 9",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 9",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Outcome - For example RV S or P - 9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arrest or Case Number - 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "9",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 346,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arresting Agency - 10",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "List all charges for each case number - 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date of Arrest - 10",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "v",
+        "lineAboveWidget": null,
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 346,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Outcome - For example RV S or P - 10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Page 2 - I have listed additional arrests or cases on the Additional Arrests or Cases for Expungement form",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "If you need m",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 217,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - For at least one case, I was arrested and released, and no charges were filed against me",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "5 - For at least one case, I was arrested for a minor traffic offense and released from custody without being charged",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "charges w",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 674,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "6ab - Checkboxes",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "program; AND",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 605,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "7 - For at least one case, I was charged, but was later acquitted or the case was dismissed",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "dismis",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 507,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "8 - received a sentence of Qualified Probation and at least 5 years have passed since my Qualified Probation ended successfully",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Note:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 425,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "9 - For at least one case, I received a sentence of supervision",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "This m",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 369,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "9ab - Checkboxes",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "10 - I am NOT seeking to expunge any arrests or charges that resulted in supervision",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Sectio",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 203,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "11 -For at least one case, I received a sentence of supervision for Reckless Driving",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "c.Reckless D",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 129,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "6 - For at least one case, I participated in a problem-solving court, pre-plea diversion, or post-plea diversion program",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "charg",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 635,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "12 - Seal Records",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "12.I am request",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 682,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Outcome - For example RV S or P - 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "S or P)",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 675,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Arrest or Case Number - 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "1",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 638,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arrest or Case Number - 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "1",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 451,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 1",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "(list a",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 487,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 2",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - List all charges for each case number - 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "MC,",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 487,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Date of Arrest - 2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "MC, FC, CE)",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 487,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Outcome - 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 1",
+      "reason": "lane_first_hand_review_refused",
+      "category": "lane_review",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "matter.charges[0].case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": "Section 4 requests sealing where section 3 requests expungement. A case belongs in one section, and choosing between them is the participant's election; listing the same case in both would request contradictory relief.",
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "Number",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 487,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arrest or Case Number - 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "2",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 415,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 3",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - List all charges for each case number - 1",
+      "reason": "lane_first_hand_review_refused",
+      "category": "lane_review",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "matter.charges[0].case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": "As above, in the sealing section.",
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "(list all charges for each case number)",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 487,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - List all charges for each case number - 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Arrest or Case Number - 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "3",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 566,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arrest or Case Number - 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "3",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 379,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 4",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - List all charges for each case number - 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "4",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 343,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 5",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - List all charges for each case number - 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "5",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 307,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 6",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - List all charges for each case number - 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "6",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 271,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 7",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - List all charges for each case number - 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 7",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "7",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 235,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 8",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - List all charges for each case number - 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 8",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "8",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 199,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 9",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - List all charges for each case number - 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 9",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Arrest or Case Number - 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "9",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 163,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - Arresting Agency - 10",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "s",
+        "lineAboveWidget": null,
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 163,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "4 - List all charges for each case number - 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "binderDecision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "factId": "matter.case_number"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Date of Arrest - 10",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.arrest_date"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 - Outcome - 10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "4 -  I have listed additional arrests or cases on the attached Additional Arrests or Cases for Sealing form",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "form and check the",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 50,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "15 - Asking to Seal",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "In Sections 15",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 641,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "16 -",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "17 - I received a misdemeanor conviction or ordinance violation for an offense subject to sealing and 2 years have passed since the end of my last sentence",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "2 years",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 438,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "I rec",
+        "lineAboveWidget": "19.I received a felon",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 359,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "2 years",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 332,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "end of m",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 305,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "20 - I am not asking to seal a felony conviction for which I currently have to register on a public registry",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "sente",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 266,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "21 - For at least one case, I received a Certificate of Eligibility for Sealing by the Prisoner Review Board",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Offen",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 214,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "22 -  I have completed my last sentence and may now ask the court to seal eligible felony convictions because all of the following are true",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "(Attach a",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 175,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "23 -  I am eligible to seal all eligible cases upon completion of my LAST sentence because I am a trafficking victim",
+      "reason": "protected_category",
+      "category": "outside_party",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "24 - For at least one case, I received a conviction for Reckless Driving",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Pro",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 629,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Signature2",
+      "reason": "protected_category",
+      "category": "signature",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "signature",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "/",
+        "lineAboveWidget": "are filling out this form online, sign your name by typing it. If you ",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 483,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Completing this form myself checkbox2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Signature",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 462.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Lawyer completing the form checkbox2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Be sure to",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 373.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Client Name2",
+      "reason": "lane_protect_rule",
+      "category": "attorney",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "participant.full_legal_name"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "ormation, court dates, or documents from other parties.",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 375,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Lawyer Name2",
+      "reason": "lane_protect_rule",
+      "category": "attorney",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "participant.full_legal_name"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "P6 - Attorney Number2",
+      "reason": "protected_category",
+      "category": "attorney",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "Nu",
+        "lineAboveWidget": null,
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 354,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Lawyer Phone Number2",
+      "reason": "lane_protect_rule",
+      "category": "attorney",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "participant.phone"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "mber",
+        "lineAboveWidget": "________________________________________",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 334,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Law Firm2",
+      "reason": "protected_category",
+      "category": "attorney",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "________    Attorney Number _________________ _______",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 334,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Lawyer Email2",
+      "reason": "lane_protect_rule",
+      "category": "attorney",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "participant.email"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "yer Phone Number _______________________    Law Firm __________",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 313,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "P6 - Lawyer Address2",
+      "reason": "lane_protect_rule",
+      "category": "attorney",
+      "binderDecision": {
+        "writable": true,
+        "reason": null,
+        "factId": "participant.street_address"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "Address",
+        "lineAboveWidget": "Lawyer Email  ____________________________________________",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 293,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Page 2 -  Section3A",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "or d describes your",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 116,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Page 2 -  Section3b",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "or d describes your",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 100,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Page 2 -  Section3C",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "copy of the pardo",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 70,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Page 2 -  Section3D",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "of the C",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 40,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    }
+  ],
+  "unwritableFields": [
+    {
+      "field": "5 - Race",
+      "class": "protected"
+    },
+    {
+      "field": "P6 - Signature2",
+      "class": "signature"
+    }
+  ],
+  "manualFields": [
+    "6 - Gender",
+    "Page 1 - Request to Expunge Records",
+    "Arresting Agency - 1",
+    "Arresting Agency - 2",
+    "Outcome - For example RV S or P - 2",
+    "Arresting Agency - 3",
+    "Outcome - For example RV S or P - 3",
+    "Arresting Agency - 4",
+    "Outcome - For example RV S or P - 4",
+    "Arresting Agency - 5",
+    "Outcome - For example RV S or P - 5",
+    "Arresting Agency - 6",
+    "Outcome - For example RV S or P - 6",
+    "Arresting Agency - 7",
+    "Outcome - For example RV S or P - 8",
+    "Outcome - For example RV S or P - 7",
+    "Arresting Agency - 8",
+    "Arresting Agency - 9",
+    "Outcome - For example RV S or P - 9",
+    "Arresting Agency - 10",
+    "Outcome - For example RV S or P - 10",
+    "Page 2 - I have listed additional arrests or cases on the Additional Arrests or Cases for Expungement form",
+    "6ab - Checkboxes",
+    "8 - received a sentence of Qualified Probation and at least 5 years have passed since my Qualified Probation ended successfully",
+    "9 - For at least one case, I received a sentence of supervision",
+    "9ab - Checkboxes",
+    "11 -For at least one case, I received a sentence of supervision for Reckless Driving",
+    "6 - For at least one case, I participated in a problem-solving court, pre-plea diversion, or post-plea diversion program",
+    "12 - Seal Records",
+    "Outcome - For example RV S or P - 1",
+    "4 - Arresting Agency - 1",
+    "4 - Arresting Agency - 2",
+    "4 - Outcome - 1",
+    "4 - Outcome - 2",
+    "4 - Arresting Agency - 3",
+    "4 - Outcome - 3",
+    "4 - Arresting Agency - 4",
+    "4 - Outcome - 4",
+    "4 - Arresting Agency - 5",
+    "4 - Outcome - 5",
+    "4 - Arresting Agency - 6",
+    "4 - Outcome - 6",
+    "4 - Arresting Agency - 7",
+    "4 - Outcome - 7",
+    "4 - Arresting Agency - 8",
+    "4 - Outcome - 8",
+    "4 - Arresting Agency - 9",
+    "4 - Outcome - 9",
+    "4 - Arresting Agency - 10",
+    "4 - Outcome - 10",
+    "4 -  I have listed additional arrests or cases on the attached Additional Arrests or Cases for Sealing form",
+    "15 - Asking to Seal",
+    "16 -",
+    "18 - I successfully completed a sentence under Section 10 of the Cannabis Control Act",
+    "19a - I completed a sentence of conditional discharge or probation, the sentence was not revoked, AND 2 years have passed since end of last sentence",
+    "19b - My sentence of conditional discharge or probation was revoked AND 3 years have passed since the end of my last sentence",
+    "19c - I completed an Illinois prison or jail sentence AND 3 years have passed since the end of my last sentence",
+    "20 - I am not asking to seal a felony conviction for which I currently have to register on a public registry",
+    "21 - For at least one case, I received a Certificate of Eligibility for Sealing by the Prisoner Review Board",
+    "22 -  I have completed my last sentence and may now ask the court to seal eligible felony convictions because all of the following are true",
+    "23 -  I am eligible to seal all eligible cases upon completion of my LAST sentence because I am a trafficking victim",
+    "24 - For at least one case, I received a conviction for Reckless Driving",
+    "P6 - Completing this form myself checkbox2",
+    "P6 - Lawyer completing the form checkbox2",
+    "P6 - Attorney Number2",
+    "P6 - Law Firm2",
+    "Page 2 -  Section3A",
+    "Page 2 -  Section3b",
+    "Page 2 -  Section3C",
+    "Page 2 -  Section3D"
+  ],
+  "anchorCapture": null,
+  "overflowPolicy": {
+    "longText": "shrink_to_fit_then_addendum",
+    "multiline": "wrap_within_widget_rect"
+  }
+}

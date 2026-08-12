@@ -1,0 +1,728 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "emptyFactSetRender": {
+    "written": 0,
+    "refused": 74,
+    "refusedFields": [
+      {
+        "field": "1 - County",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.county"
+      },
+      {
+        "field": "2 - Your name",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "3 - Other name",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "4 - Date of birth",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.date_of_birth"
+      },
+      {
+        "field": "5 - Race",
+        "reason": "protected_category",
+        "category": "race"
+      },
+      {
+        "field": "6 - Gender",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "arrest/case number 1",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "arrest/case number 2",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 3",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 4",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 5",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 6",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 7",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 8",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 9",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 10",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 11",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 12",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 13",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 14",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 15",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 16",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 17",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 18",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 19",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 20",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 21",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 22",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 23",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 24",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 25",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 26",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 27",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number 28",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 1",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "arrest/case number - Sealing 2",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 3",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 4",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 5",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 6",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 7",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 8",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 9",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 10",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 11",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 12",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 13",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 14",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 15",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 16",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 17",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 18",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 19",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 20",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 21",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 22",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 23",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 24",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 25",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 26",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 27",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "arrest/case number - Sealing 28",
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      {
+        "field": "Page 1 - Additional Order Form",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Page 1 - Additional Order Form2",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "7 - Case Number",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.case_number"
+      },
+      {
+        "field": "3 - Name",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "3 - Address",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "3 - Telephone",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "3 - Email",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "3 - Attorney Number",
+        "reason": "protected_category",
+        "category": "attorney"
+      },
+      {
+        "field": "Page 2 - Expungement is Granted",
+        "reason": "protected_category",
+        "category": "court"
+      },
+      {
+        "field": "Page 2 - Sealing is Granted",
+        "reason": "protected_category",
+        "category": "court"
+      },
+      {
+        "field": "Judge's Name",
+        "reason": "protected_category",
+        "category": "court"
+      },
+      {
+        "field": "Entered Date",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      }
+    ]
+  },
+  "refusedFields": [
+    {
+      "field": "3 - Other name",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "5 - Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "6 - Gender",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "arrest/case number 1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "arrest/case number 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 11",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 12",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 13",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 14",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 15",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 16",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 17",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 18",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 19",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 20",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 21",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 22",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 23",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 24",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 25",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 26",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 27",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number 28",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "arrest/case number - Sealing 2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 11",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 12",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 13",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 14",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 15",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 16",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 17",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 18",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 19",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 20",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 21",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 22",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 23",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 24",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 25",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 26",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 27",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "arrest/case number - Sealing 28",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "Page 1 - Additional Order Form",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Page 1 - Additional Order Form2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "3 - Address",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "3 - Telephone",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "3 - Email",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "3 - Attorney Number",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "Page 2 - Expungement is Granted",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "Page 2 - Sealing is Granted",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "Judge's Name",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "Entered Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    }
+  ]
+}

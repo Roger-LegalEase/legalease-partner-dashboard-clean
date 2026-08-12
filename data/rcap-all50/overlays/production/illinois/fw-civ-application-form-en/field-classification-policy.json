@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-d0",
+  "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — every field starts protected",
+  "laneAddition": "The fact is selected by D0 from the field name alone. Four further gates may then refuse it and can never write anything D0 would not: the nine-class classifier, this lane's additional deny rules (applied to the field name and to the text measured beside the widget), a refusal of any name matching more than one allowlisted descriptor unless this lane reviewed the binary, and per-field decisions authored against the printed form.",
+  "laneProtectRules": [
+    {
+      "category": "attorney",
+      "pattern": "/\\blawyer\\b|\\battorneys\\b|\\bcounsel\\b|\\bclient\\b|\\blaw\\s*firm\\b|\\bprosecutors\\b/"
+    },
+    {
+      "category": "other_name",
+      "pattern": "/\\bother\\s*name|\\balias|\\bmaiden\\b|formerly\\s*known|\\ba\\.?k\\.?a\\.?\\b|name\\s*at\\s*(the\\s*time\\s*of\\s*)?arrest|name\\s*used/"
+    },
+    {
+      "category": "court",
+      "pattern": "/\\bdivision\\b|\\bcourtroom\\b|\\bdepartment\\s*(no|num|number)\\b/"
+    },
+    {
+      "category": "court",
+      "pattern": "/judicial\\s*(district|circuit)/"
+    },
+    {
+      "category": "court",
+      "pattern": "/\\bcourt\\s*(address|street|mailing)|address\\s*of\\s*(the\\s*)?court/"
+    },
+    {
+      "category": "service_block",
+      "pattern": "/\\bthis\\s*address\\b|\\bserved\\s*at\\b|\\bmailed\\s*to\\b|\\bdelivered\\s*to\\b/"
+    }
+  ],
+  "laneFieldDecisions": {
+    "2 - Plaintiff/Petitioner or In RE": {
+      "refuse": true,
+      "why": "Which side of the caption the participant occupies depends on the case the waiver is filed in, and this form does not say. The applicant is named unambiguously at `6 - Your Name`, which is bound."
+    },
+    "3 - Defendant/Respondent": {
+      "refuse": true,
+      "why": "The opposing party box. Same reason: the caption's alignment is not determinable from this form, and filling both boxes with one name would name the participant on both sides."
+    }
+  },
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "explicitMappings": {},
+  "explicitMappingRationale": null,
+  "laneEnforcedRefusals": [
+    "2 - Plaintiff/Petitioner or In RE",
+    "3 - Defendant/Respondent",
+    "Last - Client Name",
+    "Last - Lawyer Name",
+    "Last - Lawyer Phone Number",
+    "Last - Lawyer Email",
+    "Last - Lawyer Address"
+  ]
+}
