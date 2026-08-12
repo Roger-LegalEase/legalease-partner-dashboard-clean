@@ -3,7 +3,10 @@
   "auditedAt": "2026-08-12",
   "auditorRole": "orchestrator, independent of every implementation lane",
   "d0Base": "03c14f985beda55596b894686bf70833e44a8f5b",
-  "laneBaseAncestry": { "lanesChecked": 7, "allDescendFromD0Base": true },
+  "laneBaseAncestry": {
+    "lanesChecked": 7,
+    "allDescendFromD0Base": true
+  },
   "pathOwnership": {
     "lanesChecked": 7,
     "filesOutsideOwnedPaths": 0,
@@ -23,11 +26,22 @@
     "note": "MO:gn10-source-gated-motion-en initially appeared unmatched because the audit indexed only PDFs; its source is a real .docx in the pack carrying exactly the recorded hash, and the lane recorded it as docx_not_pdf with no fill produced."
   },
   "activeContentScan": {
-    "artifactsOpenedFromCommittedBlobs": 456,
-    "cleanOfActiveContent": 456,
-    "withResidue": 0,
-    "unreadable": 0,
-    "coverage": "every finalized fixture and every contact sheet across all seven lanes"
+    "correctedAfterShard0Review": true,
+    "finalizedFilingArtifacts": {
+      "opened": 320,
+      "inspectable": 320,
+      "withResidue": 0,
+      "verdict": "verified clean \u2014 these are the documents that would actually be filed"
+    },
+    "contactSheets": {
+      "opened": 136,
+      "inspectable": 0,
+      "notInspectable": 136,
+      "verdict": "NOT VERIFIED. Every contact sheet is saved with object streams, so scanBytesForActiveContent cannot see into it and returns hits:[] with inspectable:false."
+    },
+    "supersededClaim": "An earlier run of this audit reported 456/456 artifacts clean. That number counted the 136 contact sheets as clean when their verdict was in fact unavailable. The finalized-artifact half of the claim stands; the contact-sheet half did not.",
+    "rootCause": "buildContactSheet in the D0 factory never scans its output, and scanBytesForActiveContent's inspectable:false is not enforced by callers, so an unverifiable result reads as a clean one. Independent review shard 0 re-serialized the sheets without object streams and found real /AA and /JS widget objects in 20 of the 44 sheets it inspected, copied in by embedPdf from the blank source.",
+    "owner": "D0 shared factory"
   },
   "f3ContactSheetDefect": {
     "canonicalArtifactsChecked": 137,
