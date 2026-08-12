@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-two-gate",
+  "lane": "D2B",
+  "factoryVersion": "d0-remediated-v1",
+  "gates": [
+    {
+      "order": 1,
+      "gate": "D0 typed fail-closed binder",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "note": "Never bypassed, never weakened. Every field starts protected."
+    },
+    {
+      "order": 2,
+      "gate": "lane D2B reviewed mapping table",
+      "note": "A field D0 would write is written only when this lane's table names the exact fact it carries. The table can only subtract."
+    }
+  ],
+  "reviewedFields": {},
+  "heldFields": {},
+  "explicitMappings": {},
+  "captionOnly": false,
+  "documentAcceptsFill": true,
+  "neverWriteCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing"
+  ]
+}

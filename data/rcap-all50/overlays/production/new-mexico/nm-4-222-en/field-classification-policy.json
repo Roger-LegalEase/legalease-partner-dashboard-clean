@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-two-gate",
+  "lane": "D2B",
+  "factoryVersion": "d0-remediated-v1",
+  "gates": [
+    {
+      "order": 1,
+      "gate": "D0 typed fail-closed binder",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "note": "Never bypassed, never weakened. Every field starts protected."
+    },
+    {
+      "order": 2,
+      "gate": "lane D2B reviewed mapping table",
+      "note": "A field D0 would write is written only when this lane's table names the exact fact it carries. The table can only subtract."
+    }
+  ],
+  "reviewedFields": {
+    "COUNTY OF": "matter.county",
+    "Petitioner": "participant.full_legal_name",
+    "Print Name": "participant.full_legal_name",
+    "Street Address": "participant.street_address",
+    "City State Zip Code": "participant.city_state_zip",
+    "Telephone": "participant.phone"
+  },
+  "heldFields": {
+    "STATE OF NEW MEXICO": "pre-printed jurisdiction line, not a blank",
+    "SIXTH JUDICIAL DISTRICT COURT": "pre-printed court line, not a blank",
+    "State of": "notary jurat block",
+    "County of": "notary jurat block",
+    "County please": "unverified blank",
+    "name of applicant": "sits inside the notary jurat recital",
+    "Name 1": "financial-disclosure block of unverified meaning",
+    "Name 2": "financial-disclosure block of unverified meaning",
+    "Address": "page 5 block of unverified ownership",
+    "City State Zip Code_2": "page 5 block of unverified ownership",
+    "TelephoneFax Number": "composite telephone-and-fax blank",
+    "My employers name address and phone number is 1": "employer is an outside party",
+    "My employers name address and phone number is 2": "employer is an outside party",
+    "My employers name address and phone number is 3": "employer is an outside party",
+    "My spouses employers name address and phone number is 1": "outside party",
+    "My spouses employers name address and phone number is 2": "outside party",
+    "My spouses employers name address and phone number is 3": "outside party"
+  },
+  "explicitMappings": {},
+  "captionOnly": false,
+  "documentAcceptsFill": true,
+  "neverWriteCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing"
+  ]
+}

@@ -155,8 +155,9 @@ export const REVIEWED_ANCHOR_RULES = [
   {
     factId: "matter.county",
     before: /^(\d{1,2}\s+)?COUNTY OF:?$/i,
+    firstBlankOnLine: true,
     bindLabel: "COUNTY OF",
-    note: "Caption county of filing. The only county blank in the caption block."
+    note: "Caption county of filing. Required to be the first blank on its line, which is what separates the caption's 'COUNTY OF ____' from a notary jurat's 'STATE OF ____ COUNTY OF ____' -- the New Mexico DPS release prints exactly that jurat, and its county blank must stay blank."
   },
   {
     factId: "participant.full_legal_name",
@@ -232,7 +233,8 @@ export const REVIEWED_ANCHOR_REFUSALS = [
   { match: /insert agency name|arresting agency|Law Enforcement Agency/i, reason: "agency_field" },
   { match: /Case name|Court case name|Name of Court/i, reason: "caption_style_field_not_verified_first_hand_for_this_family" },
   { match: /Name of actual offender/i, reason: "outside_party" },
-  { match: /Date of filing/i, reason: "filing_date_is_stamped_by_the_clerk_on_these_forms" }
+  { match: /Date of filing/i, reason: "filing_date_is_stamped_by_the_clerk_on_these_forms" },
+  { match: /sworn|notar|commission expires|\bseal\b|subscribed/i, reason: "notary_jurat_block" }
 ];
 
 // --- per-family reviewed configuration --------------------------------------
@@ -729,6 +731,11 @@ function discoverBlanks(pdfDoc, { minGapWidth = 40, minRuleWidth = 18 } = {}) {
           width: Number(width.toFixed(2)),
           labelBefore: textBetween(prev ? prev.to : 0, seg.from),
           labelAfter: textBetween(seg.to, next ? next.from : chars.length),
+          blankIndexOnLine: segIndex,
+          blanksOnLine: kept.length,
+          // Distance to the baseline above, measured off this page. A write box
+          // is capped by it so a value never reaches into the line above.
+          pitchAbove: lineIndex > 0 ? Number((lines[lineIndex - 1].y - line.y).toFixed(2)) : null,
           lineText: line.text
         });
       });
@@ -766,7 +773,10 @@ function reviewAnchors(pdfDoc, blanks) {
       continue;
     }
 
-    const declined = REVIEWED_ANCHOR_REFUSALS.find((r) => r.match.test(bothSides));
+    // Refusal patterns are tested against the whole line as well as the two
+    // immediate labels. A jurat names itself a line or two away from the blank
+    // it governs, and refusing on that evidence only ever subtracts a write.
+    const declined = REVIEWED_ANCHOR_REFUSALS.find((r) => r.match.test(bothSides) || r.match.test(blank.lineText));
     if (declined) {
       refusals.push({ ...blankRef(blank), reason: declined.reason, detail: declined.detail ?? null });
       continue;
@@ -775,6 +785,7 @@ function reviewAnchors(pdfDoc, blanks) {
     const rule = REVIEWED_ANCHOR_RULES.find((r) => {
       if (r.before && !r.before.test(blank.labelBefore)) return false;
       if (r.after && !r.after.test(blank.labelAfter)) return false;
+      if (r.firstBlankOnLine && blank.blankIndexOnLine !== 0) return false;
       if (r.captionRoleWithin) {
         const below = linesBelow(pdfDoc, blank.page, blank.lineIndex, r.captionRoleWithin);
         if (!below.some((t) => /^\s*(\d{1,2}\s+)?Petitioner\.?\s*$/i.test(t))) return false;
@@ -796,19 +807,24 @@ function reviewAnchors(pdfDoc, blanks) {
     }
 
     // Values are drawn with the factory's own embedded Helvetica, so the write
-    // box is sized from the measured blank and the line's own font size.
+    // box is sized from the measured blank and the line's own font size. Its
+    // height is capped by the measured distance to the baseline above: a taller
+    // box overlaps the line above, which the placement check catches and which
+    // is a real defect on tightly-led forms like the San Juan packet.
     const inset = blank.kind === "printed_rule" ? 1.5 : 2;
+    const size = blank.fontSize || 11;
+    const ceiling = blank.pitchAbove ? blank.pitchAbove - 0.5 : size + 3;
     takenByFact.add(key);
     anchors.push({
       page: blank.page,
       label: rule.bindLabel,
       factId: rule.factId,
-      fontSize: Math.min(blank.fontSize || 11, 11),
+      fontSize: Math.min(size, 11),
       writeBox: {
         x: Number((blank.x + inset).toFixed(2)),
-        y: Number((blank.baselineY + 1.5).toFixed(2)),
+        y: Number(blank.baselineY.toFixed(2)),
         width: Number((blank.width - inset * 2).toFixed(2)),
-        height: Number(((blank.fontSize || 11) * 1.25).toFixed(2))
+        height: Number(Math.max(size + 1.2, Math.min(size + 3, ceiling)).toFixed(2))
       },
       evidence: {
         blankKind: blank.kind,
@@ -829,7 +845,9 @@ function reviewAnchors(pdfDoc, blanks) {
 
 const blankRef = (b) => ({
   page: b.page, kind: b.kind, x: b.x, width: b.width,
-  labelBefore: b.labelBefore, labelAfter: b.labelAfter
+  labelBefore: b.labelBefore, labelAfter: b.labelAfter,
+  blankIndexOnLine: b.blankIndexOnLine, blanksOnLine: b.blanksOnLine,
+  lineText: b.lineText
 });
 
 // --- classification ----------------------------------------------------------
@@ -1009,6 +1027,38 @@ async function buildFamily({ state, record, config, bytes, familyDir, profileFin
         }
       }
     }
+  }
+
+  // 21 -- no two values may be drawn into the same place, and no fact may be
+  // drawn twice on one page. Both are checked geometrically against the boxes
+  // the values were actually written into rather than asserted.
+  const placement = [];
+  if (renderable) {
+    const written = new Set(rendered.canonical.report.written.map((w) => w.field ?? w.anchor));
+    const boxes = mapKind === "acroform"
+      ? census.filter((f) => written.has(f.name)).flatMap((f) => f.widgets.map((w) => ({ id: f.name, page: w.page, ...w.rect })))
+      : anchors.filter((a) => written.has(a.label)).map((a) => ({ id: a.label, page: a.page, ...a.writeBox }));
+    for (let i = 0; i < boxes.length; i += 1) {
+      for (let j = i + 1; j < boxes.length; j += 1) {
+        const a = boxes[i]; const b = boxes[j];
+        if (a.page !== b.page) continue;
+        const overlaps = a.x < b.x + b.width && b.x < a.x + a.width
+          && a.y < b.y + b.height && b.y < a.y + a.height;
+        if (overlaps) placement.push({ check: "write_boxes_overlap", page: a.page, a: a.id, b: b.id });
+      }
+    }
+    const perPageFact = new Map();
+    for (const w of rendered.canonical.report.written) {
+      const target = mapKind === "acroform"
+        ? census.find((f) => f.name === w.field)?.widgets?.[0]?.page
+        : anchors.find((a) => a.label === w.anchor)?.page;
+      const key = `${target}:${w.factId}`;
+      if (perPageFact.has(key) && mapKind === "flat_overlay") {
+        placement.push({ check: "fact_written_twice_on_one_page", page: target, factId: w.factId });
+      }
+      perPageFact.set(key, true);
+    }
+    for (const p of placement) findings.push({ ...p, severity: "blocker" });
   }
 
   // 20 / 26 -- the negative fixture must write nothing, and the canonical one
@@ -1320,7 +1370,13 @@ async function buildFamily({ state, record, config, bytes, familyDir, profileFin
     readableFloor: MIN_READABLE_FONT_SIZE,
     unfittableCount,
     findings: overflow,
-    assertion: "No value is drawn below the readable floor. A value that cannot fit is left blank and reported, so clipping, overlap and truncation cannot occur by construction."
+    placement: {
+      checked: renderable,
+      overlappingWriteBoxes: placement.filter((p) => p.check === "write_boxes_overlap").length,
+      factsWrittenTwiceOnOnePage: placement.filter((p) => p.check === "fact_written_twice_on_one_page").length,
+      detail: placement
+    },
+    assertion: "No value is drawn below the readable floor: a value that cannot fit is left blank and reported, so clipping and truncation cannot occur. Every pair of write boxes on a page was compared for intersection, and no fact is drawn twice on one page, so overlap and duplication are checked rather than assumed."
   });
 
   writeJson(path.join(familyDir, "fixtures/negative.json"), {
@@ -1579,7 +1635,11 @@ async function buildState(state) {
   const pdfRecords = records.filter((r) => r.canonical_relative_path.toLowerCase().endsWith(".pdf"));
   const fidelity = profileFidelity(state.code, state.profile, pdfRecords);
 
+  // Rebuilt from scratch each run. A family that stops binding must stop
+  // shipping a fixture too: a stale canonical-filled.pdf left behind by an
+  // earlier pass is an artifact nothing in this package still stands behind.
   const outDir = path.join(OUT_ROOT, state.slug);
+  fs.rmSync(outDir, { recursive: true, force: true });
   fs.mkdirSync(outDir, { recursive: true });
 
   const families = [];

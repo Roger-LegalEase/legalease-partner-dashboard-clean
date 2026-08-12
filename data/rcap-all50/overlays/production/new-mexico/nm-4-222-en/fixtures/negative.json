@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v3",
+  "assertion": "With no participant facts supplied the renderer writes nothing. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "rendered": true,
+  "valuesWritten": 0,
+  "refusals": [
+    {
+      "field": "COUNTY OF",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.county"
+    },
+    {
+      "field": "Petitioner",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "Print Name",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "Street Address",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "City State Zip Code",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.city_state_zip"
+    },
+    {
+      "field": "Telephone",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.phone"
+    }
+  ],
+  "unwritableFields": [
+    {
+      "field": "Signature",
+      "class": "protected"
+    },
+    {
+      "field": "Notary",
+      "class": "protected"
+    },
+    {
+      "field": "My commission expires",
+      "class": "protected"
+    },
+    {
+      "field": "Name of attorney",
+      "class": "protected"
+    },
+    {
+      "field": "Name of applicant that I shall pay to the court clerk from such",
+      "class": "protected"
+    },
+    {
+      "field": "Attorney Signature",
+      "class": "protected"
+    }
+  ]
+}

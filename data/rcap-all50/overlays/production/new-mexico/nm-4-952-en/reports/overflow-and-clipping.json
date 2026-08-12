@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-overflow-report/v2",
+  "boundaryFixtureApplied": true,
+  "readableFloor": 6,
+  "unfittableCount": 3,
+  "findings": [
+    {
+      "fixture": "boundary",
+      "field": "COUNTY OF",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 143.6,
+      "requiredHeightAtMin": null,
+      "handling": "left blank for a human rather than stamped illegibly"
+    },
+    {
+      "fixture": "boundary",
+      "field": "In re Petitioner",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6,
+      "requiredHeightAtMin": null,
+      "handling": "left blank for a human rather than stamped illegibly"
+    },
+    {
+      "fixture": "boundary",
+      "field": "City:",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 134,
+      "requiredHeightAtMin": null,
+      "handling": "left blank for a human rather than stamped illegibly"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Current Mailing Address:",
+      "check": "shrink_to_fit_applied",
+      "fontSize": 8.5,
+      "lines": 1
+    },
+    {
+      "fixture": "boundary",
+      "field": "District Court case number(s):",
+      "check": "shrink_to_fit_applied",
+      "fontSize": 8,
+      "lines": 1
+    }
+  ],
+  "placement": {
+    "checked": true,
+    "overlappingWriteBoxes": 0,
+    "factsWrittenTwiceOnOnePage": 0,
+    "detail": []
+  },
+  "assertion": "No value is drawn below the readable floor: a value that cannot fit is left blank and reported, so clipping and truncation cannot occur. Every pair of write boxes on a page was compared for intersection, and no fact is drawn twice on one page, so overlap and duplication are checked rather than assumed."
+}
