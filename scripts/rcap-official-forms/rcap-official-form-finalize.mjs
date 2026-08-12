@@ -10,7 +10,7 @@ import { createRequire } from "node:module";
 import crypto from "node:crypto";
 import { decideBinding, resolveFact, valueMatchesType } from "./rcap-field-semantics.mjs";
 import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
-import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
+import { sanitizeAndFlatten, assertInspectableAndClean, ensureDefaultAppearances } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFDropdown, StandardFonts, rgb } = require("pdf-lib");
@@ -95,10 +95,9 @@ export async function finalizeFlatOverlay({
   clean.setCreationDate(DETERMINISTIC_STAMP);
   clean.setModificationDate(DETERMINISTIC_STAMP);
   const bytes = await clean.save({ useObjectStreams: false });
-  const residue = scanBytesForActiveContent(bytes);
-  if (!residue.inspectable) throw new Error("finalized overlay is not byte-inspectable");
-  if (residue.hits.length > 0) throw new Error(`refusing to emit: active-content residue remains: ${residue.hits.join(", ")}`);
-  report.activeContentScan = residue;
+  // Both failure modes raise a typed refusal naming this artifact. An
+  // uninspectable file is never treated as a clean one.
+  report.activeContentScan = assertInspectableAndClean(bytes, title ?? "finalized flat overlay");
   report.outputSha256 = crypto.createHash("sha256").update(bytes).digest("hex");
   report.outputBytes = bytes.length;
   return { bytes, report };
@@ -237,8 +236,25 @@ export async function finalizeOfficialForm({
     report.expectedValues.push(text);
   }
 
-  const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, { defaultFont: helvetica });
+  // The names actually written, so the sanitizer can report a value that landed
+  // in a widget the form does not print rather than letting it vanish quietly.
+  const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, {
+    defaultFont: helvetica,
+    writtenFieldNames: new Set(report.written.map((w) => w.field))
+  });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
+  // A written value inside a non-printing widget is a real collision: the form
+  // says the field does not appear on a printed copy, so the value is not in
+  // the artifact. It is surfaced as a refusal so the lane sees it.
+  for (const conflict of sanitation.writtenValuesInNonPrintingWidgets ?? []) {
+    report.refused.push({
+      field: conflict.field,
+      reason: "written_value_in_non_printing_widget",
+      category: "print_flags",
+      flags: conflict.flags,
+      detail: conflict.reason
+    });
+  }
 
   clean.setProducer("LegalEase RCAP official-form factory (pdf-lib)");
   clean.setCreator("LegalEase RCAP");
@@ -250,14 +266,9 @@ export async function finalizeOfficialForm({
   // into the file it is judging.
   const bytes = await clean.save({ useObjectStreams: false });
 
-  const residue = scanBytesForActiveContent(bytes);
-  if (!residue.inspectable) {
-    throw new Error("finalized artifact is not byte-inspectable: object streams would hide active-content residue");
-  }
-  if (residue.hits.length > 0) {
-    throw new Error(`refusing to emit: active-content residue remains: ${residue.hits.join(", ")}`);
-  }
-  report.activeContentScan = residue;
+  // The single gate. There is one way to pass -- an inspectable file with no
+  // residue -- and each failure raises a typed refusal naming this artifact.
+  report.activeContentScan = assertInspectableAndClean(bytes, title ?? "finalized official form");
   report.outputSha256 = crypto.createHash("sha256").update(bytes).digest("hex");
   report.outputBytes = bytes.length;
   return { bytes, report };
