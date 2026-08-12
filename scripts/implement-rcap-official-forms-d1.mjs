@@ -33,6 +33,12 @@ const SRC = process.env.RCAP_BUNDLE_EXTRACT
 const OUT = path.join(rootDir, "data/rcap-all50/overlays/production");
 const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 
+// pdf-lib stamps a fresh ModDate on every save, which would make each run
+// produce byte-different fixtures and turn any drift check into noise. Pinning
+// it makes a re-render reproducible: identical inputs give identical bytes.
+const RENDER_DATE = new Date("2026-08-12T00:00:00.000Z");
+const stamp = (doc) => { doc.setModificationDate(RENDER_DATE); return doc; };
+
 // --- name normalization -----------------------------------------------------
 // Field names in this corpus arrive in at least four conventions: camelCase
 // (`caseNo`), dotted paths (`Def.Address.City`), PascalCase (`PetitionerName`)
@@ -504,7 +510,7 @@ for (const fam of index.families) {
         dp[a.page - 1].drawText(text, { x: a.writeBox.x, y: a.writeBox.y, size, font, color: rgb(0, 0, 0.55) });
         n++;
       }
-      const out = await d.save();
+      const out = await stamp(d).save();
       fs.writeFileSync(path.join(familyDir, "fixtures", `${label}-filled.pdf`), out);
       rendered[label] = out;
       if (label === "canonical") filled = n;
@@ -515,6 +521,7 @@ for (const fam of index.families) {
       unwritableAnchorLabels: [] }, null, 2) + "\n");
     try {
       const sheet = await PDFDocument.create();
+      sheet.setCreationDate(RENDER_DATE);
       const font = await sheet.embedFont(StandardFonts.Helvetica);
       const n = (await PDFDocument.load(bytes, { ignoreEncryption: true })).getPageCount();
       for (let i = 0; i < n; i++) {
@@ -528,7 +535,7 @@ for (const fam of index.families) {
         page.drawPage(fp, { x: margin + W * scale + gap, y: margin, xScale: scale, yScale: scale });
       }
       fs.mkdirSync(path.join(familyDir, "contact-sheet"), { recursive: true });
-      fs.writeFileSync(path.join(familyDir, "contact-sheet", "blank-vs-filled.pdf"), await sheet.save());
+      fs.writeFileSync(path.join(familyDir, "contact-sheet", "blank-vs-filled.pdf"), await stamp(sheet).save());
       contactSheet = true;
     } catch (e) { findings.push({ check: "contact_sheet_error", message: e.message }); }
   }
@@ -572,7 +579,7 @@ for (const fam of index.families) {
           }
         } catch (e) { findings.push({ fixture: label, field: b.field, check: "fill_error", message: e.message }); }
       }
-      const out = await d.save();
+      const out = await stamp(d).save();
       fs.writeFileSync(path.join(familyDir, "fixtures", `${label}-filled.pdf`), out);
       rendered[label] = out;
       if (label === "canonical") filled = n;
@@ -586,6 +593,7 @@ for (const fam of index.families) {
     // Contact sheet: blank page beside filled page, from the real documents.
     try {
       const sheet = await PDFDocument.create();
+      sheet.setCreationDate(RENDER_DATE);
       const font = await sheet.embedFont(StandardFonts.Helvetica);
       const blankDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
       const filledDoc = await PDFDocument.load(rendered.canonical, { ignoreEncryption: true });
@@ -601,7 +609,7 @@ for (const fam of index.families) {
         page.drawPage(fp, { x: margin + W * scale + gap, y: margin, xScale: scale, yScale: scale });
       }
       fs.mkdirSync(path.join(familyDir, "contact-sheet"), { recursive: true });
-      fs.writeFileSync(path.join(familyDir, "contact-sheet", "blank-vs-filled.pdf"), await sheet.save());
+      fs.writeFileSync(path.join(familyDir, "contact-sheet", "blank-vs-filled.pdf"), await stamp(sheet).save());
       contactSheet = true;
     } catch (e) { findings.push({ check: "contact_sheet_error", message: e.message }); }
   }
@@ -653,6 +661,22 @@ for (const fam of index.families) {
       pass: written.length === 0 && placeholders.length === 0 }, null, 2) + "\n");
     if (written.length || placeholders.length) findings.push({ check: "protected_or_placeholder_violation", written, placeholders });
   }
+
+  // Hash receipt for every rendered artifact, so a later drift is detectable
+  // without re-deriving the render.
+  const renderedArtifacts = {};
+  for (const rel of ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"]) {
+    const p2 = path.join(familyDir, rel);
+    if (!fs.existsSync(p2)) continue;
+    const buf = fs.readFileSync(p2);
+    renderedArtifacts[rel] = { sha256: crypto.createHash("sha256").update(buf).digest("hex"), bytes: buf.length };
+  }
+  fs.writeFileSync(path.join(familyDir, "reports/rendered-artifacts.json"), JSON.stringify({
+    schemaVersion: "rcap-rendered-artifacts/v1",
+    sourceSha256: sha,
+    renderer: "scripts/implement-rcap-official-forms-d1.mjs",
+    reproducible: "Modification dates are pinned, so re-rendering from the same source binary reproduces these hashes byte for byte.",
+    artifacts: renderedArtifacts }, null, 2) + "\n");
 
   record.documentOwnership = ownership;
   record.participantFillable = !noFill;

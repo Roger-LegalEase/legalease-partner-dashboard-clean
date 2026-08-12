@@ -258,6 +258,21 @@ if (fs.existsSync(indexPath)) {
         }
       }
     }
+    // Rendered artifacts are byte-reproducible, so their recorded hashes are
+    // enforceable: a fixture edited by hand, or re-rendered from a different
+    // source binary, goes red here.
+    const receiptPath = path.join(dir, "reports/rendered-artifacts.json");
+    if (fs.existsSync(receiptPath)) {
+      const receipt = readJson(receiptPath);
+      assert(receipt.sourceSha256 === record.sha256, `${id}: render receipt pinned to the source record's sha256`);
+      for (const [rel, meta] of Object.entries(receipt.artifacts ?? {})) {
+        const p3 = path.join(dir, rel);
+        assert(fs.existsSync(p3), `${id}: recorded artifact ${rel} exists`);
+        if (!fs.existsSync(p3)) continue;
+        assert(sha256File(p3) === meta.sha256, `${id}: ${rel} matches its recorded hash (drift red)`);
+      }
+    }
+
     const scanPath = path.join(dir, "reports/protected-fields-scan.json");
     if (fs.existsSync(scanPath)) {
       const scan = readJson(scanPath);
