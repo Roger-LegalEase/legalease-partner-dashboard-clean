@@ -173,25 +173,104 @@ instructions, and requires a dependency naming `kind`, `statement`,
 `exactMissingSource` and `barsDraftingBecause` — plus `form`, `issuingBody` and
 `publishedWhere` for an `official_form_dependency`.
 
+## Repair wave: the two-tier contract is gone
+
+The lane C captain's cross-branch audit found that this lane's negative fixtures
+did not declare `expectedSignals`, and that ND, OH and OK carried no
+`sourceSilences` at all. Both gaps are now closed and the follow-ups recorded
+below as "carried findings for other owners" are done rather than handed on.
+
+**`expectedSignals` is now the binding declaration, on every negative fixture in
+the lane.** The old `expectedSignal` plus `alsoExpectedSignals` pair was
+advisory and, in practice, wrong: every fixture that used it omitted
+`otn_rendered` and `judge_rendered`, both of which fire. `expectedSignals` names
+each signal, its class, the violation that trips it, and the counsel flag from
+that track's own packet the violation breaks. The verifier checks it in **both**
+directions — a declared signal that stops firing fails, and a signal that fires
+undeclared fails — so the fixture is locked against drift either way. Each list
+was derived by rendering the fixture and recording what fired, never by hand.
+
+**ND, OH and OK are re-authored and now sit in `STRICT_NEGATIVE_SLUGS` with
+everyone else.** Their fixtures previously asserted a prohibited relief term and
+nothing else, which is precisely the proof lane C1 says is worthless. They now
+embed concrete violations of each track's own rules — the § 2953.32 discretionary
+weighing converted into findings already made, the § 19a identity-theft
+determination the packet says ends self-help when disputed, the Chapter 12-60.1
+sealing factors that must be proved by clear and convincing evidence — plus
+fabricated hearings, fees, prosecutor positions, completed service and populated
+protected fields. Their original vocabulary violation is kept, so they are now
+rejected on both axes. All ten drafted tracks trip the same ten signals.
+
+The OH verification fidelity gap is closed: the counsel flag now carries the
+silence note in full rather than dropping its closing direction.
+
+**A null config value is now admissible only where a `sourceSilences` entry names
+that exact field.** This is finding 2 enforced from the other side — previously
+only `verificationStatute.citation` was checked, so `serviceNote: null` passed
+unrecorded on every track. The remedy for an uncovered null is always to record
+the silence; never to fill the field.
+
+**Silence flags may route through `counselNotes` only for a frozen runtime
+config.** The three ND tracks must equal `ndConvictionSealingConfig` byte for
+byte, so a flag cannot be added to `config.counselFlags` without becoming the
+fork that check forbids. Those entries declare `counselFlagChannel:
+"counselNotes"` and record why; the verifier admits that channel only where
+`runtimePreexisting` is genuinely present, the reason is recorded, and the flag
+appears verbatim in `counselNotes`.
+
+**Blocked tracks record why they have no negative fixture.** Eleven tracks have
+no drafted component, so there is no render a fixture could assert against and
+authoring one would mean drafting the pleading the dependency bars. That was
+previously left to be inferred from an empty directory — indistinguishable from
+an oversight. `negativeFixtureDisposition` now states it and carries the
+dependency's own `exactMissingSource` as the condition to revisit.
+
+**A false positive in the scanner is fixed.** `service_completion_asserted` fired
+on ND's blank-form certificate of service — *"I certify that on ____________, I
+served a copy of this Petition"* — where the unfilled blank is itself proof that
+nothing has been served. It fired on all four ND fixtures, including the
+production ones, which is why ND could not join the strict set. The exemption is
+narrow: only that signal, only on lines carrying a fill-in rule. A fabricated
+"was duly served on 03/01/2026" carries no blank and still fires. ND is the only
+C3 track that draws a certificate of service, which is why this stayed invisible.
+
+**Escaped-value gate (lane C1 runtime defect).** The shared renderer substitutes
+`presentation` as a whole or not at all
+(`custom-pleading-renderer.ts:168`), so a field-level null reaches the caption
+verbatim and prints the literal string `null` in a document meant for filing —
+see `runtime-defect-null-presentation.md` on
+`claude/rcap-terminalize-c-pleadings`. The verifier now fails on a standalone
+`null`, `undefined` or `NaN` in any rendered text or committed `canonical.txt`
+unless the track declares `runtimeDefects: ["renderer-null-presentation"]`.
+
+**No C3 track is currently affected.** Every rendered artifact on this branch is
+clean and no track declares the defect — no C3 config sets any `presentation`
+field to null, which is why the 18 documents lane C found have no counterpart
+here. The gate is a forward regression lock, not a record of live exposure. Do
+**not** discharge it by filling a config: the null is usually correct and sourced
+(an ex parte caption genuinely has no sovereign party), and the fix is Terminal
+A's because `src/**` is frozen for this lane.
+
+All thirteen new rules were mutation-tested: each was made to fail by violating
+it, and each produced its own error rather than passing silently.
+
 ## Carried findings for other owners
 
-**OH `oh_2953_32_sealing` has a small fidelity gap I could not fix.** Its
-`verificationStatute.citation` is null and the note reads: *"The applicant signs
-the application; notarization is not identified by the source and local practice
-may require it. Confirm any verification requirement with the clerk of the
-sentencing court."* The counsel flag carries only the first sentence, dropping
-"Confirm any verification requirement with the clerk of the sentencing court."
+**The renderer null-presentation defect is Terminal A's.** C3 is clean today, but
+the gate above will start failing the moment a track legitimately needs a null
+`presentation` field — which is exactly what an ex parte caption needs. Until the
+renderer gives the party fields the `?? default` treatment `reliefActionVerb`
+already gets at `:386`, or suppresses the sovereign-party block on a null, any
+such track must ship declaring the defect.
 
-Ohio is outside this lane's owned paths, so the verifier requires **verbatim**
-carry only for this wave's eight jurisdictions and merely **substantive** carry for
-ND/OH/OK. Whoever owns the Ohio path should close the gap and move Ohio into
-`STRICT_NEGATIVE_SLUGS`.
-
-**ND, OH and OK negative fixtures predate finding 1.** They trip vocabulary QA
-only, which the finding says is not proof of anti-invention enforcement. They are
-outside this lane's owned paths and were left untouched; the verifier keeps them on
-the original contract and no regression was introduced. Upgrading them is a small,
-well-defined follow-up.
+**Two blind spots the scanner still has.** Neither is detectable by any current
+pattern, and both are recorded in the fixtures themselves under
+`unsignalledViolations` so they are visible rather than mistaken for coverage: an
+over-promise about the reach of relief (OH's fixture promises the record will be
+"gone from everywhere", contradicting the BCI limited-record disclosure; OK's
+asks for a physical destruction § 19 does not authorise), and a citation to an
+unstable statutory paragraph number (OK's Section 18 numbering). Adding patterns
+for either would benefit every lane, not just C3.
 
 ## Two reclassification recommendations for the ledger
 
@@ -215,6 +294,9 @@ manifest instead.
 - `node_modules` is empty in a fresh container. `npm ci` restores it without
   touching `package.json` or the lockfile.
 - Owned paths for this lane:
-  `data/rcap-all50/pleadings/{nevada,south-carolina,idaho,kansas,washington,nebraska,virginia,wisconsin}/**`,
+  `data/rcap-all50/pleadings/{nevada,south-carolina,idaho,kansas,washington,nebraska,virginia,wisconsin,north-dakota,ohio,oklahoma}/**`,
   `scripts/verify-rcap-terminalize-c3.mjs`, and this file. The verifier enforces
   this against `git status` on every run.
+- `STRICT_NEGATIVE_SLUGS` is now derived from `ASSIGNMENTS` rather than listed by
+  hand. Adding a jurisdiction to the lane puts it under the full contract
+  automatically; there is no longer a way to land a track on a weaker one.

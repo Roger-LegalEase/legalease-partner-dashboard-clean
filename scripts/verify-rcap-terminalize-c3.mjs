@@ -86,18 +86,15 @@ const ASSIGNMENTS = [
 // For these, a negative fixture must trip a real invention / protected-field
 // signal (not merely a vocabulary failure), positive fixtures must be provably
 // free of invented content, and every null field must carry a recorded silence.
-// ND, OH and OK landed before the findings and are owned by other lane paths, so
-// they stay on the original contract until their owners upgrade them.
-const STRICT_NEGATIVE_SLUGS = new Set([
-  "nevada",
-  "south-carolina",
-  "idaho",
-  "kansas",
-  "washington",
-  "nebraska",
-  "virginia",
-  "wisconsin"
-]);
+//
+// ND, OH and OK previously sat outside this set because they landed before the
+// findings. That two-tier arrangement is what the lane C captain's cross-branch
+// audit surfaced: their negative fixtures asserted a prohibited relief term and
+// nothing else, so they exercised QA vocabulary and were blind to exactly the
+// invented content lane C1 found QA passes. All three have now been re-authored
+// against this contract and the set is the whole lane — every C3 jurisdiction is
+// held to the same rule.
+const STRICT_NEGATIVE_SLUGS = new Set(ASSIGNMENTS.map((a) => a.slug));
 
 const OWNED_PATH_PREFIXES = [
   ...ASSIGNMENTS.map((a) => `data/rcap-all50/pleadings/${a.slug}/`),
@@ -246,11 +243,45 @@ function scanUnseeableSignals(text, caseData) {
   if (/date of birth:\s*\S/i.test(text)) add("dob_rendered", "date of birth value");
 
   for (const [pattern, signal] of INVENTION_PATTERNS) {
-    const m = text.match(pattern);
+    const m = FORM_LINE_EXEMPT.has(signal) ? matchOutsideFormLines(text, pattern) : text.match(pattern);
     if (m) add(signal, m[0].slice(0, 120));
   }
   return hits;
 }
+
+// A certificate of service is a blank form the participant completes *after*
+// filing: "I certify that on ______________, I served a copy of this Petition
+// upon the prosecuting attorney". The unfilled blank is itself the proof that
+// nothing has been served yet, so such a line is a form to complete, not an
+// assertion that service happened. ND is the only C3 track that draws a
+// certificate of service (every other track's notice is the court's act), which
+// is why this false positive stayed invisible while ND sat outside the strict
+// set: it fired on all four ND fixtures including the production ones.
+//
+// The exemption is deliberately narrow. It applies only to the service signal,
+// which is the only one with a legitimate blank-form idiom, and only to lines
+// carrying a fill-in rule. A fabricated "was duly served on 03/01/2026" carries
+// no blank and still fires.
+const BLANK_FILL_RUN = /_{3,}/;
+const FORM_LINE_EXEMPT = new Set(["service_completion_asserted"]);
+
+function matchOutsideFormLines(text, pattern) {
+  for (const line of text.split("\n")) {
+    if (BLANK_FILL_RUN.test(line)) continue;
+    const m = line.match(pattern);
+    if (m) return m;
+  }
+  return null;
+}
+
+// Values that must never reach a rendered document. A field-level null in
+// `presentation` is read straight through by the shared renderer (it falls back
+// to the Pennsylvania default only when `presentation` is absent as a whole,
+// custom-pleading-renderer.ts:168), so a null sovereign party prints the literal
+// string "null" in the caption. See
+// docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md.
+const ESCAPED_VALUE = /(^|[^A-Za-z0-9_$])(null|undefined|NaN)([^A-Za-z0-9_$]|$)/;
+const RUNTIME_DEFECT_NULL_PRESENTATION = "renderer-null-presentation";
 
 // Bracket tokens the shared renderer itself emits when a value is deliberately
 // left blank (protected fields, participant-completed fields). movantRole is
@@ -634,8 +665,65 @@ for (const assignment of ASSIGNMENTS) {
             failures.push(`${label}: sourceSilences entry malformed (needs field, statement, counselFlag).`);
             continue;
           }
-          if (!(config.counselFlags ?? []).includes(s.counselFlag)) {
-            failures.push(`${label}: sourceSilences['${s.field}'] counselFlag is not present in config.counselFlags.`);
+          // A recorded silence must reach counsel. Normally that means
+          // config.counselFlags. A track that reuses a frozen runtime export
+          // cannot add a flag there — the ND reuse check below requires its
+          // config to equal ndConvictionSealingConfig byte for byte, so adding
+          // one would be the fork that check forbids. Such a track may carry
+          // the flag in the artifact's counselNotes instead, but only if it
+          // genuinely reuses a runtime config and says why.
+          const channel = s.counselFlagChannel ?? "counselFlags";
+          if (channel === "counselFlags") {
+            if (!(config.counselFlags ?? []).includes(s.counselFlag)) {
+              failures.push(`${label}: sourceSilences['${s.field}'] counselFlag is not present in config.counselFlags.`);
+            }
+          } else if (channel === "counselNotes") {
+            if (!artifact.runtimePreexisting?.exportName) {
+              failures.push(
+                `${label}: sourceSilences['${s.field}'] routes its counselFlag to counselNotes, but this track does not reuse a frozen runtime config — use config.counselFlags.`
+              );
+            }
+            if (!s.counselFlagChannelReason?.trim()) {
+              failures.push(
+                `${label}: sourceSilences['${s.field}'] routes its counselFlag to counselNotes without recording counselFlagChannelReason.`
+              );
+            }
+            if (!(artifact.counselNotes ?? []).includes(s.counselFlag)) {
+              failures.push(
+                `${label}: sourceSilences['${s.field}'] counselFlag is not present verbatim in counselNotes.`
+              );
+            }
+          } else {
+            failures.push(
+              `${label}: sourceSilences['${s.field}'] counselFlagChannel '${channel}' is not one of counselFlags, counselNotes.`
+            );
+          }
+        }
+      }
+
+      // Lane C1 finding 2, enforced from the other direction: a null in the
+      // config is admissible ONLY where a recorded silence covers that exact
+      // field. The remedy for an uncovered null is always to record the
+      // silence, never to fill the field. Blocked tracks are exempt: nothing is
+      // drafted for them, so their nulls are covered by the blocking
+      // dependency the artifact already records rather than by a source silence.
+      if (artifact.trackDisposition !== "blocked_pleading") {
+        const covered = new Set((artifact.sourceSilences ?? []).map((s) => s?.field));
+        const nullFields = [];
+        for (const [k, v] of Object.entries(config)) {
+          if (v === null) nullFields.push(`config.${k}`);
+        }
+        for (const [k, v] of Object.entries(config.presentation ?? {})) {
+          if (v === null) nullFields.push(`config.presentation.${k}`);
+        }
+        if (config.verificationStatute && config.verificationStatute.citation === null) {
+          nullFields.push("config.verificationStatute.citation");
+        }
+        for (const field of nullFields) {
+          if (!covered.has(field)) {
+            failures.push(
+              `${label}: config value '${field}' is null with no sourceSilences entry covering it. Record the silence; never fill the field.`
+            );
           }
         }
       }
@@ -709,6 +797,38 @@ for (const assignment of ASSIGNMENTS) {
           }
         }
       }
+      // A blocked track has no drafted components, so it has no render for a
+      // negative fixture to assert against and authoring one would mean
+      // drafting the very pleading the dependency bars. That is a legitimate
+      // outcome, but it must be *recorded*: an empty track directory is
+      // indistinguishable from an oversight, which is how a missing fixture
+      // escapes review. Accept the absence only with the record present.
+      const disposition = artifact.negativeFixtureDisposition;
+      if (!disposition) {
+        failures.push(
+          `${label}: blocked_pleading track must record negativeFixtureDisposition explaining why no negative fixture exists.`
+        );
+      } else {
+        if (disposition.status !== "not_applicable") {
+          failures.push(
+            `${label}: negativeFixtureDisposition.status must be 'not_applicable' for a blocked_pleading track (found '${disposition.status}').`
+          );
+        }
+        for (const field of ["reason", "revisitWhen"]) {
+          if (!disposition[field]?.trim()) {
+            failures.push(`${label}: negativeFixtureDisposition missing '${field}'.`);
+          }
+        }
+        // The condition that would make a fixture meaningful must be the
+        // track's own recorded dependency, not a restatement invented here.
+        const depSources = (artifact.dependencies ?? []).map((d) => d.exactMissingSource);
+        if (disposition.revisitWhen && !depSources.includes(disposition.revisitWhen)) {
+          failures.push(
+            `${label}: negativeFixtureDisposition.revisitWhen does not match any dependency's exactMissingSource.`
+          );
+        }
+      }
+
       // Nothing may be drafted or rendered for a blocked track.
       for (const forbidden of ["fixtures", "rendered", "participant-instructions.md"]) {
         if (fs.existsSync(path.join(trackDir, forbidden))) {
@@ -765,6 +885,28 @@ for (const assignment of ASSIGNMENTS) {
         failures.push(`${label}/${fixtureId}: renderer threw: ${err.message}`);
         continue;
       }
+
+      // Escaped-value gate. The shared renderer substitutes `presentation` as a
+      // whole or not at all, so a field-level null reaches the caption verbatim
+      // and prints the literal string "null" in a document meant for filing.
+      // The fix belongs to Terminal A (src/** is frozen for this lane) and the
+      // config must NOT be papered over to hide it: the null is usually correct
+      // and sourced — an ex parte caption genuinely has no sovereign party. A
+      // track that renders an escaped value must therefore declare the runtime
+      // defect so the exposure is tracked rather than silently tolerated.
+      const escaped = renderResult.fullText.match(ESCAPED_VALUE);
+      if (escaped) {
+        const declaredDefects = artifact.runtimeDefects ?? [];
+        if (!declaredDefects.includes(RUNTIME_DEFECT_NULL_PRESENTATION)) {
+          failures.push(
+            `${label}/${fixtureId}: rendered text contains the escaped value ${JSON.stringify(escaped[0].trim())}. ` +
+              `Do not fill the config to hide it and do not edit the renderer (src/** is Terminal A's). ` +
+              `Declare runtimeDefects: ["${RUNTIME_DEFECT_NULL_PRESENTATION}"] on this track and record it in the handoff.`
+          );
+        } else {
+          notes.push(`${label}/${fixtureId}: escaped value present, covered by declared runtimeDefects.`);
+        }
+      }
       const qaResult = runPleadingQa({ config, renderResult, prohibitedTerms: qaTerms });
       fixtureResults[fixtureId] = { fixture, renderResult, qaResult };
 
@@ -800,6 +942,58 @@ for (const assignment of ASSIGNMENTS) {
 
         // Lane C1 finding 1: a negative fixture must demonstrate a signal that
         // runPleadingQa cannot see. Passing QA-vocabulary alone is not proof.
+        //
+        // expectedSignals is the binding declaration. It must name every signal
+        // the fixture trips and nothing it does not, so the fixture is locked in
+        // both directions: a violation that silently stops tripping fails, and a
+        // violation that silently appears fails too. Derive it by rendering the
+        // fixture and recording what fires — not by asserting it by hand.
+        {
+          const hits = scanUnseeableSignals(
+            renderResult.fullText,
+            fixture.renderInput?.caseData ?? {}
+          );
+          const fired = new Set(hits.map((h) => h.signal));
+          const declared = fixture.expectations?.expectedSignals;
+          if (!Array.isArray(declared) || declared.length === 0) {
+            failures.push(
+              `${label}/${fixtureId}: negative fixture must declare expectations.expectedSignals naming which signal each violation trips (fired: ${[...fired].join(", ") || "none"}).`
+            );
+          } else {
+            const declaredSignals = new Set();
+            for (const entry of declared) {
+              if (!entry?.signal || !entry?.violation) {
+                failures.push(`${label}/${fixtureId}: expectedSignals entry malformed (needs signal, violation).`);
+                continue;
+              }
+              if (!(entry.signal in SIGNAL_CLASS)) {
+                failures.push(`${label}/${fixtureId}: expectedSignals names unknown signal '${entry.signal}'.`);
+                continue;
+              }
+              if (entry.class && entry.class !== SIGNAL_CLASS[entry.signal]) {
+                failures.push(
+                  `${label}/${fixtureId}: expectedSignals['${entry.signal}'] declares class '${entry.class}' but the signal's class is '${SIGNAL_CLASS[entry.signal]}'.`
+                );
+              }
+              declaredSignals.add(entry.signal);
+            }
+            for (const signal of declaredSignals) {
+              if (!fired.has(signal)) {
+                failures.push(
+                  `${label}/${fixtureId}: declared signal '${signal}' did not fire on re-render (fired: ${[...fired].join(", ") || "none"}).`
+                );
+              }
+            }
+            for (const signal of fired) {
+              if (!declaredSignals.has(signal)) {
+                failures.push(
+                  `${label}/${fixtureId}: signal '${signal}' fired but is not declared in expectedSignals — declare it or remove the violation.`
+                );
+              }
+            }
+          }
+        }
+
         if (STRICT_NEGATIVE_SLUGS.has(assignment.slug)) {
           const declaredClass = fixture.expectations?.expectedSignalClass;
           const declaredSignal = fixture.expectations?.expectedSignal;
@@ -928,8 +1122,18 @@ for (const assignment of ASSIGNMENTS) {
         if (!fs.existsSync(txtPath) || !fs.existsSync(pdfPath) || !fs.existsSync(reportPath)) {
           failures.push(`${label}: rendered artifacts missing (run with --write).`);
         } else {
-          if (fs.readFileSync(txtPath, "utf8") !== fullText) {
+          const committedText = fs.readFileSync(txtPath, "utf8");
+          if (committedText !== fullText) {
             failures.push(`${label}: rendered/canonical.txt is stale (differs from fresh render).`);
+          }
+          // Same gate against the committed artifact, so an escaped value
+          // cannot survive in a checked-in document even if the fresh render
+          // path is ever changed.
+          const committedEscaped = committedText.match(ESCAPED_VALUE);
+          if (committedEscaped && !(artifact.runtimeDefects ?? []).includes(RUNTIME_DEFECT_NULL_PRESENTATION)) {
+            failures.push(
+              `${label}: committed rendered/canonical.txt contains the escaped value ${JSON.stringify(committedEscaped[0].trim())} and the track does not declare runtimeDefects: ["${RUNTIME_DEFECT_NULL_PRESENTATION}"].`
+            );
           }
           const committedReport = readJson(reportPath);
           if (committedReport.sha256 !== report.sha256) {
