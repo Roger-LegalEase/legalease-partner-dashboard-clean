@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ksjc-petition-expungement-conviction-diversion-082022",
+  "mapKind": "acroform_name_binding",
+  "promotedFrom": {
+    "committedDraft": "docs/record-clearing/field-map-drafts/all50/kansas-legalease-kansas-petition-for-expungement-of-conviction-or-diversion-82022.field-map-draft.json",
+    "draftNote": "The committed draft carried no recoverable AcroForm names (dirty_acroform raw inspection); bindings are promoted against the field census extracted from the committed shadow-batch sample of the same source binary.",
+    "committedSample": "tmp/official-pdf-shadow-batch/all50/kansas-legalease-kansas-petition-for-expungement-of-conviction-or-diversion-82022-sample.pdf"
+  },
+  "sourceBinary": {
+    "fileName": "Petition for Expungement of Conviction or Diversion 82022.pdf",
+    "relativePath": "LegalEase Kansas/Petition for Expungement of Conviction or Diversion 82022.pdf",
+    "sha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c"
+  },
+  "participantFactVocabulary": {
+    "source": "src/lib/rcap-engine/compiled/profiles/KS-*.json (questions[].id + packetGenerator.requiredInputs)",
+    "questionIds": [
+      "ownership_scope",
+      "jurisdiction_scope",
+      "case_outcome",
+      "offense_level",
+      "possible_pathway_context",
+      "financial_obligations",
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id"
+    ]
+  },
+  "renderRule": "Renderer populates ONLY the bindings below. Every other census field is listed in neverPopulate or manualParticipantFields and must remain empty at render time.",
+  "bindings": [
+    {
+      "field": "COUNTY KANSAS",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "county"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Case No",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "case_identifier"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Name Print",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Address 1",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine1"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Address 2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine2"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "City State Zip",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.cityStateZip"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Telephone Number",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.phone"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Email Address",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.email"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 50,
+        "onOverflow": "overflow_to_addendum"
+      }
+    }
+  ],
+  "manualParticipantFields": [
+    "JUDICIAL DISTRICT",
+    "Race",
+    "Sex born in",
+    "Year of Birth",
+    "County Kansas on",
+    "Date by",
+    "Law Enforcement Agency and charged with the",
+    "on",
+    "Date",
+    "on_2",
+    "Date_2",
+    "I was convicted received a diversion for prostitution and I was acting under",
+    "Fax Number",
+    "Check Box1",
+    "Check Box2",
+    "Check Box3",
+    "Check Box4",
+    "Check Box5",
+    "Check Box6",
+    "Check Box7",
+    "Check Box8"
+  ],
+  "neverPopulate": [
+    {
+      "field": "undefined",
+      "class": "unused"
+    },
+    {
+      "field": "undefined_2",
+      "class": "unused"
+    },
+    {
+      "field": "undefined_3",
+      "class": "unused"
+    },
+    {
+      "field": "undefined_4",
+      "class": "unused"
+    },
+    {
+      "field": "undefined_5",
+      "class": "unused"
+    }
+  ],
+  "overflowPolicy": {
+    "default": "shrink_to_fit down to minFontSize 6; if still overflowing, move content to a labeled addendum page and mark the field \"See attached addendum\"",
+    "hard_stop": "value exceeding the bound is a render error (identity-critical short fields such as state/zip)",
+    "must_match_dropdown_option": "value must exactly match one of the form’s dropdown options or the render fails closed"
+  }
+}

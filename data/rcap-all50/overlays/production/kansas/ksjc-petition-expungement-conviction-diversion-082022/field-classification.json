@@ -1,0 +1,438 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ksjc-petition-expungement-conviction-diversion-082022",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 35,
+  "fields": [
+    {
+      "name": "JUDICIAL DISTRICT",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Judicial district number; the county-to-district mapping is not in committed evidence, so this is completed manually at assembly."
+    },
+    {
+      "name": "COUNTY KANSAS",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Case No",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "case_identifier",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "undefined",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Field label not recoverable from committed evidence; never populated pending F visual confirmation against the source binary."
+    },
+    {
+      "name": "undefined_2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Field label not recoverable from committed evidence; never populated pending F visual confirmation against the source binary."
+    },
+    {
+      "name": "Race",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Sex born in",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Composite fill-in-the-blank (sex / born in)."
+    },
+    {
+      "name": "Year of Birth",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "County Kansas on",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Arrest county narrative blank; taken from participant records at assembly."
+    },
+    {
+      "name": "Date by",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Arrest date narrative blank."
+    },
+    {
+      "name": "Law Enforcement Agency and charged with the",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Arresting agency narrative blank."
+    },
+    {
+      "name": "undefined_3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Field label not recoverable from committed evidence; never populated pending F visual confirmation against the source binary."
+    },
+    {
+      "name": "on",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Conviction/diversion date narrative blank."
+    },
+    {
+      "name": "Date",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Conviction/diversion date narrative blank."
+    },
+    {
+      "name": "on_2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Conviction/diversion date narrative blank."
+    },
+    {
+      "name": "Date_2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Conviction/diversion date narrative blank."
+    },
+    {
+      "name": "undefined_4",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Field label not recoverable from committed evidence; never populated pending F visual confirmation against the source binary."
+    },
+    {
+      "name": "undefined_5",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Field label not recoverable from committed evidence; never populated pending F visual confirmation against the source binary."
+    },
+    {
+      "name": "I was convicted received a diversion for prostitution and I was acting under",
+      "type": "checkbox",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "K.S.A. 21-6614(k) safe-harbor election; an affirmative legal assertion the participant must make personally."
+    },
+    {
+      "name": "Name Print",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Address 1",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine1",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Address 2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine2",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "City State Zip",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.cityStateZip",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Telephone Number",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.phone",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Fax Number",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Email Address",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.email",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 50,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Check Box1",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-ground checkbox; on-page label text is not recorded in committed field evidence, so the election is made manually at assembly and confirmed at F visual review."
+    },
+    {
+      "name": "Check Box2",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-ground checkbox; on-page label text is not recorded in committed field evidence, so the election is made manually at assembly and confirmed at F visual review."
+    },
+    {
+      "name": "Check Box3",
+      "type": "checkbox",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-ground checkbox; on-page label text is not recorded in committed field evidence, so the election is made manually at assembly and confirmed at F visual review."
+    },
+    {
+      "name": "Check Box4",
+      "type": "checkbox",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-ground checkbox; on-page label text is not recorded in committed field evidence, so the election is made manually at assembly and confirmed at F visual review."
+    },
+    {
+      "name": "Check Box5",
+      "type": "checkbox",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-ground checkbox; on-page label text is not recorded in committed field evidence, so the election is made manually at assembly and confirmed at F visual review."
+    },
+    {
+      "name": "Check Box6",
+      "type": "checkbox",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-ground checkbox; on-page label text is not recorded in committed field evidence, so the election is made manually at assembly and confirmed at F visual review."
+    },
+    {
+      "name": "Check Box7",
+      "type": "checkbox",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-ground checkbox; on-page label text is not recorded in committed field evidence, so the election is made manually at assembly and confirmed at F visual review."
+    },
+    {
+      "name": "Check Box8",
+      "type": "checkbox",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-ground checkbox; on-page label text is not recorded in committed field evidence, so the election is made manually at assembly and confirmed at F visual review."
+    }
+  ]
+}
