@@ -1,0 +1,492 @@
+{
+  "schemaVersion": "rcap-acroform-map/v6-d0",
+  "factoryVersion": "d0-remediated-v1",
+  "family": "cr375-form-petition-en",
+  "jurisdiction": "MO",
+  "documentOwnership": "participant_completed",
+  "componentRole": "participant_completed_filing",
+  "sha256": "2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs), unmodified; every field starts protected",
+  "explicitMappings": {},
+  "bindings": [
+    {
+      "field": "Case number",
+      "class": "participant",
+      "factId": "matter.case_number",
+      "kind": "text"
+    },
+    {
+      "field": "Petitioner",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "kind": "text"
+    },
+    {
+      "field": "P address",
+      "class": "participant",
+      "factId": "participant.street_address",
+      "kind": "text"
+    },
+    {
+      "field": "Case NumberRow2",
+      "class": "participant",
+      "factId": "matter.charges[1].case_number",
+      "kind": "text"
+    },
+    {
+      "field": "Case NumberRow1",
+      "class": "participant",
+      "factId": "matter.charges[0].case_number",
+      "kind": "text"
+    },
+    {
+      "field": "p Full Name",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "kind": "text"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Judicial Circuit",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable",
+      "factId": null
+    },
+    {
+      "field": "County/City of St. Louis",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Judge or Division",
+      "reason": "protected_category",
+      "category": "court",
+      "factId": null
+    },
+    {
+      "field": "R Checkbox Circuit Court Division",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "R Circuit Court Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "R Checkbox Municipal Police Department",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "R Municipal Police Department",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "Checkbox County Sheriff's Department",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "R County Sheriff's Department",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "R MSHP CJIS",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "R Prosecutors office",
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "factId": null
+    },
+    {
+      "field": "r County Prosecutor",
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "factId": null
+    },
+    {
+      "field": "r other",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "r Other Name/Address",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Incarcarated",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "not incarcarated",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "P Race American Indian or Alaska Native",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "P Race Asian",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "P Race Black or African American",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "P Race Native Hawaiian or other Pacific Islander",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "P Race White",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "P Ethnicity Hispanic or Latino",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "P Race MENA",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "P Race Other",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "P Race Unknown",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow9",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow9",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow9",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow9",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Case NumberRow9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow8",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow8",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow8",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow8",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Case NumberRow8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow7",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow7",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow7",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow7",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Case NumberRow7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow6",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow6",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Case NumberRow6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow5",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow5",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Case NumberRow5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow4",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow4",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Case NumberRow4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow3",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow3",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Case NumberRow3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Number and Description of ChargeRow1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "County of ChargeRow1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Approx Date of ChargeRow1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": null
+    },
+    {
+      "field": "Court NameRow1",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "r Checkbox Peitioner Male",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "r Checkbox Petitioner Female",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "p Year of Birth",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    }
+  ]
+}

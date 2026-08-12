@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "rcap-family-findings/v1",
+  "family": "cr145-form-petition-en",
+  "findings": [
+    {
+      "severity": "blocker",
+      "finding": "source_carries_rich_text_field_d0_factory_cannot_finalize",
+      "detail": "Rich-text field(s) 'Other Defendants', 'Address at Time of Arrest'. pdf-lib throws RichTextFieldReadError from updateFieldAppearances inside sanitizeAndFlatten, so no finalized artifact can be produced for this family until the shared factory handles rich-text fields. No fill is claimed and the source was not modified."
+    }
+  ]
+}

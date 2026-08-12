@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-d0",
+  "factoryVersion": "d0-remediated-v1",
+  "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — typed fail-closed binder, unmodified",
+  "everyFieldStartsProtected": true,
+  "writableRequires": [
+    "no protect rule matches the field name or its measured label",
+    "the PDF control type is text or dropdown",
+    "the name matches exactly one allowlisted fact descriptor",
+    "the resolved value matches the descriptor's declared type",
+    "a sensitive descriptor was named for this exact field by the caller",
+    "an indexed charge row resolves to a charge that was actually supplied"
+  ],
+  "documentAcceptsFill": true,
+  "captionOnly": false,
+  "ownership": "participant_completed",
+  "ownershipDetermination": "Participant-completed filing: participant and deterministic fields may bind; every other class stays blank.",
+  "explicitMappings": {},
+  "reviewedWithholdings": [
+    {
+      "field": "County/City of St. Louis",
+      "rationale": "The caption's venue selector — the circuit's county or the City of St. Louis — not the participant's city of residence."
+    },
+    {
+      "field": "Other Name/Address",
+      "rationale": "Other names and addresses the participant has used. It calls for aliases and former addresses, so the current address the binder would write is the one value it must not carry."
+    },
+    {
+      "field": "Address at Time of Arrest",
+      "rationale": "The address held at the time of the arrest, which is a historical fact; the current street address is not evidence of it."
+    },
+    {
+      "field": "Defendant Full Name",
+      "rationale": "CR300 corrects an arrest or court record after identity theft. Its petitioner is the person whose identity was used and its named defendant is the person the record identifies, so the petitioner's own name and date of birth are precisely the values that must not appear here."
+    },
+    {
+      "field": "Date of Birth Defendant",
+      "rationale": "CR300 corrects an arrest or court record after identity theft. Its petitioner is the person whose identity was used and its named defendant is the person the record identifies, so the petitioner's own name and date of birth are precisely the values that must not appear here."
+    },
+    {
+      "field": "SSN Defendant",
+      "rationale": "Identifier fields that the binder resolves through the '\\bdefendant\\b' alternative of the full-name descriptor, so a name would be written into a social-security or licence-number field."
+    },
+    {
+      "field": "Driver's License Number Defendant",
+      "rationale": "Identifier fields that the binder resolves through the '\\bdefendant\\b' alternative of the full-name descriptor, so a name would be written into a social-security or licence-number field."
+    }
+  ],
+  "protectionsWeakened": false,
+  "note": "D0's default protections were not altered and rcap-field-semantics.mjs was not edited. Where a genuinely safe participant field was refused by name, it was named through the sanctioned explicitMappings option. Where the binder would have written a correct value into a field whose subject is something else, the field was named with its real subject so the binder fails closed on the conflict."
+}
