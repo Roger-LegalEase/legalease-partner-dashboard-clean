@@ -9,7 +9,8 @@
   "reviewerIndependence": "Independent F2 reviewer for lane B, wave 2. Not the implementing lane; no lane-owned artifact was edited. Review evidence only.",
   "scope": "All 33 lane-B jobs in data/rcap-all50/review-artifacts/f2-independent-technical-review.json — 72 pending tracks (AK:ak-sej is promoted and out of scope). Nothing from the superseded first F2 pass carries over; every track was re-reviewed against the bytes at the review base.",
   "atomicGroupsClosedSoFar": [
-    "AK/CA/IL/IN/MI (prior-correction states)"
+    "AK/CA/IL/IN/MI (prior-correction states)",
+    "AR/CO/CT/DE"
   ],
   "evidenceRule": "Every closure's evidenceSha is the manifest's packetSha256, recomputed by this reviewer from `git show a20987d1:<packet path>` and matched before review. The tip at branch point differs from the review base only by data/rcap-all50/review-artifacts/f2-wave2-dispatch.json, so reviewed working-tree bytes are the review-base bytes.",
   "committedAuthorityUniverse": [
@@ -34,6 +35,26 @@
       "evidenceSha": "3eecd4e130e8e74755595168da20d0eaa83aeab7c527c2841fd251c2503e5c09"
     },
     {
+      "reviewId": 2,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-preadjudication-probation"
+      ],
+      "owner": "Terminal B",
+      "note": "All authority claims traced to AR.memo.json (§ 16-93-303 mechanism, 3-day prosecutor service, 30-day objection window, venue, no-fee posture); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "bd27200ff27f152a1b2d2647386e5db87ff3aa3e65eb300274b1c7fb5057b061"
+    },
+    {
+      "reviewId": 3,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-misdemeanor-dwi-seal"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ar-deferrals.md names the track and states the exact supported condition (the § 16-90-1405(b)(2) / § 5-65-111 lookback with two live readings after the 2026 Coleman appellate decision), carried verbatim by AR.memo.json unresolvedQuestions/legalDesignDecision; participant copy still delivers mechanism, destination, settled timing, gather, next step and handoff and does not read as 'coming soon'.",
+      "evidenceSha": "bd27200ff27f152a1b2d2647386e5db87ff3aa3e65eb300274b1c7fb5057b061"
+    },
+    {
       "reviewId": 4,
       "outcome": "technical_approved",
       "trackKeys": [
@@ -42,6 +63,66 @@
       "owner": "Terminal B",
       "note": "First-pass corrections verified in committed bytes: gather.en/es[4] and nextSteps.en/es[0] name all four exclusion categories (PC 1192.7(c) serious felonies, PC 667.5(c) violent felonies, PC 290 registration, offenses punishable by life or death), carried by CA-california.json sourceSections[3] 'Disqualifying / ineligible offenses' (F2-03 cured); zero occurrences of 'you qualify'/'usted califica' (F2-16 cured) and the shared verifier passes lane-wide. Authority, parity, payment suppression and all eleven elements verified with no defect.",
       "evidenceSha": "de9f26ed5fcb6e406eea0985a036948d31f06c5eb73cce2212c7aa79da4725a4"
+    },
+    {
+      "reviewId": 5,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CO:co_auto_seal_arrest"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CO.memo.json including the JDF 417 petition backstop (DA objection / contested hearing stops carried by tracks[co_petition_seal_arrest].selfHelpStopConditions); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8ab949ce86183d4f98c45a9d5673897b3a0319d6e5165337b7a043360b7c2f80"
+    },
+    {
+      "reviewId": 6,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CO:co_auto_seal_nonconviction"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CO.memo.json (automatic sealing of non-convictions, 1 July 2025 effective date, JDF motion backstop via tracks[co_motion_seal_nonconviction]); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8ab949ce86183d4f98c45a9d5673897b3a0319d6e5165337b7a043360b7c2f80"
+    },
+    {
+      "reviewId": 7,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-destruction-request"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CT.memo.json (§ 54-142 destruction request, 3-year waiting period from final disposition, mental-disease exclusion under § 54-142a(a), DPS-0846-C record check); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023"
+    },
+    {
+      "reviewId": 8,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-nonconviction-auto"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CT.memo.json (§ 54-142a automatic erasure grounds and the missed-erasure fallback via tracks[ct-missed-erasure]); parity, payment suppression and elements verified with no defect; 'erasure' terminology limitation respected.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023"
+    },
+    {
+      "reviewId": 9,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "CT:ct-provisional-pardon"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: destination.en/es asserts affirmatively that 'The Board publishes the application and the instructions'. No committed source carries that claim: CT.memo.json tracks[ct-provisional-pardon].rules.filing says only 'Application is made to the Board of Pardons and Paroles. LegalEase does not generate or submit it.', and the same track's unresolvedQuestions[0] — impact release_blocker — expressly records as UNRESOLVED 'Whether the Board exposes a stable participant application document... An intake worksheet is not the legal filing packet.' The packet states as fact precisely what the committed record marks open, and the participant is sent to obtain a published application that the committed bytes do not establish exists. Acceptance: soften the destination sentence to the carried facts (application is made to the Board; obtain the Board's current application requirements from the Board directly), in both languages, matching the packet's own correctly-hedged gather/timing copy.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023"
+    },
+    {
+      "reviewId": 10,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "DE:de_attorney_general_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to DE.memo.json (AG mandatory-expungement route, eligible record types/dispositions, venue and no-participant-court-filing posture, cross-track pointers to de_mandatory_expungement and de_discretionary_superior_court resolve); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "e4c10d8bca7b5c039ccc6f26032fa72d1967d26ddf5b5c86e3e43df71e0e0ff3"
     },
     {
       "reviewId": 14,
@@ -125,9 +206,9 @@
     }
   ],
   "totals": {
-    "tracksReviewed": 10,
-    "technical_approved": 6,
-    "correction_required": 4,
+    "tracksReviewed": 18,
+    "technical_approved": 13,
+    "correction_required": 5,
     "held_on_source_or_design": 0
   }
 }

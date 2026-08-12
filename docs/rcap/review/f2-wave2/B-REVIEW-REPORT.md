@@ -58,13 +58,26 @@
 | 29 | `MI:mi_deferral_status` | technical_approved | Non-relief disposition-routing node verified: ten-citation authority set carried by MI.memo.json (MCL 333.7411, 762.11-762.15, 769.4a, 436.1703, 600.1070, 600.1209, 750.350a, 750.430, 780.621(2), 780.621d(7)(d)); pari.... |
 | 30 | `MI:mi_setaside_csc4_pre2015` | correction_required | Defect: nextSteps.en[2] misstates the age element of the minor-offence definition as 'committed under age 21' (es[2] 'cometidos antes de los 21 años'). |
 
+### Group 2: AR/CO/CT/DE
+
+| # | Track | Outcome | Summary |
+|---|---|---|---|
+| 2 | `AR:ar-preadjudication-probation` | technical_approved | All authority claims traced to AR.memo.json (§ 16-93-303 mechanism, 3-day prosecutor service, 30-day objection window, venue, no-fee posture); parity, payment suppression and elements verified with no defect.. |
+| 3 | `AR:ar-misdemeanor-dwi-seal` | technical_approved | exact_supported_deferral verified: docs/record-clearing/deferrals/ar-deferrals.md names the track and states the exact supported condition (the § 16-90-1405(b)(2) / § 5-65-111 lookback with two live readings after the.... |
+| 5 | `CO:co_auto_seal_arrest` | technical_approved | Authority traced to CO.memo.json including the JDF 417 petition backstop (DA objection / contested hearing stops carried by tracks[co_petition_seal_arrest].selfHelpStopConditions); parity, payment suppression and elem.... |
+| 6 | `CO:co_auto_seal_nonconviction` | technical_approved | Authority traced to CO.memo.json (automatic sealing of non-convictions, 1 July 2025 effective date, JDF motion backstop via tracks[co_motion_seal_nonconviction]); parity, payment suppression and elements verified with.... |
+| 7 | `CT:ct-destruction-request` | technical_approved | Authority traced to CT.memo.json (§ 54-142 destruction request, 3-year waiting period from final disposition, mental-disease exclusion under § 54-142a(a), DPS-0846-C record check); parity, payment suppression and elem.... |
+| 8 | `CT:ct-nonconviction-auto` | technical_approved | Authority traced to CT.memo.json (§ 54-142a automatic erasure grounds and the missed-erasure fallback via tracks[ct-missed-erasure]); parity, payment suppression and elements verified with no defect; 'erasure' termino.... |
+| 9 | `CT:ct-provisional-pardon` | correction_required | Defect: destination.en/es asserts affirmatively that 'The Board publishes the application and the instructions'. |
+| 10 | `DE:de_attorney_general_expungement` | technical_approved | Authority traced to DE.memo.json (AG mandatory-expungement route, eligible record types/dispositions, venue and no-participant-court-filing posture, cross-track pointers to de_mandatory_expungement and de_discretionar.... |
+
 Full defect statements, byte evidence and acceptance conditions are in `B-DISPOSITIONS.json` (the notes are the normative text; this table is a summary).
 
 ## Totals
 
 | Outcome | Tracks |
 |---|---:|
-| technical_approved | 6 |
-| correction_required | 4 |
+| technical_approved | 13 |
+| correction_required | 5 |
 | held_on_source_or_design | 0 |
-| **Total reviewed** | **10** |
+| **Total reviewed** | **18** |
