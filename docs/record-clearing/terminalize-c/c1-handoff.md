@@ -85,16 +85,35 @@ passage explaining that FW-001 is named but no statute or filing fee is
 stated. The verifier accepts a null citation only when such a note exists,
 so silence is recorded rather than filled.
 
-## Status at first handoff
+## Status
 
-- **C1**: AR (4 tracks) and CA (1 track) committed and pushed at `149fe3f3`,
-  verifier-clean including re-render, QA, provenance and partition checks.
-  CT IA IL IN KY MT artifacts are written and in repair against the exact
-  verifier failure list (componentInventory gaps, dependency records missing an
-  exact missing source, one unresolved profile path, filing-separation
-  partitions). TX VT WV are still in implementation.
-- **C2**: 5 commits pushed — AZ, MA, ME, NC, HI (2 tracks).
-- **C3**: 3 commits pushed — ND (3 tracks), OK, OH.
+- **C1 — complete.** All 16 jobs and all 27 tracks verify clean at `9c91fc92`:
+  11 controlled-pleading tracks, 16 composed-route tracks, 64 components
+  (5 blocked on an external official source), 18 canonical fixtures
+  re-rendered through the real pleading renderer and checked against pleading
+  QA, the invention scans and the protected-field scans.
+- **C2 — 5 of 8 jurisdictions.** AZ, MA, ME, NC, HI pushed (5 commits).
+  GA, TN and DC remain; the session hit its limit mid-wave and a continuation
+  session was started from the branch tip.
+- **C3 — 3 of 11 jurisdictions.** ND (3 tracks), OK, OH pushed (3 commits).
+  NV, SC, ID, KS, WA, NE, VA and WI remain; same limit, same continuation.
+
+Both child branches are continued in place — nothing landed is redone, and no
+branch is rebased.
+
+## Verifier findings worth carrying into C2 and C3
+
+1. **Negative fixtures need invention detection, not vocabulary QA.** The
+   Indiana fixtures document ten deliberate violations each — fabricated court
+   findings, filing fees the source records as "None", asserted prosecutor
+   positions and completed service, populated protected fields, invented
+   custodian lists — and `runPleadingQa` passed them, because it checks relief
+   vocabulary and template grade, not content provenance. A negative fixture
+   must be proven to trip an invention or protected-field signal.
+2. **Silence must be recorded, never filled.** Several tracks have no stated
+   verification statute, fee or venue. The convention is a null value plus a
+   note and a counsel flag; a verifier that demands a value there forces
+   invention. Both child lanes were sent this rule explicitly.
 
 ### Correction recorded
 
