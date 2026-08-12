@@ -1,0 +1,682 @@
+{
+  "schemaVersion": "rcap-f2-review-dispositions/v1",
+  "lane": "F2",
+  "role": "independent read-only review of guidance and hard-form/pleading treatments",
+  "reviewBranch": "claude/rcap-review-f2-guidance-hard-forms",
+  "reviewBase": "b090f7a8c6d8bc4c268f06d564660985bcd923d1",
+  "reviewDate": "2026-08-12",
+  "targets": [
+    {
+      "lane": "B",
+      "branch": "claude/rcap-terminalize-b-guidance",
+      "sha": "a26eda058a64c50458939e16e382412b39959756",
+      "shaVerified": true,
+      "subject": "feat(rcap): add Michigan's two automatic Clean Slate guidance tracks",
+      "mergeBase": "df3d8607e8a0c723e23c346f1cd725c17a2c22b0",
+      "ownCommits": 6,
+      "touchesSrc": false
+    },
+    {
+      "lane": "E",
+      "branch": "claude/rcap-terminalize-e-hard-forms",
+      "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+      "shaVerified": true,
+      "subject": "E: commit the CR-410 and CR-106 derivatives their records already pin",
+      "mergeBase": "df3d8607e8a0c723e23c346f1cd725c17a2c22b0",
+      "ownCommits": 5,
+      "touchesSrc": false
+    }
+  ],
+  "totals": {
+    "treatmentsReviewed": 13,
+    "technical_approved": 1,
+    "correction_required": 11,
+    "held_on_source_or_design": 1
+  },
+  "gatesRun": [
+    {
+      "command": "node scripts/verify-rcap-guidance-terminalization.mjs --partition=B1",
+      "at": "a26eda05",
+      "exitCode": 1,
+      "result": "FAILED - 20 problems; 4 packet files, 6 tracks terminalized, 7611 assertions",
+      "participantCopyFailures": 2,
+      "coverageFailures": 18
+    },
+    {
+      "command": "node scripts/verify-rcap-guidance-terminalization.mjs",
+      "at": "a26eda05",
+      "exitCode": 1,
+      "result": "FAILED - 67 lane-B tracks assigned but not terminalized"
+    },
+    {
+      "command": "node scripts/verify-rcap-hard-form-dispositions.mjs",
+      "at": "fab28612",
+      "exitCode": 0,
+      "result": "passed - 2 non-packet treatments"
+    },
+    {
+      "command": "node scripts/verify-rcap-hard-form-outputs.mjs",
+      "at": "fab28612",
+      "exitCode": 0,
+      "result": "passed - 12 rendered fixtures across 6 profiles (required pdf-lib@1.17.1 installed; node_modules not vendored)"
+    },
+    {
+      "command": "sha256sum data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr{106,180,181,409,410}-rescued.pdf",
+      "at": "fab28612",
+      "exitCode": 0,
+      "result": "all five staged; cr-180/181/409/410 match their profile derivedSource.sha256 pins"
+    }
+  ],
+  "treatments": [
+    {
+      "id": 1,
+      "lane": "B",
+      "branch": "claude/rcap-terminalize-b-guidance",
+      "sha": "a26eda058a64c50458939e16e382412b39959756",
+      "job": "T-B-AK-complete-guidance",
+      "track": "ak-nonconviction-confidential",
+      "family": "AK guidance packet - CourtView non-publication",
+      "file": "data/rcap-all50/guidance-packets/ak.json",
+      "treatmentDeclared": "complete_guidance",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "pass_with_finding",
+        "2_en_es_parity": "pass",
+        "3_filing_route_not_guidance": "fail",
+        "4_no_checkout_on_automatic": "pass_at_treatment_layer",
+        "7_protected_fields": "n/a",
+        "8_no_internal_language": "pass"
+      },
+      "findings": [
+        {
+          "id": "F2-08",
+          "component": "packets[0] treatment classification vs src/lib/rcap-engine/compiled/profiles/AK-alaska.json pathway 'confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40'",
+          "fixture": "n/a (data treatment, no fixture)",
+          "defect": "Shipped as complete_guidance with paymentAllowed:false, but the committed pathway declares automatic=false, filingRequired=true, routeType='court_filing', suggestedResultCode='packet_ready_with_caution'. AK is the only one of the four guidance states whose pathway metadata contradicts its treatment: CA tool-2-automatic-relief, IL clean-slate-automatic-sealing and MI automatic-clean-slate-set-aside-under-mcl-780-621g all read automatic=true / filingRequired=false / routeType=automatic / suggestedResultCode=guidance_only. Participant copy does disclose the TF-810 filing, destination and fee, so the copy is not informational-only; the unreconciled classification is the defect. Lane B's verifier reads only the ledger, the packets and the deferral docs, so it cannot see this.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal B (classification) jointly with the owner of src/lib/rcap-engine/compiled/profiles/AK-alaska.json and Terminal A (route resolution)",
+          "acceptanceCondition": "Either AK-alaska.json's CourtView pathway is corrected to automatic=true / filingRequired=false / routeType='automatic' / suggestedResultCode='guidance_only', matching CA, IL and MI, with the change recorded as a state-pack fidelity item; or the track is re-treated as a filing route and removed from the guidance packet. Whichever is chosen, verify-rcap-guidance-terminalization.mjs must gain an assertion that a complete_guidance entry's pathway carries filingRequired=false, and must pass."
+        },
+        {
+          "id": "F2-08b",
+          "component": "packets[0].authority[1].sourceRef",
+          "fixture": "n/a",
+          "defect": "Cites 'AK-alaska.json ... exclusionRules[8]' for 'AS 12.55.078(f) - offenses excluded from a suspended entry of judgment'. exclusionRules[8] (id exclusion-09) is about AS 12.62.180 mistaken-identity sealing, not 12.55.078(f). The co-cited sourceSections[3] 'Disqualifying offenses' does carry it, so the claim is supported; the pointer is wrong.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal B",
+          "acceptanceCondition": "Replace the exclusionRules[8] pointer with the carrier that actually states AS 12.55.078(f)."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "lane": "B",
+      "branch": "claude/rcap-terminalize-b-guidance",
+      "sha": "a26eda058a64c50458939e16e382412b39959756",
+      "job": "T-B-AK-complete-guidance",
+      "track": "ak-sej",
+      "family": "AK guidance packet - suspended entry of judgment",
+      "file": "data/rcap-all50/guidance-packets/ak.json",
+      "treatmentDeclared": "complete_guidance",
+      "disposition": "technical_approved",
+      "criteria": {
+        "1_authority": "pass",
+        "2_en_es_parity": "pass",
+        "3_filing_route_not_guidance": "pass",
+        "4_no_checkout_on_automatic": "pass",
+        "7_protected_fields": "n/a",
+        "8_no_internal_language": "pass"
+      },
+      "basis": "Every claim resolves to AK-alaska.json: AS 12.55.078 holds off entry of judgment and dismisses without conviction on completion; 'typically once per lifetime'; AS 12.55.078(f) exclusion list (sourceSections[3] VERIFY BEFORE RELYING); distinction from the AS 12.55.085 set-aside; the 60-day CourtView rule expressly covering 'all were dismissed after a suspended entry of judgment (AS 12.55.078)' (ruleClauses[4], wait-01). The treatment states honestly that the committed materials give no fixed suspension length and no post-sentencing request procedure, and does not invent either. Destination, timing, next step, EN/ES parity, paymentAllowed=false and sellable=false all check out; token-parity scan clean.",
+      "advisories": [
+        "Inherits the AK CourtView routing-metadata conflict recorded as F2-08, because its downstream relief runs on the same pathway. Fixing F2-08 resolves it here too."
+      ]
+    },
+    {
+      "id": 3,
+      "lane": "B",
+      "branch": "claude/rcap-terminalize-b-guidance",
+      "sha": "a26eda058a64c50458939e16e382412b39959756",
+      "job": "T-B-CA-complete-guidance",
+      "track": "ca-auto-conviction",
+      "family": "CA guidance packet - automatic conviction relief",
+      "file": "data/rcap-all50/guidance-packets/ca.json",
+      "treatmentDeclared": "complete_guidance",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "fail",
+        "2_en_es_parity": "pass",
+        "3_filing_route_not_guidance": "pass",
+        "4_no_checkout_on_automatic": "pass",
+        "6_ca_route_components": "pass",
+        "8_no_internal_language": "fail_own_guardrail"
+      },
+      "findings": [
+        {
+          "id": "F2-16",
+          "component": "packets[0].handoff.en and packets[0].handoff.es",
+          "fixture": "n/a",
+          "defect": "Lane B's own acceptance contract fails on this entry. 'verify-rcap-guidance-terminalization.mjs --partition=B1' reports: 'ca.json#ca-auto-conviction.handoff.en: participant text makes a prohibited outcome promise \"you qualify\"' and the matching '.handoff.es ... \"usted califica\"'. The strings are '...rather than a question about whether you qualify' / '...y no una cuestion sobre si usted califica', which in substance promise the opposite of eligibility - so the guard is over-broad - but as committed the gate does not pass (exit 1).",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal B",
+          "acceptanceCondition": "Either reword both handoff strings to avoid the literal phrases (e.g. 'rather than a question about your eligibility' / 'y no una cuestion sobre su elegibilidad'), or narrow PROHIBITED_PROMISES so it matches the promise and not its negation. Either way, 'node scripts/verify-rcap-guidance-terminalization.mjs --partition=B1' must exit 0 on all participant-copy assertions."
+        },
+        {
+          "id": "F2-03",
+          "component": "packets[0].gather.en[4] / gather.es[4] and nextSteps.en[0] / nextSteps.es[0]",
+          "fixture": "n/a",
+          "defect": "The participant eligibility screen names three exclusion categories (PC 1192.7(c) serious, PC 667.5(c) violent, PC 290 sex-registration). CA-california.json states four: 'Excluded from sealing / automatic relief ... Felonies punishable by life or death, and other top-tier offenses by statute.' The fourth appears in authority[3] but never reaches the participant, making the screen over-broad in the participant's favour.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal B",
+          "acceptanceCondition": "Add the fourth exclusion category to gather and nextSteps in both en and es, matching CA-california.json's 'Disqualifying / ineligible offenses' section, with token parity preserved between the two languages."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "lane": "B",
+      "branch": "claude/rcap-terminalize-b-guidance",
+      "sha": "a26eda058a64c50458939e16e382412b39959756",
+      "job": "T-B-IL-complete-guidance",
+      "track": "il-auto-seal-2028",
+      "family": "IL guidance packet - Clean Slate automatic sealing",
+      "file": "data/rcap-all50/guidance-packets/il.json",
+      "treatmentDeclared": "complete_guidance",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "fail",
+        "2_en_es_parity": "pass",
+        "3_filing_route_not_guidance": "pass",
+        "4_no_checkout_on_automatic": "pass",
+        "8_no_internal_language": "pass"
+      },
+      "findings": [
+        {
+          "id": "F2-04",
+          "component": "packets[0].timing.en / timing.es and packets[0].nextSteps.en[4] / nextSteps.es[4]",
+          "fixture": "n/a",
+          "defect": "Two divergences from IL-illinois.json on the objection window. (a) Clock anchor: the copy says the 60-day window runs 'after the petition is filed'; the source says 'Objections must be filed within 60 days after service' of the Notice of Filing. (b) Objector set: the copy names two parties ('the prosecutor and the State Police'); the source names four - 'the State's Attorney/prosecutor, Illinois State Police, arresting agency, and chief legal officer of the local government that made the arrest'. Dropping two objectors understates who may contest the petition. Both errors are mirrored identically in Spanish, so EN/ES parity is intact.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal B",
+          "acceptanceCondition": "Restate the window as running 60 days from service of the Notice of Filing, and name all four objecting entities carried by IL-illinois.json 5.2(d), in both en and es."
+        }
+      ],
+      "notes": [
+        "Everything else resolves: P.A. 104-0459 signed 16 Jan 2026, automatic sealing from 1 Jan 2029 phasing through 2034, 30 June 2026 shortened wait and drug-test removal, 20 ILCS 2630/5.2(c), and per-county venue with the clerk of the court where the arrest occurred or charges were brought. The treatment correctly refuses to assert the '2028' element embedded in its own track id, which the lane's gap register flags as a hard conflict."
+      ]
+    },
+    {
+      "id": 5,
+      "lane": "B",
+      "branch": "claude/rcap-terminalize-b-guidance",
+      "sha": "a26eda058a64c50458939e16e382412b39959756",
+      "job": "T-B-MI-complete-guidance",
+      "track": "mi_auto_misd92",
+      "family": "MI guidance packet - automatic set-aside, 92-day-or-less misdemeanors",
+      "file": "data/rcap-all50/guidance-packets/mi.json",
+      "treatmentDeclared": "complete_guidance",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "fail",
+        "2_en_es_parity": "pass",
+        "3_filing_route_not_guidance": "pass",
+        "4_no_checkout_on_automatic": "pass_at_treatment_layer",
+        "8_no_internal_language": "pass"
+      },
+      "findings": [
+        {
+          "id": "F2-01",
+          "component": "packets[0].gather.en[3] / gather.es[3] and nextSteps.en[0] / nextSteps.es[0]",
+          "fixture": "n/a",
+          "defect": "The participant is told to run one screen - 'is not an offense that is never eligible under MCL 780.621c'. MI-michigan.json sourceSections['Disqualifying / ineligible offenses'] states a second, track-wide screen for automatic relief: 'Eligible by application but EXCLUDED from automatic set-aside - Assaultive crimes (and a person with more than one assaultive conviction is barred from automatic relief entirely); Serious misdemeanors; Crimes of dishonesty; Offenses punishable by 10 or more years; Any offense involving a minor, a vulnerable adult, injury or serious impairment, or death', and its AGENT GUIDANCE says 'Run two screens'. The exclusion list is scoped to the automatic track, not to the 93-day subgroup - the sibling mi_auto_misd93 entry carries it, this one does not. The two-felony automatic cap is likewise carried by mi_auto_misd93 and absent here.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal B",
+          "acceptanceCondition": "Add the automatic-track exclusion list, the 'more than one assaultive conviction bars automatic relief entirely' rule and the two-felony automatic cap to this entry's gather and nextSteps in both en and es, so the 92-day and 93-day treatments screen identically on every rule the source scopes to the whole automatic track."
+        },
+        {
+          "id": "F2-09",
+          "component": "authority[1] pointer 'orderedDecisionRules[rule-11]' -> src/lib/rcap-engine/compiled/profiles/MI-michigan.json rule-11-92-day-or-less-misdemeanors-are-set-aside-7-years-after",
+          "fixture": "n/a",
+          "defect": "The decision rule this treatment cites as its authority carries then={suggestedResultCode:'packet_ready_with_caution', frontendAction:'show_cautions_then_allow_packet_checkout'}, i.e. it routes a no-filing automatic route to a paid packet checkout. Its siblings rule-10, rule-27, rule-41 and rule-56 all carry 'save_state_guidance_no_checkout'; rule-11 is the outlier. The same exposure exists in AK-alaska.json, where 11 CourtView-keyed rules permit checkout. This rule is PRE-EXISTING - neither lane touched src/ - and is inert today because nothing under src/ reads the guidance packets, but no artifact in lane B records or reconciles it.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "owner of src/lib/rcap-engine/compiled/profiles (state-pack fidelity) with Terminal A for route resolution; Terminal B to record the conflict",
+          "acceptanceCondition": "rule-11 is corrected to save_state_guidance_no_checkout to match rule-10/27/41/56, or the discrepancy is registered as a state-pack fidelity item with an owner; and a check exists that no ordered decision rule reachable from a complete_guidance track emits an allow_packet_checkout frontendAction."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "lane": "B",
+      "branch": "claude/rcap-terminalize-b-guidance",
+      "sha": "a26eda058a64c50458939e16e382412b39959756",
+      "job": "T-B-MI-complete-guidance",
+      "track": "mi_auto_misd93",
+      "family": "MI guidance packet - automatic set-aside, 93-day-or-more misdemeanors",
+      "file": "data/rcap-all50/guidance-packets/mi.json",
+      "treatmentDeclared": "complete_guidance",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "fail",
+        "2_en_es_parity": "pass",
+        "3_filing_route_not_guidance": "pass",
+        "4_no_checkout_on_automatic": "pass",
+        "8_no_internal_language": "pass"
+      },
+      "findings": [
+        {
+          "id": "F2-02",
+          "component": "packets[1].handoff.en / handoff.es",
+          "fixture": "n/a",
+          "defect": "States the One Bad Night rule without its two limiting conditions: 'Michigan also collapses convictions arising from the same incident under MCL 780.621b, which can change the count'. MI-michigan.json: 'multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction - UNLESS one is assaultive, weapon-involved, or punishable by >10 years, which break the grouping.' The 24-hour window and the three grouping-breakers are both dropped, so a participant may conclude same-incident convictions always count as one. The lane's own commit message says the counting rules are 'carried precisely'; on this rule they are not.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal B",
+          "acceptanceCondition": "Restate MCL 780.621b with the 24-hour same-transaction requirement and the assaultive / weapon-involved / >10-year exceptions, in both en and es."
+        },
+        {
+          "id": "F2-02b",
+          "component": "packets[1].gather.en[3] / nextSteps.en[2] and their es counterparts",
+          "fixture": "n/a",
+          "defect": "The automatic-track exclusion list is carried, but the accompanying source rule 'a person with more than one assaultive conviction is barred from automatic relief entirely' is not, and the MCL 780.621c never-eligible screen that the 92-day entry does carry is absent here.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal B",
+          "acceptanceCondition": "Add both to gather and nextSteps in en and es, so the two Michigan automatic entries screen identically."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "lane": "E",
+      "branch": "claude/rcap-terminalize-e-hard-forms",
+      "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+      "job": "T-E-CA-production-packet",
+      "track": "ca-1203-41, ca-1203-42, ca-1203-43, ca-1203-4a, ca-17b-reduction",
+      "family": "california/cr-180-petition-for-dismissal",
+      "file": "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+      "treatmentDeclared": "tier_1_hybrid_widget_shadow",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "pass",
+        "2_en_es_parity": "fail",
+        "3_filing_route_not_guidance": "pass",
+        "4_no_checkout_on_automatic": "n/a_filing_route",
+        "6_ca_route_components": "fail",
+        "7_protected_fields": "fail"
+      },
+      "findings": [
+        {
+          "id": "F2-12a",
+          "component": "profile.json bindings -> CR-180[0].Page3[0].LI7[0].DateField1[0] <- petitionDate; page 3, item 7",
+          "fixture": "canonical and boundary (negative is clean)",
+          "defect": "Item 7 of CR-180 is 'Deferred entry of judgment (Pen. Code, s 1203.43)'. Binding petitionDate there makes the rendered packet assert a fact that did not occur. Rendered canonical output (pdftotext -layout of the flattened bytes) reads: '7. Deferred entry of judgment (Pen. Code, s 1203.43) Petitioner performed satisfactorily during the period in which deferred entry of judgment was granted. The criminal charge(s) were dismissed under former Penal Code section 1000.3 on (date): 08/12/2026'. The canonical fixture's own note is 'Ordinary participant on the PC 1203.4a misdemeanor route' with a 03/14/2019 petty-theft conviction, so item 7 does not apply at all. The petition is signed under penalty of perjury.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal E",
+          "acceptanceCondition": "Remove the petitionDate -> LI7 DateField1 binding, or rebind it to a distinct deferredEntryDismissalDate fact that is only supplied on the ca-1203-43 route. Re-render all three fixtures and confirm by extracted text that no date appears on the item-7 s 1000.3 line for any non-1203.43 fixture; refresh reports/output-fingerprints.json and keep verify-rcap-hard-form-outputs.mjs at exit 0."
+        },
+        {
+          "id": "F2-12b",
+          "component": "profile.json bindings -> CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0] <- offense1Description; page 1, item 1 conviction table",
+          "fixture": "canonical and boundary",
+          "defect": "Wrong column. field-census.json geometry shows the table has five columns at x = 53.95 / 119.85 / 182.96 / 331.63 / 453.60; Offense1[0] is the fifth at x=453.6, which the printed header labels 'Eligible for reduction to infraction under Penal Code, s 17(d)(2) (yes or no)'. The rendered canonical row reads 'PC | 484(a) | Misdemeanor | (blank) | Petty theft'; the boundary row prints 'Shoplift - see Attachment A' into the same yes/no column, and also references an 'Attachment A' the family does not produce. The LiveCycle field name is misleading; the widget position is not.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal E",
+          "acceptanceCondition": "Drop the offense1Description binding or rebind it to a field whose census rect sits in a column that asks for an offense description; if the 17(b)/17(d)(2) columns are to be filled, bind Reduce1/Offense1 to yes/no facts. Add a census-derived column-label assertion to verify-rcap-hard-form-outputs.mjs so a bound value is checked against its printed column header, and remove the dangling 'see Attachment A' overflow token unless the family emits that attachment."
+        },
+        {
+          "id": "F2-10",
+          "component": "family composition for the five tracks served",
+          "fixture": "all",
+          "defect": "CA-california.json requires service: '5 Serve the prosecuting attorney (District Attorney or city attorney). For 1203.4, the prosecutor must receive at least 15 days notice before relief is granted.' The family ships CR-180 + CR-181 and no proof of service (CR-106 is deliberately unauthored, correctly - see treatment 11), and no lane-E artifact tells the participant how to effect service instead.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E for the component, counsel / CA state-pack legal design for the service-recipient rules",
+          "acceptanceCondition": "Either CR-106 is authored once the service-recipient design lands, or the family carries an explicit participant-facing service instruction naming who must be served and the 15-day notice period; and a verifier assertion exists that a CA petition family declares its service component or an explicit service instruction."
+        },
+        {
+          "id": "F2-07",
+          "component": "rcap-hard-form-profile/v1 schema - no language keys",
+          "fixture": "n/a",
+          "defect": "Lane E commits no Spanish for any participant-facing string. Whether a Spanish surface is supplied elsewhere is unverified: nothing under src/ reads data/rcap-all50/hard-forms.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with Terminal A (Briefcase surface)",
+          "acceptanceCondition": "Either the hard-form profile schema gains en/es pairs on participant-facing strings as rcap-guidance-packets/v1 already requires, or the owning surface is named and shown to supply the Spanish."
+        }
+      ],
+      "confirmedCorrect": [
+        "Derivative california-cr180-rescued.pdf is staged and hashes to the pinned a2399fc3ccbe...",
+        "Signature block renders blank: 'Date:' / '(TYPE OR PRINT NAME)' / '(SIGNATURE OF PETITIONER OR ATTORNEY)' all empty; SigDate[0] and SigName[0] are protected.",
+        "Court-use header fields and footer Print/Save/Reset/Warning controls are protected and blank.",
+        "Negative fixture invents nothing: populated=[] and all 16 bindings reported under skippedNoFact."
+      ]
+    },
+    {
+      "id": 8,
+      "lane": "E",
+      "branch": "claude/rcap-terminalize-e-hard-forms",
+      "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+      "job": "T-E-CA-production-packet",
+      "track": "ca-1203-41, ca-1203-42, ca-1203-43, ca-1203-4a, ca-17b-reduction",
+      "family": "california/cr-181-order-for-dismissal",
+      "file": "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+      "treatmentDeclared": "tier_1_hybrid_widget_shadow",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "pass",
+        "2_en_es_parity": "fail",
+        "7_protected_fields": "fail_by_over_protection"
+      },
+      "findings": [
+        {
+          "id": "F2-13",
+          "component": "profile.json protectedFields / bindings and field-census.json; page 1 caption and page 2 header",
+          "fixture": "canonical, boundary, negative",
+          "defect": "The proposed order renders with an empty caption. CR-181[0].Page1[0].Caption[0].TitlePartyName[0].Party1[0] (defendant name) and both CR-181[0].Page2[0].P2Header[0] fields (CaseNumber2, Party1) are classified 'protected'; the page-1 CR-181[0].Page1[0].Caption[0].HeaderSub[0].CaseNumber[0].CaseNumber2[0] is 'unbound_available'. The canonical fixture supplies caseNumber 'CR-2019-0114872' and it is silently unused (12 populated, 0 skipped). Rendered output reads 'PEOPLE OF THE STATE OF CALIFORNIA v. DEFENDANT:' blank and 'CASE NUMBER:' blank on both pages, so the order does not identify the case it disposes of. The family's own handoff.md states 'The participant completes the caption and nothing else', which the rendered bytes contradict.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal E",
+          "acceptanceCondition": "Reclassify the defendant-name and case-number caption fields on both pages from 'protected' to bound, bind them to participantFullLegalName and caseNumber as CR-180 already does for the same-shaped fields, re-render all three fixtures and confirm by extracted text that the caption carries the defendant name and case number on every page while every grant/deny box and the judicial signature stay blank. Refresh reports/output-fingerprints.json; verify-rcap-hard-form-outputs.mjs at exit 0."
+        },
+        {
+          "id": "F2-07",
+          "component": "rcap-hard-form-profile/v1 schema - no language keys",
+          "fixture": "n/a",
+          "defect": "No Spanish for any participant-facing string (see treatment 7).",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with Terminal A",
+          "acceptanceCondition": "As treatment 7, F2-07."
+        }
+      ],
+      "confirmedCorrect": [
+        "Derivative california-cr181-rescued.pdf staged, hashes to pinned 202c33849bf9...",
+        "All 42 protected fields render blank: every PC 1203.4 / 1203.4a / 1203.41 / 1203.42 / 1203.43 / 1203.49 grant-and-deny box, both 17(b)/17(d)(2) pairs, and Signature_dt. The packet cannot pre-decide relief a judge has not granted.",
+        "Negative fixture: populated=[], 11 bindings skippedNoFact."
+      ]
+    },
+    {
+      "id": 9,
+      "lane": "E",
+      "branch": "claude/rcap-terminalize-e-hard-forms",
+      "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+      "job": "T-E-CA-production-packet",
+      "track": "ca-851-91",
+      "family": "california/cr-409-petition-to-seal-arrest-records",
+      "file": "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records/profile.json",
+      "treatmentDeclared": "tier_1_hybrid_widget_shadow",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "pass",
+        "2_en_es_parity": "fail",
+        "6_ca_route_components": "fail",
+        "7_protected_fields": "pass"
+      },
+      "findings": [
+        {
+          "id": "F2-14",
+          "component": "profile.json bindings -> rightCaption[0].CourtInfo[0] <- courtName and rightCaption[0].TCCaseName[0] <- caseName; page 1 right caption",
+          "fixture": "canonical and boundary",
+          "defect": "Both fields sit beneath pre-printed official text, and the bound values repeat it. The source PDF prints 'Superior Court of California, County of' and 'People of the State of California v.' as static text; the render produces 'Superior Court of California, County of / Superior Court of California, County of Los Angeles' and 'People of the State of California v. / People v. Rivera'. The CourtInfo widget is an 89-point multi-line block for the county plus street address, not the full court name.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal E",
+          "acceptanceCondition": "Bind the county (and court street address) rather than the full court name, and the defendant name rather than a full 'People v. X' caption; or change the fixtures to supply those narrower values. Re-render and confirm by extracted text that neither pre-printed caption is duplicated in any fixture; refresh fingerprints."
+        },
+        {
+          "id": "F2-10",
+          "component": "family composition for ca-851-91",
+          "fixture": "all",
+          "defect": "No proof of service ships with the petition; see treatment 7 F2-10 and treatment 11.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with counsel / CA state-pack legal design",
+          "acceptanceCondition": "As treatment 7, F2-10."
+        },
+        {
+          "id": "F2-07",
+          "component": "rcap-hard-form-profile/v1 schema - no language keys",
+          "fixture": "n/a",
+          "defect": "No Spanish for any participant-facing string (see treatment 7).",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with Terminal A",
+          "acceptanceCondition": "As treatment 7, F2-07."
+        }
+      ],
+      "confirmedCorrect": [
+        "Derivative california-cr409-rescued.pdf staged, hashes to pinned d2674e035ea4...",
+        "The clerk-assigned hearing block renders blank: '2 Notice of Court Hearing (clerk fills out section below)' with Date / Time / Dept. / Room empty; HearingInfo T158-T162 protected.",
+        "POPSig SigDate / SigName protected and blank; footer controls protected.",
+        "The 'Protected...' prefixed contact fields are correctly identified as California confidential-contact-information fields (participant-supplied), not court-use fields - the handoff records this explicitly and the reading of the form confirms it.",
+        "Link annotations carrying courts.ca.gov URLs are stripped while the printed text survives; no residual annotation actions in output.",
+        "Negative fixture: populated=[], 8 bindings skippedNoFact."
+      ]
+    },
+    {
+      "id": 10,
+      "lane": "E",
+      "branch": "claude/rcap-terminalize-e-hard-forms",
+      "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+      "job": "T-E-CA-production-packet",
+      "track": "ca-851-91",
+      "family": "california/cr-410-order-to-seal-arrest-records",
+      "file": "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records/profile.json",
+      "treatmentDeclared": "tier_1_hybrid_widget_shadow",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "pass",
+        "2_en_es_parity": "fail",
+        "7_protected_fields": "fail"
+      },
+      "findings": [
+        {
+          "id": "F2-15",
+          "component": "profile.json bindings -> Stamp_court_case[0].{CourtInfo_ft, CaseNumber, TCCaseName_ft}; and protectedFields covering Page1[0].T186[0..2] and Page1[0].FillText38/37",
+          "fixture": "canonical, boundary, negative",
+          "defect": "The fill is inverted against the form's own printed instructions. The three fields lane E binds are exactly the three the official form marks for the clerk - the render shows 'Clerk fills in the name and street address of the court.' immediately above the bound CourtInfo_ft, and 'Clerk fills in the number and name of the case.' immediately above the bound CaseNumber and TCCaseName_ft. Meanwhile the petitioner's own item-1 identity block - T186[0..2] (Last / First / Middle, y=686) and FillText38[0..1] / FillText37[0..1] (mailing address, y=633-656) - is classified 'protected' and renders blank. The order therefore ships with the petitioner unidentified and the clerk's blocks pre-completed. CR-410 also reproduces F2-14's duplicated captions ('Superior Court of California, County of' + full court name; 'People of the State of California v.' + 'People v. Rivera').",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal E",
+          "acceptanceCondition": "Move the three Stamp_court_case fields into protectedFields (the form says the clerk fills them), reclassify the item-1 petitioner name and mailing-address fields from protected to bound, bind them to the participant facts, and fix the caption duplication as in F2-14. Re-render all three fixtures and confirm by extracted text that the petitioner's name and address appear, that no clerk-labelled block is populated, and that all findings, the sealing directive and the judicial signature stay blank. Refresh fingerprints; verify-rcap-hard-form-outputs.mjs at exit 0."
+        },
+        {
+          "id": "F2-07",
+          "component": "rcap-hard-form-profile/v1 schema - no language keys",
+          "fixture": "n/a",
+          "defect": "No Spanish for any participant-facing string (see treatment 7).",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with Terminal A",
+          "acceptanceCondition": "As treatment 7, F2-07."
+        }
+      ],
+      "confirmedCorrect": [
+        "Derivative california-cr410-rescued.pdf is now staged (this was the subject of the target commit) and hashes to the pinned 8ebb91910e00...",
+        "All grant/deny checkboxes (CheckBox15, CheckBox2, Deniedpetition[0..3]), the findings text fields and the judicial signature block render blank across all three fixtures.",
+        "Negative fixture: populated=[], 2 bindings skippedNoFact."
+      ]
+    },
+    {
+      "id": 11,
+      "lane": "E",
+      "branch": "claude/rcap-terminalize-e-hard-forms",
+      "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+      "job": "T-E-CA-production-packet",
+      "track": "serves ca-1203-41/42/43/4a, ca-17b-reduction, ca-851-91",
+      "family": "CA CR-106 Proof of Service (Criminal Record Clearing)",
+      "file": "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+      "treatmentDeclared": "tier_1_capable_binding_policy_open",
+      "disposition": "held_on_source_or_design",
+      "criteria": {
+        "1_authority": "pass",
+        "5_deferral_completeness": "partial",
+        "7_protected_fields": "n/a_no_field_map_authored"
+      },
+      "basis": "The decision not to author the field map is correct and is the right call on the evidence: 'a proof of service asserts who was served, at which address, on what date, by which method, and that determination (the prosecuting agency and, for s 851.91, the law enforcement agency for each county) is legal design this lane does not own. Authoring it from guesswork would put a false service declaration under a participant signature.' The blocker names exact missing evidence (the per-county service-recipient design for PC 1203.4x and PC 851.91 and their service addresses), an owner ('counsel / state-pack legal design (CA)') and a next action. The decrypted derivative is staged and hashes to the pinned b20f56ea218a...",
+      "findings": [
+        {
+          "id": "F2-11",
+          "component": "tier-0-reclassification-and-components.json instructionComponents[2]",
+          "fixture": "n/a",
+          "defect": "The held disposition sits outside every verifier. verify-rcap-hard-form-dispositions.mjs walks only files named profile.json, so CR-106 is checked by nothing, and it carries none of the three things that verifier would have demanded: no participantTreatment, no routeStatus, no checkoutProhibited.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E",
+          "acceptanceCondition": "Give CR-106 a participantTreatment with routeStatus, receivingAuthority, nextStep and checkoutProhibited:true, and either move it to a profile.json or extend verify-rcap-hard-form-dispositions.mjs to walk component records, so the held disposition is enforced rather than described."
+        },
+        {
+          "id": "F2-10",
+          "component": "consequence for the six CA tracks",
+          "fixture": "n/a",
+          "defect": "Because CR-106 is unauthored and no participant-facing service instruction exists elsewhere in the lane, all six CA petition tracks ship without their service component. See treatments 7 and 9.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "counsel / CA state-pack legal design to supply the rules; Terminal E to author or instruct",
+          "acceptanceCondition": "As treatment 7, F2-10."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "lane": "E",
+      "branch": "claude/rcap-terminalize-e-hard-forms",
+      "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+      "job": "T-E-DE-production-packet",
+      "track": "de_discretionary_family_court",
+      "family": "delaware/family-court-form-281",
+      "file": "data/rcap-all50/hard-forms/delaware/family-court-form-281/profile.json",
+      "treatmentDeclared": "exact_supported_deferral",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "fail",
+        "2_en_es_parity": "fail",
+        "3_filing_route_not_guidance": "pass",
+        "4_no_checkout_on_automatic": "pass",
+        "5_deferral_completeness": "pass"
+      },
+      "findings": [
+        {
+          "id": "F2-05",
+          "component": "participantTreatment.whatTheParticipantIsTold and participantTreatment.receivingAuthority; also candidatesExaminedAndRejected[0].rejectedBecause",
+          "fixture": "n/a",
+          "defect": "The participant is told 'Delaware Family Court adult expungement under 11 Del. C. s 4374(c) is available where every charge was disposed of in Family Court' and is routed to 'Family Court of the State of Delaware for the county where the charges were disposed of'. Nothing committed carries this: '4374(c)' returns 0 hits in src/lib/rcap-engine/compiled/profiles/DE-delaware.json, and there is no adult Family Court venue rule anywhere in the repository. What the profile does say is 'Mandatory is handled by the SBI; discretionary is filed with the Superior Court (Family Court for juvenile)', with Family Court expungement described as the juvenile route under 10 Del. C. ss 1017-1019; its only worked s 4374 example is captioned 'SUPERIOR COURT OF THE STATE OF DELAWARE, NEW CASTLE COUNTY'. The same uncorroborated premise is what the lane used to reject the committed Superior Court petition ('Filling a Superior Court petition for a Family Court filing would misroute the participant'). If the premise is wrong, the rejection of the one usable committed artifact is wrong too, and the participant is being sent to the wrong court.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal E, with source acquisition / counsel for the DE venue rule",
+          "acceptanceCondition": "Pin the text of 11 Del. C. s 4374(c) (or whatever provision carries the Family Court venue rule for adult discretionary expungement) into the repository the way the PA and SC extracts are pinned under data/rcap-crosswalk-enrichment/final-official-sources/, with retrieval date, issuing body and sha256; or restate the participant text and receivingAuthority to match the only committed venue statement (Superior Court) and revisit the rejection of the Superior Court candidate. Every participant-facing statutory citation and destination must resolve to a committed carrier."
+        },
+        {
+          "id": "F2-07",
+          "component": "participantTreatment - English only",
+          "fixture": "n/a",
+          "defect": "No Spanish for any of the four participant-facing strings.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with Terminal A",
+          "acceptanceCondition": "As treatment 7, F2-07."
+        },
+        {
+          "id": "F2-18",
+          "component": "ledger reconciliation",
+          "fixture": "n/a",
+          "defect": "data/rcap-ledger/track-terminalization.json requires requiredTreatment 'production_packet' for T-E-DE-production-packet; the lane delivers 'exact_supported_deferral'. Neither lane-E verifier reads the ledger, so the downgrade is unreconciled. The downgrade itself is well justified.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with the ledger owner",
+          "acceptanceCondition": "Either the ledger entry is amended to the delivered treatment with the reason recorded, or verify-rcap-hard-form-dispositions.mjs compares strategy.tier to the ledger's requiredTreatment and the mismatch is explicitly waived."
+        }
+      ],
+      "confirmedCorrect": [
+        "Criterion 5 fully satisfied: exact reason (the official Family Court Form 281 principal petition binary at any revision is absent from the canonical bundle, which carries FORM-281E only), exact destination, exact next step (obtain Form 281 plus Form 281E plus the SBI criminal history report).",
+        "checkoutProhibited:true, neverDeliverRawXfa:true, adobeReaderNotRequired:true, routeStatus complete_guidance_no_packet - all enforced by verify-rcap-hard-form-dispositions.mjs, which passes.",
+        "All three rejected candidates carry a full sha256, what the artifact actually is, and why it cannot serve the track. This is the strongest evidence discipline in the review.",
+        "No internal build vocabulary in any participant string."
+      ]
+    },
+    {
+      "id": 13,
+      "lane": "E",
+      "branch": "claude/rcap-terminalize-e-hard-forms",
+      "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+      "job": "T-E-ME-production-packet",
+      "track": "me-seal-prost",
+      "family": "maine/cr-289-motion-to-seal-prostitution-conviction",
+      "file": "data/rcap-all50/hard-forms/maine/cr-289-motion-to-seal-prostitution-conviction/profile.json",
+      "treatmentDeclared": "exact_supported_deferral",
+      "disposition": "correction_required",
+      "criteria": {
+        "1_authority": "fail",
+        "2_en_es_parity": "fail",
+        "3_filing_route_not_guidance": "pass",
+        "4_no_checkout_on_automatic": "pass",
+        "5_deferral_completeness": "pass"
+      },
+      "findings": [
+        {
+          "id": "F2-06",
+          "component": "currentnessAdjudication.finding, whyThisBlocksAPacket, participantTreatment.whatTheParticipantIsTold and participantTreatment.nextStep",
+          "fixture": "n/a",
+          "defect": "Three participant-facing or decision-critical claims have no committed carrier. (a) The whole deferral rests on 'PL 2025, c. 513, which repealed s 2262-A(1) effective January 11, 2026'. ME-maine.json carries PL 2025 c. 513 and the 11 Jan 2026 effective date but describes it as CREATING the 15 M.R.S. s 2262-B survivor route; '2262-A' returns 0 hits. The document the adjudication cites, STATES/ME/01_LEGAL_REVIEW/...maine-record-clearing-legal-review...md, is not in the repository (STATES/ is absent, 0 tracked files). (b) The participant string asserts the relief comes 'with no continuing self-reporting duty'; 'self-report' returns 0 hits in the committed profile. (c) The next step tells the participant CR-307 'has no waiting period'; the committed profile's 2262-B prerequisites do not state this.",
+          "structuralOrVisible": "visible",
+          "likelyOwner": "Terminal E, with source acquisition for the Maine legal review",
+          "acceptanceCondition": "Pin the Maine adopted legal design (or the text of PL 2025 c. 513 and 15 M.R.S. ss 2261/2262-A/2262-B) into the repository with retrieval date, issuing body and sha256; or restate the blocker premise and both participant claims so each resolves to ME-maine.json or another committed carrier, deleting the self-reporting and CR-307-waiting-period assertions if no carrier exists."
+        },
+        {
+          "id": "F2-07",
+          "component": "participantTreatment - English only",
+          "fixture": "n/a",
+          "defect": "No Spanish for any of the four participant-facing strings.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with Terminal A",
+          "acceptanceCondition": "As treatment 7, F2-07."
+        },
+        {
+          "id": "F2-18",
+          "component": "ledger reconciliation",
+          "fixture": "n/a",
+          "defect": "The ledger requires 'production_packet' for T-E-ME-production-packet; the lane delivers 'exact_supported_deferral', unreconciled because no lane-E verifier reads the ledger.",
+          "structuralOrVisible": "structural",
+          "likelyOwner": "Terminal E with the ledger owner",
+          "acceptanceCondition": "As treatment 12, F2-18."
+        }
+      ],
+      "confirmedCorrect": [
+        "Criterion 5 fully satisfied: exact reason (whether the Judicial Branch has issued a CR-289 revision after PL 2025 c. 513, and the revised binary with its sha256), exact destination (clerk of the court of conviction - Superior Court, District Court or Unified Criminal Docket, as the conviction record shows), exact next step, plus an owner, a next action and both branches of the unblock spelled out.",
+        "The reason for deferring is sound and well argued: a Rev. 10/24 form whose paragraph 1 recites an eligibility prerequisite is a participant-facing accuracy defect on the face of the filing that correct field placement cannot cure.",
+        "CR-307 correctly rejected as a substitute - it is the survivor route, a different track.",
+        "Hash reconciliation of the CR-289 binary against the packetGenerator formCandidate sha256 in ME-maine.json and against the 166,837-byte sourceInspection is stated and internally consistent.",
+        "checkoutProhibited:true and the rest of the disposition contract pass.",
+        "'CR-289 special route, 1-year wait' and the preponderance standard ARE carried by ME-maine.json.",
+        "Advisory only, not a criterion-8 failure: whatTheParticipantIsTold says 'LegalEase is holding packet preparation until...' and the next step asks the participant to confirm whether a revision has issued - lane E's own source-acquisition task phrased as a participant instruction."
+      ]
+    }
+  ],
+  "crossCuttingFindings": [
+    {
+      "id": "F2-07",
+      "title": "Lane E commits no Spanish for any participant-facing string",
+      "appliesTo": [7, 8, 9, 10, 11, 12, 13],
+      "likelyOwner": "Terminal E with Terminal A"
+    },
+    {
+      "id": "F2-09",
+      "title": "Pre-existing ordered decision rules route no-filing automatic tracks to checkout",
+      "detail": "MI rule-11-92-day-or-less-misdemeanors-... carries frontendAction 'show_cautions_then_allow_packet_checkout' while siblings rule-10/27/41/56 carry 'save_state_guidance_no_checkout'; 11 CourtView-keyed rules in AK-alaska.json also permit checkout. Neither lane touched src/, so these are pre-existing and currently inert - nothing under src/ reads either lane's output.",
+      "appliesTo": [1, 5],
+      "likelyOwner": "compiled-profile owner (state-pack fidelity) with Terminal A"
+    },
+    {
+      "id": "F2-10",
+      "title": "The CA petition routes ship without their service component",
+      "appliesTo": [7, 9, 11],
+      "likelyOwner": "counsel / CA state-pack legal design with Terminal E"
+    },
+    {
+      "id": "F2-17",
+      "title": "18 of 24 B1-partition lane-B tracks are terminalized nowhere (67 lane-wide)",
+      "detail": "Includes ND:nd-dna-profile-removal-routing, which the lane's own gap register places in Group 1 - direct authority, buildable - and nine Group 2 tracks. Neither built nor blocked; no treatment exists for F2 to review.",
+      "appliesTo": [],
+      "likelyOwner": "Terminal B"
+    },
+    {
+      "id": "F2-19",
+      "title": "Checkout prohibition for the four CA Tier-1 families is prose only",
+      "detail": "handoff.md asserts checkout stays prohibited pending Terminal A's wiring and F's visual approval, but unlike the DE/ME deferrals the packet families carry no machine-checked checkoutProhibited field and no verifier asserts one.",
+      "appliesTo": [7, 8, 9, 10],
+      "likelyOwner": "Terminal E with Terminal A"
+    }
+  ],
+  "unverified": [
+    "Official source bytes for CR-180, CR-181, CR-409, CR-410, CR-289 and CR-106 (presentInClone:false; the STATES/ Master Library bundle is absent - 0 tracked files). Only derivative hashes could be checked, so lane E's claim that each derivative's terminal field set is identical to its official source cannot be confirmed here.",
+    "private/Nationwide Record Clearing/, named as sourceDependency by every lane-B packet, is gitignored and absent; all lane-B authority was checked against the compiled profiles instead.",
+    "The Maine adopted legal design markdown and the Delaware Master Library Edition 1 manifest, both cited by sha256, are not in the repository.",
+    "Whether a Spanish surface exists elsewhere for lane-E participant strings.",
+    "Visual fidelity of glyph placement inside widget rectangles - this review read extracted text and census geometry, not rendered pixels. That remains F's gate."
+  ],
+  "blockers": []
+}
