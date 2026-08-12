@@ -1,24 +1,106 @@
 {
   "fixtureId": "negative",
-  "description": "Must fail QA for the stated reason.",
-  "statedFailureReason": "Ohio Rev. Code § 2953.32 relief is sealing (or statutory expungement), never vacatur; the eligibility basis deliberately uses the prohibited term 'vacatur' so vocabulary QA must reject the render.",
+  "description": "Rejection fixture. It keeps the original prohibited-vocabulary violation (so relief-term QA still rejects the render) and adds the class of defect runPleadingQa is structurally blind to: content the committed Ohio evidence does not supply. Each fabricated fact below violates a rule this track's own packet states, and each is named in expectedSignals with the signal it trips.",
+  "statedFailureReason": "The fixture converts the § 2953.32 discretionary weighing — rehabilitation, and the applicant's interest against the legitimate needs of the government — into findings the court has already made, reports a hearing and a granted application when the prosecutor is entitled to 60 days' notice of the hearing and may object up to 30 days before it, states the prosecutor's position for the prosecutor, states a definite local court fee when the source establishes only a cap of not more than fifty dollars and records that indigency excuses the application fee, asserts that the applicant served the prosecutor when notice under § 2953.32 is the court's act, and populates the protected docket number, OTN and judge fields. It also uses the prohibited term 'vacatur' on a sealing track, and it contradicts the packet's single most important Ohio disclosure by promising that the record will be gone from everywhere.",
   "expectations": {
     "qaPassed": false,
-    "expectedFailureSnippet": "vacatur"
+    "expectedFailureSnippet": "vacatur",
+    "expectedSignalClass": "invention",
+    "expectedSignal": "court_finding_asserted",
+    "expectedSignals": [
+      {
+        "signal": "court_finding_asserted",
+        "class": "invention",
+        "violation": "Asserts that the court has already found the applicant rehabilitated and has already weighed the applicant's interest against the legitimate needs of the government. Both are discretionary determinations reserved to the court.",
+        "rule": "Relief is discretionary: the court checks timing and pending cases, considers rehabilitation and prosecutor and victim objections, and weighs the applicant's interest against legitimate governmental needs; the prosecutor is notified at least 60 days before the hearing and may object at least 30 days before it."
+      },
+      {
+        "signal": "hearing_outcome_asserted",
+        "class": "invention",
+        "violation": "Reports that a hearing was held and that the application was granted. The hearing is the court's to schedule and the outcome does not exist when the application is generated.",
+        "rule": "Relief is discretionary: the court checks timing and pending cases, considers rehabilitation and prosecutor and victim objections, and weighs the applicant's interest against legitimate governmental needs; the prosecutor is notified at least 60 days before the hearing and may object at least 30 days before it."
+      },
+      {
+        "signal": "prosecutor_position_asserted",
+        "class": "invention",
+        "violation": "States that the prosecutor has filed no objection and does not object to sealing. The statute gives the prosecutor an objection window of its own; the application never supplies the prosecutor's position.",
+        "rule": "Relief is discretionary: the court checks timing and pending cases, considers rehabilitation and prosecutor and victim objections, and weighs the applicant's interest against legitimate governmental needs; the prosecutor is notified at least 60 days before the hearing and may object at least 30 days before it."
+      },
+      {
+        "signal": "monetary_amount_asserted",
+        "class": "invention",
+        "violation": "States a dollar amount for the local court fee and asserts that both fees were paid on a date. The source establishes a cap, not an amount, and records that indigency excuses the application fee, so no local amount may be stated to a participant.",
+        "rule": "Fees: fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars; indigency excuses the application fee."
+      },
+      {
+        "signal": "fee_amount_asserted",
+        "class": "invention",
+        "violation": "Names the local court fee in words as an established amount ('local court fee of 50 dollars') when the source states only that it may not exceed fifty dollars.",
+        "rule": "Fees: fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars; indigency excuses the application fee."
+      },
+      {
+        "signal": "service_completion_asserted",
+        "class": "invention",
+        "violation": "Asserts that the applicant duly served the prosecutor on a stated date and that service was completed. Notice on a § 2953.32 application is the court's act; the applicant serves no one and this track's config carries no service note at all.",
+        "rule": "Notice is the court's act: on a § 2953.32 application the court sets the hearing and the prosecutor is notified at least 60 days before it and may object at least 30 days before it. The applicant does not serve anyone, and the prosecutor's position is never asserted in the application."
+      },
+      {
+        "signal": "protected_case_field_populated",
+        "class": "protected_field",
+        "violation": "Populates caseData.docketNumber, caseData.otn and caseData.judgeName, which the protected-field policy requires to stay blank in every fixture.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "docket_number_asserted",
+        "class": "protected_field",
+        "violation": "The populated docket number reaches the caption in place of the blank-docket placeholder.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "otn_rendered",
+        "class": "protected_field",
+        "violation": "The populated OTN reaches the rendered text.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "judge_rendered",
+        "class": "protected_field",
+        "violation": "The populated judge name reaches the rendered text.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      }
+    ],
+    "unsignalledViolations": [
+      {
+        "violation": "Promises that every entity receiving notice will destroy, delete and erase the record and that it will be completely gone from everywhere. This contradicts the packet's single most important Ohio disclosure, which records that BCI keeps a limited record for law-enforcement employment qualification and disqualification.",
+        "rule": "The single most important Ohio disclosure: on § 2953.32 relief, BCI keeps a limited record for law-enforcement employment qualification and disqualification while other entities receiving notice must destroy, delete and erase; never describe the record as completely gone from everywhere.",
+        "why_unsignalled": "No pattern in the invention/protected-field scanner detects an over-promise about the reach of relief. The violation is recorded here so the residual blind spot is visible rather than mistaken for coverage."
+      }
+    ]
   },
   "renderInput": {
     "partyData": {
       "petitionerName": "Negative Sample"
     },
     "caseData": {
-      "countyName": "Franklin"
+      "countyName": "Franklin",
+      "docketNumber": "19CR-004417",
+      "otn": "OH0044179920",
+      "judgeName": "the Honourable Pat Example"
     },
     "chargeData": {
       "chargeDescription": "Theft",
       "offenseGrade": "Felony of the fifth degree"
     },
     "eligibilityData": {
-      "eligibilityBasisLabel": "Vacatur of the conviction under Ohio Rev. Code § 2953.32 after final discharge"
+      "eligibilityBasisLabel": "Vacatur of the conviction under Ohio Rev. Code § 2953.32 after final discharge",
+      "additionalFacts": [
+        "The Court finds that Applicant has been rehabilitated to the satisfaction of the court and that Applicant's interest in having the record sealed outweighs the legitimate needs of the government to maintain it.",
+        "A hearing was held on 03/20/2026 and the application was granted.",
+        "The prosecutor has filed no objection and does not object to the sealing requested.",
+        "Applicant paid the fifty dollar application fee and a local court fee of 50 dollars ($50) to the clerk of the sentencing court on 02/14/2026.",
+        "A copy of this Application was duly served on the prosecutor on 03/01/2026, and service was completed that day.",
+        "Upon sealing, every entity receiving notice will destroy, delete and erase the record, and the record will be completely gone from everywhere."
+      ]
     },
     "productName": "LegalEase RCAP",
     "shadowMode": true

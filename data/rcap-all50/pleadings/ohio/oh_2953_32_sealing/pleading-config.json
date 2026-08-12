@@ -59,8 +59,9 @@
       "Companion-charge trap (ORC 2953.61): an incident whose companion charge has a different final disposition cannot be partially sealed until all related charges can be cleared together.",
       "SB 288 removed the 'eligible offender' definition and the numeric cap from ORC 2953.31; any counting-caps logic inherited from pre-2023 Ohio is wrong.",
       "Excluded categories include traffic-chapter offenses (Chapters 4506/4507/4510/4511/4549), felony offenses of violence that are not sexually oriented offenses, sexually oriented offenses committed while subject to Chapter 2950 registration, victim-under-13 offenses (except nonsupport), theft in office, F1/F2 felonies, and M1/M2 domestic violence.",
-      "The applicant signs the application; notarization is not identified by the source and local practice may require it.",
-      "Fees: fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars; indigency excuses the application fee."
+      "The applicant signs the application; notarization is not identified by the source and local practice may require it. Confirm any verification requirement with the clerk of the sentencing court.",
+      "Fees: fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars; indigency excuses the application fee.",
+      "Notice is the court's act: on a § 2953.32 application the court sets the hearing and the prosecutor is notified at least 60 days before it and may object at least 30 days before it. The applicant does not serve anyone, and the prosecutor's position is never asserted in the application."
     ]
   },
   "runtimePreexisting": null,
@@ -196,6 +197,44 @@
       "detail": "BLOCKED — lane D/E dependency: the post-order transmission to BCI uses the Ohio Attorney General's 'Sealings and Expungements Request' official form (registry component role bci_transmission, outputStrategy official_pdf_fill). A mandatory official form is not drafted in this lane; the participant instructions describe the step and the official form is lane D/E scope."
     }
   },
+  "sourceSilences": [
+    {
+      "field": "config.verificationStatute.citation",
+      "statement": "The source records that the applicant signs the § 2953.32 application but identifies no notarization requirement and no verification statute. The citation is held null rather than filled with a general Ohio oath statute that no committed source ties to this application.",
+      "counselFlag": "The applicant signs the application; notarization is not identified by the source and local practice may require it. Confirm any verification requirement with the clerk of the sentencing court.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "config.serviceNote",
+      "statement": "Null because notice under § 2953.32 is the court's act: the court sets the hearing and the prosecutor is notified at least 60 days before it. No committed Ohio source prescribes any service by the applicant, so no service note is stated.",
+      "counselFlag": "Notice is the court's act: on a § 2953.32 application the court sets the hearing and the prosecutor is notified at least 60 days before it and may object at least 30 days before it. The applicant does not serve anyone, and the prosecutor's position is never asserted in the application.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "localCourtFeeAmount",
+      "statement": "The source establishes a fifty dollar application fee and a cap of not more than fifty dollars on a possible local court fee. It never states what any particular court charges, and it records that indigency excuses the application fee, so no local amount is stated to a participant.",
+      "counselFlag": "Fees: fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars; indigency excuses the application fee.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "localApplicationDeviation",
+      "statement": "Ohio publishes no statewide mandatory form and each court maintains its own application. Whether any county's local application deviates from the statutory content requirements is unresolved in the committed evidence, so no local form is named and the drafted content is transcribed onto the sentencing court's own application.",
+      "counselFlag": "Registry build blocker: Ohio publishes no statewide mandatory form and each court maintains its own application; whether any county's local application deviates from the statutory content requirements is unresolved. The drafted content is transcribed onto the sentencing court's own application.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "thirdDegreeFelonyCountingRule",
+      "statement": "The exact terms of the third-degree-felony counting rule -- whether a person with more than one third-degree felony is barred -- are not established by any committed source. The rule is left unresolved rather than stated in either direction.",
+      "counselFlag": "Registry release blocker: the exact terms of the third-degree-felony counting rule (whether a person with more than one third-degree felony is barred) are unresolved.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "waitingPeriodsAndExclusionsBasis",
+      "statement": "The full text of ORC 2953.32 was not read at source by the controlling review. The waiting periods and exclusions carried here are the review's, corroborated by the Franklin County Law Library guides; the statutory text behind them is unread rather than quoted.",
+      "counselFlag": "Registry build blocker: the full text of ORC 2953.32 was not read at source by the controlling review; the waiting periods and exclusions are the review's, corroborated by the Franklin County Law Library guides, and the section must be read before any tier ships.",
+      "counselFlagChannel": "counselFlags"
+    }
+  ],
   "counselNotes": [
     "BCI transmission form is a lane D/E dependency (official_pdf_fill).",
     "No statewide form; drafted content is transcribed onto the local court's application."
