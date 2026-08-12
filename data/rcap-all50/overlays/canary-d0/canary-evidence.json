@@ -9,7 +9,7 @@
       "refused": 24,
       "unfittable": 1,
       "outputSha256": "5341354a0cdca2e26a3c0b0be3c945f0f056077b691e6aacab6f8850026bc78f",
-      "contactSheetSha256": "ea2816bc7cd8256fc7150edb1a0e2ade6e70e16e59316050b629a9715c249025"
+      "contactSheetSha256": "ffcd0a19b98b45634060e4b746555e1a1c80c98f0b3047b8a5e941275f495c9d"
     },
     "flat": {
       "sourceSha256": "3a5a6f7f69a5c7cb2d2a9c53bc59eaf25a4dd6db29423f1c6e28ef2d575e6b5e",
@@ -17,7 +17,7 @@
       "written": 5,
       "refused": 1,
       "outputSha256": "be1b4b62075625962b8ad6c8e968ecfbffb1988819271dc6aa52647d3a722a34",
-      "contactSheetSha256": "ec3b99917bce013542e7fc20b4832dcd89c201e672f7424c21ff949b11d73014"
+      "contactSheetSha256": "3155c54784ac60f9977ab0c9669a835865926f97bd1095250d1d10ed3441f7ab"
     },
     "scripted": {
       "sourceSha256": "46b066171155673a56cc3f33e61fb625a468c5e70f09f6dd48d645147ab60855",
@@ -47,6 +47,99 @@
         "xfa_residue"
       ],
       "residueAfter": []
+    },
+    "print-flags": {
+      "sourceSha256": "44b51d36f8b77c698235c99f5e6cea32d3fd05da6f5024d6747077c9d4734131",
+      "sourceBytes": 9333,
+      "suppressed": [
+        {
+          "field": "helperNotice",
+          "fieldType": "TextField",
+          "reason": "hidden_flag_set",
+          "flags": 6,
+          "rect": [
+            39.5,
+            299.5,
+            500.5,
+            340.5
+          ]
+        },
+        {
+          "field": "internalRouting",
+          "fieldType": "TextField",
+          "reason": "no_view_flag_set",
+          "flags": 36,
+          "rect": [
+            39.5,
+            269.5,
+            280.5,
+            286.5
+          ]
+        },
+        {
+          "field": "resetButton",
+          "fieldType": "Button",
+          "reason": "no_flags_entry_so_does_not_print",
+          "flags": 0,
+          "rect": [
+            40,
+            220,
+            112,
+            240
+          ]
+        },
+        {
+          "field": "clearFormButton",
+          "fieldType": "Button",
+          "reason": "no_flags_entry_so_does_not_print",
+          "flags": 0,
+          "rect": [
+            130,
+            220,
+            220,
+            240
+          ]
+        },
+        {
+          "field": "printButton",
+          "fieldType": "Button",
+          "reason": "print_flag_not_set",
+          "flags": 0,
+          "rect": [
+            240,
+            220,
+            322,
+            240
+          ]
+        }
+      ],
+      "fieldsRemoved": 5,
+      "writtenValueConflicts": [],
+      "outputSha256": "b3e1aa4a2fae4bff0cf2d38a3569f3da9acd7aeb6141964f8f4c625e97179a5c"
+    },
+    "scripted-blank": {
+      "sourceSha256": "8df8da1ea1987ea8ea0176f934417ecf5034af081c8794c1eb66f5377f175adf",
+      "sourceBytes": 2698,
+      "sourceResidue": [
+        "document_javascript",
+        "field_javascript",
+        "additional_actions",
+        "open_action"
+      ],
+      "sheetResidue": [],
+      "sheetInspectable": true,
+      "sheetSha256": "03cc30a7733a6913da60697c088bae2d8752b913e44f5b12e32114b90d282e1f"
+    },
+    "failClosed": {
+      "compressedVerdict": "uninspectable",
+      "compressedReportedClean": false,
+      "uninspectableReason": "artifact_not_byte_inspectable",
+      "residueHits": [
+        "document_javascript",
+        "field_javascript",
+        "additional_actions",
+        "open_action"
+      ]
     }
   },
   "mutations": {
@@ -95,11 +188,44 @@
     "sourceDrift": {
       "detected": true,
       "driftedSha256": "49d20dcf8fa97c57"
+    },
+    "printFlags": {
+      "detected": true,
+      "leakedWithoutFlagTest": [
+        "hidden helper",
+        "NoView helper",
+        "Reset caption",
+        "Clear Form caption",
+        "Print Form caption"
+      ]
+    },
+    "contactSheetSanitation": {
+      "detected": true,
+      "residueWithoutSanitation": [
+        "document_javascript",
+        "field_javascript",
+        "additional_actions"
+      ],
+      "hiddenByObjectStreams": {
+        "hits": [],
+        "inspectable": false
+      }
+    },
+    "failClosedInspection": {
+      "detected": true,
+      "verdictFromHitListAlone": "clean",
+      "verdictFailClosed": "uninspectable",
+      "actualResidueWhenReadable": [
+        "document_javascript",
+        "field_javascript",
+        "additional_actions",
+        "open_action"
+      ]
     }
   },
   "checks": {
-    "total": 107,
-    "passed": 107,
+    "total": 147,
+    "passed": 147,
     "failed": 0
   }
 }
