@@ -301,25 +301,36 @@ let itemA = null;
 {
   const { spawn } = await import("node:child_process");
 
+  // Instance identity is tracked by PID, and "the port is free" means
+  // ECONNREFUSED — nothing else. Run 31572989005 proved why the distinction
+  // is load-bearing: a SIGTERM'd next-server drains slowly, a probe timeout
+  // was misread as "port free", the scoped instance died on EADDRINUSE, and
+  // the draining disabled instance kept answering the scoped-state probes.
+  const appPids = [];
+
+  function portOwnerPid() {
+    const r = spawnSync("bash", ["-c", "ss -ltnp 'sport = :3000' | grep -oP 'pid=\\d+' | head -1 | cut -d= -f2"], { encoding: "utf8" });
+    return (r.stdout || "").trim();
+  }
+
   async function killApp() {
-    // Match the real server process name, never this script's own arguments —
-    // and then WAIT for the port to actually free. Without that, the next
-    // instance dies on EADDRINUSE while the dying old instance keeps answering
-    // probes with the old flag state, which run 31571996835 proved: the scoped
-    // probes were served by the still-draining disabled app.
     spawnSync("pkill", ["-f", "next-server"]);
     spawnSync("pkill", ["-f", "next start"]);
-    for (let i = 0; i < 30; i += 1) {
+    for (const pid of appPids.splice(0)) { try { process.kill(-pid, "SIGTERM"); } catch { /* already gone */ } }
+    for (let i = 0; i < 45; i += 1) {
       try {
         await fetch(`${APP_URL}/`, { signal: AbortSignal.timeout(1500) });
-      } catch {
-        return; // connection refused — the port is free
+      } catch (e) {
+        const code = e?.cause?.code ?? e?.code;
+        if (code === "ECONNREFUSED") return; // genuinely free
+        // A timeout or reset means something still holds the socket: keep waiting.
       }
       await new Promise((r) => setTimeout(r, 1000));
-      if (i === 10) spawnSync("pkill", ["-9", "-f", "next-server"]);
+      if (i === 12) { spawnSync("pkill", ["-9", "-f", "next-server"]); spawnSync("pkill", ["-9", "-f", "next start"]); }
     }
-    throw new Error("the previous application instance never released port 3000");
+    throw new Error("the previous application instance never released port 3000 (ECONNREFUSED never observed)");
   }
+
   async function startApp(extraEnv, logName) {
     const child = spawn("npx", ["next", "start", "-p", "3000"], {
       cwd: rootDir,
@@ -328,10 +339,28 @@ let itemA = null;
       env: { ...process.env, ...extraEnv }
     });
     child.unref();
+    appPids.push(child.pid);
     for (let i = 0; i < 60; i += 1) {
-      try { const r = await fetch(`${APP_URL}/`); if (r.status < 600) return true; } catch { /* not up yet */ }
+      try {
+        const r = await fetch(`${APP_URL}/`, { signal: AbortSignal.timeout(2000) });
+        if (r.status < 600) {
+          // The listener must belong to the instance just started, not a
+          // survivor of the previous flag state.
+          const owner = portOwnerPid();
+          const mine = spawnSync("bash", ["-c", `pstree -p ${child.pid} 2>/dev/null | grep -oP '\\(\\d+\\)' | tr -d '()' | grep -qx '${owner}' && echo yes || echo no`], { encoding: "utf8" }).stdout.trim();
+          if (owner && mine !== "yes") {
+            console.log(`    startApp(${logName}): port owned by pid ${owner}, not this instance's tree (${child.pid}) — waiting`);
+            await new Promise((r) => setTimeout(r, 2000));
+            continue;
+          }
+          return true;
+        }
+      } catch { /* not up yet */ }
       await new Promise((r) => setTimeout(r, 2000));
     }
+    console.log(`    startApp(${logName}) FAILED TO BOOT; stderr head:`);
+    try { console.log(fs.readFileSync(path.join(EVIDENCE_DIR, `${logName}.err`), "utf8").slice(0, 1500)); } catch { /* none */ }
+    try { console.log(fs.readFileSync(path.join(EVIDENCE_DIR, logName), "utf8").slice(0, 1500)); } catch { /* none */ }
     return false;
   }
 
