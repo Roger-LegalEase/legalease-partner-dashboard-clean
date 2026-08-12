@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "rcap-flat_overlay-map/v5",
+  "family": "cr-08-0900-form-en",
+  "documentOwnership": "participant_completed",
+  "sha256": "ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 3,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
+  "bindings": [],
+  "bindingRefusals": [
+    {
+      "field": "anchor:___ ,  Defendant. DOB (MTAF)",
+      "reason": "anchor_fact_disagrees_with_label",
+      "category": null,
+      "anchorFactId": "participant.full_legal_name",
+      "binderFactId": "participant.date_of_birth"
+    }
+  ],
+  "unwritableFields": [],
+  "manualFields": [],
+  "anchorCapture": {
+    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "pages": [
+      {
+        "page": 1,
+        "lines": 31,
+        "readableLines": 28,
+        "unreadableLines": 3
+      },
+      {
+        "page": 2,
+        "lines": 43,
+        "readableLines": 37,
+        "unreadableLines": 6
+      },
+      {
+        "page": 3,
+        "lines": 21,
+        "readableLines": 18,
+        "unreadableLines": 3
+      }
+    ],
+    "anchorCount": 1,
+    "anchors": [
+      {
+        "page": 3,
+        "kind": "rule_line_blank",
+        "label": "___ Defendant Print Name",
+        "factId": "participant.full_legal_name",
+        "baselineY": 367.4,
+        "fontSize": 10.98,
+        "writeBox": {
+          "x": 74,
+          "y": 369.4,
+          "width": 210.1,
+          "height": 13.7
+        },
+        "measurement": {
+          "blankStartMeasured": true,
+          "blankEndMeasured": true,
+          "fromGlyphMetrics": true,
+          "namedByFollowingLine": false
+        }
+      }
+    ],
+    "candidateLabelCount": 2,
+    "candidateLabels": [
+      {
+        "page": 3,
+        "label": "Address",
+        "factId": "participant.street_address",
+        "labelX": 72,
+        "baselineY": 336.1,
+        "fontSize": 10.98,
+        "writeBoxDerivable": false,
+        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+      },
+      {
+        "page": 3,
+        "label": "Email",
+        "factId": "participant.email",
+        "labelX": 72,
+        "baselineY": 317.4,
+        "fontSize": 10.98,
+        "writeBoxDerivable": false,
+        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+      }
+    ],
+    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+  },
+  "overflowPolicy": {
+    "longText": "shrink_to_fit_then_addendum",
+    "multiline": "wrap_within_widget_rect"
+  }
+}

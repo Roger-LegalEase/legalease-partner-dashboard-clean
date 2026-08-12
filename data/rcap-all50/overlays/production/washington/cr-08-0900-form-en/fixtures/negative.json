@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "emptyFactSetRender": {
+    "written": 0,
+    "refused": 1,
+    "refusedFields": [
+      {
+        "anchor": "___ Defendant Print Name",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      }
+    ]
+  },
+  "refusedFields": []
+}

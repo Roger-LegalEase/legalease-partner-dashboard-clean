@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-flat_overlay-map/v5",
+  "family": "blake-003-form-en",
+  "documentOwnership": "participant_completed",
+  "sha256": "69c5ba8fadc6123328c3508f8edf38db840c9b0026c75d614a1d9d0b456260e8",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
+  "bindings": [],
+  "bindingRefusals": [
+    {
+      "field": "anchor:Court Address: ___ ______________________________",
+      "reason": "lane_protect_rule",
+      "category": "court",
+      "anchorFactId": "participant.street_address",
+      "binderFactId": "participant.street_address"
+    }
+  ],
+  "unwritableFields": [],
+  "manualFields": [],
+  "anchorCapture": {
+    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "pages": [
+      {
+        "page": 1,
+        "lines": 33,
+        "readableLines": 32,
+        "unreadableLines": 1
+      },
+      {
+        "page": 2,
+        "lines": 16,
+        "readableLines": 16,
+        "unreadableLines": 0
+      }
+    ],
+    "anchorCount": 0,
+    "anchors": [],
+    "candidateLabelCount": 1,
+    "candidateLabels": [
+      {
+        "page": 2,
+        "label": "address",
+        "factId": "participant.street_address",
+        "labelX": 77.4,
+        "baselineY": 551,
+        "fontSize": 10.02,
+        "writeBoxDerivable": false,
+        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+      }
+    ],
+    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+  },
+  "overflowPolicy": {
+    "longText": "shrink_to_fit_then_addendum",
+    "multiline": "wrap_within_widget_rect"
+  }
+}
