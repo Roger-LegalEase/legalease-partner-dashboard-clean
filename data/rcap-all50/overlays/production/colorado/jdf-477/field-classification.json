@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T04:15:41.737Z",
+  "family": "jdf-477",
+  "jurisdiction": "CO",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "neverPopulateRule": "judge/clerk/prosecutor/agency certification/hearing result/service completion/signature/notarization/court disposition/outside-party facts are never renderer-populated",
+  "fields": [
+    {
+      "censusId": "jdf-477-review-anchor-1-1",
+      "name": "review-anchor-1-1",
+      "page": 1,
+      "class": "participant",
+      "populatable": true,
+      "rationale": "Page-1 caption zone; bound to caption facts, render only after F confirms coordinates (committed anchors are low-confidence review zones)."
+    },
+    {
+      "censusId": "jdf-477-review-anchor-1-2",
+      "name": "review-anchor-1-2",
+      "page": 1,
+      "class": "signature",
+      "populatable": false,
+      "rationale": "Participant (or affiant) signature/date zone; signed by hand after review — never populated by the renderer."
+    },
+    {
+      "censusId": "jdf-477-review-anchor-2-1",
+      "name": "review-anchor-2-1",
+      "page": 2,
+      "class": "manual_participant",
+      "populatable": false,
+      "rationale": "Later-page zone; the official form's later pages may carry court/agency sections and the committed anchors do not resolve semantics — completed manually after F review, never renderer-populated."
+    },
+    {
+      "censusId": "jdf-477-review-anchor-2-2",
+      "name": "review-anchor-2-2",
+      "page": 2,
+      "class": "signature",
+      "populatable": false,
+      "rationale": "Participant (or affiant) signature/date zone; signed by hand after review — never populated by the renderer."
+    },
+    {
+      "censusId": "jdf-477-review-anchor-3-1",
+      "name": "review-anchor-3-1",
+      "page": 3,
+      "class": "manual_participant",
+      "populatable": false,
+      "rationale": "Later-page zone; the official form's later pages may carry court/agency sections and the committed anchors do not resolve semantics — completed manually after F review, never renderer-populated."
+    },
+    {
+      "censusId": "jdf-477-review-anchor-3-2",
+      "name": "review-anchor-3-2",
+      "page": 3,
+      "class": "signature",
+      "populatable": false,
+      "rationale": "Participant (or affiant) signature/date zone; signed by hand after review — never populated by the renderer."
+    }
+  ]
+}
