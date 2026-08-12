@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2",
+  "lane": "D3B",
+  "factoryVersion": "d0-remediated-v1",
+  "policy": "Every field starts protected. Writing requires all of: no protect rule matches the field name or its measured label; the PDF type is text or dropdown; the name matches an allowlisted fact descriptor; the resolved value matches the descriptor's declared type; a sensitive descriptor has been named for that exact field; and an indexed charge row resolves to a charge actually supplied.",
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "bindingCorrections": {
+    "p1.r503.9.x155": "participant.alias_or_former_name",
+    "p1.r450.0.x95": "third_party.father_name",
+    "p1.r450.0.x321": "third_party.mother_maiden_name",
+    "p1.r450.0.x470": "third_party.spouse_name",
+    "p1.r468.0.x436": "participant.phone_local_number"
+  },
+  "bindingCorrectionRationale": {
+    "p1.r503.9.x155": "'Alias/Maiden/Previous Name' resolves to participant.full_legal_name on the descriptor's bare \\\\bname\\\\b match. An alias is a different fact from a legal name, and stamping the legal name into an alias line misstates the record.",
+    "p1.r450.0.x95": "'Father's Name' resolves to participant.full_legal_name on the same bare name match. It names a third party, and the participant's own name is not it.",
+    "p1.r450.0.x321": "'Mother's Maiden Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.",
+    "p1.r450.0.x470": "'Spouse's Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.",
+    "p1.r468.0.x436": "the telephone rule sits beside a Social Security number rule in the same band; the lane declines the pair rather than risk the wrong one."
+  },
+  "explicitSensitiveMappingsAuthorized": [],
+  "weakeningsApplied": "none — no D0 protect rule, type guard or readable-size floor was relaxed for this family"
+}

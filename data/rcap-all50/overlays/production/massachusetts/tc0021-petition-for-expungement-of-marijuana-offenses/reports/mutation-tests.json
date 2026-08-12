@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-mutation-tests/v1",
+  "basis": "each mutation removes one guarantee and confirms the check that guards it goes red",
+  "allPassed": true,
+  "results": [
+    {
+      "mutation": "source_drift_detected",
+      "passed": true,
+      "detail": {
+        "error": "source drift: expected a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c, read cfaf4f3931467b8eb8500055ba65cad3a42d07c027d28903feac623220d1573a",
+        "matchedExpectedPattern": true
+      }
+    },
+    {
+      "mutation": "unfittable_value_refused_at_readable_floor",
+      "passed": true,
+      "detail": {
+        "outcome": "refused",
+        "reason": "value_exceeds_widget_width_at_minimum_font",
+        "minFontSize": 6,
+        "rect": {
+          "x": 273.56,
+          "y": 732.2,
+          "width": 137.61,
+          "height": 18.09
+        }
+      }
+    }
+  ]
+}

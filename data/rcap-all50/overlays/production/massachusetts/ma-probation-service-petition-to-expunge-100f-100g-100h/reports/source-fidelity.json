@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "rcap-source-fidelity/v1",
+  "packManifestIsAuthority": true,
+  "sha256Matches": true,
+  "byteLengthMatches": true,
+  "declaredVsObserved": {
+    "structuralClass": {
+      "declared": "flat_pdf",
+      "observed": "flat"
+    },
+    "pages": {
+      "declared": 2,
+      "observed": 2
+    },
+    "fieldCount": {
+      "declared": 0,
+      "observed": 0
+    }
+  },
+  "statePackFidelityFindings": [
+    "Binder finding, recorded whether or not this form is ever un-gated: run with the document-level hold open, D0's binder resolves 'Alias/Maiden/Previous Name', 'Father's Name', 'Mother's Maiden Name' and 'Spouse's Name' all to participant.full_legal_name, because the descriptor for that fact matches a bare \\\\bname\\\\b. A generic fill would have written the petitioner's own name into three third-party blanks and an alias line. The four fields are refused by explicit counter-mapping. This is a descriptor-list observation for D0, not a defect in this state's package.",
+    "The compiled Massachusetts profile's legacy formInventory lists four PDFs — OCP004 (10-day opt-out notice package), fillable-jud-mps-Petition-to-Seal, jud-Petition-for-Expungement and jud-tc-Petition-to-Seal-for-Nolle-Prosequi-or-Dismissal. Not one of their sha256 values appears anywhere in Edition 1, and Edition 1 carries only two Massachusetts binaries. The pack manifest wins.",
+    "OCP004 is not present in the Edition 1 pack in any form. Identity was resolved by sha256 against the pack manifest rather than by filename, so the URL-encoded legacy filename is not the reason it was not found — the binary is simply not in the edition. Nothing is bound to it, and no opinion is recorded here about whether it is participant-completed, because this lane never had the binary to inspect."
+  ],
+  "nonFilingHold": null
+}

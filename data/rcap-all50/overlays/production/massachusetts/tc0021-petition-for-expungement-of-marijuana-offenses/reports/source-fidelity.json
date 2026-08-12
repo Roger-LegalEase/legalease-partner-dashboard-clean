@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-source-fidelity/v1",
+  "packManifestIsAuthority": true,
+  "sha256Matches": true,
+  "byteLengthMatches": true,
+  "declaredVsObserved": {
+    "structuralClass": {
+      "declared": "acroform_pdf",
+      "observed": "acroform"
+    },
+    "pages": {
+      "declared": 2,
+      "observed": 2
+    },
+    "fieldCount": {
+      "declared": 29,
+      "observed": 29
+    }
+  },
+  "statePackFidelityFindings": [
+    "The profile's legacy `jud-Petition-for-Expungement.pdf` (sha256 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce, 1,387,408 bytes) is not this binary. Edition 1's TC0021 is a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c at 1,393,680 bytes, revision 11/22. The pack manifest wins; the profile is not edited.",
+    "The manifest classes TC0021 as `acroform_pdf` with 29 fields, which the binary confirms, and separately notes that it is XFA. Both are true: an XFA form ships an AcroForm fallback layer. The fallback is what pdf-lib can see, and its field names carry no semantics."
+  ],
+  "nonFilingHold": null
+}
