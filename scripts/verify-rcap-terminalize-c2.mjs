@@ -245,6 +245,115 @@ async function textToPdf(fullText) {
   return doc.save();
 }
 
+// --- Correspondence composer ---
+//
+// Six lane C2 tracks are written requests / dispute letters, not court
+// pleadings. Their pinned registry entries forbid pleading framing ("This is
+// correspondence, not a filing"; the ME letter "is correspondence to a private
+// company, not a court pleading"; the TN § 40-32-108 artifact is "the request
+// and the eligibility record, never the petition") while also rejecting
+// guidance-only treatment ("a genuine participant-facing written submission
+// exists"). The frozen custom-pleading renderer only emits court-pleading
+// sections, so these tracks are composed here, deterministically, from config
+// data — and still pass through runPleadingQa, the placeholder scan, and the
+// protected-field scan. A config opts in with "documentForm": "correspondence".
+
+function fillTokens(template, letterData, unresolved) {
+  return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (m, key) => {
+    if (letterData && Object.prototype.hasOwnProperty.call(letterData, key)) {
+      return letterData[key];
+    }
+    unresolved.push(key);
+    return m;
+  });
+}
+
+function composeCorrespondence(doc, fixture) {
+  const cfg = doc.config;
+  const corr = doc.correspondence;
+  const letterData = fixture.letterData ?? {};
+  const unresolved = [];
+  const sections = [];
+  const senderName = fixture.partyData?.petitionerName ?? "[SENDER NAME]";
+  const senderAddress = fixture.partyData?.petitionerAddress ?? "[SENDER MAILING ADDRESS]";
+
+  sections.push({
+    sectionId: "sender_block",
+    heading: "",
+    text: [senderName, senderAddress].join("\n")
+  });
+  sections.push({ sectionId: "date_line", heading: "", text: "Date: ________________________________" });
+  sections.push({
+    sectionId: "addressee_block",
+    heading: "",
+    text: [
+      fillTokens(corr.addresseeLabel, letterData, unresolved),
+      fillTokens(corr.addresseeAddressLabel, letterData, unresolved)
+    ].join("\n")
+  });
+  sections.push({
+    sectionId: "subject_line",
+    heading: "",
+    text: `RE: ${fillTokens(corr.subjectLine, letterData, unresolved)}`
+  });
+  sections.push({
+    sectionId: "salutation",
+    heading: "",
+    text: fillTokens(corr.salutation, letterData, unresolved)
+  });
+  corr.bodyParagraphs.forEach((para, i) => {
+    sections.push({
+      sectionId: `body_${i + 1}`,
+      heading: "",
+      text: fillTokens(para, letterData, unresolved)
+    });
+  });
+  if (Array.isArray(corr.enclosures) && corr.enclosures.length > 0) {
+    sections.push({
+      sectionId: "enclosures",
+      heading: "ENCLOSURES",
+      text: corr.enclosures.map((e) => `- ${fillTokens(e, letterData, unresolved)}`).join("\n")
+    });
+  }
+  sections.push({
+    sectionId: "signature_block",
+    heading: "",
+    text: [
+      "Sincerely,",
+      "",
+      "________________________________",
+      senderName,
+      senderAddress,
+      "",
+      "Date signed: ________________________________",
+      "",
+      "[NOTE: The sender signs and dates this letter personally before sending.]"
+    ].join("\n")
+  });
+
+  const footer = `---\nPrepared by the sender using ${fixture.productName ?? "LegalEase RCAP"}. This is not an official court form.`;
+  const bodyText = sections
+    .map((s) => (s.heading ? `${s.heading}\n\n${s.text}` : s.text))
+    .join("\n\n");
+  const overrides = fixture.configOverrides ?? {};
+
+  return {
+    renderResult: {
+      rendered: true,
+      templateGrade: overrides.templateGrade ?? cfg.templateGrade,
+      templateLifecycle: overrides.templateLifecycle ?? cfg.templateLifecycle,
+      shadowMode: fixture.shadowMode ?? true,
+      fullText: `${bodyText}\n\n${footer}`,
+      sections,
+      attachmentList: corr.enclosures ?? [],
+      counselFlags: cfg.counselFlags,
+      warnings: [],
+      errors: []
+    },
+    unresolved
+  };
+}
+
 function buildRenderInput(config, fixture) {
   const cfg = fixture.configOverrides ? { ...config, ...fixture.configOverrides } : config;
   return {
@@ -412,6 +521,23 @@ function validateNoInvention(trackId, doc, code, failures) {
       `[${trackId}] serviceRecipientAddressLabel asserts an address instead of a confirm bracket: "${addr}"`
     );
   }
+  if (doc.documentForm === "correspondence") {
+    const corr = doc.correspondence ?? {};
+    for (const field of ["addresseeLabel", "addresseeAddressLabel", "subjectLine", "salutation"]) {
+      if (typeof corr[field] !== "string" || corr[field].length === 0) {
+        failures.push(`[${trackId}] correspondence.${field} missing`);
+      }
+    }
+    if (!Array.isArray(corr.bodyParagraphs) || corr.bodyParagraphs.length === 0) {
+      failures.push(`[${trackId}] correspondence.bodyParagraphs missing`);
+    }
+    const a = corr.addresseeAddressLabel ?? "";
+    if (a && !/\{[a-zA-Z0-9_]+\}/.test(a) && !/\[[^\]]*(CONFIRM|SENDER|OBTAIN)[^\]]*\]/i.test(a)) {
+      failures.push(
+        `[${trackId}] correspondence.addresseeAddressLabel asserts an address instead of a participant token or confirm bracket: "${a}"`
+      );
+    }
+  }
 }
 
 async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
@@ -425,10 +551,27 @@ async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
   if (!fixtures.boundary) failures.push(`[${trackId}] fixtures/boundary.json missing`);
   if (!fixtures.negative) failures.push(`[${trackId}] fixtures/negative.json missing`);
 
+  const isCorrespondence = doc.documentForm === "correspondence";
+  if (isCorrespondence && !doc.correspondence) {
+    failures.push(`[${trackId}] documentForm is correspondence but no correspondence block present`);
+    return null;
+  }
+
   const results = {};
   for (const [name, fixture] of Object.entries(fixtures)) {
     const input = buildRenderInput(doc.config, fixture);
-    const renderResult = renderCustomPleading(input);
+    let renderResult;
+    if (isCorrespondence) {
+      const composed = composeCorrespondence(doc, fixture);
+      renderResult = composed.renderResult;
+      if (name !== "negative" && composed.unresolved.length > 0) {
+        failures.push(
+          `[${trackId}] ${name} fixture leaves letter tokens unresolved: ${[...new Set(composed.unresolved)].join(", ")}`
+        );
+      }
+    } else {
+      renderResult = renderCustomPleading(input);
+    }
     const qa = runPleadingQa({
       config: input.config,
       renderResult,

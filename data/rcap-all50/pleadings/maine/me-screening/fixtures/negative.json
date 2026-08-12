@@ -1,0 +1,29 @@
+{
+  "fixtureId": "me-screening-negative",
+  "description": "Negative fixture: overrides templateGrade to the blocked Grade E value; QA must fail because Grade E output is blocked. (Also demonstrates the pleading-vocabulary gate would reject 'petition' framing of this correspondence.)",
+  "expectedQaFailureSubstring": "Grade E",
+  "configOverrides": {
+    "templateGrade": "html_replica_or_unverified"
+  },
+  "partyData": {
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "77 Sample Lane, Portland, ME 04101"
+  },
+  "caseData": {},
+  "chargeData": {},
+  "eligibilityData": {
+    "eligibilityBasisLabel": "dispute under 10 M.R.S. § 1500-CC"
+  },
+  "letterData": {
+    "senderName": "JOHN DOE",
+    "vendorName": "Sample Screening Company, Inc. (synthetic vendor)",
+    "vendorDisputeAddress": "[VENDOR DISPUTE ADDRESS — SENDER OBTAINS FROM THE REPORT OR THE VENDOR'S WEBSITE; CONFIRM BEFORE SENDING]",
+    "reportDate": "January 15, 2027 (synthetic sample date)",
+    "reportReference": "The report carries no reference or file number (synthetic sample).",
+    "recordAsReported": "[SENDER COPIES THE ENTRY EXACTLY AS PRINTED]",
+    "correctStatus": "the record is sealed by a Maine court order (synthetic).",
+    "otherInaccuracy": "Nothing further (synthetic)."
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}
