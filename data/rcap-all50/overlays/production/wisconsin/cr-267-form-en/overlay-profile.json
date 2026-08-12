@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-flat_overlay-map/v5",
+  "schemaVersion": "rcap-flat_overlay-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "cr-267-form-en",
-  "documentOwnership": "participant_completed",
+  "jurisdiction": "WI",
+  "documentId": "CR-267",
+  "revision": "REV-2024-05",
   "sha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "court_issued_caption_only",
+  "documentOwnershipBasis": "manifest_document_role_ORDER",
+  "captionOnly": true,
   "pageGeometry": [
     {
       "page": 1,
@@ -11,39 +18,310 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [],
-  "unwritableFields": [],
-  "manualFields": [],
+  "bindingRefusals": [],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": []
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": []
+  },
   "anchorCapture": {
-    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "basis": "rule geometry from painted rectangles and caption geometry from decoded text, both read out of this exact sha256",
     "pages": [
       {
         "page": 1,
-        "lines": 32,
-        "readableLines": 31,
-        "unreadableLines": 1
+        "textLines": 32,
+        "fullyDecodedLines": 31,
+        "paintedRects": 22,
+        "candidateRules": 12,
+        "verticalRules": 0
       }
     ],
-    "anchorCount": 0,
-    "anchors": [],
-    "candidateLabelCount": 1,
-    "candidateLabels": [
+    "anchorCount": 3,
+    "anchors": [
       {
         "page": 1,
+        "kind": "inline_rule_blank_named_by_trailing_word",
+        "rule": {
+          "x": 236.1,
+          "y": 555.8,
+          "x2": 433.3,
+          "width": 197.2,
+          "height": 1.08
+        },
+        "caption": "COUNTY",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 436.03,
+          "y": 558,
+          "size": 9.96
+        },
+        "cellBottom": null,
+        "writeBox": {
+          "x": 238.1,
+          "y": 557.8,
+          "width": 193.2,
+          "height": 12.5
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "rule_extents",
+          "verticalEnclosureMeasured": false,
+          "noCoordinateInferred": true
+        },
+        "label": "COUNTY",
+        "factId": "matter.county",
+        "fontSize": 9.96
+      },
+      {
+        "page": 1,
+        "kind": "rule_with_caption_beneath",
+        "rule": {
+          "x": 36,
+          "y": 487.8,
+          "x2": 216.1,
+          "width": 180.1,
+          "height": 0.48
+        },
+        "caption": "Date of B irth",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 36,
+          "y": 480.3,
+          "size": 9.96
+        },
+        "cellBottom": null,
+        "writeBox": {
+          "x": 38,
+          "y": 489.8,
+          "width": 176.1,
+          "height": 12.5
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents",
+          "verticalEnclosureMeasured": false,
+          "noCoordinateInferred": true
+        },
+        "label": "Date of B irth",
+        "factId": "participant.date_of_birth",
+        "fontSize": 9.96
+      },
+      {
+        "page": 1,
+        "kind": "inline_rule_blank",
+        "rule": {
+          "x": 390.9,
+          "y": 483.3,
+          "x2": 483.9,
+          "width": 93,
+          "height": 0.48
+        },
+        "caption": "Case No.",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 346.51,
+          "y": 484.9,
+          "size": 9.96
+        },
+        "cellBottom": null,
+        "writeBox": {
+          "x": 392.9,
+          "y": 485.3,
+          "width": 89,
+          "height": 12.5
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "rule_extents",
+          "verticalEnclosureMeasured": false,
+          "noCoordinateInferred": true
+        },
         "label": "Case No",
         "factId": "matter.case_number",
-        "labelX": 346.5,
-        "baselineY": 484.9,
-        "fontSize": 9.96,
-        "writeBoxDerivable": false,
-        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+        "fontSize": 9.96
       }
     ],
-    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+    "unanchoredRuleCount": 9,
+    "unanchoredRules": [
+      {
+        "page": 1,
+        "rule": {
+          "x": 30.6,
+          "y": 575.5,
+          "x2": 580.7,
+          "width": 550.1,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 30.6,
+          "y": 552.9,
+          "x2": 274.6,
+          "width": 244,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 275.1,
+          "y": 552.9,
+          "x2": 580.7,
+          "width": 305.6,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "kind": "rule_with_caption_beneath",
+        "rule": {
+          "x": 36,
+          "y": 511.8,
+          "x2": 216.1,
+          "width": 180.1,
+          "height": 0.48
+        },
+        "caption": "Defendant’s �",
+        "captionFullyDecoded": false,
+        "captionOrigin": {
+          "x": 36,
+          "y": 505.4,
+          "size": 6.96
+        },
+        "cellBottom": null,
+        "writeBox": {
+          "x": 38,
+          "y": 513.8,
+          "width": 176.1,
+          "height": 8.8
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents",
+          "verticalEnclosureMeasured": false,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_not_allowlisted",
+        "category": null
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 30.6,
+          "y": 474.4,
+          "x2": 274.6,
+          "width": 244,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 275.1,
+          "y": 474.4,
+          "x2": 580.7,
+          "width": 305.6,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "kind": "inline_rule_blank",
+        "rule": {
+          "x": 222.4,
+          "y": 362.2,
+          "x2": 309.4,
+          "width": 87,
+          "height": 0.48
+        },
+        "caption": "4. The court conducted a hearing on",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 50.28,
+          "y": 363.8,
+          "size": 9.96
+        },
+        "cellBottom": null,
+        "writeBox": {
+          "x": 224.4,
+          "y": 364.2,
+          "width": 83,
+          "height": 12.5
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "rule_extents",
+          "verticalEnclosureMeasured": false,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_denied",
+        "category": "court_or_agency"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 451.4,
+          "y": 226,
+          "x2": 575.1,
+          "width": 123.7,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "kind": "inline_rule_blank",
+        "rule": {
+          "x": 115.9,
+          "y": 190,
+          "x2": 575.1,
+          "width": 459.2,
+          "height": 0.48
+        },
+        "caption": "Other:",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 85.46,
+          "y": 191.6,
+          "size": 9.96
+        },
+        "cellBottom": null,
+        "writeBox": {
+          "x": 117.9,
+          "y": 192,
+          "width": 455.2,
+          "height": 12.5
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "rule_extents",
+          "verticalEnclosureMeasured": false,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_denied",
+        "category": "election_or_narrative"
+      }
+    ],
+    "captionGate": "Narrower than the shared binder by construction: a caption must match an allowlisted whole-caption pattern, survive the deny list, decode without an unmapped glyph, and then still satisfy decideBinding inside the factory."
   },
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

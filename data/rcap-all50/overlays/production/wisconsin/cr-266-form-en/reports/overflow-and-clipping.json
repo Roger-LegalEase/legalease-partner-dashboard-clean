@@ -1,5 +1,171 @@
 {
-  "schemaVersion": "rcap-overflow-report/v2",
-  "boundaryFixtureApplied": false,
-  "findings": []
+  "schemaVersion": "rcap-overflow-report/v3-lane-d1c",
+  "boundaryFixtureApplied": true,
+  "minimumReadableFontSize": 6,
+  "policy": "A value that cannot be drawn at 6pt or larger inside its own widget is refused and the field is left blank. Nothing is clipped and nothing is shrunk below legibility.",
+  "unfittableCanonical": [],
+  "unfittableBoundary": [
+    {
+      "anchor": "COUNTY",
+      "factId": "matter.county",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Saint Bartholomew and the Northern Reaches County",
+      "rect": {
+        "x": 243.5,
+        "y": 737.6,
+        "width": 147,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 143.6
+    },
+    {
+      "anchor": "Defendant’s Name",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 43.4,
+        "y": 693.7,
+        "width": 198.6,
+        "height": 8.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
+    },
+    {
+      "anchor": "Case No",
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 356.9,
+        "y": 655.6,
+        "width": 73.2,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
+    },
+    {
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+      "rect": {
+        "x": 286.7,
+        "y": 253,
+        "width": 216.6,
+        "height": 8.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 214.7
+    },
+    {
+      "anchor": "Telephone Number",
+      "factId": "participant.phone",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "555-0142 ext. 44821",
+      "rect": {
+        "x": 459.8,
+        "y": 230.3,
+        "width": 43.6,
+        "height": 8.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 54.5
+    }
+  ],
+  "findings": [
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "anchor": "COUNTY",
+      "factId": "matter.county",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Saint Bartholomew and the Northern Reaches County",
+      "rect": {
+        "x": 243.5,
+        "y": 737.6,
+        "width": 147,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 143.6
+    },
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "anchor": "Defendant’s Name",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 43.4,
+        "y": 693.7,
+        "width": 198.6,
+        "height": 8.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
+    },
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "anchor": "Case No",
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 356.9,
+        "y": 655.6,
+        "width": 73.2,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
+    },
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+      "rect": {
+        "x": 286.7,
+        "y": 253,
+        "width": 216.6,
+        "height": 8.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 214.7
+    },
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "anchor": "Telephone Number",
+      "factId": "participant.phone",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "555-0142 ext. 44821",
+      "rect": {
+        "x": 459.8,
+        "y": 230.3,
+        "width": 43.6,
+        "height": 8.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 54.5
+    }
+  ]
 }

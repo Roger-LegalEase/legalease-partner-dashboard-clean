@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-flat_overlay-map/v5",
+  "schemaVersion": "rcap-flat_overlay-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "dj-le-247-support-en",
-  "documentOwnership": "participant_completed",
+  "jurisdiction": "WI",
+  "documentId": "DJ-LE-247",
+  "revision": "REV-UNKNOWN",
   "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "participant_completed",
+  "documentOwnershipBasis": "manifest_document_role_RECORD_REQUEST",
+  "captionOnly": false,
   "pageGeometry": [
     {
       "page": 1,
@@ -17,34 +24,960 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [],
-  "unwritableFields": [],
-  "manualFields": [],
+  "bindingRefusals": [],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": []
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": []
+  },
   "anchorCapture": {
-    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "basis": "rule geometry from painted rectangles and caption geometry from decoded text, both read out of this exact sha256",
     "pages": [
       {
         "page": 1,
-        "lines": 37,
-        "readableLines": 32,
-        "unreadableLines": 5
+        "textLines": 37,
+        "fullyDecodedLines": 37,
+        "paintedRects": 261,
+        "candidateRules": 50,
+        "verticalRules": 49
       },
       {
         "page": 2,
-        "lines": 55,
-        "readableLines": 39,
-        "unreadableLines": 16
+        "textLines": 55,
+        "fullyDecodedLines": 55,
+        "paintedRects": 3,
+        "candidateRules": 3,
+        "verticalRules": 0
       }
     ],
-    "anchorCount": 0,
-    "anchors": [],
-    "candidateLabelCount": 0,
-    "candidateLabels": [],
-    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+    "anchorCount": 7,
+    "anchors": [
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 31.7,
+          "y": 672.5,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "caption": "Requester Name (Last, First, Middle, Suffix)",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 36,
+          "y": 665.1,
+          "size": 8.04
+        },
+        "cellBottom": 649.4,
+        "writeBox": {
+          "x": 38,
+          "y": 652.4,
+          "width": 265.6,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "label": "Requester Name",
+        "factId": "participant.full_legal_name",
+        "fontSize": 8.04
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 31.7,
+          "y": 647.3,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "caption": "Requester’s Street Address",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 36,
+          "y": 638.4,
+          "size": 8.04
+        },
+        "cellBottom": 622.7,
+        "writeBox": {
+          "x": 38,
+          "y": 625.7,
+          "width": 265.6,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "label": "Requester’s Street Address",
+        "factId": "participant.street_address",
+        "fontSize": 8.04
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 31.7,
+          "y": 620.5,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "caption": "Requester’s City, State, Zip Code",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 36,
+          "y": 611.6,
+          "size": 8.04
+        },
+        "cellBottom": 595.9,
+        "writeBox": {
+          "x": 38,
+          "y": 598.9,
+          "width": 265.6,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "label": "Requester’s City, State, Zip Code",
+        "factId": "participant.city_state_zip",
+        "fontSize": 8.04
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 31.7,
+          "y": 591,
+          "x2": 191.5,
+          "width": 159.9,
+          "height": 2.16
+        },
+        "caption": "Requester’s Phone Number",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 36,
+          "y": 584.9,
+          "size": 8.04
+        },
+        "cellBottom": 569.1,
+        "writeBox": {
+          "x": 38,
+          "y": 572.1,
+          "width": 151.5,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "label": "Requester’s Phone Number",
+        "factId": "participant.phone",
+        "fontSize": 8.04
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 346.9,
+          "y": 591,
+          "x2": 449.6,
+          "width": 102.7,
+          "height": 2.16
+        },
+        "caption": "Date of Birth (mm/dd/yy)",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 350.59,
+          "y": 584.9,
+          "size": 8.04
+        },
+        "cellBottom": 569.1,
+        "writeBox": {
+          "x": 352.6,
+          "y": 572.1,
+          "width": 95,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "label": "Date of Birth",
+        "factId": "participant.date_of_birth",
+        "fontSize": 8.04
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 31.7,
+          "y": 564.2,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "caption": "Requester’s Email",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 36,
+          "y": 558.1,
+          "size": 8.04
+        },
+        "cellBottom": 542.4,
+        "writeBox": {
+          "x": 38,
+          "y": 545.4,
+          "width": 265.6,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "label": "Requester’s Email",
+        "factId": "participant.email",
+        "fontSize": 8.04
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 31.7,
+          "y": 513.4,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "caption": "Date",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 231.53,
+          "y": 504.6,
+          "size": 8.04
+        },
+        "cellBottom": 486.7,
+        "writeBox": {
+          "x": 233.5,
+          "y": 489.7,
+          "width": 70.1,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "label": "Date",
+        "factId": "deterministic.filing_date",
+        "fontSize": 8.04
+      }
+    ],
+    "unanchoredRuleCount": 41,
+    "unanchoredRules": [
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 307.7,
+          "y": 672.5,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "caption": "Subject’ s Name (If different from requester; Last, First, Middle, Suffix)",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 311.45,
+          "y": 665.1,
+          "size": 8.04
+        },
+        "cellBottom": 649.4,
+        "writeBox": {
+          "x": 313.4,
+          "y": 652.4,
+          "width": 264.9,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_denied",
+        "category": "second_party"
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 307.7,
+          "y": 647.3,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "caption": "Subject’s Maiden/Alias Names",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 311.45,
+          "y": 638.4,
+          "size": 8.04
+        },
+        "cellBottom": 622.7,
+        "writeBox": {
+          "x": 313.4,
+          "y": 625.7,
+          "width": 264.9,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_denied",
+        "category": "second_party"
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 307.7,
+          "y": 620.5,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "caption": "WiUPIN (If available)",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 311.45,
+          "y": 611.6,
+          "size": 8.04
+        },
+        "cellBottom": 595.9,
+        "writeBox": {
+          "x": 313.4,
+          "y": 598.9,
+          "width": 264.9,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_denied",
+        "category": "government_identifier"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31.7,
+          "y": 593.7,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 307.7,
+          "y": 593.7,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 193.7,
+          "y": 591,
+          "x2": 269.6,
+          "width": 75.9,
+          "height": 2.16
+        },
+        "caption": "Subject’s Sex",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 197.42,
+          "y": 584.9,
+          "size": 8.04
+        },
+        "cellBottom": 569.1,
+        "writeBox": {
+          "x": 199.4,
+          "y": 572.1,
+          "width": 68.2,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_denied",
+        "category": "second_party"
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 271.7,
+          "y": 591,
+          "x2": 344.7,
+          "width": 73,
+          "height": 2.16
+        },
+        "caption": "Subject’s Race",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 275.45,
+          "y": 584.9,
+          "size": 8.04
+        },
+        "cellBottom": 569.1,
+        "writeBox": {
+          "x": 277.4,
+          "y": 572.1,
+          "width": 65.3,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "protected_category",
+        "category": "race"
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 451.8,
+          "y": 591,
+          "x2": 580.4,
+          "width": 128.7,
+          "height": 2.16
+        },
+        "caption": "Social Security Number",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 455.47,
+          "y": 584.9,
+          "size": 8.04
+        },
+        "cellBottom": 569.1,
+        "writeBox": {
+          "x": 457.5,
+          "y": 572.1,
+          "width": 120.9,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_denied",
+        "category": "government_identifier"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31.7,
+          "y": 567,
+          "x2": 191.5,
+          "width": 159.9,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 193.7,
+          "y": 567,
+          "x2": 269.6,
+          "width": 75.9,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 271.7,
+          "y": 567,
+          "x2": 344.7,
+          "width": 73,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 346.9,
+          "y": 567,
+          "x2": 449.6,
+          "width": 102.7,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 451.8,
+          "y": 567,
+          "x2": 580.4,
+          "width": 128.7,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 307.7,
+          "y": 564.2,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "caption": "Subject’s Driver License Number & State",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 311.45,
+          "y": 558.1,
+          "size": 8.04
+        },
+        "cellBottom": 542.4,
+        "writeBox": {
+          "x": 313.4,
+          "y": 545.4,
+          "width": 264.9,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_denied",
+        "category": "second_party"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31.7,
+          "y": 540.2,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 307.7,
+          "y": 540.2,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "caption": "Party who requested background check",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 311.45,
+          "y": 531.3,
+          "size": 8.04
+        },
+        "cellBottom": 515.6,
+        "writeBox": {
+          "x": 313.4,
+          "y": 518.6,
+          "width": 264.9,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_not_allowlisted",
+        "category": null
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31.7,
+          "y": 537.5,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "kind": "boxed_cell_caption_at_top",
+        "rule": {
+          "x": 31.7,
+          "y": 513.4,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "caption": "Signature of Requester",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 36,
+          "y": 504.6,
+          "size": 8.04
+        },
+        "cellBottom": 486.7,
+        "writeBox": {
+          "x": 38,
+          "y": 489.7,
+          "width": 189.5,
+          "height": 10
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents_within_cell",
+          "verticalEnclosureMeasured": true,
+          "noCoordinateInferred": true
+        },
+        "reason": "protected_category",
+        "category": "signature"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 307.7,
+          "y": 513.4,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 307.7,
+          "y": 510.7,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31.7,
+          "y": 484.5,
+          "x2": 305.6,
+          "width": 273.9,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 307.7,
+          "y": 484.5,
+          "x2": 580.4,
+          "width": 272.7,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31.3,
+          "y": 471.9,
+          "x2": 580.1,
+          "width": 548.7,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31,
+          "y": 434.7,
+          "x2": 580.4,
+          "width": 549.5,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31,
+          "y": 317.9,
+          "x2": 333.3,
+          "width": 302.3,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 334.7,
+          "y": 317.9,
+          "x2": 580.4,
+          "width": 245.7,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 340.3,
+          "y": 303.4,
+          "x2": 418,
+          "width": 77.8,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 418.5,
+          "y": 303.4,
+          "x2": 574.6,
+          "width": 156.1,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 340.3,
+          "y": 280,
+          "x2": 418,
+          "width": 77.8,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 418.5,
+          "y": 280,
+          "x2": 496.3,
+          "width": 77.8,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 496.8,
+          "y": 280,
+          "x2": 574.7,
+          "width": 77.9,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 340.3,
+          "y": 256.5,
+          "x2": 418,
+          "width": 77.8,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 418.5,
+          "y": 256.5,
+          "x2": 496.3,
+          "width": 77.8,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 496.8,
+          "y": 256.5,
+          "x2": 574.7,
+          "width": 77.9,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 340.3,
+          "y": 233,
+          "x2": 574.7,
+          "width": 234.4,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 29.5,
+          "y": 231.5,
+          "x2": 333.3,
+          "width": 303.8,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 335.4,
+          "y": 231.5,
+          "x2": 580.4,
+          "width": 245,
+          "height": 2.16
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 1,
+        "rule": {
+          "x": 31,
+          "y": 230.4,
+          "x2": 580.4,
+          "width": 549.5,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 2,
+        "rule": {
+          "x": 388,
+          "y": 632,
+          "x2": 512.5,
+          "width": 124.5,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      },
+      {
+        "page": 2,
+        "kind": "rule_with_caption_beneath",
+        "rule": {
+          "x": 72,
+          "y": 403.9,
+          "x2": 170.8,
+          "width": 98.8,
+          "height": 0.48
+        },
+        "caption": "having jurisdiction.",
+        "captionFullyDecoded": true,
+        "captionOrigin": {
+          "x": 72.02,
+          "y": 393.9,
+          "size": 9.96
+        },
+        "cellBottom": null,
+        "writeBox": {
+          "x": 74,
+          "y": 405.9,
+          "width": 94.8,
+          "height": 12.5
+        },
+        "measurement": {
+          "ruleMeasuredFromPaintedRect": true,
+          "columnBoundsMeasuredFrom": "caption_extents",
+          "verticalEnclosureMeasured": false,
+          "noCoordinateInferred": true
+        },
+        "reason": "caption_not_allowlisted",
+        "category": null
+      },
+      {
+        "page": 2,
+        "rule": {
+          "x": 326.6,
+          "y": 403.9,
+          "x2": 425.4,
+          "width": 98.8,
+          "height": 0.48
+        },
+        "reason": "no_caption_adjacent_to_rule"
+      }
+    ],
+    "captionGate": "Narrower than the shared binder by construction: a caption must match an allowlisted whole-caption pattern, survive the deny list, decode without an unmapped glyph, and then still satisfy decideBinding inside the factory."
   },
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

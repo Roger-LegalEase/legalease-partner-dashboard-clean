@@ -1,5 +1,43 @@
 {
-  "schemaVersion": "rcap-overflow-report/v2",
-  "boundaryFixtureApplied": false,
-  "findings": []
+  "schemaVersion": "rcap-overflow-report/v3-lane-d1c",
+  "boundaryFixtureApplied": true,
+  "minimumReadableFontSize": 6,
+  "policy": "A value that cannot be drawn at 6pt or larger inside its own widget is refused and the field is left blank. Nothing is clipped and nothing is shrunk below legibility.",
+  "unfittableCanonical": [],
+  "unfittableBoundary": [
+    {
+      "anchor": "Case No",
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 392.9,
+        "y": 485.3,
+        "width": 89,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
+    }
+  ],
+  "findings": [
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "anchor": "Case No",
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 392.9,
+        "y": 485.3,
+        "width": 89,
+        "height": 12.5
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
+    }
+  ]
 }
