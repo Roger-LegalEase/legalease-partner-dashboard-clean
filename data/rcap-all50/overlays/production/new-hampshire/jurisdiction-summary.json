@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T04:15:41.737Z",
+  "generatedBy": "terminal-d3-official-forms",
+  "jurisdiction": {
+    "code": "NH",
+    "slug": "new-hampshire"
+  },
+  "ledgerJob": "T-D-NH-production-packet",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "files": {
+      "data/record-clearing/legal-design-track-registry.json": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+      "data/record-clearing/legal-design-track-source-relationships.json": "8376337488a0e07eb0b476f7623bfbb623272d167ecd15b23c93cbb47922b826"
+    }
+  },
+  "sourcePresenceInClone": false,
+  "families": [
+    {
+      "slug": "nhjb-3057-dse",
+      "formId": "NHJB-3057-DSe",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "ready_except_render",
+        "reason": "field package complete from committed evidence; render and contact sheet blocked pending the source binary"
+      },
+      "censusFieldCount": 6,
+      "populatedCount": 1,
+      "path": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3057-dse"
+    },
+    {
+      "slug": "nhjb-2317-dse",
+      "formId": "NHJB-2317-DSe",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "ready_except_render",
+        "reason": "field package complete from committed evidence; render and contact sheet blocked pending the source binary"
+      },
+      "censusFieldCount": 6,
+      "populatedCount": 1,
+      "path": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-dse"
+    },
+    {
+      "slug": "annulment-checklist",
+      "formId": "Annulment of Criminal Records Checklist",
+      "componentRole": "instructions",
+      "status": {
+        "state": "ready_except_render",
+        "reason": "field package complete from committed evidence; render and contact sheet blocked pending the source binary"
+      },
+      "censusFieldCount": 6,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/new-hampshire/annulment-checklist"
+    }
+  ],
+  "trackFamilyMap": {
+    "nh_conviction_streamlined": [
+      "nhjb-3057-dse",
+      "annulment-checklist"
+    ],
+    "nh_petition_nonconviction_pre2019": [
+      "nhjb-2317-dse",
+      "annulment-checklist"
+    ],
+    "nh_petition_vacated": [
+      "nhjb-2317-dse",
+      "annulment-checklist"
+    ]
+  },
+  "trackReadiness": {
+    "nh_conviction_streamlined": {
+      "state": "readyExceptRender",
+      "reason": "Principal NHJB-3057-DSe + checklist packaged; render blocked pending source binaries; DOC-investigation/$100-fee applicability question stays open for counsel (authority ledger)."
+    },
+    "nh_petition_nonconviction_pre2019": {
+      "state": "readyExceptRender",
+      "reason": "Principal NHJB-2317-DSe + checklist packaged; render blocked pending source binaries; RSA 651:5, VII pause question stays open for counsel (authority ledger)."
+    },
+    "nh_petition_vacated": {
+      "state": "readyExceptRender",
+      "reason": "Shares the NHJB-2317-DSe family; render blocked pending source binaries; form-routing question for old conviction/recent vacatur stays open for counsel (authority ledger)."
+    }
+  }
+}
