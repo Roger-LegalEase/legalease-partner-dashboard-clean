@@ -1,0 +1,517 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "exp-ad-additional-cases-expungement",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 45,
+  "fields": [
+    {
+      "name": "1 - County",
+      "type": "dropdown",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "Statewide dropdown; value must match a county option on the form."
+    },
+    {
+      "name": "2 - Your name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "3 - Other name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Alias/other names; not collected by the compiled screening vocabulary."
+    },
+    {
+      "name": "4 - Date of birth",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "DOB not collected by compiled screening vocabulary; participant supplies at assembly."
+    },
+    {
+      "name": "5 - Race",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "6 - Gender",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "7 - Case Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "case_identifier",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Arrest or Case Number - 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Per-case row from participant records."
+    },
+    {
+      "name": "Arresting Agency - 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "List all charges for each case number - 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 90,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Date of Arrest - 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Outcome - For example RV S or P - 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Arrest or Case Number - 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Per-case row from participant records."
+    },
+    {
+      "name": "Arresting Agency - 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "List all charges for each case number - 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 90,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Date of Arrest - 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Outcome - For example RV S or P - 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Arrest or Case Number - 3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Per-case row from participant records."
+    },
+    {
+      "name": "Arresting Agency - 3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "List all charges for each case number - 3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 90,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Date of Arrest - 3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Outcome - For example RV S or P - 3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Arrest or Case Number - 4",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Per-case row from participant records."
+    },
+    {
+      "name": "Arresting Agency - 4",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "List all charges for each case number - 4",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 90,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Date of Arrest - 4",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Outcome - For example RV S or P - 4",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Arrest or Case Number - 5",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Per-case row from participant records."
+    },
+    {
+      "name": "Arresting Agency - 5",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "List all charges for each case number - 5",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 90,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Date of Arrest - 5",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Outcome - For example RV S or P - 5",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Arrest or Case Number - 6",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Per-case row from participant records."
+    },
+    {
+      "name": "Arresting Agency - 6",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "List all charges for each case number - 6",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 90,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Date of Arrest - 6",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Outcome - For example RV S or P - 6",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Arrest or Case Number - 7",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Per-case row from participant records."
+    },
+    {
+      "name": "Arresting Agency - 7",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "List all charges for each case number - 7",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 90,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Date of Arrest - 7",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Outcome - For example RV S or P - 7",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "P6 - Signature2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "signature",
+      "populatable": false,
+      "note": "Petitioner signature line; never populated by the renderer."
+    },
+    {
+      "name": "P6 - Print Name2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "P6 - Attorney Number2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "ARDC number; blank for self-represented participants."
+    }
+  ]
+}
