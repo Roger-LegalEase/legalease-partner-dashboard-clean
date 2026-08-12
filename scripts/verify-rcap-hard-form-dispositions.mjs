@@ -23,7 +23,12 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const HARD_FORMS = path.join(rootDir, "data/rcap-all50/hard-forms");
-const NON_PACKET_TIERS = new Set(["exact_supported_deferral", "deliberate_scope_exclusion"]);
+// held_on_source_or_design is a non-packet treatment too: the family is not
+// deferred to a later window and not excluded from scope, it is waiting on an
+// upstream design decision. F2-11 found the held CR-106 disposition sitting
+// outside every verifier because it lived in a component record rather than a
+// profile; holding it to the same standard is the fix.
+const NON_PACKET_TIERS = new Set(["exact_supported_deferral", "deliberate_scope_exclusion", "held_on_source_or_design"]);
 const VAGUE = new Set(["", "unknown", "tbd", "n/a", "none", "pending"]);
 
 const failures = [];

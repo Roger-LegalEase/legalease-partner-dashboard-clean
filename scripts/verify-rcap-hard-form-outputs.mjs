@@ -150,7 +150,7 @@ for (const profilePath of profiles) {
   const familyDir = path.dirname(profilePath);
   const rel = path.relative(rootDir, familyDir);
 
-  if (profile.strategy?.tier === "exact_supported_deferral" || profile.strategy?.tier === "deliberate_scope_exclusion") {
+  if (["exact_supported_deferral", "deliberate_scope_exclusion", "held_on_source_or_design"].includes(profile.strategy?.tier)) {
     // Non-packet terminal treatments render nothing; their discipline is checked
     // by verify-rcap-hard-form-dispositions.mjs instead.
     continue;
