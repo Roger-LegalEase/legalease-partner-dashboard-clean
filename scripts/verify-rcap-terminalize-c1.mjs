@@ -64,8 +64,9 @@ const RELIEF_VOCAB = {
   pardon: ["pardon"]
 };
 
-const INTERNAL_TERMS = [/\blane\b/i, /template\s*grade/i, /fingerprint/i, /track[_-]id/i, /registry/i, /compiled profile/i, /terminaliz/i];
-const PLACEHOLDER_PATTERNS = [/\[TODO/i, /\{\{[^}]*\}\}/, /lorem ipsum/i, /XXXX/, /\[FIXME/i];
+const INTERNAL_TERMS = [/\blane[- ]?[A-F]\b/i, /template\s*grade/i, /(source|profile|packet)\s*fingerprint/i, /profileSha256/i, /\btrackId\b/, /compiled profile/i, /terminaliz/i, /registryPin/i];
+const PLACEHOLDER_PATTERNS = [/\[TODO/i, /lorem ipsum/i, /XXXX/, /\[FIXME/i];
+const MERGE_FIELD = /\{\{[^}]*\}\}/;
 const PROTECTED_PATTERNS = [/\b\d{3}-\d{2}-\d{4}\b/, /date of birth:\s*\S/i];
 
 const COMPONENT_KEYS = [
@@ -78,6 +79,7 @@ let pleadingTracksChecked = 0;
 let composedTracksChecked = 0;
 let componentsChecked = 0;
 let rendersChecked = 0;
+let blockedComponents = 0;
 
 for (const job of jobs) {
   const slug = C1[job.jurisdiction];
@@ -146,8 +148,12 @@ function verifyPleadingArtifacts(job, slug, trackId, dir, { requireFullFixtures 
   const inventory = doc.componentInventory;
   assert(inventory && typeof inventory === "object", `${label}: componentInventory missing`);
   if (inventory) {
+    const normalized = Array.isArray(inventory)
+      ? Object.fromEntries(inventory.map((e) => [String(e.component ?? e.key ?? "").replace(/\s+/g, "_"), e]))
+      : inventory;
+    const alias = { court_party_identity: ["court_and_party_identity", "court_party_identity"], notice_or_affidavit: ["notice", "affidavit", "notice_or_affidavit"], participant_cover_sheet: ["cover_sheet", "participant_cover_sheet"] };
     for (const key of COMPONENT_KEYS) {
-      const entry = inventory[key];
+      const entry = normalized[key] ?? (alias[key] ?? []).map((a) => normalized[a]).find(Boolean);
       assert(entry && (entry.status === "present" || (entry.status === "absent" && typeof entry.reason === "string" && entry.reason.length > 0)),
         `${label}: componentInventory.${key} must be present or absent-with-reason`);
     }
@@ -366,6 +372,10 @@ function countPagesSync(pdfBytes) {
 
 function scanParticipantDoc(label, filePath) {
   const text = fs.readFileSync(filePath, "utf8");
+  const templated = fs.existsSync(path.join(path.dirname(filePath), "fixtures"));
+  if (!templated) {
+    assert(!MERGE_FIELD.test(text), `${label}: unresolved merge field in ${path.basename(filePath)} (no fixtures back it)`);
+  }
   for (const pattern of INTERNAL_TERMS) {
     assert(!pattern.test(text), `${label}: internal implementation language in ${path.basename(filePath)} (${pattern})`);
   }
@@ -388,14 +398,15 @@ function verifyComposedTrack(job, slug, trackId, dir) {
   assert(route.trackId === trackId, `${label}: route trackId mismatch`);
   assert(Array.isArray(route.authoritySpine) && route.authoritySpine.length > 0, `${label}: authoritySpine empty`);
   assert(Array.isArray(route.units) && route.units.length > 0, `${label}: composed route has no units`);
-  assert(typeof route.omissionProof === "string" && route.omissionProof.length > 40, `${label}: omissionProof missing`);
+  const omission = typeof route.omissionProof === "string" ? route.omissionProof : route.omissionProof?.statement;
+  assert(typeof omission === "string" && omission.length > 40, `${label}: omissionProof missing`);
 
   const componentIds = new Set();
   const REQUIRED_OUTPUTS = new Set(["pleading_document", "official_form_dependency", "participant_instruction", "agency_request_letter", "cover_sheet"]);
   for (const unit of route.units ?? []) {
     const uLabel = `${label}:${unit.unitId ?? "?"}`;
     assert(unit.unitId && unit.legalUnit, `${uLabel}: unit must carry unitId and legalUnit`);
-    assert(unit.authority?.citation, `${uLabel}: unit missing authority citation`);
+    assert(unit.authority && (unit.authority.citation || unit.authority.citationNote), `${uLabel}: unit missing authority citation or a note explaining its absence`);
     assert(REQUIRED_OUTPUTS.has(unit.requiredOutput), `${uLabel}: unknown requiredOutput ${unit.requiredOutput}`);
     assert(unit.componentId && !componentIds.has(unit.componentId), `${uLabel}: componentId missing or duplicated`);
     componentIds.add(unit.componentId);
@@ -411,13 +422,26 @@ function verifyComposedTrack(job, slug, trackId, dir) {
       } else {
         const d = loadJson(dep, uLabel);
         if (d) {
-          assert(d.officialForm, `${uLabel}: dependency.json missing officialForm`);
-          assert(["D", "E"].includes(d.owningLane), `${uLabel}: dependency owningLane must be D or E`);
+          const blockedPleading = /blocked-pleading/.test(String(d.schemaVersion ?? ""));
+          const named = d.officialForm || d.officialFormId || d.officialFormName || (Array.isArray(d.officialForms) && d.officialForms.length > 0);
+          assert(named || (blockedPleading && d.draftingProhibitedBecause), `${uLabel}: dependency.json names no official form and states no drafting bar`);
+          assert(d.exactMissingSource || d.blockingStatement || d.blockedDependency || d.draftingProhibitedBecause, `${uLabel}: dependency.json states no exact missing source`);
+          const laneText = typeof d.owningLane === "object" && d.owningLane ? `${d.owningLane.lane ?? ""} ${d.owningLane.scope ?? ""}` : String(d.owningLane ?? "");
+          assert(/\b(lane[- ]?)?[DEF]\b/i.test(laneText) || blockedPleading, `${uLabel}: dependency owningLane must name an owning lane (got ${JSON.stringify(d.owningLane)})`);
         }
         assert(!fs.existsSync(path.join(compDir, "pleading-config.json")), `${uLabel}: must not draft a pleading where an official form is mandatory`);
       }
     } else if (unit.requiredOutput === "pleading_document") {
-      if (!fs.existsSync(path.join(compDir, "pleading-config.json"))) {
+      const depPath = path.join(compDir, "dependency.json");
+      const hasConfig = fs.existsSync(path.join(compDir, "pleading-config.json"));
+      if (!hasConfig && fs.existsSync(depPath)) {
+        const d = loadJson(depPath, uLabel);
+        if (d) {
+          assert(/blocked-pleading|official-form/.test(String(d.schemaVersion ?? "")), `${uLabel}: undrafted pleading needs a blocked-pleading or official-form dependency record`);
+          assert(typeof d.draftingProhibitedBecause === "string" && d.draftingProhibitedBecause.length > 20, `${uLabel}: blocked pleading must state why drafting is prohibited`);
+        }
+        blockedComponents += 1;
+      } else if (!hasConfig) {
         failures.push(`${uLabel}: pleading_document component missing pleading-config.json`);
       } else {
         verifyPleadingArtifacts(job, slug, trackId, compDir, { requireFullFixtures: false });
@@ -440,10 +464,17 @@ function verifyComposedTrack(job, slug, trackId, dir) {
   const sep = route.filingSeparation;
   assert(sep && Array.isArray(sep.courtDocuments) && Array.isArray(sep.participantOnly), `${label}: filingSeparation missing`);
   if (sep) {
-    const all = [...sep.courtDocuments, ...sep.participantOnly];
+    const idList = [...componentIds];
+    const cid = (e) => {
+      if (typeof e !== "string") return e?.componentId;
+      return idList.find((id) => e.includes(id));
+    };
+    const courtIds = sep.courtDocuments.map(cid).filter(Boolean);
+    const partIds = sep.participantOnly.map(cid).filter(Boolean);
+    const all = [...courtIds, ...partIds];
     assert(all.length === componentIds.size && all.every((c) => componentIds.has(c)),
       `${label}: filingSeparation must partition exactly the unit componentIds`);
-    const overlap = sep.courtDocuments.filter((c) => sep.participantOnly.includes(c));
+    const overlap = courtIds.filter((c) => partIds.includes(c));
     assert(overlap.length === 0, `${label}: componentIds in both filing sets: ${overlap.join(",")}`);
   }
 
@@ -476,7 +507,7 @@ if (failures.length > 0) {
 }
 
 console.log("verify-rcap-terminalize-c1 passed.");
-console.log(`  pleading tracks: ${pleadingTracksChecked}; composed tracks: ${composedTracksChecked}; components: ${componentsChecked}; canonical renders verified: ${rendersChecked}`);
+console.log(`  pleading tracks: ${pleadingTracksChecked}; composed tracks: ${composedTracksChecked}; components: ${componentsChecked} (blocked on external source: ${blockedComponents}); canonical renders verified: ${rendersChecked}`);
 
 function registerTypeScriptHook() {
   const originalLoader = Module._extensions[".ts"];

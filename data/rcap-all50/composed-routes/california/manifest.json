@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California",
+    "slug": "california"
+  },
+  "lane": "C1",
+  "jobIds": ["T-C-CA-complete-composed-route"],
+  "trackIds": ["ca-diversion-seal"],
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/CA-california.json",
+  "profileSha256": "d2a35fc698c32b62b98905d081693028d1553eab5de9f45f4f66ebc7d52e1755",
+  "statePackFiles": [
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/california/all50-build-metadata.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/california/index.ts"
+  ],
+  "perTrackStatus": {
+    "ca-diversion-seal": {
+      "jobId": "T-C-CA-complete-composed-route",
+      "family": "composed_route",
+      "treatment": "complete_composed_route",
+      "status": "composed_route_complete_with_blocked_official_form_units",
+      "buildStatus": "pleading_packet_rendered",
+      "unitCount": 3,
+      "componentCount": 3,
+      "componentsBuilt": ["ca-diversion-seal-process-guidance-1"],
+      "componentsBlocked": [
+        "ca-diversion-seal-primary-filing-2",
+        "ca-diversion-seal-fee-waiver-3"
+      ],
+      "pleadingDocumentsDrafted": 0,
+      "pleadingDocumentsDraftedNote": "No pleading document is drafted. The operative filing for this route is a county-published petition and order; there is no statewide Judicial Council form, and no approved county set has been sourced.",
+      "fixtureFiles": [
+        "components/ca-diversion-seal-process-guidance-1/fixtures/canonical.json",
+        "components/ca-diversion-seal-process-guidance-1/fixtures/boundary.json",
+        "components/ca-diversion-seal-process-guidance-1/fixtures/negative.json",
+        "components/ca-diversion-seal-process-guidance-1/fixtures/multiline.json"
+      ],
+      "counselFlagCount": 11,
+      "mandatoryOfficialFormHandoffs": [
+        "SDSC-CRM-307 (San Diego Superior Court local § 851.90 petition and order set) — lane D",
+        "Kern County local § 851.90 petition and order set (no form number recorded) — lane D",
+        "FW-001 (California Judicial Council Request to Waive Court Fees) — lane D"
+      ],
+      "reviewStatuses": {
+        "qa": "pending",
+        "output": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "technicalProof": "pending",
+        "sourceFreshness": "pending"
+      },
+      "implementationQueue": "F_source_problem",
+      "approvedForLive": false,
+      "live": false
+    }
+  },
+  "componentCount": 3,
+  "counselFlagCount": 11,
+  "filesWritten": [
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/manifest.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/route.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/participant-instructions.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/handoff.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-process-guidance-1/process-guidance.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-process-guidance-1/fixtures/canonical.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-process-guidance-1/fixtures/boundary.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-process-guidance-1/fixtures/negative.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-process-guidance-1/fixtures/multiline.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-primary-filing-2/dependency.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-fee-waiver-3/dependency.json"
+  ],
+  "notApprovedForLive": true,
+  "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass."
+}
