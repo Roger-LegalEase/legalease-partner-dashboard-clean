@@ -119,9 +119,12 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     if (r.status !== 0) throw new Error(`prerequisite ${p} failed: ${r.err}`);
   }
   // The same environment shaping the repository's apply-evidence verifier
-  // uses: phase 49 references rcap_document_packets, which staging carries
-  // from its earlier lineage and an empty stack does not.
+  // uses: the sequence references tables staging carries from its earlier
+  // lineage and an empty stack does not.
   psql(`create table if not exists public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
+  psql(`create table if not exists public.partner_records (id uuid primary key default gen_random_uuid(), partner_slug text unique not null)`);
+  psql(`create table if not exists public.rcap_persons (id uuid primary key default gen_random_uuid(), partner_slug text not null, match_key text not null)`);
+  psql(`grant select, insert, update on public.consumer_briefcase_items to authenticated`);
 
   let hashesOk = true;
   const observedHashes = [];
@@ -142,6 +145,9 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
   }
   record("migrations_apply_in_order", applied === action.migrationsInApplyOrder.length, applyErr ?? `49 -> 54 applied in order (${applied}/${action.migrationsInApplyOrder.length})`);
   fs.writeFileSync(path.join(EVIDENCE_DIR, "migration-hashes.json"), JSON.stringify(observedHashes, null, 2));
+  // PostgREST discovers the new relations before the REST-surface cases run.
+  psql(`notify pgrst, 'reload schema'`);
+  await new Promise((r) => setTimeout(r, 2500));
 }
 
 // --- 3. Real Auth users on the stack ----------------------------------------
@@ -194,13 +200,9 @@ let itemA = null;
   itemA = psql(`select id from public.consumer_briefcase_items where user_id='${A().id}' limit 1`).out;
   psql(`insert into public.consumer_briefcase_items (id, user_id, item_type, jurisdiction, pathway_label, status, payment_status)
         values (gen_random_uuid(), '${B().id}', 'packet', 'MD', 'F1 staging pathway B', 'packet_ready', 'unpaid') on conflict do nothing`);
-  const partnerSeeded = (() => {
-    const t = psql(`select to_regclass('public.partner_records')`).out;
-    if (!t) return "partner_records absent in this stack profile; sponsored deep-matrix covered by repository battery";
-    psql(`insert into public.partner_records (partner_slug, name) values ('${SANDBOX_PARTNER_SLUG}', 'F1 Staging Sandbox') on conflict do nothing`, { expectFail: true });
-    return `partner ${SANDBOX_PARTNER_SLUG} present`;
-  })();
-  record("sponsored_partner_seeded", true, partnerSeeded);
+  psql(`insert into public.partner_records (partner_slug) values ('${SANDBOX_PARTNER_SLUG}') on conflict do nothing`);
+  const partnerRow = psql(`select partner_slug from public.partner_records where partner_slug='${SANDBOX_PARTNER_SLUG}'`).out;
+  record("sponsored_partner_seeded", partnerRow === SANDBOX_PARTNER_SLUG, `partner ${SANDBOX_PARTNER_SLUG} present; sponsored accounting deep-matrix runs in the repository battery step`);
 }
 
 // --- 6. Browser-role person access must be denied ----------------------------
@@ -279,27 +281,97 @@ let itemA = null;
 }
 
 // --- 11-13. Delivery-route flag lifecycle against the running app -------------
+//
+// The route refuses anonymous callers with 401 in EVERY flag state — that is
+// fail-closed auth, not flag behaviour — so the flag lifecycle is observed
+// with a REAL authenticated session: an @supabase/ssr cookie built from user
+// A's GoTrue tokens. An authenticated non-scoped caller sees 503 with the
+// control's own reason, which is the observable difference between disabled,
+// scoped-but-outside, and rolled-back.
 {
-  async function probeRender() {
-    try {
-      const res = await fetch(`${APP_URL}/api/expungement-ai/packet/render`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ briefcaseItemId: itemA }) });
-      return res.status;
-    } catch (e) { return `unreachable: ${e.message}`; }
+  const { spawn } = await import("node:child_process");
+
+  function killApp() {
+    // Match the real server process name, never this script's own arguments.
+    spawnSync("pkill", ["-f", "next-server"]);
+    spawnSync("pkill", ["-f", "next start"]);
+    return new Promise((r) => setTimeout(r, 2500));
   }
-  const disabledStatus = await probeRender();
-  record("route_disabled_by_default", disabledStatus === 503, `render route with no flag: ${disabledStatus} (must be 503 route_disabled)`);
+  async function startApp(extraEnv, logName) {
+    const child = spawn("npx", ["next", "start", "-p", "3000"], {
+      cwd: rootDir,
+      detached: true,
+      stdio: ["ignore", fs.openSync(path.join(EVIDENCE_DIR, logName), "w"), fs.openSync(path.join(EVIDENCE_DIR, `${logName}.err`), "w")],
+      env: { ...process.env, ...extraEnv }
+    });
+    child.unref();
+    for (let i = 0; i < 60; i += 1) {
+      try { const r = await fetch(`${APP_URL}/`); if (r.status < 600) return true; } catch { /* not up yet */ }
+      await new Promise((r) => setTimeout(r, 2000));
+    }
+    return false;
+  }
 
-  // The workflow flips the app to staging_scoped for the synthetic scope and
-  // signals readiness via a marker file; outsiders (anonymous callers) must
-  // still be refused.
-  const flipped = spawnSync("bash", ["-c", `${process.env.F1_FLIP_CMD ?? "true"}`], { encoding: "utf8" });
-  const scopedStatus = await probeRender();
-  const scopedOk = scopedStatus === 401 || scopedStatus === 503;
-  record("route_scoped_refuses_outsiders", scopedOk, `render route under staging_scoped as anonymous: ${scopedStatus} (must refuse; flip cmd exit ${flipped.status})`);
+  // The SSR auth cookie. @supabase/ssr stores the session as
+  // sb-<ref>-auth-token = "base64-" + base64url(JSON), ref = first hostname
+  // label of the Supabase URL.
+  const ref = new URL(SUPABASE_URL).hostname.split(".")[0];
+  const session = {
+    access_token: tokens.get(A().email),
+    token_type: "bearer",
+    expires_in: 3600,
+    expires_at: Math.floor(Date.now() / 1000) + 3600,
+    refresh_token: "f1-unused-refresh",
+    user: { id: A().id, email: A().email, aud: "authenticated", role: "authenticated" }
+  };
+  const cookieValue = `base64-${Buffer.from(JSON.stringify(session)).toString("base64url")}`;
+  const authCookie = `sb-${ref}-auth-token=${cookieValue}`;
 
-  const rolled = spawnSync("bash", ["-c", `${process.env.F1_ROLLBACK_CMD ?? "true"}`], { encoding: "utf8" });
-  const rolledStatus = await probeRender();
-  record("rollback_restores_disabled", rolledStatus === 503, `render route after rollback: ${rolledStatus} (must be 503; rollback cmd exit ${rolled.status})`);
+  async function probeRender(withAuth) {
+    try {
+      const res = await fetch(`${APP_URL}/api/expungement-ai/packet/render`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(withAuth ? { Cookie: authCookie } : {}) },
+        body: JSON.stringify({ briefcaseItemId: itemA })
+      });
+      let body = null;
+      try { body = await res.json(); } catch { /* fine */ }
+      return { status: res.status, reason: String(body?.reason ?? body?.error ?? "") };
+    } catch (e) { return { status: `unreachable: ${e.message}`, reason: "" }; }
+  }
+
+  await killApp();
+  const upDisabled = await startApp({}, "app-disabled.log");
+  const anonDisabled = await probeRender(false);
+  const authDisabled = await probeRender(true);
+  record(
+    "route_disabled_by_default",
+    upDisabled && authDisabled.status === 503 && anonDisabled.status === 401,
+    `no flag: authenticated=${authDisabled.status} ("${authDisabled.reason.slice(0, 60)}"), anonymous=${anonDisabled.status} — both refusals, 503 proves the control (not auth) answered`
+  );
+
+  await killApp();
+  const upScoped = await startApp(
+    { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "staging_scoped", RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: "f1-scope-1,f1-scope-2" },
+    "app-scoped.log"
+  );
+  const anonScoped = await probeRender(false);
+  const authScoped = await probeRender(true);
+  record(
+    "route_scoped_refuses_outsiders",
+    upScoped && authScoped.status === 503 && /outside|scope/i.test(authScoped.reason) && anonScoped.status === 401,
+    `staging_scoped: authenticated outsider=${authScoped.status} ("${authScoped.reason.slice(0, 60)}"), anonymous=${anonScoped.status} — the scope admits only its named identities`
+  );
+
+  await killApp();
+  const upRolled = await startApp({}, "app-rolledback.log");
+  const authRolled = await probeRender(true);
+  record(
+    "rollback_restores_disabled",
+    upRolled && authRolled.status === 503 && !/outside|scope/i.test(authRolled.reason),
+    `after rollback: authenticated=${authRolled.status} ("${authRolled.reason.slice(0, 60)}") — the disabled default is restored, not the scoped state`
+  );
+  await killApp();
 }
 
 finish();
