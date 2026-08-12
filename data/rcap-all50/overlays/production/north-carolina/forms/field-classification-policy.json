@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v1",
+  "appliesWhen": "a verified field census exists for the source binary above",
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "manualClasses": [
+    "manual_participant"
+  ],
+  "neverPopulated": [
+    "judge",
+    "clerk",
+    "prosecutor",
+    "agency_certification",
+    "hearing_result",
+    "service_completion",
+    "signature",
+    "notarization",
+    "court_disposition",
+    "outside_party_fact"
+  ],
+  "census": "blocked_pending_source_binary_and_field_extraction",
+  "flattenPolicy": "flatten only when the route's adopted behavior requires it; preserve official appearance"
+}
