@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "rcap-acroform-map/v6-d0",
+  "factoryVersion": "d0-remediated-v1",
+  "family": "nd-north-dakota-pardon-advisory-board-applica-support-instructions-en",
+  "jurisdiction": "ND",
+  "documentOwnership": "participant_completed",
+  "componentRole": "participant_completed_filing",
+  "sha256": "c59cd5b8c9938e78f951f3aea1d397fe896be253d8d35a14455d684ac56c697f",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs), unmodified; every field starts protected",
+  "explicitMappings": {
+    "Offense": {
+      "factId": "matter.charge",
+      "rationale": "The offence columns of the applicant's own offence table on a participant-completed pardon application. Each row resolves to that row's indexed charge; the judge, prosecutor and defence columns beside them stay protected."
+    },
+    "Offense_2": {
+      "factId": "matter.charge",
+      "rationale": "The offence columns of the applicant's own offence table on a participant-completed pardon application. Each row resolves to that row's indexed charge; the judge, prosecutor and defence columns beside them stay protected."
+    },
+    "Offense_3": {
+      "factId": "matter.charge",
+      "rationale": "The offence columns of the applicant's own offence table on a participant-completed pardon application. Each row resolves to that row's indexed charge; the judge, prosecutor and defence columns beside them stay protected."
+    }
+  },
+  "bindings": [
+    {
+      "field": "Applicant Name",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "kind": "text"
+    },
+    {
+      "field": "Date of Birth",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "kind": "text"
+    },
+    {
+      "field": "Applicants Address",
+      "class": "participant",
+      "factId": "participant.street_address",
+      "kind": "text"
+    },
+    {
+      "field": "City",
+      "class": "participant",
+      "factId": "participant.city",
+      "kind": "text"
+    },
+    {
+      "field": "State",
+      "class": "participant",
+      "factId": "participant.state",
+      "kind": "text"
+    },
+    {
+      "field": "ZIP Code",
+      "class": "participant",
+      "factId": "participant.zip",
+      "kind": "text"
+    },
+    {
+      "field": "Home Telephone Number",
+      "class": "participant",
+      "factId": "participant.phone",
+      "kind": "text"
+    },
+    {
+      "field": "Case Number",
+      "class": "participant",
+      "factId": "matter.case_number",
+      "kind": "text"
+    },
+    {
+      "field": "Case Number_2",
+      "class": "participant",
+      "factId": "matter.charges[1].case_number",
+      "kind": "text"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Check Applicable Response",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "I was previously denied relief by the Pardon Advisory Board",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Date Denied",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Social Security Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Place of Birth",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race",
+      "factId": null
+    },
+    {
+      "field": "Work Telephone Number",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Cellphone Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "List of Former Names or Aliases",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Judge",
+      "reason": "protected_category",
+      "category": "court",
+      "factId": null
+    },
+    {
+      "field": "Prosecutor",
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "factId": null
+    },
+    {
+      "field": "Defense",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "City or County",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Offense",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable",
+      "factId": null
+    },
+    {
+      "field": "Judge_2",
+      "reason": "protected_category",
+      "category": "court",
+      "factId": null
+    },
+    {
+      "field": "Prosecutor_2",
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "factId": null
+    },
+    {
+      "field": "Defense_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "City or County_2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Offense_2",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable",
+      "factId": null
+    },
+    {
+      "field": "Judge_3",
+      "reason": "protected_category",
+      "category": "court",
+      "factId": null
+    },
+    {
+      "field": "Prosecutor_3",
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "factId": null
+    },
+    {
+      "field": "Defense_3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "City or County_3",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict",
+      "factId": null
+    },
+    {
+      "field": "Offense_3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Case Number_3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": null
+    },
+    {
+      "field": "Signature of Applicant",
+      "reason": "protected_category",
+      "category": "signature",
+      "factId": null
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    }
+  ]
+}

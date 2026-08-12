@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "rcap-reviewed-withholdings/v1",
+  "basis": "the field is named with a fact its own name does not resolve to, so D0's binder fails closed with explicit_mapping_conflicts_with_field_name; no protection was weakened and the shared binder was not edited",
+  "count": 1,
+  "withheld": [
+    {
+      "field": "Email Address",
+      "rationale": "The binder resolves this to participant.street_address because the street-address descriptor's '\\baddress\\b' alternative is listed ahead of the email descriptor, so the field would receive a street address. Withheld rather than mis-filled; recorded as a descriptor-ordering finding against the shared binder."
+    }
+  ],
+  "exemptions": []
+}
