@@ -188,3 +188,43 @@ blockers, re-audited at this timestamp (integration tip still `d6310fd`):
 This lane holds armed: on declaration it verifies ancestry and fingerprints,
 dispatches, observes to success, and returns the immutable digest with
 pull-by-digest and runtime proof — publication only, no deployment.
+
+## Freeze verification complete — dispatch attempted (2026-08-12)
+
+`WORKER_SOURCE_FREEZE_SHA` declared as `5987870c`, resolved to full SHA
+`5987870ca0d70ea4437d0711c430b9eda299a0ef`, verified as the tip of and
+contained in `origin/claude/rcap-final-sprint-integration`.
+
+From a clean detached worktree at that exact SHA (0 dirty files), the
+repository's own fingerprint verifier ran green:
+`node scripts/verify-rcap-image-input-fingerprint.mjs` — "all seven
+image-input hashes independently recomputed and matching; base 763bb42e…
+is image-input-equivalent to HEAD; securityCheckpointSha is not the build
+source; the record survives generator --check."
+
+The seven verified image-input hashes (from `data/rcap-staging-action.json`,
+independently recomputed by the verifier):
+
+| Input | Hash |
+|---|---|
+| package.json | `ee2b9fcdf7be28c228e72c4a4f3349d336698ea2b2e70f61399556c6b737c65e` |
+| package-lock.json | `fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7` |
+| tsconfig.json | `f096fb57605f57b18db33441a4b4b85901e1ad816183a87d6d8dc086f7e088b5` |
+| scripts/rcap-render-worker.mjs | `e021e936bb677ea98283823bc0a1ac3ad7295a8d61b2fd21635feda718020b70` |
+| deploy/rcap-render-worker/Dockerfile | `6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7` |
+| scripts/lib (git tree) | `e8f80d8b59b889061363f4ea24d3d4f8c30b129c` |
+| src (git tree) | `6ae7362894fe118ce9ac231f7ef8913e3cb7feee` |
+
+Workflow bytes at the freeze SHA still hash to the audited
+`53a746405b5405651fe3fc259ea2a2acafb22b112065e5231506161a4ee43f0f`.
+
+Dispatch was then attempted with the full SHA against
+`publish-rcap-render-worker.yml` on the integration branch: the GitHub API
+returned **404** — the workflow has never existed on the default branch, so
+GitHub has not registered it and rejects all dispatches by construction.
+This is the single remaining blocker, unchanged since first reported:
+**the workflow file must land on `main`** (its exact bytes; the ancestry
+guard inside it already refuses any SHA outside the canonical integration
+branch, so landing it early authorizes nothing by itself). The moment it is
+registered, this lane dispatches `integration_sha=5987870ca0d70ea4437d0711c430b9eda299a0ef`
+and completes digest, pull-by-digest, and runtime proof.
