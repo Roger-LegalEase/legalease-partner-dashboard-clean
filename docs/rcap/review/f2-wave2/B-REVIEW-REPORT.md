@@ -126,13 +126,28 @@
 | 52 | `OK:ok_osbi_portal` | correction_required | Defect: handoff.en/es and nextSteps.en[4]/es[4] state the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. |
 | 53 | `OK:ok_clean_slate` | technical_approved | exact_supported_deferral verified: docs/record-clearing/deferrals/ok-deferrals.md names the track and job and states both exact supported conditions (22 O.S. |
 
+### Group 7: TN/TX/UT/VA
+
+| # | Track | Outcome | Summary |
+|---|---|---|---|
+| 54 | `TN:tn_trafficking_40_32_105` | technical_approved | Honesty of the thin-authority route verified: mechanism, timing, stopReason, briefcaseSaved, handoff and authority[] consistently state that the current text of T.C.A. |
+| 55 | `TX:tx_exp_discretionary` | technical_approved | Authority traced to TX.memo.json (art. |
+| 56 | `TX:tx_exp_acquittal` | correction_required | Defect: handoff.en/es states the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. |
+| 57 | `TX:tx_exp_dismissed` | technical_approved | exact_supported_deferral verified: the deferral doc states the exact carried conditions (county fee figure; doubled $25 charge; the five-county sensitive-data handling question), each carried by TX.memo.json release_b.... |
+| 58 | `UT:ut_adj_reduction_402` | technical_approved | Authority traced to UT.memo.json (§ 76-3-402 reduction; cross-track ut_auto_clean_slate pointers resolve); parity, payment suppression and elements verified with no defect.. |
+| 59 | `UT:ut_pet_appellate` | technical_approved | Authority traced to UT.memo.json (appellate-court expungement petition posture; stopReason's guidance-not-packet framing is anti-sale copy, not sale copy); parity, payment suppression and elements verified with no def.... |
+| 60 | `VA:va_auto_seal_clean_record` | technical_approved | Authority traced to VA.memo.json; both VA release blockers (no automatic-timing promise; the 1 Dec 2026 / 1 Jul 2027 dual-version cutover) carried as stated uncertainty rather than invented dates; parity, payment supp.... |
+| 61 | `VA:va_auto_seal_nonconvictions` | technical_approved | Authority traced to VA.memo.json (automatic sealing of non-convictions, va_exp_nonconviction cross-track pointers resolve); parity, payment suppression and elements verified with no defect.. |
+| 62 | `VA:va_auto_seal_without_order` | technical_approved | Authority traced to VA.memo.json; the do-not-pay-anyone copy is payment-suppressing, not payment-suggesting; parity and elements verified with no defect.. |
+| 63 | `VA:va_exp_actual_innocence` | technical_approved | Authority traced to VA.memo.json (actual-innocence expungement; ancillary-matter pointer va_seal_ancillary_matter_only resolves); parity, payment suppression and elements verified with no defect.. |
+
 Full defect statements, byte evidence and acceptance conditions are in `B-DISPOSITIONS.json` (the notes are the normative text; this table is a summary).
 
 ## Totals
 
 | Outcome | Tracks |
 |---|---:|
-| technical_approved | 41 |
-| correction_required | 12 |
+| technical_approved | 50 |
+| correction_required | 13 |
 | held_on_source_or_design | 0 |
-| **Total reviewed** | **53** |
+| **Total reviewed** | **63** |
