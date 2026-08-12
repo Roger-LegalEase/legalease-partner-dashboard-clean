@@ -111,3 +111,26 @@ F-review should take these in order:
    `fixtures/negative.json` is the intended failing case for that sweep.
 
 Nothing here is approved for live use.
+
+## Dependency-deferral correction candidate
+
+Candidate status: `candidate_ready_for_independent_review`
+
+Both assigned dependency components now carry
+`candidateDisposition: exact_supported_deferral` with bilingual participant
+treatment, packet-absence disclosure, named clerk/self-help destinations,
+Briefcase preservation/outstanding/return instructions, payment suppression,
+and zero credit consumption:
+
+- `components/ca-diversion-seal-primary-filing-2/deferral-treatment.json` and
+  `fixtures/canonical.json` — county petition and proposed order; destination
+  supported by the pinned route's handling-superior-court venue and clerk/self-help
+  acquisition instructions.
+- `components/ca-diversion-seal-fee-waiver-3/deferral-treatment.json` and
+  `fixtures/canonical.json` — FW-001; destination supported by the dependency's
+  express instruction to ask the handling county superior court clerk.
+
+Each treatment pins its unchanged `dependency.json` hash and assignment hash
+`d78251fd9f0741f0f080dcebb73f229f3fc8b259568ae422d11db0ffbc9a141a`.
+The unresolved county form set, filing details, fee posture, and current FW-001
+remain explicit; this candidate status records only the correction evidence.
