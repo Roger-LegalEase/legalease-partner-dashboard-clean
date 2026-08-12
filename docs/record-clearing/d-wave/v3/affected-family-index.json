@@ -1,0 +1,2968 @@
+{
+  "schema": "rcap-d-v3-affected-index/v1",
+  "cycle": "d-final-remediation",
+  "derivedFrom": {
+    "captainHandoff": {
+      "branch": "claude/rcap-d-corrected-review-manifest",
+      "commit": "d324b897"
+    },
+    "approvalEvidenceReview": {
+      "branch": "claude/rcap-review-d-approval-evidence-v2",
+      "commit": "992cc771b45d88653eac7522c69325fc92c35a37"
+    },
+    "d0v2": "b412f543"
+  },
+  "totals": {
+    "groupCounts": {
+      "reopened_approval": 4,
+      "corrected_after_review": 7,
+      "unresolved_semantic_defect": 5,
+      "anchor_decoder_hold": 4,
+      "rich_text_finalize": 1,
+      "stale_rendered_artifact_manifest": 84
+    },
+    "sumOfGroupMemberships": 105,
+    "uniqueAffectedFamilies": 101,
+    "doubleCountedByNaiveAddition": 4,
+    "requiringParticipantRerender": 13,
+    "alreadyCorrectedNeedingReviewOnly": 7,
+    "manifestRepairOnly": 81,
+    "byLane": {
+      "D1A": 28,
+      "D2A": 13,
+      "D3A": 17,
+      "D2B": 16,
+      "D3B": 13,
+      "D1B": 5,
+      "D1C": 9
+    }
+  },
+  "overlaps": [
+    {
+      "familyId": "KY:aoc-333-source-gated-en",
+      "groups": [
+        "reopened_approval",
+        "stale_rendered_artifact_manifest"
+      ]
+    },
+    {
+      "familyId": "KY:aoc-496-5-form-en",
+      "groups": [
+        "reopened_approval",
+        "stale_rendered_artifact_manifest"
+      ]
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "groups": [
+        "unresolved_semantic_defect",
+        "rich_text_finalize"
+      ]
+    },
+    {
+      "familyId": "NH:nhjb-2328-support-affidavit-en",
+      "groups": [
+        "reopened_approval",
+        "stale_rendered_artifact_manifest"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "gate": "the four reopened approvals are present",
+      "pass": true,
+      "observed": 4
+    },
+    {
+      "gate": "the seven corrected-after-review families are present",
+      "pass": true,
+      "observed": 7
+    },
+    {
+      "gate": "the five unresolved semantic defects are present",
+      "pass": true,
+      "observed": 5
+    },
+    {
+      "gate": "the four Washington anchor-decoder holds are present",
+      "pass": true,
+      "observed": 4
+    },
+    {
+      "gate": "all 84 stale manifests are present",
+      "pass": true,
+      "observed": 84
+    },
+    {
+      "gate": "the rich-text group was derived from the binaries, not assumed",
+      "pass": true,
+      "observed": 1
+    },
+    {
+      "gate": "no family is counted twice in the union",
+      "pass": true,
+      "observed": 101
+    },
+    {
+      "gate": "every affected family resolves to a lane and a v2 branch",
+      "pass": true,
+      "observed": []
+    },
+    {
+      "gate": "no family outside the 253 entered scope",
+      "pass": true,
+      "observed": []
+    }
+  ],
+  "groupMembership": {
+    "reopened_approval": 4,
+    "corrected_after_review": 7,
+    "unresolved_semantic_defect": 5,
+    "anchor_decoder_hold": 4,
+    "rich_text_finalize": 1,
+    "stale_rendered_artifact_manifest": 84
+  },
+  "families": [
+    {
+      "familyId": "AK:dps-cri-103-source-gated-en",
+      "state": "AK",
+      "stateSlug": "alaska",
+      "lane": "D1A",
+      "sourceSha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
+      "sourceCanonicalPath": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-CRI-103__request-to-correct-criminal-justice-information-in-the-alaska-public-safety-information-ne__REV-2022-07-25__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/alaska/dps-cri-103-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/alaska/dps-cri-103-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/alaska/dps-cri-103-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AK:tf-800-form-en",
+      "state": "AK",
+      "stateSlug": "alaska",
+      "lane": "D1A",
+      "sourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "sourceCanonicalPath": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-800-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/alaska/tf-800-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-800-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "state": "AK",
+      "stateSlug": "alaska",
+      "lane": "D1A",
+      "sourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "sourceCanonicalPath": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-805-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/alaska/tf-805-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-805-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AK:tf-810-form-en",
+      "state": "AK",
+      "stateSlug": "alaska",
+      "lane": "D1A",
+      "sourceSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "sourceCanonicalPath": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-810-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/alaska/tf-810-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-810-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AL:c-10-criminal-form-en",
+      "state": "AL",
+      "stateSlug": "alabama",
+      "lane": "D1A",
+      "sourceSha256": "527d4cfdde5bea564a8729e6425f1042627b03435ec634509fe32fdb80a5c6f8",
+      "sourceCanonicalPath": "STATES/AL/02_PACKET_FORMS/AL__FORM__C-10-CRIMINAL__affidavit-of-substantial-hardship-and-order__REV-2024-05__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/alabama/c-10-criminal-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/alabama/c-10-criminal-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/alabama/c-10-criminal-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AL:c-94a-source-gated-en",
+      "state": "AL",
+      "stateSlug": "alabama",
+      "lane": "D1A",
+      "sourceSha256": "e7ebe16d45d9a5619fd36f2834d4696efc4c0e7bf3ef42c44fa684906effc2c2",
+      "sourceCanonicalPath": "STATES/AL/05_SOURCE_GATED/AL__SOURCE-GATED__C-94A__petition-for-order-of-limited-relief__REV-2023-10__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AL:sbi-form-46-support-en",
+      "state": "AL",
+      "stateSlug": "alabama",
+      "lane": "D1A",
+      "sourceSha256": "02ce19decc585903f73456371c2f51f8c01b39befa9b9b80560454e901bfb5e7",
+      "sourceCanonicalPath": "STATES/AL/04_SUPPORTING_PROCESS/AL__SUPPORT__SBI-FORM-46__application-to-review-alabama-criminal-history-record-information__REV-2017-10-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-of-probation-under-act-346-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "5e0923268f5c5a0893118ac07bdf6d468190c77ad58ee7db9f077631c996d320",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346__order-of-probation-under-act-346-and-act-1460__REV-2014-08-25__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-of-probation-under-act-346-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-of-probation-under-act-346-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-of-probation-under-act-346-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346__order-to-dismiss-and-seal-first-offenders-under-act-346-and-act-1460__REV-2014-01-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF__order-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE__order-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460__order-to-seal-arrest-under-act-1460-of-2013__REV-2014-01-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI__order-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2014-01-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460__order-to-seal-felony-under-act-1460-of-2013__REV-2021-08-16__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-felony-under-act-1460-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-felony-under-act-1460-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-felony-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__order-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460__order-to-seal-misdemeanors-under-act-1460-of-2013__REV-2019-08-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA__order-to-seal-records-of-nolle-prosequi-dismissals-judg__REV-2023-10-25__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL__order-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-07__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1__order-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT__petition-to-dismiss-and-seal-offense-in-post-adjudication-drug-court-proceeding__REV-2014-01-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O__petition-to-dismiss-and-seal-offense-in-pre-adjudication-drug-court-proceeding__REV-2014-08-25__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY__petition-to-dismiss-and-seal-offense-in-veterans-treatment-specialty-court-proceeding__REV-2021-07-27__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460__petition-to-seal-arrest-under-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE__petition-to-seal-conviction-for-possession-of-controlled-or-counterfeit-substance__REV-2015-04-01__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION__petition-to-seal-a-misdemeanor-conviction-for-driving-or-boating-while-intoxicated__REV-2021-07-27__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+      "state": "AR",
+      "stateSlug": "arkansas",
+      "lane": "D1A",
+      "sourceSha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356",
+      "sourceCanonicalPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC__petition-to-seal-pursuant-to-act-531-of-1993-and-act-1460-of-2013__REV-2014-08-25__EN.pdf",
+      "v2Branch": "claude/rcap-d1a-corrections-v2",
+      "v2Commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AZ:aoccrem2f-071221-source-gated-en",
+      "state": "AZ",
+      "stateSlug": "arizona",
+      "lane": "D2A",
+      "sourceSha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+      "sourceCanonicalPath": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM2F-071221__petition-to-expunge-records-municipal-justice-court__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arizona/aoccrem2f-071221-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arizona/aoccrem2f-071221-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arizona/aoccrem2f-071221-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AZ:aoccrem3f-071221-source-gated-en",
+      "state": "AZ",
+      "stateSlug": "arizona",
+      "lane": "D2A",
+      "sourceSha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652",
+      "sourceCanonicalPath": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM3F-071221__petition-to-expunge-records-superior-court__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arizona/aoccrem3f-071221-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arizona/aoccrem3f-071221-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arizona/aoccrem3f-071221-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AZ:aoccrsa3f-103023-source-gated-en",
+      "state": "AZ",
+      "stateSlug": "arizona",
+      "lane": "D2A",
+      "sourceSha256": "4e2b06d403e50f5cd6769b1ebc8d41e918c2a8ab9739b72724829023a548a91a",
+      "sourceCanonicalPath": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA3F-103023__application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arizona/aoccrsa3f-103023-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arizona/aoccrsa3f-103023-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arizona/aoccrsa3f-103023-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "AZ:aoccrsa4f-103023-source-gated-en",
+      "state": "AZ",
+      "stateSlug": "arizona",
+      "lane": "D2A",
+      "sourceSha256": "b3aae63fd8ae2fc891fed28ab2c0807d1b3564921912bc3ae67898aecedc635e",
+      "sourceCanonicalPath": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCRSA4F-103023__order-regarding-application-for-certificate-of-second-chance__REV-2023-10-30__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/arizona/aoccrsa4f-103023-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/arizona/aoccrsa4f-103023-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/arizona/aoccrsa4f-103023-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "CO:jdf-2363-form-form-en",
+      "state": "CO",
+      "stateSlug": "colorado",
+      "lane": "D3A",
+      "sourceSha256": "abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33",
+      "sourceCanonicalPath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2363__request-for-a-hearing-automatic-conviction-sealing__REV-2024-02-01__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "CO:jdf-417-form-petition-en",
+      "state": "CO",
+      "stateSlug": "colorado",
+      "lane": "D3A",
+      "sourceSha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+      "sourceCanonicalPath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "CO:jdf-477-form-motion-en",
+      "state": "CO",
+      "stateSlug": "colorado",
+      "lane": "D3A",
+      "sourceSha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+      "sourceCanonicalPath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "CO:jdf-612-form-motion-en",
+      "state": "CO",
+      "stateSlug": "colorado",
+      "lane": "D3A",
+      "sourceSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+      "sourceCanonicalPath": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "FL:fl-7th-judicial-circuit-st-johns-county-en",
+      "state": "FL",
+      "stateSlug": "florida",
+      "lane": "D2B",
+      "sourceSha256": "2d3c1eaacda769550e88e0327f40816805f13053798a284353ac90bba1e993a9",
+      "sourceCanonicalPath": "STATES/FL/05_SOURCE_GATED/FL__SOURCE-GATED__FL-7TH-JUDICIAL-CIRCUIT-ST-JOHNS-COUNTY__st-johns-county-seal-and-or-expunge-procedure-guidelines-and-forms__SOURCE-2025-04__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/florida/fl-7th-judicial-circuit-st-johns-county-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/florida/fl-7th-judicial-circuit-st-johns-county-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/florida/fl-7th-judicial-circuit-st-johns-county-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/florida/fl-7th-judicial-circuit-st-johns-county-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "IA:rule-2-86-form-5-application-to-expunge-prostitution-records",
+      "state": "IA",
+      "stateSlug": "iowa",
+      "lane": "D3B",
+      "sourceSha256": "ed46614b0b182dca05020009f1add549e07ac7d0bbd7328bbd9cc7ae26934cef",
+      "sourceCanonicalPath": "STATES/IA/02_PACKET_FORMS/IA__FORM__RULE-2.86-FORM-5__rule-2-86-form-5-application-to-expunge-prostitution-court-records-under-iowa-code-section__REV-2024-08__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/iowa/rule-2-86-form-5-application-to-expunge-prostitution-records/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/iowa/rule-2-86-form-5-application-to-expunge-prostitution-records/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/iowa/rule-2-86-form-5-application-to-expunge-prostitution-records/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "IL:exp-ad-order-granting-form-en",
+      "state": "IL",
+      "stateSlug": "illinois",
+      "lane": "D2A",
+      "sourceSha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+      "sourceCanonicalPath": "STATES/IL/02_PACKET_FORMS/IL__FORM__EXP-AD-ORDER-GRANTING__order-to-expunge-and-or-seal-criminal-records__REV-2026-06__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/illinois/exp-ad-order-granting-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/illinois/exp-ad-order-granting-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/illinois/exp-ad-order-granting-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "KS:ks-notice-of-hearing-on-petition-for-expungem-source-gated-en",
+      "state": "KS",
+      "stateSlug": "kansas",
+      "lane": "D2A",
+      "sourceSha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+      "sourceCanonicalPath": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM__notice-of-hearing-on-petition-for-expungement__REV-2016-12__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/kansas/ks-notice-of-hearing-on-petition-for-expungem-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kansas/ks-notice-of-hearing-on-petition-for-expungem-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/kansas/ks-notice-of-hearing-on-petition-for-expungem-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "KS:ks-order-of-expungement-of-conviction-or-dive-source-gated-en",
+      "state": "KS",
+      "stateSlug": "kansas",
+      "lane": "D2A",
+      "sourceSha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+      "sourceCanonicalPath": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE__order-of-expungement-of-conviction-or-diversion__REV-2016-12__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/kansas/ks-order-of-expungement-of-conviction-or-dive-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kansas/ks-order-of-expungement-of-conviction-or-dive-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/kansas/ks-order-of-expungement-of-conviction-or-dive-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "KS:ksjc-source-gated-en",
+      "state": "KS",
+      "stateSlug": "kansas",
+      "lane": "D2A",
+      "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+      "sourceCanonicalPath": "STATES/KS/05_SOURCE_GATED/KS__SOURCE-GATED__KSJC__order-for-expungement-of-conviction-or-diversion__REV-2022-08__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/kansas/ksjc-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kansas/ksjc-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/kansas/ksjc-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "KY:aoc-333-source-gated-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "sourceSha256": "7af13bcf7ea1d395471c381b10f2200049d1c0a6380add604360da39b51f3587",
+      "sourceCanonicalPath": "STATES/KY/05_SOURCE_GATED/KY__SOURCE-GATED__AOC-333__substance-in-the-first-degree-against-the-defendant-is-dismissed-and-all-records-relating__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d1b-corrections-v2",
+      "v2Commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "reopened_approval",
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "reopened_approval": "2 text run(s) from non-printing control(s) appear in the filed artifact's page content: ['Print', 'Reset Form'] | reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does s",
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "KY:aoc-496-5-form-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "sourceSha256": "273e45032d4f1caed9442ebcfe5804e9202c29eb6265f5b7dde7734e44048ca8",
+      "sourceCanonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.5__on-2-the-court-ordered-the-judgment-regarding-the-offense-s-listed-on-the__REV-2019-06__EN.pdf",
+      "v2Branch": "claude/rcap-d1b-corrections-v2",
+      "v2Commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-5-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-5-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-5-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "reopened_approval",
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "reopened_approval": "11 text run(s) from non-printing control(s) appear in the filed artifact's page content: ['NOTICE:', 'Not all bowsers handle fillable', 'PDFs the same.', 'To help insure that you can', 'save, reopen and still be able', 'edit this form, please save', 'and reopen it before you make', 'any entries.'] |",
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "LA:la-ccrp-art-998-en",
+      "state": "LA",
+      "stateSlug": "louisiana",
+      "lane": "D2B",
+      "sourceSha256": "8625ccd4043e2045832f647331984372390c74d1e5e10166e40b305c1d445fb4",
+      "sourceCanonicalPath": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-998__article-998-motion-for-expungement-for-misdemeanor-conviction-for-a-first-offense-possessi__SOURCE-2026-07-31__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/louisiana/la-ccrp-art-998-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/louisiana/la-ccrp-art-998-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/louisiana/la-ccrp-art-998-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/louisiana/la-ccrp-art-998-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "LA:la-ccrp-art-999-1-en",
+      "state": "LA",
+      "stateSlug": "louisiana",
+      "lane": "D2B",
+      "sourceSha256": "917aafa2c1eead3747473dc45f9128bbb7cc0cc1983426893fdff39b22119e6d",
+      "sourceCanonicalPath": "STATES/LA/05_SOURCE_GATED/LA__SOURCE-GATED__LA-CCRP-ART-999.1__article-999-1-order-of-expungement-under-article-999__SOURCE-2026-07-31__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/louisiana/la-ccrp-art-999-1-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/louisiana/la-ccrp-art-999-1-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/louisiana/la-ccrp-art-999-1-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/louisiana/la-ccrp-art-999-1-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "state": "MO",
+      "stateSlug": "missouri",
+      "lane": "D3A",
+      "sourceSha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+      "sourceCanonicalPath": "STATES/MO/02_PACKET_FORMS/MO__FORM__CR145__petition-for-expungement-of-arrest-records__REV-2024-04__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [],
+      "contactSheetPaths": [],
+      "priorFinalCategory": null,
+      "groups": [
+        "unresolved_semantic_defect",
+        "rich_text_finalize"
+      ],
+      "reasons": {
+        "unresolved_semantic_defect": "Unchanged in substance from the correction index: sanitizeAndFlatten must finalize a document containing rich-text-flagged AcroForm fields without throwing -- by clearing the RichText flag on fields it does not write, or by updating appearances per field and skipping rich-text-flagged fields with a ",
+        "rich_text_finalize": "rich-text fields: Other Defendants, Address at Time of Arrest"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "MO:cr300-source-gated-petition-en",
+      "state": "MO",
+      "stateSlug": "missouri",
+      "lane": "D3A",
+      "sourceSha256": "0bdda44514ec4505d736c1648502bc768d48fab5cfc63d51635e57f9380aaf44",
+      "sourceCanonicalPath": "STATES/MO/05_SOURCE_GATED/MO__SOURCE-GATED__CR300__petition-for-correction-of-arrest-court-records-identity-theft__REV-2010-04__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/missouri/cr300-source-gated-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/missouri/cr300-source-gated-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/missouri/cr300-source-gated-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/missouri/cr300-source-gated-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "unresolved_semantic_defect"
+      ],
+      "reasons": {
+        "unresolved_semantic_defect": "Unchanged from the prior review: a field naming the locality of the arrest, offence or conviction binds only from a fact describing that event, or is refused; 'County Where Arrest Occurred' is blank in both fixtures until such a fact exists."
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "MO:cr360-form-petition-en",
+      "state": "MO",
+      "stateSlug": "missouri",
+      "lane": "D3A",
+      "sourceSha256": "6bfbf26a54f374f7c6bd6dcb59bc199bfe897890c1b3265513b2e7df43990745",
+      "sourceCanonicalPath": "STATES/MO/02_PACKET_FORMS/MO__FORM__CR360__petition-for-expungement-section-610-140-rsmo__REV-2024-10__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/missouri/cr360-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/missouri/cr360-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/missouri/cr360-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/missouri/cr360-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "MO:cr375-form-petition-en",
+      "state": "MO",
+      "stateSlug": "missouri",
+      "lane": "D3A",
+      "sourceSha256": "2cfca7e9bea55d27de82b9aed2875db02872345592cc69af7a5aab400e4b0780",
+      "sourceCanonicalPath": "STATES/MO/02_PACKET_FORMS/MO__FORM__CR375__petition-for-expungement-marijuana-related-offense-s__REV-2024-10__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/missouri/cr375-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/missouri/cr375-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/missouri/cr375-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/missouri/cr375-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "state": "NC",
+      "stateSlug": "north-carolina",
+      "lane": "D1B",
+      "sourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "sourceCanonicalPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+      "v2Branch": "claude/rcap-d1b-corrections-v2",
+      "v2Commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "unresolved_semantic_defect"
+      ],
+      "reasons": {
+        "unresolved_semantic_defect": "Unchanged from the prior review: NameAtty, StAddrAtty, MailAddrAtty, CityAtty, StateAtty and ZipCodeAtty are refused with category 'attorney' and blank in both fixtures, and the D0 attorney protect rule matches the 'Atty'/'Attys' abbreviation."
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "ND:expertise-form-instructions-en",
+      "state": "ND",
+      "stateSlug": "north-dakota",
+      "lane": "D3A",
+      "sourceSha256": "21b3a790b35f35c345560d9840bf39ca6f1e46cf1b9166c0e5ae2cf8ff7e4d7f",
+      "sourceCanonicalPath": "STATES/ND/02_PACKET_FORMS/ND__FORM__EXPERTISE__instructions-for-petition-to-close-nonconviction-records__REV-2025-08-01__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/north-dakota/expertise-form-instructions-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/north-dakota/expertise-form-instructions-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/north-dakota/expertise-form-instructions-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/north-dakota/expertise-form-instructions-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NH:nhjb-2317-form-petition-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "sourceSha256": "2fc2e1ede5201c17aa6a6e7726aff4659a649131429f8fec69771bc2b62f662c",
+      "sourceCanonicalPath": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-2317__petition-to-annul-record__REV-2019-06__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "corrected_after_review"
+      ],
+      "reasons": {
+        "corrected_after_review": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": true,
+      "requiresManifestRepairOnly": false,
+      "action": "already_corrected_needs_independent_review_only"
+    },
+    {
+      "familyId": "NH:nhjb-2328-support-affidavit-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "sourceSha256": "b4384b41efb472951c28b1289e46b05dfcc9463147aa490597f541f5291ce919",
+      "sourceCanonicalPath": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2328__nhjb-2328-statement-of-assets-and-liabilities-individual__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2328-support-affidavit-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2328-support-affidavit-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2328-support-affidavit-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2328-support-affidavit-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "reopened_approval",
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "reopened_approval": "6 text run(s) from non-printing control(s) appear in the filed artifact's page content: ['Clear Form', 'Lock & Save Form', 'Top of Page', 'Top of 1st Page', 'Lock & Save Form', 'Top of 1st Page'] | reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manif",
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "sourceSha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+      "sourceCanonicalPath": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [],
+      "priorFinalCategory": null,
+      "groups": [
+        "reopened_approval"
+      ],
+      "reasons": {
+        "reopened_approval": "no contact sheet existed at the lane head; the sheet on the evidence branch is newly created, so the original approval was granted without a contact sheet in the tree | 3 text run(s) from non-printing control(s) appear in the filed artifact's page content: ['Instructions', 'Clear Form', 'Top of Page"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "NH:nhjb-3056-form-petition-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "sourceSha256": "2cbfbd02979fd3714c87b52d87f64c2667c86f57b4fcc2d638dd61dddf5f5928",
+      "sourceCanonicalPath": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3056__petition-of-eligibility-for-annulment-of-record-non-conviction__REV-2019-06__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "corrected_after_review"
+      ],
+      "reasons": {
+        "corrected_after_review": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": true,
+      "requiresManifestRepairOnly": false,
+      "action": "already_corrected_needs_independent_review_only"
+    },
+    {
+      "familyId": "NH:nhjb-3124-form-petition-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "sourceSha256": "eee788220b7e624f0294d00b01024bff251d5d1dbfe61062c9a8f78fab58529c",
+      "sourceCanonicalPath": "STATES/NH/02_PACKET_FORMS/NH__FORM__NHJB-3124__petition-of-eligibility-for-annulment-of-record-of-arrest-or__REV-2020-01__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "corrected_after_review"
+      ],
+      "reasons": {
+        "corrected_after_review": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": true,
+      "requiresManifestRepairOnly": false,
+      "action": "already_corrected_needs_independent_review_only"
+    },
+    {
+      "familyId": "NM:nm-4-222-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "809c66a7b7b6d44740e0c91353dc549c041be6245470868a887297ea4d5f623a",
+      "sourceCanonicalPath": "STATES/NM/04_SUPPORTING_PROCESS/NM__SUPPORT__NM-4-222__4-222-application-for-free-process-and-affidavit-of-indigency__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-222-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-222-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-222-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-222-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-951-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "b8a0dba2cd21f9fed317ccea57e568a360345608782cea2a3f0e34b769ae67e4",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-951__4-951-petition-to-expunge-arrest-records-and-public-records-identity-theft__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-951-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-951-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-951-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-951-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-952-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "951e5b8114dc6c31fa05b6230e2fe45509fa9c8f9ef99e3e6f384270a40977ca",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-952__4-952-petition-to-expunge-arrest-records-and-public-records-upon-release-without__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-952-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-952-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-952-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-952-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-953-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "2ee3d41243e0a7e807ed52e77ac08fda9e0c55c7abdef3195a53de29a0f90c40",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-953__4-953-petition-to-expunge-arrest-records-and-public-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-953-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-953-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-953-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-953-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-955-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "99482e163d9addac8440be3c5628e88501061c82adf8ea4320167bda67952e11",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-955__4-955-certificate-of-service-expungement-of-records-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-955-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-955-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-955-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-955-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-956-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "a6a01d6853d6ae3199bf81a355065ecf40cf20e76a8d1131d9bc5b56527b4c0e",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-956__4-956-certificate-of-service-expungement-of-records-upon-conviction__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-956-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-956-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-956-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-956-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-959-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "1ec4057eef1340456e65abe4708c9b174b5ffacd313e7b52c145989963b53148",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-959__notice-of-completion-of-briefing-nonconviction__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-959-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-959-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-959-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-959-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-960-1-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "3cbc2e6eb35e29bdc10c42fee90221a7f9d470fa077fc0b9620bf1fb7e3f4f5c",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.1__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-1-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-1-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-1-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-1-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-960-2-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "fc22cdcb28d74dfd23de5931fc2d2825c9488589894f5ea75a284bfb4347154e",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.2__affirmation-in-support-of-expungement-upon-release-without-conviction__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-2-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-2-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-2-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-2-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-960-3-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "14d16b83fe55e3b872f233118305fecac27a7c48e839cba323db2d8bd48c2226",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960.3__affirmation-in-support-of-expungement-upon-conviction__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-3-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-3-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-3-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-3-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-4-960-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "79c8556655ee6e36a5a5516309e869637401f753c70172ecd78bfa138655d4de",
+      "sourceCanonicalPath": "STATES/NM/02_PACKET_FORMS/NM__FORM__NM-4-960__notice-of-completion-of-briefing-conviction__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-4-960-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-local-conviction-order-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "b8f2e017a71ca73d8d9f0aed104882c99cb2c1e77e43e07c1042d18aed8a51c4",
+      "sourceCanonicalPath": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-CONVICTION-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-local-conviction-order-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-local-conviction-order-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-local-conviction-order-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-local-conviction-order-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "NM:nm-local-identity-theft-order-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "sourceSha256": "80a70804dff453a8c1a2c775e90dc6ddec3090895aee860d0cc4474b22f39abd",
+      "sourceCanonicalPath": "STATES/NM/05_SOURCE_GATED/NM__SOURCE-GATED__NM-LOCAL-IDENTITY-THEFT-ORDER__petitioner__REV-UNKNOWN__EN.pdf",
+      "v2Branch": "claude/rcap-d2b-corrections-v2",
+      "v2Commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-local-identity-theft-order-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-local-identity-theft-order-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/new-mexico/nm-local-identity-theft-order-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/new-mexico/nm-local-identity-theft-order-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "OR:or-ojd-adult-set-aside-packet-motion-and-declaration",
+      "state": "OR",
+      "stateSlug": "oregon",
+      "lane": "D3B",
+      "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+      "sourceCanonicalPath": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "OR:or-ojd-cla-request-for-set-aside-criminal-record-check",
+      "state": "OR",
+      "stateSlug": "oregon",
+      "lane": "D3B",
+      "sourceSha256": "7f8ed25e959d8c942c0c4573c5cc235a1a1e61c31eeeaaf14d98cb7183fa6267",
+      "sourceCanonicalPath": "STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OJD-CLA-SET-ASIDE-CHECK__ojd-request-for-set-aside-criminal-record-check__REV-2022-01__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/oregon/or-ojd-cla-request-for-set-aside-criminal-record-check/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/oregon/or-ojd-cla-request-for-set-aside-criminal-record-check/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/oregon/or-ojd-cla-request-for-set-aside-criminal-record-check/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "OR:or-ojd-motion-and-declaration-to-set-aside-marijuana-conviction",
+      "state": "OR",
+      "stateSlug": "oregon",
+      "lane": "D3B",
+      "sourceSha256": "6e7a2cde0c963159ad3b467a85985d8034f33f8bfa44d380bbaab774c55bcbd6",
+      "sourceCanonicalPath": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-MJ-PCR__motion-and-declaration-to-modify-or-set-aside-marijuana-conviction__REV-2023-07__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/oregon/or-ojd-motion-and-declaration-to-set-aside-marijuana-conviction/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/oregon/or-ojd-motion-and-declaration-to-set-aside-marijuana-conviction/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/oregon/or-ojd-motion-and-declaration-to-set-aside-marijuana-conviction/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "OR:or-osp-set-aside-criminal-history-request-and-instructions",
+      "state": "OR",
+      "stateSlug": "oregon",
+      "lane": "D3B",
+      "sourceSha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "sourceCanonicalPath": "STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/oregon/or-osp-set-aside-criminal-history-request-and-instructions/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/oregon/or-osp-set-aside-criminal-history-request-and-instructions/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/oregon/or-osp-set-aside-criminal-history-request-and-instructions/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "TX:tx-gc-411-0731-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "sourceSha256": "51f747e27d6f2b64e545991f242964dad77c0c69702278acb2b43565b0da62ee",
+      "sourceCanonicalPath": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0731__petition-for-order-of-nondisclosure-under-411-0731__REV-2022-02__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0731-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0731-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0731-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0731-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "TX:tx-gc-411-0735-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "sourceSha256": "da0bd63c66a6ee35a7a0659556a02268f1fd6053ebf7419e912b78fd3fb3dd13",
+      "sourceCanonicalPath": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0735__petition-for-order-of-nondisclosure-under-411-0735__REV-2022-02__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0735-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0735-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0735-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0735-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "TX:tx-gc-411-0736-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "sourceSha256": "e8e7dee3c0843a65921ace2545c79034841961d9a131ac31e3d8cf18fd6701db",
+      "sourceCanonicalPath": "STATES/TX/02_PACKET_FORMS/TX__FORM__TX-GC-411.0736__petition-for-order-of-nondisclosure-under-411-0736__REV-2022-02__EN.pdf",
+      "v2Branch": "claude/rcap-d3a-corrections-v2",
+      "v2Commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0736-form-petition-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0736-form-petition-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0736-form-petition-en/fixtures/negative-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/texas/tx-gc-411-0736-form-petition-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "UT:1000ex-petition-to-expunge-records-with-certificate-of-eligibility",
+      "state": "UT",
+      "stateSlug": "utah",
+      "lane": "D3B",
+      "sourceSha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611",
+      "sourceCanonicalPath": "STATES/UT/02_PACKET_FORMS/UT__FORM__1000EX__petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/utah/1000ex-petition-to-expunge-records-with-certificate-of-eligibility/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/utah/1000ex-petition-to-expunge-records-with-certificate-of-eligibility/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/utah/1000ex-petition-to-expunge-records-with-certificate-of-eligibility/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "UT:1002ex-petition-to-expunge-records-traffic-charge",
+      "state": "UT",
+      "stateSlug": "utah",
+      "lane": "D3B",
+      "sourceSha256": "fab0ba66e2ef50acf0e30ae781e8e38202da0cf39c788a0b1652c99fc6b0b0cd",
+      "sourceCanonicalPath": "STATES/UT/02_PACKET_FORMS/UT__FORM__1002EX__petition-to-expunge-records-traffic-charge__REV-2022-04-11__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/utah/1002ex-petition-to-expunge-records-traffic-charge/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/utah/1002ex-petition-to-expunge-records-traffic-charge/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/utah/1002ex-petition-to-expunge-records-traffic-charge/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "UT:1003ex-petition-to-expunge-records-cannabis-conviction",
+      "state": "UT",
+      "stateSlug": "utah",
+      "lane": "D3B",
+      "sourceSha256": "a8432deaa902e26c18a215d20fcc0f90eaedd5a62c28d0cec79f3f65d17c4352",
+      "sourceCanonicalPath": "STATES/UT/02_PACKET_FORMS/UT__FORM__1003EX__petition-to-expunge-records-cannabis-conviction__REV-2020-03-09__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/utah/1003ex-petition-to-expunge-records-cannabis-conviction/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/utah/1003ex-petition-to-expunge-records-cannabis-conviction/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/utah/1003ex-petition-to-expunge-records-cannabis-conviction/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "UT:1020ex-order-on-petition-to-expunge-records-with-certificate-of-eligibility",
+      "state": "UT",
+      "stateSlug": "utah",
+      "lane": "D3B",
+      "sourceSha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2",
+      "sourceCanonicalPath": "STATES/UT/02_PACKET_FORMS/UT__FORM__1020EX__order-on-petition-to-expunge-records-with-certificate-of-eligibility__REV-2022-04-11__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/utah/1020ex-order-on-petition-to-expunge-records-with-certificate-of-eligibility/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/utah/1020ex-order-on-petition-to-expunge-records-with-certificate-of-eligibility/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/utah/1020ex-order-on-petition-to-expunge-records-with-certificate-of-eligibility/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "UT:1022ex-order-on-petition-to-expunge-records-traffic-conviction",
+      "state": "UT",
+      "stateSlug": "utah",
+      "lane": "D3B",
+      "sourceSha256": "b0d9c6f1100c7d40e63c1261fa55cc868f91d2fe7cc8df05b6ba0036ff37f952",
+      "sourceCanonicalPath": "STATES/UT/02_PACKET_FORMS/UT__FORM__1022EX__order-on-petition-to-expunge-records-traffic-conviction__REV-2022-04-11__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/utah/1022ex-order-on-petition-to-expunge-records-traffic-conviction/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/utah/1022ex-order-on-petition-to-expunge-records-traffic-conviction/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/utah/1022ex-order-on-petition-to-expunge-records-traffic-conviction/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "UT:1044xx-district-court-cover-sheet-for-civil-actions",
+      "state": "UT",
+      "stateSlug": "utah",
+      "lane": "D3B",
+      "sourceSha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52",
+      "sourceCanonicalPath": "STATES/UT/02_PACKET_FORMS/UT__FORM__1044XX__district-court-cover-sheet-for-civil-actions__REV-2026-05-06__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/utah/1044xx-district-court-cover-sheet-for-civil-actions/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/utah/1044xx-district-court-cover-sheet-for-civil-actions/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/utah/1044xx-district-court-cover-sheet-for-civil-actions/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "UT:1305ge-motion-to-waive-fees-for-expungement",
+      "state": "UT",
+      "stateSlug": "utah",
+      "lane": "D3B",
+      "sourceSha256": "c184a242f8c7c1d06f55998de4b611bcf8bd5ec959896b3b37e6b5d48319b597",
+      "sourceCanonicalPath": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__1305GE__motion-to-waive-fees-for-expungement__REV-2019-06-24__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/utah/1305ge-motion-to-waive-fees-for-expungement/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/utah/1305ge-motion-to-waive-fees-for-expungement/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/utah/1305ge-motion-to-waive-fees-for-expungement/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "UT:ut-bci-application-for-criminal-history-record",
+      "state": "UT",
+      "stateSlug": "utah",
+      "lane": "D3B",
+      "sourceSha256": "9292fff0479733dd45fd45cef4dad66dbc6cb75b7ebd370a86b2449915cf4192",
+      "sourceCanonicalPath": "STATES/UT/04_SUPPORTING_PROCESS/UT__SUPPORT__UT-BCI-ROA__bci-application-for-criminal-history-record__REV-2025-01__EN.pdf",
+      "v2Branch": "claude/rcap-d3b-corrections-v2",
+      "v2Commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/utah/ut-bci-application-for-criminal-history-record/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/utah/ut-bci-application-for-criminal-history-record/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/utah/ut-bci-application-for-criminal-history-record/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "state": "VA",
+      "stateSlug": "virginia",
+      "lane": "D1B",
+      "sourceSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+      "sourceCanonicalPath": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+      "v2Branch": "claude/rcap-d1b-corrections-v2",
+      "v2Commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "unresolved_semantic_defect"
+      ],
+      "reasons": {
+        "unresolved_semantic_defect": "Unchanged from the prior review: User.CourtName is either bound to matter.county/participant.city to match its printed 'CITY OR COUNTY' label, or refused and left blank; and D1B measures printed labels for every positional caption field."
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "state": "VA",
+      "stateSlug": "virginia",
+      "lane": "D1B",
+      "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "sourceCanonicalPath": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+      "v2Branch": "claude/rcap-d1b-corrections-v2",
+      "v2Commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "unresolved_semantic_defect"
+      ],
+      "reasons": {
+        "unresolved_semantic_defect": "Unchanged from the prior review: either the petitioner election is marked in the same render that writes these three fields, or the three fields are refused with an outside_party-class reason and left blank."
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "VT:200-00129-form-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "sourceSha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "sourceCanonicalPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00129-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00129-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00129-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "VT:200-00130-form-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "sourceSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "sourceCanonicalPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00130-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00130-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00130-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "sourceSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "sourceCanonicalPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00132-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "corrected_after_review"
+      ],
+      "reasons": {
+        "corrected_after_review": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": true,
+      "requiresManifestRepairOnly": false,
+      "action": "already_corrected_needs_independent_review_only"
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "sourceSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "sourceCanonicalPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "corrected_after_review"
+      ],
+      "reasons": {
+        "corrected_after_review": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": true,
+      "requiresManifestRepairOnly": false,
+      "action": "already_corrected_needs_independent_review_only"
+    },
+    {
+      "familyId": "VT:200-00331-support-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "sourceSha256": "6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212",
+      "sourceCanonicalPath": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__200-00331__request-for-criminal-record-search__REV-2026-05__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00331-support-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00331-support-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00331-support-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "sourceSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "sourceCanonicalPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "corrected_after_review"
+      ],
+      "reasons": {
+        "corrected_after_review": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": true,
+      "requiresManifestRepairOnly": false,
+      "action": "already_corrected_needs_independent_review_only"
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "sourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "sourceCanonicalPath": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/vermont/600-00228-support-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/600-00228-support-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/vermont/600-00228-support-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "sourceSha256": "85bfbe2da7687db133432b4382aac07156ef7b7b1c1574f65007b607cae74ade",
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-006__blake-006-record-vacatur-form__REV-2025-05__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [],
+      "contactSheetPaths": [],
+      "priorFinalCategory": null,
+      "groups": [
+        "anchor_decoder_hold"
+      ],
+      "reasons": {
+        "anchor_decoder_hold": "anchor_decoder_subset_font_unaddressed"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "sourceSha256": "8c861a358be2cdfc38b43a567c030ae4a36b11add031d8cab6e35d7f3b402426",
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-008__blake-008-record-vacatur-form__REV-2025-05__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [],
+      "contactSheetPaths": [],
+      "priorFinalCategory": null,
+      "groups": [
+        "anchor_decoder_hold"
+      ],
+      "reasons": {
+        "anchor_decoder_hold": "anchor_decoder_subset_font_unaddressed"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "WA:cr-08-0900-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "sourceSha256": "ec8b175e3a2ccfdf247328822b7ed8ac570dacd27c8b728d09a10eca05c6559e",
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__CR-08.0900__cr-08-0900-cr08-0900-mt-and-decl-for-or-vacating-record-of-felony-2025-07__REV-2025-07__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/washington/cr-08-0900-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/washington/cr-08-0900-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/washington/cr-08-0900-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "sourceSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [],
+      "contactSheetPaths": [],
+      "priorFinalCategory": null,
+      "groups": [
+        "anchor_decoder_hold"
+      ],
+      "reasons": {
+        "anchor_decoder_hold": "anchor_decoder_subset_font_unaddressed"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "sourceSha256": "a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3",
+      "sourceCanonicalPath": "STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0870__crrlj-09-0870-crrlj-09-0870-orderpetvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
+      "v2Branch": "claude/rcap-d2a-corrections-v2",
+      "v2Commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "finalPdfPaths": [],
+      "contactSheetPaths": [],
+      "priorFinalCategory": null,
+      "groups": [
+        "anchor_decoder_hold"
+      ],
+      "reasons": {
+        "anchor_decoder_hold": "anchor_decoder_subset_font_unaddressed"
+      },
+      "requiresParticipantRerender": true,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": false,
+      "action": "rerender_participant_artifact_and_evidence"
+    },
+    {
+      "familyId": "WI:cr-266-form-en",
+      "state": "WI",
+      "stateSlug": "wisconsin",
+      "lane": "D1C",
+      "sourceSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "sourceCanonicalPath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "stale_rendered_artifact_manifest"
+      ],
+      "reasons": {
+        "stale_rendered_artifact_manifest": "rendered-artifacts.json records the pre-regeneration contact-sheet sha256"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": false,
+      "requiresManifestRepairOnly": true,
+      "action": "rendered_artifact_manifest_repair_only"
+    },
+    {
+      "familyId": "WI:cr-267-form-en",
+      "state": "WI",
+      "stateSlug": "wisconsin",
+      "lane": "D1C",
+      "sourceSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "sourceCanonicalPath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+      "v2Branch": "claude/rcap-d1c-corrections-v2",
+      "v2Commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "finalPdfPaths": [
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en/fixtures/boundary-filled.pdf",
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en/fixtures/canonical-filled.pdf"
+      ],
+      "contactSheetPaths": [
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "priorFinalCategory": null,
+      "groups": [
+        "corrected_after_review"
+      ],
+      "reasons": {
+        "corrected_after_review": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      "requiresParticipantRerender": false,
+      "requiresContactSheetOnly": true,
+      "requiresManifestRepairOnly": false,
+      "action": "already_corrected_needs_independent_review_only"
+    }
+  ]
+}
