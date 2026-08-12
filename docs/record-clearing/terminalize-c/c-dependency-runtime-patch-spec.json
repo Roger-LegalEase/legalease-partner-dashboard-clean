@@ -74,7 +74,7 @@
         "sellable": false,
         "creditConsumable": false
       },
-      "appliedSha256": "36c99cc9699cc694a97ce33575375de617fee0edb4bf15fb522e5e73609e5722"
+      "appliedSha256": "5bd1ed3acb4b6765e029ac55915e8783bfa1a8ff0de3f8027209ca41f1c08bcd"
     },
     {
       "id": "c-deferral-engine-identity-and-clamp",
@@ -94,7 +94,7 @@
         "treatmentClassification": "component_deferral when the registry reports any dependency treatment",
         "deferralComponentIds": "all component ids in route.json order"
       },
-      "appliedSha256": "2a1b09314cd11607216d2d386fc8cc8a6e1056c1cdac2dd6c432c5f9ec5fd904"
+      "appliedSha256": "e8307638c10eaa245a83b8f601824b6862d7a7a2e4a77ea6d2dc273c9af9a5a5"
     },
     {
       "id": "c-deferral-evaluate-route-authoritative-track",
@@ -160,7 +160,7 @@
         "paymentAllowed": false,
         "priceCents": "absent"
       },
-      "appliedSha256": "92493a17a30ee1408aec17505a0d9abdd7afa20635f8744f5da48ab8e4816fdc"
+      "appliedSha256": "5f423f7802221a305222dae9b815c4fb965c81797aa670e4c88110c801b77987"
     },
     {
       "id": "c-deferral-consumer-types-and-save-policy",
@@ -181,7 +181,7 @@
         "artifactRefs.treatmentClassification": "component_deferral",
         "artifactRefs.deferralComponentIds": "31-subset for the exact route"
       },
-      "appliedSha256": "1310d9aa88185d967da3731b6778749c7517713333e1e8dae57200bbeb5a419d"
+      "appliedSha256": "054a517138801e85c21321f622d81d1a0f93aeaea8a032f9a7e6b92727cade1d"
     },
     {
       "id": "c-deferral-save-policy",
@@ -200,7 +200,7 @@
       "output": {
         "CreateConsumerBriefcaseItemInput": "non-payable guidance item with exact deferral metadata"
       },
-      "appliedSha256": "0307ae481df142e276e912cb84bd2d3bbaebfc72de6ee2ef388aaece473508e4"
+      "appliedSha256": "d4c303ba75b5089f6c4670db6c2abf8d285bbd89636f4702025639d6d7429ff0"
     },
     {
       "id": "c-deferral-briefcase-save",
@@ -225,7 +225,7 @@
         "paymentStatus": "not_applicable",
         "amountCents": null
       },
-      "appliedSha256": "12acbbd05ce0255691f510eb114252e6453074c429fa8f83e7ecf574dd64d6d5"
+      "appliedSha256": "aced1f2841956c7c1645424c2efbc216b11d1ac0f6642b029a69cc4f5fdd8908"
     },
     {
       "id": "c-deferral-save-endpoint-authority",
@@ -269,7 +269,7 @@
         "sellable": false,
         "creditConsumable": false
       },
-      "appliedSha256": "34d74e625e9466eb3ab0fc694fa80621e22b36d148ea50a07cd077ce86a1d9ce"
+      "appliedSha256": "b70589747d19949ae928ffb2e4ad62a3e8a35c1f43feca683b7c83efc0cbf898"
     },
     {
       "id": "c-deferral-checkout-defense",
@@ -290,7 +290,7 @@
         "enabled": false,
         "exception": "ConsumerCheckoutNotAllowedError for any direct checkout call"
       },
-      "appliedSha256": "16ba711627b8189b6eea2b994bcf6bc30ee25189a594c6c01b0b3d46b9197cc0"
+      "appliedSha256": "8450a4a0db6decee1158992828aa48e1e98005786523c45a93e4438e94c6cb4f"
     },
     {
       "id": "c-deferral-checkout-route-defense",
@@ -308,7 +308,7 @@
         "status": 403,
         "body": "non-purchasable result without checkout fields"
       },
-      "appliedSha256": "6ad2ca8f6d5abab70fe394178a22087807c79780986ce9d470af71b232fd5660"
+      "appliedSha256": "4d3bcc5d15d1595f2f1d2524c3e1bd322138bfebaaed1804821133bc4057f15f"
     },
     {
       "id": "c-deferral-render-and-credit-defense",
@@ -327,7 +327,7 @@
         "route.routeKind": "component_deferral",
         "route.creditConsumable": false
       },
-      "appliedSha256": "09859def06324dc10830398416e9e9995d728d3bc5d8ce93b802f7a0408f969b"
+      "appliedSha256": "9478e0a1140bfbf9c30a734d9f1e5390f4b1089eb5700c0bd4d7d23e8b47d3a9"
     },
     {
       "id": "c-deferral-consumer-render-defense",
@@ -426,6 +426,14 @@
         "reason": "src/lib/rcap-engine/evaluator.ts is byte-pinned by the reviewed screening parity approval (data/expungement-ai/screening-parity-approved-deltas.json, delta md-pardon-signed-date-2026-08-11, authorizedSha256 54cea35b...). Editing it would silently re-authorize bytes Roger approved at an exact hash, which is the widening that mechanism exists to prevent. The required behaviour is applied at the two server adapters instead, which together are every server-side path into the engine, and evaluator.ts is left byte-identical to the approved hash.",
         "behaviourPreserved": "The clamp still runs after route selection and before any packet-ready result leaves the engine boundary. scripts/verify-rcap-component-deferral-runtime.mjs proves the clamp on both adapters and asserts that the pinned evaluator itself remains deferral-unaware; two mutations prove each adapter's clamp is load-bearing.",
         "requiresRogerDecision": "Only if Terminal A is later directed to place the clamp inside evaluator.ts, which would require a fresh parity re-authorization."
+      }
+    ],
+    "subsequentCaptainChanges": [
+      {
+        "window": "2026-08-12-w3",
+        "change": "the Texas exact-supported-deferral runtime correction",
+        "why": "Several targets in this specification are shared runtime files. Closing the TX:tx_exp_dismissed contradiction touched the route resolver, guidance registry, engine clamp, eligibility adapter, Briefcase, payment adapter, checkout route and render-job contract. The component-deferral behaviour this specification requires is unchanged and is still proven by scripts/verify-rcap-component-deferral-runtime.mjs and its ten mutations, which are green on these bytes.",
+        "appliedSha256Refreshed": true
       }
     ]
   }
