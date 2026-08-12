@@ -26,9 +26,118 @@ import {
 } from "../rcap-hard-form-xfa-shadow-fill.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFName, PDFDict, PDFArray, PDFDocument } = require("pdf-lib");
+const { PDFName, PDFDict, PDFArray, PDFDocument, PDFString, PDFRawStream, decodePDFRawStream } = require("pdf-lib");
 
 export { neutralizeXfa, stripDocumentActions, stripLinkAnnotations, scanAnnotationActions };
+
+// A rich-text field carries its formatted value as an XHTML packet in /RV, with
+// the plain text in /V, and sets bit 26 of /Ff.
+const RICH_TEXT_FLAG = 1 << 25;
+
+/** Best-effort plain text out of an /RV XHTML packet. */
+function readRichTextPacket(pdfDoc, rv) {
+  let raw = null;
+  try {
+    if (typeof rv?.asString === "function") raw = rv.asString();
+    else {
+      const resolved = pdfDoc.context.lookup(rv);
+      if (resolved instanceof PDFRawStream) raw = Buffer.from(decodePDFRawStream(resolved).decode()).toString("utf8");
+      else if (typeof resolved?.asString === "function") raw = resolved.asString();
+    }
+  } catch { return null; }
+  if (!raw) return null;
+  const text = String(raw)
+    .replace(/^\(|\)$/g, "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > 0 ? text : null;
+}
+
+/**
+ * Converts rich-text fields to ordinary text fields before appearances are
+ * generated.
+ *
+ * pdf-lib refuses to read a rich-text field at all -- updateFieldAppearances
+ * throws "Reading rich text fields is not supported" -- so one such field
+ * aborts an entire family before a page is written. Missouri's CR-145 declares
+ * two, and produced no artifact of any kind because of it.
+ *
+ * The value is not discarded. /V already holds the plain text that /RV formats,
+ * so dropping the packet and the flag keeps what the participant sees while
+ * removing the machinery pdf-lib cannot read; where /V is empty but the packet
+ * is not, the text is recovered from the packet rather than lost. What goes is
+ * styling, which is not part of what a court form records.
+ *
+ * Dropping /RV is a sanitation gain in its own right: it is an embedded XHTML
+ * document riding inside a filed artifact for no filing purpose. The stale
+ * appearance generated from it goes too, so flattening cannot draw what the
+ * field used to look like.
+ */
+export function neutralizeRichTextFields(pdfDoc) {
+  const converted = [];
+  let acro;
+  try { acro = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict); } catch { return converted; }
+  if (!acro) return converted;
+
+  // The document-wide entry has to go too, or a reader may still treat the form
+  // as rich-text with every field converted.
+  if (acro.get(PDFName.of("RV")) !== undefined) acro.delete(PDFName.of("RV"));
+
+  const seen = new Set();
+  const visit = (dict, path) => {
+    if (!dict || seen.has(dict)) return;
+    seen.add(dict);
+
+    const rv = dict.get(PDFName.of("RV"));
+    const ffRaw = dict.get(PDFName.of("Ff"));
+    const ff = typeof ffRaw?.asNumber === "function" ? ffRaw.asNumber() : 0;
+
+    if (rv !== undefined || (ff & RICH_TEXT_FLAG)) {
+      // A field name may be a literal string or a UTF-16BE hex string with a
+      // byte-order mark. Reporting the raw bytes would make the record
+      // unreadable to the reviewer it exists for, so it is decoded.
+      const nameRaw = dict.get(PDFName.of("T"));
+      const name = (typeof nameRaw?.decodeText === "function"
+        ? nameRaw.decodeText()
+        : String(nameRaw?.asString?.() ?? nameRaw ?? path)).replace(/^\(|\)$/g, "");
+      let recoveredFrom = null;
+
+      const value = dict.get(PDFName.of("V"));
+      const valueText = typeof value?.asString === "function" ? value.asString() : null;
+      if (!valueText || valueText.replace(/^\(|\)$/g, "").trim() === "") {
+        const packet = readRichTextPacket(pdfDoc, rv);
+        if (packet) { dict.set(PDFName.of("V"), PDFString.of(packet)); recoveredFrom = "RV"; }
+      }
+
+      if (rv !== undefined) dict.delete(PDFName.of("RV"));
+      if (ff & RICH_TEXT_FLAG) dict.set(PDFName.of("Ff"), pdfDoc.context.obj(ff & ~RICH_TEXT_FLAG));
+      if (dict.get(PDFName.of("AP")) !== undefined) dict.delete(PDFName.of("AP"));
+      converted.push({ field: name, hadRichTextPacket: rv !== undefined, valueRecoveredFrom: recoveredFrom });
+    }
+
+    const kids = dict.lookupMaybe(PDFName.of("Kids"), PDFArray);
+    if (kids) {
+      for (let i = 0; i < kids.size(); i += 1) {
+        let kid = null;
+        try { kid = kids.lookup(i, PDFDict); } catch { kid = null; }
+        visit(kid, `${path}/Kids[${i}]`);
+      }
+    }
+  };
+
+  const fields = acro.lookupMaybe(PDFName.of("Fields"), PDFArray);
+  if (fields) {
+    for (let i = 0; i < fields.size(); i += 1) {
+      let f = null;
+      try { f = fields.lookup(i, PDFDict); } catch { f = null; }
+      visit(f, `AcroForm/Fields[${i}]`);
+    }
+  }
+  return converted;
+}
 
 /**
  * Supplies a neutral /DA default-appearance entry to any field missing one.
@@ -448,6 +557,10 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
   report.xfaPresentInInput = Boolean(acroBefore && acroBefore.get(PDFName.of("XFA")) !== undefined);
   report.xfaRemoved = neutralizeXfa(pdfDoc);
+  // Before anything reads a field: pdf-lib throws on a rich-text field the
+  // moment appearances are generated, which aborts the family rather than
+  // degrading it.
+  report.richTextFieldsNeutralized = neutralizeRichTextFields(pdfDoc);
   report.fieldActionsStripped = stripFieldActions(pdfDoc);
   report.documentActionsStripped = stripDocumentActions(pdfDoc);
 
