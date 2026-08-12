@@ -1,0 +1,509 @@
+{
+  "schemaVersion": "rcap-review-artifact/c-independent-review/v1",
+  "kind": "c-review-shard-0",
+  "windowId": "2026-08-12-w2",
+  "reviewDate": "2026-08-12",
+  "reviewer": {
+    "role": "independent technical reviewer (lane F posture) for lane-C controlled pleadings and composed routes",
+    "independence": "The lane-C author is a different session and has no authority over these findings. No prior verifier pass, handoff note or self-report was adopted as a conclusion; every check below was reproduced directly against the working tree at the review base."
+  },
+  "reviewBase": {
+    "branch": "origin/claude/rcap-final-sprint-integration",
+    "commit": "e314fb4a24966dc132dc3a7d3f6b61577e7c4309",
+    "ancestryVerified": "9fcad842 confirmed in ancestry via git merge-base --is-ancestor",
+    "reviewBranch": "claude/rcap-review-c-shard-0"
+  },
+  "candidateSelection": {
+    "source": "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+    "ledger": "data/rcap-ledger/track-terminalization.json",
+    "filter": "jobs where lane == 'C' and status == 'pending_independent_review'",
+    "laneCPendingTotal": 46,
+    "laneCComposition": "30 controlled pleadings + 16 composed routes, matching the import record in commit f20971d",
+    "shardRule": "sort by jobId ascending; select where int(sha256(jobId), 16) % 3 == 0",
+    "shardIndex": 0,
+    "shardDistribution": { "remainder0": 16, "remainder1": 10, "remainder2": 20 },
+    "shardSize": 16,
+    "exclusivityAssertion": "All 46 pending lane-C jobIds are unique; each selected candidate appears exactly once in this shard. 16 + 10 + 20 = 46, so the three shards partition the candidate set with no overlap and no omission.",
+    "selectedJobIds": [
+      "F2-C-arizona-az_wrongful_arrest_clearance",
+      "F2-C-california-ca-diversion-seal",
+      "F2-C-connecticut-ct-nolle-auto",
+      "F2-C-georgia-ga-fo-active-pre2026",
+      "F2-C-georgia-ga-fo-discharged-pre2026",
+      "F2-C-georgia-ga-fugitive-j5",
+      "F2-C-georgia-ga-vacated-j2",
+      "F2-C-indiana-in_supplemental_order",
+      "F2-C-kentucky-ky_criminal_record_segregation",
+      "F2-C-kentucky-ky_void_seal_marijuana_synthetic_salvia",
+      "F2-C-nevada-nv_seal_multi",
+      "F2-C-north-carolina-nc_auto_146_a4_agency_followup",
+      "F2-C-north-dakota-nd-seal-misdemeanor-conviction",
+      "F2-C-ohio-oh_2953_32_sealing",
+      "F2-C-oklahoma-ok_identity_theft",
+      "F2-C-texas-tx_exp_specialty_court"
+    ]
+  },
+  "verifierCoverageMap": {
+    "note": "The three lane-C partition verifiers do not apply the same anti-invention contract. This map was derived by reading each verifier, not from any lane claim.",
+    "c1": {
+      "script": "scripts/verify-rcap-terminalize-c1.mjs",
+      "jurisdictions": ["AR", "CA", "CT", "IA", "IL", "IN", "KY", "MT", "TX", "VT", "WV"],
+      "wiredIntoNpmTest": true,
+      "inventionScanner": "ABSENT — checks relief vocabulary, placeholder patterns, a double-brace merge-field pattern, and SSN/DOB protected shapes only",
+      "shard0Candidates": ["in_supplemental_order", "ky_void_seal_marijuana_synthetic_salvia", "tx_exp_specialty_court", "ca-diversion-seal", "ct-nolle-auto", "ky_criminal_record_segregation"]
+    },
+    "c2": {
+      "script": "scripts/verify-rcap-terminalize-c2.mjs",
+      "jurisdictions": ["GA", "TN", "DC", "HI", "AZ", "MA", "ME", "NC"],
+      "wiredIntoNpmTest": false,
+      "recordedDisposition": "keep_available — red by design until the partition completes (data/rcap-verifier-dispositions.json)",
+      "inventionScanner": "PRESENT and complete — court finding, hearing outcome, fee amount, prosecutor position, service completed, signature applied, unsourced citation, protected field",
+      "shard0Candidates": ["az_wrongful_arrest_clearance", "ga-fo-active-pre2026", "ga-fo-discharged-pre2026", "ga-fugitive-j5", "ga-vacated-j2", "nc_auto_146_a4_agency_followup"]
+    },
+    "c3": {
+      "script": "scripts/verify-rcap-terminalize-c3.mjs",
+      "jurisdictions": ["NV", "ND", "SC", "ID", "KS", "WA", "NE", "OH", "OK", "VA", "WI"],
+      "wiredIntoNpmTest": false,
+      "recordedDisposition": "keep_available — red by design until the partition completes (data/rcap-verifier-dispositions.json)",
+      "inventionScanner": "PRESENT but gated on STRICT_NEGATIVE_SLUGS; ND, OH and OK are explicitly excluded at scripts/verify-rcap-terminalize-c3.mjs:870",
+      "shard0CandidatesStrict": ["nv_seal_multi"],
+      "shard0CandidatesNonStrict": ["nd-seal-misdemeanor-conviction", "oh_2953_32_sealing", "ok_identity_theft"]
+    }
+  },
+  "testsRun": [
+    {
+      "test": "node scripts/verify-rcap-terminalize-c1.mjs",
+      "result": "PASS",
+      "detail": "pleading tracks 11; composed tracks 16; components 64 (blocked on external source 5); canonical renders verified 18"
+    },
+    {
+      "test": "node scripts/verify-rcap-terminalize-c2.mjs",
+      "result": "FAIL (14 failures across 24 tracks)",
+      "detail": "13 failures are missing DC and TN track directories and jurisdiction manifests for tracks not imported in this window (expected, matches the recorded disposition). 1 failure is real and on an imported track: ma-bmc-multi provenance.fingerprint does not match sha256 of src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json. ma-bmc-multi is NOT in shard 0; it is referred to the shard that owns it. No shard-0 candidate failed.",
+      "shard0Impact": "none"
+    },
+    {
+      "test": "node scripts/verify-rcap-terminalize-c3.mjs",
+      "result": "FAIL (12 failures)",
+      "detail": "All 12 are missing track directories and manifests for KS, WA, NE, VA and WI, which are not imported in this window (expected, matches the recorded disposition). No shard-0 candidate failed.",
+      "shard0Impact": "none"
+    },
+    {
+      "test": "node scripts/generate-rcap-track-terminalization.mjs --check",
+      "result": "PASS after fetching the pinned registry commit; HARD FAIL before",
+      "detail": "On the clone as received this exits 1 with 'fatal: path data/record-clearing/legal-design-track-registry.json does not exist in 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5'. The pinned commit is reachable on origin/feat/record-clearing-production-integration but was not fetched. After git fetch it reports: terminalization ledger current — window 2026-08-12-w2, tracksTerminal 278/497, 104 jobs, 9 decisions."
+    },
+    {
+      "test": "node scripts/generate-rcap-review-manifests.mjs --check",
+      "result": "PASS",
+      "detail": "review manifests current — F2 179 jobs, F3 106 jobs, 27 review-exempt families"
+    },
+    {
+      "test": "independent re-render harness (real renderer, all shard-0 fixtures, union of the C1/C2/C3 scanners applied to every candidate regardless of partition)",
+      "result": "COMPLETE",
+      "detail": "All 12 court-pleading shard-0 tracks re-render byte-identically to their committed rendered/canonical.txt through src/lib/record-clearing/renderers/custom-pleading-renderer.ts. nc_auto_146_a4_agency_followup is documentForm 'correspondence' and is composed by the C2 letter composer rather than the pleading renderer; its committed artifact was reviewed directly and is clean."
+    }
+  ],
+  "mutationTests": [
+    {
+      "mutation": "missing composed component",
+      "injection": "removed data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-routing-guidance-3",
+      "verifier": "verify-rcap-terminalize-c1",
+      "caught": true,
+      "evidence": "FAILED — 'ky_seg_routing_guidance: participant_instruction component has no document'",
+      "reverted": true
+    },
+    {
+      "mutation": "fabricated pleading statement (invented court finding + fabricated filing fee + asserted prosecutor position)",
+      "injection": "eligibilityData.additionalFacts on data/rcap-all50/pleadings/indiana/in_supplemental_order/fixtures/canonical.json set to 'This Court finds that Petitioner has satisfied every statutory requirement.', 'Petitioner paid the filing fee of $157.00 to the clerk.', 'The prosecuting attorney does not object to this petition and consents to the relief requested.'",
+      "verifier": "verify-rcap-terminalize-c1",
+      "caught": false,
+      "evidence": "Before regeneration C1 fails only on render drift ('rendered/canonical.txt drifted from a fresh render'), which is a staleness signal and not a content judgement. After running the lane's own regeneration mode (verify-rcap-terminalize-c1.mjs --render), C1 reports 'verify-rcap-terminalize-c1 passed' while the shipped canonical.txt asserts, at lines 45-47, an invented court finding, a fabricated $157.00 filing fee and a fabricated prosecutor position. THE CHECK DOES NOT CATCH ITS MUTATION.",
+      "reverted": true,
+      "findingId": "C-S0-F1"
+    },
+    {
+      "mutation": "populated protected field (C1 partition)",
+      "injection": "caseData.docketNumber = '49D01-2101-XP-000123' and caseData.judgeName = 'HON. REAL JUDGE' on the Indiana canonical fixture",
+      "verifier": "verify-rcap-terminalize-c1",
+      "caught": true,
+      "evidence": "FAILED — 'canonical fixture must leave docketNumber blank' and 'canonical fixture must leave judgeName blank', and the failure survives regeneration",
+      "reverted": true
+    },
+    {
+      "mutation": "populated protected field (C3 non-strict partition)",
+      "injection": "caseData.docketNumber = '23CR001234' and caseData.judgeName = 'HON. REAL JUDGE' on the Ohio canonical fixture",
+      "verifier": "verify-rcap-terminalize-c3",
+      "caught": true,
+      "evidence": "FAILED — protected field must stay blank in fixtures, judge name rendered despite policy, docket line must render the blank-docket placeholder. Protected-field enforcement is universal across C3 slugs and does not depend on STRICT_NEGATIVE_SLUGS.",
+      "reverted": true
+    },
+    {
+      "mutation": "fabricated pleading statement (C3 non-strict partition)",
+      "injection": "invented court finding, fabricated $50.00 fee and asserted prosecutor non-objection on the Ohio canonical fixture, then regenerated with verify-rcap-terminalize-c3.mjs --write",
+      "verifier": "verify-rcap-terminalize-c3",
+      "caught": false,
+      "evidence": "After regeneration C3 returns to its 12 baseline failures — all of them missing KS/WA/NE/VA/WI directories — and raises NOTHING for Ohio, while the shipped canonical.txt asserts the invented finding, the fabricated fee and the prosecutor position at lines 43-45. The STRICT_NEGATIVE_SLUGS exclusion of ND, OH and OK is an exploitable gap, not a documentation nicety. THE CHECK DOES NOT CATCH ITS MUTATION.",
+      "reverted": true,
+      "findingId": "C-S0-F2"
+    },
+    {
+      "mutation": "false approval",
+      "injection": "appended a closure {outcome: 'technical_approved', trackKeys: ['CT:ct-nolle-auto']} to data/rcap-all50/review-artifacts/f2-dispositions.json — an approval of a composed route two of whose three units are undrafted and source-blocked",
+      "verifier": "generate-rcap-track-terminalization.mjs",
+      "caught": false,
+      "evidence": "--check reports only 'stale ... re-run without --check', which is drift detection, not refusal. Running the generator for real promoted ct-nolle-auto to terminal:true and raised tracksTerminal from 278 to 279 with no structural objection. The import record for f20971d states that composed routes record their official_form_dependency units 'so the blocked-component rule is enforceable at F2 closure: a blocked component cannot disappear inside a composed route'. That rule is NOT enforced at promotion time; promotion trusts the disposition file entirely. THE CHECK DOES NOT CATCH ITS MUTATION.",
+      "reverted": true,
+      "findingId": "C-S0-F3"
+    }
+  ],
+  "leadsInvestigated": [
+    {
+      "lead": "(a) runPleadingQa checks relief vocabulary and template grade only, so it may pass fixtures containing invented court findings, fabricated fees, asserted prosecutor positions or populated protected fields",
+      "verdict": "CONFIRMED, with an important qualification",
+      "detail": "src/lib/record-clearing/pleading-qa.ts checks exactly: rendered flag, Grade E block, verified_replacement lifecycle block, caller-supplied prohibited relief terms, the required footer, [seal]/[logo] markers, and a soft warning if the relief term is absent. It is structurally blind to invented content and to populated protected fields. The qualification is that blindness in runPleadingQa is not by itself a shipped defect, because C2 and the C3 strict path layer real invention detectors on top of it. The defect is where no such layer exists: C1 (no invention scanner at all) and the C3 non-strict slugs ND/OH/OK. Both gaps were proven by mutation, not inferred — see C-S0-F1 and C-S0-F2. Protected-field enforcement, by contrast, is present in all three verifiers and caught its mutation everywhere it was tried."
+    },
+    {
+      "lead": "(b) custom-pleading-renderer.ts falls back to the Pennsylvania presentation only when presentation is absent as a whole (:168), so a field-level null may reach the caption as the literal string 'null'",
+      "verdict": "CONFIRMED, and already shipped in committed artifacts; the true blast radius is wider than the lead states",
+      "detail": "resolvePresentation returns config.presentation ?? PA_DEFAULT_PRESENTATION, so a presentation object that is present but carries deliberately-null fields is used as-is and its nulls are interpolated into participant-facing text. Lane C's own C1 finding-2 discipline REQUIRES those nulls (a field the source is silent on is set to null beside a <field>NullReason note), so the discipline and the renderer are in direct conflict. Four shard-0 candidates ship the literal string 'null' in committed rendered output. The lead understates the radius in two ways: the leak is not confined to the caption (it reaches the party-identity paragraph, the eligibility-basis sentence, the verification clause and the proposed-order header), and it is not confined to presentation (eligibilityData.eligibilityBasisLabel is nullable on the same path). No 'undefined' or 'NaN' occurrences were found anywhere in shard-0 rendered output."
+    }
+  ],
+  "findings": [
+    {
+      "findingId": "C-S0-F1",
+      "severity": "high",
+      "class": "check-coverage",
+      "sourceBranch": "c-pleadings",
+      "sourceCommit": "00bb2df5",
+      "importedBy": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b on claude/rcap-final-sprint-integration",
+      "job": "all lane-C1 jobs (AR CA CT IA IL IN KY MT TX VT WV)",
+      "track": "partition-wide",
+      "family": "controlled_pleading and composed_route",
+      "file": "scripts/verify-rcap-terminalize-c1.mjs",
+      "fixture": "proven with data/rcap-all50/pleadings/indiana/in_supplemental_order/fixtures/canonical.json",
+      "component": "verifier — anti-invention scanning",
+      "defect": "The C1 verifier has no invention scanner. C2 and the C3 strict path both implement one; C1 implements none, so an invented court finding, a fabricated filing fee and an asserted prosecutor position survive the lane's own render-and-verify cycle and the verifier reports passed. C1 is the only lane-C verifier wired into npm test, so this is the partition with the widest reach and the weakest content gate.",
+      "likelyOwner": "Terminal C (lane C1 owner), with Terminal A for the shared scanner",
+      "acceptanceCondition": "verify-rcap-terminalize-c1.mjs applies an invention/protected-field scanner equivalent to the C3 scanUnseeableSignals set (court finding, hearing outcome, fee/monetary amount, prosecutor position, service completion, signature, notarization) to every rendered production fixture of every C1 pleading track and pleading component, and the mutation in this artifact's mutationTests entry 2 turns it red after regeneration."
+    },
+    {
+      "findingId": "C-S0-F2",
+      "severity": "high",
+      "class": "check-coverage",
+      "sourceBranch": "c3-pleadings",
+      "sourceCommit": "b49d1101",
+      "importedBy": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b on claude/rcap-final-sprint-integration",
+      "job": "T-C-ND-production-packet, T-C-OH-production-packet, T-C-OK-production-packet",
+      "track": "nd-seal-misdemeanor-conviction, oh_2953_32_sealing, ok_identity_theft (and their partition siblings)",
+      "family": "controlled_pleading",
+      "file": "scripts/verify-rcap-terminalize-c3.mjs:91-100 (STRICT_NEGATIVE_SLUGS) and :870",
+      "fixture": "proven with data/rcap-all50/pleadings/ohio/oh_2953_32_sealing/fixtures/canonical.json",
+      "component": "verifier — positive-fixture invention scan gate",
+      "defect": "The invention scan on production fixtures is gated on STRICT_NEGATIVE_SLUGS, which excludes ND, OH and OK on the recorded ground that they 'landed before the findings and are owned by other lane paths'. Mutation proves the exclusion is exploitable: fabricated content baked into an OH artifact through the lane's own --write mode produces zero C3 failures. The exclusion is recorded as a scheduling note but functions as a silent downgrade of the anti-invention contract for three imported jurisdictions.",
+      "likelyOwner": "Terminal C (lane C3 owner), with the ND/OH/OK originating lane owners",
+      "acceptanceCondition": "Either ND, OH and OK are added to STRICT_NEGATIVE_SLUGS and their fixtures upgraded to declare expectedSignalClass/expectedSignal, or the positive-fixture scan at :870 is un-gated so it runs for every slug while only the negative-fixture signal-declaration requirement stays strict. The mutation in this artifact's mutationTests entry 5 must turn C3 red after regeneration.",
+      "note": "Reviewed independently and separately: the broad C3 pattern /\\bI\\s+(?:have\\s+)?served\\b/ false-positives on a correctly BLANK certificate of service ('I certify that on ______, I served a copy ...'), which is present and correct in the ND and GA artifacts. C2's narrower detector (/\\bI\\s+certify\\s+that\\s+on\\s+(?!_)/) does not. Whichever direction this is fixed, the C2 form of the detector is the correct one to standardise on."
+    },
+    {
+      "findingId": "C-S0-F3",
+      "severity": "high",
+      "class": "promotion-gate",
+      "sourceBranch": "captain-owned",
+      "sourceCommit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b",
+      "importedBy": "n/a — shared captain path",
+      "job": "promotion path for every lane-C composed route",
+      "track": "proven with ct-nolle-auto",
+      "family": "composed_route",
+      "file": "scripts/generate-rcap-track-terminalization.mjs and data/rcap-all50/review-artifacts/f2-dispositions.json",
+      "fixture": "injected closure {outcome: technical_approved, trackKeys: [CT:ct-nolle-auto]}",
+      "component": "terminalization generator — promotion",
+      "defect": "A technical_approved closure promotes a track to terminal:true with no structural check that the track's units are terminal. ct-nolle-auto, whose primary-filing and pre-1972-petition units are both drafted:false and blocked on unresolved legal design, promoted cleanly and moved tracksTerminal from 278 to 279. The blocked-component rule the import record says is 'enforceable at F2 closure' is enforced only by reviewer judgement, so a single mistaken or careless disposition line silently terminalizes a nonterminal route.",
+      "likelyOwner": "Terminal A (captain)",
+      "acceptanceCondition": "generate-rcap-track-terminalization.mjs refuses to promote a composed-route track when any unit's component carries drafted:false (or a blocked-pleading/official-form dependency without a completed supported terminal treatment), emitting the offending unitIds and exiting non-zero, and the false-approval mutation in this artifact's mutationTests entry 6 turns it red."
+    },
+    {
+      "findingId": "C-S0-F4",
+      "severity": "high",
+      "class": "participant-facing content defect",
+      "sourceBranch": "c-pleadings",
+      "sourceCommit": "00bb2df5",
+      "importedBy": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b on claude/rcap-final-sprint-integration",
+      "job": "T-C-IN-production-packet, T-C-KY-production-packet, T-C-TX-production-packet, T-C-KY-complete-composed-route",
+      "track": "in_supplemental_order, ky_void_seal_marijuana_synthetic_salvia, tx_exp_specialty_court, ky_criminal_record_segregation",
+      "family": "controlled_pleading and composed_route",
+      "file": "src/lib/record-clearing/renderers/custom-pleading-renderer.ts:168 (resolvePresentation) — defect surfaces in the four rendered/canonical.txt artifacts listed in affectedArtifacts",
+      "fixture": "canonical, boundary, multiline and negative — all four fixtures of each affected track",
+      "component": "caption, court/party identity paragraph, eligibility-basis sentence, verification clause, proposed-order header",
+      "defect": "resolvePresentation substitutes the Pennsylvania default only when config.presentation is absent as a whole, so field-level nulls are interpolated into participant-facing text as the literal string 'null'. The nulls are deliberate under lane C's own finding-2 discipline (source silent => null + <field>NullReason), so the discipline and the renderer contradict each other. Committed, shipped examples: Indiana caption renders 'STATE OF INDIANA,\\n    null,' (sovereignRole); Indiana paragraph 4 renders '4. null is the State of Indiana.'; Indiana verification renders 'I, JAMIE Q. SAMPLE, null that the statements made in this petition are true and correct' (verificationVerb) even though the config records 'no verification clause is rendered'; Texas renders 'null,\\n    null,' in the caption, '4. null is null.' in the body and 'null v. JAMIE Q. SAMPLE' in the proposed-order header; the eligibility sentence renders 'on the following basis: null.' from a null eligibilityData.eligibilityBasisLabel, which is not a presentation field at all.",
+      "likelyOwner": "Terminal A (renderer is a shared frozen input) with Terminal C for the affected configs",
+      "acceptanceCondition": "The renderer resolves presentation field-by-field against the default and, where a field is legitimately null under the finding-2 discipline, omits the clause entirely or emits an explicit bracketed participant/counsel token — never the literal 'null'. A scan for standalone 'null', 'undefined' and 'NaN' over every rendered artifact is added to the lane-C verifiers and is red before the fix and green after. In particular the Indiana verification clause must not render at all, matching its own recorded verificationVerbNullReason.",
+      "affectedArtifacts": [
+        "data/rcap-all50/pleadings/indiana/in_supplemental_order/rendered/canonical.txt (4 null lines)",
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/rendered/canonical.txt (4 null lines)",
+        "data/rcap-all50/pleadings/texas/tx_exp_specialty_court/rendered/canonical.txt (5 null lines)",
+        "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/rendered/canonical.txt (5 null lines)"
+      ],
+      "scanNote": "No occurrence of 'undefined' or 'NaN' was found in any shard-0 rendered output. The nine other shard-0 pleadings are clean."
+    },
+    {
+      "findingId": "C-S0-F5",
+      "severity": "medium",
+      "class": "participant-facing content defect",
+      "sourceBranch": "c-pleadings",
+      "sourceCommit": "00bb2df5",
+      "importedBy": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b on claude/rcap-final-sprint-integration",
+      "job": "T-C-IN-production-packet, T-C-KY-production-packet, T-C-TX-production-packet, T-C-KY-complete-composed-route",
+      "track": "in_supplemental_order, ky_void_seal_marijuana_synthetic_salvia, tx_exp_specialty_court, ky_criminal_record_segregation",
+      "family": "controlled_pleading and composed_route",
+      "file": "src/lib/record-clearing/renderers/custom-pleading-renderer.ts:227 and :450 (config.courtCaption emitted verbatim)",
+      "fixture": "canonical, boundary, multiline, negative",
+      "component": "court caption and proposed-order header",
+      "defect": "The renderer substitutes the {county} token only inside presentation.courtName and presentation.venueDescriptor (:275-276). config.courtCaption and presentation.captionStyleLine are emitted verbatim, so single-brace tokens reach the committed caption unresolved: Texas ships 'IN THE DISTRICT COURT OF {county} COUNTY, TEXAS' and 'EX PARTE {petitionerName}' on both the petition and the proposed order; Indiana ships {courtName}, {originalExpungementCounty} and {originalExpungementCauseNumber}; Kentucky ships {county}, {courtLevel} and {caseNumber}; the KY composed route's primary filing ships {county}, {court} and {caseNumberLine}. No substitution code path exists for any of these tokens. C1's merge-field check only matches double braces, so it never fires.",
+      "likelyOwner": "Terminal A (renderer) with Terminal C for the affected configs",
+      "acceptanceCondition": "Either the renderer resolves the same token vocabulary in courtCaption and captionStyleLine that it resolves in courtName/venueDescriptor, or these tracks' captions are authored with the renderer's own bracketed confirm-with-clerk tokens. The lane-C verifiers gain a single-brace unresolved-token scan over rendered output that is red before the fix and green after.",
+      "verifiedBenign": "The {{double-brace}} fields in data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-process-guidance-1/process-guidance.md are NOT this defect. That component carries a fixtures/ directory, and C1's scanParticipantDoc deliberately exempts fixture-backed templates from the merge-field assertion. Checked and cleared."
+    },
+    {
+      "findingId": "C-S0-F6",
+      "severity": "medium",
+      "class": "provenance",
+      "sourceBranch": "c-pleadings",
+      "sourceCommit": "00bb2df5",
+      "importedBy": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b on claude/rcap-final-sprint-integration",
+      "job": "T-C-CT-complete-composed-route",
+      "track": "ct-nolle-auto",
+      "family": "composed_route",
+      "file": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/components/ct-nolle-auto-motion-to-nolle-2/dependency.json and .../ct-nolle-auto-pre-1972-petition-3/dependency.json",
+      "fixture": "n/a",
+      "component": "component provenance block",
+      "defect": "Both component dependency.json files record provenance.profileSha256 = 47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7 for src/lib/rcap-engine/compiled/profiles/CT-connecticut.json. The file's actual sha256 in this tree is f6fd7cc7636fe2804c490dafd6d0164ed86a283a7b365d64276f94bdfc9aa874, which is what the same route's own route.json records. One route therefore carries two different fingerprints for the same file, and the component-level one is stale. This is the same defect class C2 catches for ma-bmc-multi; C1 does not catch it because verifyComposedTrack never fingerprint-checks component provenance.",
+      "likelyOwner": "Terminal C (lane C1 owner)",
+      "acceptanceCondition": "Both dependency.json files record the current sha256 of the file they name, and verify-rcap-terminalize-c1.mjs applies to composed-route and component provenance the same profilePath-resolves and profileSha256-matches assertions it already applies to pleading tracks at :166-175."
+    },
+    {
+      "findingId": "C-S0-F7",
+      "severity": "medium",
+      "class": "provenance",
+      "sourceBranch": "c-pleadings",
+      "sourceCommit": "00bb2df5",
+      "importedBy": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b on claude/rcap-final-sprint-integration",
+      "job": "T-C-CA-complete-composed-route",
+      "track": "ca-diversion-seal",
+      "family": "composed_route",
+      "file": "data/rcap-all50/composed-routes/california/ca-diversion-seal/route.json",
+      "fixture": "n/a",
+      "component": "route provenance block",
+      "defect": "provenance.profilePath and both provenance.statePackFiles entries are absolute paths into another agent's worktree — /home/user/wt-c1-pleadings/src/... — and resolve to nothing in this repository. The recorded profileSha256 does match the corresponding repo file, so the content is verifiable, but the paths are not portable and they leak a foreign worktree location into a committed artifact, which also cuts against the worktree-separation rule in AGENTS.md. This passed C1 only because verifyComposedTrack performs no provenance check at all; the equivalent absolute path in a pleading track would have failed C1's 'provenance.profilePath does not resolve' assertion.",
+      "likelyOwner": "Terminal C (lane C1 owner)",
+      "acceptanceCondition": "All three paths are rewritten repo-relative (src/lib/rcap-engine/compiled/profiles/CA-california.json and src/lib/rcap/state-packs/california/{index.ts,all50-build-metadata.ts}), and C1's composed-route path gains the provenance assertions named in C-S0-F6."
+    },
+    {
+      "findingId": "C-S0-F8",
+      "severity": "low",
+      "class": "test-strength",
+      "sourceBranch": "c2-pleadings",
+      "sourceCommit": "26d43050",
+      "importedBy": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b on claude/rcap-final-sprint-integration",
+      "job": "T-C-AZ-production-packet, T-C-NC-production-packet",
+      "track": "az_wrongful_arrest_clearance, nc_auto_146_a4_agency_followup",
+      "family": "controlled_pleading",
+      "file": "data/rcap-all50/pleadings/arizona/az_wrongful_arrest_clearance/fixtures/negative.json and data/rcap-all50/pleadings/north-carolina/nc_auto_146_a4_agency_followup/fixtures/negative.json",
+      "fixture": "negative",
+      "component": "negative fixture",
+      "defect": "Both negative fixtures prove rejection only by overriding templateGrade to the blocked Grade E value, which runPleadingQa sees trivially. Neither declares expectedSignals, and neither trips an invention or protected-field signal. Under lane C1 finding 1 a QA-vocabulary or grade failure alone is not proof that anti-invention enforcement works. C2 already emits this as a warning and scopes the re-authoring out of its owned paths, so it is recorded here rather than left to the warning stream. This does not impeach the deliverables: this review independently scanned both tracks' canonical and boundary renders with the full union scanner and found them clean.",
+      "likelyOwner": "Terminal C (lane C2 owner)",
+      "acceptanceCondition": "Each negative fixture declares expectations.expectedSignalClass and expectations.expectedSignal and actually trips a non-QA invention or protected-field signal, matching the standard the C2 hardened jurisdictions already meet."
+    },
+    {
+      "findingId": "C-S0-F9",
+      "severity": "low",
+      "class": "environment / reproducibility",
+      "sourceBranch": "n/a",
+      "sourceCommit": "n/a",
+      "importedBy": "n/a",
+      "job": "every lane-C job that cross-checks the pinned registry",
+      "track": "partition-wide",
+      "family": "controlled_pleading and composed_route",
+      "file": "scripts/generate-rcap-track-terminalization.mjs:57, scripts/verify-rcap-terminalize-c2.mjs:629, scripts/verify-rcap-terminalize-c3.mjs:433",
+      "fixture": "n/a",
+      "component": "registry authority cross-check",
+      "defect": "The pinned registry commit 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5 is not present in a fresh clone of this repository. The consequence is asymmetric and dangerous: generate-rcap-track-terminalization.mjs --check dies with an unhandled execFileSync error and a raw Node stack, while C2 and C3 degrade SILENTLY, emitting 'pinned registry commit not available locally; authority cross-check skipped' as a warning and still reporting per-track 'ok'. The skipped check is the first mustVerify item for every controlled pleading in this shard — that the pleading cites the operative authority the registry records. A reviewer working a fresh clone would see green on a check that never ran.",
+      "likelyOwner": "Terminal A (captain) — CI and clone provisioning",
+      "acceptanceCondition": "The pin is fetched as part of environment setup (it is reachable on origin/feat/record-clearing-production-integration), and the verifiers treat an unreachable pin as a hard failure rather than a warning, so the authority cross-check can never be silently skipped. Confirmed reproducible in both directions during this review: before fetch the check is skipped and the generator dies; after 'git fetch origin feat/record-clearing-production-integration' the generator reports the ledger current and C2 reports every shard-0 track ok with the skip warnings gone."
+    }
+  ],
+  "dispositions": [
+    {
+      "jobId": "F2-C-arizona-az_wrongful_arrest_clearance",
+      "job": "T-C-AZ-production-packet",
+      "track": "az_wrongful_arrest_clearance",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Re-renders byte-identically through the real renderer. Union invention/protected-field scan clean on every fixture. No literal null, no unresolved token, no placeholder or internal-language leak. Registry authority cross-check ran and passed once the pin was fetched.",
+      "openFindings": ["C-S0-F8"]
+    },
+    {
+      "jobId": "F2-C-georgia-ga-fo-active-pre2026",
+      "job": "T-C-GA-production-packet",
+      "track": "ga-fo-active-pre2026",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Re-renders byte-identically. Union scan clean; the only signal is the certificate-of-service template 'I certify that on ______, I served', which is correctly BLANK and is a scanner false positive, not an assertion of completed service. Negative fixture trips genuine invention and protected-field signals. Authority cross-check passed. sourceSilences present.",
+      "openFindings": []
+    },
+    {
+      "jobId": "F2-C-georgia-ga-fo-discharged-pre2026",
+      "job": "T-C-GA-production-packet",
+      "track": "ga-fo-discharged-pre2026",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Same evidence as ga-fo-active-pre2026; independently re-rendered and scanned.",
+      "openFindings": []
+    },
+    {
+      "jobId": "F2-C-georgia-ga-fugitive-j5",
+      "job": "T-C-GA-production-packet",
+      "track": "ga-fugitive-j5",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Same evidence as ga-fo-active-pre2026; independently re-rendered and scanned.",
+      "openFindings": []
+    },
+    {
+      "jobId": "F2-C-georgia-ga-vacated-j2",
+      "job": "T-C-GA-production-packet",
+      "track": "ga-vacated-j2",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Same evidence as ga-fo-active-pre2026; independently re-rendered and scanned.",
+      "openFindings": []
+    },
+    {
+      "jobId": "F2-C-north-carolina-nc_auto_146_a4_agency_followup",
+      "job": "T-C-NC-production-packet",
+      "track": "nc_auto_146_a4_agency_followup",
+      "family": "controlled_pleading (documentForm: correspondence)",
+      "disposition": "technical_approved",
+      "basis": "This track is an agency follow-up letter, not a court filing, and its registry entry forbids pleading framing. The committed artifact was read in full: it is correctly framed as correspondence, contains no WHEREFORE/petition/pleading/demand framing, asserts no expunction on the sender's behalf ('I am not certifying the expunction myself'), leaves the record-holder address and the case identifiers as sender-completed brackets, and carries no null or unresolved token. C2's letter composer independently checks for unresolved letter tokens. Note for the record: this reviewer's first harness pass wrongly forced this track through the pleading renderer and produced a spurious WHEREFORE QA failure; that result was traced to the harness and discarded, and the disposition rests on the committed artifact and the correct composer path.",
+      "openFindings": ["C-S0-F8"]
+    },
+    {
+      "jobId": "F2-C-nevada-nv_seal_multi",
+      "job": "T-C-NV-production-packet",
+      "track": "nv_seal_multi",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Strongest evidence in the shard. Re-renders byte-identically; canonical, boundary and multiline all scan completely clean; the negative fixture trips ten genuine invention and protected-field signals across all four classes (protected case fields, court finding, monetary amount, prosecutor position, service completion), proving the gate rejects rather than merely failing vocabulary.",
+      "openFindings": []
+    },
+    {
+      "jobId": "F2-C-north-dakota-nd-seal-misdemeanor-conviction",
+      "job": "T-C-ND-production-packet",
+      "track": "nd-seal-misdemeanor-conviction",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Re-renders byte-identically. Independently scanned with the full union scanner despite sitting outside C3's strict gate, and found clean: no invented finding, fee, prosecutor position, hearing outcome or signature; protected fields blank; docket renders the blank placeholder. The one signal is the blank certificate-of-service template, a scanner false positive. The verifier-coverage gap is real and is recorded as C-S0-F2, but it is a check defect, not a defect in this deliverable.",
+      "openFindings": ["C-S0-F2"]
+    },
+    {
+      "jobId": "F2-C-ohio-oh_2953_32_sealing",
+      "job": "T-C-OH-production-packet",
+      "track": "oh_2953_32_sealing",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Re-renders byte-identically. Union scan completely clean on all four fixtures. Same coverage caveat as ND, recorded as C-S0-F2 and not held against the artifact.",
+      "openFindings": ["C-S0-F2"]
+    },
+    {
+      "jobId": "F2-C-oklahoma-ok_identity_theft",
+      "job": "T-C-OK-production-packet",
+      "track": "ok_identity_theft",
+      "family": "controlled_pleading",
+      "disposition": "technical_approved",
+      "basis": "Re-renders byte-identically. Union scan completely clean on all four fixtures. Same coverage caveat as ND, recorded as C-S0-F2 and not held against the artifact.",
+      "openFindings": ["C-S0-F2"]
+    },
+    {
+      "jobId": "F2-C-indiana-in_supplemental_order",
+      "job": "T-C-IN-production-packet",
+      "track": "in_supplemental_order",
+      "family": "controlled_pleading",
+      "disposition": "correction_required",
+      "basis": "Ships the literal string 'null' four times in the committed canonical render, including in the caption party line and in the verification clause — a clause the config's own verificationVerbNullReason says should not render at all. Also ships three unresolved single-brace caption tokens. Legal substance and authority are otherwise sound and the protected-field discipline holds.",
+      "owner": "Terminal A (renderer) with Terminal C (config)",
+      "openFindings": ["C-S0-F4", "C-S0-F5", "C-S0-F1"]
+    },
+    {
+      "jobId": "F2-C-kentucky-ky_void_seal_marijuana_synthetic_salvia",
+      "job": "T-C-KY-production-packet",
+      "track": "ky_void_seal_marijuana_synthetic_salvia",
+      "family": "controlled_pleading",
+      "disposition": "correction_required",
+      "basis": "Same defect class as in_supplemental_order: four literal 'null' occurrences including the caption party line and the verification clause, which the config records as deliberately absent ('The motion is not verified; no verification clause is rendered'), plus three unresolved caption tokens.",
+      "owner": "Terminal A (renderer) with Terminal C (config)",
+      "openFindings": ["C-S0-F4", "C-S0-F5", "C-S0-F1"]
+    },
+    {
+      "jobId": "F2-C-texas-tx_exp_specialty_court",
+      "job": "T-C-TX-production-packet",
+      "track": "tx_exp_specialty_court",
+      "family": "controlled_pleading",
+      "disposition": "correction_required",
+      "basis": "Worst instance in the shard. Five literal 'null' occurrences: the caption renders two consecutive bare 'null' party lines, the body renders '4. null is null.', and the proposed-order header renders 'null v. JAMIE Q. SAMPLE'. The caption additionally ships '{county}' and '{petitionerName}' unresolved on both the petition and the proposed order. As committed, the caption of this filing document is not a valid caption.",
+      "owner": "Terminal A (renderer) with Terminal C (config)",
+      "openFindings": ["C-S0-F4", "C-S0-F5", "C-S0-F1"]
+    },
+    {
+      "jobId": "F2-C-kentucky-ky_criminal_record_segregation",
+      "job": "T-C-KY-complete-composed-route",
+      "track": "ky_criminal_record_segregation",
+      "family": "composed_route",
+      "disposition": "correction_required",
+      "basis": "Route structure is the strongest of the three composed routes reviewed and is genuinely terminal: all three legal units are enumerated against the pinned registry with unitIds preserved, all three resolve to real delivered components (a rendered pleading, an agency request letter, routing guidance), filing/participant separation is explicit and correct (exactly one court document, on the court-application branch only), omissionProof is substantive, and provenance resolves and fingerprints match. It cannot be approved as it stands because the primary-filing component's committed canonical render carries five literal 'null' occurrences and three unresolved caption tokens — the same renderer defect as the C1 pleadings. Correction is confined to the rendered output; the route design needs no change.",
+      "owner": "Terminal A (renderer) with Terminal C (config)",
+      "openFindings": ["C-S0-F4", "C-S0-F5", "C-S0-F1"]
+    },
+    {
+      "jobId": "F2-C-california-ca-diversion-seal",
+      "job": "T-C-CA-complete-composed-route",
+      "track": "ca-diversion-seal",
+      "family": "composed_route",
+      "disposition": "held_on_source_or_design",
+      "basis": "NONTERMINAL — cannot be approved. Unit 2 (ca-diversion-seal-stage-2) is the operative filing that actually obtains the relief, and it is an official_form_dependency with drafted:false whose own condition states 'Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.' Both named forms are status named_but_not_collected_or_approved, neither is in the CA state-pack inventory, and one has no form number, no URL and no sha256. Unit 3 (FW-001 fee waiver) is likewise undrafted and blocked on lane-D acquisition. The route is honest about all of this — the blocked components do not disappear, they carry exact missing source, a named owning lane and a handoff scope, and the participant journey correctly says these forms are obtained by the participant and not drafted by LegalEase — but a composed route with a blocked primary filing is not terminal, and the shard rule is that one nonterminal unit bars approval. Held rather than correction_required because the blocker is genuine external source acquisition, not a lane error.",
+      "owner": "lane D official-form acquisition, with lane E for the remaining-county local-form survey",
+      "openFindings": ["C-S0-F7", "C-S0-F1"]
+    },
+    {
+      "jobId": "F2-C-connecticut-ct-nolle-auto",
+      "job": "T-C-CT-complete-composed-route",
+      "track": "ct-nolle-auto",
+      "family": "composed_route",
+      "disposition": "held_on_source_or_design",
+      "basis": "NONTERMINAL — cannot be approved. Two of three units are undrafted and blocked. Unit 2 (the C.G.S. § 54-142a(c)(2) motion) records 'The § 54-142a(c)(2) motion branch has no settled filing vehicle ... This is a hold, not a classification.' Unit 3 (the pre-1 April 1972 petition) records 'Drafting a petition would be invention from end to end' and 'Everything about this petition beyond its existence is unstated, including which older courts the statute lists.' Only unit 1, the automatic-erasure guidance branch, is complete, and it requires no filing. The lane's handling is correct and commendable — the pre-1972 possibility appears in no registry units[] entry and no packetSet component and was synthesized into a unit specifically so it would be recorded rather than dropped, which is the blocked-component rule working as intended — but neither blocked unit carries a complete supported terminal treatment, so the route is nonterminal. This is the exact track used for the false-approval mutation, which promoted cleanly; see C-S0-F3.",
+      "owner": "lane D/E legal-design resolution and official-source acquisition",
+      "openFindings": ["C-S0-F6", "C-S0-F3", "C-S0-F1"]
+    }
+  ],
+  "totals": {
+    "candidatesReviewed": 16,
+    "technical_approved": 10,
+    "correction_required": 4,
+    "held_on_source_or_design": 2,
+    "controlledPleadings": 13,
+    "composedRoutes": 3,
+    "findingsRaised": 9,
+    "mutationsInjected": 6,
+    "mutationsCaught": 3,
+    "mutationsNotCaught": 3
+  },
+  "scopeStatement": {
+    "wroteOnly": [
+      "data/rcap-all50/review-artifacts/c-review-shard-0.json",
+      "docs/rcap/review/c/shard-0.md"
+    ],
+    "implementationFilesModified": "none",
+    "mutationHygiene": "Every mutation was reverted immediately after its result was recorded, verified with git status --porcelain returning empty, and the terminalization ledger was confirmed current (tracksTerminal 278/497) before this artifact was written. No git add -A, -A or . was used at any point.",
+    "notReviewed": "The 30 lane-C candidates in shards 1 and 2 were not reviewed. One real defect visible in the shared C2 run belongs to another shard and is referred rather than adjudicated here: ma-bmc-multi provenance.fingerprint does not match sha256 of src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json."
+  }
+}
