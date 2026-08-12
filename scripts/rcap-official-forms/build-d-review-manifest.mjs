@@ -81,6 +81,22 @@ function nonFilingNoticeOf(record) {
   return null;
 }
 
+// Lanes disagree about whether the source pointer carries the library's
+// top-level directory. D1C records it pack-relative ("STATES/NE/..."), the
+// other six prefix it with the Edition-1 directory. Only the pack-relative
+// form resolves inside an extracted source pack, so every pointer is
+// normalized to that one form -- accepting both spellings without normalizing
+// them leaves an importer with two path shapes and no rule for telling which
+// it has.
+const EDITION_PREFIX = /^Expungement_AI_RCAP_Master_Library_Edition_1\//;
+
+function sourcePointerOf(record) {
+  const raw = record?.canonicalBundlePath ?? record?.canonicalRelativePath
+    ?? record?.canonicalPath ?? record?.sourcePath ?? null;
+  if (!raw) return { raw: null, packRelative: null };
+  return { raw, packRelative: String(raw).replace(EDITION_PREFIX, "") };
+}
+
 /** What a reviewer has to do with this family. */
 function reviewTypeOf(record, hasFinalPdf, hasSheet) {
   if (nonFilingNoticeOf(record)) return "non_filing_hold_confirmation";
@@ -165,8 +181,8 @@ export function buildManifest() {
           // in most, canonicalRelativePath in D1C. Reading one key left 24
           // families with a null source path in a manifest whose whole job is
           // to point a reviewer at the source.
-          sourceCanonicalPath: record?.canonicalBundlePath ?? record?.canonicalRelativePath
-            ?? record?.canonicalPath ?? record?.sourcePath ?? null,
+          sourceCanonicalPath: sourcePointerOf(record).packRelative,
+          sourceCanonicalPathAsRecorded: sourcePointerOf(record).raw,
           documentId: record?.documentId ?? null,
           revision: record?.revision ?? null,
           structuralClass: record?.structuralClassObserved ?? null,
