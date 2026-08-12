@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-c3-jurisdiction-manifest/v1",
+  "jobId": "T-C-SC-production-packet",
+  "jurisdiction": "SC",
+  "jurisdictionSlug": "south-carolina",
+  "windowId": "2026-08-12-w1",
+  "lane": "C",
+  "implementationFamily": "controlled_pleading",
+  "outputStrategy": "custom_pleading",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "file": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+  },
+  "trackIds": [
+    "sc_aep",
+    "sc_conditional_discharge_44_53_450",
+    "sc_tep"
+  ],
+  "partitionNote": "All three South Carolina tracks are blocked as official-form routes. The committed South Carolina evidence states that South Carolina expungements start with either the Solicitor's Office or the summary court and use the official SCCA 223-series forms. Drafting an application or order for any of these tracks would replicate SCCA 223A1 or SCCA 223B1, which is prohibited. Official-PDF overlay work belongs to lane D/E.",
+  "tracks": [
+    {
+      "trackId": "sc_aep",
+      "legalName": "Solicitor Application to Destroy Arrest Records After Successful Alcohol Education Program Completion, S.C. Code § 17-22-530(A)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Official-form route: SCCA 223A1 application / SCCA 223B1 order. Court level not settled by § 17-22-530(B). § 17-22-550 in the authority list was not read at source."
+    },
+    {
+      "trackId": "sc_tep",
+      "legalName": "Solicitor Application to Destroy Arrest Records After Successful Traffic Education Program Completion, S.C. Code § 17-22-330(A)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Blocked on two independent grounds: official-form route (SCCA 223A1/223B1), and no destruction-application subsection is established for the traffic programme — § 17-22-350 sits in the authority list but its text was not read."
+    },
+    {
+      "trackId": "sc_conditional_discharge_44_53_450",
+      "legalName": "Solicitor Application to Expunge Records After a First-Offence Drug Conditional Discharge, S.C. Code § 44-53-450(b)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Official-form route: SCCA 223A1 application / SCCA 223B1 order. Statute itself was read at source on 2026-08-06, so the block is the form route and the varying court level, not a statutory gap. Fee is source-established ($350 general sessions / $150 summary court)."
+    }
+  ],
+  "summary": {
+    "tracksTotal": 3,
+    "drafted": 0,
+    "blocked": 3
+  }
+}
