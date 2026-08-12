@@ -1,0 +1,67 @@
+{
+  "profileId": "de-family-court-form-281",
+  "profileVersion": "1.0.0",
+  "schemaVersion": "rcap-hard-form-profile/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "jurisdiction": {
+    "code": "DE",
+    "name": "Delaware"
+  },
+  "ledgerJob": "T-E-DE-production-packet",
+  "tracksServed": [
+    "de_discretionary_family_court"
+  ],
+  "form": {
+    "formId": "FORM-281",
+    "revision": "claimed 11/26/2025 (uncorroborated)",
+    "officialName": "Petition for Expungement of Adult Record, Family Court",
+    "componentRole": "PETITION",
+    "issuingBody": "Family Court of the State of Delaware"
+  },
+  "strategy": {
+    "tier": "exact_supported_deferral",
+    "rationale": "The principal Family Court Form 281 petition exists in no canonical source. Every candidate in the tree or the bundle is either a different court's form or an attachment to the missing principal."
+  },
+  "candidatesExaminedAndRejected": [
+    {
+      "artifact": "data/rcap-all50/overlays/rescued-encrypted-pdfs/delaware-download-aspx-rescued.pdf",
+      "sha256": "bc39abcda95beef0acd46f27b3220fefe26fb4b8eac7989a3ea9f509147c3182",
+      "whatItActuallyIs": "Superior Court Petition for Expungement of Adult Record, form ids CIV_EXP_02_A (Updated 6/1/2024) and CIV_EXP_02_B, printed in its own page text; 1 page, 44 AcroForm fields, no XFA, decrypted from LegalEase Delaware/download.aspx.pdf (sha256 f2820f713b9f8e0fb1c0095886e7184d56fda06eef7f65af014ab48922b7839a) by qpdf on 2026-06-17",
+      "sourceFaithfulToItsOwnSource": true,
+      "rejectedBecause": "It is the Superior Court form. The track is 11 Del. C. § 4374(c), which requires filing in Family Court where all charges were disposed of in Family Court. Filling a Superior Court petition for a Family Court filing would misroute the participant. Fillability is not identity — this was never a clean official AcroForm for THIS track."
+    },
+    {
+      "artifact": "STATES/DE/02_PACKET_FORMS/DE__FORM__FORM-281E__…charge-sheet__REV-2018-09__EN.docx",
+      "sha256": "aaca121e3bb4ce51ab9ab4ff6d933138bf7a36b6d97269c02cbf3c0290e87b33",
+      "whatItActuallyIs": "Family Court PETITION FOR EXPUNGEMENT OF ADULT RECORD CHARGE SHEET, a DOCX with FORMTEXT/FORMCHECKBOX legacy fields; its own text reads \"The charges listed below are a continuation of the Petitioner’s list of charges on the Petition for Expungement of Adult Record to which this form is attached.\"",
+      "sourceFaithfulToItsOwnSource": true,
+      "rejectedBecause": "It is the correct court but the wrong component: a continuation sheet that attaches to the principal Form 281. It cannot be the principal petition, and converting it to PDF would not create one. Master Library Edition 1.3 records the same conclusion by re-roling FORM-281E from PETITION to CONTINUATION_SHEET."
+    },
+    {
+      "artifact": "STATES/DE/03_INSTRUCTIONS/DE__INSTRUCTIONS__FORM-1021IP__…__REV-2023-10__EN.pdf",
+      "sha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+      "whatItActuallyIs": "Adult Expungement Instruction Packet, 15 pages, no AcroForm, no fields",
+      "sourceFaithfulToItsOwnSource": true,
+      "rejectedBecause": "An instruction packet is not a substitute for the principal form, as the assignment states explicitly."
+    }
+  ],
+  "legalIntegrityDisposition": "No source-faithful production packet is possible for this track in this sprint. A derived reconstruction of Form 281 from the charge sheet plus instructions would be a fabricated official form: it would carry a form id and revision that no canonical byte supports, which is precisely the failure mode the source-faithful rule exists to prevent.",
+  "participantTreatment": {
+    "routeStatus": "complete_guidance_no_packet",
+    "checkoutProhibited": true,
+    "whatTheParticipantIsTold": "Delaware Family Court adult expungement under 11 Del. C. § 4374(c) is available where every charge was disposed of in Family Court, but LegalEase cannot yet prepare this petition. The participant is given the statutory route, the filing destination and the exact form to request.",
+    "receivingAuthority": "Family Court of the State of Delaware for the county where the charges were disposed of (New Castle, Kent or Sussex)",
+    "nextStep": "Obtain Family Court Form 281, Petition for Expungement of Adult Record, from the Family Court clerk or courts.delaware.gov, together with Form 281E charge sheet if the charge list continues, and the required SBI criminal history report.",
+    "neverDeliverRawXfa": true,
+    "adobeReaderNotRequired": true
+  },
+  "blocker": {
+    "exactMissingEvidence": "The official Family Court Form 281 principal petition binary, at any revision. The canonical Master Library Edition 1 bundle contains FORM-281E (charge sheet) only; the manifest lists no Form 281 member, and no committed artifact in the repository contains one.",
+    "owner": "source acquisition (operator or a lane with Delaware courts egress)",
+    "nextAction": "Supply the official Form 281 PDF (or DOCX) with its sha256 and revision date, filed under the canonical bundle STATES/DE/02_PACKET_FORMS/. Lane E can then census it and, if it is a clean AcroForm, complete it as Tier 0; if it is a legacy DOCX like 281E, as a Tier 2 provenance-pinned static layout.",
+    "unblockChangesTierTo": [
+      "tier_0_clean_acroform",
+      "tier_2_static_snapshot_and_overlay"
+    ]
+  }
+}

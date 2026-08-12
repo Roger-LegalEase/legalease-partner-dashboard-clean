@@ -1,0 +1,73 @@
+{
+  "profileId": "me-cr-289-motion-to-seal-prostitution-conviction",
+  "profileVersion": "1.0.0",
+  "schemaVersion": "rcap-hard-form-profile/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "jurisdiction": {
+    "code": "ME",
+    "name": "Maine"
+  },
+  "ledgerJob": "T-E-ME-production-packet",
+  "tracksServed": [
+    "me-seal-prost"
+  ],
+  "form": {
+    "formId": "CR-289",
+    "revision": "Rev. 10/24",
+    "officialName": "Motion to Seal Criminal Conviction for Engaging in Prostitution",
+    "componentRole": "MOTION",
+    "issuingBody": "Maine Judicial Branch"
+  },
+  "strategy": {
+    "tier": "exact_supported_deferral",
+    "rationale": "The binary is now in hand and is technically ready for Tier 0, but the adopted Maine legal design records the form itself as legally stale. Presence removed the location blocker only."
+  },
+  "officialSource": {
+    "bundlePath": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__…__REV-2024-10__EN.pdf",
+    "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+    "bytes": 166837,
+    "hashReconciliation": "Matches the sha256 pinned as a packetGenerator formCandidate in src/lib/rcap-engine/compiled/profiles/ME-maine.json and the 166,837-byte sourceInspection in the committed field-map review, so the bundle member is the exact binary the build lane referenced.",
+    "technicalFindings": {
+      "encrypted": false,
+      "xfa": false,
+      "acroForm": true,
+      "terminalFields": 14,
+      "pages": 1,
+      "geometry": "612x792",
+      "openAction": false,
+      "documentJavaScript": false,
+      "creator": "Acrobat PDFMaker 24 for Word"
+    },
+    "tierIfCurrentnessWereClosed": "tier_0_clean_acroform"
+  },
+  "currentnessAdjudication": {
+    "adoptedLegalDesign": "STATES/ME/01_LEGAL_REVIEW/ME__LEGAL-REVIEW__STATEWIDE__maine-record-clearing-legal-review__ASOF-2026-07-30__EN.md (sha256 fe11e0a4fb174ec644dda30997f66a6f9fac680b82965a2c4a619ab6a050ecdb)",
+    "finding": "CR-289 is Rev. 10/24 and predates PL 2025, c. 513, which repealed § 2262-A(1) effective January 11, 2026. The form’s paragraph 1 still recites that the crime \"is eligible for sealing under 15 M.R.S.A. § 2261(6) and § 2262-A\" — a prerequisite the statute no longer imposes. The legal review names this in terms: \"Release blocker for participant-facing accuracy: confirm whether the Judicial Branch has issued a revised CR-289.\"",
+    "whyThisBlocksAPacket": "A production packet would put a participant’s signature under a recital of an eligibility requirement that no longer exists in law. That is a participant-facing accuracy defect on the face of the filing, not a rendering defect, and no amount of correct field placement cures it.",
+    "cr307Considered": {
+      "formId": "CR-307",
+      "sha256": "c72e74f191a1bddb48453e3094e8a657baabf552299f353acd8bf0d8a418fed1",
+      "revision": "REV-2026-06",
+      "findings": "Encrypted, no XFA, 15 AcroForm fields, 1 page, created by Acrobat PDFMaker 26 for Word.",
+      "rejectedAsSubstitute": "CR-307 is Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation — the survivor route, a different track from the former Class E engaging-in-prostitution route this job serves. The legal review treats them as separate tracks and directs screening every § 2262-A participant for the survivor route, but it never makes CR-307 the form for this one."
+    }
+  },
+  "legalIntegrityDisposition": "Deferred on currentness, not on availability. Tier 0 is technically satisfied and the implementation is ready to complete the moment the revision question closes either way.",
+  "participantTreatment": {
+    "routeStatus": "complete_guidance_no_packet",
+    "checkoutProhibited": true,
+    "whatTheParticipantIsTold": "Sealing of a former Class E engaging-in-prostitution conviction under 15 M.R.S. § 2262-A is mandatory relief on a preponderance showing after a one-year wait, with no continuing self-reporting duty. LegalEase is holding packet preparation until the Judicial Branch form is confirmed current against the January 2026 amendment.",
+    "receivingAuthority": "Clerk of the court of conviction (Superior Court, District Court or Unified Criminal Docket, as the conviction record shows)",
+    "nextStep": "Request the current CR-289 from the clerk or courts.maine.gov and confirm whether a post-PL 2025 c. 513 revision has issued; screen for the broader survivor route under CR-307, which has no waiting period.",
+    "neverDeliverRawXfa": true,
+    "adobeReaderNotRequired": true
+  },
+  "blocker": {
+    "exactMissingEvidence": "Confirmation of whether the Maine Judicial Branch has issued a CR-289 revision after PL 2025, c. 513 (effective 2026-01-11), and the revised binary with its sha256 if one exists.",
+    "owner": "source acquisition (operator or a lane with courts.maine.gov egress)",
+    "nextAction": "Check the Maine Judicial Branch forms index for a CR-289 revision later than Rev. 10/24. If a revised form exists, supply it and lane E completes Tier 0 against it. If the Judicial Branch confirms Rev. 10/24 is still current, counsel records that the stale paragraph-1 recital is harmless for former § 853-A convictions — the legal review already reasons it is, because that offense sat outside Title 17-A chapter 11 — and lane E completes Tier 0 against the existing binary.",
+    "unblockChangesTierTo": [
+      "tier_0_clean_acroform"
+    ]
+  }
+}
