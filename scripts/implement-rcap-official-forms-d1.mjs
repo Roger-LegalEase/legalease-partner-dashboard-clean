@@ -24,6 +24,11 @@ import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { decideBinding as decideTypedBinding } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
+  from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
+  from "./rcap-official-forms/rcap-contact-sheet.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList, StandardFonts, rgb } = require("pdf-lib");
@@ -37,6 +42,11 @@ const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 // produce byte-different fixtures and turn any drift check into noise. Pinning
 // it makes a re-render reproducible: identical inputs give identical bytes.
 const RENDER_DATE = new Date("2026-08-12T00:00:00.000Z");
+
+// Stamped into every map this builder writes. The shared verifier applies the
+// D0-remediated invariants only to packages carrying it, so a package built by
+// the previous factory stays valid until its own state session regenerates it.
+const FACTORY_VERSION = "d0-remediated-v1";
 const stamp = (doc) => { doc.setModificationDate(RENDER_DATE); return doc; };
 
 // --- name normalization -----------------------------------------------------
@@ -343,6 +353,18 @@ function fieldType(f) {
   return "other";
 }
 
+// Importing this module must not regenerate every state package. The whole
+// build is a top-level side effect, so anything that imports it -- a test, a
+// helper, an editor's language server -- would otherwise rewrite the corpus on
+// import. The entry point is now explicit.
+const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (!invokedDirectly) {
+  console.error("implement-rcap-official-forms-d1: imported rather than run; no packages were regenerated.");
+} else {
+await main();
+}
+
+async function main() {
 const index = readJson(path.join(OUT, "verified-binary-index.json"));
 const results = [];
 
@@ -384,12 +406,23 @@ for (const fam of index.families) {
   const classification = census.map((c) => ({ name: c.name, type: c.type, class: classify(c.name, c.type, ownership) }));
 
   const noFill = ownership === OWNERSHIP.INSTRUCTIONAL || ownership === OWNERSHIP.OUTSIDE_PARTY;
+  // Binding is decided by the typed, fail-closed binder rather than by a
+  // name-pattern sweep: every field starts protected, and only an allowlisted
+  // fact descriptor of a matching type on a writable field type gets through.
+  // The refusals are kept because a refused field with its reason is what
+  // makes the protection auditable.
+  const explicitMappings = record.explicitFieldMappings ?? {};
+  const availableChargeRows = Array.isArray(CANONICAL["matter.charges"]) ? CANONICAL["matter.charges"].length : 0;
   const bindings = [];
-  if (!noFill) {
-    for (const c of classification) {
-      const target = bindingFor(c.name, c.type, c.class, ownership);
-      if (target) bindings.push({ field: c.name, class: c.class, factId: target });
-    }
+  const bindingRefusals = [];
+  for (const c of classification) {
+    const decision = decideTypedBinding(
+      { name: c.name, pdfType: c.type, effectiveLabel: c.effectiveLabel },
+      { explicitMappings, captionOnly: ownership === OWNERSHIP.COURT_ORDER,
+        availableChargeRows, documentAcceptsFill: !noFill }
+    );
+    if (decision.writable) bindings.push({ field: c.name, class: c.class, factId: decision.factId });
+    else bindingRefusals.push({ field: c.name, reason: decision.reason, category: decision.category ?? null });
   }
   const boundNames = new Set(bindings.map((b) => b.field));
 
@@ -472,7 +505,10 @@ for (const fam of index.families) {
     JSON.stringify({ schemaVersion: `rcap-${mapKind}-map/v5`, family: fam.familySlug, documentOwnership: ownership,
       sha256: sha, pageGeometry: record.pageGeometry,
       captionOnly: ownership === OWNERSHIP.COURT_ORDER,
+      factoryVersion: FACTORY_VERSION,
+      bindingBasis: "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
       bindings,
+      bindingRefusals,
       unwritableFields: classification.filter((c) => NEVER_WRITE.has(c.class)).map((c) => ({ field: c.name, class: c.class })),
       manualFields: classification.filter((c) => c.class === "manual").map((c) => c.name),
       anchorCapture: mapKind === "flat_overlay"
@@ -485,133 +521,71 @@ for (const fam of index.families) {
 
   let filled = 0, contactSheet = false;
   const findings = [];
+  let finalizedReport = null;
 
-  // Flat overlay render: draw the canonical and boundary values at the
-  // measured anchors, then contact-sheet blank against filled.
-  if (mapKind === "flat_overlay" && !noFill && anchors.length > 0) {
-    const rendered = {};
-    for (const [label, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
-      const d = await PDFDocument.load(bytes, { ignoreEncryption: true });
-      const font = await d.embedFont(StandardFonts.Helvetica);
-      const dp = d.getPages();
-      let n = 0;
-      for (const a of anchors) {
-        const v = resolveFact(facts, a.factId);
-        if (v === undefined) continue;
-        let size = a.fontSize;
-        let text = String(v);
-        let w = font.widthOfTextAtSize(text, size);
-        while (w > a.writeBox.width && size > 5.5) { size -= 0.5; w = font.widthOfTextAtSize(text, size); }
-        if (w > a.writeBox.width) {
-          findings.push({ fixture: label, anchor: a.label, page: a.page, check: "clipping",
-            boxWidth: a.writeBox.width, textWidthAt: Number(w.toFixed(1)), fontSize: size,
-            handling: "shrunk_to_floor_then_reported" });
+  // One pipeline for both shapes. The fixture written is the finalized
+  // participant artifact -- values materialized into appearances, flattened,
+  // sanitized of active content and byte-reproducible -- because that is what
+  // a participant would actually file and therefore the only thing worth
+  // reviewing. The contact sheet is built from that artifact and refuses to
+  // exist unless its values are provably visible.
+  const renderable = mapKind === "acroform" ? bindings.length > 0 : anchors.length > 0;
+  if (!noFill && renderable) {
+    try {
+      const rendered = {};
+      for (const [label, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
+        const result = mapKind === "acroform"
+          ? await finalizeOfficialForm({
+              sourceBytes: bytes, expectedSha256: sha, census, facts, explicitMappings,
+              captionOnly: ownership === OWNERSHIP.COURT_ORDER,
+              nonFilingNotice: notForFilingNotice,
+              title: `${fam.jurisdiction} ${record.documentId}`
+            })
+          : await finalizeFlatOverlay({
+              sourceBytes: bytes, expectedSha256: sha, anchors, facts,
+              nonFilingNotice: notForFilingNotice,
+              title: `${fam.jurisdiction} ${record.documentId}`
+            });
+        fs.writeFileSync(path.join(familyDir, "fixtures", `${label}-filled.pdf`), result.bytes);
+        rendered[label] = result;
+        for (const u of result.report.unfittable) {
+          findings.push({ fixture: label, check: "unfittable_refused_not_clipped", ...u });
         }
-        dp[a.page - 1].drawText(text, { x: a.writeBox.x, y: a.writeBox.y, size, font, color: rgb(0, 0, 0.55) });
-        n++;
+        for (const r of result.report.refused) {
+          if (r.category === "unfittable") continue;
+          findings.push({ fixture: label, check: "binding_refused", ...r });
+        }
+        if (label === "canonical") { filled = result.report.written.length; finalizedReport = result.report; }
       }
-      const out = await stamp(d).save();
-      fs.writeFileSync(path.join(familyDir, "fixtures", `${label}-filled.pdf`), out);
-      rendered[label] = out;
-      if (label === "canonical") filled = n;
-    }
-    fs.writeFileSync(path.join(familyDir, "fixtures", "negative.json"), JSON.stringify({
-      schemaVersion: "rcap-negative-fixture/v3",
-      assertion: "With no participant facts supplied the overlay draws nothing. No anchor is bound to a court, prosecutor, agency, signature, notarization or service label.",
-      unwritableAnchorLabels: [] }, null, 2) + "\n");
-    try {
-      const sheet = await PDFDocument.create();
-      sheet.setCreationDate(RENDER_DATE);
-      const font = await sheet.embedFont(StandardFonts.Helvetica);
-      const n = (await PDFDocument.load(bytes, { ignoreEncryption: true })).getPageCount();
-      for (let i = 0; i < n; i++) {
-        const [bp] = await sheet.embedPdf(bytes, [i]);
-        const [fp] = await sheet.embedPdf(rendered.canonical, [i]);
-        const W = bp.width, H = bp.height, scale = 0.62, gap = 24, margin = 28, header = 34;
-        const page = sheet.addPage([W * scale * 2 + gap + margin * 2, H * scale + margin * 2 + header]);
-        page.drawText(`${fam.jurisdiction} ${record.documentId} — page ${i + 1} — blank (left) vs canonical overlay (right)`,
-          { x: margin, y: H * scale + margin + 12, size: 9, font, color: rgb(0.1, 0.1, 0.1) });
-        page.drawPage(bp, { x: margin, y: margin, xScale: scale, yScale: scale });
-        page.drawPage(fp, { x: margin + W * scale + gap, y: margin, xScale: scale, yScale: scale });
-      }
-      fs.mkdirSync(path.join(familyDir, "contact-sheet"), { recursive: true });
-      fs.writeFileSync(path.join(familyDir, "contact-sheet", "blank-vs-filled.pdf"), await stamp(sheet).save());
-      contactSheet = true;
-    } catch (e) { findings.push({ check: "contact_sheet_error", message: e.message }); }
-  }
-  if (!noFill && mapKind === "acroform" && bindings.length > 0) {
-    const helv = await (await PDFDocument.create()).embedFont(StandardFonts.Helvetica);
-    const rectOf = (name) => census.find((c) => c.name === name)?.widgets?.[0]?.rect ?? null;
-    const rendered = {};
-    for (const [label, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
-      const d = await PDFDocument.load(bytes, { ignoreEncryption: true });
-      const form = d.getForm();
-      let n = 0;
-      for (const b of bindings) {
-        const v = resolveFact(facts, b.factId);
-        if (v === undefined) continue;
-        try {
-          const f = form.getField(b.field);
-          if (f instanceof PDFTextField) {
-            const max = f.getMaxLength?.() ?? null;
-            let value = String(v);
-            if (max && value.length > max) {
-              findings.push({ fixture: label, field: b.field, check: "overflow", maxLength: max, valueLength: value.length, handling: "truncated_by_form_maxlength" });
-              value = value.slice(0, max);
-            }
-            const rect = rectOf(b.field);
-            const multiline = census.find((c) => c.name === b.field)?.multiline === true;
-            if (rect && rect.width > 0 && !multiline) {
-              const size = Math.min(10, Math.max(6, rect.height - 4));
-              const w = helv.widthOfTextAtSize(value, size);
-              if (w > rect.width - 4) {
-                findings.push({ fixture: label, field: b.field, check: "clipping", widgetWidth: rect.width,
-                  textWidthAt: Number(w.toFixed(1)), fontSize: size, handling: "shrink_to_fit_required_at_render" });
-              }
-            }
-            f.setText(value); n++;
-          } else if (f instanceof PDFDropdown) {
-            const opts = f.getOptions?.() ?? [];
-            const match = opts.find((o) => String(o).trim().toLowerCase() === String(v).trim().toLowerCase())
-              ?? opts.find((o) => String(o).trim().toLowerCase() === String(v).replace(/\s*county$/i, "").trim().toLowerCase());
-            if (match) { f.select(match); n++; }
-            else findings.push({ fixture: label, field: b.field, check: "option_not_in_list", value: String(v), optionCount: opts.length, handling: "left_blank_for_participant_selection" });
-          }
-        } catch (e) { findings.push({ fixture: label, field: b.field, check: "fill_error", message: e.message }); }
-      }
-      const out = await stamp(d).save();
-      fs.writeFileSync(path.join(familyDir, "fixtures", `${label}-filled.pdf`), out);
-      rendered[label] = out;
-      if (label === "canonical") filled = n;
-    }
-    // Negative fixture: no participant facts supplied at all.
-    fs.writeFileSync(path.join(familyDir, "fixtures", "negative.json"), JSON.stringify({
-      schemaVersion: "rcap-negative-fixture/v3",
-      assertion: "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-      unwritableFields: classification.filter((c) => NEVER_WRITE.has(c.class)).map((c) => ({ field: c.name, class: c.class })) }, null, 2) + "\n");
 
-    // Contact sheet: blank page beside filled page, from the real documents.
-    try {
-      const sheet = await PDFDocument.create();
-      sheet.setCreationDate(RENDER_DATE);
-      const font = await sheet.embedFont(StandardFonts.Helvetica);
-      const blankDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
-      const filledDoc = await PDFDocument.load(rendered.canonical, { ignoreEncryption: true });
-      const n = Math.min(blankDoc.getPageCount(), filledDoc.getPageCount());
-      for (let i = 0; i < n; i++) {
-        const [bp] = await sheet.embedPdf(bytes, [i]);
-        const [fp] = await sheet.embedPdf(rendered.canonical, [i]);
-        const W = bp.width, H = bp.height, scale = 0.62, gap = 24, margin = 28, header = 34;
-        const page = sheet.addPage([W * scale * 2 + gap + margin * 2, H * scale + margin * 2 + header]);
-        page.drawText(`${fam.jurisdiction} ${record.documentId} — page ${i + 1} — blank (left) vs canonical fill (right)`,
-          { x: margin, y: H * scale + margin + 12, size: 9, font, color: rgb(0.1, 0.1, 0.1) });
-        page.drawPage(bp, { x: margin, y: margin, xScale: scale, yScale: scale });
-        page.drawPage(fp, { x: margin + W * scale + gap, y: margin, xScale: scale, yScale: scale });
-      }
+      fs.writeFileSync(path.join(familyDir, "fixtures", "negative.json"), JSON.stringify({
+        schemaVersion: "rcap-negative-fixture/v4-typed",
+        assertion: "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+        refusedFields: rendered.canonical.report.refused
+      }, null, 2) + "\n");
+
+      const sheet = await buildContactSheet({
+        blankBytes: bytes,
+        finalizedBytes: rendered.canonical.bytes,
+        expectedValues: rendered.canonical.report.expectedValues,
+        heading: `${fam.jurisdiction} ${record.documentId} — blank (left) vs finalized fill (right)`
+      });
       fs.mkdirSync(path.join(familyDir, "contact-sheet"), { recursive: true });
-      fs.writeFileSync(path.join(familyDir, "contact-sheet", "blank-vs-filled.pdf"), await stamp(sheet).save());
+      fs.writeFileSync(path.join(familyDir, "contact-sheet", "blank-vs-filled.pdf"), sheet.bytes);
+      fs.writeFileSync(path.join(familyDir, "contact-sheet", "contact-sheet-proof.json"),
+        JSON.stringify(sheet.proof, null, 2) + "\n");
       contactSheet = true;
-    } catch (e) { findings.push({ check: "contact_sheet_error", message: e.message }); }
+    } catch (error) {
+      // A refusal is an outcome, not a crash: it is recorded against the
+      // family, which then simply carries no fixture.
+      if (error instanceof NonFilingHoldError) {
+        findings.push({ check: "non_filing_hold_enforced", notice: error.notice });
+      } else if (error instanceof ContactSheetProofError) {
+        findings.push({ check: "contact_sheet_proof_failed", message: error.message, detail: error.detail ?? null });
+      } else {
+        findings.push({ check: "finalize_refused", message: String(error.message).slice(0, 300) });
+      }
+    }
   }
 
   // Reports.
@@ -625,41 +599,36 @@ for (const fam of index.families) {
     schemaVersion: "rcap-overflow-report/v2", boundaryFixtureApplied: !noFill && mapKind === "acroform" && bindings.length > 0,
     findings }, null, 2) + "\n");
 
-  // Placeholder and protected-field scan on the rendered artifact.
+  // Protected-field, visibility and placeholder scan.
   //
-  // Several official forms ship with static text already sitting in a form
-  // field -- Kentucky's `Notice`, Nebraska's `fullcountystatementRIGHT`. A
-  // non-empty value therefore proves nothing on its own. The scan compares
-  // each field against the same field in the untouched source, so only a
-  // value the renderer actually changed can register as a violation.
+  // The finalized fixture is flattened, so it carries no form fields to read
+  // back: a scan that compares field values against the source can no longer
+  // see anything and would pass vacuously. What still means something is what
+  // the renderer wrote -- recorded field by field -- checked against what is
+  // actually visible on the finalized page.
   const canonicalPath = path.join(familyDir, "fixtures/canonical-filled.pdf");
-  if (fs.existsSync(canonicalPath)) {
-    const baseDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
-    const baseForm = baseDoc.getForm();
-    const baselineText = new Map();
-    for (const c of classification) {
-      try { const f = baseForm.getField(c.name); if (f instanceof PDFTextField) baselineText.set(c.name, (f.getText() ?? "").trim()); } catch {}
-    }
-    const chk = await PDFDocument.load(fs.readFileSync(canonicalPath), { ignoreEncryption: true });
-    const chkForm = chk.getForm();
-    const written = [], placeholders = [], preExisting = [];
-    for (const c of classification) {
-      let text = null;
-      try { const f = chkForm.getField(c.name); if (f instanceof PDFTextField) text = (f.getText() ?? "").trim(); } catch { continue; }
-      if (text === null || text === "") continue;
-      const base = baselineText.get(c.name) ?? "";
-      if (text === base) { preExisting.push({ field: c.name, class: c.class }); continue; }
-      if (NEVER_WRITE.has(c.class)) written.push({ field: c.name, class: c.class, reason: "unwritable_class_was_modified" });
-      else if (!boundNames.has(c.name)) written.push({ field: c.name, class: c.class, reason: "modified_without_a_binding" });
-      if (/\b(tbd|todo|lorem|xxx+|placeholder|sample text|fixme|\{\{|\$\{)/i.test(text)) placeholders.push({ field: c.name, value: text });
-    }
+  if (finalizedReport && fs.existsSync(canonicalPath)) {
+    const finalizedDoc = await PDFDocument.load(fs.readFileSync(canonicalPath), { ignoreEncryption: true });
+    const visible = visibleTextOfDocument(finalizedDoc);
+    const missing = missingExpectedValues(visible, finalizedReport.expectedValues);
+    const placeholder = /\b(tbd|todo|lorem|xxx+|placeholder|sample text|fixme|\{\{|\$\{)/i.exec(visible);
+    const protectedNames = new Set(finalizedReport.protectedFields.map((p) => p.field));
+    const writtenProtected = finalizedReport.written.filter((w) => protectedNames.has(w.field));
+    const residue = finalizedReport.activeContentScan?.hits ?? [];
     fs.writeFileSync(path.join(familyDir, "reports/protected-fields-scan.json"), JSON.stringify({
-      scanBasis: "canonical fixture diffed against the untouched source binary",
-      unwritableFieldsChecked: classification.filter((x) => NEVER_WRITE.has(x.class)).length,
-      preExistingFormText: preExisting,
-      violations: written, placeholderValues: placeholders,
-      pass: written.length === 0 && placeholders.length === 0 }, null, 2) + "\n");
-    if (written.length || placeholders.length) findings.push({ check: "protected_or_placeholder_violation", written, placeholders });
+      scanBasis: "finalized flattened artifact: what the renderer wrote, against what is visible on the page",
+      writtenFields: finalizedReport.written.length,
+      refusedFields: finalizedReport.refused.length,
+      protectedFieldsRefused: finalizedReport.protectedFields.length,
+      violations: writtenProtected,
+      valuesWrittenButNotVisible: missing,
+      placeholderValues: placeholder ? [placeholder[0]] : [],
+      activeContentResidue: residue,
+      pass: writtenProtected.length === 0 && missing.length === 0 && !placeholder && residue.length === 0
+    }, null, 2) + "\n");
+    if (writtenProtected.length || missing.length || placeholder || residue.length) {
+      findings.push({ check: "protected_or_visibility_violation", writtenProtected, missing, residue });
+    }
   }
 
   // Hash receipt for every rendered artifact, so a later drift is detectable
@@ -726,3 +695,4 @@ console.log(JSON.stringify({
   contactSheets: sum((r) => r.contactSheet),
   findings: results.reduce((a, r) => a + (r.findings ?? 0), 0)
 }, null, 2));
+}
