@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-acroform-map/v5",
+  "schemaVersion": "rcap-acroform-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "cc-6-11-2-form-en",
-  "documentOwnership": "court_issued_caption_only",
+  "jurisdiction": "NE",
+  "documentId": "CC-6-11.2",
+  "revision": "REV-2020-12",
   "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "court_issued_caption_only",
+  "documentOwnershipBasis": "manifest_document_role_ORDER",
+  "captionOnly": true,
   "pageGeometry": [
     {
       "page": 1,
@@ -11,46 +18,181 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": true,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [
     {
       "field": "defendant",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "valueType": "string",
+      "subject": "defendant",
+      "subjectBasis": "acroform_field_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Text2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "subject": ", Case No",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text4",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "DROPDOWNCOUNTY2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "fullcountystatementRIGHT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "fullcountystatementRIGHT",
+      "fallbackLabelTried": null
     },
     {
       "field": "TYPEOFCOURTDROPDOWN",
-      "class": "participant",
-      "factId": "matter.court"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "wouldHaveWritten": "matter.court"
     },
     {
       "field": "TYPEOFCOURTRESULTS",
-      "class": "participant",
-      "factId": "matter.court"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "wouldHaveWritten": "matter.court"
     },
     {
       "field": "enter the type of court",
-      "class": "participant",
-      "factId": "matter.court"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "           \r    (Enter the type of court)",
+      "wouldHaveWritten": "matter.court"
     },
     {
       "field": "enter the county",
-      "class": "participant",
-      "factId": "matter.county"
-    }
-  ],
-  "unwritableFields": [
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "\r   (Enter the county name)",
+      "wouldHaveWritten": "matter.county"
+    },
     {
-      "field": "fullcountystatementRIGHT",
-      "class": "court_or_agency"
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "TYPEOFCOURTDROPDOWN",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTRESULTS",
+        "enter the type of court"
+      ]
+    },
+    {
+      "field": "TYPEOFCOURTRESULTS",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "TYPEOFCOURTRESULTS",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTDROPDOWN",
+        "enter the type of court"
+      ]
+    },
+    {
+      "field": "enter the type of court",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "enter the type of court",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTDROPDOWN",
+        "TYPEOFCOURTRESULTS"
+      ]
     }
   ],
-  "manualFields": [
-    "DROPDOWNCOUNTY2"
-  ],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": [
+      {
+        "field": "TYPEOFCOURTDROPDOWN",
+        "label": "TYPEOFCOURTDROPDOWN",
+        "factId": "matter.court",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "TYPEOFCOURTRESULTS",
+          "enter the type of court"
+        ]
+      },
+      {
+        "field": "TYPEOFCOURTRESULTS",
+        "label": "TYPEOFCOURTRESULTS",
+        "factId": "matter.court",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "TYPEOFCOURTDROPDOWN",
+          "enter the type of court"
+        ]
+      },
+      {
+        "field": "enter the type of court",
+        "label": "enter the type of court",
+        "factId": "matter.court",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "TYPEOFCOURTDROPDOWN",
+          "TYPEOFCOURTRESULTS"
+        ]
+      }
+    ]
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": [
+      {
+        "field": "TYPEOFCOURTDROPDOWN",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "IN THE                   COURT OF",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "TYPEOFCOURTRESULTS",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "IN THE                   COURT OF",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "enter the type of court",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "           \r    (Enter the type of court)",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "enter the county",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "\r   (Enter the county name)",
+        "wouldHaveWritten": "matter.county"
+      }
+    ]
+  },
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

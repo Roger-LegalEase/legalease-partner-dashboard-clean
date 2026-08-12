@@ -1,52 +1,112 @@
-[
-  {
-    "field": "Case No",
-    "class": "participant",
-    "factId": "matter.case_number"
-  },
-  {
-    "field": "datesigned",
-    "class": "deterministic",
-    "factId": "deterministic.filing_date"
-  },
-  {
-    "field": "printedname",
-    "class": "participant",
-    "factId": "participant.full_legal_name"
-  },
-  {
-    "field": "streetaddress",
-    "class": "participant",
-    "factId": "participant.street_address"
-  },
-  {
-    "field": "citystatezip",
-    "class": "participant",
-    "factId": "participant.city_state_zip"
-  },
-  {
-    "field": "telephone number",
-    "class": "participant",
-    "factId": "participant.phone"
-  },
-  {
-    "field": "TYPEOFCOURTDROPDOWN",
-    "class": "participant",
-    "factId": "matter.court"
-  },
-  {
-    "field": "TYPEOFCOURTRESULTS",
-    "class": "participant",
-    "factId": "matter.court"
-  },
-  {
-    "field": "enter the type of court",
-    "class": "participant",
-    "factId": "matter.court"
-  },
-  {
-    "field": "enter the county",
-    "class": "participant",
-    "factId": "matter.county"
-  }
-]
+{
+  "schemaVersion": "rcap-populated-fields/v2-lane-d1c",
+  "canonicalWritten": [
+    {
+      "field": "Case No",
+      "factId": "matter.case_number",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "Adult name",
+      "factId": "participant.full_legal_name",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "datesigned",
+      "factId": "deterministic.filing_date",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "printedname",
+      "factId": "participant.full_legal_name",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "streetaddress",
+      "factId": "participant.street_address",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "citystatezip",
+      "factId": "participant.city_state_zip",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "telephone number",
+      "factId": "participant.phone",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    }
+  ],
+  "boundaryWritten": [
+    {
+      "field": "datesigned",
+      "factId": "deterministic.filing_date",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    },
+    {
+      "field": "printedname",
+      "factId": "participant.full_legal_name",
+      "kind": "text",
+      "fontSize": 9.5,
+      "outcome": "shrunk",
+      "lines": 1
+    },
+    {
+      "field": "streetaddress",
+      "factId": "participant.street_address",
+      "kind": "text",
+      "fontSize": 7,
+      "outcome": "shrunk",
+      "lines": 1
+    },
+    {
+      "field": "citystatezip",
+      "factId": "participant.city_state_zip",
+      "kind": "text",
+      "fontSize": 9.5,
+      "outcome": "shrunk",
+      "lines": 1
+    },
+    {
+      "field": "telephone number",
+      "factId": "participant.phone",
+      "kind": "text",
+      "fontSize": 11,
+      "outcome": "fit",
+      "lines": 1
+    }
+  ],
+  "expectedValues": [
+    "24-CR-001234",
+    "Jordan Avery Reyes",
+    "2026-08-12",
+    "Jordan Avery Reyes",
+    "118 Maple Street",
+    "Springfield, XX 01234",
+    "555-0142"
+  ]
+}

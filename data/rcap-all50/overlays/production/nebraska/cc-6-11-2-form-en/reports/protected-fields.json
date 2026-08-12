@@ -1,13 +1,104 @@
 {
   "documentOwnership": "court_issued_caption_only",
   "wholeDocumentUnwritable": false,
-  "unwritableFields": [
+  "refusals": [
+    {
+      "field": "Text2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "subject": ", Case No",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text4",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "DROPDOWNCOUNTY2",
+      "fallbackLabelTried": null
+    },
     {
       "field": "fullcountystatementRIGHT",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "fullcountystatementRIGHT",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "wouldHaveWritten": "matter.court"
+    },
+    {
+      "field": "TYPEOFCOURTRESULTS",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "wouldHaveWritten": "matter.court"
+    },
+    {
+      "field": "enter the type of court",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "           \r    (Enter the type of court)",
+      "wouldHaveWritten": "matter.court"
+    },
+    {
+      "field": "enter the county",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "\r   (Enter the county name)",
+      "wouldHaveWritten": "matter.county"
+    },
+    {
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "TYPEOFCOURTDROPDOWN",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTRESULTS",
+        "enter the type of court"
+      ]
+    },
+    {
+      "field": "TYPEOFCOURTRESULTS",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "TYPEOFCOURTRESULTS",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTDROPDOWN",
+        "enter the type of court"
+      ]
+    },
+    {
+      "field": "enter the type of court",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "enter the type of court",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTDROPDOWN",
+        "TYPEOFCOURTRESULTS"
+      ]
     }
   ],
-  "manualFields": [
-    "DROPDOWNCOUNTY2"
-  ]
+  "refusalCountsByReason": {
+    "repeating_row_without_indexed_fact": 1,
+    "no_allowlisted_fact_matches": 3,
+    "field_carries_source_default_value": 4,
+    "court_issued_document_has_more_than_one_field_for_this_caption_fact": 3
+  }
 }

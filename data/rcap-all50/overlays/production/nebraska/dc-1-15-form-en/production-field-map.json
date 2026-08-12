@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-acroform-map/v5",
+  "schemaVersion": "rcap-acroform-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "dc-1-15-form-en",
-  "documentOwnership": "court_issued_caption_only",
+  "jurisdiction": "NE",
+  "documentId": "DC-1-15",
+  "revision": "REV-UNKNOWN",
   "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "court_issued_caption_only",
+  "documentOwnershipBasis": "manifest_document_role_NOTICE",
+  "captionOnly": true,
   "pageGeometry": [
     {
       "page": 1,
@@ -17,168 +24,678 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": true,
-  "bindings": [
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
+  "bindings": [],
+  "bindingRefusals": [
     {
-      "field": "plaintiffdefendant",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "field": "Text20",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "DC 1:15",
+      "fallbackLabelTried": null
     },
     {
-      "field": "emancipationpetitioner",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "field": "Text24",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "DC 1:15",
+      "fallbackLabelTried": null
     },
-    {
-      "field": "defendant",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "TYPEOFCOURTRESULTS",
-      "class": "participant",
-      "factId": "matter.court"
-    },
-    {
-      "field": "TYPEOFCOURTDROPDOWN",
-      "class": "participant",
-      "factId": "matter.court"
-    },
-    {
-      "field": "printedname",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
-    }
-  ],
-  "unwritableFields": [
     {
       "field": "divorce",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "divorce",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Group27",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "NEW 08/19",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text4",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text12",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text12",
+      "fallbackLabelTried": null
     },
     {
       "field": "emancipation",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "emancipation",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text19",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text19",
+      "fallbackLabelTried": null
     },
     {
       "field": "adoptionof",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "adoptionof",
+      "fallbackLabelTried": null
     },
     {
       "field": "emancipationof",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "emancipationof",
+      "fallbackLabelTried": null
     },
     {
       "field": "namechange",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "namechange",
+      "fallbackLabelTried": null
     },
     {
       "field": "adultnamechangeof",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "adultnamechangeof",
+      "fallbackLabelTried": null
     },
     {
       "field": "probateof",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "probateof",
+      "fallbackLabelTried": null
     },
     {
       "field": "firstkid",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "firstkid",
+      "fallbackLabelTried": null
     },
     {
       "field": "secondkid",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "secondkid",
+      "fallbackLabelTried": null
     },
     {
       "field": "plaintiff",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "plaintiff",
+      "fallbackLabelTried": null
     },
     {
       "field": "thirdkid",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "thirdkid",
+      "fallbackLabelTried": null
     },
     {
       "field": "fourthkid",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "fourthkid",
+      "fallbackLabelTried": null
     },
     {
       "field": "parent",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "parent",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text38",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "subject": "Case No",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text39",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text39",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text40",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text40",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text41",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text41",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text43",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text43",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text44",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text44",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text45",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text45",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text46",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text46",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text47",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text47",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text48",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text48",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text49",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text49",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text50",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text50",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text51",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text51",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text52",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text52",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text74",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "date",
+      "fallbackLabelTried": null
     },
     {
       "field": "Button4",
-      "class": "court_or_agency"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Nebraska State Court Form",
+      "fallbackLabelTried": null
     },
     {
       "field": "Button63.3",
-      "class": "court_or_agency"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Button63.3",
+      "fallbackLabelTried": null
     },
     {
       "field": "Button63.2",
-      "class": "court_or_agency"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Button63.2",
+      "fallbackLabelTried": null
     },
     {
       "field": "Button63.1",
-      "class": "court_or_agency"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Button63.1",
+      "fallbackLabelTried": null
     },
     {
       "field": "Button63.0",
-      "class": "court_or_agency"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Button63.0",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text59.0",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text59.0",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text59.1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text59.1",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text59.2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text59.2",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text59.3",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text59.3",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text59.4",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text59.4",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text60.0",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text60.0",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text60.1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text60.1",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text60.2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text60.2",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text60.3",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text60.3",
+      "fallbackLabelTried": null
     },
     {
       "field": "Text60.4",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text60.4",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text64",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text64",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text65",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "subject": "Address",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text66",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text66",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text67",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text67",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text68",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text68",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text69",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text69",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text70",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text70",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text71",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text71",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text72",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text72",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text73",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text73",
+      "fallbackLabelTried": null
     },
     {
       "field": "fullcountystatementRIGHT",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "fullcountystatementRIGHT",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "DROPDOWNCOUNTY2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "streetaddress",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "subject": "streetaddress",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "citystatezip",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "subject": "citystatezip",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "telephone number",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "subject": "telephone number",
+      "fallbackLabelTried": null
     },
     {
       "field": "emailaddress",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "emailaddress",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "datesigned",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "subject": "datesigned",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text1",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "plaintiffdefendant",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "________________________________,\r                                  Plaintiff/Petitioner,\rvs.\r\r_________________________",
+      "wouldHaveWritten": "participant.full_legal_name"
+    },
+    {
+      "field": "TYPEOFCOURTRESULTS",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE ___________ COURT OF",
+      "wouldHaveWritten": "matter.court"
+    },
+    {
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE ___________ COURT OF",
+      "wouldHaveWritten": "matter.court"
+    },
+    {
+      "field": "plaintiffdefendant",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "plaintiffdefendant",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "emancipationpetitioner",
+        "defendant",
+        "printedname"
+      ]
+    },
+    {
+      "field": "emancipationpetitioner",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "emancipationpetitioner",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "plaintiffdefendant",
+        "defendant",
+        "printedname"
+      ]
+    },
+    {
+      "field": "defendant",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "defendant",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "plaintiffdefendant",
+        "emancipationpetitioner",
+        "printedname"
+      ]
+    },
+    {
+      "field": "printedname",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "printedname",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "plaintiffdefendant",
+        "emancipationpetitioner",
+        "defendant"
+      ]
+    },
+    {
+      "field": "TYPEOFCOURTRESULTS",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "TYPEOFCOURTRESULTS",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTDROPDOWN"
+      ]
+    },
+    {
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "TYPEOFCOURTDROPDOWN",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTRESULTS"
+      ]
     }
   ],
-  "manualFields": [
-    "Group27",
-    "DROPDOWNCOUNTY2"
-  ],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": [
+      {
+        "field": "plaintiffdefendant",
+        "label": "plaintiffdefendant",
+        "factId": "participant.full_legal_name",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "emancipationpetitioner",
+          "defendant",
+          "printedname"
+        ]
+      },
+      {
+        "field": "emancipationpetitioner",
+        "label": "emancipationpetitioner",
+        "factId": "participant.full_legal_name",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "plaintiffdefendant",
+          "defendant",
+          "printedname"
+        ]
+      },
+      {
+        "field": "defendant",
+        "label": "defendant",
+        "factId": "participant.full_legal_name",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "plaintiffdefendant",
+          "emancipationpetitioner",
+          "printedname"
+        ]
+      },
+      {
+        "field": "printedname",
+        "label": "printedname",
+        "factId": "participant.full_legal_name",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "plaintiffdefendant",
+          "emancipationpetitioner",
+          "defendant"
+        ]
+      },
+      {
+        "field": "TYPEOFCOURTRESULTS",
+        "label": "TYPEOFCOURTRESULTS",
+        "factId": "matter.court",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "TYPEOFCOURTDROPDOWN"
+        ]
+      },
+      {
+        "field": "TYPEOFCOURTDROPDOWN",
+        "label": "TYPEOFCOURTDROPDOWN",
+        "factId": "matter.court",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "TYPEOFCOURTRESULTS"
+        ]
+      }
+    ]
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": [
+      {
+        "field": "plaintiffdefendant",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "________________________________,\r                                  Plaintiff/Petitioner,\rvs.\r\r_________________________",
+        "wouldHaveWritten": "participant.full_legal_name"
+      },
+      {
+        "field": "TYPEOFCOURTRESULTS",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "IN THE ___________ COURT OF",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "TYPEOFCOURTDROPDOWN",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "IN THE ___________ COURT OF",
+        "wouldHaveWritten": "matter.court"
+      }
+    ]
+  },
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

@@ -1,13 +1,104 @@
 {
   "documentOwnership": "participant_completed",
   "wholeDocumentUnwritable": false,
-  "unwritableFields": [],
-  "manualFields": [
-    "Check Box7",
-    "noemailreason",
-    "noemailreason2",
-    "emailaddress",
-    "DROPDOWNCOUNTY2",
-    "fullcountystatementRIGHT"
-  ]
+  "refusals": [
+    {
+      "field": "Text2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "subject": ", Case No",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text5",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "subject": "1.I was convicted of",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text6",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "subject": "Date of conviction",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Check Box7",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "noemailreason",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "noemailreason",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "noemailreason2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "noemailreason2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "emailaddress",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "emailaddress",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "DROPDOWNCOUNTY2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "fullcountystatementRIGHT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "fullcountystatementRIGHT",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "wouldHaveWritten": "matter.court"
+    },
+    {
+      "field": "TYPEOFCOURTRESULTS",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "wouldHaveWritten": "matter.court"
+    },
+    {
+      "field": "enter the type of court",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "           \r    (Enter the type of court)",
+      "wouldHaveWritten": "matter.court"
+    },
+    {
+      "field": "enter the county",
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "\r   (Enter the county name)",
+      "wouldHaveWritten": "matter.county"
+    }
+  ],
+  "refusalCountsByReason": {
+    "repeating_row_without_indexed_fact": 1,
+    "protected_category": 2,
+    "non_text_field_type": 1,
+    "no_allowlisted_fact_matches": 5,
+    "field_carries_source_default_value": 4
+  }
 }

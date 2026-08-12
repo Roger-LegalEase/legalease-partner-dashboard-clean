@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-acroform-map/v5",
+  "schemaVersion": "rcap-acroform-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "dc-6-7-2-form-en",
-  "documentOwnership": "participant_completed",
+  "jurisdiction": "NE",
+  "documentId": "DC-6-7.2",
+  "revision": "REV-2025-03",
   "sha256": "33765f661ddeaacfbc623b77e4e0b873b24816bfda472fa2c6b0f093945d96be",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "court_issued_caption_only",
+  "documentOwnershipBasis": "manifest_document_role_ORDER",
+  "captionOnly": true,
   "pageGeometry": [
     {
       "page": 1,
@@ -17,62 +24,334 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [
     {
       "field": "name of county where Complaint filed",
-      "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "valueType": "string",
+      "subject": "name of county where Complaint filed",
+      "subjectBasis": "acroform_field_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text1",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Nebraska, to pay the",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "plaintiff's/",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "typeofcase",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "typeofcase",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "defendant's/",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text24",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text24",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text20",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text20",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "divorce",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "divorce",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Group27",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Group27",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "emancipation",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "emancipation",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text3",
+      "reason": "protected_category",
+      "category": "clerk",
+      "subject": "case number assigned by clerk of court",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Check Box4",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Text5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Nebraska, shall permit the",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "fullcountystatementRIGHT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "fullcountystatementRIGHT",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "DROPDOWNCOUNTY2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "adultnamechangetitle",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "adultnamechangetitle",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "adultnamechangeof",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "adultnamechangeof",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "probateof",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "probateof",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "emancipationof",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "emancipationof",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "namechange",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "namechange",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "adoptionof",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "adoptionof",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "plaintiff",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "plaintiff",
+      "fallbackLabelTried": null
     },
     {
       "field": "TYPEOFCOURTRESULTS",
-      "class": "participant",
-      "factId": "matter.court"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE ___________ COURT OF",
+      "wouldHaveWritten": "matter.court"
     },
     {
       "field": "TYPEOFCOURTDROPDOWN",
-      "class": "participant",
-      "factId": "matter.court"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE ___________ COURT OF",
+      "wouldHaveWritten": "matter.court"
     },
     {
       "field": "plaintiffdefendant",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "__________________________________,\r                                        Plaintiff/Petitioner.\rvs.\r\r_________________",
+      "wouldHaveWritten": "participant.full_legal_name"
+    },
+    {
+      "field": "TYPEOFCOURTRESULTS",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "TYPEOFCOURTRESULTS",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTDROPDOWN"
+      ]
+    },
+    {
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "TYPEOFCOURTDROPDOWN",
+      "wouldHaveWritten": "matter.court",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "TYPEOFCOURTRESULTS"
+      ]
+    },
+    {
+      "field": "plaintiffdefendant",
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "plaintiffdefendant",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "emancipationpetitioner",
+        "defendant"
+      ]
     },
     {
       "field": "emancipationpetitioner",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "emancipationpetitioner",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "plaintiffdefendant",
+        "defendant"
+      ]
     },
     {
       "field": "defendant",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "category": "measured_label_conflict",
+      "measuredLabel": "defendant",
+      "wouldHaveWritten": "participant.full_legal_name",
+      "expectedFactId": null,
+      "conflictsWith": [
+        "plaintiffdefendant",
+        "emancipationpetitioner"
+      ]
     }
   ],
-  "unwritableFields": [],
-  "manualFields": [
-    "Check Box1",
-    "Check Box2",
-    "typeofcase",
-    "Check Box3",
-    "divorce",
-    "Group27",
-    "emancipation",
-    "Check Box4",
-    "fullcountystatementRIGHT",
-    "DROPDOWNCOUNTY2",
-    "adultnamechangetitle",
-    "adultnamechangeof",
-    "probateof",
-    "emancipationof",
-    "namechange",
-    "adoptionof",
-    "plaintiff"
-  ],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": [
+      {
+        "field": "TYPEOFCOURTRESULTS",
+        "label": "TYPEOFCOURTRESULTS",
+        "factId": "matter.court",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "TYPEOFCOURTDROPDOWN"
+        ]
+      },
+      {
+        "field": "TYPEOFCOURTDROPDOWN",
+        "label": "TYPEOFCOURTDROPDOWN",
+        "factId": "matter.court",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "TYPEOFCOURTRESULTS"
+        ]
+      },
+      {
+        "field": "plaintiffdefendant",
+        "label": "plaintiffdefendant",
+        "factId": "participant.full_legal_name",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "emancipationpetitioner",
+          "defendant"
+        ]
+      },
+      {
+        "field": "emancipationpetitioner",
+        "label": "emancipationpetitioner",
+        "factId": "participant.full_legal_name",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "plaintiffdefendant",
+          "defendant"
+        ]
+      },
+      {
+        "field": "defendant",
+        "label": "defendant",
+        "factId": "participant.full_legal_name",
+        "reason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+        "peers": [
+          "plaintiffdefendant",
+          "emancipationpetitioner"
+        ]
+      }
+    ]
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": [
+      {
+        "field": "TYPEOFCOURTRESULTS",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "IN THE ___________ COURT OF",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "TYPEOFCOURTDROPDOWN",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "IN THE ___________ COURT OF",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "plaintiffdefendant",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "__________________________________,\r                                        Plaintiff/Petitioner.\rvs.\r\r_________________",
+        "wouldHaveWritten": "participant.full_legal_name"
+      }
+    ]
+  },
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

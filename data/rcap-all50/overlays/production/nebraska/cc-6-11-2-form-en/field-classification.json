@@ -1,58 +1,141 @@
 {
-  "schemaVersion": "rcap-field-classification/v4-nine-class",
+  "schemaVersion": "rcap-field-classification/v5-typed-fail-closed",
   "documentOwnership": "court_issued_caption_only",
-  "ownershipBasis": "document role, canonical filename and official title, re-checked field by field",
-  "classCounts": {
-    "unused": 2,
-    "participant": 5,
-    "manual": 1,
-    "court_or_agency": 1
+  "bindingBasis": "scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding, unmodified",
+  "captionOnly": true,
+  "documentAcceptsFill": true,
+  "counts": {
+    "total": 9,
+    "writable": 1,
+    "refused": 11,
+    "suppressedByOverlapGuard": 0,
+    "suppressedBySourceDefaultGuard": 4,
+    "suppressedByMeasuredLabelConflictGuard": 3
   },
   "entries": [
     {
-      "name": "Text2",
+      "field": "Text2",
       "type": "text",
-      "class": "unused"
+      "subject": ", Case No",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": ", Case No",
+        "raw": ", Case No",
+        "position": "left",
+        "distance": 5.2,
+        "captionX": 310.46,
+        "captionY": 617.8,
+        "midY": 623.4
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "repeating_row_without_indexed_fact",
+      "refusalCategory": "charge_row"
     },
     {
-      "name": "defendant",
+      "field": "defendant",
       "type": "text",
-      "class": "participant"
+      "subject": "defendant",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": "ORDER SETTING ASIDE A",
+        "raw": "ORDER SETTING ASIDE A",
+        "position": "above",
+        "distance": 6.8,
+        "captionX": 334.07,
+        "captionY": 565.6,
+        "midY": 557.6
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "participant.full_legal_name",
+      "refusalReason": null,
+      "refusalCategory": null
     },
     {
-      "name": "Text4",
+      "field": "Text4",
       "type": "text",
-      "class": "unused"
+      "subject": "Text4",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "TYPEOFCOURTDROPDOWN",
+      "field": "TYPEOFCOURTDROPDOWN",
       "type": "dropdown",
-      "class": "participant"
+      "subject": "TYPEOFCOURTDROPDOWN",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "writable": false,
+      "factId": "matter.court",
+      "refusalReason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "refusalCategory": null
     },
     {
-      "name": "DROPDOWNCOUNTY2",
+      "field": "DROPDOWNCOUNTY2",
       "type": "dropdown",
-      "class": "manual"
+      "subject": "DROPDOWNCOUNTY2",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "                            COUNTY, NEBRASKA ",
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "TYPEOFCOURTRESULTS",
+      "field": "TYPEOFCOURTRESULTS",
       "type": "text",
-      "class": "participant"
+      "subject": "TYPEOFCOURTRESULTS",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "writable": false,
+      "factId": "matter.court",
+      "refusalReason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "refusalCategory": null
     },
     {
-      "name": "fullcountystatementRIGHT",
+      "field": "fullcountystatementRIGHT",
       "type": "text",
-      "class": "court_or_agency"
+      "subject": "fullcountystatementRIGHT",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "                            COUNTY, NEBRASKA ",
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "enter the type of court",
+      "field": "enter the type of court",
       "type": "text",
-      "class": "participant"
+      "subject": "enter the type of court",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "           \r    (Enter the type of court)",
+      "writable": false,
+      "factId": "matter.court",
+      "refusalReason": "court_issued_document_has_more_than_one_field_for_this_caption_fact",
+      "refusalCategory": null
     },
     {
-      "name": "enter the county",
+      "field": "enter the county",
       "type": "text",
-      "class": "participant"
+      "subject": "enter the county",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "\r   (Enter the county name)",
+      "writable": false,
+      "factId": "matter.county",
+      "refusalReason": "field_carries_source_default_value",
+      "refusalCategory": null
     }
   ]
 }

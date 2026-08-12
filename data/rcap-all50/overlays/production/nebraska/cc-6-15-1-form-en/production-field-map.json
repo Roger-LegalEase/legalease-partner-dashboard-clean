@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-acroform-map/v5",
+  "schemaVersion": "rcap-acroform-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "cc-6-15-1-form-en",
-  "documentOwnership": "participant_completed",
+  "jurisdiction": "NE",
+  "documentId": "CC-6-15.1",
+  "revision": "REV-2021-05",
   "sha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "participant_completed",
+  "documentOwnershipBasis": "manifest_document_role_MOTION",
+  "captionOnly": false,
   "pageGeometry": [
     {
       "page": 1,
@@ -11,70 +18,198 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [
     {
+      "field": "Text1",
+      "factId": "participant.full_legal_name",
+      "valueType": "string",
+      "subject": "Defendant",
+      "subjectBasis": "measured_printed_label_positional_widget_name"
+    },
+    {
       "field": "printedname",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "valueType": "string",
+      "subject": "printedname",
+      "subjectBasis": "acroform_field_name"
     },
     {
       "field": "streetaddress",
-      "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "valueType": "string",
+      "subject": "streetaddress",
+      "subjectBasis": "acroform_field_name"
     },
     {
       "field": "citystatezip",
-      "class": "participant",
-      "factId": "participant.city_state_zip"
+      "factId": "participant.city_state_zip",
+      "valueType": "string",
+      "subject": "citystatezip",
+      "subjectBasis": "acroform_field_name"
     },
     {
       "field": "telephone number",
-      "class": "participant",
-      "factId": "participant.phone"
+      "factId": "participant.phone",
+      "valueType": "string",
+      "subject": "telephone number",
+      "subjectBasis": "acroform_field_name"
     },
     {
       "field": "datesigned",
-      "class": "deterministic",
-      "factId": "deterministic.filing_date"
+      "factId": "deterministic.filing_date",
+      "valueType": "date",
+      "subject": "datesigned",
+      "subjectBasis": "acroform_field_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Text2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "Text2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Check Box1",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Check Box2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Check Box3",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "after acquittal;",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Check Box5",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box6",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Check Box6",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "subject": "Check Box7",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "emailaddress",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "emailaddress",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "DROPDOWNCOUNTY2",
+      "fallbackLabelTried": null
+    },
+    {
+      "field": "fullcountystatementRIGHT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "subject": "fullcountystatementRIGHT",
+      "fallbackLabelTried": null
     },
     {
       "field": "TYPEOFCOURTDROPDOWN",
-      "class": "participant",
-      "factId": "matter.court"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "wouldHaveWritten": "matter.court"
     },
     {
       "field": "TYPEOFCOURTRESULTS",
-      "class": "participant",
-      "factId": "matter.court"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "wouldHaveWritten": "matter.court"
     },
     {
       "field": "enter the type of court",
-      "class": "participant",
-      "factId": "matter.court"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "           \r    (Enter the type of court)",
+      "wouldHaveWritten": "matter.court"
     },
     {
       "field": "enter the county",
-      "class": "participant",
-      "factId": "matter.county"
+      "reason": "field_carries_source_default_value",
+      "category": "source_default_value",
+      "sourceDefaultValue": "\r   (Enter the county name)",
+      "wouldHaveWritten": "matter.county"
     }
   ],
-  "unwritableFields": [],
-  "manualFields": [
-    "Check Box1",
-    "Check Box2",
-    "Check Box3",
-    "Check Box4",
-    "Check Box5",
-    "Check Box6",
-    "Check Box7",
-    "emailaddress",
-    "DROPDOWNCOUNTY2",
-    "fullcountystatementRIGHT"
-  ],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
+  },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": []
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": [
+      {
+        "field": "TYPEOFCOURTDROPDOWN",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "IN THE                   COURT OF",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "TYPEOFCOURTRESULTS",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "IN THE                   COURT OF",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "enter the type of court",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "           \r    (Enter the type of court)",
+        "wouldHaveWritten": "matter.court"
+      },
+      {
+        "field": "enter the county",
+        "reason": "field_carries_source_default_value",
+        "sourceDefaultValue": "\r   (Enter the county name)",
+        "wouldHaveWritten": "matter.county"
+      }
+    ]
+  },
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

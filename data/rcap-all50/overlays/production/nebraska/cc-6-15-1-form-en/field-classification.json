@@ -1,118 +1,388 @@
 {
-  "schemaVersion": "rcap-field-classification/v4-nine-class",
+  "schemaVersion": "rcap-field-classification/v5-typed-fail-closed",
   "documentOwnership": "participant_completed",
-  "ownershipBasis": "document role, canonical filename and official title, re-checked field by field",
-  "classCounts": {
-    "unused": 2,
-    "manual": 10,
-    "participant": 8,
-    "deterministic": 1
+  "bindingBasis": "scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding, unmodified",
+  "captionOnly": false,
+  "documentAcceptsFill": true,
+  "counts": {
+    "total": 21,
+    "writable": 6,
+    "refused": 15,
+    "suppressedByOverlapGuard": 0,
+    "suppressedBySourceDefaultGuard": 4,
+    "suppressedByMeasuredLabelConflictGuard": 0
   },
   "entries": [
     {
-      "name": "Text2",
+      "field": "Text2",
       "type": "text",
-      "class": "unused"
+      "subject": "Text2",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "Text1",
+      "field": "Text1",
       "type": "text",
-      "class": "unused"
+      "subject": "Defendant",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "Defendant",
+        "raw": "Defendant",
+        "position": "beneath",
+        "distance": 14.1,
+        "captionX": 266.02,
+        "captionY": 541.5,
+        "midY": 560.8
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "participant.full_legal_name",
+      "refusalReason": null,
+      "refusalCategory": null
     },
     {
-      "name": "Check Box1",
+      "field": "Check Box1",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "Check Box1",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "as a result of a hearing that is not the subject of a pending appeal;",
+        "position": "beneath",
+        "distance": 15.8,
+        "captionX": 136.32,
+        "captionY": 423.3,
+        "midY": 442.9
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "Check Box2",
+      "field": "Check Box2",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "Check Box2",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "on the motion of the prosecuting attorney;",
+        "position": "above",
+        "distance": 12.7,
+        "captionX": 136.32,
+        "captionY": 439.7,
+        "midY": 427.3
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "Check Box3",
+      "field": "Check Box3",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "Check Box3",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "as a result of a hearing that is not the subject of a pending appeal;",
+        "position": "above",
+        "distance": 12.9,
+        "captionX": 136.32,
+        "captionY": 423.3,
+        "midY": 410.6
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "Check Box4",
+      "field": "Check Box4",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "after acquittal;",
+      "subjectBasis": "measured_printed_label_positional_widget_name",
+      "measuredLabel": {
+        "text": "after acquittal;",
+        "raw": "after acquittal;",
+        "position": "above",
+        "distance": 12.9,
+        "captionX": 136.32,
+        "captionY": 407,
+        "midY": 394.4
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "Check Box5",
+      "field": "Check Box5",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "Check Box5",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "after a deferred judgment; or",
+        "position": "above",
+        "distance": 11.6,
+        "captionX": 136.32,
+        "captionY": 390.7,
+        "midY": 379.4
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "Check Box6",
+      "field": "Check Box6",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "Check Box6",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "after completion of a program prescribed by a",
+        "position": "left",
+        "distance": 11.1,
+        "captionX": 136.32,
+        "captionY": 374.5,
+        "midY": 377.1
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "Check Box7",
+      "field": "Check Box7",
       "type": "checkbox",
-      "class": "manual"
+      "subject": "Check Box7",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "after completion of a program prescribed by a",
+        "position": "above",
+        "distance": 11.6,
+        "captionX": 136.32,
+        "captionY": 374.5,
+        "midY": 363.1
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "non_text_field_type",
+      "refusalCategory": "type_guard"
     },
     {
-      "name": "printedname",
+      "field": "printedname",
       "type": "text",
-      "class": "participant"
+      "subject": "printedname",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": "Printed Name",
+        "raw": "Printed Name",
+        "position": "left",
+        "distance": 4.8,
+        "captionX": 110.97,
+        "captionY": 224.5,
+        "midY": 229.1
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "participant.full_legal_name",
+      "refusalReason": null,
+      "refusalCategory": null
     },
     {
-      "name": "streetaddress",
+      "field": "streetaddress",
       "type": "text",
-      "class": "participant"
+      "subject": "streetaddress",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": null,
+        "rejected": "measured_text_is_prose_not_a_caption",
+        "raw": "Street Address/P.O. Box",
+        "position": "left",
+        "distance": 3.7,
+        "captionX": 110.97,
+        "captionY": 208.3,
+        "midY": 214
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "participant.street_address",
+      "refusalReason": null,
+      "refusalCategory": null
     },
     {
-      "name": "citystatezip",
+      "field": "citystatezip",
       "type": "text",
-      "class": "participant"
+      "subject": "citystatezip",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": "City/State/ZIP Code",
+        "raw": "City/State/ZIP Code",
+        "position": "left",
+        "distance": 2.6,
+        "captionX": 110.97,
+        "captionY": 192,
+        "midY": 198.3
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "participant.city_state_zip",
+      "refusalReason": null,
+      "refusalCategory": null
     },
     {
-      "name": "telephone number",
+      "field": "telephone number",
       "type": "text",
-      "class": "participant"
+      "subject": "telephone number",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": "Telephone Number",
+        "raw": "Telephone Number",
+        "position": "left",
+        "distance": 1.9,
+        "captionX": 110.97,
+        "captionY": 175.8,
+        "midY": 181.3
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "participant.phone",
+      "refusalReason": null,
+      "refusalCategory": null
     },
     {
-      "name": "emailaddress",
+      "field": "emailaddress",
       "type": "text",
-      "class": "manual"
+      "subject": "emailaddress",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": "Telephone Number",
+        "raw": "Telephone Number",
+        "position": "above",
+        "distance": 9,
+        "captionX": 110.97,
+        "captionY": 175.8,
+        "midY": 165.6
+      },
+      "sourceDefaultValue": null,
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "datesigned",
+      "field": "datesigned",
       "type": "text",
-      "class": "deterministic"
+      "subject": "datesigned",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": {
+        "text": "Date",
+        "raw": "Date",
+        "position": "left",
+        "distance": -1.5,
+        "captionX": 341.68,
+        "captionY": 240.5,
+        "midY": 245.5
+      },
+      "sourceDefaultValue": null,
+      "writable": true,
+      "factId": "deterministic.filing_date",
+      "refusalReason": null,
+      "refusalCategory": null
     },
     {
-      "name": "TYPEOFCOURTDROPDOWN",
+      "field": "TYPEOFCOURTDROPDOWN",
       "type": "dropdown",
-      "class": "participant"
+      "subject": "TYPEOFCOURTDROPDOWN",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "writable": false,
+      "factId": "matter.court",
+      "refusalReason": "field_carries_source_default_value",
+      "refusalCategory": null
     },
     {
-      "name": "DROPDOWNCOUNTY2",
+      "field": "DROPDOWNCOUNTY2",
       "type": "dropdown",
-      "class": "manual"
+      "subject": "DROPDOWNCOUNTY2",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "                            COUNTY, NEBRASKA ",
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "TYPEOFCOURTRESULTS",
+      "field": "TYPEOFCOURTRESULTS",
       "type": "text",
-      "class": "participant"
+      "subject": "TYPEOFCOURTRESULTS",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "IN THE                   COURT OF",
+      "writable": false,
+      "factId": "matter.court",
+      "refusalReason": "field_carries_source_default_value",
+      "refusalCategory": null
     },
     {
-      "name": "fullcountystatementRIGHT",
+      "field": "fullcountystatementRIGHT",
       "type": "text",
-      "class": "manual"
+      "subject": "fullcountystatementRIGHT",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "                            COUNTY, NEBRASKA ",
+      "writable": false,
+      "factId": null,
+      "refusalReason": "no_allowlisted_fact_matches",
+      "refusalCategory": null
     },
     {
-      "name": "enter the type of court",
+      "field": "enter the type of court",
       "type": "text",
-      "class": "participant"
+      "subject": "enter the type of court",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "           \r    (Enter the type of court)",
+      "writable": false,
+      "factId": "matter.court",
+      "refusalReason": "field_carries_source_default_value",
+      "refusalCategory": null
     },
     {
-      "name": "enter the county",
+      "field": "enter the county",
       "type": "text",
-      "class": "participant"
+      "subject": "enter the county",
+      "subjectBasis": "acroform_field_name",
+      "measuredLabel": null,
+      "sourceDefaultValue": "\r   (Enter the county name)",
+      "writable": false,
+      "factId": "matter.county",
+      "refusalReason": "field_carries_source_default_value",
+      "refusalCategory": null
     }
   ]
 }

@@ -1,8 +1,15 @@
 {
-  "schemaVersion": "rcap-flat_overlay-map/v5",
+  "schemaVersion": "rcap-flat_overlay-map/v6-lane-d1c",
+  "lane": "D1C",
   "family": "dc-6-7-1a-instructions-en",
-  "documentOwnership": "instructional_no_participant_fill",
+  "jurisdiction": "NE",
+  "documentId": "DC-6-7.1A",
+  "revision": "REV-2025-03",
   "sha256": "e97e032a721f1d223ff83b9ddfee0e703fb2bc8c06a8279f45cad1adacc9a605",
+  "factoryVersion": "d0-remediated-v1",
+  "documentOwnership": "instructional_no_participant_fill",
+  "documentOwnershipBasis": "manifest_asset_class_instructions",
+  "captionOnly": false,
   "pageGeometry": [
     {
       "page": 1,
@@ -35,21 +42,24 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
   "bindings": [],
-  "unwritableFields": [],
-  "manualFields": [],
-  "anchorCapture": {
-    "basis": "text drawn by this exact sha256, read from the page content streams",
-    "pages": [],
-    "anchorCount": 0,
-    "anchors": [],
-    "candidateLabelCount": 0,
-    "candidateLabels": [],
-    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+  "bindingRefusals": [],
+  "overlapGuard": {
+    "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
+    "groups": []
   },
+  "measuredLabelConflictGuard": {
+    "rule": "A binding that rests on a measured label is discarded when another measured label contradicts it -- the same label found beside two widgets, two labels claiming one fact, or a label the shared descriptor list resolves to a less specific fact than the label itself names.",
+    "suppressed": []
+  },
+  "sourceDefaultGuard": {
+    "rule": "A field the source ships with a value already in it is never written. On these Nebraska forms the caption line is stored as field default values rather than as page content, so writing a fact into one deletes printed form text instead of filling a blank.",
+    "suppressed": []
+  },
+  "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }
