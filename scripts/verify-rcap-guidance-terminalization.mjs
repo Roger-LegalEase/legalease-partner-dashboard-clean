@@ -178,8 +178,14 @@ for (const file of packetFiles) {
   check(Array.isArray(doc.packets) && doc.packets.length > 0, `${rel}: packets[] must be a non-empty array`);
   if (!Array.isArray(doc.packets)) continue;
 
+  // A state whose every lane-B track has been promoted has no OPEN assignment
+  // left, which is completion rather than an error. Its packets are still held
+  // to every content rule below.
   const assigned = assignedByState.get(doc.jurisdiction);
-  check(Boolean(assigned), `${rel}: ${doc.jurisdiction} has no lane-B assignment in the ledger`);
+  const allPromoted = Array.isArray(doc.packets)
+    && doc.packets.length > 0
+    && doc.packets.every((entry) => promotedGuidanceTracks.has(entry.trackId));
+  check(Boolean(assigned) || allPromoted, `${rel}: ${doc.jurisdiction} has no lane-B assignment in the ledger`);
 
   for (const entry of doc.packets) {
     const label = `${rel}#${entry.trackId ?? "<no trackId>"}`;
@@ -187,16 +193,22 @@ for (const file of packetFiles) {
     // The assignment governs: a packet may only terminalize an assigned track,
     // exactly once, with exactly the treatment the ledger requires.
     check(Boolean(entry.trackId), `${label}: trackId is required`);
-    if (entry.trackId && assigned) {
-      check(assigned.tracks.has(entry.trackId) || promotedGuidanceTracks.has(entry.trackId), `${label}: this track is not assigned to lane B for ${doc.jurisdiction}`);
-      const requiredTreatment = assigned.tracks.get(entry.trackId);
+    if (entry.trackId && (assigned || allPromoted)) {
+      check((assigned?.tracks.has(entry.trackId) ?? false) || promotedGuidanceTracks.has(entry.trackId), `${label}: this track is not assigned to lane B for ${doc.jurisdiction}`);
+      const requiredTreatment = assigned?.tracks.get(entry.trackId);
       if (requiredTreatment) {
         check(
           entry.treatment === requiredTreatment,
           `${label}: treatment is "${entry.treatment}" but the ledger requires "${requiredTreatment}"`
         );
       }
-      check(assigned.jobIds.has(entry.jobId), `${label}: jobId "${entry.jobId}" is not a lane-B job for ${doc.jurisdiction}`);
+      // A packet whose track was promoted by F2 keeps naming the job that
+      // delivered it, even though the completed job has left the ledger's open
+      // job list. The jobId is provenance at that point, not an open assignment.
+      check(
+        (assigned?.jobIds.has(entry.jobId) ?? false) || promotedGuidanceTracks.has(entry.trackId),
+        `${label}: jobId "${entry.jobId}" is not a lane-B job for ${doc.jurisdiction}`
+      );
     }
     if (entry.trackId) {
       check(!seenTracks.has(entry.trackId), `${label}: track already terminalized in ${seenTracks.get(entry.trackId)}`);

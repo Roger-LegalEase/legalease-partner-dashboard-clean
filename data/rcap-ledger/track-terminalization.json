@@ -104,26 +104,26 @@
   "aggregates": {
     "windowId": "2026-08-12-w3",
     "registryTracks": 497,
-    "tracksTerminal": 278,
-    "tracksNonterminal": 219,
+    "tracksTerminal": 375,
+    "tracksNonterminal": 122,
     "tracksWithRuntimeCoverage": 285,
     "requiredTreatmentBreakdown": {
-      "production_packet": 131,
-      "complete_guidance": 63,
+      "production_packet": 85,
+      "complete_guidance": 12,
       "complete_composed_route": 16,
       "deliberate_scope_exclusion": 0,
       "exact_supported_deferral": 9
     },
     "nonterminalTracksByLane": {
-      "B": 72,
-      "C": 72,
+      "B": 21,
+      "C": 28,
       "D": 67,
-      "E": 8,
+      "E": 6,
       "F": 0
     },
-    "jobsRemainingToLaunch": 104,
-    "tracksTerminalizedThisWindow": 1,
-    "candidateTreatmentsPendingReview": 125,
+    "jobsRemainingToLaunch": 60,
+    "tracksTerminalizedThisWindow": 98,
+    "candidateTreatmentsPendingReview": 16,
     "candidateTreatmentBreakdown": {
       "complete_guidance": 64,
       "exact_supported_deferral": 2,
@@ -167,27 +167,6 @@
       ]
     },
     {
-      "jobId": "T-B-AR-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "AR",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (AR) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "AR:ar-preadjudication-probation -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ar-preadjudication-probation"
-      ]
-    },
-    {
       "jobId": "T-B-AR-exact-supported-deferral",
       "lane": "B",
       "jurisdiction": "AR",
@@ -209,50 +188,6 @@
       ]
     },
     {
-      "jobId": "T-B-CA-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "CA",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (CA) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "CA:ca-auto-conviction -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ca-auto-conviction"
-      ]
-    },
-    {
-      "jobId": "T-B-CO-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "CO",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (CO) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "CO:co_auto_seal_arrest -> terminal",
-        "CO:co_auto_seal_nonconviction -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "co_auto_seal_arrest",
-        "co_auto_seal_nonconviction"
-      ]
-    },
-    {
       "jobId": "T-B-CT-complete-guidance",
       "lane": "B",
       "jurisdiction": "CT",
@@ -266,145 +201,11 @@
       ],
       "reviewArchetype": "F-plain-language-and-accuracy",
       "terminalEffect": [
-        "CT:ct-destruction-request -> terminal",
-        "CT:ct-nonconviction-auto -> terminal",
         "CT:ct-provisional-pardon -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
-        "ct-destruction-request",
-        "ct-nonconviction-auto",
         "ct-provisional-pardon"
-      ]
-    },
-    {
-      "jobId": "T-B-DE-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "DE",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (DE) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "DE:de_attorney_general_expungement -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "de_attorney_general_expungement"
-      ]
-    },
-    {
-      "jobId": "T-B-GA-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "GA",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (GA) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "GA:ga-fo-sentencing-post2026 -> terminal",
-        "GA:ga-time-expired -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ga-fo-sentencing-post2026",
-        "ga-time-expired"
-      ]
-    },
-    {
-      "jobId": "T-B-HI-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "HI",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (HI) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "HI:hi_state_initiated_marijuana_pilot -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "hi_state_initiated_marijuana_pilot"
-      ]
-    },
-    {
-      "jobId": "T-B-IL-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "IL",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (IL) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "IL:il-auto-seal-2028 -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "il-auto-seal-2028"
-      ]
-    },
-    {
-      "jobId": "T-B-IN-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "IN",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (IN) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "IN:in_auto_expungement -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "in_auto_expungement"
-      ]
-    },
-    {
-      "jobId": "T-B-KY-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "KY",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (KY) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "KY:ky_automatic_nonconviction_expungement_verification -> terminal",
-        "KY:ky_diversion_disposition_routing -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ky_automatic_nonconviction_expungement_verification",
-        "ky_diversion_disposition_routing"
       ]
     },
     {
@@ -431,73 +232,6 @@
       ]
     },
     {
-      "jobId": "T-B-LA-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "LA",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (LA) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "LA:la-999-expedited-expungement -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "la-999-expedited-expungement"
-      ]
-    },
-    {
-      "jobId": "T-B-MD-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "MD",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (MD) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "MD:md_10103_1_automatic -> terminal",
-        "MD:md_10104_pre_service -> terminal",
-        "MD:md_10112_dpscs_cannabis -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "md_10103_1_automatic",
-        "md_10104_pre_service",
-        "md_10112_dpscs_cannabis"
-      ]
-    },
-    {
-      "jobId": "T-B-ME-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "ME",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (ME) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "ME:me-deferred -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "me-deferred"
-      ]
-    },
-    {
       "jobId": "T-B-MI-complete-guidance",
       "lane": "B",
       "jurisdiction": "MI",
@@ -512,19 +246,13 @@
       "reviewArchetype": "F-plain-language-and-accuracy",
       "terminalEffect": [
         "MI:mi_arrest_acquittal_dismissal -> terminal",
-        "MI:mi_arrest_no_charge -> terminal",
         "MI:mi_auto_misd92 -> terminal",
-        "MI:mi_auto_misd93 -> terminal",
-        "MI:mi_deferral_status -> terminal",
         "MI:mi_setaside_csc4_pre2015 -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
         "mi_arrest_acquittal_dismissal",
-        "mi_arrest_no_charge",
         "mi_auto_misd92",
-        "mi_auto_misd93",
-        "mi_deferral_status",
         "mi_setaside_csc4_pre2015"
       ]
     },
@@ -542,80 +270,11 @@
       ],
       "reviewArchetype": "F-plain-language-and-accuracy",
       "terminalEffect": [
-        "MN:mn_ceb_felony_cannabis -> terminal",
-        "MN:mn_inherent_authority -> terminal",
-        "MN:mn_mistaken_identity_iddata -> terminal",
-        "MN:mn_pardon_auto_expungement -> terminal"
+        "MN:mn_ceb_felony_cannabis -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
-        "mn_ceb_felony_cannabis",
-        "mn_inherent_authority",
-        "mn_mistaken_identity_iddata",
-        "mn_pardon_auto_expungement"
-      ]
-    },
-    {
-      "jobId": "T-B-MO-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "MO",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (MO) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "MO:mo-610-141-automatic-drug -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "mo-610-141-automatic-drug"
-      ]
-    },
-    {
-      "jobId": "T-B-MT-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "MT",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (MT) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "MT:mt_auto_nonconviction -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "mt_auto_nonconviction"
-      ]
-    },
-    {
-      "jobId": "T-B-NC-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "NC",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (NC) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "NC:nc_auto_146_a4 -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "nc_auto_146_a4"
+        "mn_ceb_felony_cannabis"
       ]
     },
     {
@@ -633,14 +292,12 @@
       "reviewArchetype": "F-plain-language-and-accuracy",
       "terminalEffect": [
         "ND:nd-dna-profile-removal-routing -> terminal",
-        "ND:nd-juvenile-records-routing -> terminal",
         "ND:nd-trafficking-vacatur-routing -> terminal",
         "ND:nd-unconstitutional-arrest-expungement-routing -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
         "nd-dna-profile-removal-routing",
-        "nd-juvenile-records-routing",
         "nd-trafficking-vacatur-routing",
         "nd-unconstitutional-arrest-expungement-routing"
       ]
@@ -659,40 +316,11 @@
       ],
       "reviewArchetype": "F-plain-language-and-accuracy",
       "terminalEffect": [
-        "NE:ne-firearm-restoration-routing -> terminal",
-        "NE:ne-immigration-routing -> terminal",
-        "NE:ne-out-of-jurisdiction-routing -> terminal",
-        "NE:ne-pardon-routing -> terminal",
-        "NE:ne-postconviction-routing -> terminal"
+        "NE:ne-immigration-routing -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
-        "ne-firearm-restoration-routing",
-        "ne-immigration-routing",
-        "ne-out-of-jurisdiction-routing",
-        "ne-pardon-routing",
-        "ne-postconviction-routing"
-      ]
-    },
-    {
-      "jobId": "T-B-NH-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "NH",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (NH) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "NH:nh_supreme_court_record -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "nh_supreme_court_record"
+        "ne-immigration-routing"
       ]
     },
     {
@@ -714,50 +342,6 @@
       "runtimeWiringRequired": true,
       "trackIds": [
         "nj_automated_clean_slate"
-      ]
-    },
-    {
-      "jobId": "T-B-NY-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "NY",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (NY) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "NY:ny_clean_slate_dwai -> terminal",
-        "NY:ny_clean_slate_manual_review -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ny_clean_slate_dwai",
-        "ny_clean_slate_manual_review"
-      ]
-    },
-    {
-      "jobId": "T-B-OH-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "OH",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (OH) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "OH:oh_2953_39_prosecutor -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "oh_2953_39_prosecutor"
       ]
     },
     {
@@ -803,48 +387,6 @@
       ]
     },
     {
-      "jobId": "T-B-TN-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "TN",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (TN) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "TN:tn_trafficking_40_32_105 -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "tn_trafficking_40_32_105"
-      ]
-    },
-    {
-      "jobId": "T-B-TX-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "TX",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (TX) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "TX:tx_exp_discretionary -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "tx_exp_discretionary"
-      ]
-    },
-    {
       "jobId": "T-B-TX-exact-supported-deferral",
       "lane": "B",
       "jurisdiction": "TX",
@@ -884,125 +426,6 @@
       "runtimeWiringRequired": false,
       "trackIds": [
         "tx_exp_dismissed"
-      ]
-    },
-    {
-      "jobId": "T-B-UT-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "UT",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (UT) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "UT:ut_adj_reduction_402 -> terminal",
-        "UT:ut_pet_appellate -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ut_adj_reduction_402",
-        "ut_pet_appellate"
-      ]
-    },
-    {
-      "jobId": "T-B-VA-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "VA",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (VA) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "VA:va_auto_seal_clean_record -> terminal",
-        "VA:va_auto_seal_nonconvictions -> terminal",
-        "VA:va_auto_seal_without_order -> terminal",
-        "VA:va_exp_actual_innocence -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "va_auto_seal_clean_record",
-        "va_auto_seal_nonconvictions",
-        "va_auto_seal_without_order",
-        "va_exp_actual_innocence"
-      ]
-    },
-    {
-      "jobId": "T-B-VT-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "VT",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (VT) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "VT:vt_diversion_post_charge -> terminal",
-        "VT:vt_diversion_pre_charge -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "vt_diversion_post_charge",
-        "vt_diversion_pre_charge"
-      ]
-    },
-    {
-      "jobId": "T-B-WI-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "WI",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (WI) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "WI:wi_def_961_47 -> terminal",
-        "WI:wi_exp_certificate_of_discharge -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "wi_def_961_47",
-        "wi_exp_certificate_of_discharge"
-      ]
-    },
-    {
-      "jobId": "T-B-WV-complete-guidance",
-      "lane": "B",
-      "jurisdiction": "WV",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "complete_guidance",
-      "sourceDependency": "private/Nationwide Record Clearing/ (WV) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-plain-language-and-accuracy",
-      "terminalEffect": [
-        "WV:wv_common_nc_procedure -> terminal",
-        "WV:wv_dui_test_and_lock_dismissal -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "wv_common_nc_procedure",
-        "wv_dui_test_and_lock_dismissal"
       ]
     },
     {
@@ -1058,27 +481,6 @@
       ]
     },
     {
-      "jobId": "T-C-AZ-production-packet",
-      "lane": "C",
-      "jurisdiction": "AZ",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (AZ) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "AZ:az_wrongful_arrest_clearance -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "az_wrongful_arrest_clearance"
-      ]
-    },
-    {
       "jobId": "T-C-CA-complete-composed-route",
       "lane": "C",
       "jurisdiction": "CA",
@@ -1125,29 +527,6 @@
       ]
     },
     {
-      "jobId": "T-C-CT-production-packet",
-      "lane": "C",
-      "jurisdiction": "CT",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (CT) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "CT:ct-cannabis-petition -> terminal",
-        "CT:ct-decriminalized -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ct-cannabis-petition",
-        "ct-decriminalized"
-      ]
-    },
-    {
       "jobId": "T-C-DC-production-packet",
       "lane": "C",
       "jurisdiction": "DC",
@@ -1161,71 +540,11 @@
       ],
       "reviewArchetype": "F-visual-and-field-fidelity",
       "terminalEffect": [
-        "DC:dc_correct_misattributed_arrest -> terminal",
-        "DC:dc_seal_fugitive -> terminal",
         "DC:dc_yra_set_aside -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
-        "dc_correct_misattributed_arrest",
-        "dc_seal_fugitive",
         "dc_yra_set_aside"
-      ]
-    },
-    {
-      "jobId": "T-C-GA-production-packet",
-      "lane": "C",
-      "jurisdiction": "GA",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (GA) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "GA:ga-deaddocket-j3 -> terminal",
-        "GA:ga-felony-j1 -> terminal",
-        "GA:ga-fo-active-pre2026 -> terminal",
-        "GA:ga-fo-discharged-pre2026 -> terminal",
-        "GA:ga-fugitive-j5 -> terminal",
-        "GA:ga-jail-k2 -> terminal",
-        "GA:ga-vacated-j2 -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ga-deaddocket-j3",
-        "ga-felony-j1",
-        "ga-fo-active-pre2026",
-        "ga-fo-discharged-pre2026",
-        "ga-fugitive-j5",
-        "ga-jail-k2",
-        "ga-vacated-j2"
-      ]
-    },
-    {
-      "jobId": "T-C-HI-production-packet",
-      "lane": "C",
-      "jurisdiction": "HI",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (HI) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "HI:hi_first_time_property_offender_expungement -> terminal",
-        "HI:hi_marijuana_three_grams_expungement -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "hi_first_time_property_offender_expungement",
-        "hi_marijuana_three_grams_expungement"
       ]
     },
     {
@@ -1294,27 +613,6 @@
       ]
     },
     {
-      "jobId": "T-C-IL-production-packet",
-      "lane": "C",
-      "jurisdiction": "IL",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (IL) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "IL:il-immediate-seal -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "il-immediate-seal"
-      ]
-    },
-    {
       "jobId": "T-C-IN-complete-composed-route",
       "lane": "C",
       "jurisdiction": "IN",
@@ -1333,52 +631,6 @@
       "runtimeWiringRequired": true,
       "trackIds": [
         "in_infraction_nondisclosure"
-      ]
-    },
-    {
-      "jobId": "T-C-IN-production-packet",
-      "lane": "C",
-      "jurisdiction": "IN",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (IN) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "IN:in_collateral_action -> terminal",
-        "IN:in_supplemental_order -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "in_collateral_action",
-        "in_supplemental_order"
-      ]
-    },
-    {
-      "jobId": "T-C-KS-production-packet",
-      "lane": "C",
-      "jurisdiction": "KS",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (KS) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "KS:ks-12-4516-municipal -> terminal",
-        "KS:ks-12-4516a-municipal-arrest -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ks-12-4516-municipal",
-        "ks-12-4516a-municipal-arrest"
       ]
     },
     {
@@ -1403,71 +655,6 @@
       ]
     },
     {
-      "jobId": "T-C-KY-production-packet",
-      "lane": "C",
-      "jurisdiction": "KY",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (KY) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "KY:ky_void_seal_controlled_substance -> terminal",
-        "KY:ky_void_seal_marijuana_synthetic_salvia -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ky_void_seal_controlled_substance",
-        "ky_void_seal_marijuana_synthetic_salvia"
-      ]
-    },
-    {
-      "jobId": "T-C-MA-production-packet",
-      "lane": "C",
-      "jurisdiction": "MA",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (MA) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "MA:ma-bmc-multi -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ma-bmc-multi"
-      ]
-    },
-    {
-      "jobId": "T-C-ME-production-packet",
-      "lane": "C",
-      "jurisdiction": "ME",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (ME) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "ME:me-screening -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "me-screening"
-      ]
-    },
-    {
       "jobId": "T-C-MT-complete-composed-route",
       "lane": "C",
       "jurisdiction": "MT",
@@ -1489,73 +676,6 @@
       ]
     },
     {
-      "jobId": "T-C-NC-production-packet",
-      "lane": "C",
-      "jurisdiction": "NC",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (NC) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "NC:nc_auto_146_a4_agency_followup -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "nc_auto_146_a4_agency_followup"
-      ]
-    },
-    {
-      "jobId": "T-C-ND-production-packet",
-      "lane": "C",
-      "jurisdiction": "ND",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (ND) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "ND:nd-seal-felony-conviction -> terminal",
-        "ND:nd-seal-misdemeanor-conviction -> terminal",
-        "ND:nd-seal-pardoned-conviction -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "nd-seal-felony-conviction",
-        "nd-seal-misdemeanor-conviction",
-        "nd-seal-pardoned-conviction"
-      ]
-    },
-    {
-      "jobId": "T-C-NE-production-packet",
-      "lane": "C",
-      "jurisdiction": "NE",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (NE) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "NE:ne-seal-enforcement -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ne-seal-enforcement"
-      ]
-    },
-    {
       "jobId": "T-C-NV-production-packet",
       "lane": "C",
       "jurisdiction": "NV",
@@ -1571,57 +691,13 @@
       "terminalEffect": [
         "NV:nv_repository_removal -> terminal",
         "NV:nv_seal_decrim -> terminal",
-        "NV:nv_seal_multi -> terminal",
         "NV:nv_seal_pardon -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
         "nv_repository_removal",
         "nv_seal_decrim",
-        "nv_seal_multi",
         "nv_seal_pardon"
-      ]
-    },
-    {
-      "jobId": "T-C-OH-production-packet",
-      "lane": "C",
-      "jurisdiction": "OH",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (OH) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "OH:oh_2953_32_sealing -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "oh_2953_32_sealing"
-      ]
-    },
-    {
-      "jobId": "T-C-OK-production-packet",
-      "lane": "C",
-      "jurisdiction": "OK",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (OK) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "OK:ok_identity_theft -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "ok_identity_theft"
       ]
     },
     {
@@ -1650,41 +726,6 @@
       ]
     },
     {
-      "jobId": "T-C-TN-production-packet",
-      "lane": "C",
-      "jurisdiction": "TN",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (TN) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "TN:tn_arrest_no_court_record -> terminal",
-        "TN:tn_illegal_voting -> terminal",
-        "TN:tn_mistaken_identity -> terminal",
-        "TN:tn_nonconviction_petition -> terminal",
-        "TN:tn_post_pardon -> terminal",
-        "TN:tn_pretrial_diversion -> terminal",
-        "TN:tn_recovery_court -> terminal",
-        "TN:tn_redaction -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "tn_arrest_no_court_record",
-        "tn_illegal_voting",
-        "tn_mistaken_identity",
-        "tn_nonconviction_petition",
-        "tn_post_pardon",
-        "tn_pretrial_diversion",
-        "tn_recovery_court",
-        "tn_redaction"
-      ]
-    },
-    {
       "jobId": "T-C-TX-complete-composed-route",
       "lane": "C",
       "jurisdiction": "TX",
@@ -1703,33 +744,6 @@
       "runtimeWiringRequired": true,
       "trackIds": [
         "tx_nd_veterans_reemployment"
-      ]
-    },
-    {
-      "jobId": "T-C-TX-production-packet",
-      "lane": "C",
-      "jurisdiction": "TX",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (TX) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "TX:tx_exp_mistaken_identity -> terminal",
-        "TX:tx_exp_pardon_other -> terminal",
-        "TX:tx_exp_specialty_court -> terminal",
-        "TX:tx_exp_unlawful_carry -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "tx_exp_mistaken_identity",
-        "tx_exp_pardon_other",
-        "tx_exp_specialty_court",
-        "tx_exp_unlawful_carry"
       ]
     },
     {
@@ -1788,13 +802,11 @@
       ],
       "reviewArchetype": "F-visual-and-field-fidelity",
       "terminalEffect": [
-        "WA:wa_crop_certificate_of_restoration -> terminal",
-        "WA:wa_vac_post_probation_9_95_240 -> terminal"
+        "WA:wa_crop_certificate_of_restoration -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
-        "wa_crop_certificate_of_restoration",
-        "wa_vac_post_probation_9_95_240"
+        "wa_crop_certificate_of_restoration"
       ]
     },
     {
@@ -2489,48 +1501,6 @@
         "ca-17b-reduction",
         "ca-851-91"
       ]
-    },
-    {
-      "jobId": "T-E-DE-production-packet",
-      "lane": "E",
-      "jurisdiction": "DE",
-      "implementationFamily": "official_form_hard",
-      "outputStrategy": "official_pdf_fill",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (DE) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/overlays/rescued-encrypted-pdfs/",
-        "data/rcap-all50/hard-forms/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "DE:de_discretionary_family_court -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "de_discretionary_family_court"
-      ]
-    },
-    {
-      "jobId": "T-E-ME-production-packet",
-      "lane": "E",
-      "jurisdiction": "ME",
-      "implementationFamily": "official_form_hard",
-      "outputStrategy": "official_pdf_fill",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (ME) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/overlays/rescued-encrypted-pdfs/",
-        "data/rcap-all50/hard-forms/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "ME:me-seal-prost -> terminal"
-      ],
-      "runtimeWiringRequired": true,
-      "trackIds": [
-        "me-seal-prost"
-      ]
     }
   ],
   "decisions": [
@@ -2775,7 +1745,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ak.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3173,14 +2143,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ar.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3340,14 +2310,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/arizona/az_wrongful_arrest_clearance",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3533,14 +2503,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ca.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3590,14 +2560,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/co.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3609,14 +2579,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/co.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3788,14 +2758,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/connecticut/ct-cannabis-petition",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3839,14 +2809,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/connecticut/ct-decriminalized",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3858,14 +2828,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ct.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3932,14 +2902,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ct.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3974,7 +2944,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ct.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4037,14 +3007,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/dc/dc_correct_misattributed_arrest",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4089,14 +3059,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/dc/dc_seal_fugitive",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4140,14 +3110,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/de.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4175,14 +3145,14 @@
       "declaredStrategy": "official_pdf_fill",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "exact_supported_deferral",
       "candidateEvidence": "data/rcap-all50/hard-forms/delaware/family-court-form-281/profile.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "treatmentSubstitution": "Family Court adult discretionary expungement is now carrier-backed, but the principal petition binary is still absent. Form 1021IP names the packet as Form 281 (petition) plus Form 283 (proposed order); the canonical bundle carries neither, only the Form 281E charge-sheet continuation. A packet cannot be produced from a continuation sheet and an instruction booklet.",
       "counselItemIds": [],
       "decisionCondition": null,
@@ -4387,14 +3357,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-deaddocket-j3",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4406,14 +3376,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-felony-j1",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4425,14 +3395,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-fo-active-pre2026",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4444,14 +3414,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-fo-discharged-pre2026",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4463,14 +3433,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ga.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4482,14 +3452,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-fugitive-j5",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4501,14 +3471,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-jail-k2",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4618,14 +3588,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ga.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4637,14 +3607,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-vacated-j2",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4704,14 +3674,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/hawaii/hi_first_time_property_offender_expungement",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4723,14 +3693,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/hawaii/hi_marijuana_three_grams_expungement",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4774,14 +3744,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/hi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4988,14 +3958,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/il.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5135,14 +4105,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/illinois/il-immediate-seal",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5286,14 +4256,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/in.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5305,14 +4275,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/indiana/in_collateral_action",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5424,14 +4394,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/indiana/in_supplemental_order",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5443,14 +4413,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/kansas/ks-12-4516-municipal",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5462,14 +4432,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/kansas/ks-12-4516a-municipal-arrest",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5577,14 +4547,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ky.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5615,14 +4585,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ky.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5755,14 +4725,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5774,14 +4744,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5942,14 +4912,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/la.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5977,14 +4947,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/massachusetts/ma-bmc-multi",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6093,14 +5063,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/md.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6128,14 +5098,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/md.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6211,14 +5181,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/md.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6278,14 +5248,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/me.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6313,14 +5283,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/maine/me-screening",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6348,14 +5318,14 @@
       "declaredStrategy": "official_pdf_fill",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "exact_supported_deferral",
       "candidateEvidence": "data/rcap-all50/hard-forms/maine/cr-289-motion-to-seal-prostitution-conviction/profile.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "treatmentSubstitution": "The binary is now in hand and is technically ready for Tier 0, but the adopted Maine legal design records the form itself as legally stale. Presence removed the location blocker only.",
       "counselItemIds": [],
       "decisionCondition": null,
@@ -6391,7 +5361,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6403,14 +5373,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6445,7 +5415,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6457,14 +5427,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6476,14 +5446,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6518,7 +5488,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6633,7 +5603,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mn.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6645,14 +5615,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mn.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6680,14 +5650,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mn.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6699,14 +5669,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mn.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6894,14 +5864,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mo.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7091,14 +6061,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mt.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7275,14 +6245,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/nc.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7294,14 +6264,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/north-carolina/nc_auto_146_a4_agency_followup",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7336,7 +6306,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/nd.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7364,14 +6334,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/nd.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7463,14 +6433,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/north-dakota/nd-seal-felony-conviction",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7482,14 +6452,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/north-dakota/nd-seal-misdemeanor-conviction",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7501,14 +6471,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/north-dakota/nd-seal-pardoned-conviction",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7543,7 +6513,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/nd.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7562,7 +6532,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/nd.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7590,14 +6560,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ne.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7616,7 +6586,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ne.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7661,14 +6631,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ne.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7680,14 +6650,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ne.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7699,14 +6669,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ne.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7718,14 +6688,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/nebraska/ne-seal-enforcement",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7930,14 +6900,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/nh.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7972,7 +6942,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/nj.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8192,14 +7162,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/nevada/nv_seal_multi",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8323,14 +7293,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ny.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8342,14 +7312,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ny.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8393,14 +7363,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/ohio/oh_2953_32_sealing",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8460,14 +7430,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/oh.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8633,14 +7603,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/oklahoma/ok_identity_theft",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8659,7 +7629,7 @@
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ok.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9361,14 +8331,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/tennessee/tn_arrest_no_court_record",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9396,14 +8366,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/tennessee/tn_illegal_voting",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9431,14 +8401,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/tennessee/tn_mistaken_identity",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9450,14 +8420,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/tennessee/tn_nonconviction_petition",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9469,14 +8439,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/tennessee/tn_post_pardon",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9488,14 +8458,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/tennessee/tn_pretrial_diversion",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9507,14 +8477,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/tennessee/tn_recovery_court",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9526,14 +8496,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/tennessee/tn_redaction",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9545,14 +8515,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/tn.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9598,14 +8568,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/tx.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9654,14 +8624,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/texas/tx_exp_mistaken_identity",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9705,14 +8675,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/texas/tx_exp_pardon_other",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9724,14 +8694,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/texas/tx_exp_specialty_court",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9743,14 +8713,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/texas/tx_exp_unlawful_carry",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9910,14 +8880,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ut.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9995,14 +8965,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/ut.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10159,14 +9129,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/va.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10194,14 +9164,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/va.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10213,14 +9183,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/va.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10248,14 +9218,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/va.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10363,14 +9333,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/vt.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10382,14 +9352,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/vt.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10677,14 +9647,14 @@
       "declaredStrategy": "custom_pleading",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "production_packet",
+      "requiredTreatment": null,
       "candidateTreatment": "production_packet",
       "candidateEvidence": "data/rcap-all50/pleadings/washington/wa_vac_post_probation_9_95_240",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10760,14 +9730,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/wi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10795,14 +9765,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/wi.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10926,14 +9896,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/wv.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -11040,14 +10010,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/wv.json",
-      "candidateStatus": "pending_f2_review",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
