@@ -1,0 +1,1192 @@
+{
+  "schemaVersion": "rcap-codex-release-readiness/v1",
+  "generatedAt": "2026-08-12T18:44:08.405Z",
+  "auditMode": "independent_read_only",
+  "safeForCaptain": false,
+  "repositoryTruth": {
+    "canonicalBranch": "origin/claude/rcap-final-sprint-integration",
+    "auditedSha": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+    "commitDate": "2026-08-12T18:04:20Z",
+    "mainSha": "b090f7a8c6d8bc4c268f06d564660985bcd923d1",
+    "workingTreeAtStart": "clean",
+    "integrationPr": {
+      "number": 93,
+      "head": "claude/rcap-final-sprint-integration",
+      "headSha": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+      "base": "main",
+      "status": "OPEN_DRAFT",
+      "mergeState": "CLEAN"
+    },
+    "githubChecks": {
+      "requiredSetDetermination": "unverified_branch_protection_api_403",
+      "observedOnExactSha": [
+        {
+          "name": "Verify Expungement.ai consumer adapter",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "runId": 31625858255
+        },
+        {
+          "name": "Verify RCAP all50 handoff",
+          "status": "COMPLETED",
+          "conclusion": "SUCCESS",
+          "runId": 31625858191
+        }
+      ]
+    },
+    "completionLedger": {
+      "path": "data/rcap-ledger/track-terminalization.json",
+      "schemaVersion": "rcap-track-terminalization/v1",
+      "windowId": "2026-08-12-w3",
+      "registryTracks": 497,
+      "tracksTerminal": 375,
+      "tracksNonterminal": 122,
+      "tracksWithRuntimeCoverage": 285,
+      "requiredTreatmentBreakdown": {
+        "production_packet": 85,
+        "complete_guidance": 12,
+        "complete_composed_route": 16,
+        "deliberate_scope_exclusion": 0,
+        "exact_supported_deferral": 9
+      },
+      "nonterminalTracksByLane": {
+        "B": 21,
+        "C": 28,
+        "D": 67,
+        "E": 6,
+        "F": 0
+      },
+      "jobsRemainingToLaunch": 60,
+      "tracksTerminalizedThisWindow": 98,
+      "candidateTreatmentsPendingReview": 16,
+      "candidateTreatmentBreakdown": {
+        "complete_guidance": 64,
+        "exact_supported_deferral": 2,
+        "production_packet": 44,
+        "complete_composed_route": 16
+      },
+      "tracksImplementedPendingIndependentReview": 6,
+      "guidanceRegistryServedTracks": 64,
+      "d1Implementation": {
+        "families": 89,
+        "implementedPendingIndependentReview": 64,
+        "familiesWithHolds": 89,
+        "note": "Every D1 family retains its source-gated, currentness, legal-design and adoption holds; independent-review jobs are generated in the F2 manifest. No D1 track is terminal from this evidence."
+      },
+      "unownedRequiredComponents": 0,
+      "unownedBlockers": 0,
+      "unknownTrackDispositions": 0,
+      "genericComingSoonStates": 0,
+      "unsupportedRoutesSellable": 0
+    },
+    "crosswalkUnresolvedCount": 0,
+    "reviewTotals": {
+      "canonicalAcceptedIntegrated": {
+        "technical_approved": 168,
+        "correction_required": 14,
+        "held_on_source_or_design": 0
+      },
+      "note": "104 C approvals plus wave-2 B 59/13/0 and E 5/1/0. The reported D 104/61/88 cycle is side-branch evidence and is not counted as canonical readiness."
+    }
+  },
+  "activeUnintegratedLaunchBranches": [
+    {
+      "branch": "claude/rcap-d1a-corrections-v2",
+      "sha": "ffb64950c2d5d7755efd9bd496441d4d1029d65b"
+    },
+    {
+      "branch": "claude/rcap-d1b-corrections-v2",
+      "sha": "994e976d92befc9078309e08f065a761362ba7b7"
+    },
+    {
+      "branch": "claude/rcap-d1c-corrections-v2",
+      "sha": "135a2997e4a5731df420fcfd46075ba79ccbe424"
+    },
+    {
+      "branch": "claude/rcap-d2a-corrections-v2",
+      "sha": "bc139e24c987728dda585a58e0736ec14b6a996a"
+    },
+    {
+      "branch": "claude/rcap-d2b-corrections-v2",
+      "sha": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc"
+    },
+    {
+      "branch": "claude/rcap-d3a-corrections-v2",
+      "sha": "86446de3632711b0364e8ae82717086563fe9461"
+    },
+    {
+      "branch": "claude/rcap-d3b-corrections-v2",
+      "sha": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56"
+    },
+    {
+      "branch": "claude/rcap-d-corrected-review-manifest",
+      "sha": "f3021a64810a162ccc048911e84a013708746509"
+    }
+  ],
+  "sideBranchOnlyResults": [
+    "D correction-v2 implementation tips",
+    "D corrected-review manifest",
+    "current active C corrections",
+    "remaining non-C/non-D work"
+  ],
+  "nonterminalClassification": [
+    {
+      "category": "implementation_in_flight",
+      "trackIds": [
+        "AK:ak-nonconviction-confidential",
+        "AR:ar-misdemeanor-dwi-seal",
+        "CT:ct-provisional-pardon",
+        "KY:ky_felony_expungement_after_pardon",
+        "KY:ky_felony_vacatur_expungement",
+        "MI:mi_arrest_acquittal_dismissal",
+        "MI:mi_auto_misd92",
+        "MI:mi_setaside_csc4_pre2015",
+        "MN:mn_ceb_felony_cannabis",
+        "ND:nd-dna-profile-removal-routing",
+        "ND:nd-trafficking-vacatur-routing",
+        "ND:nd-unconstitutional-arrest-expungement-routing",
+        "NE:ne-immigration-routing",
+        "NJ:nj_automated_clean_slate",
+        "OK:ok_clean_slate",
+        "OK:ok_osbi_portal",
+        "TX:tx_exp_acquittal",
+        "TX:tx_exp_dismissed",
+        "WV:wv_conv_multiple_misdemeanors",
+        "WV:wv_conv_nonviolent_felony",
+        "WV:wv_conv_single_misdemeanor",
+        "CA:ca-1203-41",
+        "CA:ca-1203-42",
+        "CA:ca-1203-43",
+        "CA:ca-1203-4a",
+        "CA:ca-17b-reduction",
+        "CA:ca-851-91"
+      ],
+      "currentOwnerOrBranch": "active remaining non-C/non-D track session; exact branch absent from canonical evidence",
+      "nextExecutableAction": "finish supported treatments/corrections, independently review, integrate, import ledger",
+      "blocksFinalSourceFreeze": true,
+      "blocksStaging": true,
+      "blocksPublicLaunch": true,
+      "trackCount": 27
+    },
+    {
+      "category": "correction_in_flight",
+      "trackIds": [
+        "AR:ar-act346",
+        "AR:ar-drug-court",
+        "AR:ar-pardon-seal",
+        "AR:ar-veterans-court",
+        "CA:ca-diversion-seal",
+        "CT:ct-missed-erasure",
+        "CT:ct-nolle-auto",
+        "CT:ct-under18-misdemeanor",
+        "DC:dc_yra_set_aside",
+        "IA:ia-9079",
+        "ID:id_felony_reduction",
+        "ID:id_set_aside_dismissal",
+        "IL:il-prb-cert",
+        "IN:in_infraction_nondisclosure",
+        "KY:ky_criminal_record_segregation",
+        "MT:mt_mmrta_serving",
+        "NV:nv_repository_removal",
+        "NV:nv_seal_decrim",
+        "NV:nv_seal_pardon",
+        "SC:sc_aep",
+        "SC:sc_conditional_discharge_44_53_450",
+        "SC:sc_tep",
+        "TX:tx_nd_veterans_reemployment",
+        "VA:va_exp_identity_used_by_another",
+        "VT:vt_exp_deferred_sentence",
+        "WA:wa_crop_certificate_of_restoration",
+        "WI:wi_exp_certificate_of_discharge_followup",
+        "WV:wv_dui_deferral_expungement",
+        "AK:ak-tf800",
+        "AK:ak-tf805",
+        "AL:al-felony-dwop",
+        "AL:al-felony-nonconviction-90",
+        "AL:al-misd-dwop",
+        "AL:al-misd-nonconviction-90",
+        "AL:al-pardon",
+        "AR:ar-act531",
+        "AR:ar-cs-possession-seal",
+        "AR:ar-misdemeanor-seal",
+        "AR:ar-nonconviction-seal",
+        "AZ:az_certificate_second_chance",
+        "AZ:az_marijuana_expungement_limited_jurisdiction",
+        "AZ:az_marijuana_expungement_superior_court",
+        "AZ:az_record_sealing_conviction",
+        "AZ:az_record_sealing_dismissal_not_guilty",
+        "CO:co_decriminalized_conduct_seal",
+        "CO:co_motion_seal_nonconviction",
+        "CO:co_multiple_conviction_seal",
+        "CO:co_municipal_conviction_seal",
+        "CO:co_pardoned_conviction_seal",
+        "FL:fl-expunction",
+        "IA:ia-dci77",
+        "IL:il-exp-pardon",
+        "IL:il-exp-precompletion",
+        "IL:il-seal-edu",
+        "IL:il-seal-nonconv",
+        "KS:ks-21-6614-diversion",
+        "KS:ks-22-2410-arrest",
+        "KY:ky_expungement_certification",
+        "KY:ky_protective_order_record_expungement",
+        "LA:la-987-set-aside-and-dismiss",
+        "MA:ma-seal-decrim",
+        "MN:mn_petition_15218",
+        "MN:mn_petition_juvenile_as_adult",
+        "MO:mo-575-120-identity-theft-correction",
+        "MO:mo-610-140-arrest",
+        "NC:nc_145_5_misdemeanor",
+        "NC:nc_146_dismissal_petition",
+        "ND:nd-nonconviction-close-petition",
+        "ND:nd-prohibit-remote-public-access",
+        "ND:nd-regular-pardon",
+        "NE:ne-seal-pre2017",
+        "NH:nh_conviction_streamlined",
+        "NH:nh_petition_nonconviction_pre2019",
+        "NH:nh_petition_vacated",
+        "NJ:nj_indictable_conviction",
+        "NJ:nj_ordinance",
+        "NM:nm_identity_theft",
+        "OR:or_arrest_no_charges",
+        "OR:or_dismissed_charge",
+        "TX:tx_nd_dwi_conviction",
+        "TX:tx_nd_dwi_deferred",
+        "TX:tx_nd_probation_misdemeanor",
+        "TX:tx_nd_veterans_court",
+        "UT:ut_pet_remove_link",
+        "VA:va_exp_nonconviction",
+        "VA:va_seal_enumerated_seven_year",
+        "VA:va_seal_petition_felony",
+        "VA:va_seal_petition_misdemeanor",
+        "VT:vt_seal_pardon",
+        "WA:wa_vac_homicide_victim_prostitution",
+        "WA:wa_vac_misdemeanor_ordinary",
+        "WA:wa_vac_substance_use_disorder",
+        "WA:wa_vac_treaty_fishing",
+        "WI:wi_exp_cr266",
+        "WI:wi_nc_doj_challenge"
+      ],
+      "currentOwnerOrBranch": "active C correction sessions and seven D correction-v2 branches plus D review-manifest branch",
+      "nextExecutableAction": "finish correction cycles, independent review, intentional integration, canonical ledger import",
+      "blocksFinalSourceFreeze": true,
+      "blocksStaging": true,
+      "blocksPublicLaunch": true,
+      "trackCount": 95
+    },
+    {
+      "category": "independent_review_pending",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    },
+    {
+      "category": "legal_adoption_pending",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    },
+    {
+      "category": "source_or_currentness_pending",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    },
+    {
+      "category": "legal_design_or_counsel_pending",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    },
+    {
+      "category": "runtime_wiring_pending",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    },
+    {
+      "category": "staging_acceptance_pending",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    },
+    {
+      "category": "exact_owner_decision_pending",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    },
+    {
+      "category": "stale_ledger_or_import_pending",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    },
+    {
+      "category": "genuinely_unassigned",
+      "trackIds": [],
+      "currentOwnerOrBranch": null,
+      "nextExecutableAction": null,
+      "blocksFinalSourceFreeze": false,
+      "blocksStaging": false,
+      "blocksPublicLaunch": false,
+      "trackCount": 0
+    }
+  ],
+  "sourceFreeze": {
+    "canDeclareNow": false,
+    "currentImageInputFingerprint": {
+      "algorithm": "sha256-file+git-tree/v1",
+      "packageJsonSha256": "1902bc5f2f75cf3ba47d0d8340c006eadf8de2f207d25e7e25cc54750e2d6504",
+      "packageLockSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+      "tsconfigSha256": "f096fb57605f57b18db33441a4b4b85901e1ad816183a87d6d8dc086f7e088b5",
+      "workerEntrypointSha256": "e021e936bb677ea98283823bc0a1ac3ad7295a8d61b2fd21635feda718020b70",
+      "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
+      "scriptsLibTreeHash": "e8f80d8b59b889061363f4ea24d3d4f8c30b129c",
+      "srcTreeHash": "b5b72f641223be07392deb53b917be2e98f6dd5f"
+    },
+    "fingerprintBaseSha": "11419867e9a71e49d0fce18de13606e1ab5b89ff",
+    "inputs": [
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "scripts/rcap-render-worker.mjs",
+      "deploy/rcap-render-worker/Dockerfile",
+      "scripts/lib",
+      "src"
+    ],
+    "lastPublishedWorkerSourceSha": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
+    "lastImmutableWorkerDigest": "sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
+    "currentInputsDifferFromPublished": true,
+    "activeBranchesExpectedToAlterInputs": "C and non-C/non-D implementation may alter src/package inputs; D data-only corrections still block freeze by terminalization",
+    "freezeConditions": [
+      "all track work integrated",
+      "497/497 terminal and zero ownership/disposition/fallback/sellability gaps",
+      "exact-SHA checks complete and successful",
+      "no active image-input work",
+      "seven-input fingerprint recomputed at final SHA"
+    ],
+    "publicationWorkflow": {
+      "path": ".github/workflows/publish-rcap-render-worker.yml",
+      "registered": true,
+      "manualOnly": true,
+      "dispatchedByAudit": false
+    },
+    "packageVisibility": "private",
+    "targetHostNeedsPackagesReadCredential": true
+  },
+  "migrations": [
+    {
+      "sequencePosition": 1,
+      "phase": 49,
+      "path": "supabase/phase-49-rcap-packet-render-jobs.sql",
+      "sha256": "2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6",
+      "authorizationId": "auth-2026-08-10-phase-49-packet-render-jobs",
+      "authorizationScope": "repository_integration_and_conditional_production_application",
+      "standingEnvironmentConditions": {
+        "repositoryIntegration": "authorized",
+        "applyEphemeralLocal": "authorized",
+        "applyStaging": "authorized",
+        "applyProduction": "authorized conditionally — only after staging read-back and behaviour checks pass; no second business authorization required unless a path or its bytes change"
+      },
+      "scopedAuthorization": null,
+      "stagingStatus": "queued_not_authorized_or_applied",
+      "productionStatus": "queued_not_authorized_or_applied",
+      "appliedAnywhere": "ephemeral_local_verifier_only",
+      "applicationFirstPrecondition": "final application deployed before shared-environment apply",
+      "rollbackEvidence": "procedure/checklist exists; no named-host rollback rehearsal evidence",
+      "applyEvidenceVerifier": "scripts/verify-rcap-migration-apply-evidence.mjs"
+    },
+    {
+      "sequencePosition": 2,
+      "phase": 50,
+      "path": "supabase/phase-50-rcap-packet-delivery-hardening.sql",
+      "sha256": "84facd03b1362679898ba599db4247c2bafe6e675ee1691c37181adbde9e9057",
+      "authorizationId": "auth-2026-08-10-phase-50-packet-delivery-hardening",
+      "authorizationScope": "repository_integration_only",
+      "standingEnvironmentConditions": null,
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-10 — reconciled branch, hash-pinned",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name both migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      },
+      "stagingStatus": "queued_not_authorized_or_applied",
+      "productionStatus": "queued_not_authorized_or_applied",
+      "appliedAnywhere": "ephemeral_local_verifier_only",
+      "applicationFirstPrecondition": "final application deployed before shared-environment apply",
+      "rollbackEvidence": "procedure/checklist exists; no named-host rollback rehearsal evidence",
+      "applyEvidenceVerifier": "scripts/verify-rcap-migration-apply-evidence.mjs"
+    },
+    {
+      "sequencePosition": 3,
+      "phase": 51,
+      "path": "supabase/phase-51-rcap-consumer-payment-gate.sql",
+      "sha256": "3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba",
+      "authorizationId": "auth-2026-08-10-phase-51-consumer-payment-gate",
+      "authorizationScope": "repository_integration_only",
+      "standingEnvironmentConditions": null,
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-10 — hash-pinned to 3c3e971c1fdb3382",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all three migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      },
+      "stagingStatus": "queued_not_authorized_or_applied",
+      "productionStatus": "queued_not_authorized_or_applied",
+      "appliedAnywhere": "ephemeral_local_verifier_only",
+      "applicationFirstPrecondition": "final application deployed before shared-environment apply",
+      "rollbackEvidence": "procedure/checklist exists; no named-host rollback rehearsal evidence",
+      "applyEvidenceVerifier": "scripts/verify-rcap-migration-apply-evidence.mjs"
+    },
+    {
+      "sequencePosition": 4,
+      "phase": 52,
+      "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
+      "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
+      "authorizationId": "auth-2026-08-11-phase-52-consumer-payment-authority",
+      "authorizationScope": "repository_integration_only",
+      "standingEnvironmentConditions": null,
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-11 — hash-pinned to c906068f7800df7d",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all four migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      },
+      "stagingStatus": "queued_not_authorized_or_applied",
+      "productionStatus": "queued_not_authorized_or_applied",
+      "appliedAnywhere": "ephemeral_local_verifier_only",
+      "applicationFirstPrecondition": "final application must already use the server-authoritative payment writer and bound 15-argument enqueue",
+      "rollbackEvidence": "procedure/checklist exists; no named-host rollback rehearsal evidence",
+      "applyEvidenceVerifier": "scripts/verify-rcap-migration-apply-evidence.mjs"
+    },
+    {
+      "sequencePosition": 5,
+      "phase": 53,
+      "path": "supabase/phase-53-rcap-consumer-job-binding.sql",
+      "sha256": "469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f",
+      "authorizationId": "auth-2026-08-11-phase-53-consumer-job-binding",
+      "authorizationScope": "repository_integration_only",
+      "standingEnvironmentConditions": null,
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-11 — hash-pinned to 469ece83b54ef840",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all five migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      },
+      "stagingStatus": "queued_not_authorized_or_applied",
+      "productionStatus": "queued_not_authorized_or_applied",
+      "appliedAnywhere": "ephemeral_local_verifier_only",
+      "applicationFirstPrecondition": "final application must already use the server-authoritative payment writer and bound 15-argument enqueue",
+      "rollbackEvidence": "procedure/checklist exists; no named-host rollback rehearsal evidence",
+      "applyEvidenceVerifier": "scripts/verify-rcap-migration-apply-evidence.mjs"
+    },
+    {
+      "sequencePosition": 6,
+      "phase": 54,
+      "path": "supabase/phase-54-rcap-person-namespace-hardening.sql",
+      "sha256": "3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac",
+      "authorizationId": "auth-2026-08-11-phase-54-person-namespace-hardening",
+      "authorizationScope": "repository_integration_and_ephemeral_local_testing_only",
+      "standingEnvironmentConditions": {
+        "staging": "queued",
+        "production": "queued"
+      },
+      "scopedAuthorization": {
+        "repository": "authorized — the migration may exist and be applied to ephemeral local databases for testing",
+        "staging": "queued — explicitly withheld by the authorizing instruction",
+        "production": "queued — explicitly withheld by the authorizing instruction"
+      },
+      "stagingStatus": "queued_not_authorized_or_applied",
+      "productionStatus": "queued_not_authorized_or_applied",
+      "appliedAnywhere": "ephemeral_local_verifier_only",
+      "applicationFirstPrecondition": "final application must already use the server-authoritative payment writer and bound 15-argument enqueue",
+      "rollbackEvidence": "procedure/checklist exists; no named-host rollback rehearsal evidence",
+      "applyEvidenceVerifier": "scripts/verify-rcap-migration-apply-evidence.mjs"
+    }
+  ],
+  "deploymentReadiness": {
+    "applicationTarget": null,
+    "finalApplicationShaRequired": true,
+    "workerTarget": null,
+    "immutableDigestRequired": true,
+    "workerRegistryPullSecretOwner": null,
+    "featureControl": {
+      "mechanism": "RCAP_CONSUMER_DELIVERY_ROUTE_STATE plus RCAP_CONSUMER_DELIVERY_STAGING_SCOPE",
+      "desiredStagingValues": "staging_scoped plus exact controlled identities; values currently unset",
+      "routeLevelKillSwitch": true,
+      "globalNationwideLaunchControl": "live value on the server-side route control; exact launch procedure still owner-authorized"
+    },
+    "stagingTestIdentities": "templates exist at docs/rcap/staging-rehearsal/F0-TEST-IDENTITIES.json; real named identities not populated",
+    "rollbackOwner": null,
+    "procedure": "disable new claims and set route state disabled; drain/preserve queue; application and worker redeploy targets remain unnamed",
+    "lastKnownGood": {
+      "application": "not established for final nationwide release",
+      "worker": "published F1-only source 5987870c / digest sha256:337083a2…"
+    }
+  },
+  "stagingReadiness": {
+    "status": "not_hosted_not_final",
+    "f1": {
+      "proofType": "ephemeral GitHub-runner",
+      "runId": 31593385551,
+      "result": "success",
+      "applicationSha": "df3d8607e8a0c723e23c346f1cd725c17a2c22b0",
+      "workerSourceSha": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
+      "workerDigest": "sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
+      "staleForFinalRelease": true
+    },
+    "goldenJourneys": [
+      {
+        "id": "sponsored participant",
+        "repositoryVerifierExists": true,
+        "ephemeralLocalProof": "partial_or_repository-specific",
+        "githubRunnerProof": "F1 backend stack only; not full journey acceptance",
+        "namedHostedStagingProof": false,
+        "ownerPhoneAcceptance": false,
+        "finalApplicationAndWorkerUsed": false
+      },
+      {
+        "id": "paid consumer participant",
+        "repositoryVerifierExists": true,
+        "ephemeralLocalProof": "partial_or_repository-specific",
+        "githubRunnerProof": "F1 backend stack only; not full journey acceptance",
+        "namedHostedStagingProof": false,
+        "ownerPhoneAcceptance": false,
+        "finalApplicationAndWorkerUsed": false
+      },
+      {
+        "id": "guidance-only participant",
+        "repositoryVerifierExists": true,
+        "ephemeralLocalProof": "partial_or_repository-specific",
+        "githubRunnerProof": "F1 backend stack only; not full journey acceptance",
+        "namedHostedStagingProof": false,
+        "ownerPhoneAcceptance": false,
+        "finalApplicationAndWorkerUsed": false
+      },
+      {
+        "id": "typed stop or exact deferral",
+        "repositoryVerifierExists": true,
+        "ephemeralLocalProof": "partial_or_repository-specific",
+        "githubRunnerProof": "F1 backend stack only; not full journey acceptance",
+        "namedHostedStagingProof": false,
+        "ownerPhoneAcceptance": false,
+        "finalApplicationAndWorkerUsed": false
+      },
+      {
+        "id": "partner administrator",
+        "repositoryVerifierExists": true,
+        "ephemeralLocalProof": "partial_or_repository-specific",
+        "githubRunnerProof": "F1 backend stack only; not full journey acceptance",
+        "namedHostedStagingProof": false,
+        "ownerPhoneAcceptance": false,
+        "finalApplicationAndWorkerUsed": false
+      },
+      {
+        "id": "Spanish participant",
+        "repositoryVerifierExists": true,
+        "ephemeralLocalProof": "partial_or_repository-specific",
+        "githubRunnerProof": "F1 backend stack only; not full journey acceptance",
+        "namedHostedStagingProof": false,
+        "ownerPhoneAcceptance": false,
+        "finalApplicationAndWorkerUsed": false
+      },
+      {
+        "id": "iOS Safari mobile participant",
+        "repositoryVerifierExists": true,
+        "ephemeralLocalProof": "partial_or_repository-specific",
+        "githubRunnerProof": "F1 backend stack only; not full journey acceptance",
+        "namedHostedStagingProof": false,
+        "ownerPhoneAcceptance": false,
+        "finalApplicationAndWorkerUsed": false
+      },
+      {
+        "id": "Android Chrome mobile participant",
+        "repositoryVerifierExists": true,
+        "ephemeralLocalProof": "partial_or_repository-specific",
+        "githubRunnerProof": "F1 backend stack only; not full journey acceptance",
+        "namedHostedStagingProof": false,
+        "ownerPhoneAcceptance": false,
+        "finalApplicationAndWorkerUsed": false
+      }
+    ],
+    "criticalChecks": {
+      "signedProviderWebhook": "repository/ephemeral proof only",
+      "serverAuthoritativePaymentWriter": "repository/ephemeral proof only",
+      "participantPaymentForgeryDenial": "repository/ephemeral proof only",
+      "boundConsumerEnqueue": "repository/ephemeral proof only",
+      "sponsoredAccounting": "repository/ephemeral proof only",
+      "exactlyOncePacketCredit": "repository/ephemeral proof only",
+      "privateStorageUploadAndReread": "filesystem/ephemeral proof; named Supabase Storage pending",
+      "corruptionAndSubstitutionDenial": "ephemeral proof only",
+      "authenticatedAndRepeatDownload": "local HTTP proof only",
+      "testEmailCapture": "pending hosted staging",
+      "rollbackToDisabled": "planned/pending",
+      "workerPullByImmutableDigest": "proved for old F1 digest only",
+      "gracefulShutdown": "proved for old F1 digest only",
+      "queueDrainAndDeadLetter": "hosted operational proof pending"
+    }
+  },
+  "operationsFloor": {
+    "overall": "not_green",
+    "items": {
+      "monitoring": "repository logging/verifier exists; destination and alert execution unverified",
+      "alertSeverityRouting": "unverified",
+      "namedAlertOwner": null,
+      "observabilityDestination": null,
+      "deadLetterOwner": null,
+      "packetFailureSupportQueue": "unverified",
+      "participantSupportOwner": null,
+      "retentionPolicy": "unverified",
+      "deletionPolicy": "unverified",
+      "backupConfiguration": "plan only/unverified",
+      "lastSuccessfulBackup": "unverified",
+      "restoreRehearsal": "unverified",
+      "migrationRollbackRehearsal": "unverified",
+      "internalAdminBrowserAccess": "acceptance tooling exists; final execution unverified",
+      "testEmailCapture": "pending",
+      "productionDomainEmail": "unverified",
+      "spf": "unverified",
+      "dkim": "unverified",
+      "accessibility": "no final WCAG 2.2 AA execution evidence across keyboard, screen reader, 200% zoom, 320px, reduced motion",
+      "printReview": "grayscale and low-quality print final acceptance unverified",
+      "englishSpanishParity": "repository review exists; final hosted acceptance unverified",
+      "legalAdoptionContinuity": "final counsel confirmation pending",
+      "currentSourceReceipts": "track-specific evidence exists; final continuity review pending",
+      "participantCopyApproval": "pending",
+      "killSwitches": "code mechanism exists; environment values and rehearsed operation pending"
+    }
+  },
+  "humanOwnedItems": [
+    {
+      "owner": "Roger",
+      "decision": "supply named staging/app/worker targets, private-registry pull owner, controlled scope values, rollback owner, and observability destination",
+      "evidenceNeeded": "prepared action plus target inventory",
+      "reversibleOrIrreversible": "reversible",
+      "blocks": "staging",
+      "approvedFallbackTerminalDisposition": false
+    },
+    {
+      "owner": "Roger",
+      "decision": "authorize exact hash-pinned 49→54 named-staging window",
+      "evidenceNeeded": "final app SHA/checks, final digest, disabled flags, rollback plan",
+      "reversibleOrIrreversible": "destructive",
+      "blocks": "hosted staging",
+      "approvedFallbackTerminalDisposition": false
+    },
+    {
+      "owner": "counsel",
+      "decision": "legal adoption/currentness and remaining legal-design approvals",
+      "evidenceNeeded": "final treatments, sources, review dispositions",
+      "reversibleOrIrreversible": "read_only",
+      "blocks": "public launch",
+      "approvedFallbackTerminalDisposition": "track-specific exact deferral/exclusion only where ledger records one"
+    },
+    {
+      "owner": "product owner",
+      "decision": "final participant copy and scope decisions",
+      "evidenceNeeded": "final English/Spanish hosted journeys",
+      "reversibleOrIrreversible": "reversible",
+      "blocks": "public launch",
+      "approvedFallbackTerminalDisposition": "only explicit ledger fallback"
+    },
+    {
+      "owner": "designated family/mobile acceptors",
+      "decision": "phone, visual, print, accessibility acceptance",
+      "evidenceNeeded": "final hosted staging on required devices/modes",
+      "reversibleOrIrreversible": "read_only",
+      "blocks": "public launch",
+      "approvedFallbackTerminalDisposition": false
+    },
+    {
+      "owner": "Roger",
+      "decision": "authorize production migrations/deployments and single nationwide flip",
+      "evidenceNeeded": "497/497, hosted staging green, ops/rollback green, human acceptance",
+      "reversibleOrIrreversible": "destructive",
+      "blocks": "public launch",
+      "approvedFallbackTerminalDisposition": false
+    }
+  ],
+  "staleClaimsRemoved": [
+    {
+      "id": "stale-digest-final",
+      "originalClaim": "The existing worker digest can serve as the final launch digest.",
+      "originalEvidencePath": "data/rcap-render/worker-publication-evidence.json",
+      "currentContraryEvidence": "data/rcap-render/image-input-drift.json explicitly requires final republish after source drift.",
+      "auditedSha": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+      "resultingDisposition": "digest remains valid only for historical F1 evidence"
+    },
+    {
+      "id": "stale-f1-final",
+      "originalClaim": "F1 accepted_green is sufficient final staging evidence.",
+      "originalEvidencePath": "data/rcap-render/f1-confirmatory-acceptance.json",
+      "currentContraryEvidence": "F1 used application df3d8607 and worker source 5987870c, both superseded for final release; it was ephemeral, not named hosted staging.",
+      "auditedSha": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+      "resultingDisposition": "retain as historical regression evidence; rerun final hosted staging"
+    },
+    {
+      "id": "stale-env-fixed",
+      "originalClaim": "Repository migration fixes mean staging/production are fixed.",
+      "originalEvidencePath": "data/rcap-staging-authorization-readiness.json",
+      "currentContraryEvidence": "the same record says staging and production are queued/unnamed and fixes are not deployed.",
+      "auditedSha": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+      "resultingDisposition": "repository-ready only; environment deployment remains required"
+    },
+    {
+      "id": "stale-d-integrated",
+      "originalClaim": "D correction-cycle results are canonical readiness.",
+      "originalEvidencePath": "remote D correction-v2 and corrected-review branches",
+      "currentContraryEvidence": "none of those branch tips is the audited canonical SHA 3d8695cf8e5e9fe4464b559c97e04a526a462ade; canonical ledger remains 67 D tracks nonterminal.",
+      "auditedSha": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+      "resultingDisposition": "side-branch evidence only"
+    },
+    {
+      "id": "stale-c-approval-terminal",
+      "originalClaim": "C technical approval automatically terminalized composed routes.",
+      "originalEvidencePath": "docs/rcap/review/f2-wave2/C-REVIEW-REPORT.md",
+      "currentContraryEvidence": "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json says captain did not accept the substituted dependency standard.",
+      "auditedSha": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+      "resultingDisposition": "C corrections remain in flight"
+    }
+  ],
+  "blockers": [
+    {
+      "blockerId": "tracks-c-active-corrections",
+      "title": "Lane C composed-route corrections are not integrated or terminal",
+      "category": "track_terminalization",
+      "currentStatus": "in_flight",
+      "evidence": [
+        {
+          "pathOrSystem": "data/rcap-ledger/track-terminalization.json",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Canonical ledger has 28 nonterminal lane-C tracks; correction assignments identify ten dependency-bearing and six dependency-free composed routes."
+        }
+      ],
+      "owner": "active Codex lane-C implementers and Terminal A integration captain",
+      "activeBranch": "active C dependency-deferral and dependency-free composed-route branches (exact remote names not recorded canonically)",
+      "exactNextAction": "Finish both C correction lanes, independently review the resulting bytes, integrate intentionally, and regenerate/import the canonical ledger.",
+      "dependencyIds": [],
+      "destructiveOrReversible": "reversible",
+      "blocksFreeze": true,
+      "blocksStaging": true,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "tracks-d-correction-cycle",
+      "title": "Lane D correction cycle exists only on unintegrated side branches",
+      "category": "track_terminalization",
+      "currentStatus": "in_flight",
+      "evidence": [
+        {
+          "pathOrSystem": "GitHub remote branches",
+          "commitOrRun": "f3021a64810a162ccc048911e84a013708746509 and listed branch tips",
+          "fact": "Canonical ledger has 67 nonterminal D tracks; seven correction-v2 branches and a corrected-review-manifest branch are ahead only on side branches."
+        }
+      ],
+      "owner": "lane-D correction owners; Terminal A integrates after review",
+      "activeBranch": "claude/rcap-d1a-corrections-v2, d1b, d1c, d2a, d2b, d3a, d3b; claude/rcap-d-corrected-review-manifest",
+      "exactNextAction": "Complete and independently review the seven D correction shards, then integrate their intentional commits and update the canonical ledger.",
+      "dependencyIds": [],
+      "destructiveOrReversible": "reversible",
+      "blocksFreeze": true,
+      "blocksStaging": true,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "tracks-b-e-remaining",
+      "title": "Remaining non-C/non-D tracks are nonterminal on canonical",
+      "category": "track_terminalization",
+      "currentStatus": "in_flight",
+      "evidence": [
+        {
+          "pathOrSystem": "data/rcap-ledger/track-terminalization.json",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Canonical ledger retains 21 lane-B and 6 lane-E nonterminal tracks despite earlier implementation/review integration."
+        }
+      ],
+      "owner": "active non-C/non-D track owner; Terminal A integration captain",
+      "activeBranch": "active remaining non-C/non-D track branch (exact name not recorded canonically)",
+      "exactNextAction": "Finish corrections or supported deferrals, obtain independent review where required, integrate, and import terminal dispositions.",
+      "dependencyIds": [],
+      "destructiveOrReversible": "reversible",
+      "blocksFreeze": true,
+      "blocksStaging": true,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "final-source-freeze",
+      "title": "Final application and worker source freeze cannot be declared",
+      "category": "source_freeze",
+      "currentStatus": "awaiting_review",
+      "evidence": [
+        {
+          "pathOrSystem": "data/rcap-render/image-input-drift.json",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Published worker source 5987870c is explicitly valid only for F1 evidence pending final republish; active track branches may alter src/package inputs."
+        }
+      ],
+      "owner": "Terminal A/captain",
+      "activeBranch": null,
+      "exactNextAction": "After all launch implementation is integrated and checks pass, record the final application SHA and recompute the seven-input fingerprint with no active image-input changes.",
+      "dependencyIds": [
+        "tracks-c-active-corrections",
+        "tracks-d-correction-cycle",
+        "tracks-b-e-remaining"
+      ],
+      "destructiveOrReversible": "read_only",
+      "blocksFreeze": true,
+      "blocksStaging": true,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "final-worker-republication",
+      "title": "A final immutable worker digest does not exist for current source",
+      "category": "worker_deployment",
+      "currentStatus": "awaiting_review",
+      "evidence": [
+        {
+          "pathOrSystem": "data/rcap-render/worker-publication-evidence.json",
+          "commitOrRun": "workflow run 31556968201",
+          "fact": "Existing immutable digest belongs to source SHA 5987870c, not the audited application tree; it is not final."
+        }
+      ],
+      "owner": "Terminal D publication operator after freeze",
+      "activeBranch": null,
+      "exactNextAction": "Manually dispatch the registered publication workflow at the final frozen SHA, capture its registry sha256 digest, and verify private-registry pull by digest.",
+      "dependencyIds": [
+        "final-source-freeze"
+      ],
+      "destructiveOrReversible": "reversible",
+      "blocksFreeze": false,
+      "blocksStaging": true,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "staging-environment-inputs",
+      "title": "Named staging and deployment inputs are missing",
+      "category": "staging",
+      "currentStatus": "awaiting_input",
+      "evidence": [
+        {
+          "pathOrSystem": "data/rcap-staging-action.json",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Staging Supabase project, app target, worker target, feature-control values, rollback owner, and observability destination are null."
+        }
+      ],
+      "owner": "Roger for values/authorization; agents execute afterward",
+      "activeBranch": null,
+      "exactNextAction": "Supply the named nonproduction targets, controlled test scope, feature values, rollback owner, observability destination, and private-package pull identity.",
+      "dependencyIds": [],
+      "destructiveOrReversible": "read_only",
+      "blocksFreeze": false,
+      "blocksStaging": true,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "staging-migration-authorization",
+      "title": "The full 49→54 staging migration window is not authorized",
+      "category": "migration",
+      "currentStatus": "awaiting_input",
+      "evidence": [
+        {
+          "pathOrSystem": "data/rcap-staging-action.json",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Only phase 49 has a standing staging grant; phases 50–54 explicitly remain queued. No named staging apply is recorded."
+        }
+      ],
+      "owner": "Roger",
+      "activeBranch": null,
+      "exactNextAction": "After final app deployment to named staging, authorize the six exact hash-pinned migrations as one controlled window.",
+      "dependencyIds": [
+        "staging-environment-inputs",
+        "final-source-freeze"
+      ],
+      "destructiveOrReversible": "destructive",
+      "blocksFreeze": false,
+      "blocksStaging": true,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "hosted-staging-golden-journeys",
+      "title": "No production-shaped named hosted staging proof exists",
+      "category": "staging",
+      "currentStatus": "open",
+      "evidence": [
+        {
+          "pathOrSystem": "docs/rcap/staging-rehearsal/F0-EVIDENCE-MATRIX.json",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Required hosted cases remain pending; F1 evidence is ephemeral GitHub-runner proof on superseded application/worker versions."
+        }
+      ],
+      "owner": "staging execution agent after authorization",
+      "activeBranch": null,
+      "exactNextAction": "Deploy final app and digest, apply 49–54, then execute all eight golden journeys and the security/storage/email/rollback/queue matrices in named staging.",
+      "dependencyIds": [
+        "final-worker-republication",
+        "staging-migration-authorization"
+      ],
+      "destructiveOrReversible": "reversible",
+      "blocksFreeze": false,
+      "blocksStaging": true,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "operations-floor",
+      "title": "Operations, support, retention, backup, restore, email, and accessibility execution evidence is incomplete",
+      "category": "operations",
+      "currentStatus": "awaiting_input",
+      "evidence": [
+        {
+          "pathOrSystem": "data/rcap-staging-authorization-readiness.json",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Observability destination and rollback owner are blank; repository plans/checklists do not prove executed backup restore, alert routing, email DNS, accessibility, or support ownership."
+        }
+      ],
+      "owner": "Roger assigns named operational owners; assigned operators return evidence",
+      "activeBranch": null,
+      "exactNextAction": "Name owners/destinations/policies, prove backup and restore plus rollback rehearsal, configure/test email and alerts, and complete accessibility/Spanish/print acceptance on final staging.",
+      "dependencyIds": [
+        "hosted-staging-golden-journeys"
+      ],
+      "destructiveOrReversible": "reversible",
+      "blocksFreeze": false,
+      "blocksStaging": false,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "human-final-acceptance",
+      "title": "Final counsel, product copy, family visual/mobile, and legal-adoption acceptance is absent",
+      "category": "human_acceptance",
+      "currentStatus": "awaiting_review",
+      "evidence": [
+        {
+          "pathOrSystem": "AGENTS.md",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Build-first review explicitly leaves counsel and visual review as blockers for approved_for_live/live."
+        }
+      ],
+      "owner": "counsel, product owner, and designated family/mobile acceptors",
+      "activeBranch": null,
+      "exactNextAction": "Review final hosted-staging evidence and approve copy, adoption/currentness, accessibility, and phone/print presentation or select an approved terminal fallback.",
+      "dependencyIds": [
+        "hosted-staging-golden-journeys"
+      ],
+      "destructiveOrReversible": "read_only",
+      "blocksFreeze": false,
+      "blocksStaging": false,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    },
+    {
+      "blockerId": "production-authorization",
+      "title": "Production migrations, deployments, and nationwide flip are not authorized",
+      "category": "production_authorization",
+      "currentStatus": "awaiting_input",
+      "evidence": [
+        {
+          "pathOrSystem": "AGENTS.md",
+          "commitOrRun": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+          "fact": "Production deployment, live Supabase migrations, live-mode behavior, and production environment changes require Roger approval."
+        }
+      ],
+      "owner": "Roger",
+      "activeBranch": null,
+      "exactNextAction": "After 497/497, green hosted staging, operations floor, and human acceptance, authorize exact production sequence and the single nationwide public flip.",
+      "dependencyIds": [
+        "operations-floor",
+        "human-final-acceptance"
+      ],
+      "destructiveOrReversible": "destructive",
+      "blocksFreeze": false,
+      "blocksStaging": false,
+      "blocksLaunch": true,
+      "staleClaimRemoved": false
+    }
+  ],
+  "readinessCategories": {
+    "repository_ready": {
+      "count": 10,
+      "ids": [
+        "canonical-ledger-generated",
+        "crosswalk-zero-unresolved",
+        "ownership-zero-unowned",
+        "generic-coming-soon-zero",
+        "unsupported-sellable-zero",
+        "server-payment-code-present",
+        "consumer-binding-code-present",
+        "migration-sequence-prepared",
+        "manual-worker-publication-workflow-registered",
+        "route-kill-switch-code-present"
+      ]
+    },
+    "track_terminalization_in_flight": {
+      "count": 3,
+      "ids": [
+        "tracks-c-active-corrections",
+        "tracks-d-correction-cycle",
+        "tracks-b-e-remaining"
+      ]
+    },
+    "source_freeze_blocked": {
+      "count": 1,
+      "ids": [
+        "final-source-freeze"
+      ]
+    },
+    "environment_input_required": {
+      "count": 1,
+      "ids": [
+        "staging-environment-inputs"
+      ]
+    },
+    "deployment_required": {
+      "count": 4,
+      "ids": [
+        "final-worker-republication",
+        "final-application-deployment",
+        "final-worker-deployment",
+        "production-deployment"
+      ]
+    },
+    "hosted_staging_required": {
+      "count": 2,
+      "ids": [
+        "staging-migration-authorization",
+        "hosted-staging-golden-journeys"
+      ]
+    },
+    "human_acceptance_required": {
+      "count": 2,
+      "ids": [
+        "operations-floor",
+        "human-final-acceptance"
+      ]
+    },
+    "production_authorization_required": {
+      "count": 1,
+      "ids": [
+        "production-authorization"
+      ]
+    },
+    "stale_blockers_removed": {
+      "count": 5,
+      "ids": [
+        "stale-digest-final",
+        "stale-f1-final",
+        "stale-env-fixed",
+        "stale-d-integrated",
+        "stale-c-approval-terminal"
+      ]
+    }
+  },
+  "criticalPath": [
+    {
+      "step": 1,
+      "startCondition": "now",
+      "owner": "implementation/review lanes in parallel; Terminal A integrates",
+      "action": "Finish and integrate all C, D, B, and E track work; independent review; update canonical ledger to 497/497.",
+      "parallel": [
+        "C corrections",
+        "seven D correction shards",
+        "remaining B/E work"
+      ],
+      "returns": "canonical 497/497 ledger and zero launch-invariant gaps"
+    },
+    {
+      "step": 2,
+      "startCondition": "all implementation commits integrated",
+      "owner": "Terminal A/captain",
+      "action": "Declare final application/source freeze after exact-SHA checks and recompute image fingerprint.",
+      "parallel": [
+        "collect environment inputs and operational owners"
+      ],
+      "returns": "final application SHA and current fingerprint"
+    },
+    {
+      "step": 3,
+      "startCondition": "final freeze recorded",
+      "owner": "Terminal D publication operator",
+      "action": "Publish worker manually and capture/verify immutable registry digest.",
+      "parallel": [
+        "prepare named staging with controls disabled"
+      ],
+      "returns": "final source SHA plus sha256 registry digest"
+    },
+    {
+      "step": 4,
+      "startCondition": "final app SHA, digest, named targets, disabled controls, and Roger staging authorization",
+      "owner": "deployment/database operators",
+      "action": "Deploy app to named staging, apply exact 49→54 sequence, deploy digest-pinned worker with claims disabled.",
+      "parallel": [],
+      "returns": "deployment and migration read-back evidence"
+    },
+    {
+      "step": 5,
+      "startCondition": "named staging stack matches final SHA/digest",
+      "owner": "staging/QA operators",
+      "action": "Run all golden journeys, security/storage/email/mobile/rollback/queue evidence and owner phone acceptance.",
+      "parallel": [
+        "operations floor evidence",
+        "counsel/product review"
+      ],
+      "returns": "production-shaped staging acceptance bundle"
+    },
+    {
+      "step": 6,
+      "startCondition": "hosted staging, operations, counsel/product/visual acceptance all green",
+      "owner": "Roger authorizes; technical operators execute",
+      "action": "Authorize and execute exact production migrations/deployments with controls disabled; verify rollback floor.",
+      "parallel": [],
+      "returns": "production-ready stack still dark"
+    },
+    {
+      "step": 7,
+      "startCondition": "production stack verified, 497/497 remains true, explicit flip authorization recorded",
+      "owner": "Roger authorizes; launch operator executes",
+      "action": "Perform the single nationwide public flip for all 50 states plus DC.",
+      "parallel": [],
+      "returns": "nationwide live evidence and monitored rollback window"
+    }
+  ]
+}
