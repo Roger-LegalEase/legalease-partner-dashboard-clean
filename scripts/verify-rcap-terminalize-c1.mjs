@@ -145,6 +145,31 @@ function verifyPleadingArtifacts(job, slug, trackId, dir, { requireFullFixtures 
   assert(Array.isArray(cfg.primaryStatutoryAuthority) && cfg.primaryStatutoryAuthority.length > 0, `${label}: primaryStatutoryAuthority empty`);
   assert(Array.isArray(cfg.counselFlags), `${label}: counselFlags must be an array`);
 
+  // Where a source is silent the field stays null and the silence is recorded.
+  // Requiring a value here would force invention; requiring the record keeps
+  // the silence auditable.
+  const nullFields = [];
+  const walkNulls = (node, trail) => {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) return node.forEach((v, i) => walkNulls(v, `${trail}[${i}]`));
+    for (const [k, v] of Object.entries(node)) {
+      if (v === null) nullFields.push(trail ? `${trail}.${k}` : k);
+      else walkNulls(v, trail ? `${trail}.${k}` : k);
+    }
+  };
+  walkNulls(cfg, "");
+  if (nullFields.length > 0) {
+    const silences = doc.sourceSilences;
+    assert(Array.isArray(silences) && silences.length > 0,
+      `${label}: config carries ${nullFields.length} null field(s) but records no sourceSilences`);
+    if (Array.isArray(silences)) {
+      for (const entry of silences) {
+        assert(typeof entry.sourceIsSilentBecause === "string" && entry.sourceIsSilentBecause.length > 20,
+          `${label}: sourceSilences entry for ${entry.field} does not explain the silence`);
+      }
+    }
+  }
+
   const inventory = doc.componentInventory;
   assert(inventory && typeof inventory === "object", `${label}: componentInventory missing`);
   if (inventory) {
@@ -212,6 +237,7 @@ function verifyPleadingArtifacts(job, slug, trackId, dir, { requireFullFixtures 
         const qa = runPleadingQa({ config: cfg, renderResult: result, prohibitedTerms: prohibitedTermsFor(cfg, doc) });
         for (const f of qa.failures ?? []) failures.push(`${label}: canonical QA failure — ${f}`);
         scanRenderedText(label, result.fullText, fixtures.canonical);
+        scanRenderedForEscapedValues(label, result.fullText, doc);
         handleRenderedArtifacts(label, dir, result);
       }
     }
@@ -232,14 +258,28 @@ function verifyPleadingArtifacts(job, slug, trackId, dir, { requireFullFixtures 
         // signal alongside QA.
         const text = result.fullText ?? "";
         const cd = fixtures.negative.caseData ?? {};
-        const inventionSignal =
-          PROTECTED_PATTERNS.some((re) => re.test(text)) ||
-          Boolean(cd.docketNumber || cd.otn || cd.judgeName) ||
-          /prosecut\w+ (has no objection|consented|agrees)/i.test(text) ||
-          /the court (found|granted|ordered|determined)/i.test(text) ||
-          /(filing fee|fee of) \$?\d/i.test(text) ||
-          /(were|will be) destroyed/i.test(text);
-        failed = !qa.passed || inventionSignal;
+        const SIGNALS = {
+          protected_field_pattern: () => PROTECTED_PATTERNS.some((re) => re.test(text)),
+          protected_case_identifier: () => Boolean(cd.docketNumber || cd.otn || cd.judgeName),
+          outside_party_position_asserted: () => /prosecut\w+ (has no objection|consented|agrees)/i.test(text),
+          court_finding_asserted: () => /the court (found|granted|ordered|determined)/i.test(text),
+          unstated_fee_asserted: () => /(filing fee|fee of) \$?\d/i.test(text),
+          destruction_asserted: () => /(were|will be) destroyed/i.test(text)
+        };
+        const fired = Object.entries(SIGNALS).filter(([, fn]) => fn()).map(([name]) => name);
+        // The fixture must declare which signals its violations trip, and every
+        // declared signal must still fire. A negative fixture that quietly stops
+        // tripping its own signals is a regression, not a pass.
+        const declared = fixtures.negative.expectedSignals;
+        assert(Array.isArray(declared) && declared.length > 0,
+          `${label}: negative fixture must declare expectedSignals (vocabulary QA alone cannot see invented content)`);
+        if (Array.isArray(declared)) {
+          for (const sig of declared) {
+            assert(SIGNALS[sig], `${label}: negative fixture declares unknown signal ${sig}`);
+            assert(fired.includes(sig), `${label}: declared signal ${sig} did not fire`);
+          }
+        }
+        failed = !qa.passed || fired.length > 0;
       } catch {
         failed = true;
       }
@@ -276,6 +316,21 @@ function prohibitedTermsFor(cfg, doc) {
     if (!familyAllowed) prohibited.push(...terms.map((t) => t.trim()));
   }
   return prohibited;
+}
+
+// A rendered document must never contain a value that escaped as the literal
+// string "null", "undefined" or "NaN" — that is a runtime defect reaching a
+// document meant for a court. A track may declare the defect, which records it
+// and names its owner, but declaring is not fixing: see
+// docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md.
+function scanRenderedForEscapedValues(label, text, doc) {
+  const hits = [...String(text ?? "").matchAll(/(^|\s)(null|undefined|NaN),?\s*$/gm)].map((m) => m[2]);
+  if (hits.length === 0) return;
+  const declared = (doc.runtimeDefects ?? []).includes("renderer-null-presentation");
+  assert(declared,
+    `${label}: rendered document contains the literal value(s) ${[...new Set(hits)].join(", ")} and declares no runtimeDefect`);
+  assert(fs.existsSync(path.join(rootDir, "docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md")),
+    `${label}: declares renderer-null-presentation but the defect record is missing`);
 }
 
 function scanRenderedText(label, text, canonicalFixture) {
