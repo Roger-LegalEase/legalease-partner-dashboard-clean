@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T04:15:41.737Z",
+  "generatedBy": "terminal-d3-official-forms",
+  "jurisdiction": {
+    "code": "IA",
+    "slug": "iowa"
+  },
+  "ledgerJob": "T-D-IA-production-packet",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "files": {
+      "data/record-clearing/legal-design-track-registry.json": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+      "data/record-clearing/legal-design-track-source-relationships.json": "8376337488a0e07eb0b476f7623bfbb623272d167ecd15b23c93cbb47922b826"
+    }
+  },
+  "sourcePresenceInClone": false,
+  "families": [
+    {
+      "slug": "dci-77-record-check-request",
+      "formId": "DCI-77 (with DCI-76 billing form)",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "fail_closed",
+        "reason": "source binary absent from the Nationwide inventory in committed evidence"
+      },
+      "censusFieldCount": 0,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/iowa/dci-77-record-check-request"
+    }
+  ],
+  "trackFamilyMap": {
+    "ia-dci77": [
+      "dci-77-record-check-request"
+    ]
+  },
+  "trackReadiness": {
+    "ia-dci77": {
+      "state": "blocked",
+      "reason": "Fillable DCI-76/DCI-77 record-check forms PDF absent from the Nationwide inventory — fail closed pending operator-supplied official binary with hash."
+    }
+  }
+}
