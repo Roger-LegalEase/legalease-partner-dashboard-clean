@@ -1,0 +1,46 @@
+{
+  "fixtureId": "negative",
+  "description": "Rejection fixture. This is the lane C1 failure mode reproduced deliberately: every sentence below is content the source does not supply, and runPleadingQa passes it anyway because QA reads relief vocabulary, template grade, the footer and seal markers — never truth. The invention/protected-field scanner is what must reject it.",
+  "statedFailureReason": "The fixture fabricates a court finding under NRS 179.245/179.255, asserts that the district attorney does not object and has stipulated, states a filing fee the Nevada source does not establish, asserts completed service on a date, and populates the protected docket number and OTN fields. None of this is in the committed Nevada evidence. It must be rejected as invention, and it is recorded here as proof that QA alone cannot reject it.",
+  "expectations": {
+    "qaPassed": true,
+    "expectedSignalClass": "invention",
+    "expectedSignal": "court_finding_asserted",
+    "alsoExpectedSignals": [
+      "prosecutor_position_asserted",
+      "monetary_amount_asserted",
+      "service_completion_asserted",
+      "protected_case_field_populated",
+      "docket_number_asserted"
+    ]
+  },
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Negative Sample"
+    },
+    "caseData": {
+      "countyName": "Clark",
+      "docketNumber": "A-22-999999-C",
+      "otn": "NV0021847733",
+      "judgeName": "the Honourable Pat Example"
+    },
+    "chargeData": {
+      "chargeDescription": "Possession of stolen property",
+      "disposition": "Dismissed",
+      "dispositionDate": "05/01/2023",
+      "arrestDate": "01/15/2022",
+      "arrestingAgency": "Las Vegas Metropolitan Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Consolidated sealing of more than one Nevada record held within this county under NRS 179.2595",
+      "additionalFacts": [
+        "The Court finds that Petitioner has satisfied every requirement of NRS 179.245 and NRS 179.255 and that the records are eligible for sealing.",
+        "The district attorney does not object to this Petition and has stipulated to the relief requested.",
+        "Petitioner paid the filing fee of $450 to the clerk of the district court on 02/14/2026.",
+        "A copy of this Petition was duly served on the prosecuting agency on 03/01/2026, and service was completed that day."
+      ]
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}
