@@ -36,6 +36,7 @@
       "A copy of the sealing order or the pardon is required before sending, because § 1500-CC(2) makes prompt deletion mandatory only where the disputed record is found to be sealed or the subject of a pardon.",
       "The packet neither pleads, demands, threatens nor calculates the § 1500-EE(3) statutory remedy ($1,000 or actual damages, costs, attorney's fees); that is litigation and outside self-help.",
       "Whether a given entity meets the 'business screening service' definition in § 1500-AA is a participant question that may need attorney review; government entities and the news media are excluded.",
+      "Verification: the source records that the participant signs the letter and that notarization is none, and states no verification statute; verificationStatute.citation is left null and the letter carries an ordinary signature and date block the sender completes personally.",
       "The vendor's dispute address is published by the vendor and varies; where the participant cannot find it the field stays blank with instructions to obtain it, never guessed.",
       "Chapter 239 (10 M.R.S. §§ 1500-AA through 1500-EE) was enacted by PL 2025, c. 513, § 1 and is effective 29 July 2026; confirm effective-date posture at send time.",
       "Attorney handoff triggers: vendor non-response after thirty days of receipt; a frivolousness determination the participant disputes; any interest in damages; any parallel Fair Credit Reporting Act claim; a dispute about accuracy where the record was never sealed and the true record must be established."
@@ -77,6 +78,20 @@
     ]
   },
   "qaProhibitedTerms": ["petition", "pleading", "expungement", "expunge", "WHEREFORE"],
+  "sourceSilences": [
+    {
+      "field": "verificationStatute.citation",
+      "sourceStatement": "Participant signs; notarization none.",
+      "note": "The source records the sender's signature and records notarization as none, but names no verification statute for a dispute letter to a private company, so config.verificationStatute.citation stays null and the letter carries an ordinary signature and date block. Nothing is sworn and LegalEase never signs the letter.",
+      "counselFlag": "Verification: the source records that the participant signs the letter and that notarization is none, and states no verification statute; verificationStatute.citation is left null and the letter carries an ordinary signature and date block the sender completes personally."
+    },
+    {
+      "field": "serviceNote",
+      "sourceStatement": "No service (no opposing party); nothing is filed with any court.",
+      "note": "There is no service rule to state on this route: the sender posts the letter to the vendor's published dispute address in a way that lets receipt be evidenced. config.serviceNote stays null, includeCertificateOfService is false and the certificate_of_service component is recorded absent rather than drafted from a borrowed litigation rule.",
+      "counselFlag": "This letter is correspondence to a private business screening service, not a court pleading, and the packet must describe it that way. There is no court, no caption, no service of process and nothing is filed anywhere."
+    }
+  ],
   "componentInventory": [
     { "component": "caption", "status": "absent", "reason": "This is correspondence to a private company, not a court pleading; no caption exists. Sender and addressee blocks stand in its place." },
     { "component": "case_number_block", "status": "absent", "reason": "Nothing is filed with any court; the vendor's report reference, where one exists, is carried in the letter body." },
