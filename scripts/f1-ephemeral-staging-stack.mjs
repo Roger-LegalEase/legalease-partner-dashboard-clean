@@ -68,6 +68,7 @@ const REQUIRED_CASES = [
   "corruption_detected",
   "worker_digest_runs_and_drains",
   "route_disabled_by_default",
+  "scoped_refused_in_production_runtime",
   "route_scoped_refuses_outsiders",
   "rollback_restores_disabled"
 ];
@@ -402,15 +403,42 @@ let itemA = null;
     `no flag: authenticated=${authDisabled.status} ("${authDisabled.reason.slice(0, 60)}"), anonymous=${anonDisabled.status} — both refusals, 503 proves the control (not auth) answered`
   );
 
+  // isProductionRuntime() in consumer-delivery-control.ts treats
+  // NODE_ENV=production as a production runtime, and `next start` defaults
+  // NODE_ENV to production — so a production-built runtime that does NOT
+  // declare itself a staging environment refuses staging_scoped outright,
+  // even for an identity the scope names. Run 31574433046 observed exactly
+  // this; it is the control's fail-closed design, so it is asserted as a
+  // required case rather than worked around silently.
+  await killApp();
+  const upScopedProd = await startApp(
+    { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "staging_scoped", RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: `${A().id},f1-scope-2` },
+    "app-scoped-prod.log"
+  );
+  const authScopedProd = await probeRender(true);
+  record(
+    "scoped_refused_in_production_runtime",
+    upScopedProd && authScopedProd.status === 503,
+    `staging_scoped under NODE_ENV=production: in-scope authenticated A=${authScopedProd.status} — a production runtime refuses the scoped state even for a named identity (fail-closed)`
+  );
+
   // The scope names user A's real identity, so the states are fully
   // distinguishable by behaviour, not by message text: A (in scope, unpaid
   // item) passes the delivery gate and is refused by the PAYMENT gate (402);
   // an anonymous outsider stays 401; and under disabled/rollback even A gets
   // 503. A 402 here is the strongest possible proof the scoped state admitted
   // exactly its named identity and that the payment gate still holds behind it.
+  // NODE_ENV=test is the runner declaring what it is — an ephemeral staging
+  // environment, not production. Next.js keeps an explicitly-set NODE_ENV
+  // (`process.env.NODE_ENV = process.env.NODE_ENV || defaultEnv`), so the
+  // production build still serves; only the runtime designation changes.
   await killApp();
   const upScoped = await startApp(
-    { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "staging_scoped", RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: `${A().id},f1-scope-2` },
+    {
+      NODE_ENV: "test",
+      RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "staging_scoped",
+      RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: `${A().id},f1-scope-2`
+    },
     "app-scoped.log"
   );
   const anonScoped = await probeRender(false);
