@@ -773,7 +773,11 @@ const writeJson = (p, v) => { fs.mkdirSync(path.dirname(p), { recursive: true })
 // previous run left behind: a stale filled PDF beside a hold reads as a fill.
 function removeStale(familyDir, keep) {
   for (const rel of ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf",
-    "contact-sheet/blank-vs-filled.pdf", "contact-sheet/contact-sheet-proof.json"]) {
+    "contact-sheet/blank-vs-filled.pdf", "contact-sheet/contact-sheet-proof.json",
+    // A negative fixture describes the refusals of a render that happened. On
+    // a family that no longer renders, the one left behind describes a fill
+    // that must not have occurred, so it goes too and is rewritten below.
+    "fixtures/negative.json"]) {
     if (keep.has(rel)) continue;
     const p = path.join(familyDir, rel);
     if (fs.existsSync(p)) fs.rmSync(p);
@@ -1177,6 +1181,7 @@ async function buildFamily(state, row, mode) {
         assertion: "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
         refusedFields: rendered.canonical.report.refused
       });
+      keep.add("fixtures/negative.json");
 
       const sheet = await buildContactSheet({
         blankBytes: bytes,
@@ -1230,6 +1235,24 @@ async function buildFamily(state, row, mode) {
     };
     findings.push({ check: "non_filing_hold_enforced", notice: nonFiling.notice, finalizerRefused: refused });
     if (!refused) findings.push({ check: "non_filing_hold_not_enforced_by_finalizer" });
+  }
+
+  // A family that produces no artifact still carries a negative fixture, and
+  // for it the assertion is stronger: not "nothing is written without facts"
+  // but "nothing is written at all, with facts or without".
+  if (!fs.existsSync(path.join(familyDir, "fixtures/negative.json"))) {
+    writeJson(path.join(familyDir, "fixtures/negative.json"), {
+      schemaVersion: "rcap-negative-fixture/v4-typed",
+      level: "participant_fact",
+      assertion: held
+        ? "This document states on its own face that it must not be completed for filing. No value is written into it under any fact set, and the finalizer refuses when handed the notice the document prints."
+        : instructional
+          ? "This document is read rather than filed, so no participant fill is produced under any fact set."
+          : "No field on this document resolved to a safe binding, so nothing is written under any fact set.",
+      holdReason: held ? "source_states_do_not_complete_for_filing" : instructional ? "instructional_document" : "no_safe_binding_resolved",
+      refusedFields: bindingRefusals,
+      artifactsProduced: []
+    });
   }
 
   // --- source-drift proof ----------------------------------------------------
@@ -1584,6 +1607,10 @@ function verifyLane() {
         for (const rel of ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"]) {
           assert(!fs.existsSync(path.join(dir, rel)), `${id}: held document produced no ${rel}`);
         }
+        const negative = readJson(path.join(dir, "fixtures/negative.json"));
+        assert(negative.holdReason === "source_states_do_not_complete_for_filing",
+          `${id}: the negative fixture states the hold rather than describing a fill`);
+        assert((negative.artifactsProduced ?? []).length === 0, `${id}: the negative fixture claims no artifact`);
         assert((map.bindings ?? []).length === 0, `${id}: held document binds nothing`);
         assert((map.anchorCapture?.anchors ?? []).length === 0, `${id}: held document places no anchor`);
       }
@@ -1630,6 +1657,13 @@ function verifyLane() {
         for (const rel of ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"]) {
           assert(fs.existsSync(path.join(dir, rel)), `${id}: ${rel} rendered`);
         }
+        // A family that rendered must carry the render's own negative fixture,
+        // not the stand-in written for families that produce nothing.
+        const negative = readJson(path.join(dir, "fixtures/negative.json"));
+        assert(negative.holdReason === undefined,
+          `${id}: the negative fixture is the render's, not a no-fill stand-in`);
+        assert(Array.isArray(negative.refusedFields) && negative.refusedFields.length > 0,
+          `${id}: the negative fixture records the refusals the render made`);
       }
 
       // Determinism, drift and the mutation set.
