@@ -13,10 +13,19 @@
 // proves, by decoding that content, that the expected values are actually
 // there. If the two panels come back identical while values were expected, the
 // sheet is refused rather than written.
+//
+// The sheet is also a distributed artifact in its own right, not a preview of
+// one. `embedPdf` copies a source page together with everything it references,
+// so embedding an unsanitized blank form carries that form's widgets, their
+// /AA additional-action dictionaries and their /JS scripts into the sheet --
+// unreachable from the page tree, but present in the bytes. Both panels are
+// therefore sanitized before they are embedded, and the finished sheet is
+// sanitized and proven clean before it is returned.
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
 import { extractTextItems, groupIntoLines } from "./rcap-pdf-anchor-capture.mjs";
 import { DETERMINISTIC_STAMP } from "./rcap-official-form-finalize.mjs";
+import { sanitizeAndFlatten, assertInspectableAndClean, scanBytesForActiveContent } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
@@ -69,10 +78,27 @@ export async function buildContactSheet({
   finalizedBytes,
   expectedValues = [],
   heading = "blank (left) vs finalized fill (right)",
-  scale = 0.62
+  scale = 0.62,
+  artifactLabel = "contact sheet"
 }) {
-  const blankDoc = await PDFDocument.load(blankBytes, { ignoreEncryption: true });
-  const finalDoc = await PDFDocument.load(finalizedBytes, { ignoreEncryption: true });
+  // The blank panel is the untouched official form, so it arrives carrying
+  // whatever the issuing authority put in it: widget scripts, document
+  // actions, an XFA packet. Sanitizing it here means the sheet embeds the same
+  // printed appearance without also embedding the machinery behind it. The
+  // finalized artifact is already clean; running it through the same pass is
+  // cheap and removes any question of which panel a residue marker came from.
+  const blankPanel = await sanitizedPanel(blankBytes);
+  const finalPanel = await sanitizedPanel(finalizedBytes);
+  // Recorded from the bytes actually embedded, not from the intent to sanitize
+  // them. Rebuilding the composed sheet would clean it either way, so without
+  // this the panel step could be removed and nothing downstream would notice.
+  const panelScans = {
+    blank: scanBytesForActiveContent(blankPanel),
+    finalized: scanBytesForActiveContent(finalPanel)
+  };
+
+  const blankDoc = await PDFDocument.load(blankPanel, { ignoreEncryption: true });
+  const finalDoc = await PDFDocument.load(finalPanel, { ignoreEncryption: true });
 
   const blankText = visibleTextOfDocument(blankDoc);
   const finalText = visibleTextOfDocument(finalDoc);
@@ -99,8 +125,8 @@ export async function buildContactSheet({
   const font = await sheet.embedFont(StandardFonts.Helvetica);
   const pageCount = Math.min(blankDoc.getPageCount(), finalDoc.getPageCount());
   for (let i = 0; i < pageCount; i += 1) {
-    const [bp] = await sheet.embedPdf(blankBytes, [i]);
-    const [fp] = await sheet.embedPdf(finalizedBytes, [i]);
+    const [bp] = await sheet.embedPdf(blankPanel, [i]);
+    const [fp] = await sheet.embedPdf(finalPanel, [i]);
     const W = bp.width, H = bp.height, gap = 24, margin = 28, header = 34;
     const page = sheet.addPage([W * scale * 2 + gap + margin * 2, H * scale + margin * 2 + header]);
     page.drawText(`${heading} — page ${i + 1} of ${pageCount}`,
@@ -111,7 +137,17 @@ export async function buildContactSheet({
 
   sheet.setCreationDate(DETERMINISTIC_STAMP);
   sheet.setModificationDate(DETERMINISTIC_STAMP);
-  const bytes = await sheet.save();
+
+  // The sheet composes two already-clean panels, but embedPdf reaches into
+  // each source document to copy what a page references, so the composed file
+  // is scanned on its own account rather than trusted because its inputs were.
+  // Object streams are off for the same reason the finalized artifact turns
+  // them off: a scan that cannot see the bytes cannot judge them.
+  const { clean: cleanSheet } = await sanitizeAndFlatten(sheet, { alreadyFlattened: true });
+  cleanSheet.setCreationDate(DETERMINISTIC_STAMP);
+  cleanSheet.setModificationDate(DETERMINISTIC_STAMP);
+  const bytes = await cleanSheet.save({ useObjectStreams: false });
+  const activeContentScan = assertInspectableAndClean(bytes, artifactLabel);
 
   return {
     bytes,
@@ -121,8 +157,30 @@ export async function buildContactSheet({
       expectedValues: [...new Set(expectedValues)],
       allExpectedValuesVisible: true,
       panelsDiffer: true,
+      panelsSanitizedBeforeEmbedding: panelScans.blank.clean && panelScans.finalized.clean,
+      panelScans,
+      activeContentScan,
       finalizedSha256: crypto.createHash("sha256").update(finalizedBytes).digest("hex"),
       sheetSha256: crypto.createHash("sha256").update(bytes).digest("hex")
     }
   };
+}
+
+/**
+ * Sanitizes one panel before it is embedded.
+ *
+ * The panel is already a rendered page -- the blank source as issued, or the
+ * finalized artifact -- so it is not flattened again; flattening a finalized
+ * artifact would be a no-op and flattening the blank one would materialize the
+ * empty field appearances the left-hand panel exists to show. What this does
+ * remove is everything the sheet has no business carrying: XFA, document and
+ * field actions, active annotation subtypes, and any annotation that is not
+ * part of the printed appearance.
+ */
+async function sanitizedPanel(bytes) {
+  const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+  const { clean } = await sanitizeAndFlatten(doc, { alreadyFlattened: true });
+  clean.setCreationDate(DETERMINISTIC_STAMP);
+  clean.setModificationDate(DETERMINISTIC_STAMP);
+  return clean.save({ useObjectStreams: false });
 }
