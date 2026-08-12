@@ -543,7 +543,6 @@ let itemA = null;
   await killApp();
 }
 
-finish();
 
 function gitHead() {
   try { return execFileSync("git", ["rev-parse", "HEAD"], { cwd: rootDir, encoding: "utf8" }).trim(); }
@@ -647,3 +646,9 @@ function finish(forceExit = null) {
   }
   console.log(`\nF1 stack layer: ${verdicts.size}/${REQUIRED_CASES.length} required cases green on the disposable stack.`);
 }
+
+// Invoked last: every const above (SECRET_PATTERN included) is initialized
+// before finish() scrubs and prints the marked evidence block. Run 31592551645
+// proved the cost of calling it earlier: 16/16 cases green, then a TDZ crash
+// in the epilogue took the run red.
+finish();
