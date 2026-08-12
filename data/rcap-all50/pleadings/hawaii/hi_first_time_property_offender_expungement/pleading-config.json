@@ -1,0 +1,89 @@
+{
+  "config": {
+    "jurisdictionCode": "HI",
+    "trackId": "hi_first_time_property_offender_expungement",
+    "templateGrade": "legal_ops_custom_pleading",
+    "templateLifecycle": "replacement_candidate",
+    "primaryReliefTerm": "expungement",
+    "documentTitleFull": "MOTION FOR ORDER EXPUNGING THE RECORD OF CONVICTION (FIRST-TIME PROPERTY OFFENDER) PURSUANT TO HRS § 706-622.9, WITH DECLARATION UNDER HAW. R. PENAL P. 47(d)",
+    "courtCaption": "IN THE [COURT THAT ENTERED THE JUDGMENT — CONFIRM THE COURT NAME FROM THE COURT RECORD], STATE OF HAWAII",
+    "primaryStatutoryAuthority": [
+      {
+        "citation": "HRS § 706-622.9",
+        "description": "Conviction expungement for a first-time property offender. The grant is mandatory once the statutory findings are made — 'shall issue ... provided that (a) through (d)' — but two of the four provisos are findings the court makes, so the outcome is not mechanical; where the court cannot make the paragraph (b) finding it may nevertheless order expungement on finding successful completion of a substance abuse treatment program. This relief must not be described as automatic."
+      },
+      {
+        "citation": "Haw. R. Penal P. 47(a)",
+        "description": "'An application to the court for an order shall be by motion' — the stage-one vehicle is a written motion in the participant's own existing penal case, filed in the court that sentenced or convicted them; the Rules of Penal Procedure govern because Rule 54(a) applies them to all penal proceedings."
+      }
+    ],
+    "verificationStatute": {
+      "citation": "Haw. R. Penal P. 47(d)",
+      "description": "Rule 47(d) permits an unsworn declaration in lieu of an affidavit, subscribed as true under penalty of law and dated, which removes any notarization requirement from the stage-one filing."
+    },
+    "includeProposedOrder": true,
+    "includeCertificateOfService": true,
+    "serviceNote": "Haw. R. Penal P. 49(a): all written submissions to the court shall be served upon each of the parties promptly after filing. The prosecuting attorney is a party to the underlying penal case and is served under that rule. Proof of service is required by Haw. R. Penal P. 49(c), so a certificate of service is part of the stage-one filing.",
+    "counselFlags": [
+      "Packet copy must not describe subsection (4) relief as automatic: two of the four provisos are court findings, and the substance-abuse-treatment fallback is the only discretionary grant among the five stage-one statutes.",
+      "The sentencing date decides which subsection applies; the participant reads the case number and sentencing date from their own court record — LegalEase does not obtain or review the court record.",
+      "Stage two (HCJDC 159(b) Expungement Application to the Hawaii Criminal Justice Data Center, with a copy of the signed order attached) is an official form outside this packet: do not submit stage two until the court signs the stage-one order. An HCJDC application fee applies at stage two.",
+      "No fee is prescribed by the statute for the stage-one motion and the Judiciary publishes no filing fee for a motion filed in an existing penal case; clerk cost practice remains a release-level open question — confirm with the clerk.",
+      "No fee-waiver form is part of this packet: Haw. R. Penal P. Form B is the companion to the Rule 40 post-conviction petition, not an expungement component.",
+      "No statutory notice requirement exists; the only notice is Rule 49 service of the filed motion on the parties, including the prosecuting attorney.",
+      "Venue follows the offence and is a participant input, not a track constant; the caption's court name must be confirmed from the participant's own court record.",
+      "Self-help stop conditions: any prior or subsequent felony conviction in any jurisdiction; a contested nonviolence finding under subsection (4)(d); the discretionary substance-abuse fallback in play; prosecutor opposition or a contested hearing; any immigration matter.",
+      "The pinned registry records that nothing in the source makes the Hawaii implementation runtime-ready; this packet is build output for review, not live routing."
+    ],
+    "presentation": {
+      "sovereignPartyName": "STATE OF HAWAII",
+      "sovereignPartyProper": "the State of Hawaii",
+      "sovereignRole": "Plaintiff",
+      "movantRole": "Defendant",
+      "filingNoun": "Motion",
+      "divisionLine": "",
+      "usesCounty": false,
+      "courtName": "court of the State of Hawaii that entered the judgment in the underlying penal case ({county})",
+      "venueDescriptor": "{county}, State of Hawaii",
+      "recordCustodianLead": "The court that entered the judgment and the Hawaii Criminal Justice Data Center",
+      "verificationVerb": "declare",
+      "verificationPenaltyLabel": "the penalty of law applicable to false statements in an unsworn declaration",
+      "serviceRecipientLabel": "the prosecuting attorney (a party to the underlying penal case, served under Haw. R. Penal P. 49(a))",
+      "serviceRecipientAddressLabel": "[PROSECUTING ATTORNEY ADDRESS — CONFIRM WITH THE CLERK OF THE SENTENCING COURT]",
+      "movantFirstInCaption": false,
+      "reliefActionVerb": "expunge",
+      "orderActionVerb": "expunge",
+      "recordsScopePhrase": "the record of conviction in this case"
+    }
+  },
+  "qaProhibitedTerms": ["sealing", "set aside", "set-aside", "annulment", "vacatur"],
+  "componentInventory": [
+    { "component": "caption", "status": "present", "sectionId": "court_caption", "notes": "Filed in the existing penal case; the court name is a confirm bracket because venue follows the offence and is a participant input." },
+    { "component": "case_number_block", "status": "present", "sectionId": "case_number_block", "notes": "Case number is read by the participant from their own court record; stays a confirm bracket in canonical output." },
+    { "component": "court_party_identity", "status": "present", "sectionId": "parties" },
+    { "component": "title", "status": "present", "sectionId": "document_title" },
+    { "component": "allegations", "status": "present", "sectionId": "facts_case_history" },
+    { "component": "statutory_basis", "status": "present", "sectionId": "statutory_authority" },
+    { "component": "eligibility_allegations", "status": "present", "sectionId": "eligibility_allegations", "notes": "First-property-offence status and sentence completion are participant-supplied answers per the registry generation requirements." },
+    { "component": "requested_relief", "status": "present", "sectionId": "requested_relief" },
+    { "component": "verification", "status": "present", "sectionId": "verification_signature", "notes": "Haw. R. Penal P. 47(d) unsworn declaration; no notarization." },
+    { "component": "signatures", "status": "present", "sectionId": "verification_signature" },
+    { "component": "proposed_order", "status": "present", "sectionId": "proposed_order", "notes": "Registry proposed_order component; the participant attaches it for the court's signature." },
+    { "component": "certificate_of_service", "status": "present", "sectionId": "certificate_of_service", "notes": "Haw. R. Penal P. 49(a)/(c): service on the prosecuting attorney with proof of service." },
+    { "component": "notice_or_affidavit", "status": "absent", "reason": "No statutory notice requirement exists on any of the five stage-one routes; the Rule 47(d) declaration replaces any affidavit." },
+    { "component": "stage_two_hcjdc_application", "status": "blocked_dependency", "reason": "Stage-two component is official form HCJDC-159B (Expungement Application to the Hawaii Criminal Justice Data Center), outputStrategy official_pdf_fill — lane D/E scope. Lane C2 does not draft official-form replicas. Participant instructions carry the do-not-submit-until-order guidance and the order-reference manual-completion items.", "notes": "Exact dependency: officialFormId HCJDC-159B, submitted with a copy of the signed stage-one order attached; HCJDC application fee applies." },
+    { "component": "participant_cover_sheet", "status": "present", "location": "participant-instructions.md" },
+    { "component": "filing_instructions", "status": "present", "location": "participant-instructions.md" }
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/hawaii/index.ts",
+      "src/lib/rcap/state-packs/hawaii/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "fingerprint": "8dcbb9df659073834240a7824b092568e6baba5978ee0fd7e992a92db500e79e",
+    "registryAuthority": ["HRS § 706-622.9"],
+    "registryExcerpt": "Two stages, both settled. Stage one is a written motion in the participant's own existing penal case, filed in the court that sentenced or convicted them, seeking a court order expunging the record of conviction; stage two is the HCJDC 159(b) Expungement Application submitted to the Hawaii Criminal Justice Data Center with a copy of that order attached. The stage-one vehicle is fixed by Haw. R. Penal P. 47(a) ('An application to the court for an order shall be by motion'); Rule 54(a) applies the Rules of Penal Procedure to all penal proceedings. Subsection (4) is mandatory once the findings are made — 'shall issue ... provided that (a) through (d)' — but two of the four are findings the court makes; where the court cannot make the paragraph (b) finding it 'may nevertheless' order expungement on finding successful completion of a substance abuse treatment programme; the packet copy must not describe subsection (4) relief as automatic. No official statewide Hawaii Judiciary expungement form exists for stage one in any circuit, so a controlled custom pleading is permitted and is the only available strategy. Venue follows the offence and is a participant input. Service: Haw. R. Penal P. 49(a) service on each party (the prosecuting attorney is a party), proof of service required by Haw. R. Penal P. 49(c). Verification: Haw. R. Penal P. 47(d) unsworn declaration in lieu of affidavit, subscribed as true under penalty of law and dated; no notarization. Fees: none prescribed for stage one; clerk cost practice is a release-level open question; an HCJDC application fee applies at stage two. Fee waiver: Haw. R. Penal P. Form B is not a component of an expungement packet."
+  }
+}
