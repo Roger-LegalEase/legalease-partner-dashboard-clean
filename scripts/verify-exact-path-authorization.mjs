@@ -41,6 +41,14 @@ function fileHash(p) {
 
 function setupSandbox() {
   fs.mkdirSync(path.join(sandbox, "scripts"), { recursive: true });
+fs.mkdirSync(path.join(sandbox, "scripts/lib"), { recursive: true });
+// The scope guard now recovers a stranded mutation journal before reading the
+// tree, so the sandbox needs the guard module too. In here it is a no-op: a
+// throwaway git repo has no canonical mutation lock to respect.
+fs.copyFileSync(
+  path.join(realRoot, "scripts/lib/tracked-mutation-guard.mjs"),
+  path.join(sandbox, "scripts/lib/tracked-mutation-guard.mjs")
+);
   fs.mkdirSync(path.join(sandbox, "supabase/tests"), { recursive: true });
   fs.mkdirSync(path.join(sandbox, "data"), { recursive: true });
 
