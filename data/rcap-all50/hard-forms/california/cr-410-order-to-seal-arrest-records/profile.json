@@ -43,7 +43,7 @@
   ],
   "strategy": {
     "tier": "tier_1_hybrid_widget_shadow",
-    "rationale": "XFA source with a widget shadow. Proposed order: caption only, every finding and sealing directive left for the court."
+    "rationale": "XFA source with a widget shadow. Proposed order: the petitioner completes only the item-1 identity block the form assigns to them; the caption stamp blocks are the clerk’s, and every finding, the sealing directive and the judicial signature are the court’s."
   },
   "officialSource": {
     "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-410__order-to-seal-arrest-and-related-records__REV-2019-01-01__EN.pdf",
@@ -73,49 +73,135 @@
     "CR-410"
   ],
   "protectedFields": [
+    "CR-410[0].Page1[0].#area[4].Print_bt[0]",
+    "CR-410[0].Page1[0].#area[4].Reset_bt[0]",
+    "CR-410[0].Page1[0].#area[4].Save_bt[0]",
+    "CR-410[0].Page1[0].#area[4].T23[1]",
     "CR-410[0].Page1[0].CheckBox15[0]",
+    "CR-410[0].Page1[0].CheckBox2[0]",
+    "CR-410[0].Page1[0].Deniedpetition[0]",
+    "CR-410[0].Page1[0].Deniedpetition[1]",
+    "CR-410[0].Page1[0].Deniedpetition[2]",
+    "CR-410[0].Page1[0].Deniedpetition[3]",
     "CR-410[0].Page1[0].FillText6[0]",
     "CR-410[0].Page1[0].FillText6[1]",
     "CR-410[0].Page1[0].FillText6[2]",
     "CR-410[0].Page1[0].FillText6[3]",
-    "CR-410[0].Page1[0].Deniedpetition[0]",
-    "CR-410[0].Page1[0].Deniedpetition[1]",
-    "CR-410[0].Page1[0].CheckBox2[0]",
     "CR-410[0].Page1[0].FillText6[4]",
-    "CR-410[0].Page1[0].Deniedpetition[2]",
-    "CR-410[0].Page1[0].Deniedpetition[3]",
     "CR-410[0].Page1[0].FillText6[5]",
-    "CR-410[0].Page1[0].T186[0]",
-    "CR-410[0].Page1[0].T186[1]",
-    "CR-410[0].Page1[0].T186[2]",
-    "CR-410[0].Page1[0].FillText38[0]",
-    "CR-410[0].Page1[0].FillText38[1]",
-    "CR-410[0].Page1[0].FillText37[0]",
-    "CR-410[0].Page1[0].FillText37[1]",
-    "CR-410[0].Page1[0].#area[4].Print_bt[0]",
-    "CR-410[0].Page1[0].#area[4].Save_bt[0]",
-    "CR-410[0].Page1[0].#area[4].Reset_bt[0]",
-    "CR-410[0].Page1[0].#area[4].T23[1]"
+    "CR-410[0].Page1[0].Stamp_court_case[0].CaseNumber[0]",
+    "CR-410[0].Page1[0].Stamp_court_case[0].CourtInfo_ft[0]",
+    "CR-410[0].Page1[0].Stamp_court_case[0].TCCaseName_ft[0]"
   ],
-  "legalIntegrityDisposition": "Caption-only completion. Findings, the sealing directive and the judicial signature are protected, so the packet never asserts that relief was granted.",
+  "legalIntegrityDisposition": "The participant is identified exactly where the official form asks for it and nowhere else. Clerk-labelled blocks stay blank because the form says the clerk completes them; findings, the sealing directive and the judicial signature stay blank because they are the court’s.",
   "bindings": [
     {
-      "field": "CR-410[0].Page1[0].Stamp_court_case[0].CourtInfo_ft[0]",
-      "factKey": "courtName",
+      "field": "CR-410[0].Page1[0].T186[0]",
+      "factKey": "participantLastName",
       "kind": "text",
-      "maxLen": 70
+      "maxLen": 28,
+      "printedLabelMustContain": "Last"
     },
     {
-      "field": "CR-410[0].Page1[0].Stamp_court_case[0].CaseNumber[0]",
-      "factKey": "caseNumber",
+      "field": "CR-410[0].Page1[0].T186[1]",
+      "factKey": "participantFirstName",
       "kind": "text",
-      "maxLen": 40
+      "maxLen": 28,
+      "printedLabelMustContain": "First"
     },
     {
-      "field": "CR-410[0].Page1[0].Stamp_court_case[0].TCCaseName_ft[0]",
-      "factKey": "caseName",
+      "field": "CR-410[0].Page1[0].T186[2]",
+      "factKey": "participantMiddleInitial",
       "kind": "text",
-      "maxLen": 70
+      "maxLen": 4,
+      "printedLabelMustContain": "Middle"
+    },
+    {
+      "field": "CR-410[0].Page1[0].FillText38[0]",
+      "factKey": "participantStreet",
+      "kind": "text",
+      "maxLen": 60,
+      "printedLabelMustContain": "Street"
+    },
+    {
+      "field": "CR-410[0].Page1[0].FillText38[1]",
+      "factKey": "participantCity",
+      "kind": "text",
+      "maxLen": 32,
+      "printedLabelMustContain": "City"
+    },
+    {
+      "field": "CR-410[0].Page1[0].FillText37[0]",
+      "factKey": "participantState",
+      "kind": "text",
+      "maxLen": 2,
+      "printedLabelMustContain": "State"
+    },
+    {
+      "field": "CR-410[0].Page1[0].FillText37[1]",
+      "factKey": "participantZip",
+      "kind": "text",
+      "maxLen": 10,
+      "printedLabelMustContain": "Zip"
     }
-  ]
+  ],
+  "clerkOnlyFields": {
+    "fields": [
+      "CR-410[0].Page1[0].Stamp_court_case[0].CourtInfo_ft[0]",
+      "CR-410[0].Page1[0].Stamp_court_case[0].CaseNumber[0]",
+      "CR-410[0].Page1[0].Stamp_court_case[0].TCCaseName_ft[0]"
+    ],
+    "printedInstruction": [
+      "Clerk fills in the name and street address of the court.",
+      "Clerk fills in the number and name of the case.",
+      "Clerk stamps date here when form is filed."
+    ],
+    "finding": "F2-15. These three widgets sit directly beneath the form’s own clerk instructions and were previously bound, while the petitioner’s item-1 identity block was classified protected and rendered blank. The fill was inverted: the order shipped with the petitioner unidentified and the clerk’s blocks pre-completed."
+  },
+  "checkoutProhibited": true,
+  "participantFacingStrings": {
+    "en": {
+      "formPurpose": "CR-410 is the order the judge signs if your petition to seal is granted. You file it with CR-409 showing only your name and mailing address.",
+      "whatYouDo": "Fill in nothing else. The clerk completes the court and case blocks; the judge decides and signs.",
+      "whatWeDoNotDo": "LegalEase never completes a clerk block, never marks a finding, and never fills the judge’s signature or date.",
+      "noCheckout": "This form is not available for purchase. It is prepared for review only."
+    },
+    "es": {
+      "formPurpose": "El CR-410 es la orden que el juez firma si se concede su peticion de sellar. Se presenta con el CR-409 mostrando solo su nombre y direccion postal.",
+      "whatYouDo": "No complete nada mas. El secretario llena los bloques del tribunal y del caso; el juez decide y firma.",
+      "whatWeDoNotDo": "LegalEase nunca completa un bloque del secretario, nunca marca una determinacion, y nunca llena la firma o la fecha del juez.",
+      "noCheckout": "Este formulario no esta disponible para la compra. Se prepara unicamente para revision."
+    }
+  },
+  "renderedAssertions": {
+    "all": {
+      "mustNotContain": [
+        "People v.",
+        "Superior Court of California, County of Los Angeles"
+      ]
+    },
+    "canonical": {
+      "mustContain": [
+        "Rivera",
+        "Jordan",
+        "1841 Mission Street, Apt 4",
+        "90012"
+      ],
+      "mustNotContain": [
+        "BA-2022-0451188"
+      ]
+    },
+    "boundary": {
+      "mustContain": [
+        "Featherstonehaugh-Wetherby",
+        "Rancho Santa Margarita",
+        "92688-1234"
+      ]
+    },
+    "negative": {
+      "mustContain": [
+        "Doe"
+      ]
+    }
+  }
 }
