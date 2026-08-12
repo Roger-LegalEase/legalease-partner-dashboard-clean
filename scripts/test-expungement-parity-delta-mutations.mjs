@@ -4,6 +4,13 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 
 import { registerMutationRestore } from "./lib/mutation-restore-guard.mjs";
+import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
+
+// Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
+// interrupted runs left tracked mutations behind. The journal this writes is
+// recovered by the next repository command even if this process is killed.
+registerTrackedMutation("test-expungement-parity-delta-mutations.mjs", ["data/expungement-ai/screening-parity-approved-deltas.json", "src/lib/rcap-engine/compiled/profiles/MD-maryland.json"]);
+
 
 /**
  * Proves the reviewed parity-delta mechanism is a constraint, not a bypass.

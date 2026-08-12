@@ -29,6 +29,13 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { registerMutationRestore } from './lib/mutation-restore-guard.mjs';
+import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
+
+// Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
+// interrupted runs left tracked mutations behind. The journal this writes is
+// recovered by the next repository command even if this process is killed.
+registerTrackedMutation("test-rcap-consumer-payment-http-mutations.mjs", ["src/lib/expungement-ai/consumer-payment-authority.ts", "src/lib/expungement-ai/checkout-reconciliation.ts", "src/app/api/expungement-ai/checkout/route.ts", "src/lib/expungement-ai/payment-adapter.ts"]);
+
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const verifier = path.join(rootDir, 'scripts/verify-expungement-consumer-payment-http.mjs');

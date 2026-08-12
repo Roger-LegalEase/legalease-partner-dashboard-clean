@@ -2,6 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { assertTreeNotMidMutation } from "./lib/tracked-mutation-guard.mjs";
+
+// A guard that reads the working tree mid-mutation reports fiction. This
+// refuses while a mutator holds the lock, and restores anything a killed run
+// stranded before reading a single byte.
+assertTreeNotMidMutation(import.meta.url.split("/").pop());
+
 
 const scriptRootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const rootDir = findGitRoot(process.cwd()) || scriptRootDir;

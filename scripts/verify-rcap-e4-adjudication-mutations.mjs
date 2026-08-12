@@ -13,6 +13,13 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { registerMutationRestore } from './lib/mutation-restore-guard.mjs';
+import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
+
+// Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
+// interrupted runs left tracked mutations behind. The journal this writes is
+// recovered by the next repository command even if this process is killed.
+registerTrackedMutation("verify-rcap-e4-adjudication-mutations.mjs", ["data/rcap-ledger/crosswalk-resolution-adjudication.json"]);
+
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const target = path.join(rootDir, 'data/rcap-ledger/crosswalk-resolution-adjudication.json');

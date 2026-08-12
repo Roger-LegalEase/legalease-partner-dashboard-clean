@@ -20,6 +20,13 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 import { registerMutationRestore } from "./lib/mutation-restore-guard.mjs";
+import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
+
+// Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
+// interrupted runs left tracked mutations behind. The journal this writes is
+// recovered by the next repository command even if this process is killed.
+registerTrackedMutation("test-rcap-image-fingerprint-mutations.mjs", ["data/rcap-staging-action.json", "package.json"]);
+
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ACTION = "data/rcap-staging-action.json";
