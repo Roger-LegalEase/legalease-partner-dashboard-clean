@@ -34,7 +34,7 @@ import { scanBytesForActiveContent } from "../rcap-active-content.mjs";
 import { extractTextItems, groupIntoLines } from "../rcap-pdf-anchor-capture.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFDropdown } = require("pdf-lib");
+const { PDFDocument, PDFTextField, PDFDropdown, StandardFonts } = require("pdf-lib");
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const OUT_ROOT = path.join(rootDir, "data/rcap-all50/overlays/production");
@@ -1320,19 +1320,50 @@ export async function buildFamily(opts) {
   // clean run.
   //
   // Independent review asked for these to be recorded as refused below the
-  // readable floor, with a required width at 6pt. They are not: the form's
-  // declared maximum stops the value first, and writing "refused_below_
-  // readable_floor" here would put a false statement in the ledger the entry
-  // exists to correct. They are recorded for what they are, and
-  // refusedBelowFloor stays an accurate count of floor refusals only.
+  // readable floor, with a required width at 6pt. The length gate is the
+  // mechanism that actually fires -- the form's declared maximum stops the
+  // value before the fitter is reached -- so refusedBelowFloor is correctly 0
+  // and labelling this a floor refusal would put a false statement in the
+  // ledger the entry exists to correct.
+  //
+  // Re-review was right about the consequence, though: a reader auditing "was
+  // anything dropped as unreadably small?" should not be told nothing was. Both
+  // constraints are recorded -- the gate that fired, and whether the same value
+  // would also have failed on width at the floor, with the widget rect and the
+  // width it would have needed.
+  const ledgerProbe = await PDFDocument.create();
+  const ledgerFont = await ledgerProbe.embedFont(StandardFonts.Helvetica);
+  const widgetRectOf = (name) => (census.fields ?? census).find?.((c) => c.name === name)?.widgets?.[0]?.rect ?? null;
+  const isMultiline = (name) => Boolean((census.fields ?? census).find?.((c) => c.name === name)?.multiline);
+
   for (const label of ["boundary", "canonical"]) {
     const render = label === "boundary" ? boundaryRender : canonicalRender;
+    const facts = label === "boundary" ? boundary : canonical;
     for (const r of render.report.refused) {
       if (r.reason !== "value_exceeds_form_max_length") continue;
+      const rect = widgetRectOf(r.field);
+      const value = r.factId ? facts[r.factId] : null;
+      let alsoBelowFloor = null;
+      if (rect && typeof value === "string" && value.length > 0) {
+        const fit = fitTextToWidget({
+          font: ledgerFont, text: value, rect, multiline: isMultiline(r.field),
+          minFontSize: MIN_READABLE_FONT_SIZE
+        });
+        alsoBelowFloor = {
+          alsoExceedsWidgetAtReadableFloor: fit.outcome === "refused",
+          minFontSize: MIN_READABLE_FONT_SIZE,
+          requiredWidthAtMin: fit.requiredWidthAtMin ?? null,
+          requiredHeightAtMin: fit.requiredHeightAtMin ?? null,
+          widget: rect
+        };
+      }
       overflow.push({
         fixture: label, field: r.field, check: "refused_exceeds_form_declared_max_length",
-        reason: r.reason, declaredMaxLength: r.maxLength ?? null, valueLength: r.valueLength ?? null,
+        reason: r.reason,
+        primaryMechanism: "form_declared_max_length",
+        declaredMaxLength: r.maxLength ?? null, valueLength: r.valueLength ?? null,
         factId: r.factId ?? null,
+        ...(alsoBelowFloor ?? {}),
         handling: "left blank in the artifact; the form's own limit is not ours to override"
       });
     }
