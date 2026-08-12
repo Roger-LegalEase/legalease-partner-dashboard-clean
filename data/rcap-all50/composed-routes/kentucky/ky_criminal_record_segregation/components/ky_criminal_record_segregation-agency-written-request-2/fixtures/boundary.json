@@ -1,0 +1,76 @@
+{
+  "fixtureId": "ky_criminal_record_segregation-agency-letter-boundary",
+  "trackId": "ky_criminal_record_segregation",
+  "componentId": "ky_criminal_record_segregation-agency-written-request-2",
+  "unitId": "ky_seg_agency_written_request",
+  "componentPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-agency-written-request-2/agency-request-letter.md",
+  "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+  "description": "Edges of the per-agency generation rule: exactly one agency (the floor above zero, since the component exists only per identified agency), no charges ever filed so the case-number sentence must be omitted, the acquittal branch of the disposition paragraph, and segRoute = both so the court application is produced alongside. Protected fields stay blank.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "EXAMPLE",
+    "chargesFiled": "no",
+    "caseNumber": "",
+    "letterDate": "",
+    "court": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": ""
+  },
+  "chargeData": {
+    "chargeDescription": "[PARTICIPANT'S OWN DESCRIPTION OF WHAT THEY WERE ARRESTED FOR]",
+    "arrestOffenceDescription": "[PARTICIPANT'S OWN DESCRIPTION OF WHAT THEY WERE ARRESTED FOR]",
+    "arrestDate": "",
+    "dispositionType": "found innocent",
+    "dispositionDate": ""
+  },
+  "recipients": [
+    {
+      "agencyName": "[AGENCY 1 NAME — PARTICIPANT'S OWN ANSWER; NO SOURCE NAMES ANY KENTUCKY AGENCY]",
+      "agencyAddress": "[AGENCY 1 ADDRESS — PARTICIPANT SUPPLIES; NOT PREFILLED]"
+    }
+  ],
+  "eligibilityData": {
+    "screeningAnswers": {
+      "segCounty": "EXAMPLE",
+      "segArrestDate": "",
+      "segOffence": "[PARTICIPANT'S OWN DESCRIPTION — NOT SUPPLIED BY LEGALEASE]",
+      "segChargesFiled": "no",
+      "segCaseNumber": "",
+      "segDispositionType": "[PARTICIPANT'S OWN STATEMENT OF FACT — found innocent — NOT SUPPLIED, DERIVED OR INFERRED BY LEGALEASE]",
+      "segDispositionDate": "",
+      "segAlreadyExpunged": "no — participant states the records are not expunged and states they are not eligible under KRS 431.076 or KRS 431.078",
+      "segAgencies": "one agency, named by the participant",
+      "segRoute": "both"
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "lettersToGenerate": 1,
+    "dispositionProofInHand": false,
+    "boundaryUnderTest": [
+      "Per-agency floor: exactly one agency identified. The component is conditional on segAgencies being non-empty, so one is the lowest value at which any letter exists.",
+      "segChargesFiled = no: the conditional case-number sentence must be omitted entirely and the letter must still read correctly.",
+      "Disposition branch: 'found innocent', the first of the three KRS 17.142(1) dispositions and the one that most often belongs under KRS 431.076 instead — so this fixture also exercises the routing check that must run before any letter is produced.",
+      "segRoute = both: the registry states the routes are independent and a participant may use both, so this component must coexist with the court application.",
+      "Waiting period edge: the registry records a waiting period of 'none', so no elapsed-time value is set."
+    ],
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "driversLicenseNumber": "",
+    "fbiNumber": "",
+    "fingerprintIdentifier": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

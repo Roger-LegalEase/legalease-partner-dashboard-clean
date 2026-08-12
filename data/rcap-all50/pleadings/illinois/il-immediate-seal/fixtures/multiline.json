@@ -1,0 +1,80 @@
+{
+  "fixtureId": "il-immediate-seal-multiline",
+  "trackId": "il-immediate-seal",
+  "configPath": "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json",
+  "description": "Layout stress. A long hyphenated name with a suffix, a long list of other names used, and a long address, exercising caption wrapping and the verification and counsel signature blocks. Court identity and protected fields stay blank as in every other fixture; the only thing under test here is text length.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "MARIA-ANTONIETTA GUADALUPE SAMPLE-EXAMPLETON-WASHINGTON III",
+    "petitionerAddress": "0000 NORTH EXAMPLE-SAMPLE MEMORIAL PARKWAY, BUILDING C, APARTMENT 12345, EXAMPLE CITY VILLAGE OF SAMPLETOWN, ILLINOIS 00000-0000",
+    "otherNamesUsed": "MARIA-ANTONIETTA G. SAMPLE-EXAMPLETON; M. A. G. SAMPLE-EXAMPLETON-WASHINGTON; MARIA GUADALUPE WASHINGTON; MARIA ANTONIETTA SAMPLE; M. SAMPLE-EXAMPLETON-WASHINGTON III"
+  },
+  "caseData": {
+    "courtName": "",
+    "countyName": "",
+    "circuitOrDistrict": "",
+    "courtroom": "",
+    "docketNumber": "",
+    "caseNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": "",
+    "dispositionHearingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseGrade": "",
+    "statuteTitle": "",
+    "statuteSection": "",
+    "disposition": "",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "hasUpcomingDisposition": "Yes",
+      "isRepresented": "Yes — an assistant public defender is on the case",
+      "offenseDateOnOrAfter2018": "Yes",
+      "dismissalWithPrejudice": "Counsel expects a dismissal with prejudice"
+    },
+    "recordType": "arrest",
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "waitingPeriodText": "None, but the petition must be filed the same day, during the disposition hearing.",
+    "layoutUnderTest": [
+      "Caption line wrapping with a 58-character petitioner name and a generational suffix.",
+      "Other-names-used list running to five entries across multiple lines.",
+      "Two-line street address with unit and building designators.",
+      "Verification block and counsel signature block both sitting under a wrapped name."
+    ],
+    "additionalFacts": [
+      "The petition must be filed with the circuit clerk on the same day and during the same hearing in which the case is disposed.",
+      "If the petition is not filed during the hearing, ordinary sealing under § 5.2(c)(3)(A) remains available at any time through il-seal-nonconv."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "iuclidOrIrNumber": "",
+    "fbiNumber": ""
+  },
+  "outsidePartyFields": {
+    "prosecutorPosition": "",
+    "counselSignature": "",
+    "counselName": "",
+    "counselArdcNumber": "",
+    "serviceCompletion": "",
+    "judgeSignature": "",
+    "hearingOutcome": ""
+  },
+  "attachments": [
+    "Proposed Order on Petition for Immediate Sealing (component il-immediate-seal-proposed-order-2, no outcome asserted)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": null
+}

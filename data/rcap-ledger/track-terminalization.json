@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-track-terminalization/v1",
   "generatedBy": "scripts/generate-rcap-track-terminalization.mjs",
-  "windowId": "2026-08-12-w1",
+  "windowId": "2026-08-12-w2",
   "windowDate": "2026-08-12",
   "note": "Terminality is a BUILD fact: the participant treatment is complete and routed, with no unresolved legal decision conditioning a required component. Counsel review promotion is a separate launch gate (every registry track is legal_review_pending) and is tracked in the decision register, never inferred from terminality. Launch authorization may not be requested until tracksTerminal=497, and unowned/unknown/generic counters are zero — the generator fails rather than emit an unknown disposition.",
   "terminalRule": {
@@ -11,10 +11,13 @@
       "no counsel review requirement names the track or a mapped pathway",
       "no official-source gap adjudication names a mapped pathway",
       "no packet-set component is conditioned on an unresolved legal decision",
-      "the runtime text is not superseded"
+      "the runtime text is not superseded",
+      "OR a delivered candidate treatment (complete_guidance with all eleven participant elements, or exact_supported_deferral naming the track) has been PROMOTED by an F2 review closure of technical_approved for its atomic group — delivery alone records a candidate, never terminality (hour-6 promotion rules)"
     ],
     "everyNonterminalGetsExactlyOneTreatment": true,
-    "runtimeMissingDoesNotImplyPacket": true
+    "runtimeMissingDoesNotImplyPacket": true,
+    "implementationEvidenceIsNotTerminality": "Tier-1 hard-form families and D1 overlay families record implemented_pending_independent_review on the tracks/families they serve; they terminate nothing until composition completes and F2/F3 review closes. Implementation-complete is never equated with terminal.",
+    "candidateIsNotTerminal": "candidateTreatment/candidateStatus record delivered-but-unreviewed treatments; only an F2 technical_approved closure in data/rcap-all50/review-artifacts/f2-dispositions.json promotes them."
   },
   "registrySource": {
     "ref": "origin/feat/record-clearing-production-integration",
@@ -99,27 +102,42 @@
   "laneAssignmentRule": "Assignments are disjoint by construction: a track resolves to exactly one lane via requiredTreatment and implementationFamily. Terminal A retains shared writers, the completion ledger, the job generator, the route resolver, migrations, integration, staging, release flags, rollback and final release reporting.",
   "runtimeWiringNote": "Jobs marked runtimeWiringRequired need compiled-pathway routing in src/lib/rcap-engine, which is a frozen worker image input. Terminal A lands that wiring after worker publication at the freeze SHA (or an explicit re-fingerprint), integrating lane output that is data/docs-only in the meantime.",
   "aggregates": {
-    "windowId": "2026-08-12-w1",
+    "windowId": "2026-08-12-w2",
     "registryTracks": 497,
-    "tracksTerminal": 277,
-    "tracksNonterminal": 220,
+    "tracksTerminal": 278,
+    "tracksNonterminal": 219,
     "tracksWithRuntimeCoverage": 285,
     "requiredTreatmentBreakdown": {
       "production_packet": 131,
-      "complete_guidance": 64,
+      "complete_guidance": 63,
       "complete_composed_route": 16,
       "deliberate_scope_exclusion": 0,
       "exact_supported_deferral": 9
     },
     "nonterminalTracksByLane": {
-      "B": 73,
+      "B": 72,
       "C": 72,
       "D": 67,
       "E": 8,
       "F": 0
     },
     "jobsRemainingToLaunch": 104,
-    "tracksTerminalizedThisWindow": 0,
+    "tracksTerminalizedThisWindow": 1,
+    "candidateTreatmentsPendingReview": 46,
+    "candidateTreatmentBreakdown": {
+      "complete_guidance": 6,
+      "exact_supported_deferral": 2,
+      "production_packet": 30,
+      "complete_composed_route": 16
+    },
+    "tracksImplementedPendingIndependentReview": 6,
+    "guidanceRegistryServedTracks": 6,
+    "d1Implementation": {
+      "families": 89,
+      "implementedPendingIndependentReview": 64,
+      "familiesWithHolds": 89,
+      "note": "Every D1 family retains its source-gated, currentness, legal-design and adoption holds; independent-review jobs are generated in the F2 manifest. No D1 track is terminal from this evidence."
+    },
     "unownedRequiredComponents": 0,
     "unownedBlockers": 0,
     "unknownTrackDispositions": 0,
@@ -141,13 +159,11 @@
       ],
       "reviewArchetype": "F-plain-language-and-accuracy",
       "terminalEffect": [
-        "AK:ak-nonconviction-confidential -> terminal",
-        "AK:ak-sej -> terminal"
+        "AK:ak-nonconviction-confidential -> terminal"
       ],
       "runtimeWiringRequired": true,
       "trackIds": [
-        "ak-nonconviction-confidential",
-        "ak-sej"
+        "ak-nonconviction-confidential"
       ]
     },
     {
@@ -2757,6 +2773,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_guidance",
+      "candidateTreatment": "complete_guidance",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/ak.json",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -2784,11 +2803,14 @@
       "declaredStrategy": "process_guidance",
       "coverageDisposition": "missing_from_compiled_runtime",
       "mappedCompiledPathwayIds": [],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "missing_from_compiled_runtime"
       ],
-      "requiredTreatment": "complete_guidance",
+      "requiredTreatment": null,
+      "candidateTreatment": "complete_guidance",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/ak.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -2982,6 +3004,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/arkansas/ar-act346",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "3 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3046,6 +3072,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/arkansas/ar-drug-court",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "3 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3128,6 +3158,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "3 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3160,6 +3194,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/arkansas/ar-veterans-court",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "3 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3304,6 +3342,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/arizona/az_wrongful_arrest_clearance",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3336,6 +3377,11 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "implementationEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal"
+      ],
+      "implementationStatus": "implemented_pending_independent_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3352,6 +3398,11 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "implementationEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal"
+      ],
+      "implementationStatus": "implemented_pending_independent_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3368,6 +3419,11 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "implementationEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal"
+      ],
+      "implementationStatus": "implemented_pending_independent_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3384,6 +3440,11 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "implementationEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal"
+      ],
+      "implementationStatus": "implemented_pending_independent_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3400,6 +3461,11 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "implementationEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal"
+      ],
+      "implementationStatus": "implemented_pending_independent_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3432,6 +3498,11 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "implementationEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records",
+        "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records"
+      ],
+      "implementationStatus": "implemented_pending_independent_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3464,6 +3535,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_guidance",
+      "candidateTreatment": "complete_guidance",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/ca.json",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3480,6 +3554,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/california/ca-diversion-seal",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "2 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3706,6 +3784,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/connecticut/ct-cannabis-petition",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3754,6 +3835,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/connecticut/ct-decriminalized",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3802,6 +3886,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "2 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3818,6 +3906,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -3882,6 +3973,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4059,6 +4153,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/hard-forms/delaware/family-court-form-281/profile.json",
+      "candidateStatus": "correction_required",
+      "treatmentSubstitution": "The principal Family Court Form 281 petition exists in no canonical source. Every candidate in the tree or the bundle is either a different court's form or an attachment to the missing principal.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4267,6 +4365,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-deaddocket-j3",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4283,6 +4384,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-felony-j1",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4299,6 +4403,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-fo-active-pre2026",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4315,6 +4422,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-fo-discharged-pre2026",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4347,6 +4457,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-fugitive-j5",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4363,6 +4476,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-jail-k2",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4493,6 +4609,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/georgia/ga-vacated-j2",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4557,6 +4676,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/hawaii/hi_first_time_property_offender_expungement",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4573,6 +4695,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/hawaii/hi_marijuana_three_grams_expungement",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4733,6 +4858,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/iowa/ia-9079",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4829,6 +4957,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_guidance",
+      "candidateTreatment": "complete_guidance",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/il.json",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4973,6 +5104,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/illinois/il-immediate-seal",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -4989,6 +5123,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/illinois/il-prb-cert",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "6 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5133,6 +5271,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/indiana/in_collateral_action",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5213,6 +5354,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5246,6 +5390,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/indiana/in_supplemental_order",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5406,6 +5553,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5559,6 +5709,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5575,6 +5728,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -5772,6 +5928,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/massachusetts/ma-bmc-multi",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6093,6 +6252,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/maine/me-screening",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6125,6 +6287,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/hard-forms/maine/cr-289-motion-to-seal-prostitution-conviction/profile.json",
+      "candidateStatus": "correction_required",
+      "treatmentSubstitution": "The binary is now in hand and is technically ready for Tier 0, but the adopted Maine legal design records the form itself as legally stale. Presence removed the location blocker only.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6205,6 +6371,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_guidance",
+      "candidateTreatment": "complete_guidance",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/mi.json",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6221,6 +6390,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_guidance",
+      "candidateTreatment": "complete_guidance",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/mi.json",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -6896,6 +7068,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "5 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7024,6 +7200,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/north-carolina/nc_auto_146_a4_agency_followup",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7184,6 +7363,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/north-dakota/nd-seal-felony-conviction",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7200,6 +7382,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/north-dakota/nd-seal-misdemeanor-conviction",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7216,6 +7401,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/north-dakota/nd-seal-pardoned-conviction",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -7874,6 +8062,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/nevada/nv_seal_multi",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8066,6 +8257,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/ohio/oh_2953_32_sealing",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8300,6 +8494,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/oklahoma/ok_identity_theft",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9285,6 +9482,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/texas/tx_exp_mistaken_identity",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9333,6 +9533,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/texas/tx_exp_pardon_other",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9349,6 +9552,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/texas/tx_exp_specialty_court",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9365,6 +9571,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "production_packet",
+      "candidateEvidence": "data/rcap-all50/pleadings/texas/tx_exp_unlawful_carry",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -9509,6 +9718,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "3 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10008,6 +10221,10 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence",
+      "candidateStatus": "pending_f2_review",
+      "treatmentSubstitution": "1 official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -10596,6 +10813,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "complete_composed_route",
+      "candidateTreatment": "complete_composed_route",
+      "candidateEvidence": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement",
+      "candidateStatus": "pending_f2_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,

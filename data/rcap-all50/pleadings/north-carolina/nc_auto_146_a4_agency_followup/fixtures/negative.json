@@ -1,0 +1,26 @@
+{
+  "fixtureId": "nc-agency-followup-negative",
+  "description": "Negative fixture: the eligibility label uses the prohibited term 'expungement' (North Carolina copy uses 'expunction') and the fixture overrides templateGrade to blocked Grade E. QA must fail; the stated reason checked is the Grade E block.",
+  "expectedQaFailureSubstring": "Grade E",
+  "configOverrides": {
+    "templateGrade": "html_replica_or_unverified"
+  },
+  "partyData": {
+    "petitionerName": "JOHN DOE"
+  },
+  "caseData": {},
+  "chargeData": {},
+  "eligibilityData": {
+    "eligibilityBasisLabel": "expungement follow-up (wrong vocabulary for North Carolina)"
+  },
+  "letterData": {
+    "senderName": "JOHN DOE",
+    "recordHolder": "Sample State Licensing Agency (synthetic record holder)",
+    "chargesStillShowing": "misdemeanor larceny (synthetic)",
+    "whereSeen": "on my own record check (synthetic)",
+    "countyAndFileNumber": "[SENDER COMPLETES]",
+    "finalDispositionDate": "[SENDER COMPLETES]"
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

@@ -1,0 +1,396 @@
+{
+  "schemaVersion": "rcap-pleading-track-config/v1",
+  "jurisdictionCode": "IN",
+  "jurisdiction": {
+    "code": "IN",
+    "name": "Indiana",
+    "slug": "indiana"
+  },
+  "trackId": "in_supplemental_order",
+  "jobId": "T-C-IN-production-packet",
+  "family": "controlled_pleading",
+  "treatment": "production_packet",
+  "legalName": "Supplemental Petition After a Favourable Amendment, I.C. 35-38-9-9(l)",
+  "publicName": "Asking for more relief after the law changed in your favour",
+  "templateGrade": "legal_ops_custom_pleading",
+  "templateLifecycle": "replacement_candidate",
+  "primaryReliefTerm": "expungement",
+  "primaryReliefTermSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].mechanism (\"the person may petition the court that granted the expungement\"); profile:terminology.allowedStateTerms",
+  "documentTitleFull": "SUPPLEMENTAL PETITION PURSUANT TO I.C. 35-38-9-9(l)",
+  "documentTitleNote": "Derived from the legalName recorded on the track. No statewide form title exists to copy; no statewide form has been identified for this petition.",
+  "courtCaption": "STATE OF INDIANA\nIN THE {courtName} COURT\nCOUNTY OF {originalExpungementCounty}\nCAUSE NO. {originalExpungementCauseNumber}",
+  "courtCaptionNote": "Token pattern. The layout is the Indiana expungement-filing caption recorded verbatim in the compiled IN profile: \"STATE OF INDIANA ____________ IN THE __________________ _________________ COURT COUNTY OF __________________ CAUSE NO. ____________________________________\". That passage is from a Coalition for Court Access form for arrest/charge/juvenile-allegation expungement, NOT from a section 35-38-9-9(l) form. Because this petition goes back to the court that granted the original expungement, whether it is captioned under that original cause number or opened as a new matter is unresolved. Nothing is prefilled.",
+  "routeDecision": {
+    "decision": "custom_pleading_drafted_with_amendment_gate",
+    "rationale": [
+      "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading' for this track, with compositionMode null and units[] empty.",
+      "The scope restriction is explicit: \"No statewide form has been identified for this petition, so it remains a counsel-approved custom pleading with a verified local-form override.\"",
+      "packetSet.components lists three required components, all custom_pleading with officialFormId null: primary filing, proposed order, attachment.",
+      "A second scope restriction gates the content, not the form: \"Which amendment provides greater relief must be settled for the current cycle before this track is offered. Indiana amends the chapter nearly every year.\" The pleading is therefore drafted as a container whose statement-of-relief slot stays empty until counsel settles the amendment for the cycle. No amendment is named anywhere in this artifact.",
+      "The track also carries a routing instruction: run this as a periodic sweep of past participants after each legislative session rather than as an on-demand consumer route."
+    ],
+    "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].outputStrategy; .scopeRestrictions[0]; .scopeRestrictions[1]; .packetSet.components; .packetInstructions[2]"
+  },
+  "primaryStatutoryAuthority": [
+    {
+      "citation": "I.C. 35-38-9-9(l)",
+      "description": "Where the chapter is amended after a person's expungement was granted in a way that provides greater relief, the person may petition the court that granted the expungement, succinctly setting forth the relief sought. If the court finds the petitioner was granted relief before the amendment and is otherwise entitled to the relief the amendment provides, it shall grant the supplemental petition consistent with the amendment.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].authority[0]; .mechanism"
+    },
+    {
+      "citation": "I.C. 35-38-9-0.6(c)",
+      "description": "Recorded on the track as authority for this mechanism. The registry does not state what this subsection supplies beyond listing it; no gloss is invented here.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].authority[1]"
+    }
+  ],
+  "supportingAuthorityNotCited": [
+    {
+      "citation": "I.C. 35-38-9-1(k)",
+      "why": "Recorded on the track only as the terminology basis - in Indiana expungement means records are sealed or restricted, not destroyed. A packet instruction, not a ground for this petition.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetInstructions[0]"
+    },
+    {
+      "citation": "I.C. 35-38-9-9(i)",
+      "why": "The compiled profile records the one-petition limitation in IC 35-38-9-9(i), subject to statutory exceptions, for conviction-expungement petitions. Whether a supplemental petition under 9(l) counts against that limitation is not addressed by any source read, so the citation is not placed in this pleading and the question is flagged for counsel.",
+      "sourceRef": "profile:pathways[conviction-sealed-confidential-access].ruleClauses; profile:orderedDecisionRules[rule-06]"
+    }
+  ],
+  "verificationStatute": {
+    "citation": null,
+    "description": "The source review states only that the participant signs the petition, and records notarization 'none'. It states no verification statute, no oath and no officer. Left null and flagged rather than invented, following the ND config's handling of its missing verification statute. The compiled IN profile's Indiana affirmation formula - \"I AFFIRM, UNDER THE PENALTIES OF PERJURY, THAT THE FOREGOING REPRESENTATIONS ARE TRUE AND ACCURATE\" - is Coalition for Court Access conviction/arrest expungement form text and is not carried across. Note the tension for counsel: the profile also records that Indiana expungement petitions are 'verified petitions', while this track states only that the participant signs.",
+    "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.participantSignature; .rules.notarization; profile:sourceSections[0] lines 145-423"
+  },
+  "includeProposedOrder": true,
+  "includeProposedOrderReason": "packetSet.components[1] records a required proposed_order component (in_supplemental_order-proposed-order-2) with outputStrategy custom_pleading. The order body states only what the statute authorises - relief consistent with the amendment - and leaves the amendment and the relief itself as empty slots, because the amendment relied on is a legal judgment that must be settled before the petition is offered.",
+  "includeCertificateOfService": true,
+  "includeCertificateOfServiceReason": "The registry states: \"Follow the ordinary Trial Rules service on the prosecuting attorney. Confirm local practice.\" That is a stated service rule, and it is corroborated by the compiled profile, whose Coalition for Court Access expungement petition text reads \"Petitioner has served a copy of this petition upon the Prosecuting Attorney in accordance with the Indiana Rules of Trial Procedure\", and whose conviction pathway records \"The petition must be served on the prosecutor.\" A certificate of service block is therefore included. It asserts no completed service: the participant fills in the date and method, and the recipient address is never prefilled.",
+  "serviceNote": "Follow the ordinary Trial Rules service on the prosecuting attorney. Confirm local practice.",
+  "serviceNoteSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.service; corroborated by profile:sourceSections[0] lines 145-423 and profile:pathways[conviction-sealed-confidential-access].ruleClauses",
+  "feeStatement": null,
+  "feeStatementNullReason": "The registry records fees as \"No fee identified in the review for a supplemental petition. Unresolved.\" and feeWaiver as \"Unresolved.\" No fee amount, no statement that there is no fee, and no fee-waiver procedure is asserted anywhere. Note the registry also lists a participant action of kind 'pay_fee' marked required before filing whose description is the same unresolved sentence - recorded as a conflict, not resolved.",
+  "feeStatementSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.fees; .rules.feeWaiver; .packetSet.participantActionRequired[kind=pay_fee]",
+  "qaProhibitedTerms": [
+    "destroyed",
+    "destruction",
+    "deleted",
+    "erased",
+    "wiped",
+    "set aside",
+    "vacatur"
+  ],
+  "qaProhibitedTermsSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetInstructions[0]; .selfHelpBoundaries (\"The person wants to attack the underlying conviction rather than expunge it\")",
+  "presentation": {
+    "sovereignPartyName": "STATE OF INDIANA",
+    "sovereignPartyNameSourceRef": "profile:pathways[0].exclusionRules[0] raw form text: \"STATE OF INDIANA ... IN THE __________ COURT COUNTY OF __________ CAUSE NO. ____\"",
+    "sovereignPartyProper": "the State of Indiana",
+    "sovereignRole": null,
+    "sovereignRoleNullReason": "No source read for this track labels the State's role in a section 35-38-9-9(l) caption. The Indiana expungement caption recorded in the profile is a single-party in-re form with no adverse-party role labels. Not invented.",
+    "movantRole": "Petitioner",
+    "movantRoleSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].mechanism (\"the person may petition\"; \"the petitioner was granted relief before the amendment\"); profile:sourceSections[0] (the Indiana expungement forms label the filer \"Petitioner\")",
+    "filingNoun": "Petition",
+    "filingNounSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].legalName (\"Supplemental Petition\"); .rules.participantSignature (\"The participant signs the petition.\")",
+    "captionStyle": "in_re_single_party_from_profile_form",
+    "captionStyleNote": "Recorded, not asserted. Whether a supplemental petition returning to the granting court is captioned under the original expungement cause number or opened as a new matter is unresolved; both the caption and the cause-number slot stay empty.",
+    "divisionLine": "",
+    "usesCounty": true,
+    "usesCountyReason": "The Indiana caption pattern in the profile carries a COUNTY OF line, and the venue is the court that granted the original expungement, which sits in a county.",
+    "courtName": "The court that granted the original expungement",
+    "courtNameSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].destination.name; .venue; .rules.filing",
+    "venueDescriptor": "The court that granted the original expungement.",
+    "venueDescriptorSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].venue",
+    "recordCustodianLead": null,
+    "recordCustodianLeadNullReason": "No source enumerates record custodians for a section 9(l) supplemental order. The profile's custodian list - Department of Correction, Bureau of Motor Vehicles, State Police Central Repository, incarcerating and treating agencies - belongs to the section 35-38-9-6 and -7 conviction-expungement order forms. Carrying it across would be invention, and it would be doubly wrong here because what the supplemental order directs depends on the amendment relied on.",
+    "verificationVerb": null,
+    "verificationVerbNullReason": "No oath, affirmation or verification is stated for this petition. The signature block renders as a signature and date only.",
+    "verificationPenaltyLabel": null,
+    "verificationPenaltyLabelNullReason": "No verification statute and no penalty formula is stated for this petition.",
+    "serviceRecipientLabel": "the prosecuting attorney",
+    "serviceRecipientLabelSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.service",
+    "serviceRecipientAddressLabel": "[PROSECUTING ATTORNEY ADDRESS - PARTICIPANT SUPPLIES; NEVER PREFILLED]",
+    "reliefActionVerb": "grant relief consistent with the amendment",
+    "orderActionVerb": "grant relief consistent with the amendment",
+    "reliefVerbNote": "Deliberately not 'expunge'. The statute's operative words are that the court \"shall grant the supplemental petition consistent with the amendment\". What that relief actually is depends on the amendment, which is not settled. Naming a specific act would be invention.",
+    "recordsScopePhrase": "the records covered by the original expungement order identified in this petition",
+    "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].mechanism; .recordTypes[0] (previously_expunged_record)"
+  },
+  "counselFlags": [
+    {
+      "id": "in-supplemental-amendment-must-be-settled",
+      "statement": "Which amendment provides greater relief must be settled for the current cycle before this track is offered. Indiana amends the chapter nearly every year. The registry records this as both a scope restriction and a manual completion item, and the reason given is that identifying the amendment is a legal judgment. No amendment is named anywhere in this artifact.",
+      "mustConfirm": "Which amendment, in the current cycle, provides greater relief than the relief the participant already has - settled by counsel, per participant cohort, before any petition is produced.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].scopeRestrictions[1]; .manualCompletionItems[1]"
+    },
+    {
+      "id": "in-supplemental-amendment-cycle-unknown",
+      "statement": "What P.L.77-2025 changed in section 35-38-9-5, and whether the 2026 session amended the chapter again, is an open release blocker against affectedElement 'governing_mechanism'. The Office of Judicial Administration's own publication says the statutes experience yearly modification.",
+      "mustConfirm": "The current amendment history of I.C. 35-38-9, including P.L.77-2025 and any 2026 session changes, before this track is offered.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].releaseBlockers[1]"
+    },
+    {
+      "id": "in-supplemental-statewide-form-unresolved",
+      "statement": "Whether any statewide form exists for a section 35-38-9-9(l) supplemental order petition is open. Until it is answered, this remains a counsel-approved custom pleading with a verified local-form override, and no official-form label is carried forward.",
+      "mustConfirm": "Whether the Coalition for Court Access publishes a statewide form for this petition.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].releaseBlockers[0]; .scopeRestrictions[0]"
+    },
+    {
+      "id": "in-supplemental-fee-unresolved",
+      "statement": "The registry records fees as \"No fee identified in the review for a supplemental petition. Unresolved.\" and feeWaiver as \"Unresolved.\" It nevertheless lists a participant action of kind 'pay_fee' marked required before filing, carrying the same unresolved sentence. No fee amount, no no-fee statement and no fee-waiver procedure is asserted anywhere in this packet.",
+      "mustConfirm": "Whether a filing fee applies to a supplemental petition, and what the waiver route is if one does.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.fees; .rules.feeWaiver; .packetSet.participantActionRequired[kind=pay_fee]"
+    },
+    {
+      "id": "in-supplemental-caption-and-cause-number-unconfirmed",
+      "statement": "The caption is a token pattern from the Indiana expungement caption recorded in the compiled profile, which comes from a Coalition for Court Access form for a different mechanism. Whether a supplemental petition returning to the granting court is captioned under the original expungement cause number or opened as a new matter is not stated by any source.",
+      "mustConfirm": "The caption and cause-number convention for a section 9(l) supplemental petition in the granting court.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].venue; .rules.filing; profile:pathways[0].exclusionRules[0]"
+    },
+    {
+      "id": "in-supplemental-verification-unstated",
+      "statement": "No verification statute, oath or notarization is stated; the registry records notarization 'none' and says only that the participant signs. verificationStatute.citation is null rather than invented. Counsel should note the tension: the compiled profile describes Indiana expungement filings as verified petitions carrying a penalties-of-perjury affirmation, while this track states only a signature.",
+      "mustConfirm": "Whether a section 9(l) supplemental petition must be verified, and in what words.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.notarization; .rules.participantSignature; profile:sourceSections[0]"
+    },
+    {
+      "id": "in-supplemental-certified-order-prerequisite",
+      "statement": "A certified copy of the original expungement order is required before filing. The participant obtains it from the clerk of the granting court and checks it against their answer to \"Which court granted your original expungement, and on what date?\". LegalEase does not obtain, receive or inspect it.",
+      "mustConfirm": "That the packet blocks filing, not generation, on the certified order.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].participantFilingRequirements[0]; .packetSet.requiredBeforeFiling"
+    },
+    {
+      "id": "in-supplemental-relief-sought-is-participant-and-counsel-supplied",
+      "statement": "The statute requires the petition to succinctly set forth the relief sought. Two slots stay empty in generation: the amendment relied on (a legal judgment, settled by counsel for the cycle) and the participant's own words describing the additional relief they are asking for. The pleading provides the container and composes neither.",
+      "mustConfirm": "That the statement-of-relief block is never generated, only formatted from the participant's answer and the counsel-settled amendment.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].manualCompletionItems; .generationRequirements[key=amendmentRelieadOn,reliefSought]"
+    },
+    {
+      "id": "in-supplemental-entitlement-is-court-finding",
+      "statement": "The court finds whether the petitioner was granted relief before the amendment and is otherwise entitled to the relief the amendment provides. Petitioners not granted expungement before the amendment, and petitioners not otherwise entitled to the amendment's relief, are express exclusions. No artifact asserts entitlement as established.",
+      "mustConfirm": "That no output states or implies the court will find entitlement.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].mechanism; .exclusions"
+    },
+    {
+      "id": "in-supplemental-periodic-sweep-routing",
+      "statement": "The track instructs that this run as a periodic sweep of past participants after each legislative session rather than as an on-demand consumer route. That routing instruction interacts with the amendment gate: a sweep is only safe once the cycle's amendment is settled.",
+      "mustConfirm": "That routing implements a post-session sweep, and that the sweep is gated on the settled amendment.",
+      "impact": "product_routing",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetInstructions[2]"
+    },
+    {
+      "id": "in-supplemental-one-petition-limitation-unaddressed",
+      "statement": "The compiled profile records the one-petition limitation in IC 35-38-9-9(i), subject to statutory exceptions, for conviction-expungement petitions, and the track's own self-help boundaries include \"The person has already filed a Sections 2 through 5 petition.\" Whether a supplemental petition under 9(l) counts against that limitation is not addressed by any source read. The citation is deliberately kept out of the pleading.",
+      "mustConfirm": "Whether a section 9(l) supplemental petition counts against the one-petition limitation in section 9(i).",
+      "impact": "counsel_confirmation",
+      "sourceRef": "profile:pathways[conviction-sealed-confidential-access].ruleClauses; profile:orderedDecisionRules[rule-06]; registry@3b6f4c1:tracks[in_supplemental_order].selfHelpBoundaries"
+    },
+    {
+      "id": "in-supplemental-records-not-destroyed",
+      "statement": "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under section 35-38-9-1(k); the Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9.",
+      "mustConfirm": "That rendered output and participant copy never use destroyed, deleted, erased or wiped.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetInstructions[0]"
+    },
+    {
+      "id": "in-supplemental-case-file-public",
+      "statement": "Disclose that the expungement case file is public until the order is granted. This bites harder on this track than most: the participant already has relief, and filing again reopens a public file.",
+      "mustConfirm": "That the disclosure appears in participant copy before filing, and that the sweep copy makes the trade-off explicit.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetInstructions[1]"
+    },
+    {
+      "id": "in-supplemental-self-help-stop-conditions",
+      "statement": "Thirteen self-help stop conditions are recorded, including: the prosecutor objects or files a notice in opposition; a victim submits a statement in opposition; the court sets a hearing; convictions in more than one county with the 365-day window partly consumed; the Chastain trap; a Sections 2 through 5 petition already filed; unclear classification between Sections 2, 3, 4 and 5, or classification turning on serious bodily injury; sex or violent offender or registration status; unpaid or disputed fines, fees, costs or restitution; pending charges or pretrial diversion; a commercial driver's licence and 49 C.F.R. 384.226; immigration, firearm, licensing or CDL consequences; wanting to attack the underlying conviction.",
+      "mustConfirm": "That each stop condition is wired to a handoff and none is treated as a fact the packet may assert.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].selfHelpStopConditions; .selfHelpBoundaries"
+    },
+    {
+      "id": "in-supplemental-court-identity-blank",
+      "statement": "Court name, county, cause number, judge, prosecuting attorney and the prosecutor's position are left blank in every fixture and are never prefilled. The only sourced venue rule is the track's own: the court that granted the original expungement.",
+      "mustConfirm": "That court identity reaches the document only through the participant's screening answers and the certified order they obtain.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].venue; .destination"
+    },
+    {
+      "id": "in-supplemental-notice-rule-absent",
+      "statement": "The registry states: \"The review does not state a distinct notice rule for a supplemental petition. Follow the ordinary Trial Rules service on the prosecuting attorney.\" A certificate of service is included on that basis, but no notice document, no response window and no hearing procedure is asserted.",
+      "mustConfirm": "Whether a distinct notice rule or response window applies to a supplemental petition.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.notice"
+    },
+    {
+      "id": "in-supplemental-attachment-component-mislabelled",
+      "statement": "packetSet.components[2] (in_supplemental_order-attachment-3) is marked required with outputStrategy 'custom_pleading', but the only attachment the track records is the certified copy of the original expungement order, which the participant obtains from the clerk. Nothing is drafted for it. The component's output strategy looks like a registry data defect.",
+      "mustConfirm": "Whether the attachment component is the certified order (participant-obtained, nothing drafted) or a drafted exhibit no source describes.",
+      "impact": "source_conflict",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetSet.components[2]; .participantFilingRequirements[0]"
+    },
+    {
+      "id": "in-supplemental-authority-0-6-c-unexplained",
+      "statement": "I.C. 35-38-9-0.6(c) is listed in the track's authority array with no description anywhere in the registry entry or the compiled profile. It is cited in the pleading's statutory basis because the track cites it; what it supplies is not stated and is not invented here.",
+      "mustConfirm": "What I.C. 35-38-9-0.6(c) contributes to a supplemental petition, and whether it belongs in the pleading's statutory basis.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].authority[1]"
+    },
+    {
+      "id": "in-supplemental-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document; output review, visual review and technical proof are all outstanding.",
+      "mustConfirm": "Output review, visual review and technical proof before this pleading leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].legalStatus; .legalDesignStatus; .runtimeDisabledReason"
+    },
+    {
+      "id": "in-supplemental-source-freshness-gate",
+      "statement": "All four official sources recorded on this track carry sha256 null, so staleness cannot be detected. On a track whose entire premise is that the chapter changes yearly, an undetectable-staleness source set is a sharper problem than usual.",
+      "mustConfirm": "Capture hashes for the four official sources, and put I.C. 35-38-9 on an annual post-session re-read.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].blockers[kind=source_gate]; .officialSources"
+    },
+    {
+      "id": "in-supplemental-profile-silent",
+      "statement": "The compiled IN profile contains zero occurrences of \"supplemental\" and does not describe this mechanism. Its four pathways are the section 35-38-9-2 through -7 expungement routes. The registry entry is the sole procedural source for this track.",
+      "mustConfirm": "That the IN profile is extended to carry this track, or that the registry is accepted as its sole source of record.",
+      "impact": "source_gate",
+      "sourceRef": "profile:pathways[]; profile:terminology"
+    }
+  ],
+  "componentInventory": [
+    {
+      "component": "caption",
+      "status": "present",
+      "note": "Token caption only: STATE OF INDIANA / IN THE {courtName} COURT / COUNTY OF {originalExpungementCounty} / CAUSE NO. {originalExpungementCauseNumber}. Pattern from the profile's Indiana expungement form caption; the cause-number convention for a supplemental petition is unresolved.",
+      "sourceRef": "profile:pathways[0].exclusionRules[0]; registry@3b6f4c1:tracks[in_supplemental_order].venue"
+    },
+    {
+      "component": "court_and_party_identity",
+      "status": "present",
+      "note": "Petitioner name and address from screening. Court, county, cause number, judge, prosecuting attorney and prosecutor position render blank and are never prefilled. The State's party role is null: no source labels it for this mechanism.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].generationRequirements[key=originalExpungementCourt]"
+    },
+    {
+      "component": "title",
+      "status": "present",
+      "note": "SUPPLEMENTAL PETITION PURSUANT TO I.C. 35-38-9-9(l), from the legalName recorded on the track.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].legalName"
+    },
+    {
+      "component": "allegations",
+      "status": "present",
+      "note": "Container only, with two empty slots that generation never fills: the amendment relied on (counsel-settled for the cycle) and the participant's own words describing the additional relief sought. The two sourced factual slots - which court granted the original expungement and when, and under which section - come from screening and are checked against the certified order.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].generationRequirements; .manualCompletionItems"
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "note": "Two citations, both from the track authority list: I.C. 35-38-9-9(l) and I.C. 35-38-9-0.6(c). The second carries no description in any source; see counselFlag in-supplemental-authority-0-6-c-unexplained. Section 9(i) is deliberately excluded; see counselFlag in-supplemental-one-petition-limitation-unaddressed.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].authority"
+    },
+    {
+      "component": "requested_relief",
+      "status": "present_with_empty_slot",
+      "note": "The statute requires the petition to succinctly set forth the relief sought. The clause renders the statutory frame - that the court grant the supplemental petition consistent with the amendment - and leaves the amendment and the relief as empty slots. No specific act (expunge, seal, mark, restrict) is named, because which act the amendment provides is exactly what is unsettled.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].mechanism; .scopeRestrictions[1]"
+    },
+    {
+      "component": "verification",
+      "status": "present_with_null_statute",
+      "note": "Signature block only, with no oath, affirmation or penalty formula, because none is stated. verificationStatute.citation is null. Handled the way the ND config handles its missing verification statute.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.notarization; .rules.participantSignature"
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "note": "The participant signs the petition. Required before filing. No LegalEase signature block and no pre-rendered signature.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.participantSignature; .packetSet.participantActionRequired[kind=sign]"
+    },
+    {
+      "component": "proposed_order",
+      "status": "present_with_empty_slot",
+      "note": "Required component in the packet set. States only that the court grants relief consistent with the amendment, with the amendment and the relief left as empty slots. No record custodian is named and no distribution list is included: no source enumerates custodians for a section 9(l) order, and what such an order directs depends on the amendment.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetSet.components[1]"
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "present",
+      "note": "Included. The registry states ordinary Trial Rules service on the prosecuting attorney, corroborated by the profile's Indiana expungement petition text. The block asserts no completed service: date and method are participant-filled and the recipient address is never prefilled.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.service; profile:sourceSections[0] lines 145-423"
+    },
+    {
+      "component": "notice",
+      "status": "absent",
+      "reason": "\"The review does not state a distinct notice rule for a supplemental petition.\" Nothing is drafted for notice, and no response window or hearing procedure is asserted.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.notice"
+    },
+    {
+      "component": "affidavit",
+      "status": "absent",
+      "reason": "No affidavit is recorded anywhere on this track. Notarization is 'none' and no sworn statement is required by any source read.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.notarization; .packetSet.components"
+    },
+    {
+      "component": "participant_only_cover_sheet",
+      "status": "absent",
+      "reason": "Neither the registry entry nor the compiled profile records a cover sheet for this track. The profile records Indiana Access to Court Records forms only inside the arrest/charge/juvenile-allegation expungement material, and no source says they attach to a section 9(l) petition. See the handoff's F-review pointers.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetSet.components; profile:pathways[0].exclusionRules[0]"
+    },
+    {
+      "component": "attachment_certified_expungement_order",
+      "status": "present_not_drafted",
+      "reason": "packetSet.components[2] is a required attachment. The attachment is the certified copy of the original expungement order, obtained by the participant from the clerk of the granting court. LegalEase drafts nothing for it. The component's recorded outputStrategy 'custom_pleading' appears to be a registry data defect; see counselFlag in-supplemental-attachment-component-mislabelled.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].packetSet.components[2]; .participantFilingRequirements[0]"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "note": "Participant-only. participant-instructions.md, drawn from rules.filing, rules.service, rules.notice, rules.fees, packetInstructions and packetSet.participantActionRequired, plus the state pack's filingDestinationGuidance and feesCopiesServiceNotes. Never filed with the court.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_supplemental_order].rules.filing; .packetInstructions"
+    }
+  ],
+  "participantOnlyDocuments": [
+    "participant-instructions.md"
+  ],
+  "courtDocuments": [
+    {
+      "item": "Supplemental Petition under I.C. 35-38-9-9(l)",
+      "componentId": "in_supplemental_order-primary-filing-1",
+      "drafted": true,
+      "requirement": "required",
+      "note": "Drafted as a container. The amendment relied on and the relief sought are empty slots until counsel settles the cycle's amendment."
+    },
+    {
+      "item": "Proposed order",
+      "componentId": "in_supplemental_order-proposed-order-2",
+      "drafted": true,
+      "requirement": "required",
+      "note": "Relief consistent with the amendment; amendment and relief left as empty slots."
+    },
+    {
+      "item": "Certified copy of the original expungement order",
+      "componentId": "in_supplemental_order-attachment-3",
+      "drafted": false,
+      "requirement": "required",
+      "reason": "Participant obtains it from the clerk of the granting court. Required before filing. LegalEase does not obtain, receive or inspect it."
+    }
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/indiana/index.ts",
+      "src/lib/rcap/state-packs/indiana/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profileSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=in_supplemental_order]",
+    "statePackNote": "The committed Indiana state pack carries build metadata and the Nationwide official-form/resource inventory only, all I.C. 35-38-9 expungement material, and records no track-level pleading text. Track prose, authority, rules and packet composition come from the pinned registry entry; the compiled profile supplies only the Indiana caption pattern, the Petitioner label and the Trial Rules service convention.",
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2019-07-01"
+  }
+}

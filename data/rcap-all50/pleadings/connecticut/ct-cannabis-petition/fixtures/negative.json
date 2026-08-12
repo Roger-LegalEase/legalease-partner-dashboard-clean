@@ -1,0 +1,54 @@
+{
+  "fixtureId": "ct-cannabis-petition-negative",
+  "trackId": "ct-cannabis-petition",
+  "configPath": "data/rcap-all50/pleadings/connecticut/ct-cannabis-petition/pleading-config.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE TOWN, CT 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "SUPERIOR COURT, JUDICIAL DISTRICT OF HARTFORD",
+    "judicialDistrictOrGaLocation": "HARTFORD",
+    "countyName": "HARTFORD COUNTY",
+    "docketNumber": "H14M-CR00-0000000",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE STATE'S ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "Possession of four ounces of a cannabis-type substance",
+    "statuteSection": "§ 21a-279",
+    "dispositionDate": "06/12/2016",
+    "arrestDate": "05/01/2016",
+    "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "countsOnDocket": "three counts",
+      "hasArrestRecord": "no"
+    },
+    "eligibilityBasisLabel": "Eligible — confirmed for expungement",
+    "allCountsErasableConfirmedByParticipant": false,
+    "additionalFacts": [
+      "All three counts on this docket are entitled to erasure.",
+      "The offense has since been decriminalized.",
+      "The State's Attorney was served with this petition and does not object.",
+      "The court granted the petition without a hearing and the records have been sealed."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "03/05/1976",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "CT0000000",
+    "sbiNumber": "00000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA for these reasons, each of which is prohibited invention or a prohibited term for this track: (1) it uses the prohibited terms 'expungement' and 'sealed' — the scope restriction on this track is \"Connecticut says erasure. Not expungement, not sealing.\"; (2) it asserts that all counts on the docket are erasable while allCountsErasableConfirmedByParticipant is false, which the scope restriction forbids unless the participant has confirmed the count list from the record; (3) it asserts that the offense has since been decriminalized, which is the § 54-142d question, carries case law, and must never be generated; (4) it fills court name, judicial district, county, docket number, OTN, judge, prosecutor and prosecutor position, none of which any source supplies and all of which must stay blank; (5) it asserts an outside-party act and service completion (the State's Attorney was served and does not object) when no service requirement was even found in § 54-142v; (6) it asserts a hearing outcome (the court granted the petition); and (7) it populates protected fields (date of birth, SSN, state ID, SBI number) that must stay blank."
+}

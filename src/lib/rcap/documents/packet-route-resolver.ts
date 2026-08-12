@@ -7,6 +7,7 @@
 // petition. Unknown input fails closed.
 
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
+import { guidanceTracksForPathway } from "@/lib/rcap/documents/guidance-packet-registry";
 
 export type PacketRouteKind = "factory_v2" | "legacy_verified" | "guidance_only" | "typed_stop" | "disabled";
 
@@ -20,6 +21,12 @@ export type PacketRouteResolution = {
   /** Sponsored allocation or paid entitlement may be consumed only on these routes. */
   creditConsumable: boolean;
   reason: string;
+  /**
+   * Lane-B complete-guidance treatments serving this guidance route, when any
+   * are registered. Informational only: their presence never makes the route
+   * sellable or credit-consumable.
+   */
+  guidanceTrackIds?: string[];
 };
 
 export type PacketRouteInput = {
@@ -85,6 +92,7 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
     };
   }
 
+  const guidanceTracks = guidanceTracksForPathway(jurisdiction, pathwayId);
   return {
     routeKind: "guidance_only",
     jurisdiction,
@@ -92,7 +100,8 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
     rendererKind: "none",
     sellable: false,
     creditConsumable: false,
-    reason: `${jurisdiction} has a compiled profile but no certified packet renderer, so it serves guidance.`
+    reason: `${jurisdiction} has a compiled profile but no certified packet renderer, so it serves guidance.`,
+    ...(guidanceTracks.length > 0 ? { guidanceTrackIds: guidanceTracks.map((track) => track.trackId) } : {})
   };
 }
 

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "rcap-image-input-drift/v1",
+  "recordedWindow": "2026-08-12-w2",
+  "purpose": "Roger's terminalization-window directive: any src change must be recorded as image-input drift for the single final republish after the terminalization wave. This record names every worker image-input path that has diverged from the published image's freeze SHA, and what diverged it.",
+  "publishedImage": {
+    "workerSourceFreezeSha": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
+    "immutableRegistryDigest": "sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
+    "status": "valid_for_f1_evidence_only_pending_final_republish"
+  },
+  "driftedPaths": {
+    "package.json": "six terminalization verifiers/checks wired into the npm test chain",
+    "src/lib/rcap-engine/evaluator.ts": "structural automatic/no-filing clamp: routeIsAutomaticOrNoFiling veto in isCourtFiledPetitionRoute, pre-route and post-route guidance backstops, paymentAllowed clamp (lane-B MI rule-11 defect class)",
+    "src/lib/rcap-engine/compiled/profiles/*.json": "57 decision rules across 15 profiles (AK, CA, CO, CT, DC, DE, IL, MA, MD, MI, NE, NY, SD, UT, VA) whose candidates are all automatic/no-filing corrected from packet_ready_with_caution/show_cautions_then_allow_packet_checkout to guidance_only/save_state_guidance_no_checkout",
+    "src/lib/rcap/documents/packet-route-resolver.ts": "guidance_only resolutions carry guidanceTrackIds from the lane-B registry; sellable/creditConsumable unchanged (false)",
+    "src/lib/rcap/documents/guidance-packet-registry.ts": "new: fail-closed runtime registry for lane-B complete-guidance treatments"
+  },
+  "republishPlan": "One final republish after the terminalization wave: new freeze SHA, new image-input fingerprint base, new GHCR digest, and a rerun of the F1 ephemeral staging regression against the new digest. No interim image is published from a drifted tree.",
+  "authorizedBy": "Roger — first terminalization integration window directive, 2026-08-12"
+}

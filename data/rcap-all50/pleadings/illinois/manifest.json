@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "rcap-pleading-manifest/v1",
+  "jurisdiction": {
+    "code": "IL",
+    "name": "Illinois",
+    "slug": "illinois"
+  },
+  "lane": "C1",
+  "jobIds": ["T-C-IL-production-packet"],
+  "trackIds": ["il-immediate-seal"],
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "registryPath": "data/record-clearing/legal-design-track-registry.json",
+  "registryEntryPointer": "tracks[140] (trackId il-immediate-seal)",
+  "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+  "profileSha256": "ee28d428d52f2c8ae7583b889f8f74aa0a83c5730cf13636b50bc7072e12c169",
+  "statePackFiles": [
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/index.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/all50-build-metadata.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/court-routing.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/filing-instructions.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/eligibility-rules.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/fee-notes.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/safety-language.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/required-fields.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/document-types.ts"
+  ],
+  "perTrackStatus": {
+    "il-immediate-seal": {
+      "jobId": "T-C-IL-production-packet",
+      "family": "controlled_pleading",
+      "treatment": "production_packet",
+      "status": "production_packet_complete",
+      "buildStatus": "pleading_packet_rendered",
+      "buildStatusNote": "Config, four fixtures, participant instructions and handoff are complete as data. Not promoted to state_built: this is one track of an all-50 sprint and two release blockers plus a build gap in the track's own screening requirements are open.",
+      "legalName": "Immediate Sealing at Disposition",
+      "publicName": "Asking for immediate sealing on the day your case is dismissed or you are acquitted",
+      "primaryReliefTerm": "sealing",
+      "templateGrade": "legal_ops_custom_pleading",
+      "templateLifecycle": "replacement_candidate",
+      "compositionMode": null,
+      "componentCount": 3,
+      "componentsBuilt": [
+        "il-immediate-seal-primary-filing-1",
+        "il-immediate-seal-proposed-order-2",
+        "il-immediate-seal-instructions-3"
+      ],
+      "componentsBlocked": [],
+      "pleadingDocumentsDrafted": 2,
+      "pleadingDocumentsDraftedNote": "The petition and the proposed order, both as PleadingTrackConfig-shaped data. The proposed order is an empty-outcome instrument. The third component is the participant-only filing instruction sheet delivered as participant-instructions.md.",
+      "componentInventoryPresent": 10,
+      "componentInventoryAbsent": 4,
+      "componentInventoryAbsentList": [
+        "certificate_of_service",
+        "notice",
+        "affidavit",
+        "participant_only_cover_sheet"
+      ],
+      "fixtureFiles": [
+        "il-immediate-seal/fixtures/canonical.json",
+        "il-immediate-seal/fixtures/boundary.json",
+        "il-immediate-seal/fixtures/negative.json",
+        "il-immediate-seal/fixtures/multiline.json"
+      ],
+      "counselFlagCount": 15,
+      "mandatoryOfficialFormHandoffs": [],
+      "mandatoryOfficialFormHandoffsNote": "None. The mandatory statewide adult suite expressly does not govern this track — the review records the suite as governing Tracks A, B, C, D, E, F, G, H, J and stage 2 of K, and not this one. packetSet.components carries no officialFormId on any of the three components. Whether any Illinois court publishes a LOCAL form for § 5.2(g) is unknown and is an open release blocker; if one is found it would replace the constructed title and caption, but there is no form to hand off today.",
+      "openReleaseBlockers": [
+        "No verified statewide form covers the § 5.2(g) same-day mechanism and the local-form override is unverified.",
+        "Whether an attorney-handoff packet is the accepted delivery model, given that § 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney.",
+        "The accepted caption and party styling for a § 5.2(g) petition (recorded here in addition to the registry's two)."
+      ],
+      "sourceConflictsRecorded": [
+        "Internal to the registry entry: scopeRestrictions[3] (\"LegalEase does not generate a filing for this route\") contradicts scopeRestrictions[0] (the packet-only re-review that reclassified to custom_pleading). This artifact follows [0], consistent with outputStrategy and packetSet.",
+        "Registry versus compiled profile: profile sourceSections[20] and [2] instruct that the statewide suite is mandatory and that a bespoke petition must never be suggested; the registry finds the suite does not reach § 5.2(g)."
+      ],
+      "reviewStatuses": {
+        "qa": "pending",
+        "output": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "technicalProof": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalStatus": "legal_review_pending",
+      "implementationQueue": "C_custom_pleading",
+      "reviewedAsOf": "2026-07-30",
+      "approvedForLive": false,
+      "live": false
+    }
+  },
+  "componentCount": 3,
+  "counselFlagCount": 15,
+  "filesWritten": [
+    "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/manifest.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/fixtures/canonical.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/fixtures/boundary.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/fixtures/negative.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/fixtures/multiline.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/participant-instructions.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/handoff.md"
+  ],
+  "unmanifestedFilesOnDisk": {
+    "files": [
+      "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/rendered/canonical.txt",
+      "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/rendered/canonical.pdf",
+      "/home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/il-immediate-seal/rendered/render-report.json"
+    ],
+    "note": "Recorded by lane-C1 audit, not by the build job. These three files exist under this track directory but appear in no filesWritten list. They are outside the data-only artifact convention (a rendered PDF/text sample plus a render report) and their content is NOT audit-clean: canonical.txt asserts Pennsylvania jurisdiction, venue and record custodians in an Illinois petition (\"Court of Common Pleas of [COUNTY] County, Pennsylvania\", \"Pennsylvania State Police\"), emits literal `null` tokens in the caption and party lines, and leaves the `{county}` caption token unresolved, while render-report.json attests `placeholderScan: \"clean\"` and `protectedFieldScan: \"clean\"`. Quarantined pending review; nothing downstream should treat these as the track's output.",
+    "auditStatus": "quarantined_non_conforming"
+  },
+  "composedRoutesDirectoryWritten": true,
+  "composedRoutesDirectoryNote": "The second IL job in this lane, T-C-IL-complete-composed-route (track il-prb-cert), is recorded separately at /home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/manifest.json.",
+  "legacyGeneratorNote": "The live legacy Illinois generator is untouched. Nothing under src/**, scripts/** or any ledger was modified by this job; all output is data under data/rcap-all50/.",
+  "notApprovedForLive": true,
+  "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass."
+}

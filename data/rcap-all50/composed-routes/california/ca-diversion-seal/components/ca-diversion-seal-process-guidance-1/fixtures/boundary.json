@@ -1,0 +1,55 @@
+{
+  "fixtureId": "ca-diversion-seal-process-guidance-1-boundary",
+  "description": "Boundary fill. Deferred entry of judgment rather than drug diversion; the second named geography key (Kern) where a local petition is known to exist but has not been collected or approved; programme completion answer not yet checked against the proof document; no arrest date recalled. Exercises the paths where the guidance must state an absence rather than a value.",
+  "trackId": "ca-diversion-seal",
+  "componentId": "ca-diversion-seal-process-guidance-1",
+  "jurisdictionCode": "CA",
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "screeningData": {
+    "programType": "Deferred entry of judgment programme",
+    "programCompleted": "Participant says yes; proof of programme completion not yet obtained",
+    "countyOfCase": "Kern",
+    "arrestDate": "",
+    "caseNumber": ""
+  },
+  "partyData": {
+    "petitionerName": "SAM SAMPLE",
+    "petitionerAddress": "",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "Kern",
+    "judicialDistrict": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "judgeAddress": ""
+  },
+  "chargeData": {
+    "chargeDescription": "Arrest record for the offense charged in the case admitted to deferred entry of judgment",
+    "offenseGrade": "",
+    "disposition": "Successful completion of deferred entry of judgment under PC 1000 or 1000.8",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": "",
+    "statuteTitle": "Cal. Penal Code",
+    "statuteSection": "851.90"
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "Arrest sealing after successful completion of a deferred entry of judgment programme under Cal. Penal Code § 851.90",
+    "waitingPeriodText": "After successful completion of the diversion or deferred entry of judgment programme — duration: none stated",
+    "additionalFacts": [
+      "Kern County is a named geography key for this route and is known to publish its own local petition, but no local petition and order set has been collected or approved, so no local form is selected for the participant.",
+      "The participant must check the answer to \"Did you successfully complete the programme?\" against the proof of programme completion and correct the packet if they disagree.",
+      "Arrest date and disposition date are blank because the participant did not supply them; no date is inferred."
+    ]
+  },
+  "boundaryConditions": [
+    "countyOfCase is a named geography key but has no approved local petition and order set — unit ca-diversion-seal-stage-2 stays excluded.",
+    "programCompleted is asserted but unverified against the source document.",
+    "arrestDate and dispositionDate are empty; the guidance must not supply or estimate either.",
+    "petitionerAddress is empty; the guidance must not supply one."
+  ],
+  "expectFailure": null
+}

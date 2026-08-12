@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-pleading-manifest/v1",
+  "jurisdiction": {
+    "code": "CT",
+    "name": "Connecticut",
+    "slug": "connecticut"
+  },
+  "jobIds": [
+    "T-C-CT-production-packet"
+  ],
+  "trackIds": [
+    "ct-cannabis-petition",
+    "ct-decriminalized"
+  ],
+  "perTrackStatus": {
+    "ct-cannabis-petition": {
+      "publicName": "Petition to erase an older or larger cannabis conviction",
+      "legalName": "Petition for Erasure of Cannabis Conviction Records, C.G.S. § 54-142v",
+      "status": "controlled_pleading_drafted",
+      "primaryReliefTerm": "erasure",
+      "componentCount": 2,
+      "draftedCourtDocuments": [
+        "ct-cannabis-petition-primary-filing-1 (petition)",
+        "ct-cannabis-petition-supporting-affidavit-2 (supporting affidavit, conditional)"
+      ],
+      "officialFormDependencies": [],
+      "counselFlagCount": 11,
+      "openReleaseBlockers": [
+        "Accepted caption and format for a § 54-142v petition (no statewide form).",
+        "Service, and whether a proposed order should be filed and in what form."
+      ],
+      "fixtures": [
+        "canonical",
+        "boundary",
+        "multiline",
+        "negative"
+      ],
+      "artifacts": [
+        "ct-cannabis-petition/pleading-config.json",
+        "ct-cannabis-petition/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ct-cannabis-petition/participant-instructions.md",
+        "ct-cannabis-petition/handoff.md",
+        "ct-cannabis-petition/rendered/canonical.txt",
+        "ct-cannabis-petition/rendered/canonical.pdf",
+        "ct-cannabis-petition/rendered/render-report.json"
+      ]
+    },
+    "ct-decriminalized": {
+      "publicName": "Ask the court to destroy records of an offense that is no longer a crime",
+      "legalName": "Petition for Physical Destruction of Records of a Decriminalized Offense, C.G.S. § 54-142d",
+      "status": "controlled_pleading_drafted_with_open_build_blockers",
+      "primaryReliefTerm": "destruction",
+      "componentCount": 1,
+      "draftedCourtDocuments": [
+        "ct-decriminalized-primary-filing-1 (petition)"
+      ],
+      "officialFormDependencies": [],
+      "counselFlagCount": 12,
+      "openBuildBlockers": [
+        "The current scope of \"decriminalized\" after State v. Menditto (eligibility_branch).",
+        "Whether the § 54-142a(k) fee bar reaches § 54-142d (filing_process).",
+        "The accepted filing practice for a § 54-142d petition, and whether the Judicial Branch has any form or practice note (filing_process)."
+      ],
+      "fixtures": [
+        "canonical",
+        "boundary",
+        "multiline",
+        "negative"
+      ],
+      "artifacts": [
+        "ct-decriminalized/pleading-config.json",
+        "ct-decriminalized/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ct-decriminalized/participant-instructions.md",
+        "ct-decriminalized/handoff.md",
+        "ct-decriminalized/rendered/canonical.txt",
+        "ct-decriminalized/rendered/canonical.pdf",
+        "ct-decriminalized/rendered/render-report.json"
+      ]
+    }
+  },
+  "componentCount": 3,
+  "totals": {
+    "tracks": 2,
+    "draftedPleadingComponents": 3,
+    "officialFormDependencies": 0,
+    "counselFlags": 23,
+    "fixtures": 8
+  },
+  "notes": [
+    "Both CT controlled-pleading tracks are genuine custom pleadings: the registry records no official form for either, and the Clean Slate portal is the recorded authority for the no-official-form finding on § 54-142v.",
+    "No proposed order and no certificate of service is drafted on either track. On ct-cannabis-petition a proposed order is described as recommended but no form exists and clerk acceptance is unconfirmed; on ct-decriminalized no source mentions one at all.",
+    "ct-decriminalized carries three open legal-design build blockers. They govern whether and what to file, so the container is drafted and the blockers are flagged; no fee, eligibility or filing-practice statement is asserted.",
+    "The committed Connecticut state pack holds build metadata and the Nationwide inventory only. The compiled CT profile does not mention § 54-142d at all, and describes cannabis erasure only as the automatic § 21a-279(c) lane — not the § 54-142v petition. Both tracks therefore rest primarily on the pinned registry entries."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "profileSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/connecticut/index.ts",
+      "src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts"
+    ]
+  }
+}

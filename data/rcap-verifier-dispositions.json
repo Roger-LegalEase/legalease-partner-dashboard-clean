@@ -3,8 +3,8 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 105,
-    "wired": 97,
+    "keep_available": 109,
+    "wired": 102,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -1324,11 +1324,29 @@
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
+    "test-expungement-parity-delta-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the reviewed screening-parity delta mechanism is a constraint rather than a bypass: 11 mutations - a second added question, a reworded existing question, reordered existing questions, the approved question moved to another stage, another jurisdiction, another pathway, a path prefix widening, byte drift in an approved file, an unrecognised schema key, an absent record and a malformed record - each turn verify-expungement-plain-language-values red, and each is checked for the right failure message rather than only a non-zero exit.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain"
+    },
     "test-rcap-apply-evidence-mutations.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
+    },
+    "test-rcap-consumer-payment-http-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the P1-P18 suite is load-bearing: 7 mutations, each removing one guarantee, all turn it red. Two further guarantees are named in the harness as intentionally unmutated because the application layer is not their only defence.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain"
+    },
+    "test-rcap-image-fingerprint-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails; kept out of the npm test chain string because package.json is an image input. 11 mutations - file drift, missing input, src/ and scripts/lib/ working-tree change, omitted fingerprint key, silent algorithm change, checkpoint tree substitution, stale base, rewritten hash, hand edit, waived equivalence - each turns verify-rcap-image-input-fingerprint red for its named reason, with signal-safe byte restoration.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain"
     },
     "test-rcap-phase52-mutations.mjs": {
       "disposition": "wired",
@@ -1342,6 +1360,32 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "test-rcap-phase54-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves each Phase 54 defence is load-bearing: 5 mutations — phase omitted, RLS not enabled, browser-role revokes dropped, reserved slug claimable, shape constraint stops discriminating — all turn the namespace proof red.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain"
+    },
+    "verify-expungement-consumer-payment-http.mjs": {
+      "disposition": "wired",
+      "reason": "The application-to-job boundary proof: P1-P18 driven through the real webhook and consumer render routes, with signatures produced by the Stripe SDK and migrations 26-53 applied to an ephemeral cluster. It is the only coverage that executes the raw-body/signature wiring rather than grepping for it.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "role": "application_payment_and_enqueue_proof"
+    },
+    "verify-f1-evidence-markers.mjs": {
+      "disposition": "keep_available",
+      "reason": "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-consumer-person-namespace.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the fourteen properties the reserved consumer person namespace depends on, against a real cluster carrying 26-54. N1-N8 cover namespace behaviour; R1-R6 cover the role, tenant, reporting, entitlement, attribution and isolation dimensions Phase 54 enforces in the database. R6 is a positive control: the sanctioned server-side path still resolves consumer persons after the lockdown.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "closedByPhase54": "rcap_persons now has RLS enabled, a service_role-only policy, no anon or authenticated grants, a trigger refusing the reserved slug on partner_records, and a two-way namespace shape constraint."
+    },
     "verify-rcap-crosswalk-resolution-lane.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1354,11 +1398,78 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-final-official-sources.mjs": {
+      "disposition": "wired",
+      "reason": "Owned by the official-source materialization lane, imported byte-identical from 1d71919d. Holds the two still-blocked subjects to official-host discipline and bounds their conclusions.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "sourceCommit": "1d71919d605edb966084f3b18abc0f2658602b34",
+      "laneOwned": true
+    },
+    "verify-rcap-guidance-terminalization.mjs": {
+      "disposition": "keep_available",
+      "reason": "Lane B's acceptance contract for guidance/exclusion/deferral treatments. Red by design until lane B delivers every assigned state (window 2 imported the six completed B1 treatments; B2/B3 and the rest of B1 are still in flight), so it runs per-partition inside lane B and becomes a wired blocking step when the lane completes. Wiring it now would fail the chain on work that is assigned, not late.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-hard-form-dispositions.mjs": {
+      "disposition": "wired",
+      "reason": "Lane E's non-packet treatment contract: every exact supported deferral carries exact evidence, an owner, a next action and a complete participant treatment (DE Form 281, ME CR-289). Wired by the captain in window 2026-08-12-w2.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-hard-form-outputs.mjs": {
+      "disposition": "wired",
+      "reason": "Lane E's rendered-output proof: 12 fixtures across the four California Tier-1 hard-form families render to their recorded fingerprints with protected fields untouched. Wired by the captain in window 2026-08-12-w2.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-image-input-fingerprint.mjs": {
+      "disposition": "keep_available",
+      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails. Not listed in the npm test chain string because package.json is itself an image input and the commit introducing this gate was forbidden from touching image-input paths. Independently recomputes all seven image-input hashes (sha256 for files, git tree hashes for scripts/lib/ and src/), enforces base-to-HEAD image-input equivalence, rejects checkpoint-substitution, algorithm drift, omitted inputs, dirty trees and hand-edited records.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain"
+    },
+    "verify-rcap-md-pardon-pathway.mjs": {
+      "disposition": "wired",
+      "reason": "Both-direction proof for the counsel-approved MD pardoned-conviction pathway under Crim. Proc. 10-105(a)(8)/(c)(4): a qualifying in-deadline case opens payment; passed-deadline and missing-date cases stay shut. Owned by the crosswalk lane, imported from 10b62516.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
     "verify-rcap-migration-apply-evidence.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
+    },
+    "verify-rcap-no-checkout-on-automatic-routes.mjs": {
+      "disposition": "wired",
+      "reason": "The lane-B invariant made checkable everywhere: no automatic/no-filing route can produce a packet-ready result, open payment, or carry a checkout-declaring compiled rule (the MI rule-11 defect class, found in 57 rules across 14 profiles and corrected in window 2026-08-12-w2). Static sweep + live evaluation sweep + resolver assertions.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-official-forms-d1.mjs": {
+      "disposition": "wired",
+      "reason": "D1's acceptance verifier: 146 family packages structurally complete and sha-pinned, 62 completed implementation packages rendered with no unwritable field written. Lane D1 recorded it green but could not edit package.json; the captain wired it in the first terminalization integration window (2026-08-12-w2).",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-official-source-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the PA/SC official-source discipline is load-bearing: 8 mutations turn the canonical check red. Imported from 10b62516.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-person-identity-post-phase54.mjs": {
+      "disposition": "wired",
+      "reason": "Terminal B's independent post-Phase-54 audit of public.rcap_persons, imported byte-identical from 338629ae. This is the audit that supersedes 83c04469, which audited 7e1b2c4d with no Phase 54 in its tree and correctly reported the pre-hardening exposure. Green from the integrated tree.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "role": "independent_person_isolation_proof",
+      "sourceCommit": "338629ae",
+      "laneOwned": true
     },
     "verify-rcap-phase52-consumer-payment-authority.mjs": {
       "disposition": "wired",
@@ -1372,87 +1483,29 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-terminalize-c1.mjs": {
+      "disposition": "wired",
+      "reason": "Lane C1's acceptance contract, green at 27/27 (11 pleading + 16 composed tracks, 64 components, 5 recorded external-source blocks, 18 canonical renders). Wired by the captain in window 2026-08-12-w2 after re-pinning provenance profile hashes that moved with the automatic-route rule corrections.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-terminalize-c2.mjs": {
+      "disposition": "keep_available",
+      "reason": "Lane C2's partition contract. Red by design until every C2 jurisdiction lands (tennessee is still in flight); completed jurisdictions are imported as they land per the hour-6 directive. Becomes wired when the partition completes.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-terminalize-c3.mjs": {
+      "disposition": "keep_available",
+      "reason": "Lane C3's partition contract. Red by design until every C3 jurisdiction lands (wisconsin and the ID/NV/SC renders are still in flight); completed jurisdictions are imported as they land per the hour-6 directive. Becomes wired when the partition completes.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
+    },
     "verify-rcap-worker-publication-workflow.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
-    },
-    "verify-expungement-consumer-payment-http.mjs": {
-      "disposition": "wired",
-      "reason": "The application-to-job boundary proof: P1-P18 driven through the real webhook and consumer render routes, with signatures produced by the Stripe SDK and migrations 26-53 applied to an ephemeral cluster. It is the only coverage that executes the raw-body/signature wiring rather than grepping for it.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "role": "application_payment_and_enqueue_proof"
-    },
-    "test-rcap-consumer-payment-http-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Proves the P1-P18 suite is load-bearing: 7 mutations, each removing one guarantee, all turn it red. Two further guarantees are named in the harness as intentionally unmutated because the application layer is not their only defence.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain"
-    },
-    "verify-rcap-final-official-sources.mjs": {
-      "disposition": "wired",
-      "reason": "Owned by the official-source materialization lane, imported byte-identical from 1d71919d. Holds the two still-blocked subjects to official-host discipline and bounds their conclusions.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "sourceCommit": "1d71919d605edb966084f3b18abc0f2658602b34",
-      "laneOwned": true
-    },
-    "verify-rcap-consumer-person-namespace.mjs": {
-      "disposition": "wired",
-      "reason": "Proves the fourteen properties the reserved consumer person namespace depends on, against a real cluster carrying 26-54. N1-N8 cover namespace behaviour; R1-R6 cover the role, tenant, reporting, entitlement, attribution and isolation dimensions Phase 54 enforces in the database. R6 is a positive control: the sanctioned server-side path still resolves consumer persons after the lockdown.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "closedByPhase54": "rcap_persons now has RLS enabled, a service_role-only policy, no anon or authenticated grants, a trigger refusing the reserved slug on partner_records, and a two-way namespace shape constraint."
-    },
-    "test-rcap-phase54-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Proves each Phase 54 defence is load-bearing: 5 mutations — phase omitted, RLS not enabled, browser-role revokes dropped, reserved slug claimable, shape constraint stops discriminating — all turn the namespace proof red.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain"
-    },
-    "test-expungement-parity-delta-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Proves the reviewed screening-parity delta mechanism is a constraint rather than a bypass: 11 mutations - a second added question, a reworded existing question, reordered existing questions, the approved question moved to another stage, another jurisdiction, another pathway, a path prefix widening, byte drift in an approved file, an unrecognised schema key, an absent record and a malformed record - each turn verify-expungement-plain-language-values red, and each is checked for the right failure message rather than only a non-zero exit.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain"
-    },
-    "verify-rcap-image-input-fingerprint.mjs": {
-      "disposition": "keep_available",
-      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails. Not listed in the npm test chain string because package.json is itself an image input and the commit introducing this gate was forbidden from touching image-input paths. Independently recomputes all seven image-input hashes (sha256 for files, git tree hashes for scripts/lib/ and src/), enforces base-to-HEAD image-input equivalence, rejects checkpoint-substitution, algorithm drift, omitted inputs, dirty trees and hand-edited records.",
-      "observedStatus": "chained_via_worker_publication_workflow",
-      "decidedBy": "captain"
-    },
-    "test-rcap-image-fingerprint-mutations.mjs": {
-      "disposition": "keep_available",
-      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails; kept out of the npm test chain string because package.json is an image input. 11 mutations - file drift, missing input, src/ and scripts/lib/ working-tree change, omitted fingerprint key, silent algorithm change, checkpoint tree substitution, stale base, rewritten hash, hand edit, waived equivalence - each turns verify-rcap-image-input-fingerprint red for its named reason, with signal-safe byte restoration.",
-      "observedStatus": "chained_via_worker_publication_workflow",
-      "decidedBy": "captain"
-    },
-    "verify-rcap-person-identity-post-phase54.mjs": {
-      "disposition": "wired",
-      "reason": "Terminal B's independent post-Phase-54 audit of public.rcap_persons, imported byte-identical from 338629ae. This is the audit that supersedes 83c04469, which audited 7e1b2c4d with no Phase 54 in its tree and correctly reported the pre-hardening exposure. Green from the integrated tree.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "role": "independent_person_isolation_proof",
-      "sourceCommit": "338629ae",
-      "laneOwned": true
-    },
-    "verify-rcap-md-pardon-pathway.mjs": {
-      "disposition": "wired",
-      "reason": "Both-direction proof for the counsel-approved MD pardoned-conviction pathway under Crim. Proc. 10-105(a)(8)/(c)(4): a qualifying in-deadline case opens payment; passed-deadline and missing-date cases stay shut. Owned by the crosswalk lane, imported from 10b62516.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-official-source-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Proves the PA/SC official-source discipline is load-bearing: 8 mutations turn the canonical check red. Imported from 10b62516.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "laneOwned": true
     }
-  },
-  "registerRegenerationHazard": "Do not regenerate this register wholesale. The generator re-derives each entry by executing the verifier, and verify-rcap-phase51-consumer-payment-security.mjs reads red on any machine without the audit lane's environment. Regeneration therefore demotes a captain-pinned 'wired' entry that is the single canonical independent payment acceptance proof. Terminal E hit this, tested it, and reverted byte-identically rather than shipping it. Add entries by hand."
+  }
 }

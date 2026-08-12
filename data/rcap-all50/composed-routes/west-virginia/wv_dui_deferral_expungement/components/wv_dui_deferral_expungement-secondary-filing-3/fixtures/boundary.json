@@ -1,0 +1,75 @@
+{
+  "fixtureId": "wv_dui_deferral_expungement-secondary-filing-3-boundary",
+  "trackId": "wv_dui_deferral_expungement",
+  "componentId": "wv_dui_deferral_expungement-secondary-filing-3",
+  "unitId": "wv-dui-deferral-unit-2-application-to-expunge",
+  "configPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json",
+  "routePath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/route.json",
+  "description": "Boundary on the statutory clock, which is the sourced failure mode of this stage: the charges were dismissed on one date and the probation term expired on a different, earlier date, so the one-year period is measured from a date that is not the dismissal date. The application must carry both dates without merging them and without asserting which one makes the participant eligible. Also boundary on minimal input — no alias, no charge grade.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "R. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE ROAD, EXAMPLE TOWN, WV 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "court": "",
+    "countyName": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "[PARTICIPANT'S OWN DESCRIPTION OF THE CHARGE — NOT SUPPLIED BY LEGALEASE]",
+    "offenseGrade": "",
+    "disposition": "proceedings deferred under W. Va. Code § 17C-5-2b without entry of a judgment of guilt; probation imposed; Motor Vehicle Alcohol Test and Lock Program completed; charges dismissed and defendant discharged under W. Va. Code § 17C-5-2b(c)",
+    "dispositionDate": "",
+    "arrestDate": "[PARTICIPANT'S OWN ARREST DATE — NOT SUPPLIED BY LEGALEASE]",
+    "arrestingAgency": "[PARTICIPANT'S OWN ANSWER: THE AGENCY THAT ARRESTED THEM — NOT SUPPLIED BY LEGALEASE]"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "stageNeeded": "the charges were already dismissed some time ago",
+      "chargeCourtAndCounty": "",
+      "caseNumber": "",
+      "deferralOrderDate": "[PARTICIPANT'S OWN DATE, CHECKED AGAINST THE ORDER DEFERRING PROCEEDINGS — NOT SUPPLIED BY LEGALEASE]",
+      "probationTerm": "[PARTICIPANT'S OWN ANSWER, TAKEN FROM THE ORDER DEFERRING PROCEEDINGS]",
+      "programCompletionDate": "[PARTICIPANT'S OWN DATE, CHECKED AGAINST THE DIVISION OF MOTOR VEHICLES CERTIFICATION]",
+      "probationExpiryDate": "[PARTICIPANT'S OWN DATE — THE EARLIER OF THE TWO DATES; THIS IS THE ONE THE ONE-YEAR PERIOD RUNS FROM]",
+      "dismissalDate": "[PARTICIPANT'S OWN DATE — THE LATER OF THE TWO DATES; THE PERIOD DOES NOT RUN FROM THIS ONE]",
+      "priorFelonyConviction": "no",
+      "commercialLicence": "no — no commercial driver's licence and no commercial vehicle at the time",
+      "secondaryTestRefusal": "no — no court order finding refusal of the secondary chemical test",
+      "priorLicenceRevocation": "no — no earlier revocation for a same-elements offence in any state",
+      "otherArticleCharges": "no — no other offence under the serious traffic offences article in the same prosecution",
+      "probationViolations": "no — nobody has alleged a breach of the conditions of probation",
+      "priorDeferral": "no — no earlier discharge and dismissal under this section"
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted. This fixture exists to prove the application states two distinct dates without merging them and without concluding that the one-year period has run: subsection (g)(1) measures the period from the expiration of the term of probation, and the registry carries that as an express packet instruction.",
+    "documentsInHand": {
+      "dmvProgramCompletionCertification": true,
+      "orderDeferringProceedings": true,
+      "orderOfDismissalAndDischarge": true,
+      "writtenConfirmationOfProbationExpiry": true
+    },
+    "supportingDocumentNote": "Every document named here is participant-obtained. LegalEase does not obtain, receive or inspect any of them, and no drafted document characterises what any of them says.",
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "driversLicenseNumber": "",
+    "fbiNumber": "",
+    "fingerprintIdentifier": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label is set by presentation.movantRole in the config, not by the fixture key name; the word petitioner is prohibited in rendered output.",
+  "identityFieldNote": "caseData.docketNumber holds the participant's own case number and caseData.countyName their own county; both are required screening answers and are deliberately left blank in the fixtures under the artifact convention. The rendered document cannot go out without them; they are supplied by the participant, never by LegalEase. caseData.court is left blank because no source read for this track states the court level — the compiled profile records West Virginia courts as circuit, magistrate or municipal."
+}

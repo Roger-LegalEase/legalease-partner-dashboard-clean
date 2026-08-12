@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "componentId": "ca-diversion-seal-fee-waiver-3",
+  "unitId": "ca-diversion-seal-stage-3-fee-waiver",
+  "trackId": "ca-diversion-seal",
+  "jurisdictionCode": "CA",
+  "role": "conditional_official_form",
+  "requiredOutput": "official_form_dependency",
+  "outputStrategy": "official_pdf_fill",
+  "requirement": "conditional",
+  "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+  "drafted": false,
+  "draftingProhibited": {
+    "prohibited": true,
+    "reason": "FW-001 is a California Judicial Council official form. It is filled, never redrafted. No substitute fee-waiver document is produced."
+  },
+  "officialForms": [
+    {
+      "officialFormId": "FW-001",
+      "name": "Request to Waive Court Fees (California Judicial Council form FW-001)",
+      "nameSourceNote": "The registry states only \"FW-001 is the general California fee waiver form.\" The form title given here is the standard designation of that form number; if it cannot be confirmed at output review, treat the title as unverified and use the bare form number.",
+      "scope": "statewide",
+      "officialSourceUrl": null,
+      "retrievedOn": null,
+      "sha256": null,
+      "status": "named_but_not_collected",
+      "presentInStatePackInventory": false,
+      "inventoryNote": "No copy of FW-001 appears in the CA state pack officialFormInventory or resourcePacketInventory, and none is present in the Nationwide California folder listing recorded in the compiled profile source.allFolderFiles."
+    }
+  ],
+  "owningLane": {
+    "lane": "D",
+    "scope": "Official-form acquisition and approval: obtain the current FW-001 (and any companion FW-003 order, if the approved packet requires one — the registry does not name one), record a SHA-256, and route it through form approval."
+  },
+  "blockedDependency": "Lane D official-form acquisition — California Judicial Council form FW-001, Request to Waive Court Fees.",
+  "blockingSource": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntryPointer": "tracks[47].rules.feeWaiver; tracks[47].packetSet.participantActionRequired[7]; tracks[47].packetSet.requiredBeforeFiling[7]",
+    "sourceStatement": "FW-001 is the general California fee waiver form."
+  },
+  "feePosture": {
+    "filingFeeStated": false,
+    "statement": "The source review does not state a filing fee for this route.",
+    "consequence": "No fee amount may be printed and the route may not state that filing is free. Whether this waiver unit is ever reached is unconfirmed until a fee is confirmed per supported county.",
+    "counselFlagRef": "cf-04"
+  },
+  "participantTreatmentWhileBlocked": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true,
+    "instruction": "The participant asks the county superior court clerk what the filing fee is and, if they cannot pay it, asks the clerk for form FW-001. LegalEase prefills no financial-eligibility field.",
+    "manualCompletion": []
+  },
+  "unresolvedForThisUnit": [
+    "Whether any filing fee applies to a § 851.90 petition in each supported county (counsel flag cf-04).",
+    "Whether the approved fee-waiver packet requires a companion order form; the registry names only FW-001.",
+    "The current FW-001 revision and its SHA-256 (counsel flag cf-09)."
+  ]
+}

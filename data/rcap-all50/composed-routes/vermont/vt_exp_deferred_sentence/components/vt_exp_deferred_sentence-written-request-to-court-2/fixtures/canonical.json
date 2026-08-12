@@ -1,0 +1,65 @@
+{
+  "fixtureId": "vt_exp_deferred_sentence-written-request-canonical",
+  "trackId": "vt_exp_deferred_sentence",
+  "componentId": "vt_exp_deferred_sentence-written-request-to-court-2",
+  "unitId": "vt-deferred-written-request",
+  "configPath": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/components/vt_exp_deferred_sentence-written-request-to-court-2/pleading-config.json",
+  "routePath": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/route.json",
+  "description": "The conditional path in its plainest form: deferred sentence fulfilled, discharged from probation with the finding of guilt struck, restitution paid in full, and a record check that still shows the case — so the § 7041(e) order did not issue. Court, docket, OTN, judge, prosecutor, prosecutor position, filing date and every protected field stay blank because no source supplies them.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, VT 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "court": "",
+    "countyName": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "[PARTICIPANT'S OWN DESCRIPTION OF THE CHARGE — NOT SUPPLIED BY LEGALEASE]",
+    "offenseGrade": "",
+    "disposition": "deferred sentence agreement fulfilled; discharged from probation and adjudication of guilt struck",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "deferredSentenceEntered": "yes — the case ended in a deferred sentence agreement",
+      "probationDischarged": "yes — discharged from probation and the finding of guilt was struck",
+      "dischargeDate": "[PARTICIPANT'S OWN DATE, CHECKED AGAINST THE DISCHARGE ORDER — NOT SUPPLIED BY LEGALEASE]",
+      "restitutionPaidInFull": "yes — paid in full; [PARTICIPANT'S OWN DATE OF SATISFACTION, CHECKED AGAINST THE RESTITUTION UNIT STATEMENT]",
+      "orderIssued": "no — the record check still shows the case, so the order did not issue",
+      "registrableSexOffence": "no",
+      "countyOfCase": "",
+      "docketNumber": ""
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted. Whether the deferred sentence was fulfilled, whether the participant was discharged and the adjudication struck, and whether restitution is paid in full are the participant's own statements of fact, each checked by the participant against a document they obtain. Whether a finding of good cause exists is the court's and is never predicted.",
+    "dischargeOrderInHand": false,
+    "restitutionStatementInHand": false,
+    "recordSearchResultInHand": false,
+    "supportingDocumentNote": "The discharge order, the Restitution Unit statement and the Vermont Judiciary record search result are participant-obtained. LegalEase does not obtain, receive or inspect them.",
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "driversLicenseNumber": "",
+    "fbiNumber": "",
+    "fingerprintIdentifier": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config ('Requester'), not by the fixture key name.",
+  "identityFieldNote": "caseData.docketNumber and caseData.countyName are the participant's own required screening answers and are deliberately left blank in the fixtures under the artifact convention. The rendered request cannot go out without them; they are supplied by the participant, never by LegalEase."
+}

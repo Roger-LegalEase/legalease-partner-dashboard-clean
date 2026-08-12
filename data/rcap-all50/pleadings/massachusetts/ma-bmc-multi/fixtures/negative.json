@@ -1,0 +1,20 @@
+{
+  "fixtureId": "ma-bmc-multi-negative",
+  "description": "Negative fixture: the eligibility basis uses the prohibited Massachusetts term 'expungement' interchangeably with sealing. QA must fail on the prohibited-term gate (Massachusetts copy must never use sealing and expungement interchangeably).",
+  "expectedQaFailureSubstring": "expungement",
+  "partyData": {
+    "petitionerName": "JANE DOE"
+  },
+  "caseData": {
+    "countyName": "Central"
+  },
+  "chargeData": {
+    "chargeDescription": "three synthetic sample non-conviction cases",
+    "disposition": "Dismissed (synthetic)"
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "expungement of the listed records (WRONG VOCABULARY: sealing and expungement used interchangeably)"
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

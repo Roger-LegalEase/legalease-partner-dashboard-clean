@@ -38,7 +38,7 @@ const checkOnly = process.argv.includes('--check');
 
 // The integration window this ledger was generated in. Advanced by the captain
 // once per window; deliberately not a wall-clock read so --check is exact.
-const WINDOW_ID = '2026-08-12-w1';
+const WINDOW_ID = '2026-08-12-w2';
 const WINDOW_DATE = '2026-08-12';
 
 const problems = [];
@@ -96,6 +96,167 @@ const e4TerminalTracks = new Set(
     .map((i) => `${i.jurisdiction}:${i.subjectId}`)
 );
 
+// --- delivered treatments (window 2: first terminalization integration) -----
+//
+// A treatment is DELIVERED when its participant-facing artifact exists in the
+// owning lane's path and satisfies that lane's acceptance shape. Delivery is
+// what moves a track to terminal; a lane's claim without the artifact moves
+// nothing.
+
+// Lane B: complete_guidance — every packet must carry the eleven participant
+// elements and must not open payment or sale.
+const GUIDANCE_ELEMENTS = [
+  'mechanism', 'participantFiles', 'controllingActor', 'gather', 'nextStep',
+  'destination', 'stopReason', 'afterNextStep', 'briefcaseSaved', 'handoff', 'timing',
+];
+const deliveredGuidance = new Map(); // trackId -> evidence path
+{
+  const dir = path.join(rootDir, 'data/rcap-all50/guidance-packets');
+  if (fs.existsSync(dir)) {
+    for (const file of fs.readdirSync(dir)) {
+      if (!file.endsWith('.json') || file.startsWith('_')) continue;
+      const parsed = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+      for (const packet of parsed.packets || []) {
+        if (packet.treatment !== 'complete_guidance') continue;
+        const complete = GUIDANCE_ELEMENTS.every((element) => packet[element] !== undefined)
+          && packet.paymentAllowed === false && packet.sellable === false;
+        if (complete) deliveredGuidance.set(packet.trackId, `data/rcap-all50/guidance-packets/${file}`);
+      }
+    }
+  }
+}
+
+// Lane E: exact_supported_deferral — a hard-form profile whose strategy tier
+// records the deferral with its rationale, serving named tracks. Roger's
+// integration-window directive (2026-08-12) authorizes this treatment to
+// substitute for a production_packet requirement on the tracks it names.
+const deliveredDeferrals = new Map(); // trackId -> { evidence, rationale }
+{
+  const hardFormsRoot = path.join(rootDir, 'data/rcap-all50/hard-forms');
+  if (fs.existsSync(hardFormsRoot)) {
+    for (const state of fs.readdirSync(hardFormsRoot)) {
+      const stateDir = path.join(hardFormsRoot, state);
+      if (!fs.statSync(stateDir).isDirectory()) continue;
+      for (const family of fs.readdirSync(stateDir)) {
+        const profilePath = path.join(stateDir, family, 'profile.json');
+        if (!fs.existsSync(profilePath)) continue;
+        const profile = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
+        if (profile.strategy?.tier !== 'exact_supported_deferral') continue;
+        for (const trackId of profile.tracksServed || []) {
+          deliveredDeferrals.set(trackId, {
+            evidence: `data/rcap-all50/hard-forms/${state}/${family}/profile.json`,
+            rationale: String(profile.strategy.rationale || ''),
+          });
+        }
+      }
+    }
+  }
+}
+
+// Lane E: tier-1 implemented hard-form families — implementation evidence for
+// the tracks they serve. NOT terminality: packet composition is incomplete
+// (Tier-0 attachments handed to D; CR-106 blocked on per-county legal design)
+// and independent review (F2) has not run.
+const hardFormImplementations = new Map(); // trackId -> [family evidence]
+{
+  const hardFormsRoot = path.join(rootDir, 'data/rcap-all50/hard-forms');
+  if (fs.existsSync(hardFormsRoot)) {
+    for (const state of fs.readdirSync(hardFormsRoot)) {
+      const stateDir = path.join(hardFormsRoot, state);
+      if (!fs.statSync(stateDir).isDirectory()) continue;
+      for (const family of fs.readdirSync(stateDir)) {
+        const profilePath = path.join(stateDir, family, 'profile.json');
+        if (!fs.existsSync(profilePath)) continue;
+        const profile = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
+        const tier = profile.strategy?.tier || '';
+        if (!tier.startsWith('tier_')) continue;
+        for (const trackId of profile.tracksServed || []) {
+          const list = hardFormImplementations.get(trackId) || [];
+          list.push(`data/rcap-all50/hard-forms/${state}/${family}`);
+          hardFormImplementations.set(trackId, list);
+        }
+      }
+    }
+  }
+}
+
+// Lane C candidates: a controlled pleading is delivered when its config and
+// rendered artifacts exist; a composed route when its route.json exists. A
+// composed route's official_form_dependency units are recorded so the
+// blocked-component rule is visible at F2 closure: a blocked component cannot
+// disappear inside a composed route — it must be supplied, or carry its own
+// complete supported terminal treatment, before the route is accepted.
+const deliveredPleadings = new Map(); // trackId -> evidence
+const deliveredComposedRoutes = new Map(); // trackId -> { evidence, officialFormDependencyUnits }
+{
+  const pleadingsRoot = path.join(rootDir, 'data/rcap-all50/pleadings');
+  if (fs.existsSync(pleadingsRoot)) {
+    for (const state of fs.readdirSync(pleadingsRoot)) {
+      const stateDir = path.join(pleadingsRoot, state);
+      if (!fs.statSync(stateDir).isDirectory()) continue;
+      for (const track of fs.readdirSync(stateDir)) {
+        const configPath = path.join(stateDir, track, 'pleading-config.json');
+        const renderedDir = path.join(stateDir, track, 'rendered');
+        if (!fs.existsSync(configPath)) continue;
+        const parsed = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        const trackId = parsed.config?.trackId ?? parsed.trackId ?? track;
+        const rendered = fs.existsSync(renderedDir) && fs.readdirSync(renderedDir).length > 0;
+        if (rendered) deliveredPleadings.set(trackId, `data/rcap-all50/pleadings/${state}/${track}`);
+      }
+    }
+  }
+  const composedRoot = path.join(rootDir, 'data/rcap-all50/composed-routes');
+  if (fs.existsSync(composedRoot)) {
+    for (const state of fs.readdirSync(composedRoot)) {
+      const stateDir = path.join(composedRoot, state);
+      if (!fs.statSync(stateDir).isDirectory()) continue;
+      for (const track of fs.readdirSync(stateDir)) {
+        const routePath = path.join(stateDir, track, 'route.json');
+        if (!fs.existsSync(routePath)) continue;
+        const route = JSON.parse(fs.readFileSync(routePath, 'utf8'));
+        deliveredComposedRoutes.set(route.trackId ?? track, {
+          evidence: `data/rcap-all50/composed-routes/${state}/${track}`,
+          officialFormDependencyUnits: (route.units || []).filter((u) => u.requiredOutput === 'official_form_dependency').length,
+        });
+      }
+    }
+  }
+}
+
+// F2 review dispositions — the promotion signal. A dispositions file (written
+// by lane F as atomic groups close) lists per-track closures; only
+// technical_approved promotes. Absent file = zero approvals = zero promotions.
+const reviewOutcomes = new Map(); // "JUR:trackId" -> { outcome, reviewId }
+{
+  const dispositionsPath = path.join(rootDir, 'data/rcap-all50/review-artifacts/f2-dispositions.json');
+  if (fs.existsSync(dispositionsPath)) {
+    const dispositions = JSON.parse(fs.readFileSync(dispositionsPath, 'utf8'));
+    for (const record of dispositions.closures || []) {
+      for (const trackKey of record.trackKeys || []) {
+        reviewOutcomes.set(trackKey, { outcome: record.outcome, reviewId: record.reviewId });
+      }
+    }
+  }
+}
+const reviewApprovals = new Map([...reviewOutcomes].filter(([, v]) => v.outcome === 'technical_approved'));
+
+// Lane D1: implementation index — family-level evidence, holds preserved.
+// No track goes terminal from this; it feeds the F2 review manifest.
+let d1Implementation = null;
+{
+  const indexPath = path.join(rootDir, 'data/rcap-all50/overlays/production/implementation-index.json');
+  if (fs.existsSync(indexPath)) {
+    const index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+    const families = index.families || [];
+    d1Implementation = {
+      families: families.length,
+      implementedPendingIndependentReview: families.filter((f) => String(f.status || '').includes('pending')).length,
+      familiesWithHolds: families.filter((f) => (f.holds ?? 0) > 0).length,
+      note: 'Every D1 family retains its source-gated, currentness, legal-design and adoption holds; independent-review jobs are generated in the F2 manifest. No D1 track is terminal from this evidence.',
+    };
+  }
+}
+
 // Registry packet-set components conditioned on an unresolved legal decision.
 const DECISION_CONDITION = /resolved|conflict|counsel|pending decision/i;
 function decisionConditionOf(regTrack) {
@@ -149,7 +310,46 @@ for (const row of crosswalk.registryTracks) {
   if (sourceGap) holds.push('official_source_gap');
   if (decisionCondition) holds.push('decision_conditioned_component');
 
-  const terminalNow = holds.length === 0;
+  // Delivered treatments are CANDIDATES, not terminality (Roger's hour-6
+  // promotion rules): a complete_guidance packet or an exact_supported_deferral
+  // profile records candidate status here and is PROMOTED to terminal only
+  // when the F2 review disposition for its atomic group closes
+  // technical_approved. A guidance candidate is recognised only when its
+  // non-runtime holds are clear (legal holds are never satisfied by a guidance
+  // artifact); a deferral candidate covers the track it names, including the
+  // DE/ME production_packet conversions the integration directive authorized.
+  let candidateTreatment = null;
+  let candidateEvidence = null;
+  let treatmentSubstitution = null;
+  if (deliveredGuidance.has(row.registryTrackId)) {
+    const nonRuntimeHolds = holds.filter((h) => h !== 'missing_from_compiled_runtime');
+    if (nonRuntimeHolds.length === 0) {
+      candidateTreatment = 'complete_guidance';
+      candidateEvidence = deliveredGuidance.get(row.registryTrackId);
+    }
+  } else if (deliveredDeferrals.has(row.registryTrackId)) {
+    const deferral = deliveredDeferrals.get(row.registryTrackId);
+    candidateTreatment = 'exact_supported_deferral';
+    candidateEvidence = deferral.evidence;
+    treatmentSubstitution = deferral.rationale || null;
+  } else if (deliveredPleadings.has(row.registryTrackId)) {
+    candidateTreatment = 'production_packet';
+    candidateEvidence = deliveredPleadings.get(row.registryTrackId);
+  } else if (deliveredComposedRoutes.has(row.registryTrackId)) {
+    const composed = deliveredComposedRoutes.get(row.registryTrackId);
+    candidateTreatment = 'complete_composed_route';
+    candidateEvidence = composed.evidence;
+    if (composed.officialFormDependencyUnits > 0) {
+      treatmentSubstitution = `${composed.officialFormDependencyUnits} official_form_dependency unit(s): acceptance requires each supplied or carrying its own complete supported terminal treatment — a blocked component cannot disappear inside a composed route.`;
+    }
+  }
+
+  // Review dispositions: an F2 closure with technical_approved for the track's
+  // delivered treatment is what promotes a candidate to terminal.
+  const approvedByReview = candidateTreatment !== null
+    && reviewApprovals.has(`${row.jurisdiction}:${row.registryTrackId}`);
+
+  const terminalNow = holds.length === 0 || approvedByReview;
 
   // Exactly one required treatment for every nonterminal track. A legal hold
   // becomes an exact supported deferral tied to a decision entry — never a
@@ -178,6 +378,19 @@ for (const row of crosswalk.registryTracks) {
     terminal: terminalNow,
     holds,
     requiredTreatment,
+    ...(candidateTreatment
+      ? {
+        candidateTreatment,
+        candidateEvidence,
+        candidateStatus: approvedByReview
+          ? 'promoted_by_f2'
+          : (reviewOutcomes.get(trackKey)?.outcome ?? 'pending_f2_review'),
+      }
+      : {}),
+    ...(treatmentSubstitution ? { treatmentSubstitution } : {}),
+    ...(hardFormImplementations.has(row.registryTrackId)
+      ? { implementationEvidence: hardFormImplementations.get(row.registryTrackId), implementationStatus: 'implemented_pending_independent_review' }
+      : {}),
     counselItemIds: [...counselIds].sort(),
     decisionCondition,
     e4TerminalClassification: e4Terminal,
@@ -342,7 +555,17 @@ const aggregates = {
   requiredTreatmentBreakdown: byTreatment,
   nonterminalTracksByLane: byLane,
   jobsRemainingToLaunch: jobs.length,
-  tracksTerminalizedThisWindow: 0,
+  tracksTerminalizedThisWindow: rows.filter((r) => r.candidateStatus === 'promoted_by_f2').length,
+  candidateTreatmentsPendingReview: rows.filter((r) => r.candidateStatus === 'pending_f2_review').length,
+  candidateTreatmentBreakdown: {
+    complete_guidance: rows.filter((r) => r.candidateTreatment === 'complete_guidance').length,
+    exact_supported_deferral: rows.filter((r) => r.candidateTreatment === 'exact_supported_deferral').length,
+    production_packet: rows.filter((r) => r.candidateTreatment === 'production_packet').length,
+    complete_composed_route: rows.filter((r) => r.candidateTreatment === 'complete_composed_route').length,
+  },
+  tracksImplementedPendingIndependentReview: rows.filter((r) => r.implementationStatus === 'implemented_pending_independent_review').length,
+  guidanceRegistryServedTracks: rows.filter((r) => r.candidateTreatment === 'complete_guidance').length,
+  d1Implementation,
   unownedRequiredComponents: 0,
   unownedBlockers: blockerRegister.filter((b) => !b.owner).length,
   unknownTrackDispositions: unknownDispositions,
@@ -371,9 +594,12 @@ const ledger = {
       'no official-source gap adjudication names a mapped pathway',
       'no packet-set component is conditioned on an unresolved legal decision',
       'the runtime text is not superseded',
+      'OR a delivered candidate treatment (complete_guidance with all eleven participant elements, or exact_supported_deferral naming the track) has been PROMOTED by an F2 review closure of technical_approved for its atomic group — delivery alone records a candidate, never terminality (hour-6 promotion rules)',
     ],
     everyNonterminalGetsExactlyOneTreatment: true,
     runtimeMissingDoesNotImplyPacket: true,
+    implementationEvidenceIsNotTerminality: 'Tier-1 hard-form families and D1 overlay families record implemented_pending_independent_review on the tracks/families they serve; they terminate nothing until composition completes and F2/F3 review closes. Implementation-complete is never equated with terminal.',
+    candidateIsNotTerminal: 'candidateTreatment/candidateStatus record delivered-but-unreviewed treatments; only an F2 technical_approved closure in data/rcap-all50/review-artifacts/f2-dispositions.json promotes them.',
   },
   registrySource: regSrc,
   laneAssignments: LANES,

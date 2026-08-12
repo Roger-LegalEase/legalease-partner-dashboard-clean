@@ -1,0 +1,778 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "il-prb-cert",
+  "jobId": "T-C-IL-complete-composed-route",
+  "jurisdiction": {
+    "code": "IL",
+    "name": "Illinois",
+    "slug": "illinois"
+  },
+  "trackIdentity": {
+    "legalName": "Expungement or Sealing Following a Prisoner Review Board Certificate of Eligibility",
+    "publicName": "Using a Prisoner Review Board certificate to clear a record that is otherwise excluded",
+    "compositionMode": "mixed",
+    "compositionModeNote": "The registry records compositionMode \"mixed\". The route is sequential across two stages before two different bodies (agency, then court) and alternative within stage 1 across three mutually exclusive certificate branches, one of which is unavailable. Units 2, 3 and 4 are the alternative branches under parent unit 1; unit 5 is sequential after whichever branch produced a certificate.",
+    "outputStrategyDeclared": "composed",
+    "outputStrategy": null,
+    "outputStrategyNote": "Null at track level by design for a composed track; each unit carries its own. Every available unit carries outputStrategy official_pdf_fill, so this route drafts no pleading document at all — see filingSeparation and the dependency components.",
+    "geographicScope": "statewide",
+    "geographyKeys": [],
+    "recordTypes": [
+      "conviction"
+    ],
+    "dispositions": [
+      "conviction_with_prb_certificate_of_eligibility"
+    ],
+    "effectiveFrom": "2026-06-01",
+    "effectiveTo": null,
+    "reliefVocabulary": {
+      "primaryReliefTerms": [
+        "sealing",
+        "expungement"
+      ],
+      "primaryReliefTermsBasis": "This track is genuinely both, and the split is legally load-bearing. § 5.2(e-5) is a certificate of eligibility for SEALING; § 5.2(e-6) is a certificate of eligibility for EXPUNGEMENT. The registry records them as legally distinct and the branch a participant takes is set by which certificate the Board issues. The stage-2 Request form carries checkboxes for expunge versus seal and the per-case election is an express manual completion item.",
+      "prohibitedUsage": [
+        "Never present the military Certificate of Expungement as a general certificate-of-expungement application. It is military-specific.",
+        "Never treat a § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate as interchangeable.",
+        "Never make the expunge-versus-seal election for the participant. The registry records it as a legal judgment the review expressly bars from auto-completion.",
+        "Never say a record will be sealed automatically before January 1, 2029 (profile copyGuardrails[4]); Clean Slate automatic sealing phases in through 2034.",
+        "Never promise erasure, sealing, eligibility, timing, filing acceptance, or a court or Board outcome (profile copyGuardrails[7])."
+      ],
+      "prohibitedUsageBasis": "registry@3b6f4c1:tracks[142].scopeRestrictions[1]; .manualCompletionItems[1]; profile:copyGuardrails[4] and [7]; IL state pack eligibility-rules.ts illinoisEligibilityRules[0]–[2]; clean-slate-transition.ts illinoisCleanSlateTransition.warning",
+      "avoidUniversalExpungementLabel": true,
+      "avoidUniversalExpungementLabelBasis": "profile:terminology.avoidUniversalExpungementLabel = true; profile:copyGuardrails[5] \"Use Illinois-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.\""
+    }
+  },
+  "provenance": {
+    "statePackFiles": [
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/index.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/all50-build-metadata.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/court-routing.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/filing-instructions.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/eligibility-rules.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/fee-notes.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/safety-language.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/disqualifying-offenses.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/clean-slate-transition.ts"
+    ],
+    "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+    "profileSha256": "83705171c77c6a7324a171fba819e4ccb061c8eeb0e92ab4c982ed7d38a1d221",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "registryEntryPointer": "tracks[142] (trackId il-prb-cert)",
+    "profileCoverageNote": "The compiled IL profile records no pathway, question, ordered decision rule, waiting-period rule, exclusion rule or packetGenerator entry for il-prb-cert. Its nine pathways are adult non-conviction expungement, expungement after supervision or qualified probation, adult conviction sealing, cannabis, human-trafficking survivor, felony prostitution, criminal identity theft, juvenile, and Clean Slate automatic sealing. Full-value scans return zero hits for \"5.2(e-5)\", \"5.2(e-6)\", \"5.2(d)(2)\", \"certificate of eligibility\" and \"Certificate of Sealing\". The profile mentions the Prisoner Review Board only four times and only in the cannabis-pardon context, not the certificate-of-eligibility context — see omissionProof. Unit enumeration therefore comes entirely from the pinned registry entry; the profile supplies the stage-2 form suite, the ISP Access-and-Review record-gathering step, the fee narrative, the terminology and the copy guardrails.",
+    "reviewedAsOf": "2026-07-30"
+  },
+  "mechanism": "Two stages before two different bodies. The petitioner first applies to the Prisoner Review Board for a certificate of eligibility for sealing under § 5.2(e-5) or for expungement under § 5.2(e-6); that is discretionary agency relief outside the circuit court. With the certificate attached under § 5.2(d)(2), the petitioner then files in the circuit court under the same venue formula as the pardon route.",
+  "mechanismSourceRef": "registry@3b6f4c1:tracks[142].mechanism",
+  "authoritySpine": [
+    {
+      "citation": "20 ILCS 2630/5.2(e-5)",
+      "description": "Certificate of eligibility for SEALING, issued by the Prisoner Review Board. The authority for the stage-1 sealing branch.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].authority[0]; .mechanism; .units[1].label; .releaseBlockers[2].provenance.sourceStatement"
+    },
+    {
+      "citation": "20 ILCS 2630/5.2(e-6)",
+      "description": "Certificate of eligibility for EXPUNGEMENT. The authority for the stage-1 expungement branch. The Board publishes a military-specific expungement-certificate application; no general non-military application under this subsection has been located, and that branch is held.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].authority[1]; .units[3].description and .unavailableReason; .releaseBlockers[2]"
+    },
+    {
+      "citation": "20 ILCS 2630/5.2(d)(2)",
+      "description": "The provision under which the issued certificate is attached to the circuit-court petition at stage 2, and under which the Request is verified with a perjury warning.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].authority[2]; .mechanism; .units[4].description; .manualCompletionItems[0].why"
+    },
+    {
+      "citation": "730 ILCS 5/3-3-2(a)(10)",
+      "description": "Recorded in the track authority. The Prisoner Review Board power under which the certificate function sits.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].authority[3]"
+    },
+    {
+      "citation": "730 ILCS 5/5-5.5",
+      "description": "Recorded in the track authority. The certificates article of the Unified Code of Corrections.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].authority[4]"
+    },
+    {
+      "citation": "Illinois Supreme Court Rule 298",
+      "description": "Not authority for the relief. The Application for Waiver of Court Fees. § 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].rules.feeWaiver; profile:sourceSections[11] and sourceSections[20] item 4"
+    },
+    {
+      "citation": "20 ILCS 2630/5.2(d)(4)",
+      "description": "Not authority for the relief. Recorded as the provision under which the circuit court clerk serves at stage 2; the participant serves no one in the court stage.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].rules.service"
+    },
+    {
+      "citation": "Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024",
+      "description": "Not a statute. The Board's own procedural rules, cited throughout the registry entry as the source for the acknowledgement-first rule, the required narratives, the notarised perjury declaration, the supporting-documentation list, the 75-day filing deadline, the proof-of-delivery requirement and the four-year bar after a denial.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].legalDesignLimitations[0]–[6].provenance.sourceFile"
+    }
+  ],
+  "venue": {
+    "stage1": {
+      "statement": "Before the Prisoner Review Board, statewide.",
+      "namedBody": "Illinois Prisoner Review Board",
+      "address": "1001 North Walnut Street, Springfield, Illinois 62702",
+      "addressSourceRef": "registry@3b6f4c1:tracks[142].rules.filing; .packetSet.participantActionRequired[kind=file]; .legalDesignLimitations[5].statement",
+      "addressNote": "This is the one address printed anywhere in this route. It is quoted verbatim from the registry's filing rule, which quotes the Board's own Guidelines. No clerk address, no court address and no county address is printed anywhere — IL state pack all50-build-metadata.filingDestinationGuidance[2] and court-routing.ts illinoisCourtRouting.noInventedAddresses."
+    },
+    "stage2": {
+      "statement": "Before the Chief Judge of the circuit of conviction, a judge of that circuit designated by the Chief Judge, or in counties under 3,000,000 inhabitants the presiding trial judge.",
+      "namedCourt": null,
+      "namedCounty": null,
+      "clerkAddress": null,
+      "sourceRef": "registry@3b6f4c1:tracks[142].venue; .units[4].description; .destination.detail",
+      "note": "countyOfConviction is a required screening key on this track, so the county reaches the packet through the participant's own answer. No court name, courthouse, division or clerk address is sourced or printed."
+    }
+  },
+  "destination": {
+    "kind": "agency",
+    "name": "Illinois Prisoner Review Board, then the circuit court of conviction",
+    "detail": "Stage 1 is an agency application. Stage 2 is a court petition with the certificate attached.",
+    "sourceRef": "registry@3b6f4c1:tracks[142].destination"
+  },
+  "screeningKeys": [
+    {
+      "key": "countyOfConviction",
+      "question": "In which Illinois county were you convicted?",
+      "requirement": "required"
+    },
+    {
+      "key": "caseNumber",
+      "question": "What is the case number?",
+      "requirement": "required"
+    },
+    {
+      "key": "hasPrbCertificate",
+      "question": "Has the Prisoner Review Board already issued you a certificate of eligibility?",
+      "requirement": "required"
+    },
+    {
+      "key": "certificateType",
+      "question": "Is the certificate one for sealing or one for expungement?",
+      "requirement": "conditional",
+      "conditionDescription": "Asked only where a certificate has been issued, because it selects § 5.2(e-5) or § 5.2(e-6)."
+    },
+    {
+      "key": "offenseExcludedFromSealing",
+      "question": "Is your offense on the § 5.2(a)(3) exclusion list, so that ordinary sealing is unavailable?",
+      "requirement": "required"
+    },
+    {
+      "key": "eligibilityRestsOnMilitaryService",
+      "question": "Are you seeking the certificate on the basis of military service?",
+      "requirement": "required"
+    },
+    {
+      "key": "priorPrbPetition",
+      "question": "Have you petitioned the Prisoner Review Board for a certificate of sealing before, and if so when?",
+      "requirement": "required"
+    },
+    {
+      "key": "priorClemencyPetition",
+      "question": "Have you ever petitioned for executive clemency, and if so in what month and year was it considered?",
+      "requirement": "required"
+    },
+    {
+      "key": "personalLifeHistory",
+      "question": "In your own words, give your personal life history: date and place of birth, education, employment, marital status, and whether you served in the military.",
+      "requirement": "required"
+    },
+    {
+      "key": "reasonsForSeekingCertificate",
+      "question": "In your own words, why are you seeking this certificate?",
+      "requirement": "required"
+    },
+    {
+      "key": "offenseFactsStatement",
+      "question": "In your own words, describe the facts of the offence including dates, places and surrounding circumstances.",
+      "requirement": "required"
+    }
+  ],
+  "screeningKeysSourceRef": "registry@3b6f4c1:tracks[142].generationRequirements (eleven keys, reproduced verbatim)",
+  "units": [
+    {
+      "unitId": "il-prb-cert-certificate-application",
+      "order": 1,
+      "legalUnit": "Stage 1 — the Prisoner Review Board certificate application stage. The participant applies to the Board for a certificate of eligibility. Which certificate depends on the branch selected below. Board discretion, the rehabilitation narrative, notarisation, supporting documents and a possible Board hearing are filing instructions and post-generation conditions, not reasons to withhold a packet. This unit is the parent framing and branch-selection unit; it produces no filing of its own.",
+      "authority": {
+        "citation": "20 ILCS 2630/5.2(e-5) and 20 ILCS 2630/5.2(e-6), read with 730 ILCS 5/3-3-2(a)(10) and 730 ILCS 5/5-5.5",
+        "sourceRef": "registry@3b6f4c1:tracks[142].units[0] (label, description, outputStrategy official_pdf_fill, outputStrategyStatus resolved, available true); .authority[0]–[4]; .mechanism"
+      },
+      "requiredOutput": "participant_instruction",
+      "requiredOutputNote": "Classified participant_instruction rather than official_form_dependency because this parent unit has no form of its own — the registry's own description reduces it to branch selection plus filing instructions and post-generation conditions. Every form named on the track hangs off units 2, 3 and 4. Drafting anything court-facing here would invent a document.",
+      "componentId": "il-prb-cert-stage1-orientation-0",
+      "componentIdSource": "Constructed for this artifact. registry packetSet.components has no entry for the parent unit; its five entries all belong to units 2, 3 and 5.",
+      "applicability": {
+        "includedWhen": "The participant answers that they have not yet been issued a Prisoner Review Board certificate of eligibility (screening key hasPrbCertificate = no) and that their offense is on the § 5.2(a)(3) exclusion list so ordinary sealing is unavailable (offenseExcludedFromSealing = yes). The participant names the Illinois county of conviction (countyOfConviction) and the case number (caseNumber).",
+        "excludedWhen": "The participant answers that the Board has already issued a certificate (hasPrbCertificate = yes), in which case stage 1 is complete and the route begins at unit 5. Also excluded where ordinary sealing or expungement is available on its own terms, because the registry frames this route as the way to reach a record that is otherwise excluded."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [
+          "countyOfConviction",
+          "caseNumber",
+          "hasPrbCertificate",
+          "offenseExcludedFromSealing",
+          "eligibilityRestsOnMilitaryService"
+        ],
+        "confirmFields": [
+          "hasPrbCertificate against the Prisoner Review Board certificate of eligibility itself (registry participantFilingRequirements[3])",
+          "caseNumber against the Illinois State Police statewide criminal history transcript (registry participantFilingRequirements[0])",
+          "caseNumber against the certified disposition for each case (registry participantFilingRequirements[2])"
+        ],
+        "protectedBlankNote": "Board hearing date, Board decision, judge name, State's Attorney identity and position, filing fee amount, and any statement that a certificate has been or will be issued are left blank. The Board's decision is discretionary and outside LegalEase's control.",
+        "outsidePartyBlankNote": "Acts of the Board, the Chairman, the notary, the witness or attorney signing the acknowledgement, the sentencing or chief judge, the State's Attorney, the circuit clerk and the Illinois State Police are left blank. LegalEase does not obtain, receive or inspect the participant's transcripts, dispositions, diplomas, employment records, DD-214 or certificate.",
+        "signature": "None on this parent unit. Signatures attach to the branch applications at units 2 and 3.",
+        "notarization": "none on this parent unit"
+      },
+      "implementation": {
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-stage1-orientation-0"
+      }
+    },
+    {
+      "unitId": "il-prb-cert-sealing-branch",
+      "order": 2,
+      "parentUnitId": "il-prb-cert-certificate-application",
+      "legalUnit": "Certificate of Sealing application, § 5.2(e-5). The Board's Certificate of Sealing Acknowledgement and Certificate of Sealing Application, both fillable AcroForms published by the Board and revised 09/18/2024, are completed from the participant's answers. The acknowledgement must be completed first and included with the petition or the petition is rejected and returned. Rehabilitation, personal-history and reasons narratives are participant-authored through structured prompts, and the perjury declaration is sworn before a notary.",
+      "authority": {
+        "citation": "20 ILCS 2630/5.2(e-5)",
+        "sourceRef": "registry@3b6f4c1:tracks[142].units[1] (outputStrategy official_pdf_fill, outputStrategyStatus resolved, available true); .authority[0]; .packetSet.components[0] and [1]; .legalDesignLimitations[0] and [1]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "requiredOutputNote": "Two official Prisoner Review Board forms. NO document is drafted for this unit. Both are mandatory official-form handoffs.",
+      "componentId": "il-prb-cert-primary-filing-1",
+      "componentIdSource": "registry@3b6f4c1:tracks[142].packetSet.components[0].componentId",
+      "components": [
+        {
+          "componentId": "il-prb-cert-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "officialFormId": "PRB Certificate of Sealing Application",
+          "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-1"
+        },
+        {
+          "componentId": "il-prb-cert-attachment-2",
+          "role": "attachment",
+          "requirement": "required",
+          "officialFormId": "PRB Certificate of Sealing Eligibility Acknowledgement",
+          "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-attachment-2",
+          "orderingRule": "Completed BEFORE the application and included with the petition, or the petition is rejected and returned."
+        }
+      ],
+      "applicability": {
+        "includedWhen": "The participant is applying for a certificate of eligibility for sealing — that is, they answer that the Board has not yet issued a certificate (hasPrbCertificate = no), that the offense is on the § 5.2(a)(3) exclusion list so ordinary sealing is unavailable (offenseExcludedFromSealing = yes), and that they are NOT seeking the certificate on the basis of military service (eligibilityRestsOnMilitaryService = no). Where a certificate has already issued, certificateType = sealing records which subsection was used.",
+        "excludedWhen": "The participant answers that they are seeking the certificate on the basis of military service (eligibilityRestsOnMilitaryService = yes), which routes to unit il-prb-cert-military-branch instead; or that they seek a non-military certificate of eligibility for EXPUNGEMENT under § 5.2(e-6), which routes to unit il-prb-cert-nonmilitary-expungement-branch and is presently blocked; or that the Board has already issued a certificate, in which case stage 1 is complete and the route begins at unit 5. A § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate are legally distinct and this branch must never be offered as a substitute for the other."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [
+          "countyOfConviction",
+          "caseNumber",
+          "priorPrbPetition",
+          "priorClemencyPetition",
+          "personalLifeHistory",
+          "reasonsForSeekingCertificate",
+          "offenseFactsStatement"
+        ],
+        "confirmFields": [
+          "caseNumber against the ISP statewide criminal history transcript and against the certified disposition for each case",
+          "personalLifeHistory against educational documentation, five years of employment documentation, and proof of completion of any counselling",
+          "priorPrbPetition against the fingerprint-based criminal history obtained per paragraph B-5 of the Board's Guidelines"
+        ],
+        "authoredByParticipant": [
+          "The facts-of-the-offence statement, including dates, places and all surrounding circumstances, and the petitioner's own version of the offenses.",
+          "The personal life history.",
+          "The reasons for seeking the certificate."
+        ],
+        "authoredByParticipantNote": "LegalEase formats the participant's own words through structured prompts and NEVER composes the rehabilitation showing. This is a discretionary rehabilitation case, and the registry records stage 1 as a self-help stop condition always.",
+        "protectedBlankNote": "Board hearing date, Board decision, Chairman's exercise of the four-year-bar exception, and any prediction of the Board's discretion are left blank. Perjury is a Class 3 felony punishable by up to 10 years, so no assertion is ever generated for the participant to swear to.",
+        "outsidePartyBlankNote": "The notary's jurat, the witness or attorney signature on the acknowledgement (third-party completed — LegalEase leaves it blank), the sentencing or chief judge's receipt, and the State's Attorney's receipt are all left blank.",
+        "signature": "The petitioner signs the application. The perjury declaration is sworn before a notary public. The witness or attorney signature on the acknowledgement is completed by a third party.",
+        "notarization": "Required. The declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public."
+      },
+      "implementation": {
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-1",
+        "additionalComponentPaths": [
+          "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-attachment-2"
+        ]
+      }
+    },
+    {
+      "unitId": "il-prb-cert-military-branch",
+      "order": 3,
+      "parentUnitId": "il-prb-cert-certificate-application",
+      "legalUnit": "Certificate of Expungement for Military application. The Board's Certificate of Expungement for Military Eligibility Acknowledgement and the military application, v9.18.24, are completed from the participant's answers. This branch is military-specific and is offered only where the participant's eligibility rests on military service. It is not a general certificate-of-expungement application.",
+      "authority": {
+        "citation": "20 ILCS 2630/5.2(e-6)",
+        "citationNote": "Recorded as the expungement-certificate subsection. The registry does not cite a separate military-specific statutory provision; the military character of this branch comes from the Board's own form, which is expressly military-specific.",
+        "sourceRef": "registry@3b6f4c1:tracks[142].units[2] (outputStrategy official_pdf_fill, outputStrategyStatus resolved, available true); .packetSet.components[2] and [3]; .scopeRestrictions[1]; .legalDesignLimitations[7]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "requiredOutputNote": "Two official Prisoner Review Board forms. NO document is drafted for this unit. Both are mandatory official-form handoffs.",
+      "componentId": "il-prb-cert-primary-filing-3",
+      "componentIdSource": "registry@3b6f4c1:tracks[142].packetSet.components[2].componentId",
+      "components": [
+        {
+          "componentId": "il-prb-cert-primary-filing-3",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Military branch only, where eligibility rests on military service.",
+          "officialFormId": "PRB Certificate of Expungement for Military Application",
+          "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-3"
+        },
+        {
+          "componentId": "il-prb-cert-attachment-4",
+          "role": "attachment",
+          "requirement": "conditional",
+          "conditionDescription": "Military branch only.",
+          "officialFormId": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+          "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-attachment-4",
+          "orderingRule": "The acknowledgement-first rule is recorded on the Certificate of Sealing Guidelines. Whether the military acknowledgement carries the same rejection consequence is not separately stated — see counsel flag cf-04."
+        }
+      ],
+      "applicability": {
+        "includedWhen": "The participant answers that they are seeking the certificate on the basis of military service (screening key eligibilityRestsOnMilitaryService = yes), that the Board has not yet issued a certificate (hasPrbCertificate = no), and that the offense is on the § 5.2(a)(3) exclusion list (offenseExcludedFromSealing = yes). A DD-214 or similar proof of military service is a conditional participant filing requirement that becomes required on this branch.",
+        "excludedWhen": "The participant answers that eligibility does not rest on military service (eligibilityRestsOnMilitaryService = no). This branch must NEVER be offered as a general certificate-of-expungement application to a non-military participant; the registry records that as an express scope restriction, and a non-military expungement certificate has its own branch, which is blocked."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [
+          "countyOfConviction",
+          "caseNumber",
+          "eligibilityRestsOnMilitaryService",
+          "priorPrbPetition",
+          "priorClemencyPetition",
+          "personalLifeHistory",
+          "reasonsForSeekingCertificate",
+          "offenseFactsStatement"
+        ],
+        "confirmFields": [
+          "eligibilityRestsOnMilitaryService against the DD-214 or similar proof of military service, obtained from the National Personnel Records Center or the service branch",
+          "caseNumber against the ISP statewide criminal history transcript and the certified disposition for each case",
+          "priorPrbPetition against the fingerprint-based criminal history"
+        ],
+        "authoredByParticipant": [
+          "The facts-of-the-offence statement.",
+          "The personal life history, including whether the participant served in the military.",
+          "The reasons for seeking the certificate."
+        ],
+        "protectedBlankNote": "Board hearing date, Board decision and any prediction of the Board's discretion are left blank. No characterisation of military service or discharge is generated; it comes from the participant's own DD-214.",
+        "outsidePartyBlankNote": "The notary's jurat, the witness or attorney signature on the acknowledgement, and the National Personnel Records Center's response are left blank. LegalEase does not obtain, receive or inspect the DD-214.",
+        "signature": "The petitioner signs the application. The perjury declaration is sworn before a notary public where the Board's form requires it.",
+        "notarization": "Required where the Board's form carries the sworn declaration. The registry records notarization as required for this track."
+      },
+      "implementation": {
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-3",
+        "additionalComponentPaths": [
+          "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-attachment-4"
+        ]
+      }
+    },
+    {
+      "unitId": "il-prb-cert-nonmilitary-expungement-branch",
+      "order": 4,
+      "parentUnitId": "il-prb-cert-certificate-application",
+      "legalUnit": "Non-military certificate of eligibility for expungement, § 5.2(e-6). Section 5.2(e-6) refers to a certificate of eligibility for expungement. The Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted.",
+      "authority": {
+        "citation": "20 ILCS 2630/5.2(e-6)",
+        "citationNote": "The substantive subsection is recorded. What is missing is the vehicle: the application form by which a non-military participant asks the Board for a § 5.2(e-6) certificate. No procedural citation is supplied because none is recorded.",
+        "sourceRef": "registry@3b6f4c1:tracks[142].units[3] (outputStrategyStatus unresolved, available false, unavailableReason); .releaseBlockers[2]; .authority[1]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "requiredOutputNote": "Classified official_form_dependency because § 5.2(e-6) is an agency application route and the two sibling branches both run on official Prisoner Review Board AcroForms. It is NOT classified pleading_document: nothing about this branch suggests a court filing, and drafting a bespoke application to a Board that publishes its own forms would invent a vehicle. The unit is blocked and nothing is drafted.",
+      "componentId": "il-prb-cert-nonmilitary-expungement-6",
+      "componentIdSource": "Constructed for this artifact. registry packetSet.components has five entries and none of them belongs to this branch, because the registry generates no packet for it.",
+      "applicability": {
+        "includedWhen": "The participant answers that they seek a certificate of eligibility for EXPUNGEMENT under § 5.2(e-6) (screening key certificateType = expungement, or the equivalent branch answer at application time) and that eligibility does NOT rest on military service (eligibilityRestsOnMilitaryService = no), with the offense on the § 5.2(a)(3) exclusion list (offenseExcludedFromSealing = yes).",
+        "excludedWhen": "Presently excluded for every participant. The registry marks the unit available = false. A non-military participant seeking a § 5.2(e-6) expungement certificate receives no packet on this branch. They must NOT be routed to the military application, which is expressly military-specific, nor to the Certificate of Sealing application, which does not cover § 5.2(e-6)."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [],
+        "confirmFields": [
+          "Whether the participant is seeking a certificate for sealing under § 5.2(e-5) or for expungement under § 5.2(e-6)",
+          "Whether eligibility rests on military service"
+        ],
+        "protectedBlankNote": "No field of any application may be prefilled while the vehicle itself is unlocated. No form mapping is asserted and no field map is drafted.",
+        "outsidePartyBlankNote": "Whether the Board accepts a non-military § 5.2(e-6) application at all, and in what form, is an act of an outside body and is never asserted."
+      },
+      "implementation": {
+        "blockedDependency": "Lane D official-form acquisition — an official Illinois Prisoner Review Board application for a certificate of eligibility for EXPUNGEMENT under 20 ILCS 2630/5.2(e-6) for a non-military petitioner. Contingent on lane F source resolution first: registry@3b6f4c1:tracks[142].releaseBlockers[2] / unresolvedQuestions[2], affectedElement correct_form, classificationBasis explicit_state_addendum, sourceFile LegalEase-Illinois-Legal-Review-2026-07-30.md, sourceHeading TRACK K, sourceStatement \"Controlling statute: § 5.2(e-5) for a certificate of eligibility for sealing; § 5.2(e-6) for a certificate of eligibility for expungement\" — recorded against the finding that \"no general non-military expungement-certificate application was located on the Board's site. That branch alone is held.\" The track's implementationQueue is F_source_problem. Lane D cannot acquire a form until lane F establishes whether one exists; if none exists, the branch is a legal-design question for lane E, not a drafting task for lane C."
+      }
+    },
+    {
+      "unitId": "il-prb-cert-court-petition",
+      "order": 5,
+      "legalUnit": "Stage 2 — the circuit court petition with the issued certificate attached. Once the Board issues a certificate, the statewide adult Request suite is generated with the certificate attached under § 5.2(d)(2), filed with the Chief Judge of the circuit of conviction, a designated judge of that circuit, or in counties under 3,000,000 the presiding trial judge.",
+      "authority": {
+        "citation": "20 ILCS 2630/5.2(d)(2)",
+        "sourceRef": "registry@3b6f4c1:tracks[142].units[4] (outputStrategy official_pdf_fill, outputStrategyStatus resolved, available true); .authority[2]; .mechanism; .venue; .packetSet.components[4]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "requiredOutputNote": "The statewide adult Request suite (EXP-AD Request). NO document is drafted for this unit. The Illinois Supreme Court Commission on Access to Justice approved these forms and all Illinois courts must accept them, so a bespoke pleading here would be affirmatively wrong. This is a mandatory official-form handoff. The registry's own scope note for il-immediate-seal confirms this track is inside the suite's coverage: \"Relief tracks governed: A, B, C, D, E, F, G, H, J, and stage 2 of K.\"",
+      "componentId": "il-prb-cert-primary-filing-5",
+      "componentIdSource": "registry@3b6f4c1:tracks[142].packetSet.components[4].componentId",
+      "components": [
+        {
+          "componentId": "il-prb-cert-primary-filing-5",
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Stage 2, generated once the Board has issued a certificate.",
+          "officialFormId": "EXP-AD Request",
+          "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-5"
+        }
+      ],
+      "applicability": {
+        "includedWhen": "The participant answers that the Prisoner Review Board has already issued a certificate of eligibility (screening key hasPrbCertificate = yes) and states which kind it is (certificateType = sealing or expungement, which selects § 5.2(e-5) or § 5.2(e-6)). The participant names the county of conviction (countyOfConviction) and the case number (caseNumber).",
+        "excludedWhen": "The participant answers that no certificate has been issued (hasPrbCertificate = no). Stage 2 cannot proceed without the certificate issued at stage 1; the Board's decision is discretionary and outside LegalEase's control. This is the registry's sole recorded exclusion for the track."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "prefillNote": "confirm rather than screening: every stage-2 value is checked against a document the participant holds — the certificate itself, the ISP statewide transcript, and the certified disposition for each case — before the Request is completed.",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [
+          "countyOfConviction",
+          "caseNumber",
+          "certificateType"
+        ],
+        "confirmFields": [
+          "hasPrbCertificate and certificateType against the Prisoner Review Board certificate of eligibility itself",
+          "caseNumber against the ISP statewide criminal history transcript (Access and Review)",
+          "caseNumber against the certified disposition for each case, obtained from the circuit clerk of each county where a case was filed",
+          "Chicago arrests against the Chicago Police Department RAP sheet, where there were Chicago arrests"
+        ],
+        "manualCompletion": [
+          "Petitioner's signature and verification date — Request, verification block. The Request is verified under § 5.2(d)(2) and warns that a false statement is perjury.",
+          "Expunge-versus-seal selection for each case — Case List, per-case election column. The election is a legal judgment the review expressly bars from auto-completion."
+        ],
+        "protectedBlankNote": "Judge name, State's Attorney identity and position, hearing date, court address, filing fee amount, and any statement that a record has in fact been sealed or expunged are left blank. Hearing date is an express manual completion item: the court sets a hearing only if an objection is filed, with at least 30 days' notice.",
+        "outsidePartyBlankNote": "The circuit court clerk serves under § 5.2(d)(4); the participant serves no one and no service completion is ever asserted. Objections by the State's Attorney, the arresting agency, the chief legal officer or the Illinois State Police are outside-party acts and are never asserted or predicted.",
+        "signature": "The petitioner signs and dates the Request verification themselves.",
+        "notarization": "Not stated for the Request. The registry's notarization rule is recorded against the Board application at stage 1."
+      },
+      "implementation": {
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-5"
+      }
+    },
+    {
+      "unitId": "il-prb-cert-attachment-2-unit",
+      "legalUnit": "required",
+      "authority": {
+        "citation": null,
+        "citationNote": "Recorded as an attachment requirement of the certificate application; the component's dependency record carries its source reference.",
+        "sourceRef": "registry@3b6f4c1:tracks[142].legalDesignLimitations[1]; .packetInstructions[0]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "il-prb-cert-attachment-2",
+      "applicability": {
+        "includedWhen": "Included with the certificate application when the application requires this attachment.",
+        "excludedWhen": null
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [
+          "countyOfConviction",
+          "caseNumber"
+        ],
+        "manualCompletion": [
+          "Witness or attorney signature on the acknowledgement — Acknowledgement, Signature of Witness/Attorney. Third-party completed. LegalEase leaves it blank."
+        ],
+        "protectedBlankNote": "Board hearing date, Board decision and any prediction of Board discretion are left blank.",
+        "outsidePartyBlankNote": "The witness or attorney signature is an act of a third party and is never prefilled, never suggested and never signed on that party's behalf."
+      },
+      "implementation": {
+        "blockedDependency": "PRB Certificate of Sealing Eligibility Acknowledgement — current official form from Illinois Prisoner Review Board; not acquired in this repository."
+      }
+    },
+    {
+      "unitId": "il-prb-cert-attachment-4-unit",
+      "legalUnit": "conditional",
+      "authority": {
+        "citation": null,
+        "citationNote": "Recorded as an attachment requirement of the certificate application; the component's dependency record carries its source reference.",
+        "sourceRef": "registry@3b6f4c1:tracks[il-prb-cert].packetSet.components"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "il-prb-cert-attachment-4",
+      "applicability": {
+        "includedWhen": "Military branch only.",
+        "excludedWhen": null
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [
+          "countyOfConviction",
+          "caseNumber",
+          "eligibilityRestsOnMilitaryService"
+        ],
+        "manualCompletion": [
+          "Witness or attorney signature on the acknowledgement — Signature of Witness/Attorney. Third-party completed. LegalEase leaves it blank."
+        ],
+        "protectedBlankNote": "Board hearing date, Board decision and any prediction of Board discretion are left blank.",
+        "outsidePartyBlankNote": "The witness or attorney signature is an act of a third party and is never prefilled, never suggested and never signed on that party's behalf."
+      },
+      "implementation": {
+        "blockedDependency": "PRB Certificate of Expungement for Military Eligibility Acknowledgement — current official form from Illinois Prisoner Review Board; not acquired in this repository."
+      }
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "Request to Expunge and/or Seal Criminal Records (EXP-AD Request), with the Prisoner Review Board certificate attached under § 5.2(d)(2)",
+        "componentId": "il-prb-cert-primary-filing-5",
+        "unitId": "il-prb-cert-court-petition",
+        "drafted": false,
+        "reason": "Mandatory statewide official form. Not drafted in lane C — recorded as an official-form dependency owned by lane D. See components/il-prb-cert-primary-filing-5/dependency.json."
+      },
+      {
+        "item": "Certificate of Sealing application, § 5.2(e-5). The Board's Certificate of Sealing Acknowledgement and Certificate of Sealing Application, both fillable AcroFor",
+        "componentId": "il-prb-cert-primary-filing-1",
+        "drafted": false,
+        "reason": "Official form or blocked component; not drafted by LegalEase."
+      },
+      {
+        "item": "Certificate of Expungement for Military application. The Board's Certificate of Expungement for Military Eligibility Acknowledgement and the military applicatio",
+        "componentId": "il-prb-cert-primary-filing-3",
+        "drafted": false,
+        "reason": "Official form or blocked component; not drafted by LegalEase."
+      },
+      {
+        "item": "Non-military certificate of eligibility for expungement, § 5.2(e-6). Section 5.2(e-6) refers to a certificate of eligibility for expungement. The Board publishe",
+        "componentId": "il-prb-cert-nonmilitary-expungement-6",
+        "drafted": false,
+        "reason": "Official form or blocked component; not drafted by LegalEase."
+      },
+      {
+        "item": "required",
+        "componentId": "il-prb-cert-attachment-2",
+        "drafted": false,
+        "reason": "Official form or blocked component; not drafted by LegalEase."
+      },
+      {
+        "item": "conditional",
+        "componentId": "il-prb-cert-attachment-4",
+        "drafted": false,
+        "reason": "Official form or blocked component; not drafted by LegalEase."
+      }
+    ],
+    "courtDocumentsNote": "Exactly one court filing exists on this route, and it is an official form. Zero pleading documents are drafted anywhere in this route: every available unit carries outputStrategy official_pdf_fill. Stage 1 is agency, not court — the Board application is not a court document and is never filed with a circuit clerk.",
+    "agencyDocuments": [
+      {
+        "item": "PRB Certificate of Sealing Application (rev 09/18/2024)",
+        "componentId": "il-prb-cert-primary-filing-1",
+        "drafted": false,
+        "reason": "Official Prisoner Review Board AcroForm. Lane D dependency."
+      },
+      {
+        "item": "PRB Certificate of Sealing Eligibility Acknowledgement",
+        "componentId": "il-prb-cert-attachment-2",
+        "drafted": false,
+        "reason": "Official Prisoner Review Board AcroForm. Lane D dependency. Must be completed before the application or the petition is rejected and returned."
+      },
+      {
+        "item": "PRB Certificate of Expungement for Military Application (v9.18.24)",
+        "componentId": "il-prb-cert-primary-filing-3",
+        "drafted": false,
+        "reason": "Official Prisoner Review Board AcroForm. Lane D dependency. Military branch only."
+      },
+      {
+        "item": "PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+        "componentId": "il-prb-cert-attachment-4",
+        "drafted": false,
+        "reason": "Official Prisoner Review Board AcroForm. Lane D dependency. Military branch only."
+      },
+      {
+        "item": "Non-military § 5.2(e-6) certificate-of-eligibility-for-expungement application",
+        "componentId": "il-prb-cert-nonmilitary-expungement-6",
+        "drafted": false,
+        "reason": "No such form has been located. Blocked: lane F source resolution, then lane D acquisition if a form exists."
+      }
+    ],
+    "participantOnly": [
+      "components/il-prb-cert-stage1-orientation-0/stage-1-orientation.md — branch selection, the acknowledgement-first rule, the participant-authored narratives, the notarisation requirement, the supporting-documentation list, the 75-day deadline, the four-year bar. Never filed with the court and never sent to the Board.",
+      "participant-instructions.md — the complete/sign/serve/file checklist across both stages. Never filed with the court and never sent to the Board."
+    ],
+    "agencyRequestLetters": [],
+    "agencyRequestLettersNote": "None. No unit is classified agency_request_letter. The record-gathering steps the registry records — ISP Access and Review, the Chicago Police RAP sheet, certified dispositions from each circuit clerk, diplomas, employment records, counselling proof, DD-214, fingerprint-based criminal history — are all described as things the participant obtains in person or by request, with no written request document recorded for any of them. Drafting a request letter would invent a mechanism the source does not state.",
+    "coverSheet": null,
+    "coverSheetNote": "No participant-only cover sheet is drafted. Neither the registry entry nor the IL state pack nor the compiled profile records a cover sheet for this route. The one document-transmittal requirement the registry does record — proof of delivery to the sentencing or chief judge and to the current State's Attorney of the county of conviction, by notarised affidavit or otherwise — is a manual completion item on the filing instruction sheet, carried in participant-instructions.md, and its form is set by the Board, not by LegalEase.",
+    "proposedOrder": null,
+    "proposedOrderNote": "No proposed order is drafted. Stage 1 is an agency decision with no order. At stage 2 the statewide suite supplies its own Order to Expunge and/or Seal Criminal Records and its own Order Denying, both official forms outside lane C. registry packetSet.components lists no proposed_order role for this track.",
+    "certificateOfService": null,
+    "certificateOfServiceNote": "None drafted. At stage 2 the circuit court clerk serves under § 5.2(d)(4) and the participant serves no one; the suite's Certificate of Service by Circuit Clerk is an official form. At stage 1 the participant delivers copies to the sentencing or chief judge and the State's Attorney and must demonstrate proof of those deliveries to the Board, but the form of that proof is the Board's, not LegalEase's."
+  },
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit that the pinned registry entry and the IL state pack record for il-prb-cert, and adds no unit either source does not record. It is a one-to-one mapping of registry@3b6f4c1:tracks[142].units[0..4], preserving their unitIds, order values and parentUnitId relationships exactly: il-prb-cert-certificate-application (order 1, parent, resolved, available), il-prb-cert-sealing-branch (order 2, parent=1, resolved, available), il-prb-cert-military-branch (order 3, parent=1, resolved, available), il-prb-cert-nonmilitary-expungement-branch (order 4, parent=1, outputStrategyStatus unresolved, available false), il-prb-cert-court-petition (order 5, resolved, available). No sixth unit exists. registry packetSet.components contains exactly five entries, and all five are carried: components[0] and [1] on unit 2, components[2] and [3] on unit 3, components[4] on unit 5. Unit 1 has no registry component because the registry treats it as parent framing, and unit 4 has none because the registry generates no packet for it; both were given constructed componentIds and both are recorded as constructed. Nothing in packetSet.participantActionRequired constitutes a separate legal unit: its thirty-one entries are participant acts against units 2, 3 and 5 — nine obtain_document and confirm_answer pairs for record gathering, seven complete_field manual completion items, one sign, one notarize, one pay_fee, one apply_fee_waiver, one serve_party and one file — and every one of them is carried inside the stage-1 orientation component, the dependency files, or participant-instructions.md. registry postGenerationHandoffs is empty, so no unit is drawn from it. registry manualCompletionItems has seven entries, all of which map onto units 2, 3 and 5 rather than describing separate units. No agency_request_letter unit and no cover_sheet unit is created; the registry records no written request document and no cover sheet, and creating either would exceed the source.",
+    "profilePassageReferenced": {
+      "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+      "profileSha256": "ee28d428d52f2c8ae7583b889f8f74aa0a83c5730cf13636b50bc7072e12c169",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "pointer": "pathways[3].ruleClauses[5] (identically orderedDecisionRules[51].when.sourceConditionText in truncated form)",
+      "passage": "ISP identifies eligible minor cannabis conviction records and forwards them to the Prisoner Review Board for the Governors pardon-and-expungement process. If a pardon authorizing expungement is granted, the PRB through the Attorney General files a petition in the circuit where the conviction occurred. Individuals may also file a motion to vacate and expunge certain misdemeanor or Class 4 felony cannabis convictions under 5.2(i)(3).",
+      "interpretation": "This is one of only four passages in the entire compiled IL profile that mention the Prisoner Review Board, and all four are in the cannabis-pardon context inside pathways[3] (cannabis-specific automatic or petition expungement) — a different track (il-cannabis-auto / il-exp-pardon). The Board appears there as a conduit for the Governor's pardon-and-expungement process, not as the issuer of a § 5.2(e-5) or § 5.2(e-6) certificate of eligibility. Full-value scans of the profile return zero hits for \"5.2(e-5)\", \"5.2(e-6)\", \"5.2(d)(2)\", \"certificate of eligibility\" and \"Certificate of Sealing\". The compiled profile therefore records ZERO legal units for il-prb-cert, and the enumeration above cannot be a subset of it — it is a complete image of the registry's own units[]. What the profile does supply, and what is used here, is stage-2 context: sourceSections[2] and [20] enumerate the mandatory statewide adult suite that unit 5 depends on (Request, Case List, Notice of Filing, Order, Denial order, Certificate of Service by Circuit Clerk, Fee Waiver Application) and record that all Illinois courts must accept them; sourceSections[10] supplies the ISP Access-and-Review record-gathering step and the Chicago RAP-sheet caveat; sourceSections[11] and [23] supply the fee narrative; and terminology plus copyGuardrails supply the vocabulary rules."
+    }
+  },
+  "counselFlags": [
+    {
+      "id": "cf-01",
+      "statement": "No official non-military certificate-of-eligibility-for-expungement application under § 5.2(e-6) has been located on the Prisoner Review Board site. The Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement. Unit il-prb-cert-nonmilitary-expungement-branch is blocked and nothing is drafted for it. A non-military participant seeking expungement rather than sealing has no route on this track.",
+      "mustConfirm": "Whether an official non-military § 5.2(e-6) application exists; if it does not, what the Board actually accepts from a non-military petitioner seeking an expungement certificate, and whether that is a legal-design question rather than a form-acquisition question.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].releaseBlockers[2]; .unresolvedQuestions[2]; .units[3].unavailableReason; .blockers[kind=release_blocker]",
+      "impact": "release_blocker"
+    },
+    {
+      "id": "cf-02",
+      "statement": "The military branch must never be presented as a general certificate-of-expungement application. It is military-specific, and a § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate remain legally distinct. The failure mode is a non-military participant being routed onto the military form because it is the only expungement-certificate form that exists.",
+      "mustConfirm": "That routing logic hard-blocks the military application for any participant whose eligibility does not rest on military service, and that the blocked non-military branch does not silently fall through to it.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].scopeRestrictions[1]; .legalDesignLimitations[7]; .units[2].description; .units[3].unavailableReason",
+      "impact": "scope_restriction"
+    },
+    {
+      "id": "cf-03",
+      "statement": "Zero pleading documents are drafted on this route. All four available components and the stage-2 filing are official_pdf_fill, and the stage-2 statewide suite is mandatory — the Illinois Supreme Court Commission on Access to Justice approved the adult forms and all Illinois courts must accept them. Drafting a bespoke pleading at either stage would be affirmatively wrong.",
+      "mustConfirm": "That no downstream lane substitutes a drafted document for any of the five official forms named in filingSeparation.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].units[*].outputStrategy; .packetSet.components[0]–[4]; profile:sourceSections[2] and sourceSections[20]",
+      "impact": "route_constraint"
+    },
+    {
+      "id": "cf-04",
+      "statement": "The Certificate of Sealing Acknowledgement and the military Eligibility Acknowledgement carry no visible revision dates. Both are published undated alongside dated 09/18/2024 application and guideline files. Separately, the acknowledgement-first rejection rule is recorded on the Certificate of Sealing Guidelines; whether the military acknowledgement carries the same rejection consequence is not separately stated.",
+      "mustConfirm": "The revision date of each acknowledgement form, and whether the military acknowledgement must likewise be completed before the application on pain of rejection.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].openLegalQuestions[0]; .legalDesignLimitations[1]; .packetSet.components[1] and [3]",
+      "impact": "nonblocking_research_note"
+    },
+    {
+      "id": "cf-05",
+      "statement": "County filing fees statewide are unresolved. Published examples run from roughly $60 to $235 and there is no statewide schedule. The registry records ISP as charging nothing to file a petition and $60 to process a court order, and McLean County as publishing $136; the compiled profile breaks that $136 down as $60 filing plus $60 ISP plus $16 for four certified copies, and records a Cook County single-fee-per-day rule across districts. No fee figure of any kind is printed in this route.",
+      "mustConfirm": "Build a county fee table before any fee figure is shown to a participant. Treat every published figure as county-specific.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].releaseBlockers[0]; .rules.fees; profile:sourceSections[11] and sourceSections[22] and sourceSections[23]; IL state pack fee-notes.ts illinoisFeeNotes.variable",
+      "impact": "release_blocker"
+    },
+    {
+      "id": "cf-06",
+      "statement": "Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions, is unresolved. The compiled profile records that copy counts, e-filing rules and mailing procedures differ by county and that petitioners should call the clerk first.",
+      "mustConfirm": "Per-county e-filing availability and the self-represented exemption route, before any filing-method instruction is given for stage 2.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].releaseBlockers[1]; profile:sourceSections[22]",
+      "impact": "release_blocker"
+    },
+    {
+      "id": "cf-07",
+      "statement": "Stage 1 is a self-help stop condition always. The certificate application is a discretionary rehabilitation case and is not suitable for an automated template. Any objection or contested hearing at stage 2 is likewise a stop condition, and a Board hearing is a post-generation event requiring referral. The Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition.",
+      "mustConfirm": "That the referral is presented at stage 1 by default rather than only on failure, given that the whole of stage 1 is a stop condition while still being packet-capable.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].selfHelpBoundaries[0]–[3]; .selfHelpStopConditions; .legalDesignLimitations[8]",
+      "impact": "scope_restriction"
+    },
+    {
+      "id": "cf-08",
+      "statement": "The facts-of-the-offence statement, the personal life history and the reasons for seeking the certificate are participant-authored through structured prompts. LegalEase formats the participant's own words and never composes the rehabilitation showing. Perjury on the sworn declaration is a Class 3 felony punishable by up to 10 years, so nothing generated may end up sworn to.",
+      "mustConfirm": "That the narrative prompts capture the participant's own words verbatim and that no generated, summarised or suggested language reaches a sworn field.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].participantQuestions[0]; .legalDesignLimitations[2] and [3]; .packetInstructions[1]",
+      "impact": "scope_restriction"
+    },
+    {
+      "id": "cf-09",
+      "statement": "Notarisation is required before filing: the declaration that all assertions are complete, truthful and accurate must be signed and sworn before a notary public. The witness or attorney signature on the acknowledgement is third-party completed and LegalEase leaves it blank.",
+      "mustConfirm": "That the notarisation and third-party-signature blocks are surfaced as manual completion items on every stage-1 branch, and that neither is ever prefilled.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].rules.notarization; .manualCompletionItems[3] and [5]; .legalDesignLimitations[3]",
+      "impact": "scope_restriction"
+    },
+    {
+      "id": "cf-10",
+      "statement": "Stage-1 filing mechanics are exacting and are quoted rather than paraphrased: mail or deliver the original petition to the Board at 1001 North Walnut Street, Springfield, Illinois 62702; staple or clip the pages so they can be separated, do not bind them or use plastic sleeves; the completed petition must be received at least 75 days before the first date of the hearing schedule to be considered on that docket; and proof of delivery to the sentencing or chief judge and to the current State's Attorney of the county of conviction must be demonstrated to the Board, by notarised affidavit or otherwise.",
+      "mustConfirm": "That the 75-day deadline is computed against a Board hearing schedule the participant has actually looked up, and what form of proof of delivery the Board accepts.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].rules.filing; .rules.notice; .legalDesignLimitations[5]; .manualCompletionItems[6]",
+      "impact": "unstated_field"
+    },
+    {
+      "id": "cf-11",
+      "statement": "No petition will be accepted for review within four years of the denial of a prior petition for the same individual, unless the Chairman permits an exception for compelling reasons. priorPrbPetition is a required screening key precisely because of this bar. Whether the four years runs from the denial date or from some other date, and what counts as compelling, is not stated.",
+      "mustConfirm": "How the four-year bar is computed and how a participant inside the window is routed, including whether the Chairman's exception is worth attempting.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].packetInstructions[4]; .legalDesignLimitations[6]; .generationRequirements[key=priorPrbPetition]",
+      "impact": "unstated_field"
+    },
+    {
+      "id": "cf-12",
+      "statement": "The expunge-versus-seal election for each case at stage 2 is a legal judgment the review expressly bars from auto-completion. It is a manual completion item on the Case List's per-case election column. The two remedies are not interchangeable and a record is usually eligible for one or the other, not both.",
+      "mustConfirm": "That the per-case election is never auto-filled, never defaulted, and never inferred from certificateType, and that the participant is told what turns on the choice.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].manualCompletionItems[1]; IL state pack eligibility-rules.ts illinoisEligibilityRules[0]–[2]; safety-language.ts illinoisPlainLanguage.expungementVsSealing",
+      "impact": "scope_restriction"
+    },
+    {
+      "id": "cf-13",
+      "statement": "The stage-2 hearing date is a manual completion item: the court sets a hearing only if an objection is filed, with at least 30 days' notice. Objections come from the State's Attorney, the arresting agency, the chief legal officer of the arresting unit of local government and the Illinois State Police, who generally have 60 days to object; agencies may then have up to 60 days to process an order. None of that is asserted or predicted anywhere in this route.",
+      "mustConfirm": "That the objection window and the post-order processing window are stated to the participant as ranges rather than commitments, and that no document asserts an objection, a hearing, or an outcome.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].manualCompletionItems[2]; IL state pack filing-instructions.ts items 4–7; profile:sourceSections[10] step 4 and step 5; sourceSections[21] step 5",
+      "impact": "scope_restriction"
+    },
+    {
+      "id": "cf-14",
+      "statement": "Every record the participant must gather is obtained by the participant, in person or by request, and LegalEase does not obtain, receive or inspect any of it: the ISP statewide criminal history transcript through Access and Review, the Chicago Police Department RAP sheet where there were Chicago arrests, a certified disposition from each circuit clerk, educational documentation, five years of employment documentation, proof of any counselling, a DD-214 where applicable, and fingerprint-based criminal history per paragraph B-5 of the Board's Guidelines. Access and Review is free on the ISP fee schedule; the Chicago RAP sheet carries a local fee.",
+      "mustConfirm": "That the confirm-answer pairs are wired so that a disagreement between the participant's answer and the obtained document forces correction of the packet before filing, and that no LegalEase surface implies it holds any of these records.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].participantFilingRequirements[0]–[8]; .packetSet.participantActionRequired[kind=obtain_document|confirm_answer]; profile:sourceSections[10] step 1 and sourceSections[24]",
+      "impact": "scope_restriction"
+    },
+    {
+      "id": "cf-15",
+      "statement": "All five official sources recorded on this track carry sha256 null, so staleness cannot be detected: 20 ILCS 2630/5.2, Public Act 104-0459 (Clean Slate Act, enrolled HB 1836), the Approved Statewide Forms page, the EXP-AD Request PDF, and the ISP Bureau of Identification fee schedule. All were retrieved 2026-07-30. Two further primary sources — the Board's Certificate of Sealing Guidelines revised 09/18/2024 and the four Board AcroForms — are cited throughout the registry entry but do not appear in officialSources at all and carry no URL or hash there. The track's effectiveFrom is 2026-06-01, and the profile records that most Clean Slate provisions take effect June 1 / June 30, 2026, that the sealing waiting period shortens from 3 to 2 years on June 30, 2026, and that automatic sealing does not begin until January 1, 2029.",
+      "mustConfirm": "Re-retrieve and hash all five recorded sources, and add the Board Guidelines and the four Board AcroForms to officialSources with URLs and hashes. Confirm the § 5.2(e-5) and § 5.2(e-6) text is current after the 2026 Clean Slate effective dates.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].officialSources[0]–[4] (sha256 null on all five); .blockers[kind=source_gate]; .effectiveFrom; .packetSet.components[*].officialSourceUrl (private/Nationwide paths, no hashes); profile:copyGuardrails[2] and [4]",
+      "impact": "source_gate"
+    },
+    {
+      "id": "cf-16",
+      "statement": "The compiled IL profile records nothing about this track. Zero pathways, questions, decision rules, waiting-period rules, exclusion rules or packet-generator entries; zero hits for § 5.2(e-5), § 5.2(e-6), § 5.2(d)(2), \"certificate of eligibility\" or \"Certificate of Sealing\". The four Prisoner Review Board mentions in the profile are all cannabis-pardon context belonging to a different track. Anything downstream that reads only the compiled profile will not know this route exists.",
+      "mustConfirm": "Whether the certificate-of-eligibility route should be compiled into the IL profile, and if not, how consumers that read the profile alone are prevented from concluding that a § 5.2(a)(3)-excluded record has no route.",
+      "sourceRef": "profile:pathways (nine, none matching); profile:pathways[3].ruleClauses[5]; registry@3b6f4c1:tracks[142] (entire entry)",
+      "impact": "source_gap"
+    },
+    {
+      "id": "cf-17",
+      "statement": "legalStatus is legal_review_pending and legalDesignStatus is legal_design_approved_with_limitations. Runtime is disabled: counsel approved the design, not the produced document. Output review, visual review and technical proof are all outstanding, and implementationQueue is F_source_problem — this track is queued as a source problem, not as a drafting task.",
+      "mustConfirm": "Output review, visual review and technical proof, plus the three release blockers, before this route leaves internal review. Note that the F queue placement means lane C cannot clear this track alone.",
+      "sourceRef": "registry@3b6f4c1:tracks[142].legalStatus; .legalDesignStatus; .runtimeDisabledReason; .implementationQueue; .blockers",
+      "impact": "output_review_gate"
+    }
+  ],
+  "selfHelpStopConditions": [
+    "Stage 1 always: the certificate application is a discretionary rehabilitation case and is not suitable for an automated template.",
+    "Any objection or contested hearing at stage 2.",
+    "A Board hearing, or any need for advocacy before the Board.",
+    "Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition."
+  ],
+  "selfHelpStopConditionsSourceRef": "registry@3b6f4c1:tracks[142].selfHelpStopConditions; .selfHelpBoundaries",
+  "reviewPosture": {
+    "legalDesignStatus": "legal_design_approved_with_limitations",
+    "legalStatus": "legal_review_pending",
+    "implementationQueue": "F_source_problem",
+    "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+    "counselConfirmationRequired": false,
+    "openBlockerKinds": [
+      "output_review_gate",
+      "visual_review_gate",
+      "technical_proof_gate",
+      "release_blocker",
+      "source_gate"
+    ],
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2026-06-01",
+    "effectiveTo": null,
+    "approvedForLive": false,
+    "live": false
+  },
+  "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass."
+}

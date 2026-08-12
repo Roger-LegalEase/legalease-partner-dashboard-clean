@@ -1,0 +1,299 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "ca-diversion-seal",
+  "jobId": "T-C-CA-complete-composed-route",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California",
+    "slug": "california"
+  },
+  "trackIdentity": {
+    "legalName": "Sealing of Arrest Records After Diversion or Deferred Entry of Judgment, Cal. Penal Code §§ 851.87, 851.90, 1000.4 and 1001.9",
+    "publicName": "Seal an arrest after completing diversion or a deferred entry of judgment programme",
+    "compositionMode": "sequential",
+    "outputStrategyDeclared": "composed",
+    "geographicScope": "county",
+    "geographyKeys": [
+      "san-diego",
+      "kern"
+    ],
+    "reliefVocabulary": {
+      "primaryReliefTerm": "arrest sealing",
+      "prohibitedTerms": [
+        "expungement",
+        "dismissal",
+        "set-aside",
+        "set aside"
+      ],
+      "prohibitedTermsBasis": "Registry scopeRestrictions: \"This is arrest sealing. Do not describe it as dismissal, set-aside or expungement.\" (LegalEase-California-Legal-Review.md, DECISION UP FRONT / 2)",
+      "negatedUseException": "The participant-facing documents state, once each, that this route is NOT a dismissal, set-aside or expungement. That is disambiguation drawn from the same scope restriction, not a description of the relief. A bare term scan will hit those lines in process-guidance.md and participant-instructions.md; confirm at output review that each hit is negated before treating it as a vocabulary failure. No court-facing document is drafted for this track, so the pleading-QA prohibited-term rule has no rendered pleading text to run against here.",
+      "negatedUseSites": [
+        "components/ca-diversion-seal-process-guidance-1/process-guidance.md — \"This is arrest sealing. It is not a dismissal, a set-aside, or an expungement.\"",
+        "participant-instructions.md — \"It is not a dismissal, it is not a set-aside, and it is not an expungement.\""
+      ]
+    }
+  },
+  "provenance": {
+    "statePackFiles": [
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/california/all50-build-metadata.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/california/index.ts"
+    ],
+    "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/CA-california.json",
+    "profileSha256": "b367babb49f60da0e7293fcceeb4eea6f8cd983e162048d5383a2696847ab1ee",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "registryEntryPointer": "tracks[47] (trackId ca-diversion-seal)",
+    "profileCoverageNote": "The compiled CA profile contains no pathway, question, or rule for this track. Its only passage touching any statute in this track's authority spine is pathways[3].summary, which describes PC 851.91 non-conviction arrest sealing and notes that \"PC 851.87 shifts the burden to the prosecutor in contested cases\" — a different route. Unit enumeration for this composed remedy therefore comes from the pinned registry entry, and the state pack supplies the fee/service/destination posture."
+  },
+  "authoritySpine": [
+    {
+      "citation": "Cal. Penal Code § 851.90",
+      "description": "Sealing after drug diversion or deferred entry of judgment.",
+      "sourceRef": "registry tracks[47].authority[0]; officialSources[0] (codes.findlaw.com/ca/penal-code/pen-sect-851-90.html, retrieved 2026-07-30, no recorded sha256)"
+    },
+    {
+      "citation": "Cal. Penal Code § 851.92",
+      "description": "Sealing mechanics that follow the order: the court gives a copy to the person and the prosecuting attorney; within 30 days the court forwards the order to the arresting agency and other participating agencies; local records are marked \"arrest sealed\" and state records are marked \"arrest relief granted.\"",
+      "sourceRef": "registry tracks[47].authority[4] and destination.detail; officialSources[1] (codes.findlaw.com/ca/penal-code/pen-sect-851-92/, retrieved 2026-07-30, no recorded sha256)"
+    },
+    {
+      "citation": "Cal. Penal Code § 851.87",
+      "description": "Listed in the track authority. Full text not read; the registry records this as a build blocker for the eligibility branch.",
+      "sourceRef": "registry tracks[47].authority[1]; buildBlockers[0]"
+    },
+    {
+      "citation": "Cal. Penal Code § 1000.4",
+      "description": "Listed in the track authority for deferred entry of judgment. Full text not read; recorded as a build blocker for the eligibility branch.",
+      "sourceRef": "registry tracks[47].authority[2]; buildBlockers[0]"
+    },
+    {
+      "citation": "Cal. Penal Code § 1001.9",
+      "description": "Listed in the track authority. Full text not read; recorded as a build blocker for the eligibility branch.",
+      "sourceRef": "registry tracks[47].authority[3]; buildBlockers[0]"
+    },
+    {
+      "citation": "Cal. Penal Code § 1000.5",
+      "description": "Superior court drug diversion programme; successful completion is one of the two qualifying dispositions.",
+      "sourceRef": "registry tracks[47].mechanism and dispositions[0]"
+    },
+    {
+      "citation": "Cal. Penal Code §§ 1000, 1000.8",
+      "description": "Deferred entry of judgment programmes; successful completion is the second qualifying disposition.",
+      "sourceRef": "registry tracks[47].mechanism and dispositions[1]"
+    },
+    {
+      "citation": "SB 393 (2017), effective 1 January 2018",
+      "description": "Effective-from date recorded for this track (2018-01-01).",
+      "sourceRef": "registry tracks[47].authority[5] and effectiveFrom"
+    }
+  ],
+  "mechanism": "Where a person was diverted under a superior court drug diversion programme under PC 1000.5, or admitted to a deferred entry of judgment programme under PC 1000 or 1000.8, and successfully completed it, the judge may order the arrest records sealed as described in § 851.92, on written or oral motion of any party, or on the court's own motion, with notice to all parties. There is no statewide Judicial Council form; counties publish their own.",
+  "venue": {
+    "statement": "The superior court that handled the diversion or deferred entry of judgment. Local practice and local forms govern; there is no statewide form.",
+    "namedCourt": null,
+    "namedCounty": null,
+    "counselFlagRef": "cf-07"
+  },
+  "units": [
+    {
+      "unitId": "ca-diversion-seal-stage-1",
+      "order": 1,
+      "legalUnit": "Explain the route and identify the local form — statewide guidance covering the qualifying disposition and the automatic portions: that the judge may order sealing on written or oral motion of any party or on the court's own motion with notice to all parties, the § 851.92 mechanics that follow an order, and the instruction to ask the county clerk or self-help centre which local form applies. LegalEase does not select the local form.",
+      "authority": {
+        "citation": "Cal. Penal Code §§ 851.90, 851.92",
+        "sourceRef": "registry tracks[47].units[0].description; mechanism; destination.detail; packetInstructions[0]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "ca-diversion-seal-process-guidance-1",
+      "applicability": {
+        "includedWhen": "The participant answers that they were in a drug diversion programme or a deferred entry of judgment programme (screening key programType) and that they successfully completed it (screening key programCompleted), and names the California county that handled the case (screening key countyOfCase).",
+        "excludedWhen": "Never excluded while the track is selected. The registry marks this unit required and available, and records that missing county form coverage is a scope restriction rather than a reason to suppress this guidance unit."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [
+          "programType",
+          "programCompleted",
+          "countyOfCase",
+          "arrestDate",
+          "caseNumber"
+        ],
+        "confirmFields": [
+          "programCompleted against Proof of programme completion"
+        ],
+        "protectedBlankNote": "Judge name, prosecutor identity and prosecutor position, hearing date, and any statement that service or filing has occurred are left blank. Relief is discretionary and the court may act on its own motion; no outcome may be prefilled.",
+        "outsidePartyBlankNote": "Acts of the court, the clerk, the prosecuting attorney, the arresting agency, and the programme provider are left blank. LegalEase does not obtain, receive or inspect the proof of programme completion."
+      },
+      "implementation": {
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-process-guidance-1"
+      }
+    },
+    {
+      "unitId": "ca-diversion-seal-stage-2",
+      "order": 2,
+      "legalUnit": "County petition and order set — the operative filing that asks the superior court to order the arrest records sealed under § 851.90, together with the proposed sealing order. There is no statewide Judicial Council form for this route; each county publishes its own petition and order.",
+      "authority": {
+        "citation": "Cal. Penal Code § 851.90",
+        "sourceRef": "registry tracks[47].units[1]; packetSet.components[1]; venue; rules.filing"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ca-diversion-seal-primary-filing-2",
+      "applicability": {
+        "includedWhen": "The participant's county (screening key countyOfCase) is one for which LegalEase has collected and approved the current local petition and order set.",
+        "excludedWhen": "No county qualifies yet. The registry records that no approved local petition and order set has been sourced for any county, including the two named geography keys (san-diego, kern), so this unit is presently excluded for every participant and the participant obtains the local forms themselves."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [],
+        "confirmFields": [
+          "Which local form the county clerk or self-help centre says applies to a § 851.90 sealing"
+        ],
+        "protectedBlankNote": "No field of the county form may be prefilled while the form itself is unsourced. Signature and date are participant-completed in every case (registry manualCompletionItems[0]).",
+        "outsidePartyBlankNote": "The court's issuance of the order, the clerk's acceptance, and the 30-day forwarding to the arresting agency are outside-party acts and are never asserted as completed."
+      },
+      "implementation": {
+        "blockedDependency": "Lane D official-form acquisition: San Diego Superior Court local form SDSC CRM-307 (https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf) and the Kern County local § 851.90 petition and order set, plus a lane-E survey of local forms in the remaining target counties. Registry buildBlockers[2] and legalDesignLimitations[1] retain this as a true blocker; no petition or order may be drafted here."
+      }
+    },
+    {
+      "unitId": "ca-diversion-seal-stage-3-fee-waiver",
+      "order": 3,
+      "legalUnit": "Fee waiver request — the general California fee waiver application the participant files when they cannot pay the filing fee for the county petition.",
+      "authority": {
+        "citation": null,
+        "citationNote": "The registry names form FW-001 but states no statute or rule for the waiver, and states no filing fee for this route. Left null rather than supplied.",
+        "counselFlagRef": "cf-04",
+        "sourceRef": "registry tracks[47].rules.feeWaiver (\"FW-001 is the general California fee waiver form.\"), rules.fees (\"The source review does not state a filing fee for this route.\"), packetSet.participantActionRequired[7]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ca-diversion-seal-fee-waiver-3",
+      "applicability": {
+        "includedWhen": "The participant answers that they cannot pay the filing fee charged by the county superior court for the local petition.",
+        "excludedWhen": "The participant pays the filing fee, or the county charges none. The registry records that the source review does not state a filing fee for this route, so whether any fee applies is unconfirmed."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [],
+        "confirmFields": [
+          "Whether the county superior court charges a filing fee for this petition"
+        ],
+        "protectedBlankNote": "Financial-eligibility fields on FW-001 are participant-supplied and are never prefilled or inferred.",
+        "outsidePartyBlankNote": "The court's grant or denial of the waiver is an outside-party act and is never asserted."
+      },
+      "implementation": {
+        "blockedDependency": "Lane D official-form acquisition: California Judicial Council form FW-001 (Request to Waive Court Fees). Named in the registry but not inventoried in the CA state pack officialFormInventory or resourcePacketInventory, and no copy is present in the Nationwide California folder."
+      }
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      "The county's own § 851.90 petition and proposed order, obtained by the participant from the county superior court clerk or self-help centre. Not drafted by LegalEase — see components/ca-diversion-seal-primary-filing-2/dependency.json.",
+      "Judicial Council form FW-001, Request to Waive Court Fees, only when the participant cannot pay a filing fee. Not drafted by LegalEase — see components/ca-diversion-seal-fee-waiver-3/dependency.json.",
+      "Proof of programme completion, obtained by the participant from the superior court that handled the case or from the programme provider, if the county's local practice requires it to be lodged. Whether it is filed or only presented is not stated in the source — see counsel flag cf-10."
+    ],
+    "participantOnly": [
+      "components/ca-diversion-seal-process-guidance-1/process-guidance.md — route explanation and local-form identification steps. Not filed with the court.",
+      "participant-instructions.md — the complete/sign/serve/file checklist. Not filed with the court."
+    ],
+    "coverSheet": null,
+    "coverSheetNote": "No participant-only cover sheet is drafted. Neither the registry entry nor the CA state pack records a cover sheet, coversheet, or civil case cover sheet requirement for this route."
+  },
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit that the pinned registry entry and the CA state pack record for ca-diversion-seal, and adds no unit either source does not record. Units 1 and 2 are a one-to-one mapping of registry tracks[47].units[0..1], which is also a one-to-one mapping of registry tracks[47].packetSet.components[0..1] (roles process_guidance and primary_filing). Unit 3 is the only remaining source-recorded document obligation not carried by units 1-2: registry tracks[47].rules.feeWaiver and packetSet.participantActionRequired[7] name Judicial Council form FW-001 as a conditional filing. units[] is therefore a superset of the registry's own units[] and never a subset. No fourth unit exists: the remaining entries in packetSet.participantActionRequired (obtain proof of completion, confirm the completion answer, obtain the county forms, complete the signature and date, sign, notarization, pay fee, serve, file) are participant acts against units 1-3 rather than separate legal units, and are carried in participant-instructions.md and in unit 1's guidance component.",
+    "profilePassageReferenced": {
+      "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "profileSha256": "d2a35fc698c32b62b98905d081693028d1553eab5de9f45f4f66ebc7d52e1755",
+      "pointer": "pathways[3].summary",
+      "passage": "A person arrested but not convicted may seal the arrest record under PC 851.91 — generally as a matter of right unless a pattern of domestic violence/abuse or other exception applies; PC 851.87 shifts the burden to the prosecutor in contested cases. A stronger remedy, PC 851.8, seals AND destroys the records on a finding of factual innocence.",
+      "interpretation": "This is the only passage anywhere in the compiled CA profile that mentions a statute appearing in this track's authority spine (§ 851.87), and it appears inside pathway tool-4-arrest-record-sealing, which is the PC 851.91 non-conviction sealing route, not the § 851.90 diversion route. A full-value scan of the profile for \"851.90\", \"851.92\", \"1000.4\", \"1001.9\", \"diversion\" and \"deferred entry\" returned no other hit and no pathway, question, ordered decision rule, waiting-period rule, exclusion rule, or packet-generator entry for this track. The compiled profile therefore records zero legal units for ca-diversion-seal, and the enumeration above cannot be a subset of it."
+    }
+  },
+  "counselFlags": [
+    {
+      "id": "cf-01",
+      "statement": "The current text of Cal. Penal Code §§ 851.87, 1000.4 and 1001.9 has not been read in full. Any exclusions those sections carry are not stated in this route, and the eligibility branch cannot be fully specified until counsel reads them.",
+      "mustConfirm": "Read §§ 851.87, 1000.4 and 1001.9 in current form and state every exclusion and every eligibility condition they impose on a § 851.90 sealing.",
+      "sourceRef": "registry buildBlockers[0] / unresolvedQuestions[0] / exclusions[0] (LegalEase-California-Legal-Review.md, OPEN QUESTIONS / 7)"
+    },
+    {
+      "id": "cf-02",
+      "statement": "Whether any statewide form exists for this route that was missed is an open question. The route is built on the premise that no statewide Judicial Council form exists.",
+      "mustConfirm": "Confirm that no statewide Judicial Council form covers § 851.90 diversion/DEJ arrest sealing.",
+      "sourceRef": "registry buildBlockers[1] (LegalEase-California-Legal-Review.md, TRACK CA-10 / Required research)"
+    },
+    {
+      "id": "cf-03",
+      "statement": "No approved county petition and order set has been collected for any county, including the two named geography keys san-diego and kern. A survey of local forms in the target counties has not been done. Unit 2 is blocked and no petition or order is drafted.",
+      "mustConfirm": "Collect and approve the current local petition and order set for each county LegalEase intends to support, starting with SDSC CRM-307 and the Kern County local petition.",
+      "sourceRef": "registry buildBlockers[2], legalDesignLimitations[1], units[1].unavailableReason"
+    },
+    {
+      "id": "cf-04",
+      "statement": "Filing fee is null. The source review does not state a filing fee for this route, so no fee amount, no fee schedule, and no statement that the filing is free may appear anywhere in participant-facing output.",
+      "mustConfirm": "Confirm, per supported county, whether a filing fee applies to a § 851.90 petition and what it is.",
+      "sourceRef": "registry rules.fees; CA state pack feesCopiesServiceNotes"
+    },
+    {
+      "id": "cf-05",
+      "statement": "Notarization is null. The source review does not state a notarization requirement, so the route neither requires nor excuses notarization.",
+      "mustConfirm": "Confirm whether the county petition must be notarized or may be signed under penalty of perjury.",
+      "sourceRef": "registry rules.notarization; packetSet.participantActionRequired[5]"
+    },
+    {
+      "id": "cf-06",
+      "statement": "Service is partly null. The source review states no separate service rule beyond notice to all parties on a § 851.90 motion. What form that notice takes, on whom, and on what timetable before the hearing is not stated.",
+      "mustConfirm": "Confirm the manner, recipients, and deadline for the notice to all parties required on a § 851.90 motion in each supported county.",
+      "sourceRef": "registry rules.notice and rules.service"
+    },
+    {
+      "id": "cf-07",
+      "statement": "Court name, county, address, and department are null. The venue is described only as \"the superior court that handled the diversion or deferred entry of judgment.\" No court name, clerk address, or department has been sourced and none may be printed.",
+      "mustConfirm": "Confirm, per supported county, the correct superior court, filing location, and department for a § 851.90 petition.",
+      "sourceRef": "registry venue and destination.name; CA state pack filingDestinationGuidance"
+    },
+    {
+      "id": "cf-08",
+      "statement": "Relief is discretionary and the prosecutor's position is unknown and never prefilled. The court may also act on its own motion. Prosecutor opposition, a contested hearing, or a dispute about whether the programme was successfully completed each stop self-help and trigger handoff.",
+      "mustConfirm": "Confirm the handoff path and the participant-facing wording used when the prosecutor opposes or the court sets a contested hearing.",
+      "sourceRef": "registry selfHelpBoundaries, selfHelpStopConditions, postGenerationHandoffs[0]"
+    },
+    {
+      "id": "cf-09",
+      "statement": "None of the three recorded official sources carries a SHA-256, so staleness of the § 851.90, § 851.92 and SDSC CRM-307 sources cannot be detected. All three were retrieved 2026-07-30 and two are a secondary code publisher rather than the official code site.",
+      "mustConfirm": "Re-retrieve each authority from an official source, record a SHA-256, and confirm the text is current.",
+      "sourceRef": "registry officialSources[0..2] (sha256 null); blockers kind source_gate"
+    },
+    {
+      "id": "cf-10",
+      "statement": "Whether the proof of programme completion is lodged with the court, merely presented, or not submitted at all is not stated. The registry requires the participant to obtain it before filing but records no filing treatment for it.",
+      "mustConfirm": "Confirm what the county expects the participant to do with the proof of programme completion.",
+      "sourceRef": "registry participantFilingRequirements[0]; packetSet.participantActionRequired[0]"
+    },
+    {
+      "id": "cf-11",
+      "statement": "Vocabulary restriction. This route is arrest sealing only. It must never be described as a dismissal, a set-aside, or an expungement in any participant-facing or court-facing text, and county coverage must never be presented as statewide official-form coverage.",
+      "mustConfirm": "Confirm the participant-facing vocabulary at output review.",
+      "sourceRef": "registry scopeRestrictions[0..1]; legalDesignLimitations[0] and [2]"
+    }
+  ],
+  "reviewPosture": {
+    "legalDesignStatus": "legal_design_approved_with_limitations",
+    "legalStatus": "legal_review_pending",
+    "implementationQueue": "F_source_problem",
+    "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+    "openBlockerKinds": [
+      "output_review_gate",
+      "visual_review_gate",
+      "technical_proof_gate",
+      "legal_design_blocker",
+      "source_gate"
+    ],
+    "reviewedAsOf": "2026-07-30"
+  }
+}

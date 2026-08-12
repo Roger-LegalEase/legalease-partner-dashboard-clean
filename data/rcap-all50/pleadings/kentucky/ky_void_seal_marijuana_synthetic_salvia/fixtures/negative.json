@@ -1,0 +1,70 @@
+{
+  "fixtureId": "ky_void_seal_marijuana_synthetic_salvia-negative",
+  "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+  "configPath": "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/pleading-config.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtLevel": "DISTRICT",
+    "countyName": "JEFFERSON",
+    "caseNumber": "00-M-00000",
+    "docketNumber": "00-M-00000",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorOffice": "county attorney",
+    "prosecutorName": "EXAMPLE COUNTY ATTORNEY",
+    "prosecutorPosition": "agrees to the relief requested",
+    "prosecutorAddress": "000 COURTHOUSE SQUARE, LOUISVILLE, KY 00000",
+    "filingDate": "01/01/2026",
+    "serviceDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "possession of drug paraphernalia",
+    "statuteSection": "KRS 218A.500",
+    "offenseGrade": "Class A misdemeanor",
+    "convictionDate": "08/12/2018",
+    "dispositionDate": "08/12/2018",
+    "arrestDate": "04/02/2018",
+    "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "vmjCounty": "JEFFERSON",
+      "vmjCourtLevel": "district court",
+      "vmjOffenceOnList": "drug paraphernalia",
+      "vmjCompletionType": "probation",
+      "vmjCompletionDate": "09/30/2020",
+      "vmjFirstOffence": "unsure",
+      "vmjPriorVoid": "yes",
+      "vmjProsecutorOffice": "county attorney"
+    },
+    "eligibilityBasisLabel": "Eligible — confirmed first offence, records will be expunged",
+    "completionProofInHand": false,
+    "additionalFacts": [
+      "Possession of drug paraphernalia is materially similar to the offences listed in KRS 218A.276(1) and should be treated the same way.",
+      "Marijuana has since been decriminalized in Kentucky and the conviction is therefore no longer valid.",
+      "This is the Movant's first conviction of any kind.",
+      "The Movant's records have been expunged and destroyed.",
+      "The county attorney was served on 01/01/2026 and agrees to the relief requested.",
+      "A filing fee of $25.00 was paid to the clerk.",
+      "The Court granted the motion at a hearing held on 02/01/2026."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "11/22/1990",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "KY0000000",
+    "driversLicenseNumber": "K00000000",
+    "fbiNumber": "000000AA0"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. Each ground below is either a prohibited term for this track or prohibited invention. (1) Offence outside the fixed list: the conviction is for possession of drug paraphernalia, which is not on the KRS 218A.276(1) list of marijuana, synthetic drugs and salvia possession — and the fixture then argues by analogy that it 'should be treated the same way', which the scope restriction forbids absolutely; the offence list is fixed. (2) Prohibited terms: it uses 'decriminalized', 'expunged' and 'destroyed'. No source read for this track says anything about the legal status of marijuana in Kentucky, and this remedy seals rather than expunges; the profile copy guardrail forbids relabelling every Kentucky remedy as expungement. (3) It asserts first-offence status as a legal conclusion, and overstates it ('first conviction of any kind'), while the participant's own answer is 'unsure' — first-offence status is the participant's own statement of fact and any dispute ends automated assistance. (4) It proceeds despite vmjPriorVoid = yes, when voiding under this section may occur only once for any person. (5) It fills court identity no source supplies: county, case number, docket number, OTN and judge name, none of which may be prefilled. (6) It asserts a prosecutor position ('agrees to the relief requested'), an outside-party act, and service completion on a stated date; the movant effects and certifies service by hand and no source states it happened. (7) It asserts a fee of $25.00 when the recorded rule is that there is no filing fee for this proceeding, and a clerk who demands a fee is a self-help stop condition rather than a figure to print. (8) It asserts a hearing outcome and a hearing date. (9) It populates protected fields — date of birth, SSN last four, state ID, driver's licence and FBI number — that must stay blank. (10) It states an eligibilityBasisLabel asserting confirmed eligibility when KRS 218A.276(8) voiding is discretionary and no eligibility conclusion may be asserted.",
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

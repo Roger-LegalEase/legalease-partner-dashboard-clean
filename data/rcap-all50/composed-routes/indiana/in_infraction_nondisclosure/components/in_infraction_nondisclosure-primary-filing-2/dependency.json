@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-blocked-unit-dependency/v1",
+  "dependencyKind": "unresolved_form_question",
+  "dependencyKindNote": "This is NOT an official_form_dependency. The registry records officialFormId null and officialSourceUrl null for this component and states that no statewide form has been identified. What is blocked is the prior question of whether a statewide form exists at all, together with the county MC case-type convention. No official form is named because no source names one.",
+  "trackId": "in_infraction_nondisclosure",
+  "jurisdiction": {
+    "code": "IN",
+    "slug": "indiana"
+  },
+  "componentId": "in_infraction_nondisclosure-primary-filing-2",
+  "componentIdSynthesized": false,
+  "role": "primary_filing",
+  "requirement": "conditional",
+  "conditionDescription": "Stage 2, generated only where the court did not act, or after a deferral or satisfied judgment, once the form and MC case-type gates close.",
+  "unitId": "in_infraction_nondisclosure-stage-2",
+  "requiredOutput": "pleading_document",
+  "declaredOutputStrategy": "custom_pleading",
+  "officialFormId": null,
+  "officialFormName": null,
+  "officialSourceUrlForForm": null,
+  "acquisitionStatus": "existence_unconfirmed",
+  "drafted": false,
+  "draftingProhibitedBecause": "Registry unavailableReason: \"No statewide form has been identified and county handling of the MC case-type assignment is unconfirmed, so the unit stays unavailable pending those release gates.\" Registry scope restriction: \"Stage 2 stays unavailable until the form and MC case-type questions close. No statewide form has been identified, so no form mapping is asserted.\"",
+  "blockingStatement": "Whether a statewide form exists for an I.C. 34-28-5-15 infraction petition, and how counties handle the MC case-type assignment where no cause number was assigned.",
+  "exactMissingSource": "Determination, from the Coalition for Court Access expungement forms index at https://www.in.gov/courts/iocs/self-service/expungement/ (official source recorded on this track, retrieved 2026-07-30, sha256 null), of (a) whether a statewide form exists for an I.C. 34-28-5-15 infraction non-disclosure petition and, if one does, acquisition of that current official form; and (b) how Indiana counties handle the MC case-type assignment where no cause number was assigned.",
+  "owningLane": "lane-D/E official-source acquisition and source-question closure. Registry implementationQueue for this track: D_composed_or_process_guidance.",
+  "impact": "release_blocker",
+  "affectedElement": "correct_form",
+  "sourceProvenance": {
+    "classificationBasis": "explicit_state_addendum",
+    "sourceFile": "LegalEase-Indiana-Legal-Review.md",
+    "sourceHeading": "TRACK 10 - INFRACTION NON-DISCLOSURE",
+    "sourceStatement": "Decision: Additional research required. Confirm whether a statewide form exists and how counties handle the MC assignment before building."
+  },
+  "recordedButNotRendered": {
+    "note": "The registry does state the following about this filing. It is recorded here so nothing is lost, and it is deliberately not rendered into any document, caption, allegation or instruction.",
+    "venue": "The court where the charges were brought or the trial was held, or the court with jurisdiction over the violation for a deferral participant. Filed under the original cause number, or as an MC case type if no cause number was assigned.",
+    "fees": "None.",
+    "feeWaiver": "Not applicable. There is no fee.",
+    "participantSignature": "The petition is verified and signed by the petitioner.",
+    "notarization": "none",
+    "service": "Service on the prosecuting attorney. Confirm local practice on the MC case-type assignment.",
+    "notice": "Service on the prosecuting attorney, who has thirty days to file a notice in opposition. The court may summarily grant, set a hearing, or summarily deny. A hearing is required if opposition is filed and the court does not rule summarily.",
+    "manualCompletionItem": "Verification and signature - Petition, verification block. The participant signs it themselves once stage 2 becomes available."
+  },
+  "profileCorroboration": null,
+  "profileCorroborationNote": "None available. The compiled IN profile contains zero occurrences of \"34-28-5-15\" and zero of \"infraction\"; its four pathways are all I.C. 35-38-9 expungement routes. The profile neither corroborates nor contradicts this unit.",
+  "order": 2,
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].packetSet.components[1]; .units[1]; .releaseBlockers[0]; .scopeRestrictions[0]",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+    "profileSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/indiana/index.ts",
+      "src/lib/rcap/state-packs/indiana/all50-build-metadata.ts"
+    ]
+  }
+}

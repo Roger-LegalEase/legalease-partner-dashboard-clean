@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-c3-jurisdiction-manifest/v1",
+  "jobId": "T-C-NV-production-packet",
+  "jurisdiction": "NV",
+  "jurisdictionSlug": "nevada",
+  "windowId": "2026-08-12-w1",
+  "lane": "C",
+  "implementationFamily": "controlled_pleading",
+  "outputStrategy": "custom_pleading",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "file": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+  },
+  "trackIds": [
+    "nv_repository_removal",
+    "nv_seal_decrim",
+    "nv_seal_multi",
+    "nv_seal_pardon"
+  ],
+  "tracks": [
+    {
+      "trackId": "nv_seal_multi",
+      "legalName": "Consolidated Petition to Seal More Than One Record in District Court (NRS 179.2595)",
+      "status": "pleading_packet_rendered",
+      "disposition": "drafted",
+      "componentCount": 11,
+      "blockedComponents": [
+        "notice_affidavit"
+      ],
+      "note": "Drafted controlled pleading with proposed order. The affidavit/declaration in support and the prosecutor stipulation are required packet components but are recorded as a dependency rather than drafted: the stipulation records the prosecuting agency's position and neither instrument's text is committed."
+    },
+    {
+      "trackId": "nv_repository_removal",
+      "legalName": "Removal of a Record from the Central Repository After a Favourable Disposition (NRS 179A.160)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Not a filing route. NRS 179A.160 is a written application to the Central Repository and the record-holding agency; no court, no order, no proposed order. Rendering a court pleading would fabricate a proceeding the statute does not create. Ledger classifies the track as custom_pleading; the committed evidence contradicts that classification and the contradiction is recorded, not resolved by drafting."
+    },
+    {
+      "trackId": "nv_seal_decrim",
+      "legalName": "Sealing of Records After Decriminalization of an Offence (NRS 179.271)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Governing mechanism unread. The full text of NRS 179.271 was never obtained; only the chapter-index heading is committed. Whether the instrument is a written request or a full petition is unresolved, so the filing vehicle itself is unsettled."
+    },
+    {
+      "trackId": "nv_seal_pardon",
+      "legalName": "Sealing of Records After an Unconditional Pardon (NRS 179.273)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Governing mechanism unread, and the primary remedy is automatic sealing. The full text of NRS 179.273 was never obtained. Offering a petition as the default output would push a participant into a filing they may not need."
+    }
+  ],
+  "summary": {
+    "tracksTotal": 4,
+    "drafted": 1,
+    "blocked": 3
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-hard-form-profile/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "deterministicTimestamp": "2026-01-01T00:00:00Z",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California"
+  },
+  "ledgerJob": "T-E-CA-production-packet",
+  "engine": {
+    "name": "rcap-hard-form-xfa-shadow-fill",
+    "version": "1.0.0",
+    "library": "pdf-lib",
+    "libraryVersion": "1.17.1"
+  },
+  "variants": [
+    {
+      "key": "single",
+      "description": "One static layout."
+    }
+  ],
+  "viewerMatrix": [
+    {
+      "viewer": "pdf-lib parse",
+      "status": "verified"
+    },
+    {
+      "viewer": "Adobe Reader",
+      "status": "not_required_by_design"
+    }
+  ],
+  "profileId": "ca-cr-410-order-to-seal-arrest-records",
+  "profileVersion": "1.0.0",
+  "form": {
+    "formId": "CR-410",
+    "revision": "Rev. January 1, 2019",
+    "officialName": "Order to Seal Arrest and Related Records",
+    "componentRole": "PROPOSED_ORDER",
+    "issuingBody": "Judicial Council of California"
+  },
+  "tracksServed": [
+    "ca-851-91"
+  ],
+  "strategy": {
+    "tier": "tier_1_hybrid_widget_shadow",
+    "rationale": "XFA source with a widget shadow. Proposed order: caption only, every finding and sealing directive left for the court."
+  },
+  "officialSource": {
+    "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-410__order-to-seal-arrest-and-related-records__REV-2019-01-01__EN.pdf",
+    "sha256": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+    "bytes": 52034,
+    "encrypted": true,
+    "xfa": true,
+    "creator": "Designer 6.3",
+    "pages": 1,
+    "geometry": "612x792",
+    "bundleManifest": "RCAP_SOURCE_BUNDLE_MANIFEST.json (operator-supplied Master Library Edition 1)",
+    "presentInClone": false
+  },
+  "derivedSource": {
+    "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr410-rescued.pdf",
+    "sha256": "8ebb91910e001293a3ca4c1800b37b72ff783a42de4fc9fd0b6032c83d18aa9a",
+    "derivation": "pypdf 6.15.0 decrypt with empty owner password then clone_from re-save; no content edit. qpdf is unavailable in this environment and no CR-410 derivative existed.",
+    "sourceFaithful": true,
+    "faithfulnessProof": "source and derivative agree on /XFA presence, 1 page at 612x792 and the same field tree; only the encryption dictionary is dropped"
+  },
+  "expectedPageGeometry": {
+    "pages": 1,
+    "size": "612x792"
+  },
+  "requiredTextAnchors": [
+    "ORDER",
+    "CR-410"
+  ],
+  "protectedFields": [
+    "CR-410[0].Page1[0].CheckBox15[0]",
+    "CR-410[0].Page1[0].FillText6[0]",
+    "CR-410[0].Page1[0].FillText6[1]",
+    "CR-410[0].Page1[0].FillText6[2]",
+    "CR-410[0].Page1[0].FillText6[3]",
+    "CR-410[0].Page1[0].Deniedpetition[0]",
+    "CR-410[0].Page1[0].Deniedpetition[1]",
+    "CR-410[0].Page1[0].CheckBox2[0]",
+    "CR-410[0].Page1[0].FillText6[4]",
+    "CR-410[0].Page1[0].Deniedpetition[2]",
+    "CR-410[0].Page1[0].Deniedpetition[3]",
+    "CR-410[0].Page1[0].FillText6[5]",
+    "CR-410[0].Page1[0].T186[0]",
+    "CR-410[0].Page1[0].T186[1]",
+    "CR-410[0].Page1[0].T186[2]",
+    "CR-410[0].Page1[0].FillText38[0]",
+    "CR-410[0].Page1[0].FillText38[1]",
+    "CR-410[0].Page1[0].FillText37[0]",
+    "CR-410[0].Page1[0].FillText37[1]",
+    "CR-410[0].Page1[0].#area[4].Print_bt[0]",
+    "CR-410[0].Page1[0].#area[4].Save_bt[0]",
+    "CR-410[0].Page1[0].#area[4].Reset_bt[0]",
+    "CR-410[0].Page1[0].#area[4].T23[1]"
+  ],
+  "legalIntegrityDisposition": "Caption-only completion. Findings, the sealing directive and the judicial signature are protected, so the packet never asserts that relief was granted.",
+  "bindings": [
+    {
+      "field": "CR-410[0].Page1[0].Stamp_court_case[0].CourtInfo_ft[0]",
+      "factKey": "courtName",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-410[0].Page1[0].Stamp_court_case[0].CaseNumber[0]",
+      "factKey": "caseNumber",
+      "kind": "text",
+      "maxLen": 40
+    },
+    {
+      "field": "CR-410[0].Page1[0].Stamp_court_case[0].TCCaseName_ft[0]",
+      "factKey": "caseName",
+      "kind": "text",
+      "maxLen": 70
+    }
+  ]
+}

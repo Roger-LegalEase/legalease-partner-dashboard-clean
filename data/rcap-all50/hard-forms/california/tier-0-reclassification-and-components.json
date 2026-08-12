@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "rcap-hard-form-tier0-reclassification/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California"
+  },
+  "ledgerJob": "T-E-CA-production-packet",
+  "rule": "Tier 0 — a genuine clean AcroForm does not belong in the XFA lane. Each form below was inspected first-hand and carries no XFA package, so lane E hands it to Terminal D rather than keeping it because it is adjacent to hard forms.",
+  "handoffTo": "Terminal D (official_form_standard, ownedPath data/rcap-all50/overlays/)",
+  "forms": [
+    {
+      "formId": "MC-031",
+      "officialName": "Attached Declaration",
+      "revision": "Rev. July 1, 2005",
+      "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
+      "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+      "firstHandFindings": {
+        "encrypted": true,
+        "decryptsWithEmptyOwnerPassword": true,
+        "xfa": false,
+        "acroForm": true,
+        "terminalFields": 18,
+        "pages": 1,
+        "geometry": "612x792",
+        "openAction": false,
+        "documentJavaScript": false,
+        "creator": "OmniForm Premium"
+      },
+      "classification": "tier_0_clean_acroform",
+      "componentRole": "ATTACHMENT",
+      "usedBy": [
+        "ca-1203-41",
+        "ca-1203-42",
+        "ca-1203-4a",
+        "ca-851-91"
+      ],
+      "note": "Named in CR-180 field labels as the overflow declaration attachment. Not XFA — the OmniForm lineage predates LiveCycle entirely."
+    },
+    {
+      "formId": "MC-025",
+      "officialName": "Attachment to Judicial Council Form",
+      "revision": "Rev. July 1, 2009",
+      "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
+      "sha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af",
+      "firstHandFindings": {
+        "encrypted": true,
+        "decryptsWithEmptyOwnerPassword": true,
+        "xfa": false,
+        "acroForm": true,
+        "terminalFields": 12,
+        "pages": 1,
+        "geometry": "612x792",
+        "openAction": false,
+        "documentJavaScript": false,
+        "creator": ""
+      },
+      "classification": "tier_0_clean_acroform",
+      "componentRole": "ATTACHMENT",
+      "usedBy": [
+        "ca-1203-41",
+        "ca-1203-42",
+        "ca-1203-43",
+        "ca-1203-4a"
+      ],
+      "note": "The generic continuation attachment CR-180 names alongside MC-031."
+    }
+  ],
+  "instructionComponents": [
+    {
+      "formId": "CR-106-INFO",
+      "sha256": "427936ac802434acbd5e349e18f8f0b08d2bfd48abbe08c714853b559f63bc27",
+      "xfa": true,
+      "pages": 2,
+      "fields": 5,
+      "role": "INSTRUCTIONS",
+      "disposition": "Not a fill target. Delivered as-is or summarised in guidance; no field map is required."
+    },
+    {
+      "formId": "CR-409-INFO",
+      "sha256": "99dd07ce319c8e67f46c8771c5d80791614a554182cf9a8b8901d7192dd22356",
+      "xfa": true,
+      "pages": 2,
+      "fields": 11,
+      "role": "INSTRUCTIONS",
+      "disposition": "Not a fill target."
+    },
+    {
+      "formId": "CR-106",
+      "officialName": "Proof of Service (Criminal Record Clearing)",
+      "revision": "Rev. January 1, 2020",
+      "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+      "derivedSource": {
+        "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr106-rescued.pdf",
+        "sha256": "b20f56ea218afc4ca83aebc8f2537ab461785689164b536326acf18308743868",
+        "derivation": "pypdf 6.15.0 decrypt with empty owner password then clone_from re-save; no content edit"
+      },
+      "firstHandFindings": {
+        "encrypted": true,
+        "xfa": true,
+        "acroForm": true,
+        "terminalFields": 48,
+        "pages": 2,
+        "geometry": "612x792",
+        "creator": "Designer 6.3"
+      },
+      "role": "PROOF_OF_SERVICE",
+      "classification": "tier_1_capable_binding_policy_open",
+      "disposition": "Technically Tier 1 — XFA source with a widget shadow, and the decrypted derivative is committed and pinned. Its field map is deliberately NOT authored here: a proof of service asserts who was served, at which address, on what date, by which method, and that determination (the prosecuting agency and, for § 851.91, the law enforcement agency for each county) is legal design this lane does not own. Authoring it from guesswork would put a false service declaration under a participant signature.",
+      "blocker": {
+        "exactMissingEvidence": "The per-county service-recipient design for CA record-clearing petitions: which agency or agencies must be served for PC 1203.4x and PC 851.91, and their service addresses.",
+        "owner": "counsel / state-pack legal design (CA)",
+        "nextAction": "Supply the service-recipient rules; lane E then authors the CR-106 field map and completes it as Tier 1 alongside CR-180 and CR-409."
+      }
+    }
+  ],
+  "outOfScopeForThisJob": [
+    {
+      "forms": [
+        "CR-400",
+        "CR-401",
+        "CR-402",
+        "CR-403"
+      ],
+      "reason": "Health & Safety Code § 11361.8 Proposition 64 relief. Those tracks are CA prop-64 pathways, not the six official_pdf_fill tracks in T-E-CA-production-packet, so lane E does not claim them."
+    }
+  ]
+}

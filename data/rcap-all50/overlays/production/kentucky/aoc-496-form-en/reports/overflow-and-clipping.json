@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-overflow-report/v2",
+  "boundaryFixtureApplied": true,
+  "findings": [
+    {
+      "fixture": "canonical",
+      "field": "Case.County",
+      "check": "option_not_in_list",
+      "value": "Example County",
+      "optionCount": 121,
+      "handling": "left_blank_for_participant_selection"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Case.County",
+      "check": "option_not_in_list",
+      "value": "Saint Bartholomew and the Northern Reaches County",
+      "optionCount": 121,
+      "handling": "left_blank_for_participant_selection"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Case.CaseNum",
+      "check": "clipping",
+      "widgetWidth": 111,
+      "textWidthAt": 196.8,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Def.Name.Company",
+      "check": "clipping",
+      "widgetWidth": 267,
+      "textWidthAt": 326.1,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    }
+  ]
+}

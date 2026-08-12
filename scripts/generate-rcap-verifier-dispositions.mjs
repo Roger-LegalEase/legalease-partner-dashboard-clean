@@ -37,6 +37,51 @@ const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
 // Decisions already made, by Roger or recorded in the build plan. These are not
 // defaults and are re-applied on every generation.
 const OVERRIDES = {
+  "verify-rcap-guidance-terminalization.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Lane B's acceptance contract for guidance/exclusion/deferral treatments. Red by design until lane B delivers every assigned state (window 2 imported the six completed B1 treatments; B2/B3 and the rest of B1 are still in flight), so it runs per-partition inside lane B and becomes a wired blocking step when the lane completes. Wiring it now would fail the chain on work that is assigned, not late."
+  },
+  "verify-rcap-official-forms-d1.mjs": {
+    disposition: "wired",
+    reason:
+      "D1's acceptance verifier: 146 family packages structurally complete and sha-pinned, 62 completed implementation packages rendered with no unwritable field written. Lane D1 recorded it green but could not edit package.json; the captain wired it in the first terminalization integration window (2026-08-12-w2)."
+  },
+  "verify-rcap-hard-form-dispositions.mjs": {
+    disposition: "wired",
+    reason:
+      "Lane E's non-packet treatment contract: every exact supported deferral carries exact evidence, an owner, a next action and a complete participant treatment (DE Form 281, ME CR-289). Wired by the captain in window 2026-08-12-w2."
+  },
+  "verify-rcap-hard-form-outputs.mjs": {
+    disposition: "wired",
+    reason:
+      "Lane E's rendered-output proof: 12 fixtures across the four California Tier-1 hard-form families render to their recorded fingerprints with protected fields untouched. Wired by the captain in window 2026-08-12-w2."
+  },
+  "verify-rcap-no-checkout-on-automatic-routes.mjs": {
+    disposition: "wired",
+    reason:
+      "The lane-B invariant made checkable everywhere: no automatic/no-filing route can produce a packet-ready result, open payment, or carry a checkout-declaring compiled rule (the MI rule-11 defect class, found in 57 rules across 14 profiles and corrected in window 2026-08-12-w2). Static sweep + live evaluation sweep + resolver assertions."
+  },
+  "verify-f1-evidence-markers.mjs": {
+    disposition: "keep_available",
+    reason:
+      "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain."
+  },
+  "verify-rcap-terminalize-c1.mjs": {
+    disposition: "wired",
+    reason:
+      "Lane C1's acceptance contract, green at 27/27 (11 pleading + 16 composed tracks, 64 components, 5 recorded external-source blocks, 18 canonical renders). Wired by the captain in window 2026-08-12-w2 after re-pinning provenance profile hashes that moved with the automatic-route rule corrections."
+  },
+  "verify-rcap-terminalize-c2.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Lane C2's partition contract. Red by design until every C2 jurisdiction lands (tennessee is still in flight); completed jurisdictions are imported as they land per the hour-6 directive. Becomes wired when the partition completes."
+  },
+  "verify-rcap-terminalize-c3.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Lane C3's partition contract. Red by design until every C3 jurisdiction lands (wisconsin and the ID/NV/SC renders are still in flight); completed jurisdictions are imported as they land per the hour-6 directive. Becomes wired when the partition completes."
+  },
   "verify-all51-launch-enabled.mjs": {
     disposition: "retire",
     reason:
@@ -154,8 +199,14 @@ const onDisk = fs
 const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8"));
 const testChain = pkg.scripts?.test ?? "";
 
+// Chain membership is measured NOW from package.json, so it always outranks a
+// stale audit row: a script wired after the last audit is in_chain, not the
+// orphan the old measurement remembers.
 const rowsToProcess = [
-  ...audit.scripts,
+  ...audit.scripts.map((row) =>
+    testChain.includes(row.file) && row.status !== "in_chain"
+      ? { ...row, status: "in_chain" }
+      : row),
   ...onDisk
     .filter((f) => !auditedFiles.has(f))
     .map((f) => ({
@@ -177,7 +228,11 @@ for (const row of rowsToProcess) {
     overridden += 1;
     continue;
   }
-  if (previous[row.file] && previous[row.file].decidedBy === "human") {
+  // "human" and "captain" decisions are both pinned records: a captain entry
+  // carries context (source commits, artifact rules, mutation evidence) that a
+  // regenerated two-liner would silently destroy — window 2 nearly lost the
+  // phase-51 audit's committedArtifactRule this way.
+  if (previous[row.file] && ["human", "captain"].includes(previous[row.file].decidedBy)) {
     entries[row.file] = { ...previous[row.file], observedStatus: row.status };
     preserved += 1;
     continue;

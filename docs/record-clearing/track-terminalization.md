@@ -1,4 +1,4 @@
-# 497-track terminalization — window 2026-08-12-w1
+# 497-track terminalization — window 2026-08-12-w2
 
 Terminality is a build fact: the participant treatment is complete, routed and
 unconditioned. Counsel review promotion is the separate launch gate.
@@ -7,19 +7,19 @@ unconditioned. Counsel review promotion is the separate launch gate.
 
 | Metric | Value |
 |---|---|
-| tracksTerminal | 277 / 497 |
+| tracksTerminal | 278 / 497 |
 | tracksWithRuntimeCoverage | 285 / 497 |
 | jobsRemainingToLaunch | 104 |
-| tracksTerminalizedThisWindow | 0 |
+| tracksTerminalizedThisWindow | 1 |
 | unknownTrackDispositions | 0 |
 | unownedBlockers | 0 |
 
-## Required treatments for the 220 nonterminal tracks
+## Required treatments for the 219 nonterminal tracks
 
 | Treatment | Tracks |
 |---|---|
 | production_packet | 131 |
-| complete_guidance | 64 |
+| complete_guidance | 63 |
 | complete_composed_route | 16 |
 | deliberate_scope_exclusion | 0 |
 | exact_supported_deferral | 9 |
@@ -28,7 +28,7 @@ unconditioned. Counsel review promotion is the separate launch gate.
 
 | Lane | Scope | Tracks |
 |---|---|---|
-| B | guidance, exclusions, exact deferrals | 73 |
+| B | guidance, exclusions, exact deferrals | 72 |
 | C | controlled pleadings and composed routes | 72 |
 | D | official PDFs, AcroForms and overlays | 67 |
 | E | XFA and hardest technical families | 8 |

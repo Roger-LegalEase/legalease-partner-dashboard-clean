@@ -1,0 +1,593 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "tx_nd_veterans_reemployment",
+  "jobId": "T-C-TX-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "jurisdiction": {
+    "code": "TX",
+    "name": "Texas",
+    "slug": "texas"
+  },
+  "trackIdentity": {
+    "legalName": "Order of nondisclosure after a court-approved veterans reemployment programme, Tex. Gov't Code 411.0729",
+    "publicName": "Seal a record after completing a veterans reemployment programme",
+    "compositionMode": "alternative",
+    "compositionModeNote": "The registry records compositionMode 'alternative' and outputStrategyDeclared 'composed' with outputStrategy null at track level. The two registry units are genuine alternatives, not stages: either the court acts without any filing (unit 1) or the court requires a petition (units 2 and 3). They are never both taken. Unit 4 is conditional inside the petition alternative; unit 5 applies on both.",
+    "outputStrategyDeclared": "composed",
+    "outputStrategy": null,
+    "outputStrategyNote": "Null at track level by design for a composed track; each unit carries its own. Every unit that produces a document carries official_pdf_fill, so this route drafts NO pleading document at all — see filingSeparation.",
+    "geographicScope": "statewide",
+    "geographyKeys": [],
+    "recordTypes": [
+      "conviction",
+      "charge",
+      "deferred_adjudication_record"
+    ],
+    "dispositions": [
+      "community_supervision_completed",
+      "deferred_adjudication_discharged_and_dismissed"
+    ],
+    "effectiveFrom": "2019-09-01",
+    "effectiveTo": null,
+    "reviewedAsOf": "2026-08-01",
+    "reliefVocabulary": {
+      "primaryReliefTerm": "nondisclosure",
+      "primaryReliefTermBasis": "The statutory term, and on profile:terminology.allowedStateTerms. profile:terminology.pathwayLabels records 'Order of nondisclosure (Gov't Code Ch. 411) — seals from public, broader reach' as one of the two Texas tools, against 'Expunction (Chapter 55A) — erases the record, non-convictions'.",
+      "prohibitedTerms": [
+        "expunction",
+        "expungement",
+        "expunge",
+        "expunged",
+        "erase",
+        "erased",
+        "erasure",
+        "destroy",
+        "destroyed",
+        "destruction"
+      ],
+      "prohibitedTermsBasis": "Nondisclosure seals rather than destroys, and the two remedies have different codes, different venues — the sentencing court rather than the county of arrest — and different effects. profile:terminology.avoidUniversalExpungementLabel is true. Using expunction vocabulary here is the wrong remedy on its face.",
+      "prohibitedStatements": [
+        "That the participant may deny the matter. They may not, in the contexts covered by the Gov't Code 411.0765 agency list.",
+        "That the record is destroyed, erased or removed. It is sealed and it remains available to the listed agencies.",
+        "That an order covers more than one offence. An order applies to one offence.",
+        "That the court will find issuance to be in the best interest of justice. That is the court's finding.",
+        "That the state will not request a hearing."
+      ],
+      "prohibitedStatementsBasis": "registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][2..3]; registry@3b6f4c1:tracks[422].selfHelpStopConditions[6]; registry@3b6f4c1:tracks[422].rules.notice"
+    }
+  },
+  "provenance": {
+    "statePackFiles": [
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/texas/index.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ],
+    "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "registryEntryPointer": "tracks[422] (trackId tx_nd_veterans_reemployment)",
+    "profileCoverageNote": "The compiled TX profile records no pathway, question, ordered decision rule, waiting-period rule, exclusion rule or packetGenerator entry for this section. Its nine pathways are five Chapter 55A expunction routes plus 411.072 automatic nondisclosure, 411.0725 petitioned deferred nondisclosure, 411.0735 conviction nondisclosure and first-offence DWI nondisclosure. Full-value scans return zero hits for '411.0729', 'veterans reemployment' and '42A' subchapter H-1. What the profile supplies, and what is used here, is the expunction-versus-nondisclosure framing, the sealed-not-erased effect, the fact that nondisclosure reaches many situations expunction cannot, and the county-specific-fee statement.",
+    "statePackCoverageNote": "The committed Texas state pack carries build metadata and the Nationwide inventory only — three files under 'LegalEase Texas' — and records no track-level filing text, no caption, no vocabulary and no statutory citations. Its officialFormInventory contains neither OCA nondisclosure form."
+  },
+  "mechanism": "A misdemeanour for which the person was placed on community supervision, including deferred adjudication, who successfully completed all conditions and successfully completed a court-approved veterans reemployment programme under Code of Criminal Procedure Chapter 42A, Subchapter H-1, after committing the offence, and who is a veteran of the United States Armed Forces including reserves, national guard or state guard. Read at source on 2026-08-06: the court shall enter the order after notice to the state and a hearing on whether issuance is in the best interest of justice, and the statute names no filing party — there is no petition requirement in the section. Under 411.0729(b) the section applies regardless of whether the defendant meets the other eligibility criteria in the subchapter, so the Gov't Code 411.074 basic conditions do not gate it. There is no waiting period. OCA nonetheless publishes a model petition and instructions for the section, because in practice courts may require a petition or may not hold the hearing. The section was last amended in 2019 and was not touched in 2025 or 2026.",
+  "mechanismSourceRef": "registry@3b6f4c1:tracks[422].mechanism",
+  "authoritySpine": [
+    {
+      "citation": "Tex. Gov't Code 411.0729",
+      "description": "The section. An order of nondisclosure for a misdemeanour where the person was placed on community supervision, including deferred adjudication, successfully completed all conditions, successfully completed a court-approved veterans reemployment programme under Code of Criminal Procedure Chapter 42A, Subchapter H-1 after committing the offence, and is a veteran of the United States Armed Forces including reserves, national guard or state guard.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].authority[0]; registry@3b6f4c1:tracks[422].mechanism"
+    },
+    {
+      "citation": "Tex. Gov't Code 411.0729(a)",
+      "description": "Read at source on 2026-08-06: the court SHALL enter the order after notice to the state and a hearing on whether issuance is in the best interest of justice. The statute names no filing party and imposes no petition requirement.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].authority[1]; registry@3b6f4c1:tracks[422].mechanism; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][0]"
+    },
+    {
+      "citation": "Tex. Gov't Code 411.0729(b)",
+      "description": "The section applies regardless of whether the defendant meets the other eligibility criteria in the subchapter, so the Gov't Code 411.074 basic conditions do not gate it. A person barred from every other nondisclosure section may still qualify here.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].authority[2]; registry@3b6f4c1:tracks[422].scopeRestrictions[0]; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=scope_restriction][0]"
+    },
+    {
+      "citation": "Tex. Gov't Code 411.0745",
+      "description": "The petition procedure where a petition is used. (b) requires the fee that generally applies to filing a civil case; (c) and (d) direct OCA to prescribe and publish a form for petitions filed electronically or by mail, and require every county and district clerk website to link to it; (e) provides for notice to the state and an opportunity for a hearing, with a hearing required unless the state does not request one before the 45th day after receiving notice and the court finds the person entitled to file and that issuance is in the best interest of justice.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].authority[3]; registry@3b6f4c1:tracks[422].rules.notice; registry@3b6f4c1:tracks[422].rules.fees; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][1]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. ch. 42A, subch. H-1",
+      "description": "The court-approved veterans reemployment programme. Completion of it after committing the offence is the trigger for the whole section.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].authority[4]; registry@3b6f4c1:tracks[422].mechanism; registry@3b6f4c1:tracks[422].participantFilingRequirements[2]"
+    },
+    {
+      "citation": "Tex. Gov't Code 411.0765",
+      "description": "Not authority for the relief. The list of criminal justice and noncriminal justice agencies to which a sealed record remains available — including school districts, charter and private schools, education service centres and commercial transportation companies. The person may not deny the matter in those contexts.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][3]"
+    },
+    {
+      "citation": "Tex. Gov't Code 411.0735",
+      "description": "Not authority for the relief. Named in the self-help boundaries: whether the offence was violent or sexual in nature is a court determination under this section.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].selfHelpStopConditions[5]"
+    },
+    {
+      "citation": "Tex. Gov't Code 411.074",
+      "description": "Not authority for the relief, and expressly INAPPLICABLE. Recorded here because the screening must not import its bars: 411.0729(b) disapplies them.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].scopeRestrictions[0]"
+    },
+    {
+      "citation": "Tex. Gov't Code 411.075(b)",
+      "description": "Not authority for the relief and not cited on this track by the registry. Recorded from the compiled profile, which uses it as the list of agencies DPS must notify of a nondisclosure order and as the reason a person may not deny a nondisclosed matter to those agencies. The registry uses 411.0765 for the same idea. The two citations are not reconciled by any source read and the discrepancy is carried as a counsel flag.",
+      "sourceRef": "profile:sourceSections[0] (samples) and sourceSections[4] (case_outcomes) and sourceSections[13]"
+    },
+    {
+      "citation": "Tex. R. Civ. P. 145",
+      "description": "Not authority for the relief. The fee-waiver rule; the Supreme Court of Texas approved a bilingual statewide form in Misc. Docket No. 22-9090 and the clerk must make it available without charge or request.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].rules.feeWaiver"
+    }
+  ],
+  "venue": {
+    "statement": "Statewide in scope with court-level filing. The petition is filed with the clerk of the court that sentenced the person or placed the person on community supervision, including deferred adjudication community supervision — not the county of arrest. This is the single biggest venue difference from expunction, and it matters because a person with both an expunction and a nondisclosure may be filing in two different courts.",
+    "sourceRef": "registry@3b6f4c1:tracks[422].venue"
+  },
+  "destination": {
+    "kind": "court",
+    "name": "The court that placed the person on community supervision, and its clerk",
+    "detail": "Statewide mechanism with court-level filing. OCA publishes the model petition, order and instructions statewide; no county form is promoted to statewide status.",
+    "sourceRef": "registry@3b6f4c1:tracks[422].destination"
+  },
+  "waitingPeriods": [
+    {
+      "condition": "Statutory waiting period",
+      "duration": "None. The trigger is successful completion of the programme and of all community-supervision conditions.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].waitingPeriods[0]"
+    },
+    {
+      "condition": "Hearing",
+      "duration": "The court holds a hearing on whether issuance is in the best interest of justice, and unless it finds issuance is not in the best interest of justice it must enter the order.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].waitingPeriods[1]"
+    }
+  ],
+  "screeningKeys": [
+    "sentencingCourt",
+    "causeNumber",
+    "offenceAndLevel",
+    "supervisionType",
+    "completionDate",
+    "familyViolenceFinding",
+    "priorOrSubsequentOffences",
+    "feeWaiverRequested",
+    "veteranStatus",
+    "reemploymentProgramme",
+    "courtRequiresPetition"
+  ],
+  "screeningKeysSourceRef": "registry@3b6f4c1:tracks[422].generationRequirements",
+  "units": [
+    {
+      "unitId": "tx-nd0729-no-filing-route",
+      "order": 1,
+      "registryUnitId": "tx-nd0729-no-filing-route",
+      "legalUnit": "The order the court owes without any petition. Section 411.0729 names no filing party and imposes no petition requirement: the court holds a hearing and, unless it finds issuance is not in the best interest of justice, enters the order. LegalEase confirms veteran status, successful completion of all community-supervision conditions and of the Subchapter H-1 reemployment programme, and prompts the court to act. Nothing is filed on this route and no filing fee arises. This is the route the registry says to lead with.",
+      "authority": {
+        "citation": "Tex. Gov't Code 411.0729 and 411.0729(a)",
+        "sourceRef": "registry@3b6f4c1:tracks[422].units[0] (outputStrategy process_guidance, outputStrategyStatus resolved, available true); registry@3b6f4c1:tracks[422].authority[0..1]; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][0]"
+      },
+      "requiredOutput": "participant_instruction",
+      "requiredOutputNote": "The registry classifies this unit's outputStrategy as process_guidance and records packetIdentity 'unresolved' — there is no document to produce because there is no filing. What LegalEase can supply is the participant's own confirmation of the three trigger facts and a written prompt to the court. Anything court-facing drafted here would invent a filing the statute does not require.",
+      "componentId": "tx_nd_veterans_reemployment-no-filing-route-guidance-1",
+      "componentIdSource": "registry packetSet.components[0], role no_filing_route_guidance, requirement required, outputStrategy process_guidance, order 1.",
+      "applicability": {
+        "includedWhen": "Always, and first. The participant answers that they are a veteran of the United States Armed Forces including the reserves, national guard or state guard (veteranStatus = yes); that they completed a court-approved veterans reemployment programme after the offence (reemploymentProgramme = yes); that the offence was a misdemeanour and they were placed on community supervision, including deferred adjudication (offenceAndLevel, supervisionType); and that they completed everything the sentence or supervision required (completionDate). The registry directs the packet to lead with this route in every case.",
+        "excludedWhen": "Never excluded as a route, but it produces no result where the participant answers that the court or the clerk has told them they want a petition even though the statute does not require one (courtRequiresPetition = yes), or where the court did not hold the hearing. In either case the participant moves on to unit 2. It is also inapplicable where veteran status or completion of the Subchapter H-1 programme cannot be established, which is a recorded self-help stop condition for the whole track."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [],
+        "confirmFields": [
+          "priorOrSubsequentOffences against the Texas DPS criminal history record (registry participantFilingRequirements[0])",
+          "supervisionType against the discharge and dismissal order, or the judgment and order of community supervision (registry participantFilingRequirements[1])",
+          "reemploymentProgramme against the record of successful completion of the veterans reemployment programme (registry participantFilingRequirements[2])"
+        ],
+        "prefillNote": "Nothing is prefilled on this unit because nothing is produced. Every screening answer that matters here is a confirm-against-a-document answer, and LegalEase does not obtain, receive or inspect any of the three documents.",
+        "protectedBlankNote": "Date of birth, driver's licence number, social security number and any other identifier the OCA model petition asks for are left blank and are never prefilled. The OCA forms are not drafted here, so no identifier is placed into any document by this lane at all.",
+        "outsidePartyBlankNote": "The judge's signature, the court's best-interest-of-justice finding, the hearing itself, the state's decision whether to request a hearing within 45 days, the prosecutor's position, DPS's sealing act and DPS's notification of the Gov't Code 411.0765 agencies are all outside-party or court acts. Every one is left blank and none is asserted, predicted or implied.",
+        "signature": "None. Nothing is filed and nothing is signed on this route.",
+        "notarization": "none"
+      },
+      "implementation": {
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-no-filing-route-guidance-1",
+        "documentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-no-filing-route-guidance-1/no-filing-route-guidance.md",
+        "fixturesPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-no-filing-route-guidance-1/fixtures"
+      }
+    },
+    {
+      "unitId": "tx-nd0729-oca-petition",
+      "order": 2,
+      "registryUnitId": "tx-nd0729-oca-petition",
+      "legalUnit": "The OCA model petition, where the court requires one or did not hold the hearing. OCA notes this happens in practice and is why it publishes a model petition and instructions for a section that does not require one. The participant completes the OCA model petition for Gov't Code 411.0729 and files it with the clerk of the court that placed them on community supervision, with the civil filing fee or a Rule 145 Statement of Inability.",
+      "authority": {
+        "citation": "Tex. Gov't Code 411.0745, read with 411.0729",
+        "sourceRef": "registry@3b6f4c1:tracks[422].units[1] (outputStrategy official_pdf_fill, outputStrategyStatus resolved, packetIdentity identified, available true); registry@3b6f4c1:tracks[422].authority[3]; registry@3b6f4c1:tracks[422].rules.filing"
+      },
+      "requiredOutput": "official_form_dependency",
+      "requiredOutputNote": "The registry names the form, its OCA identity and a direct txcourts.gov URL. Lane C drafts no official forms. Recorded as a mandatory official-form handoff. Note the registry's own qualification: the OCA documents are statewide MODEL forms, not mandatory and not promulgated, and nothing in Subchapter E-1 forbids a differently drafted petition — but 411.0745(c) and (d) do direct OCA to prescribe and publish a form and require every county and district clerk website to link to it, so they sit closer to a statutorily authorised statewide model than to a sample. The packet does not assert the form is mandatory and does not substitute a drafted petition for it.",
+      "componentId": "tx_nd_veterans_reemployment-petition-2",
+      "componentIdSource": "registry packetSet.components[1], role petition, requirement conditional ('Only where the court requires a petition or did not hold the hearing'), outputStrategy official_pdf_fill, order 2.",
+      "applicability": {
+        "includedWhen": "The participant answers that the court or the clerk has told them they want a petition even though the statute does not require one (courtRequiresPetition = yes), or that the court did not hold the hearing. The participant supplies the sentencing court (sentencingCourt) and the cause number (causeNumber).",
+        "excludedWhen": "The court entered the order on the statutory route without a petition. Also excluded where the participant is not a veteran or did not complete the Subchapter H-1 programme, which stops the track rather than switching route."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [],
+        "prefillNote": "Nothing is prefilled by this lane because no form is drafted or filled here. The registry's own model of this unit is that 'LegalEase completes the participant portions of the OCA model petition' — that completion belongs to the official-PDF overlay lane once the form is acquired and field-mapped, and the field map does not exist yet.",
+        "confirmFields": [
+          "supervisionType against the discharge and dismissal order, or the judgment and order of community supervision",
+          "priorOrSubsequentOffences against the Texas DPS criminal history record",
+          "reemploymentProgramme against the record of successful completion of the veterans reemployment programme"
+        ],
+        "manualCompletionItems": [
+          "The best-interest-of-justice assertion — OCA model petition, the best-interest paragraph, on the petition route only. The court decides whether issuance is in the best interest of justice; the assertion is not auto-completed.",
+          "The petitioner's signature and date — OCA model petition, signature block, on the petition route only."
+        ],
+        "protectedBlankNote": "Date of birth, driver's licence number, social security number and any other identifier the OCA model petition asks for are left blank and are never prefilled. The OCA forms are not drafted here, so no identifier is placed into any document by this lane at all.",
+        "outsidePartyBlankNote": "The judge's signature, the court's best-interest-of-justice finding, the hearing itself, the state's decision whether to request a hearing within 45 days, the prosecutor's position, DPS's sealing act and DPS's notification of the Gov't Code 411.0765 agencies are all outside-party or court acts. Every one is left blank and none is asserted, predicted or implied.",
+        "signature": "The petitioner signs the petition.",
+        "notarization": "Not required by Subchapter E-1 for the petition. County practice may differ and the packet directs the participant to ask the clerk."
+      },
+      "implementation": {
+        "blockedDependency": "Lane D/E official-PDF acquisition and overlay — OCA Model Petition for an Order of Nondisclosure under Section 411.0729, at https://www.txcourts.gov/media/1454256/petition-for-nondisclosure-under-section-411-0729.pdf, plus the OCA instructions for completing it at https://www.txcourts.gov/media/1463066/instructions-for-completing-petition-for-nondisclosure-under-section-4110729.pdf. Needs the current revision (the located copies carry a February 2022 footer, which is a recorded release blocker), a captured sha256 (recorded as null) and a field map. See components/tx_nd_veterans_reemployment-petition-2/dependency.json.",
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-petition-2"
+      }
+    },
+    {
+      "unitId": "tx-nd0729-oca-order",
+      "order": 3,
+      "registryUnitId": "tx-nd0729-oca-petition",
+      "registryUnitNote": "The registry's units[] has two entries and this component hangs off the second, the petition route. It is carried as its own unit here because it is a separate official form with a separate URL, a separate acquisition state and a separate manual completion item, and because collapsing it into the petition unit would hide one of the three official-form handoffs this track generates.",
+      "legalUnit": "The OCA model order of nondisclosure under Section 411.0729, filed with the petition on the petition route. The order is completed except for the judge's signature.",
+      "authority": {
+        "citation": "Tex. Gov't Code 411.0729 and 411.0745",
+        "sourceRef": "registry@3b6f4c1:tracks[422].packetSet.components[2] (role proposed_order, requirement conditional 'Filed with the petition on the petition route.', outputStrategy official_pdf_fill, order 3); registry@3b6f4c1:tracks[422].units[1]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "requiredOutputNote": "An official OCA model order AND a court order. Lane C drafts no official forms and drafts no order text. Drafting a substitute would invent the operative terms of a nondisclosure order, including which agencies DPS must notify.",
+      "componentId": "tx_nd_veterans_reemployment-proposed-order-3",
+      "componentIdSource": "registry packetSet.components[2].",
+      "applicability": {
+        "includedWhen": "The petition route is taken. The order is filed with the petition.",
+        "excludedWhen": "The court entered the order on the statutory no-filing route, in which case the court's own order issues and nothing is tendered."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [],
+        "confirmFields": [
+          "sentencingCourt and causeNumber against the discharge and dismissal order, or the judgment and order of community supervision"
+        ],
+        "manualCompletionItems": [
+          "The judge's signature on the proposed order — OCA model order, signature block. The order is the court's."
+        ],
+        "protectedBlankNote": "Date of birth, driver's licence number, social security number and any other identifier the OCA model petition asks for are left blank and are never prefilled. The OCA forms are not drafted here, so no identifier is placed into any document by this lane at all.",
+        "outsidePartyBlankNote": "The judge's signature, the court's best-interest-of-justice finding, the hearing itself, the state's decision whether to request a hearing within 45 days, the prosecutor's position, DPS's sealing act and DPS's notification of the Gov't Code 411.0765 agencies are all outside-party or court acts. Every one is left blank and none is asserted, predicted or implied.",
+        "signature": "The proposed order is completed except for the judge's signature.",
+        "notarization": "none"
+      },
+      "implementation": {
+        "blockedDependency": "Lane D/E official-PDF acquisition and overlay — OCA Model Order of Nondisclosure under Section 411.0729, at https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf. Needs the current revision (February 2022 footer on the located copy), a captured sha256 (recorded as null) and a field map. See components/tx_nd_veterans_reemployment-proposed-order-3/dependency.json.",
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-proposed-order-3"
+      }
+    },
+    {
+      "unitId": "tx-nd0729-fee-waiver",
+      "order": 4,
+      "registryUnitId": null,
+      "registryUnitNote": "No registry units[] entry. Carried from registry packetSet.components[3], whose conditionDescription ('Where the participant cannot afford the filing costs') places it on the petition route only — no fee arises on the no-filing route.",
+      "legalUnit": "The Rule 145 fee-waiver stage on the petition route. Where the participant cannot afford the civil filing fee that Gov't Code 411.0745(b) requires, a Statement of Inability to Afford Payment of Court Costs is filed with the petition.",
+      "authority": {
+        "citation": "Tex. R. Civ. P. 145, read with Tex. Gov't Code 411.0745(b)",
+        "sourceRef": "registry@3b6f4c1:tracks[422].rules.feeWaiver; registry@3b6f4c1:tracks[422].rules.fees; registry@3b6f4c1:tracks[422].packetSet.components[3]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "requiredOutputNote": "The bilingual statewide form approved by the Supreme Court of Texas in Misc. Docket No. 22-9090 — the only genuinely statewide promulgated form in the entire Texas record-clearing workflow. Rule 145 requires the clerk to make it available without charge or request. Not drafted.",
+      "componentId": "tx_nd_veterans_reemployment-fee-waiver-statement-4",
+      "componentIdSource": "registry packetSet.components[3], role fee_waiver_statement, requirement conditional, outputStrategy official_pdf_fill, order 4.",
+      "applicability": {
+        "includedWhen": "The petition route is taken AND the participant answers that they want to ask the court to waive the filing costs because they cannot afford them (feeWaiverRequested = yes).",
+        "excludedWhen": "The no-filing route, where the registry states in terms that no fee arises; or the petition route where the participant pays the fee."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [],
+        "confirmFields": [
+          "feeWaiverRequested — the participant's own answer; no financial information is collected, derived or held by this lane"
+        ],
+        "protectedBlankNote": "The Rule 145 Statement calls for detailed financial disclosures made under oath. None of them is collected, prefilled, stored or inspected by this lane. The participant completes the official form.",
+        "outsidePartyBlankNote": "The judge's signature, the court's best-interest-of-justice finding, the hearing itself, the state's decision whether to request a hearing within 45 days, the prosecutor's position, DPS's sealing act and DPS's notification of the Gov't Code 411.0765 agencies are all outside-party or court acts. Every one is left blank and none is asserted, predicted or implied.",
+        "signature": "The participant signs the official form.",
+        "notarization": "Not stated by any source read for this track."
+      },
+      "implementation": {
+        "blockedDependency": "Lane D/E official-PDF acquisition and overlay — Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, at https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf. Needs a captured sha256 (recorded as null), the current revision date and a field map. See components/tx_nd_veterans_reemployment-fee-waiver-statement-4/dependency.json.",
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-fee-waiver-statement-4"
+      }
+    },
+    {
+      "unitId": "tx-nd0729-after-order",
+      "order": 5,
+      "registryUnitId": null,
+      "registryUnitNote": "No registry units[] entry. Carried from registry packetSet.components[4], role after_order_instructions, requirement REQUIRED with no conditionDescription — so it applies on both routes, which is why it is not attached to either registry unit.",
+      "legalUnit": "What the order does and does not do, after it issues. Nondisclosure seals rather than destroys: the record remains available to the criminal justice and noncriminal justice agencies listed in Gov't Code 411.0765, which include school districts, charter and private schools, education service centres and commercial transportation companies, and the person may not deny the matter in those contexts. An order of nondisclosure applies to ONE offence; multiple offences require multiple orders, and that is a cost and packet multiplier the participant must be told about before paying.",
+      "authority": {
+        "citation": "Tex. Gov't Code 411.0765",
+        "sourceRef": "registry@3b6f4c1:tracks[422].packetSet.components[4]; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][2]; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][3]"
+      },
+      "requiredOutput": "participant_instruction",
+      "requiredOutputNote": "Participant-only copy. Never filed, never sent to the court, never sent to the state.",
+      "componentId": "tx_nd_veterans_reemployment-after-order-instructions-5",
+      "componentIdSource": "registry packetSet.components[4], role after_order_instructions, requirement required, outputStrategy process_guidance, order 5.",
+      "applicability": {
+        "includedWhen": "Always, on both routes. The registry marks the component required with no condition.",
+        "excludedWhen": "Never."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true,
+        "prefillFields": [],
+        "confirmFields": [],
+        "prefillNote": "Invariant copy. It carries no participant data at all — no name, no cause number, no court, no dates — so it has no fixtures directory. It states what the order does and what it does not do, and nothing case-specific.",
+        "protectedBlankNote": "No fields of any kind.",
+        "outsidePartyBlankNote": "It describes DPS's statutory obligations and the 411.0765 agency list as law, and asserts nothing about what DPS or any agency has actually done in this participant's case.",
+        "signature": "None.",
+        "notarization": "none"
+      },
+      "implementation": {
+        "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-after-order-instructions-5",
+        "documentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-after-order-instructions-5/after-order-instructions.md",
+        "fixturesPath": null,
+        "fixturesPathNullReason": "Invariant document. It carries no variable field, so there is nothing to fixture."
+      }
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
+        "componentId": "tx_nd_veterans_reemployment-petition-2",
+        "unitId": "tx-nd0729-oca-petition",
+        "drafted": false,
+        "reason": "Official OCA statewide model form. Not drafted in lane C — official-form dependency owned by lane D/E. See components/tx_nd_veterans_reemployment-petition-2/dependency.json."
+      },
+      {
+        "item": "OCA Model Order of Nondisclosure under Section 411.0729",
+        "componentId": "tx_nd_veterans_reemployment-proposed-order-3",
+        "unitId": "tx-nd0729-oca-order",
+        "drafted": false,
+        "reason": "Official OCA statewide model form AND a court order. Not drafted. See components/tx_nd_veterans_reemployment-proposed-order-3/dependency.json."
+      },
+      {
+        "item": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (Tex. R. Civ. P. 145)",
+        "componentId": "tx_nd_veterans_reemployment-fee-waiver-statement-4",
+        "unitId": "tx-nd0729-fee-waiver",
+        "drafted": false,
+        "requirement": "conditional",
+        "reason": "Official statewide promulgated form. Not drafted. See components/tx_nd_veterans_reemployment-fee-waiver-statement-4/dependency.json."
+      }
+    ],
+    "courtDocumentsNote": "Zero pleading documents are drafted anywhere in this route. On the no-filing route there is no court document at all — that is the point of it. On the petition route every court document is an official form and every one is handed off. Lane C's entire output here is two participant-instruction documents, three dependency records and this route file.",
+    "participantOnly": [
+      "components/tx_nd_veterans_reemployment-no-filing-route-guidance-1/no-filing-route-guidance.md — the no-filing route, the three trigger facts to confirm, the documents to obtain and what to ask the court for. Never filed with the court and never sent to the state.",
+      "components/tx_nd_veterans_reemployment-after-order-instructions-5/after-order-instructions.md — what the order does and does not do, the Gov't Code 411.0765 agency list, one order per offence. Never filed.",
+      "participant-instructions.md — the complete/sign/serve/file checklist across both alternatives. Never filed."
+    ],
+    "agencyRequestLetters": [],
+    "agencyRequestLettersNote": "None. No unit is classified agency_request_letter. The record-gathering steps the registry records — the DPS criminal history via form CR-63, the discharge and dismissal order or judgment from the sentencing court's clerk, and the record of programme completion from the programme or the court — are participant acts performed through each body's own published process, not written requests LegalEase composes. Drafting a request letter for any of them would exceed the source.",
+    "coverSheets": [],
+    "coverSheetsNote": "None. Neither the registry entry nor the compiled profile records a cover sheet for this track. The county civil cover sheet variability the registry records is on the Chapter 55A expunction side, not here."
+  },
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit that the pinned registry entry and the compiled TX profile record for tx_nd_veterans_reemployment, and adds no unit either source does not record. The registry's own units[] has exactly TWO entries and both are carried, preserving their unitIds and order values: tx-nd0729-no-filing-route (order 1, outputStrategy process_guidance, outputStrategyStatus resolved, packetIdentity unresolved, available true) is unit 1 here, and tx-nd0729-oca-petition (order 2, outputStrategy official_pdf_fill, outputStrategyStatus resolved, packetIdentity identified, available true) is unit 2 here. No third registry unit exists. registry packetSet.components contains exactly FIVE entries and all five are carried, one per unit: components[0] no_filing_route_guidance on unit 1, components[1] petition on unit 2, components[2] proposed_order on unit 3, components[3] fee_waiver_statement on unit 4, components[4] after_order_instructions on unit 5. Units 3, 4 and 5 therefore have componentIds from the registry but no registry units[] parent: unit 3 belongs to the petition alternative and is separated because it is a distinct official form with a distinct URL, acquisition state and manual completion item; unit 4 is conditional inside the petition alternative by its own conditionDescription; unit 5 is marked required with no condition and therefore applies on both alternatives, which is why it cannot be attached to either registry unit. Each carries registryUnitId explicitly, null where none exists, and a registryUnitNote saying so. Nothing in packetSet.participantActionRequired constitutes a separate legal unit: its fifteen entries are three obtain_document and three confirm_answer entries for record gathering, three complete_field manual completion items, one sign, one notarize, one pay_fee, one apply_fee_waiver, one serve_party and one file — and every one is carried inside a unit's participantTreatment, a dependency file, or participant-instructions.md. registry manualCompletionItems has three entries; all three map onto units 2 and 3 rather than describing separate units. registry postGenerationHandoffs is EMPTY, so no unit is drawn from it. No agency_request_letter unit and no cover_sheet unit is created: neither source records a written request document or a cover sheet for this track, and creating either would exceed the source. The compiled profile contributes zero units, because it does not record this section at all.",
+    "registryUnitsEnumerated": [
+      {
+        "registryUnitId": "tx-nd0729-no-filing-route",
+        "order": 1,
+        "carriedAs": "tx-nd0729-no-filing-route"
+      },
+      {
+        "registryUnitId": "tx-nd0729-oca-petition",
+        "order": 2,
+        "carriedAs": "tx-nd0729-oca-petition (with tx-nd0729-oca-order split out as its own unit for the second official form)"
+      }
+    ],
+    "registryComponentsEnumerated": [
+      {
+        "componentId": "tx_nd_veterans_reemployment-no-filing-route-guidance-1",
+        "role": "no_filing_route_guidance",
+        "carriedInUnit": "tx-nd0729-no-filing-route"
+      },
+      {
+        "componentId": "tx_nd_veterans_reemployment-petition-2",
+        "role": "petition",
+        "carriedInUnit": "tx-nd0729-oca-petition"
+      },
+      {
+        "componentId": "tx_nd_veterans_reemployment-proposed-order-3",
+        "role": "proposed_order",
+        "carriedInUnit": "tx-nd0729-oca-order"
+      },
+      {
+        "componentId": "tx_nd_veterans_reemployment-fee-waiver-statement-4",
+        "role": "fee_waiver_statement",
+        "carriedInUnit": "tx-nd0729-fee-waiver"
+      },
+      {
+        "componentId": "tx_nd_veterans_reemployment-after-order-instructions-5",
+        "role": "after_order_instructions",
+        "carriedInUnit": "tx-nd0729-after-order"
+      }
+    ],
+    "profilePassageReferenced": {
+      "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+      "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "pointer": "sourceSections[1] (category pathways, lines 77-124), the 'Order of nondisclosure (Gov't Code Ch. 411) — seals from public, broader reach' block",
+      "passage": "Order of nondisclosure (Gov't Code Ch. 411) — seals from public, broader reach. Available for many situations expunction cannot reach, principally completed deferred adjudication and some convictions. Main subtypes: 411.072 — automatic nondisclosure ...; 411.0725 — deferred adjudication (petition) ...; 411.0735 — certain convictions ...; 411.0731 / DWI: first-offense DWI nondisclosure.",
+      "interpretation": "This is the profile's complete enumeration of the Gov't Code ch. 411 subtypes and it names FOUR. Section 411.0729 is not among them, and neither 'veterans reemployment' nor 'Subchapter H-1' appears anywhere in the profile. The profile therefore records ZERO legal units for this track, and units[] above cannot be a subset of it — it is a complete image of the registry's own units[] plus its packetSet.components. What the profile does supply, and what is used, is: the two-tool framing and the sealed-versus-erased distinction (sourceSections[1] and [4]); the statement that a nondisclosure order leaves the record visible to a statutory agency list and that the person may not deny it in those contexts (sourceSections[4]); the sample nondisclosure prayer's structure (sourceSections[11]); and the county-specific nondisclosure filing fee (sourceSections[8])."
+    }
+  },
+  "counselFlags": [
+    {
+      "id": "tx-nd0729-lead-with-the-no-filing-route",
+      "statement": "No petition is required by Gov't Code 411.0729. The court must hold a hearing and, unless it finds issuance is not in the best interest of justice, must enter the order. The registry's controlling instruction is to LEAD WITH THE NO-FILING ROUTE. A packet that opens with the OCA petition would sell a participant a filing and a fee the statute does not require.",
+      "mustConfirm": "That the participant-facing flow presents the no-filing route first in every case and reaches the petition only on courtRequiresPetition = yes or a hearing that did not happen.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][0]; registry@3b6f4c1:tracks[422].packetInstructions[0]; registry@3b6f4c1:tracks[422].units[0]"
+    },
+    {
+      "id": "tx-nd0729-411074-bars-must-not-be-imported",
+      "statement": "The Gov't Code 411.074 basic conditions DO NOT apply to this section. Under 411.0729(b) the section applies regardless of whether the defendant meets the other eligibility criteria in the subchapter. A person barred from every other nondisclosure section may still qualify here, and screening must not import the 411.074 bars. This is the single most consequential screening instruction on the track and it points the opposite way from every sibling nondisclosure track.",
+      "mustConfirm": "That the shared nondisclosure screening does not apply 411.074 bars to this section.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[422].scopeRestrictions[0]; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=scope_restriction][0]; registry@3b6f4c1:tracks[422].authority[2]"
+    },
+    {
+      "id": "tx-nd0729-venue-is-the-sentencing-court",
+      "statement": "Nondisclosure venue is the SENTENCING COURT, not the county of arrest. The petition is filed with the clerk of the court that sentenced the person or placed them on community supervision, including deferred adjudication. The registry calls this the single biggest venue difference from expunction and notes that a person with both an expunction and a nondisclosure may be filing in two different courts.",
+      "mustConfirm": "That sentencingCourt, not arrestCounty, drives venue on every nondisclosure track.",
+      "impact": "participant_question",
+      "sourceRef": "registry@3b6f4c1:tracks[422].venue; registry@3b6f4c1:tracks[422].participantQuestions[0]; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=participant_question][0]"
+    },
+    {
+      "id": "tx-nd0729-oca-forms-are-models-not-mandates",
+      "statement": "The OCA nondisclosure documents are statewide MODEL forms — not mandatory, not promulgated. Confirmed 2026-08-06 from the Texas Judicial Branch nondisclosure forms page and from the document footers themselves, which read OCA MODEL PETITION and are dated February 2022, with the Overview dated February 2024. Gov't Code 411.0745(c) and (d) do direct OCA to prescribe and publish a form for petitions filed electronically or by mail, and require every county and district clerk website to link to it, so they sit closer to a statutorily authorised statewide model than to a sample. Nothing in Subchapter E-1 makes the OCA form mandatory or forbids a differently drafted petition, and this artifact does not assert that it is mandatory. It also does not substitute a drafted petition for it: the registry classifies the unit official_pdf_fill with packetIdentity 'identified', and lane C drafts no official forms.",
+      "mustConfirm": "That the packet never asserts the OCA form is mandatory, and that the decision to use the OCA form rather than a drafted petition is ratified.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[422].packetInstructions[1]; registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][1]; registry@3b6f4c1:tracks[422].units[1]"
+    },
+    {
+      "id": "tx-nd0729-oca-form-revisions-are-stale",
+      "statement": "Recorded release blocker. The OCA model petitions and orders carry a February 2022 revision and the Overview a February 2024 revision, confirmed from the document footers on 2026-08-06. Neither has been revised for the 2023 recodification of expunction into Chapter 55A or for the 2025 amendment to Gov't Code 411.0728. Each section form must be pulled at its current revision before release, and the packet must not reproduce any statutory cross-reference from a 2022 form without checking it.",
+      "mustConfirm": "The current OCA nondisclosure forms landing page and the current revision date of the 411.0729 petition, order and instruction sheet, before release.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[422].releaseBlockers[0]; registry@3b6f4c1:tracks[422].blockers[kind=release_blocker]"
+    },
+    {
+      "id": "tx-nd0729-three-official-form-dependencies",
+      "statement": "This route drafts NO document of its own. All three of its produced artifacts are official forms and all three are handed off: the OCA Model Petition under Section 411.0729, the OCA Model Order under Section 411.0729, and the Rule 145 Statement of Inability. Every one carries sha256 null. Lane C's entire output on this track is the two participant-instruction documents and the dependency records.",
+      "mustConfirm": "That all three official forms are acquired at current revision, hashed and field-mapped by the official-PDF overlay lane before any packet is assembled.",
+      "impact": "official_form_dependency",
+      "sourceRef": "registry@3b6f4c1:tracks[422].packetSet.components[1..3]; registry@3b6f4c1:tracks[422].officialSources"
+    },
+    {
+      "id": "tx-nd0729-one-order-per-offence",
+      "statement": "An order of nondisclosure applies to ONE offence. Multiple offences require multiple orders, and the registry states this is a cost and packet multiplier the participant must be told about BEFORE PAYING. The after-order instructions carry it.",
+      "mustConfirm": "That a participant with multiple offences is told the multiplier before any payment is taken.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][2]"
+    },
+    {
+      "id": "tx-nd0729-sealing-is-not-destruction-and-cannot-be-denied-everywhere",
+      "statement": "Nondisclosure seals rather than destroys. The record remains available to the criminal justice and noncriminal justice agencies listed in Gov't Code 411.0765, which include school districts, charter and private schools, education service centres and commercial transportation companies, and the person may NOT deny the matter in those contexts. Expunction vocabulary — expunge, expunction, erase, destroy — is prohibited on this track, and so is any statement that the participant may deny the matter.",
+      "mustConfirm": "That participant copy never promises erasure or destruction and never tells the participant they may deny the matter.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][3]; profile:sourceSections[4] (case_outcomes); profile:terminology.avoidUniversalExpungementLabel"
+    },
+    {
+      "id": "tx-nd0729-4110765-versus-411075b-citation-conflict",
+      "statement": "The registry cites Gov't Code 411.0765 as the list of agencies to which a sealed record remains available. The compiled TX profile cites Gov't Code 411.075(b) for the same proposition, twice, and its sample nondisclosure prayer directs DPS 'to seal the record and notify the agencies listed in 411.075(b)'. No source read reconciles the two citations. Nothing in this artifact reproduces either citation as the operative list in a court document, because no court document is drafted here; the participant copy names the categories of agency rather than the section.",
+      "mustConfirm": "Which section — 411.0765 or 411.075(b) — carries the agency list, and whether the OCA model order's own recital matches.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][3]; profile:sourceSections[0], [4], [13]"
+    },
+    {
+      "id": "tx-nd0729-notice-hearing-and-45-day-window-are-court-and-state-acts",
+      "statement": "Under Gov't Code 411.0745(e) the court provides notice to the state and an opportunity for a hearing on receipt of the petition. A hearing is required unless the state does not request one before the 45th day after receiving notice AND the court finds the person entitled to file and that issuance is in the best interest of justice. The filer should not be charged for that notice. None of that is a participant act, and no packet states that notice was given, that the state did or did not request a hearing, or that any finding was made.",
+      "mustConfirm": "That no pipeline stage asserts notice, the 45-day lapse, the state's position or a best-interest finding.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[422].rules.notice; registry@3b6f4c1:tracks[422].rules.service"
+    },
+    {
+      "id": "tx-nd0729-proof-that-the-da-received-a-copy",
+      "statement": "The registry records two service facts that do not fully agree. rules.service says the COURT notifies the state and that a copy to the prosecuting attorney is included only 'where local practice requires the filer to deliver' one. rules.notice adds that the OCA instructions 'direct the petitioner to show proof that the district attorney received a copy of the petition'. No source read names a county in which the filer must serve, and the OCA instruction sheet itself is one of the February-2022 documents flagged as stale. No certificate of service or proof-of-receipt document is drafted; the participant is told to ask the clerk.",
+      "mustConfirm": "Whether the OCA instructions still direct the petitioner to show proof of the district attorney's receipt, and in which counties the filer must deliver a copy.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[422].rules.service; registry@3b6f4c1:tracks[422].rules.notice"
+    },
+    {
+      "id": "tx-nd0729-fee-is-county-specific-and-no-figure-is-quoted",
+      "statement": "No fee arises on the no-filing route. On the petition route, Gov't Code 411.0745(b) requires the fee that generally applies to filing a civil case, which is county-specific. No figure is quoted anywhere in this artifact. The compiled profile's 'Nondisclosure petition filing — Filing fee + service; District clerk; varies by county' is consistent and equally unquantified.",
+      "mustConfirm": "That no fee figure is ever printed for this track, and that the no-fee character of the statutory route is stated plainly.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[422].rules.fees; profile:sourceSections[8] (fees)"
+    },
+    {
+      "id": "tx-nd0729-family-violence-and-prior-offences-stop-conditions",
+      "statement": "Recorded self-help stop conditions: any family violence finding or family violence allegation anywhere in the record; any prior conviction or deferred adjudication other than a fine-only traffic offence where the target section carries a first-time-offender condition; the prosecutor opposing the petition or requesting a hearing; any dispute about whether the sentence, fines, costs or restitution were completed; immigration consequences; any question whether the offence was violent or sexual in nature, which is a court determination under Gov't Code 411.0735; the court finding that issuance is not in the best interest of justice; and veteran status or Subchapter H-1 completion that cannot be established. Note the tension: 411.0729(b) disapplies the subchapter's other eligibility criteria, yet the first-time-offender stop condition is recorded on this track. No source read resolves whether that stop is a legal bar here or a prudential one.",
+      "mustConfirm": "Whether the first-time-offender and family-violence stop conditions are legal bars on a section that expressly disapplies the subchapter's other criteria, or prudential stops.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[422].selfHelpStopConditions; registry@3b6f4c1:tracks[422].scopeRestrictions[0]"
+    },
+    {
+      "id": "tx-nd0729-compiled-profile-does-not-record-this-section",
+      "statement": "The compiled TX profile records four nondisclosure subtypes — 411.072 automatic, 411.0725 deferred, 411.0735 conviction and the first-offence DWI provisions — and does not mention 411.0729, veterans reemployment programmes or Code of Criminal Procedure ch. 42A subch. H-1 anywhere. Its nine pathways include no veterans-reemployment route. What the profile does supply, and what is used here, is the expunction-versus-nondisclosure framing, the sealed-not-erased effect, the sentencing-court-versus-arrest-county contrast and the county-specific-fee statement. This track rests on the pinned registry entry.",
+      "mustConfirm": "Whether the TX profile should be regenerated against a corpus that includes Subchapter E-1 in full, including 411.0729.",
+      "impact": "source_gate",
+      "sourceRef": "profile:pathways (9 entries, none this section); profile:terminology.pathwayLabels; profile:sourceSections[1] and [2]; profile:source.references (one PDF)"
+    },
+    {
+      "id": "tx-nd0729-source-freshness-gate",
+      "statement": "Six official sources are recorded on this track and ALL SIX carry sha256 null: the Gov't Code ch. 411 statute page, the Texas Judicial Branch nondisclosure forms page, the OCA Overview (Feb 2024), the OCA instructions for the 411.0729 petition, the Rule 145 Statement of Inability, and DPS form CR-63 (rev 07/21). Staleness cannot be detected for any of them, and three of them are the forms this route depends on entirely.",
+      "mustConfirm": "Capture hashes for all six official sources before release.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[422].blockers[kind=source_gate]; registry@3b6f4c1:tracks[422].officialSources"
+    },
+    {
+      "id": "tx-nd0729-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document. Output review, visual review and technical proof are all outstanding. implementationQueue is F_source_problem.",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[422].legalStatus; registry@3b6f4c1:tracks[422].legalDesignStatus; registry@3b6f4c1:tracks[422].runtimeDisabledReason; registry@3b6f4c1:tracks[422].implementationQueue"
+    },
+    {
+      "id": "tx-nd0729-participant-documents-never-handled",
+      "statement": "Three participant-obtained documents gate this route and LegalEase obtains, receives and inspects none of them: the Texas DPS criminal history record (via DPS form CR-63, which is an instruction sheet rather than a form to complete; DPS states its legal staff cannot assist individuals in petitioning for an order of nondisclosure); the discharge and dismissal order or the judgment and order of community supervision, from the clerk of the sentencing court; and the record of successful completion of the veterans reemployment programme, from the programme or the court that approved it.",
+      "mustConfirm": "That no pipeline stage receives, stores or inspects any of the three, and that each screening answer is confirmed against its document before filing.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[422].participantFilingRequirements; registry@3b6f4c1:tracks[422].packetSet.participantActionRequired"
+    }
+  ],
+  "selfHelpStopConditions": [
+    "Any family violence finding or family violence allegation anywhere in the record.",
+    "Any prior conviction or deferred adjudication other than a fine-only traffic offence, where the target section carries a first-time-offender condition.",
+    "The prosecutor opposes the petition or requests a hearing.",
+    "Any dispute about whether the sentence, fines, costs or restitution were completed.",
+    "Immigration consequences.",
+    "Any question whether the offence was violent or sexual in nature, which is a court determination under Gov't Code 411.0735.",
+    "The court finds that issuance is not in the best interest of justice.",
+    "Veteran status or completion of the Subchapter H-1 programme cannot be established."
+  ],
+  "selfHelpStopConditionsSourceRef": "registry@3b6f4c1:tracks[422].selfHelpStopConditions",
+  "reviewPosture": {
+    "legalStatus": "legal_review_pending",
+    "legalDesignStatus": "legal_design_approved_with_limitations",
+    "implementationQueue": "F_source_problem",
+    "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+    "blockers": [
+      "output_review_gate: counsel approved the design, not the produced document.",
+      "visual_review_gate: not started.",
+      "technical_proof_gate: not started.",
+      "release_blocker (packet_components): the OCA model petitions and orders carry a February 2022 revision and the Overview a February 2024 revision; neither has been revised for the 2023 recodification of expunction into Chapter 55A or the 2025 amendment to Gov't Code 411.0728. Each section form must be pulled at its current revision before release.",
+      "source_gate: all six official sources carry sha256 null, so staleness cannot be detected."
+    ],
+    "sourceRef": "registry@3b6f4c1:tracks[422].blockers; registry@3b6f4c1:tracks[422].legalStatus; registry@3b6f4c1:tracks[422].legalDesignStatus"
+  },
+  "componentCount": 5,
+  "disclaimer": "Internal build artifact. Data only: no document is rendered, no participant is served and nothing here is approved for live use. It is not legal advice and it does not guarantee eligibility or any outcome."
+}

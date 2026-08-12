@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v1",
+  "appliesWhen": "now — census extracted from committed sample",
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "manualClasses": [
+    "manual_participant"
+  ],
+  "neverPopulated": [
+    "judge",
+    "clerk",
+    "prosecutor",
+    "agency_certification",
+    "hearing_result",
+    "service_completion",
+    "signature",
+    "notarization",
+    "court_disposition",
+    "outside_party_fact"
+  ],
+  "census": "see field-census.json",
+  "flattenPolicy": "flatten only when the route's adopted behavior requires it; preserve official appearance"
+}

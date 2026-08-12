@@ -1,0 +1,81 @@
+{
+  "fixtureId": "ia-9079-process-guidance-1-negative",
+  "description": "Negative fixture. Must fail pleading QA. It uses the Iowa-prohibited erasure vocabulary, asserts that the expungement has already happened, claims the deferred judgment itself was removed from the deferred judgment docket, offers felony expungement, names a judge and a county attorney position no source supplies, asserts a fee, a completed service and a signed proposed order on a branch that has no filing at all, and treats a revoked deferred judgment as still eligible.",
+  "trackId": "ia-9079",
+  "componentId": "ia-9079-process-guidance-1",
+  "unitId": "ia-9079-post-2013-verification",
+  "jurisdictionCode": "IA",
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "screeningData": {
+    "countyOfCase": "Sample",
+    "caseNumber": "SYNTHETIC-NEG-0001",
+    "wasDeferredJudgment": "Yes",
+    "dischargedFromProbation": "Yes — discharged 06/15/2019",
+    "deferredJudgmentRevoked": "Yes — revoked in 2018",
+    "financialObligationsPaid": "No — balance outstanding",
+    "stillOnPublicDocket": "Yes",
+    "dischargeBeforeJuly2013": "No"
+  },
+  "partyData": {
+    "petitionerName": "PAT NEGATIVE-SAMPLE",
+    "petitionerAddress": "999 Synthetic Avenue, Sample City, IA 50000",
+    "otherNamesUsed": "",
+    "petitionerPhone": "(555) 010-9999",
+    "petitionerEmail": "pat.negative@sample-invalid.test"
+  },
+  "caseData": {
+    "countyName": "Sample",
+    "courtName": "Iowa District Court for Sample County, Courtroom 3B",
+    "courtAddress": "1 Synthetic Courthouse Square, Sample City, IA 50000",
+    "docketNumber": "SYNTHETIC-NEG-0001",
+    "otn": "SYNTHETIC-OTN-0001",
+    "judgeName": "Hon. A. Synthetic-Judge",
+    "judgeAddress": "1 Synthetic Courthouse Square, Sample City, IA 50000",
+    "countyAttorneyName": "B. Synthetic-Attorney",
+    "countyAttorneyPosition": "Does not resist"
+  },
+  "chargeData": {
+    "chargeDescription": "Felony court record with reference to the deferred judgment",
+    "offenseGrade": "Class D felony",
+    "disposition": "Deferred judgment, later revoked",
+    "dispositionDate": "06/15/2019",
+    "arrestDate": "01/09/2016",
+    "arrestingAgency": "Sample City Police Department",
+    "statuteTitle": "Iowa Code",
+    "statuteSection": "907.9(4)",
+    "relatedDismissedCounts": "All charges in every case the participant has ever had"
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "Full expungement — your record is erased and destroyed under Iowa Code § 907.9(4)",
+    "waitingPeriodText": "Automatic after the standard 90-day processing period",
+    "reliefFraming": "Your record has been permanently removed from your record and no longer exists anywhere.",
+    "additionalFacts": [
+      "Your deferred judgment has already been expunged; the court completed this on 07/01/2019.",
+      "The deferred judgment has also been removed from the state court administrator's deferred judgment docket.",
+      "Iowa allows felony expungement on this route.",
+      "A revoked deferred judgment remains eligible under chapter 907.",
+      "The $185 filing fee has been paid to the clerk.",
+      "The application and proposed order have been signed by the judge and served on the county attorney.",
+      "The county attorney does not resist."
+    ]
+  },
+  "expectFailure": {
+    "expectedQaResult": "failed",
+    "primaryRule": "pleading-qa.ts prohibited-vocabulary rule (HARD): the output text contains \"erased\", \"destroyed\" and \"removed from your record\", which the Iowa copy rule forbids outright — registry packetInstructions[0] / legalDesignLimitations[0]: \"Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.\" The required § 22.7 confidentiality framing is absent and is replaced by an erasure claim.",
+    "additionalReasons": [
+      "Felony expungement is offered. The registry requires the packet to state plainly that Iowa has no felony expungement; offenseGrade is set to a class D felony on a route whose recordTypes are deferred_judgment_court_record (counsel flag cf-07).",
+      "The expungement is asserted as already completed, with a date. Whether a post-July-1-2013 discharge is genuinely self-executing is an unresolved release blocker and no document may assert that the record was in fact expunged (counsel flag cf-01).",
+      "The deferred judgment itself is claimed to have been removed from the state court administrator's deferred judgment docket. The registry states the opposite: it remains on that docket and is not expunged (counsel flag cf-09).",
+      "deferredJudgmentRevoked = yes is treated as still eligible. Revocation makes the case ineligible under chapter 907 and is a recorded exclusion and self-help stop condition (counsel flag cf-10).",
+      "financialObligationsPaid = no is ignored. The record is not expunged until the obligations in the case containing the deferred judgment are paid; the packet asserts completion anyway (counsel flag cf-11).",
+      "Protected fields are populated: judgeName, judgeAddress, courtName, courtAddress, courtroom and OTN are supplied although no source names a judge, a court, an address, a courtroom, or an OTN for this route (counsel flag cf-05).",
+      "County attorney position is asserted (\"does not resist\"), an outside-party act that is never prefilled — and there is no filing on this branch for anyone to resist.",
+      "A filing fee amount is asserted although the registry states no fee is identified and the diagnostic route is free (counsel flag cf-04).",
+      "A signed proposed order and completed service are asserted on a branch the registry states has no participant filing, no petition to serve, and no participant signature — and the Iowa instruction forbids adding a proposed order at all (counsel flag cf-08).",
+      "A \"standard 90-day processing period\" is asserted; the registry records the waiting period as \"None beyond discharge and payment\" and states no processing timeframe anywhere.",
+      "relatedDismissedCounts is expanded to every case the participant has ever had; § 907.9(4) reaches only dismissed counts in the same charging instrument and other related dismissed charges from the same transaction or occurrence or common scheme or plan.",
+      "An arrest date and an arresting agency are named although no source records either for this route."
+    ]
+  }
+}

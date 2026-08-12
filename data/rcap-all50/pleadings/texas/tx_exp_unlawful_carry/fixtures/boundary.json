@@ -1,0 +1,98 @@
+{
+  "fixtureId": "tx_exp_unlawful_carry-boundary",
+  "trackId": "tx_exp_unlawful_carry",
+  "configPath": "data/rcap-all50/pleadings/texas/tx_exp_unlawful_carry/pleading-config.json",
+  "description": "Statutory edges: the offence date sits on the last day the cut-off allows, 2021-08-31, one day before the permitless-carry change; the offence is fine-only, which opens the art. 55A.252 justice-court and municipal-court-of-record alternative; and the fee-waiver branch brings in the Rule 145 official-form dependency. Court identity and protected fields stay blank.",
+  "synthetic": true,
+  "syntheticDataNote": "All values are obviously synthetic and are never drawn from any evidence file. Names are SAMPLE/EXAMPLE strings, the county is EXAMPLE, addresses are 000-prefixed, and every date is a round synthetic value. Dates here are participant screening answers, not sourced facts; no date in this fixture is asserted by any source.",
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, TX 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "EXAMPLE",
+    "countyOfArrest": "EXAMPLE",
+    "countyOfAllegedOffence": "EXAMPLE",
+    "courtLevel": "justice court or municipal court of record",
+    "caseNumberOfUnderlyingCharge": "",
+    "courtOfUnderlyingCharge": "",
+    "causeNumber": "",
+    "courtIdentity": "",
+    "judgeName": "",
+    "attorneyForTheStateName": "",
+    "attorneyForTheStatePosition": "",
+    "attorneyForTheStateAddress": "",
+    "filingDate": "",
+    "hearingDate": "",
+    "serviceCompleted": "",
+    "hearingOutcome": ""
+  },
+  "chargeData": {
+    "chargeDescription": "unlawful carrying of a handgun",
+    "offenseGrade": "Class C misdemeanour",
+    "disposition": "Convicted",
+    "arrestDate": "08/31/2021",
+    "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+    "dateOffenceAllegedlyCommitted": "08/31/2021",
+    "municipalityOfArrest": "EXAMPLE CITY",
+    "statuteSection": "Penal Code 46.02(a) as it existed before 2021-09-01"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "arrestCounty": "EXAMPLE",
+      "arrestDate": "08/31/2021",
+      "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+      "offenceCharged": "unlawful carrying of a handgun, Class C misdemeanour, fine-only",
+      "caseNumberAndCourt": "[PARTICIPANT'S OWN ANSWER — CONFIRMED AGAINST THE CERTIFIED JUDGMENT BEFORE FILING]",
+      "felonyFromSameTransaction": "no",
+      "communitySupervision": "no",
+      "probationViolationArrest": "no",
+      "abscondedAfterRelease": "no",
+      "agencyList": "[PARTICIPANT'S OWN LIST — BUILT FROM THE DISTRICT CLERK'S ART. 55A.253(c) PUBLISHED LIST]",
+      "privateEntities": "[PARTICIPANT'S OWN LIST — LISTED SEPARATELY, NEVER MERGED INTO THE AGENCY LIST]",
+      "trn": "",
+      "feeWaiverRequested": "yes",
+      "offenceDatePre2021": "08/31/2021",
+      "penalCodeSubsection": "Penal Code 46.02(a) as it existed before 2021-09-01, per the certified judgment"
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "sex": "",
+    "race": "",
+    "socialSecurityNumber": "",
+    "driversLicenseNumber": "",
+    "addressAtTimeOfArrest": "",
+    "trn": ""
+  },
+  "protectedFieldsNote": "Article 55A.253(a) requires the petition to carry sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest, and the TRN must appear on the order under art. 55A.301. All of them are blank here and are never prefilled by any pipeline stage. How the largest counties handle sensitive data in a public civil expunction filing is a recorded release blocker; the participant supplies these by hand.",
+  "outsidePartyFields": {
+    "causeNumber": "",
+    "courtIdentity": "",
+    "judgeName": "",
+    "attorneyForTheStateName": "",
+    "attorneyForTheStatePosition": "",
+    "attorneyForTheStateAddress": "",
+    "filingDate": "",
+    "hearingDate": "",
+    "serviceCompleted": "",
+    "hearingOutcome": ""
+  },
+  "outsidePartyFieldsNote": "Blank and never prefilled. The matter is a new civil action and receives a NEW cause number on filing, so no cause number can exist beforehand. The court sets the hearing not earlier than the 30th day after filing and the clerk serves under art. 55A.254; the participant does not serve. No position of the attorney representing the state, no service completion and no hearing outcome is ever stated.",
+  "attachments": [
+    "Certified copy of the judgment of conviction (participant obtains; LegalEase does not inspect it)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "boundaryUnderTest": [
+    "Offence-date cut-off edge: the recorded rule is 'the offence must have been committed before 2021-09-01'. This fixture sits on 2021-08-31, the last date inside the cut-off. One day later the exclusion 'an offence committed on or after 2021-09-01' fires.",
+    "Subsection edge: 46.02(a) as it existed before that date. A conviction under any other subsection of 46.02 is excluded.",
+    "Venue edge: art. 55A.252 opens a justice court or municipal court of record in either county, but only where the arrest was for a fine-only offence.",
+    "Fee edge: art. 102.0061(b) sets a flat $100 in a justice or municipal court of record; no figure is written into the packet either way.",
+    "Waiting-period edge: art. 55A.005 states none, so no elapsed-time value is set."
+  ]
+}

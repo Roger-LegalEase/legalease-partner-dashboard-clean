@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "componentId": "ia-9079-pre-2013-application-2",
+  "componentIdSource": "Constructed for this artifact. registry tracks[126].packetSet.components contains only ia-9079-process-guidance-1, because the registry generates no packet for this branch.",
+  "unitId": "ia-9079-pre-2013-application",
+  "trackId": "ia-9079",
+  "jurisdictionCode": "IA",
+  "role": "primary_filing",
+  "requiredOutput": "pleading_document",
+  "outputStrategy": null,
+  "outputStrategyStatus": "unresolved",
+  "requirement": "required_on_branch",
+  "conditionDescription": "Applies only where the discharge from probation was before July 1, 2013 (screening key dischargeBeforeJuly2013 = yes).",
+  "available": false,
+  "drafted": false,
+  "draftingProhibited": {
+    "prohibited": true,
+    "reason": "The registry states that an application is required for a pre-July-1-2013 discharge, but that no statewide form exists, no rule governs it, and the statutory mechanics are thin. The filing vehicle is legally unresolved. The registry's own words: \"A custom pleading would be speculative.\" No caption, court, title, allegation, statutory-basis paragraph, prayer for relief, verification, signature block, proposed order or certificate of service is drafted here.",
+    "sourceStatements": [
+      "registry tracks[126].units[1].unavailableReason: \"The correct mechanism for a pre-July-1-2013 deferred judgment expungement request is unresolved: no form, no rule. A custom pleading would be speculative.\"",
+      "registry tracks[126].scopeRestrictions[0] / legalDesignLimitations[2]: \"The pre-July-2013 branch generates no packet. No statewide form exists, no rule governs the application, and a custom pleading would be speculative. Keep the unit unavailable until counsel identifies the vehicle.\"",
+      "registry tracks[126].legalDesignLimitations[2].provenance.sourceStatement (LegalEase-Iowa-Legal-Review-2026-07-30.md, TRACK F / OUTPUT STRATEGY): \"For pre-2013 discharges an application is required but no statewide form exists and the statutory mechanics are thin, so a custom pleading would be speculative.\""
+    ]
+  },
+  "officialForms": [],
+  "officialFormsNote": "There is no official form to name. The registry states expressly that no statewide form exists for this branch, and that this mechanism sits outside Iowa R. Crim. P. 2.80 through 2.86 and has no Rule 2.86 form. The five Rule 2.86 forms inventoried in the IA state pack (901C.2, 901C.3, 123.46, 123.47, 725.1) are all for other routes and none of them is a substitute. This component is therefore NOT a mandatory official-form handoff: acquiring a form cannot unblock it.",
+  "owningLane": {
+    "lane": "E",
+    "scope": "Legal-design resolution of the filing vehicle. Counsel must identify what document is filed for a pre-July-1-2013 deferred judgment expungement request under Iowa Code § 907.9(4), what rule or statute authorises it, what caption and court it takes, what must be alleged, whether verification or service on the county attorney is required, and where it is filed. Only after that can any drafting lane act."
+  },
+  "blockedDependency": "Lane E legal-design resolution — the filing vehicle for a pre-July-1-2013 deferred judgment expungement request under Iowa Code § 907.9(4). No form, no rule.",
+  "blockingSource": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntryPointer": "tracks[126].buildBlockers[0]; tracks[126].unresolvedQuestions[1]; tracks[126].units[1]; tracks[126].legalDesignBlockers[0]",
+    "impact": "build_blocker",
+    "affectedElement": "output_strategy",
+    "classificationBasis": "explicit_state_addendum",
+    "sourceFile": "LegalEase-Iowa-Legal-Review-2026-07-30.md",
+    "sourceHeading": "OPEN QUESTIONS",
+    "sourceStatement": "The correct mechanism for a pre-July-1-2013 deferred judgment expungement request. No form, no rule. Unresolved."
+  },
+  "substantiveAuthorityIfResolved": {
+    "citation": "Iowa Code § 907.9(4)",
+    "note": "The substantive right is the same on both branches: on discharge from probation where judgment was deferred, the court's criminal record with reference to the deferred judgment is expunged, and the record is not expunged until the financial obligations in that case are paid. What is unresolved is the procedural vehicle for asking, not the right itself. No procedural citation is supplied because none is recorded."
+  },
+  "participantTreatmentWhileBlocked": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true,
+    "instruction": "The participant is told plainly that there is no form and no rule for this branch, that no document is being produced for them, and that they should talk to a lawyer or ask the clerk of the Iowa District Court in the county of the case what that clerk needs. No field is prefilled and no document is produced.",
+    "manualCompletion": [],
+    "selfHelpStopCondition": "Pre-2013 discharges where the clerk declines to act (registry selfHelpStopConditions[2] / selfHelpBoundaries[2])."
+  },
+  "unresolvedForThisUnit": [
+    "What document is filed, and what it is called (counsel flag cf-02).",
+    "What rule or statute authorises it, and whether any rule governs its form at all (counsel flag cf-02).",
+    "Whether the county attorney must be served, and how — registry rules.service addresses only the diagnostic branch (counsel flag cf-02).",
+    "Whether any filing fee or fee waiver applies; registry rules.fees and rules.feeWaiver address only the diagnostic branch (counsel flag cf-04).",
+    "What the participant does when the clerk declines to act; registry postGenerationHandoffs is empty (counsel flag cf-06)."
+  ],
+  "producesNoPacket": true,
+  "producesNoPacketNote": "Confirmed by registry scopeRestrictions[0]: \"The pre-July-2013 branch generates no packet.\" This component exists to record the dependency, not to hold a draft."
+}

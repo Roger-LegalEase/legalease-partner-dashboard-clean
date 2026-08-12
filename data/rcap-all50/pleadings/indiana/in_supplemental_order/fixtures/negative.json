@@ -1,0 +1,58 @@
+{
+  "fixtureId": "in_supplemental_order-negative",
+  "trackId": "in_supplemental_order",
+  "configPath": "data/rcap-all50/pleadings/indiana/in_supplemental_order/pleading-config.json",
+  "description": "Must fail QA. Every value below is exactly what this track forbids.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IN 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "courtName": "EXAMPLE COUNTY SUPERIOR COURT",
+    "originalExpungementCounty": "EXAMPLE",
+    "originalExpungementCauseNumber": "00D00-0000-XP-000000",
+    "countyName": "EXAMPLE",
+    "docketNumber": "00D00-0000-XP-000000",
+    "otn": "000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE COUNTY PROSECUTING ATTORNEY",
+    "prosecutorPosition": "consents to the supplemental relief",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "Theft",
+    "offenseLevel": "Level 6 felony",
+    "disposition": "Expunged and destroyed",
+    "dispositionDate": "01/20/2026",
+    "arrestDate": "05/01/2016",
+    "arrestingAgency": "EXAMPLE CITY POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "originalExpungementCourt": "EXAMPLE COUNTY SUPERIOR COURT, 04/01/2021",
+      "originalExpungementSection": "Section 3",
+      "amendmentRelieadOn": "P.L.77-2025 amended section 35-38-9-5 to convert marked-expunged records to sealed records, which is greater relief and applies to the petitioner.",
+      "reliefSought": "The Court should convert the petitioner's marked-expunged records to sealed records under the amendment, as it is required to do."
+    },
+    "certifiedOriginalOrderObtained": false,
+    "grantedBeforeAmendment": "yes",
+    "eligibilityBasisLabel": "Entitled - amendment applies",
+    "additionalFacts": [
+      "The petition was served on the Example County Prosecuting Attorney, who consented.",
+      "The Court granted the supplemental petition and ordered the Indiana State Police Central Repository, the Department of Correction and the Bureau of Motor Vehicles to destroy the records.",
+      "The filing fee of $157.00 was paid and no fee waiver was needed."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "01/01/1988",
+    "ssnLastFour": "0000",
+    "driverLicenseNumber": "0000-00-0000",
+    "stateIdNumber": "IN0000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. (1) It names an amendment and states what it changed - \"P.L.77-2025 amended section 35-38-9-5 to convert marked-expunged records to sealed records\" - when what P.L.77-2025 changed is an open release blocker against the governing mechanism, and which amendment provides greater relief is a legal judgment that must be settled by counsel for the cycle. This is the single worst failure in the fixture. (2) It fills in court name, county, cause number, docket, OTN, judge and prosecuting attorney, none of which any source supplies and all of which this track holds blank. (3) It asserts the prosecutor's position (\"consented\") and completed service - outside-party acts. (4) It asserts a court finding and outcome (\"The Court granted the supplemental petition\"), when entitlement is expressly the court's finding. (5) It states records were destroyed, twice, which the track's packet instruction forbids: Indiana expungement means sealed or restricted under section 35-38-9-1(k), never deleted or destroyed. (6) It names record custodians no source enumerates for a section 9(l) order. (7) It states a filing fee and denies the need for a waiver, when both fee and fee waiver are recorded as \"Unresolved.\" (8) It composes and argues the relief sought (\"as it is required to do\"), which the registry reserves to the participant and to counsel. (9) It asserts an entitlement conclusion the packet never states. (10) It populates protected fields - date of birth, SSN, licence and state ID - which are held blank in every fixture. (11) It proceeds with certifiedOriginalOrderObtained false, when the certified original order is required before filing."
+}

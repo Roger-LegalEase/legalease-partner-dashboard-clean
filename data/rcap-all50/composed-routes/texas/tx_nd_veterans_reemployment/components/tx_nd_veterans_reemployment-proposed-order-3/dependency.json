@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-official-form-dependency/v1",
+  "trackId": "tx_nd_veterans_reemployment",
+  "jurisdiction": {
+    "code": "TX",
+    "slug": "texas"
+  },
+  "componentId": "tx_nd_veterans_reemployment-proposed-order-3",
+  "componentIdSynthesized": false,
+  "role": "proposed_order",
+  "requirement": "conditional",
+  "conditionDescription": "Filed with the petition on the petition route.",
+  "order": 3,
+  "requiredOutput": "official_form_dependency",
+  "officialFormId": "OCA Model Order of Nondisclosure under Section 411.0729",
+  "officialFormName": "Order of Nondisclosure under Section 411.0729, Texas Office of Court Administration model form (located copy carries a February 2022 footer)",
+  "issuingAuthority": "Texas Office of Court Administration",
+  "officialSourceUrlForForm": "https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf",
+  "officialSourceSha256": null,
+  "officialSourceRetrievedOn": "2026-08-06",
+  "acquisitionStatus": "url_recorded_no_copy_on_file_no_hash_revision_stale",
+  "acquisitionNote": "Recorded release blocker on this track: the OCA model petitions and orders carry a FEBRUARY 2022 revision and the OCA Overview a February 2024 revision, confirmed from the document footers on 2026-08-06. Neither has been revised for the 2023 recodification of expunction into Chapter 55A or for the 2025 amendment to Gov't Code 411.0728. The form must be pulled at its current revision before release, and no statutory cross-reference may be reproduced from a 2022 form without checking it. The order is the document most exposed to the staleness problem, because its recitals are where a 2022 statutory cross-reference would be reproduced verbatim into a signed court order.",
+  "drafted": false,
+  "draftingProhibitedBecause": "It is an official OCA statewide model form AND it is a court order. Lane C drafts no official forms and drafts no order text. Drafting a substitute would invent the operative terms of a nondisclosure order, including which agencies the Department of Public Safety must notify. The OCA nondisclosure documents are statewide MODEL forms — not mandatory and not promulgated. Gov't Code 411.0745(c) and (d) direct OCA to prescribe and publish a form for petitions filed electronically or by mail and require every county and district clerk website to link to it, so they sit closer to a statutorily authorised statewide model than to a sample, and county clerks across Texas republish them and refer filers to the OCA site. Nothing in Subchapter E-1 makes the form mandatory or forbids a differently drafted petition, and this artifact does not assert that it is mandatory. The registry nevertheless classifies this unit official_pdf_fill with packetIdentity 'identified', so the route uses the OCA form rather than a drafted substitute, and lane C drafts no official forms.",
+  "blockingStatement": "The petition route cannot be assembled for filing until this order is acquired at its current revision, hashed and field-mapped. The order is filed WITH the petition, so the two block together.",
+  "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
+  "exactMissingSource": "OCA Model Order of Nondisclosure under Section 411.0729 — the PDF itself at https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf, at its CURRENT revision (the located copy footers read February 2022), plus a captured sha256 and a field map. Recorded with sha256 null and no copy in the Texas Nationwide inventory.",
+  "filingRule": "Filed with the petition on the petition route. Completed except for the judge's signature.",
+  "filingRuleSourceRef": "registry@3b6f4c1:tracks[422].packetSet.components[2].conditionDescription; registry@3b6f4c1:tracks[422].rules.participantSignature",
+  "submissionDestination": "The clerk of the court that sentenced the person or placed the person on community supervision, including deferred adjudication community supervision — NOT the county of arrest.",
+  "submissionDestinationSourceRef": "registry@3b6f4c1:tracks[422].venue; registry@3b6f4c1:tracks[422].destination",
+  "participantObtains": true,
+  "participantTenders": true,
+  "legalEaseHandlesRecord": false,
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/texas/index.ts",
+      "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ],
+    "profileCorroboration": null,
+    "profileCorroborationNote": "None available. The compiled TX profile enumerates four Gov't Code ch. 411 nondisclosure subtypes — 411.072, 411.0725, 411.0735 and the first-offence DWI provisions — and does not mention 411.0729, veterans reemployment programmes, Code of Criminal Procedure ch. 42A subch. H-1 or any OCA model form URL anywhere. The committed Texas state pack's officialFormInventory contains neither OCA nondisclosure form.",
+    "registryRef": "registry@3b6f4c1:tracks[422].packetSet.components[2]"
+  },
+  "manualCompletionItems": [
+    {
+      "item": "The judge's signature on the proposed order",
+      "whereInPacket": "OCA model order, signature block",
+      "why": "The order is the court's.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].manualCompletionItems[2]"
+    }
+  ],
+  "agencyListRecitalNote": "The order directs DPS to seal the record and to notify a statutory list of agencies. The registry cites Gov't Code 411.0765 for that list; the compiled TX profile cites Gov't Code 411.075(b) for the same proposition, twice. No source read reconciles the two. Nothing here reproduces either citation as an operative recital, because no order text is drafted.",
+  "agencyListRecitalNoteSourceRef": "registry@3b6f4c1:tracks[422].legalDesignLimitations[classification=packet_instruction][3]; profile:sourceSections[4] and [13]"
+}

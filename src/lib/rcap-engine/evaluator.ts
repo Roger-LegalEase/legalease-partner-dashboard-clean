@@ -431,6 +431,18 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  // Backstop for the same structural fact when the product-guidance checks
+  // above stop firing (e.g. a later ratification flips the court-filed
+  // classification): a selected automatic/no-filing pathway resolves to
+  // guidance before any compiled rule can route it toward a packet.
+  if (preselectedPathway && routeIsAutomaticOrNoFiling(profile, preselectedPathway)) {
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    return result(profile, request, "guidance_only", [reason(jurisdiction, "automatic_or_no_filing_route", guidanceTextForPathway(profile, preselectedPathway), preselectedPathway.sourceRef)], {
+      pathwayId: preselectedPathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      paymentAllowed: false
+    });
+  }
 
   const route = matchCompiledRuleRoute(profile, publicProfile, answers);
   if (!route.ok) {
@@ -467,10 +479,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
   const plan = packetPlanForPathway(profile, pathway.id);
-  if (plan?.mode === "automatic_relief_verification_and_guidance") {
+  // Structural, not plan-driven: an automatic/no-filing route resolves to
+  // guidance even if its packet plan is missing or mislabeled. A matched
+  // packet-ready rule (MI rule-11 before its correction) must not be able to
+  // steer such a route toward checkout.
+  if (plan?.mode === "automatic_relief_verification_and_guidance" || routeIsAutomaticOrNoFiling(profile, pathway)) {
     return result(profile, request, "guidance_only", [reason(jurisdiction, "automatic_or_no_filing_route", guidanceTextForPathway(profile, pathway), route.rule.sourceRef ?? pathway.sourceRef)], {
       pathwayId: pathway.id,
-      packetPlan: plan,
+      ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
     });
   }
@@ -514,6 +530,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     : sourceCaution(profile, answers, pathway.id) ? "packet_ready_with_caution" : "packet_ready";
   const paymentAllowed = route.deterministic === true
     && Boolean(plan)
+    && !routeIsAutomaticOrNoFiling(profile, pathway)
     && routeIsRatifiedDeployable(profile, pathway)
     && (isCourtFiledPetitionRoute(profile, pathway) || routeIsAdministrativeApplicationPacket(profile, pathway))
     && isPacketPlanFulfillmentReady(plan);
@@ -1622,10 +1639,30 @@ function packetLikePathway(profile: EngineProfile, pathway: CompiledPathway) {
   return isCourtFiledPetitionRoute(profile, pathway);
 }
 
+/**
+ * A route on which relief happens without the participant filing anything can
+ * never be a paid packet: there is nothing to sell. This is a structural fact
+ * of the pathway — routeType, filingRequired, or a verification-and-guidance
+ * packet plan — and deliberately does NOT consult ratification: ratifying a
+ * jurisdiction for deployment must never convert an automatic route into a
+ * sellable one (lane-B report: MI rule-11 steered the automatic 92-day
+ * misdemeanor set-aside toward checkout).
+ */
+function routeIsAutomaticOrNoFiling(profile: EngineProfile, pathway: CompiledPathway): boolean {
+  const routeType = (pathway as { routeType?: string }).routeType;
+  if (routeType === "automatic") return true;
+  if ((pathway as { filingRequired?: boolean }).filingRequired === false) return true;
+  const plan = packetPlanForPathway(profile, pathway.id);
+  return plan?.mode === "automatic_relief_verification_and_guidance";
+}
+
 function isCourtFiledPetitionRoute(profile: EngineProfile, pathway: CompiledPathway) {
   const code = profile.jurisdiction.code;
   const text = `${pathway.id} ${pathway.label} ${pathway.summary}`.toLowerCase();
   const plan = packetPlanForPathway(profile, pathway.id);
+  // Structural veto before any ratification shortcut: an automatic/no-filing
+  // route is not a court-filed petition, whatever else is true of its state.
+  if (routeIsAutomaticOrNoFiling(profile, pathway)) return false;
 
   // Alaska: the ONLY user-filed court route is the TF-810 CourtView exclusion request (AS 22.35.030 /
   // Admin. R. 40), filed at the local trial court. Every other Alaska route (mistaken-identity DPS

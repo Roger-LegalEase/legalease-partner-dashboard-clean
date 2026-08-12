@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "componentId": "ca-diversion-seal-primary-filing-2",
+  "unitId": "ca-diversion-seal-stage-2",
+  "trackId": "ca-diversion-seal",
+  "jurisdictionCode": "CA",
+  "role": "primary_filing",
+  "requiredOutput": "official_form_dependency",
+  "outputStrategy": "official_pdf_fill",
+  "requirement": "conditional",
+  "conditionDescription": "Only in counties where LegalEase has collected and approved the current local petition and order set. No county qualifies yet.",
+  "drafted": false,
+  "draftingProhibited": {
+    "prohibited": true,
+    "reason": "This unit requires a mandatory official form. There is no statewide Judicial Council form for a Cal. Penal Code § 851.90 sealing; each county publishes its own petition and order. Drafting a substitute petition or order here would invent a court form, a caption, a venue, and filing mechanics that no source states. No pleading is drafted for this unit."
+  },
+  "officialForms": [
+    {
+      "officialFormId": "SDSC-CRM-307",
+      "name": "Superior Court of California, County of San Diego, local criminal form SDSC CRM-307",
+      "county": "San Diego",
+      "geographyKey": "san-diego",
+      "officialSourceUrl": "https://www.sdcourt.ca.gov/sites/default/files/sdcourt/generalinformation/forms/criminalforms/crm307.pdf",
+      "retrievedOn": "2026-07-30",
+      "sha256": null,
+      "sha256Note": "No SHA-256 recorded for this source, so staleness cannot be detected (counsel flag cf-09).",
+      "status": "named_but_not_collected_or_approved",
+      "presentInStatePackInventory": false,
+      "inventoryNote": "Not present in the CA state pack officialFormInventory or resourcePacketInventory. The only inventoried CA PDF is California-Expungement-RecordRelief-Agent-Reference.pdf; the inventoried HTML references are ca-dismissal-sealing-forms.html, CR-180.html, CR-181.html and find-forms.html, none of which is this form."
+    },
+    {
+      "officialFormId": null,
+      "name": "Kern County local § 851.90 petition and order set",
+      "county": "Kern",
+      "geographyKey": "kern",
+      "officialSourceUrl": null,
+      "retrievedOn": null,
+      "sha256": null,
+      "status": "named_but_not_identified_collected_or_approved",
+      "presentInStatePackInventory": false,
+      "inventoryNote": "The registry records that Kern County publishes its own local petition but gives it no form number and no URL. Nothing further may be stated about it."
+    }
+  ],
+  "owningLane": {
+    "lane": "D",
+    "scope": "Official-form acquisition and approval: collect the current local petition and order set for each supported county, record a SHA-256, and route it through form approval.",
+    "handoffLane": "E",
+    "handoffScope": "Local-form survey across the remaining California target counties. The registry records that no survey of local forms in the target counties has been done."
+  },
+  "blockedDependency": "Lane D official-form acquisition — San Diego local form SDSC CRM-307 and the Kern County local § 851.90 petition and order set; plus a lane-E survey of local forms in the remaining target counties. Registry buildBlockers[2] and legalDesignLimitations[1] retain this as a true blocker.",
+  "blockingSource": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntryPointer": "tracks[47].units[1].unavailableReason; tracks[47].buildBlockers[2]; tracks[47].legalDesignLimitations[1]",
+    "unavailableReason": "No approved local petition and order set has been sourced for any county. County-specific form and filing coverage is a retained blocker, and it is a scope restriction on which counties are supported rather than a reason to suppress the guidance unit.",
+    "sourceFile": "LegalEase-California-Legal-Review.md",
+    "sourceHeading": "California operational amendments / True blockers retained",
+    "sourceStatement": "County-specific form and filing coverage for CA-10 where no approved local set has been sourced."
+  },
+  "participantTreatmentWhileBlocked": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true,
+    "instruction": "The participant obtains the county's own petition and order forms from the county superior court clerk or self-help centre and asks which local form applies to a § 851.90 sealing. LegalEase selects no form and prefills no field.",
+    "manualCompletion": [
+      {
+        "item": "Signature and date",
+        "whereInPacket": "The county's own petition, signature block",
+        "why": "The petitioner signs their own petition."
+      }
+    ]
+  },
+  "unresolvedForThisUnit": [
+    "Whether any statewide form exists that was missed (counsel flag cf-02).",
+    "Whether SDSC CRM-307 is the current San Diego form and whether it covers § 851.90 diversion/DEJ sealing (counsel flag cf-03).",
+    "The Kern County form number (counsel flag cf-03).",
+    "Filing fee, if any (counsel flag cf-04).",
+    "Notarization requirement, if any (counsel flag cf-05).",
+    "Manner, recipients, and deadline of the notice to all parties (counsel flag cf-06).",
+    "Court name, address, and department (counsel flag cf-07)."
+  ]
+}

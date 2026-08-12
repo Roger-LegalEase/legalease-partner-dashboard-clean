@@ -1,0 +1,61 @@
+{
+  "fixtureId": "ca-diversion-seal-process-guidance-1-negative",
+  "description": "Negative fixture. Must fail pleading QA. It mislabels this arrest-sealing route as an expungement and a dismissal, names a judge and a prosecutor position that no source supplies, and asserts a fee and a completed service that no source states.",
+  "trackId": "ca-diversion-seal",
+  "componentId": "ca-diversion-seal-process-guidance-1",
+  "jurisdictionCode": "CA",
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "screeningData": {
+    "programType": "Superior court drug diversion programme",
+    "programCompleted": "Yes — successfully completed",
+    "countyOfCase": "San Diego",
+    "arrestDate": "03/14/2019",
+    "caseNumber": "SYNTHETIC-NEG-0001"
+  },
+  "partyData": {
+    "petitionerName": "PAT NEGATIVE-SAMPLE",
+    "petitionerAddress": "999 Synthetic Avenue, Sample City, CA 90000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "San Diego",
+    "judicialDistrict": "Department 12",
+    "docketNumber": "SYNTHETIC-NEG-0001",
+    "otn": "SYNTHETIC-OTN-0001",
+    "judgeName": "Hon. A. Synthetic-Judge",
+    "judgeAddress": "1 Synthetic Courthouse Plaza, Sample City, CA 90000"
+  },
+  "chargeData": {
+    "chargeDescription": "Arrest record for the offense charged in the diverted case",
+    "offenseGrade": "Misdemeanor",
+    "disposition": "Successful completion of superior court drug diversion under PC 1000.5",
+    "dispositionDate": "11/02/2020",
+    "arrestDate": "03/14/2019",
+    "arrestingAgency": "Sample City Police Department",
+    "statuteTitle": "Cal. Penal Code",
+    "statuteSection": "851.90"
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "Expungement and dismissal of the case after diversion under Cal. Penal Code § 851.90",
+    "waitingPeriodText": "Eligible immediately after the standard 30-day waiting period",
+    "additionalFacts": [
+      "The set-aside is granted as a matter of right once diversion is complete.",
+      "The $120 filing fee has been paid to the clerk.",
+      "The prosecuting attorney does not oppose this request.",
+      "Service on the prosecuting attorney has been completed."
+    ]
+  },
+  "expectFailure": {
+    "expectedQaResult": "failed",
+    "primaryRule": "pleading-qa.ts prohibited-vocabulary rule (HARD): the output text contains the prohibited terms \"expungement\", \"dismissal\" and \"set-aside\" for an arrest-sealing track, which the registry scope restriction forbids — \"This is arrest sealing. Do not describe it as dismissal, set-aside or expungement.\"",
+    "additionalReasons": [
+      "Protected fields are populated: judgeName, judgeAddress, judicialDistrict/department, and OTN are supplied although no source names a judge, a court address, a department, or an OTN for this route (counsel flag cf-07).",
+      "Prosecutor position is asserted (\"does not oppose\"), which is an outside-party act that is never prefilled; relief is discretionary (counsel flag cf-08).",
+      "A filing fee amount is asserted although the source review states no filing fee for this route (counsel flag cf-04).",
+      "Completed service is asserted although no source states that service occurred and no separate service rule beyond notice to all parties is recorded (counsel flag cf-06).",
+      "A \"standard 30-day waiting period\" is asserted; the registry records the waiting-period duration as \"None stated\", and the only 30-day period in the source is the court's own post-order forwarding duty under § 851.92.",
+      "An arresting agency is named although no source names one."
+    ]
+  }
+}

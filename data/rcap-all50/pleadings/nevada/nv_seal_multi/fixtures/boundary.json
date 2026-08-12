@@ -1,0 +1,26 @@
+{
+  "fixtureId": "boundary",
+  "description": "Sparse-input boundary: no address, no arrest date, no disposition, no disposition date, no arresting agency. Every unsupplied value must fall through to the renderer's own confirm-later token rather than being filled in.",
+  "expectations": {
+    "qaPassed": true
+  },
+  "protectedProbes": [
+    "does not object",
+    "filing fee",
+    "the Court finds"
+  ],
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Jordan Boundary-Sample"
+    },
+    "caseData": {
+      "countyName": "Washoe"
+    },
+    "chargeData": {},
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Consolidated sealing of more than one Nevada record held within this county under NRS 179.2595, with each underlying record screened against the section that governs it"
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}
