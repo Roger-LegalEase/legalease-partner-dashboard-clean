@@ -596,6 +596,30 @@ wrong owner: ${relationshipCounts.missing_source_binary ?? 0} are missing a bina
 but ${relationshipCounts.missing_canonical_relationship_metadata ?? 0} are missing the metadata that would say *which*
 binary, and ${(relationshipCounts.family_identity_ambiguous ?? 0) + (relationshipCounts.relationship_unsupported_by_evidence ?? 0)} are relationship defects rather than source gaps.
 
+## Three exact blockers this integration surfaced
+
+1. **Three of the eight open families are required by no D track.**
+   \`MO:cr145-form-petition-en\`, \`VA:cc-1203-form-en\` and \`VT:200-00631-form-en\`
+   are open on independent review, but no track in the 67 binds them — those
+   jurisdictions' tracks bind CR-300/CR-360/GN-10, CC-1473/CC-1201 and
+   200-00130/200-00132/600-00228 instead. The corrections are still required.
+   Whether each was built for a track outside the D 67, or a relationship is
+   missing from the map, is an open question with an owner.
+
+2. **D-FIX-4 is a shared-fitter defect, not a two-family defect.** The reviewer
+   found it in VA CC-1203 and VT 200-00631 because those are the two families
+   opened. A fitter that reports a clean shrink while truncating a drawn value
+   could have produced the same silent defect in any family the factory
+   rendered — including approved ones. Correcting the fitter is necessary but
+   not sufficient; which approved artifacts need re-checking against the
+   corrected fitter is an open question.
+
+3. **A missing relationship is not a missing source.** ${gateCounts.no_exact_family_relationship} tracks resolve no
+   exact family at all and ${relationshipRows.length} component relationships are unresolved, but only
+   ${relationshipCounts.missing_source_binary ?? 0} of those name a binary we could go and fetch. Sending all of them to
+   source acquisition would put ${relationshipCounts.missing_canonical_relationship_metadata ?? 0} metadata gaps and ${(relationshipCounts.family_identity_ambiguous ?? 0) + (relationshipCounts.relationship_unsupported_by_evidence ?? 0)} relationship defects in
+   front of an owner who cannot close them.
+
 ## What did not happen
 
 No track promoted. No family disposition changed. The canonical completion

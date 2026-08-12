@@ -64,12 +64,6 @@ wrong owner: 57 are missing a binary we can name,
 but 29 are missing the metadata that would say *which*
 binary, and 5 are relationship defects rather than source gaps.
 
-## What did not happen
-
-No track promoted. No family disposition changed. The canonical completion
-ledger was not regenerated. No route was made sellable. No launch flag,
-migration, staging or worker record was touched.
-
 ## Three exact blockers this integration surfaced
 
 1. **Three of the eight open families are required by no D track.**
@@ -93,3 +87,9 @@ migration, staging or worker record was touched.
    57 of those name a binary we could go and fetch. Sending all of them to
    source acquisition would put 29 metadata gaps and 5 relationship defects in
    front of an owner who cannot close them.
+
+## What did not happen
+
+No track promoted. No family disposition changed. The canonical completion
+ledger was not regenerated. No route was made sellable. No launch flag,
+migration, staging or worker record was touched.
