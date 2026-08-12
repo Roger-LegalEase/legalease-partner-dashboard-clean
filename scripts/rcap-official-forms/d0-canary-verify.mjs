@@ -25,13 +25,16 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 
-import { CANARIES, buildAcroFormCanary, buildFlatOverlayCanary, buildScriptedCanary, buildXfaResidueCanary }
+import { CANARIES, buildAcroFormCanary, buildFlatOverlayCanary, buildScriptedCanary, buildXfaResidueCanary,
+  buildPrintFlagCanary, buildScriptedBlankCanary, PRINT_FLAG_CANARY }
   from "./d0-canary-forms.mjs";
 import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
   from "./rcap-official-form-finalize.mjs";
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-contact-sheet.mjs";
-import { scanBytesForActiveContent, sanitizeAndFlatten } from "./rcap-active-content.mjs";
+import { scanBytesForActiveContent, sanitizeAndFlatten, assertInspectableAndClean,
+  UninspectableArtifactError, ActiveContentResidueError, readAnnotationFlags }
+  from "./rcap-active-content.mjs";
 import { fitTextToWidget, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
 import { decideBinding, protectCategoryOf, FACT_DESCRIPTORS, haystack } from "./rcap-field-semantics.mjs";
 
@@ -367,6 +370,146 @@ await expectThrows("non-filing hold (flat overlay)", () => finalizeFlatOverlay({
 }), (e) => e instanceof NonFilingHoldError);
 
 // ===========================================================================
+// 4b. Print flags — a flattened artifact carries only what the form prints.
+// ===========================================================================
+const flagBytes = await buildPrintFlagCanary();
+const flagCensus = await censusOf(flagBytes);
+const flagged = await finalizeOfficialForm({
+  sourceBytes: flagBytes, expectedSha256: sha(flagBytes), census: flagCensus, facts: CANONICAL_FACTS
+});
+const flagVisible = visibleTextOfDocument(await PDFDocument.load(flagged.bytes, { ignoreEncryption: true }));
+const flatText = (s) => String(s).replace(/\s+/g, "").toLowerCase();
+const shows = (needle) => flatText(flagVisible).includes(flatText(needle));
+
+// The participant value the form does print must survive. A fix that
+// suppresses too much fails here rather than passing quietly.
+assert(shows(CANONICAL_FACTS["participant.full_legal_name"]),
+  "print flags: a printable participant value remains visible in the finalized artifact");
+assert(shows(PRINT_FLAG_CANARY.officialPrintedText) && shows(PRINT_FLAG_CANARY.officialPrintedLabel),
+  "print flags: legitimate printed official text is untouched");
+
+// And everything the form does not print must be absent.
+assert(!shows(PRINT_FLAG_CANARY.hiddenHelperText),
+  "print flags: a hidden helper's text stays absent from the filed artifact");
+assert(!shows(PRINT_FLAG_CANARY.noViewHelperText),
+  "print flags: a NoView helper's text stays absent from the filed artifact");
+assert(!shows(PRINT_FLAG_CANARY.resetCaption + " "),
+  "print flags: a non-printing Reset caption stays absent");
+assert(!shows(PRINT_FLAG_CANARY.clearFormCaption),
+  "print flags: a non-printing Clear Form caption stays absent");
+assert(!shows(PRINT_FLAG_CANARY.printCaption),
+  "print flags: a non-printing Print Form caption stays absent");
+
+const suppressedFields = new Set((flagged.report.sanitation.nonPrintingWidgetsSuppressed ?? []).map((s) => s.field));
+for (const [field, why] of [
+  [PRINT_FLAG_CANARY.hiddenFieldName, "hidden_flag_set"],
+  [PRINT_FLAG_CANARY.noViewFieldName, "no_view_flag_set"],
+  ["resetButton", "no_flags_entry_so_does_not_print"],
+  ["clearFormButton", "no_flags_entry_so_does_not_print"],
+  ["printButton", "print_flag_not_set"]
+]) {
+  const entry = (flagged.report.sanitation.nonPrintingWidgetsSuppressed ?? []).find((s) => s.field === field);
+  assert(entry?.reason === why, `print flags: '${field}' suppressed for the recorded reason ${why}`);
+}
+assert(!suppressedFields.has(PRINT_FLAG_CANARY.printableFieldName) && !suppressedFields.has("caseNumber"),
+  "print flags: printable participant widgets are not suppressed");
+assert(Array.isArray(flagged.report.sanitation.writtenValuesInNonPrintingWidgets)
+  && flagged.report.sanitation.writtenValuesInNonPrintingWidgets.length === 0,
+  "print flags: no written participant value landed in a widget that does not print");
+
+evidence.canaries["print-flags"] = {
+  ...evidence.canaries["print-flags"],
+  suppressed: flagged.report.sanitation.nonPrintingWidgetsSuppressed,
+  fieldsRemoved: flagged.report.sanitation.nonPrintingFieldsRemoved,
+  writtenValueConflicts: flagged.report.sanitation.writtenValuesInNonPrintingWidgets,
+  outputSha256: flagged.report.outputSha256
+};
+
+// ===========================================================================
+// 4c. Contact sheet — sanitized panels, sanitized sheet, proven clean.
+// ===========================================================================
+const blankScriptedBytes = await buildScriptedBlankCanary();
+const blankScriptedCensus = await censusOf(blankScriptedBytes);
+const blankScriptedFinal = await finalizeOfficialForm({
+  sourceBytes: blankScriptedBytes, expectedSha256: sha(blankScriptedBytes),
+  census: blankScriptedCensus, facts: CANONICAL_FACTS
+});
+const sourceResidue = scanBytesForActiveContent(blankScriptedBytes);
+assert(sourceResidue.hits.includes("additional_actions") && sourceResidue.hits.includes("field_javascript"),
+  "contact sheet: the blank source really does carry /AA and /JS before sanitation");
+
+const scriptedSheet = await buildContactSheet({
+  blankBytes: blankScriptedBytes,
+  finalizedBytes: blankScriptedFinal.bytes,
+  expectedValues: blankScriptedFinal.report.expectedValues,
+  artifactLabel: "scripted-blank contact sheet"
+});
+const sheetScan = scanBytesForActiveContent(scriptedSheet.bytes);
+assert(sheetScan.inspectable, "contact sheet: the emitted sheet is byte-inspectable");
+assert(sheetScan.hits.length === 0,
+  `contact sheet: no active-content residue survives into the sheet (found: ${sheetScan.hits.join(", ") || "none"})`);
+assert(scriptedSheet.proof.activeContentScan?.clean === true,
+  "contact sheet: the proof records a positive clean verdict rather than an empty hit list");
+assert(scriptedSheet.proof.panelsSanitizedBeforeEmbedding === true,
+  "contact sheet: both panels were sanitized before embedding");
+// Checked against the bytes that were embedded. Rebuilding the composed sheet
+// would clean it either way, so without this the panel step could be dropped
+// and every downstream check would still pass.
+assert(scriptedSheet.proof.panelScans?.blank?.clean === true,
+  `contact sheet: the blank panel was clean when embedded (found: ${scriptedSheet.proof.panelScans?.blank?.hits?.join(", ") || "none"})`);
+assert(scriptedSheet.proof.panelScans?.finalized?.clean === true,
+  "contact sheet: the finalized panel was clean when embedded");
+
+evidence.canaries["scripted-blank"] = {
+  ...evidence.canaries["scripted-blank"],
+  sourceResidue: sourceResidue.hits,
+  sheetResidue: sheetScan.hits,
+  sheetInspectable: sheetScan.inspectable,
+  sheetSha256: scriptedSheet.proof.sheetSha256
+};
+
+// ===========================================================================
+// 4d. Inspection fails closed.
+// ===========================================================================
+{
+  // A file saved with object streams is not inspectable, whatever its hit list
+  // says. The only honest verdict is a refusal that names the artifact.
+  const compressedDoc = await PDFDocument.load(blankScriptedBytes, { ignoreEncryption: true });
+  const compressed = await compressedDoc.save({ useObjectStreams: true });
+  const compressedScan = scanBytesForActiveContent(compressed);
+  assert(compressedScan.inspectable === false && compressedScan.verdict === "uninspectable",
+    "fail-closed: a compressed file is reported uninspectable");
+  assert(compressedScan.clean === false,
+    "fail-closed: an uninspectable file is not reported clean even when its hit list is empty");
+
+  const uninspectable = await expectThrows("fail-closed: uninspectable artifact is refused",
+    async () => assertInspectableAndClean(compressed, "canary compressed artifact"),
+    (e) => e instanceof UninspectableArtifactError);
+  assert(uninspectable?.reason === "artifact_not_byte_inspectable",
+    "fail-closed: the refusal carries a typed reason");
+  assert(uninspectable?.artifact === "canary compressed artifact",
+    "fail-closed: the refusal names the artifact requiring alternate inspection");
+  assert(typeof uninspectable?.remediation === "string" && uninspectable.remediation.length > 0,
+    "fail-closed: the refusal says what has to happen next");
+
+  // The other failure mode stays distinguishable from the first.
+  const dirty = await (await PDFDocument.load(blankScriptedBytes, { ignoreEncryption: true }))
+    .save({ useObjectStreams: false });
+  const residueError = await expectThrows("fail-closed: residue-bearing artifact is refused",
+    async () => assertInspectableAndClean(dirty, "canary dirty artifact"),
+    (e) => e instanceof ActiveContentResidueError);
+  assert(Array.isArray(residueError?.hits) && residueError.hits.length > 0,
+    "fail-closed: the residue refusal lists what it found");
+
+  evidence.canaries.failClosed = {
+    compressedVerdict: compressedScan.verdict,
+    compressedReportedClean: compressedScan.clean,
+    uninspectableReason: uninspectable?.reason ?? null,
+    residueHits: residueError?.hits ?? []
+  };
+}
+
+// ===========================================================================
 // 5. Mutation tests — remove each fix, confirm its check goes red.
 // ===========================================================================
 
@@ -466,6 +609,93 @@ await expectThrows("non-filing hold (flat overlay)", () => finalizeFlatOverlay({
   assert(noPin.report.sourceSha256 !== sha(acroBytes),
     "mutation M6: unpinned, a drifted source renders without complaint");
   evidence.mutations.sourceDrift = { detected: true, driftedSha256: noPin.report.sourceSha256.slice(0, 16) };
+}
+
+// M7 — flag-aware flattening removed: pdf-lib's flatten() draws every widget,
+// so the helper text and the control captions become permanent ink.
+{
+  const doc = await PDFDocument.load(flagBytes, { ignoreEncryption: true, updateMetadata: false });
+  const form = doc.getForm();
+  form.getTextField(PRINT_FLAG_CANARY.printableFieldName).setText(CANONICAL_FACTS["participant.full_legal_name"]);
+  form.updateFieldAppearances();
+  form.flatten();
+  const leakedText = visibleTextOfDocument(await PDFDocument.load(await doc.save({ useObjectStreams: false }), { ignoreEncryption: true }));
+  const leaked = (needle) => flatText(leakedText).includes(flatText(needle));
+
+  const leaks = [
+    ["hidden helper", PRINT_FLAG_CANARY.hiddenHelperText],
+    ["NoView helper", PRINT_FLAG_CANARY.noViewHelperText],
+    ["Reset caption", PRINT_FLAG_CANARY.resetCaption],
+    ["Clear Form caption", PRINT_FLAG_CANARY.clearFormCaption],
+    ["Print Form caption", PRINT_FLAG_CANARY.printCaption]
+  ].filter(([, needle]) => leaked(needle));
+
+  assert(leaks.length > 0,
+    `mutation M7: without the flag test, flattening leaks ${leaks.length} non-printing element(s) into the artifact`);
+  assert(leaks.some(([what]) => what === "hidden helper"),
+    "mutation M7: the hidden helper is among what leaks, so the Hidden bit is load-bearing");
+  assert(leaked(CANONICAL_FACTS["participant.full_legal_name"]),
+    "mutation M7: the participant value is present either way, so the difference is only the non-printing ink");
+  evidence.mutations.printFlags = { detected: true, leakedWithoutFlagTest: leaks.map(([what]) => what) };
+}
+
+// M8 — contact-sheet sanitation removed: the old builder embedded the raw
+// blank bytes and saved with pdf-lib's defaults.
+{
+  const sheet = await PDFDocument.create();
+  const font = await sheet.embedFont(StandardFonts.Helvetica);
+  const blankDoc = await PDFDocument.load(blankScriptedBytes, { ignoreEncryption: true });
+  const pageCount = blankDoc.getPageCount();
+  for (let i = 0; i < pageCount; i += 1) {
+    const [bp] = await sheet.embedPdf(blankScriptedBytes, [i]);
+    const [fp] = await sheet.embedPdf(blankScriptedFinal.bytes, [i]);
+    const W = bp.width, H = bp.height, scale = 0.62;
+    const page = sheet.addPage([W * scale * 2 + 24 + 56, H * scale + 90]);
+    page.drawText(`page ${i + 1}`, { x: 28, y: H * scale + 40, size: 9, font });
+    page.drawPage(bp, { x: 28, y: 28, xScale: scale, yScale: scale });
+    page.drawPage(fp, { x: 28 + W * scale + 24, y: 28, xScale: scale, yScale: scale });
+  }
+  const asOldBuilderSaved = await sheet.save();
+  const asOldBuilderScanned = scanBytesForActiveContent(asOldBuilderSaved);
+  const readable = scanBytesForActiveContent(await sheet.save({ useObjectStreams: false }));
+
+  assert(readable.hits.length > 0,
+    `mutation M8: without panel sanitation the sheet carries ${readable.hits.length} kind(s) of active content (${readable.hits.join(", ")})`);
+  assert(asOldBuilderScanned.hits.length === 0 && asOldBuilderScanned.inspectable === false,
+    "mutation M8: saved the old way that same residue is invisible to the scan — an empty hit list on an unreadable file");
+  assert(sheetScan.hits.length === 0 && sheetScan.inspectable,
+    "mutation M8: with sanitation the same inputs produce an inspectable, clean sheet");
+  evidence.mutations.contactSheetSanitation = {
+    detected: true,
+    residueWithoutSanitation: readable.hits,
+    hiddenByObjectStreams: { hits: asOldBuilderScanned.hits, inspectable: asOldBuilderScanned.inspectable }
+  };
+}
+
+// M9 — fail-closed inspection removed: the old caller read `hits` alone, so an
+// uninspectable file passed on the strength of an empty array.
+{
+  const compressed = await (await PDFDocument.load(blankScriptedBytes, { ignoreEncryption: true }))
+    .save({ useObjectStreams: true });
+  const scan = scanBytesForActiveContent(compressed);
+  const oldStyleVerdict = scan.hits.length === 0;          // what the previous callers computed
+  const failClosedVerdict = scan.clean;                     // what they compute now
+
+  assert(oldStyleVerdict === true,
+    "mutation M9: reading the hit list alone declares this artifact clean");
+  assert(failClosedVerdict === false,
+    "mutation M9: the fail-closed verdict refuses the same artifact");
+  // And the file really is dirty, so the old verdict was wrong rather than merely unlucky.
+  const truth = scanBytesForActiveContent(await (await PDFDocument.load(blankScriptedBytes, { ignoreEncryption: true }))
+    .save({ useObjectStreams: false }));
+  assert(truth.hits.length > 0,
+    `mutation M9: the artifact the old verdict passed actually carries ${truth.hits.join(", ")}`);
+  evidence.mutations.failClosedInspection = {
+    detected: true,
+    verdictFromHitListAlone: oldStyleVerdict ? "clean" : "residue_found",
+    verdictFailClosed: scan.verdict,
+    actualResidueWhenReadable: truth.hits
+  };
 }
 
 // ===========================================================================
