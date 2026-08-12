@@ -9,7 +9,7 @@ SHA-256 `a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c` — m
 
 A petitioner's own Trial Court petition, sworn under the pains and penalties of perjury. Its 29 AcroForm fields are XFA-generated and carry no meaningful names — every one is form1[0].#subform[0].TextField1[n] or CheckBoxN[n] — so not one of them matches an allowlisted fact descriptor and D0's binder refuses the entire form on its own terms.
 
-Ownership: `participant_completed`. Render strategy: `acroform_fill`. Observed structure: acroform, 2 page(s), 29 AcroForm field(s).
+Ownership: `participant_completed`. Render strategy: `acroform_fill`. Observed structure: acroform, 2 page(s), 29 AcroForm field(s), XFA present.
 
 ## Census and binding
 

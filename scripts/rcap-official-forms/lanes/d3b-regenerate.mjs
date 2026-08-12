@@ -1284,6 +1284,11 @@ function loadFamilySource(stateCode, row) {
 async function inspectBinary(bytes) {
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
   const acro = doc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
+  // Read the XFA entry before anything touches the form. pdf-lib deletes the
+  // XFA packet the first time getForm() is called -- it says so on stderr --
+  // so a check made after that call reports every XFA form as XFA-free, which
+  // is exactly backwards for the one hold it matters to.
+  const xfaPresent = Boolean(acro && acro.get(PDFName.of("XFA")) !== undefined);
   const fieldCount = (() => { try { return doc.getForm().getFields().length; } catch { return 0; } })();
   return {
     doc,
@@ -1295,7 +1300,7 @@ async function inspectBinary(bytes) {
       orientation: p.getWidth() > p.getHeight() ? "landscape" : "portrait"
     })),
     acroFormDictPresent: Boolean(acro),
-    xfaPresent: Boolean(acro && acro.get(PDFName.of("XFA")) !== undefined),
+    xfaPresent,
     acroFieldCount: fieldCount,
     structuralClassObserved: fieldCount > 0 ? "acroform" : (acro ? "acroform_dict_without_fields" : "flat"),
     activeContentInSource: scanBytesForActiveContent(bytes)
