@@ -1,0 +1,15 @@
+# Handoff — KS ksjc-order-expungement-arrest-cover-sheet-122016
+
+- Form: Kansas Judicial Council, Order of Expungement of Arrest Record Cover Sheet, KSJC 12/2016
+- Component role: supporting (KBI reporting cover sheet, arrest-record track)
+- Tracks served: ks-22-2410-arrest
+- Source binary: ABSENT from committed inventory (sha256: sha256_unrecorded_in_repo (source binary absent from committed inventory))
+- Status: FAIL CLOSED (fail_closed_absent_source).
+- Reason: Referenced by the registry crosswalk (KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016) but absent from all committed evidence.
+
+## What F must visually approve
+- Nothing yet — no field package exists to review for this family.
+
+## Blocked and exact unblock
+- Final render + contact sheet are blocked in this clone: private/Nationwide Record Clearing/ holds 0 tracked files.
+- Exact unblock: The operator must add the official source binary for "Kansas Judicial Council, Order of Expungement of Arrest Record Cover Sheet, KSJC 12/2016" under private/Nationwide Record Clearing/ (jurisdiction folder), record its sha256 in committed evidence, and re-run the overlay factory so a manifest record, field-map draft, and shadow sample exist — then this family can be built.
