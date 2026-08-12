@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-guidance-packets/v1",
+  "owner": "Terminal B — guidance, exclusions and exact deferrals",
+  "purpose": "Participant-facing treatment for every nonterminal RCAP track assigned to lane B. One file per jurisdiction, one entry per track. Data only: the Briefcase renders it, and Terminal A lands the compiled-pathway routing that selects it.",
+  "renderedBy": {
+    "surface": "src/app/briefcase/[packetId]/page.tsx",
+    "note": "The guidance-only branch renders nextSteps as an accessible ordered list and suppresses the filing stepper, the pay control and packet generation. This data supplies that list; it does not introduce a rendering path.",
+    "guidanceOnlyWhen": "item.status === 'guidance_saved' || item.resultCode === 'guidance_only' || item.packetType === 'guidance_packet'"
+  },
+  "languageRule": {
+    "keys": ["en", "es"],
+    "requirement": "Every participant-facing string carries both. es must be a real translation, never a copy of en.",
+    "why": "resolveRuntimeText (src/lib/expungement-ai/localization.ts) translates a runtime string only when its exact English is in the dictionary; otherwise Spanish degrades to pattern matching. Committing es here makes the Spanish authoritative without editing frozen runtime."
+  },
+  "prohibitedParticipantPhrases": [
+    "registry gap",
+    "source blocker",
+    "crosswalk",
+    "legal review pending",
+    "unsupported runtime",
+    "implementation family",
+    "terminal disposition",
+    "coming soon",
+    "research required"
+  ],
+  "inventionRule": "Eligibility, fees, dates, filing addresses, venues, prosecutor consent, waiting periods, hearing rules, signatures, court actions and record availability may be stated only when carried by the committed legal design, an official source receipt, an adopted decision, or current profile metadata. When a required fact is unavailable, the entry keeps its assigned fallback treatment, states the precise participant-facing limitation, and still gives an exact destination and next step.",
+  "entrySchema": {
+    "trackId": "string — registry track id from the lane-B job",
+    "jobId": "string — the lane-B job that terminalizes this track",
+    "treatment": "complete_guidance | deliberate_scope_exclusion | exact_supported_deferral",
+    "routeLabel": { "en": "string", "es": "string" },
+    "mechanism": { "en": "string", "es": "string", "_element": "1 — what the legal mechanism or process does" },
+    "participantFiles": {
+      "filesSomething": "boolean",
+      "en": "string",
+      "es": "string",
+      "_element": "2 — whether the participant files anything"
+    },
+    "controllingActor": { "en": "string", "es": "string", "_element": "3 — who performs the controlling action" },
+    "gather": {
+      "en": ["string"],
+      "es": ["string"],
+      "_element": "4 — facts, records, documents or events to gather or monitor"
+    },
+    "nextStep": { "en": "string", "es": "string", "_element": "5 — the exact next step" },
+    "destination": {
+      "name": "string — exact court, agency, prosecutor, clerk, program or resource",
+      "kind": "court | agency | prosecutor | clerk | program | resource",
+      "url": "string | null — only when committed in source",
+      "en": "string",
+      "es": "string",
+      "_element": "6 — the exact destination supported by the committed design"
+    },
+    "timing": {
+      "en": "string",
+      "es": "string",
+      "_element": "7 — deadline or timing rule; null when no timing rule is carried by committed evidence"
+    },
+    "stopReason": { "en": "string", "es": "string", "_element": "8 — the exact reason for the stop, exclusion or deferral" },
+    "afterNextStep": { "en": "string", "es": "string", "_element": "9 — what happens after the participant acts" },
+    "briefcaseSaved": {
+      "en": ["string"],
+      "es": ["string"],
+      "_element": "10 — what is saved in the Briefcase"
+    },
+    "handoff": {
+      "en": "string",
+      "es": "string",
+      "_element": "11 — escalation or handoff summary; null when the treatment needs none"
+    },
+    "nextSteps": {
+      "en": ["string"],
+      "es": ["string"],
+      "_note": "The ordered list the Briefcase renders. Each entry is one participant action in plain language. Must be consistent with nextStep, destination and timing above."
+    },
+    "authority": [
+      {
+        "citation": "string — operative authority as committed",
+        "sourceRef": "string — where the committed design carries it"
+      }
+    ],
+    "paymentAllowed": "false — a guidance, exclusion or deferral route never opens payment",
+    "sellable": "false — never becomes a sellable route"
+  },
+  "fileShape": {
+    "path": "data/rcap-all50/guidance-packets/<jurisdiction-code-lowercase>.json",
+    "top": {
+      "schemaVersion": "rcap-guidance-packets/v1",
+      "jurisdiction": "two-letter code",
+      "jurisdictionName": "string",
+      "sourceDependency": "string — copied from the lane-B job",
+      "packets": "array of entrySchema"
+    }
+  }
+}
