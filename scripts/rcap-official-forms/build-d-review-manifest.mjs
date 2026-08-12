@@ -161,7 +161,12 @@ export function buildManifest() {
           childBranch: laneDef.branch,
           commit,
           sourceSha256: record?.sha256 ?? null,
-          sourceCanonicalPath: record?.canonicalBundlePath ?? null,
+          // Lanes name the source pointer differently -- canonicalBundlePath
+          // in most, canonicalRelativePath in D1C. Reading one key left 24
+          // families with a null source path in a manifest whose whole job is
+          // to point a reviewer at the source.
+          sourceCanonicalPath: record?.canonicalBundlePath ?? record?.canonicalRelativePath
+            ?? record?.canonicalPath ?? record?.sourcePath ?? null,
           documentId: record?.documentId ?? null,
           revision: record?.revision ?? null,
           structuralClass: record?.structuralClassObserved ?? null,
