@@ -156,6 +156,13 @@
       "factId": null
     },
     {
+      "field": "NameAtty",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "The attorney block. Independent review found the petitioner's own identity written into it: an attorney of record is a different party, and this fact set holds no attorney. D0's attorney protect rule keys on 'attorney' and does not match the 'Atty' abbreviation these six fields use, so the withholding is recorded here rather than left to a rule that cannot see it."
+    },
+    {
       "field": "StAddrAtty",
       "reason": "no_allowlisted_fact_matches",
       "category": null,
@@ -166,6 +173,27 @@
       "reason": "no_allowlisted_fact_matches",
       "category": null,
       "factId": null
+    },
+    {
+      "field": "CityAtty",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.city",
+      "note": "Attorney city; same block, same reasoning."
+    },
+    {
+      "field": "StateAtty",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.state",
+      "note": "Attorney state; same block, same reasoning."
+    },
+    {
+      "field": "ZipCodeAtty",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.zip",
+      "note": "Attorney ZIP; same block, same reasoning."
     },
     {
       "field": "NameAgency1",
@@ -713,6 +741,20 @@
       "reason": "non_text_field_type",
       "category": "type_guard",
       "factId": null
+    },
+    {
+      "field": "PetitionerIsEligibleBecauseText1",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "A rule under the court's own findings of fact. Writing the petitioner's name here makes the order recite a finding the court has not made."
+    },
+    {
+      "field": "PetitionerIsEligibleBecauseText2",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "Second rule of the same findings-of-fact item; same reasoning."
     },
     {
       "field": "PetitionGrantedCbx",

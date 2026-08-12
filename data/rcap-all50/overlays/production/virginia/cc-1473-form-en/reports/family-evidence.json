@@ -34,8 +34,8 @@
   },
   "determinism": {
     "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
-    "firstSha256": "8dbab0a9844aae2de33fff262ea6b19e59ef79d4d578b22b9bf50bda17151882",
-    "secondSha256": "8dbab0a9844aae2de33fff262ea6b19e59ef79d4d578b22b9bf50bda17151882",
+    "firstSha256": "d68a6118ec341e43f417e12c707ff9ec728441c1e133c177c5d76dfd739e77c6",
+    "secondSha256": "d68a6118ec341e43f417e12c707ff9ec728441c1e133c177c5d76dfd739e77c6",
     "identical": true
   },
   "sourceDrift": {
@@ -90,7 +90,23 @@
     "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
     "bindingsOnNeverWriteClasses": [],
     "withheldOnDisagreement": [],
-    "withheldByLaneReview": [],
+    "withheldByLaneReview": [
+      {
+        "field": "User.AddressOf",
+        "factIdTheBinderOffered": "participant.street_address",
+        "reason": "The form makes this block belong to whichever party the election boxes mark, and no election is made in this render. Filling it asserts the petitioner is proceeding without counsel, which is a legal election and not a fact this set holds."
+      },
+      {
+        "field": "User.PetetionerPhoneNumber",
+        "factIdTheBinderOffered": "participant.phone",
+        "reason": "Same elected block; same reasoning."
+      },
+      {
+        "field": "User.PetetionerEmail",
+        "factIdTheBinderOffered": "participant.email",
+        "reason": "Same elected block; same reasoning."
+      }
+    ],
     "overridesApplied": [
       {
         "field": "User.PrintName",

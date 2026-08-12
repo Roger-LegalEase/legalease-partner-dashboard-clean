@@ -38,8 +38,8 @@
   },
   "determinism": {
     "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
-    "firstSha256": "5f5b120305a1d2587b74185fa847c1a2491b2a4bba8ac1ce6ec47a887a903cec",
-    "secondSha256": "5f5b120305a1d2587b74185fa847c1a2491b2a4bba8ac1ce6ec47a887a903cec",
+    "firstSha256": "15d0592500eb092b5455ca19000be7b43cfeea22fa3386e7c92f029b9a68d441",
+    "secondSha256": "15d0592500eb092b5455ca19000be7b43cfeea22fa3386e7c92f029b9a68d441",
     "identical": true
   },
   "sourceDrift": {
@@ -131,6 +131,11 @@
     "bindingsOnNeverWriteClasses": [],
     "withheldOnDisagreement": [],
     "withheldByLaneReview": [
+      {
+        "field": "User.CourtName",
+        "factIdTheBinderOffered": "matter.court",
+        "reason": "A positional caption rule whose printed label beneath it reads CITY OR COUNTY, not court name. Bound to matter.court it printed 'District Court' into the locality box. The locality fact that belongs here is not one this binder can pick without a measured printed label, so the field is left blank."
+      },
       {
         "field": "User.FullNameOfArrest",
         "factIdTheBinderOffered": "participant.full_legal_name",

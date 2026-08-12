@@ -43,8 +43,8 @@
   },
   "determinism": {
     "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
-    "firstSha256": "833efe5998a81595b9e472b9347b69a8d2b7ed5b717175eb1d71824bdc84100f",
-    "secondSha256": "833efe5998a81595b9e472b9347b69a8d2b7ed5b717175eb1d71824bdc84100f",
+    "firstSha256": "ba1d0e4f1e59709f95ccd09eebdf20bb64d14cf4604a8d8d7c3dc6f2708580ec",
+    "secondSha256": "ba1d0e4f1e59709f95ccd09eebdf20bb64d14cf4604a8d8d7c3dc6f2708580ec",
     "identical": true
   },
   "sourceDrift": {
@@ -94,45 +94,46 @@
       "passed": true
     }
   ],
-  "ambiguousRoleBindings": [
-    {
-      "field": "NameAtty",
-      "factId": "participant.full_legal_name",
-      "class": "participant",
-      "reading": "Read as the petitioner's own line on a self-represented filing; the value written is a participant fact, never counsel's identity.",
-      "confirmWith": "counsel review"
-    },
-    {
-      "field": "CityAtty",
-      "factId": "participant.city",
-      "class": "participant",
-      "reading": "Read as the petitioner's own line on a self-represented filing; the value written is a participant fact, never counsel's identity.",
-      "confirmWith": "counsel review"
-    },
-    {
-      "field": "StateAtty",
-      "factId": "participant.state",
-      "class": "participant",
-      "reading": "Read as the petitioner's own line on a self-represented filing; the value written is a participant fact, never counsel's identity.",
-      "confirmWith": "counsel review"
-    },
-    {
-      "field": "ZipCodeAtty",
-      "factId": "participant.zip",
-      "class": "participant",
-      "reading": "Read as the petitioner's own line on a self-represented filing; the value written is a participant fact, never counsel's identity.",
-      "confirmWith": "counsel review"
-    }
-  ],
+  "ambiguousRoleBindings": [],
   "classifierAgreement": {
     "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
     "bindingsOnNeverWriteClasses": [],
     "withheldOnDisagreement": [],
     "withheldByLaneReview": [
       {
+        "field": "NameAtty",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "The attorney block. Independent review found the petitioner's own identity written into it: an attorney of record is a different party, and this fact set holds no attorney. D0's attorney protect rule keys on 'attorney' and does not match the 'Atty' abbreviation these six fields use, so the withholding is recorded here rather than left to a rule that cannot see it."
+      },
+      {
+        "field": "CityAtty",
+        "factIdTheBinderOffered": "participant.city",
+        "reason": "Attorney city; same block, same reasoning."
+      },
+      {
+        "field": "StateAtty",
+        "factIdTheBinderOffered": "participant.state",
+        "reason": "Attorney state; same block, same reasoning."
+      },
+      {
+        "field": "ZipCodeAtty",
+        "factIdTheBinderOffered": "participant.zip",
+        "reason": "Attorney ZIP; same block, same reasoning."
+      },
+      {
         "field": "PetitionNotFiledSignName",
         "factIdTheBinderOffered": "participant.full_legal_name",
         "reason": "A name written on a signature line. It escapes both signature guards because 'sign' sits mid-name, so it is withheld here instead."
+      },
+      {
+        "field": "PetitionerIsEligibleBecauseText1",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "A rule under the court's own findings of fact. Writing the petitioner's name here makes the order recite a finding the court has not made."
+      },
+      {
+        "field": "PetitionerIsEligibleBecauseText2",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "Second rule of the same findings-of-fact item; same reasoning."
       }
     ],
     "overridesApplied": []

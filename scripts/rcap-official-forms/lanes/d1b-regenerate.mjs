@@ -427,6 +427,11 @@ const MAPPING_FILE = {
       }
     },
     "VA/cc-1203-form-en": {
+      "User.CourtName": {
+        "decision": "withhold",
+        "printedLabel": "CITY OR COUNTY",
+        "reason": "A positional caption rule whose printed label beneath it reads CITY OR COUNTY, not court name. Bound to matter.court it printed 'District Court' into the locality box. The locality fact that belongs here is not one this binder can pick without a measured printed label, so the field is left blank."
+      },
       "User.FullName": {
         "decision": "bind",
         "printedLabel": "My full name is:",
@@ -434,11 +439,30 @@ const MAPPING_FILE = {
       }
     },
     "VA/cc-1473-form-en": {
+      "User.AddressOf": {
+        "decision": "withhold",
+        "printedLabel": "ADDRESS OF [ ] PETITIONER [ ] ATTORNEY",
+        "reason": "The form makes this block belong to whichever party the election boxes mark, and no election is made in this render. Filling it asserts the petitioner is proceeding without counsel, which is a legal election and not a fact this set holds."
+      },
+      "User.PetetionerPhoneNumber": { "decision": "withhold", "reason": "Same elected block; same reasoning." },
+      "User.PetetionerEmail": { "decision": "withhold", "reason": "Same elected block; same reasoning." },
       "User.PrintName": {
         "decision": "bind",
         "printedLabel": "PRINT NAME",
         "reason": "The printed-name line under the petitioner's signature. The classifier matches 'printed name' and not 'print name'."
       }
+    },
+    "NC/aoc-cr-288-form-en": {
+      "NameAtty": { "decision": "withhold", "printedLabel": "Name And Address Of Petitioner's Attorney For Expunction Petition",
+        "reason": "The attorney block. Independent review found the petitioner's own identity written into it: an attorney of record is a different party, and this fact set holds no attorney. D0's attorney protect rule keys on 'attorney' and does not match the 'Atty' abbreviation these six fields use, so the withholding is recorded here rather than left to a rule that cannot see it." },
+      "StAddrAtty": { "decision": "withhold", "reason": "Attorney street address; same block, same reasoning." },
+      "MailAddrAtty": { "decision": "withhold", "reason": "Attorney mailing address; same block, same reasoning." },
+      "CityAtty": { "decision": "withhold", "reason": "Attorney city; same block, same reasoning." },
+      "StateAtty": { "decision": "withhold", "reason": "Attorney state; same block, same reasoning." },
+      "ZipCodeAtty": { "decision": "withhold", "reason": "Attorney ZIP; same block, same reasoning." },
+      "PetitionerIsEligibleBecauseText1": { "decision": "withhold", "printedLabel": "FINDINGS OF FACT item 5",
+        "reason": "A rule under the court's own findings of fact. Writing the petitioner's name here makes the order recite a finding the court has not made." },
+      "PetitionerIsEligibleBecauseText2": { "decision": "withhold", "reason": "Second rule of the same findings-of-fact item; same reasoning." }
     },
     "*": {
       "User.FullNameOfArrest": {

@@ -55,11 +55,6 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "User.CourtName",
-      "class": "participant",
-      "factId": "matter.court"
-    },
-    {
       "field": "User.FullName",
       "class": "manual",
       "factId": "participant.full_legal_name"
@@ -136,6 +131,13 @@
       "reason": "non_text_field_type",
       "category": "type_guard",
       "factId": null
+    },
+    {
+      "field": "User.CourtName",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "matter.court",
+      "note": "A positional caption rule whose printed label beneath it reads CITY OR COUNTY, not court name. Bound to matter.court it printed 'District Court' into the locality box. The locality fact that belongs here is not one this binder can pick without a measured printed label, so the field is left blank."
     },
     {
       "field": "User.Sex",
