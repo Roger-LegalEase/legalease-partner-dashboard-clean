@@ -1,0 +1,4168 @@
+{
+  "schema": "rcap-d-captain-handoff/v1",
+  "posture": "Additive. No canonical ledger regenerated, no track marked terminal, nothing merged into canonical integration. Every disposition is read from an independent review branch; none is authored here.",
+  "d0v2": {
+    "branch": "claude/rcap-d0-form-factory-remediation-v2",
+    "commit": "b412f543"
+  },
+  "correctionBranches": {
+    "D1A": {
+      "branch": "claude/rcap-d1a-corrections-v2",
+      "commit": "ffb64950c2d5d7755efd9bd496441d4d1029d65b",
+      "fromLaneHead": "70a30807abf44a94c54d1953e1a112900678c1f4"
+    },
+    "D1B": {
+      "branch": "claude/rcap-d1b-corrections-v2",
+      "commit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "fromLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186"
+    },
+    "D1C": {
+      "branch": "claude/rcap-d1c-corrections-v2",
+      "commit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+      "fromLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb"
+    },
+    "D2A": {
+      "branch": "claude/rcap-d2a-corrections-v2",
+      "commit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "fromLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f"
+    },
+    "D2B": {
+      "branch": "claude/rcap-d2b-corrections-v2",
+      "commit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "fromLaneHead": "1f2632bb66a9d83d90381318f2a35d8b02005312"
+    },
+    "D3A": {
+      "branch": "claude/rcap-d3a-corrections-v2",
+      "commit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+      "fromLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01"
+    },
+    "D3B": {
+      "branch": "claude/rcap-d3b-corrections-v2",
+      "commit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "fromLaneHead": "2cf9a5a60c9bc32c879ac800857a98e63ec59daa"
+    }
+  },
+  "approvalEvidenceBranches": {
+    "D1A": {
+      "branch": "claude/rcap-d1a-approval-evidence-v2",
+      "commit": "86eac0c691b3395eec85a93487b9e967935f5ca6"
+    },
+    "D1B": {
+      "branch": "claude/rcap-d1b-approval-evidence-v2",
+      "commit": "b8e6db51aa495d3b9cca46bd7902b1b3a892d45d"
+    },
+    "D1C": {
+      "branch": "claude/rcap-d1c-approval-evidence-v2",
+      "commit": "d5680983ea15dfd6082e25098c367f851742279b"
+    },
+    "D2A": {
+      "branch": "claude/rcap-d2a-approval-evidence-v2",
+      "commit": "9b5228797e8c5e982783828c3435f47eaec5a5a7"
+    },
+    "D2B": {
+      "branch": "claude/rcap-d2b-approval-evidence-v2",
+      "commit": "52b11ad76427a01559854942e6a3b0d7687fd2be"
+    },
+    "D3A": {
+      "branch": "claude/rcap-d3a-approval-evidence-v2",
+      "commit": "9883ea36c221c19f8b74dc2cfcc61ce12dad25a1"
+    },
+    "D3B": {
+      "branch": "claude/rcap-d3b-approval-evidence-v2",
+      "commit": "ae6dcb5611c6fb2c1d0c71f899beb7f4a2cff682"
+    }
+  },
+  "independentReviews": {
+    "corrections": {
+      "shard-0": {
+        "branch": "claude/rcap-review-d-corrections-v2-shard-0",
+        "head": "176d201739d36972da012db992b41431f2dc64fe",
+        "families": 34
+      },
+      "shard-1": {
+        "branch": "claude/rcap-review-d-corrections-v2-shard-1",
+        "head": "4fcc56dc2cd507ae1a03faf92e701eb195efd77b",
+        "families": 19
+      },
+      "shard-2": {
+        "branch": "claude/rcap-review-d-corrections-v2-shard-2",
+        "head": "1c09a7f0b6f33ca9ea8b0b62716977523fc01a3b",
+        "families": 8
+      }
+    },
+    "approvalEvidence": {
+      "branch": "claude/rcap-review-d-approval-evidence-v2",
+      "head": "992cc771b45d88653eac7522c69325fc92c35a37",
+      "families": 104,
+      "totals": {
+        "inspected": 104,
+        "participantHashesConfirmedUnchanged": 85,
+        "participantHashesThatChanged": 0,
+        "contactSheetsConfirmedRebuilt": 85,
+        "contactSheetsByteInspectable": 85,
+        "contactSheetsWithNoActiveContent": 85,
+        "contactSheetsWithNoOrphanWidgets": 85,
+        "filedArtifactsFailingThePrintFlagCheck": 4,
+        "familiesWithAStaleRenderedArtifactsManifest": 84
+      }
+    }
+  },
+  "gate1": {
+    "counts": {
+      "technical_approved": 45,
+      "correction_required": 12,
+      "held_on_source_or_design": 4
+    },
+    "families": [
+      {
+        "familyId": "AZ:aoccrsl1f-050825-form-en",
+        "state": "AZ",
+        "lane": "D2A",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact"
+        ],
+        "correctionType": [
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d2a-corrections-v2",
+        "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "AZ:aoccrsl2f-050825-form-en",
+        "state": "AZ",
+        "lane": "D2A",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact"
+        ],
+        "correctionType": [
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d2a-corrections-v2",
+        "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "CO:jdf-2371-form-motion-en",
+        "state": "CO",
+        "lane": "D3A",
+        "originalFinding": [
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "CO:jdf-641-form-motion-en",
+        "state": "CO",
+        "lane": "D3A",
+        "originalFinding": [
+          "CO-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "FL:fl-4th-judicial-circuit-duval-county-en",
+        "state": "FL",
+        "lane": "D2B",
+        "originalFinding": [
+          "FL-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d2b-corrections-v2",
+        "correctedCommit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "IA:rule-2-86-form-4-application-to-expunge-underage-alcohol-records",
+        "state": "IA",
+        "lane": "D3B",
+        "originalFinding": [
+          "IA-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3b-corrections-v2",
+        "correctedCommit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "IL:exp-ad-request-form-en",
+        "state": "IL",
+        "lane": "D2A",
+        "originalFinding": [
+          "IL-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d2a-corrections-v2",
+        "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "IL:fw-civ-application-form-en",
+        "state": "IL",
+        "lane": "D2A",
+        "originalFinding": [
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d2a-corrections-v2",
+        "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "KY:aoc-334-form-en",
+        "state": "KY",
+        "lane": "D1B",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "KY:aoc-496-2-form-en",
+        "state": "KY",
+        "lane": "D1B",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "KY:aoc-496-3-form-en",
+        "state": "KY",
+        "lane": "D1B",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "KY:aoc-496-4-form-en",
+        "state": "KY",
+        "lane": "D1B",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "KY:aoc-496-form-en",
+        "state": "KY",
+        "lane": "D1B",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "KY:aoc-497-3-source-gated-en",
+        "state": "KY",
+        "lane": "D1B",
+        "originalFinding": [
+          "KY:aoc-497-3-source-gated-en#0"
+        ],
+        "correctionType": [
+          "withheld_field_written_by_lane"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 2,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "KY:aoc-497-form-en",
+        "state": "KY",
+        "lane": "D1B",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "MO:cr145-form-petition-en",
+        "state": "MO",
+        "lane": "D3A",
+        "originalFinding": [
+          "MO:cr145-form-petition-en#0"
+        ],
+        "correctionType": [
+          "rich_text_field_finalize_crash"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 2,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "Unchanged in substance from the correction index: sanitizeAndFlatten must finalize a document containing rich-text-flagged AcroForm fields without throwing -- by clearing the RichText flag on fields it does not write, or by updating appearances per field and skipping rich-text-flagged fields with a recorded refusal. Detect on the /Ff RichText bit, not on /RV. Acceptance: the D3A lane emits canonical, boundary and negative fixtures for MO CR-145; each is byte-inspectable with zero active-content residue; 'Other Defendants' and 'Address at Time of Arrest' are blank in all three; and the hold d0_factory_cannot_finalize_rich_text_acroform is removed from productionHolds. This requires the scope decision the cycle deferred; it is not a defect in lane D3A's work."
+      },
+      {
+        "familyId": "MO:cr300-source-gated-petition-en",
+        "state": "MO",
+        "lane": "D3A",
+        "originalFinding": [
+          "MOcr300-arrest-locality-asserted",
+          "MO-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "semantic_binding_error"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 1,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "Unchanged from the prior review: a field naming the locality of the arrest, offence or conviction binds only from a fact describing that event, or is refused; 'County Where Arrest Occurred' is blank in both fixtures until such a fact exists."
+      },
+      {
+        "familyId": "NC:aoc-cr-287-form-en",
+        "state": "NC",
+        "lane": "D1B",
+        "originalFinding": [
+          "NC:aoc-cr-287-form-en#0",
+          "NC:aoc-cr-287-form-en#1",
+          "NC:aoc-cr-287-form-en#2",
+          "NC:aoc-cr-287-form-en#3"
+        ],
+        "correctionType": [
+          "withheld_field_written_by_lane"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 2,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NC:aoc-cr-288-form-en",
+        "state": "NC",
+        "lane": "D1B",
+        "originalFinding": [
+          "NC288-attorney-block",
+          "NC288-findings-of-fact",
+          "NC-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "semantic_binding_error"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 1,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "Unchanged from the prior review: NameAtty, StAddrAtty, MailAddrAtty, CityAtty, StateAtty and ZipCodeAtty are refused with category 'attorney' and blank in both fixtures, and the D0 attorney protect rule matches the 'Atty'/'Attys' abbreviation."
+      },
+      {
+        "familyId": "NC:aoc-cr-296-form-en",
+        "state": "NC",
+        "lane": "D1B",
+        "originalFinding": [
+          "NC-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NC:aoc-cr-297-form-en",
+        "state": "NC",
+        "lane": "D1B",
+        "originalFinding": [
+          "NC:aoc-cr-297-form-en#0"
+        ],
+        "correctionType": [
+          "withheld_field_written_by_lane"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 2,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NC:aoc-cr-298-form-en",
+        "state": "NC",
+        "lane": "D1B",
+        "originalFinding": [
+          "NC-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NC:aoc-cv-226-support-en",
+        "state": "NC",
+        "lane": "D1B",
+        "originalFinding": [
+          "NC:aoc-cv-226-support-en#0",
+          "NC:aoc-cv-226-support-en#1"
+        ],
+        "correctionType": [
+          "withheld_field_written_by_lane"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 2,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "ND:nd-north-dakota-pardon-advisory-board-applica-support-instructions-en",
+        "state": "ND",
+        "lane": "D3A",
+        "originalFinding": [
+          "ND-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:cc-6-11-2-form-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet",
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "orchestrator_manifest_source_pointer",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:cc-6-11-form-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet",
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "orchestrator_manifest_source_pointer",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:cc-6-11a-instructions-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "orchestrator_manifest_source_pointer"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:cc-6-12-form-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "NEcc612-caption-overlap",
+          "NE-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "caption_overlap",
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:cc-6-12-instructions-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "orchestrator_manifest_source_pointer"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:cc-6-15-1-form-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "NEcc6151-caption-overlap",
+          "NE-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "caption_overlap",
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:dc-1-15-form-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "orchestrator_manifest_source_pointer"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:dc-6-7-2-form-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet",
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "orchestrator_manifest_source_pointer",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NE:dc-6-7-2a-instructions-en",
+        "state": "NE",
+        "lane": "D1C",
+        "originalFinding": [
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "orchestrator_manifest_source_pointer"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NH:nhjb-2311-support-fee-waiver-en",
+        "state": "NH",
+        "lane": "D3A",
+        "originalFinding": [
+          "NH2311-buttons-flattened",
+          "NH-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NH:nhjb-2317-form-petition-en",
+        "state": "NH",
+        "lane": "D3A",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet",
+          "boundary_refusal_absent_from_overflow_ledger"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "overflow_ledger_missing_refusal",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 0,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      {
+        "familyId": "NH:nhjb-3056-form-petition-en",
+        "state": "NH",
+        "lane": "D3A",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet",
+          "boundary_refusal_absent_from_overflow_ledger"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "overflow_ledger_missing_refusal",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 0,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      {
+        "familyId": "NH:nhjb-3057-form-petition-en",
+        "state": "NH",
+        "lane": "D3A",
+        "originalFinding": [
+          "NH3057-buttons-flattened",
+          "NH-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NH:nhjb-3124-form-petition-en",
+        "state": "NH",
+        "lane": "D3A",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet",
+          "boundary_refusal_absent_from_overflow_ledger"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "overflow_ledger_missing_refusal",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 0,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      {
+        "familyId": "NJ:cn-10557-en",
+        "state": "NJ",
+        "lane": "D2B",
+        "originalFinding": [
+          "NJ-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d2b-corrections-v2",
+        "correctedCommit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "NM:nm-san-juan-nonconviction-packet-en",
+        "state": "NM",
+        "lane": "D2B",
+        "originalFinding": [
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d2b-corrections-v2",
+        "correctedCommit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0725-form-petition-en",
+        "state": "TX",
+        "lane": "D3A",
+        "originalFinding": [
+          "TX-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0726-form-petition-en",
+        "state": "TX",
+        "lane": "D3A",
+        "originalFinding": [
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0727-form-petition-en",
+        "state": "TX",
+        "lane": "D3A",
+        "originalFinding": [
+          "TX-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0728-form-petition-en",
+        "state": "TX",
+        "lane": "D3A",
+        "originalFinding": [
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0729-form-petition-en",
+        "state": "TX",
+        "lane": "D3A",
+        "originalFinding": [
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-073-411-0732-form-petition-en",
+        "state": "TX",
+        "lane": "D3A",
+        "originalFinding": [
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d3a-corrections-v2",
+        "correctedCommit": "7dd288cfc15287541ac9d85229026383e6dfbebd",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "VA:cc-1201-a-form-en",
+        "state": "VA",
+        "lane": "D1B",
+        "originalFinding": [
+          "VA:cc-1201-a-form-en#0",
+          "VA:cc-1201-a-form-en#1",
+          "VA:cc-1201-a-form-en#2",
+          "VA:cc-1201-a-form-en#3",
+          "VA:cc-1201-a-form-en#4",
+          "VA:cc-1201-a-form-en#5",
+          "VA:cc-1201-a-form-en#6",
+          "VA:cc-1201-a-form-en#7",
+          "VA:cc-1201-a-form-en#8",
+          "VA:cc-1201-a-form-en#9"
+        ],
+        "correctionType": [
+          "withheld_field_written_by_lane"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 2,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "VA:cc-1201-form-en",
+        "state": "VA",
+        "lane": "D1B",
+        "originalFinding": [
+          "non_printing_widget_ink_flattened_into_filed_artifact",
+          "active_content_residue_in_contact_sheet"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "print_flag_ink_leak"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 0,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "VA:cc-1203-a-form-en",
+        "state": "VA",
+        "lane": "D1B",
+        "originalFinding": [
+          "VA:cc-1203-a-form-en#0",
+          "VA:cc-1203-a-form-en#1",
+          "VA:cc-1203-a-form-en#2",
+          "VA:cc-1203-a-form-en#3",
+          "VA:cc-1203-a-form-en#4",
+          "VA:cc-1203-a-form-en#5",
+          "VA:cc-1203-a-form-en#6",
+          "VA:cc-1203-a-form-en#7",
+          "VA:cc-1203-a-form-en#8",
+          "VA:cc-1203-a-form-en#9"
+        ],
+        "correctionType": [
+          "withheld_field_written_by_lane"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 2,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "VA:cc-1203-b-form-en",
+        "state": "VA",
+        "lane": "D1B",
+        "originalFinding": [
+          "VA:cc-1203-b-form-en#0",
+          "VA:cc-1203-b-form-en#1",
+          "VA:cc-1203-b-form-en#2",
+          "VA:cc-1203-b-form-en#3"
+        ],
+        "correctionType": [
+          "withheld_field_written_by_lane"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 2,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      },
+      {
+        "familyId": "VA:cc-1203-form-en",
+        "state": "VA",
+        "lane": "D1B",
+        "originalFinding": [
+          "VA1203-caption-wrong-fact",
+          "VA-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "semantic_binding_error"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 1,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "Unchanged from the prior review: User.CourtName is either bound to matter.county/participant.city to match its printed 'CITY OR COUNTY' label, or refused and left blank; and D1B measures printed labels for every positional caption field."
+      },
+      {
+        "familyId": "VA:cc-1473-form-en",
+        "state": "VA",
+        "lane": "D1B",
+        "originalFinding": [
+          "VA1473-unresolved-party-election",
+          "VA-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content",
+          "semantic_binding_error"
+        ],
+        "participantPdfChanged": true,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1b-corrections-v2",
+        "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 1,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "Unchanged from the prior review: either the petitioner election is marked in the same render that writes these three fields, or the three fields are refused with an outside_party-class reason and left blank."
+      },
+      {
+        "familyId": "VT:200-00132-form-en",
+        "state": "VT",
+        "lane": "D1C",
+        "originalFinding": [
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "orchestrator_manifest_source_pointer"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 0,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      {
+        "familyId": "VT:200-00132a-form-en",
+        "state": "VT",
+        "lane": "D1C",
+        "originalFinding": [
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "orchestrator_manifest_source_pointer"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 0,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      {
+        "familyId": "VT:200-00631-form-en",
+        "state": "VT",
+        "lane": "D1C",
+        "originalFinding": [
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "orchestrator_manifest_source_pointer"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 0,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      {
+        "familyId": "WA:blake-006-form-en",
+        "state": "WA",
+        "lane": "D2A",
+        "originalFinding": [
+          "anchor_capture_cannot_decode_subset_font_text_layer"
+        ],
+        "correctionType": [
+          "anchor_decoder_subset_font"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d2a-corrections-v2",
+        "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+        "independentDisposition": "held_on_source_or_design",
+        "independentReviewShard": 0,
+        "finalDisposition": "held_on_source_or_design",
+        "remainingBlocker": "anchor_decoder_subset_font_unaddressed"
+      },
+      {
+        "familyId": "WA:blake-008-form-en",
+        "state": "WA",
+        "lane": "D2A",
+        "originalFinding": [
+          "anchor_capture_cannot_decode_subset_font_text_layer"
+        ],
+        "correctionType": [
+          "anchor_decoder_subset_font"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d2a-corrections-v2",
+        "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+        "independentDisposition": "held_on_source_or_design",
+        "independentReviewShard": 0,
+        "finalDisposition": "held_on_source_or_design",
+        "remainingBlocker": "anchor_decoder_subset_font_unaddressed"
+      },
+      {
+        "familyId": "WA:crrlj-09-0100-form-en",
+        "state": "WA",
+        "lane": "D2A",
+        "originalFinding": [
+          "anchor_capture_partial_text_loss_undermines_no_label_disposition"
+        ],
+        "correctionType": [
+          "anchor_decoder_subset_font"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d2a-corrections-v2",
+        "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+        "independentDisposition": "held_on_source_or_design",
+        "independentReviewShard": 0,
+        "finalDisposition": "held_on_source_or_design",
+        "remainingBlocker": "anchor_decoder_subset_font_unaddressed"
+      },
+      {
+        "familyId": "WA:crrlj-09-0870-form-en",
+        "state": "WA",
+        "lane": "D2A",
+        "originalFinding": [
+          "anchor_capture_partial_text_loss_undermines_no_label_disposition"
+        ],
+        "correctionType": [
+          "anchor_decoder_subset_font"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": false,
+        "correctedBranch": "claude/rcap-d2a-corrections-v2",
+        "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+        "independentDisposition": "held_on_source_or_design",
+        "independentReviewShard": 0,
+        "finalDisposition": "held_on_source_or_design",
+        "remainingBlocker": "anchor_decoder_subset_font_unaddressed"
+      },
+      {
+        "familyId": "WI:cr-267-form-en",
+        "state": "WI",
+        "lane": "D1C",
+        "originalFinding": [
+          "source_canonical_path_null_in_review_manifest"
+        ],
+        "correctionType": [
+          "orchestrator_manifest_source_pointer"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "correction_required",
+        "independentReviewShard": 0,
+        "finalDisposition": "correction_required",
+        "remainingBlocker": "corrected after independent review had already inspected it; the new bytes have not been independently seen"
+      },
+      {
+        "familyId": "WI:dj-le-247-support-en",
+        "state": "WI",
+        "lane": "D1C",
+        "originalFinding": [
+          "WI-contact-sheet-active-content"
+        ],
+        "correctionType": [
+          "contact_sheet_active_content"
+        ],
+        "participantPdfChanged": false,
+        "contactSheetChanged": true,
+        "correctedBranch": "claude/rcap-d1c-corrections-v2",
+        "correctedCommit": "2c0c7033c4633dbb5a170833a61c5989e68322bc",
+        "independentDisposition": "technical_approved",
+        "independentReviewShard": 1,
+        "finalDisposition": "technical_approved",
+        "remainingBlocker": null
+      }
+    ]
+  },
+  "gate2": {
+    "counts": {
+      "prior_technical_approval_reaffirmed": 100,
+      "correction_required": 4
+    },
+    "families": [
+      {
+        "familyId": "AK:dps-cri-103-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "1d81225c4ba298f63c694de8a711bee7d96e50f4ef677784e98797fcf8145976",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AK:tf-800-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "dfee6a22c08f7543635c8b253076a741d46f4b351df8b98ab219a8733ed95d5f",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AK:tf-805-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "a6adcf6c88b2469b59fdfb81c1090462501b871c18becffba823512c59802e25",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AK:tf-810-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "4311a352637c0d3eea11d2c06b511f7e5e825786b1451d517c029e0346c91288",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AL:c-10-criminal-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "db1795d06097d4fa759d84004a90e796b41ecaf640f7fd1f76a81b9b08480133",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AL:c-94a-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "f1f963b0d7f3e6eb8b0968c15600258552115b4e2ae7bc47c9887deae8b32b17",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AL:sbi-form-46-support-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "1bf495f1e7cc04f1159adb2ead2ed168beef11194b0b514e7b2b4d8b3ce46542",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-of-probation-under-act-346-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "b4e437e1b72099fc0edfdc98fc8295cbf02272ef883d104a15443916071977fa",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "85c5135a612e1251b1991eadcc87929e69b20bebd8c42984c90955f628b05e80",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "8664b64f69fdbeb3537c9157cd58f7de06f319e2c0587b3e31378b75bab84a24",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "4413aac86eba17d6eac76ca14a569caef9b420feb6ef32599a81ded86e1c5e5c",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "c38ac259276a4d43ef6e88b56aaabcdda21a802489b4025515dd27d498752b7f",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "e2275740fefcabe55806c21feb362bc588fe3a4c55699f0153cd6784e4cfb786",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "b4fa7044a13ce61239b2aac9d14f1969a8a85dfdf4ee225a4b81ab6268fa2f8b",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "168228be2bcb2691c163f2940a17c2d19d362d88a7c62b9c0c7605c65f5b7f13",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "614bfaa157c09b9eeff95a0d4ca6e8a45bdec0bca34d30571e1b725c40ff9def",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "68dd9d6f2114375c46643f9cf5c2dba6a519d0fc391764c10bed53ebaefd6fac",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "0d3e9cf73fd9b09a9f9348bab1ebe532ca3bcee5409be6b897530ca08785c9ec",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "f99bc390e2d4469db31875fe70d2cc6f6aefcad3ebf1e57441dd68c165a64f79",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "d2bcb3b166fa55d8649b2c93e33709e62a9e7ee6fdf463e8abe02c633b6e83c9",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "c7e82883aad041da830c7de841e924786dfd1db66d807e88e9098f9c67cfafad",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "2e285eb5cda21f593d9fc2e187e30ae64c1b49578f48e9a7660b46dc96100720",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "7c5f4f1256918c3f8ae53f30a91a813d507317556e6996bce585d6daa6e079a0",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "0d478fcb6aeaa94b1e7a15e96da0aa4116d28baeecaf5d90b778da413dd39d39",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "48c48ce96685bdd6d02031b1aa5bc80e37a4a74029f0e61e0e2185110b1bc3c9",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "c2a4895b59de044457e6a056a5f163bf3550269a2d24f7e03e617c8928218829",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "94d1f96e2a600bde5cfafab15d4ea4122208715137562e81d15aaf32df1a6c90",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "813eb51c54706d55c823964c453bef95e11aa84f4f1563661f560eb5f68aa89d",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AZ:aoccrem2f-071221-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "f842f040daf4789d5bcfce035a0be8502babf0261f869ad39d74d99e0b99ef27",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AZ:aoccrem3f-071221-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "cd17ec17f1d0c16eea2f56a8d8b9e5ba7b508b8e34521a9d54718a4813718034",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AZ:aoccrsa3f-103023-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "fd6791528af50518bc0dd8ae9c7f52503e1a9896f60517b2d1218c365d1e84a5",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "AZ:aoccrsa4f-103023-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "f6f7b1bb79b4acd47f74ac61f2008cee71e702055c712ab78c3bb633f7d68b57",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "CO:jdf-2363-form-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "fe83b1692800d5a38125db853cd0bd72bd461096a2822dad0223f5ce9e0a37e1",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "CO:jdf-2370-instructions-instructions-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "CO:jdf-417-form-petition-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "8a2767a57bec71aa583cb343d1d17b5bbe83ff66ceabae42473e67e6d464a72d",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "CO:jdf-477-form-motion-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "688e8adf4ca8d27296e9e98b41909db814f089e2c9f73532c7431a6eb4458a1f",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "CO:jdf-478-form-order-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "CO:jdf-612-form-motion-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "cb796b51f5b747e357796c1b6ab7bc1799a436b4ea1b550574fa1f56a88e022e",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "CO:jdf-615-form-order-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "CO:jdf-642-form-order-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "CO:jdf-681-form-order-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "FL:fl-7th-judicial-circuit-st-johns-county-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "70b72041cc71325fbefb764760857614b126ab9bb797ad4925accc80b43d3d16",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "IA:rule-2-86-form-5-application-to-expunge-prostitution-records",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "1e29f45645c5d61f996cfe9653f570eeb4b8d8e8f22ecc5d6c7f301acc5a6794",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "IL:exp-ad-order-granting-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "0c46164fa0d64469d54a298920034d0fc821e2f5d3a6c0a5c253a97c410928c4",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "KS:ks-notice-of-hearing-on-petition-for-expungem-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "6a1d02e8f481e453557a8116c10051823b7b5190a95220a43c46910574534f3b",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "KS:ks-order-of-expungement-of-conviction-or-dive-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "72bc5d64a941bb689504f9a198a6c3a0062d2533c6a385fd4a664062127fe401",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "KS:ksjc-source-gated-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "48fc9f7e300236d9b2bbaca6982df57e2080d3658e0fe0c597f857c5c0e487bd",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "KY:aoc-333-source-gated-en",
+        "result": "correction_required",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "58ae72b187e020df650e48fba850c7b5221bce6387a8bcd6b9930348315cdae4",
+        "findings": [
+          "2 text run(s) from non-printing control(s) appear in the filed artifact's page content: ['Print', 'Reset Form']",
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "KY:aoc-496-5-form-en",
+        "result": "correction_required",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "243924e0db8b20888bd14f54f54c8fb13e486cfc22c116c009f4e9a79560c3e4",
+        "findings": [
+          "11 text run(s) from non-printing control(s) appear in the filed artifact's page content: ['NOTICE:', 'Not all bowsers handle fillable', 'PDFs the same.', 'To help insure that you can', 'save, reopen and still be able', 'edit this form, please save', 'and reopen it before you make', 'any entries.']",
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "LA:la-ccrp-art-998-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "14454feb221af0cf5f5297052e9f98205dc55be93a1c23f53b081c647f60c3a9",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "LA:la-ccrp-art-999-1-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "9d319484d17f139ceecea83bc2cf70c3781905a7b8ba275625394d7f4bf84d79",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "MN:exp101-hmn-instructions-hmn",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "MN:fee103-support-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "MO:cr360-form-petition-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "c8a54104c66d6f6a9d72422b2639d551f88e32388b69548021679254935ca405",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "MO:cr375-form-petition-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "c2d83f9b273926f88a6b511d7dc62d2d04311e4d18b2593491cc0c7a967046f4",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NC:aoc-cr-287-instructions-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "ND:expertise-form-instructions-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "f219c4019f41c49593310210f1bc54238fddb479cc8166dbdeb0fb476ba160ef",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NH:nhjb-2328-support-affidavit-en",
+        "result": "correction_required",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "0b8d0a5442fb6c47432dabaa5153bbc3275495406351296ef98bce81d30b9e00",
+        "findings": [
+          "6 text run(s) from non-printing control(s) appear in the filed artifact's page content: ['Clear Form', 'Lock & Save Form', 'Top of Page', 'Top of 1st Page', 'Lock & Save Form', 'Top of 1st Page']",
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NH:nhjb-2956-support-record-request-en",
+        "result": "correction_required",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "bd2ae477beaf705558f11c52858505e082efc71d15eef220eae786f87ed8ee18",
+        "findings": [
+          "no contact sheet existed at the lane head; the sheet on the evidence branch is newly created, so the original approval was granted without a contact sheet in the tree",
+          "3 text run(s) from non-printing control(s) appear in the filed artifact's page content: ['Instructions', 'Clear Form', 'Top of Page']"
+        ]
+      },
+      {
+        "familyId": "NJ:background-steps-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "NM:nm-4-222-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "2676b62a38dc6a113dadb50dd138c38d31f2eb2da2f2c759d46252018d4fd26b",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-951-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "d0c35f33a2b90c8e0f8ee7ba444a430765536213519ba947c6ec8684d8f3b264",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-952-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "cd23a45397372fb882f5522b47c2c6556e211b23962734e42c1884d799b09ff6",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-953-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "6ed5c227452af677f6493b126213661ff45036e6146d7316c9ae28e5c2774a65",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-955-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "6a0cc7c27d9af8071dfa40d9b6303f7cabdbe717a12116cb8f6e2121a89b26cc",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-956-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "061c6771434fbc92d303a5dc9187e974fb3975d8efe2dbc03a5660d172097e61",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-959-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "91d51723d87229b058014de292398d357afc6f9ce4006b3e48ef2ded1d7aaa51",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-960-1-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "07928a2316b6e219af97171291437eed4a2b82e4eab5bd7e6e5c1ea2fd8fbf8a",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-960-2-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "583ad7477a7ce5c85802f1b66261610afce4e3ab26958d378ac6bfbc609af1cf",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-960-3-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "55caa6065a53475f0dc97593d25b466cc842efb7d836312ec6830b9c196781fd",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-4-960-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "10c020625f064c67437dd93c7c4559249328361c44cf2014e6a568b2ae780160",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-dps-roi-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "NM:nm-local-conviction-order-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "c37bff900c5dfcff0c6d224b4d10f75f3d31b9d57d9d2fc4467ff90c81c5dea4",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "NM:nm-local-identity-theft-order-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "45e0b6bebeb260253986510048829e7870d0aba7247d90d6f10ad0d0ccc1f089",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "OR:or-ojd-adult-set-aside-packet-motion-and-declaration",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "OR:or-ojd-cla-request-for-set-aside-criminal-record-check",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "1589b1e2123ee1f73e528a4b4a4e755956bed0f0dbca0242efd15f82f18e59bb",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "OR:or-ojd-motion-and-declaration-to-set-aside-marijuana-conviction",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "60a820c78a1bbadc1ec621505a996e46ae2ed56a709bdf413b8f7b8d364a92aa",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "OR:or-osp-set-aside-criminal-history-request-and-instructions",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "TX:tx-gc-411-0725-instructions-instructions-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "TX:tx-gc-411-0726-instructions-instructions-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "TX:tx-gc-411-0729-form-order-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "TX:tx-gc-411-0731-form-order-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "TX:tx-gc-411-0731-form-petition-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "a4834ae0fa66a3624d0e44ed5f34717f6b501ca4874bee0c50f9614294ad46ef",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "TX:tx-gc-411-0731-instructions-instructions-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "TX:tx-gc-411-0735-form-petition-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "b9286bdf2f673b510f958c97afba6776980a4ec832b4825fc333a989d0dd03c6",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "TX:tx-gc-411-0736-form-petition-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "ee83008ebaa85b63927561e617772018d2781db560ba1c5fde808938f68c7a36",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:1000ex-petition-to-expunge-records-with-certificate-of-eligibility",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "de7cb58f0afb647e321d27cd0a553d29c46b6579ca5366cdda98d832a9b9802f",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:1002ex-petition-to-expunge-records-traffic-charge",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "2003168fa62c64cabedb8e86767b7c57c77972ea9de6a4c724b02e6bc3f57d1b",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:1003ex-petition-to-expunge-records-cannabis-conviction",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "b5d9ea05f6f3afa3be23967b3f59a48d951de7be6cd95efaed73a57799e13ba9",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:1020ex-order-on-petition-to-expunge-records-with-certificate-of-eligibility",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "ed064b8808eda1e9bad0b130e5cf12d32f80558ca2841be01feb1a4eb37ac343",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:1020ge-proof-of-completed-service",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "UT:1022ex-order-on-petition-to-expunge-records-traffic-conviction",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "0ae034f3e9f264fee1a8bded8334b5863fe9ea1b16d9997fea34ee708417f971",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:1044xx-district-court-cover-sheet-for-civil-actions",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "f03dc4e361b73518feb97f99ca69954e1eab48a69be78aae29d440a6b877eb6c",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:1305ge-motion-to-waive-fees-for-expungement",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "8b1c1bef93e9cedc7104e28b417cb0f4069a142e922aadd8d7c1f96965293cf2",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:ut-bci-application-for-criminal-history-record",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "7de7717aa34b0619b4171be1d83d3859d9e1bb2ba6a3b9fe0a7b3e455d21401b",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "UT:ut-bci-indigent-expungement-instructions",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "VT:200-00129-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "82cb9691770f2fa8e9f5cac5e2be29feb33af5ff235b754f1de6716d39f9df00",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "VT:200-00130-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "b8aa118727c1c2ecb9a7df8bfe8c157b16c8025f9816546537c85f73c9f37b1a",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "VT:200-00331-support-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "df291934d2150c0d29ad2b3fbf2089fe169f13dec71926bf043b09fe97e5e719",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "VT:600-00228-support-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "647efd852cbdbb0696a979fe61124efaff909e5f4433b9c8af012b2fa23197c7",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "WA:blake-002-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "WA:cr-08-0900-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "69ce0d7174113c59860115aa874b7f623ec7bbbd2c0246dbab34f4398758f261",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      },
+      {
+        "familyId": "WA:crrlj-09-0300-instructions-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": false,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": null,
+        "findings": []
+      },
+      {
+        "familyId": "WI:cr-266-form-en",
+        "result": "prior_technical_approval_reaffirmed",
+        "participantArtifactPresent": true,
+        "participantArtifactUnchanged": true,
+        "participantArtifactSha256": "d1e99425962d2d17b422a2f31289fba14c966706cf33455d8ef772ec08f2e5f0",
+        "findings": [
+          "reports/rendered-artifacts.json still records the pre-regeneration contact-sheet sha256, so that manifest no longer describes any file on the branch; its canonical-filled.pdf hash does still match the filed artifact"
+        ]
+      }
+    ]
+  },
+  "gate3": {
+    "counts": {
+      "held_on_source_or_design": 88
+    },
+    "families": [
+      {
+        "familyId": "AK:dps-seal-req-2-04-source-gated-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "AR:ar-acic-petition-to-seal-records-of-pardoned-offender-or-youthful-source-gated-e",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "AZ:aoccrem1i-071221-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-2374-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-416-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-418-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-491-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-611-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-640-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-680-form-motion-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-682-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-683-form-petition-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "CO:jdf-686-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "FL:fdle40-021-expunction-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "FL:fdle40-021-sealing-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "FL:fdle40-026-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "KY:aoc-009-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "LA:la-ccrp-art-984-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "LA:la-ccrp-art-990-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "LA:la-ccrp-art-993-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "LA:la-ccrp-art-995-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "MA:ma-probation-service-petition-to-expunge-100f-100g-100h",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "MA:tc0021-petition-for-expungement-of-marijuana-offenses",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "MN:exp101-es-instructions-es",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "MN:exp101-so-instructions-so",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "MN:fee102-support-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "MO:gn10-source-gated-motion-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-287-form-es",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-287-form-vi",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-287-instructions-es",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-287-instructions-vi",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-288-form-es",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-288-form-vi",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-288-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-288-instructions-es",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-288-instructions-vi",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-297-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cr-298-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cv-226-support-es",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:aoc-cv-226-support-vi",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NC:nc-sbi-right-to-review-support-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "ND:sealing-criminal-records-research-guide-support-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NE:cc-6-11-2a-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NE:dc-6-7-1a-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NH:nh-annulment-checklist-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NH:nh-marijuana-annulment-guide-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NM:nm-4-957-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NM:nm-4-958-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "NM:nm-dps-roi-es",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:cr-63-support-record-request-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-072-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-072-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0725-411-073-411-0735-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0726-bwi-order-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0726-dwi-order-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0727-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0727-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0728-form-order-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0728-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0729-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-073-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0735-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "TX:tx-gc-411-0736-instructions-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:1146xx-acceptance-of-service-expungement",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:1148xx-consent-and-waiver-of-hearing-expungement",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:1149xx-victims-or-prosecutors-statement",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:1164xx-notice-of-hearing-expungement",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:1169xx-reply-to-victim-prosecutor-or-app-response",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:1170xx-request-for-response-by-adult-probation-and-parole",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:1173xx-response-by-adult-probation-and-parole",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:ut-bci-application-for-certificate-of-eligibility",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:ut-bci-automatic-and-petitioned-expungement-verification-application",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:ut-bci-expungement-applicant-instructions",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "UT:ut-bci-third-party-release-form",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "VT:200-00130a-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "VT:200-00131-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:blake-001-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:blake-003-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:blake-004-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:blake-005-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:blake-007-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:blake-009-source-gated-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:blake-010-source-gated-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:cr-08-0920-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:cr-08-0930-instructions-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:crrlj-09-0200-form-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WA:crrlj-09-0800-source-gated-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      },
+      {
+        "familyId": "WI:dj-le-250b-support-en",
+        "finalDisposition": "held_on_source_or_design",
+        "bytesChanged": false,
+        "newSourceOrLegalDesignEvidence": null
+      }
+    ]
+  },
+  "gate4": {
+    "totalFamilies": 253,
+    "finalCounts": {
+      "technical_approved": 145,
+      "correction_required": 16,
+      "held_on_source_or_design": 92
+    },
+    "duplicates": []
+  },
+  "gate5": {
+    "tracksExpected": 67,
+    "tracksDerivedFromRepositoryEvidence": 55,
+    "derivationBasis": "the `tracks` array each lane wrote into data/rcap-all50/overlays/production/<state>/jurisdiction-summary.json, joined to families by official form document id",
+    "jurisdictionsWithNoTrackRecord": [
+      {
+        "jurisdictionSlug": "arizona",
+        "lane": "D2A",
+        "reason": "no jurisdiction-summary.json on the lane's branch"
+      },
+      {
+        "jurisdictionSlug": "florida",
+        "lane": "D2B",
+        "reason": "jurisdiction-summary.json records an empty track array"
+      },
+      {
+        "jurisdictionSlug": "iowa",
+        "lane": "D3B",
+        "reason": "jurisdiction-summary.json records an empty track array"
+      },
+      {
+        "jurisdictionSlug": "illinois",
+        "lane": "D2A",
+        "reason": "no jurisdiction-summary.json on the lane's branch"
+      },
+      {
+        "jurisdictionSlug": "kansas",
+        "lane": "D2A",
+        "reason": "no jurisdiction-summary.json on the lane's branch"
+      },
+      {
+        "jurisdictionSlug": "louisiana",
+        "lane": "D2B",
+        "reason": "jurisdiction-summary.json records an empty track array"
+      },
+      {
+        "jurisdictionSlug": "massachusetts",
+        "lane": "D3B",
+        "reason": "jurisdiction-summary.json records an empty track array"
+      },
+      {
+        "jurisdictionSlug": "minnesota",
+        "lane": "D2A",
+        "reason": "no jurisdiction-summary.json on the lane's branch"
+      },
+      {
+        "jurisdictionSlug": "new-jersey",
+        "lane": "D2B",
+        "reason": "jurisdiction-summary.json records an empty track array"
+      },
+      {
+        "jurisdictionSlug": "new-mexico",
+        "lane": "D2B",
+        "reason": "jurisdiction-summary.json records an empty track array"
+      },
+      {
+        "jurisdictionSlug": "oregon",
+        "lane": "D3B",
+        "reason": "jurisdiction-summary.json records an empty track array"
+      },
+      {
+        "jurisdictionSlug": "utah",
+        "lane": "D3B",
+        "reason": "jurisdiction-summary.json records an empty track array"
+      },
+      {
+        "jurisdictionSlug": "washington",
+        "lane": "D2A",
+        "reason": "no jurisdiction-summary.json on the lane's branch"
+      }
+    ],
+    "unaccountedAgainstExpected": 12,
+    "counts": {
+      "held": 52,
+      "correction_required": 3
+    },
+    "tracks": [
+      {
+        "trackId": "ak-tf800",
+        "jurisdiction": "AK",
+        "lane": "D1A",
+        "requiredFamilyIds": [
+          "AK:tf-800-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "AK:tf-800-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: edition_1_runtime_disabled, f_independent_visual_review_required, state_manifest_generation_allowed_no, jurisdiction_runtime_disabled, state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "terminal": false
+      },
+      {
+        "trackId": "ak-tf805",
+        "jurisdiction": "AK",
+        "lane": "D1A",
+        "requiredFamilyIds": [
+          "AK:tf-805-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "AK:tf-805-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: edition_1_runtime_disabled, f_independent_visual_review_required, state_manifest_generation_allowed_no, jurisdiction_runtime_disabled, state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "terminal": false
+      },
+      {
+        "trackId": "al-felony-dwop",
+        "jurisdiction": "AL",
+        "lane": "D1A",
+        "requiredFamilyIds": [
+          "AL:c-10-criminal-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "AL:c-10-criminal-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: edition_1_runtime_disabled, f_independent_visual_review_required, state_manifest_generation_allowed_no, jurisdiction_runtime_disabled, state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "terminal": false
+      },
+      {
+        "trackId": "al-felony-nonconviction-90",
+        "jurisdiction": "AL",
+        "lane": "D1A",
+        "requiredFamilyIds": [
+          "AL:c-10-criminal-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "AL:c-10-criminal-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: edition_1_runtime_disabled, f_independent_visual_review_required, state_manifest_generation_allowed_no, jurisdiction_runtime_disabled, state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "terminal": false
+      },
+      {
+        "trackId": "al-misd-dwop",
+        "jurisdiction": "AL",
+        "lane": "D1A",
+        "requiredFamilyIds": [
+          "AL:c-10-criminal-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "AL:c-10-criminal-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: edition_1_runtime_disabled, f_independent_visual_review_required, state_manifest_generation_allowed_no, jurisdiction_runtime_disabled, state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "terminal": false
+      },
+      {
+        "trackId": "al-misd-nonconviction-90",
+        "jurisdiction": "AL",
+        "lane": "D1A",
+        "requiredFamilyIds": [
+          "AL:c-10-criminal-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "AL:c-10-criminal-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: edition_1_runtime_disabled, f_independent_visual_review_required, state_manifest_generation_allowed_no, jurisdiction_runtime_disabled, state_legal_design_review_missing_from_supplied_corpus_release_blocker",
+        "terminal": false
+      },
+      {
+        "trackId": "al-pardon",
+        "jurisdiction": "AL",
+        "lane": "D1A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "ar-act531",
+        "jurisdiction": "AR",
+        "lane": "D1A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "ar-cs-possession-seal",
+        "jurisdiction": "AR",
+        "lane": "D1A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "ar-misdemeanor-seal",
+        "jurisdiction": "AR",
+        "lane": "D1A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "ar-nonconviction-seal",
+        "jurisdiction": "AR",
+        "lane": "D1A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+        "jurisdiction": "CO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "petition-based-conviction-sealing-jdf-612-24-72-706",
+        "jurisdiction": "CO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "automatic-clean-slate-sealing-13-3-117",
+        "jurisdiction": "CO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "juvenile-expungement-19-1-306",
+        "jurisdiction": "CO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "ky_expungement_certification",
+        "jurisdiction": "KY",
+        "lane": "D1B",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "ky_protective_order_record_expungement",
+        "jurisdiction": "KY",
+        "lane": "D1B",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+        "jurisdiction": "MO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "closed-record-outcome-under-rsmo-610-105",
+        "jurisdiction": "MO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
+        "jurisdiction": "MO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+        "jurisdiction": "MO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "marijuana-expungement-under-missouri-constitution-article-xiv",
+        "jurisdiction": "MO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "stolen-or-mistaken-identity-expungement-under-610-145",
+        "jurisdiction": "MO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "first-minor-in-possession-alcohol-expungement-under-311-326",
+        "jurisdiction": "MO",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "nc_145_5_misdemeanor",
+        "jurisdiction": "NC",
+        "lane": "D1B",
+        "requiredFamilyIds": [
+          "NC:aoc-cr-298-form-en",
+          "NC:aoc-cr-298-instructions-en",
+          "NC:aoc-cv-226-support-en",
+          "NC:aoc-cv-226-support-es",
+          "NC:aoc-cv-226-support-vi",
+          "NC:nc-sbi-right-to-review-support-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "NC:aoc-cr-298-form-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "NC:aoc-cr-298-instructions-en",
+            "disposition": "held_on_source_or_design"
+          },
+          {
+            "familyId": "NC:aoc-cv-226-support-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "NC:aoc-cv-226-support-es",
+            "disposition": "held_on_source_or_design"
+          },
+          {
+            "familyId": "NC:aoc-cv-226-support-vi",
+            "disposition": "held_on_source_or_design"
+          },
+          {
+            "familyId": "NC:nc-sbi-right-to-review-support-en",
+            "disposition": "held_on_source_or_design"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "not_all_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "families not terminal: NC:aoc-cr-298-instructions-en=held_on_source_or_design, NC:aoc-cv-226-support-es=held_on_source_or_design, NC:aoc-cv-226-support-vi=held_on_source_or_design, NC:nc-sbi-right-to-review-support-en=held_on_source_or_design",
+        "terminal": false
+      },
+      {
+        "trackId": "nc_146_dismissal_petition",
+        "jurisdiction": "NC",
+        "lane": "D1B",
+        "requiredFamilyIds": [
+          "NC:aoc-cr-287-form-en",
+          "NC:aoc-cr-287-form-es",
+          "NC:aoc-cr-287-form-vi",
+          "NC:aoc-cr-287-instructions-en",
+          "NC:aoc-cr-287-instructions-es",
+          "NC:aoc-cr-287-instructions-vi",
+          "NC:aoc-cv-226-support-en",
+          "NC:aoc-cv-226-support-es",
+          "NC:aoc-cv-226-support-vi"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "NC:aoc-cr-287-form-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "NC:aoc-cr-287-form-es",
+            "disposition": "held_on_source_or_design"
+          },
+          {
+            "familyId": "NC:aoc-cr-287-form-vi",
+            "disposition": "held_on_source_or_design"
+          },
+          {
+            "familyId": "NC:aoc-cr-287-instructions-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "NC:aoc-cr-287-instructions-es",
+            "disposition": "held_on_source_or_design"
+          },
+          {
+            "familyId": "NC:aoc-cr-287-instructions-vi",
+            "disposition": "held_on_source_or_design"
+          },
+          {
+            "familyId": "NC:aoc-cv-226-support-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "NC:aoc-cv-226-support-es",
+            "disposition": "held_on_source_or_design"
+          },
+          {
+            "familyId": "NC:aoc-cv-226-support-vi",
+            "disposition": "held_on_source_or_design"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "overlay_implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "not_all_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "families not terminal: NC:aoc-cr-287-form-es=held_on_source_or_design, NC:aoc-cr-287-form-vi=held_on_source_or_design, NC:aoc-cr-287-instructions-es=held_on_source_or_design, NC:aoc-cr-287-instructions-vi=held_on_source_or_design, NC:aoc-cv-226-support-es=held_on_source_or_design, NC:aoc-cv-226-support-vi=held_on_source_or_design",
+        "terminal": false
+      },
+      {
+        "trackId": "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+        "jurisdiction": "ND",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+        "jurisdiction": "ND",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "dui-record-sealing-under-the-separate-dui-statute",
+        "jurisdiction": "ND",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "deferred-imposition-dismissal-and-sealing",
+        "jurisdiction": "ND",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "first-offense-possession-sealing",
+        "jurisdiction": "ND",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "marijuana-specific-summary-pardon-or-sealing-relief",
+        "jurisdiction": "ND",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "ne-seal-pre2017",
+        "jurisdiction": "NE",
+        "lane": "D1C",
+        "requiredFamilyIds": [
+          "NE:cc-6-12-form-en",
+          "NE:cc-6-12-instructions-en",
+          "NE:cc-6-15-1-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "NE:cc-6-12-form-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "NE:cc-6-12-instructions-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "NE:cc-6-15-1-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "legal_review_requires_track-level import mapping",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: edition_1_runtime_disabled, f_independent_visual_review_required, state_manifest_generation_allowed_no, manifest_runtime_status_runtime_disabled, manifest_freshness_candidate_current_source, legal_review_requires_track-level import mapping, counsel_review_required, not_participant_fillable_no_fixture_fill",
+        "terminal": false
+      },
+      {
+        "trackId": "annulment-after-dismissal-acquittal-or-nonprosecution",
+        "jurisdiction": "NH",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "annulment-of-a-vacated-conviction",
+        "jurisdiction": "NH",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "conviction-annulment-under-rsa-651-5",
+        "jurisdiction": "NH",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "marijuana-possession-annulment-under-rsa-651-5-b",
+        "jurisdiction": "NH",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "dwi-dui-annulment",
+        "jurisdiction": "NH",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "out-of-state-federal-or-military-record-guidance",
+        "jurisdiction": "NH",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "expunction-after-qualifying-dismissal-or-quash",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "expunction-after-pardon-or-actual-innocence-relief",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "expunction-after-qualifying-class-c-deferred-disposition",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "first-offense-dwi-nondisclosure",
+        "jurisdiction": "TX",
+        "lane": "D3A",
+        "requiredFamilyIds": [],
+        "familyDispositions": [],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": null,
+        "participantTreatmentStatus": null,
+        "technicalReviewStatus": "no_family_mapped",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "no family in this corpus maps to this track's official forms",
+        "terminal": false
+      },
+      {
+        "trackId": "va_exp_nonconviction",
+        "jurisdiction": "VA",
+        "lane": "D1B",
+        "requiredFamilyIds": [
+          "VA:cc-1473-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "VA:cc-1473-form-en",
+            "disposition": "correction_required"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "not_all_families_technical_approved",
+        "trackCandidateDisposition": "correction_required",
+        "exactBlocker": "families not terminal: VA:cc-1473-form-en=correction_required",
+        "terminal": false
+      },
+      {
+        "trackId": "va_seal_enumerated_seven_year",
+        "jurisdiction": "VA",
+        "lane": "D1B",
+        "requiredFamilyIds": [
+          "VA:cc-1201-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "VA:cc-1201-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: state_manifest_generation_allowed_no, edition_1_runtime_disabled, f_independent_visual_review_required",
+        "terminal": false
+      },
+      {
+        "trackId": "va_seal_petition_felony",
+        "jurisdiction": "VA",
+        "lane": "D1B",
+        "requiredFamilyIds": [
+          "VA:cc-1201-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "VA:cc-1201-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: state_manifest_generation_allowed_no, edition_1_runtime_disabled, f_independent_visual_review_required",
+        "terminal": false
+      },
+      {
+        "trackId": "va_seal_petition_misdemeanor",
+        "jurisdiction": "VA",
+        "lane": "D1B",
+        "requiredFamilyIds": [
+          "VA:cc-1201-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "VA:cc-1201-form-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "unrecorded",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: state_manifest_generation_allowed_no, edition_1_runtime_disabled, f_independent_visual_review_required",
+        "terminal": false
+      },
+      {
+        "trackId": "vt_seal_pardon",
+        "jurisdiction": "VT",
+        "lane": "D1C",
+        "requiredFamilyIds": [
+          "VT:200-00130-form-en",
+          "VT:200-00132-form-en",
+          "VT:600-00228-support-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "VT:200-00130-form-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "VT:200-00132-form-en",
+            "disposition": "correction_required"
+          },
+          {
+            "familyId": "VT:600-00228-support-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "legal_review_requires_track-level import mapping",
+        "legalAdoptionStatus": "implemented_pending_release_gates_and_independent_visual_review",
+        "participantTreatmentStatus": "implemented_pending_independent_review",
+        "technicalReviewStatus": "not_all_families_technical_approved",
+        "trackCandidateDisposition": "correction_required",
+        "exactBlocker": "families not terminal: VT:200-00132-form-en=correction_required",
+        "terminal": false
+      },
+      {
+        "trackId": "wi_exp_cr266",
+        "jurisdiction": "WI",
+        "lane": "D1C",
+        "requiredFamilyIds": [
+          "WI:cr-266-form-en",
+          "WI:cr-267-form-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "WI:cr-266-form-en",
+            "disposition": "technical_approved"
+          },
+          {
+            "familyId": "WI:cr-267-form-en",
+            "disposition": "correction_required"
+          }
+        ],
+        "currentnessStatus": "none_recorded_source_reports_current",
+        "legalDesignStatus": "legal_review_requires_track-level import mapping",
+        "legalAdoptionStatus": "overlay_labels_measured_write_box_pending_independent_visual_review",
+        "participantTreatmentStatus": "overlay_implemented_pending_independent_review",
+        "technicalReviewStatus": "not_all_families_technical_approved",
+        "trackCandidateDisposition": "correction_required",
+        "exactBlocker": "families not terminal: WI:cr-267-form-en=correction_required",
+        "terminal": false
+      },
+      {
+        "trackId": "wi_nc_doj_challenge",
+        "jurisdiction": "WI",
+        "lane": "D1C",
+        "requiredFamilyIds": [
+          "WI:dj-le-247-support-en"
+        ],
+        "familyDispositions": [
+          {
+            "familyId": "WI:dj-le-247-support-en",
+            "disposition": "technical_approved"
+          }
+        ],
+        "currentnessStatus": "revision_confirmation_required",
+        "legalDesignStatus": "legal_review_requires_track-level import mapping",
+        "legalAdoptionStatus": "no_participant_fact_label_on_this_form_pending_review",
+        "participantTreatmentStatus": "overlay_implemented_pending_independent_review",
+        "technicalReviewStatus": "all_required_families_technical_approved",
+        "trackCandidateDisposition": "held",
+        "exactBlocker": "production holds outstanding: edition_1_runtime_disabled, f_independent_visual_review_required, state_manifest_generation_allowed_no, manifest_runtime_status_runtime_disabled, manifest_freshness_revision_confirmation_required, legal_review_requires_track-level import mapping, counsel_review_required",
+        "terminal": false
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate": "Gate 1 — exactly 61 unique prior corrections",
+      "pass": true,
+      "observed": 61
+    },
+    {
+      "gate": "Gate 1 — dispositions sum to 61",
+      "pass": true,
+      "observed": {
+        "technical_approved": 45,
+        "correction_required": 12,
+        "held_on_source_or_design": 4
+      }
+    },
+    {
+      "gate": "Gate 2 — exactly 104 unique prior approvals",
+      "pass": true,
+      "observed": 104
+    },
+    {
+      "gate": "Gate 2 — every prior approval independently adjudicated",
+      "pass": true,
+      "observed": 0
+    },
+    {
+      "gate": "Gate 2 — 85/85 participant hashes byte-identical",
+      "pass": true,
+      "observed": {
+        "withArtifact": 85,
+        "unchanged": 85
+      }
+    },
+    {
+      "gate": "Gate 2 — 19 families correctly identified as having no filed artifact",
+      "pass": true,
+      "observed": 19
+    },
+    {
+      "gate": "Gate 3 — exactly 88 unique prior holds, each appearing once",
+      "pass": true,
+      "observed": 88
+    },
+    {
+      "gate": "Gate 3 — no hold changed",
+      "pass": true,
+      "observed": []
+    },
+    {
+      "gate": "Gate 4 — 104 + 61 + 88 = 253",
+      "pass": true,
+      "observed": 253
+    },
+    {
+      "gate": "Gate 4 — no duplicate family",
+      "pass": true,
+      "observed": []
+    },
+    {
+      "gate": "Gate 4 — every family carries exactly one final category",
+      "pass": true,
+      "observed": 0
+    },
+    {
+      "gate": "Gate 5 — no track marked terminal",
+      "pass": true,
+      "observed": 0
+    },
+    {
+      "gate": "Gate 5 — all 67 D tracks derivable from repository evidence",
+      "pass": null,
+      "advisory": true,
+      "observed": {
+        "expected": 67,
+        "derived": 55,
+        "unaccounted": 12,
+        "jurisdictionsWithNoTrackRecord": [
+          {
+            "jurisdictionSlug": "arizona",
+            "lane": "D2A",
+            "reason": "no jurisdiction-summary.json on the lane's branch"
+          },
+          {
+            "jurisdictionSlug": "florida",
+            "lane": "D2B",
+            "reason": "jurisdiction-summary.json records an empty track array"
+          },
+          {
+            "jurisdictionSlug": "iowa",
+            "lane": "D3B",
+            "reason": "jurisdiction-summary.json records an empty track array"
+          },
+          {
+            "jurisdictionSlug": "illinois",
+            "lane": "D2A",
+            "reason": "no jurisdiction-summary.json on the lane's branch"
+          },
+          {
+            "jurisdictionSlug": "kansas",
+            "lane": "D2A",
+            "reason": "no jurisdiction-summary.json on the lane's branch"
+          },
+          {
+            "jurisdictionSlug": "louisiana",
+            "lane": "D2B",
+            "reason": "jurisdiction-summary.json records an empty track array"
+          },
+          {
+            "jurisdictionSlug": "massachusetts",
+            "lane": "D3B",
+            "reason": "jurisdiction-summary.json records an empty track array"
+          },
+          {
+            "jurisdictionSlug": "minnesota",
+            "lane": "D2A",
+            "reason": "no jurisdiction-summary.json on the lane's branch"
+          },
+          {
+            "jurisdictionSlug": "new-jersey",
+            "lane": "D2B",
+            "reason": "jurisdiction-summary.json records an empty track array"
+          },
+          {
+            "jurisdictionSlug": "new-mexico",
+            "lane": "D2B",
+            "reason": "jurisdiction-summary.json records an empty track array"
+          },
+          {
+            "jurisdictionSlug": "oregon",
+            "lane": "D3B",
+            "reason": "jurisdiction-summary.json records an empty track array"
+          },
+          {
+            "jurisdictionSlug": "utah",
+            "lane": "D3B",
+            "reason": "jurisdiction-summary.json records an empty track array"
+          },
+          {
+            "jurisdictionSlug": "washington",
+            "lane": "D2A",
+            "reason": "no jurisdiction-summary.json on the lane's branch"
+          }
+        ]
+      }
+    }
+  ]
+}
