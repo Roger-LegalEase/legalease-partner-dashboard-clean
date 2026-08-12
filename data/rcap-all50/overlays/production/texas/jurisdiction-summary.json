@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T04:15:41.737Z",
+  "generatedBy": "terminal-d3-official-forms",
+  "jurisdiction": {
+    "code": "TX",
+    "slug": "texas"
+  },
+  "ledgerJob": "T-D-TX-production-packet",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "files": {
+      "data/record-clearing/legal-design-track-registry.json": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+      "data/record-clearing/legal-design-track-source-relationships.json": "8376337488a0e07eb0b476f7623bfbb623272d167ecd15b23c93cbb47922b826"
+    }
+  },
+  "sourcePresenceInClone": false,
+  "families": [
+    {
+      "slug": "oca-petition-411-0736",
+      "formId": "OCA model petition, Tex. Gov't Code § 411.0736",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "fail_closed",
+        "reason": "source binary absent from the Nationwide inventory in committed evidence"
+      },
+      "censusFieldCount": 0,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/texas/oca-petition-411-0736"
+    },
+    {
+      "slug": "oca-petition-411-0726",
+      "formId": "OCA model petition, Tex. Gov't Code § 411.0726",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "fail_closed",
+        "reason": "source binary absent from the Nationwide inventory in committed evidence"
+      },
+      "censusFieldCount": 0,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/texas/oca-petition-411-0726"
+    },
+    {
+      "slug": "oca-petition-411-073",
+      "formId": "OCA model petition, Tex. Gov't Code § 411.073",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "fail_closed",
+        "reason": "source binary absent from the Nationwide inventory in committed evidence"
+      },
+      "censusFieldCount": 0,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/texas/oca-petition-411-073"
+    },
+    {
+      "slug": "oca-petition-411-0727",
+      "formId": "OCA model petition, Tex. Gov't Code § 411.0727",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "fail_closed",
+        "reason": "source binary absent from the Nationwide inventory in committed evidence"
+      },
+      "censusFieldCount": 0,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/texas/oca-petition-411-0727"
+    }
+  ],
+  "trackFamilyMap": {
+    "tx_nd_dwi_conviction": [
+      "oca-petition-411-0736"
+    ],
+    "tx_nd_dwi_deferred": [
+      "oca-petition-411-0726"
+    ],
+    "tx_nd_probation_misdemeanor": [
+      "oca-petition-411-073"
+    ],
+    "tx_nd_veterans_court": [
+      "oca-petition-411-0727"
+    ]
+  },
+  "trackReadiness": {
+    "tx_nd_dwi_conviction": {
+      "state": "blocked",
+      "reason": "OCA model petition for § 411.0736 absent from the Nationwide TX inventory — fail closed pending operator-supplied official OCA form set. Not affected by DEC-TX-tx_exp_acquittal (that decision names TX:tx_exp_acquittal, which is not a T-D-TX track)."
+    },
+    "tx_nd_dwi_deferred": {
+      "state": "blocked",
+      "reason": "OCA model petition for § 411.0726 absent from the Nationwide TX inventory — fail closed pending operator-supplied official OCA form set. Not affected by DEC-TX-tx_exp_acquittal."
+    },
+    "tx_nd_probation_misdemeanor": {
+      "state": "blocked",
+      "reason": "OCA model petition for § 411.073 absent from the Nationwide TX inventory — fail closed pending operator-supplied official OCA form set. Not affected by DEC-TX-tx_exp_acquittal."
+    },
+    "tx_nd_veterans_court": {
+      "state": "blocked",
+      "reason": "OCA model petition for § 411.0727 absent from the Nationwide TX inventory — fail closed pending operator-supplied official OCA form set. Not affected by DEC-TX-tx_exp_acquittal."
+    }
+  },
+  "decisionCheck": {
+    "decisionId": "DEC-TX-tx_exp_acquittal",
+    "namesTrack": "TX:tx_exp_acquittal",
+    "finding": "Checked per lane instructions: the blockerRegister decision DEC-TX-tx_exp_acquittal (decision_pending_with_fallback, owner Roger + counsel, deadline 2026-08-14) names TX:tx_exp_acquittal, which is NOT among T-D-TX-production-packet's trackIds (tx_nd_dwi_conviction, tx_nd_dwi_deferred, tx_nd_probation_misdemeanor, tx_nd_veterans_court). No D3 TX track fails closed on that decision; all four proceed and are instead fail-closed on missing OCA source binaries. DEC-COUNSEL-tx-55a051-3-class-c-eligibility likewise names only TX:tx_exp_dismissed, also outside this job."
+  }
+}
