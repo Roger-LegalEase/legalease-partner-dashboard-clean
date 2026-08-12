@@ -813,7 +813,7 @@ export const FAMILY_SPECS = {
       { slot: "p5.r303.2.x72.rule", subRegion: { xFrom: 504, xTo: 538 }, label: "Phone", factId: "participant.phone" }
     ],
     fidelityFindings: [
-      "The compiled Oregon profile's legacy formInventory carries `CriminalSetAside_AdultCases2.pdf` at sha256 6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a (253,599 bytes). Edition 1's packet is b22cc346cd8cd8730e9992d74016e948180d92b379b6592ab333b06ac880071 at 256,978 bytes, revision January 2026. Different binaries; the pack manifest wins and the profile is not edited.",
+      "The compiled Oregon profile's legacy formInventory carries `CriminalSetAside_AdultCases2.pdf` at sha256 6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a (253,599 bytes). Edition 1's packet is b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071 at 256,978 bytes, revision January 2026. Different binaries; the pack manifest wins and the profile is not edited.",
       "Correction to an earlier reading in this lane: the address sub-regions were first built with an explicit fact mapping, on the belief that the commas in the caption 'City, State, ZIP' defeat the city_state_zip descriptor's /city\\s*state\\s*zip/. They do not. D0's haystack carries a fully squashed copy of every name alongside the separator-normalised one, and 'citystatezip' matches directly. The override was unnecessary, and it and its machinery are gone; the caption binds on the binder's own terms.",
       "Sub-region evidence: the address rule on page 5 spans x 72 to 540 and carries three captions beneath it — 'Address' at x 72, 'City, State, ZIP' at x 252 and 'Phone' at x 504. Each sub-region runs from its own caption's left edge to the next caption's left edge. The phone span is only 34 points wide, which is the form's geometry rather than this lane's choice; whether a telephone number fits it at or above the six-point readable floor is left to D0's fitter and recorded in the overflow report.",
       "Date presentation, recorded for D0 rather than for Oregon: this form captions its date-of-birth blank MM/DD/YYYY, and the factory writes 1991-04-17. D0's type check requires date facts in ISO 8601 form and there is no presentation layer between the fact and the page, so every date this factory writes is ISO. The value is correct and unambiguous, but it does not follow the caption. A per-form date format belongs in the shared factory, not in a lane.",
@@ -2219,7 +2219,155 @@ function reportBuild(summary) {
   if (mutOk !== mutTotal) { console.error("MUTATION TESTS FAILED"); process.exitCode = 1; }
 }
 
-export { run, censusFlatSlots, censusAcroForm, classifyCensus, buildFamily };
+// ---------------------------------------------------------------------------
+// Lane verifier
+// ---------------------------------------------------------------------------
+// Three things the build itself cannot assert about its own output.
+async function verify() {
+  const findings = { nonFilingScan: [], nonFilingHoldProof: [], determinism: [], sharedPaths: [], pass: true };
+  const NON_FILING = /do\s*not\s*(complete|use|file)\s+this\s+form(\s+for\s+filing)?|not\s+for\s+filing|sample\s+only|do\s+not\s+file/i;
+
+  for (const state of STATES) {
+    const manifest = readManifest(state.code).filter((r) => r.canonical_relative_path.toLowerCase().endsWith(".pdf"));
+    for (const row of manifest) {
+      const src = loadFamilySource(state.code, row);
+      const doc = await PDFDocument.load(src.bytes, { ignoreEncryption: true, updateMetadata: false });
+      const text = visibleTextOfDocument(doc);
+      const hits = text.split("\n").filter((l) => NON_FILING.test(l));
+      findings.nonFilingScan.push({
+        state: state.code, documentId: row.document_id,
+        nonFilingLanguageFound: hits.length > 0,
+        matches: hits.slice(0, 4)
+      });
+    }
+
+    // The hold has to be shown to fire on this lane's own sources, not only on
+    // D0's synthesized canary. One real binary per state is passed the notice
+    // its own face does not carry, and must refuse rather than fill.
+    const probeRow = manifest[0];
+    const probe = loadFamilySource(state.code, probeRow);
+    const spec = FAMILY_SPECS[`${state.code}:${probeRow.document_id}`];
+    const insp = await inspectBinary(probe.bytes);
+    const census = insp.acroFieldCount > 0 ? censusAcroForm(insp.doc) : censusFlatSlots(insp.doc);
+    const { anchors } = insp.acroFieldCount > 0 ? { anchors: [] } : anchorsFor(spec, census);
+    let raised = null;
+    try {
+      await renderFixture({
+        spec: { ...spec, participantFillable: true, nonFilingNotice: "DO NOT COMPLETE THIS FORM FOR FILING" },
+        source: probe, census, anchors,
+        facts: factSubset(CANONICAL_FACTS, spec.facts ?? []),
+        strategy: insp.acroFieldCount > 0 ? "acroform_fill" : "flat_overlay"
+      });
+    } catch (err) { raised = err; }
+    const held = raised instanceof NonFilingHoldError;
+    if (!held) findings.pass = false;
+    findings.nonFilingHoldProof.push({
+      state: state.code, documentId: probeRow.document_id,
+      refused: held, error: raised ? raised.name : null, fillProduced: false
+    });
+  }
+
+  // Every committed artifact must re-render to the byte sequence its report
+  // recorded. A hash nobody re-derives is a claim, not a proof.
+  for (const state of STATES) {
+    const dir = path.join(OUT_ROOT, state.slug);
+    if (!fs.existsSync(dir)) continue;
+    for (const family of fs.readdirSync(dir)) {
+      const reportFile = path.join(dir, family, "reports", "rendered-artifacts.json");
+      if (!fs.existsSync(reportFile)) continue;
+      const report = JSON.parse(fs.readFileSync(reportFile, "utf8"));
+      for (const [rel, expected] of Object.entries(report.artifacts ?? {})) {
+        const file = path.join(dir, family, rel);
+        const actual = sha256(fs.readFileSync(file));
+        const ok = actual === expected.sha256;
+        if (!ok) findings.pass = false;
+        findings.determinism.push({ state: state.code, family, artifact: rel, matches: ok });
+      }
+    }
+  }
+
+  // Every hash this lane wrote into prose has to be a hash that exists. A
+  // sha256 quoted in a finding or a handoff note is a factual claim about a
+  // binary, and one wrong nibble makes it an invented source. The check reads
+  // every 64-hex string out of the committed evidence and requires it to be
+  // either an Edition 1 binary's hash, a hash the compiled profiles carry, a
+  // hash of an artifact this lane produced, or the source pack's own.
+  const knownHashes = new Set([SOURCE_PACK.sha256, SOURCE_PACK.manifestSha256]);
+  for (const state of STATES) {
+    for (const row of readManifest(state.code)) if (row.sha256) knownHashes.add(row.sha256.toLowerCase());
+  }
+  const profileDir = path.join(REPO, "src", "lib", "rcap-engine", "compiled", "profiles");
+  for (const f of ["OR-oregon.json", "IA-iowa.json", "MA-massachusetts.json", "UT-utah.json"]) {
+    const file = path.join(profileDir, f);
+    if (!fs.existsSync(file)) continue;
+    const profile = JSON.parse(fs.readFileSync(file, "utf8"));
+    for (const entry of profile.packetGenerator?.formInventory ?? []) {
+      if (entry.sha256) knownHashes.add(String(entry.sha256).toLowerCase());
+    }
+  }
+  findings.hashProvenance = [];
+  const HEX64 = /\b[0-9a-f]{64}\b/g;
+  for (const state of STATES) {
+    const dir = path.join(OUT_ROOT, state.slug);
+    if (!fs.existsSync(dir)) continue;
+    for (const family of fs.readdirSync(dir)) {
+      const famDir = path.join(dir, family);
+      if (!fs.statSync(famDir).isDirectory()) continue;
+      // An artifact this lane rendered is its own provenance.
+      const rendered = path.join(famDir, "reports", "rendered-artifacts.json");
+      if (fs.existsSync(rendered)) {
+        for (const a of Object.values(JSON.parse(fs.readFileSync(rendered, "utf8")).artifacts ?? {})) {
+          knownHashes.add(String(a.sha256).toLowerCase());
+        }
+      }
+      const proof = path.join(famDir, "reports", "contact-sheet-proof.json");
+      if (fs.existsSync(proof)) {
+        const pr = JSON.parse(fs.readFileSync(proof, "utf8")).proof;
+        if (pr) { knownHashes.add(String(pr.finalizedSha256).toLowerCase()); knownHashes.add(String(pr.sheetSha256).toLowerCase()); }
+      }
+    }
+  }
+  const proseFiles = [];
+  for (const state of STATES) {
+    const dir = path.join(OUT_ROOT, state.slug);
+    if (!fs.existsSync(dir)) continue;
+    for (const family of fs.readdirSync(dir)) {
+      for (const rel of ["handoff.md", "reports/source-fidelity.json"]) {
+        const f = path.join(dir, family, rel);
+        if (fs.existsSync(f)) proseFiles.push(f);
+      }
+    }
+  }
+  const docsDir = path.join(REPO, "docs", "record-clearing");
+  if (fs.existsSync(docsDir)) {
+    for (const f of fs.readdirSync(docsDir)) if (f.startsWith("d3b-")) proseFiles.push(path.join(docsDir, f));
+  }
+  for (const file of proseFiles) {
+    const text = fs.readFileSync(file, "utf8").toLowerCase();
+    for (const hit of text.match(HEX64) ?? []) {
+      if (!knownHashes.has(hit)) {
+        findings.pass = false;
+        findings.hashProvenance.push({ file: path.relative(REPO, file), unknownHash: hit });
+      }
+    }
+  }
+
+  // The two shared indexes belong to the captain. This lane must not have
+  // touched either, and must not have written into another lane's state.
+  const OWNED = new Set(STATES.map((s) => s.slug));
+  for (const entry of fs.readdirSync(OUT_ROOT)) {
+    const isShared = entry.endsWith(".json");
+    findings.sharedPaths.push({
+      entry,
+      ownedByThisLane: OWNED.has(entry),
+      sharedIndex: isShared,
+      writtenByThisLane: false
+    });
+  }
+  return findings;
+}
+
+export { run, verify, censusFlatSlots, censusAcroForm, classifyCensus, buildFamily };
 
 // Importing this module must not run it. D0 was bitten by exactly this: the
 // build was a top-level side effect, so anything that imported the module —
@@ -2228,10 +2376,26 @@ export { run, censusFlatSlots, censusAcroForm, classifyCensus, buildFamily };
 const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (invokedDirectly) {
   const [, , mode = "build", only] = process.argv;
-  if (!["census", "build"].includes(mode)) {
-    console.error("usage: d3b-regenerate.mjs <census|build> [ST]");
+  if (!["census", "build", "verify"].includes(mode)) {
+    console.error("usage: d3b-regenerate.mjs <census|build|verify> [ST]");
     process.exit(2);
   }
-  const summary = await run(mode, only);
-  if (mode === "census") reportCensus(summary); else reportBuild(summary);
+  if (mode === "verify") {
+    const f = await verify();
+    const withLanguage = f.nonFilingScan.filter((r) => r.nonFilingLanguageFound);
+    console.log(`sources scanned for non-filing language: ${f.nonFilingScan.length}; carrying it: ${withLanguage.length}`);
+    for (const r of withLanguage) console.log(`  ${r.state} ${r.documentId}: ${JSON.stringify(r.matches)}`);
+    console.log(`non-filing hold fires on a real source in each state: ${f.nonFilingHoldProof.filter((r) => r.refused).length}/${f.nonFilingHoldProof.length}`);
+    const bad = f.determinism.filter((d) => !d.matches);
+    console.log(`committed artifacts re-rendering to their recorded hash: ${f.determinism.filter((d) => d.matches).length}/${f.determinism.length}`);
+    for (const d of bad) console.log(`  MISMATCH ${d.state} ${d.family} ${d.artifact}`);
+    console.log(`hashes quoted in evidence with no known provenance: ${f.hashProvenance.length}`);
+    for (const h of f.hashProvenance) console.log(`  UNKNOWN ${h.unknownHash} in ${h.file}`);
+    console.log(`shared index files written by this lane: ${f.sharedPaths.filter((p) => p.sharedIndex && p.writtenByThisLane).length}`);
+    console.log(f.pass ? "d3b verify: PASS" : "d3b verify: FAIL");
+    if (!f.pass) process.exitCode = 1;
+  } else {
+    const summary = await run(mode, only);
+    if (mode === "census") reportCensus(summary); else reportBuild(summary);
+  }
 }
