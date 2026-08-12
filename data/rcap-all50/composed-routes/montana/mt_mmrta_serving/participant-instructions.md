@@ -80,6 +80,110 @@ This does not promise a record will be erased, that nobody will ever see it, or 
 - You are not a U.S. citizen.
 - You are weighing expungement against resentencing and the difference matters to you.
 
+## Official-form deferrals — English
+
+This packet is not ready to file because it does not include the five official documents below. Keep the answers and records you have already provided; use these directions to obtain the official documents and confirm the missing facts.
+
+### 1. MMRTA Form A for a person currently serving a sentence
+
+- **Missing:** MMRTA Form A — Petition for Expungement, Resentencing, or Redesignation (currently serving).
+- **Why:** The Montana Judicial Branch's official DOCX is identified, but safe placement of answers into the form and the procedural requirements in the AF 22-0129 Temporary Rules have not been verified. A homemade petition could alter or omit official content.
+- **Where and next step:** Get the current Form A at https://courts.mt.gov/Forms/mmrta. Use one complete form set for each conviction and ask the clerk of the court that sentenced you about local papers, filing, and service.
+- **Gather:** Your own court paperwork showing the court, county, case, judge, county-attorney, and other identifying information Form A requests; one current Form A set for each conviction; and your own eligibility explanation.
+- **Do not file or assume:** Do not file this packet in place of Form A, guess case information, let anyone choose expungement versus resentencing for you, or sign or write your explanation for you.
+
+### 2. Certificate of Service — MMRTA Petition
+
+- **Missing:** The official certificate showing service on the county attorney.
+- **Why:** The official certificate and proposed order are different files but are recorded under the same identifier despite having different file identities; safe completion of the certificate is not established.
+- **Where and next step:** Get the current certificate at https://courts.mt.gov/Forms/mmrta. Ask the filing-court clerk how and when to serve the county attorney, then complete the certificate only after service occurs.
+- **Gather:** The filing county and court, confirmed county-attorney office and address, and the actual service date, method, recipient, and proof.
+- **Do not file or assume:** Do not use a self-written certificate, claim service before it happens, guess a recipient or address, sign in advance, or assume a service method or 21-day period without current court instructions.
+
+### 3. Proposed Order under MMRTA
+
+- **Missing:** The official Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA.
+- **Why:** It shares the same recorded identifier as the separate service certificate, safe completion has not been established, and all judicial findings and the judge's signature belong to the court.
+- **Where and next step:** Get the current proposed order at https://courts.mt.gov/Forms/mmrta and ask the sentencing-court clerk whether and how it must accompany Form A.
+- **Gather:** The matching Form A, the distinct current proposed-order file, the records the current order or clerk directs you to use, and the clerk's tendering instructions.
+- **Do not file or assume:** Do not mistake the service certificate for the order, write findings, add an order date, sign for the judge, or predict a hearing or result.
+
+### 4. Statement of Inability to Pay Court Costs and Fees
+
+- **Missing:** The fee-waiver statement that applies only if you cannot pay the sentencing court's filing fee.
+- **Why:** The Montana Legal Services Association and Montana Supreme Court Access to Justice Commission packet is marked for noncommercial use only. This paid product may link to it but may not copy, convert, relabel, rewrite, or distribute it without a reproduction license.
+- **Where and next step:** Obtain the original from https://www.montanalawhelp.org for your own noncommercial use and ask the sentencing-court clerk whether it is current and whether a companion order or local paper is required.
+- **Gather:** The clerk's current fee and waiver directions and the financial information and materials the current original form or clerk actually requests. Keep that information under your control.
+- **Do not file or assume:** Do not treat this packet as containing the form, upload financial answers here, assume a waiver will be granted, or quote a filing fee before the clerk confirms it.
+
+### 5. Montana DOJ CRISS Expungement/Removal Request Form
+
+- **Missing:** The CRISS request updated April 29, 2024, for the post-order DOJ step.
+- **Why:** The April 29, 2024 DOCX is retained as reference material and is not available as a packet form. The official 2023 PDF and 2024 DOCX also differ about photo identification, an original court order versus an original court judgment, and the listed request types. The current version and attachment set enforced by CRISS have not been confirmed.
+- **Where and next step:** Use this step only after the court grants expungement. Contact Montana DOJ CRISS at https://dojmt.gov/dci-home/conviction-expungement-process/, (406) 444-3625, or dojcriss@mt.gov and ask which dated form and attachments it will accept before mailing anything.
+- **Gather:** Keep the signed expungement order or court judgment, fingerprints, and photo identification ready while CRISS confirms which original or certified court document and other attachments it requires; retain CRISS's dated or written answer.
+- **Do not file or assume:** Do not send this request after resentencing only, mix the 2023 and 2024 instructions, omit fingerprints, sign early, or state that DOJ removed a record before CRISS acts.
+
+### Packet, Briefcase, payment, checkout, and credits
+
+- None of these five official documents is included, so this packet must not be presented as filing-ready.
+- Your existing answers, uploaded records, court information, and contact notes must remain saved in your Briefcase. The five official documents and the confirmations described above must be shown as still outstanding.
+- Return through your Briefcase after you obtain a document or confirmation. Do not start over; add the official material to the saved matter and continue from there.
+- You must not be charged for any absent document, and checkout must remain unavailable while one of these items is outstanding. Court filing fees are separate; CRISS records no agency fee for its request.
+- No packet credit or partner credit may be consumed for any of these absent documents.
+
+## Aplazamientos de formularios oficiales — Español
+
+Este paquete no está listo para presentar porque no incluye los cinco documentos oficiales que se indican a continuación. Conserve las respuestas y documentos que ya proporcionó; use estas instrucciones para obtener los documentos oficiales y confirmar los datos pendientes.
+
+### 1. Formulario A de MMRTA para quien actualmente cumple una sentencia
+
+- **Falta:** Formulario A de MMRTA — Petición de cancelación, nueva sentencia o reclasificación (actualmente cumpliendo sentencia).
+- **Motivo:** El DOCX oficial del Poder Judicial de Montana está identificado, pero no se ha verificado la colocación segura de respuestas ni los requisitos procesales de las Reglas Temporales AF 22-0129. Una petición casera podría alterar u omitir contenido oficial.
+- **Dónde y siguiente paso:** Obtenga el Formulario A vigente en https://courts.mt.gov/Forms/mmrta. Use un conjunto completo por cada condena y pregunte al secretario del tribunal sentenciador sobre documentos locales, presentación y notificación.
+- **Reúna:** Sus propios documentos judiciales con la información del tribunal, condado, caso, juez, fiscal del condado y demás datos de identificación que solicite el Formulario A; un conjunto vigente por cada condena; y su propia explicación de elegibilidad.
+- **No presente ni suponga:** No presente este paquete en lugar del Formulario A, adivine datos del caso, permita que otra persona elija entre cancelación y nueva sentencia, ni permita que firme o escriba su explicación por usted.
+
+### 2. Certificado de Notificación — Petición MMRTA
+
+- **Falta:** El certificado oficial que demuestra la notificación al fiscal del condado.
+- **Motivo:** El certificado oficial y la orden propuesta son archivos diferentes, pero aparecen bajo el mismo identificador a pesar de tener identidades de archivo distintas; no se ha establecido cómo completar el certificado de forma segura.
+- **Dónde y siguiente paso:** Obtenga el certificado vigente en https://courts.mt.gov/Forms/mmrta. Pregunte al secretario cómo y cuándo notificar al fiscal y complete el certificado solo después de realizar la notificación.
+- **Reúna:** El condado y tribunal de presentación, la oficina y dirección confirmadas del fiscal, y la fecha, método, destinatario y constancia reales de notificación.
+- **No presente ni suponga:** No use un certificado escrito por usted, declare que notificó antes de hacerlo, adivine destinatario o dirección, firme de antemano ni suponga un método o plazo de 21 días sin instrucciones vigentes.
+
+### 3. Orden Propuesta conforme a MMRTA
+
+- **Falta:** La Orden Propuesta oficial que concede cancelación, nueva sentencia o reclasificación conforme a MMRTA.
+- **Motivo:** Comparte el mismo identificador registrado que el certificado separado, no se ha establecido su preparación segura y todas las determinaciones y la firma del juez pertenecen al tribunal.
+- **Dónde y siguiente paso:** Obtenga la orden vigente en https://courts.mt.gov/Forms/mmrta y pregunte al secretario del tribunal sentenciador si debe acompañar el Formulario A y cómo entregarla.
+- **Reúna:** El Formulario A correspondiente, el archivo vigente y distinto de la orden propuesta, los documentos que la orden vigente o el secretario le indiquen usar y las instrucciones de entrega del secretario.
+- **No presente ni suponga:** No confunda el certificado con la orden, escriba determinaciones, añada fecha de orden, firme por el juez ni prediga audiencia o resultado.
+
+### 4. Declaración de Imposibilidad de Pagar Costas y Tarifas Judiciales
+
+- **Falta:** La declaración de exención que se usa únicamente si no puede pagar la tarifa del tribunal sentenciador.
+- **Motivo:** El paquete de Montana Legal Services Association y la Comisión de Acceso a la Justicia de la Corte Suprema de Montana está marcado solo para uso no comercial. Este producto pagado puede enlazarlo, pero no copiarlo, convertirlo, cambiarle el nombre, reescribirlo ni distribuirlo sin licencia.
+- **Dónde y siguiente paso:** Obtenga el original en https://www.montanalawhelp.org para su uso no comercial y pregunte al secretario si está vigente y si se exige una orden complementaria u otro documento local.
+- **Reúna:** La tarifa e instrucciones vigentes del secretario y la información financiera y los materiales que el formulario original vigente o el secretario soliciten. Mantenga esa información bajo su control.
+- **No presente ni suponga:** No trate este paquete como si contuviera el formulario, cargue aquí respuestas financieras, suponga que se concederá la exención ni indique una tarifa antes de confirmarla.
+
+### 5. Formulario de Solicitud de Cancelación/Eliminación de CRISS del DOJ de Montana
+
+- **Falta:** La solicitud de CRISS actualizada el 29 de abril de 2024 para el paso posterior a la orden.
+- **Motivo:** El DOCX del 29 de abril de 2024 se conserva como material de referencia y no está disponible como formulario del paquete. El PDF oficial de 2023 y el DOCX de 2024 también difieren sobre identificación con foto, orden judicial original frente a sentencia judicial original y los tipos de solicitud. CRISS no ha confirmado qué versión y anexos exige actualmente.
+- **Dónde y siguiente paso:** Use este paso solo después de que el tribunal conceda la cancelación. Comuníquese con CRISS en https://dojmt.gov/dci-home/conviction-expungement-process/, (406) 444-3625 o dojcriss@mt.gov y pregunte qué formulario fechado y anexos aceptará antes de enviar algo.
+- **Reúna:** Mantenga preparados la orden de cancelación firmada o la sentencia judicial, las huellas y la identificación con foto mientras CRISS confirma qué documento judicial original o certificado y demás anexos exige; conserve la respuesta escrita o fechada de CRISS.
+- **No presente ni suponga:** No envíe esta solicitud después de una nueva sentencia solamente, mezcle instrucciones de 2023 y 2024, omita huellas, firme antes de tiempo ni declare que el DOJ eliminó un registro antes de que CRISS actúe.
+
+### Paquete, Briefcase, pago, finalización de compra y créditos
+
+- Ninguno de estos cinco documentos oficiales está incluido, por lo que este paquete no debe presentarse como listo para presentar.
+- Sus respuestas existentes, documentos cargados, información judicial y notas de contacto deben permanecer guardados en su Briefcase. Los cinco documentos y confirmaciones descritos deben aparecer como pendientes.
+- Regrese por medio de su Briefcase después de obtener un documento o confirmación. No vuelva a empezar; añada el material oficial al asunto guardado y continúe desde allí.
+- No se le debe cobrar por ningún documento ausente, y la finalización de compra debe permanecer inhabilitada mientras alguno esté pendiente. Las tarifas judiciales son independientes; CRISS registra que su solicitud no tiene tarifa de agencia.
+- No se puede consumir crédito de paquete ni crédito de socio por ninguno de estos documentos ausentes.
+
 ---
 
 This is document-preparation help, not legal advice. It does not promise any result.
