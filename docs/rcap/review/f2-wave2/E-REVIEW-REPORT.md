@@ -82,4 +82,23 @@ CR-180's F3 approval covers the rendered bytes at the review base. The F2 correc
 
 The hold is enforced, not merely described: CR-106 has its own `profile.json` with `strategy.tier: held_on_source_or_design`, `checkoutProhibited: true` at both levels, a complete participant treatment (who must be served, what to gather, what not to do), an exact blocker with owner and next action, and **no bindings and no fixtures** — the dispositions verifier would fail a non-packet treatment declaring either, and it passes. Nothing under `src/` references CR-106; no family or artifact treats it as supplied; its own participant strings say it is not included in any packet; and every CA route is structurally non-sellable (CA absent from `LEGACY_VERIFIED_JURISDICTIONS`). The wave-1 F2-11 defect (the hold living outside every verifier) is corrected. No closure is recorded; the hold stays nonterminal per the dispatch.
 
-*(DE and ME deferral sections land as their own atomic groups.)*
+## DE Family Court Form 281 — exact_supported_deferral → **technical_approved**
+
+**F2-05 corrected at its root.** The venue premise that previously had no committed source — every-charge-disposed-in-Family-Court files in Family Court — is now grounded in a pinned committed carrier. This review verified independently, against the committed bytes:
+
+- `evidence/DE_FORM-1021IP_…REV-2023-10.pdf` — 630,042 bytes, sha256 matches the pin (`f2c8a0b1b8a4…`); extracted-text companion matches its recorded sha256.
+- `evidence/DE_FORM-281E_charge-sheet_REV-2018-09.docx` — 26,118 bytes, sha256 matches the pin (`aaca121e3bb4…`); extracted text matches.
+- **All eight `quotesRelieduponVerbatim` are present** in the committed extracted text (re-checked by this review, not taken from `quotesVerifiedAtPinTime`).
+- The county rule ("…disposed of in Family Court, then you must file in Family Court in the county where your most recent case was terminated") and the notarization step ("Petition (notarized) (Form 281)") were additionally located verbatim in the pinned carrier.
+- The uncarried `§ 4374(c)` subsection claim is dropped; the citation now reads "10 Del. C. § 1025 and 11 Del. C. § 4374" exactly as the petition language printed in 1021IP.
+- The rejection of the committed Superior Court petition candidate is re-grounded on the carrier ("If you have any charges or convictions outside of Family Court, then you must file in Superior Court…") rather than the former assumption.
+
+**Deferral completeness:** exact — Form 281 and Form 283 are absent from every committed source (1021IP names both as the packet contents; the bundle carries only the 281E continuation sheet); all three rejected candidates carry full sha256, what-it-actually-is, and why they cannot serve the track.
+
+**No payment surface on the deferred route:** `checkoutProhibited` and `paymentProhibited` at both levels, enforced by `verify-rcap-hard-form-dispositions.mjs` (pass); structurally, DE is absent from `LEGACY_VERIFIED_JURISDICTIONS`, so `resolvePacketRoute` returns `guidance_only` with `sellable: false`, `creditConsumable: false`.
+
+**F2-07** corrected (en/es key-for-key across all seven participant strings). **F2-18** reconciled: the profile's `ledgerReconciliation` records the `production_packet → exact_supported_deferral` downgrade with the reason and the ledger owner, and `data/rcap-ledger/track-terminalization.json` now carries `candidateTreatment: exact_supported_deferral` with `candidateEvidence` pointing at this profile.
+
+**Non-blocking exactness notes for the owner:** (1) the 45-day criminal-history expiry in `whatToGather` is supported by committed bytes (`DE-delaware.json` states it repeatedly — verified) but is not among the pinned quotes, so `legalIntegrityDisposition`'s "every claim traces to a verbatim quote in a pinned carrier" slightly overstates; pin the quote or cite `DE-delaware.json`. (2) "Photo identification" over-specifies the carrier, which says only "along with your identification" — match the carrier's word.
+
+*(ME deferral section lands as its own atomic group.)*

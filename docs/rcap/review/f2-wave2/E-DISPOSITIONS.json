@@ -65,6 +65,14 @@
       "owner": "Terminal E (terminal-e-hard-forms)",
       "evidenceSha": "c1c68e7b42d04f78467594d2acdfb2878a8c29bb89568b5db7b35b7a40577330",
       "note": "F2-15 is corrected and the fill is no longer inverted: all three Stamp_court_case clerk fields (CourtInfo_ft, CaseNumber, TCCaseName_ft) are protectedFields, the petitioner's item-1 identity (T186 Last/First/Middle) and mailing address (FillText38/37) are bound to participant facts, and every one of those bindings carries a printedLabelMustContain assertion checked against the source page's own content-stream geometry. Rendered assertions prove the petitioner's name and address appear, the case number does NOT appear (the clerk fills it — canonical asserts its absence), and neither pre-printed caption is duplicated. F2-07 corrected (en/es); F2-19 corrected structurally. All three fixtures re-render to recorded fingerprints; tracksServed is exactly ca-851-91. PROMOTION RULES: eligible for captain integration only — the six CA packet routes additionally require F3 approval, runtime wiring, legal-adoption continuity and staging acceptance before any terminal promotion."
+    },
+    {
+      "reviewId": "F2-E-delaware-family-court-form-281",
+      "outcome": "technical_approved",
+      "trackKeys": ["DE:de_discretionary_family_court"],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "evidenceSha": "c8047b559324ff00bbdf2a51f25117cf8f51dfff955af956facbbcbc82b8f947",
+      "note": "F2-05 is corrected at its root. The Family-Court venue premise that previously had no committed source is now grounded in a pinned committed carrier: Form 1021IP (630,042 bytes, sha256 f2c8a0b1b8a4…) and the Form 281E charge sheet (26,118 bytes, sha256 aaca121e3bb4…) are committed under the family's evidence/ directory with extracted-text companions, and this review independently re-hashed both files, re-hashed both extracted texts, and re-verified all eight quotesRelieduponVerbatim against the committed extracted bytes — every quote is present. The corrected participant statement restates only what the carrier says: the every-charge-disposed-in-Family-Court condition and the outside-Family-Court → Superior Court rule are 1021IP's own words; the county rule ('file in Family Court in the county where your most recent case was terminated') and the notarization step were additionally verified present in the pinned carrier text by this review; the uncarried § 4374(c) subsection claim is dropped and the citation now reads '10 Del. C. § 1025 and 11 Del. C. § 4374' exactly as the petition language printed in 1021IP; and the rejection of the committed Superior Court petition candidate is re-grounded on the carrier rather than the former assumption. The participant treatment is complete and states the deferral condition exactly (Form 281 + Form 283 absent from every committed source; instruction packet and continuation sheet are not substitutes, with all three rejected candidates carrying full sha256, what-it-actually-is and why). No payment surface exists on the deferred route: checkoutProhibited and paymentProhibited at both levels enforced by verify-rcap-hard-form-dispositions (pass), and structurally DE is absent from LEGACY_VERIFIED_JURISDICTIONS so resolvePacketRoute returns guidance_only with sellable:false. F2-07 corrected (en/es key-for-key across all seven participant strings); F2-18 reconciled (the profile's ledgerReconciliation records the production_packet → exact_supported_deferral downgrade with the reason and names the ledger owner, and the ledger itself now carries candidateTreatment exact_supported_deferral with candidateEvidence pointing at this profile). Two exactness notes for the owner, non-blocking: (1) the 45-day criminal-history expiry in whatToGather is supported by committed bytes (DE-delaware.json states it repeatedly) but is not among the pinned quotes, so legalIntegrityDisposition's 'every claim traces to a verbatim quote in a pinned carrier' slightly overstates — pin the quote or cite DE-delaware.json for it; (2) 'Photo identification' over-specifies the carrier, which says only 'along with your identification' — match the carrier's word."
     }
   ],
   "f3Closures": [
@@ -107,13 +115,13 @@
     "verified": "The hold is enforced, not merely described: the family carries its own profile.json with strategy.tier held_on_source_or_design, checkoutProhibited:true at both levels, complete participant treatment, an exact blocker with owner and next action, no bindings and no fixtures (the dispositions verifier would fail a non-packet treatment declaring either). Nothing under src/ references CR-106; no other family or artifact treats it as supplied; its participant strings state it is not included in any packet; and every CA route is structurally non-sellable because CA is absent from LEGACY_VERIFIED_JURISDICTIONS. The review manifest lists it review-exempt. No closure is recorded for it."
   },
   "totals": {
-    "f2JobsReviewed": 4,
-    "f2_technical_approved": 3,
+    "f2JobsReviewed": 5,
+    "f2_technical_approved": 4,
     "f2_correction_required": 1,
     "f2_held_on_source_or_design": 0,
     "f3JobsReviewed": 4,
     "f3_technical_approved": 4,
     "f3_correction_required": 0,
-    "pendingGroups": "DE and ME deferral closures land as their own atomic groups."
+    "pendingGroups": "ME deferral closure lands as its own atomic group."
   }
 }
