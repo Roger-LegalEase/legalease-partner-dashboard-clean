@@ -1,0 +1,44 @@
+{
+  "fixtureId": "negative",
+  "description": "Rejection fixture reproducing the lane C1 failure mode: content the source does not supply, which runPleadingQa passes because QA reads relief vocabulary, template grade, the footer and seal markers rather than truth.",
+  "statedFailureReason": "The fixture asserts that the court has already found the RCW 9.94A.640(2) tests satisfied when that finding is discretionary and belongs to the court, asserts that the prosecuting attorney does not object, states a filing fee the source expressly does not establish, asserts completed service when RCW 9.95.240 prescribes no service at all, and populates the protected docket number and OTN fields.",
+  "expectations": {
+    "qaPassed": true,
+    "expectedSignalClass": "invention",
+    "expectedSignal": "court_finding_asserted",
+    "alsoExpectedSignals": [
+      "prosecutor_position_asserted",
+      "monetary_amount_asserted",
+      "service_completion_asserted",
+      "protected_case_field_populated",
+      "docket_number_asserted"
+    ]
+  },
+  "renderInput": {
+    "partyData": { "petitionerName": "Negative Sample" },
+    "caseData": {
+      "countyName": "Thurston",
+      "docketNumber": "82-1-00417-3",
+      "otn": "WA0034992118",
+      "judgeName": "the Honourable Pat Example"
+    },
+    "chargeData": {
+      "chargeDescription": "Second degree theft",
+      "disposition": "Convicted following a plea of guilty; placed on probation",
+      "dispositionDate": "06/14/1982",
+      "arrestDate": "11/02/1981",
+      "arrestingAgency": "Olympia Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Vacation of the record of a pre-1984 conviction under RCW 9.95.240(2)(a)",
+      "additionalFacts": [
+        "The Court finds that Defendant has met the equivalent of the RCW 9.94A.640(2) tests and that the record shall be cleared.",
+        "The prosecuting attorney does not object to this Motion and agrees that the record should be vacated.",
+        "Defendant paid the filing fee of $240 to the clerk of the superior court on 02/14/2026.",
+        "A copy of this Motion was duly served on the prosecuting attorney on 03/01/2026, and service was completed that day."
+      ]
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

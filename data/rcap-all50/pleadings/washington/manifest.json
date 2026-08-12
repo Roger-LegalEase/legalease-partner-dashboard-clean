@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-c3-jurisdiction-manifest/v1",
+  "jobId": "T-C-WA-production-packet",
+  "jurisdiction": "WA",
+  "jurisdictionSlug": "washington",
+  "windowId": "2026-08-12-w1",
+  "lane": "C",
+  "implementationFamily": "controlled_pleading",
+  "outputStrategy": "custom_pleading",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "file": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+  },
+  "trackIds": [
+    "wa_crop_certificate_of_restoration",
+    "wa_vac_post_probation_9_95_240"
+  ],
+  "partitionNote": "Washington splits. RCW 9.95.240 is drafted: no pattern form exists and the section prescribes none, so a custom pleading on the RCW 9.94A.640 model is the correct vehicle. RCW 9.97.020 is blocked: a complete statewide AOC form set already exists for that exact application, its mandatory-versus-pattern status is unresolved, and the binaries have not been acquired.",
+  "tracks": [
+    {
+      "trackId": "wa_vac_post_probation_9_95_240",
+      "legalName": "Dismissal After Probation and Vacation of a Pre-1984 Conviction, RCW 9.95.240",
+      "status": "pleading_packet_rendered",
+      "disposition": "drafted",
+      "componentCount": 11,
+      "blockedComponents": [],
+      "note": "Drafted. The registry's correct_form build blocker answers itself for this track: no Washington Courts pattern form exists for RCW 9.95.240, the section prescribes no form, and the pleading is drafted on the RCW 9.94A.640 model. Pre-Sentencing Reform Act route only — offences committed before 1 July 1984."
+    },
+    {
+      "trackId": "wa_crop_certificate_of_restoration",
+      "legalName": "Application for a Certificate of Restoration of Opportunity, RCW 9.97.020",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Blocked as an official-form route. A complete statewide AOC CRO form set (CRO 01.0100, 01.0200, 01.0300, 01.0600, 01.0700) has existed since 2016 under the RCW 9.97.020(11) duty. Whether those forms are mandatory, pattern or optional is unresolved and decides the output strategy; separately, the five binaries have not been acquired, pinned or measured and no source-materialization receipt exists."
+    }
+  ],
+  "summary": {
+    "tracksTotal": 2,
+    "drafted": 1,
+    "blocked": 1
+  }
+}
