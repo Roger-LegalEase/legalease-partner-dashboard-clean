@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "exp-ad-additional-cases-sealing",
+  "mapKind": "acroform_name_binding",
+  "promotedFrom": {
+    "committedDraft": "docs/record-clearing/field-map-drafts/all50/illinois-legalease-illinois-exp-ad-additional-cases-sealing.field-map-draft.json",
+    "draftNote": "The committed draft carried no recoverable AcroForm names (dirty_acroform raw inspection); bindings are promoted against the field census extracted from the committed shadow-batch sample of the same source binary.",
+    "committedSample": "tmp/official-pdf-shadow-batch/all50/illinois-legalease-illinois-exp-ad-additional-cases-sealing-sample.pdf"
+  },
+  "sourceBinary": {
+    "fileName": "EXP-AD Additional Cases Sealing.pdf",
+    "relativePath": "LegalEase Illinois/EXP-AD Additional Cases Sealing.pdf",
+    "sha256": "fd423706a659ad6b953adc96a900f5f501eb1567851e52b8ded404c5544159cc"
+  },
+  "participantFactVocabulary": {
+    "source": "src/lib/rcap-engine/compiled/profiles/IL-*.json (questions[].id + packetGenerator.requiredInputs)",
+    "questionIds": [
+      "ownership_scope",
+      "jurisdiction_scope",
+      "case_outcome",
+      "offense_level",
+      "possible_pathway_context",
+      "source_question_01_ask-in-this-order",
+      "source_question_02_was-this-an-illinois-state-case-federal-",
+      "source_question_03_were-you-under-18-when-it-happened-and-w",
+      "source_question_04_what-county-court-and-case-number",
+      "source_question_05_was-there-an-arrest-ticket-or-charge-not",
+      "source_question_06_how-did-the-case-end-released-without-ch",
+      "source_question_07_what-was-the-exact-charge-and-statute",
+      "source_question_08_was-the-case-a-dui-reckless-driving-mino",
+      "source_question_09_did-you-successfully-complete-supervisio",
+      "source_question_10_was-it-qualified-probation-under-a-drug-",
+      "source_question_11_when-did-the-last-sentence-supervision-o",
+      "source_question_12_do-you-have-any-pending-criminal-charges",
+      "source_question_13_was-the-case-cannabis-related-if-yes-amo",
+      "source_question_14_was-the-case-connected-to-trafficking-co",
+      "source_question_15_was-someone-else-using-your-name-or-iden",
+      "source_question_16_do-you-have-your-isp-access-and-review-r",
+      "age_at_offense",
+      "sentence_completion_date",
+      "trafficking_status",
+      "pardon_status",
+      "disposition_date",
+      "court",
+      "charge",
+      "state_exclusion_categories",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "disposition_date",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date",
+      "trafficking_status"
+    ]
+  },
+  "renderRule": "Renderer populates ONLY the bindings below. Every other census field is listed in neverPopulate or manualParticipantFields and must remain empty at render time.",
+  "bindings": [
+    {
+      "field": "1 - County",
+      "type": "dropdown",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "field": "2 - Your name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "7 - Case Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "case_identifier"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "P6 - Print Name2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    }
+  ],
+  "manualParticipantFields": [
+    "3 - Other name",
+    "4 - Date of birth",
+    "5 - Race",
+    "6 - Gender",
+    "Arrest or Case Number - 1",
+    "Arresting Agency - 1",
+    "List all charges for each case number - 1",
+    "Date of Arrest - 1",
+    "Arrest or Case Number - 2",
+    "Arresting Agency - 2",
+    "List all charges for each case number - 2",
+    "Date of Arrest - 2",
+    "Outcome - 2",
+    "Outcome - 1",
+    "Arrest or Case Number - 3",
+    "Arresting Agency - 3",
+    "List all charges for each case number - 3",
+    "Date of Arrest - 3",
+    "Outcome - 3",
+    "Arrest or Case Number - 4",
+    "Arresting Agency - 4",
+    "List all charges for each case number - 4",
+    "Date of Arrest - 4",
+    "Arrest or Case Number - 5",
+    "Arresting Agency - 5",
+    "List all charges for each case number - 5",
+    "Date of Arrest - 5",
+    "Outcome - 4",
+    "Outcome - 5",
+    "Arrest or Case Number - 6",
+    "Arresting Agency - 6",
+    "List all charges for each case number - 6",
+    "Date of Arrest - 6",
+    "Arrest or Case Number - 7",
+    "Arresting Agency - 7",
+    "List all charges for each case number - 7",
+    "Date of Arrest - 7",
+    "P6 - Attorney Number2",
+    "Outcome - 6",
+    "Outcome - 7"
+  ],
+  "neverPopulate": [
+    {
+      "field": "P6 - Signature2",
+      "class": "signature"
+    }
+  ],
+  "overflowPolicy": {
+    "default": "shrink_to_fit down to minFontSize 6; if still overflowing, move content to a labeled addendum page and mark the field \"See attached addendum\"",
+    "hard_stop": "value exceeding the bound is a render error (identity-critical short fields such as state/zip)",
+    "must_match_dropdown_option": "value must exactly match one of the form’s dropdown options or the render fails closed"
+  }
+}
