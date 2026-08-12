@@ -1,0 +1,415 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ks-criminal-cover-sheet-102025",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 36,
+  "fields": [
+    {
+      "name": "NAME",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "ADDRESS 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine1",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "ADDRESS 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine2",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "PHONE",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.phone",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "CELL PHONE",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "EMAIL ADDRESS",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.email",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 50,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "DL OR STATE ID NO",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Sensitive identifier; supplied directly by the participant at assembly, never auto-filled from screening."
+    },
+    {
+      "name": "SSN",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Sensitive identifier; supplied directly by the participant at assembly, never auto-filled from screening."
+    },
+    {
+      "name": "DOB",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "WHITE",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "BLACK",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "ASIAN",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "PACIFIC ISLAND",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "AMERICAN INDIANALASKAN",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "UNKNOWN",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "ALIAS NAMES USED 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "ALIAS NAMES USED 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "ALIAS NAMES USED 3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "KDR TRANSACTION NUMBER",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Transcribed from the participant’s records if available."
+    },
+    {
+      "name": "VIOLATION DATE",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "OFFICER",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Arresting-officer identification is an outside-party fact. Never populated."
+    },
+    {
+      "name": "OFFICER NO",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Outside-party fact. Never populated."
+    },
+    {
+      "name": "SEX",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "D Attorney Street",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Defendant’s-attorney block; blank for self-represented participants."
+    },
+    {
+      "name": "D Attorney CSZ",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Defendant’s-attorney block; blank for self-represented participants."
+    },
+    {
+      "name": "D Attorney Phone",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Defendant’s-attorney block; blank for self-represented participants."
+    },
+    {
+      "name": "D Attorney SC No",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Defendant’s-attorney block; blank for self-represented participants."
+    },
+    {
+      "name": "D Attorney Firm",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Defendant’s-attorney block; blank for self-represented participants."
+    },
+    {
+      "name": "C Attorney Firm",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Opposing/prosecuting counsel block. Never populated."
+    },
+    {
+      "name": "C Attorney Address",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Opposing/prosecuting counsel block. Never populated."
+    },
+    {
+      "name": "C Attorney Phone",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Opposing/prosecuting counsel block. Never populated."
+    },
+    {
+      "name": "C Attorney Cell",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Opposing/prosecuting counsel block. Never populated."
+    },
+    {
+      "name": "C Attorney Email",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Opposing/prosecuting counsel block. Never populated."
+    },
+    {
+      "name": "C Attorney SC No",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Opposing/prosecuting counsel block. Never populated."
+    },
+    {
+      "name": "Ethnicity rbgroup",
+      "type": "radio",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic radio group."
+    },
+    {
+      "name": "D Attorney If needed",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Defendant’s-attorney block; blank for self-represented participants."
+    }
+  ]
+}

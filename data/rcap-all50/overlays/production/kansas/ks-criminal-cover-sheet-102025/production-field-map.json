@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ks-criminal-cover-sheet-102025",
+  "mapKind": "acroform_name_binding",
+  "promotedFrom": {
+    "committedDraft": "docs/record-clearing/field-map-drafts/all50/kansas-legalease-kansas-criminal-cover-sheet-102025.field-map-draft.json",
+    "draftNote": "The committed draft carried no recoverable AcroForm names (dirty_acroform raw inspection); bindings are promoted against the field census extracted from the committed shadow-batch sample of the same source binary.",
+    "committedSample": "tmp/official-pdf-shadow-batch/all50/kansas-legalease-kansas-criminal-cover-sheet-102025-sample.pdf"
+  },
+  "sourceBinary": {
+    "fileName": "Criminal Cover Sheet 102025.pdf",
+    "relativePath": "LegalEase Kansas/Criminal Cover Sheet 102025.pdf",
+    "sha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60"
+  },
+  "participantFactVocabulary": {
+    "source": "src/lib/rcap-engine/compiled/profiles/KS-*.json (questions[].id + packetGenerator.requiredInputs)",
+    "questionIds": [
+      "ownership_scope",
+      "jurisdiction_scope",
+      "case_outcome",
+      "offense_level",
+      "possible_pathway_context",
+      "financial_obligations",
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id"
+    ]
+  },
+  "renderRule": "Renderer populates ONLY the bindings below. Every other census field is listed in neverPopulate or manualParticipantFields and must remain empty at render time.",
+  "bindings": [
+    {
+      "field": "NAME",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "ADDRESS 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine1"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "ADDRESS 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine2"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "PHONE",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.phone"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "EMAIL ADDRESS",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.email"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 50,
+        "onOverflow": "overflow_to_addendum"
+      }
+    }
+  ],
+  "manualParticipantFields": [
+    "CELL PHONE",
+    "DL OR STATE ID NO",
+    "SSN",
+    "DOB",
+    "WHITE",
+    "BLACK",
+    "ASIAN",
+    "PACIFIC ISLAND",
+    "AMERICAN INDIANALASKAN",
+    "UNKNOWN",
+    "ALIAS NAMES USED 1",
+    "ALIAS NAMES USED 2",
+    "ALIAS NAMES USED 3",
+    "KDR TRANSACTION NUMBER",
+    "VIOLATION DATE",
+    "SEX",
+    "D Attorney Street",
+    "D Attorney CSZ",
+    "D Attorney Phone",
+    "D Attorney SC No",
+    "D Attorney Firm",
+    "Ethnicity rbgroup",
+    "D Attorney If needed"
+  ],
+  "neverPopulate": [
+    {
+      "field": "OFFICER",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "OFFICER NO",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "C Attorney Firm",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "C Attorney Address",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "C Attorney Phone",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "C Attorney Cell",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "C Attorney Email",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "C Attorney SC No",
+      "class": "prosecutor_or_outside_party"
+    }
+  ],
+  "overflowPolicy": {
+    "default": "shrink_to_fit down to minFontSize 6; if still overflowing, move content to a labeled addendum page and mark the field \"See attached addendum\"",
+    "hard_stop": "value exceeding the bound is a render error (identity-critical short fields such as state/zip)",
+    "must_match_dropdown_option": "value must exactly match one of the form’s dropdown options or the render fails closed"
+  }
+}

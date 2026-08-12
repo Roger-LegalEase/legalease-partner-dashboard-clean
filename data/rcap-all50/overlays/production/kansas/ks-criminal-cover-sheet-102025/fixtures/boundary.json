@@ -1,0 +1,52 @@
+{
+  "fixtureKind": "boundary",
+  "description": "Longest plausible name/address/case-number values plus multiline content; every value must survive the family boundsChecks (shrink-to-fit or addendum overflow), never silent truncation.",
+  "participantFacts": {
+    "participant_full_legal_name": "Anastasia-Wilhelmina Featherstonehaugh-Cholmondeley von Steuben-Krzyzanowski",
+    "county_or_filing_location": "Pottawatomie",
+    "case_identifier": "2009-CR-0008888; consolidated with 2009-TR-0123456 and 2010-CR-0000007",
+    "charge": "Interference with law enforcement in the case of a felony, K.S.A. 21-5904(a)(3), amended from obstruction of official duty as originally charged under prior codification K.S.A. 21-3808",
+    "contact_information": {
+      "addressLine1": "10023 Southwest Prairie Meadow Homestead Route, Rural Delivery Box 47-A",
+      "addressLine2": "Care of Featherstonehaugh Family Farm Partnership LLP",
+      "cityStateZip": "Council Grove, KS 66846-9701",
+      "phone": "+1 (620) 555-0135 extension 88",
+      "email": "anastasia.featherstonehaugh.cholmondeley@example-very-long-domain.net"
+    },
+    "case_outcome": "Diversion completed"
+  },
+  "expectedFieldValues": {
+    "NAME": "Anastasia-Wilhelmina Featherstonehaugh-Cholmondeley von Steuben-Krzyzanowski",
+    "ADDRESS 1": "10023 Southwest Prairie Meadow Homestead Route, Rural Delivery Box 47-A",
+    "ADDRESS 2": "Care of Featherstonehaugh Family Farm Partnership LLP",
+    "PHONE": "+1 (620) 555-0135 extension 88",
+    "EMAIL ADDRESS": "anastasia.featherstonehaugh.cholmondeley@example-very-long-domain.net"
+  },
+  "overflowExpectations": [
+    {
+      "field": "NAME",
+      "softMaxLen": 60,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "ADDRESS 1",
+      "softMaxLen": 70,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "ADDRESS 2",
+      "softMaxLen": 70,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "PHONE",
+      "softMaxLen": 25,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "EMAIL ADDRESS",
+      "softMaxLen": 50,
+      "onOverflow": "overflow_to_addendum"
+    }
+  ]
+}
