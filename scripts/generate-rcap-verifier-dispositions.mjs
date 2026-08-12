@@ -67,6 +67,11 @@ const OVERRIDES = {
     reason:
       "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain."
   },
+  "generate-rcap-d-adoption-reconciliation.mjs": {
+    disposition: "wired",
+    reason:
+      "Reconciles Codex's D adoption-continuity findings against the final family handoff. It keeps 'the adoption is stale' separate from 'the adoption holds but the track is blocked on a different gate', and it refuses to treat an unclassifiable adoption as a legal question when it is a missing component bridge — which is what all 36 unclassified tracks turned out to be. Runs with --check in the chain. It promotes nothing and opens no speculative counsel work."
+  },
   "generate-rcap-d-track-queue.mjs": {
     disposition: "wired",
     reason:
