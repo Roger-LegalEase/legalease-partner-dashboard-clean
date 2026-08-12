@@ -1,0 +1,16 @@
+{
+  "fixtureId": "boundary",
+  "description": "Sparse-input boundary on the mistaken-identity ground: no address, no arrest date, no disposition, no arresting agency. Unsupplied values must fall through to the renderer's own confirm-later tokens.",
+  "expectations": { "qaPassed": true },
+  "protectedProbes": [ "the Court finds", "does not object", "filing fee" ],
+  "renderInput": {
+    "partyData": { "petitionerName": "Jordan Boundary-Sample" },
+    "caseData": { "countyName": "Sedgwick" },
+    "chargeData": {},
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Expungement of a city ordinance arrest record under K.S.A. 12-4516a(c) on the ground of mistaken identity"
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

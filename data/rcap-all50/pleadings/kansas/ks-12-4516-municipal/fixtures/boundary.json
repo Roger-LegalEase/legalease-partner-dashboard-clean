@@ -1,0 +1,16 @@
+{
+  "fixtureId": "boundary",
+  "description": "Sparse-input boundary on the diversion path: no address, no arrest date, no disposition, no arresting agency. Every unsupplied value must fall through to the renderer's own confirm-later token rather than being filled in.",
+  "expectations": { "qaPassed": true },
+  "protectedProbes": [ "the Court finds", "does not object", "filing fee" ],
+  "renderInput": {
+    "partyData": { "petitionerName": "Jordan Boundary-Sample" },
+    "caseData": { "countyName": "Sedgwick" },
+    "chargeData": {},
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Expungement of a fulfilled diversion agreement based on a city ordinance violation under K.S.A. 12-4516(a)(2), three or more years having elapsed from the date the terms of the diversion agreement were fulfilled"
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

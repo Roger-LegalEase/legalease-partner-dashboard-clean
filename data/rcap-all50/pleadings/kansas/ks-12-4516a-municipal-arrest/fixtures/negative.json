@@ -1,0 +1,44 @@
+{
+  "fixtureId": "negative",
+  "description": "Rejection fixture reproducing the lane C1 failure mode: content the source does not supply, which runPleadingQa passes because QA reads relief vocabulary, template grade, the footer and seal markers rather than truth.",
+  "statedFailureReason": "The fixture converts the K.S.A. 12-4516a(c) grounds — which are the court's to find — into findings already made, asserts that the prosecuting attorney does not object, states a costs fee whose amount the source does not establish, asserts that notice was served when notice is the court's act, and populates the protected docket number and OTN fields.",
+  "expectations": {
+    "qaPassed": true,
+    "expectedSignalClass": "invention",
+    "expectedSignal": "court_finding_asserted",
+    "alsoExpectedSignals": [
+      "prosecutor_position_asserted",
+      "monetary_amount_asserted",
+      "service_completion_asserted",
+      "protected_case_field_populated",
+      "docket_number_asserted"
+    ]
+  },
+  "renderInput": {
+    "partyData": { "petitionerName": "Negative Sample" },
+    "caseData": {
+      "countyName": "Shawnee",
+      "docketNumber": "MC-2024-338109",
+      "otn": "KS0044118820",
+      "judgeName": "the Honourable Pat Example"
+    },
+    "chargeData": {
+      "chargeDescription": "Arrest on a city ordinance charge of disorderly conduct",
+      "disposition": "Charges dismissed",
+      "dispositionDate": "06/20/2024",
+      "arrestDate": "02/03/2024",
+      "arrestingAgency": "City of Example Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Expungement of a city ordinance arrest record under K.S.A. 12-4516a(c)",
+      "additionalFacts": [
+        "The Court finds that no probable cause existed for the arrest and that expungement is in the best interests of justice.",
+        "The prosecuting attorney does not object to this Petition and the arresting agency has consented to the relief requested.",
+        "Petitioner paid the prescribed costs of $125 to the clerk of the municipal court on 02/14/2026.",
+        "Notice of this Petition was duly served on the prosecuting attorney and the arresting law enforcement agency on 03/01/2026."
+      ]
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}
