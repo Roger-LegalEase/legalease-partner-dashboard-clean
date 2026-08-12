@@ -1,62 +1,169 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v5-rendered",
+  "level": "participant_fact",
+  "assertion": "Rendered with an empty fact set. Nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "writtenWithNoFacts": 0,
+  "pass": true,
+  "refusedFields": [
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Case No",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.case_number"
+    },
     {
       "field": "1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Judge",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "court"
     },
     {
       "field": "Date",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Race",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "race"
     },
     {
       "field": "Sex",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DOB",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.date_of_birth"
     },
     {
       "field": "Arrest Tracking Number",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "FBI No if known",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "agency"
     },
     {
       "field": "COURT TYPE",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "COUNTY/CITY",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
     },
     {
       "field": "DAY 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "MONTH 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "YEAR 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "ACA NO",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "CHARGES 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "CHARGES 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DEFENDANT NAME",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "SID",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "CLASS",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check BoxF",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check BoxM",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box6",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box8",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     }
   ]
 }

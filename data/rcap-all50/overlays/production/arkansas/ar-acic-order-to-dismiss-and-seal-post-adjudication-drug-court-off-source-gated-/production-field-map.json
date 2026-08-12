@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+  "lane": "D1A",
   "documentOwnership": "court_issued_caption_only",
   "sha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2",
   "pageGeometry": [
@@ -30,16 +31,14 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Case No",
       "class": "participant",
       "factId": "matter.case_number"
-    },
-    {
-      "field": "First Middle and Last name",
-      "class": "participant",
-      "factId": "participant.last_name"
     },
     {
       "field": "County_2",
@@ -77,6 +76,235 @@
       "factId": "matter.charges[2].case_number"
     }
   ],
+  "bindingRefusals": [
+    {
+      "field": "COURT OF",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "First Middle and Last name",
+      "factId": "participant.last_name",
+      "reason": "compound_field_single_fact_would_be_partial",
+      "category": "compound_first_middle_last",
+      "required": "participant.full_legal_name",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "in",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "was found guilty of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "in violation of ACA",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Judge",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Judge_2",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "Date_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FBI No if known",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "Day",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Month",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Year",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Class Letter",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box74",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box75",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ACA Code",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "guilty charge",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "aca code 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "day 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "month 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "year 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "prob months",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box76",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box77",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Charges 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Charges 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Day 3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Month 3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Year 3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box78",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box79",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "From",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "from 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SID",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    }
+  ],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 1,
+    "refusals": [
+      {
+        "field": "First Middle and Last name",
+        "factId": "participant.last_name",
+        "reason": "compound_field_single_fact_would_be_partial",
+        "category": "compound_first_middle_last",
+        "required": "participant.full_legal_name"
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [
     {
       "field": "COURT OF",

@@ -1,15 +1,388 @@
 {
   "schemaVersion": "rcap-overflow-report/v2",
   "boundaryFixtureApplied": true,
+  "unfittableRefusedRatherThanClipped": 1,
   "findings": [
     {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Judges Signature",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "FBI No if known",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "COURT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "DIVISION 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "DAY 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "MONTH 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "YEAR 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "OFFENSE 1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "OFFENSE 2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "OFFENSE 3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CLASS 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "ACA 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "FELONY 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "MISDEMEANOR 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "PROBATION YEARS",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "FINE AMOUNT",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "DOES 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "DOES NOT 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "STATUS 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "STATUS 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "FULL DATE",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "SID NO",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "field": "Case No",
-      "check": "clipping",
-      "widgetWidth": 117,
-      "textWidthAt": 196.8,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 280,
+        "y": 616,
+        "width": 117,
+        "height": 17
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Judges Signature",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "FBI No if known",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "COURT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "DIVISION 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "DAY 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "MONTH 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "YEAR 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "OFFENSE 1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "OFFENSE 2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "OFFENSE 3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CLASS 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "ACA 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "FELONY 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "MISDEMEANOR 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "PROBATION YEARS",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "FINE AMOUNT",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "DOES 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "DOES NOT 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "STATUS 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "STATUS 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "FULL DATE",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "SID NO",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

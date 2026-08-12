@@ -1,26 +1,24 @@
 {
   "schemaVersion": "rcap-overflow-report/v2",
-  "boundaryFixtureApplied": false,
+  "boundaryFixtureApplied": true,
+  "unfittableRefusedRatherThanClipped": 1,
   "findings": [
     {
       "fixture": "boundary",
-      "anchor": "IN THE ______________COURT OF ___ , ARKANSAS",
-      "page": 1,
-      "check": "clipping",
-      "boxWidth": 118.9,
-      "textWidthAt": 131.6,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
-    },
-    {
-      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "anchor": "vs.    Case No. ___",
-      "page": 1,
-      "check": "clipping",
-      "boxWidth": 89.9,
-      "textWidthAt": 108.2,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 277.2,
+        "y": 565.1,
+        "width": 89.9,
+        "height": 13.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
     }
   ]
 }

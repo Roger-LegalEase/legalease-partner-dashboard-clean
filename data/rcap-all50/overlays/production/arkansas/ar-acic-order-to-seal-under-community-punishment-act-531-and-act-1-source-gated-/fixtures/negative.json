@@ -1,74 +1,194 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v5-rendered",
+  "level": "participant_fact",
+  "assertion": "Rendered with an empty fact set. Nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "writtenWithNoFacts": 0,
+  "pass": true,
+  "refusedFields": [
+    {
+      "field": "Case No",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.case_number"
+    },
     {
       "field": "Judge",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "court"
     },
     {
       "field": "Race",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "race"
     },
     {
       "field": "Arrest Tracking Number",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Sex",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DOB",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.date_of_birth"
     },
     {
       "field": "FBI No if known",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "DIVISION 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "COURT 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DIVISION 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "DAY 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "MONTH 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "YEAR 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "OFFENSE 1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "OFFENSE 2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "CLASS 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FELONY 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "MISDEMEANOR 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     },
     {
       "field": "ACA 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "OFFENSE 3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "ACA 2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "DAY 2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "MONTH 2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "YEAR 2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "COMPLETED 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "COMPLETED 2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "COMPLETED 3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "COMPLETED 4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "HAS 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "HAS NOT 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "PENDING 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "PENDING 2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "OFFENSE 4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "OFFENSE 5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DEFENDANT SIG",
-      "class": "signature"
+      "reason": "protected_category",
+      "category": "signature"
     },
     {
       "field": "FULL DATE",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SID NO",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

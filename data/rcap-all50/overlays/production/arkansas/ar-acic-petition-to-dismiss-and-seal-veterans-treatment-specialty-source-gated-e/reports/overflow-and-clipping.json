@@ -1,36 +1,41 @@
 {
   "schemaVersion": "rcap-overflow-report/v2",
-  "boundaryFixtureApplied": false,
+  "boundaryFixtureApplied": true,
+  "unfittableRefusedRatherThanClipped": 2,
   "findings": [
     {
       "fixture": "boundary",
-      "anchor": "IN THE ______________ COURT OF ___ , ARKANSAS",
-      "page": 1,
-      "check": "clipping",
-      "boxWidth": 120.6,
-      "textWidthAt": 131.6,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
+      "check": "unfittable_refused_not_clipped",
+      "anchor": "vs.     Case No. ___",
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 282,
+        "y": 596.3,
+        "width": 112.8,
+        "height": 13.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "anchor": "number(s) _____________ in ___ County ____________",
-      "page": 2,
-      "check": "clipping",
-      "boxWidth": 97.2,
-      "textWidthAt": 131.6,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
-    },
-    {
-      "fixture": "boundary",
-      "anchor": "County ___ Court pursuant to A.C.A.§16-10",
-      "page": 3,
-      "check": "clipping",
-      "boxWidth": 81.7,
-      "textWidthAt": 131.6,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
+      "factId": "matter.county",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Saint Bartholomew and the Northern Reaches County",
+      "rect": {
+        "x": 293.2,
+        "y": 346.8,
+        "width": 97.2,
+        "height": 13.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 143.6
     }
   ]
 }

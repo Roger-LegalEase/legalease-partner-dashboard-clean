@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-flat_overlay-map/v5",
   "family": "ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+  "lane": "D1A",
   "documentOwnership": "participant_completed",
   "sha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0",
   "pageGeometry": [
@@ -36,7 +37,37 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [],
+  "bindingRefusals": [],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 3,
+    "refusals": [
+      {
+        "anchor": "IN THE ___ COURT OF ________________, ARK",
+        "factId": "matter.court",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      },
+      {
+        "anchor": "IN THE ______________ COURT OF ___ , ARKANSAS",
+        "factId": "matter.county",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      },
+      {
+        "anchor": "County ___ Court pursuant to A.C.A.§16-10",
+        "factId": "matter.county",
+        "reason": "no_indexed_fact_exists_for_this_table_row",
+        "category": "table_row",
+        "rowIndex": 9
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [],
   "manualFields": [],
   "anchorCapture": {
@@ -73,46 +104,8 @@
         "unreadableLines": 1
       }
     ],
-    "anchorCount": 6,
+    "anchorCount": 3,
     "anchors": [
-      {
-        "page": 1,
-        "kind": "rule_line_blank",
-        "label": "IN THE ___ COURT OF ________________, ARK",
-        "factId": "matter.court",
-        "baselineY": 707,
-        "fontSize": 11,
-        "writeBox": {
-          "x": 132.2,
-          "y": 709,
-          "width": 105,
-          "height": 13.8
-        },
-        "measurement": {
-          "blankStartMeasured": true,
-          "blankEndMeasured": true,
-          "fromGlyphMetrics": true
-        }
-      },
-      {
-        "page": 1,
-        "kind": "rule_line_blank",
-        "label": "IN THE ______________ COURT OF ___ , ARKANSAS",
-        "factId": "matter.county",
-        "baselineY": 707,
-        "fontSize": 11,
-        "writeBox": {
-          "x": 322.1,
-          "y": 709,
-          "width": 120.6,
-          "height": 13.8
-        },
-        "measurement": {
-          "blankStartMeasured": true,
-          "blankEndMeasured": true,
-          "fromGlyphMetrics": true
-        }
-      },
       {
         "page": 1,
         "kind": "rule_line_blank",
@@ -162,25 +155,6 @@
           "x": 293.2,
           "y": 346.8,
           "width": 97.2,
-          "height": 13.8
-        },
-        "measurement": {
-          "blankStartMeasured": true,
-          "blankEndMeasured": true,
-          "fromGlyphMetrics": true
-        }
-      },
-      {
-        "page": 3,
-        "kind": "rule_line_blank",
-        "label": "County ___ Court pursuant to A.C.A.§16-10",
-        "factId": "matter.county",
-        "baselineY": 437.5,
-        "fontSize": 11,
-        "writeBox": {
-          "x": 122.3,
-          "y": 439.5,
-          "width": 81.7,
           "height": 13.8
         },
         "measurement": {

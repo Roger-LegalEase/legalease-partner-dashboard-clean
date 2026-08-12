@@ -1,26 +1,254 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v5-rendered",
+  "level": "participant_fact",
+  "assertion": "Rendered with an empty fact set. Nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "writtenWithNoFacts": 0,
+  "pass": true,
+  "refusedFields": [
+    {
+      "field": "IN THE CIRCUIT COURT OF",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Case No",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.case_number"
+    },
+    {
+      "field": "day of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "and charged with the offenses of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "A Class 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "A Class 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "felony",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "misdemeanor in violation of A C A",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "offenses of 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "offenses of 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "A Class 1_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "A Class 2_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "felony_2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "misdemeanor in violation of A C A_2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "federal court and the status of thatthose charges isare as follows",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Defendant",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "IS or",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "IS NOT required to register as a sex offender under the",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "prays this Court enter an Order Sealing the above referenced felony convictions",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "1_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "2_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
     {
       "field": "Defendants Signature",
-      "class": "signature"
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "State",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.state"
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Defendants Address",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "Zip code",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.zip"
+    },
+    {
+      "field": "COUNTY OF",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.county"
+    },
+    {
+      "field": "Petitioner",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
     },
     {
       "field": "Subscribed and sworn to before me on this",
-      "class": "protected"
+      "reason": "protected_category",
+      "category": "notarization"
+    },
+    {
+      "field": "undefined_4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "20",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Notary Public",
-      "class": "protected"
+      "reason": "protected_category",
+      "category": "notarization"
     },
     {
       "field": "MyCommissionexpires",
-      "class": "protected"
+      "reason": "protected_category",
+      "category": "notarization"
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SID No",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FBI No If known",
+      "reason": "protected_category",
+      "category": "agency"
     },
     {
       "field": "copy of the foregoing Petition has been provided to the Prosecuting",
-      "class": "outside_party"
+      "reason": "protected_category",
+      "category": "prosecutor"
+    },
+    {
+      "field": "Defendant or Defendants Attorney",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "Date_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

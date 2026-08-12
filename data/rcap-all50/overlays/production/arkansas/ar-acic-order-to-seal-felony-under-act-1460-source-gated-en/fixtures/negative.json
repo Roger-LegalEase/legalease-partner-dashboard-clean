@@ -1,74 +1,209 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v5-rendered",
+  "level": "participant_fact",
+  "assertion": "Rendered with an empty fact set. Nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "writtenWithNoFacts": 0,
+  "pass": true,
+  "refusedFields": [
     {
       "field": "IN THE",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "COURT OF",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "ARKANSAS",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Case No",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.case_number"
     },
     {
       "field": "day of",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "and charged with the offenses of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "A Class",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "felony",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "misdemeanor in violation of A C A",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     },
     {
       "field": "of ACA 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "of ACA 2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "A Class 1",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "A Class 2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "felony_2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "misdemeanor on the",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "undefined",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Defendant was convicted either of a nonviolent Class C felony or a nonviolent",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "Defendant was convicted of a felony or other offense not named in Ark Code",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "It has been at least one 1 year since the Court denied a petition to Seal for this",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Defendant has no pending felony charges in any state or federal court or",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Defendant has one or more pending felony charges in state or federal court and the",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "status of thatthose charges isare as follows 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "status of thatthose charges isare as follows 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "IS or",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "IS NOT required to register as a sex offender under theSexOffender",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "HAS",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "HAS NOT been rehabilitated",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Defendant",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
     },
     {
       "field": "Judge",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "court"
     },
     {
       "field": "Date",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Race",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "race"
     },
     {
       "field": "Sex",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DOB",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.date_of_birth"
     },
     {
       "field": "Arrest Tracking Number",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "FBI No if known",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "agency"
     }
   ]
 }

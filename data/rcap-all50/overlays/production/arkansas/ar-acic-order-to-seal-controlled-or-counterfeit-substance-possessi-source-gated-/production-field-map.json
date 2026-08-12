@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+  "lane": "D1A",
   "documentOwnership": "court_issued_caption_only",
   "sha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555",
   "pageGeometry": [
@@ -24,26 +25,14 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Case No",
       "class": "participant",
       "factId": "matter.case_number"
-    },
-    {
-      "field": "First Middle and Last name",
-      "class": "participant",
-      "factId": "participant.last_name"
-    },
-    {
-      "field": "1 The Defendant was arrested on the",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "Defendant  IS or  IS NOT required to register as a sex",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
     },
     {
       "field": "Defendant",
@@ -56,6 +45,171 @@
       "factId": "participant.date_of_birth"
     }
   ],
+  "bindingRefusals": [
+    {
+      "field": "IN THE",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "COURT OF",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "First Middle and Last name",
+      "factId": "participant.last_name",
+      "reason": "compound_field_single_fact_would_be_partial",
+      "category": "compound_first_middle_last",
+      "required": "participant.full_legal_name",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "1 The Defendant was arrested on the",
+      "factId": "participant.full_legal_name",
+      "reason": "field_name_is_a_sentence_fragment_not_a_label",
+      "category": "unlabelled_blank",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "day of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "and charged with the offenses of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "or federal court and the status of thatthose charges isare as follows",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Defendant  IS or  IS NOT required to register as a sex",
+      "factId": "participant.full_legal_name",
+      "reason": "field_name_is_a_sentence_fragment_not_a_label",
+      "category": "unlabelled_blank",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "Judge",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FBI No if known",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box6",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box8",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box9",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box10",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    }
+  ],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 3,
+    "refusals": [
+      {
+        "field": "First Middle and Last name",
+        "factId": "participant.last_name",
+        "reason": "compound_field_single_fact_would_be_partial",
+        "category": "compound_first_middle_last",
+        "required": "participant.full_legal_name"
+      },
+      {
+        "field": "1 The Defendant was arrested on the",
+        "factId": "participant.full_legal_name",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      },
+      {
+        "field": "Defendant  IS or  IS NOT required to register as a sex",
+        "factId": "participant.full_legal_name",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [
     {
       "field": "IN THE",

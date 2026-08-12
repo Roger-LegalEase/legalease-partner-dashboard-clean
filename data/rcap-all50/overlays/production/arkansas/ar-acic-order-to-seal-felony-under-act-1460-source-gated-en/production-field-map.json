@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+  "lane": "D1A",
   "documentOwnership": "court_issued_caption_only",
   "sha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc",
   "pageGeometry": [
@@ -24,21 +25,14 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Case No",
       "class": "participant",
       "factId": "matter.case_number"
-    },
-    {
-      "field": "FirstMiddleandLastname",
-      "class": "participant",
-      "factId": "participant.last_name"
-    },
-    {
-      "field": "1 The Defendant was arrested on the",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
     },
     {
       "field": "Defendant",
@@ -51,6 +45,241 @@
       "factId": "participant.date_of_birth"
     }
   ],
+  "bindingRefusals": [
+    {
+      "field": "IN THE",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "COURT OF",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ARKANSAS",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FirstMiddleandLastname",
+      "factId": "participant.last_name",
+      "reason": "compound_field_single_fact_would_be_partial",
+      "category": "compound_first_middle_last",
+      "required": "participant.full_legal_name",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "1 The Defendant was arrested on the",
+      "factId": "participant.full_legal_name",
+      "reason": "field_name_is_a_sentence_fragment_not_a_label",
+      "category": "unlabelled_blank",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "day of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "and charged with the offenses of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "A Class",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "felony",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "misdemeanor in violation of A C A",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "2 The Defendant either pled guilty or nolo contendere or was found guilty in violation",
+      "factId": "participant.full_legal_name",
+      "reason": "field_name_is_a_sentence_fragment_not_a_label",
+      "category": "unlabelled_blank",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "of ACA 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "of ACA 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "A Class 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "A Class 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "felony_2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "misdemeanor on the",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "undefined",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Defendant was convicted either of a nonviolent Class C felony or a nonviolent",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "Defendant was convicted of a felony or other offense not named in Ark Code",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "It has been at least one 1 year since the Court denied a petition to Seal for this",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Defendant has no pending felony charges in any state or federal court or",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Defendant has one or more pending felony charges in state or federal court and the",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "status of thatthose charges isare as follows 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "status of thatthose charges isare as follows 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "IS or",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "IS NOT required to register as a sex offender under theSexOffender",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "HAS",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "HAS NOT been rehabilitated",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Judge",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FBI No if known",
+      "reason": "protected_category",
+      "category": "agency"
+    }
+  ],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 3,
+    "refusals": [
+      {
+        "field": "FirstMiddleandLastname",
+        "factId": "participant.last_name",
+        "reason": "compound_field_single_fact_would_be_partial",
+        "category": "compound_first_middle_last",
+        "required": "participant.full_legal_name"
+      },
+      {
+        "field": "1 The Defendant was arrested on the",
+        "factId": "participant.full_legal_name",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      },
+      {
+        "field": "2 The Defendant either pled guilty or nolo contendere or was found guilty in violation",
+        "factId": "participant.full_legal_name",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [
     {
       "field": "IN THE",

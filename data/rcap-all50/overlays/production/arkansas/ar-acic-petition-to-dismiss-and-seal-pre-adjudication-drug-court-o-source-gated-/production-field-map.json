@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+  "lane": "D1A",
   "documentOwnership": "participant_completed",
   "sha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42",
   "pageGeometry": [
@@ -30,6 +31,9 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Case No",
@@ -37,64 +41,9 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "First Middle and Last name",
-      "class": "participant",
-      "factId": "participant.last_name"
-    },
-    {
-      "field": "federal court and the status of thatthose charges isare as follows 1",
-      "class": "participant",
-      "factId": "matter.charges[0].charge"
-    },
-    {
-      "field": "federal court and the status of thatthose charges isare as follows 2",
-      "class": "participant",
-      "factId": "matter.charges[1].charge"
-    },
-    {
-      "field": "in violation of ACA",
-      "class": "participant",
-      "factId": "matter.charge"
-    },
-    {
-      "field": "WHEREFORE the Defendant",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "FURTHER if applicable the Defendant",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "DOB",
       "class": "participant",
       "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "Defendant Address  Street 1",
-      "class": "participant",
-      "factId": "participant.street_address"
-    },
-    {
-      "field": "Defendant Address  Street 2",
-      "class": "participant",
-      "factId": "participant.street_address"
-    },
-    {
-      "field": "City",
-      "class": "participant",
-      "factId": "participant.city"
-    },
-    {
-      "field": "State",
-      "class": "participant",
-      "factId": "participant.state"
-    },
-    {
-      "field": "Zip code",
-      "class": "participant",
-      "factId": "participant.zip"
     },
     {
       "field": "COUNTY",
@@ -112,21 +61,345 @@
       "factId": "matter.charges[1].charge"
     },
     {
-      "field": "COUNTY 02",
-      "class": "participant",
-      "factId": "matter.county"
-    },
-    {
       "field": "CASE NUMBER(S)",
       "class": "participant",
       "factId": "matter.case_number"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "First Middle and Last name",
+      "factId": "participant.last_name",
+      "reason": "compound_field_single_fact_would_be_partial",
+      "category": "compound_first_middle_last",
+      "required": "participant.full_legal_name",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "federal court and the status of thatthose charges isare as follows 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "federal court and the status of thatthose charges isare as follows 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "numbers",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "was found guilty of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "in violation of ACA",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "WHEREFORE the Defendant",
+      "factId": "participant.full_legal_name",
+      "reason": "field_name_is_a_sentence_fragment_not_a_label",
+      "category": "unlabelled_blank",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "FURTHER if applicable the Defendant",
+      "factId": "participant.full_legal_name",
+      "reason": "field_name_is_a_sentence_fragment_not_a_label",
+      "category": "unlabelled_blank",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "Defendants Signature",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FBI No if known",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "I",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Defendant or Defendants Attorney",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "Date_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Defendant Address  Street 1",
+      "factId": "participant.street_address",
+      "reason": "inside_service_or_notarization_block",
+      "category": "block_region",
+      "heading": "Certificate of Service",
+      "cutoffY": 707,
+      "widgetY": 204,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "Defendant Address  Street 2",
+      "factId": "participant.street_address",
+      "reason": "no_indexed_fact_exists_for_this_table_row",
+      "category": "table_row",
+      "rowIndex": 1,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "City",
+      "factId": "participant.city",
+      "reason": "inside_service_or_notarization_block",
+      "category": "block_region",
+      "heading": "Certificate of Service",
+      "cutoffY": 707,
+      "widgetY": 170,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "State",
+      "factId": "participant.state",
+      "reason": "inside_service_or_notarization_block",
+      "category": "block_region",
+      "heading": "Certificate of Service",
+      "cutoffY": 707,
+      "widgetY": 170,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "Zip code",
+      "factId": "participant.zip",
+      "reason": "inside_service_or_notarization_block",
+      "category": "block_region",
+      "heading": "Certificate of Service",
+      "cutoffY": 707,
+      "widgetY": 170,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "COURT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DAY",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "YEAR",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "CLASS",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ACA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "DATE 01",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "DAY 02",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "MONTH",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "MONTH 02",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "YEAR 02",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "COUNTY 02",
+      "factId": "matter.county",
+      "reason": "no_indexed_fact_exists_for_this_table_row",
+      "category": "table_row",
+      "rowIndex": 1,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "COURT 02",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "COUNTY 03",
-      "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "reason": "no_indexed_fact_exists_for_this_table_row",
+      "category": "table_row",
+      "rowIndex": 2,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "COURT 03",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SID NUMBER",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 10,
+    "refusals": [
+      {
+        "field": "First Middle and Last name",
+        "factId": "participant.last_name",
+        "reason": "compound_field_single_fact_would_be_partial",
+        "category": "compound_first_middle_last",
+        "required": "participant.full_legal_name"
+      },
+      {
+        "field": "WHEREFORE the Defendant",
+        "factId": "participant.full_legal_name",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      },
+      {
+        "field": "FURTHER if applicable the Defendant",
+        "factId": "participant.full_legal_name",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      },
+      {
+        "field": "Defendant Address  Street 1",
+        "factId": "participant.street_address",
+        "reason": "inside_service_or_notarization_block",
+        "category": "block_region",
+        "heading": "Certificate of Service",
+        "cutoffY": 707,
+        "widgetY": 204
+      },
+      {
+        "field": "Defendant Address  Street 2",
+        "factId": "participant.street_address",
+        "reason": "no_indexed_fact_exists_for_this_table_row",
+        "category": "table_row",
+        "rowIndex": 1
+      },
+      {
+        "field": "City",
+        "factId": "participant.city",
+        "reason": "inside_service_or_notarization_block",
+        "category": "block_region",
+        "heading": "Certificate of Service",
+        "cutoffY": 707,
+        "widgetY": 170
+      },
+      {
+        "field": "State",
+        "factId": "participant.state",
+        "reason": "inside_service_or_notarization_block",
+        "category": "block_region",
+        "heading": "Certificate of Service",
+        "cutoffY": 707,
+        "widgetY": 170
+      },
+      {
+        "field": "Zip code",
+        "factId": "participant.zip",
+        "reason": "inside_service_or_notarization_block",
+        "category": "block_region",
+        "heading": "Certificate of Service",
+        "cutoffY": 707,
+        "widgetY": 170
+      },
+      {
+        "field": "COUNTY 02",
+        "factId": "matter.county",
+        "reason": "no_indexed_fact_exists_for_this_table_row",
+        "category": "table_row",
+        "rowIndex": 1
+      },
+      {
+        "field": "COUNTY 03",
+        "factId": "matter.county",
+        "reason": "no_indexed_fact_exists_for_this_table_row",
+        "category": "table_row",
+        "rowIndex": 2
+      }
+    ]
+  },
+  "explicitMappings": {
+    "OFFENSE 01": "matter.charge",
+    "OFFENSE 02": "matter.charge"
+  },
   "unwritableFields": [
     {
       "field": "Defendants Signature",

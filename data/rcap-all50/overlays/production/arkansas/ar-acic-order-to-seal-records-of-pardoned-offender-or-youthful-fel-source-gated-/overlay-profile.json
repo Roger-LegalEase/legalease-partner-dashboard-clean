@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-flat_overlay-map/v5",
   "family": "ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+  "lane": "D1A",
   "documentOwnership": "court_issued_caption_only",
   "sha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
   "pageGeometry": [
@@ -24,7 +25,30 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [],
+  "bindingRefusals": [],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 2,
+    "refusals": [
+      {
+        "anchor": "IN THE ___ COURT OF _____________ COUNTY,",
+        "factId": "matter.court",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      },
+      {
+        "anchor": "IN THE ___________COURT OF ___ COUNTY, ARKANSAS",
+        "factId": "matter.county",
+        "reason": "field_name_is_a_sentence_fragment_not_a_label",
+        "category": "unlabelled_blank"
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [],
   "manualFields": [],
   "anchorCapture": {
@@ -49,46 +73,8 @@
         "unreadableLines": 2
       }
     ],
-    "anchorCount": 4,
+    "anchorCount": 2,
     "anchors": [
-      {
-        "page": 1,
-        "kind": "rule_line_blank",
-        "label": "IN THE ___ COURT OF _____________ COUNTY,",
-        "factId": "matter.court",
-        "baselineY": 729,
-        "fontSize": 11,
-        "writeBox": {
-          "x": 126,
-          "y": 731,
-          "width": 81.6,
-          "height": 13.8
-        },
-        "measurement": {
-          "blankStartMeasured": true,
-          "blankEndMeasured": true,
-          "fromGlyphMetrics": true
-        }
-      },
-      {
-        "page": 1,
-        "kind": "rule_line_blank",
-        "label": "IN THE ___________COURT OF ___ COUNTY, ARKANSAS",
-        "factId": "matter.county",
-        "baselineY": 729,
-        "fontSize": 11,
-        "writeBox": {
-          "x": 288.6,
-          "y": 731,
-          "width": 97.3,
-          "height": 13.8
-        },
-        "measurement": {
-          "blankStartMeasured": true,
-          "blankEndMeasured": true,
-          "fromGlyphMetrics": true
-        }
-      },
       {
         "page": 1,
         "kind": "rule_line_blank",
