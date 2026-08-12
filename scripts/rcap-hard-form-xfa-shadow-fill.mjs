@@ -64,6 +64,35 @@ export function stripDocumentActions(pdfDoc) {
   return stripped;
 }
 
+/**
+ * Removes link annotations that carry a URI (or any other) action.
+ *
+ * Official forms print help URLs such as courts.ca.gov and wrap them in Link
+ * annotations. The printed text is part of the official layout and stays; the
+ * clickable action is a network action, which a participant packet may not
+ * carry, so only the annotation is dropped. Returns the number removed.
+ */
+export function stripLinkAnnotations(pdfDoc) {
+  let removed = 0;
+  for (const page of pdfDoc.getPages()) {
+    const annots = page.node.lookupMaybe(PDFName.of("Annots"), PDFArray);
+    if (!annots) continue;
+    for (let i = annots.size() - 1; i >= 0; i -= 1) {
+      const annot = annots.lookup(i, PDFDict);
+      if (!annot) continue;
+      const subtype = annot.get(PDFName.of("Subtype"));
+      const action = annot.lookupMaybe(PDFName.of("A"), PDFDict);
+      const actionType = action ? String(action.get(PDFName.of("S")) ?? "").replace("/", "") : "";
+      const isLink = String(subtype ?? "") === "/Link";
+      if (isLink || actionType === "URI" || annot.get(PDFName.of("AA")) !== undefined) {
+        annots.remove(i);
+        removed += 1;
+      }
+    }
+  }
+  return removed;
+}
+
 /** Scans every page annotation for residual actions. Returns offending entries. */
 export function scanAnnotationActions(pdfDoc) {
   const hits = [];
@@ -159,6 +188,8 @@ export async function renderHardFormPacket({ profile, facts, sourceBytes }) {
 
   // Flatten last: after flattening there are no fields left to fill.
   form.flatten();
+
+  report.linkAnnotationsRemoved = stripLinkAnnotations(pdfDoc);
 
   const residual = scanAnnotationActions(pdfDoc);
   if (residual.length > 0) {

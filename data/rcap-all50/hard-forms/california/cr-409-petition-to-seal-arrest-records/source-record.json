@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-hard-form-source-record/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California"
+  },
+  "ledgerJob": "T-E-CA-production-packet",
+  "tracksServed": [
+    "ca-851-91"
+  ],
+  "form": {
+    "formId": "CR-409",
+    "revision": "Rev. January 1, 2024",
+    "officialName": "Petition to Seal Arrest and Related Records",
+    "componentRole": "PETITION",
+    "issuingBody": "Judicial Council of California"
+  },
+  "officialSource": {
+    "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-409__petition-to-seal-arrest-and-related-records__REV-2024-01-01__EN.pdf",
+    "sha256": "59fa8a041633feb8351715938d7b66fda0d879e502f1fb5dd3764939efcc1088",
+    "bytes": 106622,
+    "encrypted": true,
+    "xfa": true,
+    "creator": "Designer 6.5",
+    "pages": 2,
+    "geometry": "612x792",
+    "bundleManifest": "RCAP_SOURCE_BUNDLE_MANIFEST.json (operator-supplied Master Library Edition 1)",
+    "presentInClone": false,
+    "verifiedThisSession": {
+      "method": "sha256 match against RCAP_SOURCE_BUNDLE_MANIFEST.json",
+      "xfaConfirmed": true,
+      "encryptionConfirmed": true,
+      "tool": "pypdf 6.15.0 + cryptography 50.0.0"
+    }
+  },
+  "derivedSource": {
+    "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr409-rescued.pdf",
+    "sha256": "d2674e035ea4bcf00fdca7c39f567c23d897f186c096b0f9014eb8fa21a75e42",
+    "derivation": "pypdf 6.15.0 decrypt with empty owner password, then clone_from re-save; no content edit. Produced this session because qpdf is unavailable in this environment and no CR-409 derivative existed.",
+    "sourceFaithful": true,
+    "faithfulnessProof": "source and derivative both report /XFA present, 2 pages at 612x792 and the same AcroForm field tree; only the encryption dictionary is dropped"
+  },
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+  },
+  "status": {
+    "state": "ready_except_runtime_wiring",
+    "reason": "Packet renders and passes output acceptance; compiled-pathway routing is Terminal A src/ work."
+  }
+}
