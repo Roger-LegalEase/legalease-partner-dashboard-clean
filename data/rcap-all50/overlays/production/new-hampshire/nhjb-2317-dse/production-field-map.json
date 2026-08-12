@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T04:15:41.737Z",
+  "family": "nhjb-2317-dse",
+  "jurisdiction": "NH",
+  "mapKind": "overlay_anchor_bindings",
+  "mapMaturity": "promoted_from_committed_anchor_zones — committed geometry is low-confidence review zones; F must visually confirm coordinates against the source binary before render",
+  "factVocabularySource": "compiled profile question ids + packetGenerator.requiredInputs (src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json)",
+  "populateOnlyClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "checkboxValueMaps": "none recorded in committed drafts; all checkbox-like fields are classified protected until semantics are confirmed",
+  "globalBoundsChecks": {
+    "longName": {
+      "maxLen": 80,
+      "overflow": "shrink_to_fit_then_addendum"
+    },
+    "longAddress": {
+      "maxLen": 120,
+      "overflow": "shrink_to_fit_then_addendum"
+    },
+    "longCaseNumber": {
+      "maxLen": 40,
+      "overflow": "shrink_to_fit_then_addendum"
+    },
+    "multilineExplanations": {
+      "policy": "overflow_to_addendum",
+      "addendumLabel": "Attachment A — continued statement"
+    }
+  },
+  "bindings": [
+    {
+      "censusId": "nhjb-2317-dse-review-anchor-1-1",
+      "bindingKind": "overlay_anchor_zone",
+      "zoneId": "review-anchor-1-1",
+      "page": 1,
+      "rect": {
+        "x": 72,
+        "y": 120,
+        "width": 240,
+        "height": 24
+      },
+      "facts": [
+        "participant_full_legal_name",
+        "source_question_07_4-what-is-the-case-number",
+        "source_question_06_3-what-county-or-court-location"
+      ],
+      "derivation": null,
+      "sensitive": false,
+      "renderRule": {
+        "font": "Helvetica",
+        "sizePt": 10,
+        "minSizePt": 7,
+        "multiline": false,
+        "compose": "single_line_caption_joined_with_' | '"
+      },
+      "boundsCheck": {
+        "maxLenPerFact": {
+          "participant_full_legal_name": 80,
+          "case_identifier": 40,
+          "county_or_filing_location": 60,
+          "court": 60
+        },
+        "zoneOverflow": "shrink_to_fit_then_addendum",
+        "note": "Zone is 240x24pt at low confidence; F must confirm coordinates before any render."
+      },
+      "valueMap": null
+    }
+  ]
+}
