@@ -22,6 +22,6 @@
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
-  "registryPullByDigestStatus": "pending_credentialed_staging_host",
-  "registryPullByDigestNote": "Pull-by-digest re-verification requires a GHCR token with packages:read on rcap-render-worker; that credential deliberately does not exist in the build sandboxes. It is the mandatory FIRST F1 staging action and fails the rehearsal before any migration applies if the pull or digest verification fails. The mutable SHA tag never substitutes for the immutable digest."
+  "registryPullByDigestStatus": "verified_in_f1_ephemeral_staging",
+  "registryPullByDigestNote": "Verified as the FIRST F1 staging action in workflow run 31577743260 (and every prior F1 run since 31572989005): the runner authenticated to GHCR with the workflow's packages:read GITHUB_TOKEN, pulled ghcr.io/roger-legalease/rcap-render-worker@sha256:337083a2… by immutable digest before any migration applied, and confirmed the digest via docker inspect RepoDigests. The container from that exact digest also started, claimed no jobs, and drained gracefully (worker_digest_runs_and_drains). The mutable SHA tag never substitutes for the immutable digest."
 }
