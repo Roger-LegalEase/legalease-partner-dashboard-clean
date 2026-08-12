@@ -81,6 +81,31 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
       assert(record.relativePath === inv.relativePath, `${slug}/${entry.name}: pinned relativePath matches formInventory (drift red)`);
     }
     assert(record.failClosed === true && record.sourcePresenceInClone === false, `${slug}/${entry.name}: source record fails closed`);
+
+    // Bundle reconciliation: every family carries exactly one lifecycle
+    // classification, holds survive availability, and no binary bytes are
+    // claimed present in this container.
+    const br = record.bundleReconciliation;
+    assert(br !== undefined, `${slug}/${entry.name}: bundle reconciliation recorded`);
+    if (br) {
+      const LIFECYCLES = new Set(["binary_present_and_current", "binary_present_source_gated", "binary_present_obsolete", "true_hash_missing"]);
+      assert(LIFECYCLES.has(br.lifecycleClassification), `${slug}/${entry.name}: lifecycle is one of the four states`);
+      assert(record.bundleBinaryBytesPresentInContainer === false, `${slug}/${entry.name}: binary bytes not claimed present`);
+      assert(Array.isArray(record.productionHolds) && record.productionHolds.includes("edition_1_generation_allowed_no")
+        && record.productionHolds.includes("jurisdiction_runtime_disabled")
+        && record.productionHolds.includes("f_independent_visual_review_required"),
+        `${slug}/${entry.name}: Edition 1 + review holds preserved`);
+      if (br.lifecycleClassification === "binary_present_source_gated") {
+        assert(br.runtimeSelectable === false, `${slug}/${entry.name}: source-gated asset is never runtime-selectable`);
+        assert(record.productionHolds.includes("source_gated_never_runtime_selectable"), `${slug}/${entry.name}: source-gated hold present`);
+      }
+      if (br.lifecycleClassification === "true_hash_missing") {
+        assert(br.matchedBy === null && record.sourcePresenceInBundleManifest === false, `${slug}/${entry.name}: missing hash not claimed found`);
+      } else {
+        assert(br.matchedBy === "sha256" && typeof br.bundlePath === "string", `${slug}/${entry.name}: match is by sha256 with a canonical bundle path`);
+        assert(record.sourcePresenceInBundleManifest === true, `${slug}/${entry.name}: found hash recorded present`);
+      }
+    }
     assert(typeof record.exactSourceRequirement === "string" && record.exactSourceRequirement.includes(record.relativePath), `${slug}/${entry.name}: exact source requirement names the pinned path`);
 
     // Census honesty: a census may exist ONLY when extracted from the
