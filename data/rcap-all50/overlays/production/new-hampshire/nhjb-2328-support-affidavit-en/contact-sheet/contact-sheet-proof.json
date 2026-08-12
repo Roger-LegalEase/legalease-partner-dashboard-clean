@@ -1,13 +1,86 @@
 {
-  "schemaVersion": "rcap-contact-sheet-proof/v1",
-  "factoryVersion": "d0-remediated-v1",
-  "basis": "finalized participant artifact, decoded from page content including flattened appearances",
-  "pages": 3,
-  "expectedValues": [
-    "2023CR004182"
+  "schemaVersion": "rcap-contact-sheet-proof/v2-d0v2-approval-evidence",
+  "basis": "regenerated from the unchanged, previously approved participant artifact using the D0-v2 contact-sheet path",
+  "participantArtifact": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2328-support-affidavit-en/fixtures/canonical-filled.pdf",
+  "participantArtifactSha256": "0b8d0a5442fb6c47432dabaa5153bbc3275495406351296ef98bce81d30b9e00",
+  "participantArtifactUnchanged": true,
+  "built": true,
+  "filedArtifactChecksPassed": false,
+  "filedArtifactFindings": [
+    {
+      "ok": false,
+      "msg": "no Reset, Clear Form or Print caption appears in the filed artifact",
+      "detail": [
+        {
+          "page": 1,
+          "text": "Save "
+        },
+        {
+          "page": 3,
+          "text": "Save "
+        }
+      ]
+    },
+    {
+      "ok": false,
+      "msg": "no helper text from a non-printing widget appears in the filed artifact",
+      "detail": [
+        {
+          "page": 1,
+          "text": "Top "
+        },
+        {
+          "page": 1,
+          "text": "of "
+        },
+        {
+          "page": 1,
+          "text": "Page"
+        },
+        {
+          "page": 1,
+          "text": "Lock "
+        },
+        {
+          "page": 1,
+          "text": "& "
+        }
+      ]
+    }
   ],
-  "allExpectedValuesVisible": true,
-  "panelsDiffer": true,
-  "finalizedSha256": "0b8d0a5442fb6c47432dabaa5153bbc3275495406351296ef98bce81d30b9e00",
-  "sheetSha256": "c530c582fdc5df84aa82c5d1759eb4f3102f336ca6af225fb5729fa02496bc85"
+  "proof": {
+    "basis": "finalized participant artifact, decoded from page content including flattened appearances",
+    "pages": 3,
+    "expectedValues": [
+      "2023CR004182"
+    ],
+    "allExpectedValuesVisible": true,
+    "panelsDiffer": true,
+    "panelsSanitizedBeforeEmbedding": true,
+    "panelScans": {
+      "blank": {
+        "hits": [],
+        "inspectable": true,
+        "compressed": false,
+        "clean": true,
+        "verdict": "clean"
+      },
+      "finalized": {
+        "hits": [],
+        "inspectable": true,
+        "compressed": false,
+        "clean": true,
+        "verdict": "clean"
+      }
+    },
+    "activeContentScan": {
+      "hits": [],
+      "inspectable": true,
+      "compressed": false,
+      "clean": true,
+      "verdict": "clean"
+    },
+    "finalizedSha256": "0b8d0a5442fb6c47432dabaa5153bbc3275495406351296ef98bce81d30b9e00",
+    "sheetSha256": "ac0aa03bf4ef8a0b88a8b2cfe75ff967604e2e0ef35fc6134139e1a7dbddfb07"
+  }
 }
