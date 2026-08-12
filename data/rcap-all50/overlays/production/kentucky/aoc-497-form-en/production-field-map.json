@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "aoc-497-form-en",
+  "lane": "D1B",
   "documentOwnership": "participant_completed",
   "sha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
   "pageGeometry": [
@@ -18,6 +19,17 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "explicitMappings": {
+    "ViolationArrest Date": "matter.arrest_date",
+    "CHARGE": "matter.charge",
+    "CHARGE_2": "matter.charge",
+    "CHARGE_3": "matter.charge",
+    "CHARGE_4": "matter.charge",
+    "CHARGE_5": "matter.charge",
+    "CHARGE_6": "matter.charge"
+  },
   "bindings": [
     {
       "field": "Case No",
@@ -40,11 +52,6 @@
       "factId": "participant.street_address"
     },
     {
-      "field": "address2",
-      "class": "participant",
-      "factId": "participant.street_address"
-    },
-    {
       "field": "phone number",
       "class": "participant",
       "factId": "participant.phone"
@@ -63,36 +70,153 @@
       "field": "CHARGE",
       "class": "participant",
       "factId": "matter.charge"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "address2",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.street_address",
+      "note": "The second line of a single address. The fact set holds one address, and writing all of it again on the continuation line would print it twice."
+    },
+    {
+      "field": "area code",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Jail ID Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "ssn",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "check sixty days",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "check sixty  before filing",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "check five years",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
     },
     {
       "field": "CHARGE_2",
-      "class": "participant",
-      "factId": "matter.charges[1].charge"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
     },
     {
       "field": "CHARGE_3",
-      "class": "participant",
-      "factId": "matter.charges[2].charge"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
     },
     {
       "field": "CHARGE_4",
-      "class": "participant",
-      "factId": "matter.charges[3].charge"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
     },
     {
       "field": "CHARGE_5",
-      "class": "participant",
-      "factId": "matter.charges[4].charge"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
     },
     {
       "field": "CHARGE_6",
-      "class": "participant",
-      "factId": "matter.charges[5].charge"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "check not current charges",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
     },
     {
       "field": "other charges",
-      "class": "participant",
-      "factId": "matter.charge"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "requiring expungement",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "2_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "undefined_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "check offenses listed",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "check denied",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "check felony chg",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
     }
   ],
   "unwritableFields": [],
@@ -114,7 +238,7 @@
   ],
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "aoc-334-form-en",
+  "lane": "D1B",
   "documentOwnership": "participant_completed",
   "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
   "pageGeometry": [
@@ -12,6 +13,17 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "explicitMappings": {
+    "CHARGE": "matter.charge",
+    "ViolationArrest  Date": "matter.arrest_date",
+    "CHARGE_2": "matter.charge",
+    "CHARGE_3": "matter.charge",
+    "CHARGE_4": "matter.charge",
+    "CHARGE_5": "matter.charge",
+    "CHARGE_6": "matter.charge"
+  },
   "bindings": [
     {
       "field": "Case  No",
@@ -29,31 +41,6 @@
       "factId": "matter.arrest_date"
     },
     {
-      "field": "CHARGE_2",
-      "class": "participant",
-      "factId": "matter.charges[1].charge"
-    },
-    {
-      "field": "CHARGE_3",
-      "class": "participant",
-      "factId": "matter.charges[2].charge"
-    },
-    {
-      "field": "CHARGE_4",
-      "class": "participant",
-      "factId": "matter.charges[3].charge"
-    },
-    {
-      "field": "CHARGE_5",
-      "class": "participant",
-      "factId": "matter.charges[4].charge"
-    },
-    {
-      "field": "CHARGE_6",
-      "class": "participant",
-      "factId": "matter.charges[5].charge"
-    },
-    {
       "field": "Defendants Birthdate",
       "class": "participant",
       "factId": "participant.date_of_birth"
@@ -67,11 +54,93 @@
       "field": "Defendant",
       "class": "participant",
       "factId": "participant.full_legal_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "CHARGE_2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "CHARGE_3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "CHARGE_4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "CHARGE_5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "CHARGE_6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Defendants ssn",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "As Def.VitalStats.SSN."
     },
     {
       "field": "listed charges",
-      "class": "participant",
-      "factId": "matter.charge"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
     }
   ],
   "unwritableFields": [],
@@ -86,7 +155,7 @@
   ],
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

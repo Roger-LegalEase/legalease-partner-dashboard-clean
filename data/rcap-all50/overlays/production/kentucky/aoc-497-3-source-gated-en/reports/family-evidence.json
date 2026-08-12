@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "KY",
+  "family": "aoc-497-3-source-gated-en",
+  "sourceSha256": "71049fcaf0321ff6ccd3bdc5142c92fabcb4134f7aebb48a6859083085f7c2eb",
+  "sourceIdentity": {
+    "documentId": "AOC-497.3",
+    "revision": "REV-2020-07",
+    "language": "EN",
+    "documentRole": "ORDER",
+    "assetClass": "source_gated",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 2,
+    "observedPages": 2,
+    "manifestDeclaredFieldCount": 30,
+    "observedAcroFieldCount": 29,
+    "fieldCountDiscrepancyNote": "The manifest counts widget annotations; pdf-lib counts terminal fields, and a field with several widgets is one field. The observed number is what this package binds against."
+  },
+  "ownership": "court_issued_caption_only",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required",
+    "source_gated_never_runtime_selectable",
+    "source_or_currentness_gate_open"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": null,
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "10d6656d608d0044b5886c3e660e1800dc266c904312c5287a3b9acb88bb2c77",
+    "secondSha256": "10d6656d608d0044b5886c3e660e1800dc266c904312c5287a3b9acb88bb2c77",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 71049fcaf0321ff6ccd3bdc5142c92fabcb4134f7aebb48a6859083085f7c2eb, read 14c38500960c4017b3cf38410faaabed0e7b3ad911839c520299ccb2681cfdf1"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 4,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "Defendants SSN",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "As Def.VitalStats.SSN."
+      }
+    ],
+    "overridesApplied": []
+  }
+}

@@ -1,46 +1,127 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "refusedFields": [
     {
       "field": "Court",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ADDRESS",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "undefined",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Jail ID Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Date",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Judge",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "an abovenamed agency ordered to",
+      "reason": "protected_category",
+      "category": "agency"
     },
     {
       "field": "Date_2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "2_2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Agency Records Custodian",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "Phone-Number",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
     },
     {
       "field": "Area_C",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Charge_1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge_2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge_3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge_4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge_5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge_6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "Agencies",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Notice",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Attorney_name",
+      "reason": "protected_category",
+      "category": "attorney"
     },
     {
       "field": "ATTY_LABEL",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

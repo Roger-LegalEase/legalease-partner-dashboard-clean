@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "aoc-497-3-source-gated-en",
+  "lane": "D1B",
   "documentOwnership": "court_issued_caption_only",
   "sha256": "71049fcaf0321ff6ccd3bdc5142c92fabcb4134f7aebb48a6859083085f7c2eb",
   "pageGeometry": [
@@ -18,6 +19,9 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "explicitMappings": {},
   "bindings": [
     {
       "field": "County",
@@ -38,6 +42,159 @@
       "field": "Case No",
       "class": "participant",
       "factId": "matter.case_number"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "ADDRESS",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "undefined",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Jail ID Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Defendants SSN",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "As Def.VitalStats.SSN."
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Judge",
+      "reason": "protected_category",
+      "category": "court",
+      "factId": null
+    },
+    {
+      "field": "an abovenamed agency ordered to",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "Date_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "2_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Agency Records Custodian",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "Phone-Number",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.phone"
+    },
+    {
+      "field": "Area_C",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Charge_1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge_2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge_3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge_4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge_5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge_6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Agencies",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Notice",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Attorney_name",
+      "reason": "protected_category",
+      "category": "attorney",
+      "factId": null
+    },
+    {
+      "field": "ATTY_LABEL",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
     }
   ],
   "unwritableFields": [
@@ -92,7 +249,7 @@
   ],
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "aoc-496-form-en",
+  "lane": "D1B",
   "documentOwnership": "court_issued_caption_only",
   "sha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
   "pageGeometry": [
@@ -18,6 +19,9 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "explicitMappings": {},
   "bindings": [
     {
       "field": "Case.County",
@@ -38,6 +42,184 @@
       "field": "Def.VitalStats.DOB",
       "class": "participant",
       "factId": "participant.date_of_birth"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Case.Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Def.Address.Line1",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "Def.Address.City",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "Def.Address.State",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "Def.Address.Zip",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "Def.PhoneNo",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.phone"
+    },
+    {
+      "field": "Def.Info.JailId",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "A jail identification number, reached through the same 'Def' token. Never populated."
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "A social security number box. The binder reached it through the 'Def' token in the field path and would have written the petitioner's NAME into it. Withheld outright; an SSN is never populated by this factory."
+    },
+    {
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Charge.violation.date",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.offense_date"
+    },
+    {
+      "field": "Charge1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Charge6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Check Box6",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Check Box8",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Other",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Text12",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Check Box9",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Agencies",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
     }
   ],
   "unwritableFields": [
@@ -73,7 +255,7 @@
   ],
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

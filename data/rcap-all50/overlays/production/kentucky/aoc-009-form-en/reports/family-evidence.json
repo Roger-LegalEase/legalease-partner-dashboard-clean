@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "KY",
+  "family": "aoc-009-form-en",
+  "sourceSha256": "469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662",
+  "sourceIdentity": {
+    "documentId": "AOC-009",
+    "revision": "REV-UNKNOWN",
+    "language": "EN",
+    "documentRole": "ORDER",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 1,
+    "observedPages": 1,
+    "manifestDeclaredFieldCount": 19,
+    "observedAcroFieldCount": 19,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "court_issued_caption_only",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required",
+    "currentness_revision_confirmation_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": null,
+  "determinism": null,
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662, read ba0e6f70cbef7a53ac1608c936ffbcecd4ac9f0793a3438765b5c5f76e04cfae"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 0,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [],
+    "overridesApplied": []
+  }
+}

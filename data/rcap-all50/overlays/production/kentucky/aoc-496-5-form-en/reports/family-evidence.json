@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "KY",
+  "family": "aoc-496-5-form-en",
+  "sourceSha256": "273e45032d4f1caed9442ebcfe5804e9202c29eb6265f5b7dde7734e44048ca8",
+  "sourceIdentity": {
+    "documentId": "AOC-496.5",
+    "revision": "REV-2019-06",
+    "language": "EN",
+    "documentRole": "ORDER",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 1,
+    "observedPages": 1,
+    "manifestDeclaredFieldCount": 16,
+    "observedAcroFieldCount": 16,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "court_issued_caption_only",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": null,
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "243924e0db8b20888bd14f54f54c8fb13e486cfc22c116c009f4e9a79560c3e4",
+    "secondSha256": "243924e0db8b20888bd14f54f54c8fb13e486cfc22c116c009f4e9a79560c3e4",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 273e45032d4f1caed9442ebcfe5804e9202c29eb6265f5b7dde7734e44048ca8, read 759856223c948f27f2d547872313dec793165f1c01c7653800ed25b41eccffbf"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 2,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [],
+    "overridesApplied": []
+  }
+}

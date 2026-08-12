@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "aoc-496-5-form-en",
+  "lane": "D1B",
   "documentOwnership": "court_issued_caption_only",
   "sha256": "273e45032d4f1caed9442ebcfe5804e9202c29eb6265f5b7dde7734e44048ca8",
   "pageGeometry": [
@@ -12,6 +13,9 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "explicitMappings": {},
   "bindings": [
     {
       "field": "Case No",
@@ -27,6 +31,86 @@
       "field": "County dropdown",
       "class": "participant",
       "factId": "matter.county"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "ADDRESS",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "On",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "2_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "address2",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "payment in full",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "Notice",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "Attorney_name",
+      "reason": "protected_category",
+      "category": "attorney",
+      "factId": null
+    },
+    {
+      "field": "ATTY_LABEL",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
     }
   ],
   "unwritableFields": [
@@ -73,7 +157,7 @@
   ],
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

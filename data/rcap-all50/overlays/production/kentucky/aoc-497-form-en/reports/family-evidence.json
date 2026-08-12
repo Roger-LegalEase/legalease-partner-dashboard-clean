@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "KY",
+  "family": "aoc-497-form-en",
+  "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+  "sourceIdentity": {
+    "documentId": "AOC-497",
+    "revision": "REV-UNKNOWN",
+    "language": "EN",
+    "documentRole": "PETITION",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 2,
+    "observedPages": 2,
+    "manifestDeclaredFieldCount": 33,
+    "observedAcroFieldCount": 32,
+    "fieldCountDiscrepancyNote": "The manifest counts widget annotations; pdf-lib counts terminal fields, and a field with several widgets is one field. The observed number is what this package binds against."
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required",
+    "currentness_revision_confirmation_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": {
+    "documentId": "AOC-497",
+    "note": "Petition to expunge misdemeanour. Same six-row table shape as AOC-334.",
+    "mappings": {
+      "ViolationArrest Date": "matter.arrest_date",
+      "CHARGE": "matter.charge",
+      "CHARGE_2": "matter.charge",
+      "CHARGE_3": "matter.charge",
+      "CHARGE_4": "matter.charge",
+      "CHARGE_5": "matter.charge",
+      "CHARGE_6": "matter.charge"
+    }
+  },
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "e97c9458093fce4f608b6958bc65eb6e05cc6d06206bfc115e1cdfc6161873bb",
+    "secondSha256": "e97c9458093fce4f608b6958bc65eb6e05cc6d06206bfc115e1cdfc6161873bb",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b, read a3e5f46756c75880efc5a58fac712f606428b1649cc24dcc2963dbf4dc32cc5c"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 0,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "address2",
+        "factIdTheBinderOffered": "participant.street_address",
+        "reason": "The second line of a single address. The fact set holds one address, and writing all of it again on the continuation line would print it twice."
+      }
+    ],
+    "overridesApplied": []
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "KY",
+  "family": "aoc-496-4-form-en",
+  "sourceSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+  "sourceIdentity": {
+    "documentId": "AOC-496.4",
+    "revision": "REV-2023-06",
+    "language": "EN",
+    "documentRole": "FORM",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 4,
+    "observedPages": 4,
+    "manifestDeclaredFieldCount": 94,
+    "observedAcroFieldCount": 75,
+    "fieldCountDiscrepancyNote": "The manifest counts widget annotations; pdf-lib counts terminal fields, and a field with several widgets is one field. The observed number is what this package binds against."
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": null,
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "7eb8a973d622a2cf757495a1c24a62576b1f9ab0a5aaacc6771cea21b9895cbe",
+    "secondSha256": "7eb8a973d622a2cf757495a1c24a62576b1f9ab0a5aaacc6771cea21b9895cbe",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182, read 836c0501a252ad05618202259b56696c223f67abe01b77752457cd568d26fbe3"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 0,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [],
+    "overridesApplied": []
+  }
+}

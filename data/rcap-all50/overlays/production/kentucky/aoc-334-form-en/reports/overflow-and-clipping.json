@@ -1,49 +1,240 @@
 {
   "schemaVersion": "rcap-overflow-report/v2",
   "boundaryFixtureApplied": true,
+  "policy": "A value that cannot be drawn at 6pt or larger inside its own widget is refused and the field left blank. Nothing is written past a widget edge.",
   "findings": [
     {
       "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
       "field": "County dropdown",
-      "check": "option_not_in_list",
-      "value": "Example County",
-      "optionCount": 121,
-      "handling": "left_blank_for_participant_selection"
+      "reason": "value_not_among_field_options",
+      "factId": "matter.county"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "listed charges",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "field": "Case  No",
-      "check": "clipping",
-      "widgetWidth": 111,
-      "textWidthAt": 196.8,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 461,
+        "y": 732,
+        "width": 111,
+        "height": 17
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "field": "CHARGE",
-      "check": "clipping",
-      "widgetWidth": 187,
-      "textWidthAt": 613,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "factId": "matter.charge",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line",
+      "rect": {
+        "x": 88,
+        "y": 495,
+        "width": 187,
+        "height": 17
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 367.8
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "field": "Defendants ssn",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 297,
+        "y": 536,
+        "width": 90,
+        "height": 17
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE_4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE_5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE_6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
       "field": "County dropdown",
-      "check": "option_not_in_list",
-      "value": "Saint Bartholomew and the Northern Reaches County",
-      "optionCount": 121,
-      "handling": "left_blank_for_participant_selection"
+      "reason": "value_not_among_field_options",
+      "factId": "matter.county"
     },
     {
       "fixture": "boundary",
-      "field": "Defendant",
-      "check": "clipping",
-      "widgetWidth": 267,
-      "textWidthAt": 326.1,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "check": "binding_refused",
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "listed charges",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

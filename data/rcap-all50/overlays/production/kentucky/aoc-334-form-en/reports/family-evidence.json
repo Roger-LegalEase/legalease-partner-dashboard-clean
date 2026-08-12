@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "KY",
+  "family": "aoc-334-form-en",
+  "sourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+  "sourceIdentity": {
+    "documentId": "AOC-334",
+    "revision": "REV-UNKNOWN",
+    "language": "EN",
+    "documentRole": "FORM",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 1,
+    "observedPages": 1,
+    "manifestDeclaredFieldCount": 20,
+    "observedAcroFieldCount": 20,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required",
+    "currentness_revision_confirmation_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": {
+    "documentId": "AOC-334",
+    "note": "Six-row charge table. The first row is the unsuffixed CHARGE; rows two through six carry the _N suffix and resolve to charge rows 1..5, which bind only when that many charges are supplied.",
+    "mappings": {
+      "CHARGE": "matter.charge",
+      "ViolationArrest  Date": "matter.arrest_date",
+      "CHARGE_2": "matter.charge",
+      "CHARGE_3": "matter.charge",
+      "CHARGE_4": "matter.charge",
+      "CHARGE_5": "matter.charge",
+      "CHARGE_6": "matter.charge"
+    }
+  },
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "8a7d0ee2fdff79e910e7cab904419266de6041959b30c6617b82b2dac118c1e3",
+    "secondSha256": "8a7d0ee2fdff79e910e7cab904419266de6041959b30c6617b82b2dac118c1e3",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d, read 77680fa3be84cddd1de069dfa888f98fe082bcf9b7b0ca247c60797c3285f5ee"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 0,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "Defendants ssn",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "As Def.VitalStats.SSN."
+      }
+    ],
+    "overridesApplied": []
+  }
+}
