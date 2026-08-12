@@ -1,0 +1,104 @@
+{
+  "config": {
+    "jurisdictionCode": "MA",
+    "trackId": "ma-bmc-multi",
+    "templateGrade": "legal_ops_custom_pleading",
+    "templateLifecycle": "replacement_candidate",
+    "primaryReliefTerm": "sealing",
+    "documentTitleFull": "CONSOLIDATED PETITION TO SEAL CRIMINAL RECORDS PURSUANT TO G.L. c. 276, § 100C AND BOSTON MUNICIPAL COURT DEPARTMENT AMENDED STANDING ORDER NO. 1-09",
+    "courtCaption": "COMMONWEALTH OF MASSACHUSETTS\nBOSTON MUNICIPAL COURT DEPARTMENT OF THE TRIAL COURT",
+    "primaryStatutoryAuthority": [
+      {
+        "citation": "G.L. c. 276, § 100C",
+        "description": "Non-conviction sealing: not-guilty, no-bill, and no-probable-cause records are to be sealed by the Commissioner of Probation and the court/probation offices unless the defendant makes a written request not to seal; dismissals and nolle prosequi require a court petition and a finding that substantial justice would best be served by sealing."
+      },
+      {
+        "citation": "Boston Municipal Court Department Amended Standing Order No. 1-09",
+        "description": "The Boston Municipal Court Department permits a single consolidated petition to seal three or more criminal records from two or more BMC divisions, under a Standing Order revised after Pon to conform to the new legal standard. It is a local implementation of the ordinary § 100C judicial-sealing remedy, not a separate statewide remedy."
+      },
+      {
+        "citation": "Commonwealth v. Pon, 469 Mass. 296 (2014)",
+        "description": "The good-cause narrative across all listed records is participant-authored through structured prompts against the Pon factors."
+      }
+    ],
+    "verificationStatute": {
+      "citation": null,
+      "description": "The participant signs the consolidated petition (signature required; the source records notarization as 'none' and states no verification statute); confirm the current signature and declaration form with counsel and the Clerk-Magistrate."
+    },
+    "includeProposedOrder": false,
+    "includeCertificateOfService": false,
+    "serviceNote": null,
+    "counselFlags": [
+      "Never use sealing and expungement interchangeably in Massachusetts copy. Sealing does not destroy the record; expungement does.",
+      "Scope threshold: offer this route only where the participant has three or more criminal records from two or more BMC divisions. Below that threshold, use the ordinary judicial sealing route with one form per case.",
+      "The consolidated petition supplements rather than replaces the statewide form in BMC.",
+      "A counsel-approved custom consolidated petition may be used only for qualifying BMC records. Otherwise use the statewide form per case.",
+      "This is a local implementation of the ordinary § 100C judicial-sealing remedy, not a separate statewide remedy. Do not double-count the underlying relief mechanism.",
+      "Venue: file in the BMC division identified by the Standing Order's residence-based venue rule; a person no longer residing in BMC territory files in the division where the most recent eligible record is from. Confirm the division before filing.",
+      "Notice and hearings: a preliminary hearing, public notice and a final hearing follow filing per the Standing Order, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department.",
+      "Service: per the Standing Order; the source states no separate certificate-of-service component, so none is drafted. Confirm service mechanics with the Clerk-Magistrate.",
+      "Fees: none identified in the review; fee waiver none identified. Confirm with the Clerk-Magistrate.",
+      "The good-cause narrative across all listed records is participant-authored through structured prompts against the Pon factors; it must not be drafted for the participant.",
+      "Records outside the Boston Municipal Court Department are excluded: this route does not reach District Court, Juvenile Court or Superior Court records.",
+      "The participant must obtain their own CORI from the Department of Criminal Justice Information Services and check the case list against it before filing; LegalEase never collects, inspects or authenticates it.",
+      "The source does not prescribe a caption or party-designation format for the consolidated petition; confirm the caption with the Clerk-Magistrate before filing."
+    ],
+    "presentation": {
+      "sovereignPartyName": "COMMONWEALTH OF MASSACHUSETTS",
+      "sovereignPartyProper": "the Commonwealth of Massachusetts",
+      "sovereignRole": "Respondent",
+      "movantRole": "Petitioner",
+      "filingNoun": "Petition",
+      "divisionLine": "[BMC DIVISION — CONFIRM VENUE PER AMENDED STANDING ORDER NO. 1-09]",
+      "usesCounty": false,
+      "courtName": "Boston Municipal Court Department, {county} Division",
+      "venueDescriptor": "the territorial jurisdiction of the Boston Municipal Court Department ({county} Division)",
+      "recordCustodianLead": "The Commissioner of Probation, the Clerk-Magistrate of each listed Boston Municipal Court division, and the Probation Department",
+      "verificationVerb": "state",
+      "verificationPenaltyLabel": "the penalties for a false statement",
+      "serviceRecipientLabel": "the parties identified by Amended Standing Order No. 1-09 (service is per the Standing Order)",
+      "serviceRecipientAddressLabel": "[SERVICE ADDRESSES — CONFIRM WITH THE CLERK-MAGISTRATE PER THE STANDING ORDER]",
+      "movantFirstInCaption": false,
+      "reliefActionVerb": "seal",
+      "orderActionVerb": "seal",
+      "recordsScopePhrase": "the criminal records listed on the attached schedule of Boston Municipal Court cases (three or more records from two or more BMC divisions)"
+    }
+  },
+  "qaProhibitedTerms": ["expungement", "expunge", "expunging", "set aside", "set-aside", "annulment", "vacatur"],
+  "componentInventory": [
+    { "component": "caption", "status": "present", "sectionId": "court_caption", "notes": "BMC division rendered from the participant-supplied division (venue per Standing Order); caption format flagged for Clerk-Magistrate confirmation." },
+    { "component": "case_number_block", "status": "present", "sectionId": "case_number_block", "notes": "Individual docket numbers live on the participant's attached schedule; the docket line stays a confirm bracket." },
+    { "component": "court_party_identity", "status": "present", "sectionId": "parties" },
+    { "component": "title", "status": "present", "sectionId": "document_title" },
+    { "component": "allegations", "status": "present", "sectionId": "facts_case_history", "notes": "Consolidated case history summarized; per-case detail is on the attached schedule." },
+    { "component": "statutory_basis", "status": "present", "sectionId": "statutory_authority" },
+    { "component": "eligibility_allegations", "status": "present", "sectionId": "eligibility_allegations", "notes": "Pon-factor good-cause narrative is participant-authored through structured prompts; fixture text is synthetic sample only." },
+    { "component": "requested_relief", "status": "present", "sectionId": "requested_relief" },
+    { "component": "verification", "status": "present", "sectionId": "verification_signature", "notes": "Signature required; notarization 'none' per source; no verification statute stated." },
+    { "component": "signatures", "status": "present", "sectionId": "verification_signature" },
+    { "component": "proposed_order", "status": "absent", "reason": "The registry packet set defines primary_filing and instructions components only; no proposed-order component is recorded in the source for the consolidated petition." },
+    { "component": "certificate_of_service", "status": "absent", "reason": "Service is 'per the Standing Order' with no certificate component recorded in the source; service mechanics flagged for Clerk-Magistrate confirmation instead of drafting an unsourced certificate." },
+    { "component": "notice_or_affidavit", "status": "absent", "reason": "Preliminary hearing, public notice and final hearing are court-run steps under the Standing Order; no participant notice document is recorded in the source." },
+    { "component": "participant_cover_sheet", "status": "present", "location": "participant-instructions.md" },
+    { "component": "filing_instructions", "status": "present", "location": "participant-instructions.md", "notes": "Registry 'instructions' component." }
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/massachusetts/index.ts",
+      "src/lib/rcap/state-packs/massachusetts/eligibility-rules.ts",
+      "src/lib/rcap/state-packs/massachusetts/filing-instructions.ts",
+      "src/lib/rcap/state-packs/massachusetts/disqualifying-offenses.ts",
+      "src/lib/rcap/state-packs/massachusetts/safety-language.ts",
+      "src/lib/rcap/state-packs/massachusetts/official-forms.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "fingerprint": "1c1b7cb5da7af9833ed388afd878397877c51218feddfe40431b4b75ae800f28",
+    "registryAuthority": [
+      "G.L. c. 276, § 100C",
+      "Boston Municipal Court Department Amended Standing Order No. 1-09",
+      "Commonwealth v. Pon, 469 Mass. 296 (2014)"
+    ],
+    "registryExcerpt": "The Boston Municipal Court Department permits a single consolidated petition to seal three or more criminal records from two or more BMC divisions, under a Standing Order revised after Pon to conform to the new legal standard. It is a local implementation of the ordinary § 100C judicial-sealing remedy, not a separate statewide remedy. Below the threshold, the ordinary route applies with one form per case. Rules: filing in the BMC division identified by the Standing Order's residence-based venue rule; fees none identified; notice = preliminary hearing, public notice and final hearing per the Standing Order; service per the Standing Order; participant signature required; notarization none. Waiting period: none for dismissal, nolle prosequi, no probable cause or not guilty. Exclusions: records outside the BMC Department; fewer than three records or fewer than two divisions."
+  }
+}
