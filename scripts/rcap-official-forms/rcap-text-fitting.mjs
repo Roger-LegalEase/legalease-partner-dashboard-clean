@@ -135,3 +135,77 @@ export function applyFitToTextField(textField, fit) {
   textField.setFontSize(fit.fontSize);
   return true;
 }
+
+/**
+ * Confirms a written value actually reached the page whole.
+ *
+ * Everything above this measures what *should* happen: it asks the embedding
+ * font how wide a string will be and picks a size that fits. The appearance is
+ * then drawn by the field's own font through pdf-lib's generator, and the two
+ * can disagree. Independent review found both failure modes shipping as clean
+ * `shrunk` outcomes -- Vermont's 200-00631 drew a 70-character name cut to 39
+ * characters mid-word and past the widget edge, and Virginia's CC-1203 drew a
+ * case number past both edges -- while the overflow ledger recorded nothing.
+ *
+ * A measurement is a prediction. This reads the artifact.
+ *
+ * `runs` are the text items extracted from the finalized page, `rect` is the
+ * widget's own rectangle, and `value` is what the caller meant to write.
+ */
+export function verifyWrittenValue({ value, rect, runs, tolerance = 0.5 }) {
+  const expected = String(value ?? "");
+  if (!rect || expected === "") return { outcome: "not_checkable", reason: "no widget rectangle or no value" };
+
+  // Runs belonging to this widget: on its baseline band, and horizontally
+  // overlapping it.
+  //
+  // Overlap rather than origin-inside, because a run that starts to the left of
+  // the rectangle is precisely the case this exists to catch. Keying on the
+  // origin would exclude it and report the field as empty, turning "drawn past
+  // the left edge" into "nothing was drawn" -- still a refusal, but the wrong
+  // diagnosis, and the ledger would say the wrong thing about why.
+  const inside = runs.filter((r) => {
+    const onBand = r.y >= rect.y - tolerance && r.y <= rect.y + rect.height + tolerance;
+    if (!onBand) return false;
+    const start = r.x;
+    const end = r.x + (r.width ?? 0);
+    return end >= rect.x - tolerance && start <= rect.x + rect.width + tolerance;
+  });
+
+  const norm = (s) => String(s).replace(/\s+/g, "").toLowerCase();
+  const drawn = inside.map((r) => r.text).join("");
+  const drawnNorm = norm(drawn);
+  const expectedNorm = norm(expected);
+
+  if (drawnNorm.length === 0) {
+    return { outcome: "absent", reason: "nothing is drawn inside the widget", expected, drawn: "" };
+  }
+
+  // Past an edge, measured from each run's own extent rather than estimated.
+  const overflow = inside
+    .map((r) => ({ left: rect.x - r.x, right: (r.x + (r.width ?? 0)) - (rect.x + rect.width) }))
+    .reduce((a, o) => ({ left: Math.max(a.left, o.left), right: Math.max(a.right, o.right) }), { left: 0, right: 0 });
+  const leavesWidget = overflow.left > tolerance || overflow.right > tolerance;
+
+  // Shorter than what was asked for. A wrapped multiline value legitimately
+  // reorders whitespace, so the comparison is whitespace-insensitive and by
+  // containment rather than equality.
+  const truncated = !drawnNorm.includes(expectedNorm);
+
+  if (truncated || leavesWidget) {
+    return {
+      outcome: "clipped",
+      reason: truncated
+        ? (leavesWidget ? "drawn text is shorter than the value and leaves the widget"
+          : "drawn text is shorter than the value supplied")
+        : "drawn text leaves the widget rectangle",
+      expected, drawn,
+      expectedChars: expected.length,
+      drawnChars: drawn.length,
+      overflowLeftPt: Number(Math.max(0, overflow.left).toFixed(2)),
+      overflowRightPt: Number(Math.max(0, overflow.right).toFixed(2)),
+      widget: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
+    };
+  }
+  return { outcome: "complete", expected, drawnChars: drawn.length };
+}
