@@ -1,0 +1,40 @@
+{
+  "fixtureId": "ga-jail-k2-negative",
+  "description": "Negative fixture. The letter data below injects content the source does not supply: a finding no court has made, the prosecutor's position, a fee where the source records none identified, service already completed, a fabricated Code section, and populated docket, tracking-number and judge fields. runPleadingQa passes this letter — it checks relief vocabulary, template grade and the footer and cannot see invented content (lane C1 finding 1). The invention and protected-field detectors are what must catch it.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:prosecutor_position",
+    "invention:fee_amount",
+    "invention:service_completed",
+    "invention:unsourced_citation",
+    "protected_field:populated"
+  ],
+  "partyData": {
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "1000 Sample Street, Atlanta, GA 30303"
+  },
+  "caseData": {
+    "countyName": "Sample County (synthetic sample venue)",
+    "docketNumber": "2019-CR-00042",
+    "otn": "GA0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "100 Sample Courthouse Square, Atlanta, GA 30303"
+  },
+  "chargeData": {},
+  "eligibilityData": {
+    "eligibilityBasisLabel": "record restriction already granted"
+  },
+  "letterData": {
+    "senderName": "JOHN DOE",
+    "facilityName": "Sample County Jail",
+    "facilityCounty": "Sample County, Georgia",
+    "offenseRestricted": "the restricted offence. The Court finds that the restriction was properly granted, and the prosecuting attorney has agreed that your facility must comply",
+    "arrestDate": "07/18/2022",
+    "bookingNumber": "B-2019-0042",
+    "caseNumber": "2019-CR-00042",
+    "restrictionRoute": "by court order, and the $75.00 restriction fee was paid to the clerk",
+    "restrictionDate": "01/02/2024. Service was completed on your facility on 03/01/2026, and restriction of these records is further required by O.C.G.A. § 35-3-99(z)"
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

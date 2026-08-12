@@ -15,10 +15,26 @@
 // a required field; invented values (statutory citations or verification statute
 // not present in committed evidence; asserted service address where the sources
 // record none); canonical fixture failing pleading QA; negative fixture NOT
-// failing pleading QA; unparseable or zero-page PDF; placeholder leaks;
+// tripping its declared signals; unparseable or zero-page PDF; placeholder leaks;
 // protected-field leaks (docket, OTN, judge, SSN/DOB values in canonical output);
 // manifest drift from the ledger; and any dirty git path outside lane C2's owned
 // paths.
+//
+// LANE C1 FINDING 1 — runPleadingQa cannot see invented content. It checks relief
+// vocabulary, template grade/lifecycle, the required footer and seal/logo markers,
+// and nothing else. A fixture that fabricates a court finding, a filing fee the
+// source records as "None", a prosecutor's position, completed service, or a
+// populated protected field renders cleanly and PASSES QA. Lane C1 shipped
+// negative fixtures that did exactly that. The signal detectors below close the
+// gap: canonical/boundary/multiline output must trip ZERO invention and
+// protected-field signals, and every negative fixture in a hardened jurisdiction
+// must declare `expectedSignals` and actually trip at least one non-QA signal.
+// A QA failure alone is not accepted as a negative.
+//
+// LANE C1 FINDING 2 — where a source is silent (no verification statute, no fee,
+// no venue, no waiting period) the field stays null and the silence is recorded
+// in `sourceSilences` with the quoted source statement and a counselFlag that
+// must also appear in config.counselFlags. A null without such a note fails.
 
 import { register } from "node:module";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -137,6 +153,16 @@ const REQUIRED_CONFIG_FIELDS = [
 // componentInventory entries must map to a real render/packet location.
 const COMPONENT_STATUSES = new Set(["present", "absent", "blocked_dependency"]);
 
+// Jurisdictions authored under the hardened negative-fixture and source-silence
+// contract (lane C1 findings 1 and 2). For these the rules below are failures.
+// The five jurisdictions landed before the findings (HI, AZ, MA, ME, NC) sit
+// outside this lane's owned paths and cannot be re-authored here, so they are
+// reported as warnings instead of being silently exempted.
+const HARDENED_JURISDICTIONS = new Set(["GA", "TN", "DC"]);
+
+// Fields whose null value must be backed by a recorded source silence.
+const NULLABLE_SOURCE_FIELDS = ["verificationStatute.citation", "filingFee", "feeWaiver", "waitingPeriod", "venue"];
+
 // --- Helpers ---
 
 function sha256(buf) {
@@ -156,9 +182,12 @@ function ledgerJobs() {
   return jobs;
 }
 
+const evidenceCache = new Map();
+
 function stateEvidenceText(code) {
   // Committed evidence: coded state pack + compiled profile. Registry evidence is
   // carried per-track in provenance.registryAuthority / registryExcerpt.
+  if (evidenceCache.has(code)) return evidenceCache.get(code);
   let text = "";
   const packDir = path.join(rootDir, STATE_PACK_DIRS[code]);
   if (fs.existsSync(packDir)) {
@@ -168,6 +197,7 @@ function stateEvidenceText(code) {
   }
   const profile = path.join(rootDir, PROFILE_FILES[code]);
   if (fs.existsSync(profile)) text += fs.readFileSync(profile, "utf8");
+  evidenceCache.set(code, text);
   return text;
 }
 
@@ -398,6 +428,106 @@ function scanProtectedFields(text, fixture) {
   return violations;
 }
 
+// --- Invention signal detectors (lane C1 finding 1) ---
+//
+// Each detector answers one question: does the rendered document assert
+// something the participant, the court or the source has not actually supplied?
+// These are content checks, which is exactly the class runPleadingQa is blind to.
+// They run against every fixture: canonical/boundary must be clean, negatives
+// must trip the signals they declare.
+
+function citationsIn(text) {
+  const raw = text.match(/§+\s*\d[0-9A-Za-z.\-]*(?:\([0-9A-Za-z.]+\))*/g) ?? [];
+  return [...new Set(raw.map((c) => c.replace(/§+\s*/, "§ ")))];
+}
+
+const INVENTION_SIGNALS = [
+  {
+    id: "invention:court_finding",
+    describe: "asserts a finding or determination the court has not made",
+    detect: ({ text }) => {
+      const m = text.match(
+        /\b(?:this|the)\s+Court\s+(?:finds|found|has\s+found|determines|has\s+determined|concludes|is\s+satisfied)\b[^.\n]{0,120}/i
+      );
+      return m ? m[0].trim() : null;
+    }
+  },
+  {
+    id: "invention:hearing_outcome",
+    describe: "asserts a hearing outcome or an order the court has not entered",
+    detect: ({ text }) => {
+      const m = text.match(
+        /\b(?:a\s+)?hearing\s+(?:was|has\s+been)\s+(?:held|conducted|set)\b[^.\n]{0,80}|\bthe\s+Court\s+(?:granted|denied|entered\s+an\s+order)\b[^.\n]{0,80}/i
+      );
+      return m ? m[0].trim() : null;
+    }
+  },
+  {
+    id: "invention:fee_amount",
+    describe: "quotes a monetary figure where the source records no fee",
+    detect: ({ text, doc }) => {
+      if (Array.isArray(doc.sourcedFeeAmounts) && doc.sourcedFeeAmounts.length > 0) return null;
+      const m = text.match(/\$\s?\d[\d,.]*|\bfee\s+of\s+\d[\d,.]*/i);
+      return m ? m[0].trim() : null;
+    }
+  },
+  {
+    id: "invention:prosecutor_position",
+    describe: "asserts the prosecutor's or the sovereign's litigation position",
+    detect: ({ text }) => {
+      const m = text.match(
+        /\b(?:prosecut\w+|District\s+Attorney|Solicitor[-\s]General|Attorney\s+General|the\s+State|the\s+Government|the\s+Commonwealth|the\s+District)\b[^.\n]{0,140}?\b(?:does\s+not\s+oppose|do\s+not\s+oppose|has\s+no\s+objection|have\s+no\s+objection|consents?|consented|agrees?|agreed|stipulates?|stipulated|joins\s+in|supports\s+this|opposes\s+this)\b/i
+      );
+      return m ? m[0].trim() : null;
+    }
+  },
+  {
+    id: "invention:service_completed",
+    describe: "asserts service already completed instead of leaving the certificate blank",
+    detect: ({ text }) => {
+      const m = text.match(
+        /\bI\s+certify\s+that\s+on\s+(?!_)[0-9A-Za-z][^,\n]{0,40}|\bservice\s+(?:was|has\s+been)\s+(?:completed|effected|perfected|accomplished)\b|\bwas\s+served\s+on\s+\d[^\n]{0,40}/i
+      );
+      return m ? m[0].trim() : null;
+    }
+  },
+  {
+    id: "invention:signature_applied",
+    describe: "applies a signature or a signing date instead of leaving the block blank",
+    detect: ({ text }) => {
+      const m = text.match(/\/s\/\s*[A-Za-z][^\n]{0,60}|\bDate(?:\s+signed)?:\s*(?!_)[0-9A-Za-z][^\n]{0,40}/);
+      return m ? m[0].trim() : null;
+    }
+  },
+  {
+    id: "invention:unsourced_citation",
+    describe: "cites a statute or rule that is not in the committed evidence",
+    detect: ({ text, evidence }) => {
+      const unsourced = citationsIn(text).filter((c) => !evidence.includes(c));
+      return unsourced.length > 0 ? unsourced.join(", ") : null;
+    }
+  },
+  {
+    id: "protected_field:populated",
+    describe: "populates a court- or outside-party-owned field (docket, OTN, judge, SSN, DOB)",
+    detect: ({ text, fixture }) => {
+      const violations = scanProtectedFields(text, fixture);
+      return violations.length > 0 ? violations.join("; ") : null;
+    }
+  }
+];
+
+const SIGNAL_IDS = new Set(INVENTION_SIGNALS.map((s) => s.id));
+
+function detectSignals(ctx) {
+  const hits = [];
+  for (const signal of INVENTION_SIGNALS) {
+    const evidenceOfHit = signal.detect(ctx);
+    if (evidenceOfHit) hits.push({ id: signal.id, describe: signal.describe, evidence: evidenceOfHit });
+  }
+  return hits;
+}
+
 function trackDir(slug, trackId) {
   return path.join(rootDir, "data/rcap-all50/pleadings", slug, trackId);
 }
@@ -540,6 +670,76 @@ function validateNoInvention(trackId, doc, code, failures) {
   }
 }
 
+// --- Source silence validation (lane C1 finding 2) ---
+//
+// Where the source says nothing — no verification statute, no fee, no venue, no
+// waiting period — the field stays null and the silence is recorded. A null is
+// accepted only when `sourceSilences` carries an entry for that field naming what
+// the source actually says (or that it says nothing) and a counselFlag that also
+// appears in config.counselFlags, so the gap reaches review rather than being
+// quietly filled.
+function validateSourceSilences(trackId, doc, failures, warnings) {
+  const cfg = doc.config ?? {};
+  const hardened = HARDENED_JURISDICTIONS.has(cfg.jurisdictionCode);
+  const silences = doc.sourceSilences;
+
+  if (!Array.isArray(silences)) {
+    if (hardened) failures.push(`[${trackId}] sourceSilences missing (may be an empty array)`);
+    else warnings.push(`[${trackId}] no sourceSilences block; authored before lane C1 finding 2`);
+    return;
+  }
+
+  const byField = new Map();
+  for (const entry of silences) {
+    if (!entry || typeof entry.field !== "string" || !NULLABLE_SOURCE_FIELDS.includes(entry.field)) {
+      failures.push(`[${trackId}] sourceSilences entry has an unknown field: ${JSON.stringify(entry)}`);
+      continue;
+    }
+    for (const key of ["sourceStatement", "note", "counselFlag"]) {
+      if (typeof entry[key] !== "string" || entry[key].length === 0) {
+        failures.push(`[${trackId}] sourceSilences["${entry.field}"] missing ${key}`);
+      }
+    }
+    if (entry.counselFlag && !(cfg.counselFlags ?? []).includes(entry.counselFlag)) {
+      failures.push(
+        `[${trackId}] sourceSilences["${entry.field}"].counselFlag is not present verbatim in config.counselFlags`
+      );
+    }
+    byField.set(entry.field, entry);
+  }
+
+  // A null verification statute is the one silence the config schema can express
+  // directly, so it is cross-checked against the recorded note.
+  const vCitation = cfg.verificationStatute?.citation ?? null;
+  if (vCitation === null && !byField.has("verificationStatute.citation")) {
+    failures.push(
+      `[${trackId}] verificationStatute.citation is null with no sourceSilences entry recording the silence`
+    );
+  }
+  if (vCitation !== null && byField.has("verificationStatute.citation")) {
+    failures.push(
+      `[${trackId}] sourceSilences records a silent verification statute but config.verificationStatute.citation is "${vCitation}"`
+    );
+  }
+}
+
+// Where a fee silence is recorded, no monetary figure may appear anywhere in the
+// participant-facing packet either — the rendered-text detector alone would miss
+// a figure invented in the instructions.
+function validateInstructionsAgainstSilences(trackId, dir, doc, failures) {
+  const silences = Array.isArray(doc.sourceSilences) ? doc.sourceSilences : [];
+  if (!silences.some((s) => s.field === "filingFee")) return;
+  const file = path.join(dir, "participant-instructions.md");
+  if (!fs.existsSync(file)) return;
+  const body = fs.readFileSync(file, "utf8");
+  const m = body.match(/\$\s?\d[\d,.]*/);
+  if (m) {
+    failures.push(
+      `[${trackId}] participant-instructions.md quotes a monetary figure "${m[0]}" while sourceSilences records the filing fee as unrecorded`
+    );
+  }
+}
+
 async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
   const loaded = loadTrackFiles(slug, trackId, failures);
   if (!loaded) return null;
@@ -580,26 +780,93 @@ async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
     results[name] = { fixture, renderResult, qa };
   }
 
-  // Canonical must pass QA; boundary and multiline must pass; negative must fail
-  // for its stated reason.
+  // Canonical, boundary and multiline must pass QA AND trip zero invention or
+  // protected-field signals. The negative must trip the signals it declares.
+  const code = doc.config?.jurisdictionCode;
+  const hardened = HARDENED_JURISDICTIONS.has(code);
+  const evidence =
+    stateEvidenceText(code) +
+    JSON.stringify(doc.provenance?.registryAuthority ?? []) +
+    JSON.stringify(doc.provenance?.registryExcerpt ?? "");
+
   for (const name of ["canonical", "boundary", "multiline"]) {
     const r = results[name];
     if (!r) continue;
     if (!r.qa.passed) {
       failures.push(`[${trackId}] ${name} fixture failed QA: ${r.qa.failures.join("; ")}`);
     }
+    const hits = detectSignals({ text: r.renderResult.fullText, fixture: r.fixture, doc, evidence });
+    for (const hit of hits) {
+      failures.push(`[${trackId}] ${name} fixture trips ${hit.id} (${hit.describe}): ${hit.evidence}`);
+    }
   }
+
   const neg = results.negative;
   if (neg) {
-    if (neg.qa.passed) {
-      failures.push(`[${trackId}] negative fixture unexpectedly PASSED QA`);
-    } else {
-      const expected = neg.fixture.expectedQaFailureSubstring;
-      if (!expected) {
-        failures.push(`[${trackId}] negative fixture missing expectedQaFailureSubstring`);
-      } else if (!neg.qa.failures.some((f) => f.includes(expected))) {
+    const negHits = detectSignals({
+      text: neg.renderResult.fullText,
+      fixture: neg.fixture,
+      doc,
+      evidence
+    });
+    const detected = new Set(negHits.map((h) => h.id));
+    const declared = Array.isArray(neg.fixture.expectedSignals) ? neg.fixture.expectedSignals : null;
+
+    if (declared) {
+      if (declared.length === 0) {
+        failures.push(`[${trackId}] negative fixture declares an empty expectedSignals array`);
+      }
+      for (const want of declared) {
+        if (!SIGNAL_IDS.has(want) && want !== "qa") {
+          failures.push(`[${trackId}] negative fixture declares unknown signal "${want}"`);
+        } else if (want === "qa") {
+          if (neg.qa.passed) failures.push(`[${trackId}] negative fixture declares "qa" but QA passed`);
+        } else if (!detected.has(want)) {
+          failures.push(
+            `[${trackId}] negative fixture declares "${want}" but that signal did not fire; fired: ${
+              [...detected].join(", ") || "none"
+            }`
+          );
+        }
+      }
+      // The point of lane C1 finding 1: a QA failure alone is not a negative.
+      if (declared.every((s) => s === "qa")) {
         failures.push(
-          `[${trackId}] negative fixture failed QA but not for the stated reason "${expected}": ${neg.qa.failures.join("; ")}`
+          `[${trackId}] negative fixture relies on a QA failure alone; it must also trip an invention or protected-field signal (runPleadingQa cannot see invented content)`
+        );
+      }
+      if (detected.size === 0) {
+        failures.push(
+          `[${trackId}] negative fixture trips no invention or protected-field signal at all`
+        );
+      }
+    } else if (hardened) {
+      failures.push(
+        `[${trackId}] negative fixture has no expectedSignals; hardened jurisdictions must assert an invention or protected-field signal, not merely a QA failure`
+      );
+    } else {
+      // Legacy negative authored before lane C1 finding 1. Keep the original
+      // assertion and surface the gap rather than pretend it is covered.
+      warnings.push(
+        `[${trackId}] legacy negative fixture exercises the QA gate only (no expectedSignals); re-authoring is outside this lane's owned paths`
+      );
+      if (neg.qa.passed) {
+        failures.push(`[${trackId}] negative fixture unexpectedly PASSED QA`);
+      } else {
+        const expected = neg.fixture.expectedQaFailureSubstring;
+        if (!expected) {
+          failures.push(`[${trackId}] negative fixture missing expectedQaFailureSubstring`);
+        } else if (!neg.qa.failures.some((f) => f.includes(expected))) {
+          failures.push(
+            `[${trackId}] negative fixture failed QA but not for the stated reason "${expected}": ${neg.qa.failures.join("; ")}`
+          );
+        }
+      }
+    }
+    if (declared && neg.fixture.expectedQaFailureSubstring) {
+      if (neg.qa.passed || !neg.qa.failures.some((f) => f.includes(neg.fixture.expectedQaFailureSubstring))) {
+        failures.push(
+          `[${trackId}] negative fixture states expectedQaFailureSubstring "${neg.fixture.expectedQaFailureSubstring}" but QA did not fail for it`
         );
       }
     }
@@ -766,6 +1033,8 @@ for (const job of selected) {
       validateConfigShape(trackId, rendered.doc, loadedFailures);
       validateProvenance(trackId, rendered.doc, loadedFailures, warnings);
       validateNoInvention(trackId, rendered.doc, job.jurisdiction, loadedFailures);
+      validateSourceSilences(trackId, rendered.doc, loadedFailures, warnings);
+      validateInstructionsAgainstSilences(trackId, trackDir(slug, trackId), rendered.doc, loadedFailures);
     }
     failures.push(...loadedFailures);
     const state = loadedFailures.length === 0 ? "ok" : "FAIL";
