@@ -1,0 +1,23 @@
+=== OBJECT VERIFICATION (post 49->54) ===
+  packet_render_jobs table                                   t
+  partner_packet_entitlement                                 t
+  packet_credit_ledger                                       t
+  packet_delivery_events                                     t
+  finalize is PHASE 52 definition                            t
+  record_consumer_packet_payment                             t
+  enqueue signature count (==1)                              1
+  enqueue is phase53-bound (15 arg)                          t
+  rcap_persons RLS enabled (P54)                             t
+  anon has NO rcap_persons grant                             t
+  authenticated NO rcap_persons                              t
+  anon NO packet_render_jobs DML                             t
+  auth NO ledger INSERT                                      t
+  guard triggers on jobs                                     4
+  ledger guard trigger                                       1
+  eligible-requires-accounting                               1
+  accounting_result allows p51                               t
+  reserved-namespace constraint                              2
+  search_path pinned on writer                               t
+  functions total (public)                                   61
+  RLS-enabled tables count                                   6
+  policies count                                             1
