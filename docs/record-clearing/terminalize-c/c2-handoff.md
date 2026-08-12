@@ -12,18 +12,19 @@ node scripts/verify-rcap-terminalize-c2.mjs render [state-slug...]
 node scripts/verify-rcap-terminalize-c2.mjs verify [state-slug...]   # default: all 8
 ```
 
-Current state: **`verify` PASSES across 8 jobs and 24 tracks**, with warnings on
-the five jurisdictions landed before the two findings below (see *Residual gaps*).
+Current state: **`verify` PASSES across 8 jobs and 24 tracks with zero warnings**.
+Both findings below now apply to every jurisdiction in the lane; nothing is
+exempted and nothing is downgraded to a warning.
 
 ## Job status
 
 | Job | Tracks | Status |
 | --- | --- | --- |
-| `T-C-AZ-production-packet` | 1 | landed earlier in the lane |
-| `T-C-MA-production-packet` | 1 | landed earlier in the lane |
-| `T-C-ME-production-packet` | 1 | landed earlier in the lane |
-| `T-C-NC-production-packet` | 1 | landed earlier in the lane |
-| `T-C-HI-production-packet` | 2 | landed earlier in the lane |
+| `T-C-AZ-production-packet` | 1 | terminalized; hardened to both findings |
+| `T-C-MA-production-packet` | 1 | terminalized; hardened to both findings |
+| `T-C-ME-production-packet` | 1 | terminalized; hardened to both findings |
+| `T-C-NC-production-packet` | 1 | terminalized; hardened to both findings |
+| `T-C-HI-production-packet` | 2 | terminalized; hardened to both findings |
 | `T-C-GA-production-packet` | 7 | terminalized |
 | `T-C-TN-production-packet` | 8 | terminalized |
 | `T-C-DC-production-packet` | 3 | terminalized (2 packets + 1 blocked pleading) |
@@ -61,9 +62,10 @@ fixture:
 | `invention:unsourced_citation` | a statute or rule absent from the committed evidence |
 | `protected_field:populated` | docket, tracking number, judge, SSN or DOB values |
 
-Canonical, boundary and multiline fixtures must trip **zero**. A negative fixture
-in a hardened jurisdiction must declare `expectedSignals` and actually trip each
-one, and a negative that relies on a QA failure alone is rejected explicitly:
+Canonical, boundary and multiline fixtures must trip **zero**. Every negative
+fixture in the lane must declare `expectedSignals` and actually trip each one; a
+missing `expectedSignals` array is a failure, and a negative that relies on a QA
+failure alone is rejected explicitly:
 
 ```
 negative fixture relies on a QA failure alone; it must also trip an invention or
@@ -85,11 +87,22 @@ caught before commit that review would otherwise have had to find:
 ### Finding 2 — silence must be recorded, never filled
 
 Where a source says nothing — no verification statute, no fee, no venue, no
-waiting period — the field stays `null` and the silence is recorded in a
-`sourceSilences` array. Each entry carries the field name, the **quoted source
-statement**, a note on what was withheld and why, and a `counselFlag` that must
-also appear **verbatim** in `config.counselFlags`. A null without such an entry
-fails verification; so does a `counselFlag` that does not reach the flag list.
+waiting period, no service rule — the field stays `null` and the silence is
+recorded in a `sourceSilences` array. Each entry carries the field name, the
+**quoted source statement**, a note on what was withheld and why, and a
+`counselFlag` that must also appear **verbatim** in `config.counselFlags`. A null
+without such an entry fails verification; so does a `counselFlag` that does not
+reach the flag list.
+
+The scan is over the **whole config**, not only the fields the schema happens to
+name. Every null anywhere in `config` must be covered by a `sourceSilences` entry
+for that exact path, or by the one alternative the verifier accepts: a null that
+means "this packet component is not included", where `NULL_MEANS_COMPONENT_ABSENT`
+maps the path to a component and the verifier **checks** that the matching
+`includeX` switch is `false` and that `componentInventory` records the component
+as absent or blocked with a reason. `config.serviceNote` is the only such path
+today. It is a verified linkage, not an exemption list: break either half of it
+and the null fails.
 
 Where a fee silence is recorded, the verifier additionally scans
 `participant-instructions.md` for any monetary figure, because the rendered-text
@@ -114,6 +127,52 @@ Recorded silences by jurisdiction:
   flagged it); no fee figure and no fee waiver; no waiting period on
   `dc_seal_fugitive`; no service destination on `dc_yra_set_aside`, where the
   mechanics are an unresolved build blocker.
+- **AZ** — the § 13-4051 review records fees, fee waiver, service and
+  notarization as "not stated" and names the superior court without a county
+  venue rule: five silences, one for each, all pointing at counsel flags the
+  config already carried.
+- **HI** — no fee prescribed for the stage-one motion and none published by the
+  Judiciary (clerk cost practice is a release-level open question); no fee-waiver
+  instrument for this proceeding (Form B belongs to Rule 40); no venue as a track
+  constant, because venue follows the offence and is a participant input. The
+  verification statute and service note are *not* silent — Haw. R. Penal P. 47(d)
+  and 49(a) state both — so they stay filled.
+- **MA** — no verification statute (the source records only that the participant
+  signs and that notarization is none); no service mechanics beyond "per the
+  Standing Order" and no certificate component; no fee and no fee-waiver route
+  identified. Venue is *not* recorded as silent: the Standing Order states a
+  residence-based rule. Waiting period is not either: the source states none
+  applies to these dispositions.
+- **ME** — no verification statute, and no service rule at all on a route where
+  nothing is filed. The fee is *not* recorded as silent: § 1500-CC affirmatively
+  requires the investigation to be without charge.
+- **NC** — no verification statute; no service rule ("This is correspondence, not
+  a filing"); and no figure for the clerk's certificate-of-verification fee that
+  may arise later, so none is quoted anywhere. The waiting period is not silent:
+  the source states at least 210 days from final disposition.
+
+## Negative fixtures
+
+Every negative in the lane embeds concrete violations of its own track's packet
+rules, labelled `INVENTED` inline, and names in `expectedSignals` the signal each
+violation must trip. The six negatives that previously exercised only the QA gate
+were re-authored against their own sources rather than against a shared list:
+
+| Track | Track-specific violations added |
+| --- | --- |
+| `az_wrongful_arrest_clearance` | the § 13-4051 justice finding and a hearing the judge has not held; a fee where the review says "not stated"; the prosecuting agency's position and completed service where the review states no service requirement |
+| `hi_first_time_property_offender_expungement` | the paragraph (a)–(d) provisos decided as findings, and the discretionary substance-abuse fallback presented as making relief automatic — which the source expressly forbids |
+| `hi_marijuana_three_grams_expungement` | the quantity proviso and the same-facts question decided as findings; Rule 49(a) service recited as done when service follows filing |
+| `ma-bmc-multi` | the § 100C substantial-justice determination and the *Pon* weighing recited as made; Standing Order preliminary hearing and public notice recited as held |
+| `me-screening` | the § 1500-EE(3) remedy demanded in figures, which this packet must never plead, threaten or calculate; the vendor's position stated for it; a signature applied for a sender who must sign personally |
+| `nc_auto_146_a4_agency_followup` | the expunction certified as determined by the Court, which the letter must never do; a demand and an asserted breach of duty where the letter asks; a figure for a fee the source quotes none for |
+
+Each also carries the cross-cutting violations — an unsourced citation built from
+that state's own numbering, and populated docket, OTN, judge, DOB and SSN fields.
+Where the previous fixture asserted something worth keeping (the Grade E block,
+or the Massachusetts sealing/expungement vocabulary error) that assertion was
+kept and `qa` declared alongside the content signals, so no coverage was traded
+away.
 
 ## Blocked dependencies
 
@@ -205,18 +264,11 @@ automatically and need no motion at all.
 
 ## Residual gaps
 
-1. **The five jurisdictions landed before the findings** — HI, AZ, MA, ME, NC —
-   have negative fixtures that exercise only the QA grade gate, and no
-   `sourceSilences` block. They sit outside this lane's owned paths and were not
-   re-authored. The verifier reports each as a **warning** naming the gap rather
-   than exempting it silently; `HARDENED_JURISDICTIONS` in the verifier is the
-   single place to promote them to failures once those paths can be edited. Their
-   canonical and boundary output does pass all eight content detectors.
-2. **The GA proposed-order content requirement** cannot be met until the shared
+1. **The GA proposed-order content requirement** cannot be met until the shared
    renderer can carry order-level tracking-number, arrest-date and
    disclosure-limit clauses.
-3. **`dc_seal_fugitive`** should not be promoted past `pleading_packet_rendered`
+2. **`dc_seal_fugitive`** should not be promoted past `pleading_packet_rendered`
    until the September 2026 reversion question is answered.
-4. **Every track in all three jurisdictions** is `legal_review_pending` with
+3. **Every track in all eight jurisdictions** is `legal_review_pending` with
    output review, visual review and technical proof outstanding. These are build
    output for review, not live routing.

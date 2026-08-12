@@ -27,14 +27,24 @@
 // populated protected field renders cleanly and PASSES QA. Lane C1 shipped
 // negative fixtures that did exactly that. The signal detectors below close the
 // gap: canonical/boundary/multiline output must trip ZERO invention and
-// protected-field signals, and every negative fixture in a hardened jurisdiction
-// must declare `expectedSignals` and actually trip at least one non-QA signal.
+// protected-field signals, and every negative fixture in every lane C2
+// jurisdiction must declare `expectedSignals` and actually trip at least one
+// non-QA signal.
 // A QA failure alone is not accepted as a negative.
 //
 // LANE C1 FINDING 2 — where a source is silent (no verification statute, no fee,
-// no venue, no waiting period) the field stays null and the silence is recorded
-// in `sourceSilences` with the quoted source statement and a counselFlag that
-// must also appear in config.counselFlags. A null without such a note fails.
+// no venue, no waiting period, no service rule) the field stays null and the
+// silence is recorded in `sourceSilences` with the quoted source statement and a
+// counselFlag that must also appear in config.counselFlags. A null without such a
+// note fails. Every null in the config is scanned, not just the ones the schema
+// happens to name: a null is admissible only when a recorded silence covers that
+// exact path, or when the config records the corresponding packet component as
+// absent-with-reason (checked, not assumed).
+//
+// Both findings apply to every lane C2 jurisdiction. The five jurisdictions whose
+// packets landed before the findings (AZ, HI, MA, ME, NC) are lane C2's own
+// tracks under data/rcap-all50/pleadings/, so they were re-authored to the same
+// contract rather than exempted.
 
 import { register } from "node:module";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -153,15 +163,25 @@ const REQUIRED_CONFIG_FIELDS = [
 // componentInventory entries must map to a real render/packet location.
 const COMPONENT_STATUSES = new Set(["present", "absent", "blocked_dependency"]);
 
-// Jurisdictions authored under the hardened negative-fixture and source-silence
-// contract (lane C1 findings 1 and 2). For these the rules below are failures.
-// The five jurisdictions landed before the findings (HI, AZ, MA, ME, NC) sit
-// outside this lane's owned paths and cannot be re-authored here, so they are
-// reported as warnings instead of being silently exempted.
-const HARDENED_JURISDICTIONS = new Set(["GA", "TN", "DC"]);
+// Fields whose null value must be backed by a recorded source silence. The first
+// two are config paths; the rest name source facts the config has no slot for and
+// which must therefore never be asserted anywhere in the packet.
+const NULLABLE_SOURCE_FIELDS = [
+  "verificationStatute.citation",
+  "serviceNote",
+  "filingFee",
+  "feeWaiver",
+  "waitingPeriod",
+  "venue"
+];
 
-// Fields whose null value must be backed by a recorded source silence.
-const NULLABLE_SOURCE_FIELDS = ["verificationStatute.citation", "filingFee", "feeWaiver", "waitingPeriod", "venue"];
+// A config null that no sourceSilences entry covers is admissible only where the
+// null is the config's way of saying "this packet component is not included" AND
+// the componentInventory records that component as absent or blocked with a
+// reason. The linkage is verified below; it is not an exemption list.
+const NULL_MEANS_COMPONENT_ABSENT = {
+  serviceNote: { component: "certificate_of_service", requiresFalse: "includeCertificateOfService" }
+};
 
 // --- Helpers ---
 
@@ -680,14 +700,50 @@ function validateNoInvention(trackId, doc, code, failures) {
 // the source actually says (or that it says nothing) and a counselFlag that also
 // appears in config.counselFlags, so the gap reaches review rather than being
 // quietly filled.
-function validateSourceSilences(trackId, doc, failures, warnings) {
+function configNullPaths(value, prefix, out) {
+  if (value === null) {
+    out.push(prefix);
+    return out;
+  }
+  if (!value || typeof value !== "object") return out;
+  if (Array.isArray(value)) {
+    value.forEach((item, i) => configNullPaths(item, `${prefix}[${i}]`, out));
+    return out;
+  }
+  for (const [key, child] of Object.entries(value)) {
+    configNullPaths(child, prefix ? `${prefix}.${key}` : key, out);
+  }
+  return out;
+}
+
+// A null that no recorded silence covers is admissible only where the config uses
+// it to mean "this component is not part of the packet" and the componentInventory
+// actually says so. Anything else is a silently unfilled field.
+function nullExplainedByAbsentComponent(trackId, doc, nullPath, failures) {
+  const link = NULL_MEANS_COMPONENT_ABSENT[nullPath];
+  if (!link) return false;
   const cfg = doc.config ?? {};
-  const hardened = HARDENED_JURISDICTIONS.has(cfg.jurisdictionCode);
+  if (cfg[link.requiresFalse] !== false) {
+    failures.push(
+      `[${trackId}] config.${nullPath} is null with no recorded source silence, and config.${link.requiresFalse} is not false`
+    );
+    return true;
+  }
+  const entry = (doc.componentInventory ?? []).find((c) => c.component === link.component);
+  if (!entry || entry.status === "present" || !entry.reason) {
+    failures.push(
+      `[${trackId}] config.${nullPath} is null with no recorded source silence, and componentInventory "${link.component}" does not record the component as absent or blocked with a reason`
+    );
+  }
+  return true;
+}
+
+function validateSourceSilences(trackId, doc, failures) {
+  const cfg = doc.config ?? {};
   const silences = doc.sourceSilences;
 
   if (!Array.isArray(silences)) {
-    if (hardened) failures.push(`[${trackId}] sourceSilences missing (may be an empty array)`);
-    else warnings.push(`[${trackId}] no sourceSilences block; authored before lane C1 finding 2`);
+    failures.push(`[${trackId}] sourceSilences missing (may be an empty array)`);
     return;
   }
 
@@ -721,6 +777,15 @@ function validateSourceSilences(trackId, doc, failures, warnings) {
   if (vCitation !== null && byField.has("verificationStatute.citation")) {
     failures.push(
       `[${trackId}] sourceSilences records a silent verification statute but config.verificationStatute.citation is "${vCitation}"`
+    );
+  }
+
+  // Every remaining null anywhere in the config must be accounted for.
+  for (const nullPath of configNullPaths(cfg, "", [])) {
+    if (byField.has(nullPath)) continue;
+    if (nullExplainedByAbsentComponent(trackId, doc, nullPath, failures)) continue;
+    failures.push(
+      `[${trackId}] config.${nullPath} is null but no sourceSilences entry records the silence behind it`
     );
   }
 }
@@ -837,7 +902,6 @@ async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
   // Canonical, boundary and multiline must pass QA AND trip zero invention or
   // protected-field signals. The negative must trip the signals it declares.
   const code = doc.config?.jurisdictionCode;
-  const hardened = HARDENED_JURISDICTIONS.has(code);
   const evidence =
     stateEvidenceText(code) +
     JSON.stringify(doc.provenance?.registryAuthority ?? []) +
@@ -866,7 +930,11 @@ async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
     const detected = new Set(negHits.map((h) => h.id));
     const declared = Array.isArray(neg.fixture.expectedSignals) ? neg.fixture.expectedSignals : null;
 
-    if (declared) {
+    if (!declared) {
+      failures.push(
+        `[${trackId}] negative fixture has no expectedSignals; every negative must name the invention or protected-field signals its content trips, because runPleadingQa cannot see invented content`
+      );
+    } else {
       if (declared.length === 0) {
         failures.push(`[${trackId}] negative fixture declares an empty expectedSignals array`);
       }
@@ -893,28 +961,6 @@ async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
         failures.push(
           `[${trackId}] negative fixture trips no invention or protected-field signal at all`
         );
-      }
-    } else if (hardened) {
-      failures.push(
-        `[${trackId}] negative fixture has no expectedSignals; hardened jurisdictions must assert an invention or protected-field signal, not merely a QA failure`
-      );
-    } else {
-      // Legacy negative authored before lane C1 finding 1. Keep the original
-      // assertion and surface the gap rather than pretend it is covered.
-      warnings.push(
-        `[${trackId}] legacy negative fixture exercises the QA gate only (no expectedSignals); re-authoring is outside this lane's owned paths`
-      );
-      if (neg.qa.passed) {
-        failures.push(`[${trackId}] negative fixture unexpectedly PASSED QA`);
-      } else {
-        const expected = neg.fixture.expectedQaFailureSubstring;
-        if (!expected) {
-          failures.push(`[${trackId}] negative fixture missing expectedQaFailureSubstring`);
-        } else if (!neg.qa.failures.some((f) => f.includes(expected))) {
-          failures.push(
-            `[${trackId}] negative fixture failed QA but not for the stated reason "${expected}": ${neg.qa.failures.join("; ")}`
-          );
-        }
       }
     }
     if (declared && neg.fixture.expectedQaFailureSubstring) {
@@ -1087,7 +1133,7 @@ for (const job of selected) {
       validateConfigShape(trackId, rendered.doc, loadedFailures);
       validateProvenance(trackId, rendered.doc, loadedFailures, warnings);
       validateNoInvention(trackId, rendered.doc, job.jurisdiction, loadedFailures);
-      validateSourceSilences(trackId, rendered.doc, loadedFailures, warnings);
+      validateSourceSilences(trackId, rendered.doc, loadedFailures);
       validateInstructionsAgainstSilences(trackId, trackDir(slug, trackId), rendered.doc, loadedFailures);
     }
     failures.push(...loadedFailures);
