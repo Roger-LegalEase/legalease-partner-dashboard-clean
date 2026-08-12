@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "rcap-f2-wave2-dispositions/v1",
+  "lane": "B",
+  "windowId": "2026-08-12-w3",
+  "kind": "f2-independent-technical-review",
+  "reviewBase": "a20987d1e55fc759960b05d4991b8263a63656c1",
+  "reviewBranch": "claude/rcap-review-f2-wave2-b",
+  "reviewDate": "2026-08-12",
+  "reviewerIndependence": "Independent F2 reviewer for lane B, wave 2. Not the implementing lane; no lane-owned artifact was edited. Review evidence only.",
+  "scope": "All 33 lane-B jobs in data/rcap-all50/review-artifacts/f2-independent-technical-review.json — 72 pending tracks (AK:ak-sej is promoted and out of scope). Nothing from the superseded first F2 pass carries over; every track was re-reviewed against the bytes at the review base.",
+  "atomicGroupsClosedSoFar": [
+    "AK/CA/IL/IN/MI (prior-correction states)"
+  ],
+  "evidenceRule": "Every closure's evidenceSha is the manifest's packetSha256, recomputed by this reviewer from `git show a20987d1:<packet path>` and matched before review. The tip at branch point differs from the review base only by data/rcap-all50/review-artifacts/f2-wave2-dispatch.json, so reviewed working-tree bytes are the review-base bytes.",
+  "committedAuthorityUniverse": [
+    "src/lib/rcap-engine/compiled/profiles/<ST>-<state>.json at the review base",
+    "data/record-clearing/legal-design-intake/<ST>.memo.json at the pinned tip 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5 of feat/record-clearing-production-integration (the tip every lane-B packet names in sourceDependency)",
+    "docs/record-clearing/deferrals/*.md at the review base (deferral statements and the lane's F2 correction record)"
+  ],
+  "closingOutcomes": {
+    "technical_approved": "eligible for captain integration, subject to runtime wiring, legal-adoption continuity and the final ledger state.",
+    "correction_required": "return to the named B owner with the exact defect and acceptance condition.",
+    "held_on_source_or_design": "preserve as nonterminal unless the committed evidence supports an exact deferral or deliberate exclusion."
+  },
+  "closures": [
+    {
+      "reviewId": 1,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "AK:ak-nonconviction-confidential"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the 'all charges dismissed' eligibility ground is stated without the Criminal Rule 11 carve-out that both committed sources attach to it (AK-alaska.json pathway ruleClauses / wait-01: 'all charges were dismissed (not as part of a Rule 11 plea in another case)'; AK.memo.json eligibleDispositions carries the same qualifier). mechanism.en/es, gather and nextSteps state the ground unqualified, so a participant whose dismissal was part of a Rule 11 plea in another case is told the case comes off CourtView automatically when the committed rule says it does not. Same defect class as first-pass F2-02 (limiting conditions dropped from a stated rule). Acceptance: add the Rule 11 qualifier to the dismissal ground in mechanism (and gather) in both languages, e.g. 'every charge was dismissed (and not as part of a plea agreement in another criminal case under Criminal Rule 11)'. VERIFIED AS APPLIED: the wave-2 required correction — honest automatic-with-TF-810-fallback mechanism description — is in the committed bytes (mechanism/participantFiles/stopReason/afterNextStep all describe automatic non-publication at 60 days with TF-810 only as the fallback correction request), carried by AK-alaska.json wait-08 and ruleClauses[5]; the F2-08b bad exclusionRules[8] pointer is gone. Residual out-of-lane item, not charged to this track: the compiled pathway's metadata (automatic=false, filingRequired=true, routeType=court_filing) still contradicts the treatment; recorded with its owner in docs/record-clearing/deferrals/lane-b-f2-corrections.md as a state-pack fidelity item for the profile owner with Terminal A.",
+      "evidenceSha": "3eecd4e130e8e74755595168da20d0eaa83aeab7c527c2841fd251c2503e5c09"
+    },
+    {
+      "reviewId": 4,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-auto-conviction"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass corrections verified in committed bytes: gather.en/es[4] and nextSteps.en/es[0] name all four exclusion categories (PC 1192.7(c) serious felonies, PC 667.5(c) violent felonies, PC 290 registration, offenses punishable by life or death), carried by CA-california.json sourceSections[3] 'Disqualifying / ineligible offenses' (F2-03 cured); zero occurrences of 'you qualify'/'usted califica' (F2-16 cured) and the shared verifier passes lane-wide. Authority, parity, payment suppression and all eleven elements verified with no defect.",
+      "evidenceSha": "de9f26ed5fcb6e406eea0985a036948d31f06c5eb73cce2212c7aa79da4725a4"
+    },
+    {
+      "reviewId": 14,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IL:il-auto-seal-2028"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass correction F2-04 verified in committed bytes: timing, nextSteps[4] and afterNextStep run the 60-day objection window from service of the Notice of Filing ('not 60 days after the petition itself is filed') and name all four objecting entities (State's Attorney/prosecutor, Illinois State Police, arresting agency, chief legal officer of the local government that made the arrest) in both languages, carried by IL-illinois.json serviceAndNoticeRules. Minor (non-blocking, fix at will): duplicated conjunction 'and and' / 'y y' in afterNextStep.en/es; meaning intact.",
+      "evidenceSha": "040539f0a6fa7b20b63b84f62c6968d8617ca32eb71b7913d7c87baa99e8e4ba"
+    },
+    {
+      "reviewId": 15,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IN:in_auto_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority fully memo-grounded (IN.memo.json in_auto_expungement: 1(b) own-motion/no petition, 1(a) pretrial-diversion bar, post-30-June-2022 cutoff, immediate vs 60-day effectiveness, prosecutor delay up to one year, 1(k) sealed-not-destroyed, ISP certified limited criminal history, Section 1 fallback); parity, payment suppression and all eleven elements verified with no defect.",
+      "evidenceSha": "55a9edc23824815737cea6cfef859761fc0d169811859bf76d4cd65b80f6491f"
+    },
+    {
+      "reviewId": 25,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_auto_misd92"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the packet gives the blanket lead-with-ICHAT instruction that the committed memo's binding packet_instruction for this exact track forbids. MI.memo.json tracks[mi_auto_misd92].legalDesignDecision.limitations: 'Where the participant's only record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, checking ICHAT proves nothing. Tell them to check with the convicting court. A blanket instruction to lead with the MSP Clean Slate check is wrong for this population.' The committed nextStep.en/es and destination.en/es lead with ICHAT unconditionally ('ICHAT is where you confirm the set-aside actually happened') and no element tells a never-fingerprinted participant that an ICHAT result proves nothing for them; lane B's own evidence record states memo limitations are binding on participant copy and 'followed rather than summarised away'. Acceptance: add the never-fingerprinted caveat and the convicting-court verification path to nextStep/destination/afterNextStep in both languages. VERIFIED AS APPLIED: the wave-2 required correction (F2-01) is in the committed bytes — gather.en/es[3-6] and nextSteps.en/es[0] run both screens (MCL 780.621c never-eligible list AND the five-category automatic-track exclusion list), carry the more-than-one-assaultive bar and the two-felony cap, byte-consistent with mi_auto_misd93.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 26,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_auto_misd93"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass corrections F2-02 and F2-02b verified in committed bytes: gather and nextSteps carry the MCL 780.621c screen, the five-category automatic-track exclusion list, the more-than-one-assaultive bar and the two-felony/four-misdemeanor caps, identically to mi_auto_misd92, in both languages; handoff states MCL 780.621b grouping with the 24-hour same-transaction requirement and all three grouping-breakers (assaultive, weapon-involved, punishable by more than ten years) in both languages, carried by MI-michigan.json 'Waiting periods'. The compiled rule-11 outlier from first-pass F2-09 is fixed in the committed profile (then = guidance_only / save_state_guidance_no_checkout, matching rule-10/27/41/56). Minor: nextSteps.en/es[2] duplicates the exclusion screen already run in step 1 (redundant, not misleading).",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 27,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_arrest_no_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority (MCL 28.243(7)-(8) destruction on no-charge arrests), parity, payment suppression and all eleven elements verified against MI.memo.json with no defect.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 28,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_arrest_acquittal_dismissal"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: afterNextStep.en/es presents an exhaustive stopper list — 'Three things can stop it' (prior conviction under MCL 28.243(14); objection on a dismissal; records lag) — that omits the other committed exclusion prong of MCL 28.243(14): 'a person arraigned for enumerated offences, including the commission or attempted commission of a crime with or against a child under 16' (MI.memo.json tracks[mi_arrest_acquittal_dismissal].exclusions[0]; the memo also asks participantInput arraignedEnumeratedOffence). gather never asks about it either, so a participant arraigned for an enumerated offence is affirmatively told automatic destruction has only three stoppers and would wrongly expect relief. Same defect class as first-pass F2-01 (committed screen not reaching the participant). Acceptance: add the arraigned-for-enumerated-offence prong to gather and afterNextStep in both languages (and drop or widen the 'three things' count).",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 29,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_deferral_status"
+      ],
+      "owner": "Terminal B",
+      "note": "Non-relief disposition-routing node verified: ten-citation authority set carried by MI.memo.json (MCL 333.7411, 762.11-762.15, 769.4a, 436.1703, 600.1070, 600.1209, 750.350a, 750.430, 780.621(2), 780.621d(7)(d)); parity, payment suppression and elements verified. timing is an explicit null backed by the memo's own 'Not applicable. This is a disposition-status routing node.' — a considered no-timing-rule-applies under the lane contract, with stopReason/mechanism already telling the participant nothing is pending. Minor: populating timing with that statement in EN/ES would still be an improvement.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 30,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_setaside_csc4_pre2015"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: nextSteps.en[2] misstates the age element of the minor-offence definition as 'committed under age 21' (es[2] 'cometidos antes de los 21 años'). The only committed source carrying the test — MI.memo.json controllingAuthority.summary — says 'committed by a person not more than 21 years old', which includes 21-year-olds; the packet's own mechanism.en/es states it correctly ('not more than 21 years old' / 'no más de 21 años'), so the entry contradicts itself and no committed source carries the under-21 formulation. A 21-year-old participant screening with nextSteps would wrongly exclude a qualifying minor offence. Acceptance: change nextSteps item 3 in both languages to 'committed by a person not more than 21 years old' / 'cometidos por una persona de no más de 21 años', matching the memo, the mechanism and authority[2].",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    }
+  ],
+  "totals": {
+    "tracksReviewed": 10,
+    "technical_approved": 6,
+    "correction_required": 4,
+    "held_on_source_or_design": 0
+  }
+}
