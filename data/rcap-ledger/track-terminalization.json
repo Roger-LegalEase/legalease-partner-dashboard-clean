@@ -104,32 +104,33 @@
   "aggregates": {
     "windowId": "2026-08-12-w3",
     "registryTracks": 497,
-    "tracksTerminal": 375,
-    "tracksNonterminal": 122,
+    "tracksTerminal": 382,
+    "tracksNonterminal": 115,
     "tracksWithRuntimeCoverage": 285,
     "requiredTreatmentBreakdown": {
       "production_packet": 85,
       "complete_guidance": 12,
       "complete_composed_route": 16,
       "deliberate_scope_exclusion": 0,
-      "exact_supported_deferral": 9
+      "exact_supported_deferral": 2
     },
     "nonterminalTracksByLane": {
-      "B": 21,
+      "B": 14,
       "C": 28,
       "D": 67,
       "E": 6,
       "F": 0
     },
-    "jobsRemainingToLaunch": 60,
-    "tracksTerminalizedThisWindow": 98,
+    "jobsRemainingToLaunch": 56,
+    "tracksTerminalizedThisWindow": 106,
     "candidateTreatmentsPendingReview": 16,
     "candidateTreatmentBreakdown": {
       "complete_guidance": 64,
-      "exact_supported_deferral": 2,
+      "exact_supported_deferral": 11,
       "production_packet": 44,
       "complete_composed_route": 16
     },
+    "deferralCandidatesRefusedOnRuntimeContradiction": 2,
     "tracksImplementedPendingIndependentReview": 6,
     "guidanceRegistryServedTracks": 64,
     "d1Implementation": {
@@ -144,6 +145,27 @@
     "genericComingSoonStates": 0,
     "unsupportedRoutesSellable": 0
   },
+  "runtimeContradictedDeferrals": [
+    {
+      "trackKey": "TX:tx_exp_acquittal",
+      "evidence": "data/rcap-all50/guidance-packets/tx.json",
+      "sellablePathwayIds": [
+        "expunction-after-acquittal-not-guilty-disposition-chapter-55a"
+      ],
+      "why": "the packet tells the participant nothing is being sold on this route, while the authoritative route resolver still reports the compiled pathway as sellable or credit-consumable",
+      "owner": "Terminal A route owner, with the jurisdiction's legacy-route owner"
+    },
+    {
+      "trackKey": "TX:tx_exp_dismissed",
+      "evidence": "data/rcap-all50/guidance-packets/tx.json",
+      "sellablePathwayIds": [
+        "expunction-after-qualifying-class-c-deferred-disposition",
+        "expunction-after-qualifying-dismissal-or-quash"
+      ],
+      "why": "the packet tells the participant nothing is being sold on this route, while the authoritative route resolver still reports the compiled pathway as sellable or credit-consumable",
+      "owner": "Terminal A route owner, with the jurisdiction's legacy-route owner"
+    }
+  ],
   "jobs": [
     {
       "jobId": "T-B-AK-complete-guidance",
@@ -167,27 +189,6 @@
       ]
     },
     {
-      "jobId": "T-B-AR-exact-supported-deferral",
-      "lane": "B",
-      "jurisdiction": "AR",
-      "implementationFamily": "composed_route",
-      "outputStrategy": "composed",
-      "requiredTreatment": "exact_supported_deferral",
-      "sourceDependency": "private/Nationwide Record Clearing/ (AR) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-deferral-statement-exactness",
-      "terminalEffect": [
-        "AR:ar-misdemeanor-dwi-seal -> terminal"
-      ],
-      "runtimeWiringRequired": false,
-      "trackIds": [
-        "ar-misdemeanor-dwi-seal"
-      ]
-    },
-    {
       "jobId": "T-B-CT-complete-guidance",
       "lane": "B",
       "jurisdiction": "CT",
@@ -206,29 +207,6 @@
       "runtimeWiringRequired": true,
       "trackIds": [
         "ct-provisional-pardon"
-      ]
-    },
-    {
-      "jobId": "T-B-KY-exact-supported-deferral",
-      "lane": "B",
-      "jurisdiction": "KY",
-      "implementationFamily": "official_form_standard",
-      "outputStrategy": "official_pdf_fill",
-      "requiredTreatment": "exact_supported_deferral",
-      "sourceDependency": "private/Nationwide Record Clearing/ (KY) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-deferral-statement-exactness",
-      "terminalEffect": [
-        "KY:ky_felony_expungement_after_pardon -> terminal",
-        "KY:ky_felony_vacatur_expungement -> terminal"
-      ],
-      "runtimeWiringRequired": false,
-      "trackIds": [
-        "ky_felony_expungement_after_pardon",
-        "ky_felony_vacatur_expungement"
       ]
     },
     {
@@ -366,27 +344,6 @@
       ]
     },
     {
-      "jobId": "T-B-OK-exact-supported-deferral",
-      "lane": "B",
-      "jurisdiction": "OK",
-      "implementationFamily": "guidance",
-      "outputStrategy": "process_guidance",
-      "requiredTreatment": "exact_supported_deferral",
-      "sourceDependency": "private/Nationwide Record Clearing/ (OK) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-deferral-statement-exactness",
-      "terminalEffect": [
-        "OK:ok_clean_slate -> terminal"
-      ],
-      "runtimeWiringRequired": false,
-      "trackIds": [
-        "ok_clean_slate"
-      ]
-    },
-    {
       "jobId": "T-B-TX-exact-supported-deferral",
       "lane": "B",
       "jurisdiction": "TX",
@@ -426,31 +383,6 @@
       "runtimeWiringRequired": false,
       "trackIds": [
         "tx_exp_dismissed"
-      ]
-    },
-    {
-      "jobId": "T-B-WV-exact-supported-deferral",
-      "lane": "B",
-      "jurisdiction": "WV",
-      "implementationFamily": "official_form_hard",
-      "outputStrategy": "official_pdf_fill",
-      "requiredTreatment": "exact_supported_deferral",
-      "sourceDependency": "private/Nationwide Record Clearing/ (WV) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-deferral-statement-exactness",
-      "terminalEffect": [
-        "WV:wv_conv_multiple_misdemeanors -> terminal",
-        "WV:wv_conv_nonviolent_felony -> terminal",
-        "WV:wv_conv_single_misdemeanor -> terminal"
-      ],
-      "runtimeWiringRequired": false,
-      "trackIds": [
-        "wv_conv_multiple_misdemeanors",
-        "wv_conv_nonviolent_felony",
-        "wv_conv_single_misdemeanor"
       ]
     },
     {
@@ -2075,11 +2007,14 @@
       "mappedCompiledPathwayIds": [
         "situation-b-misdemeanor-convictions"
       ],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "decision_conditioned_component"
       ],
-      "requiredTreatment": "exact_supported_deferral",
+      "requiredTreatment": null,
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/ar.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": "Only once the Coleman/statutory waiting-period conflict is resolved.",
       "e4TerminalClassification": false,
@@ -4622,11 +4557,14 @@
       "mappedCompiledPathwayIds": [
         "felony-conviction-431073"
       ],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "counsel_review_requirement"
       ],
-      "requiredTreatment": "exact_supported_deferral",
+      "requiredTreatment": null,
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/ky.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [
         "ky-431073-predicate-fidelity"
       ],
@@ -4642,11 +4580,14 @@
       "mappedCompiledPathwayIds": [
         "felony-conviction-431073"
       ],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "counsel_review_requirement"
       ],
-      "requiredTreatment": "exact_supported_deferral",
+      "requiredTreatment": null,
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/ky.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [
         "ky-431073-predicate-fidelity"
       ],
@@ -7587,11 +7528,14 @@
       "mappedCompiledPathwayIds": [
         "clean-slate-automatic-expungement"
       ],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "superseded_runtime_text"
       ],
-      "requiredTreatment": "exact_supported_deferral",
+      "requiredTreatment": null,
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/ok.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -8557,6 +8501,9 @@
         "decision_conditioned_component"
       ],
       "requiredTreatment": "exact_supported_deferral",
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/tx.json",
+      "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": "Only on the out-of-window petition route. On the in-window route art. 55A.201(d) assigns preparation of the order to counsel or to the attorney representing the state, and LegalEase does not generate it.",
       "e4TerminalClassification": false,
@@ -8595,6 +8542,9 @@
         "counsel_review_requirement"
       ],
       "requiredTreatment": "exact_supported_deferral",
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/tx.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [
         "tx-55a051-3-class-c-eligibility"
       ],
@@ -9917,11 +9867,14 @@
       "mappedCompiledPathwayIds": [
         "eligible-conviction-expungement-under-w-va-code-61-11-26"
       ],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "counsel_review_requirement"
       ],
-      "requiredTreatment": "exact_supported_deferral",
+      "requiredTreatment": null,
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/wv.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [
         "wv-61-11-26-class-fidelity"
       ],
@@ -9937,11 +9890,14 @@
       "mappedCompiledPathwayIds": [
         "eligible-conviction-expungement-under-w-va-code-61-11-26"
       ],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "counsel_review_requirement"
       ],
-      "requiredTreatment": "exact_supported_deferral",
+      "requiredTreatment": null,
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/wv.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [
         "wv-61-11-26-class-fidelity"
       ],
@@ -9957,11 +9913,14 @@
       "mappedCompiledPathwayIds": [
         "eligible-conviction-expungement-under-w-va-code-61-11-26"
       ],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "counsel_review_requirement"
       ],
-      "requiredTreatment": "exact_supported_deferral",
+      "requiredTreatment": null,
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/guidance-packets/wv.json",
+      "candidateStatus": "promoted_by_f2",
       "counselItemIds": [
         "wv-61-11-26-class-fidelity"
       ],

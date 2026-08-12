@@ -67,6 +67,11 @@ const OVERRIDES = {
     reason:
       "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain."
   },
+  "verify-rcap-lane-b-exact-deferrals.mjs": {
+    disposition: "wired",
+    reason:
+      "The acceptance contract for lane-B exact supported deferrals. It derives the packet set from repository bytes rather than a list, checks all ten recognition safeguards per packet, and asks the authoritative route resolver whether the packet's promise that nothing is being sold is actually true of the runtime. Its --mutations suite requires eight deliberate breakages to come back red, including blind promotion of all nine packets. Wired by the captain in window 2026-08-12-w3."
+  },
   "verify-rcap-component-deferral-runtime.mjs": {
     disposition: "wired",
     reason:

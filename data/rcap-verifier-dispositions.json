@@ -4,7 +4,7 @@
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
     "keep_available": 107,
-    "wired": 107,
+    "wired": 108,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -1441,6 +1441,12 @@
       "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails. Not listed in the npm test chain string because package.json is itself an image input and the commit introducing this gate was forbidden from touching image-input paths. Independently recomputes all seven image-input hashes (sha256 for files, git tree hashes for scripts/lib/ and src/), enforces base-to-HEAD image-input equivalence, rejects checkpoint-substitution, algorithm drift, omitted inputs, dirty trees and hand-edited records.",
       "observedStatus": "added_since_audit",
       "decidedBy": "captain"
+    },
+    "verify-rcap-lane-b-exact-deferrals.mjs": {
+      "disposition": "wired",
+      "reason": "The acceptance contract for lane-B exact supported deferrals. It derives the packet set from repository bytes rather than a list, checks all ten recognition safeguards per packet, and asks the authoritative route resolver whether the packet's promise that nothing is being sold is actually true of the runtime. Its --mutations suite requires eight deliberate breakages to come back red, including blind promotion of all nine packets. Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
     },
     "verify-rcap-md-pardon-pathway.mjs": {
       "disposition": "wired",

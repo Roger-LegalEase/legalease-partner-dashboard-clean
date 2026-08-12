@@ -107,9 +107,14 @@ const laneBJobs = ledger.jobs.filter((j) => j.lane === "B");
 // terminal and leaves the job list, but its packet legitimately remains — the
 // packet IS the delivered treatment (first case: AK:ak-sej, promoted
 // 2026-08-12-w2). Promoted tracks count as validly terminalized here.
+// The same applies to a lane-B exact supported deferral: the packet IS the
+// delivered treatment, and a promoted one leaves the job list for the same
+// reason a promoted guidance packet does.
 const promotedGuidanceTracks = new Set(
   (ledger.tracks ?? [])
-    .filter((t) => t.candidateTreatment === "complete_guidance" && t.candidateStatus === "promoted_by_f2")
+    .filter((t) => ["complete_guidance", "exact_supported_deferral"].includes(t.candidateTreatment)
+      && t.candidateStatus === "promoted_by_f2"
+      && t.terminal === true)
     .map((t) => t.trackId)
 );
 const assignedByState = new Map();

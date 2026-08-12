@@ -29,7 +29,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
+import { register } from 'node:module';
 import { fileURLToPath } from 'node:url';
+
+// The authoritative route resolver is consulted directly rather than
+// reimplemented. A deferral records that payment is prohibited and checkout
+// suppressed; whether that is TRUE is a question only the runtime can answer,
+// and asking a copy of its rules here would be a second system that drifts.
+register('./lib/ts-esm-loader.mjs', import.meta.url);
+const { resolvePacketRoute } = await import('../src/lib/rcap/documents/packet-route-resolver.ts');
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outJson = path.join(rootDir, 'data/rcap-ledger/track-terminalization.json');
@@ -42,6 +50,13 @@ const WINDOW_ID = '2026-08-12-w3';
 const WINDOW_DATE = '2026-08-12';
 
 const problems = [];
+/**
+ * Deferral candidates refused because a compiled pathway they are reachable
+ * through is still sellable or credit-consumable at runtime. Recorded in the
+ * ledger rather than dropped silently: the packet and the runtime disagree, and
+ * whoever owns that route needs to see it.
+ */
+const runtimeContradictedDeferrals = [];
 const fail = (m) => problems.push(m);
 
 // --- inputs -----------------------------------------------------------------
@@ -126,6 +141,93 @@ const deliveredGuidance = new Map(); // trackId -> evidence path
   }
 }
 
+// Lane B: exact_supported_deferral — the SAME treatment as lane E's, authored
+// as a guidance packet instead of a hard-form profile.
+//
+// This loader exists because the ledger was recognising the treatment only by
+// where it was stored. Eight lane-B deferrals carried complete participant
+// treatments and unsuperseded independent approvals and still could not be
+// seen, because deliveredDeferrals below reads hard-form profiles and
+// deliveredGuidance above filters on treatment === 'complete_guidance'. A
+// packet whose treatment is exact_supported_deferral fell between the two.
+//
+// The standard applied here is the terminal-deferral standard, not a softer
+// one. A packet qualifies as a CANDIDATE only when it carries every
+// participant element, names an exact destination, prohibits payment and sale,
+// and cites its supporting authority. Promotion still requires the F2
+// technical_approved closure that promotes every other candidate — this loader
+// grants recognition, never terminality.
+const LANE_B_DEFERRAL_ELEMENTS = [
+  // supported reason, exact destination, exact next step, gathering guidance,
+  // what the participant does and does not file, what is preserved in the
+  // Briefcase, and the surrounding participant treatment.
+  'stopReason', 'destination', 'nextStep', 'gather', 'participantFiles',
+  'briefcaseSaved', 'mechanism', 'controllingActor', 'afterNextStep', 'handoff',
+  'timing', 'nextSteps', 'routeLabel',
+];
+const BILINGUAL_TEXT_ELEMENTS = [
+  'routeLabel', 'mechanism', 'stopReason', 'nextStep', 'destination', 'handoff',
+  'afterNextStep', 'timing', 'controllingActor', 'participantFiles',
+];
+const BILINGUAL_LIST_ELEMENTS = ['gather', 'briefcaseSaved', 'nextSteps'];
+
+/** Substantive in both languages: present, non-empty, and not the English copied across. */
+function bilingualTextIsSubstantive(node) {
+  if (!node || typeof node !== 'object') return false;
+  const { en, es } = node;
+  if (typeof en !== 'string' || typeof es !== 'string') return false;
+  if (en.trim().length === 0 || es.trim().length === 0) return false;
+  return en.trim() !== es.trim();
+}
+
+function bilingualListIsSubstantive(node) {
+  if (!node || typeof node !== 'object') return false;
+  const { en, es } = node;
+  if (!Array.isArray(en) || !Array.isArray(es)) return false;
+  if (en.length === 0 || en.length !== es.length) return false;
+  return en.every((line) => typeof line === 'string' && line.trim().length > 0)
+    && es.every((line) => typeof line === 'string' && line.trim().length > 0);
+}
+
+const laneBDeferrals = new Map(); // trackId -> { evidence, rationale }
+{
+  const dir = path.join(rootDir, 'data/rcap-all50/guidance-packets');
+  if (fs.existsSync(dir)) {
+    for (const file of fs.readdirSync(dir).sort()) {
+      if (!file.endsWith('.json') || file.startsWith('_')) continue;
+      const parsed = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+      for (const packet of parsed.packets || []) {
+        if (packet.treatment !== 'exact_supported_deferral') continue;
+
+        const complete = LANE_B_DEFERRAL_ELEMENTS.every((element) => packet[element] !== undefined)
+          && BILINGUAL_TEXT_ELEMENTS.every((element) => bilingualTextIsSubstantive(packet[element]))
+          && BILINGUAL_LIST_ELEMENTS.every((element) => bilingualListIsSubstantive(packet[element]))
+          && typeof packet.destination?.name === 'string' && packet.destination.name.trim().length > 0
+          && Array.isArray(packet.authority) && packet.authority.length > 0
+          // Payment prohibited, sale prohibited. A deferral that could be sold
+          // is not a deferral, and a packet that says otherwise is not
+          // recognised — it is skipped, never quietly corrected.
+          && packet.paymentAllowed === false
+          && packet.sellable === false;
+        if (!complete) continue;
+
+        // A track may be served by exactly one deferral source. Two sources
+        // claiming the same track is a contradiction between owners, and the
+        // last writer does not get to win it.
+        if (laneBDeferrals.has(packet.trackId)) {
+          throw new Error(
+            `Duplicate lane-B exact_supported_deferral for track ${packet.trackId}; refusing to resolve two deferral records by last-writer-wins.`
+          );
+        }
+        laneBDeferrals.set(packet.trackId, {
+          evidence: `data/rcap-all50/guidance-packets/${file}`,
+          rationale: '',
+        });
+      }
+    }
+  }
+}
+
 // Lane E: exact_supported_deferral — a hard-form profile whose strategy tier
 // records the deferral with its rationale, serving named tracks. Roger's
 // integration-window directive (2026-08-12) authorizes this treatment to
@@ -150,6 +252,18 @@ const deliveredDeferrals = new Map(); // trackId -> { evidence, rationale }
         }
       }
     }
+  }
+  // Merge the lane-B deferrals into the same map, so both sources are subject
+  // to one discovery, one candidate rule and one promotion signal. A track
+  // claimed by both a hard-form profile and a lane-B packet is a contradiction
+  // between two owners; it is raised, not silently resolved.
+  for (const [trackId, record] of laneBDeferrals) {
+    if (deliveredDeferrals.has(trackId)) {
+      throw new Error(
+        `Track ${trackId} is claimed as an exact_supported_deferral by both a hard-form profile and a lane-B guidance packet; refusing to resolve two deferral sources by last-writer-wins.`
+      );
+    }
+    deliveredDeferrals.set(trackId, record);
   }
 }
 
@@ -321,6 +435,7 @@ for (const row of crosswalk.registryTracks) {
   let candidateTreatment = null;
   let candidateEvidence = null;
   let treatmentSubstitution = null;
+  let runtimeSuppressionContradicted = false;
   if (deliveredGuidance.has(row.registryTrackId)) {
     const nonRuntimeHolds = holds.filter((h) => h !== 'missing_from_compiled_runtime');
     if (nonRuntimeHolds.length === 0) {
@@ -329,6 +444,32 @@ for (const row of crosswalk.registryTracks) {
     }
   } else if (deliveredDeferrals.has(row.registryTrackId)) {
     const deferral = deliveredDeferrals.get(row.registryTrackId);
+    // A deferral's whole claim to the participant is that nothing is being
+    // prepared and nothing is being sold. That claim has to be TRUE of the
+    // runtime, not just written in the packet. Every compiled pathway the
+    // track is reachable through is asked the authoritative resolver whether
+    // it is sellable or credit-consumable; one that is disqualifies the
+    // candidate, because promoting it would publish a promise the application
+    // does not keep.
+    const sellableThrough = (row.mappedCompiledPathwayIds || []).filter((pathwayId) => {
+      const route = resolvePacketRoute({ state: row.jurisdiction, pathway: pathwayId });
+      return route.sellable === true || route.creditConsumable === true;
+    });
+    if (sellableThrough.length > 0) {
+      // The treatment is still DELIVERED — it stays a visible candidate with
+      // its review status intact. What it cannot be is terminal, and the veto
+      // below is deliberately stronger than a hold, because a hold is
+      // satisfiable by review approval and this contradiction is not: a
+      // reviewer approving the packet does not make the route stop selling.
+      runtimeSuppressionContradicted = true;
+      runtimeContradictedDeferrals.push({
+        trackKey,
+        evidence: deferral.evidence,
+        sellablePathwayIds: sellableThrough,
+        why: 'the packet tells the participant nothing is being sold on this route, while the authoritative route resolver still reports the compiled pathway as sellable or credit-consumable',
+        owner: 'Terminal A route owner, with the jurisdiction\'s legacy-route owner',
+      });
+    }
     candidateTreatment = 'exact_supported_deferral';
     candidateEvidence = deferral.evidence;
     treatmentSubstitution = deferral.rationale || null;
@@ -349,7 +490,10 @@ for (const row of crosswalk.registryTracks) {
   const approvedByReview = candidateTreatment !== null
     && reviewApprovals.has(`${row.jurisdiction}:${row.registryTrackId}`);
 
-  const terminalNow = holds.length === 0 || approvedByReview;
+  // Review approval promotes a candidate — unless the runtime contradicts the
+  // treatment's own promise. No reviewer can approve away a route that is
+  // still selling.
+  const terminalNow = (holds.length === 0 || approvedByReview) && !runtimeSuppressionContradicted;
 
   // Exactly one required treatment for every nonterminal track. A legal hold
   // becomes an exact supported deferral tied to a decision entry — never a
@@ -563,6 +707,7 @@ const aggregates = {
     production_packet: rows.filter((r) => r.candidateTreatment === 'production_packet').length,
     complete_composed_route: rows.filter((r) => r.candidateTreatment === 'complete_composed_route').length,
   },
+  deferralCandidatesRefusedOnRuntimeContradiction: runtimeContradictedDeferrals.length,
   tracksImplementedPendingIndependentReview: rows.filter((r) => r.implementationStatus === 'implemented_pending_independent_review').length,
   guidanceRegistryServedTracks: rows.filter((r) => r.candidateTreatment === 'complete_guidance').length,
   d1Implementation,
@@ -607,6 +752,11 @@ const ledger = {
     'Assignments are disjoint by construction: a track resolves to exactly one lane via requiredTreatment and implementationFamily. Terminal A retains shared writers, the completion ledger, the job generator, the route resolver, migrations, integration, staging, release flags, rollback and final release reporting.',
   runtimeWiringNote,
   aggregates,
+  // Deferrals whose packet says nothing is sold while a compiled pathway they
+  // are reachable through is still sellable. Not terminal, and not hidden.
+  runtimeContradictedDeferrals: runtimeContradictedDeferrals
+    .slice()
+    .sort((a, b) => a.trackKey.localeCompare(b.trackKey)),
   jobs,
   decisions,
   blockerRegister,
