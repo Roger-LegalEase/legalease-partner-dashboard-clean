@@ -145,3 +145,68 @@ holds no images or containers (every pull was refused). The route control defaul
 This bundle contains no tokens, keys, service-role secrets, email passwords, participant data or
 production URLs. The only credentials referenced anywhere are synthetic `*.invalid` addresses that
 exist solely inside the disposable runner.
+
+---
+
+# Runner result — run 31562422867 (dispatched by this lane)
+
+Conclusion: **failure at step 9**, same step that ended runs #1 and #2. The disposable stack was
+destroyed cleanly (step 13 success); nothing persisted.
+
+## Gates the runner PROVED (not provable in this session)
+
+| Gate | Result |
+|---|---|
+| Refuse-unauthorized-input guard | pass |
+| Ancestry + image-input equivalence of all pinned SHAs | pass (`tools_sha` 611c2458 accepted) |
+| **GHCR authenticate + pull worker by immutable digest** | **pass** — digest only, never a mutable tag |
+| Disposable Supabase stack start (Postgres, Auth, Kong, Storage, Mailpit) | pass |
+| Next.js application build at the frozen SHA | pass |
+| **`migration_hashes_match`** — all 6 recomputed hashes equal the prepared action | **pass**, independently on a clean runner |
+| **`auth_healthy_real_users`** — 3 GoTrue users created and signed in through Kong | **pass** — real Supabase Auth |
+| **`email_captured_mailpit`** — recovery mail captured via the Mailpit API | **pass** — real email path |
+| Evidence upload + stack destruction | pass |
+
+## F1-HARNESS-001 — no pre-49 baseline on a virgin stack (BLOCKING)
+
+```
+FAIL migrations_apply_in_order — supabase/phase-49-rcap-packet-render-jobs.sql:152:
+ERROR:  relation "public.rcap_document_packets" does not exist
+```
+
+- Branch/commit: `claude/rcap-final-sprint-integration` @ `611c2458` (tools SHA), workflow registered on `main` via PR #95
+- File: `.github/workflows/rcap-f1-ephemeral-staging.yml`, step "Start the disposable Supabase stack"
+- Defect: the step runs `supabase init --force` then `supabase start`, producing a stack containing
+  only Supabase's own schemas. The repository has **no `supabase/migrations/` directory**, so no
+  pre-49 baseline is applied by anything. Phase 49's own recorded preconditions require
+  `public.partner_records` and `public.rcap_document_packets` to be present; both are absent, so
+  phase 49 aborts at line 152 and every later phase inherits a broken schema.
+- Why this lane's local apply succeeded where the runner failed: the local harness explicitly creates
+  `partner_records`, `rcap_persons`, `rcap_document_packets` and the browser-role default privileges
+  before applying, reproducing a real project's pre-49 state.
+- Likely owner: Terminal A (F1 orchestration)
+- Acceptance condition: before applying phase 49, the stack must materialise the pre-49 baseline the
+  authorization record assumes — at minimum `partner_records`, `rcap_persons`,
+  `rcap_document_packets` and `consumer_briefcase_items` (phase 26) — after which
+  `migrations_apply_in_order` reports 6/6 with zero SQL errors.
+
+## F1-HARNESS-002 — synthetic Briefcase fixture uses non-existent columns (BLOCKING)
+
+```
+Error: psql failed: ERROR:  column "state" of relation "consumer_briefcase_items" does not exist
+SQL: insert into public.consumer_briefcase_items (id, user_id, state, pathway_label, payment_status)
+```
+
+- File: `scripts/f1-ephemeral-staging-stack.mjs` @ `611c2458`, lines 187 and 191
+- Defect: the canonical table (`supabase/phase-26-consumer-briefcase-items.sql`) has **no `state`
+  column** — the jurisdiction column is named `jurisdiction` — and it declares `item_type` NOT NULL
+  with a CHECK over `('eligibility_check','result','packet','wilma_conversation')`. The fixture both
+  names a column that does not exist and omits a NOT NULL column, so it cannot succeed against the
+  canonical schema even once F1-HARNESS-001 is fixed.
+- Likely owner: Terminal A (F1 orchestration)
+- Acceptance condition: the insert names `(id, user_id, item_type, jurisdiction, pathway_label,
+  payment_status)` with `item_type='packet'` and `jurisdiction='MD'`, and both consumer fixtures
+  insert without error; the paid-consumer journey then reaches delivery eligibility.
+
+Neither file was patched by this lane: both are captain-owned F1 orchestration, and this lane is an
+execution and evidence lane.
