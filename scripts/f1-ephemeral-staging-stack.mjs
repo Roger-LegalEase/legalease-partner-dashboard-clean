@@ -125,6 +125,9 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     // sponsored surface reads it, so the disposable baseline carries it too.
     "supabase/phase-35-rcap-partner-entitlement.sql"
   ];
+  psql(`create table if not exists public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
+  psql(`create table if not exists public.partner_records (id uuid primary key default gen_random_uuid(), partner_slug text unique not null)`);
+  psql(`create table if not exists public.rcap_persons (id uuid primary key default gen_random_uuid(), partner_slug text not null, match_key text not null)`);
   for (const p of prerequisites) {
     const r = psqlFile(p);
     if (r.status !== 0) throw new Error(`prerequisite ${p} failed: ${r.err}`);
@@ -132,9 +135,6 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
   // The same environment shaping the repository's apply-evidence verifier
   // uses: the sequence references tables staging carries from its earlier
   // lineage and an empty stack does not.
-  psql(`create table if not exists public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
-  psql(`create table if not exists public.partner_records (id uuid primary key default gen_random_uuid(), partner_slug text unique not null)`);
-  psql(`create table if not exists public.rcap_persons (id uuid primary key default gen_random_uuid(), partner_slug text not null, match_key text not null)`);
   psql(`grant select, insert, update on public.consumer_briefcase_items to authenticated`);
 
   // --- baseline_schema_complete ---------------------------------------------
