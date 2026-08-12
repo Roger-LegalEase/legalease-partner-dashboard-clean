@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-codex-ca-cr180-patch-spec/v1",
+  "baseCommit": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+  "status": "specification_only_no_E_or_shared_path_modified",
+  "exactTrackKeys": [
+    "CA:ca-1203-41",
+    "CA:ca-1203-42",
+    "CA:ca-1203-43",
+    "CA:ca-1203-4a",
+    "CA:ca-17b-reduction"
+  ],
+  "owners": [
+    "Terminal E hard-form owner",
+    "Terminal A shared-verifier owner"
+  ],
+  "exactOwnedPaths": [
+    "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/",
+    "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/",
+    "scripts/verify-rcap-hard-form-outputs.mjs",
+    "scripts/rcap-hard-form-xfa-shadow-fill.mjs"
+  ],
+  "patches": [
+    {
+      "defect": "The participant-facing service surface omits the carried 15-day prosecutor-notice period, and no verifier requires the petition family to ship or declare its service component.",
+      "requiredChange": [
+        "State in substantive English and Spanish that for the section 1203.4 routes the prosecutor must receive at least 15 days notice before relief is granted, using CA-california.json as the carrier.",
+        "Add a verifier dependency assertion that fails any California petition-family profile which neither ships a service component nor declares the exact participant-facing service instruction."
+      ],
+      "acceptance": "Deleting cr-106-proof-of-service/profile.json or removing the service declaration makes the verifier fail; EN/ES keys remain in parity."
+    },
+    {
+      "defect": "The profile claims over-length values fail closed, while the engine currently returns success with report.overflowed and retains a truncate_with_addendum fabrication branch.",
+      "requiredChange": [
+        "Make renderHardFormPacket fail when report.overflowed is nonempty, or make the outputs verifier fail the render before any artifact is accepted.",
+        "Remove or fail-close the truncate_with_addendum branch so the engine cannot invent “see Attachment A”.",
+        "Keep exact rendered fingerprints unless a legitimate byte change occurs; if bytes change, refresh fingerprints and reopen F3."
+      ],
+      "acceptance": "A 100-character value bound into the 14-character Code1 field fails nonzero; no artifact or invented addendum is accepted."
+    }
+  ],
+  "tests": [
+    "node scripts/verify-rcap-hard-form-outputs.mjs",
+    "node scripts/verify-rcap-hard-form-dispositions.mjs",
+    "node scripts/verify-rcap-hard-form-rendered-assertions.mjs",
+    "Fresh F2 review is correction-free. F3 remains valid only if rendered bytes are unchanged; otherwise obtain fresh F3.",
+    "CA remains outside the legacy verified jurisdiction allowlist and checkout remains prohibited."
+  ]
+}

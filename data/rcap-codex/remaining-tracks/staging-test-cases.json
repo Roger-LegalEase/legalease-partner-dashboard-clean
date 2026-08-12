@@ -1,0 +1,2207 @@
+{
+  "schemaVersion": "rcap-codex-staging-test-cases/v2",
+  "baseCommit": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+  "mode": "PREP_ONLY",
+  "status": "prepared_not_executed_no_staging_records_written",
+  "globalPrecondition": "Canonical owner supplies fixture inputs only after exact treatment adoption; public, route, checkout, payment, credit, staging, and nationwide launch flags remain unchanged.",
+  "cases": [
+    {
+      "testId": "STAGE-AK-ak-nonconviction-confidential",
+      "jurisdiction": "AK",
+      "trackId": "ak-nonconviction-confidential",
+      "trackKey": "AK:ak-nonconviction-confidential",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "ak-nonconviction-confidential",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:AK:ak-nonconviction-confidential",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/ak.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-AR-ar-misdemeanor-dwi-seal",
+      "jurisdiction": "AR",
+      "trackId": "ar-misdemeanor-dwi-seal",
+      "trackKey": "AR:ar-misdemeanor-dwi-seal",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "composed",
+      "implementationFamily": "composed_route",
+      "primaryClassAtBase": "already_resolved_but_ledger_stale",
+      "expectedTreatmentOrOutput": "exact_supported_deferral",
+      "exactResolverIdentity": {
+        "trackId": "ar-misdemeanor-dwi-seal",
+        "currentMappedPathwayIds": [
+          "situation-b-misdemeanor-convictions"
+        ],
+        "e3JobId": null,
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/ar.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/ar-deferrals.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-CA-ca-1203-41",
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-41",
+      "trackKey": "CA:ca-1203-41",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "ca-1203-41",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:CA:ca-1203-41",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "hard_form_profile_fields",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": true,
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "no_sellable_route_no_payment_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-CA-ca-1203-42",
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-42",
+      "trackKey": "CA:ca-1203-42",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "ca-1203-42",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:CA:ca-1203-42",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "hard_form_profile_fields",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": true,
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "no_sellable_route_no_payment_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-CA-ca-1203-43",
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-43",
+      "trackKey": "CA:ca-1203-43",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "ca-1203-43",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:CA:ca-1203-43",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "hard_form_profile_fields",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": true,
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "no_sellable_route_no_payment_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-CA-ca-1203-4a",
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-4a",
+      "trackKey": "CA:ca-1203-4a",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "ca-1203-4a",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:CA:ca-1203-4a",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "hard_form_profile_fields",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": true,
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "no_sellable_route_no_payment_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-CA-ca-17b-reduction",
+      "jurisdiction": "CA",
+      "trackId": "ca-17b-reduction",
+      "trackKey": "CA:ca-17b-reduction",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "ca-17b-reduction",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:CA:ca-17b-reduction",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "hard_form_profile_fields",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": true,
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "no_sellable_route_no_payment_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-CA-ca-851-91",
+      "jurisdiction": "CA",
+      "trackId": "ca-851-91",
+      "trackKey": "CA:ca-851-91",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "runtime_wiring_missing",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "ca-851-91",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:CA:ca-851-91",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "hard_form_profile_fields",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": true,
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "no_sellable_route_no_payment_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records",
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records",
+        "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/E-REVIEW-REPORT.md",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-CT-ct-provisional-pardon",
+      "jurisdiction": "CT",
+      "trackId": "ct-provisional-pardon",
+      "trackKey": "CT:ct-provisional-pardon",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "ct-provisional-pardon",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:CT:ct-provisional-pardon",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/ct.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-DC-dc_yra_set_aside",
+      "jurisdiction": "DC",
+      "trackId": "dc_yra_set_aside",
+      "trackKey": "DC:dc_yra_set_aside",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "legal_design_or_counsel",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "dc_yra_set_aside",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:DC:dc_yra_set_aside",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/dc/dc_yra_set_aside/blocked-pleading.md",
+        "data/rcap-all50/pleadings/dc/dc_yra_set_aside/handoff.md",
+        "data/rcap-all50/pleadings/dc/dc_yra_set_aside/pleading-config.json",
+        "data/rcap-all50/pleadings/dc/manifest.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-ID-id_felony_reduction",
+      "jurisdiction": "ID",
+      "trackId": "id_felony_reduction",
+      "trackKey": "ID:id_felony_reduction",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "id_felony_reduction",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:ID:id_felony_reduction",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/idaho/id_felony_reduction/handoff.md",
+        "data/rcap-all50/pleadings/idaho/id_felony_reduction/pleading-config.json",
+        "data/rcap-all50/pleadings/idaho/manifest.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/id-19-2604.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/id-67-3004.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-ID-id_set_aside_dismissal",
+      "jurisdiction": "ID",
+      "trackId": "id_set_aside_dismissal",
+      "trackKey": "ID:id_set_aside_dismissal",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "id_set_aside_dismissal",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:ID:id_set_aside_dismissal",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/idaho/id_felony_reduction/handoff.md",
+        "data/rcap-all50/pleadings/idaho/id_set_aside_dismissal/handoff.md",
+        "data/rcap-all50/pleadings/idaho/id_set_aside_dismissal/pleading-config.json",
+        "data/rcap-all50/pleadings/idaho/manifest.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/id-19-2604.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/id-67-3004.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-KY-ky_felony_expungement_after_pardon",
+      "jurisdiction": "KY",
+      "trackId": "ky_felony_expungement_after_pardon",
+      "trackKey": "KY:ky_felony_expungement_after_pardon",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_standard",
+      "primaryClassAtBase": "already_resolved_but_ledger_stale",
+      "expectedTreatmentOrOutput": "exact_supported_deferral",
+      "exactResolverIdentity": {
+        "trackId": "ky_felony_expungement_after_pardon",
+        "currentMappedPathwayIds": [
+          "felony-conviction-431073"
+        ],
+        "e3JobId": null,
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/ky.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/ky-deferrals.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-KY-ky_felony_vacatur_expungement",
+      "jurisdiction": "KY",
+      "trackId": "ky_felony_vacatur_expungement",
+      "trackKey": "KY:ky_felony_vacatur_expungement",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_standard",
+      "primaryClassAtBase": "already_resolved_but_ledger_stale",
+      "expectedTreatmentOrOutput": "exact_supported_deferral",
+      "exactResolverIdentity": {
+        "trackId": "ky_felony_vacatur_expungement",
+        "currentMappedPathwayIds": [
+          "felony-conviction-431073"
+        ],
+        "e3JobId": null,
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/ky.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/ky-deferrals.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-MI-mi_arrest_acquittal_dismissal",
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "trackKey": "MI:mi_arrest_acquittal_dismissal",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "mi_arrest_acquittal_dismissal",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:MI:mi_arrest_acquittal_dismissal",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/mi.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-MI-mi_auto_misd92",
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd92",
+      "trackKey": "MI:mi_auto_misd92",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "mi_auto_misd92",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:MI:mi_auto_misd92",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/mi.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-MI-mi_setaside_csc4_pre2015",
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_csc4_pre2015",
+      "trackKey": "MI:mi_setaside_csc4_pre2015",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "mi_setaside_csc4_pre2015",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:MI:mi_setaside_csc4_pre2015",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/mi.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-MN-mn_ceb_felony_cannabis",
+      "jurisdiction": "MN",
+      "trackId": "mn_ceb_felony_cannabis",
+      "trackKey": "MN:mn_ceb_felony_cannabis",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "mn_ceb_felony_cannabis",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:MN:mn_ceb_felony_cannabis",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/mn.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-ND-nd-dna-profile-removal-routing",
+      "jurisdiction": "ND",
+      "trackId": "nd-dna-profile-removal-routing",
+      "trackKey": "ND:nd-dna-profile-removal-routing",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "nd-dna-profile-removal-routing",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:ND:nd-dna-profile-removal-routing",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/nd.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-ND-nd-trafficking-vacatur-routing",
+      "jurisdiction": "ND",
+      "trackId": "nd-trafficking-vacatur-routing",
+      "trackKey": "ND:nd-trafficking-vacatur-routing",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "nd-trafficking-vacatur-routing",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:ND:nd-trafficking-vacatur-routing",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/nd.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-ND-nd-unconstitutional-arrest-expungement-routing",
+      "jurisdiction": "ND",
+      "trackId": "nd-unconstitutional-arrest-expungement-routing",
+      "trackKey": "ND:nd-unconstitutional-arrest-expungement-routing",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "nd-unconstitutional-arrest-expungement-routing",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:ND:nd-unconstitutional-arrest-expungement-routing",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/nd.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-NE-ne-immigration-routing",
+      "jurisdiction": "NE",
+      "trackId": "ne-immigration-routing",
+      "trackKey": "NE:ne-immigration-routing",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "ne-immigration-routing",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:NE:ne-immigration-routing",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/ne.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-NJ-nj_automated_clean_slate",
+      "jurisdiction": "NJ",
+      "trackId": "nj_automated_clean_slate",
+      "trackKey": "NJ:nj_automated_clean_slate",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "nj_automated_clean_slate",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:NJ:nj_automated_clean_slate",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/nj.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-NV-nv_repository_removal",
+      "jurisdiction": "NV",
+      "trackId": "nv_repository_removal",
+      "trackKey": "NV:nv_repository_removal",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "participant_treatment_missing",
+      "expectedTreatmentOrOutput": "complete_guidance_candidate_no_checkout",
+      "exactResolverIdentity": {
+        "trackId": "nv_repository_removal",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:NV:nv_repository_removal",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/nevada/manifest.json",
+        "data/rcap-all50/pleadings/nevada/nv_repository_removal/handoff.md",
+        "data/rcap-all50/pleadings/nevada/nv_repository_removal/pleading-config.json",
+        "data/rcap-all50/pleadings/wisconsin/wi_exp_certificate_of_discharge_followup/handoff.md",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/participant-treatments.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179a.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-NV-nv_seal_decrim",
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_decrim",
+      "trackKey": "NV:nv_seal_decrim",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "nv_seal_decrim",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:NV:nv_seal_decrim",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/nevada/manifest.json",
+        "data/rcap-all50/pleadings/nevada/nv_seal_decrim/handoff.md",
+        "data/rcap-all50/pleadings/nevada/nv_seal_decrim/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179a.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-NV-nv_seal_pardon",
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_pardon",
+      "trackKey": "NV:nv_seal_pardon",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "nv_seal_pardon",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:NV:nv_seal_pardon",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/nevada/manifest.json",
+        "data/rcap-all50/pleadings/nevada/nv_seal_pardon/handoff.md",
+        "data/rcap-all50/pleadings/nevada/nv_seal_pardon/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179a.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-OK-ok_clean_slate",
+      "jurisdiction": "OK",
+      "trackId": "ok_clean_slate",
+      "trackKey": "OK:ok_clean_slate",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "already_resolved_but_ledger_stale",
+      "expectedTreatmentOrOutput": "exact_supported_deferral",
+      "exactResolverIdentity": {
+        "trackId": "ok_clean_slate",
+        "currentMappedPathwayIds": [
+          "clean-slate-automatic-expungement"
+        ],
+        "e3JobId": "registry_track:OK:ok_clean_slate",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/ok.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md",
+        "docs/record-clearing/deferrals/ok-deferrals.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-OK-ok_osbi_portal",
+      "jurisdiction": "OK",
+      "trackId": "ok_osbi_portal",
+      "trackKey": "OK:ok_osbi_portal",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "process_guidance",
+      "implementationFamily": "guidance",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "complete bilingual guidance with no checkout",
+      "exactResolverIdentity": {
+        "trackId": "ok_osbi_portal",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:OK:ok_osbi_portal",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/ok.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/ok-deferrals.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-SC-sc_aep",
+      "jurisdiction": "SC",
+      "trackId": "sc_aep",
+      "trackKey": "SC:sc_aep",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "sc_aep",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:SC:sc_aep",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/south-carolina/manifest.json",
+        "data/rcap-all50/pleadings/south-carolina/sc_aep/handoff.md",
+        "data/rcap-all50/pleadings/south-carolina/sc_aep/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-code-title17-ch22.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223b1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223d1.pdf",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-SC-sc_conditional_discharge_44_53_450",
+      "jurisdiction": "SC",
+      "trackId": "sc_conditional_discharge_44_53_450",
+      "trackKey": "SC:sc_conditional_discharge_44_53_450",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "sc_conditional_discharge_44_53_450",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:SC:sc_conditional_discharge_44_53_450",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/south-carolina/manifest.json",
+        "data/rcap-all50/pleadings/south-carolina/sc_conditional_discharge_44_53_450/handoff.md",
+        "data/rcap-all50/pleadings/south-carolina/sc_conditional_discharge_44_53_450/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-code-title17-ch22.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223b1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223d1.pdf",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-SC-sc_tep",
+      "jurisdiction": "SC",
+      "trackId": "sc_tep",
+      "trackKey": "SC:sc_tep",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "sc_tep",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:SC:sc_tep",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/south-carolina/manifest.json",
+        "data/rcap-all50/pleadings/south-carolina/sc_tep/handoff.md",
+        "data/rcap-all50/pleadings/south-carolina/sc_tep/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-code-title17-ch22.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223b1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223d1.pdf",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-TX-tx_exp_acquittal",
+      "jurisdiction": "TX",
+      "trackId": "tx_exp_acquittal",
+      "trackKey": "TX:tx_exp_acquittal",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "composed",
+      "implementationFamily": "composed_route",
+      "primaryClassAtBase": "correction_required",
+      "expectedTreatmentOrOutput": "blocked until exact exact_supported_deferral treatment is reviewed and adopted",
+      "exactResolverIdentity": {
+        "trackId": "tx_exp_acquittal",
+        "currentMappedPathwayIds": [
+          "expunction-after-acquittal-not-guilty-disposition-chapter-55a"
+        ],
+        "e3JobId": null,
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/tx.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md",
+        "docs/record-clearing/deferrals/tx-deferrals.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-TX-tx_exp_dismissed",
+      "jurisdiction": "TX",
+      "trackId": "tx_exp_dismissed",
+      "trackKey": "TX:tx_exp_dismissed",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "already_resolved_but_ledger_stale",
+      "expectedTreatmentOrOutput": "exact_supported_deferral",
+      "exactResolverIdentity": {
+        "trackId": "tx_exp_dismissed",
+        "currentMappedPathwayIds": [
+          "expunction-after-qualifying-class-c-deferred-disposition",
+          "expunction-after-qualifying-dismissal-or-quash"
+        ],
+        "e3JobId": null,
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/tx.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md",
+        "docs/record-clearing/deferrals/tx-deferrals.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-VA-va_exp_identity_used_by_another",
+      "jurisdiction": "VA",
+      "trackId": "va_exp_identity_used_by_another",
+      "trackKey": "VA:va_exp_identity_used_by_another",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "va_exp_identity_used_by_another",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:VA:va_exp_identity_used_by_another",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/virginia/manifest.json",
+        "data/rcap-all50/pleadings/virginia/va_exp_identity_used_by_another/handoff.md",
+        "data/rcap-all50/pleadings/virginia/va_exp_identity_used_by_another/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/va-code-19-2-392-2.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/va-dc-363-instructions.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/va-dc-363.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/va-district-forms-list.pdf",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-WA-wa_crop_certificate_of_restoration",
+      "jurisdiction": "WA",
+      "trackId": "wa_crop_certificate_of_restoration",
+      "trackKey": "WA:wa_crop_certificate_of_restoration",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "source_or_currentness",
+      "expectedTreatmentOrOutput": "reviewed exact hard-form or controlled-pleading output only after primary blockers close",
+      "exactResolverIdentity": {
+        "trackId": "wa_crop_certificate_of_restoration",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:WA:wa_crop_certificate_of_restoration",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/WA-washington.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/pleadings/washington/manifest.json",
+        "data/rcap-all50/pleadings/washington/wa_crop_certificate_of_restoration/handoff.md",
+        "data/rcap-all50/pleadings/washington/wa_crop_certificate_of_restoration/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0100.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0200.doc",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0300.doc",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0600.doc",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0700.doc",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-rcw-9-97-020.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-WI-wi_exp_certificate_of_discharge_followup",
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "trackKey": "WI:wi_exp_certificate_of_discharge_followup",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "custom_pleading",
+      "implementationFamily": "controlled_pleading",
+      "primaryClassAtBase": "participant_treatment_missing",
+      "expectedTreatmentOrOutput": "complete_guidance_candidate_no_checkout",
+      "exactResolverIdentity": {
+        "trackId": "wi_exp_certificate_of_discharge_followup",
+        "currentMappedPathwayIds": [],
+        "e3JobId": "registry_track:WI:wi_exp_certificate_of_discharge_followup",
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "blocked_config_fields_plus_runtime_exposure",
+        "artifactPaymentField": "absent_not_inferred",
+        "artifactSellableField": "absent_not_inferred",
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "runtime_disabled_no_delivered_packet_no_sellable_route_no_credit_event"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/wi.json",
+        "data/rcap-all50/pleadings/wisconsin/manifest.json",
+        "data/rcap-all50/pleadings/wisconsin/wi_exp_certificate_of_discharge_followup/handoff.md",
+        "data/rcap-all50/pleadings/wisconsin/wi_exp_certificate_of_discharge_followup/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/participant-treatments.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/runtime-wiring-patch-specs.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/wi-statute-973-015.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-WV-wv_conv_multiple_misdemeanors",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_multiple_misdemeanors",
+      "trackKey": "WV:wv_conv_multiple_misdemeanors",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "already_resolved_but_ledger_stale",
+      "expectedTreatmentOrOutput": "exact_supported_deferral",
+      "exactResolverIdentity": {
+        "trackId": "wv_conv_multiple_misdemeanors",
+        "currentMappedPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ],
+        "e3JobId": null,
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/wv.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md",
+        "docs/record-clearing/deferrals/wv-deferrals.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-WV-wv_conv_nonviolent_felony",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_nonviolent_felony",
+      "trackKey": "WV:wv_conv_nonviolent_felony",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "already_resolved_but_ledger_stale",
+      "expectedTreatmentOrOutput": "exact_supported_deferral",
+      "exactResolverIdentity": {
+        "trackId": "wv_conv_nonviolent_felony",
+        "currentMappedPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ],
+        "e3JobId": null,
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/wv.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md",
+        "docs/record-clearing/deferrals/wv-deferrals.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    },
+    {
+      "testId": "STAGE-WV-wv_conv_single_misdemeanor",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_single_misdemeanor",
+      "trackKey": "WV:wv_conv_single_misdemeanor",
+      "preparedNotExecuted": true,
+      "passFail": "pending",
+      "fixtureInputs": "must_be_supplied_by_canonical_track_owner_after_adoption_no_participant_facts_invented",
+      "declaredStrategy": "official_pdf_fill",
+      "implementationFamily": "official_form_hard",
+      "primaryClassAtBase": "already_resolved_but_ledger_stale",
+      "expectedTreatmentOrOutput": "exact_supported_deferral",
+      "exactResolverIdentity": {
+        "trackId": "wv_conv_single_misdemeanor",
+        "currentMappedPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ],
+        "e3JobId": null,
+        "canonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json"
+      },
+      "expectedCurrentPaymentEvidence": {
+        "evidenceKind": "guidance_packet_fields",
+        "artifactPaymentField": false,
+        "artifactSellableField": false,
+        "artifactCheckoutField": "absent_not_inferred",
+        "artifactCreditField": "absent_not_inferred",
+        "currentExposure": "guidance_not_sellable_no_checkout_or_credit_event_observed"
+      },
+      "candidateEvidencePaths": [
+        "data/rcap-all50/guidance-packets/wv.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md",
+        "docs/record-clearing/deferrals/wv-deferrals.md"
+      ],
+      "steps": [
+        "Supply an adopted owner-authored fixture for this exact track in internal preview with every launch flag off.",
+        "Assert exact resolver identity and reviewed/adopted evidence; reject sibling or label-based fallback.",
+        "Exercise substantive EN/ES where participant copy exists and verify actor, destination, next step, gather, do-not-file limits, timing, and Briefcase behavior.",
+        "Attempt every checkout and credit transition, then save/reload Briefcase state."
+      ],
+      "expected": [
+        "No public or sellable route or launch flag is enabled.",
+        "Checkout and payment remain unavailable and no credit event occurs.",
+        "A blocked or deferred track produces no unverified court filing.",
+        "Briefcase stores only the reviewed guidance/candidate state and never converts it into a purchasable packet."
+      ],
+      "stopCondition": "Stop on any resolver, source fingerprint, review/adoption, language parity, payment suppression, or Briefcase mismatch; do not repair by enabling a route."
+    }
+  ]
+}
