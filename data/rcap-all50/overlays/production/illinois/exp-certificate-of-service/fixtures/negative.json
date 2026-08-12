@@ -1,0 +1,56 @@
+{
+  "fixtureKind": "negative",
+  "description": "Adversarial facts that must NOT reach the form. Given these facts, every listed field must remain empty after render.",
+  "adversarialFacts": {
+    "judge_name": "Hon. Improper Autofill",
+    "clerk_name": "Deputy Clerk Should-Not-Appear",
+    "prosecutor_name": "ADA Never Populated",
+    "prosecutor_address": "1 Prosecutor Plaza, Must Stay Blank",
+    "hearing_date": "2026-12-31",
+    "hearing_result": "GRANTED",
+    "court_disposition_text": "Petition granted in full",
+    "notary_commission": "Commission 000000, expires never",
+    "service_completion_date": "2026-11-30",
+    "arresting_officer_statement": "Officer narrative that must not be transcribed"
+  },
+  "expectedEmptyFields": [
+    "4 - Name",
+    "5 - Name",
+    "6 - Name",
+    "7 - Name",
+    "9 - Name",
+    "10 - Name",
+    "11 - Name",
+    "12 - Name",
+    "13 - Name",
+    "15 - Name",
+    "16 - Name",
+    "14 - Name",
+    "16 - Circuit Clerk's Signature",
+    "17 - Name of Deputy Clerk",
+    "18 - Date of Mailing or Service"
+  ],
+  "expectedEmptyByClass": {
+    "court_or_agency": [
+      "4 - Name",
+      "5 - Name",
+      "6 - Name",
+      "7 - Name",
+      "9 - Name",
+      "10 - Name",
+      "11 - Name",
+      "12 - Name",
+      "13 - Name",
+      "15 - Name",
+      "16 - Name",
+      "14 - Name"
+    ],
+    "signature": [
+      "16 - Circuit Clerk's Signature"
+    ],
+    "protected": [
+      "17 - Name of Deputy Clerk",
+      "18 - Date of Mailing or Service"
+    ]
+  }
+}

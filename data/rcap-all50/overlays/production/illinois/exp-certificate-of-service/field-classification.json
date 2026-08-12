@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "exp-certificate-of-service",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 19,
+  "fields": [
+    {
+      "name": "3 - Case Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "case_identifier",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "2 - Your name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "4 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "5 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "1 - County",
+      "type": "dropdown",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "name": "8 - County",
+      "type": "dropdown",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "name": "6 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "7 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "9 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "10 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "11 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "12 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "13 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "15 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "16 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "14 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Served-agency roster completed in the clerk’s service process. Not populated by the renderer; flagged for F visual review."
+    },
+    {
+      "name": "16 - Circuit Clerk's Signature",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "signature",
+      "populatable": false,
+      "note": "Clerk signature. Never populated."
+    },
+    {
+      "name": "17 - Name of Deputy Clerk",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Clerk identification. Never populated."
+    },
+    {
+      "name": "18 - Date of Mailing or Service",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Service completion date certified by the clerk. Never populated."
+    }
+  ]
+}
