@@ -189,9 +189,87 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
 
 assert(families >= 40, `all 40 D1 family packages present (found ${families})`);
 
+// --- completed implementation packages --------------------------------------
+//
+// Red when: a completed package is missing its census, classification or map;
+// a map's sha256 drifts from the source record it was built against; a fact
+// binds to a field the classifier marked unwritable; a court-issued order
+// binds anything outside the caption; a binding targets a checkbox or radio
+// group; an overlay anchor is placed against a denied label; a rendered
+// fixture modified an unwritable field; or a family claims a fixture or
+// contact sheet it does not have.
+const NEVER_WRITE_CLASSES = new Set(["prohibited", "protected", "signature", "court_or_agency", "outside_party"]);
+const CAPTION_ONLY_FACTS = new Set([
+  "participant.full_legal_name", "participant.first_name", "participant.last_name", "participant.middle_name",
+  "participant.date_of_birth", "matter.county", "matter.court", "matter.case_number", "matter.citation_number"
+]);
+const ANCHOR_DENY = /judge|magistrate|clerk|court use|prosecut|attorney|sheriff|police|agency|notar|sworn|signature|\bsign\b|service|so ordered|it is ordered|hearing|granted|denied|for office/i;
+
+const indexPath = path.join(OUT_ROOT, "implementation-index.json");
+assert(fs.existsSync(indexPath), "implementation-index.json exists");
+let implemented = 0;
+if (fs.existsSync(indexPath)) {
+  const impl = readJson(indexPath);
+  for (const fam of impl.families) {
+    const slug = Object.keys(JURISDICTIONS).find((k) => JURISDICTIONS[k].startsWith(`${fam.jurisdiction}-`));
+    const dir = path.join(OUT_ROOT, slug ?? "", fam.family);
+    const id = `${fam.jurisdiction}/${fam.family}`;
+    if (!fs.existsSync(dir)) { assert(false, `${id}: implementation directory exists`); continue; }
+
+    const record = readJson(path.join(dir, "source-record.json"));
+    for (const f of ["field-census.json", "field-classification.json", "reports/protected-fields.json"]) {
+      assert(fs.existsSync(path.join(dir, f)), `${id}: ${f} present`);
+    }
+    const census = readJson(path.join(dir, "field-census.json"));
+    assert(census.sha256 === record.sha256, `${id}: census pinned to the source record's sha256 (drift red)`);
+    assert(census.fieldCount === census.fields.length, `${id}: census field count matches its own entries`);
+
+    const cls = readJson(path.join(dir, "field-classification.json"));
+    const classOf = new Map(cls.entries.map((e) => [e.name, e.class]));
+    const typeOf = new Map(census.fields.map((e) => [e.name, e.type]));
+    assert(cls.entries.length === census.fields.length, `${id}: every censused field is classified`);
+
+    const mapPath = path.join(dir, fam.mapKind === "acroform" ? "production-field-map.json" : "overlay-profile.json");
+    assert(fs.existsSync(mapPath), `${id}: ${fam.mapKind} map present`);
+    if (!fs.existsSync(mapPath)) continue;
+    const map = readJson(mapPath);
+    assert(map.sha256 === record.sha256, `${id}: map pinned to the source record's sha256 (drift red)`);
+
+    for (const b of map.bindings ?? []) {
+      assert(!NEVER_WRITE_CLASSES.has(classOf.get(b.field)), `${id}: binding on '${b.field}' does not target an unwritable class`);
+      assert(!["checkbox", "radio", "optionlist"].includes(typeOf.get(b.field)), `${id}: binding on '${b.field}' does not target an election control`);
+      if (map.captionOnly) {
+        const base = b.factId.replace(/^matter\.charges\[\d+\]\./, "matter.");
+        assert(CAPTION_ONLY_FACTS.has(base), `${id}: court-issued order binds caption facts only, saw '${b.factId}'`);
+      }
+    }
+    for (const a of map.anchorCapture?.anchors ?? []) {
+      assert(!ANCHOR_DENY.test(a.label), `${id}: overlay anchor '${a.label}' is not placed against a denied label`);
+      assert(a.writeBox.width > 0 && a.writeBox.height > 0, `${id}: overlay anchor '${a.label}' has a positive write box`);
+    }
+
+    if (fam.status === "implemented_pending_independent_review" || fam.status === "overlay_implemented_pending_independent_review") {
+      implemented++;
+      for (const f of ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"]) {
+        const p2 = path.join(dir, f);
+        assert(fs.existsSync(p2), `${id}: ${f} rendered`);
+        if (fs.existsSync(p2)) {
+          assert(fs.readFileSync(p2).subarray(0, 5).toString() === "%PDF-", `${id}: ${f} is a real PDF`);
+        }
+      }
+    }
+    const scanPath = path.join(dir, "reports/protected-fields-scan.json");
+    if (fs.existsSync(scanPath)) {
+      const scan = readJson(scanPath);
+      assert(scan.pass === true, `${id}: rendered fixture wrote no unwritable field and no placeholder value`);
+    }
+  }
+  assert(implemented >= 60, `completed implementation packages present (found ${implemented})`);
+}
+
 if (failures.length > 0) {
   console.error("verify-rcap-official-forms-d1 FAILED");
   for (const f of failures) console.error(` - ${f}`);
   process.exit(1);
 }
-console.log(`verify-rcap-official-forms-d1 passed: ${families} fail-closed family packages structurally complete, sha-pinned to the compiled inventories, census-honest, and placeholder-free.`);
+console.log(`verify-rcap-official-forms-d1 passed: ${families} family packages structurally complete and sha-pinned, ${implemented} completed implementation packages rendered with no unwritable field written.`);
