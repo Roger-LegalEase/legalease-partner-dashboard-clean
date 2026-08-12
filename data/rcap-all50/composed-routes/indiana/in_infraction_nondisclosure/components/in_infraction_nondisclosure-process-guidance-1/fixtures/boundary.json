@@ -1,0 +1,63 @@
+{
+  "fixtureId": "in_infraction_nondisclosure-guidance-boundary",
+  "trackId": "in_infraction_nondisclosure",
+  "componentId": "in_infraction_nondisclosure-process-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/route.json",
+  "description": "The deferral edge: prosecution was deferred, the participant satisfied the conditions, and no cause number was ever assigned. This is the branch split the registry calls out - the court-acts-on-its-own branch does not reach deferred prosecutions - and it is also the case that raises the unresolved county MC case-type question. Dates are synthetic test inputs, not asserted facts.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IN 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "",
+    "countyName": "",
+    "causeNumber": "",
+    "mcCaseType": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "infractionDescription": "",
+    "infractionClass": "",
+    "disposition": "",
+    "dispositionDate": "",
+    "citationDate": "",
+    "citingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "countyOfInfraction": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: an Indiana county]",
+      "causeNumber": "none assigned",
+      "infractionOutcome": "deferral programme completed",
+      "outcomeDate": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: the date the deferral conditions were satisfied]",
+      "wasDeferred": "yes",
+      "courtAlreadyOrdered": "no - clerk confirmed no order was entered"
+    },
+    "clerkConfirmationObtained": true,
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted and no date arithmetic is performed here.",
+    "boundaryUnderTest": [
+      "Deferral branch split: the registry states the automatic branch does not apply where prosecution was deferred, so this participant belongs to the five-year branch.",
+      "Five-year earliest filing condition: satisfying the conditions of a deferral programme or the judgment imposed.",
+      "No cause number was ever assigned, which is the exact case the unresolved county MC case-type question governs.",
+      "Clerk has confirmed the court did not act, which is the condition on stage 2."
+    ],
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "driverLicenseNumber": "",
+    "stateIdNumber": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectedRouteBehaviour": "Stage 1 renders and routes the participant to the five-year branch. Stage 2 remains blocked, and this fixture is the case in which the MC case-type question bites hardest, because no cause number exists to file under."
+}

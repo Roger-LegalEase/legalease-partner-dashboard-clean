@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "rcap-official-form-dependency/v1",
+  "trackId": "tx_nd_veterans_reemployment",
+  "jurisdiction": {
+    "code": "TX",
+    "slug": "texas"
+  },
+  "componentId": "tx_nd_veterans_reemployment-petition-2",
+  "componentIdSynthesized": false,
+  "role": "petition",
+  "requirement": "conditional",
+  "conditionDescription": "Only where the court requires a petition or did not hold the hearing.",
+  "order": 2,
+  "requiredOutput": "official_form_dependency",
+  "officialFormId": "OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
+  "officialFormName": "Petition for an Order of Nondisclosure under Section 411.0729, Texas Office of Court Administration model form (located copy carries a February 2022 footer)",
+  "issuingAuthority": "Texas Office of Court Administration",
+  "officialSourceUrlForForm": "https://www.txcourts.gov/media/1454256/petition-for-nondisclosure-under-section-411-0729.pdf",
+  "officialSourceSha256": null,
+  "officialSourceRetrievedOn": "2026-08-06",
+  "acquisitionStatus": "url_recorded_no_copy_on_file_no_hash_revision_stale",
+  "acquisitionNote": "Recorded release blocker on this track: the OCA model petitions and orders carry a FEBRUARY 2022 revision and the OCA Overview a February 2024 revision, confirmed from the document footers on 2026-08-06. Neither has been revised for the 2023 recodification of expunction into Chapter 55A or for the 2025 amendment to Gov't Code 411.0728. The form must be pulled at its current revision before release, and no statutory cross-reference may be reproduced from a 2022 form without checking it. No copy is in the Texas Nationwide inventory: the committed state pack's officialFormInventory holds only petition_charges_dismissed_or_quashed_revision_06112026.pdf and the Agent Training Reference PDF, plus one HTML reference file.",
+  "drafted": false,
+  "draftingProhibitedBecause": "It is an official OCA statewide model form with a recorded officialFormId and officialSourceUrl, and the registry classifies the unit official_pdf_fill with packetIdentity 'identified'. Lane C drafts no official forms. The OCA nondisclosure documents are statewide MODEL forms — not mandatory and not promulgated. Gov't Code 411.0745(c) and (d) direct OCA to prescribe and publish a form for petitions filed electronically or by mail and require every county and district clerk website to link to it, so they sit closer to a statutorily authorised statewide model than to a sample, and county clerks across Texas republish them and refer filers to the OCA site. Nothing in Subchapter E-1 makes the form mandatory or forbids a differently drafted petition, and this artifact does not assert that it is mandatory. The registry nevertheless classifies this unit official_pdf_fill with packetIdentity 'identified', so the route uses the OCA form rather than a drafted substitute, and lane C drafts no official forms.",
+  "blockingStatement": "The PETITION ROUTE cannot be assembled for filing until this form is acquired at its current revision, hashed and field-mapped, together with the OCA instructions for completing it. The NO-FILING ROUTE is unaffected: nothing is filed on it, and the registry directs the packet to lead with it.",
+  "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
+  "exactMissingSource": "OCA Model Petition for an Order of Nondisclosure under Section 411.0729 — the PDF itself at https://www.txcourts.gov/media/1454256/petition-for-nondisclosure-under-section-411-0729.pdf, at its CURRENT revision (the located copy footers read February 2022), plus a captured sha256 and a field map; and the OCA instructions for completing it at https://www.txcourts.gov/media/1463066/instructions-for-completing-petition-for-nondisclosure-under-section-4110729.pdf, likewise at current revision with a hash. Both are recorded with sha256 null, and no copy of either is in the Texas Nationwide inventory.",
+  "filingRule": "On the statutory route nothing is filed: the court holds a hearing and enters the order. Where the court requires a petition, it is filed with the clerk of the court that placed the person on community supervision, with the civil filing fee required by Gov't Code 411.0745(b) or a Rule 145 Statement of Inability.",
+  "filingRuleSourceRef": "registry@3b6f4c1:tracks[422].rules.filing; registry@3b6f4c1:tracks[422].rules.fees; registry@3b6f4c1:tracks[422].units[1].description",
+  "submissionDestination": "The clerk of the court that sentenced the person or placed the person on community supervision, including deferred adjudication community supervision — NOT the county of arrest.",
+  "submissionDestinationSourceRef": "registry@3b6f4c1:tracks[422].venue; registry@3b6f4c1:tracks[422].destination",
+  "participantObtains": true,
+  "participantTenders": true,
+  "legalEaseHandlesRecord": false,
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/texas/index.ts",
+      "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ],
+    "profileCorroboration": null,
+    "profileCorroborationNote": "None available. The compiled TX profile enumerates four Gov't Code ch. 411 nondisclosure subtypes — 411.072, 411.0725, 411.0735 and the first-offence DWI provisions — and does not mention 411.0729, veterans reemployment programmes, Code of Criminal Procedure ch. 42A subch. H-1 or any OCA model form URL anywhere. The committed Texas state pack's officialFormInventory contains neither OCA nondisclosure form.",
+    "registryRef": "registry@3b6f4c1:tracks[422].packetSet.components[1]"
+  },
+  "manualCompletionItems": [
+    {
+      "item": "The best-interest-of-justice assertion",
+      "whereInPacket": "OCA model petition, the best-interest paragraph, on the petition route only",
+      "why": "The court decides whether issuance is in the best interest of justice. The assertion is not auto-completed.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].manualCompletionItems[0]"
+    },
+    {
+      "item": "The petitioner's signature and date",
+      "whereInPacket": "OCA model petition, signature block, on the petition route only",
+      "why": "The petition is a participant filing and must be signed by the petitioner.",
+      "sourceRef": "registry@3b6f4c1:tracks[422].manualCompletionItems[1]"
+    }
+  ],
+  "notarizationNote": "Not required by Subchapter E-1 for the petition. County practice may differ and the packet directs the participant to ask the clerk.",
+  "notarizationNoteSourceRef": "registry@3b6f4c1:tracks[422].rules.notarization",
+  "noticeNote": "Under Gov't Code 411.0745(e) the COURT provides notice to the state and an opportunity for a hearing on receipt of the petition. A hearing is required unless the state does not request one before the 45th day after receiving notice and the court finds the person entitled to file and that issuance is in the best interest of justice. The filer should not be charged for that notice. OCA instructions also direct the petitioner to show proof that the district attorney received a copy of the petition — a second service fact the registry records alongside the first and does not reconcile with it.",
+  "noticeNoteSourceRef": "registry@3b6f4c1:tracks[422].rules.notice; registry@3b6f4c1:tracks[422].rules.service"
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-blocked-pleading-dependency/v1",
+  "trackId": "ct-under18-misdemeanor",
+  "jurisdiction": {
+    "code": "CT",
+    "slug": "connecticut"
+  },
+  "componentId": "ct-under18-misdemeanor-petition-branch-2",
+  "componentIdSynthesized": true,
+  "role": "primary_filing",
+  "requiredOutput": "pleading_document",
+  "documentName": "Petition under C.G.S. § 54-142a(f)(2) to erase a misdemeanor conviction for conduct committed while under 18, where the offense occurred before 1 January 2000",
+  "officialFormId": null,
+  "officialFormName": null,
+  "officialFormSearchResult": "No form was located for a § 54-142a(f)(2) petition.",
+  "candidateFormConsideredAndRejected": {
+    "formId": "JD-CR-202",
+    "formName": "Judicial Branch Petition for Clean Slate Erasure",
+    "onFileAs": "LegalEase Connecticut/CR202.pdf (sha256 b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c, 820630 bytes) and LegalEase Connecticut/Connecticut-JD-CR-202-Form.html (sha256 4b7c355596010f49268b25634a5fff41058ab59d18f6fef27885ac0eb41fa3ec)",
+    "whyNotAdopted": "JD-CR-202 on its face is a Clean Slate form, not an (f)(2) form. Whether the Judicial Branch publishes a form for a § 54-142a(f)(2) petition, and whether JD-CR-202 is used for it in practice, is an open build blocker.",
+    "conflictingProfileReading": "The compiled CT profile treats JD-CR-202 as the vehicle for pre-2000 conviction petitions generally: \"Pre-2000 convictions need a petition. The automatic process only reaches post-1/1/2000 convictions; older ones require JD-CR-202.\" That reading is not adopted here.",
+    "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].buildBlockers[0]; profile:sourceSections[5] 'Required forms'; profile:sourceSections[9] 'Court-specific quirks'; statePack:officialFormInventory[1]"
+  },
+  "drafted": false,
+  "draftingProhibitedBecause": "The § 54-142a(f)(2) petition branch has no identified form and no approved custom pleading, and the historical offense-date and classification rule is unresolved. The automatic branch's settled strategy does not carry over.",
+  "blockingStatement": "The current form or accepted custom pleading for the petition branch, and the historical offense-date and classification rule, must be resolved before anything is produced.",
+  "owningLane": "lane-D/E official-source acquisition and legal-design resolution — registry implementationQueue: D_composed_or_process_guidance",
+  "exactMissingSource": "Either (a) the official Judicial Branch form for a C.G.S. § 54-142a(f)(2) petition, if one exists — its identity, current revision and official URL — or (b) counsel approval of a custom pleading in its place; together with the historical offense-date and classification rule governing pre-2000 misdemeanors.",
+  "whatIsKnown": {
+    "trigger": "A misdemeanor conviction for conduct committed while the person was under 18, where the offense occurred before 1 January 2000.",
+    "relief": "The person may file a petition and the court shall direct erasure.",
+    "venue": "The Superior Court at the location where the conviction was effected.",
+    "fee": "No fee. § 54-142a(k).",
+    "limitation": "§ 54-142a(f)(3): the subsection does not apply where there has been a conviction for any charge for which erasure would not apply arising from the same information as the erased conviction.",
+    "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].units[1]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].venue; registry@3b6f4c1:tracks[ct-under18-misdemeanor].rules.fees; registry@3b6f4c1:tracks[ct-under18-misdemeanor].authority[2]"
+  },
+  "order": 2,
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor]",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "profileSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/connecticut/index.ts",
+      "src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts"
+    ]
+  }
+}

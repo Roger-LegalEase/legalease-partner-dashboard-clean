@@ -1,0 +1,360 @@
+{
+  "schemaVersion": "rcap-pleading-track-config/v1",
+  "jurisdictionCode": "VT",
+  "jurisdiction": {
+    "code": "VT",
+    "name": "Vermont",
+    "slug": "vermont"
+  },
+  "trackId": "vt_exp_deferred_sentence",
+  "componentId": "vt_exp_deferred_sentence-written-request-to-court-2",
+  "unitId": "vt-deferred-written-request",
+  "routePath": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/route.json",
+  "jobId": "T-C-VT-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "requiredOutput": "pleading_document",
+  "legalName": "Written request to the court to enter the expungement order required by 13 V.S.A. § 7041(e)",
+  "publicName": "Ask the court to enter the order the statute requires",
+  "templateGrade": "legal_ops_custom_pleading",
+  "templateLifecycle": "replacement_candidate",
+  "primaryReliefTerm": "expungement",
+  "primaryReliefTermSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].legalName; .mechanism (\"the record of the criminal proceedings shall be expunged on discharge from probation\"); .units[1].description. Expungement is the correct term for THIS relief even though Vermont is otherwise a sealing state after 2025-07-01, because § 7041 sits in chapter 221 and was not amended by Act 60.",
+  "documentTitleFull": "REQUEST FOR ENTRY OF THE EXPUNGEMENT ORDER REQUIRED BY 13 V.S.A. § 7041(e)",
+  "documentTitleFullSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].units[1].description (\"a controlled written request to the Criminal Division of the Superior Court that entered the deferred sentence ... asking the court to enter the expungement order the statute requires absent a finding of good cause\")",
+  "courtCaption": "VERMONT SUPERIOR COURT, CRIMINAL DIVISION — {county} UNIT{docketLine}",
+  "courtCaptionNote": "Token pattern. {county} and {docketLine} are filled only from the participant's own countyOfCase and docketNumber screening answers. The '{county} Unit' form is the one the committed Vermont state pack itself uses (sample-data.ts filingCourt: \"Vermont Superior Court, Criminal Division (Chittenden Unit)\") and the Criminal Division destination is the one both the registry venue and the state pack filing instructions state. No source read for this track states an accepted caption for a § 7041(e) request, and no party line is rendered; see counselFlag vt-deferred-caption-format-unconfirmed. The docket line is rendered because the request goes in under the existing docket rather than as a new case.",
+  "courtCaptionSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].venue; .rules.filing; .generationRequirements[key=countyOfCase,docketNumber]; statePack:sample-data.ts; statePack:filing-instructions.ts[4]",
+  "routeDecision": {
+    "decision": "custom_pleading_drafted_no_official_form_exists",
+    "rationale": [
+      "The registry unit vt-deferred-written-request declares outputStrategy 'custom_pleading', outputStrategyStatus 'resolved', packetIdentity 'identified' and available true.",
+      "The unit description states in terms: \"There is no Judiciary form for this request; the statute supplies the destination, the court, the operative facts and the relief, which is what makes a controlled pleading supportable rather than a guess.\"",
+      "The corresponding packetSet component carries no officialFormId and no officialSourceUrl, and none of the ten Vermont forms catalogued in the committed state pack has this role.",
+      "Relief is mandatory absent a finding of good cause — the statute says the record SHALL be expunged and the court SHALL issue the order — so the request is a short statement of the operative facts and a request that the order enter, not an argument for discretionary relief."
+    ],
+    "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].units[1]; .packetSet.components[1]; statePack:official-forms.ts"
+  },
+  "primaryStatutoryAuthority": [
+    {
+      "citation": "13 V.S.A. § 7041(e)",
+      "description": "Except as provided in subsection (h), the record of the criminal proceedings shall be expunged on discharge from probation, absent a finding of good cause by the court, and the court shall issue an order to expunge all records and files related to the arrest, citation, investigation, charge, adjudication of guilt, criminal proceedings and probation.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].authority[1]; .mechanism"
+    },
+    {
+      "citation": "13 V.S.A. § 7041(a)",
+      "description": "The deferred sentence itself — the predicate the request rests on: the case ended in a deferred sentence agreement rather than an ordinary sentence.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].authority[0]; .dispositions"
+    },
+    {
+      "citation": "13 V.S.A. § 7041(e) (restitution proviso)",
+      "description": "Notwithstanding the subsection, the record is not expunged until restitution has been paid in full. Carried so the request states the date restitution was satisfied and never asks for relief on an unpaid balance.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].mechanism; .exclusions[1]; .waitingPeriods[1]"
+    },
+    {
+      "citation": "13 V.S.A. § 7041(h)",
+      "description": "The one carve-out from the relief: VCIC retains a confidential special index of deferred sentences for sex offences requiring registration. Carried so the request never asks for relief the subsection withholds.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].authority[2]; .exclusions[2]"
+    }
+  ],
+  "verificationStatute": {
+    "citation": null,
+    "description": "No verification statute is cited. The registry states notarization: \"Not required.\" That is an affirmative statement that no notarization is needed; it is not a statement that the request is or is not verified, and no source read for this track addresses verification at all. No verification block is rendered, and this gap is carried as a counsel flag in the same way the ND config carries its missing verification statute.",
+    "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.notarization; .rules.participantSignature; .packetSet.participantActionRequired[kind=notarize]"
+  },
+  "includeProposedOrder": false,
+  "includeProposedOrderReason": "Section 7041(e) makes the expungement order the court's own act — the court SHALL issue an order to expunge all records and files — and provides that copies go to each agency, department or official named in it. No form for that order is recorded on this track and no source states an order is tendered with the request. Drafting one would invent which agencies, departments and officials the order names and what each must do. Not drafted.",
+  "includeCertificateOfService": false,
+  "includeCertificateOfServiceReason": "The registry records service as \"None by the participant.\" Section 7608 victim notice does not attach, because that duty is triggered by a petition filed under chapter 230 and this relief arises under chapter 221. No certificate of service is drafted and no prosecutor is named on the request.",
+  "serviceNote": null,
+  "serviceNoteReason": "No service is required of the participant on this route. The registry records notice as: \"The court sends copies of the expungement order to each agency, department or official named in it.\" That is the court's act after the order enters, not a participant service step, and it is carried in the participant handoff instructions rather than as a service note on the document.",
+  "qaProhibitedTerms": [
+    "petition",
+    "petitioner",
+    "seal",
+    "sealing",
+    "sealed",
+    "destroy",
+    "destroyed",
+    "destruction",
+    "erase",
+    "annul"
+  ],
+  "qaProhibitedTermsSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].scopeRestrictions[0]; .legalDesignLimitations[classification=scope_restriction]; registry@3b6f4c1:tracks[vt_exp_deferred_sentence].legalDesignLimitations[classification=packet_instruction][1]; .mechanism; statePack:eligibility-rules.ts[1]; statePack:safety-language.ts vtPlainLanguage; profile:copyGuardrails",
+  "qaProhibitedTermsNote": "Three groups, each for a distinct reason. (1) 'petition' and 'petitioner': the controlling scope restriction is that this relief is court-driven, requires no petition, and that anyone who completed a deferred sentence must not be sold a petition packet. A document that styles itself a petition would reintroduce exactly the error the restriction exists to prevent. Note the tension recorded in counselFlag vt-deferred-instrument-label: the registry's own manualCompletionItems says \"the petitioner's signature\". (2) 'seal', 'sealing', 'sealed': after Act 60 sealing is the chapter 230 remedy; § 7041(e) is chapter 221 expungement and was not amended by Act 60. Using the sealing vocabulary in this request would misdescribe the relief and blur the routing boundary. (3) 'destroy', 'destroyed', 'destruction', 'erase', 'annul': chapter 230 expungement annuls the record and destroys the case file under Court Administrator policies when all docket charges are expunged. Section 7041(e) says the record shall be expunged and that thereafter the court and agencies reply that no record exists; it says nothing about annulment or file destruction, so neither may be asserted here. Scope: these terms are prohibited in the RENDERED DOCUMENT TEXT of this component only. They appear in participant-facing routing and disclosure copy, where they do necessary work — telling the participant that no petition is required and that a petition packet must not be sold to them, and carrying the registry's own disclosure that an expunged or sealed Vermont record may still appear in a federal criminal background check. This is the same split the KY exemplar records.",
+  "presentation": {
+    "sovereignPartyName": null,
+    "sovereignPartyNameNullReason": "No source read for this track supplies a party structure for a § 7041(e) request. The request goes in under an existing docket, but no source states how the parties are styled on it, and nothing in the sources makes the State a respondent to the request. Not invented.",
+    "sovereignPartyProper": null,
+    "sovereignRole": null,
+    "sovereignRoleNullReason": "Section 7608 victim notice does not attach and no notice to a prosecutor is recorded; the registry records service as none by the participant. Nothing in the sources makes the State a party to this request. Not invented.",
+    "movantRole": "Requester",
+    "movantRoleSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].units[1].description (\"a controlled written request\"); .rules.participantSignature (\"The participant signs the written request where one is generated\"). See counselFlag vt-deferred-instrument-label for the tension with .packetSet.manualCompletionItems[0].",
+    "filingNoun": "Request",
+    "filingNounSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].units[1].label (\"Written request to the court...\"); .units[1].description; .rules.filing",
+    "divisionLine": "CRIMINAL DIVISION",
+    "divisionLineSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].venue (\"The Criminal Division of the Vermont Superior Court that entered the deferred sentence\"); .destination.name; statePack:filing-instructions.ts[4]",
+    "usesCounty": false,
+    "usesCountyNote": "Set false deliberately, and NOT because venue here is county-independent — the request goes to the Criminal Division unit that entered the deferred sentence. In this renderer usesCounty:true is a Pennsylvania-specific branch that emits \"the Court of Common Pleas of {county} County, Pennsylvania\" into the jurisdiction and venue paragraphs; setting it true on a Vermont track puts Pennsylvania into a Vermont request. The county is carried through the {county} token in courtName and venueDescriptor instead.",
+    "usesCountySourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].venue; .generationRequirements[key=countyOfCase]; renderer PA_DEFAULT_PRESENTATION branch at src/lib/record-clearing/renderers/custom-pleading-renderer.ts",
+    "courtName": "Vermont Superior Court, Criminal Division, {county} Unit",
+    "courtNameNote": "The '{county} Unit' form is taken from the committed Vermont state pack's own sample filing court, and the Criminal Division destination from the registry venue and the state pack filing instructions. The unit is never inferred from anything but the participant's own countyOfCase answer.",
+    "venueDescriptor": "{county} County, Vermont",
+    "venueDescriptorNote": "Noun phrase, because the renderer inserts venueDescriptor into the sentence \"Venue is proper in this Court because the criminal proceedings ... occurred in {venueDescriptor}.\" On this track that fixed clause is true: there were criminal proceedings, and they were the deferred-sentence case. The full recorded venue rule is preserved verbatim in venueDescriptorFull.",
+    "venueDescriptorFull": "The Criminal Division of the Vermont Superior Court that entered the deferred sentence and discharged the person from probation.",
+    "venueDescriptorSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].venue (verbatim in venueDescriptorFull); .rules.filing",
+    "recordCustodianLead": null,
+    "recordCustodianLeadNullReason": "Section 7041(e) provides that copies of the order go to each agency, department or official named in it, and the sources never enumerate who those are. The participant does not have to name them, and no Vermont agency is named anywhere in this component. Not invented.",
+    "verificationVerb": null,
+    "verificationVerbNullReason": "No source addresses verification of this request; no verification clause is rendered. See counselFlag vt-deferred-verification-unaddressed.",
+    "verificationPenaltyLabel": null,
+    "serviceRecipientLabel": null,
+    "serviceRecipientLabelNullReason": "No service by the participant on this route; there is no service recipient.",
+    "serviceRecipientAddressLabel": null,
+    "reliefActionVerb": "expunge",
+    "orderActionVerb": "expunge",
+    "recordsScopePhrase": "all records and files related to the arrest, citation, investigation, charge, adjudication of guilt, criminal proceedings and probation in the docket identified in this request",
+    "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].mechanism (\"an order to expunge all records and files related to the arrest, citation, investigation, charge, adjudication of guilt, criminal proceedings and probation\"); .recordTypes",
+    "movantFirstInCaption": null,
+    "movantFirstInCaptionNullReason": "No party structure is stated for this request. Not set."
+  },
+  "counselFlags": [
+    {
+      "id": "vt-deferred-order-timing-unknown",
+      "statement": "How long after discharge a Vermont court in practice enters the § 7041(e) expungement order is not established, and therefore the point at which a participant should be told the order is genuinely missing rather than merely pending is unknown. No interval, deadline or 'wait N weeks' statement appears anywhere in this route's participant copy.",
+      "mustConfirm": "The practice interval after discharge before a § 7041(e) order should be treated as missing.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].releaseBlockers[0]; .unresolvedQuestions[0]"
+    },
+    {
+      "id": "vt-deferred-instrument-label",
+      "statement": "Terminology tension inside the pinned entry. The scope restriction states that this relief is court-driven, requires no petition, and that \"anyone who completed a deferred sentence should not be sold a petition packet\"; the unit description calls the instrument a \"controlled written request\". The same entry's manualCompletionItems nevertheless refers to \"the petitioner's signature and date on the written request\". This route styles the instrument a Request and the signer the Requester, and prohibits the words petition and petitioner in the document text, so the product can never read as a petition packet.",
+      "mustConfirm": "The label a Vermont Criminal Division expects on a § 7041(e) request, and whether 'Requester' is acceptable.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].scopeRestrictions[0]; .units[1].description; .packetSet.manualCompletionItems[0]"
+    },
+    {
+      "id": "vt-deferred-caption-format-unconfirmed",
+      "statement": "No source read for this track states an accepted caption for a § 7041(e) request. The venue recorded is functional — \"the Criminal Division of the Vermont Superior Court that entered the deferred sentence and discharged the person from probation\" — and the filing rule is that the request goes in under the existing docket rather than as a new case. The caption is a token pattern filled only from the participant's own countyOfCase and docketNumber answers; the '{county} Unit' form is taken from the committed Vermont state pack's own sample (\"Vermont Superior Court, Criminal Division (Chittenden Unit)\") and from the state pack filing instruction to file in the Criminal Division for the county that handled the case.",
+      "mustConfirm": "The caption a Vermont Criminal Division accepts on a § 7041(e) request filed under an existing docket.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].venue; .rules.filing; statePack:sample-data.ts filingCourt; statePack:filing-instructions.ts[4]"
+    },
+    {
+      "id": "vt-deferred-party-structure-unstated",
+      "statement": "No source read for this track supplies a party structure for a § 7041(e) request. presentation.sovereignPartyName, sovereignPartyProper, sovereignRole and movantFirstInCaption are all null. Nothing in the sources makes the State a respondent to this request, and § 7608 victim notice is recorded as not attaching because it is triggered by a chapter 230 petition.",
+      "mustConfirm": "Whether the request is captioned in the existing State v. Defendant criminal case and, if so, how the parties are styled.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.notice; .rules.filing"
+    },
+    {
+      "id": "vt-deferred-verification-unaddressed",
+      "statement": "No source read for this track states whether a § 7041(e) request must be verified or sworn. The registry states only that notarization is \"Not required.\" and that the participant signs the written request. verificationStatute.citation is left null and no verification block is rendered, rather than a verification form being invented. This is the handling the ND config applies to its own missing verification statute.",
+      "mustConfirm": "Whether the request must be verified or sworn, and in what form, before shipping.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.notarization; .rules.participantSignature"
+    },
+    {
+      "id": "vt-deferred-no-proposed-order",
+      "statement": "No proposed order is drafted. Section 7041(e) makes the expungement order the court's own act — \"the court shall issue an order to expunge all records and files\" — and provides that copies go to each agency, department or official named in it. No Judiciary form for that order is recorded on this track and no source states an order is tendered with the request. Drafting one would invent which agencies, departments and officials the order names and what each must do.",
+      "mustConfirm": "Whether a Vermont Criminal Division expects a tendered order with a § 7041(e) request, and if so what it says and whom it names.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].authority[1]; .packetSet.components; .rules.notice"
+    },
+    {
+      "id": "vt-deferred-restitution-is-a-statutory-bar",
+      "statement": "Restitution paid in full is a statutory bar on the relief, not merely a document the participant gathers: \"the record is not expunged until restitution has been paid in full.\" Nothing in this route may be produced, and no request may be sent, on an unpaid balance. Whether restitution is paid is the participant's own answer, checked against a Restitution Unit statement.",
+      "mustConfirm": "That no pipeline stage produces the request while restitution is outstanding.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].legalDesignLimitations[classification=required_before_filing]; .exclusions[1]; .waitingPeriods[1]"
+    },
+    {
+      "id": "vt-deferred-7041h-special-index",
+      "statement": "Subsection (h) requires VCIC to retain a confidential special index of deferred sentences for sex offences requiring registration, listing name, date of birth, offence and docket number, accessible only by the VCIC director and one designated staff person for presentence-investigation purposes. The index survives the expungement, and a registrable sex offence is a self-help stop condition on this track. The participant must be told the index survives.",
+      "mustConfirm": "That screening routes a registrable sex offence out of automated assistance before any document is produced.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].authority[2]; .legalDesignLimitations[classification=packet_instruction][0]; .selfHelpStopConditions[1]"
+    },
+    {
+      "id": "vt-deferred-good-cause-finding",
+      "statement": "Section 7041(e) makes the expungement mandatory only \"absent a finding of good cause by the court.\" A court that has made, or signals it will make, a good-cause finding against expungement is a self-help stop condition. Nothing in this route asserts that no good-cause finding exists or will be made, and nothing predicts how the court will rule.",
+      "mustConfirm": "That a good-cause signal ends automated assistance rather than producing a request.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].selfHelpStopConditions[0]; .exclusions[4]"
+    },
+    {
+      "id": "vt-deferred-act60-terminology",
+      "statement": "After 2025-07-01 Vermont is a sealing state, not an expungement state, and participant-facing copy must not use expungement as the umbrella term. Expungement is nevertheless the correct and only term for THIS relief: § 7041 sits in chapter 221, was not amended by Act 60, and its operative words are \"the record of the criminal proceedings shall be expunged.\" The words sealing and sealed are prohibited in this route's document text precisely so the chapter 221 relief is never blurred with the chapter 230 sealing route.",
+      "mustConfirm": "That routing copy elsewhere in the product does not present this track as the general Vermont expungement route.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].legalDesignLimitations[classification=packet_instruction][1]; .mechanism; statePack:safety-language.ts vtPlainLanguage.sealingFirstExpungementNarrow"
+    },
+    {
+      "id": "vt-deferred-no-petition-packet",
+      "statement": "Scope restriction on this track: \"Deferred sentence expungement is court-driven on discharge and requires no petition. Anyone who completed a deferred sentence should not be sold a petition packet.\" Unit 1 exists to catch this first: on the ordinary path the participant files nothing and the pleading component is not produced at all.",
+      "mustConfirm": "That orderIssued gates production of the written-request component, and that no chapter 230 petition is offered to a deferred-sentence participant.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].scopeRestrictions[0]; .legalDesignLimitations[classification=scope_restriction]"
+    },
+    {
+      "id": "vt-deferred-profile-silent-on-7041",
+      "statement": "The compiled VT profile does not mention 13 V.S.A. § 7041, deferred sentences, or any deferred-sentence pathway anywhere. It compiles the Wilma Agent Training Reference, which covers chapter 230 sealing/expungement and 33 V.S.A. § 5119 only. Every legal proposition in this route comes from the pinned registry entry; the profile and state pack supply only Vermont court, form and terminology facts they actually record.",
+      "mustConfirm": "That the Vermont routing table is updated so a deferred-sentence participant reaches this track and not the chapter 230 petition routes the profile does describe.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "profile:src/lib/rcap-engine/compiled/profiles/VT-vermont.json (no occurrence of '7041' or 'deferred'); registry@3b6f4c1:tracks[vt_exp_deferred_sentence].legalDesignLimitations[classification=scope_restriction]"
+    },
+    {
+      "id": "vt-deferred-legal-status",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: \"Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.\"",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].legalStatus / .legalDesignStatus / .runtimeDisabledReason / .blockers"
+    }
+  ],
+  "componentInventory": [
+    {
+      "component": "caption",
+      "status": "present",
+      "note": "Token caption: VERMONT SUPERIOR COURT, CRIMINAL DIVISION — {county} UNIT, with the existing docket line, because the request goes in under the existing docket rather than as a new case. Accepted caption is an open counsel flag.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].venue; .rules.filing"
+    },
+    {
+      "component": "court_and_party_identity",
+      "status": "present_partial",
+      "note": "Requester name and address from screening. No opposing party is named: no notice to a prosecutor is recorded, § 7608 victim notice does not attach, and no source states a party structure. County and docket number are the participant's own screening answers; judge, prosecutor, prosecutor position, OTN and filing date are blank and never prefilled.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.notice; .rules.service; .generationRequirements[key=countyOfCase,docketNumber]"
+    },
+    {
+      "component": "title",
+      "status": "present",
+      "note": "REQUEST FOR ENTRY OF THE EXPUNGEMENT ORDER REQUIRED BY 13 V.S.A. § 7041(e). Styled a Request, never a petition — see the scope restriction.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].units[1].description; .scopeRestrictions[0]"
+    },
+    {
+      "component": "allegations",
+      "status": "present",
+      "note": "Container only, and only for the facts the registry's own generationRequirements collect and its unit description names: that the case ended in a deferred sentence agreement; that the participant was discharged from probation and the finding of guilt struck; the date of discharge; that restitution is paid in full and the date it was satisfied; that a record check shows the case still shows; the county; and the docket number. Each is rendered as the Requester's own statement. No allegation is generated, inferred or supplemented, and no statement is made about what the court will find.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].generationRequirements; .units[1].description; .packetSet.participantFilingRequirements"
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "note": "Four citations, all subsections of 13 V.S.A. § 7041, all from the track authority list. Chapter 230 is not cited: this relief does not arise under it.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].authority"
+    },
+    {
+      "component": "requested_relief",
+      "status": "present",
+      "note": "That the court enter the order § 7041(e) requires absent a finding of good cause — an order to expunge all records and files related to the arrest, citation, investigation, charge, adjudication of guilt, criminal proceedings and probation in the identified docket. Nothing is requested about which agencies the order names, and no chapter 230 relief is requested.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].units[1].description; .authority[1]; .mechanism"
+    },
+    {
+      "component": "verification",
+      "status": "absent",
+      "reason": "No source read for this track addresses verification of the request; the registry states only that notarization is not required. verificationStatute.citation is null and no block is rendered. Flagged rather than invented — the ND handling.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.notarization"
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "note": "One block, the Requester's. The registry states: \"None on the ordinary path. The participant signs the written request where one is generated,\" and lists the signature and date as a manual completion item in the written request's signature block. No LegalEase signature block.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.participantSignature; .packetSet.manualCompletionItems[0]"
+    },
+    {
+      "component": "proposed_order",
+      "status": "absent",
+      "reason": "The order is the court's own act under § 7041(e) and copies go to each agency, department or official named in it. No form is recorded and no source states one is tendered. Drafting it would invent whom the order names and what each must do.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].authority[1]; .packetSet.components; .rules.notice"
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "absent",
+      "reason": "The registry records service as \"None by the participant.\" No party is served and no prosecutor is named.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.service"
+    },
+    {
+      "component": "notice",
+      "status": "absent",
+      "reason": "No participant notice duty. \"The court sends copies of the expungement order to each agency, department or official named in it. Section 7608 victim notice does not attach, because that duty is triggered by a petition filed under chapter 230 and this relief arises under chapter 221.\" That is the court's act after the order enters and is carried in participant handoff copy, not on the document.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.notice"
+    },
+    {
+      "component": "affidavit",
+      "status": "absent",
+      "reason": "No source records an affidavit. The discharge order and the Restitution Unit statement are participant-obtained documents named in participant copy; LegalEase never drafts, obtains or inspects them, and the request does not attach or characterise them.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].packetSet.participantFilingRequirements"
+    },
+    {
+      "component": "participant_only_cover_sheet",
+      "status": "absent",
+      "reason": "No cover sheet is recorded anywhere on this track. The registry packetSet has exactly three components and none is a cover sheet; the profile and state pack record none either.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].packetSet.components"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "note": "Participant-only, at the route level (participant-instructions.md) and in the handoff component. Never filed. The registry rules.filing governs: submitted to the Criminal Division that entered the deferred sentence, under the existing docket rather than as a new case.",
+      "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].rules.filing; .packetSet.participantActionRequired[kind=file]"
+    }
+  ],
+  "rendererCompatibility": {
+    "note": "This config is data. It is written against the PleadingTrackConfig shape consumed by src/lib/record-clearing/renderers/custom-pleading-renderer.ts, but that renderer cannot consume it faithfully today. No source-faithful field has been altered to work around a renderer defect.",
+    "adapterDefects": [
+      {
+        "id": "null-fields-stringified",
+        "observed": "Fields deliberately set to null under the sourced-content-only rule are printed literally as the text 'null' by the current renderer — caption sovereign role, verification verb, verification penalty label and eligibilityBasisLabel are all affected.",
+        "affectedFields": [
+          "presentation.sovereignPartyName",
+          "presentation.sovereignPartyProper",
+          "presentation.sovereignRole",
+          "presentation.verificationVerb",
+          "presentation.verificationPenaltyLabel",
+          "presentation.recordCustodianLead",
+          "eligibilityData.eligibilityBasisLabel"
+        ],
+        "requiredAdapterBehavior": "A null party, role, verb or label means the source does not state one. The adapter must omit the line or clause entirely, never stringify null."
+      },
+      {
+        "id": "verification-section-rendered-though-unaddressed",
+        "observed": "The renderer emits a VERIFICATION section built from presentation.verificationVerb even where verificationStatute.citation is null.",
+        "requiredAdapterBehavior": "No source read for this track addresses verification. The adapter must omit the section and leave the gap visible rather than build a verification clause from a null verb — the handling the ND config applies to its own missing verification statute."
+      },
+      {
+        "id": "county-mode-is-pennsylvania-mode",
+        "observed": "With usesCounty:true the renderer emits \"the Court of Common Pleas of {county} County, Pennsylvania\".",
+        "resolvedInThisConfig": true,
+        "requiredAdapterBehavior": "usesCounty is documented as a county-line flag but its true branch is hardcoded Pennsylvania text. This config sets usesCounty:false and carries the county through the {county} token. The renderer should separate 'this jurisdiction uses a county line' from 'this jurisdiction is Pennsylvania'."
+      },
+      {
+        "id": "docket-line-token-unsupported",
+        "observed": "courtCaption carries a {docketLine} token so the caption can carry the existing docket, since the request is submitted under the existing docket rather than as a new case. The renderer has no {docketLine} substitution.",
+        "requiredAdapterBehavior": "Add a docket-line substitution driven by caseData.docketNumber, rendering nothing when the docket number is blank. The docket must never be synthesised."
+      },
+      {
+        "id": "party-block-assumes-a-sovereign-party",
+        "observed": "The renderer's parties block is built around a sovereign party and role.",
+        "requiredAdapterBehavior": "No party structure is stated for a § 7041(e) request and none is invented here. The adapter needs a no-opposing-party variant that renders the Requester alone."
+      }
+    ],
+    "fixtureShapeNote": "Fixture partyData uses the renderer's own field names (petitionerName, petitionerAddress, otherNamesUsed) so that fixtures are valid PleadingRenderInput. The role label for this track is set by presentation.movantRole ('Requester'), not by the fixture key name; the key name is the renderer's, and the word petitioner is prohibited in rendered output."
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/vermont/index.ts",
+      "src/lib/rcap/state-packs/vermont/all50-build-metadata.ts",
+      "src/lib/rcap/state-packs/vermont/filing-instructions.ts",
+      "src/lib/rcap/state-packs/vermont/official-forms.ts",
+      "src/lib/rcap/state-packs/vermont/fee-notes.ts",
+      "src/lib/rcap/state-packs/vermont/eligibility-rules.ts",
+      "src/lib/rcap/state-packs/vermont/safety-language.ts",
+      "src/lib/rcap/state-packs/vermont/sample-data.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profileSha256": "1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=vt_exp_deferred_sentence]",
+    "profileSilenceNote": "The compiled VT profile contains no occurrence of '7041', 'deferred sentence' or any deferred-sentence pathway. It compiles the Wilma Agent Training Reference, which covers 13 V.S.A. chapter 230 sealing/expungement and 33 V.S.A. § 5119 only. This route therefore rests on the pinned registry entry, with the state pack and the profile used for the Vermont court/forms/terminology facts they do record.",
+    "reviewedAsOf": "2026-08-01",
+    "effectiveFrom": "2019-06-19"
+  }
+}

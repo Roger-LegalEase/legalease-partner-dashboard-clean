@@ -1,0 +1,60 @@
+{
+  "fixtureId": "ct-nolle-auto-guidance-boundary",
+  "trackId": "ct-nolle-auto",
+  "componentId": "ct-nolle-auto-process-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/route.json",
+  "description": "Edges: the motion branch, where the charge is still being continued at the prosecutor's request and the participant reports no prosecution or other disposition since. This is the branch whose filing vehicle is unapproved, so the route reaches a blocked unit and no document is produced. Court identity and protected fields stay blank.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE TOWN, CT 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "",
+    "judicialDistrictOrGaLocation": "",
+    "countyName": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseLevel": "",
+    "disposition": "continued at the prosecutor's request",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "chargeStatus": "still being continued at the prosecutor's request",
+      "nolleDate": "",
+      "continuanceDate": "",
+      "anyProsecutionSince": "no"
+    },
+    "branchSelected": "motion_to_nolle",
+    "branchSelectedBy": "participant",
+    "thirteenMonthsElapsedComputedByLegalEase": false,
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "boundaryUnderTest": [
+      "Route reaches unit 2 (§ 54-142a(c)(2) motion), whose implementation is a blocked dependency: no approved caption, venue, service or clerk practice, and no form located. No document is produced.",
+      "Thirteen-month threshold on the motion branch: the dates are participant answers and are never computed here.",
+      "Pre-1 April 1972 petition (unit 3) is not exercised by this fixture and remains blocked."
+    ],
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "sbiNumber": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

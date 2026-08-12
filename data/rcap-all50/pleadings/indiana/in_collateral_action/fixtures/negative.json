@@ -1,0 +1,61 @@
+{
+  "fixtureId": "in_collateral_action-negative",
+  "trackId": "in_collateral_action",
+  "configPath": "data/rcap-all50/pleadings/indiana/in_collateral_action/pleading-config.json",
+  "description": "Must fail QA. Every value below is exactly what this track forbids.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IN 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "courtName": "EXAMPLE COUNTY CIRCUIT COURT",
+    "collateralActionCounty": "EXAMPLE",
+    "collateralActionCauseNumber": "00C00-0000-MI-000000",
+    "countyName": "EXAMPLE",
+    "docketNumber": "00C00-0000-MI-000000",
+    "otn": "000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE COUNTY PROSECUTING ATTORNEY",
+    "prosecutorPosition": "has no objection",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "collateralActionType": "civil forfeiture",
+    "chargeDescription": "Possession of a controlled substance",
+    "offenseLevel": "Level 6 felony",
+    "disposition": "Expunged and destroyed",
+    "dispositionDate": "01/15/2026",
+    "arrestDate": "06/01/2019",
+    "arrestingAgency": "EXAMPLE CITY POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "originalExpungementCounty": "EXAMPLE, 03/01/2025",
+      "originalExpungementSection": "Section 3",
+      "collateralActionCounty": "EXAMPLE",
+      "collateralActionCauseNumber": "00C00-0000-MI-000000",
+      "collateralActionType": "civil forfeiture",
+      "relationshipToExpungedMatter": "The forfeiture arose directly out of the same traffic stop and is therefore factually and legally related to the expunged conviction, and the Court should so find."
+    },
+    "certifiedOriginalOrderObtained": false,
+    "eligibilityBasisLabel": "Eligible - relatedness established",
+    "additionalFacts": [
+      "The request was served on the Example County Prosecuting Attorney by first-class mail and the prosecutor filed no objection.",
+      "The Court found the matters related and granted the request without a hearing.",
+      "The Indiana State Police Central Repository, the Department of Correction and the Bureau of Motor Vehicles are directed to destroy all records of the forfeiture.",
+      "The filing fee of $156.00 was paid."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "01/01/1985",
+    "ssnLastFour": "0000",
+    "driverLicenseNumber": "0000-00-0000",
+    "stateIdNumber": "IN0000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. (1) It fills in court name, county, cause number, docket, OTN, judge and prosecuting attorney, none of which any source supplies and all of which this track holds blank. (2) It asserts the prosecutor's position (\"has no objection\") and completed service by mail - both outside-party acts, and service is expressly unconfirmed on this track. (3) It asserts a court finding and outcome (\"The Court found the matters related and granted the request\"), when relatedness is the court's finding and is listed as an exclusion and a stop condition. (4) It states records were or will be destroyed, twice, which the track's packet instruction forbids outright: Indiana expungement means sealed or restricted under section 35-38-9-1(k), never deleted or destroyed. (5) It names record custodians - State Police Central Repository, Department of Correction, Bureau of Motor Vehicles - which no source enumerates for a section 9.5 order; that list belongs to the section 35-38-9-6 and -7 conviction-expungement forms. (6) It states a filing fee, when the track records fees as \"None.\" (7) It composes and argues the relationship statement (\"and the Court should so find\"), which the registry reserves to the participant: LegalEase formats the participant's own facts and does not compose the argument. (8) It asserts an eligibility conclusion the packet never states. (9) It populates protected fields - date of birth, SSN, licence and state ID - which are held blank in every fixture. (10) It proceeds with certifiedOriginalOrderObtained false, when a request without a properly certified original expungement order is an express exclusion."
+}

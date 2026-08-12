@@ -1,0 +1,68 @@
+{
+ "schemaVersion": "rcap-composed-route/v1",
+ "componentId": "il-prb-cert-nonmilitary-expungement-6",
+ "componentIdSource": "Constructed for this artifact. registry@3b6f4c1:tracks[142].packetSet.components contains five entries and none of them belongs to this branch, because the registry generates no packet for it.",
+ "unitId": "il-prb-cert-nonmilitary-expungement-branch",
+ "trackId": "il-prb-cert",
+ "jurisdictionCode": "IL",
+ "stage": "1 — Prisoner Review Board (agency)",
+ "role": "primary_filing",
+ "requiredOutput": "official_form_dependency",
+ "outputStrategy": null,
+ "outputStrategyStatus": "unresolved",
+ "requirement": "required_on_branch",
+ "conditionDescription": "Applies where the participant seeks a certificate of eligibility for EXPUNGEMENT under § 5.2(e-6) and eligibility does not rest on military service.",
+ "available": false,
+ "drafted": false,
+ "draftingProhibited": {
+  "prohibited": true,
+  "reason": "Section 5.2(e-6) refers to a certificate of eligibility for expungement, but no general non-military expungement-certificate application has been located on the Prisoner Review Board's site. The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted. Nothing is drafted: no caption, no title, no narrative prompts, no declaration, no signature block, no field map and no substitute application.",
+  "sourceStatements": [
+   "registry@3b6f4c1:tracks[142].units[3].unavailableReason: \"No official non-military certificate-of-eligibility-for-expungement application has been located on the Prisoner Review Board site. The Certificate of Sealing application does not cover it and the military application is expressly military-specific.\"",
+   "registry@3b6f4c1:tracks[142].units[3].description: \"The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted.\"",
+   "registry@3b6f4c1:tracks[142].releaseBlockers[2]: \"Whether any official non-military certificate of eligibility for expungement application exists under § 5.2(e-6). The Prisoner Review Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. That branch alone is held.\""
+  ]
+ },
+ "officialForms": [],
+ "officialFormsNote": "There is no official form to name. Two forms exist in the neighbourhood and NEITHER is a substitute: the Certificate of Sealing Application covers § 5.2(e-5) sealing and does not cover § 5.2(e-6); the Certificate of Expungement for Military Application is expressly military-specific and must not be presented as a general certificate-of-expungement application. A § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate remain legally distinct.",
+ "owningLane": {
+  "lane": "D",
+  "laneNote": "Lane D owns the acquisition IF a form exists. It cannot act until lane F establishes whether one does — the track's implementationQueue is F_source_problem.",
+  "scope": "Lane F source resolution first: search the Illinois Prisoner Review Board's published materials, its Guidelines series, and any Board rule under 730 ILCS 5/3-3-2(a)(10) or 730 ILCS 5/5-5.5 for an application by which a non-military petitioner requests a certificate of eligibility for expungement under 20 ILCS 2630/5.2(e-6). If such a form exists, lane D acquires it, hashes it, maps its fields and builds the overlay. If no such form exists, the branch is a legal-design question for lane E — what does the Board actually accept from a non-military petitioner seeking an expungement certificate, and is there a vehicle at all — and lane C still drafts nothing, because the Board publishes its own forms for both sibling branches and a bespoke application would invent a vehicle."
+ },
+ "mandatoryOfficialFormHandoff": false,
+ "mandatoryOfficialFormHandoffNote": "Not counted as a mandatory official-form handoff, because no official form has been identified to hand off. It is a source gap first and an acquisition task only if the gap resolves in favour of a form existing.",
+ "blockedDependency": "Lane D official-form acquisition of an official Illinois Prisoner Review Board application for a certificate of eligibility for EXPUNGEMENT under 20 ILCS 2630/5.2(e-6) for a non-military petitioner — contingent on lane F source resolution confirming whether such an application exists.",
+ "blockingSource": {
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "registryEntryPointer": "tracks[142].releaseBlockers[2]; tracks[142].unresolvedQuestions[2]; tracks[142].units[3]; tracks[142].blockers[kind=release_blocker]",
+  "impact": "release_blocker",
+  "affectedElement": "correct_form",
+  "classificationBasis": "explicit_state_addendum",
+  "sourceFile": "LegalEase-Illinois-Legal-Review-2026-07-30.md",
+  "sourceHeading": "TRACK K",
+  "sourceStatement": "Controlling statute: § 5.2(e-5) for a certificate of eligibility for sealing; § 5.2(e-6) for a certificate of eligibility for expungement",
+  "implementationQueue": "F_source_problem"
+ },
+ "substantiveAuthorityIfResolved": {
+  "citation": "20 ILCS 2630/5.2(e-6)",
+  "note": "The substantive subsection is recorded and is not in doubt: a certificate of eligibility for expungement exists in the statute. What is missing is the vehicle by which a non-military petitioner asks the Board for one. No procedural citation is supplied because none is recorded."
+ },
+ "participantTreatmentWhileBlocked": {
+  "prefill": "confirm",
+  "protectedBlank": true,
+  "outsidePartyBlank": true,
+  "instruction": "The participant is told plainly that the Board publishes an application for a sealing certificate and a separate application for a military expungement certificate, that no general application for a non-military expungement certificate has been found, and that no document is being produced for them on this branch. They are referred to the Office of the State Appellate Defender, Expungement Unit, 866-787-1776. No field is prefilled and no document is produced. They are NOT routed onto the military application.",
+  "manualCompletion": [],
+  "selfHelpStopCondition": "Stage 1 always — the certificate application is a discretionary rehabilitation case and is not suitable for an automated template (registry selfHelpBoundaries[0] / selfHelpStopConditions[0]). This branch is additionally blocked for want of a vehicle."
+ },
+ "unresolvedForThisComponent": [
+  "Whether an official non-military § 5.2(e-6) certificate-of-eligibility-for-expungement application exists at all (counsel flag cf-01).",
+  "If none exists, what the Board accepts from a non-military petitioner seeking an expungement certificate — a letter, the sealing application repurposed, or nothing (counsel flag cf-01).",
+  "Whether a participant who is offered only the sealing certificate loses anything by taking it, given that § 5.2(e-5) and § 5.2(e-6) are legally distinct remedies (counsel flags cf-02, cf-12)."
+ ],
+ "producesNoPacket": true,
+ "producesNoPacketNote": "Confirmed by registry@3b6f4c1:tracks[142].units[3].description: \"no packet is generated and no form mapping is asserted.\" This component exists to record the dependency, not to hold a draft.",
+ "exactMissingSource": "Section 5.2(e-6) refers to a certificate of eligibility for expungement, but no general non-military expungement-certificate application has been located on the Prisoner Review Board's site. The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted. Nothing is drafted: no caption, no title, no narrative prompts, no declaration, no signature block, no field map and no substitute application.",
+ "draftingProhibitedBecause": "Section 5.2(e-6) refers to a certificate of eligibility for expungement, but no general non-military expungement-certificate application has been located on the Prisoner Review Board's site. The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted. Nothing is drafted: no caption, no title, no narrative prompts, no declaration, no signature block, no field map and no substitute application."
+}

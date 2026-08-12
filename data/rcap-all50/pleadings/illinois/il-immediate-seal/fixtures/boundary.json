@@ -1,0 +1,82 @@
+{
+  "fixtureId": "il-immediate-seal-boundary",
+  "trackId": "il-immediate-seal",
+  "configPath": "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json",
+  "description": "Statutory edges. A charge not initiated by arrest, an offense date on the exact effectiveFrom boundary of January 1, 2018, an anticipated acquittal rather than a dismissal, and a participant represented by private counsel rather than a public defender. The synthetic date is a test input at the boundary, not an asserted fact about any record. Court identity and protected fields stay blank.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IL 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "",
+    "countyName": "",
+    "circuitOrDistrict": "",
+    "courtroom": "",
+    "docketNumber": "",
+    "caseNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": "",
+    "dispositionHearingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseGrade": "",
+    "statuteTitle": "",
+    "statuteSection": "",
+    "disposition": "",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "hasUpcomingDisposition": "Yes",
+      "isRepresented": "Yes — private counsel is on the case",
+      "offenseDateOnOrAfter2018": "Yes — 01/01/2018, the exact first day of the window (synthetic boundary test value)",
+      "dismissalWithPrejudice": "Not applicable — the anticipated disposition is an acquittal, not a dismissal"
+    },
+    "recordType": "charge_not_initiated_by_arrest",
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "waitingPeriodText": "None, but the petition must be filed the same day, during the disposition hearing.",
+    "boundaryUnderTest": [
+      "effectiveFrom edge: the subsection reaches acquittals and dismissals with prejudice on or after January 1, 2018. Records of offenses occurring before January 1, 2018 are excluded.",
+      "recordTypes edge: a charge not initiated by arrest, the second of the two record types on this track.",
+      "dispositions edge: acquittal, the branch on which the dismissalWithPrejudice screening key is not asked (the registry marks it conditional, \"Asked because only acquittal or dismissal with prejudice is within the subsection\").",
+      "Timing edge: the window is the hearing itself. There is no waiting period and no later filing window.",
+      "Exclusion edge, not exercised here: a dismissal without prejudice is not within the subsection.",
+      "Exclusion edge, not exercised here: minor traffic offenses under § 5.2(a)(3)(B)."
+    ],
+    "additionalFacts": [
+      "The petition must be filed with the circuit clerk on the same day and during the same hearing in which the case is disposed.",
+      "If the petition is not filed during the hearing, ordinary sealing under § 5.2(c)(3)(A) remains available at any time through il-seal-nonconv."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "iuclidOrIrNumber": "",
+    "fbiNumber": ""
+  },
+  "outsidePartyFields": {
+    "prosecutorPosition": "",
+    "counselSignature": "",
+    "counselName": "",
+    "counselArdcNumber": "",
+    "serviceCompletion": "",
+    "judgeSignature": "",
+    "hearingOutcome": ""
+  },
+  "attachments": [
+    "Proposed Order on Petition for Immediate Sealing (component il-immediate-seal-proposed-order-2, no outcome asserted)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": null
+}

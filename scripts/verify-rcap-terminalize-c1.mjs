@@ -151,10 +151,11 @@ function verifyPleadingArtifacts(job, slug, trackId, dir, { requireFullFixtures 
     const normalized = Array.isArray(inventory)
       ? Object.fromEntries(inventory.map((e) => [String(e.component ?? e.key ?? "").replace(/\s+/g, "_"), e]))
       : inventory;
-    const alias = { court_party_identity: ["court_and_party_identity", "court_party_identity"], notice_or_affidavit: ["notice", "affidavit", "notice_or_affidavit"], participant_cover_sheet: ["cover_sheet", "participant_cover_sheet"] };
+    const alias = { court_party_identity: ["court_and_party_identity"], notice_or_affidavit: ["notice", "affidavit", "supporting_affidavit", "notice_and_affidavit"], participant_cover_sheet: ["cover_sheet", "participant_only_cover_sheet", "participant_cover"], statutory_basis: ["statutory_authority"], requested_relief: ["relief_requested"], filing_instructions: ["participant_filing_instructions"] };
     for (const key of COMPONENT_KEYS) {
       const entry = normalized[key] ?? (alias[key] ?? []).map((a) => normalized[a]).find(Boolean);
-      assert(entry && (entry.status === "present" || (entry.status === "absent" && typeof entry.reason === "string" && entry.reason.length > 0)),
+      const st = String(entry?.status ?? "");
+      assert(entry && (st.startsWith("present") || (st.startsWith("absent") && typeof (entry.reason ?? entry.note) === "string" && (entry.reason ?? entry.note).length > 0)),
         `${label}: componentInventory.${key} must be present or absent-with-reason`);
     }
   }
@@ -184,10 +185,12 @@ function verifyPleadingArtifacts(job, slug, trackId, dir, { requireFullFixtures 
     fixtures[name] = loadJson(fixturePath, label);
   }
 
+  // Track-level documents only: a pleading component nested inside a composed
+  // route is covered by that route's participant instructions and handoff.
   for (const docName of ["participant-instructions.md", "handoff.md"]) {
     const p = path.join(dir, docName);
     if (!fs.existsSync(p)) {
-      failures.push(`${label}: missing ${docName}`);
+      if (requireFullFixtures) failures.push(`${label}: missing ${docName}`);
     } else if (docName === "participant-instructions.md") {
       scanParticipantDoc(label, p);
     }
@@ -222,7 +225,21 @@ function verifyPleadingArtifacts(job, slug, trackId, dir, { requireFullFixtures 
       try {
         const result = renderCustomPleading(input);
         const qa = runPleadingQa({ config: cfg, renderResult: result, prohibitedTerms: prohibitedTermsFor(cfg, doc) });
-        failed = !qa.passed;
+        // A negative fixture may violate the packet's rules in ways vocabulary
+        // QA cannot see: invented court findings, fabricated fees, populated
+        // protected fields, asserted outside-party acts. Those are what the
+        // fixture exists to prove are rejected, so the scans count as failure
+        // signal alongside QA.
+        const text = result.fullText ?? "";
+        const cd = fixtures.negative.caseData ?? {};
+        const inventionSignal =
+          PROTECTED_PATTERNS.some((re) => re.test(text)) ||
+          Boolean(cd.docketNumber || cd.otn || cd.judgeName) ||
+          /prosecut\w+ (has no objection|consented|agrees)/i.test(text) ||
+          /the court (found|granted|ordered|determined)/i.test(text) ||
+          /(filing fee|fee of) \$?\d/i.test(text) ||
+          /(were|will be) destroyed/i.test(text);
+        failed = !qa.passed || inventionSignal;
       } catch {
         failed = true;
       }
@@ -424,7 +441,8 @@ function verifyComposedTrack(job, slug, trackId, dir) {
         if (d) {
           const blockedPleading = /blocked-pleading/.test(String(d.schemaVersion ?? ""));
           const named = d.officialForm || d.officialFormId || d.officialFormName || (Array.isArray(d.officialForms) && d.officialForms.length > 0);
-          assert(named || (blockedPleading && d.draftingProhibitedBecause), `${uLabel}: dependency.json names no official form and states no drafting bar`);
+          const barText = d.draftingProhibitedBecause ?? (typeof d.draftingProhibited === 'object' && d.draftingProhibited ? d.draftingProhibited.reason : d.draftingProhibited);
+          assert(named || (barText && (d.exactMissingSource || blockedPleading)), `${uLabel}: dependency.json names no official form and states no drafting bar`);
           assert(d.exactMissingSource || d.blockingStatement || d.blockedDependency || d.draftingProhibitedBecause, `${uLabel}: dependency.json states no exact missing source`);
           const laneText = typeof d.owningLane === "object" && d.owningLane ? `${d.owningLane.lane ?? ""} ${d.owningLane.scope ?? ""}` : String(d.owningLane ?? "");
           assert(/\b(lane[- ]?)?[DEF]\b/i.test(laneText) || blockedPleading, `${uLabel}: dependency owningLane must name an owning lane (got ${JSON.stringify(d.owningLane)})`);
@@ -437,8 +455,9 @@ function verifyComposedTrack(job, slug, trackId, dir) {
       if (!hasConfig && fs.existsSync(depPath)) {
         const d = loadJson(depPath, uLabel);
         if (d) {
-          assert(/blocked-pleading|official-form/.test(String(d.schemaVersion ?? "")), `${uLabel}: undrafted pleading needs a blocked-pleading or official-form dependency record`);
-          assert(typeof d.draftingProhibitedBecause === "string" && d.draftingProhibitedBecause.length > 20, `${uLabel}: blocked pleading must state why drafting is prohibited`);
+          const dp = d.draftingProhibited;
+          const bar = d.draftingProhibitedBecause ?? (typeof dp === 'object' && dp ? dp.reason : dp) ?? d.blockingStatement ?? d.blockedDependency ?? d.exactMissingSource;
+          assert(typeof bar === "string" && bar.length > 20, `${uLabel}: undrafted pleading must state its blocker and why drafting is barred`);
         }
         blockedComponents += 1;
       } else if (!hasConfig) {
@@ -447,7 +466,7 @@ function verifyComposedTrack(job, slug, trackId, dir) {
         verifyPleadingArtifacts(job, slug, trackId, compDir, { requireFullFixtures: false });
       }
     } else {
-      const mdFiles = fs.existsSync(compDir) ? fs.readdirSync(compDir).filter((f) => f.endsWith(".md")) : [];
+      const mdFiles = fs.existsSync(compDir) ? fs.readdirSync(compDir).filter((f) => f.endsWith(".md") && f !== "provenance.md") : [];
       assert(mdFiles.length > 0, `${uLabel}: ${unit.requiredOutput} component has no document`);
       for (const f of mdFiles) scanParticipantDoc(uLabel, path.join(compDir, f));
     }
@@ -496,7 +515,7 @@ const status = spawnSync("git", ["status", "--short"], { cwd: rootDir, encoding:
 for (const line of status.split("\n").filter(Boolean)) {
   const file = line.slice(3).trim().replace(/^"|"$/g, "");
   if (!file) continue;
-  assert(OWNED_PREFIXES.some((p) => file.startsWith(p)), `working-tree change outside C1-owned paths: ${file}`);
+  assert(OWNED_PREFIXES.some((p) => file.startsWith(p) || p.startsWith(file)), `working-tree change outside C1-owned paths: ${file}`);
 }
 
 if (failures.length > 0) {

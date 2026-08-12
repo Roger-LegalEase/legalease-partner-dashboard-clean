@@ -1,0 +1,66 @@
+{
+  "fixtureId": "ky_criminal_record_segregation-primary-filing-canonical",
+  "trackId": "ky_criminal_record_segregation",
+  "componentId": "ky_criminal_record_segregation-primary-filing-1",
+  "unitId": "ky_seg_court_application",
+  "configPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/pleading-config.json",
+  "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+  "description": "Charges filed and then withdrawn — the clearest residual use of this route under KRS 17.142(4). Court route selected. Screening answers present; court, case number, judge, prosecutor, filing date and all protected fields stay blank because no source supplies them.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "court": "",
+    "countyName": "EXAMPLE",
+    "caseNumber": "",
+    "chargesFiled": "yes",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "[PARTICIPANT'S OWN DESCRIPTION OF WHAT THEY WERE ARRESTED FOR]",
+    "arrestOffenseDescription": "[PARTICIPANT'S OWN DESCRIPTION OF WHAT THEY WERE ARRESTED FOR]",
+    "arrestDate": "",
+    "arrestingAgency": "",
+    "dispositionType": "all charges withdrawn",
+    "dispositionDate": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "segCounty": "EXAMPLE",
+      "segArrestDate": "",
+      "segOffence": "[PARTICIPANT'S OWN DESCRIPTION — NOT SUPPLIED BY LEGALEASE]",
+      "segChargesFiled": "yes",
+      "segCaseNumber": "",
+      "segDispositionType": "[PARTICIPANT'S OWN STATEMENT OF FACT — all charges withdrawn — NOT SUPPLIED, DERIVED OR INFERRED BY LEGALEASE]",
+      "segDispositionDate": "",
+      "segAlreadyExpunged": "no — participant states the records are not expunged and states they are not eligible under KRS 431.076 or KRS 431.078",
+      "segAgencies": "[PARTICIPANT'S OWN LIST — NOT SUPPLIED BY LEGALEASE]",
+      "segRoute": "court application"
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted. Whether all charges relating to the offence were withdrawn is the applicant's own statement of fact, and whether the records are subject to KRS 431.076 or KRS 431.078 is a routing question answered before this component is produced.",
+    "dispositionProofInHand": false,
+    "dispositionProofNote": "Documentation of the disposition is conditional and participant-obtained, from the court clerk or the arresting agency. LegalEase does not obtain, receive or inspect it.",
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "driversLicenseNumber": "",
+    "fbiNumber": "",
+    "fingerprintIdentifier": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

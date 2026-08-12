@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "MT",
+    "name": "Montana",
+    "slug": "montana"
+  },
+  "jobIds": [
+    "T-C-MT-complete-composed-route"
+  ],
+  "trackIds": [
+    "mt_mmrta_serving"
+  ],
+  "perTrackStatus": {
+    "mt_mmrta_serving": {
+      "publicName": "Marijuana conviction expungement or resentencing while serving a sentence",
+      "legalName": "Petition for Expungement or Resentencing of a Marijuana Conviction While Currently Serving (Mont. Code Ann. § 16-12-113(1)-(4), (8)-(12))",
+      "status": "composed_route_complete_with_official_form_dependencies",
+      "unitCount": 7,
+      "componentCount": 7,
+      "pleadingDocumentUnits": 0,
+      "officialFormDependencyUnits": 5,
+      "participantInstructionUnits": 2,
+      "agencyRequestLetterUnits": 0,
+      "coverSheetUnits": 0,
+      "counselFlagCount": 18,
+      "synthesizedComponentIds": [
+        "mt_mmrta_serving-fee-waiver-0"
+      ],
+      "blockedOfficialForms": [
+        "MMRTA Form A — Petition for Expungement, Resentencing, or Redesignation (currently serving), Montana Office of the Court Administrator",
+        "Certificate of Service — MMRTA Petition, Montana Office of the Court Administrator",
+        "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA, Montana Office of the Court Administrator",
+        "Expungement/Removal Request Form (CRISS, updated 29 April 2024), Montana Department of Justice",
+        "Statement of Inability to Pay Court Costs and Fees, Montana Legal Services Association (non-commercial-use restricted; link-out only)"
+      ],
+      "artifacts": [
+        "mt_mmrta_serving/route.json",
+        "mt_mmrta_serving/participant-instructions.md",
+        "mt_mmrta_serving/handoff.md",
+        "mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-1/dependency.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-attachment-4/attachment-checklist.md",
+        "mt_mmrta_serving/components/mt_mmrta_serving-attachment-4/fixtures/canonical.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-attachment-4/fixtures/boundary.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-attachment-4/fixtures/multiline.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-attachment-4/fixtures/negative.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-fee-waiver-0/dependency.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-5/dependency.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-instructions-6/filing-instructions.md",
+        "mt_mmrta_serving/components/mt_mmrta_serving-instructions-6/fixtures/canonical.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-instructions-6/fixtures/boundary.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-instructions-6/fixtures/multiline.json",
+        "mt_mmrta_serving/components/mt_mmrta_serving-instructions-6/fixtures/negative.json"
+      ]
+    }
+  },
+  "componentCount": 7,
+  "totals": {
+    "tracks": 1,
+    "units": 7,
+    "components": 7,
+    "pleadingDocumentComponents": 0,
+    "officialFormDependencyComponents": 5,
+    "participantInstructionComponents": 2,
+    "fixtureFiles": 8,
+    "counselFlags": 18
+  },
+  "notes": [
+    "No custom pleading is drafted for this track. The adopted packet instruction is explicit: “YES — STAGED OFFICIAL-FORM PACKET. OCA MMRTA Form A is expressly designed for the currently-serving posture. That posture is a scope restriction and a substantive-choice warning, not a reason to downgrade the mechanism to guidance.” The Montana state pack records the same conclusion — official self-represented packets and a DOJ removal request map to official forms rather than a custom pleading.",
+    "Four of the five blocked official forms have their binaries retained and hashed; what is missing is field maps plus two Master Library source-identity fixes (the MT-OCA-MMRTA document-ID collision shared by the Certificate of Service and the Proposed Order, and the SUPPORTING_PROCESS asset-class mismatch on the CRISS form).",
+    "The fifth blocked form, the Montana Legal Services Association Statement of Inability to Pay Court Costs and Fees, is blocked by licence rather than by acquisition: the packet carrying it is stamped non-commercial-use-only, so it is a link-out and is never generated, relabelled, converted or rewritten.",
+    "No cover sheet is drafted. Neither the registry entry nor the compiled profile records one; whether any Montana court imposes a local cover sheet is an unresolved release blocker carried as counsel flag mt-mmrta-serving-local-court-variation.",
+    "No agency request letter is drafted. The Department of Justice stage runs on the official CRISS form.",
+    "One complete form set per conviction, never a consolidated petition. The rules engine must not generalise from the Montana misdemeanour expungement track, where one petition covers the whole record.",
+    "Custody status alone is an attorney-handoff trigger on this track, and the track's gating condition is that the participant is still serving, so the trigger fires often. The delivery path for an incarcerated participant is an open release blocker."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=mt_mmrta_serving]",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+    "profileSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/montana/index.ts",
+      "src/lib/rcap/state-packs/montana/filing-instructions.ts",
+      "src/lib/rcap/state-packs/montana/official-forms.ts",
+      "src/lib/rcap/state-packs/montana/pathways.ts",
+      "src/lib/rcap/state-packs/montana/required-fields.ts",
+      "src/lib/rcap/state-packs/montana/fee-notes.ts",
+      "src/lib/rcap/state-packs/montana/document-types.ts",
+      "src/lib/rcap/state-packs/montana/safety-language.ts"
+    ],
+    "reviewedAsOf": "2026-08-03"
+  }
+}

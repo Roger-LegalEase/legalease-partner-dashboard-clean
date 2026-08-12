@@ -1,0 +1,73 @@
+{
+  "fixtureId": "ky_criminal_record_segregation-primary-filing-negative",
+  "trackId": "ky_criminal_record_segregation",
+  "componentId": "ky_criminal_record_segregation-primary-filing-1",
+  "unitId": "ky_seg_court_application",
+  "configPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/pleading-config.json",
+  "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "court": "FAYETTE DISTRICT COURT",
+    "countyName": "FAYETTE",
+    "caseNumber": "00-M-00000",
+    "chargesFiled": "yes",
+    "docketNumber": "00-M-00000",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE COUNTY ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "theft by unlawful taking",
+    "arrestOffenseDescription": "theft by unlawful taking",
+    "arrestDate": "03/15/2022",
+    "arrestingAgency": "LEXINGTON POLICE DEPARTMENT",
+    "dispositionType": "two of three charges dismissed",
+    "dispositionDate": "09/09/2022"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "segCounty": "FAYETTE",
+      "segArrestDate": "03/15/2022",
+      "segOffence": "theft by unlawful taking",
+      "segChargesFiled": "yes",
+      "segCaseNumber": "00-M-00000",
+      "segDispositionType": "two of the three charges were dismissed; one is unresolved",
+      "segDispositionDate": "09/09/2022",
+      "segAlreadyExpunged": "eligible under KRS 431.076",
+      "segAgencies": "",
+      "segRoute": "court application"
+    },
+    "eligibilityBasisLabel": "Eligible — all charges resolved favourably; records will be expunged and sealed",
+    "dispositionProofInHand": false,
+    "additionalFacts": [
+      "All charges relating to the offence were dismissed.",
+      "The Applicant's records have been expunged, sealed and destroyed, and no trace of the arrest remains.",
+      "The Court's own file in this case is to be segregated along with the agency records.",
+      "The Kentucky State Police and the Lexington Police Department have already segregated their records.",
+      "The county attorney was served with this application and does not object.",
+      "The Court granted this application at a hearing on 02/01/2026 and background checks will now come back clean.",
+      "No filing fee is charged for this application."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "07/04/1994",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "KY0000000",
+    "driversLicenseNumber": "K00000000",
+    "fbiNumber": "000000AA0",
+    "fingerprintIdentifier": "FP-000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. Each ground below is either a prohibited term for this component or prohibited invention. (1) Prohibited terms: it uses 'expunged', 'sealed' and 'destroyed'. Segregation is not expungement — the records continue to exist and remain accessible and the segregated record must show the disposition — and on THIS track sealing is what happens under KRS 431.076 or KRS 431.078 INSTEAD of segregation, so the word misdescribes the relief and blurs the KRS 17.142(4) routing rule. (2) It asserts that all charges relating to the offence were dismissed while the participant's own answer states two of three were dismissed and one is unresolved; KRS 17.142(1) requires that ALL charges relating to the offence were dismissed or withdrawn, cases where fewer than all were are an express exclusion, and any dispute about it ends automated assistance. (3) It proceeds despite segAlreadyExpunged reporting eligibility under KRS 431.076, which KRS 17.142(4) sends to that statute instead and which is a self-help stop condition — expungement is materially stronger. (4) It asks that the court's own file be segregated, when the Clerks' Manual records that court records are not records which may be segregated. (5) It asserts outside-party acts — that two named agencies have already segregated their records — which no source states and no packet may claim. (6) It asserts service and a prosecutor position ('does not object') when KRS 17.142 provides for no notice to a prosecutor or any other party and no service is required on this route. (7) It asserts a hearing outcome and promises a result to the participant ('background checks will now come back clean'), when a participant expecting clean background checks is itself a self-help stop condition because segregation deletes nothing. (8) It states 'no filing fee is charged', when whether any fee attaches to a KRS 17.142(2) application is an unresolved release blocker — none was identified, which is an absence of evidence, and neither a fee figure nor a no-fee promise may be stated. (9) It fills court identity no source supplies: court name, county, case number, docket number, OTN and judge. (10) It populates protected fields — date of birth, SSN last four, state ID, driver's licence, FBI number and a fingerprint identifier — that must stay blank, and fingerprints are among the very records this route asks to have segregated. (11) It states an eligibilityBasisLabel asserting confirmed eligibility when no eligibility conclusion may be asserted.",
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

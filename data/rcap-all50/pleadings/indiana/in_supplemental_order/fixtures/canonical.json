@@ -1,0 +1,57 @@
+{
+  "fixtureId": "in_supplemental_order-canonical",
+  "trackId": "in_supplemental_order",
+  "configPath": "data/rcap-all50/pleadings/indiana/in_supplemental_order/pleading-config.json",
+  "description": "Participant holds an expungement granted before an amendment and is returning to the granting court. Screening answers present; court, county, cause number, judge, prosecutor and prosecutor position, and every protected field, stay blank. The amendment relied on and the relief sought stay empty: the amendment is counsel-settled per cycle and the relief is participant-authored.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IN 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "courtName": "",
+    "originalExpungementCounty": "",
+    "originalExpungementCauseNumber": "",
+    "countyName": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseLevel": "",
+    "disposition": "",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "originalExpungementCourt": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: the Indiana court that granted the original expungement, plus the date of the order]",
+      "originalExpungementSection": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: the section the original expungement was granted under]",
+      "amendmentRelieadOn": "[COUNSEL-SETTLED FOR THE CYCLE - NOT SUPPLIED BY LEGALEASE AND NOT SETTLED AT THE TIME OF THIS FIXTURE]",
+      "reliefSought": "[PARTICIPANT-AUTHORED - NOT SUPPLIED, EXPANDED OR ARGUED BY LEGALEASE]"
+    },
+    "certifiedOriginalOrderObtained": true,
+    "grantedBeforeAmendment": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: participant states the original order predates the amendment]",
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted. Whether the petitioner was granted relief before the amendment and is otherwise entitled to the relief the amendment provides is the court's finding.",
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "driverLicenseNumber": "",
+    "stateIdNumber": ""
+  },
+  "attachments": [
+    "Certified copy of the original expungement order (participant obtains from the clerk of the granting court; LegalEase does not inspect it)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectedBehaviour": "Renders as a container. The statement-of-relief and proposed-order slots stay empty because the cycle's amendment is not settled; the packet is not releasable in this state, which is the point of the amendment gate."
+}

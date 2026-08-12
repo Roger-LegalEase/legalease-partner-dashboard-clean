@@ -1,0 +1,70 @@
+{
+  "fixtureId": "ky_criminal_record_segregation-routing-guidance-negative",
+  "trackId": "ky_criminal_record_segregation",
+  "componentId": "ky_criminal_record_segregation-routing-guidance-3",
+  "unitId": "ky_seg_routing_guidance",
+  "componentPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-routing-guidance-3/routing-guidance.md",
+  "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "FAYETTE",
+    "chargesFiled": "yes",
+    "caseNumber": "00-M-00000",
+    "court": "FAYETTE DISTRICT COURT",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE COUNTY ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "criminal mischief",
+    "arrestOffenceDescription": "criminal mischief",
+    "arrestDate": "06/06/2020",
+    "dispositionType": "convicted, later amended",
+    "dispositionDate": "12/12/2020"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "segCounty": "FAYETTE",
+      "segChargesFiled": "yes",
+      "segCaseNumber": "00-M-00000",
+      "segDispositionType": "convicted of a lesser offence",
+      "segDispositionDate": "12/12/2020",
+      "segAlreadyExpunged": "eligible under KRS 431.078",
+      "segAgencies": "",
+      "segRoute": "court application"
+    },
+    "routeChosen": "court application",
+    "expungementRoutingResolved": false,
+    "eligibilityBasisLabel": "Eligible for segregation — records will be expunged and your background check will be clean",
+    "dispositionProofInHand": false,
+    "additionalFacts": [
+      "You were found innocent and all charges relating to the offence were dismissed.",
+      "Segregation expunges and seals your record, and it will be destroyed.",
+      "The court's own file will be segregated along with the agency records.",
+      "Every agency in Kentucky has already been notified and has segregated your file.",
+      "The county attorney was served with the application and does not object.",
+      "There is no filing fee for a KRS 17.142(2) application.",
+      "The judge granted the order on 02/01/2026."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "09/09/1979",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "KY0000000",
+    "driversLicenseNumber": "K00000000",
+    "fbiNumber": "000000AA0",
+    "fingerprintIdentifier": "FP-000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. (1) It tells the participant that segregation 'expunges and seals' the record and that the record 'will be destroyed'. Segregation is not expungement: the records continue to exist and remain accessible, and the segregated record must show the disposition. On this track sealing is what happens under KRS 431.076 or KRS 431.078 instead of segregation. (2) It promises a clean background check, when a participant who expects that is expressly a self-help stop condition. (3) It contradicts the participant's own answer: the participant states they were convicted of a lesser offence, and the guidance asserts they were found innocent and that all charges were dismissed. The disposition is the participant's own statement of fact and is never generated. (4) A conviction is outside this route entirely — KRS 17.142(1) reaches acquittals and dismissed or withdrawn charges — and segAlreadyExpunged reports eligibility under KRS 431.078, which KRS 17.142(4) sends to that statute instead. This component's whole purpose is to catch exactly this and route away; instead it advances the route. (5) It tells the participant the court's own file will be segregated, when court records are not records which may be segregated. (6) It asserts outside-party acts — that every agency in Kentucky has been notified and has already segregated the file, and that the county attorney was served and does not object — when KRS 17.142 provides for no notice to a prosecutor or any other party and no service is required on the court route. (7) It states 'there is no filing fee', when whether a fee attaches to a KRS 17.142(2) application is an unresolved release blocker: none was identified, which is an absence of evidence, and neither a fee figure nor a no-fee promise may be stated. (8) It asserts a hearing outcome and a date. (9) It carries court identity onto a participant-only document that is never filed or sent, and prefills court, case number, judge and prosecutor that no source supplies. (10) It populates protected fields that must stay blank. (11) It states an eligibilityBasisLabel asserting eligibility and a promised outcome, when no eligibility conclusion may be asserted.",
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

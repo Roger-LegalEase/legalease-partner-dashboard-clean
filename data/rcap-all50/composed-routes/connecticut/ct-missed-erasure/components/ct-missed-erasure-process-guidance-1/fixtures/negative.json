@@ -1,0 +1,61 @@
+{
+  "fixtureId": "ct-missed-erasure-guidance-negative",
+  "trackId": "ct-missed-erasure",
+  "componentId": "ct-missed-erasure-process-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE TOWN, CT 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "SUPERIOR COURT, JUDICIAL DISTRICT OF HARTFORD",
+    "judicialDistrictOrGaLocation": "HARTFORD",
+    "countyName": "HARTFORD COUNTY",
+    "docketNumber": "H14M-CR00-0000000",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE STATE'S ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": "01/01/2026",
+    "agencyName": "DESPP HEARING UNIT"
+  },
+  "chargeData": {
+    "chargeDescription": "Larceny in the sixth degree",
+    "offenseLevel": "class C misdemeanor",
+    "disposition": "Convicted",
+    "dispositionDate": "06/12/1998",
+    "offenseDate": "05/01/1998",
+    "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "hasSpbiRecord": "no",
+      "recordShowsErasure": ""
+    },
+    "recordInHand": false,
+    "erasureStatusAsserted": "This record was required to be deemed erased by operation of law and was not erased.",
+    "eligibilityBasisLabel": "Eligible — expungement confirmed",
+    "spbiFeeQuoted": "$75.00",
+    "additionalFacts": [
+      "Your SPBI report must be dated on or after January 1, 2024.",
+      "The SPBI fee is $75.00.",
+      "DESPP was served with the request and did not object.",
+      "The hearing officer granted the request and the record has been sealed.",
+      "Submit the attached DESPP Missed Erasure Request Form."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "03/05/1976",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "CT0000000",
+    "sbiNumber": "00000000",
+    "fbiNumber": "000000AA0"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA for these reasons: (1) it names an invented DESPP filing form (\"DESPP Missed Erasure Request Form\") — the legal-design blocker says in terms that DESPP's form and manner is unlocated and must not be invented; (2) it asserts, as LegalEase's own statement, that the record was required to be deemed erased and was not erased, which is the participant's own position and the very question DESPP decides; (3) it states a report-date rule (\"dated on or after January 1, 2024\") that the registry records as a probable misreading and treats as unresolved; (4) it quotes a fee figure taken from a 12/01/17 form revision, against an open release blocker and against the profile's explicit instruction not to quote a fixed figure; (5) it fills court name, judicial district, county, docket number, OTN, judge, prosecutor and prosecutor position on a track that has no court venue at all; (6) it asserts an outside-party act and service completion (DESPP was served and did not object) when no service requirement is stated; (7) it asserts a hearing outcome on a proceeding the sources describe as contested and as an attorney handoff; (8) it uses the prohibited terms 'expungement' and 'sealed' — Connecticut says erasure; and (9) it populates protected fields, including an SBI and FBI number, that must stay blank."
+}

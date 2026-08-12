@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "WV",
+    "name": "West Virginia",
+    "slug": "west-virginia"
+  },
+  "jobIds": [
+    "T-C-WV-complete-composed-route"
+  ],
+  "trackIds": [
+    "wv_dui_deferral_expungement"
+  ],
+  "perTrackStatus": {
+    "wv_dui_deferral_expungement": {
+      "publicName": "Clear a first DUI that was deferred and dismissed after the test and lock program",
+      "legalName": "Motion to Dismiss the Charges and Application to Expunge After a First-Offence DUI Deferral, W. Va. Code § 17C-5-2b(c) and (g)",
+      "status": "composed_route_complete_five_custom_pleadings_two_participant_instructions_no_official_form_dependency",
+      "compositionMode": "sequential",
+      "unitCount": 7,
+      "componentCount": 7,
+      "pleadingDocumentUnits": 5,
+      "officialFormDependencyUnits": 0,
+      "participantInstructionUnits": 2,
+      "agencyRequestLetterUnits": 0,
+      "coverSheetUnits": 0,
+      "fixtureCount": 28,
+      "renderedCanonicalArtifacts": 15,
+      "componentDocPairs": 5,
+      "counselFlagCount": 23,
+      "canonicalRendersVerified": 5,
+      "negativeFixturesVerifiedFailing": 5,
+      "blockedOfficialForms": [],
+      "blockedOfficialFormsNote": "None. The West Virginia Judiciary Court Forms index was read at source on 2026-08-06 and publishes exactly five expungement forms — SCA-C900, SCA-C903, SCA-C906, SCA-C907, SCA-C912 — every one of them a § 61-11-25 or § 61-11-26 instrument, and all five are already present locally as blank official PDFs in the committed state pack. None has a § 17C-5-2b role, so no official form is required by this route and no official-form dependency is recorded. Whether an unpublished local form is used in some courts was not tested and is carried as a release blocker.",
+      "componentRoles": [
+        {
+          "componentId": "wv_dui_deferral_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requiredOutput": "pleading_document",
+          "document": "pleading-config.json"
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-supporting-affidavit-2",
+          "role": "supporting_affidavit",
+          "requiredOutput": "pleading_document",
+          "document": "pleading-config.json"
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-secondary-filing-3",
+          "role": "secondary_filing",
+          "requiredOutput": "pleading_document",
+          "document": "pleading-config.json"
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-supporting-timeline-4",
+          "role": "supporting_timeline",
+          "requiredOutput": "pleading_document",
+          "document": "pleading-config.json"
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-certificate-of-service-5",
+          "role": "certificate_of_service",
+          "requiredOutput": "pleading_document",
+          "document": "pleading-config.json"
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-records-checklist-6",
+          "role": "records_checklist",
+          "requiredOutput": "participant_instruction",
+          "document": "records-checklist.md"
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-filing-instructions-7",
+          "role": "filing_instructions",
+          "requiredOutput": "participant_instruction",
+          "document": "filing-instructions.md"
+        }
+      ],
+      "stageMap": {
+        "subsection_c_dismissal": [
+          "wv_dui_deferral_expungement-primary-filing-1",
+          "wv_dui_deferral_expungement-supporting-affidavit-2",
+          "wv_dui_deferral_expungement-certificate-of-service-5",
+          "wv_dui_deferral_expungement-records-checklist-6",
+          "wv_dui_deferral_expungement-filing-instructions-7"
+        ],
+        "subsection_g_expungement": [
+          "wv_dui_deferral_expungement-secondary-filing-3",
+          "wv_dui_deferral_expungement-supporting-timeline-4",
+          "wv_dui_deferral_expungement-certificate-of-service-5",
+          "wv_dui_deferral_expungement-records-checklist-6",
+          "wv_dui_deferral_expungement-filing-instructions-7"
+        ]
+      },
+      "buildStatus": "state_built",
+      "reviewStatus": {
+        "qa": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalStatus": "legal_review_pending",
+      "artifacts": [
+        "wv_dui_deferral_expungement/route.json",
+        "wv_dui_deferral_expungement/participant-instructions.md",
+        "wv_dui_deferral_expungement/handoff.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/participant-instructions.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/handoff.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/rendered/{canonical.txt,canonical.pdf,render-report.json}",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/fixtures/{canonical,boundary,multiline,negative}.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/participant-instructions.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/handoff.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/rendered/{canonical.txt,canonical.pdf,render-report.json}",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/fixtures/{canonical,boundary,multiline,negative}.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/participant-instructions.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/handoff.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/rendered/{canonical.txt,canonical.pdf,render-report.json}",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/fixtures/{canonical,boundary,multiline,negative}.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/participant-instructions.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/handoff.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/rendered/{canonical.txt,canonical.pdf,render-report.json}",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/pleading-config.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/fixtures/{canonical,boundary,multiline,negative}.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/participant-instructions.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/handoff.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/rendered/{canonical.txt,canonical.pdf,render-report.json}",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-records-checklist-6/records-checklist.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-records-checklist-6/fixtures/{canonical,boundary,multiline,negative}.json",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-filing-instructions-7/filing-instructions.md",
+        "wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-filing-instructions-7/fixtures/{canonical,boundary,multiline,negative}.json"
+      ]
+    }
+  },
+  "componentCount": 7,
+  "totals": {
+    "tracks": 1,
+    "units": 7,
+    "components": 7,
+    "pleadingDocumentComponents": 5,
+    "officialFormDependencyComponents": 0,
+    "participantInstructionComponents": 2,
+    "agencyRequestLetterComponents": 0,
+    "coverSheetComponents": 0,
+    "fixtures": 28,
+    "renderedCanonicalArtifacts": 15,
+    "counselFlags": 23,
+    "filesWritten": 64
+  },
+  "notes": [
+    "Five custom pleadings are drafted for WV in this job: the § 17C-5-2b(c) motion to dismiss, the defendant's affidavit that subsection (c) requires the motion to be supported by, the § 17C-5-2b(g) application to expunge, the supporting timeline for the one-year period, and a stage-parameterised certificate of service rendered once per submission. All five carry templateGrade legal_ops_custom_pleading and templateLifecycle replacement_candidate.",
+    "No official-form dependency exists on this route and no dependency.json is written. Every West Virginia Judiciary expungement form belongs to § 61-11-25 or § 61-11-26. The registry answers the controlling review's build blocker in the negative on that basis and declares both units custom pleadings.",
+    "No agency request letter and no cover sheet is drafted. The Division of Motor Vehicles certification that § 17C-5-2b(c) requires the motion to be supported by is an agency document the participant obtains by asking; no form number, URL or template is recorded for it anywhere, so none is drafted and LegalEase never obtains, receives or inspects it.",
+    "No proposed order is drafted. The registry packetSet enumerates seven components and none is a proposed order; § 17C-5-2b makes both dispositions the court's own act and names no custodian the expungement order must direct.",
+    "compositionMode is sequential and the two stages must never be merged. The subsection (g) application cannot be made until the subsection (c) motion has produced a dismissal and discharge and a further year has run from the EXPIRATION OF PROBATION — not from the dismissal. The words expunge, expunged, expunging and expungement are prohibited terms in the stage-one document text for exactly this reason.",
+    "The compiled WV profile contains no occurrence of '17C-5-2b' and none of its seven pathways is this one; its only occurrences of '17C-5-2' say DUI is excluded from § 61-11-22 pretrial diversion. The committed state pack states flatly that DUI convictions cannot be expunged, which is true of the § 61-11-26 conviction route and is a routing hazard for this track. The whole unit structure rests on the pinned registry entry.",
+    "The state pack's filing-instructions.ts was read in full and deliberately NOT imported: every one of its ten steps belongs to §§ 61-11-25, 61-11-26, 61-11-26a, 60A-4-407 or 5-1-16a. Participant filing steps come from the registry entry's rules.filing / rules.service / rules.notice / rules.fees / rules.participantSignature / rules.notarization and .destination.",
+    "No fee amount appears anywhere in participant copy. Section 17C-5-2b charges no fee for either motion; subsection (h) court costs are stated nowhere as an amount; the registry records the waiver as 'none stated in § 17C-5-2b'; and the § 61-11-26 civil filing fee and $100 State Police processing fee belong to a different route.",
+    "The subsection (g)(1) felony bar is treated as excluding the expungement stage only, not the dismissal stage, because the proviso sits in subsection (g). The controlling review does not record the bar at all; the registry raises it as a counsel question and it is carried as an open counsel flag.",
+    "Three release blockers remain open on the substance: whether an unpublished local form exists; whether the (c) motion is still the right vehicle on an administratively closed file; and whether § 17C-5-2b relief counts against the § 61-11-26(o) once-per-lifetime limit. No participant copy resolves any of them in either direction."
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/west-virginia/index.ts",
+      "src/lib/rcap/state-packs/west-virginia/all50-build-metadata.ts",
+      "src/lib/rcap/state-packs/west-virginia/filing-instructions.ts",
+      "src/lib/rcap/state-packs/west-virginia/official-forms.ts",
+      "src/lib/rcap/state-packs/west-virginia/fee-notes.ts",
+      "src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts",
+      "src/lib/rcap/state-packs/west-virginia/disqualifying-offenses.ts",
+      "src/lib/rcap/state-packs/west-virginia/waiting-periods.ts",
+      "src/lib/rcap/state-packs/west-virginia/required-fields.ts",
+      "src/lib/rcap/state-packs/west-virginia/document-types.ts",
+      "src/lib/rcap/state-packs/west-virginia/pathways.ts",
+      "src/lib/rcap/state-packs/west-virginia/safety-language.ts",
+      "src/lib/rcap/state-packs/west-virginia/sample-data.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profileSha256": "26830a24672ee182c8e03922f1af1c11ae7d7a71daf759b8981e9c3f9d089aca",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=wv_dui_deferral_expungement]",
+    "profileSilenceNote": "The compiled WV profile contains no occurrence of '17C-5-2b', 'Test and Lock', '17C-5A-3a' or any DUI-deferral pathway. Its only occurrences of '17C-5-2' are the single repeated statement that DUI under 17C-5-2 is excluded from pretrial diversion under 61-11-22. The seven pathways it enumerates are the 61-11-25 no-conviction route, 61-11-26 conviction expungement, the 61-11-26a accelerated route, the 60A-4-407 conditional discharge, 5-1-16a pardon relief, 61-14-9 trafficking vacatur and juvenile relief. This route therefore rests on the pinned registry entry; the profile and the committed state pack are used only for the West Virginia court-level, form-catalogue, intake-field and terminology facts they do record.",
+    "reviewedAsOf": "2026-08-01",
+    "effectiveFrom": "2020-07-01",
+    "officialSourcesReadAt": "2026-08-06"
+  }
+}

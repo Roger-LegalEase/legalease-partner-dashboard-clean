@@ -1,0 +1,116 @@
+{
+ "schemaVersion": "rcap-composed-route/v1",
+ "componentId": "il-prb-cert-primary-filing-5",
+ "componentIdSource": "registry@3b6f4c1:tracks[142].packetSet.components[4].componentId",
+ "unitId": "il-prb-cert-court-petition",
+ "trackId": "il-prb-cert",
+ "jurisdictionCode": "IL",
+ "stage": "2 — circuit court of conviction",
+ "role": "primary_filing",
+ "requiredOutput": "official_form_dependency",
+ "outputStrategy": "official_pdf_fill",
+ "outputStrategyStatus": "resolved",
+ "requirement": "conditional",
+ "conditionDescription": "Stage 2, generated once the Board has issued a certificate.",
+ "available": true,
+ "drafted": false,
+ "draftingProhibited": {
+  "prohibited": true,
+  "reason": "The Illinois statewide adult expungement and sealing suite is mandatory. The Illinois Supreme Court Commission on Access to Justice approved these forms and all Illinois circuit courts are required to accept them. Drafting a bespoke pleading for stage 2 would be affirmatively wrong, not merely unnecessary. Lane C drafts no substitute, no replica and no field map.",
+  "sourceStatements": [
+   "registry@3b6f4c1:tracks[142].packetSet.components[4]: outputStrategy \"official_pdf_fill\", officialFormId \"EXP-AD Request\", role primary_filing, requirement conditional, conditionDescription \"Stage 2, generated once the Board has issued a certificate.\", order 5.",
+   "registry@3b6f4c1:tracks[142].units[4].description: \"Once the Board issues a certificate, generate the statewide adult Request suite with the certificate attached under § 5.2(d)(2), filed with the Chief Judge of the circuit of conviction, a designated judge of that circuit, or in counties under 3,000,000 the presiding trial judge.\"",
+   "registry@3b6f4c1:tracks[140].legalDesignLimitations[2].provenance.sourceStatement (LegalEase-Illinois-Legal-Review-2026-07-30.md, PART 2: SOURCE FORM AND DOCUMENT REVIEW / 2.1 Adult suite): \"Relief tracks governed: A, B, C, D, E, F, G, H, J, and stage 2 of K.\" — stage 2 of this track is expressly inside the suite's coverage.",
+   "profile:sourceSections[2]: \"The Illinois Courts forms page says the Supreme Court Commission on Access to Justice approved these forms and that all Illinois courts must accept them; the listed adult forms are approved 06/2026.\"",
+   "profile:sourceSections[20]: \"Because the forms are mandatory statewide, never tell a user a county requires a different bespoke petition.\""
+  ]
+ },
+ "officialForms": [
+  {
+   "officialFormId": "EXP-AD Request",
+   "formTitle": "Request to Expunge and/or Seal Criminal Records",
+   "publisher": "Illinois Supreme Court Commission on Access to Justice / Illinois Courts",
+   "revision": null,
+   "revisionNote": "The compiled profile records the listed adult forms as approved 06/2026. No revision string is recorded on the registry entry for this component.",
+   "corpusPath": null,
+   "corpusPathNote": "registry packetSet.components[4].officialSourceUrl is null for this component. The IL state pack officialFormInventory carries the related suite PDFs from the Nationwide corpus (EXP-AD Case List, EXP-AD Additional Cases Expungement, EXP-AD Additional Cases Sealing, EXP-AD Order Denying, EXP Certificate of Service Circuit Clerk) but not an EXP-AD Request file; acquisition of the Request itself is part of the lane-D handoff.",
+   "publicUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+   "publicUrlSource": "registry@3b6f4c1:tracks[142].officialSources[3]",
+   "retrievedOn": "2026-07-30",
+   "sha256": null,
+   "sha256Note": "sha256 null on the recorded source. See counsel flag cf-15."
+  }
+ ],
+ "relatedSuiteForms": {
+  "note": "The registry names only the Request as a component. The compiled profile and the IL state pack record the rest of the mandatory adult suite that travels with it. None of these is drafted; all are lane-D territory, and which of them this track actually needs is a lane-D scoping question rather than a lane-C drafting question.",
+  "forms": [
+   "Case List for Request to Expunge and/or Seal Criminal Records — carries the per-case expunge-versus-seal election, which is a manual completion item",
+   "Additional Arrests or Cases for Expungement",
+   "Additional Arrests or Cases for Sealing",
+   "Notice of Filing — served on the State's Attorney, arresting agency, chief legal officer of the arresting unit of local government, and Illinois State Police",
+   "Order to Expunge and/or Seal Criminal Records — the proposed order the judge signs; arrest information must be completed and submitted with the Request",
+   "Order Denying Request to Expunge and/or Seal Criminal Records",
+   "Certificate of Service by Circuit Clerk",
+   "Application for Waiver of Court Fees (Supreme Court Rule 298)"
+  ],
+  "sourceRef": "profile:sourceSections[2] and sourceSections[20]; IL state pack all50-build-metadata.officialFormInventory; document-types.ts illinoisDocumentTypes"
+ },
+ "owningLane": {
+  "lane": "D",
+  "scope": "Official PDF acquisition, field mapping and overlay for the statewide adult Request suite as applied to this track, including how the Prisoner Review Board certificate is attached under § 5.2(d)(2) and how the per-case expunge-versus-seal election column is left for manual completion."
+ },
+ "mandatoryOfficialFormHandoff": true,
+ "attachmentRule": {
+  "rule": "The certificate issued by the Prisoner Review Board is attached to the Request under § 5.2(d)(2).",
+  "sourceRef": "registry@3b6f4c1:tracks[142].mechanism; .authority[2]; .units[4].description",
+  "note": "LegalEase does not obtain, receive or inspect the certificate. The participant holds it and attaches it."
+ },
+ "venue": {
+  "statement": "The Chief Judge of the circuit of conviction, a judge of that circuit designated by the Chief Judge, or in counties under 3,000,000 inhabitants the presiding trial judge.",
+  "namedCourt": null,
+  "namedCounty": null,
+  "clerkAddress": null,
+  "sourceRef": "registry@3b6f4c1:tracks[142].venue; .units[4].description",
+  "note": "countyOfConviction is a required screening key, so the county reaches the form through the participant's own answer. No court name, courthouse, division or clerk address is printed. The compiled profile notes separately that venue is the sentencing/charging county rather than the county of residence, that a separate filing is generally needed per county, and that Cook County has six districts with a single-fee-per-day rule; none of that is asserted as this track's rule."
+ },
+ "participantTreatment": {
+  "prefill": "confirm",
+  "protectedBlank": true,
+  "outsidePartyBlank": true,
+  "prefillFields": [
+   "countyOfConviction",
+   "caseNumber",
+   "certificateType"
+  ],
+  "confirmFields": [
+   "hasPrbCertificate and certificateType against the Prisoner Review Board certificate of eligibility itself",
+   "caseNumber against the Illinois State Police statewide criminal history transcript obtained through Access and Review",
+   "caseNumber against the certified disposition obtained from the circuit clerk of each county where a case was filed",
+   "Chicago arrests against the Chicago Police Department RAP sheet, where there were Chicago arrests"
+  ],
+  "manualCompletion": [
+   "Petitioner's signature and verification date — Request, verification block. The Request is verified under § 5.2(d)(2) and warns that a false statement is perjury.",
+   "Expunge-versus-seal selection for each case — Case List, per-case election column. The election is a legal judgment the review expressly bars from auto-completion.",
+   "Hearing date — any notice issued after an objection. The court sets a hearing only if an objection is filed, with at least 30 days' notice."
+  ],
+  "protectedBlankNote": "Judge name, State's Attorney identity and position, hearing date, court address, filing fee amount, and any statement that a record has in fact been sealed or expunged are left blank.",
+  "outsidePartyBlankNote": "The circuit court clerk serves under § 5.2(d)(4) and the participant serves no one; no service completion is asserted. Objections by the State's Attorney, the arresting agency, the chief legal officer or the Illinois State Police are outside-party acts and are never asserted or predicted.",
+  "signature": "The petitioner signs and dates the Request verification themselves.",
+  "notarization": "Not stated for the Request. The track's notarization rule is recorded against the stage-1 Board application."
+ },
+ "feePosture": {
+  "statement": "A circuit clerk fee plus an ISP processing fee, both county-collected. ISP charges nothing to file a petition and $60 to process a court order. County totals commonly run from roughly $60 to $235; McLean County publishes $136. Treat every figure as county-specific.",
+  "waiver": "Supreme Court Rule 298 Application for Waiver of Court Fees. Section 5.2(d)(1) requires no fee where a Rule 298 order has been obtained or the fee is otherwise waived.",
+  "sourceRef": "registry@3b6f4c1:tracks[142].rules.fees; .rules.feeWaiver",
+  "note": "No fee figure is printed to the participant anywhere in this route. A county fee table is an open release blocker (counsel flag cf-05)."
+ },
+ "unresolvedForThisComponent": [
+  "County filing fees statewide; no statewide schedule exists and a county fee table must be built (counsel flag cf-05).",
+  "Whether e-filing is available in every county and how self-represented e-filing exemptions are handled (counsel flag cf-06).",
+  "Which of the related suite forms this track needs in addition to the Request — the registry names only the Request, while the suite travels as a set.",
+  "sha256 null on the recorded EXP-AD Request source; staleness cannot be detected (counsel flag cf-15)."
+ ],
+ "producesNoPacket": false,
+ "exactMissingSource": "EXP-AD Request — current official form from Illinois Supreme Court Commission on Access to Justice / Illinois Courts; not acquired in this repository.",
+ "draftingProhibitedBecause": "The Illinois statewide adult expungement and sealing suite is mandatory. The Illinois Supreme Court Commission on Access to Justice approved these forms and all Illinois circuit courts are required to accept them. Drafting a bespoke pleading for stage 2 would be affirmatively wrong, not merely unnecessary. Lane C drafts no substitute, no replica and no field map."
+}

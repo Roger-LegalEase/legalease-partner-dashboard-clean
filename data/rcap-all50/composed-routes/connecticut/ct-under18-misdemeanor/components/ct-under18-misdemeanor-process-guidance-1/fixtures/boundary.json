@@ -1,0 +1,64 @@
+{
+  "fixtureId": "ct-under18-misdemeanor-guidance-boundary",
+  "trackId": "ct-under18-misdemeanor",
+  "componentId": "ct-under18-misdemeanor-process-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor/route.json",
+  "description": "Edges: an offense date before 1 January 2000, which is the petition branch, plus a second charge on the same information that the participant reports may not be erasable (§ 54-142a(f)(3)). The route reaches its blocked unit and no document is produced. Court identity and protected fields stay blank.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE TOWN, CT 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "",
+    "judicialDistrictOrGaLocation": "",
+    "countyName": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseLevel": "misdemeanor",
+    "statuteSections": "[PARTICIPANT ANSWER — copied from their own record]",
+    "disposition": "",
+    "dispositionDate": "",
+    "offenseDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "offenseDate": "before 1 January 2000 (participant answer)",
+      "ageAtOffense": "under 18",
+      "offenseSections": "[PARTICIPANT ANSWER — copied from their own record]",
+      "sameInformationCharges": "yes — participant reports another charge on the same information and is unsure whether it could be erased",
+      "convictionLocation": "[PARTICIPANT ANSWER — the court location where the conviction was effected]"
+    },
+    "branchSelected": "petition",
+    "branchSelectedBy": "participant",
+    "offenseClassifiedByLegalEase": false,
+    "offenseDateWindowComputedByLegalEase": false,
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "boundaryUnderTest": [
+      "Route reaches unit 2 (§ 54-142a(f)(2) petition), whose implementation is a blocked dependency: no form identified, no approved custom pleading, historical classification rule unresolved. No document is produced.",
+      "§ 54-142a(f)(3) same-information limitation: a second charge is reported and no conclusion is drawn about it.",
+      "Offense-date branch boundary at 1 January 2000, taken as a participant answer and never computed.",
+      "The post-1 July 2012 window is unaddressed by any source and is not exercised here."
+    ],
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "sbiNumber": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

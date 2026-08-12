@@ -1,0 +1,310 @@
+{
+  "schemaVersion": "rcap-pleading-track-config/v1",
+  "jurisdictionCode": "CT",
+  "jurisdiction": {
+    "code": "CT",
+    "name": "Connecticut",
+    "slug": "connecticut"
+  },
+  "trackId": "ct-cannabis-petition",
+  "jobId": "T-C-CT-production-packet",
+  "family": "controlled_pleading",
+  "treatment": "production_packet",
+  "legalName": "Petition for Erasure of Cannabis Conviction Records, C.G.S. § 54-142v",
+  "publicName": "Petition to erase an older or larger cannabis conviction",
+  "templateGrade": "legal_ops_custom_pleading",
+  "templateLifecycle": "replacement_candidate",
+  "primaryReliefTerm": "erasure",
+  "documentTitleFull": "PETITION FOR ERASURE OF CANNABIS CONVICTION RECORDS PURSUANT TO C.G.S. § 54-142v",
+  "courtCaption": "SUPERIOR COURT, {judicialDistrictOrGaLocation}",
+  "courtCaptionNote": "Token pattern. The registry records the destination as \"Superior Court, Judicial District or G.A. location\"; the compiled profile's illustrative petition caption reads \"SUPERIOR COURT, JUDICIAL DISTRICT OF HARTFORD / STATE OF CONNECTICUT v. [NAME] / Docket No. [NUMBER]\" and is a JD-CR-202 Clean Slate example, not a § 54-142v example. No judicial district or G.A. location is prefilled. Accepted caption is an open release blocker.",
+  "routeDecision": {
+    "decision": "custom_pleading_drafted",
+    "rationale": [
+      "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading' for this track with compositionMode null.",
+      "The mechanism recorded on the track is explicit: \"There is no official form. The Clean Slate portal states plainly that a petition must be filed under § 54-142v or § 54-142d and that no official form exists, and the statute specifies exactly what the petition must contain.\"",
+      "packetSet.components lists two custom_pleading components and no officialFormId, so no official form dependency is drafted or blocked for this track."
+    ],
+    "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].outputStrategy; registry@3b6f4c1:tracks[ct-cannabis-petition].mechanism; registry@3b6f4c1:tracks[ct-cannabis-petition].packetSet.components"
+  },
+  "primaryStatutoryAuthority": [
+    {
+      "citation": "C.G.S. § 54-142v",
+      "description": "Erasure for certain cannabis convictions. The petition vehicle for the three eligible conviction categories.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[0]; registry@3b6f4c1:tracks[ct-cannabis-petition].officialSources[0]"
+    },
+    {
+      "citation": "C.G.S. § 54-142v(a)(1)",
+      "description": "The three eligible conviction categories.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[1]; registry@3b6f4c1:tracks[ct-cannabis-petition].recordTypes"
+    },
+    {
+      "citation": "C.G.S. § 54-142v(a)(2)",
+      "description": "Required content: a copy of the arrest record or a supporting affidavit.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[2]"
+    },
+    {
+      "citation": "C.G.S. § 54-142v(a)(3)",
+      "description": "The court shall direct erasure if the petition is in order.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[3]"
+    },
+    {
+      "citation": "C.G.S. § 54-142v(a)(4)",
+      "description": "No fee.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[4]; registry@3b6f4c1:tracks[ct-cannabis-petition].rules.fees"
+    },
+    {
+      "citation": "C.G.S. § 54-142v(b)",
+      "description": "The multi-count bar: records referencing more than one count unless every count is entitled to erasure.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[5]; registry@3b6f4c1:tracks[ct-cannabis-petition].exclusions[0]"
+    },
+    {
+      "citation": "C.G.S. § 54-142a",
+      "description": "Erasure mechanics.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[6]; registry@3b6f4c1:tracks[ct-cannabis-petition].officialSources[2]"
+    }
+  ],
+  "verificationStatute": {
+    "citation": null,
+    "description": "The source review does not state a verification statute for the petition, and does not state whether a notary or another proper officer must take the affidavit. It states only that the petitioner signs the petition and swears the affidavit where the affidavit route is used. Left null and flagged rather than invented.",
+    "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].rules.notarization; registry@3b6f4c1:tracks[ct-cannabis-petition].rules.participantSignature"
+  },
+  "includeProposedOrder": false,
+  "includeProposedOrderReason": "A short proposed order is recommended but no form exists and clerk acceptance is unconfirmed; recorded as an open release blocker. No proposed order is drafted.",
+  "includeCertificateOfService": false,
+  "includeCertificateOfServiceReason": "No service requirement was found in § 54-142v; local practice must be confirmed before shipping. No certificate of service is drafted.",
+  "serviceNote": "Unresolved. No service requirement was found in § 54-142v. Local practice must be confirmed before shipping.",
+  "qaProhibitedTerms": [
+    "expungement",
+    "expunge",
+    "sealing",
+    "seal",
+    "set aside",
+    "vacatur"
+  ],
+  "qaProhibitedTermsSourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].scopeRestrictions[1] (\"Connecticut says erasure. Not expungement, not sealing.\")",
+  "presentation": {
+    "sovereignPartyName": "STATE OF CONNECTICUT",
+    "sovereignPartyProper": "the State of Connecticut",
+    "sovereignRole": null,
+    "sovereignRoleNullReason": "No source read for this track labels the State's role in a § 54-142v caption. The compiled profile's illustrative caption reads \"STATE OF CONNECTICUT v. [NAME]\" with no role labels. Not invented.",
+    "movantRole": "Petitioner",
+    "filingNoun": "Petition",
+    "divisionLine": "",
+    "usesCounty": false,
+    "usesCountyReason": "The recorded venue is a Superior Court judicial district or G.A. location, not a county. No county line is rendered.",
+    "courtName": "Superior Court, Judicial District or G.A. location",
+    "venueDescriptor": "The Superior Court at the location where the conviction was effected, or at the location having custody of the records, or, if the conviction was in the Court of Common Pleas, Circuit Court, a municipal court or before a trial justice, the Superior Court where venue would currently exist for criminal prosecution.",
+    "recordCustodianLead": null,
+    "recordCustodianLeadNullReason": "The sources read for this track do not enumerate the record custodians for a § 54-142v erasure; § 54-142a is cited only as \"erasure mechanics\". Not invented.",
+    "verificationVerb": "swear",
+    "verificationPenaltyLabel": null,
+    "serviceRecipientLabel": null,
+    "serviceRecipientAddressLabel": null,
+    "reliefActionVerb": "erase",
+    "orderActionVerb": "erase",
+    "recordsScopePhrase": "the records of the conviction identified in this petition",
+    "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[3] (\"the court shall direct erasure if the petition is in order\")"
+  },
+  "counselFlags": [
+    {
+      "id": "ct-cannabis-caption-and-format-unconfirmed",
+      "statement": "There is no statewide form for a § 54-142v petition, and G.A. clerks may have local expectations about caption and format. The caption in this config is a token pattern taken from the destination the registry records (\"Superior Court, Judicial District or G.A. location\") and from the illustrative caption in the compiled profile; it is not a confirmed accepted caption.",
+      "mustConfirm": "Confirm with a Connecticut practitioner what caption and format the G.A. clerks actually accept, since no form exists and practice will vary.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].releaseBlockers[1]; profile:sourceSections[12] 'Sample petitions and completed examples'"
+    },
+    {
+      "id": "ct-cannabis-service-and-proposed-order-unresolved",
+      "statement": "No service requirement was found in § 54-142v and local practice must be confirmed. A short proposed order is recommended but no form exists and clerk acceptance is unconfirmed. This config therefore sets includeCertificateOfService=false and includeProposedOrder=false and asserts no service or order text.",
+      "mustConfirm": "Whether a § 54-142v petition must be served on anyone, and whether a proposed order should be filed with it and in what form.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].releaseBlockers[0]; registry@3b6f4c1:tracks[ct-cannabis-petition].rules.service"
+    },
+    {
+      "id": "ct-cannabis-verification-officer-unresolved",
+      "statement": "The affidavit is sworn, but the source review does not state whether a notary or another proper officer is required, and states no verification statute for the petition itself. verificationStatute.citation is null rather than invented.",
+      "mustConfirm": "The required verification/notarization form for the petition and the affidavit, and the officer who must take the oath.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].rules.notarization; registry@3b6f4c1:tracks[ct-cannabis-petition].rules.participantSignature"
+    },
+    {
+      "id": "ct-cannabis-multi-count-bar",
+      "statement": "§ 54-142v(b) bars relief for records referencing more than one count unless every count is entitled to erasure. LegalEase never asserts that all counts on the docket are erasable unless the participant has confirmed the count list from the record.",
+      "mustConfirm": "That screening captures the participant's own confirmation of the full count list from the Judicial Branch case look-up before the all-counts allegation is populated.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].exclusions[0]; registry@3b6f4c1:tracks[ct-cannabis-petition].scopeRestrictions[0]"
+    },
+    {
+      "id": "ct-cannabis-quantity-is-participant-sworn-fact",
+      "statement": "The quantity possessed, distributed or grown, and any characterization of what paraphernalia was used for, are the petitioner's sworn facts. LegalEase drafts the container; it never generates or estimates the quantity or the paraphernalia-use fact.",
+      "mustConfirm": "That the affidavit container is never populated from anything other than the participant's own sworn answer.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].legalDesignLimitations[classification=manual_completion_item]; registry@3b6f4c1:tracks[ct-cannabis-petition].scopeRestrictions[0]"
+    },
+    {
+      "id": "ct-cannabis-no-decriminalization-assertion",
+      "statement": "This petition must not assert that the offense has been decriminalized. That is the § 54-142d question and it carries case law; it is a separate track and a separate remedy.",
+      "mustConfirm": "That no allegation of decriminalization is rendered in a § 54-142v petition.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].scopeRestrictions[0]"
+    },
+    {
+      "id": "ct-cannabis-terminology-erasure",
+      "statement": "Connecticut says erasure. Not expungement, not sealing. The compiled profile's terminology block nevertheless carries primaryConsumerTerm 'expungement' with avoidUniversalExpungementLabel=true; the state term governs all output for this track.",
+      "mustConfirm": "That rendered output and participant copy use 'erasure' only.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].scopeRestrictions[1]; profile:terminology"
+    },
+    {
+      "id": "ct-cannabis-hearing-path",
+      "statement": "After filing, the court will either order erasure without a hearing or schedule a hearing. A procedural hearing does not block generation; disputed facts or a contested hearing trigger handoff to counsel.",
+      "mustConfirm": "That the handoff trigger is wired to disputed facts and contested hearings, not to the mere scheduling of a hearing.",
+      "impact": "post_generation_handoff",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].destination.detail; registry@3b6f4c1:tracks[ct-cannabis-petition].postGenerationHandoffs[0]"
+    },
+    {
+      "id": "ct-cannabis-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document; output review, visual review and technical proof are all outstanding.",
+      "mustConfirm": "Output review, visual review and technical proof before this pleading leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].legalStatus / .legalDesignStatus / .runtimeDisabledReason"
+    },
+    {
+      "id": "ct-cannabis-source-freshness-gate",
+      "statement": "Every official source recorded for this track has sha256 null, so staleness cannot be detected for § 54-142v, the Clean Slate cannabis-petition page, or § 54-142a.",
+      "mustConfirm": "Capture hashes for the three official sources before release.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].blockers[kind=source_gate]; registry@3b6f4c1:tracks[ct-cannabis-petition].officialSources"
+    },
+    {
+      "id": "ct-cannabis-court-identity-blank",
+      "statement": "Court name, judicial district or G.A. location, docket number, judge, prosecutor and prosecutor position are left blank in every fixture and are never prefilled from any source. The only sourced venue rule is the § 54-142v venue text recorded on the track.",
+      "mustConfirm": "That court identity reaches the document only through the participant's own screening answers and the Judicial Branch case look-up they obtain.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].venue; registry@3b6f4c1:tracks[ct-cannabis-petition].destination"
+    }
+  ],
+  "componentInventory": [
+    {
+      "component": "caption",
+      "status": "present",
+      "note": "Token caption only: SUPERIOR COURT, {judicialDistrictOrGaLocation}. Accepted caption and format are an open release blocker.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].destination.name"
+    },
+    {
+      "component": "court_and_party_identity",
+      "status": "present",
+      "note": "Petitioner name and address from screening. Court, judicial district / G.A. location, docket number, OTN, judge, prosecutor and prosecutor position are rendered blank and never prefilled.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].generationRequirements[key=petitionerName,convictionDetails]"
+    },
+    {
+      "component": "title",
+      "status": "present",
+      "note": "PETITION FOR ERASURE OF CANNABIS CONVICTION RECORDS PURSUANT TO C.G.S. § 54-142v, from the legalName recorded on the track.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].legalName"
+    },
+    {
+      "component": "allegations",
+      "status": "present",
+      "note": "Container only. The quantity or paraphernalia-use fact and the confirmation that every count on the docket is erasable are participant-completed; LegalEase never generates them.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].manualCompletionItems"
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "note": "Seven citations, all from the track authority list.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority"
+    },
+    {
+      "component": "requested_relief",
+      "status": "present",
+      "note": "That the court direct erasure of the records of the conviction identified in the petition.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].authority[3]"
+    },
+    {
+      "component": "verification",
+      "status": "present_with_null_statute",
+      "note": "Signature and sworn-affidavit block rendered; no verification statute is cited because none is stated. See counselFlag ct-cannabis-verification-officer-unresolved.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].rules.notarization"
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "note": "The petitioner signs the petition and swears the affidavit where the affidavit route is used. No LegalEase signature block.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].rules.participantSignature"
+    },
+    {
+      "component": "proposed_order",
+      "status": "absent",
+      "reason": "Recommended in the source review but no form exists and clerk acceptance is unconfirmed. Open release blocker; drafting one would be invention.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].releaseBlockers[0]"
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "absent",
+      "reason": "No service requirement was found in § 54-142v; local practice must be confirmed. No service is asserted.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].rules.service"
+    },
+    {
+      "component": "notice",
+      "status": "absent",
+      "reason": "The source review does not state a notice requirement. After filing the court will either order erasure without a hearing or schedule a hearing.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].rules.notice"
+    },
+    {
+      "component": "supporting_affidavit",
+      "status": "present",
+      "note": "Conditional component recorded in the packet set: required where the arrest record does not establish the quantity or the paraphernalia-use fact. § 54-142v(a)(2) requires either a copy of the arrest record or an affidavit. Container only; the participant supplies and swears the fact.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].packetSet.components[1]"
+    },
+    {
+      "component": "participant_only_cover_sheet",
+      "status": "absent",
+      "reason": "Neither the registry entry nor the compiled profile records a cover sheet for this track.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].packetSet.components"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "note": "Participant-only. participant-instructions.md, drawn from rules.filing, packetInstructions and packetSet.participantActionRequired. Never filed with the court.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].rules.filing; registry@3b6f4c1:tracks[ct-cannabis-petition].packetInstructions[0]"
+    }
+  ],
+  "participantOnlyDocuments": [
+    "participant-instructions.md"
+  ],
+  "courtDocuments": [
+    {
+      "item": "Petition for Erasure of Cannabis Conviction Records",
+      "componentId": "ct-cannabis-petition-primary-filing-1",
+      "drafted": true,
+      "requirement": "required"
+    },
+    {
+      "item": "Supporting affidavit of the petitioner",
+      "componentId": "ct-cannabis-petition-supporting-affidavit-2",
+      "drafted": true,
+      "requirement": "conditional",
+      "conditionDescription": "Where the arrest record does not establish the quantity or paraphernalia-use fact. The statute requires either a copy of the arrest record or an affidavit."
+    },
+    {
+      "item": "Copy of the arrest record",
+      "componentId": null,
+      "drafted": false,
+      "reason": "Participant obtains it from the arresting police department or the Superior Court clerk. LegalEase does not obtain, receive or inspect it."
+    }
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/connecticut/index.ts",
+      "src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profileSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ct-cannabis-petition]",
+    "statePackNote": "The committed Connecticut state pack carries build metadata and the Nationwide official-form/resource inventory only; it records no track-level pleading text. Track prose, authority, rules and packet composition come from the pinned registry entry and the compiled CT profile, both listed here.",
+    "reviewedAsOf": "2026-07-30"
+  }
+}

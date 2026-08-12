@@ -1,0 +1,280 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "ct-missed-erasure",
+  "jurisdiction": {
+    "code": "CT",
+    "name": "Connecticut",
+    "slug": "connecticut"
+  },
+  "jobId": "T-C-CT-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "legalName": "Request for Review of a Missed Automatic Erasure, C.G.S. § 54-142t(g)",
+  "publicName": "Ask the state to fix a record that should have been erased",
+  "mechanism": "The person believes their criminal history record information was required to be deemed erased by operation of law, and submits a copy of their criminal history record search demonstrating that the information has not been marked as erased, to DESPP, in a form and manner determined by the department. DESPP then, following a contested hearing, determines whether the information should be deemed erased. That determination is a final decision under the Uniform Administrative Procedure Act.",
+  "compositionMode": "sequential",
+  "outputStrategyDeclared": "composed",
+  "routeDecision": {
+    "decision": "composed_route_with_agency_dependencies_and_no_court_document",
+    "rationale": [
+      "The registry declares outputStrategyDeclared 'composed' with compositionMode 'sequential' and lists two ordered stages, the second of which is marked available:false.",
+      "The destination is an agency (DESPP), not a court: \"No court venue. The destination is DESPP, not a court.\" No pleading_document unit exists on this route.",
+      "Stage 2's output vehicle is whatever form and manner DESPP determines. That form and manner is not in the statute and was not located, and the legal-design blocker says in terms: do not invent a DESPP filing form. It is therefore recorded as a dependency, not drafted — including as an agency_request_letter, which would be the same invention under a different name."
+    ],
+    "pleadingDocumentUnits": 0,
+    "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].outputStrategyDeclared; registry@3b6f4c1:tracks[ct-missed-erasure].compositionMode; registry@3b6f4c1:tracks[ct-missed-erasure].units; registry@3b6f4c1:tracks[ct-missed-erasure].venue; registry@3b6f4c1:tracks[ct-missed-erasure].legalDesignLimitations[classification=legal_design_blocker]"
+  },
+  "authoritySpine": [
+    {
+      "citation": "C.G.S. § 54-142t(g)",
+      "description": "Request for review of criminal history records for erasure; available on and after 1 January 2024. Submission goes to DESPP in a form and manner determined by the department; DESPP determines the matter following a contested hearing.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].authority[0]; registry@3b6f4c1:tracks[ct-missed-erasure].officialSources[0]"
+    },
+    {
+      "citation": "C.G.S. § 54-142a(e)",
+      "description": "The erasure the record should have received by operation of law.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].authority[1]"
+    },
+    {
+      "citation": "Uniform Administrative Procedure Act, chapter 54",
+      "description": "The DESPP determination following the contested hearing is a final decision for purposes of chapter 54.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].authority[2]; registry@3b6f4c1:tracks[ct-missed-erasure].rules.notice"
+    },
+    {
+      "citation": "DESPP form DPS-0846-C, State of Connecticut Criminal History Record Request Form, Rev. 12/01/17",
+      "description": "The official form used to obtain the criminal history record search the statute requires the submission to include.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].authority[3]; registry@3b6f4c1:tracks[ct-missed-erasure].officialSources[1]; statePack:officialFormInventory[2]"
+    },
+    {
+      "citation": "SPBI criminal-history record check (compiled profile, 'Criminal history (SPBI) request process')",
+      "description": "The State Police Bureau of Identification maintains the official Connecticut criminal history; a current check is the starting point and supports a hearing request if an eligible record was not erased.",
+      "sourceRef": "profile:sourceSections[11] 'Criminal history (SPBI) request process'"
+    },
+    {
+      "citation": "SPBI criminal-history record check (compiled profile, 'Required forms')",
+      "description": "State Police Bureau of Identification report to confirm convictions and support a hearing request.",
+      "sourceRef": "profile:sourceSections[5] 'Required forms'"
+    }
+  ],
+  "units": [
+    {
+      "unitId": "ct-missed-erasure-unit-1-spbi-record-request",
+      "legalUnit": "Obtain the criminal history record search that § 54-142t(g) requires the submission to include, demonstrating that the information has not been marked as erased",
+      "authority": {
+        "citation": "C.G.S. § 54-142t(g); DESPP form DPS-0846-C",
+        "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].authority[0]; registry@3b6f4c1:tracks[ct-missed-erasure].authority[3]; registry@3b6f4c1:tracks[ct-missed-erasure].participantFilingRequirements[0]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ct-missed-erasure-spbi-record-request-0",
+      "componentIdSynthesized": true,
+      "applicability": {
+        "includedWhen": "Screening answers \"Have you obtained your SPBI criminal history record search yet?\" with no, or the participant does not have the search in hand.",
+        "excludedWhen": "Screening reports the participant already holds an SPBI criminal history record search and has read it, so only the assessment unit is needed."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "DPS-0846-C, State of Connecticut Criminal History Record Request Form, Rev. 12/01/17 — official DESPP/SPBI form. A copy is in the Nationwide inventory at 'LegalEase Connecticut/DPS0846CCriminalHistoryRecordRequestFormRev120117pdf.pdf' (sha256 8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e), but overlay and field-map ownership sits with the official-PDF overlay lane (lane D/E). No form is drafted in lane C, and the revision on file is 12/01/17."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/components/ct-missed-erasure-spbi-record-request-0/dependency.json",
+      "notes": "Mandatory official-form handoff. The participant completes and mails DPS-0846-C themselves; LegalEase does not obtain, receive or inspect the resulting record."
+    },
+    {
+      "unitId": "ct-missed-erasure-unit-2-record-assessment",
+      "legalUnit": "Read the criminal history record search and decide whether it shows information that § 54-142a(e) required to be deemed erased but which has not been marked as erased",
+      "authority": {
+        "citation": "C.G.S. § 54-142a(e); C.G.S. § 54-142t(g)",
+        "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].units[0]; registry@3b6f4c1:tracks[ct-missed-erasure].authority[1]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "ct-missed-erasure-process-guidance-1",
+      "componentIdSynthesized": false,
+      "applicability": {
+        "includedWhen": "Always included. The registry marks this stage available:true and states it \"is known and is not held back by the unresolved submission vehicle downstream\".",
+        "excludedWhen": "Never excluded while this route is selected."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/components/ct-missed-erasure-process-guidance-1/process-guidance.md"
+      },
+      "notes": "The one deliverable unit on this route. Corresponds to registry packetSet component ct-missed-erasure-process-guidance-1 (role process_guidance, required)."
+    },
+    {
+      "unitId": "ct-missed-erasure-unit-3-despp-submission",
+      "legalUnit": "Submission to DESPP, in the form and manner the department determines, that the information should be deemed erased — followed by DESPP's determination after a contested hearing",
+      "authority": {
+        "citation": "C.G.S. § 54-142t(g); Uniform Administrative Procedure Act, chapter 54",
+        "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].units[1]; registry@3b6f4c1:tracks[ct-missed-erasure].authority[0]; registry@3b6f4c1:tracks[ct-missed-erasure].authority[2]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ct-missed-erasure-despp-submission-2",
+      "componentIdSynthesized": true,
+      "applicability": {
+        "includedWhen": "Screening answers \"Does the record show the information marked as erased?\" with no, on a record the participant believes § 54-142a(e) required to be deemed erased.",
+        "excludedWhen": "The record already shows the information marked as erased, or the participant does not yet hold the record."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "DESPP's current form and manner for a § 54-142t(g) submission. Not in the statute; the URL was not located. Registry buildBlockers[0] and legalDesignBlockers; owning lane: lane-D/E official-source acquisition (registry implementationQueue: D_composed_or_process_guidance). Do not invent a DESPP filing form."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/components/ct-missed-erasure-despp-submission-2/dependency.json",
+      "notes": "Blocked. The contested hearing that follows the submission is a post-submission attorney handoff and is not a document unit."
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [],
+    "courtDocumentsNote": "None. There is no court venue on this track — the destination is DESPP, not a court — so this route produces no court document at all.",
+    "participantOnly": [
+      {
+        "item": "How to check whether your record was actually erased",
+        "componentId": "ct-missed-erasure-process-guidance-1",
+        "note": "process-guidance.md. Participant-only; never submitted to DESPP or to any court."
+      },
+      {
+        "item": "Participant filing instructions",
+        "componentId": null,
+        "note": "participant-instructions.md. Participant-only."
+      },
+      {
+        "item": "DPS-0846-C criminal history record request",
+        "componentId": "ct-missed-erasure-spbi-record-request-0",
+        "note": "Completed and mailed by the participant to DESPP-SPBI. Not a court document, and not drafted here."
+      },
+      {
+        "item": "The § 54-142t(g) submission to DESPP",
+        "componentId": "ct-missed-erasure-despp-submission-2",
+        "note": "Goes to the agency, not the court. Blocked: DESPP's form and manner is unlocated."
+      }
+    ]
+  },
+  "counselFlags": [
+    {
+      "id": "ct-missed-erasure-despp-form-and-manner-blocker",
+      "statement": "DESPP's current form and manner for a § 54-142t(g) submission is a true output blocker. It is not in the statute and the URL was not located. No DESPP filing form, letter or submission document is invented anywhere in this route.",
+      "mustConfirm": "DESPP's current form and manner for a § 54-142t(g) submission, before any submission document is produced.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].buildBlockers[0]; registry@3b6f4c1:tracks[ct-missed-erasure].legalDesignLimitations[classification=legal_design_blocker]"
+    },
+    {
+      "id": "ct-missed-erasure-spbi-fees-and-process-stale",
+      "statement": "The SPBI fee and process figures recorded on the track ($36 name/DOB existence search, $75 conviction history by name and DOB, $75 by fingerprint plus $15 for fingerprinting at a Connecticut State Police location) are printed on a form dated 12/01/17 and require verification. No figure is quoted to the participant anywhere in this route; the participant instructions tell the participant to check the current fee with DESPP instead. The compiled profile independently warns against quoting a fixed figure from memory.",
+      "mustConfirm": "Current SPBI fees and the current request process before any figure is shown to a participant.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].releaseBlockers[0]; registry@3b6f4c1:tracks[ct-missed-erasure].rules.fees; profile:sourceSections[10] 'Fee information' VERIFY BEFORE RELYING"
+    },
+    {
+      "id": "ct-missed-erasure-2024-report-date-conflict",
+      "statement": "The compiled CT profile states in two places that the SPBI criminal-history check must be \"dated on/after 1/1/2024\" for Clean Slate purposes. The pinned registry entry says that reading looks like a misreading: 1 January 2024 is when the § 54-142t(g) remedy became available, and nothing found requires the report itself to bear a post-2024 date. This route treats it as unresolved and states no report-date rule to the participant.",
+      "mustConfirm": "Whether the SPBI report must itself be dated on or after 1 January 2024, or whether that date only fixes when the remedy became available.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].releaseBlockers[1]; profile:sourceSections[5] 'Required forms'; profile:sourceSections[11] 'Criminal history (SPBI) request process'"
+    },
+    {
+      "id": "ct-missed-erasure-contested-hearing-handoff",
+      "statement": "DESPP determines the matter following a contested hearing, and the determination is a final decision under the Uniform Administrative Procedure Act, chapter 54. The contested hearing is a lawyer's proceeding and remains a post-submission attorney handoff. This is an agency-controlled adversarial proceeding, not a self-help filing.",
+      "mustConfirm": "That the route hands off to counsel at the contested hearing and does not attempt to prepare the participant for it.",
+      "impact": "post_generation_handoff",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].postGenerationHandoffs[0]; registry@3b6f4c1:tracks[ct-missed-erasure].rules.notice"
+    },
+    {
+      "id": "ct-missed-erasure-record-never-collected",
+      "statement": "The statute requires a copy of the participant's criminal history record search demonstrating that the information has not been marked as erased. The participant obtains it. LegalEase names it and never collects, receives or inspects it.",
+      "mustConfirm": "That no pipeline stage ingests, stores or reads the participant's SPBI record.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].legalDesignLimitations[classification=required_before_filing]"
+    },
+    {
+      "id": "ct-missed-erasure-no-court-venue",
+      "statement": "There is no court venue on this track. The destination is DESPP, not a court. No caption, docket number, judge or court name appears anywhere in this route, and no court document is produced.",
+      "mustConfirm": "That screening never routes this track to a court-filing flow.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].venue; registry@3b6f4c1:tracks[ct-missed-erasure].destination"
+    },
+    {
+      "id": "ct-missed-erasure-never-assume-auto-erasure",
+      "statement": "The state does not notify people that their records were erased, and the automatic Clean Slate rollout stalled for years on data and IT problems, resuming at scale only in late 2025. Never assume a record was auto-erased — verify. \"Was my record actually erased\" is the question this track answers first.",
+      "mustConfirm": "That the route never asserts a record was or was not erased; only the participant's own SPBI record answers that.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].legalDesignLimitations[classification=packet_instruction]; profile:sourceSections[9] 'Court-specific quirks'"
+    },
+    {
+      "id": "ct-missed-erasure-immigration-stop",
+      "statement": "A participant with an immigration matter is a self-help stop condition on this track.",
+      "mustConfirm": "That screening stops on an immigration matter before the record-request step.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].selfHelpStopConditions[2]"
+    },
+    {
+      "id": "ct-missed-erasure-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document; output review, visual review and technical proof are all outstanding.",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].legalStatus / .legalDesignStatus / .runtimeDisabledReason"
+    },
+    {
+      "id": "ct-missed-erasure-source-freshness-gate",
+      "statement": "Both official sources on this track (§ 54-142t and DPS-0846-C, recorded only as the DESPP portal root) have sha256 null, so staleness cannot be detected. The Nationwide copy of DPS-0846-C does carry a hash (8db6e31c03131d94f6ed8383f403b1daf45e9c4d12336cbf0abcebb4e65b588e) but is revision 12/01/17.",
+      "mustConfirm": "Capture hashes for § 54-142t and for the current DPS-0846-C revision at its real URL.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].blockers[kind=source_gate]; registry@3b6f4c1:tracks[ct-missed-erasure].officialSources; statePack:officialFormInventory[2]"
+    },
+    {
+      "id": "ct-missed-erasure-terminology",
+      "statement": "Connecticut says erasure. Not expungement, not sealing. The compiled profile's terminology block nevertheless carries primaryConsumerTerm 'expungement'.",
+      "mustConfirm": "That participant copy for this track uses 'erasure' only.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].scopeRestrictions[0]; profile:terminology"
+    }
+  ],
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit the pinned registry entry and the compiled CT profile record for this track. The registry records two ordered stages in units[] — stage 1 'Obtain the SPBI record, read it, and decide whether there is a case' and stage 2 'Submission to DESPP in its determined form and manner' — and one packetSet component (process_guidance) plus one participantFilingRequirement (the DPS-0846-C record search). This route splits registry stage 1 into its two distinct legal units, because obtaining the record is performed through an official DESPP form and reading it is not, and carries registry stage 2 through as the third unit. Nothing else in either source describes a document, form, letter or cover sheet for this track.",
+    "unitCount": 3,
+    "registryPassagesEnumerated": [
+      "registry@3b6f4c1:tracks[ct-missed-erasure].units[] (2 entries: ct-missed-erasure-stage-1-record-and-assessment, ct-missed-erasure-stage-2-despp-submission)",
+      "registry@3b6f4c1:tracks[ct-missed-erasure].packetSet.components[] (1 entry: ct-missed-erasure-process-guidance-1)",
+      "registry@3b6f4c1:tracks[ct-missed-erasure].participantFilingRequirements[] (1 entry: SPBI criminal history record search, form DPS-0846-C)",
+      "registry@3b6f4c1:tracks[ct-missed-erasure].packetSet.participantActionRequired[] (8 entries, all mapped below or to unit applicability)"
+    ],
+    "profilePassageReferenced": {
+      "ref": "profile:sourceSections[11] 'Criminal history (SPBI) request process'",
+      "passage": "A. State history — SPBI. The State Police Bureau of Identification maintains the official Connecticut criminal history; a current check ... is the starting point and supports a hearing request if an eligible record was not erased.",
+      "reading": "The profile records exactly two artefacts on this path: the SPBI record request and the hearing request it supports. The SPBI request is unit 1; the hearing request is the § 54-142t(g) submission at unit 3, whose form and manner the profile does not supply either. The profile records no third document, and it does not mention § 54-142t(g) by name anywhere."
+    },
+    "nonUnitParticipantActions": [
+      "Check your answer to \"Does the record show the information marked as erased?\" against the SPBI criminal history record search — a confirmation step, folded into unit 2 and unit 3 applicability, not a document.",
+      "Signature: unresolved on the submission, pending DESPP's form and manner — no signature block can exist before the vehicle does.",
+      "Notarization: the source review does not state a notarization requirement.",
+      "Fee: no fee is stated for the § 54-142t(g) submission; the real cost is the SPBI record, and those figures are stale.",
+      "Fee waiver: the source review does not state a fee waiver for the SPBI record.",
+      "Service: the source review does not state a service requirement.",
+      "The contested administrative hearing before DESPP — a lawyer's proceeding producing a UAPA final decision, and an attorney handoff rather than a document unit."
+    ],
+    "coverSheetAbsent": "No participant-only cover sheet unit is included: neither the registry entry nor the profile records a cover sheet for this track.",
+    "agencyRequestLetterAbsent": "No agency_request_letter unit is included even though the destination is an agency. The only agency submission on this track is the § 54-142t(g) submission, whose form and manner DESPP determines and which has not been located; drafting a letter for it would be exactly the invented DESPP filing document the legal-design blocker prohibits. The record request itself is made on official form DPS-0846-C, not by letter.",
+    "pleadingDocumentAbsent": "No pleading_document unit is included: there is no court venue on this track."
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/connecticut/index.ts",
+      "src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "profileSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ct-missed-erasure]",
+    "statePackNote": "The committed Connecticut state pack carries build metadata and the Nationwide official-form/resource inventory only. It is the source for the DPS-0846-C file identity and hash used by unit 1.",
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2024-01-01"
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "ct-under18-misdemeanor",
+  "jurisdiction": {
+    "code": "CT",
+    "name": "Connecticut",
+    "slug": "connecticut"
+  },
+  "jobId": "T-C-CT-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "legalName": "Erasure of an Adult Misdemeanor Conviction for Conduct Before Age 18, C.G.S. § 54-142a(f)",
+  "publicName": "Erase a misdemeanor from something that happened before you turned 18",
+  "mechanism": "This is an adult record: an adult conviction for conduct committed before the person turned 18. It is not juvenile delinquency relief. Two branches turn on when the offense occurred, and only one of them requires a participant petition.",
+  "compositionMode": "alternative",
+  "outputStrategyDeclared": "composed",
+  "routeDecision": {
+    "decision": "composed_route_one_branch_deliverable_one_branch_blocked",
+    "rationale": [
+      "The registry declares outputStrategyDeclared 'composed' with compositionMode 'alternative' and two branches, of which only the § 54-142a(f)(1) automatic branch is available:true.",
+      "The automatic branch requires no filing, so its required output is a participant instruction.",
+      "The § 54-142a(f)(2) petition branch is blocked: no official form was located, JD-CR-202 on its face is a Clean Slate form rather than an (f)(2) form, no custom pleading is approved, and the historical offense-date and classification rule is unresolved. It is a pleading_document unit with a blocked implementation, and nothing is drafted."
+    ],
+    "pleadingDocumentUnits": 1,
+    "pleadingDocumentUnitsDrafted": 0,
+    "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].outputStrategyDeclared; registry@3b6f4c1:tracks[ct-under18-misdemeanor].compositionMode; registry@3b6f4c1:tracks[ct-under18-misdemeanor].units; registry@3b6f4c1:tracks[ct-under18-misdemeanor].buildBlockers"
+  },
+  "authoritySpine": [
+    {
+      "citation": "C.G.S. § 54-142a(f)(1)",
+      "description": "The automatic branch. Misdemeanors committed while under 18 where the offense occurred on or after 1 January 2000 and before 1 July 2012 are erased, or deemed erased by operation of law for scanned and non-electronic records.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].authority[0]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].units[0]"
+    },
+    {
+      "citation": "C.G.S. § 54-142a(f)(2)",
+      "description": "The petition branch. Where the offense occurred before 1 January 2000, the person may file a petition with the Superior Court at the location where the conviction was effected and the court shall direct erasure.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].authority[1]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].units[1]"
+    },
+    {
+      "citation": "C.G.S. § 54-142a(f)(3)",
+      "description": "The same-information limitation. Notwithstanding the multi-count rule at subsection (i), the subsection does not apply where there has been a conviction for any charge for which erasure would not apply arising from the same information as the erased conviction.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].authority[2]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].packetInstructions[0]"
+    },
+    {
+      "citation": "C.G.S. § 54-142a(k)",
+      "description": "No fee.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].authority[3]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].rules.fees"
+    },
+    {
+      "citation": "Clean Slate Connecticut (portal.ct.gov/cleanslate)",
+      "description": "Official source recorded on the track, retrieved 2026-07-30.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].officialSources[1]"
+    },
+    {
+      "citation": "Petitioned Clean Slate erasure for eligible pre-2000 convictions, JD-CR-202 (compiled profile pathway)",
+      "description": "Profile pathway recording that pre-2000 convictions are petitioned on JD-CR-202, filed with the court where sentenced. Recorded here because it conflicts with the registry's finding that JD-CR-202 is not an (f)(2) form; see counsel flag ct-under18-jd-cr-202-is-not-an-f2-form.",
+      "sourceRef": "profile:pathways[id=petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202]; profile:sourceSections[5] 'Required forms'"
+    }
+  ],
+  "units": [
+    {
+      "unitId": "ct-under18-misdemeanor-unit-1-automatic-branch",
+      "legalUnit": "Automatic erasure under § 54-142a(f)(1) of a misdemeanor conviction for conduct committed while under 18, where the offense occurred on or after 1 January 2000 and before 1 July 2012 — no participant filing",
+      "authority": {
+        "citation": "C.G.S. § 54-142a(f)(1)",
+        "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].units[0]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].authority[0]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "ct-under18-misdemeanor-process-guidance-1",
+      "componentIdSynthesized": false,
+      "applicability": {
+        "includedWhen": "Screening reports the participant was under 18 when the offense happened and supplies an offense date on or after 1 January 2000 and before 1 July 2012, confirmed against their own Judicial Branch case look-up.",
+        "excludedWhen": "The offense occurred before 1 January 2000 — that is the petition branch — or the statute sections the participant copies from their record are a motor vehicle offense, a title 14 violation or a § 51-164r violation, or another charge on the same information could not be erased."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor/components/ct-under18-misdemeanor-process-guidance-1/process-guidance.md"
+      },
+      "notes": "The one deliverable unit. Corresponds to registry packetSet component ct-under18-misdemeanor-process-guidance-1 (role process_guidance, required)."
+    },
+    {
+      "unitId": "ct-under18-misdemeanor-unit-2-petition-branch",
+      "legalUnit": "Petition under § 54-142a(f)(2) filed with the Superior Court at the location where the conviction was effected, on which the court shall direct erasure, where the offense occurred before 1 January 2000",
+      "authority": {
+        "citation": "C.G.S. § 54-142a(f)(2)",
+        "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].units[1]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].authority[1]"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "ct-under18-misdemeanor-petition-branch-2",
+      "componentIdSynthesized": true,
+      "componentIdSynthesizedNote": "Corresponds to registry units[1] (ct-under18-misdemeanor-branch-petition), whose packetIdentity is 'unresolved' and which therefore has no packetSet component.",
+      "applicability": {
+        "includedWhen": "Screening reports the participant was under 18 when the offense happened, supplies an offense date before 1 January 2000, and supplies the court location where the conviction was effected.",
+        "excludedWhen": "The offense occurred on or after 1 January 2000 — that is the automatic branch — or another charge arising from the same information could not be erased (§ 54-142a(f)(3))."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "The official Judicial Branch form for a C.G.S. § 54-142a(f)(2) petition, or an approved custom pleading in its place, plus the historical offense-date and classification rule. No form was located; JD-CR-202 on its face is a Clean Slate form, not an (f)(2) form. Registry buildBlockers[0] and buildBlockers[1]; owning lane: lane-D/E official-source acquisition and legal-design resolution (registry implementationQueue: D_composed_or_process_guidance)."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor/components/ct-under18-misdemeanor-petition-branch-2/dependency.json",
+      "notes": "Blocked. The venue is known (Superior Court at the location where the conviction was effected) and the relief is mandatory once filed, but the vehicle is not identified."
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "Petition under C.G.S. § 54-142a(f)(2) for a pre-2000 offense committed while under 18",
+        "componentId": "ct-under18-misdemeanor-petition-branch-2",
+        "drafted": false,
+        "reason": "No official form identified and no custom pleading approved; JD-CR-202 on its face is a Clean Slate form, not an (f)(2) form."
+      }
+    ],
+    "participantOnly": [
+      {
+        "item": "Erasing a misdemeanor from conduct before you turned 18",
+        "componentId": "ct-under18-misdemeanor-process-guidance-1",
+        "note": "process-guidance.md. Never filed with the court."
+      },
+      {
+        "item": "Participant filing instructions",
+        "componentId": null,
+        "note": "participant-instructions.md. Never filed with the court."
+      },
+      {
+        "item": "Judicial Branch case look-up printout",
+        "componentId": null,
+        "note": "Participant obtains it to confirm the offense date, the charges on the information and the conviction location. LegalEase does not obtain, receive or inspect it."
+      }
+    ]
+  },
+  "counselFlags": [
+    {
+      "id": "ct-under18-petition-branch-form-blocker",
+      "statement": "The § 54-142a(f)(2) petition branch has no identified form and no approved custom pleading. No official form was located for it, and the historical offense-date and classification rule is unresolved.",
+      "mustConfirm": "Whether the Judicial Branch publishes a form for a § 54-142a(f)(2) petition, or what custom pleading is accepted, and the historical offense-date and classification rule.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].buildBlockers[1]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].legalDesignLimitations[classification=legal_design_blocker]"
+    },
+    {
+      "id": "ct-under18-jd-cr-202-is-not-an-f2-form",
+      "statement": "JD-CR-202 on its face is a Clean Slate form, not an (f)(2) form. Whether the Judicial Branch publishes a form for a § 54-142a(f)(2) petition, and whether JD-CR-202 is used for it in practice, is an open build blocker. The compiled CT profile points the other way — it treats JD-CR-202 as the vehicle for pre-2000 conviction petitions generally, and the Nationwide inventory holds a copy (CR202.pdf). Do not resolve that conflict by assuming the profile is right.",
+      "mustConfirm": "Whether JD-CR-202 is used in practice for a § 54-142a(f)(2) petition, or whether a different form or pleading is required.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].buildBlockers[0]; profile:sourceSections[5] 'Required forms'; profile:sourceSections[9] 'Court-specific quirks'; statePack:officialFormInventory[1]"
+    },
+    {
+      "id": "ct-under18-adult-record-not-juvenile-relief",
+      "statement": "This is an adult record: an adult conviction for conduct committed before the person turned 18. It is not juvenile delinquency relief, and must never be described or routed as such.",
+      "mustConfirm": "That screening copy and routing never treat this track as juvenile relief.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].scopeRestrictions[0]"
+    },
+    {
+      "id": "ct-under18-f3-same-information-limitation",
+      "statement": "Notwithstanding the multi-count rule at subsection (i), the subsection does not apply where there has been a conviction for any charge for which erasure would not apply arising from the same information as the erased conviction. § 54-142a(f)(3). This route states the rule and draws no conclusion about any participant's information.",
+      "mustConfirm": "That screening asks about other charges on the same information and never infers the answer.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].packetInstructions[0]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].exclusions[1]"
+    },
+    {
+      "id": "ct-under18-automatic-branch-carve-outs",
+      "statement": "The automatic branch does not reach a motor vehicle offense, a violation under title 14, or a violation of § 51-164r. The participant copies the statute sections from their own record; LegalEase does not classify the offense.",
+      "mustConfirm": "That the carve-outs are presented for the participant to apply, not applied to them from an inferred offense classification.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].exclusions[0]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].generationRequirements[key=offenseSections]"
+    },
+    {
+      "id": "ct-under18-branch-selection-by-offense-date",
+      "statement": "The offense date selects the branch: on or after 1 January 2000 and before 1 July 2012 is the automatic branch; before 1 January 2000 is the petition branch. LegalEase does not choose the branch for the participant and performs no date arithmetic on their behalf.",
+      "mustConfirm": "That screening presents both windows and takes the offense date as a participant answer confirmed against their own case look-up.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].generationRequirements[key=offenseDate]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].waitingPeriods"
+    },
+    {
+      "id": "ct-under18-post-2012-window-unaddressed",
+      "statement": "The automatic branch is recorded as covering offences on or after 1 January 2000 and before 1 July 2012, and the petition branch as covering offences before 1 January 2000. No source read for this track states what happens to an offence committed on or after 1 July 2012. This route asserts nothing about that window.",
+      "mustConfirm": "What relief, if any, § 54-142a(f) provides for conduct committed while under 18 on or after 1 July 2012, and which track owns it.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].waitingPeriods; registry@3b6f4c1:tracks[ct-under18-misdemeanor].units"
+    },
+    {
+      "id": "ct-under18-service-notice-notarization-unstated",
+      "statement": "The source review states no service requirement, no notice requirement and no notarization requirement for the (f)(2) petition. None is asserted.",
+      "mustConfirm": "Service, notice and notarization requirements for the (f)(2) petition, once the vehicle is settled.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].rules.service; registry@3b6f4c1:tracks[ct-under18-misdemeanor].rules.notice; registry@3b6f4c1:tracks[ct-under18-misdemeanor].rules.notarization"
+    },
+    {
+      "id": "ct-under18-no-fee",
+      "statement": "No fee. § 54-142a(k). This fee statement is squarely sourced for § 54-142a filings and is stated to the participant. It must not be carried across to § 54-142d, where the fee question is open.",
+      "mustConfirm": "That the § 54-142a(k) fee bar is quoted only for § 54-142a filings.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].rules.fees"
+    },
+    {
+      "id": "ct-under18-never-assume-auto-erasure",
+      "statement": "Automatic erasure stalled for years on data and IT problems and only resumed at scale in late 2025. Never assume a record was auto-erased — verify. A record on the automatic branch that was not erased belongs on the missed-erasure route.",
+      "mustConfirm": "That screening hands a participant whose record was not erased to the missed-erasure route.",
+      "impact": "packet_instruction",
+      "sourceRef": "profile:sourceSections[9] 'Court-specific quirks'"
+    },
+    {
+      "id": "ct-under18-terminology",
+      "statement": "Connecticut says erasure. Not expungement, not sealing.",
+      "mustConfirm": "That participant copy for this track uses 'erasure' only.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].scopeRestrictions[1]"
+    },
+    {
+      "id": "ct-under18-immigration-stop",
+      "statement": "A participant with an immigration matter is a self-help stop condition on this track.",
+      "mustConfirm": "That screening stops on an immigration matter on both branches.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].selfHelpStopConditions[3]"
+    },
+    {
+      "id": "ct-under18-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations', with three legal-design blockers open. Runtime is disabled: output review, visual review and technical proof are all outstanding.",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].legalDesignBlockers; registry@3b6f4c1:tracks[ct-under18-misdemeanor].runtimeDisabledReason"
+    },
+    {
+      "id": "ct-under18-source-freshness-gate",
+      "statement": "Both official sources on this track (§ 54-142a and the Clean Slate Connecticut portal) carry sha256 null, so staleness cannot be detected.",
+      "mustConfirm": "Capture hashes for § 54-142a and the Clean Slate portal page.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-under18-misdemeanor].blockers[kind=source_gate]; registry@3b6f4c1:tracks[ct-under18-misdemeanor].officialSources"
+    }
+  ],
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit the pinned registry entry and the compiled CT profile record for this track. The registry records two alternative branches in units[] — the § 54-142a(f)(1) automatic branch and the § 54-142a(f)(2) petition branch — and one packetSet component (process_guidance). Its one participantFilingRequirement is the Judicial Branch case look-up printout, which the participant obtains and which this route does not produce. The § 54-142a(f)(3) same-information limitation is a rule that constrains both branches, not a separate document. Nothing in either source describes any further document, form, letter or cover sheet for this track.",
+    "unitCount": 2,
+    "registryPassagesEnumerated": [
+      "registry@3b6f4c1:tracks[ct-under18-misdemeanor].units[] (2 entries: ct-under18-misdemeanor-branch-automatic, ct-under18-misdemeanor-branch-petition)",
+      "registry@3b6f4c1:tracks[ct-under18-misdemeanor].packetSet.components[] (1 entry: ct-under18-misdemeanor-process-guidance-1)",
+      "registry@3b6f4c1:tracks[ct-under18-misdemeanor].participantFilingRequirements[] (1 entry: Judicial Branch case look-up printout — a participant reference, not a document this route produces)",
+      "registry@3b6f4c1:tracks[ct-under18-misdemeanor].packetInstructions[] (1 entry: the § 54-142a(f)(3) same-information limitation — a rule, not a document)",
+      "registry@3b6f4c1:tracks[ct-under18-misdemeanor].packetSet.participantActionRequired[] (8 entries, all mapped below or to unit applicability)"
+    ],
+    "profilePassageReferenced": {
+      "ref": "profile:sourceSections[5] 'Required forms'",
+      "passage": "Most Connecticut erasure happens automatically with no form. Forms arise for pre-2000 petitions, missed automatic erasures, and pardons. ... JD-CR-202 — Petition for Clean Slate Erasure: convictions entered BEFORE 1/1/2000, filed with the court where sentenced; also the basis for requesting review of a missed automatic erasure.",
+      "reading": "The profile records exactly two artefacts on the under-18 path: nothing at all on the automatic side, and a single petition on the pre-2000 side. That matches the two units here. The profile names JD-CR-202 as that petition; the registry says JD-CR-202 is a Clean Slate form and not an (f)(2) form, which is why unit 2 is blocked rather than pointed at CR202.pdf. Either way the profile adds no third unit."
+    },
+    "nonUnitParticipantActions": [
+      "Obtain the Judicial Branch case look-up printout to confirm the offense date, the charges on the information and the conviction location — a participant reference document, not one this route produces.",
+      "Check your answer to \"On what date did the offense happen?\" against that printout — a confirmation step folded into unit applicability.",
+      "Signature: none on the automatic branch; unresolved on the petition branch, pending the vehicle.",
+      "Notarization: the source review states no requirement for the (f)(2) petition.",
+      "Fee: no fee, § 54-142a(k). Fee waiver: not applicable.",
+      "Service: the source review states no requirement."
+    ],
+    "coverSheetAbsent": "No participant-only cover sheet unit is included: neither the registry entry nor the profile records a cover sheet for this track.",
+    "agencyRequestLetterAbsent": "No agency_request_letter unit is included: both branches are court-side or automatic, and no source describes any agency request on this track.",
+    "officialFormDependencyAbsent": "No official_form_dependency unit is included even though an official form may exist for unit 2. The registry's finding is that no form was located for an (f)(2) petition and that JD-CR-202 is not one; naming JD-CR-202 as the dependency would adopt the profile's contrary reading. Unit 2 is therefore a blocked pleading_document, and the JD-CR-202 question is recorded in its dependency manifest and as a counsel flag."
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/connecticut/index.ts",
+      "src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "profileSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ct-under18-misdemeanor]",
+    "statePackNote": "The committed Connecticut state pack carries build metadata and the Nationwide inventory only. It is the source for the JD-CR-202 file identity and hash referenced by the blocked petition unit.",
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2000-01-01"
+  }
+}

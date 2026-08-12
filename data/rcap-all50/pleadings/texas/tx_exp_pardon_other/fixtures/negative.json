@@ -1,0 +1,85 @@
+{
+  "fixtureId": "tx_exp_pardon_other-negative",
+  "trackId": "tx_exp_pardon_other",
+  "configPath": "data/rcap-all50/pleadings/texas/tx_exp_pardon_other/pleading-config.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "syntheticDataNote": "All values are obviously synthetic and are never drawn from any evidence file. Names are SAMPLE/EXAMPLE strings, the county is EXAMPLE, addresses are 000-prefixed, and every date is a round synthetic value. Dates here are participant screening answers, not sourced facts; no date in this fixture is asserted by any source.",
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, TX 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "HARRIS",
+    "countyOfArrest": "HARRIS",
+    "countyOfAllegedOffence": "DALLAS",
+    "courtLevel": "district court",
+    "caseNumberOfUnderlyingCharge": "0000000",
+    "courtOfUnderlyingCharge": "Example County Criminal Court at Law No. 0",
+    "causeNumber": "2026-00000",
+    "courtIdentity": "000th Judicial District Court",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "attorneyForTheStateName": "EXAMPLE DISTRICT ATTORNEY",
+    "attorneyForTheStatePosition": "agreed and does not oppose the petition",
+    "attorneyForTheStateAddress": "000 COURTHOUSE SQUARE, EXAMPLE CITY, TX 00000",
+    "filingDate": "01/01/2026",
+    "hearingDate": "02/15/2026",
+    "serviceCompleted": "served on 01/02/2026",
+    "hearingOutcome": "granted"
+  },
+  "chargeData": {
+    "chargeDescription": "example offence",
+    "offenseGrade": "Class A misdemeanour",
+    "disposition": "Convicted, then pardoned",
+    "arrestDate": "01/01/2000",
+    "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+    "dateOffenceAllegedlyCommitted": "01/01/2000",
+    "municipalityOfArrest": "EXAMPLE CITY",
+    "statuteSection": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "arrestCounty": "EXAMPLE",
+      "arrestDate": "01/01/2000",
+      "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+      "offenceCharged": "example offence, Class A misdemeanour",
+      "caseNumberAndCourt": "[PARTICIPANT'S OWN ANSWER — CONFIRMED AGAINST THE CLERK'S FILE BEFORE FILING]",
+      "felonyFromSameTransaction": "yes",
+      "communitySupervision": "no",
+      "probationViolationArrest": "no",
+      "abscondedAfterRelease": "yes",
+      "agencyList": "[PARTICIPANT'S OWN LIST — BUILT FROM THE DISTRICT CLERK'S ART. 55A.253(c) PUBLISHED LIST; NOT SUPPLIED BY LEGALEASE]",
+      "privateEntities": "[PARTICIPANT'S OWN LIST — LISTED SEPARATELY, NEVER MERGED INTO THE AGENCY LIST]",
+      "trn": "TRN0000000",
+      "feeWaiverRequested": "no",
+      "pardonType": "commutation of sentence",
+      "pardonDate": "01/01/2010"
+    },
+    "eligibilityBasisLabel": "Eligible — entitled to expunction and the record will be sealed",
+    "waitingPeriodText": "The 3-year waiting period has run.",
+    "additionalFacts": [
+      "The Court finds that Petitioner is entitled to expunction and the records will be sealed and the arrest may be denied.",
+      "The attorney representing the State has agreed to this petition and does not oppose it.",
+      "The filing fee of $350.00 was paid to the Harris County District Clerk.",
+      "Service on all listed agencies was completed by the Petitioner on 01/02/2026.",
+      "The Court held a hearing on 02/15/2026 and granted the petition."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "03/05/1986",
+    "sex": "F",
+    "race": "W",
+    "socialSecurityNumber": "000-00-0000",
+    "driversLicenseNumber": "00000000",
+    "addressAtTimeOfArrest": "000 OLD EXAMPLE ROAD, HOUSTON, TX 00000",
+    "trn": "TRN0000000"
+  },
+  "protectedFieldsNote": "Article 55A.253(a) requires the petition to carry sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest, and the TRN must appear on the order under art. 55A.301. All of them are blank here and are never prefilled by any pipeline stage. How the largest counties handle sensitive data in a public civil expunction filing is a recorded release blocker; the participant supplies these by hand.",
+  "outsidePartyFields": null,
+  "outsidePartyFieldsNote": "Blank and never prefilled. The matter is a new civil action and receives a NEW cause number on filing, so no cause number can exist beforehand. The court sets the hearing not earlier than the 30th day after filing and the clerk serves under art. 55A.254; the participant does not serve. No position of the attorney representing the state, no service completion and no hearing outcome is ever stated.",
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. Each ground is either a prohibited term for this track or prohibited invention. (1) Prohibited terms: the output says the records 'will be sealed'. Sealing is nondisclosure under Gov't Code ch. 411, a different remedy in a different code with a different venue; a Chapter 55A pleading that uses sealing vocabulary is the wrong remedy on its face. (2) It proceeds on a COMMUTATION. The registry states in terms that a commutation, a restoration of rights or a certificate is not a pardon for these purposes, and that the document type must be confirmed before anything is generated; 'the document is not a pardon, or its type cannot be confirmed' is a recorded self-help stop condition. (3) It proceeds despite felonyFromSameTransaction = yes and abscondedAfterRelease = yes, both recorded self-help stop conditions — art. 55A.154 makes an intentional or knowing absconder ineligible and the registry states a participant may not self-identify that fact. (4) It fills court identity no source supplies: cause number, judicial district, judge name and the underlying case number and court. The matter is a NEW civil action that receives a NEW cause number on filing, so a cause number cannot exist before filing. (5) It states a position for the attorney representing the state ('agreed and does not oppose') — an outside-party act no source records and one the registry expressly treats as a self-help stop condition when the state's position is adverse. (6) It asserts service completion by the petitioner on a stated date. The CLERK serves under art. 55A.254; the participant does not serve in the ordinary case. (7) It asserts a hearing date and a hearing outcome ('the Court held a hearing and granted the petition') — court acts no packet may state. (8) It quotes a filing fee of $350.00. Article 102.006 was repealed and replaced by art. 102.0061; the district-court fee is the ordinary county civil filing fee, is not a flat statutory amount, and the county figure is an open release blocker. The registry expressly disavows the old $250-$500 range. (9) It populates every art. 55A.253(a) protected identifier — date of birth, sex, race, social security number, driver's licence number, address at the time of arrest — and the TRN, all of which must stay blank and be supplied by the participant by hand while the county sensitive-data release blocker is open. (10) It states an eligibilityBasisLabel asserting confirmed entitlement, and a Court finding, when no eligibility conclusion may be asserted. (11) It alleges a 3-year waiting period. Article 55A.004 states no waiting period; the 3-year figure belongs to the arrest-with-no-charge-filed felony track, not to this one. (12) Venue is internally inconsistent: arrest in HARRIS, alleged offence in DALLAS. 'Venue is unclear because the arrest and the alleged offence occurred in different counties' is a recorded self-help stop condition."
+}

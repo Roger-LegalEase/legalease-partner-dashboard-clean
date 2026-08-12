@@ -1,0 +1,85 @@
+{
+  "fixtureId": "ky_criminal_record_segregation-agency-letter-multiline",
+  "trackId": "ky_criminal_record_segregation",
+  "componentId": "ky_criminal_record_segregation-agency-written-request-2",
+  "unitId": "ky_seg_agency_written_request",
+  "componentPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-agency-written-request-2/agency-request-letter.md",
+  "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+  "description": "Long participant name and alias list, a long arrest description, and five agencies with long names and multi-line addresses — the case where the per-agency rule produces five letters and every address block wraps. Protected fields stay blank.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "MARIA-ANTONIETTA SAMPLE-EXAMPLE DE LA SYNTHETIC-TESTCASE, JR.",
+    "petitionerAddress": "0000 EXAMPLE BOULEVARD, APARTMENT 000, EXAMPLE CITY, KENTUCKY 00000",
+    "otherNamesUsed": "MARIA A. SAMPLE; MARIA SAMPLE-EXAMPLE; M. A. DE LA SYNTHETIC-TESTCASE; MARIA ANTONIETTA SAMPLE EXAMPLE DE LA SYNTHETIC TESTCASE"
+  },
+  "caseData": {
+    "countyName": "EXAMPLE-SYNTHETIC-LONGNAME",
+    "chargesFiled": "yes",
+    "caseNumber": "",
+    "letterDate": "",
+    "court": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": ""
+  },
+  "chargeData": {
+    "chargeDescription": "[PARTICIPANT'S OWN DESCRIPTION — SYNTHETIC LONG TEST VALUE: the participant's account of what they were arrested for, written out at length in their own words so that the paragraph wraps across several rendered lines in every one of the five letters]",
+    "arrestOffenceDescription": "[PARTICIPANT'S OWN DESCRIPTION — SYNTHETIC LONG TEST VALUE: the participant's account of what they were arrested for, written out at length in their own words so that the paragraph wraps across several rendered lines in every one of the five letters]",
+    "arrestDate": "",
+    "dispositionType": "all charges dismissed",
+    "dispositionDate": ""
+  },
+  "recipients": [
+    {
+      "agencyName": "[AGENCY 1 NAME — PARTICIPANT'S OWN ANSWER, SYNTHETIC LONG TEST VALUE: a municipal police department records division named at sufficient length to wrap]",
+      "agencyAddress": "[AGENCY 1 ADDRESS — PARTICIPANT SUPPLIES: a multi-line address with a building name, a suite number, a street, a city, a state and a postal code]"
+    },
+    {
+      "agencyName": "[AGENCY 2 NAME — PARTICIPANT'S OWN ANSWER: a county detention centre]",
+      "agencyAddress": "[AGENCY 2 ADDRESS — PARTICIPANT SUPPLIES]"
+    },
+    {
+      "agencyName": "[AGENCY 3 NAME — PARTICIPANT'S OWN ANSWER: a state police records unit]",
+      "agencyAddress": "[AGENCY 3 ADDRESS — PARTICIPANT SUPPLIES]"
+    },
+    {
+      "agencyName": "[AGENCY 4 NAME — PARTICIPANT'S OWN ANSWER: a county sheriff's office]",
+      "agencyAddress": "[AGENCY 4 ADDRESS — PARTICIPANT SUPPLIES]"
+    },
+    {
+      "agencyName": "[AGENCY 5 NAME — PARTICIPANT'S OWN ANSWER: a second municipal department that assisted with the arrest]",
+      "agencyAddress": "[AGENCY 5 ADDRESS — PARTICIPANT SUPPLIES]"
+    }
+  ],
+  "eligibilityData": {
+    "screeningAnswers": {
+      "segCounty": "EXAMPLE-SYNTHETIC-LONGNAME",
+      "segArrestDate": "",
+      "segOffence": "[PARTICIPANT'S OWN DESCRIPTION — SYNTHETIC LONG TEST VALUE, as above]",
+      "segChargesFiled": "yes",
+      "segCaseNumber": "",
+      "segDispositionType": "[PARTICIPANT'S OWN STATEMENT OF FACT — all charges dismissed — NOT SUPPLIED, DERIVED OR INFERRED BY LEGALEASE]",
+      "segDispositionDate": "",
+      "segAlreadyExpunged": "no — participant states the records are not expunged and states they are not eligible under KRS 431.076 or KRS 431.078",
+      "segAgencies": "five agencies, all named by the participant",
+      "segRoute": "written requests to each agency"
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "lettersToGenerate": 5,
+    "dispositionProofInHand": false,
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "driversLicenseNumber": "",
+    "fbiNumber": "",
+    "fingerprintIdentifier": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

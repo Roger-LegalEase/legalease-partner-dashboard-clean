@@ -1,0 +1,58 @@
+{
+  "fixtureId": "in_infraction_nondisclosure-guidance-multiline",
+  "trackId": "in_infraction_nondisclosure",
+  "componentId": "in_infraction_nondisclosure-process-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/route.json",
+  "description": "Long participant name, long alias list and a long free-text answer about how the matter ended, to exercise multi-line wrapping in the participant-facing guidance and in any later summary block. Court identity and protected fields stay blank.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "MARIA-ANTONIETTA SAMPLE-EXAMPLE DE LA SYNTHETIC-TESTCASE, JR.",
+    "petitionerAddress": "0000 EXAMPLE BOULEVARD, APARTMENT 000, EXAMPLE CITY, INDIANA 00000",
+    "otherNamesUsed": "MARIA A. SAMPLE; MARIA SAMPLE-EXAMPLE; M. A. DE LA SYNTHETIC-TESTCASE; MARIA ANTONIETTA SAMPLE EXAMPLE DE LA SYNTHETIC TESTCASE"
+  },
+  "caseData": {
+    "courtName": "",
+    "countyName": "",
+    "causeNumber": "",
+    "mcCaseType": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "infractionDescription": "",
+    "infractionClass": "",
+    "disposition": "",
+    "dispositionDate": "",
+    "citationDate": "",
+    "citingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "countyOfInfraction": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: an Indiana county]",
+      "causeNumber": "[PARTICIPANT ANSWER - SYNTHETIC LONG TEST VALUE: a cause number the participant transcribed at length from paperwork, together with a second number they are unsure about and have written out in full so that the answer wraps across several rendered lines]",
+      "infractionOutcome": "an adjudication later vacated",
+      "outcomeDate": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: the date the order vacating the adjudication became final or was certified]",
+      "wasDeferred": "no",
+      "courtAlreadyOrdered": "[PARTICIPANT ANSWER - SYNTHETIC LONG TEST VALUE: the participant's own account of what the clerk told them, written out at length, uncertain, and needing to be checked again before anything is relied on]",
+      "clerkNote": "[PARTICIPANT ANSWER - SYNTHETIC LONG TEST VALUE: a long free-text note describing two visits to the clerk's office, written out so that the guidance summary block wraps across several rendered lines and pushes following content down the page]"
+    },
+    "clerkConfirmationObtained": false,
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "driverLicenseNumber": "",
+    "stateIdNumber": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectedRouteBehaviour": "Stage 1 renders with wrapped long values. Stage 2 remains blocked."
+}

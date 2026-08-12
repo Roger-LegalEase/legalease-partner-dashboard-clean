@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "IN",
+    "name": "Indiana",
+    "slug": "indiana"
+  },
+  "jobIds": [
+    "T-C-IN-complete-composed-route"
+  ],
+  "trackIds": [
+    "in_infraction_nondisclosure"
+  ],
+  "perTrackStatus": {
+    "in_infraction_nondisclosure": {
+      "publicName": "Keeping an infraction off background checks",
+      "legalName": "Infraction Non-Disclosure under I.C. 34-28-5-15",
+      "jobId": "T-C-IN-complete-composed-route",
+      "family": "composed_route",
+      "treatment": "complete_composed_route",
+      "status": "composed_route_enumerated_with_one_blocked_pleading_unit",
+      "compositionMode": "sequential",
+      "unitCount": 2,
+      "componentCount": 2,
+      "participantInstructionUnits": 1,
+      "pleadingDocumentUnits": 1,
+      "pleadingDocumentUnitsDrafted": 0,
+      "officialFormDependencyUnits": 0,
+      "agencyRequestLetterUnits": 0,
+      "coverSheetUnits": 0,
+      "counselFlagCount": 12,
+      "blockedUnits": [
+        {
+          "unitId": "in_infraction_nondisclosure-stage-2",
+          "componentId": "in_infraction_nondisclosure-primary-filing-2",
+          "dependencyKind": "unresolved_form_question",
+          "exactMissingSource": "Determination, from the Coalition for Court Access expungement forms index at https://www.in.gov/courts/iocs/self-service/expungement/ (retrieved 2026-07-30, sha256 null), of (a) whether a statewide form exists for an I.C. 34-28-5-15 infraction non-disclosure petition and, if one does, acquisition of that current official form; and (b) how Indiana counties handle the MC case-type assignment where no cause number was assigned.",
+          "owningLane": "lane-D/E official-source acquisition and source-question closure"
+        }
+      ],
+      "blockedOfficialForms": [],
+      "artifacts": [
+        "in_infraction_nondisclosure/route.json",
+        "in_infraction_nondisclosure/participant-instructions.md",
+        "in_infraction_nondisclosure/handoff.md",
+        "in_infraction_nondisclosure/components/in_infraction_nondisclosure-process-guidance-1/process-guidance.md",
+        "in_infraction_nondisclosure/components/in_infraction_nondisclosure-process-guidance-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json"
+      ]
+    }
+  },
+  "componentCount": 2,
+  "totals": {
+    "tracks": 1,
+    "units": 2,
+    "components": 2,
+    "pleadingDocumentComponentsDrafted": 0,
+    "counselFlags": 12,
+    "fixtures": 4
+  },
+  "notes": [
+    "The compiled IN profile records nothing about this track: zero occurrences of \"34-28-5-15\" and zero of \"infraction\". The pinned registry entry is the sole enumerating source, and omissionProof in route.json records that fact rather than papering over it.",
+    "Stage 2 is a pleading unit that is blocked on a question, not on a named official form. No form is named because no source names one. If the Coalition for Court Access turns out to publish a statewide form, the unit moves to lane D/E without changing the route's unit enumeration.",
+    "No fee is charged for this route (registry rules.fees: \"None.\"), so no fee amount and no fee-waiver procedure is asserted."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+    "profileSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/indiana/index.ts",
+      "src/lib/rcap/state-packs/indiana/all50-build-metadata.ts"
+    ]
+  }
+}

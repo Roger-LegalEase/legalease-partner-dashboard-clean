@@ -1,0 +1,291 @@
+{
+  "schemaVersion": "rcap-pleading-track-config/v1",
+  "jurisdictionCode": "CT",
+  "jurisdiction": {
+    "code": "CT",
+    "name": "Connecticut",
+    "slug": "connecticut"
+  },
+  "trackId": "ct-decriminalized",
+  "jobId": "T-C-CT-production-packet",
+  "family": "controlled_pleading",
+  "treatment": "production_packet",
+  "legalName": "Petition for Physical Destruction of Records of a Decriminalized Offense, C.G.S. § 54-142d",
+  "publicName": "Ask the court to destroy records of an offense that is no longer a crime",
+  "templateGrade": "legal_ops_custom_pleading",
+  "templateLifecycle": "replacement_candidate",
+  "primaryReliefTerm": "destruction",
+  "primaryReliefTermSourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].scopeRestrictions[0] (\"The remedy here is physical destruction, not erasure.\")",
+  "documentTitleFull": "PETITION FOR PHYSICAL DESTRUCTION OF RECORDS OF A DECRIMINALIZED OFFENSE PURSUANT TO C.G.S. § 54-142d",
+  "courtCaption": "SUPERIOR COURT, {judicialDistrictOrGaLocation}",
+  "courtCaptionNote": "Token pattern. The registry records the destination as \"Superior Court, or the Judicial Department records center for older courts\". No form was located and the accepted filing practice for a § 54-142d petition is an open build blocker, so no accepted caption is asserted. No judicial district or G.A. location is prefilled.",
+  "routeDecision": {
+    "decision": "custom_pleading_drafted_with_open_build_blockers",
+    "rationale": [
+      "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading' with compositionMode null, and packetSet.components lists a single required custom_pleading primary filing with no officialFormId.",
+      "The mechanism recorded on the track states: \"No official form was located, so the filing vehicle is a custom pleading.\"",
+      "Three build blockers remain open (scope of 'decriminalized', the fee rule, accepted filing practice). They govern whether and what to file and are carried as counsel flags; they do not supply any text this artifact could have drafted, and none of them is a missing official form."
+    ],
+    "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].outputStrategy; registry@3b6f4c1:tracks[ct-decriminalized].mechanism; registry@3b6f4c1:tracks[ct-decriminalized].buildBlockers"
+  },
+  "primaryStatutoryAuthority": [
+    {
+      "citation": "C.G.S. § 54-142d",
+      "description": "Where a person was convicted of an offense that has since been decriminalized, the person may petition the Superior Court and the court shall direct the records to be physically destroyed.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].authority[0]; registry@3b6f4c1:tracks[ct-decriminalized].mechanism; registry@3b6f4c1:tracks[ct-decriminalized].officialSources[0]"
+    },
+    {
+      "citation": "State v. Menditto, 315 Conn. (2015)",
+      "description": "Recorded on the track as authority. The current scope of \"decriminalized\" after Menditto is unresolved and the case was not read in full.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].authority[1]; registry@3b6f4c1:tracks[ct-decriminalized].officialSources[1]; registry@3b6f4c1:tracks[ct-decriminalized].exclusions[0]"
+    },
+    {
+      "citation": "State v. Dudley",
+      "description": "Recorded on the track as authority. Held that § 54-142d did not compel erasure of a violation of probation finding premised on a later-decriminalized offense. Not read in full; no reporter citation is recorded on the track.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].authority[2]; registry@3b6f4c1:tracks[ct-decriminalized].exclusions[1]"
+    }
+  ],
+  "verificationStatute": {
+    "citation": null,
+    "description": "The source review does not state a notarization requirement and states no verification statute for this petition. It states only that the petitioner signs their own petition. The registry separately lists a required 'notarize' participant action, which conflicts with the stated rule. Left null and flagged rather than invented.",
+    "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.notarization; registry@3b6f4c1:tracks[ct-decriminalized].rules.participantSignature"
+  },
+  "includeProposedOrder": false,
+  "includeProposedOrderReason": "No source read for this track records a proposed order for a § 54-142d petition, and the accepted filing practice is an open build blocker. Not drafted.",
+  "includeCertificateOfService": false,
+  "includeCertificateOfServiceReason": "The source review does not state a service requirement. Not drafted.",
+  "serviceNote": "The source review does not state a service requirement.",
+  "qaProhibitedTerms": [
+    "expungement",
+    "expunge",
+    "sealing",
+    "seal",
+    "erasure",
+    "erase"
+  ],
+  "qaProhibitedTermsSourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].scopeRestrictions[0] (destruction, not erasure; separate from the cannabis erasure petition) and registry@3b6f4c1:tracks[ct-nolle-auto].scopeRestrictions (\"Connecticut says erasure. Not expungement, not sealing.\") — 'erasure' is prohibited here because it names the wrong remedy for this track, not because Connecticut avoids the word.",
+  "presentation": {
+    "sovereignPartyName": "STATE OF CONNECTICUT",
+    "sovereignPartyProper": "the State of Connecticut",
+    "sovereignRole": null,
+    "sovereignRoleNullReason": "No source read for this track labels the State's role in a § 54-142d caption. Not invented.",
+    "movantRole": "Petitioner",
+    "filingNoun": "Petition",
+    "divisionLine": "",
+    "usesCounty": false,
+    "usesCountyReason": "The recorded venue is a Superior Court location or the Judicial Department records center, not a county.",
+    "courtName": "Superior Court, or the Judicial Department records center for older courts",
+    "venueDescriptor": "The Superior Court at the location where the conviction was effected, at the location having custody of the records, or with the Judicial Department records center for older courts.",
+    "recordCustodianLead": "All police and court records and records of the state's or prosecuting attorney pertaining to such case",
+    "recordCustodianLeadSourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].recordTypes[0]; registry@3b6f4c1:tracks[ct-decriminalized].legalDesignLimitations[classification=scope_restriction].provenance.sourceStatement",
+    "verificationVerb": null,
+    "verificationVerbNullReason": "No verification or oath formula is stated. The source states only that the petitioner signs their own petition.",
+    "verificationPenaltyLabel": null,
+    "serviceRecipientLabel": null,
+    "serviceRecipientAddressLabel": null,
+    "reliefActionVerb": "physically destroy",
+    "orderActionVerb": "direct to be physically destroyed",
+    "recordsScopePhrase": "all police and court records and records of the state's or prosecuting attorney pertaining to such case",
+    "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].recordTypes[0]"
+  },
+  "counselFlags": [
+    {
+      "id": "ct-decriminalized-scope-of-decriminalized-unresolved",
+      "statement": "The current scope of \"decriminalized\" after State v. Menditto is unresolved, and it determines whether and what to file. Neither Menditto nor State v. Dudley was read in full. The eligible offense set is not stated anywhere in this artifact.",
+      "mustConfirm": "The current scope of \"decriminalized\" within the meaning of § 54-142d, before any screening branch routes a participant to this petition.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].buildBlockers[0]; registry@3b6f4c1:tracks[ct-decriminalized].exclusions"
+    },
+    {
+      "id": "ct-decriminalized-no-decriminalization-assertion",
+      "statement": "LegalEase must not assert that an offense has been decriminalized. That is the § 54-142d question and it carries case law. The petition drafts the container; the decriminalization allegation is a participant-completed item.",
+      "mustConfirm": "That the allegation paragraph is never populated from anything but the participant's own stated basis.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].scopeRestrictions[1]; registry@3b6f4c1:tracks[ct-decriminalized].manualCompletionItems[0]"
+    },
+    {
+      "id": "ct-decriminalized-fee-rule-unresolved",
+      "statement": "Whether the § 54-142a(k) fee bar reaches § 54-142d has not been established — it is a different section. No fee amount, no fee-free statement and no fee-waiver procedure is asserted anywhere in this artifact.",
+      "mustConfirm": "Whether a filing fee exists for a § 54-142d petition and whether any waiver applies.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].buildBlockers[1]; registry@3b6f4c1:tracks[ct-decriminalized].rules.fees; registry@3b6f4c1:tracks[ct-decriminalized].rules.feeWaiver"
+    },
+    {
+      "id": "ct-decriminalized-filing-practice-unresolved",
+      "statement": "The accepted filing practice for a § 54-142d petition is unresolved, including whether the Judicial Branch has any form or practice note. No form was located. The caption in this config is a token pattern, not a confirmed accepted caption.",
+      "mustConfirm": "The accepted filing practice and whether any Judicial Branch form or practice note exists for § 54-142d.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].buildBlockers[2]"
+    },
+    {
+      "id": "ct-decriminalized-remedy-is-destruction",
+      "statement": "The remedy is physical destruction of all police and court records and records of the state's or prosecuting attorney pertaining to the case — not erasure. It is a stronger outcome and it is separate from the cannabis erasure petition. Rendered output for this track must not describe the relief as erasure.",
+      "mustConfirm": "That participant copy and rendered output for this track say destruction, and that this track is never merged with the § 54-142v erasure petition.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].scopeRestrictions[0]; registry@3b6f4c1:tracks[ct-decriminalized].legalDesignLimitations[classification=scope_restriction]"
+    },
+    {
+      "id": "ct-decriminalized-dudley-vop",
+      "statement": "State v. Dudley held that § 54-142d did not compel erasure of a violation of probation finding premised on a later-decriminalized offense. A matter involving such a finding is a self-help stop condition.",
+      "mustConfirm": "That screening stops a participant whose matter involves a violation of probation finding premised on a later-decriminalized offense.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].exclusions[1]; registry@3b6f4c1:tracks[ct-decriminalized].selfHelpStopConditions[1]"
+    },
+    {
+      "id": "ct-decriminalized-service-unstated",
+      "statement": "The source review does not state a service requirement. No service is asserted and no certificate of service is drafted.",
+      "mustConfirm": "Whether a § 54-142d petition must be served on the state's or prosecuting attorney.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.service"
+    },
+    {
+      "id": "ct-decriminalized-notarization-unstated",
+      "statement": "The source review does not state a notarization requirement, yet the registry lists a participant action of kind 'notarize' marked required before filing. The conflict is unresolved, so no notarization instruction and no verification statute is asserted; verificationStatute.citation is null.",
+      "mustConfirm": "Whether a § 54-142d petition must be notarized, and under what statute it is verified.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.notarization; registry@3b6f4c1:tracks[ct-decriminalized].packetSet.participantActionRequired[kind=notarize]"
+    },
+    {
+      "id": "ct-decriminalized-notice-unstated",
+      "statement": "The source review does not state a notice requirement. No notice component is drafted.",
+      "mustConfirm": "Whether notice is required to any party or custodian before the court acts.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.notice"
+    },
+    {
+      "id": "ct-decriminalized-court-identity-blank",
+      "statement": "Court, judicial district or G.A. location, docket number, judge, prosecutor and prosecutor position are left blank in every fixture and are never prefilled. The only sourced venue rule is the § 54-142d venue text recorded on the track, which also names the Judicial Department records center for older courts.",
+      "mustConfirm": "That court identity reaches the document only through the participant's own screening answers and the Judicial Branch case look-up they obtain.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].venue; registry@3b6f4c1:tracks[ct-decriminalized].destination"
+    },
+    {
+      "id": "ct-decriminalized-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations', with four legal-design blockers open. Runtime is disabled: counsel approved the design, not the produced document.",
+      "mustConfirm": "Resolution of the four legal-design blockers plus output review, visual review and technical proof before this pleading leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].legalDesignBlockers; registry@3b6f4c1:tracks[ct-decriminalized].runtimeDisabledReason"
+    },
+    {
+      "id": "ct-decriminalized-source-freshness-gate",
+      "statement": "Both official sources recorded for this track (§ 54-142d and State v. Menditto) have sha256 null, so staleness cannot be detected. State v. Dudley is cited in the authority list with no source record at all.",
+      "mustConfirm": "Capture hashes for § 54-142d and Menditto, and record a citation and source for State v. Dudley.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].blockers[kind=source_gate]; registry@3b6f4c1:tracks[ct-decriminalized].officialSources; registry@3b6f4c1:tracks[ct-decriminalized].authority[2]"
+    }
+  ],
+  "componentInventory": [
+    {
+      "component": "caption",
+      "status": "present",
+      "note": "Token caption only. Accepted filing practice for a § 54-142d petition is an open build blocker.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].destination.name; registry@3b6f4c1:tracks[ct-decriminalized].buildBlockers[2]"
+    },
+    {
+      "component": "court_and_party_identity",
+      "status": "present",
+      "note": "Petitioner name from screening. Court, judicial district / G.A. location, docket number, OTN, judge, prosecutor and prosecutor position rendered blank and never prefilled.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].generationRequirements[key=convictionDetails]"
+    },
+    {
+      "component": "title",
+      "status": "present",
+      "note": "From the legalName recorded on the track.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].legalName"
+    },
+    {
+      "component": "allegations",
+      "status": "present",
+      "note": "Container only. The decriminalization allegation is participant-completed: whether an offense has been decriminalized is a legal question that carries case law and LegalEase does not generate the assertion.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].manualCompletionItems[0]"
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "note": "§ 54-142d plus the two cases recorded on the track. Menditto and Dudley are named as authority only; neither was read in full and neither is characterised.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].authority"
+    },
+    {
+      "component": "requested_relief",
+      "status": "present",
+      "note": "That the court direct all police and court records and records of the state's or prosecuting attorney pertaining to the case to be physically destroyed.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].mechanism; registry@3b6f4c1:tracks[ct-decriminalized].recordTypes[0]"
+    },
+    {
+      "component": "verification",
+      "status": "present_with_null_statute",
+      "note": "Signature block only; no verification statute is cited because none is stated, and the notarization rule conflicts with the listed notarize action.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.notarization"
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "note": "The petitioner signs their own petition. No LegalEase signature block.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.participantSignature"
+    },
+    {
+      "component": "proposed_order",
+      "status": "absent",
+      "reason": "No source records a proposed order for this petition, and accepted filing practice is an open build blocker.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].buildBlockers[2]"
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "absent",
+      "reason": "The source review does not state a service requirement.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.service"
+    },
+    {
+      "component": "notice",
+      "status": "absent",
+      "reason": "The source review does not state a notice requirement.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.notice"
+    },
+    {
+      "component": "affidavit",
+      "status": "absent",
+      "reason": "§ 54-142d states no affidavit or arrest-record requirement, and the registry packet set records a single primary filing and nothing else. Drafting one would be invention.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].packetSet.components"
+    },
+    {
+      "component": "participant_only_cover_sheet",
+      "status": "absent",
+      "reason": "Neither the registry entry nor the compiled profile records a cover sheet for this track.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].packetSet.components"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "note": "Participant-only. participant-instructions.md, drawn from rules.filing and packetSet.participantActionRequired. Never filed with the court.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.filing"
+    }
+  ],
+  "participantOnlyDocuments": [
+    "participant-instructions.md"
+  ],
+  "courtDocuments": [
+    {
+      "item": "Petition for Physical Destruction of Records of a Decriminalized Offense",
+      "componentId": "ct-decriminalized-primary-filing-1",
+      "drafted": true,
+      "requirement": "required"
+    }
+  ],
+  "openBuildBlockers": [
+    "The current scope of \"decriminalized\" after State v. Menditto, which determines whether and what to file. (eligibility_branch)",
+    "Whether the § 54-142a(k) fee bar reaches § 54-142d. It is a different section. (filing_process)",
+    "The accepted filing practice for a § 54-142d petition, and whether the Judicial Branch has any form or practice note. (filing_process)"
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/connecticut/index.ts",
+      "src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profileSha256": "47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ct-decriminalized]",
+    "statePackNote": "The committed Connecticut state pack carries build metadata and the Nationwide official-form/resource inventory only; it records no track-level pleading text. The compiled CT profile does not describe § 54-142d at all — it covers automatic erasure, Clean Slate, the JD-CR-202 petition, cannabis erasure and pardons. All § 54-142d content here comes from the pinned registry entry.",
+    "reviewedAsOf": "2026-07-30"
+  }
+}

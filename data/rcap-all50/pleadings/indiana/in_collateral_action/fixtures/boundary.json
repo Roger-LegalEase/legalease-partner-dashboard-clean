@@ -1,0 +1,64 @@
+{
+  "fixtureId": "in_collateral_action-boundary",
+  "trackId": "in_collateral_action",
+  "configPath": "data/rcap-all50/pleadings/indiana/in_collateral_action/pleading-config.json",
+  "description": "Statutory and procedural edges: the request is prepared the same day the original expungement order issues (the track records no waiting period - \"None. May be filed any time after\"), the collateral action is an administrative proceeding rather than a court case, it happened in a different county from the original expungement, and it has no cause number of its own, which tests the \"filed under the collateral action's cause number where possible\" qualifier. Dates and identifiers are synthetic test inputs, not asserted facts.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IN 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "",
+    "collateralActionCounty": "",
+    "collateralActionCauseNumber": "",
+    "countyName": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "collateralActionType": "administrative proceeding",
+    "chargeDescription": "",
+    "offenseLevel": "",
+    "disposition": "",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "originalExpungementCounty": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: county A, order dated the same day this request is prepared]",
+      "originalExpungementSection": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: Section 5]",
+      "collateralActionCounty": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: county B, different from the expungement county]",
+      "collateralActionCauseNumber": "none - the administrative proceeding has no cause number",
+      "collateralActionType": "administrative proceeding",
+      "relationshipToExpungedMatter": "[PARTICIPANT-AUTHORED - NOT SUPPLIED, EXPANDED OR ARGUED BY LEGALEASE]"
+    },
+    "certifiedOriginalOrderObtained": true,
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "boundaryUnderTest": [
+      "Waiting period edge: the track records \"None. May be filed any time after\" the original expungement order issues, so same-day filing is the earliest possible case.",
+      "Record-type edge: the track's recordTypes include administrative_proceeding_record, and the mechanism expressly reaches an administrative proceeding.",
+      "Venue split: the collateral action occurred in a different county from the one that granted the original expungement. Venue is the county of the collateral action; the certified order comes from the other county's clerk.",
+      "Filing edge: no cause number exists for the collateral action, which tests the \"where possible\" qualifier in the filing rule."
+    ],
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "driverLicenseNumber": "",
+    "stateIdNumber": ""
+  },
+  "attachments": [
+    "Certified copy of the original expungement order (participant obtains from the clerk of the granting county)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

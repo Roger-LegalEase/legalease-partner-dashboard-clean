@@ -1,0 +1,100 @@
+{
+  "fixtureId": "tx_exp_specialty_court-canonical",
+  "trackId": "tx_exp_specialty_court",
+  "configPath": "data/rcap-all50/pleadings/texas/tx_exp_specialty_court/pleading-config.json",
+  "description": "Case dismissed after successful completion of a veterans treatment court programme under Gov't Code ch. 124. District court, streamlined order route, inside the 30-day window. The consent of the attorney representing the state is unanswered and is never asserted. No fee. Cause number, court identity, judge, filing date, service completion and every art. 55A.253(a) protected identifier stay blank.",
+  "synthetic": true,
+  "syntheticDataNote": "All values are obviously synthetic and are never drawn from any evidence file. Names are SAMPLE/EXAMPLE strings, the county is EXAMPLE, addresses are 000-prefixed, and every date is a round synthetic value. Dates here are participant screening answers, not sourced facts; no date in this fixture is asserted by any source.",
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, TX 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "countyName": "EXAMPLE",
+    "countyOfArrest": "EXAMPLE",
+    "countyOfAllegedOffence": "EXAMPLE",
+    "courtLevel": "district court (art. 55A.203 is limited to district courts)",
+    "caseNumberOfUnderlyingCharge": "",
+    "courtOfUnderlyingCharge": "",
+    "causeNumber": "",
+    "courtIdentity": "",
+    "judgeName": "",
+    "attorneyForTheStateName": "",
+    "attorneyForTheStatePosition": "",
+    "attorneyForTheStateAddress": "",
+    "filingDate": "",
+    "hearingDate": "",
+    "serviceCompleted": "",
+    "hearingOutcome": "",
+    "prosecutorConsentGiven": "",
+    "dismissalEntered": ""
+  },
+  "chargeData": {
+    "chargeDescription": "example offence",
+    "offenseGrade": "Class A misdemeanour",
+    "disposition": "Dismissed following successful completion of the programme — the participant's own account; the dismissal is a court act and is not asserted here",
+    "arrestDate": "01/01/2024",
+    "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+    "dateOffenceAllegedlyCommitted": "01/01/2024",
+    "municipalityOfArrest": "EXAMPLE CITY",
+    "statuteSection": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "arrestCounty": "EXAMPLE",
+      "arrestDate": "01/01/2024",
+      "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+      "offenceCharged": "example offence, Class A misdemeanour",
+      "caseNumberAndCourt": "[PARTICIPANT'S OWN ANSWER — CONFIRMED AGAINST THE CLERK'S FILE]",
+      "felonyFromSameTransaction": "no",
+      "communitySupervision": "no",
+      "probationViolationArrest": "no",
+      "abscondedAfterRelease": "no",
+      "agencyList": "[PARTICIPANT'S OWN LIST — BUILT FROM THE DISTRICT CLERK'S ART. 55A.253(c) PUBLISHED LIST]",
+      "privateEntities": "[PARTICIPANT'S OWN LIST — LISTED SEPARATELY, NEVER MERGED INTO THE AGENCY LIST]",
+      "trn": "",
+      "feeWaiverRequested": "no",
+      "specialtyProgramType": "veterans treatment court programme under Government Code Chapter 124",
+      "dismissalDate": "01/01/2026",
+      "priorSpecialtyExpunction": "no",
+      "prosecutorConsentSought": "asked; no answer yet — LegalEase does not ask and cannot obtain consent"
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted. The entitlement lives in art. 55A.053; art. 55A.203 is the streamlined vehicle and depends on the state's consent, which is never asserted.",
+    "waitingPeriodText": null,
+    "waitingPeriodNote": "There is no waiting period. The constraint is a WINDOW: the order may be entered not later than the 30th day after the dismissal or after the court receives the dismissal information. It is a deadline, not a wait.",
+    "feeNote": "No fee. Article 55A.203(c) forbids the court charging any fee or assessing any cost for an order entered under the article, and art. 102.0061(d) separately requires waiver of the district-court filing fee on this entitlement.",
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "sex": "",
+    "race": "",
+    "socialSecurityNumber": "",
+    "driversLicenseNumber": "",
+    "addressAtTimeOfArrest": "",
+    "trn": ""
+  },
+  "protectedFieldsNote": "Article 55A.253(a) requires the petition to carry sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest, and the TRN must appear on the order under art. 55A.301. All of them are blank here and are never prefilled by any pipeline stage. How the largest counties handle sensitive data in a public civil expunction filing is a recorded release blocker; the participant supplies these by hand.",
+  "outsidePartyFields": {
+    "causeNumber": "",
+    "courtIdentity": "",
+    "judgeName": "",
+    "attorneyForTheStateName": "",
+    "attorneyForTheStatePosition": "",
+    "attorneyForTheStateAddress": "",
+    "filingDate": "",
+    "hearingDate": "",
+    "serviceCompleted": "",
+    "hearingOutcome": ""
+  },
+  "outsidePartyFieldsNote": "Blank and never prefilled. The matter is a new civil action and receives a NEW cause number on filing, so no cause number can exist beforehand. The court sets the hearing not earlier than the 30th day after filing and the clerk serves under art. 55A.254; the participant does not serve. No position of the attorney representing the state, no service completion and no hearing outcome is ever stated.",
+  "attachments": [
+    "Affidavit attesting to one expunction per ground (participant executes)",
+    "Information package under art. 55A.203(d)",
+    "Private-entity attachment under art. 55A.253(a)(8)(C) (participant's own list)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

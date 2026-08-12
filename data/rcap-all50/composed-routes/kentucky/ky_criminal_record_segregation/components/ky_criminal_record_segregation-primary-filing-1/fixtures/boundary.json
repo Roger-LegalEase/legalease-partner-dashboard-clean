@@ -1,0 +1,72 @@
+{
+  "fixtureId": "ky_criminal_record_segregation-primary-filing-boundary",
+  "trackId": "ky_criminal_record_segregation",
+  "componentId": "ky_criminal_record_segregation-primary-filing-1",
+  "unitId": "ky_seg_court_application",
+  "configPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/pleading-config.json",
+  "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+  "description": "The hardest structural edge on this route: NO charges were ever filed, so there is no case number and no existing case, and the venue is the court in which the matter WOULD have been tried. The registry makes segCaseNumber conditional for exactly this reason. Also exercises the both-routes answer to segRoute. Court, judge, prosecutor and protected fields stay blank.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "court": "",
+    "countyName": "EXAMPLE",
+    "caseNumber": "",
+    "chargesFiled": "no",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "[PARTICIPANT'S OWN DESCRIPTION OF WHAT THEY WERE ARRESTED FOR]",
+    "arrestOffenseDescription": "[PARTICIPANT'S OWN DESCRIPTION OF WHAT THEY WERE ARRESTED FOR]",
+    "arrestDate": "",
+    "arrestingAgency": "",
+    "dispositionType": "all charges withdrawn before any charge was filed",
+    "dispositionDate": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "segCounty": "EXAMPLE",
+      "segArrestDate": "",
+      "segOffence": "[PARTICIPANT'S OWN DESCRIPTION — NOT SUPPLIED BY LEGALEASE]",
+      "segChargesFiled": "no",
+      "segCaseNumber": "",
+      "segDispositionType": "[PARTICIPANT'S OWN STATEMENT OF FACT — the matter ended before charges were filed — NOT SUPPLIED, DERIVED OR INFERRED BY LEGALEASE]",
+      "segDispositionDate": "",
+      "segAlreadyExpunged": "no — participant states the records are not expunged and states they are not eligible under KRS 431.076 or KRS 431.078",
+      "segAgencies": "[PARTICIPANT'S OWN LIST — NOT SUPPLIED BY LEGALEASE]",
+      "segRoute": "both"
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "dispositionProofInHand": false,
+    "boundaryUnderTest": [
+      "segChargesFiled = no: no case number exists, so the conditional {caseNumberLine} must be omitted entirely and the caption must still render.",
+      "Venue edge: KRS 17.142(2) venue on the no-charges branch is 'the court in which it would have been tried', which no source resolves to a court level. presentation.courtName stays an unresolved token and the participant is told to ask the clerk.",
+      "Disposition edge: charges withdrawn rather than dismissed or acquitted — the residue KRS 431.076 does not name, and the clearest surviving use of this route under KRS 17.142(4).",
+      "segRoute = both: the registry states the two routes are independent and a participant may use both, so selecting this component must not suppress the agency-letter component.",
+      "Waiting period edge: the registry records a waiting period of 'none', so no elapsed-time value is set."
+    ],
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "driversLicenseNumber": "",
+    "fbiNumber": "",
+    "fingerprintIdentifier": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

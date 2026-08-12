@@ -1,0 +1,102 @@
+{
+  "fixtureId": "tx_nd_veterans_reemployment-no-filing-route-guidance-1-negative",
+  "trackId": "tx_nd_veterans_reemployment",
+  "unitId": "tx-nd0729-no-filing-route",
+  "componentId": "tx_nd_veterans_reemployment-no-filing-route-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/route.json",
+  "documentPath": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-no-filing-route-guidance-1/no-filing-route-guidance.md",
+  "description": "Must fail QA for this unit.",
+  "synthetic": true,
+  "syntheticDataNote": "All values are obviously synthetic and are never drawn from any evidence file. Names are SAMPLE/EXAMPLE strings, the court is an EXAMPLE court, and every date is a round synthetic value. Dates here are participant screening answers, not sourced facts.",
+  "partyData": {
+    "participantName": "JAMIE Q. SAMPLE",
+    "participantAddress": "000 EXAMPLE STREET, EXAMPLE CITY, TX 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "sentencingCourt": "EXAMPLE County Court at Law No. 0, EXAMPLE County, Texas",
+    "sentencingCourtNote": "The participant's own screening answer. Venue is the SENTENCING court, not the county of arrest.",
+    "causeNumber": "",
+    "causeNumberNote": "The participant's own screening answer, read off the discharge and dismissal order or the judgment. Blank here; never prefilled.",
+    "countyOfArrest": "[NOT RELEVANT TO VENUE ON THIS TRACK]"
+  },
+  "chargeData": {
+    "offenceAndLevel": "example offence, Class B misdemeanour",
+    "supervisionType": "deferred adjudication community supervision",
+    "completionDate": "01/01/2024"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "sentencingCourt": "EXAMPLE County Court at Law No. 0, EXAMPLE County, Texas",
+      "causeNumber": "",
+      "offenceAndLevel": "example offence, third-degree felony",
+      "supervisionType": "no community supervision; sentence served",
+      "completionDate": "01/01/2024",
+      "familyViolenceFinding": "yes — the court made an affirmative finding of family violence",
+      "priorOrSubsequentOffences": "[PARTICIPANT'S OWN LIST — CONFIRMED AGAINST THE DPS CRIMINAL HISTORY]",
+      "feeWaiverRequested": "no",
+      "veteranStatus": "no",
+      "reemploymentProgramme": "no — completed a different diversion programme",
+      "courtRequiresPetition": "no — not yet asked / court has not said it requires one"
+    },
+    "confirmAgainstDocuments": [
+      {
+        "screeningKey": "priorOrSubsequentOffences",
+        "document": "Texas DPS criminal history record",
+        "obtainedFrom": "Texas Department of Public Safety Crime Records Service",
+        "howToObtain": "DPS form CR-63, an instruction sheet rather than a form to complete.",
+        "handledByLegalEase": false
+      },
+      {
+        "screeningKey": "supervisionType",
+        "document": "The discharge and dismissal order, or the judgment and order of community supervision",
+        "obtainedFrom": "The clerk of the court that sentenced the person or placed the person on community supervision",
+        "howToObtain": "Ask the clerk for the order.",
+        "handledByLegalEase": false
+      },
+      {
+        "screeningKey": "reemploymentProgramme",
+        "document": "Record of successful completion of the veterans reemployment programme",
+        "obtainedFrom": "The court-approved programme, or the court that approved it",
+        "howToObtain": "Ask the programme or the court for confirmation of successful completion.",
+        "handledByLegalEase": false
+      }
+    ],
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted. The court decides whether issuance is in the best interest of justice.",
+    "waitingPeriodText": null,
+    "waitingPeriodNote": "None. The trigger is successful completion of the programme and of all community-supervision conditions.",
+    "feeNote": "No fee arises on the no-filing route. Nothing is filed."
+  },
+  "protectedFields": {
+    "dateOfBirth": "03/05/1986",
+    "driversLicenseNumber": "00000000",
+    "socialSecurityNumber": "000-00-0000",
+    "sid": "TX0000000"
+  },
+  "protectedFieldsNote": "Blank and never prefilled. No document is drafted on this unit, and the OCA forms the petition route uses are not drafted or filled by this lane at all.",
+  "outsidePartyFields": {
+    "hearingHeld": "yes, held 02/15/2026",
+    "hearingDate": "02/15/2026",
+    "bestInterestFinding": "the Court found issuance is in the best interest of justice",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "judgeSignature": "signed 02/15/2026",
+    "stateRequestedHearing": "no — the 45 days lapsed",
+    "prosecutorPosition": "does not oppose",
+    "orderEntered": "yes",
+    "orderDate": "02/15/2026",
+    "dpsSealedRecord": "sealed 03/01/2026",
+    "dpsNotifiedAgencies": "DPS notified the 411.075(b) agencies on 03/01/2026"
+  },
+  "outsidePartyFieldsNote": "The hearing, the best-interest-of-justice finding, the judge's signature, the state's decision whether to request a hearing within 45 days, the prosecutor's position, entry of the order, and DPS's sealing and notification acts are all court, state or agency acts. Every one is blank and none is asserted, predicted or implied.",
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail QA for this unit. Each ground is either a prohibited term for this track or prohibited invention. (1) Prohibited terms: the copy says the record will be 'expunged', 'erased' and 'destroyed' and that the participant 'may deny the matter ever happened'. Nondisclosure SEALS rather than destroys; the record remains available to the criminal justice and noncriminal justice agencies listed in Gov't Code 411.0765 — school districts, charter and private schools, education service centres, commercial transportation companies — and the person may NOT deny the matter in those contexts. Expunction is a different remedy in a different code with a different venue. (2) The offence is a felony. The section reaches a MISDEMEANOUR only; a felony is a recorded exclusion. (3) veteranStatus = no. A person who is not a veteran of the United States Armed Forces, including the reserves, national guard or state guard, is a recorded exclusion, and 'veteran status ... cannot be established' is a recorded self-help stop condition. (4) reemploymentProgramme = no. A person who did not successfully complete a court-approved veterans reemployment programme under ch. 42A subch. H-1 after committing the offence is a recorded exclusion. A different diversion programme is not that programme. (5) supervisionType is 'no community supervision'. The section reaches a misdemeanour for which the person was PLACED ON community supervision, including deferred adjudication. (6) familyViolenceFinding = yes. Any family violence finding or allegation anywhere in the record is a recorded self-help stop condition. (7) It asserts court and agency acts: that the hearing was held, that the court found issuance in the best interest of justice, that the order was entered, that the state did not request a hearing, and that DPS has sealed the record and notified the agencies. Every one is an outside-party act that must stay blank. (8) It quotes a filing fee. No fee arises on the no-filing route because nothing is filed, and on the petition route the fee is the county-specific civil filing fee — no figure may be printed. (9) It presents the OCA model petition as mandatory and as the first step. The registry directs the packet to LEAD WITH THE NO-FILING ROUTE, and the OCA documents are statewide MODEL forms, not mandatory and not promulgated. (10) It applies the Gov't Code 411.074 basic conditions as bars. Section 411.0729(b) disapplies them: the section applies regardless of whether the defendant meets the other eligibility criteria in the subchapter, and the registry records in terms that screening must not import the 411.074 bars. (11) It states that the order covers all of the participant's offences. An order of nondisclosure applies to ONE offence; multiple offences require multiple orders. (12) It sends the participant to the county of arrest. Venue is the SENTENCING court.",
+  "prohibitedCopyUnderTest": [
+    "Your record will be expunged, erased and destroyed, and you may deny the matter ever happened.",
+    "Start by filing the mandatory OCA petition. A filing fee of $300.00 is payable to the district clerk.",
+    "File in the county where you were arrested.",
+    "You do not qualify because you do not meet the Gov't Code 411.074 basic conditions.",
+    "This one order will cover all of your offences."
+  ]
+}

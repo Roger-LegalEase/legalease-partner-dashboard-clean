@@ -1,0 +1,82 @@
+{
+  "fixtureId": "il-prb-cert-stage1-orientation-0-negative",
+  "trackId": "il-prb-cert",
+  "componentId": "il-prb-cert-stage1-orientation-0",
+  "unitId": "il-prb-cert-certificate-application",
+  "jurisdictionCode": "IL",
+  "description": "Must fail QA. Every populated value below is either prohibited invention, a prohibited routing outcome, or content this component may never generate.",
+  "synthetic": true,
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "branchSelected": "il-prb-cert-military-branch",
+  "branchSelectedNote": "Wrong. The participant answered that eligibility does not rest on military service and is seeking a non-military § 5.2(e-6) expungement certificate. This is the exact fall-through the routing constraint forbids.",
+  "screeningData": {
+    "countyOfConviction": "Cook",
+    "caseNumber": "21-CR-118842",
+    "hasPrbCertificate": "No",
+    "certificateType": "expungement",
+    "offenseExcludedFromSealing": "Yes",
+    "eligibilityRestsOnMilitaryService": "No — the participant never served in the military",
+    "priorPrbPetition": "Yes — a prior petition was denied on 06/01/2024",
+    "priorClemencyPetition": "No",
+    "personalLifeHistory": "The Petitioner was born in Chicago in 1985, graduated from high school in 2003, and has been steadily employed ever since. He is married with two children and is a pillar of his community.",
+    "reasonsForSeekingCertificate": "The Petitioner has been fully rehabilitated and deserves a second chance. He has demonstrated exemplary conduct and poses no risk to the public.",
+    "offenseFactsStatement": "The Petitioner was in the wrong place at the wrong time and did not knowingly participate in the offense."
+  },
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IL 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "Cook",
+    "caseNumber": "21-CR-118842",
+    "courtName": "CIRCUIT COURT OF COOK COUNTY, FIRST MUNICIPAL DISTRICT",
+    "courtAddress": "50 W. Washington Street, Chicago, IL 60602",
+    "circuitOrDistrict": "First Municipal District",
+    "docketNumber": "21-CR-118842",
+    "otn": "0000000000",
+    "sentencingJudgeName": "HON. EXAMPLE JUDGE",
+    "chiefJudgeName": "HON. EXAMPLE CHIEF JUDGE",
+    "statesAttorneyName": "EXAMPLE STATE'S ATTORNEY",
+    "statesAttorneyPosition": "does not object"
+  },
+  "chargeData": {
+    "chargeDescription": "Aggravated battery",
+    "offenseGrade": "Class 3 felony",
+    "statuteTitle": "720 ILCS",
+    "statuteSection": "5/12-3.05",
+    "disposition": "Conviction",
+    "dispositionDate": "11/09/2015",
+    "arrestDate": "05/03/2015",
+    "arrestingAgency": "CHICAGO POLICE DEPARTMENT"
+  },
+  "supportingDocuments": {
+    "ispStatewideTranscript": "obtained and reviewed by LegalEase",
+    "certifiedDispositions": "obtained and held on file by LegalEase",
+    "prbCertificate": "LegalEase confirmed the Board will issue the certificate",
+    "dd214": "not applicable",
+    "note": "LegalEase reviewed all supporting documentation and confirmed it is sufficient."
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "Eligible — the Board will grant this certificate",
+    "waitingPeriodText": "None. You may file immediately.",
+    "additionalFacts": [
+      "The Board will issue the certificate and the circuit court will then expunge the record.",
+      "Because no non-military expungement application exists, use the military Certificate of Expungement application instead.",
+      "The Certificate of Sealing application also works for expungement, so either form is fine.",
+      "The Acknowledgement form can be sent later if it is not ready.",
+      "The filing fee for the Board is $136.",
+      "Notarisation is optional if you sign in front of a witness.",
+      "This record will be sealed automatically under the Clean Slate Act anyway, so the certificate is a formality.",
+      "The State's Attorney has been contacted and does not object."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "07/22/1985",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "IL0000000",
+    "iuclidOrIrNumber": "IR0000000"
+  },
+  "expectFailure": "Must fail QA. (1) Prohibited branch routing: eligibilityRestsOnMilitaryService is no, yet the fixture routes to the military branch. The military Certificate of Expungement is expressly military-specific and must never be presented as a general certificate-of-expungement application — this is the exact fall-through the blocked § 5.2(e-6) branch creates and the routing constraint forbids. (2) Prohibited substitution: it also says the Certificate of Sealing application works for expungement. A § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate are legally distinct and the sealing application does not cover § 5.2(e-6). (3) Prohibited composition of the rehabilitation showing: the personal life history, the reasons for seeking the certificate and the facts-of-the-offense statement are all written in LegalEase's voice, in the third person, with characterisations ('pillar of his community', 'fully rehabilitated', 'exemplary conduct', 'wrong place at the wrong time', 'did not knowingly participate'). These are participant-authored through structured prompts; LegalEase formats the participant's own words and never composes them — and they are sworn before a notary on penalty of a Class 3 felony. (4) Prohibited outcome prediction: 'Eligible — the Board will grant this certificate' and 'The Board will issue the certificate and the circuit court will then expunge the record.' Board discretion is outside LegalEase's control and no outcome is ever asserted. (5) Prohibited acknowledgement advice: 'The Acknowledgement form can be sent later.' The Board's guidelines require it with the petition or the petition is rejected and returned — this instruction would void the filing. (6) Prohibited fee figure: '$136' is a McLean County stage-2 court total, not a Board fee; no statewide schedule exists and a county fee table is an open release blocker. (7) Prohibited notarisation advice: notarisation is required — the declaration must be signed and sworn before a notary public — and it is not satisfied by a witness. (8) Prohibited Clean Slate promise: automatic sealing does not begin until January 1, 2029 and phases in through 2034; the agent must not tell a user their record will be sealed automatically before the law is active for their record. (9) Prohibited four-year-bar omission: a prior petition was denied on 06/01/2024, inside the four-year bar, and no petition will be accepted within four years of a denial unless the Chairman permits an exception — the fixture proceeds as though the bar does not exist. (10) Prohibited invention of court identity: court name, court address, district, docket number, OTN, sentencing judge and chief judge are filled; no source supplies any of them and the IL state pack forbids inventing clerk addresses. (11) Prohibited outside-party assertions: it names the State's Attorney, asserts the State's Attorney does not object, and asserts the State's Attorney was contacted. (12) Prohibited custody claims: it asserts LegalEase obtained, reviewed and holds the participant's transcript and dispositions and confirmed their sufficiency; LegalEase does not obtain, receive or inspect any of them. (13) Protected fields populated: date of birth, SSN, state ID and IR number must stay blank. (14) Prohibited timing statement: 'None. You may file immediately' ignores the 75-day receipt deadline before the first date of the hearing schedule."
+}

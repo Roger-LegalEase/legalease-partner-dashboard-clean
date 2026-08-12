@@ -1,0 +1,86 @@
+{
+ "schemaVersion": "rcap-composed-route/v1",
+ "componentId": "il-prb-cert-primary-filing-1",
+ "componentIdSource": "registry@3b6f4c1:tracks[142].packetSet.components[0].componentId",
+ "unitId": "il-prb-cert-sealing-branch",
+ "trackId": "il-prb-cert",
+ "jurisdictionCode": "IL",
+ "stage": "1 — Prisoner Review Board (agency)",
+ "role": "primary_filing",
+ "requiredOutput": "official_form_dependency",
+ "outputStrategy": "official_pdf_fill",
+ "outputStrategyStatus": "resolved",
+ "requirement": "required",
+ "conditionDescription": null,
+ "available": true,
+ "drafted": false,
+ "draftingProhibited": {
+  "prohibited": true,
+  "reason": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map. No caption, title, allegation, prayer, verification, signature block or attachment is drafted here.",
+  "sourceStatements": [
+   "registry@3b6f4c1:tracks[142].packetSet.components[0]: outputStrategy \"official_pdf_fill\", officialFormId \"PRB Certificate of Sealing Application\", role primary_filing, requirement required, order 1.",
+   "registry@3b6f4c1:tracks[142].units[1].description: \"Generate the Board's Certificate of Sealing Acknowledgement and Certificate of Sealing Application from the participant's answers. Both are fillable AcroForms published by the Board, revised 09/18/2024.\"",
+   "registry@3b6f4c1:tracks[142].legalDesignLimitations[0].provenance.sourceStatement (Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024, heading \"A) The petition\"): \"Certificate of Sealing is requested by means of a typewritten petition. You must utilize the Certificate of Sealing Application form, also located on the agency website, to request a hearing\"."
+  ]
+ },
+ "officialForms": [
+  {
+   "officialFormId": "PRB Certificate of Sealing Application",
+   "publisher": "Illinois Prisoner Review Board",
+   "revision": "09/18/2024",
+   "formType": "fillable AcroForm",
+   "corpusPath": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Application__certificate-of-sealing-application__rev-2024-09-18.pdf",
+   "corpusPathSource": "registry@3b6f4c1:tracks[142].packetSet.components[0].officialSourceUrl",
+   "publicUrl": null,
+   "publicUrlNote": "No public URL is recorded for this form. The track's officialSources array lists five sources and this form is not among them.",
+   "sha256": null,
+   "sha256Note": "No hash is recorded for this form anywhere in the pinned registry entry. See counsel flag cf-15."
+  }
+ ],
+ "owningLane": {
+  "lane": "D",
+  "scope": "Official PDF acquisition, field mapping and overlay for the Board's Certificate of Sealing Application. Lane D owns retrieving the AcroForm, enumerating its fields, mapping them to the eleven screening keys and the three participant-authored narratives, and producing the overlay sample. Lane C owns none of it."
+ },
+ "mandatoryOfficialFormHandoff": true,
+ "participantTreatment": {
+  "prefill": "screening",
+  "protectedBlank": true,
+  "outsidePartyBlank": true,
+  "prefillFields": [
+   "countyOfConviction",
+   "caseNumber",
+   "priorPrbPetition",
+   "priorClemencyPetition"
+  ],
+  "authoredByParticipant": [
+   "offenseFactsStatement — a detailed statement of the facts of the offenses, including dates, places and all surrounding circumstances, and the petitioner's own version of the offenses.",
+   "personalLifeHistory — date and place of birth, education, employment, marital status, and whether the participant served in the military.",
+   "reasonsForSeekingCertificate — why the participant is seeking this certificate."
+  ],
+  "authoredByParticipantNote": "LegalEase formats the participant's own words through structured prompts and never composes the rehabilitation showing.",
+  "manualCompletion": [
+   "Notarised perjury declaration — Application, 'Signed and sworn before me' block. Perjury is a Class 3 felony punishable by up to 10 years.",
+   "Petitioner's signature — Application, Signature of Petitioner."
+  ],
+  "protectedBlankNote": "Board hearing date, Board decision, the Chairman's four-year-bar exception, and any prediction of Board discretion are left blank.",
+  "outsidePartyBlankNote": "The notary's jurat, the sentencing or chief judge's receipt, and the State's Attorney's receipt are left blank. LegalEase does not obtain, receive or inspect the participant's transcripts, dispositions, diplomas, employment records or fingerprint-based criminal history."
+ },
+ "orderingRule": "The Certificate of Sealing Acknowledgement (component il-prb-cert-attachment-2) must be completed BEFORE this application and included with the petition, or the petition is rejected and returned.",
+ "orderingRuleSourceRef": "registry@3b6f4c1:tracks[142].legalDesignLimitations[1]; .packetInstructions[0]",
+ "filingMechanics": {
+  "sendTo": "Illinois Prisoner Review Board, 1001 North Walnut Street, Springfield, Illinois 62702",
+  "method": "Mail or deliver the original petition. Staple or clip the pages so they can be separated; do not bind them or use plastic sleeves.",
+  "deadline": "The completed petition must be received at least 75 days before the first date of the hearing schedule to be considered on that docket.",
+  "copiesTo": "A copy of the petition must be delivered or mailed to the sentencing judge, or the chief judge of the circuit if the sentencing judge is no longer on the bench, of the county of conviction, and to the current State's Attorney of that county. Proof of those deliveries must be demonstrated to the Board.",
+  "bar": "No petition will be accepted for review within four years of the denial of a prior petition for the same individual, unless the Chairman permits an exception for compelling reasons.",
+  "sourceRef": "registry@3b6f4c1:tracks[142].rules.filing; .rules.notice; .packetInstructions[3] and [4]"
+ },
+ "unresolvedForThisComponent": [
+  "No public URL and no SHA-256 is recorded for this form; staleness cannot be detected (counsel flag cf-15).",
+  "Whether the participant may be charged anything by the Board for the certificate application. The registry's fee rule for this track describes circuit clerk and ISP fees at stage 2 and states nothing about a Board fee (counsel flag cf-05)."
+ ],
+ "producesNoPacket": false,
+ "producesNoPacketNote": "The unit is packet-capable — the registry states the earlier hold rested only on the forms being absent from the corpus and that the gap is closed. What lane C produces is this dependency record plus the participant-facing orientation and instructions; the filled form itself is lane D output.",
+ "exactMissingSource": "PRB Certificate of Sealing Application — current official form from Illinois Prisoner Review Board; not acquired in this repository.",
+ "draftingProhibitedBecause": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map. No caption, title, allegation, prayer, verification, signature block or attachment is drafted here."
+}

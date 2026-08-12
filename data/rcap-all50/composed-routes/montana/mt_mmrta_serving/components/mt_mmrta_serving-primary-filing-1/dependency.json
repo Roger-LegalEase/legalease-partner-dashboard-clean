@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "rcap-official-form-dependency/v1",
+  "trackId": "mt_mmrta_serving",
+  "jurisdiction": {
+    "code": "MT",
+    "slug": "montana"
+  },
+  "componentId": "mt_mmrta_serving-primary-filing-1",
+  "componentIdSynthesized": false,
+  "unitId": "mt-mmrta-serving-form-a",
+  "role": "primary_filing",
+  "requiredOutput": "official_form_dependency",
+  "officialFormId": "MT-FORM-A",
+  "officialFormName": "MMRTA Form A — Petition for Expungement, Resentencing, or Redesignation (currently serving)",
+  "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+  "officialSourceIndex": "https://courts.mt.gov/Forms/mmrta",
+  "officialSourceUrlForForm": "https://courts.mt.gov/Forms/mmrta",
+  "sourceBinary": {
+    "fileName": "form-a.docx",
+    "relativePath": "LegalEase Montana/form-a.docx",
+    "sha256": "968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d",
+    "sizeBytes": 23777,
+    "recordedIn": "profile:packetGenerator.pathways[non-conviction-criminal-history-removal-through-criss].formCandidates; registry@3b6f4c1:tracks[mt_mmrta_serving].officialSources[3]; statePack:official-forms.ts mtOfficialForms[1]"
+  },
+  "acquisitionStatus": "binary_retained_no_field_map",
+  "drafted": false,
+  "draftingProhibitedBecause": "Adopted packet instruction on this track: “YES — STAGED OFFICIAL-FORM PACKET. OCA MMRTA Form A is expressly designed for the currently-serving posture. That posture is a scope restriction and a substantive-choice warning, not a reason to downgrade the mechanism to guidance.” The Montana state pack records the same: Montana provides official self-represented packets, so these map to official forms rather than a custom pleading.",
+  "blockingStatement": "The binary is retained and hashed, but no PDF/DOCX field map and no overlay exist for it. The Montana state pack states plainly: “no PDF field map exists yet and no renderer is wired.” Nothing can be produced from this component until the field map exists.",
+  "owningLane": "lane-D/E official-form field-map and overlay acquisition — registry implementationQueue: F_source_problem",
+  "exactMissingSource": "MMRTA Form A field map and overlay — a field-by-field map of the current Office of the Court Administrator Form A (form-a.docx, sha256 968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d) published at https://courts.mt.gov/Forms/mmrta. Also required: the AF 22-0129 Temporary Rules text, which may impose filing or service requirements not reflected on the form.",
+  "order": 1,
+  "requirement": "required",
+  "conditionDescription": null,
+  "profileCorroboration": "profile:pathways[id=marijuana-related-redesignation-expungement-under-mmrta].ruleClauses — “MMRTA Form A Currently serving sentence; request expungement or resentencing”; “The Montana Judicial Branch says Form A is for people currently serving a sentence … and each conviction needs a separate form.”",
+  "fieldsLegalEaseWouldNotFill": [
+    "The outcome election between expungement and resentencing (relief-requested section) — the participant's alone.",
+    "The free-text narrative explaining why the conviction is eligible — the participant's own words.",
+    "Any public-safety argument or assertion that relief would not pose an unreasonable risk of danger to public safety.",
+    "Any resentencing computation.",
+    "The participant's signature and date.",
+    "Court name, county, case number, judge and county attorney — taken from the participant's own screening answers and court paperwork, never prefilled from any other source.",
+    "Date of birth and any identifying numbers (protected fields)."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[0]",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+    "profileSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/montana/official-forms.ts",
+      "src/lib/rcap/state-packs/montana/filing-instructions.ts",
+      "src/lib/rcap/state-packs/montana/document-types.ts"
+    ]
+  }
+}

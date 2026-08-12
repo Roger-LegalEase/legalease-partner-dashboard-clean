@@ -1,0 +1,68 @@
+{
+ "schemaVersion": "rcap-composed-route/v1",
+ "componentId": "il-prb-cert-attachment-2",
+ "componentIdSource": "registry@3b6f4c1:tracks[142].packetSet.components[1].componentId",
+ "unitId": "il-prb-cert-sealing-branch",
+ "trackId": "il-prb-cert",
+ "jurisdictionCode": "IL",
+ "stage": "1 — Prisoner Review Board (agency)",
+ "role": "attachment",
+ "requiredOutput": "official_form_dependency",
+ "outputStrategy": "official_pdf_fill",
+ "outputStrategyStatus": "resolved",
+ "requirement": "required",
+ "conditionDescription": null,
+ "available": true,
+ "drafted": false,
+ "draftingProhibited": {
+  "prohibited": true,
+  "reason": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map.",
+  "sourceStatements": [
+   "registry@3b6f4c1:tracks[142].packetSet.components[1]: outputStrategy \"official_pdf_fill\", officialFormId \"PRB Certificate of Sealing Eligibility Acknowledgement\", role attachment, requirement required, order 2.",
+   "registry@3b6f4c1:tracks[142].legalDesignLimitations[1].provenance.sourceStatement (Illinois Prisoner Review Board, Guidelines for Certificate of Sealing, revised 09/18/2024, heading \"A) The petition\"): \"The petition must contain the Certificate of Sealing Acknowledgement Form along with all of the following or it will be rejected and returned\"."
+  ]
+ },
+ "officialForms": [
+  {
+   "officialFormId": "PRB Certificate of Sealing Eligibility Acknowledgement",
+   "publisher": "Illinois Prisoner Review Board",
+   "revision": null,
+   "revisionNote": "Published undated alongside dated 09/18/2024 application and guideline files. Whether it carries its own revision date is an open research note — counsel flag cf-04.",
+   "formType": "fillable AcroForm",
+   "corpusPath": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Sealing-Acknowledgement__eligibility-acknowledgement__source-2024.pdf",
+   "corpusPathSource": "registry@3b6f4c1:tracks[142].packetSet.components[1].officialSourceUrl",
+   "publicUrl": null,
+   "sha256": null,
+   "sha256Note": "No hash is recorded for this form anywhere in the pinned registry entry. See counsel flag cf-15."
+  }
+ ],
+ "owningLane": {
+  "lane": "D",
+  "scope": "Official PDF acquisition, field mapping and overlay for the Board's Certificate of Sealing Acknowledgement. Lane D also owns resolving the undated-revision question (cf-04) as part of source capture."
+ },
+ "mandatoryOfficialFormHandoff": true,
+ "orderingRule": "Completed BEFORE the Certificate of Sealing Application (component il-prb-cert-primary-filing-1) and included with the petition, or the petition is rejected and returned. This is the single highest-consequence ordering rule on the route: getting it wrong voids the whole stage-1 filing.",
+ "orderingRuleSourceRef": "registry@3b6f4c1:tracks[142].legalDesignLimitations[1]; .packetInstructions[0]",
+ "participantTreatment": {
+  "prefill": "screening",
+  "protectedBlank": true,
+  "outsidePartyBlank": true,
+  "prefillFields": [
+   "countyOfConviction",
+   "caseNumber"
+  ],
+  "manualCompletion": [
+   "Witness or attorney signature on the acknowledgement — Acknowledgement, Signature of Witness/Attorney. Third-party completed. LegalEase leaves it blank."
+  ],
+  "protectedBlankNote": "Board hearing date, Board decision and any prediction of Board discretion are left blank.",
+  "outsidePartyBlankNote": "The witness or attorney signature is an act of a third party and is never prefilled, never suggested and never signed on that party's behalf."
+ },
+ "unresolvedForThisComponent": [
+  "The form's own revision date. It is published undated (counsel flag cf-04).",
+  "No public URL and no SHA-256 is recorded; staleness cannot be detected (counsel flag cf-15).",
+  "Who may act as the witness on the acknowledgement, and whether an attorney is required rather than merely permitted. The registry records only the field label \"Signature of Witness/Attorney\"."
+ ],
+ "producesNoPacket": false,
+ "exactMissingSource": "PRB Certificate of Sealing Eligibility Acknowledgement — current official form from Illinois Prisoner Review Board; not acquired in this repository.",
+ "draftingProhibitedBecause": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map."
+}
