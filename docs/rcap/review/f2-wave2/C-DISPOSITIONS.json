@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "rcap-f2-wave2-lane-dispositions/v1",
+  "lane": "C",
+  "reviewer": "independent F2+F3 reviewer, lane C wave 2 (not the implementing lane)",
+  "windowId": "2026-08-12-w3",
+  "reviewBase": "a20987d1e55fc759960b05d4991b8263a63656c1",
+  "manifests": {
+    "f2": "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+    "f3": "data/rcap-all50/review-artifacts/f3-visual-review.json"
+  },
+  "atomicGroupsCommitted": [
+    "arizona"
+  ],
+  "atomicGroupsRemaining": [
+    "arkansas",
+    "california",
+    "connecticut",
+    "dc",
+    "georgia",
+    "hawaii",
+    "illinois",
+    "indiana",
+    "iowa",
+    "kansas",
+    "kentucky",
+    "maine",
+    "massachusetts",
+    "montana",
+    "nebraska",
+    "nevada",
+    "north-carolina",
+    "north-dakota",
+    "ohio",
+    "oklahoma",
+    "tennessee",
+    "texas",
+    "vermont",
+    "washington",
+    "west-virginia"
+  ],
+  "closures": [
+    {
+      "reviewId": "F2-C-arizona-az_wrongful_arrest_clearance",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AZ:az_wrongful_arrest_clearance"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "6d7cd72a5bc921bc79862b5fdd2063ff38fc4a2f0f0b9092a692fa0fae764f68"
+    }
+  ],
+  "f3Closures": [
+    {
+      "reviewId": "F3-C-arizona-az_wrongful_arrest_clearance",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AZ:az_wrongful_arrest_clearance"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "c7fd571d1dbfc7e0fdd1b83bcd16aa5f57173832b53c06a57b99a21e017eb07b"
+    }
+  ],
+  "totals": {
+    "f2": {
+      "jobs": 1,
+      "technical_approved": 1,
+      "correction_required": 0,
+      "held_on_source_or_design": 0
+    },
+    "f3": {
+      "jobs": 1,
+      "technical_approved": 1,
+      "correction_required": 0,
+      "held_on_source_or_design": 0
+    },
+    "expectedWhenComplete": {
+      "f2": 60,
+      "f3": 44,
+      "states": 26
+    }
+  }
+}
