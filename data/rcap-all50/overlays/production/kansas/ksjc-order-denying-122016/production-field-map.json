@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ksjc-order-denying-122016",
+  "mapKind": "acroform_name_binding",
+  "promotedFrom": {
+    "committedDraft": "docs/record-clearing/field-map-drafts/all50/kansas-legalease-kansas-order-denying-expungement-of-conviction-or-diversion-122016.field-map-draft.json",
+    "draftNote": "The committed draft carried no recoverable AcroForm names (dirty_acroform raw inspection); bindings are promoted against the field census extracted from the committed shadow-batch sample of the same source binary.",
+    "committedSample": "tmp/official-pdf-shadow-batch/all50/kansas-legalease-kansas-order-denying-expungement-of-conviction-or-diversion-122016-sample.pdf"
+  },
+  "sourceBinary": {
+    "fileName": "Order Denying Expungement of Conviction or Diversion 122016.pdf",
+    "relativePath": "LegalEase Kansas/Order Denying Expungement of Conviction or Diversion 122016.pdf",
+    "sha256": "b29254fb58433d496041c185fc69ec864ba1beff1e5e9722738c3b1ebedfe2ba"
+  },
+  "participantFactVocabulary": {
+    "source": "src/lib/rcap-engine/compiled/profiles/KS-*.json (questions[].id + packetGenerator.requiredInputs)",
+    "questionIds": [
+      "ownership_scope",
+      "jurisdiction_scope",
+      "case_outcome",
+      "offense_level",
+      "possible_pathway_context",
+      "financial_obligations",
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id"
+    ]
+  },
+  "renderRule": "Renderer populates ONLY the bindings below. Every other census field is listed in neverPopulate or manualParticipantFields and must remain empty at render time.",
+  "bindings": [
+    {
+      "field": "DISTRICT COURT OF",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "county"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Case No",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "case_identifier"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    }
+  ],
+  "manualParticipantFields": [
+    "IN THE",
+    "Supreme Court Number",
+    "NamePrint",
+    "Address 1",
+    "Address 2",
+    "City State Zip",
+    "Telephone",
+    "Fax Number",
+    "Email Address"
+  ],
+  "neverPopulate": [
+    {
+      "field": "On this",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "day of",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "20",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "The State appears by",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "The petitioner appears",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "pro se",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Attorneys name if any",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "undefined",
+      "class": "unused"
+    },
+    {
+      "field": "The Court",
+      "class": "protected"
+    },
+    {
+      "field": "upon agreement of the parties",
+      "class": "protected"
+    },
+    {
+      "field": "having reviewed the file",
+      "class": "protected"
+    },
+    {
+      "field": "received the evidence andor",
+      "class": "protected"
+    },
+    {
+      "field": "1  The full name of the petitioner is",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "1 was",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "3  The petitioner is a",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Race",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Sex born in",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "4  The petitioner was arrested in",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "County Kansas on",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Date by",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "the crime of",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "5 The petitioner was convicted of",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "on",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "The petitioner was granted a diversion for the crime of",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Date",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "6  The convicting court or diverting authority was",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "7  The date of final discharge was",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "undefined_2",
+      "class": "unused"
+    },
+    {
+      "field": "IT IS THEREFORE ORDERED this",
+      "class": "protected"
+    },
+    {
+      "field": "day of_2",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "20_2",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "NamePrint_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Supreme Court Number_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Address 1_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Address 2_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "City State Zip_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Telephone_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Fax Number_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Email Address_2",
+      "class": "prosecutor_or_outside_party"
+    }
+  ],
+  "overflowPolicy": {
+    "default": "shrink_to_fit down to minFontSize 6; if still overflowing, move content to a labeled addendum page and mark the field \"See attached addendum\"",
+    "hard_stop": "value exceeding the bound is a render error (identity-critical short fields such as state/zip)",
+    "must_match_dropdown_option": "value must exactly match one of the form’s dropdown options or the render fails closed"
+  }
+}

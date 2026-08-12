@@ -1,0 +1,554 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ksjc-order-denying-122016",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 51,
+  "fields": [
+    {
+      "name": "IN THE",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Judicial district number on the caption of the proposed order."
+    },
+    {
+      "name": "DISTRICT COURT OF",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Case No",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "case_identifier",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "On this",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Order/hearing date components entered by the court. Never populated."
+    },
+    {
+      "name": "day of",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Order/hearing date components entered by the court. Never populated."
+    },
+    {
+      "name": "20",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Order/hearing date components entered by the court. Never populated."
+    },
+    {
+      "name": "The State appears by",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Never populated."
+    },
+    {
+      "name": "The petitioner appears",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Appearance record made by the court. Never populated."
+    },
+    {
+      "name": "pro se",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Appearance record made by the court. Never populated."
+    },
+    {
+      "name": "Attorneys name if any",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Appearance record made by the court. Never populated."
+    },
+    {
+      "name": "undefined",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Label not recoverable from committed evidence; never populated."
+    },
+    {
+      "name": "The Court",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court findings basis. Never populated."
+    },
+    {
+      "name": "upon agreement of the parties",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court findings basis. Never populated."
+    },
+    {
+      "name": "having reviewed the file",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court findings basis. Never populated."
+    },
+    {
+      "name": "received the evidence andor",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court findings basis. Never populated."
+    },
+    {
+      "name": "1  The full name of the petitioner is",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "1 was",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "3  The petitioner is a",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "Race",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "Sex born in",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "4  The petitioner was arrested in",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "County Kansas on",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "Date by",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "the crime of",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "5 The petitioner was convicted of",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "on",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "The petitioner was granted a diversion for the crime of",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "Date",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "6  The convicting court or diverting authority was",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "7  The date of final discharge was",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Findings text inside the court’s order. Never populated by the renderer."
+    },
+    {
+      "name": "undefined_2",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Label not recoverable from committed evidence; never populated."
+    },
+    {
+      "name": "IT IS THEREFORE ORDERED this",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court disposition. Never populated."
+    },
+    {
+      "name": "day of_2",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Order/hearing date components entered by the court. Never populated."
+    },
+    {
+      "name": "20_2",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Order/hearing date components entered by the court. Never populated."
+    },
+    {
+      "name": "Supreme Court Number",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Prepared/approved-by block (petitioner side); completed manually if used."
+    },
+    {
+      "name": "NamePrint",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Prepared/approved-by block (petitioner side); completed manually if used."
+    },
+    {
+      "name": "Address 1",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Prepared/approved-by block (petitioner side); completed manually if used."
+    },
+    {
+      "name": "Address 2",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Prepared/approved-by block (petitioner side); completed manually if used."
+    },
+    {
+      "name": "City State Zip",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Prepared/approved-by block (petitioner side); completed manually if used."
+    },
+    {
+      "name": "Telephone",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Prepared/approved-by block (petitioner side); completed manually if used."
+    },
+    {
+      "name": "Fax Number",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Prepared/approved-by block (petitioner side); completed manually if used."
+    },
+    {
+      "name": "Email Address",
+      "type": "text",
+      "pages": [
+        1
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Prepared/approved-by block (petitioner side); completed manually if used."
+    },
+    {
+      "name": "NamePrint_2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Approved-by block (State side). Never populated."
+    },
+    {
+      "name": "Supreme Court Number_2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Approved-by block (State side). Never populated."
+    },
+    {
+      "name": "Address 1_2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Approved-by block (State side). Never populated."
+    },
+    {
+      "name": "Address 2_2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Approved-by block (State side). Never populated."
+    },
+    {
+      "name": "City State Zip_2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Approved-by block (State side). Never populated."
+    },
+    {
+      "name": "Telephone_2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Approved-by block (State side). Never populated."
+    },
+    {
+      "name": "Fax Number_2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Approved-by block (State side). Never populated."
+    },
+    {
+      "name": "Email Address_2",
+      "type": "text",
+      "pages": [
+        2
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Approved-by block (State side). Never populated."
+    }
+  ]
+}
