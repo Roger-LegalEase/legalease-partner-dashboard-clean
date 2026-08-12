@@ -381,13 +381,126 @@ for (const fam of index.families) {
     if (["dropdown", "optionlist", "radio"].includes(type)) { try { e.options = f.getOptions(); } catch {} }
     return e;
   });
-  const classification = census.map((c) => ({ name: c.name, type: c.type, class: classify(c.name, c.type, ownership) }));
+  // Some forms name every widget positionally — `Text Field 1`, or just `7`.
+  // The name carries no meaning, but the label the form prints beside the
+  // widget does, and that label's position is measurable. Where a name says
+  // nothing, the nearest printed text to the widget's left on the same
+  // baseline band (or immediately above it) becomes the field's effective
+  // label. Named fields are never overridden.
+  const positionalName = (n) => {
+    const s = String(n ?? "").trim();
+    return s === "" || /^\d+$/.test(s) || /^(text|field|untitled|undefined|blank|fill)\s*(field)?\s*\d*$/i.test(s);
+  };
+  const needsProximity = census.some((c) => positionalName(c.name));
+  const linesByPage = new Map();
+  if (needsProximity) {
+    for (let pi = 0; pi < pages.length; pi++) {
+      linesByPage.set(pi + 1, groupIntoLines(extractTextItems(pages[pi])).filter((l) => !CID_ENCODED.test(l.text)));
+    }
+  }
+  const proximityLabel = (widget) => {
+    if (!widget?.rect || !widget.page) return null;
+    const lines = linesByPage.get(widget.page) ?? [];
+    const { x, y, width, height } = widget.rect;
+    // Same baseline band, text ending to the left of the widget.
+    let best = null;
+    for (const line of lines) {
+      if (line.y < y - 2 || line.y > y + height) continue;
+      for (const run of line.runs) {
+        if (run.x2 > x + 1) continue;
+        if (!best || run.x2 > best.x2) best = run;
+      }
+    }
+    if (best) {
+      const chars = (lines.find((l) => l.runs.includes(best))?.chars ?? []).filter((c) => c.x + c.w <= x + 1);
+      // The label must actually abut the widget, and must stop at the first
+      // real gap. Without both bounds a boxed row hands every widget the same
+      // label, and a two-column header reads as one run-on phrase.
+      const last = chars[chars.length - 1];
+      // Distance alone is the wrong test. A caption often leads into the rule
+      // line the widget sits on ("Docket number ______"), putting 160pt of
+      // underscores between the words and the box while still plainly naming
+      // it. So a wide gap is accepted when everything bridging it is rule
+      // characters, and otherwise the label must abut the widget.
+      const tail = chars.slice(chars.findLastIndex((c) => !/[_.\s]/.test(c.c)) + 1);
+      const bridgedByRule = tail.length > 0 && tail.every((c) => /[_.\s]/.test(c.c));
+      if (last && (bridgedByRule || x - (last.x + last.w) <= 120)) {
+        // Split only on a gap far wider than a word space, so a label keeps
+        // its own words ("Defendants date of birth (required)") but does not
+        // absorb the neighbouring column's caption.
+        let start = 0;
+        for (let k = chars.length - 1; k > 0; k--) {
+          if (chars[k].x - (chars[k - 1].x + chars[k - 1].w) > 12) { start = k; break; }
+        }
+        // A label is commonly followed by the rule line the value is written
+        // on. Strip that rule before truncating, or the tail of the label is
+        // nothing but underscores.
+        const text = chars.slice(start).map((c) => c.c).join("").replace(/[_\s.]+$/, "").trim();
+        if (text.length >= 3) return text.slice(-60);
+      }
+    }
+    // Otherwise the label sits on the line directly above the widget.
+    let above = null;
+    for (const line of lines) {
+      if (line.y <= y + height || line.y > y + height + 16) continue;
+      if (line.x > x + width || line.x < x - 60) continue;
+      if (!above || line.y < above.y) above = line;
+    }
+    const aboveText = above?.text.replace(/[_\s.]+$/, "").trim() ?? "";
+    return aboveText.length >= 3 ? aboveText.slice(0, 60) : null;
+  };
+
+  // A long proximity label that names two different facts is a run-on header
+  // spanning neighbouring columns, not one field's label. It is recorded but
+  // never bound, because picking one of the two would be a guess.
+  const ambiguousLabel = (label) => {
+    if (String(label).length <= 40) return false;
+    const hay = haystack(label);
+    const hits = new Set();
+    for (const [re, target] of FACT_BINDINGS) if (re.test(hay)) hits.add(target);
+    return hits.size >= 2;
+  };
+
+  // One printed label belongs to one box. Where a row of boxes all resolve to
+  // the same caption ("NAME:" beside last, first and middle), only the box
+  // nearest that caption may claim it; the rest keep no label rather than all
+  // receiving the same value.
+  const rawLabels = new Map(census.map((c) => [c.name, positionalName(c.name) ? proximityLabel(c.widgets?.[0]) : null]));
+  const claimants = new Map();
+  for (const c of census) {
+    const label = rawLabels.get(c.name);
+    if (!label) continue;
+    const w = c.widgets?.[0];
+    const key = `${w?.page ?? 0}::${label}`;
+    const prev = claimants.get(key);
+    if (!prev || (w?.rect?.x ?? Infinity) < (prev.x ?? Infinity)) claimants.set(key, { name: c.name, x: w?.rect?.x });
+  }
+  for (const c of census) {
+    const label = rawLabels.get(c.name);
+    if (!label) continue;
+    const key = `${c.widgets?.[0]?.page ?? 0}::${label}`;
+    if (claimants.get(key)?.name !== c.name) rawLabels.set(c.name, null);
+  }
+
+  const classification = census.map((c) => {
+    const label = rawLabels.get(c.name);
+    const ambiguous = label !== null && ambiguousLabel(label);
+    const effective = ambiguous ? c.name : (label ?? c.name);
+    const entry = { name: c.name, type: c.type, class: ambiguous ? "manual" : classify(effective, c.type, ownership) };
+    if (label) {
+      entry.effectiveLabel = label;
+      entry.labelBasis = "nearest printed text measured from the page";
+      if (ambiguous) entry.labelAmbiguous = "Names more than one fact; treated as manual rather than bound to a guess.";
+    }
+    return entry;
+  });
+  const effectiveNameOf = new Map(classification.map((c) => [c.name, c.labelAmbiguous ? c.name : (c.effectiveLabel ?? c.name)]));
 
   const noFill = ownership === OWNERSHIP.INSTRUCTIONAL || ownership === OWNERSHIP.OUTSIDE_PARTY;
   const bindings = [];
   if (!noFill) {
     for (const c of classification) {
-      const target = bindingFor(c.name, c.type, c.class, ownership);
+      const target = bindingFor(effectiveNameOf.get(c.name) ?? c.name, c.type, c.class, ownership);
       if (target) bindings.push({ field: c.name, class: c.class, factId: target });
     }
   }
