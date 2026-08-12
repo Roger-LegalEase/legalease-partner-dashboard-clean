@@ -476,7 +476,9 @@ const INVENTION_SIGNALS = [
     describe: "asserts the prosecutor's or the sovereign's litigation position",
     detect: ({ text }) => {
       const m = text.match(
-        /\b(?:prosecut\w+|District\s+Attorney|Solicitor[-\s]General|Attorney\s+General|the\s+State|the\s+Government|the\s+Commonwealth|the\s+District)\b[^.\n]{0,140}?\b(?:does\s+not\s+oppose|do\s+not\s+oppose|has\s+no\s+objection|have\s+no\s+objection|consents?|consented|agrees?|agreed|stipulates?|stipulated|joins\s+in|supports\s+this|opposes\s+this)\b/i
+        // "your office" / "this office" catch the correspondence routes, where the
+        // prosecutor is the addressee and their position reads as second person.
+        /\b(?:prosecut\w+|District\s+Attorney|Solicitor[-\s]General|Attorney\s+General|the\s+State|the\s+Government|the\s+Commonwealth|the\s+District|your\s+office|this\s+office)\b[^.\n]{0,140}?\b(?:does\s+not\s+oppose|do\s+not\s+oppose|has\s+no\s+objection|have\s+no\s+objection|consents?|consented|agrees?|agreed|stipulates?|stipulated|joins\s+in|supports\s+this|opposes\s+this)\b/i
       );
       return m ? m[0].trim() : null;
     }
