@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "emptyFactSetRender": {
+    "written": 0,
+    "refused": 3,
+    "refusedFields": [
+      {
+        "anchor": "_____________________________ Court ___ County, Arizona",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.county"
+      },
+      {
+        "anchor": "Date of Birth: ___ The above-named Petitioner, pu",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.date_of_birth"
+      },
+      {
+        "anchor": "3. Court case number: ___ .",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.case_number"
+      }
+    ]
+  },
+  "refusedFields": []
+}

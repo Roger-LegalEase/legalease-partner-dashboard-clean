@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "rcap-flat_overlay-map/v5",
+  "family": "aoccrem3f-071221-source-gated-en",
+  "documentOwnership": "participant_completed",
+  "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 3,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
+  "bindings": [],
+  "bindingRefusals": [
+    {
+      "field": "anchor:Email Address: ___ Telephone Number(s):",
+      "reason": "anchor_fact_disagrees_with_label",
+      "category": null,
+      "anchorFactId": "participant.email",
+      "binderFactId": "participant.street_address"
+    }
+  ],
+  "unwritableFields": [],
+  "manualFields": [],
+  "anchorCapture": {
+    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "pages": [
+      {
+        "page": 1,
+        "lines": 35,
+        "readableLines": 35,
+        "unreadableLines": 0
+      },
+      {
+        "page": 2,
+        "lines": 42,
+        "readableLines": 42,
+        "unreadableLines": 0
+      },
+      {
+        "page": 3,
+        "lines": 10,
+        "readableLines": 10,
+        "unreadableLines": 0
+      }
+    ],
+    "anchorCount": 3,
+    "anchors": [
+      {
+        "page": 1,
+        "kind": "rule_line_blank",
+        "label": "In the Superior Court of Arizona for ___ County",
+        "factId": "matter.county",
+        "baselineY": 545.6,
+        "fontSize": 11,
+        "writeBox": {
+          "x": 258.8,
+          "y": 547.6,
+          "width": 234.4,
+          "height": 13.8
+        },
+        "measurement": {
+          "blankStartMeasured": true,
+          "blankEndMeasured": true,
+          "fromGlyphMetrics": true,
+          "namedByFollowingLine": false
+        }
+      },
+      {
+        "page": 1,
+        "kind": "rule_line_blank",
+        "label": "Date of Birth: ___ ARS § 36-2862",
+        "factId": "participant.date_of_birth",
+        "baselineY": 410.4,
+        "fontSize": 11,
+        "writeBox": {
+          "x": 138.8,
+          "y": 412.4,
+          "width": 147.2,
+          "height": 13.8
+        },
+        "measurement": {
+          "blankStartMeasured": true,
+          "blankEndMeasured": true,
+          "fromGlyphMetrics": true,
+          "namedByFollowingLine": false
+        }
+      },
+      {
+        "page": 1,
+        "kind": "rule_line_blank",
+        "label": "3. Superior court case number: ___ .",
+        "factId": "matter.case_number",
+        "baselineY": 128,
+        "fontSize": 11,
+        "writeBox": {
+          "x": 220.4,
+          "y": 130,
+          "width": 316.8,
+          "height": 13.8
+        },
+        "measurement": {
+          "blankStartMeasured": true,
+          "blankEndMeasured": true,
+          "fromGlyphMetrics": true,
+          "namedByFollowingLine": false
+        }
+      }
+    ],
+    "candidateLabelCount": 1,
+    "candidateLabels": [
+      {
+        "page": 1,
+        "label": "Mailing Address",
+        "factId": "participant.street_address",
+        "labelX": 72,
+        "baselineY": 668.8,
+        "fontSize": 11.2,
+        "writeBoxDerivable": false,
+        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+      }
+    ],
+    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+  },
+  "overflowPolicy": {
+    "longText": "shrink_to_fit_then_addendum",
+    "multiline": "wrap_within_widget_rect"
+  }
+}

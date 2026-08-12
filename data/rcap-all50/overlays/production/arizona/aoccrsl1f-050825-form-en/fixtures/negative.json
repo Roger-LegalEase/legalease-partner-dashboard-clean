@@ -1,0 +1,658 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "emptyFactSetRender": {
+    "written": 0,
+    "refused": 71,
+    "refusedFields": [
+      {
+        "field": "Reset",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Filer",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Address",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.street_address"
+      },
+      {
+        "field": "City",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.city"
+      },
+      {
+        "field": "Telephone",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.phone"
+      },
+      {
+        "field": "Check Box1",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Email",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.email"
+      },
+      {
+        "field": "AttorneyFor",
+        "reason": "protected_category",
+        "category": "attorney"
+      },
+      {
+        "field": "Bar",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Court",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "County",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.county"
+      },
+      {
+        "field": "Defendant",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "Plaintiff",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Case",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Check Box2",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "ArrestOccured",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Check Box3",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Agency",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "Check Box4",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "ProAgency",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "CourtCase",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "PetName",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "PetAddr",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "PetDOB",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.date_of_birth"
+      },
+      {
+        "field": "PetEmail",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.email"
+      },
+      {
+        "field": "PetName1",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "Charge",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.charge"
+      },
+      {
+        "field": "CourtAdj1",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "CourtAdj2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "CourtCaseNum",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.case_number"
+      },
+      {
+        "field": "Count1",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Count2",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Count3",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Count4",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Check Box5",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box6",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box7",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box8",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "ArrestLoc",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "AgencyName",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "AgencyDate",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "ProsAgency1",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "ProsAgency2",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "JusticeCourt1",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Check Box9",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "EnteredOn",
+        "reason": "protected_category",
+        "category": "clerk"
+      },
+      {
+        "field": "EnteredOn1",
+        "reason": "protected_category",
+        "category": "clerk"
+      },
+      {
+        "field": "Check Box10",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box11",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box12",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box13",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box14",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box15",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "PetDate",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Check Box16",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Check Box17",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Discharge",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Jurisdiction",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "ChargesFiled",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "DateofCharge",
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      {
+        "field": "Check Box18",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Consider1",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Consider2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Consider3",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Check Box19",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Doc1",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Doc2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Doc3",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Date",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Print",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Addr",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.street_address"
+      }
+    ]
+  },
+  "refusedFields": [
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Filer",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "AttorneyFor",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "Bar",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Plaintiff",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Case",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ArrestOccured",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Agency",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ProAgency",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "CourtCase",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "PetAddr",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "CourtAdj1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "CourtAdj2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Count1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Count2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Count3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Count4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box6",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box8",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ArrestLoc",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "AgencyName",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "AgencyDate",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ProsAgency1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ProsAgency2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "JusticeCourt1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box9",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "EnteredOn",
+      "reason": "protected_category",
+      "category": "clerk"
+    },
+    {
+      "field": "EnteredOn1",
+      "reason": "protected_category",
+      "category": "clerk"
+    },
+    {
+      "field": "Check Box10",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box11",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box12",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box13",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box14",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box15",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "PetDate",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box16",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box17",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Discharge",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Jurisdiction",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ChargesFiled",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateofCharge",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Check Box18",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Consider1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Consider2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Consider3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box19",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Doc1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Doc2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Doc3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Print",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "rcap-flat_overlay-map/v5",
+  "family": "aoccrem2f-071221-source-gated-en",
+  "documentOwnership": "participant_completed",
+  "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 3,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
+  "bindings": [],
+  "bindingRefusals": [
+    {
+      "field": "anchor:Email Address: ___ Telephone Number(s):",
+      "reason": "anchor_fact_disagrees_with_label",
+      "category": null,
+      "anchorFactId": "participant.email",
+      "binderFactId": "participant.street_address"
+    }
+  ],
+  "unwritableFields": [],
+  "manualFields": [],
+  "anchorCapture": {
+    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "pages": [
+      {
+        "page": 1,
+        "lines": 39,
+        "readableLines": 39,
+        "unreadableLines": 0
+      },
+      {
+        "page": 2,
+        "lines": 30,
+        "readableLines": 30,
+        "unreadableLines": 0
+      },
+      {
+        "page": 3,
+        "lines": 16,
+        "readableLines": 16,
+        "unreadableLines": 0
+      }
+    ],
+    "anchorCount": 3,
+    "anchors": [
+      {
+        "page": 1,
+        "kind": "rule_line_blank",
+        "label": "_____________________________ Court ___ County, Arizona",
+        "factId": "matter.county",
+        "baselineY": 545.6,
+        "fontSize": 11,
+        "writeBox": {
+          "x": 280.4,
+          "y": 547.6,
+          "width": 178.4,
+          "height": 13.8
+        },
+        "measurement": {
+          "blankStartMeasured": true,
+          "blankEndMeasured": true,
+          "fromGlyphMetrics": true,
+          "namedByFollowingLine": false
+        }
+      },
+      {
+        "page": 1,
+        "kind": "rule_line_blank",
+        "label": "Date of Birth: ___ The above-named Petitioner, pu",
+        "factId": "participant.date_of_birth",
+        "baselineY": 420,
+        "fontSize": 11,
+        "writeBox": {
+          "x": 149.2,
+          "y": 422,
+          "width": 102.4,
+          "height": 13.8
+        },
+        "measurement": {
+          "blankStartMeasured": true,
+          "blankEndMeasured": true,
+          "fromGlyphMetrics": true,
+          "namedByFollowingLine": false
+        }
+      },
+      {
+        "page": 1,
+        "kind": "rule_line_blank",
+        "label": "3. Court case number: ___ .",
+        "factId": "matter.case_number",
+        "baselineY": 102.4,
+        "fontSize": 11,
+        "writeBox": {
+          "x": 190.8,
+          "y": 104.4,
+          "width": 344.7,
+          "height": 13.8
+        },
+        "measurement": {
+          "blankStartMeasured": true,
+          "blankEndMeasured": true,
+          "fromGlyphMetrics": true,
+          "namedByFollowingLine": false
+        }
+      }
+    ],
+    "candidateLabelCount": 2,
+    "candidateLabels": [
+      {
+        "page": 1,
+        "label": "Mailing Address",
+        "factId": "participant.street_address",
+        "labelX": 72,
+        "baselineY": 668.8,
+        "fontSize": 11.2,
+        "writeBoxDerivable": false,
+        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+      },
+      {
+        "page": 1,
+        "label": "CASE Number",
+        "factId": "matter.case_number",
+        "labelX": 266.4,
+        "baselineY": 518.4,
+        "fontSize": 11.2,
+        "writeBoxDerivable": false,
+        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+      }
+    ],
+    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+  },
+  "overflowPolicy": {
+    "longText": "shrink_to_fit_then_addendum",
+    "multiline": "wrap_within_widget_rect"
+  }
+}

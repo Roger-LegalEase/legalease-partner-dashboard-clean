@@ -1,0 +1,1335 @@
+{
+  "schemaVersion": "rcap-acroform-map/v5",
+  "family": "aoccrsl1f-050825-form-en",
+  "documentOwnership": "participant_completed",
+  "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 3,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 4,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 5,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
+  "bindings": [
+    {
+      "field": "Address",
+      "class": "participant",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "City",
+      "class": "participant",
+      "factId": "participant.city"
+    },
+    {
+      "field": "Telephone",
+      "class": "participant",
+      "factId": "participant.phone"
+    },
+    {
+      "field": "Email",
+      "class": "participant",
+      "factId": "participant.email"
+    },
+    {
+      "field": "County",
+      "class": "participant",
+      "factId": "matter.county"
+    },
+    {
+      "field": "Defendant",
+      "class": "participant",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "PetName",
+      "class": "participant",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "PetDOB",
+      "class": "participant",
+      "factId": "participant.date_of_birth"
+    },
+    {
+      "field": "PetEmail",
+      "class": "participant",
+      "factId": "participant.email"
+    },
+    {
+      "field": "PetName1",
+      "class": "participant",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "Charge",
+      "class": "participant",
+      "factId": "matter.charge"
+    },
+    {
+      "field": "CourtCaseNum",
+      "class": "participant",
+      "factId": "matter.case_number"
+    },
+    {
+      "field": "Addr",
+      "class": "participant",
+      "factId": "participant.street_address"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Filer",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "ng",
+        "lineAboveWidget": "il Address",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 609,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "AttorneyFor",
+      "reason": "protected_category",
+      "category": "attorney",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Representing \u0007\u0006 Self or \u0007\u0006 Attorney for:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 589.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Bar",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Plaintiff",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "In Re the Matter of:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 312.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Case",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "COUNTY",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 474.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "(ARS § 13",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 379,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "ArrestOccured",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "bout",
+        "lineAboveWidget": "Case Number:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 711.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Agency",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": ":",
+        "lineAboveWidget": "of an arrest occurring on or about Click to enter a date by the follow",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 694.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "enfo",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 669,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "ProAgency",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": ":",
+        "lineAboveWidget": "uments created by the following prosecuting agency (Do not check this ",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 651.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "CourtCase",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": ":",
+        "lineAboveWidget": ".",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 626.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "PetAddr",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "*",
+        "lineAboveWidget": "me:*",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 508.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "CourtAdj1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": ":",
+        "lineAboveWidget": "cated the charge(s) or if charges were not filed, the court that would",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 338.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "CourtAdj2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "c.",
+        "lineAboveWidget": "adjudicated the charge(s):",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 320.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Count1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.charge"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": ":",
+        "lineAboveWidget": "e number if charge(s) were filed:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 279.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Count2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.charge"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": ":",
+        "lineAboveWidget": "ount I:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 262.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Count3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.charge"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": ":",
+        "lineAboveWidget": "ount II:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 245.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Count4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.charge"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": ":",
+        "lineAboveWidget": "ount III:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 228.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "cha",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 627,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box6",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "Count IV:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 210,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "parate page.",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 185,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box8",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "?",
+        "lineAboveWidget": "nce? \u0007\u0006 Yes  \u0007\u0006",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 165,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "ArrestLoc",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "i",
+        "lineAboveWidget": "CASE RECORD INFORMATION (if known)",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 696.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "AgencyName",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "AgencyDate",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "r",
+        "lineAboveWidget": "the arresting agency:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 661.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "ProsAgency1",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "ProsAgency2",
+      "reason": "protected_category",
+      "category": "agency",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "d. Name of the prosecuting agency if charges were filed:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 627.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "JusticeCourt1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "u",
+        "lineAboveWidget": "case number if the case was initially filed in a",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 592.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box9",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "EnteredOn",
+      "reason": "protected_category",
+      "category": "clerk",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "court_or_agency",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "g",
+        "lineAboveWidget": "missed or resulted in a not guilty ve",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 406.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "EnteredOn1",
+      "reason": "protected_category",
+      "category": "clerk",
+      "binderDecision": {
+        "writable": false,
+        "reason": "protected_category",
+        "factId": null
+      },
+      "classifiedAs": "court_or_agency",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Check Box10",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "restitution, or",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 289.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box11",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "classes, dr",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 230.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box12",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "3.  I have re",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 187.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box13",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "4.  I have be",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 127.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box14",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "1. Have you pr",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 662.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box15",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "2. Have you ha",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 595.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "PetDate",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "?",
+        "lineAboveWidget": null,
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 636.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box16",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "offense si",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 457.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box17",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "2. Are there",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 414.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Discharge",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "?",
+        "lineAboveWidget": "e you completed the non-monetar",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 552.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Jurisdiction",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "ve additional pending charges, please provide:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 371.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "ChargesFiled",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "tion:",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 355.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "DateofCharge",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "binderDecision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "factId": "matter.charge"
+      },
+      "classifiedAs": "participant",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "c",
+        "lineAboveWidget": "",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 336.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Check Box18",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "ctim requests a he",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 295.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Consider1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "4. Is there anything else you would like the court to consider regardi",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 253.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Consider2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "4. Is there anything else you would like the court to consider regardi",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 236.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Consider3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Check Box19",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "binderDecision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Doc1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "5. \u0007\u0006  Attached is other pertinent documentation (non-originals). List",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 176.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Doc2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": null,
+        "lineAboveWidget": "5. \u0007\u0006  Attached is other pertinent documentation (non-originals). List",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 159.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    },
+    {
+      "field": "Doc3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": null
+    },
+    {
+      "field": "Print",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "binderDecision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "factId": null
+      },
+      "classifiedAs": "manual",
+      "laneReviewNote": null,
+      "printedContext": {
+        "leftOfWidget": "",
+        "lineAboveWidget": "ure",
+        "basis": "text drawn by this exact sha256, read from the page content streams at measured coordinates",
+        "midY": 527.5,
+        "protectCategory": null,
+        "protectionBasis": "leftOfWidget only",
+        "lineAboveWidgetActedOn": false,
+        "usedFor": "refusal only — never for fact selection"
+      }
+    }
+  ],
+  "unwritableFields": [
+    {
+      "field": "EnteredOn",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "EnteredOn1",
+      "class": "court_or_agency"
+    }
+  ],
+  "manualFields": [
+    "Reset",
+    "Filer",
+    "Check Box1",
+    "AttorneyFor",
+    "Bar",
+    "Court",
+    "Plaintiff",
+    "Case",
+    "Check Box2",
+    "ArrestOccured",
+    "Check Box3",
+    "Agency",
+    "Check Box4",
+    "ProAgency",
+    "CourtCase",
+    "PetAddr",
+    "CourtAdj1",
+    "CourtAdj2",
+    "Check Box5",
+    "Check Box6",
+    "Check Box7",
+    "Check Box8",
+    "ArrestLoc",
+    "AgencyName",
+    "AgencyDate",
+    "ProsAgency1",
+    "ProsAgency2",
+    "JusticeCourt1",
+    "Check Box9",
+    "Check Box10",
+    "Check Box11",
+    "Check Box12",
+    "Check Box13",
+    "Check Box14",
+    "Check Box15",
+    "PetDate",
+    "Check Box16",
+    "Check Box17",
+    "Jurisdiction",
+    "Check Box18",
+    "Consider1",
+    "Consider2",
+    "Consider3",
+    "Check Box19",
+    "Doc1",
+    "Doc2",
+    "Doc3",
+    "Date",
+    "Print"
+  ],
+  "anchorCapture": null,
+  "overflowPolicy": {
+    "longText": "shrink_to_fit_then_addendum",
+    "multiline": "wrap_within_widget_rect"
+  }
+}
