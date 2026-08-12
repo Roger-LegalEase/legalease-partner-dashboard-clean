@@ -228,3 +228,65 @@ guard inside it already refuses any SHA outside the canonical integration
 branch, so landing it early authorizes nothing by itself). The moment it is
 registered, this lane dispatches `integration_sha=5987870ca0d70ea4437d0711c430b9eda299a0ef`
 and completes digest, pull-by-digest, and runtime proof.
+
+## PUBLICATION COMPLETE (2026-08-12) — immutable digest recorded
+
+```json
+{
+  "environment": "publication-only",
+  "publicationTimestamp": "2026-08-12T02:29:47Z",
+  "workflowRunId": 31556968201,
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/31556968201",
+  "workflowConclusion": "success",
+  "mainRegistrationSha": "0e8c21d3f03fff725c99860a1e4b122dad2f6b06",
+  "workflowSha256": "53a746405b5405651fe3fc259ea2a2acafb22b112065e5231506161a4ee43f0f",
+  "sourceSha": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
+  "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
+  "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
+  "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+  "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
+  "imageTag": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
+  "immutableRegistryDigest": "sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
+  "packageVisibility": "private",
+  "mutableLatestTagCreated": false,
+  "publishOnlyNoDeploy": true,
+  "workerClaimingStarted": false,
+  "stagingAndProductionUnchanged": true,
+  "pullByDigestFromThisSandbox": "unauthorized (private package; no packages:read credential exists here by design)",
+  "stagingHostPullRequirement": "a GHCR token with packages:read on rcap-render-worker",
+  "runtimeProofAtFreezeInputs": {
+    "unconfiguredStartup": "exit 2 with clear config error",
+    "liveness": "health=healthy after first HEALTHCHECK interval",
+    "readiness": "polling banner; queue-age check is the operational readiness signal",
+    "gracefulShutdown": "docker stop returned in 0.091s, exit 0, stop events logged",
+    "tempHygiene": "/tmp/rcap-render-scratch empty",
+    "secretScan": "no unexpected env vars beyond the sandbox CA marker; zero .env/.pem/.key/credentials files"
+  }
+}
+```
+
+Chain of proof for source-to-digest correspondence:
+
+1. `WORKER_SOURCE_FREEZE_SHA=5987870ca0d70ea4437d0711c430b9eda299a0ef`
+   verified in canonical ancestry; the repository's fingerprint verifier ran
+   green from a clean checkout at that SHA, independently recomputing all
+   seven image-input hashes.
+2. The workflow (bytes on `main` at `0e8c21d3` hash-identical to the freeze
+   SHA's copy, `53a74640…`) validated the full SHA, proved canonical
+   ancestry on the runner, detached to the exact SHA, and recorded
+   Dockerfile/lockfile hashes that match the fingerprint record and this
+   lane's independent computation exactly.
+3. The runner built and pushed exactly one full-SHA tag and the registry
+   minted `sha256:337083a2…` (OCI manifest digest, linux/amd64), captured
+   in both the run log and the uploaded publication artifact
+   (artifact 9126345943, zip sha256 `b9d77e91…`).
+4. Runtime behavior of those exact build inputs proven by the local
+   clean-checkout battery above. Pull-by-digest re-verification of the
+   registry bytes is one command wherever a `packages:read` credential
+   exists (the future staging host requirement) — this sandbox correctly
+   holds none, and the artifact-blob CDN is likewise egress-blocked here.
+
+No deployment occurred; no worker was started; no claiming was enabled;
+staging and production are unchanged. The digest above is the input
+Terminal A3 needs for the staging authorization block.
