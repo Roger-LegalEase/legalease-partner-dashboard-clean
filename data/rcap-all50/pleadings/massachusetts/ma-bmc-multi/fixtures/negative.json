@@ -1,19 +1,46 @@
 {
   "fixtureId": "ma-bmc-multi-negative",
-  "description": "Negative fixture: the eligibility basis uses the prohibited Massachusetts term 'expungement' interchangeably with sealing. QA must fail on the prohibited-term gate (Massachusetts copy must never use sealing and expungement interchangeably).",
+  "fixtureKind": "invented_content_negative",
+  "description": "NEGATIVE FIXTURE — THE CONTENT BELOW IS DELIBERATELY INVENTED AND MUST BE REJECTED. The eligibility basis retains the prohibited Massachusetts vocabulary error (sealing and expungement used interchangeably) so the QA prohibited-term gate is still exercised, and eligibilityData.additionalFacts and caseData now add the violations QA cannot see. Under G.L. c. 276, § 100C the substantial-justice determination is the judge's, and Commonwealth v. Pon makes the good-cause narrative the participant's own work, not a conclusion the packet may recite; the Amended Standing Order No. 1-09 preliminary hearing, public notice and final hearing are court-run steps that have not happened at filing; the source identifies no fee and no fee waiver; service is 'per the Standing Order' with no certificate component, so completed service cannot be asserted; the District Attorney's position is unknown; and the per-case dockets, OTN, judge, DOB and SSN belong on the participant's own attached schedule or nowhere. This fixture asserts all of them, plus a fabricated G.L. c. 276, § 100Q. runPleadingQa PASSES invented content of this kind — it checks relief vocabulary, template grade/lifecycle and the footer only.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:hearing_outcome",
+    "invention:fee_amount",
+    "invention:prosecutor_position",
+    "invention:service_completed",
+    "invention:unsourced_citation",
+    "protected_field:populated",
+    "qa"
+  ],
   "expectedQaFailureSubstring": "expungement",
   "partyData": {
-    "petitionerName": "JANE DOE"
+    "petitionerName": "JANE DOE",
+    "petitionerAddress": "45 Sample Street, Apartment 2, Boston, MA 02118"
   },
   "caseData": {
-    "countyName": "Central"
+    "countyName": "Central",
+    "docketNumber": "1901CR000123",
+    "otn": "MA0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "24 Sample Courthouse Way, Boston, MA 02108"
   },
   "chargeData": {
     "chargeDescription": "three synthetic sample non-conviction cases",
-    "disposition": "Dismissed (synthetic)"
+    "disposition": "Dismissed (synthetic)",
+    "arrestDate": "various dates listed on the attached schedule",
+    "arrestingAgency": "the agencies identified on the attached schedule (synthetic)"
   },
   "eligibilityData": {
-    "eligibilityBasisLabel": "expungement of the listed records (WRONG VOCABULARY: sealing and expungement used interchangeably)"
+    "eligibilityBasisLabel": "expungement of the listed records (WRONG VOCABULARY: sealing and expungement used interchangeably)",
+    "additionalFacts": [
+      "INVENTED — the § 100C substantial-justice determination and the Pon weighing, both of which are the judge's: This Court finds that substantial justice would best be served by sealing each of the listed records and that the Pon factors weigh in Petitioner's favour.",
+      "INVENTED — Standing Order hearings that have not happened at filing: A hearing was held on 02/10/2026 after public notice, and the Court granted this Petition as to all listed records.",
+      "INVENTED — a fee where the source identifies none: Petitioner paid the $50.00 consolidated filing fee to the Clerk-Magistrate at the time of filing.",
+      "INVENTED — the District Attorney's position, which is unknown: The District Attorney does not oppose sealing and has agreed that the listed records should be sealed.",
+      "INVENTED — service recited as done where the source records no certificate component: Service was completed on the Commissioner of Probation and on each Clerk-Magistrate on 02/01/2026.",
+      "INVENTED — fabricated authority: Relief is further authorized by G.L. c. 276, § 100Q, which governs consolidated sealing petitions.",
+      "INVENTED — protected fields belonging to the court and to outside parties: Petitioner's date of birth: 07/22/1985; Petitioner's social security number: 123-45-6789."
+    ]
   },
   "productName": "LegalEase RCAP",
   "shadowMode": true
