@@ -15,7 +15,8 @@
     "MD/ME/MN/MO",
     "MT/NC/ND/NE",
     "NH/NJ/NY/OH/OK",
-    "TN/TX/UT/VA"
+    "TN/TX/UT/VA",
+    "VT/WI/WV"
   ],
   "evidenceRule": "Every closure's evidenceSha is the manifest's packetSha256, recomputed by this reviewer from `git show a20987d1:<packet path>` and matched before review. The tip at branch point differs from the review base only by data/rcap-all50/review-artifacts/f2-wave2-dispatch.json, so reviewed working-tree bytes are the review-base bytes.",
   "committedAuthorityUniverse": [
@@ -658,11 +659,101 @@
       "owner": "Terminal B",
       "note": "Authority traced to VA.memo.json (actual-innocence expungement; ancillary-matter pointer va_seal_ancillary_matter_only resolves); parity, payment suppression and elements verified with no defect.",
       "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570"
+    },
+    {
+      "reviewId": 64,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VT:vt_diversion_post_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VT.memo.json (post-charge diversion sealing, 2-year/30-day/10-day clocks, VCIC official record fee); parity, payment suppression (do-not-buy copy is anti-sale) and elements verified with no defect.",
+      "evidenceSha": "8297578721398e098cb281a42d7242998b59a4d4c700df7c320fcb1a209fe298"
+    },
+    {
+      "reviewId": 65,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VT:vt_diversion_pre_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VT.memo.json (pre-charge diversion, 1 July 2025 applicability, Valcour exemption); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8297578721398e098cb281a42d7242998b59a4d4c700df7c320fcb1a209fe298"
+    },
+    {
+      "reviewId": 66,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WI:wi_def_961_47"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WI.memo.json (§ 961.47 conditional discharge; DOJ fingerprint-removal cross-track pointer resolves; DJ-LE-250B and DOJ background-check official fee carried); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fb9d86ca81b9d9470280a539fc52bea572f0dd15c1e9fe97cdf6f28098b0c833"
+    },
+    {
+      "reviewId": 67,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WI:wi_exp_certificate_of_discharge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WI.memo.json (§ 973.015 certificate-of-discharge route, 20-day clerk notice, once-per-person limit, Matasek/Arberry/Braunschweig/Leitner line, DOT carve-out; follow-up cross-track pointer resolves); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fb9d86ca81b9d9470280a539fc52bea572f0dd15c1e9fe97cdf6f28098b0c833"
+    },
+    {
+      "reviewId": 68,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_common_nc_procedure"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WV.memo.json (common non-conviction procedure, 60-day/30-day clocks, $200/$100 official fees); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    },
+    {
+      "reviewId": 69,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_dui_test_and_lock_dismissal"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WV.memo.json (test-and-lock DUI dismissal expungement); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    },
+    {
+      "reviewId": 70,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_multiple_misdemeanors"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the deferral doc names the track and states the two exact carried release blockers (multi-county forum under § 61-11-26(a)(1) vs the (d) grouping proviso; severance of an excluded conviction vs § 61-11-26(i)(4) summary denial), each carried by WV.memo.json release_blocker unresolvedQuestions; participant copy delivers the elements. Two minors, action-neutral: timing.en/es imports the single-misdemeanor entry's sentence calling the SCA-C900 ten-day/30-day reply-window discrepancy 'one of the two reasons this route is on hold', contradicting the entry's own stopReason (which correctly names forum and severance) — the discrepancy is a shared additional hold recorded on wv_conv_single_misdemeanor as applying here too, so reword the count; and authority[9] states the severance point as settled where the release blocker treats it as open — qualify it.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    },
+    {
+      "reviewId": 71,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_nonviolent_felony"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: § 61-11-26(p)(5)'s two court-found limbs are stated as findings for the circuit court, not statements a self-help service makes, exactly as the memo carries; participant copy delivers the elements with settled timing and exact destinations.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    },
+    {
+      "reviewId": 72,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_single_misdemeanor"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the operative-form question across the five published Judiciary forms and the SCA-C900 staleness/reply-window discrepancy are stated exactly and carried by WV.memo.json; participant copy delivers the elements and does not read as 'coming soon'.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
     }
   ],
   "totals": {
-    "tracksReviewed": 63,
-    "technical_approved": 50,
+    "tracksReviewed": 72,
+    "technical_approved": 59,
     "correction_required": 13,
     "held_on_source_or_design": 0
   }

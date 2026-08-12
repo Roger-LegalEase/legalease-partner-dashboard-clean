@@ -141,13 +141,27 @@
 | 62 | `VA:va_auto_seal_without_order` | technical_approved | Authority traced to VA.memo.json; the do-not-pay-anyone copy is payment-suppressing, not payment-suggesting; parity and elements verified with no defect.. |
 | 63 | `VA:va_exp_actual_innocence` | technical_approved | Authority traced to VA.memo.json (actual-innocence expungement; ancillary-matter pointer va_seal_ancillary_matter_only resolves); parity, payment suppression and elements verified with no defect.. |
 
+### Group 8: VT/WI/WV
+
+| # | Track | Outcome | Summary |
+|---|---|---|---|
+| 64 | `VT:vt_diversion_post_charge` | technical_approved | Authority traced to VT.memo.json (post-charge diversion sealing, 2-year/30-day/10-day clocks, VCIC official record fee); parity, payment suppression (do-not-buy copy is anti-sale) and elements verified with no defect.. |
+| 65 | `VT:vt_diversion_pre_charge` | technical_approved | Authority traced to VT.memo.json (pre-charge diversion, 1 July 2025 applicability, Valcour exemption); parity, payment suppression and elements verified with no defect.. |
+| 66 | `WI:wi_def_961_47` | technical_approved | Authority traced to WI.memo.json (§ 961.47 conditional discharge; DOJ fingerprint-removal cross-track pointer resolves; DJ-LE-250B and DOJ background-check official fee carried); parity, payment suppression and elemen.... |
+| 67 | `WI:wi_exp_certificate_of_discharge` | technical_approved | Authority traced to WI.memo.json (§ 973.015 certificate-of-discharge route, 20-day clerk notice, once-per-person limit, Matasek/Arberry/Braunschweig/Leitner line, DOT carve-out; follow-up cross-track pointer resolves).... |
+| 68 | `WV:wv_common_nc_procedure` | technical_approved | Authority traced to WV.memo.json (common non-conviction procedure, 60-day/30-day clocks, $200/$100 official fees); parity, payment suppression and elements verified with no defect.. |
+| 69 | `WV:wv_dui_test_and_lock_dismissal` | technical_approved | Authority traced to WV.memo.json (test-and-lock DUI dismissal expungement); parity, payment suppression and elements verified with no defect.. |
+| 70 | `WV:wv_conv_multiple_misdemeanors` | technical_approved | exact_supported_deferral verified: the deferral doc names the track and states the two exact carried release blockers (multi-county forum under § 61-11-26(a)(1) vs the (d) grouping proviso; severance of an excluded co.... |
+| 71 | `WV:wv_conv_nonviolent_felony` | technical_approved | exact_supported_deferral verified: § 61-11-26(p)(5)'s two court-found limbs are stated as findings for the circuit court, not statements a self-help service makes, exactly as the memo carries; participant copy deliver.... |
+| 72 | `WV:wv_conv_single_misdemeanor` | technical_approved | exact_supported_deferral verified: the operative-form question across the five published Judiciary forms and the SCA-C900 staleness/reply-window discrepancy are stated exactly and carried by WV.memo.json; participant .... |
+
 Full defect statements, byte evidence and acceptance conditions are in `B-DISPOSITIONS.json` (the notes are the normative text; this table is a summary).
 
 ## Totals
 
 | Outcome | Tracks |
 |---|---:|
-| technical_approved | 50 |
+| technical_approved | 59 |
 | correction_required | 13 |
 | held_on_source_or_design | 0 |
-| **Total reviewed** | **63** |
+| **Total reviewed** | **72** |
