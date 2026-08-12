@@ -8,6 +8,70 @@ This is not an official court form.
 
 ---
 
+## Official-form deferrals / Formularios oficiales aplazados
+
+### English
+
+**County petition and proposed order.** This packet does not include the
+county-specific petition or proposed order for a Penal Code section 851.90
+arrest sealing. The recorded source identifies county-specific forms, but this
+packet has not confirmed a current statewide form or any current local set. Ask
+the clerk or self-help center for the superior court that handled your diversion
+or deferred entry of judgment which local forms apply, and obtain both current
+forms there. Also ask that destination for the filing
+location, fee, notarization rule, notice method, and any deadline. Do not guess
+those details or use a dismissal, set-aside, or different arrest-sealing form as
+a substitute.
+
+**FW-001 fee-waiver request.** This packet also does not include Judicial
+Council form FW-001. The available information does not establish that this
+filing has a fee. First ask that same handling-court clerk whether a fee applies.
+Only if there is a fee you cannot pay should you obtain the current FW-001 and
+follow the court's instructions. Do not invent a fee amount, assume filing is
+free, add an unconfirmed companion order, or prefill financial-eligibility
+answers.
+
+**Your Briefcase, payment, and credits.** Your answers, case details, guidance,
+and documents already added remain saved in your Briefcase. The current county
+petition and order, the court's local filing answers, and—only if needed—the
+current FW-001 remain outstanding. Save the forms and the clerk's answers in
+the same Briefcase item, then return there to continue. Nothing is charged for
+either missing form, no payment screen is offered for them, no packet credit is
+used, and no partner credit is consumed.
+
+### Español
+
+**Petición y orden propuesta del condado.** Este paquete no incluye la petición
+ni la orden propuesta específicas del condado para sellar un arresto conforme a
+la sección 851.90 del Código Penal. La fuente registrada identifica formularios
+específicos de cada condado, pero este paquete no ha confirmado un formulario
+estatal vigente ni ningún juego local vigente. Pregunte al secretario o centro de
+ayuda del tribunal superior que tramitó su programa de desviación o acuerdo de
+entrada de fallo diferido qué formularios locales corresponden y obtenga allí
+ambos formularios vigentes. Pregunte también por el lugar de presentación, la tarifa, la notarización, la
+forma de aviso y cualquier plazo. No adivine esos datos ni use como sustituto un
+formulario de desestimación, anulación u otro tipo de sellado de arresto.
+
+**Solicitud de exención FW-001.** Este paquete tampoco incluye el formulario
+FW-001 del Consejo Judicial. La información disponible no establece que esta
+presentación tenga una cuota. Primero pregunte al mismo secretario del tribunal
+que tramitó el asunto si existe una tarifa. Solo si hay una cuota que no puede
+pagar, obtenga el FW-001 vigente
+y siga las instrucciones del tribunal. No invente un monto, suponga que la
+presentación es gratuita, agregue una orden complementaria no confirmada ni
+complete por anticipado las respuestas económicas.
+
+**Su Briefcase, pagos y créditos.** Sus respuestas, datos del caso, guía y
+documentos ya agregados permanecen guardados en su Briefcase. Aún faltan la
+petición y orden vigentes del condado, las respuestas locales del tribunal y,
+solo si corresponde, el FW-001 actual. Guarde los formularios y las respuestas
+del secretario en el mismo elemento de su Briefcase y vuelva allí para
+continuar. No se cobra por ninguno de los formularios ausentes, no se ofrece
+una pantalla de pago, no se usa crédito de paquete y no se consume crédito de
+socio.
+
+---
+
 ## Before you start: what this is, and what it is not
 
 This asks the judge to order your **arrest records sealed**. It is not a
@@ -19,9 +83,10 @@ party, or on the court's own motion. Notice must go to all parties.
 
 Whether the judge grants it is up to the judge.
 
-**California has no statewide form for this.** Each county publishes its own
-petition and order. We are not choosing a form for you, because we have not
-collected or approved a local form set for any county.
+**The recorded source identifies county-specific forms.** This packet has not
+confirmed a current statewide form or a current local petition-and-order set.
+We are not choosing a form for you because the applicable current local set
+must first be confirmed.
 
 ---
 

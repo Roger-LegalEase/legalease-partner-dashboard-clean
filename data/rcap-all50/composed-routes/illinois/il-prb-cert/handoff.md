@@ -102,3 +102,37 @@ Owning lane: **D**, contingent on **F** first. The track's `implementationQueue`
 Unit enumeration comes entirely from the pinned registry entry — see `route.json` → `omissionProof`. The state pack supplies the fee-variability posture, the sealing-versus-expungement vocabulary rule, the Clean Slate warning, the RAP-sheet step, the safety disclaimer and the no-invented-addresses rule. The profile supplies the stage-2 suite enumeration, the ISP Access-and-Review record-gathering step, the fee narrative, the terminology and the copy guardrails.
 
 Build-first internal review material. Not approved for live use.
+
+## Dependency-deferral correction candidate
+
+Candidate status: `candidate_ready_for_independent_review`
+
+All six assigned dependency components now carry
+`candidateDisposition: exact_supported_deferral`, bilingual non-substitute
+treatment, a supported Board or circuit-court destination, packet-absence
+language, full Briefcase preservation/outstanding/return behavior, payment
+suppression, and zero packet/partner credit use:
+
+- `components/il-prb-cert-primary-filing-1/deferral-treatment.json` and
+  `fixtures/canonical.json` — PRB Certificate of Sealing Application.
+- `components/il-prb-cert-attachment-2/deferral-treatment.json` and
+  `fixtures/canonical.json` — PRB Certificate of Sealing Eligibility
+  Acknowledgement, preserving the acknowledgement-first rule and third-party
+  signature gap.
+- `components/il-prb-cert-primary-filing-3/deferral-treatment.json` and
+  `fixtures/canonical.json` — military Certificate of Expungement Application,
+  with military-only routing preserved.
+- `components/il-prb-cert-attachment-4/deferral-treatment.json` and
+  `fixtures/canonical.json` — military Eligibility Acknowledgement, preserving
+  the unresolved revision and ordering rule.
+- `components/il-prb-cert-nonmilitary-expungement-6/deferral-treatment.json`
+  and `fixtures/canonical.json` — non-military section 5.2(e-6) vehicle, naming
+  the Board while preserving the exact absence of an identified accepted
+  application or other vehicle.
+- `components/il-prb-cert-primary-filing-5/deferral-treatment.json` and
+  `fixtures/canonical.json` — statewide EXP-AD Request, with the circuit of
+  conviction destination and participant-held Board certificate preserved.
+
+Every treatment pins its unchanged dependency hash and assignment hash
+`d78251fd9f0741f0f080dcebb73f229f3fc8b259568ae422d11db0ffbc9a141a`.
+This candidate status records only the dependency-deferral correction evidence.

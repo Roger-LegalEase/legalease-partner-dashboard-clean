@@ -44,3 +44,24 @@ The build blocker (DESPP form and manner); two release blockers (stale SPBI fees
 - `src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts` (DPS-0846-C file identity and hash), `src/lib/rcap/state-packs/connecticut/index.ts`
 - `src/lib/rcap-engine/compiled/profiles/CT-connecticut.json` (sha256 `47a86bd5edec245949664a3302aecd1d077bafe11dad2876d866158c7437cdb7`)
 - Pinned registry entry `tracks[trackId=ct-missed-erasure]`
+
+## Dependency-deferral correction candidate
+
+Candidate status: `candidate_ready_for_independent_review`
+
+Both assigned dependency components now carry
+`candidateDisposition: exact_supported_deferral` with substantive English and
+Spanish treatment, plain packet-absence language, exact agency destinations,
+full Briefcase handoff, payment suppression, and zero packet/partner credit use:
+
+- `components/ct-missed-erasure-spbi-record-request-0/deferral-treatment.json`
+  and `fixtures/canonical.json` — DPS-0846-C; named destination DESPP-SPBI,
+  while the current revision, form URL, fee, and request process remain explicit.
+- `components/ct-missed-erasure-despp-submission-2/deferral-treatment.json` and
+  `fixtures/canonical.json` — the section 54-142t(g) submission; named
+  destination DESPP, while the department-determined form and manner remain
+  explicit and no request vehicle is invented.
+
+Each treatment cites its assignment-pinned dependency hash and assignment hash
+`d78251fd9f0741f0f080dcebb73f229f3fc8b259568ae422d11db0ffbc9a141a`.
+This candidate status is limited to the dependency-deferral correction evidence.

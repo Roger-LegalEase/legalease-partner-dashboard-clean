@@ -37,6 +37,36 @@ Act 1460 eliminated filing fees for record sealing in Arkansas. We do not have t
 - Immigration, licensing or firearm consequences are in play.
 - You have not finished the program.
 
+## Deferrals for missing official components / Aplazamientos por componentes oficiales ausentes
+
+### English
+
+This packet does not include any of these three official components:
+
+- The absent records-request component is the “ACIC Authorization for Review of Criminal History Information” (official form ID ACIC-AUTHORIZATION-REVIEW-CRIMINAL-HISTORY) for the Arkansas veterans treatment court route.
+- The absent primary-filing component is the petition portion of “ACIC veterans treatment court petition and order pair” (official form ID ACIC-PETITION-VETERANS-COURT) for the Arkansas veterans treatment court route.
+- The absent proposed-order component is the order portion of “ACIC veterans treatment court petition and order pair” (official form ID ACIC-ORDER-VETERANS-COURT) for the Arkansas veterans treatment court route.
+
+Obtain the current versions from the Arkansas Crime Information Center (ACIC), within the Arkansas Department of Public Safety, through its [criminal-history forms index](https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Gather the authorization and resulting Arkansas criminal-history record, then the matching current veterans treatment court petition and order portions. Do not create, retype, or file substitutes for any of them. If the index does not provide an exact component, ask ACIC / the Department of Public Safety where to obtain it before proceeding. These instructions do not state an eligibility rule for this route.
+
+Your saved answers and any saved veterans treatment court documents must remain in the same Briefcase item. All three official components remain outstanding. After obtaining them, return to the saved Arkansas veterans treatment court route in your Briefcase, add them to that same item, and continue there.
+
+Checkout for these absent components must remain unavailable, and no payment may be charged for them. They may consume no packet credit and no partner packet credit.
+
+### Español
+
+Este paquete no incluye ninguno de estos tres componentes oficiales:
+
+- El componente ausente de solicitud de antecedentes es “ACIC Authorization for Review of Criminal History Information” (identificador oficial ACIC-AUTHORIZATION-REVIEW-CRIMINAL-HISTORY) para la ruta del tribunal de tratamiento para veteranos de Arkansas.
+- El componente ausente de presentación principal es la parte de la petición de “ACIC veterans treatment court petition and order pair” (identificador oficial ACIC-PETITION-VETERANS-COURT) para la ruta del tribunal de tratamiento para veteranos de Arkansas.
+- El componente ausente de orden propuesta es la parte de la orden de “ACIC veterans treatment court petition and order pair” (identificador oficial ACIC-ORDER-VETERANS-COURT) para la ruta del tribunal de tratamiento para veteranos de Arkansas.
+
+Obtenga las versiones vigentes del Arkansas Crime Information Center (ACIC), dentro del Arkansas Department of Public Safety, mediante su [índice de formularios de antecedentes penales](https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Reúna la autorización y el registro de antecedentes penales de Arkansas resultante, y después las partes correspondientes de la petición y la orden vigentes para el tribunal de tratamiento para veteranos. No cree, transcriba ni presente sustitutos para ninguno de ellos. Si el índice no proporciona un componente exacto, pregunte a ACIC / el Department of Public Safety dónde obtenerlo antes de continuar. Estas instrucciones no establecen una regla de elegibilidad para esta ruta.
+
+Sus respuestas guardadas y todo documento guardado del tribunal de tratamiento para veteranos deben permanecer en el mismo elemento de Briefcase. Los tres componentes oficiales siguen pendientes. Después de obtenerlos, regrese a la ruta del tribunal de tratamiento para veteranos de Arkansas guardada en su Briefcase, agréguelos al mismo elemento y continúe allí.
+
+La opción de pago para estos componentes ausentes debe permanecer no disponible y no se puede cobrar ningún pago por ellos. No pueden consumir ningún crédito de paquete ni crédito de paquete del socio.
+
 ---
 
 This is document-preparation help, not legal advice. It does not promise any result.

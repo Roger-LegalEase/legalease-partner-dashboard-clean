@@ -78,6 +78,42 @@ National Crime Information Center. Nobody can promise you a clean federal check.
 - Restitution is still outstanding and you are asking whether the record can be cleared anyway. It cannot.
 - Immigration consequences are in play.
 
+## Official-form deferral — English
+
+### Vermont Judiciary Form 200-00331 record check
+
+- **Missing:** Form 200-00331, Request for Criminal Record Search, revision 05/2026.
+- **Why:** The exact Vermont Judiciary form, revision, official page, and PDF are identified, but no blank official copy has been retained with a recorded file identity. This must remain the Judiciary's numbered record-search form; a custom substitute is not provided.
+- **Where and next step:** Obtain the current form at https://www.vtcourts.gov/sites/default/files/documents/200-00331%20%E2%80%93%20Request%20for%20Criminal%20Record%20Search.pdf. Ask the clerk of the Criminal Division of the Vermont Superior Court in the county that handled your case to confirm the form, submission method, and any current search, copy, or certification cost. Submit it as a record-search request, not a new filing in the criminal case.
+- **Gather:** Your own court and case records, the identifiers or documents the current Form 200-00331 and clerk actually request, and any expungement order or docket entry you already have.
+- **Do not file or assume:** Do not file this packet as Form 200-00331, create a replacement form, call it a petition, substitute a VCIC online conviction search, assume an order failed to issue merely because a record appears, state how long the court should take, or quote a cost before the clerk confirms it.
+- **Packet absence:** This packet does not include or complete Form 200-00331 and does not itself perform the record check used to see whether the expungement order issued.
+
+### Briefcase, payment, checkout, and credits
+
+- Your saved case answers and uploaded records must remain in your Briefcase. The current Form 200-00331, clerk-confirmed submission and cost information, and resulting court search must appear as outstanding.
+- Return through your Briefcase after the Criminal Division provides the search result. Save the result and any order there so the next step uses the court's actual record; do not repeat your intake.
+- You must not be charged for the absent Form 200-00331, and checkout must remain unavailable while it is outstanding. Any search, copy, or certification cost paid to the court is separate.
+- No packet credit or partner credit may be consumed for this absent form.
+
+## Aplazamiento de formulario oficial — Español
+
+### Verificación mediante el Formulario 200-00331 del Poder Judicial de Vermont
+
+- **Falta:** Formulario 200-00331, Solicitud de Búsqueda de Antecedentes Penales, revisión 05/2026.
+- **Motivo:** Se identifican el formulario exacto del Poder Judicial de Vermont, su revisión, página oficial y PDF, pero no se ha conservado una copia oficial en blanco con identidad registrada de archivo. Debe seguir siendo el formulario numerado de búsqueda del Poder Judicial; no se proporciona un sustituto personalizado.
+- **Dónde y siguiente paso:** Obtenga el formulario vigente en https://www.vtcourts.gov/sites/default/files/documents/200-00331%20%E2%80%93%20Request%20for%20Criminal%20Record%20Search.pdf. Pida al secretario de la División Penal del Tribunal Superior de Vermont en el condado que tramitó su caso que confirme el formulario, método de entrega y cualquier costo vigente de búsqueda, copia o certificación. Entréguelo como solicitud de búsqueda, no como una nueva presentación en el caso penal.
+- **Reúna:** Sus propios documentos judiciales y del caso, los identificadores o documentos que el Formulario 200-00331 vigente y el secretario realmente soliciten, y cualquier orden de cancelación o anotación que ya tenga.
+- **No presente ni suponga:** No presente este paquete como Formulario 200-00331, cree un sustituto, lo llame petición, sustituya una búsqueda en línea de VCIC, suponga que no se emitió una orden solo porque aparece un registro, indique cuánto debería tardar el tribunal ni cite un costo antes de confirmarlo.
+- **Ausencia en el paquete:** Este paquete no incluye ni completa el Formulario 200-00331 y no realiza por sí mismo la verificación usada para saber si se emitió la orden de cancelación.
+
+### Briefcase, pago, finalización de compra y créditos
+
+- Sus respuestas guardadas del caso y sus documentos cargados deben permanecer en su Briefcase. El Formulario 200-00331 vigente, la información de entrega y costos confirmada por el secretario y el resultado de la búsqueda deben aparecer como pendientes.
+- Regrese por medio de su Briefcase después de que la División Penal entregue el resultado. Guarde allí el resultado y cualquier orden para que el siguiente paso use el registro real del tribunal; no repita su entrevista inicial.
+- No se le debe cobrar por el Formulario 200-00331 ausente, y la finalización de compra debe permanecer inhabilitada mientras siga pendiente. Cualquier costo de búsqueda, copia o certificación pagado al tribunal es independiente.
+- No se puede consumir crédito de paquete ni crédito de socio por este formulario ausente.
+
 ---
 
 This is document-preparation help, not legal advice. It does not promise any result.

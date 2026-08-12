@@ -126,3 +126,15 @@ Owning lane for all five: lane-D/E official-source acquisition, identity and fie
 - Compiled profile: src/lib/rcap-engine/compiled/profiles/MT-montana.json (sha256 2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96)
 - State pack: src/lib/rcap/state-packs/montana/ — index.ts, filing-instructions.ts, official-forms.ts, pathways.ts, required-fields.ts, fee-notes.ts, document-types.ts, safety-language.ts
 - Registry reviewedAsOf: 2026-08-03; effectiveFrom: 2021-01-01; effectiveTo: null
+
+## Dependency-deferral correction candidate evidence
+
+- Candidate status: `candidate_ready_for_independent_review` **if and only if all five assigned component treatments and their canonical fixtures pass together**.
+- Candidate evidence added for:
+  - `mt_mmrta_serving-primary-filing-1` — exact Form A absence, official Montana Judicial Branch destination, missing answer placement and AF 22-0129 rules text, participant gather/do-not-file directions, and Briefcase/payment/checkout/credit treatment.
+  - `mt_mmrta_serving-certificate-of-service-2` — exact service-certificate absence, separate official file identity, county-attorney service facts left to the participant, and complete return treatment.
+  - `mt_mmrta_serving-proposed-order-3` — exact proposed-order absence, separate official file identity, all judicial findings and signature left to the court, and complete return treatment.
+  - `mt_mmrta_serving-fee-waiver-0` — exact fee-waiver absence, Montana Legal Services Association destination, noncommercial-use restriction, link-out-only direction, and protection of participant financial information.
+  - `mt_mmrta_serving-primary-filing-5` — exact CRISS request absence, Montana DOJ destination, conditional post-expungement use, and express preservation of the 2023/2024 version and attachment conflict.
+- Each component evidence file pins its committed `dependency.json` SHA-256 and the frozen assignment SHA-256; each canonical fixture expects no charge, unavailable checkout, no credit consumption, and a required Briefcase handoff.
+- Evidence gaps intentionally retained: a Form A field placement and AF 22-0129 Temporary Rules text; distinct official identities and field placements for the certificate and proposed order; commercial-reproduction permission or an unrestricted fee-waiver equivalent; CRISS packet-form treatment for the retained DOCX; and CRISS confirmation of its enforced form version and attachment set.

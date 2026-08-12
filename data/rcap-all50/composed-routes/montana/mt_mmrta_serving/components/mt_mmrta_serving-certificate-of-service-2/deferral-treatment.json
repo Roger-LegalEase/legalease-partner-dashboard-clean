@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "rcap-official-form-deferral-treatment/v1",
+  "trackId": "mt_mmrta_serving",
+  "componentId": "mt_mmrta_serving-certificate-of-service-2",
+  "unitId": "mt-mmrta-serving-certificate-of-service",
+  "role": "certificate_of_service",
+  "candidateDisposition": "exact_supported_deferral",
+  "participantTreatment": {
+    "absentComponent": {
+      "en": "The official Certificate of Service — MMRTA Petition is not included.",
+      "es": "No se incluye el Certificado de Notificación oficial — Petición MMRTA.",
+      "evidenceRefs": ["dependency-record"]
+    },
+    "specificReason": {
+      "en": "The Montana Judicial Branch certificate and proposed order are different official documents, but the retained records assign both the same identifier even though their file hashes differ. The certificate also lacks a verified field placement, so this packet cannot safely select or complete it.",
+      "es": "El certificado y la orden propuesta del Poder Judicial de Montana son documentos oficiales distintos, pero los registros conservados asignan a ambos el mismo identificador aunque sus huellas digitales difieren. El certificado tampoco cuenta con una colocación verificada de campos, por lo que este paquete no puede seleccionarlo ni completarlo de manera segura.",
+      "evidenceRefs": ["dependency-record"]
+    },
+    "destination": {
+      "name": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+      "kind": "official_resource",
+      "url": "https://courts.mt.gov/Forms/mmrta",
+      "en": "Obtain the current Certificate of Service from the Montana Judicial Branch MMRTA form set and confirm service practice with the clerk of the court where you will file.",
+      "es": "Obtenga el Certificado de Notificación vigente del conjunto de formularios MMRTA del Poder Judicial de Montana y confirme la práctica de notificación con el secretario del tribunal donde presentará.",
+      "evidenceRefs": ["dependency-record"]
+    },
+    "nextAction": {
+      "en": "Download the official certificate, ask the filing-court clerk how and when to serve the county attorney for that county, and complete the certificate only after service actually occurs.",
+      "es": "Descargue el certificado oficial, pregunte al secretario del tribunal cómo y cuándo notificar al fiscal de ese condado, y complete el certificado únicamente después de que la notificación realmente ocurra.",
+      "evidenceRefs": ["dependency-record"]
+    },
+    "gather": {
+      "en": [
+        "The exact county and court where the MMRTA petition will be filed.",
+        "The county attorney's correct office name and service address, confirmed for that county.",
+        "After service, the actual date, delivery method, recipient, and proof showing what was served."
+      ],
+      "es": [
+        "El condado y tribunal exactos donde se presentará la petición MMRTA.",
+        "El nombre correcto de la oficina y la dirección de notificación del fiscal del condado, confirmados para ese condado.",
+        "Después de notificar, la fecha real, el método de entrega, el destinatario y la constancia de lo entregado."
+      ],
+      "evidenceRefs": ["dependency-record"]
+    },
+    "doNot": {
+      "en": [
+        "Do not file this packet as if the official certificate were attached, and do not substitute a self-written certificate.",
+        "Do not state that service occurred before it did, guess a county-attorney name or address, or sign and date the certificate in advance.",
+        "Do not assume the 21-day response period or a particular service method controls without confirming the current Judicial Branch and local-court instructions."
+      ],
+      "es": [
+        "No presente este paquete como si incluyera el certificado oficial ni lo sustituya con un certificado escrito por usted.",
+        "No declare que la notificación ocurrió antes de realizarla, no adivine el nombre o dirección del fiscal del condado ni firme y feche el certificado por adelantado.",
+        "No suponga que rige el plazo de respuesta de 21 días ni un método específico de notificación sin confirmar las instrucciones vigentes del Poder Judicial y del tribunal local."
+      ],
+      "evidenceRefs": ["dependency-record"]
+    },
+    "packetAbsenceDisclosure": {
+      "en": "Your packet does not contain the official MMRTA Certificate of Service and does not prove that the county attorney has been served.",
+      "es": "Su paquete no contiene el Certificado de Notificación MMRTA oficial ni demuestra que se haya notificado al fiscal del condado.",
+      "evidenceRefs": ["captain-assignment"]
+    },
+    "briefcase": {
+      "preserved": {
+        "en": ["Your court, county, petition, and uploaded service information must remain saved in your Briefcase."],
+        "es": ["La información del tribunal, condado, petición y notificación que haya cargado debe permanecer guardada en su Briefcase."],
+        "evidenceRefs": ["captain-assignment"]
+      },
+      "outstanding": {
+        "en": ["The correctly identified official certificate, its safe field placement, and the actual post-service facts remain outstanding."],
+        "es": ["Siguen pendientes el certificado oficial correctamente identificado, la colocación segura de sus campos y los hechos reales posteriores a la notificación."],
+        "evidenceRefs": ["captain-assignment"]
+      },
+      "return": {
+        "en": "Return to this item from your Briefcase after the clerk confirms service practice and again after service so you can use the true date, method, and recipient.",
+        "es": "Regrese a este elemento desde su Briefcase después de que el secretario confirme la práctica de notificación y nuevamente después de notificar para usar la fecha, método y destinatario reales.",
+        "evidenceRefs": ["captain-assignment"]
+      }
+    },
+    "payment": {
+      "paymentAllowed": false,
+      "checkoutSuppressed": true,
+      "en": "You must not be charged for the missing Certificate of Service, and checkout must remain unavailable for this component.",
+      "es": "No se le debe cobrar por el Certificado de Notificación ausente, y el pago debe permanecer inhabilitado para este componente.",
+      "evidenceRefs": ["captain-assignment"]
+    },
+    "credit": {
+      "packetCreditConsumption": "none",
+      "partnerCreditConsumed": false,
+      "en": "This absent certificate must consume neither a packet credit nor a partner credit.",
+      "es": "Este certificado ausente no debe consumir crédito de paquete ni crédito de socio.",
+      "evidenceRefs": ["captain-assignment"]
+    },
+    "escalation": {
+      "actor": "clerk of the Montana court where the petition will be filed",
+      "en": "Ask the filing-court clerk to identify the accepted certificate and current county-attorney service method; if service is disputed or the county attorney opposes the petition, contact a Montana lawyer.",
+      "es": "Pida al secretario del tribunal donde presentará que identifique el certificado aceptado y el método vigente para notificar al fiscal del condado; si se disputa la notificación o el fiscal se opone, comuníquese con un abogado de Montana.",
+      "evidenceRefs": ["dependency-record"]
+    }
+  },
+  "authority": [
+    {
+      "citation": "Mont. Code Ann. § 16-12-113(2); Mont. Sup. Ct. AF 22-0129 Temporary Rules",
+      "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[1]; registry@3b6f4c1:tracks[mt_mmrta_serving].rules.notice / .service",
+      "supports": ["component_identity", "issuing_authority", "county_attorney_service", "participant_completion_limits"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "dependency-record",
+      "path": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json",
+      "sha256": "3da40069c673521096eb4d0f2b86a2866b771c38180d9db63efe5ddffe2ec960",
+      "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[1]; registry@3b6f4c1:tracks[mt_mmrta_serving].rules.notice / .service"
+    },
+    {
+      "id": "captain-assignment",
+      "path": "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json",
+      "sha256": "d78251fd9f0741f0f080dcebb73f229f3fc8b259568ae422d11db0ffbc9a141a",
+      "sourceRef": "routes[trackId=mt_mmrta_serving].components[componentId=mt_mmrta_serving-certificate-of-service-2]"
+    }
+  ],
+  "runtimeContract": {
+    "classification": "component_deferral",
+    "paymentAllowed": false,
+    "checkoutSuppressed": true,
+    "packetCreditConsumption": "none",
+    "partnerCreditConsumed": false,
+    "briefcaseHandoffRequired": true,
+    "requiresCaptainPatch": true
+  }
+}

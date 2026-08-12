@@ -90,3 +90,13 @@ No waiting period. No petition requirement in the section. The court holds a hea
 - Pinned registry entry `tracks[422]` (`trackId=tx_nd_veterans_reemployment`)
 
 The committed Texas state pack records build metadata and the Nationwide inventory only, and its `officialFormInventory` contains neither OCA nondisclosure form. Every filing step in `participant-instructions.md` and in both component documents comes from the track's `mechanism`, `rules`, `packetInstructions`, `packetSet.participantActionRequired`, `participantFilingRequirements`, `manualCompletionItems` and `selfHelpStopConditions`, corroborated where noted by the compiled profile's nondisclosure framing (`profile:sourceSections[1]`, `[4]`, `[8]`, `[11]`).
+
+## Dependency-deferral correction candidate evidence
+
+- Candidate status: `candidate_ready_for_independent_review` **if and only if all three assigned component treatments and their canonical fixtures pass together**.
+- Candidate evidence added for:
+  - `tx_nd_veterans_reemployment-petition-2` — exact Section 411.0729 OCA model-petition absence, OCA and sentencing-court destinations, conditional petition-route directions, current-copy/hash/field-placement gaps, and the model-not-mandatory-or-promulgated distinction.
+  - `tx_nd_veterans_reemployment-proposed-order-3` — exact Section 411.0729 OCA model-order absence, current-copy/hash/field-placement gaps, model-not-mandatory-or-promulgated distinction, unreconciled agency-list citation, and judicial terms left wholly to the court.
+  - `tx_nd_veterans_reemployment-fee-waiver-statement-4` — exact bilingual Rule 145 statement absence, Supreme Court of Texas destination, current-copy/hash/revision/field-placement gaps, and the distinct status of this form as statewide and promulgated.
+- Each component evidence file pins its committed `dependency.json` SHA-256 and the frozen assignment SHA-256; each canonical fixture expects no charge, unavailable checkout, no credit consumption, and a required Briefcase handoff.
+- Evidence gaps intentionally retained: current official copies and captured SHA-256 values for all three forms; current revision dates and verified field placements; current petition instructions; the sentencing clerk's petition-versus-no-filing direction and local service practice; and reconciliation of the model order's agency-list citation.

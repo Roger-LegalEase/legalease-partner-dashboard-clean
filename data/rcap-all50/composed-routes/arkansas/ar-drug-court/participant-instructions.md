@@ -38,6 +38,36 @@ Act 1460 eliminated filing fees for record sealing in Arkansas. We do not have t
 - You have not finished the program.
 - Getting into the program needs the prosecuting attorney to agree — that is a negotiation, and this packet cannot do it for you.
 
+## Deferrals for missing official components / Aplazamientos por componentes oficiales ausentes
+
+### English
+
+This packet does not include any of these three official components:
+
+- The absent records-request component is the “ACIC Authorization for Review of Criminal History Information” (official form ID ACIC-AUTHORIZATION-REVIEW-CRIMINAL-HISTORY) for the Arkansas drug-court sealing route.
+- The absent primary-filing component is the petition portion of “ACIC drug court pre-adjudication and post-adjudication petition and order pairs” (official form ID ACIC-PETITION-DRUG-COURT) for the Arkansas drug-court sealing route.
+- The absent proposed-order component is the order portion of “ACIC drug court pre-adjudication and post-adjudication petition and order pairs” (official form ID ACIC-ORDER-DRUG-COURT) for the Arkansas drug-court sealing route.
+
+Obtain the current versions from the Arkansas Crime Information Center (ACIC), within the Arkansas Department of Public Safety, through its [criminal-history forms index](https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Gather the authorization and resulting Arkansas criminal-history record, then the current petition and matching order portions for this drug-court route. Do not draft or file homemade substitutes, and do not treat the petition portion by itself as including the proposed order. If the index does not provide an exact component, ask ACIC / the Department of Public Safety where to obtain it before proceeding.
+
+Your saved answers and any saved drug-court route documents must remain in the same Briefcase item. All three official components remain outstanding. After obtaining them, return to the saved Arkansas drug-court route in your Briefcase, add them to that same item, and continue there.
+
+Checkout for these absent components must remain unavailable, and no payment may be charged for them. They may consume no packet credit and no partner packet credit.
+
+### Español
+
+Este paquete no incluye ninguno de estos tres componentes oficiales:
+
+- El componente ausente de solicitud de antecedentes es “ACIC Authorization for Review of Criminal History Information” (identificador oficial ACIC-AUTHORIZATION-REVIEW-CRIMINAL-HISTORY) para la ruta de sellado del tribunal de drogas de Arkansas.
+- El componente ausente de presentación principal es la parte de la petición de “ACIC drug court pre-adjudication and post-adjudication petition and order pairs” (identificador oficial ACIC-PETITION-DRUG-COURT) para la ruta de sellado del tribunal de drogas de Arkansas.
+- El componente ausente de orden propuesta es la parte de la orden de “ACIC drug court pre-adjudication and post-adjudication petition and order pairs” (identificador oficial ACIC-ORDER-DRUG-COURT) para la ruta de sellado del tribunal de drogas de Arkansas.
+
+Obtenga las versiones vigentes del Arkansas Crime Information Center (ACIC), dentro del Arkansas Department of Public Safety, mediante su [índice de formularios de antecedentes penales](https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Reúna la autorización y el registro de antecedentes penales de Arkansas resultante, y después las partes vigentes de la petición y la orden correspondiente para esta ruta del tribunal de drogas. No redacte ni presente sustitutos caseros, y no trate la parte de la petición por sí sola como si incluyera la orden propuesta. Si el índice no proporciona un componente exacto, pregunte a ACIC / el Department of Public Safety dónde obtenerlo antes de continuar.
+
+Sus respuestas guardadas y todo documento guardado de la ruta del tribunal de drogas deben permanecer en el mismo elemento de Briefcase. Los tres componentes oficiales siguen pendientes. Después de obtenerlos, regrese a la ruta del tribunal de drogas de Arkansas guardada en su Briefcase, agréguelos al mismo elemento y continúe allí.
+
+La opción de pago para estos componentes ausentes debe permanecer no disponible y no se puede cobrar ningún pago por ellos. No pueden consumir ningún crédito de paquete ni crédito de paquete del socio.
+
 ---
 
 This is document-preparation help, not legal advice. It does not promise any result.

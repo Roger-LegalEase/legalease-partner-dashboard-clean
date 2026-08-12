@@ -70,3 +70,9 @@ Stage 1 stays guidance. Scope restriction on this track: "The prerequisite event
 - Compiled profile: src/lib/rcap-engine/compiled/profiles/AR-arkansas.json (sha256 2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3)
 - State pack: src/lib/rcap/state-packs/arkansas/index.ts, src/lib/rcap/state-packs/arkansas/all50-build-metadata.ts
 - Registry reviewedAsOf: 2026-07-30
+
+## Dependency deferral correction candidate
+
+- Candidate disposition: `exact_supported_deferral` for `ar-act346-records-authorization-0`, `ar-act346-primary-filing-2`, and `ar-act346-proposed-order-3`.
+- Candidate data: each component directory contains `deferral-treatment.json` and `fixtures/canonical.json`, pinned to its dependency record and the correction assignment.
+- Review marker: `candidate_ready_for_independent_review` applies only if the dependency-deferral verifier passes all three assigned components. This marker records correction-candidate readiness only.

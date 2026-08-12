@@ -155,3 +155,10 @@ not a participant form.
 - Compiled profile: `src/lib/rcap-engine/compiled/profiles/VT-vermont.json` (sha256 `1a4267ce65b9ddc15a65e086cfba2860d088b06b4cd5ad801bda22514fecf9af`)
 - State pack: `src/lib/rcap/state-packs/vermont/index.ts`, `src/lib/rcap/state-packs/vermont/all50-build-metadata.ts`, `src/lib/rcap/state-packs/vermont/filing-instructions.ts`, `src/lib/rcap/state-packs/vermont/official-forms.ts`, `src/lib/rcap/state-packs/vermont/fee-notes.ts`, `src/lib/rcap/state-packs/vermont/eligibility-rules.ts`, `src/lib/rcap/state-packs/vermont/safety-language.ts`, `src/lib/rcap/state-packs/vermont/sample-data.ts`
 - Registry reviewedAsOf: 2026-08-01; effectiveFrom: 2019-06-19; statute read at source 2026-08-06
+
+## Dependency-deferral correction candidate evidence
+
+- Candidate status: `candidate_ready_for_independent_review` **if and only if the assigned record-check treatment and its canonical fixture pass together**.
+- Candidate evidence added for `vt_exp_deferred_sentence-record-check-0`: exact Vermont Judiciary Form 200-00331 identity and 05/2026 revision, official Judiciary and county Criminal Division destinations, record-search purpose, participant gather/do-not-file directions, packet absence, and Briefcase/payment/checkout/credit treatment.
+- The component evidence file pins the committed `dependency.json` SHA-256 and frozen assignment SHA-256; its canonical fixture expects no charge, unavailable checkout, no credit consumption, and a required Briefcase handoff.
+- Evidence gaps intentionally retained: the blank official Form 200-00331 is not present locally, its SHA-256 is not recorded, current submission and court-cost details require confirmation from the county Criminal Division, and the search result that determines whether the order issued must come from the court.
