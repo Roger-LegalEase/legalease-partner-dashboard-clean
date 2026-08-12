@@ -1,0 +1,93 @@
+{
+  "fixtureKind": "boundary",
+  "description": "Longest plausible name/address/case-number values plus multiline content; every value must survive the family boundsChecks (shrink-to-fit or addendum overflow), never silent truncation.",
+  "participantFacts": {
+    "participant_full_legal_name": "Alexandria Konstantina Papadopoulos-Vandenberg y de la Cruz Martinez III",
+    "county_or_filing_location": "Cape May",
+    "case_identifier": "CPM-15-0009999; Ind. No. 16-08-01234-I; Accusation No. 17-01-00042-A",
+    "charge": "Third-degree possession of a controlled dangerous substance with intent to distribute, N.J.S.A. 2C:35-5(b)(11), downgraded from second degree on the prosecutor’s pre-trial memorandum",
+    "financial_obligations": "No",
+    "contact_information": {
+      "addressLine1": "12847 Delsea Drive Extension, Garden Apartments Complex, Building 7, Unit 14-B",
+      "addressLine2": "Care of Papadopoulos-Vandenberg Family Trust",
+      "addressLine3": "Mailstop 22",
+      "city": "Cape May Court House",
+      "state": "NJ",
+      "zip": "08210-9998",
+      "phone": "+1 (609) 555-0188 ext. 12"
+    },
+    "case_outcome": "Conviction"
+  },
+  "expectedFieldValues": {
+    "DefPhone": "+1 (609) 555-0188 ext. 12",
+    "DefName": "Alexandria Konstantina Papadopoulos-Vandenberg y de la Cruz Martinez III",
+    "DefAddrStr2": "Care of Papadopoulos-Vandenberg Family Trust",
+    "DefAddrCity": "Cape May Court House",
+    "DefAddrSt": "NJ",
+    "DefAddrZip": "08210-9998",
+    "origCaseNums": "CPM-15-0009999; Ind. No. 16-08-01234-I; Accusation No. 17-01-00042-A",
+    "contOwe": true,
+    "DefAddrStr": "12847 Delsea Drive Extension, Garden Apartments Complex, Building 7, Unit 14-B",
+    "DefAddr2": "Care of Papadopoulos-Vandenberg Family Trust",
+    "DefAddr3": "Mailstop 22",
+    "ExpungeCntyName": "Cape May",
+    "SccCntyName": "Cape May",
+    "ProsCntyName": "Cape May",
+    "ProbCntyName": "Cape May",
+    "Prob2CntyName": "Cape May",
+    "IdbCnty": "Cape May",
+    "FamDivName": "Cape May"
+  },
+  "overflowExpectations": [
+    {
+      "field": "DefPhone",
+      "softMaxLen": 25,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "DefName",
+      "softMaxLen": 60,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "DefAddrStr2",
+      "softMaxLen": 70,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "DefAddrCity",
+      "softMaxLen": 35,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "DefAddrSt",
+      "softMaxLen": 2,
+      "onOverflow": "hard_stop"
+    },
+    {
+      "field": "DefAddrZip",
+      "softMaxLen": 10,
+      "onOverflow": "hard_stop"
+    },
+    {
+      "field": "origCaseNums",
+      "softMaxLen": 60,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "DefAddrStr",
+      "softMaxLen": 70,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "DefAddr2",
+      "softMaxLen": 70,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "DefAddr3",
+      "softMaxLen": 70,
+      "onOverflow": "overflow_to_addendum"
+    }
+  ]
+}

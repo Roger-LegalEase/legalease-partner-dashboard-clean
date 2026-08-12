@@ -1,0 +1,1999 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "cn-10557-expungement-kit",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 179,
+  "fields": [
+    {
+      "name": "formPrint",
+      "type": "button",
+      "pages": [
+        17
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "On-form UI button; never populated or triggered by the renderer."
+    },
+    {
+      "name": "formSafeClear",
+      "type": "button",
+      "pages": [
+        17
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "On-form UI button; never populated or triggered by the renderer."
+    },
+    {
+      "name": "DefPhone",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.phone",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "DefName",
+      "type": "text",
+      "pages": [
+        17,
+        22,
+        23,
+        26,
+        29,
+        30,
+        34,
+        37,
+        39,
+        42
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "DefAddrStr2",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine2",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "DefAddrCity",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.city",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 35,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "DefAddrSt",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.state",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 2,
+        "onOverflow": "hard_stop"
+      }
+    },
+    {
+      "name": "DefAddrZip",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.zip",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 10,
+        "onOverflow": "hard_stop"
+      }
+    },
+    {
+      "name": "arrestOff1",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "arrestOff2",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "arrestStatute",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "arrestMuni",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "origCaseNums",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "case_identifier",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "dismiss",
+      "type": "checkbox",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissDt",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissOff1",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissOff2",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissPlea",
+      "type": "checkbox",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "acquit",
+      "type": "checkbox",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "acquitDt",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "acquitOff1",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "acquitOff2",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "acquitCrt",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissPti",
+      "type": "checkbox",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissPtiDt",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissPtiOff1",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissPtiOff2",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "dismissCrt",
+      "type": "text",
+      "pages": [
+        17,
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guilty",
+      "type": "checkbox",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyDt",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyOff1",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyOff2",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyStatute",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyFinal1",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyFinal2",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyCrt",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyTimeType",
+      "type": "dropdown",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyDocCmpltDt",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyProbDt",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "guiltyFineDt",
+      "type": "text",
+      "pages": [
+        18
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-history narrative on the petition; transcribed from the participant’s records at assembly."
+    },
+    {
+      "name": "contOwe",
+      "type": "checkbox",
+      "pages": [
+        18,
+        20
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "financial_obligations",
+      "valueMap": {
+        "checkedWhen": "financial_obligations === 'No' (participant answered No to 'Have you paid off everything the court charged?')",
+        "uncheckedWhen": "financial_obligations === 'Yes'",
+        "onUnsure": "leave unpopulated and flag for manual confirmation"
+      }
+    },
+    {
+      "name": "oweDocket",
+      "type": "text",
+      "pages": [
+        18,
+        20
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Outstanding-obligation docket/amount detail supplied by the participant."
+    },
+    {
+      "name": "oweAmt",
+      "type": "text",
+      "pages": [
+        18,
+        20
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Outstanding-obligation docket/amount detail supplied by the participant."
+    },
+    {
+      "name": "cnt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page counter."
+    },
+    {
+      "name": "contArrestDt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contOffense1",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contOffense2",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contStatute",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contArrestMuni",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contOrigNums",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismiss",
+      "type": "checkbox",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismissDt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismissOff1",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDsmissOff2",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history (form’s own spelling)."
+    },
+    {
+      "name": "contDismissCrt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismissPlea",
+      "type": "checkbox",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contAcquit",
+      "type": "checkbox",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contAcquitDt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contAcquitOff1",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contAcquitOff2",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contAcquitCrt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismissPti",
+      "type": "checkbox",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismissPtiDt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismissPtiOff1",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismissPtiOff2",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contDismissPtiCrt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuilty",
+      "type": "checkbox",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyDt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyOff1",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyOff2",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyStatute",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyFinal1",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyFinal2",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyCrt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyTimeType",
+      "type": "dropdown",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyDocCmpltDt",
+      "type": "text",
+      "pages": [
+        19
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyProbDt",
+      "type": "text",
+      "pages": [
+        20
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "contGuiltyFineDt",
+      "type": "text",
+      "pages": [
+        20
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Continuation-page case history."
+    },
+    {
+      "name": "seek5yrs",
+      "type": "checkbox",
+      "pages": [
+        21
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-basis election on the petition; NJ tracks are missing_from_compiled_runtime so no compiled pathway id can drive this deterministically yet."
+    },
+    {
+      "name": "seek34degree",
+      "type": "checkbox",
+      "pages": [
+        21
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-basis election on the petition; NJ tracks are missing_from_compiled_runtime so no compiled pathway id can drive this deterministically yet."
+    },
+    {
+      "name": "seek5yrsDetails",
+      "type": "text",
+      "pages": [
+        21,
+        23
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-basis election on the petition; NJ tracks are missing_from_compiled_runtime so no compiled pathway id can drive this deterministically yet."
+    },
+    {
+      "name": "seekJuvNever",
+      "type": "checkbox",
+      "pages": [
+        23
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-basis election on the petition; NJ tracks are missing_from_compiled_runtime so no compiled pathway id can drive this deterministically yet."
+    },
+    {
+      "name": "changeName",
+      "type": "checkbox",
+      "pages": [
+        23
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-basis election on the petition; NJ tracks are missing_from_compiled_runtime so no compiled pathway id can drive this deterministically yet."
+    },
+    {
+      "name": "notaryDay",
+      "type": "text",
+      "pages": [
+        23
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Notarization block. Never populated."
+    },
+    {
+      "name": "notaryMnth",
+      "type": "dropdown",
+      "pages": [
+        23
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Notarization block. Never populated."
+    },
+    {
+      "name": "notaryYear",
+      "type": "text",
+      "pages": [
+        23
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Notarization block. Never populated."
+    },
+    {
+      "name": "DefAddrStr",
+      "type": "text",
+      "pages": [
+        17,
+        26,
+        29,
+        34,
+        37,
+        39,
+        42
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine1",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "DefAddr2",
+      "type": "text",
+      "pages": [
+        17,
+        26,
+        29,
+        34,
+        37,
+        39,
+        42
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine2",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "DefAddr3",
+      "type": "text",
+      "pages": [
+        17,
+        26,
+        29,
+        34,
+        37,
+        39,
+        42
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine3",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "ExpungeCntyName",
+      "type": "dropdown",
+      "pages": [
+        17,
+        26,
+        29,
+        39
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "County dropdown; value must match a county option. Defaults to the filing county; changed manually when an agency sits in a different county."
+    },
+    {
+      "name": "orderHearDay",
+      "type": "text",
+      "pages": [
+        26
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "orderHearMnth",
+      "type": "dropdown",
+      "pages": [
+        26
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "orderHearYr",
+      "type": "text",
+      "pages": [
+        26
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "hearDay",
+      "type": "text",
+      "pages": [
+        26
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "hearMnth",
+      "type": "dropdown",
+      "pages": [
+        26
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "hearYr",
+      "type": "text",
+      "pages": [
+        26
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "hearTime",
+      "type": "text",
+      "pages": [
+        26
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "hearTimeM",
+      "type": "dropdown",
+      "pages": [
+        26
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "sigHearJdg",
+      "type": "text",
+      "pages": [
+        26
+      ],
+      "class": "signature",
+      "populatable": false,
+      "note": "Judicial signature line. Never populated."
+    },
+    {
+      "name": "gradDC",
+      "type": "checkbox",
+      "pages": [
+        29
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-basis election on the petition; NJ tracks are missing_from_compiled_runtime so no compiled pathway id can drive this deterministically yet."
+    },
+    {
+      "name": "marijuana",
+      "type": "checkbox",
+      "pages": [
+        29
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-basis election on the petition; NJ tracks are missing_from_compiled_runtime so no compiled pathway id can drive this deterministically yet."
+    },
+    {
+      "name": "cleanSlate",
+      "type": "checkbox",
+      "pages": [
+        29
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Statutory-basis election on the petition; NJ tracks are missing_from_compiled_runtime so no compiled pathway id can drive this deterministically yet."
+    },
+    {
+      "name": "DefBirthDt",
+      "type": "text",
+      "pages": [
+        17,
+        29
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "DOB not collected by compiled screening vocabulary."
+    },
+    {
+      "name": "DefSbiNum",
+      "type": "text",
+      "pages": [
+        17,
+        29
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "SBI number transcribed from participant records."
+    },
+    {
+      "name": "orderFinalDay",
+      "type": "text",
+      "pages": [
+        29
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "orderFinalMnth",
+      "type": "dropdown",
+      "pages": [
+        29
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "orderFinalYr",
+      "type": "text",
+      "pages": [
+        29
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing/order date set by the court on the proposed orders. Never populated."
+    },
+    {
+      "name": "prosCntys",
+      "type": "text",
+      "pages": [
+        26,
+        29,
+        39
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency distribution roster (which offices are served); assembled from the participant’s case counties."
+    },
+    {
+      "name": "MuniCrts",
+      "type": "text",
+      "pages": [
+        26,
+        29,
+        36,
+        39,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency distribution roster (which offices are served); assembled from the participant’s case counties."
+    },
+    {
+      "name": "PoliceLoc",
+      "type": "text",
+      "pages": [
+        26,
+        30,
+        36,
+        39,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency distribution roster (which offices are served); assembled from the participant’s case counties."
+    },
+    {
+      "name": "probDivCntys",
+      "type": "text",
+      "pages": [
+        26,
+        30,
+        39
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency distribution roster (which offices are served); assembled from the participant’s case counties."
+    },
+    {
+      "name": "WardenLoc",
+      "type": "text",
+      "pages": [
+        26,
+        30,
+        36,
+        39,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency distribution roster (which offices are served); assembled from the participant’s case counties."
+    },
+    {
+      "name": "SuperintendentLoc",
+      "type": "text",
+      "pages": [
+        26,
+        30,
+        36,
+        39,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency distribution roster (which offices are served); assembled from the participant’s case counties."
+    },
+    {
+      "name": "deputyClerkSCCOCnty",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Clerk-office designation on the order. Never populated."
+    },
+    {
+      "name": "arrest1Dt",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest1Statute",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest1CaseNum",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest2Dt",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest2Statute",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest2CaseNum",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest3Dt",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest3Statute",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest3CaseNum",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest4Dt",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest4Statute",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest4CaseNum",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest5Dt",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest5Statute",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "arrest5CaseNum",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case roster on the proposed order; transcribed from participant records at assembly and confirmed at F review."
+    },
+    {
+      "name": "fjDocketNums",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Docket numbers roster."
+    },
+    {
+      "name": "jdmnt",
+      "type": "checkbox",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "jdgmntDocket1",
+      "type": "text",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "jdgmntAmt1",
+      "type": "text",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "jdgmntDocket2",
+      "type": "text",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "jdgmntAmt2",
+      "type": "text",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "jdgmntDocket3",
+      "type": "text",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "jdgmntAmt3",
+      "type": "text",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "jdgmntDocket4",
+      "type": "text",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "jdgmntAmt4",
+      "type": "text",
+      "pages": [
+        31
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Judgment recitals inside the proposed final order; entered by the court. Never populated."
+    },
+    {
+      "name": "sigFinalJdg",
+      "type": "text",
+      "pages": [
+        32
+      ],
+      "class": "signature",
+      "populatable": false,
+      "note": "Judicial signature line. Never populated."
+    },
+    {
+      "name": "CoverLtrDDt",
+      "type": "text",
+      "pages": [
+        34
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Cover-letter date, set at mailing."
+    },
+    {
+      "name": "SccCntyName",
+      "type": "dropdown",
+      "pages": [
+        34
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "County dropdown; value must match a county option. Defaults to the filing county; changed manually when an agency sits in a different county."
+    },
+    {
+      "name": "SccAddrStr",
+      "type": "text",
+      "pages": [
+        34
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "SccAddr2",
+      "type": "text",
+      "pages": [
+        34
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "enc",
+      "type": "text",
+      "pages": [
+        34
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Enclosures list on the cover letter."
+    },
+    {
+      "name": "CoverLtrEDt",
+      "type": "text",
+      "pages": [
+        36
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Cover-letter date, set at mailing."
+    },
+    {
+      "name": "SheriffLoc",
+      "type": "text",
+      "pages": [
+        36
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "SheriffAddrStr",
+      "type": "text",
+      "pages": [
+        36
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "SheriffAddr2",
+      "type": "text",
+      "pages": [
+        36
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "CoverLtrEHearDt",
+      "type": "text",
+      "pages": [
+        37
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Hearing date transcribed onto the cover letter after the court assigns it."
+    },
+    {
+      "name": "CoverLtrEHearTime",
+      "type": "text",
+      "pages": [
+        37
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Hearing date transcribed onto the cover letter after the court assigns it."
+    },
+    {
+      "name": "expungDocketNum",
+      "type": "text",
+      "pages": [
+        39
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Expungement docket number assigned at filing; known only post-filing."
+    },
+    {
+      "name": "mailPetition",
+      "type": "text",
+      "pages": [
+        39
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Service-method statement on the notice."
+    },
+    {
+      "name": "sigNoticeDt",
+      "type": "text",
+      "pages": [
+        39
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Date on the petitioner’s notice; set at signing."
+    },
+    {
+      "name": "CoverLtrGDt",
+      "type": "text",
+      "pages": [
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Cover-letter date, set at mailing."
+    },
+    {
+      "name": "ProsCntyName",
+      "type": "dropdown",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "County dropdown; value must match a county option. Defaults to the filing county; changed manually when an agency sits in a different county."
+    },
+    {
+      "name": "ProsAddrStr",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "ProsAddr2",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "PoliceAddrStr",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "PoliceAddr2",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "ProbCntyName",
+      "type": "dropdown",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "County dropdown; value must match a county option. Defaults to the filing county; changed manually when an agency sits in a different county."
+    },
+    {
+      "name": "ProbAddrStr",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "ProbAddr2",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "SuperintendentAddrStr",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "SuperintendentAddr2",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "MuniCrtsAddrStr",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "MuniCrtsAddr2",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "WardenAddrStr",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "WardenAddr2",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "Prob2CntyName",
+      "type": "dropdown",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "County dropdown; value must match a county option. Defaults to the filing county; changed manually when an agency sits in a different county."
+    },
+    {
+      "name": "Prob2AddrStr",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "Prob2Addr2",
+      "type": "text",
+      "pages": [
+        36,
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "IdbCnty",
+      "type": "dropdown",
+      "pages": [
+        41
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "County dropdown; value must match a county option. Defaults to the filing county; changed manually when an agency sits in a different county."
+    },
+    {
+      "name": "IdbAddrStr",
+      "type": "text",
+      "pages": [
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "FamDivName",
+      "type": "dropdown",
+      "pages": [
+        41
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "County dropdown; value must match a county option. Defaults to the filing county; changed manually when an agency sits in a different county."
+    },
+    {
+      "name": "FamDivAddrStr",
+      "type": "text",
+      "pages": [
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "FamDivAddr2",
+      "type": "text",
+      "pages": [
+        41
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency mailing address on petitioner cover letters; completed from current public directories at assembly (not in committed evidence)."
+    },
+    {
+      "name": "ExpungeDocketNum",
+      "type": "text",
+      "pages": [
+        37,
+        42
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Expungement docket number assigned at filing; known only post-filing."
+    },
+    {
+      "name": "AdminMuniCts",
+      "type": "text",
+      "pages": [
+        30
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Agency distribution roster (which offices are served); assembled from the participant’s case counties."
+    }
+  ]
+}

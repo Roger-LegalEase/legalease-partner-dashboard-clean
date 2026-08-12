@@ -1,0 +1,637 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "cn-10557-expungement-kit",
+  "mapKind": "acroform_name_binding",
+  "promotedFrom": {
+    "committedDraft": "docs/record-clearing/field-map-drafts/all50/new-jersey-legalease-new-jersey-10557-expunge-kit.field-map-draft.json",
+    "draftNote": "The committed draft carried no recoverable AcroForm names (dirty_acroform raw inspection); bindings are promoted against the field census extracted from the committed shadow-batch sample of the same source binary.",
+    "committedSample": "tmp/official-pdf-shadow-batch/all50/new-jersey-legalease-new-jersey-10557-expunge-kit-sample.pdf"
+  },
+  "sourceBinary": {
+    "fileName": "10557_expunge_kit.pdf",
+    "relativePath": "LegalEase New Jersey/10557_expunge_kit.pdf",
+    "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7"
+  },
+  "participantFactVocabulary": {
+    "source": "src/lib/rcap-engine/compiled/profiles/NJ-*.json (questions[].id + packetGenerator.requiredInputs)",
+    "questionIds": [
+      "ownership_scope",
+      "jurisdiction_scope",
+      "case_outcome",
+      "offense_level",
+      "possible_pathway_context",
+      "age_at_offense",
+      "sentence_completion_date",
+      "financial_obligations",
+      "pending_cases",
+      "prior_relief",
+      "trafficking_status",
+      "pardon_status",
+      "court",
+      "charge",
+      "state_exclusion_categories",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "pending_cases",
+      "prior_relief",
+      "residency_or_location",
+      "sentence_completion_date",
+      "trafficking_status"
+    ]
+  },
+  "renderRule": "Renderer populates ONLY the bindings below. Every other census field is listed in neverPopulate or manualParticipantFields and must remain empty at render time.",
+  "bindings": [
+    {
+      "field": "DefPhone",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.phone"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "DefName",
+      "type": "text",
+      "pages": [
+        17,
+        22,
+        23,
+        26,
+        29,
+        30,
+        34,
+        37,
+        39,
+        42
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "DefAddrStr2",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine2"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "DefAddrCity",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.city"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 35,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "DefAddrSt",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.state"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 2,
+        "onOverflow": "hard_stop"
+      }
+    },
+    {
+      "field": "DefAddrZip",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.zip"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 10,
+        "onOverflow": "hard_stop"
+      }
+    },
+    {
+      "field": "origCaseNums",
+      "type": "text",
+      "pages": [
+        17
+      ],
+      "binding": {
+        "factId": "case_identifier"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "contOwe",
+      "type": "checkbox",
+      "pages": [
+        18,
+        20
+      ],
+      "binding": {
+        "factId": "financial_obligations"
+      },
+      "valueMap": {
+        "checkedWhen": "financial_obligations === 'No' (participant answered No to 'Have you paid off everything the court charged?')",
+        "uncheckedWhen": "financial_obligations === 'Yes'",
+        "onUnsure": "leave unpopulated and flag for manual confirmation"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6
+      }
+    },
+    {
+      "field": "DefAddrStr",
+      "type": "text",
+      "pages": [
+        17,
+        26,
+        29,
+        34,
+        37,
+        39,
+        42
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine1"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "DefAddr2",
+      "type": "text",
+      "pages": [
+        17,
+        26,
+        29,
+        34,
+        37,
+        39,
+        42
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine2"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "DefAddr3",
+      "type": "text",
+      "pages": [
+        17,
+        26,
+        29,
+        34,
+        37,
+        39,
+        42
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine3"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "ExpungeCntyName",
+      "type": "dropdown",
+      "pages": [
+        17,
+        26,
+        29,
+        39
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "field": "SccCntyName",
+      "type": "dropdown",
+      "pages": [
+        34
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "field": "ProsCntyName",
+      "type": "dropdown",
+      "pages": [
+        36,
+        41
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "field": "ProbCntyName",
+      "type": "dropdown",
+      "pages": [
+        36,
+        41
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "field": "Prob2CntyName",
+      "type": "dropdown",
+      "pages": [
+        36,
+        41
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "field": "IdbCnty",
+      "type": "dropdown",
+      "pages": [
+        41
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "field": "FamDivName",
+      "type": "dropdown",
+      "pages": [
+        41
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    }
+  ],
+  "manualParticipantFields": [
+    "arrestOff1",
+    "arrestOff2",
+    "arrestStatute",
+    "arrestMuni",
+    "dismiss",
+    "dismissDt",
+    "dismissOff1",
+    "dismissOff2",
+    "dismissPlea",
+    "acquit",
+    "acquitDt",
+    "acquitOff1",
+    "acquitOff2",
+    "acquitCrt",
+    "dismissPti",
+    "dismissPtiDt",
+    "dismissPtiOff1",
+    "dismissPtiOff2",
+    "dismissCrt",
+    "guilty",
+    "guiltyDt",
+    "guiltyOff1",
+    "guiltyOff2",
+    "guiltyStatute",
+    "guiltyFinal1",
+    "guiltyFinal2",
+    "guiltyCrt",
+    "guiltyTimeType",
+    "guiltyDocCmpltDt",
+    "guiltyProbDt",
+    "guiltyFineDt",
+    "oweDocket",
+    "oweAmt",
+    "cnt",
+    "contArrestDt",
+    "contOffense1",
+    "contOffense2",
+    "contStatute",
+    "contArrestMuni",
+    "contOrigNums",
+    "contDismiss",
+    "contDismissDt",
+    "contDismissOff1",
+    "contDsmissOff2",
+    "contDismissCrt",
+    "contDismissPlea",
+    "contAcquit",
+    "contAcquitDt",
+    "contAcquitOff1",
+    "contAcquitOff2",
+    "contAcquitCrt",
+    "contDismissPti",
+    "contDismissPtiDt",
+    "contDismissPtiOff1",
+    "contDismissPtiOff2",
+    "contDismissPtiCrt",
+    "contGuilty",
+    "contGuiltyDt",
+    "contGuiltyOff1",
+    "contGuiltyOff2",
+    "contGuiltyStatute",
+    "contGuiltyFinal1",
+    "contGuiltyFinal2",
+    "contGuiltyCrt",
+    "contGuiltyTimeType",
+    "contGuiltyDocCmpltDt",
+    "contGuiltyProbDt",
+    "contGuiltyFineDt",
+    "seek5yrs",
+    "seek34degree",
+    "seek5yrsDetails",
+    "seekJuvNever",
+    "changeName",
+    "gradDC",
+    "marijuana",
+    "cleanSlate",
+    "DefBirthDt",
+    "DefSbiNum",
+    "prosCntys",
+    "MuniCrts",
+    "PoliceLoc",
+    "probDivCntys",
+    "WardenLoc",
+    "SuperintendentLoc",
+    "arrest1Dt",
+    "arrest1Statute",
+    "arrest1CaseNum",
+    "arrest2Dt",
+    "arrest2Statute",
+    "arrest2CaseNum",
+    "arrest3Dt",
+    "arrest3Statute",
+    "arrest3CaseNum",
+    "arrest4Dt",
+    "arrest4Statute",
+    "arrest4CaseNum",
+    "arrest5Dt",
+    "arrest5Statute",
+    "arrest5CaseNum",
+    "fjDocketNums",
+    "CoverLtrDDt",
+    "SccAddrStr",
+    "SccAddr2",
+    "enc",
+    "CoverLtrEDt",
+    "SheriffLoc",
+    "SheriffAddrStr",
+    "SheriffAddr2",
+    "CoverLtrEHearDt",
+    "CoverLtrEHearTime",
+    "expungDocketNum",
+    "mailPetition",
+    "sigNoticeDt",
+    "CoverLtrGDt",
+    "ProsAddrStr",
+    "ProsAddr2",
+    "PoliceAddrStr",
+    "PoliceAddr2",
+    "ProbAddrStr",
+    "ProbAddr2",
+    "SuperintendentAddrStr",
+    "SuperintendentAddr2",
+    "MuniCrtsAddrStr",
+    "MuniCrtsAddr2",
+    "WardenAddrStr",
+    "WardenAddr2",
+    "Prob2AddrStr",
+    "Prob2Addr2",
+    "IdbAddrStr",
+    "FamDivAddrStr",
+    "FamDivAddr2",
+    "ExpungeDocketNum",
+    "AdminMuniCts"
+  ],
+  "neverPopulate": [
+    {
+      "field": "formPrint",
+      "class": "unused"
+    },
+    {
+      "field": "formSafeClear",
+      "class": "unused"
+    },
+    {
+      "field": "notaryDay",
+      "class": "protected"
+    },
+    {
+      "field": "notaryMnth",
+      "class": "protected"
+    },
+    {
+      "field": "notaryYear",
+      "class": "protected"
+    },
+    {
+      "field": "orderHearDay",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "orderHearMnth",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "orderHearYr",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "hearDay",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "hearMnth",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "hearYr",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "hearTime",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "hearTimeM",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "sigHearJdg",
+      "class": "signature"
+    },
+    {
+      "field": "orderFinalDay",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "orderFinalMnth",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "orderFinalYr",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "deputyClerkSCCOCnty",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdmnt",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdgmntDocket1",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdgmntAmt1",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdgmntDocket2",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdgmntAmt2",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdgmntDocket3",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdgmntAmt3",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdgmntDocket4",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "jdgmntAmt4",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "sigFinalJdg",
+      "class": "signature"
+    }
+  ],
+  "overflowPolicy": {
+    "default": "shrink_to_fit down to minFontSize 6; if still overflowing, move content to a labeled addendum page and mark the field \"See attached addendum\"",
+    "hard_stop": "value exceeding the bound is a render error (identity-critical short fields such as state/zip)",
+    "must_match_dropdown_option": "value must exactly match one of the form’s dropdown options or the render fails closed"
+  }
+}
