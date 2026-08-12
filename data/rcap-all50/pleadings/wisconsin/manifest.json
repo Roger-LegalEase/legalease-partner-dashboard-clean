@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-c3-jurisdiction-manifest/v1",
+  "jobId": "T-C-WI-production-packet",
+  "jurisdiction": "WI",
+  "jurisdictionSlug": "wisconsin",
+  "windowId": "2026-08-12-w1",
+  "lane": "C",
+  "implementationFamily": "controlled_pleading",
+  "outputStrategy": "custom_pleading",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "file": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+  },
+  "trackIds": [
+    "wi_exp_certificate_of_discharge_followup"
+  ],
+  "partitionNote": "The single Wisconsin track is blocked as a pleading on instrument-class grounds rather than evidence grounds. Wis. Stat. § 973.015(1m)(b) makes issuance of the certificate mandatory on successful completion, and the follow-up request is a letter to the supervising or detaining authority. Lane C3 owns only the court-pleading renderer, so the track is routed to the participant-correspondence lane and recommended for reclassification.",
+  "tracks": [
+    {
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "legalName": "Participant Request that the Supervising or Detaining Authority Issue and Forward the Certificate of Discharge (Wis. Stat. § 973.015(1m)(b))",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Blocked as a pleading because the correct output is participant correspondence to an executive authority, not a court filing. The registry states 'Not a court filing.' The merits are not in doubt — the registry says the correspondence is to be drafted — but the controlled custom-pleading renderer cannot express a letter, and rendering one as a pleading would fabricate a court proceeding against the authority. Recommended for reclassification off custom_pleading."
+    }
+  ],
+  "summary": {
+    "tracksTotal": 1,
+    "drafted": 0,
+    "blocked": 1
+  }
+}

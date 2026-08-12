@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "rcap-c3-pleading-config/v1",
+  "jobId": "T-C-WI-production-packet",
+  "windowId": "2026-08-12-w1",
+  "ledgerTrackId": "wi_exp_certificate_of_discharge_followup",
+  "registryLegalName": "Participant Request that the Supervising or Detaining Authority Issue and Forward the Certificate of Discharge (Wis. Stat. § 973.015(1m)(b))",
+  "trackDisposition": "blocked_pleading",
+  "config": {
+    "jurisdictionCode": "WI",
+    "trackId": "wi_exp_certificate_of_discharge_followup",
+    "templateGrade": "legal_ops_custom_pleading",
+    "templateLifecycle": "replacement_candidate",
+    "primaryReliefTerm": "expungement",
+    "documentTitleFull": "[NOT ESTABLISHED — DRAFTING BARRED]",
+    "courtCaption": "[NOT ESTABLISHED — DRAFTING BARRED]",
+    "primaryStatutoryAuthority": [
+      {
+        "citation": "Wis. Stat. § 973.015(1m)(b)",
+        "description": "Upon successful completion of the sentence the detaining or probationary authority shall issue a certificate of discharge, which shall be forwarded to the court of record and which shall have the effect of expunging the record. Issuance is mandatory rather than discretionary."
+      },
+      {
+        "citation": "Wis. Stat. § 973.015(1m)",
+        "description": "The triggering event is successful completion of the sentence — no subsequent conviction and, where the person was on probation, no revocation and satisfied conditions."
+      }
+    ],
+    "verificationStatute": {
+      "citation": null,
+      "description": "Not a court filing and no verification statute applies. No statute or rule prescribes the contents of the request, so nothing is filled."
+    },
+    "includeProposedOrder": false,
+    "includeCertificateOfService": false,
+    "serviceNote": null,
+    "presentation": {
+      "sovereignPartyName": "[NOT ESTABLISHED — DRAFTING BARRED]",
+      "sovereignPartyProper": "[NOT ESTABLISHED — DRAFTING BARRED]",
+      "sovereignRole": "Respondent",
+      "movantRole": "Petitioner",
+      "filingNoun": "Petition",
+      "divisionLine": "",
+      "usesCounty": false,
+      "courtName": "[NOT ESTABLISHED — DRAFTING BARRED]",
+      "venueDescriptor": "[NOT ESTABLISHED — DRAFTING BARRED]",
+      "recordCustodianLead": "[NOT ESTABLISHED — DRAFTING BARRED]",
+      "verificationVerb": "declare",
+      "verificationPenaltyLabel": "the penalties for a false statement",
+      "serviceRecipientLabel": "[NOT ESTABLISHED — DRAFTING BARRED]",
+      "serviceRecipientAddressLabel": "[NOT ESTABLISHED — DRAFTING BARRED]"
+    },
+    "counselFlags": [
+      "Issuance is mandatory, not discretionary: on successful completion of the sentence the detaining or probationary authority SHALL issue a certificate of discharge, which shall be forwarded to the court of record and which shall have the effect of expunging the record. The trigger is successful completion — no subsequent conviction and, where the person was on probation, no revocation and satisfied conditions.",
+      "The letter does not change legal status. It supports implementation of an expungement the court already ordered; the certificate remains the authority's document, and issuance is the authority's act. A participant must not be told that sending the letter expunges anything.",
+      "Timing: allow the authority and the clerk a reasonable interval to complete issuance and forwarding, and confirm with the clerk of circuit court that the certificate has not already arrived, before writing. The request is a follow-up, not a first step.",
+      "Not a court filing and no verification statute applies. No statute or rule prescribes the contents of the request, so nothing is filled.",
+      "No statute or rule prescribes the contents of the request and Wisconsin publishes no official participant form for it. Any drafted correspondence is therefore a plain-language request, not a prescribed instrument, and must not present itself as one.",
+      "Registry release blocker (open): what recourse a participant has where the supervising or detaining authority does not respond to the request, or declines to issue the certificate, is unresolved. The letter must not promise an outcome or imply that a remedy follows automatically from non-response.",
+      "Addressee varies by case: the request goes to the supervising or detaining authority for the participant's own case — the Department of Corrections in most probation cases, or the detaining authority where the sentence included confinement. The certificate's destination is the clerk of circuit court. Neither addressee is guessed."
+    ]
+  },
+  "runtimePreexisting": null,
+  "eligibilityPath": null,
+  "qa": {
+    "prohibitedTerms": [
+      "sealing",
+      "seal",
+      "set aside",
+      "set-aside",
+      "annulment",
+      "vacatur"
+    ]
+  },
+  "registryExcerpt": {
+    "legalName": "Participant Request that the Supervising or Detaining Authority Issue and Forward the Certificate of Discharge (Wis. Stat. § 973.015(1m)(b))",
+    "publicName": "Ask for the certificate that completes your expungement",
+    "authority": [
+      "Wis. Stat. § 973.015(1m)",
+      "Wis. Stat. § 973.015(1m)(b)"
+    ],
+    "venue": "Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case, which is statewide in scope: the Department of Corrections in most probation cases, or the detaining authority where the sentence included confinement.",
+    "destinationName": "The detaining or probationary authority that supervised the participant, with the clerk of circuit court as the certificate's destination",
+    "waitingPeriods": [
+      {
+        "condition": "Successful completion of the sentence, after which the authority's issuing duty arises",
+        "duration": "none independent of sentence completion"
+      },
+      {
+        "condition": "Before writing, allow the authority and the clerk a reasonable interval to complete issuance and forwarding, and confirm on Wisconsin Circuit Court Access that the case is still publicly visible",
+        "duration": "no statutory interval; the statute sets no deadline for issuance or forwarding"
+      }
+    ],
+    "exclusions": [
+      "Any case where the sentencing court did not order expungement at the time of sentencing. There is nothing to ask the supervising authority to certify.",
+      "Any case where the sentence included neither probation nor incarceration, which has no supervising or detaining authority and routes to the CR-266 petition track instead.",
+      "Any case where the person was convicted of a subsequent offense before completion, or where probation was revoked or its conditions unsatisfied — the certificate is not owed and the request would misstate the position.",
+      "Federal, tribal and out-of-state records."
+    ]
+  },
+  "componentInventory": {
+    "caption": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "court_party_identity": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "title": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "allegations": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "statutory_basis": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "requested_relief": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "verification": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "signatures": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "proposed_order": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "certificate_of_service": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "notice_affidavit": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "filing_instructions": {
+      "status": "blocked",
+      "detail": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\""
+    },
+    "participant_cover_sheet": {
+      "status": "absent",
+      "detail": "Absent because no packet is produced. Issuing participant instructions would imply a filing route and a document that this track is barred from producing."
+    }
+  },
+  "dependencies": [
+    {
+      "kind": "wrong_instrument_class",
+      "statement": "Blocked as a pleading: the correct output for this track is participant correspondence addressed to an executive authority, not a court pleading. The registry states it plainly — \"Not a court filing. The request is addressed to the supervising or detaining authority for the participant's own case.\"",
+      "exactMissingSource": "Nothing is missing from the source on the merits. The registry states that no statute or rule prescribes the contents of the request and that Wisconsin publishes no official participant form for it, and concludes that the correspondence is to be drafted. What is missing is a renderer: the controlled custom-pleading renderer is the only instrument lane C3 owns, and it cannot express a letter.",
+      "barsDraftingBecause": "The controlled custom-pleading renderer emits a court caption, jurisdiction and venue allegations, a prayer for relief addressed to a court, a verification and a proposed order for a judge's signature. None of those exist on this route. Rendering them would fabricate a court proceeding against an executive authority that Wis. Stat. § 973.015(1m)(b) does not create, and would misrepresent a follow-up letter as a filing.",
+      "routeTo": "guidance-packet / participant-correspondence lane, which owns non-pleading participant documents; this track should be reclassified off custom_pleading",
+      "component": "*"
+    }
+  ],
+  "sourceSilences": [
+    {
+      "field": "config.verificationStatute.citation",
+      "statement": "Not a court filing and no verification statute applies. No statute or rule prescribes the contents of the request, so nothing is filled.",
+      "counselFlag": "Not a court filing and no verification statute applies. No statute or rule prescribes the contents of the request, so nothing is filled."
+    },
+    {
+      "field": "requestContents",
+      "statement": "No statute or rule prescribes the contents of the request, and Wisconsin publishes no official participant form for it. No required contents are asserted.",
+      "counselFlag": "No statute or rule prescribes the contents of the request and Wisconsin publishes no official participant form for it. Any drafted correspondence is therefore a plain-language request, not a prescribed instrument, and must not present itself as one."
+    },
+    {
+      "field": "recourse",
+      "statement": "What recourse follows non-response or refusal by the authority is unresolved at source. No remedy is asserted.",
+      "counselFlag": "Registry release blocker (open): what recourse a participant has where the supervising or detaining authority does not respond to the request, or declines to issue the certificate, is unresolved. The letter must not promise an outcome or imply that a remedy follows automatically from non-response."
+    }
+  ],
+  "counselNotes": [
+    "Registry release blocker (open): recourse where the authority does not respond or declines to issue the certificate.",
+    "Reclassification recommended: the ledger classifies this track as custom_pleading, but the registry states it is not a court filing. Recorded rather than resolved by drafting."
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/wisconsin/all50-build-metadata.ts",
+      "src/lib/rcap/state-packs/wisconsin/disqualifying-offenses.ts",
+      "src/lib/rcap/state-packs/wisconsin/document-types.ts",
+      "src/lib/rcap/state-packs/wisconsin/eligibility-rules.ts",
+      "src/lib/rcap/state-packs/wisconsin/fee-notes.ts",
+      "src/lib/rcap/state-packs/wisconsin/filing-instructions.ts",
+      "src/lib/rcap/state-packs/wisconsin/index.ts",
+      "src/lib/rcap/state-packs/wisconsin/official-forms.ts",
+      "src/lib/rcap/state-packs/wisconsin/pathways.ts",
+      "src/lib/rcap/state-packs/wisconsin/required-fields.ts",
+      "src/lib/rcap/state-packs/wisconsin/safety-language.ts",
+      "src/lib/rcap/state-packs/wisconsin/sample-data.ts",
+      "src/lib/rcap/state-packs/wisconsin/waiting-periods.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+    "registryPin": {
+      "ref": "origin/feat/record-clearing-production-integration",
+      "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+      "file": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+    },
+    "fingerprint": "1384658236651b0412425445df309c38eef7dda6e32971c2d6f06b1e33b2667f"
+  }
+}
