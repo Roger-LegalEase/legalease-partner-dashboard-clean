@@ -1,0 +1,29 @@
+{
+  "schema": "rcap-d-corrections-v2-review-dispatch/v1",
+  "dispatchedAt": "2026-08-12",
+  "orchestratorRevisionPinned": "f3021a64810a162ccc048911e84a013708746509",
+  "d0v2": "b412f543",
+  "scope": "only the 61 correction_required families; the 104 technical_approved and 88 held_on_source_or_design families are explicitly out of scope unless their bytes or their source/design evidence changed",
+  "shardRule": "sha256(familyId) modulo 3, over the full hex digest",
+  "correctionBranchesUnderReview": {
+    "D1A": "claude/rcap-d1a-corrections-v2",
+    "D1B": "claude/rcap-d1b-corrections-v2",
+    "D1C": "claude/rcap-d1c-corrections-v2",
+    "D2A": "claude/rcap-d2a-corrections-v2",
+    "D2B": "claude/rcap-d2b-corrections-v2",
+    "D3A": "claude/rcap-d3a-corrections-v2",
+    "D3B": "claude/rcap-d3b-corrections-v2"
+  },
+  "shards": [
+    { "shard": 0, "session": "session_01CyUWG4xfDMBFsncjzNW9LU", "branch": "claude/rcap-review-d-corrections-v2-shard-0", "families": 34 },
+    { "shard": 1, "session": "session_01Sn96gvar1HhCF8nKvfSRKs", "branch": "claude/rcap-review-d-corrections-v2-shard-1", "families": 19 },
+    { "shard": 2, "session": "session_01FegYAQZMJuV5VQjHHwYrky", "branch": "claude/rcap-review-d-corrections-v2-shard-2", "families": 8 }
+  ],
+  "allowedDispositions": ["technical_approved", "correction_required", "held_on_source_or_design"],
+  "reviewersMayNot": [
+    "modify any implementation branch",
+    "self-approve, mark a track terminal, or claim production/live/launch readiness",
+    "open a pull request or merge anything",
+    "commit the source ZIPs or any extracted official binary"
+  ]
+}
