@@ -1,23 +1,110 @@
 {
   "fixtureId": "negative",
-  "description": "Must fail QA for the stated reason.",
-  "statedFailureReason": "Oklahoma Section 18/19 relief is expungement (statutory sealing), never vacatur; the eligibility basis deliberately uses the prohibited term 'vacatur' so vocabulary QA must reject the render.",
+  "description": "Rejection fixture. It keeps the original prohibited-vocabulary violation (so relief-term QA still rejects the render) and adds the class of defect runPleadingQa is structurally blind to: content the committed Oklahoma evidence does not supply. Each fabricated fact below violates a rule this track's own packet states, and each is named in expectedSignals with the signal it trips.",
+  "statedFailureReason": "The fixture converts the § 19a identity-theft determination — whether the petitioner is the person named in the record — into a finding the court has already made, when the packet records that any dispute about the subject of the record ends self-help. It reports a hearing and a granted petition when the court sets the hearing on 30 days' notice, states the district attorney's and OSBI's positions for them, states a district court filing fee the packet expressly forbids stating to a participant, asserts that the petitioner served the prosecuting agency, the arresting agency and OSBI when notice under § 19 is the court's act, and populates the protected docket number, OTN and judge fields. It also uses the prohibited term 'vacatur' on an expungement track.",
   "expectations": {
     "qaPassed": false,
-    "expectedFailureSnippet": "vacatur"
+    "expectedFailureSnippet": "vacatur",
+    "expectedSignalClass": "invention",
+    "expectedSignal": "court_finding_asserted",
+    "expectedSignals": [
+      {
+        "signal": "court_finding_asserted",
+        "class": "invention",
+        "violation": "Asserts that the court has already found that Petitioner is not the person who committed the offence and that the record resulted from identity theft by another. That determination is the court's, and the packet records that any dispute about whether the participant is the subject of the record ends self-help.",
+        "rule": "Any dispute about whether the participant is the subject of the record, any tribal-court record (a live post-McGirt issue), and any contested hearing end self-help and require attorney review."
+      },
+      {
+        "signal": "hearing_outcome_asserted",
+        "class": "invention",
+        "violation": "Reports that a hearing was held and that the petition was granted. The court sets the hearing on 30 days' notice; the outcome does not exist when the petition is generated.",
+        "rule": "Notice is the court's act under 22 O.S. § 19 (hearing set with 30 days' notice to the prosecuting agency, arresting agency, OSBI, and any other relevant agency); the proposed order must identify every agency to which it applies."
+      },
+      {
+        "signal": "prosecutor_position_asserted",
+        "class": "invention",
+        "violation": "States that the district attorney does not object and that OSBI consents. Those positions belong to the agencies the court notifies; the petition never supplies them.",
+        "rule": "Notice is the court's act under 22 O.S. § 19 (hearing set with 30 days' notice to the prosecuting agency, arresting agency, OSBI, and any other relevant agency); the proposed order must identify every agency to which it applies."
+      },
+      {
+        "signal": "monetary_amount_asserted",
+        "class": "invention",
+        "violation": "States a dollar amount for the district court filing fee and asserts it was paid on a date. The packet records the district court filing fee as not established and expressly forbids stating it to a participant.",
+        "rule": "Registry release blocker: the district court filing fee is not established and must not be stated to a participant; OSBI states the court-record expungement is free while an arrest-record expungement carries a $150 OSBI processing fee (cashier's check or money order only)."
+      },
+      {
+        "signal": "fee_amount_asserted",
+        "class": "invention",
+        "violation": "Names the district court filing fee in words as an established amount ('filing fee of 200 dollars') when no committed Oklahoma source establishes any amount.",
+        "rule": "Registry release blocker: the district court filing fee is not established and must not be stated to a participant; OSBI states the court-record expungement is free while an arrest-record expungement carries a $150 OSBI processing fee (cashier's check or money order only)."
+      },
+      {
+        "signal": "service_completion_asserted",
+        "class": "invention",
+        "violation": "Asserts that Petitioner duly served the prosecuting agency, the arresting agency and OSBI on a stated date and that service was completed. Notice under § 19 is the court's act; the participant serves no one and this track's config carries no service note at all.",
+        "rule": "Notice is the court's act under 22 O.S. § 19 (hearing set with 30 days' notice to the prosecuting agency, arresting agency, OSBI, and any other relevant agency); the proposed order must identify every agency to which it applies."
+      },
+      {
+        "signal": "protected_case_field_populated",
+        "class": "protected_field",
+        "violation": "Populates caseData.docketNumber, caseData.otn and caseData.judgeName, which the protected-field policy requires to stay blank in every fixture.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "docket_number_asserted",
+        "class": "protected_field",
+        "violation": "The populated docket number reaches the caption in place of the blank-docket placeholder.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "otn_rendered",
+        "class": "protected_field",
+        "violation": "The populated OTN reaches the rendered text.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "judge_rendered",
+        "class": "protected_field",
+        "violation": "The populated judge name reaches the rendered text.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      }
+    ],
+    "unsignalledViolations": [
+      {
+        "violation": "Pleads eligibility by a specific Section 18 paragraph number ('the category at 22 O.S. § 18(A)(7)') when the packet requires the eligibility screen to run on the category description precisely because the numbering is unstable.",
+        "rule": "Registry build blocker: the enrolled text of 22 O.S. §§ 18 and 19 as amended by Senate Bill 2030 (2026) was not obtained; the Section 18 category numbering is unstable after three consecutive years of amendments, so the eligibility screen runs on the category description, never a paragraph number.",
+        "why_unsignalled": "No pattern in the invention/protected-field scanner detects a citation to an unstable paragraph number. The violation is recorded here so the residual blind spot is visible rather than mistaken for coverage."
+      },
+      {
+        "violation": "Asks that the record be physically destroyed, when § 19 does not authorise physical destruction and destruction is available only after ten years under § 19(N).",
+        "rule": "Full versus partial sealing changes the outcome and must be disclosed; § 19 does not authorize physical destruction, and a sealed record may be unsealed on changed conditions or destroyed after ten years under § 19(N).",
+        "why_unsignalled": "No pattern in the scanner detects an over-promise about the reach of relief. Recorded here so the residual blind spot is visible rather than mistaken for coverage."
+      }
+    ]
   },
   "renderInput": {
     "partyData": {
       "petitionerName": "Negative Sample"
     },
     "caseData": {
-      "countyName": "Cleveland"
+      "countyName": "Cleveland",
+      "docketNumber": "CF-2019-00884",
+      "otn": "OK0088412207",
+      "judgeName": "the Honourable Pat Example"
     },
     "chargeData": {
       "chargeDescription": "Larceny of merchandise from a retailer"
     },
     "eligibilityData": {
-      "eligibilityBasisLabel": "Vacatur of the record under 22 O.S. § 19a following identity theft by another person"
+      "eligibilityBasisLabel": "Vacatur of the record under 22 O.S. § 19a following identity theft by another person",
+      "additionalFacts": [
+        "The Court finds that Petitioner is not the person who committed the offence and that the record resulted from identity theft by another person.",
+        "A hearing was held on 03/20/2026 and the petition was granted.",
+        "The district attorney does not object to this Petition and OSBI consents to the relief requested.",
+        "Petitioner paid the district court filing fee of 200 dollars ($200) to the court clerk on 02/14/2026.",
+        "A copy of this Petition was duly served on the prosecuting agency, the arresting agency and OSBI on 03/01/2026, and service was completed that day.",
+        "Petitioner qualifies under the category at 22 O.S. § 18(A)(7), and asks that the record be physically destroyed."
+      ]
     },
     "productName": "LegalEase RCAP",
     "shadowMode": true
