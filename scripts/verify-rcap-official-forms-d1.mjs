@@ -70,7 +70,12 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
     const record = readJson(sourceRecordPath);
 
     const inv = inventoryByFile.get(record.fileName);
-    assert(inv !== undefined, `${slug}/${entry.name}: source file '${record.fileName}' exists in the compiled profile formInventory`);
+    // Families added from the overlay-factory manifest (KY/NC/NE official
+    // PDFs the profile inventory never listed) legitimately have no
+    // inventory row; their source of record is the manifest.
+    if (inv === undefined) {
+      assert(record.currentnessBasis.includes("overlay-factory manifest"), `${slug}/${entry.name}: non-inventory family cites the manifest as source of record`);
+    }
     if (inv) {
       assert(record.expectedSha256 === (inv.sha256 ?? "sha256_unrecorded_in_repo"), `${slug}/${entry.name}: pinned sha256 matches formInventory (drift red)`);
       assert(record.relativePath === inv.relativePath, `${slug}/${entry.name}: pinned relativePath matches formInventory (drift red)`);
@@ -78,12 +83,32 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
     assert(record.failClosed === true && record.sourcePresenceInClone === false, `${slug}/${entry.name}: source record fails closed`);
     assert(typeof record.exactSourceRequirement === "string" && record.exactSourceRequirement.includes(record.relativePath), `${slug}/${entry.name}: exact source requirement names the pinned path`);
 
-    // A fail-closed family must not claim census or render outputs.
+    // Census honesty: a census may exist ONLY when extracted from the
+    // committed shadow sample; a family without that status must carry none.
     if (record.fieldExtractionStatus === "field_census_unavailable_in_repo") {
       assert(!fs.existsSync(path.join(familyDir, "field-census.json")), `${slug}/${entry.name}: no fabricated census`);
       assert(!fs.existsSync(path.join(familyDir, "production-field-map.json")), `${slug}/${entry.name}: no fabricated field map`);
-      assert(!fs.existsSync(path.join(familyDir, "filled.pdf")), `${slug}/${entry.name}: no fabricated filled PDF`);
+    } else if (record.fieldExtractionStatus === "extracted_from_committed_shadow_sample") {
+      const census = readJson(path.join(familyDir, "field-census.json"));
+      const classification = readJson(path.join(familyDir, "field-classification.json"));
+      const map = readJson(path.join(familyDir, "production-field-map.json"));
+      assert(census.fieldCount === census.fields.length, `${slug}/${entry.name}: census count consistent`);
+      assert(census.fieldCount === record.extractedFieldCount, `${slug}/${entry.name}: census matches source record count`);
+      const classByName = new Map(classification.entries.map((e) => [e.name, e.class]));
+      assert(classByName.size === census.fields.length, `${slug}/${entry.name}: classification covers census 1:1`);
+      for (const f of census.fields) assert(classByName.has(f.name), `${slug}/${entry.name}: '${f.name}' classified`);
+      const POP = new Set(["participant", "deterministic"]);
+      for (const b of map.bindings ?? []) {
+        assert(POP.has(classByName.get(b.field)), `${slug}/${entry.name}: binding '${b.field}' is participant/deterministic only`);
+      }
+      if (record.componentRole === "court_order_component_never_participant_filed") {
+        assert((map.bindings ?? []).length === 0, `${slug}/${entry.name}: order component binds nothing`);
+      }
+      assert(census.censusBasis === "extracted_from_committed_shadow_sample", `${slug}/${entry.name}: census basis recorded`);
+      const samplePath = path.join(rootDir, census.samplePath);
+      assert(fs.existsSync(samplePath), `${slug}/${entry.name}: census sample exists in repo`);
     }
+    assert(!fs.existsSync(path.join(familyDir, "filled.pdf")), `${slug}/${entry.name}: no fabricated filled PDF`);
 
     for (const fixture of ["canonical", "boundary", "negative"]) {
       const p = path.join(familyDir, `fixtures/${fixture}.json`);
@@ -114,7 +139,7 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
   }
 }
 
-assert(families >= 30, `all 30 D1 family packages present (found ${families})`);
+assert(families >= 40, `all 40 D1 family packages present (found ${families})`);
 
 if (failures.length > 0) {
   console.error("verify-rcap-official-forms-d1 FAILED");
