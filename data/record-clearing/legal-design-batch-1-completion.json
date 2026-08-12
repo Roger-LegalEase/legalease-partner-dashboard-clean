@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 1,
+  "artifact": "batch-1-legal-design-completion",
+  "batch": "batch-1-amended",
+  "status": "complete",
+  "normalizationSchemaVersion": 1,
+  "generatedFrom": [
+    "data/record-clearing/legal-design-track-registry.json",
+    "data/record-clearing/legal-design-legal-research-queue.json",
+    "data/record-clearing/legal-design-implementation-queue.json",
+    "data/record-clearing/legal-design-composed-unit-approvals.json"
+  ],
+  "note": "Batch 1 legal-design normalization complete. Importing a memo enables nothing: every imported track is runtime_disabled, every deferred track is unregistered and unreachable, and no track is packet_ready. Source-ID reconciliation and normalized-unit reconciliation are reported separately; composed routes add normalized units under an existing source ID and never add source tracks.",
+  "sourceIdReconciliation": {
+    "expected": 117,
+    "imported": 110,
+    "deferred": 7,
+    "accounted": 117,
+    "outstanding": 0,
+    "unaccounted": 0,
+    "reconciles": true,
+    "byJurisdiction": [
+      {
+        "jurisdiction": "AK",
+        "expected": 11,
+        "imported": 8,
+        "deferred": 3,
+        "accounted": 11
+      },
+      {
+        "jurisdiction": "AL",
+        "expected": 11,
+        "imported": 9,
+        "deferred": 2,
+        "accounted": 11
+      },
+      {
+        "jurisdiction": "AR",
+        "expected": 12,
+        "imported": 12,
+        "deferred": 0,
+        "accounted": 12
+      },
+      {
+        "jurisdiction": "AZ",
+        "expected": 9,
+        "imported": 9,
+        "deferred": 0,
+        "accounted": 9
+      },
+      {
+        "jurisdiction": "CA",
+        "expected": 13,
+        "imported": 12,
+        "deferred": 1,
+        "accounted": 13
+      },
+      {
+        "jurisdiction": "CO",
+        "expected": 11,
+        "imported": 10,
+        "deferred": 1,
+        "accounted": 11
+      },
+      {
+        "jurisdiction": "CT",
+        "expected": 14,
+        "imported": 14,
+        "deferred": 0,
+        "accounted": 14
+      },
+      {
+        "jurisdiction": "DC",
+        "expected": 8,
+        "imported": 8,
+        "deferred": 0,
+        "accounted": 8
+      },
+      {
+        "jurisdiction": "DE",
+        "expected": 6,
+        "imported": 6,
+        "deferred": 0,
+        "accounted": 6
+      },
+      {
+        "jurisdiction": "FL",
+        "expected": 9,
+        "imported": 9,
+        "deferred": 0,
+        "accounted": 9
+      },
+      {
+        "jurisdiction": "HI",
+        "expected": 9,
+        "imported": 9,
+        "deferred": 0,
+        "accounted": 9
+      },
+      {
+        "jurisdiction": "ID",
+        "expected": 4,
+        "imported": 4,
+        "deferred": 0,
+        "accounted": 4
+      }
+    ],
+    "deferredTracks": [
+      {
+        "jurisdiction": "AK",
+        "trackId": "ak-set-aside",
+        "outputStrategy": null,
+        "outputStrategyStatus": "unresolved",
+        "packetIdentity": "unresolved",
+        "runtimeRegistration": "none",
+        "runtimeReachable": false,
+        "unresolvedElements": [
+          "governing_mechanism"
+        ]
+      },
+      {
+        "jurisdiction": "AK",
+        "trackId": "ak-cannabis-seal",
+        "outputStrategy": null,
+        "outputStrategyStatus": "unresolved",
+        "packetIdentity": "unresolved",
+        "runtimeRegistration": "none",
+        "runtimeReachable": false,
+        "unresolvedElements": [
+          "output_strategy"
+        ]
+      },
+      {
+        "jurisdiction": "AK",
+        "trackId": "ak-correct-record",
+        "outputStrategy": null,
+        "outputStrategyStatus": "unresolved",
+        "packetIdentity": "unresolved",
+        "runtimeRegistration": "none",
+        "runtimeReachable": false,
+        "unresolvedElements": [
+          "governing_mechanism"
+        ]
+      },
+      {
+        "jurisdiction": "AL",
+        "trackId": "al-olr",
+        "outputStrategy": null,
+        "outputStrategyStatus": "unresolved",
+        "packetIdentity": "unresolved",
+        "runtimeRegistration": "none",
+        "runtimeReachable": false,
+        "unresolvedElements": [
+          "output_strategy"
+        ]
+      },
+      {
+        "jurisdiction": "AL",
+        "trackId": "al-uncharged-arrest",
+        "outputStrategy": null,
+        "outputStrategyStatus": "unresolved",
+        "packetIdentity": "unresolved",
+        "runtimeRegistration": "none",
+        "runtimeReachable": false,
+        "unresolvedElements": [
+          "governing_mechanism"
+        ]
+      },
+      {
+        "jurisdiction": "CA",
+        "trackId": "ca-1203-4b",
+        "outputStrategy": null,
+        "outputStrategyStatus": "unresolved",
+        "packetIdentity": "unresolved",
+        "runtimeRegistration": "none",
+        "runtimeReachable": false,
+        "unresolvedElements": [
+          "output_strategy",
+          "correct_form"
+        ]
+      },
+      {
+        "jurisdiction": "CO",
+        "trackId": "co_mistaken_identity_expungement",
+        "outputStrategy": null,
+        "outputStrategyStatus": "unresolved",
+        "packetIdentity": "unresolved",
+        "runtimeRegistration": "none",
+        "runtimeReachable": false,
+        "unresolvedElements": [
+          "governing_mechanism"
+        ]
+      }
+    ]
+  },
+  "normalizedUnitReconciliation": {
+    "singleOutputTracks": 100,
+    "composedSourceTracks": 10,
+    "composedUnits": 20,
+    "sequentialStageUnits": 14,
+    "alternativeBranchUnits": 6,
+    "mixedUnits": 0,
+    "unresolvedUnits": 3,
+    "resolvedUnits": 17,
+    "resolvedButUnavailableUnits": 2,
+    "normalizedRuntimeCandidates": 115,
+    "crosswalk": [
+      {
+        "jurisdiction": "AR",
+        "sourceTrackId": "ar-misdemeanor-dwi-seal",
+        "compositionMode": "sequential",
+        "units": [
+          {
+            "unitId": "ar-misdemeanor-dwi-seal-stage-1",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ar-misdemeanor-dwi-seal-stage-2",
+            "order": 2,
+            "outputStrategy": "official_pdf_fill",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": false,
+            "unresolved": false
+          }
+        ]
+      },
+      {
+        "jurisdiction": "AR",
+        "sourceTrackId": "ar-pardon-seal",
+        "compositionMode": "sequential",
+        "units": [
+          {
+            "unitId": "ar-pardon-seal-stage-1",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ar-pardon-seal-stage-2",
+            "order": 2,
+            "outputStrategy": "official_pdf_fill",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          }
+        ]
+      },
+      {
+        "jurisdiction": "AR",
+        "sourceTrackId": "ar-act346",
+        "compositionMode": "sequential",
+        "units": [
+          {
+            "unitId": "ar-act346-stage-1",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ar-act346-stage-2",
+            "order": 2,
+            "outputStrategy": "official_pdf_fill",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          }
+        ]
+      },
+      {
+        "jurisdiction": "AR",
+        "sourceTrackId": "ar-drug-court",
+        "compositionMode": "sequential",
+        "units": [
+          {
+            "unitId": "ar-drug-court-stage-1",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ar-drug-court-stage-2",
+            "order": 2,
+            "outputStrategy": "official_pdf_fill",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          }
+        ]
+      },
+      {
+        "jurisdiction": "AR",
+        "sourceTrackId": "ar-veterans-court",
+        "compositionMode": "sequential",
+        "units": [
+          {
+            "unitId": "ar-veterans-court-stage-1",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ar-veterans-court-stage-2",
+            "order": 2,
+            "outputStrategy": "official_pdf_fill",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": null,
+            "available": true,
+            "unresolved": false
+          }
+        ]
+      },
+      {
+        "jurisdiction": "CA",
+        "sourceTrackId": "ca-diversion-seal",
+        "compositionMode": "sequential",
+        "units": [
+          {
+            "unitId": "ca-diversion-seal-stage-1",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": "identified",
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ca-diversion-seal-stage-2",
+            "order": 2,
+            "outputStrategy": "official_pdf_fill",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": "identified",
+            "available": false,
+            "unresolved": false
+          }
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "sourceTrackId": "ct-nolle-auto",
+        "compositionMode": "alternative",
+        "units": [
+          {
+            "unitId": "ct-nolle-auto-branch-automatic-erasure",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": "identified",
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ct-nolle-auto-branch-motion-to-nolle",
+            "order": 2,
+            "outputStrategy": null,
+            "outputStrategyStatus": "unresolved",
+            "packetIdentity": "unresolved",
+            "available": false,
+            "unresolved": true
+          }
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "sourceTrackId": "ct-under18-misdemeanor",
+        "compositionMode": "alternative",
+        "units": [
+          {
+            "unitId": "ct-under18-misdemeanor-branch-automatic",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": "identified",
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ct-under18-misdemeanor-branch-petition",
+            "order": 2,
+            "outputStrategy": null,
+            "outputStrategyStatus": "unresolved",
+            "packetIdentity": "unresolved",
+            "available": false,
+            "unresolved": true
+          }
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "sourceTrackId": "ct-pardon-erasure",
+        "compositionMode": "alternative",
+        "units": [
+          {
+            "unitId": "ct-pardon-erasure-branch-pre-1974-petition",
+            "order": 1,
+            "outputStrategy": "custom_pleading",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": "identified",
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ct-pardon-erasure-branch-post-1974-automatic",
+            "order": 2,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": "identified",
+            "available": true,
+            "unresolved": false
+          }
+        ]
+      },
+      {
+        "jurisdiction": "CT",
+        "sourceTrackId": "ct-missed-erasure",
+        "compositionMode": "sequential",
+        "units": [
+          {
+            "unitId": "ct-missed-erasure-stage-1-record-and-assessment",
+            "order": 1,
+            "outputStrategy": "process_guidance",
+            "outputStrategyStatus": "resolved",
+            "packetIdentity": "identified",
+            "available": true,
+            "unresolved": false
+          },
+          {
+            "unitId": "ct-missed-erasure-stage-2-despp-submission",
+            "order": 2,
+            "outputStrategy": null,
+            "outputStrategyStatus": "unresolved",
+            "packetIdentity": "unresolved",
+            "available": false,
+            "unresolved": true
+          }
+        ]
+      }
+    ]
+  },
+  "invariants": {
+    "noFirstAvailableFallback": true,
+    "explicitUnitSelectionRequired": true,
+    "onlyThreeApprovedStrategiesReachRenderers": true,
+    "noDeferredTrackHasAnInventedStrategy": true,
+    "noUnresolvedUnitIsAvailable": true,
+    "allImportedTracksRuntimeDisabled": true,
+    "packetReadyCount": 0,
+    "launchGate": "red"
+  },
+  "composedUnitApprovals": {
+    "path": "data/record-clearing/legal-design-composed-unit-approvals.json",
+    "approvedTracks": 10,
+    "approvedUnits": 20,
+    "writtenOnlyBy": "scripts/rcap-legal-design-batch-delta.mjs --approve-composed-units"
+  }
+}

@@ -76,3 +76,63 @@ jobs:
       - name: Verify all50 handoff
         if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         run: npm run rcap:verify-all50-handoff
+
+      - name: Verify packet capability registry
+        if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
+        run: npm run rcap:verify-packet-capability-registry
+
+      # Runs unconditionally. Packet delivery capability is a property of the
+      # whole product, not of whichever files a pull request happened to touch,
+      # so this must not self-skip on changed-file scope.
+      - name: Audit packet delivery across all 51 jurisdictions
+        run: npm run rcap:audit-packet-delivery-all51
+
+      - name: Verify packet delivery for every packet_ready jurisdiction
+        run: npm run rcap:verify-packet-delivery-ready-jurisdictions
+
+      # Runs unconditionally. Packet delivery is a property of the product, not
+      # of whichever files a pull request touched, so this must not self-skip.
+      - name: Verify packet delivery over real HTTP
+        run: npm run rcap:verify-packet-http-acceptance
+
+      # Legal-design intake. Runs unconditionally: an incomplete memo must fail
+      # the build rather than import partially.
+      - name: Verify attorney review packets
+        run: npm run rcap:verify-attorney-review-packets
+
+      - name: Verify legal-design intake pipeline
+        run: npm run rcap:verify-legal-design-intake
+
+      - name: Validate and import legal-design memos
+        run: npm run rcap:legal-design-intake
+
+      # Fails when the batch partition does not sum to the tracks processed, or
+      # when normalization has restated any legal conclusion counsel made.
+      - name: Batch delta report
+        run: npm run rcap:legal-design-batch-delta
+
+      - name: Upload legal-design implementation queue
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: legal-design-implementation-queue
+          path: data/record-clearing/legal-design-implementation-queue.json
+          if-no-files-found: warn
+
+      - name: Upload legal-design batch delta and guidance re-review queue
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: legal-design-batch-delta
+          path: |
+            data/record-clearing/legal-design-batch-delta-report.json
+            data/record-clearing/legal-design-guidance-rereview-queue.json
+          if-no-files-found: warn
+
+      - name: Upload packet delivery capability matrix
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: packet-delivery-capability-matrix
+          path: artifacts/packet-delivery/all51-capability-matrix.json
+          if-no-files-found: warn

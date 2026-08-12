@@ -1,0 +1,1871 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "FL",
+  "memoVersion": "2.0.0-batch-1-amended",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "fl-expunction",
+      "legalName": "Court-Ordered Expunction, § 943.0585, Fla. Stat.",
+      "publicName": "Expunge a case that did not end in a conviction",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.0585, Fla. Stat.; disqualifiers at § 943.0584",
+          "Fla. R. Crim. P. 3.692, with forms at Rule 3.989",
+          "as amended by Chapter 2026-114, effective 1 July 2026"
+        ],
+        "summary": "Two-stage: FDLE Certificate of Eligibility first, then a court petition under Rule 3.692. Discretionary — the court may deny a statutorily eligible petition."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "no charging document filed",
+        "a charging document filed and dismissed, nolle prosequi, or dismissed by the court",
+        "judgment of acquittal",
+        "not guilty verdict"
+      ],
+      "exclusions": [
+        "Any adjudication of guilt for the acts arising from the arrest.",
+        "Any prior adjudication of guilt as an adult anywhere, or adjudication of delinquency for a felony or § 943.051(3)(b) misdemeanor.",
+        "Any offense on the § 943.0584 list.",
+        "A prior Florida seal or expunge.",
+        "Being under court supervision for the case.",
+        "Having another seal or expunge petition pending in any court.",
+        "Once per lifetime, with same-incident grouping at the court's discretion."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "None fixed. The disposition must be final and supervision complete.",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "circuit",
+        "keys": [
+          "fl-circuit-1",
+          "fl-circuit-2",
+          "fl-circuit-3",
+          "fl-circuit-4",
+          "fl-circuit-5",
+          "fl-circuit-6",
+          "fl-circuit-7",
+          "fl-circuit-8",
+          "fl-circuit-9",
+          "fl-circuit-10",
+          "fl-circuit-11",
+          "fl-circuit-12",
+          "fl-circuit-13",
+          "fl-circuit-14",
+          "fl-circuit-15",
+          "fl-circuit-16",
+          "fl-circuit-17",
+          "fl-circuit-18",
+          "fl-circuit-19",
+          "fl-circuit-20"
+        ],
+        "venue": "Statewide Florida two-stage process; FDLE first, then circuit or county court in the circuit where the arrest occurred. Local packet variation exists across 20 circuits and 67 counties."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Florida Department of Law Enforcement, then the circuit or county court in the circuit of arrest",
+        "detail": "Agency-controlled then court-controlled, prosecutor-dependent for the expunction certification."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "notes": "Stage 1. Agency form with a notarised signature, fingerprints, and a fee."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-PETITION",
+          "notes": "Stage 2 petition under Rule 3.692, form at Rule 3.989."
+        },
+        {
+          "role": "affidavit",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-AFFIDAVIT",
+          "notes": "Sworn affidavit, notarised or sworn before a deputy clerk."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-ORDER"
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Certificate of service on three recipients."
+        },
+        {
+          "role": "continuation",
+          "requirement": "conditional",
+          "conditionDescription": "For multiple charges, and for local circuit cover sheets or packet forms.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-CONTINUATION"
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "disposition",
+          "question": "How did the case end — no charges filed, dismissed, nolle prosequi, acquitted, or found not guilty?",
+          "requirement": "required"
+        },
+        {
+          "key": "adjudicationOfGuilt",
+          "question": "Were you ever adjudicated guilty for anything arising from this arrest?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorAdultAdjudication",
+          "question": "Have you ever been adjudicated guilty as an adult anywhere, or adjudicated delinquent for a felony?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceAndSection",
+          "question": "What was the offence and its statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSealOrExpunge",
+          "question": "Have you ever had a Florida record sealed or expunged before? This relief is once per lifetime.",
+          "requirement": "required"
+        },
+        {
+          "key": "underSupervision",
+          "question": "Are you still under court supervision for this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingPetition",
+          "question": "Do you have another seal or expunge petition pending in any court?",
+          "requirement": "required"
+        },
+        {
+          "key": "circuitOfArrest",
+          "question": "In which county and judicial circuit did the arrest happen?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified disposition for each charge",
+          "obtainedFrom": "The clerk of the court where the case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the disposition for each charge. Certified copies and certified dispositions are county-dependent in cost.",
+          "confirms": "disposition"
+        },
+        {
+          "name": "Fingerprints",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit them with the FDLE application."
+        },
+        {
+          "name": "State Attorney or Statewide Prosecutor certified statement",
+          "obtainedFrom": "The State Attorney or Statewide Prosecutor for the circuit",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request the certified statement from the State Attorney's office for the circuit where the arrest occurred."
+        },
+        {
+          "name": "Certificate of Eligibility",
+          "obtainedFrom": "Florida Department of Law Enforcement",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "FDLE issues the certificate after processing the Stage 1 application. Do not file the Stage 2 court packet until the valid certificate is obtained."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Notarised signature on the FDLE application",
+          "whereInPacket": "Stage 1 FDLE application, signature block",
+          "why": "The agency form requires a notarised signature."
+        },
+        {
+          "item": "Certificate number and issue date",
+          "whereInPacket": "Stage 2 petition, certificate reference",
+          "why": "Not available until FDLE issues the certificate. LegalEase does not verify the certificate."
+        },
+        {
+          "item": "Sworn affidavit signature",
+          "whereInPacket": "Stage 2 affidavit, jurat",
+          "why": "Notarised or sworn before a deputy clerk."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "§ 943.0585, Fla. Stat.",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0585.html",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "FDLE Seal and Expunge Process, frequently asked questions",
+          "url": "https://www.fdle.state.fl.us/seal-and-expunge-process/frequently-asked-questions",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1: submit the FDLE Application for Certificate of Eligibility with the certified dispositions, fingerprints, fee and prosecutor certified statement. Stage 2: file the petition, affidavit, certificate and proposed order with the circuit or county court in the circuit of arrest.",
+        "fees": "$75 nonrefundable FDLE processing fee at Stage 1. Certified copies and certified dispositions are county-dependent.",
+        "feeWaiver": "The source review does not address a fee waiver for the FDLE processing fee.",
+        "notice": "The State Attorney or Statewide Prosecutor certifies at Stage 1. The court decides at Stage 2 and may deny a statutorily eligible petition.",
+        "service": "Certificate of service on three recipients at Stage 2.",
+        "participantSignature": "Notarised signature on the FDLE application; sworn affidavit at Stage 2, notarised or sworn before a deputy clerk.",
+        "notarization": "Required on the Stage 1 FDLE application and on the Stage 2 affidavit unless sworn before a deputy clerk."
+      },
+      "selfHelpStopConditions": [
+        "The State Attorney declines to certify.",
+        "The State objects.",
+        "Any hearing.",
+        "A contested § 943.0584 classification.",
+        "Any out-of-state or federal disposition whose adjudication status is unclear.",
+        "A prior seal or expunge anywhere in the participant's history.",
+        "A pending petition elsewhere.",
+        "Any immigration matter.",
+        "Anything the participant wants to argue rather than assert."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "Florida operational amendments / True blockers and release gates",
+            "sourceStatement": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release. Form currency is a release gate, but the ordinary, bridge, administrative, self-defense, trafficking, and juvenile packet identities are known."
+          }
+        },
+        {
+          "question": "Any unresolved specialty-route statutory criterion that changes which application applies remains a route-selection blocker.",
+          "impact": "build_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "Florida operational amendments / True blockers and release gates",
+            "sourceStatement": "Any unresolved specialty-route statutory criterion that changes which application applies remains a route-selection blocker. A missing certification, fingerprint card, disposition, or certificate number does not."
+          }
+        },
+        {
+          "question": "Maintained § 943.0584 disqualifying-offense data has not been acquired. The screen must be built as a maintained data set, not a static list.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "TRACK FL-1 / Limitations",
+            "sourceStatement": "build the § 943.0584 screen as a maintained data set, not a static list",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "Circuit-level packet samples beyond Orange County have not been acquired. Local packet variation is confirmed across 20 circuits and 67 counties.",
+          "impact": "release_blocker",
+          "affectedElement": "packet_components",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "TRACK FL-1 / missing source requirements",
+            "sourceStatement": "Circuit-level packet samples beyond Orange County.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment changes the operational treatment of the certified dispositions, fingerprints, Certificate of Eligibility and prosecutor certifications, which become required-before-submission or manual completion items rather than conditions of generation.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "LegalEase may generate the Stage 1 FDLE packet and Stage 2 court packet without collecting or reviewing certified dispositions, fingerprints, the Certificate of Eligibility, prosecutor certifications, or supporting records. Those are required_before_submission, required_before_filing, or manual_completion_item fields.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For FL-1 and FL-2, LegalEase may generate the Stage 1 FDLE packet and Stage 2 court packet without collecting or reviewing certified dispositions, fingerprints, the Certificate of Eligibility, prosecutor certifications, or supporting records. Those are `required_before_submission`, `required_before_filing`, or `manual_completion_item` fields."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The Stage 2 packet must instruct the participant not to file until the valid certificate is obtained.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "The Stage 2 packet must instruct the participant not to file until the valid certificate is obtained."
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "The participant answers the prior-relief question; LegalEase does not investigate it.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "The participant answers the prior-relief question; LegalEase does not investigate it."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Make the once-per-lifetime question a hard gate at intake, since spending it on the wrong record is irreversible.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-1 / Limitations",
+              "sourceStatement": "make the once-per-lifetime question a hard gate at intake, since spending it on the wrong record is irreversible",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Pull Rule 3.989 and build on the rule forms, not the Orange County packet.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-1 / Limitations",
+              "sourceStatement": "pull Rule 3.989 and build on the rule forms, not the Orange County packet",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not promise an outcome, because the court can deny a statutorily eligible petition.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-1 / Limitations",
+              "sourceStatement": "do not promise an outcome, because the court can deny.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Legal effect: most agencies must physically destroy or obliterate the record; FDLE retains a confidential copy. The person may lawfully deny the arrest, subject to the nine exceptions at § 943.0585(6)(b).",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-1 / Legal effect",
+              "sourceStatement": "most agencies must physically destroy or obliterate the record; FDLE retains a confidential copy. ... The person may lawfully deny the arrest, subject to the nine exceptions at § 943.0585(6)(b).",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The State Attorney declining to certify, a State objection, or any hearing ends self-help.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-1 / SELF-HELP STOP CONDITIONS",
+              "sourceStatement": "the State Attorney declines to certify; the State objects; any hearing",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "fl-sealing",
+      "legalName": "Court-Ordered Sealing, § 943.059, Fla. Stat.",
+      "publicName": "Seal a Florida case record",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.059, Fla. Stat.",
+          "Fla. R. Crim. P. 3.692, with forms at Rule 3.989"
+        ],
+        "summary": "Identical two-stage structure to the expunction track without the State Attorney certification. A sealed record behaves differently from an expunged one, particularly for firearms and concealed carry."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "dispositions eligible for sealing under § 943.059, including a withhold of adjudication"
+      ],
+      "exclusions": [
+        "Any offense on the § 943.0584 list.",
+        "A prior Florida seal or expunge.",
+        "Being under court supervision for the case.",
+        "Having another seal or expunge petition pending in any court.",
+        "Once per lifetime, with same-incident grouping at the court's discretion."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "None fixed. The disposition must be final and supervision complete.",
+          "duration": "none"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "circuit",
+        "keys": [
+          "fl-circuit-1",
+          "fl-circuit-2",
+          "fl-circuit-3",
+          "fl-circuit-4",
+          "fl-circuit-5",
+          "fl-circuit-6",
+          "fl-circuit-7",
+          "fl-circuit-8",
+          "fl-circuit-9",
+          "fl-circuit-10",
+          "fl-circuit-11",
+          "fl-circuit-12",
+          "fl-circuit-13",
+          "fl-circuit-14",
+          "fl-circuit-15",
+          "fl-circuit-16",
+          "fl-circuit-17",
+          "fl-circuit-18",
+          "fl-circuit-19",
+          "fl-circuit-20"
+        ],
+        "venue": "Statewide Florida two-stage process; FDLE first, then circuit or county court in the circuit where the arrest occurred. Local packet variation exists across 20 circuits and 67 counties."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Florida Department of Law Enforcement, then the circuit or county court in the circuit of arrest",
+        "detail": "Agency-controlled then court-controlled. No State Attorney certification is required on this route."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "notes": "Stage 1."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-PETITION",
+          "notes": "Stage 2 petition under Rule 3.692."
+        },
+        {
+          "role": "affidavit",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-AFFIDAVIT"
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-ORDER"
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading"
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "disposition",
+          "question": "How did the case end, and was adjudication withheld?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceAndSection",
+          "question": "What was the offence and its statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorSealOrExpunge",
+          "question": "Have you ever had a Florida record sealed or expunged before? This relief is once per lifetime.",
+          "requirement": "required"
+        },
+        {
+          "key": "underSupervision",
+          "question": "Are you still under court supervision for this case?",
+          "requirement": "required"
+        },
+        {
+          "key": "pendingPetition",
+          "question": "Do you have another seal or expunge petition pending in any court?",
+          "requirement": "required"
+        },
+        {
+          "key": "circuitOfArrest",
+          "question": "In which county and judicial circuit did the arrest happen?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified disposition for each charge",
+          "obtainedFrom": "The clerk of the court where the case was filed",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a certified copy of the disposition for each charge.",
+          "confirms": "disposition"
+        },
+        {
+          "name": "Fingerprints",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit them with the FDLE application."
+        },
+        {
+          "name": "Certificate of Eligibility",
+          "obtainedFrom": "Florida Department of Law Enforcement",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "FDLE issues the certificate after processing the Stage 1 application. Do not file the Stage 2 court packet until the valid certificate is obtained."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Notarised signature on the FDLE application",
+          "whereInPacket": "Stage 1 FDLE application, signature block",
+          "why": "The agency form requires a notarised signature."
+        },
+        {
+          "item": "Certificate number and issue date",
+          "whereInPacket": "Stage 2 petition, certificate reference",
+          "why": "Not available until FDLE issues the certificate."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "§ 943.059, Fla. Stat.",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.059.html",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "FDLE Seal and Expunge Process, frequently asked questions",
+          "url": "https://www.fdle.state.fl.us/seal-and-expunge-process/frequently-asked-questions",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1 FDLE application, then Stage 2 court petition in the circuit of arrest.",
+        "fees": "$75 nonrefundable FDLE processing fee at Stage 1. Certified copies are county-dependent.",
+        "feeWaiver": "The source review does not address a fee waiver for the FDLE processing fee.",
+        "notice": "No State Attorney certification is required on this route. The court decides at Stage 2.",
+        "service": "Certificate of service at Stage 2.",
+        "participantSignature": "Notarised signature on the FDLE application; sworn affidavit at Stage 2.",
+        "notarization": "Required on the Stage 1 FDLE application and on the Stage 2 affidavit unless sworn before a deputy clerk."
+      },
+      "selfHelpStopConditions": [
+        "The State objects.",
+        "Any hearing.",
+        "A contested § 943.0584 classification.",
+        "A prior seal or expunge anywhere in the participant's history.",
+        "A pending petition elsewhere.",
+        "Any immigration matter.",
+        "Anything the participant wants to argue rather than assert."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "Florida operational amendments / True blockers and release gates",
+            "sourceStatement": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release."
+          }
+        },
+        {
+          "question": "Maintained § 943.0584 disqualifying-offense data has not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "TRACK FL-2 / missing source requirements",
+            "sourceStatement": "Maintained § 943.0584 disqualifying-offense data.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below,\" same as FL-1 plus the firearms and concealed-carry copy requirement. The amendment changes the operational treatment of the supporting records.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "LegalEase may generate the Stage 1 FDLE packet and Stage 2 court packet without collecting or reviewing certified dispositions, fingerprints, the Certificate of Eligibility, or supporting records.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "For FL-1 and FL-2, LegalEase may generate the Stage 1 FDLE packet and Stage 2 court packet without collecting or reviewing certified dispositions, fingerprints, the Certificate of Eligibility, prosecutor certifications, or supporting records."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The Stage 2 packet must instruct the participant not to file until the valid certificate is obtained.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "The Stage 2 packet must instruct the participant not to file until the valid certificate is obtained."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "The participant-facing copy must carry the firearms and concealed-carry exceptions, because a sealed record behaves differently from an expunged one in exactly the situation where many Florida participants care most.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-2 / Limitations",
+              "sourceStatement": "the participant-facing copy must carry the firearms and concealed-carry exceptions, because a sealed record behaves differently from an expunged one in exactly the situation where many Florida participants care most.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Make the once-per-lifetime question a hard gate at intake.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-1 / Limitations, applied to FL-2 as \"same as FL-1\"",
+              "sourceStatement": "make the once-per-lifetime question a hard gate at intake, since spending it on the wrong record is irreversible",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "A State objection or any hearing ends self-help.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-1 / SELF-HELP STOP CONDITIONS",
+              "sourceStatement": "the State objects; any hearing",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "fl-10yr-bridge",
+      "legalName": "The Ten-Year Seal-Then-Expunge Bridge, § 943.0585",
+      "publicName": "Expunge a record you sealed ten years ago",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.0585, Fla. Stat."
+        ],
+        "summary": "Section 943.0585 expressly excepts a later expunction of the same record after at least ten years of qualifying court-ordered sealing from the prior-relief bar. FDLE's FAQ confirms that a record initially ineligible for expunction because adjudication was withheld may become eligible after ten years sealed."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "a record that has been under a qualifying court-ordered seal for at least ten years and is otherwise eligible"
+      ],
+      "exclusions": [
+        "The prior sealing still prevents using the ordinary statutes on a different arrest record."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "Qualifying court-ordered sealing of the same record",
+          "duration": "At least ten years"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "circuit",
+        "keys": [
+          "fl-circuit-1",
+          "fl-circuit-2",
+          "fl-circuit-3",
+          "fl-circuit-4",
+          "fl-circuit-5",
+          "fl-circuit-6",
+          "fl-circuit-7",
+          "fl-circuit-8",
+          "fl-circuit-9",
+          "fl-circuit-10",
+          "fl-circuit-11",
+          "fl-circuit-12",
+          "fl-circuit-13",
+          "fl-circuit-14",
+          "fl-circuit-15",
+          "fl-circuit-16",
+          "fl-circuit-17",
+          "fl-circuit-18",
+          "fl-circuit-19",
+          "fl-circuit-20"
+        ],
+        "venue": "Statewide Florida two-stage process; FDLE first, then circuit or county court in the circuit where the arrest occurred."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Florida Department of Law Enforcement, then the circuit or county court in the circuit of arrest",
+        "detail": "A fresh screening and a new FDLE certificate application, then the later court packet. It is not automatic and relief remains discretionary."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION",
+          "notes": "A new FDLE certificate application at the ten-year point."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-PETITION",
+          "notes": "The later court packet."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-ORDER"
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Briefcase eligibility-date reminder at the ten-year point."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "sealingOrderDate",
+          "question": "On what date was the record sealed by court order?",
+          "requirement": "required"
+        },
+        {
+          "key": "sealingStillInForce",
+          "question": "Has the seal remained in force since then?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceAndSection",
+          "question": "What was the offence and its statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "laterRecords",
+          "question": "Have you picked up any new arrests or charges since the record was sealed?",
+          "requirement": "required"
+        },
+        {
+          "key": "circuitOfArrest",
+          "question": "In which county and judicial circuit did the original arrest happen?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified copy of the sealing order",
+          "obtainedFrom": "The clerk of the court that ordered the seal",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk of the court that sealed the record for a certified copy of the order.",
+          "confirms": "sealingOrderDate"
+        },
+        {
+          "name": "Certificate of Eligibility",
+          "obtainedFrom": "Florida Department of Law Enforcement",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Apply again to FDLE at the ten-year point. Do not file the court packet until the valid certificate is obtained."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Certificate number and issue date",
+          "whereInPacket": "Petition, certificate reference",
+          "why": "Not available until FDLE issues the new certificate."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "§ 943.0585, Fla. Stat.",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0585.html",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "FDLE Seal and Expunge Process, frequently asked questions",
+          "url": "https://www.fdle.state.fl.us/seal-and-expunge-process/frequently-asked-questions",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Fresh screening, a new FDLE certificate application, then the later court packet.",
+        "fees": "$75 nonrefundable FDLE processing fee on the new application.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The court decides and may deny; relief remains discretionary.",
+        "service": "Certificate of service at the court stage.",
+        "participantSignature": "Notarised signature on the FDLE application; sworn affidavit at the court stage.",
+        "notarization": "Required on the FDLE application and on the affidavit unless sworn before a deputy clerk."
+      },
+      "selfHelpStopConditions": [
+        "The State objects.",
+        "Any hearing.",
+        "A prior seal or expunge on a different arrest record.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "Florida operational amendments / True blockers and release gates",
+            "sourceStatement": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly resolves the former blocker: \"FL-3 is a valid same-record bridge... FL-3 is removed from the blocker list.\" The original review's unresolved once-per-lifetime question is answered by the statute and the FDLE FAQ. The amended output is staged official_pdf_fill with a Briefcase eligibility-date reminder.",
+        "limitations": [
+          {
+            "classification": "packet_instruction",
+            "statement": "Section 943.0585 expressly excepts a later expunction of the same record after at least ten years of qualifying court-ordered sealing from the prior-relief bar. The prior sealing still prevents using the ordinary statutes on a different arrest record.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Resolved FL-3 blocker",
+              "sourceStatement": "FL-3 is a valid same-record bridge. Section 943.0585 expressly excepts a later expunction of the same record after at least ten years of qualifying court-ordered sealing from the prior-relief bar, and FDLE's FAQ confirms that a record initially ineligible for expunction because adjudication was withheld may become eligible after ten years sealed. The prior sealing still prevents using the ordinary statutes on a different arrest record."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "It is not automatic and relief remains discretionary. The packet includes a Briefcase eligibility-date reminder, fresh screening, a new FDLE certificate application, and the later court packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Resolved FL-3 blocker",
+              "sourceStatement": "**Amended output:** `staged official_pdf_fill`, with a Briefcase eligibility-date reminder, fresh screening, a new FDLE certificate application, and the later court packet. It is not automatic and relief remains discretionary."
+            }
+          },
+          {
+            "classification": "required_before_filing",
+            "statement": "A new Certificate of Eligibility must be obtained at the ten-year point before the court packet is filed.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Resolved FL-3 blocker",
+              "sourceStatement": "a new FDLE certificate application, and the later court packet."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "fl-auto-seal",
+      "legalName": "Automatic Sealing, § 943.0595, Fla. Stat.",
+      "publicName": "Automatic Sealing",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.0595, Fla. Stat., created by s. 52, ch. 2019-167, amended by s. 1, ch. 2023-189 (CS/CS/CS/HB 593)"
+        ],
+        "summary": "FDLE automatically seals certain favorable records after receiving the certified disposition from the clerk. No participant filing is required."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2023-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "no charging document filed",
+        "a charging document filed but all counts dismissed, nolle prossed, or dismissed by the court",
+        "a not-guilty verdict on all counts, unless not guilty by reason of insanity",
+        "a judgment of acquittal on all counts"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "no_participant_filing_exists"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Florida FDLE / agency process."
+      },
+      "destination": {
+        "kind": "automatic",
+        "name": "Florida Department of Law Enforcement",
+        "detail": "Occurs after the clerk transmits an eligible certified disposition to FDLE. Nothing is filed by the participant."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Verification guidance: how to check it happened through the clerk and an FDLE personal review, and when a court-ordered expunction would still be worth the once-per-lifetime spend."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "disposition",
+          "question": "Did every count end in dismissal, nolle prosequi, acquittal or a not-guilty verdict?",
+          "requirement": "required"
+        },
+        {
+          "key": "recordStillVisible",
+          "question": "Does the record still appear on a background check?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "FDLE personal review criminal history",
+          "obtainedFrom": "Florida Department of Law Enforcement",
+          "requirement": "conditional",
+          "conditionDescription": "To verify whether automatic sealing actually happened.",
+          "requiredBeforeFiling": false,
+          "howToObtain": "Request an FDLE personal review; FDLE charges no fee for a personal review.",
+          "confirms": "recordStillVisible"
+        }
+      ],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "FDLE Seal and Expunge Process, frequently asked questions",
+          "url": "https://www.fdle.state.fl.us/seal-and-expunge-process/frequently-asked-questions",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none. Nothing is filed by the participant.",
+        "fees": "none. FDLE charges no fee for a personal review.",
+        "feeWaiver": "none",
+        "notice": "none",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "none"
+      },
+      "selfHelpStopConditions": [
+        "Any immigration matter.",
+        "The participant wants to argue rather than verify."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Full current official statutory text for § 943.0595 has not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "TRACK FL-4 / missing source requirements",
+            "sourceStatement": "Full current official statutory text for the sections governing this track.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only.\" The amendment expressly retains this route as guidance: \"FL-4: automatic sealing remains guidance/verification because no participant filing is required.\"",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Automatic sealing remains guidance/verification because no participant filing is required.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Guidance-only route retained",
+              "sourceStatement": "**FL-4:** automatic sealing remains guidance/verification because no participant filing is required."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Tell the participant this exists, how to verify it actually happened through the clerk and an FDLE personal review, and honestly when a court-ordered expunction would still be worth the once-per-lifetime spend and the $75. For many Florida participants with a clean dismissal, the right advice is to do nothing and save the allowance.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-4 / required follow up",
+              "sourceStatement": "What LegalEase adds: telling the participant this exists, telling them how to verify it actually happened through the clerk and an FDLE personal review, and telling them honestly when a court-ordered expunction would still be worth the once-per-lifetime spend and the $75. For many Florida participants with a clean dismissal, the right advice is to do nothing and save the allowance.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "fl-administrative",
+      "legalName": "Administrative Expunction, § 943.0581, Fla. Stat.",
+      "publicName": "Administrative Expunction",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.0581, Fla. Stat."
+        ],
+        "summary": "The participant may apply, while agency-head or prosecutor support is a required certification."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest"
+      ],
+      "eligibleDispositions": [
+        "an arrest made contrary to law or by mistake, as certified by the agency head or prosecutor"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Florida FDLE / agency process."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Florida Department of Law Enforcement",
+        "detail": "The participant applies; agency-head or prosecutor support is a required certification obtained separately."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION",
+          "notes": "LegalEase can complete the participant portions and leave certification fields blank."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "arrestDetails",
+          "question": "What was the arrest — which agency, what date, and what were you accused of?",
+          "requirement": "required"
+        },
+        {
+          "key": "whyContraryToLaw",
+          "question": "In your own words, why was the arrest made contrary to law or by mistake?",
+          "requirement": "required"
+        },
+        {
+          "key": "agencyContact",
+          "question": "Which agency made the arrest, and have you spoken to them about certifying?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Agency-head or prosecutor certification",
+          "obtainedFrom": "The head of the arresting agency, or the State Attorney",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the head of the arresting agency, or the State Attorney, to complete the certification section of the application. LegalEase does not obtain or review it."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Agency-head or prosecutor certification fields",
+          "whereInPacket": "FDLE application, certification section",
+          "why": "The certification is completed by the agency or prosecutor, not by the participant or by LegalEase."
+        },
+        {
+          "item": "Signature",
+          "whereInPacket": "FDLE application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "§ 943.0581, Fla. Stat.",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0581.html",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Submit the FDLE administrative expunction application with the completed certification.",
+        "fees": "The source review does not state a fee for this application.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "FDLE decides on the application.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement for this application."
+      },
+      "selfHelpStopConditions": [
+        "The agency head or prosecutor declines to certify.",
+        "Any immigration matter.",
+        "Anything the participant wants to argue rather than assert."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current FDLE application and instructions specific to this track have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "Florida operational amendments / True blockers and release gates",
+            "sourceStatement": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release. Form currency is a release gate, but the ordinary, bridge, administrative, self-defense, trafficking, and juvenile packet identities are known."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy from process_guidance: \"The conclusions that FL-5, FL-6, FL-8, and FL-9 are guidance-only because an agency or prosecutor must sign, certify, or decide are superseded. Those tracks have participant-facing applications.\"",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "The participant may apply, while agency-head or prosecutor support is a required certification. LegalEase can complete the participant portions, leave certification fields blank, and instruct the participant how to obtain them.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "FL-5, administrative expunction | `official_pdf_fill` or approved FDLE application packet | The participant may apply, while agency-head or prosecutor support is a required certification. LegalEase can complete the participant portions, leave certification fields blank, and instruct the participant how to obtain them."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Certification fields are left blank for the agency head or prosecutor to complete.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "LegalEase can complete the participant portions, leave certification fields blank, and instruct the participant how to obtain them."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "If the agency head or prosecutor declines to certify, automated assistance ends.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "LegalEase may generate the initial packet. Further self-help stops only when an actual event occurs that requires individualized advocacy"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "fl-self-defense",
+      "legalName": "Lawful Self-Defense Expunction, § 943.0578, Fla. Stat.",
+      "publicName": "Lawful Self-Defense Expunction",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.0578, Fla. Stat.",
+          "§ 943.0585(5) and (6) apply to an expunction ordered under it, per § 943.0578(4) as reenacted by Chapter 2026-114"
+        ],
+        "summary": "Expunction where the prosecutor certifies that the dismissal was because of lawful self-defense. There is a dedicated FDLE application."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "a case dismissed or not filed because of lawful self-defense, as certified by the prosecutor"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Florida FDLE / agency process."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Florida Department of Law Enforcement",
+        "detail": "Dedicated FDLE application. The prosecutor certification is obtained separately by the participant."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-SELF-DEFENSE-EXPUNCTION-APPLICATION",
+          "notes": "The dedicated FDLE application."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseDetails",
+          "question": "What was the case — which court, what charge, and how did it end?",
+          "requirement": "required"
+        },
+        {
+          "key": "selfDefenceFacts",
+          "question": "In your own words, why was the case dismissed because you acted in lawful self-defence?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorContact",
+          "question": "Which State Attorney's office handled the case, and have you asked them about certifying?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Prosecutor certification that the dismissal was because of lawful self-defense",
+          "obtainedFrom": "The State Attorney for the circuit",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the State Attorney's office to complete the certification. It is obtained by persuasion rather than by form; LegalEase does not obtain or review it."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Prosecutor certification fields",
+          "whereInPacket": "FDLE application, certification section",
+          "why": "Completed by the prosecutor, not by the participant or by LegalEase."
+        },
+        {
+          "item": "Signature",
+          "whereInPacket": "FDLE application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "§ 943.0578, Fla. Stat.",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0578.html",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Submit the dedicated FDLE application with the prosecutor certification.",
+        "fees": "The source review does not state a fee for this application.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "FDLE decides on the application.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecutor declines to certify. The certification is obtained by persuasion, not by form.",
+        "Any immigration matter.",
+        "Anything the participant wants to argue rather than assert."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current FDLE application and instructions specific to this track have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "Florida operational amendments / True blockers and release gates",
+            "sourceStatement": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy from process_guidance: \"FL-6, lawful self-defense expunction | `official_pdf_fill` on the dedicated FDLE application | The prosecutor certification is a required-before-submission item, not the entire output.\" The original review's observation that the certification is obtained by persuasion is retained as a stop condition.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "The prosecutor certification is a required-before-submission item, not the entire output.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "FL-6, lawful self-defense expunction | `official_pdf_fill` on the dedicated FDLE application | The prosecutor certification is a required-before-submission item, not the entire output."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "The prosecutor's certification that the dismissal was because of self-defense is obtained by persuasion, not by form. If the prosecutor declines, route to counsel.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-6 / required follow up",
+              "sourceStatement": "Reason: the prosecutor's certification that the dismissal was because of self-defense is the entire case, and it is obtained by persuasion, not by form. Route to counsel.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Certification fields are left blank for the prosecutor to complete.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "LegalEase can complete the participant portions, leave certification fields blank, and instruct the participant how to obtain them."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "fl-trafficking",
+      "legalName": "Human Trafficking Victim Expunction, § 943.0583, Fla. Stat.",
+      "publicName": "Human Trafficking Victim Expunction",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.0583, Fla. Stat."
+        ],
+        "summary": "Florida's broadest route, reaching records nothing else can. Packet-capable under the Rule 3.989 petition/order structure. The relief turns on a contested evidentiary showing about the participant's own victimization."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "offences committed as a victim of human trafficking, within the statutory criteria"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "circuit",
+        "keys": [
+          "fl-circuit-1",
+          "fl-circuit-2",
+          "fl-circuit-3",
+          "fl-circuit-4",
+          "fl-circuit-5",
+          "fl-circuit-6",
+          "fl-circuit-7",
+          "fl-circuit-8",
+          "fl-circuit-9",
+          "fl-circuit-10",
+          "fl-circuit-11",
+          "fl-circuit-12",
+          "fl-circuit-13",
+          "fl-circuit-14",
+          "fl-circuit-15",
+          "fl-circuit-16",
+          "fl-circuit-17",
+          "fl-circuit-18",
+          "fl-circuit-19",
+          "fl-circuit-20"
+        ],
+        "venue": "Florida circuit-court track; any court in the circuit of arrest that has jurisdiction over the offense class."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Any court in the circuit of arrest with jurisdiction over the offense class",
+        "detail": "The participant supplies facts and documentation. LegalEase may disable runtime pending counsel's scope decision."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-PETITION",
+          "notes": "The applicable Rule 3.989 petition. Packet-capable under the Rule 3.989 petition/order structure."
+        },
+        {
+          "role": "affidavit",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-AFFIDAVIT",
+          "notes": "Sworn affidavit, notarised or sworn before a deputy clerk."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FL-RULE-3.989-ORDER"
+        },
+        {
+          "role": "certificate_of_service",
+          "requirement": "required",
+          "outputStrategy": "custom_pleading",
+          "notes": "Required service component."
+        },
+        {
+          "role": "instructions",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Participant filing instructions for the Rule 3.989 packet."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseDetails",
+          "question": "What records do you want expunged — which court, what charges, and how did each end?",
+          "requirement": "required"
+        },
+        {
+          "key": "traffickingFacts",
+          "question": "In your own words, and only as much as you wish to share, how were the offences connected to your being trafficked?",
+          "requirement": "required"
+        },
+        {
+          "key": "circuitOfArrest",
+          "question": "In which county and judicial circuit did the arrest happen?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Documentation supporting victim status",
+          "obtainedFrom": "The participant's own records, service providers, or law enforcement",
+          "requirement": "conditional",
+          "conditionDescription": "As the statute and the court require.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "The participant gathers what they have and what a service provider can supply. LegalEase does not collect or assess it."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "Petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "§ 943.0583, Fla. Stat.",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0583.html",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File in any court in the circuit of arrest that has jurisdiction over the offense class.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The source review does not state a notice requirement for this petition.",
+        "service": "The source review does not state a service requirement for this petition.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Disputed victim status.",
+        "Prosecutor opposition.",
+        "A contested or evidentiary hearing.",
+        "Individualized advocacy.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Full current official statutory text for § 943.0583 has not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "TRACK FL-7 / missing source requirements",
+            "sourceStatement": "Full current official statutory text for the sections governing this track.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly separates packet capability from product scope: \"FL-7's product-scope limitation must be recorded separately from packet capability.\" The route is packet-capable under the Rule 3.989 petition/order structure, which is the Florida output pattern; the original review's \"Outside the current LegalEase self-help scope\" is preserved as a scope restriction rather than an output-identity conclusion. The underlying legal-design decision is unchanged.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "LegalEase may keep the route runtime-disabled pending the company's decision whether trafficking-survivor relief is inside the supported self-help scope. Packet capability is settled: the route is packet-capable under the Rule 3.989 petition/order structure. Outside-scope does not mean the petition is unknowable.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "FL-7, human-trafficking victim expunction | Packet-capable under the Rule 3.989 petition/order structure, but subject to a `scope_restriction` and handoff for contested victim-status or individualized advocacy | Outside-scope does not mean the petition is unknowable. The participant supplies facts and documentation; LegalEase may disable runtime pending counsel's scope decision."
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Handoff on any of: disputed victim status; prosecutor opposition; a contested or evidentiary hearing; individualized advocacy.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "FL-7, human-trafficking victim expunction | Packet-capable under the Rule 3.989 petition/order structure, but subject to a `scope_restriction` and handoff for contested victim-status or individualized advocacy | Outside-scope does not mean the petition is unknowable. The participant supplies facts and documentation; LegalEase may disable runtime pending counsel's scope decision."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Recognise the pathway and say clearly that it beats every other Florida route on eligibility and cost. The trauma-informed intake language in the reference should be carried into the product verbatim.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "TRACK FL-7 / required follow up",
+              "sourceStatement": "The product's job is to recognise the pathway, say clearly that it beats every other Florida route on eligibility and cost, and hand off. The RTF reference's trauma-informed intake language is good and should be carried into the product verbatim.",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "fl-juvenile-diversion",
+      "legalName": "Juvenile Diversion Expunction, § 943.0582, Fla. Stat.",
+      "publicName": "Juvenile Diversion Expunction",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.0582, Fla. Stat.; § 943.0582(2)(b) reenacted by Chapter 2026-114"
+        ],
+        "summary": "Expunction of a juvenile diversion record on an FDLE application. This track does not consume the ordinary once-per-lifetime allowance."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "successful completion of a qualifying juvenile diversion program"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Florida FDLE / agency process."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Florida Department of Law Enforcement",
+        "detail": "FDLE juvenile-diversion application. Certification, completion proof, and fingerprints are later submission items."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION"
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "diversionProgram",
+          "question": "Which diversion program did you complete, and when?",
+          "requirement": "required"
+        },
+        {
+          "key": "offenceDetails",
+          "question": "What was the offence, and which agency and court were involved?",
+          "requirement": "required"
+        },
+        {
+          "key": "ageAtOffence",
+          "question": "How old were you at the time?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certification of successful diversion completion",
+          "obtainedFrom": "The State Attorney or the diversion program",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the State Attorney's office or the diversion program to complete the certification.",
+          "confirms": "diversionProgram"
+        },
+        {
+          "name": "Proof of program completion",
+          "obtainedFrom": "The diversion program",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request written proof of completion from the program."
+        },
+        {
+          "name": "Fingerprints",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit them with the application."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Certification fields",
+          "whereInPacket": "FDLE application, certification section",
+          "why": "Completed by the State Attorney or the diversion program, not by the participant or by LegalEase."
+        },
+        {
+          "item": "Signature",
+          "whereInPacket": "FDLE application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "§ 943.0582, Fla. Stat.",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0582.html",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Submit the FDLE juvenile-diversion application with the certification, completion proof and fingerprints.",
+        "fees": "The source review does not state a fee for this application.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "FDLE decides on the application.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The State Attorney or the program declines to certify.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current FDLE application and instructions specific to this track have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "Florida operational amendments / True blockers and release gates",
+            "sourceStatement": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy from process_guidance: \"FL-8, juvenile diversion expunction | `official_pdf_fill` on the FDLE juvenile-diversion application; certification, completion proof, and fingerprints are later submission items.\"",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Certification, completion proof, and fingerprints are later submission items.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "FL-8, juvenile diversion expunction | `official_pdf_fill` on the FDLE juvenile-diversion application; certification, completion proof, and fingerprints are later submission items | This track does not consume the ordinary once-per-lifetime allowance."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "This track does not consume the ordinary once-per-lifetime allowance.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "This track does not consume the ordinary once-per-lifetime allowance."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Certification fields are left blank for the certifying office to complete.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "LegalEase can complete the participant portions, leave certification fields blank, and instruct the participant how to obtain them."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "fl-early-juvenile",
+      "legalName": "Early Juvenile Expunction, § 943.0515, Fla. Stat.",
+      "publicName": "Early Juvenile Expunction",
+      "controllingAuthority": {
+        "citations": [
+          "§ 943.0515, Fla. Stat."
+        ],
+        "summary": "Early expunction of a juvenile record on a dedicated FDLE application. The age deadline is a screening and warning rule."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2026-07-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest",
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "a juvenile record within the statutory early-expunction criteria"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "Statutory age deadline for early juvenile expunction",
+          "duration": "As set by § 943.0515; a screening and warning rule rather than a packet blocker"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Florida FDLE / agency process."
+      },
+      "destination": {
+        "kind": "agency",
+        "name": "Florida Department of Law Enforcement",
+        "detail": "FDLE early-juvenile application. Certified statement, dispositions, fingerprints, and fee are later submission items."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "FDLE-EARLY-JUVENILE-EXPUNCTION-APPLICATION"
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "dateOfBirth",
+          "question": "What is your date of birth? The age deadline decides whether this route is still open to you.",
+          "requirement": "required"
+        },
+        {
+          "key": "juvenileRecordDetails",
+          "question": "What was the offence, and which agency and court were involved?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositions",
+          "question": "How did each charge end?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Certified statement",
+          "obtainedFrom": "The State Attorney",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Request the certified statement from the State Attorney's office."
+        },
+        {
+          "name": "Certified dispositions",
+          "obtainedFrom": "The clerk of the court",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for certified copies of the dispositions.",
+          "confirms": "dispositions"
+        },
+        {
+          "name": "Fingerprints",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit them with the application."
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Certified statement fields",
+          "whereInPacket": "FDLE application, certification section",
+          "why": "Completed by the State Attorney, not by the participant or by LegalEase."
+        },
+        {
+          "item": "Signature",
+          "whereInPacket": "FDLE application, signature block",
+          "why": "The applicant signs their own application."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "§ 943.0515, Fla. Stat.",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0515.html",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Submit the FDLE early-juvenile application with the certified statement, dispositions, fingerprints and fee.",
+        "fees": "A fee applies and is a later submission item. The source review does not state the amount.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "FDLE decides on the application.",
+        "service": "The source review does not state a service requirement.",
+        "participantSignature": "The applicant signs their own application.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The State Attorney declines to certify.",
+        "The age deadline has passed.",
+        "Any immigration matter."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current FDLE application and instructions specific to this track have not been acquired.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Florida-Legal-Review.md",
+            "sourceHeading": "Florida operational amendments / True blockers and release gates",
+            "sourceStatement": "Current authoritative copies of the applicable FDLE applications and Florida Rule 3.989 forms must pass source and legal-output approval before runtime release."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output strategy from process_guidance: \"FL-9, early juvenile expunction | `official_pdf_fill` on the FDLE early-juvenile application; certified statement, dispositions, fingerprints, and fee are later submission items | The age deadline is a screening and warning rule, not a packet blocker.\"",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Certified statement, dispositions, fingerprints, and fee are later submission items.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "FL-9, early juvenile expunction | `official_pdf_fill` on the FDLE early-juvenile application; certified statement, dispositions, fingerprints, and fee are later submission items | The age deadline is a screening and warning rule, not a packet blocker."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The age deadline is a screening and warning rule, not a packet blocker.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "The age deadline is a screening and warning rule, not a packet blocker."
+            }
+          },
+          {
+            "classification": "manual_completion_item",
+            "statement": "Certification fields are left blank for the State Attorney to complete.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Florida-Legal-Review.md",
+              "sourceHeading": "Florida operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "LegalEase can complete the participant portions, leave certification fields blank, and instruct the participant how to obtain them."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
