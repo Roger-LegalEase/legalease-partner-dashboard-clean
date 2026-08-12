@@ -430,11 +430,13 @@ for (const assignment of ASSIGNMENTS) {
 
     // --- componentInventory ---
     const inventory = artifact.componentInventory ?? {};
-    let presentCount = 0;
     for (const key of REQUIRED_COMPONENT_KEYS) {
-      const entry = inventory[key];
+      if (!inventory[key]) failures.push(`${label}: componentInventory['${key}'] missing.`);
+    }
+    let presentCount = 0;
+    for (const [key, entry] of Object.entries(inventory)) {
       if (!entry || !["present", "absent", "blocked"].includes(entry.status) || !entry.detail) {
-        failures.push(`${label}: componentInventory['${key}'] missing or malformed (status/detail).`);
+        failures.push(`${label}: componentInventory['${key}'] malformed (status/detail).`);
         continue;
       }
       if (entry.status === "present") presentCount += 1;
@@ -716,7 +718,7 @@ for (const assignment of ASSIGNMENTS) {
     summary.push({
       label,
       presentCount,
-      blocked: REQUIRED_COMPONENT_KEYS.filter((k) => inventory[k]?.status === "blocked")
+      blocked: Object.keys(inventory).filter((k) => inventory[k]?.status === "blocked")
     });
   }
 }

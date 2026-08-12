@@ -1,0 +1,26 @@
+{
+  "fixtureId": "negative",
+  "description": "Must fail QA for the stated reason.",
+  "statedFailureReason": "Ohio Rev. Code § 2953.32 relief is sealing (or statutory expungement), never vacatur; the eligibility basis deliberately uses the prohibited term 'vacatur' so vocabulary QA must reject the render.",
+  "expectations": {
+    "qaPassed": false,
+    "expectedFailureSnippet": "vacatur"
+  },
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Negative Sample"
+    },
+    "caseData": {
+      "countyName": "Franklin"
+    },
+    "chargeData": {
+      "chargeDescription": "Theft",
+      "offenseGrade": "Felony of the fifth degree"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Vacatur of the conviction under Ohio Rev. Code § 2953.32 after final discharge"
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}
