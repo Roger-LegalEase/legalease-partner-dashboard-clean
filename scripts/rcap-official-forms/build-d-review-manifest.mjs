@@ -64,9 +64,26 @@ function holdsOf(record) {
   };
 }
 
+/**
+ * Lanes recorded the non-filing hold under different names and shapes --
+ * `notForFilingNotice` as a string, `nonFilingNotice` as an object -- and the
+ * status string sometimes carries it too. Reading only one spelling reported
+ * zero holds across a corpus that demonstrably has them, so all three are
+ * checked and normalized to a string.
+ */
+function nonFilingNoticeOf(record) {
+  if (!record) return null;
+  const raw = record.notForFilingNotice ?? record.nonFilingNotice ?? null;
+  if (raw) return typeof raw === "string" ? raw : (raw.notice ?? JSON.stringify(raw).slice(0, 200));
+  if (/not_for_filing|non_filing/i.test(String(record.implementationStatus ?? ""))) {
+    return `status: ${record.implementationStatus}`;
+  }
+  return null;
+}
+
 /** What a reviewer has to do with this family. */
 function reviewTypeOf(record, hasFinalPdf, hasSheet) {
-  if (record?.notForFilingNotice) return "non_filing_hold_confirmation";
+  if (nonFilingNoticeOf(record)) return "non_filing_hold_confirmation";
   if (!hasFinalPdf) return "no_fill_disposition_review";
   if (!hasSheet) return "finalized_artifact_review_without_contact_sheet";
   return "full_visual_and_safety_review";
@@ -113,15 +130,27 @@ export function buildManifest() {
         const record = readJsonAt(ref, `${dir}/source-record.json`);
         const inDir = files.filter((f) => f.startsWith(`${dir}/`));
 
-        const finalPdfs = inDir.filter((f) => /fixtures\/(canonical|boundary)-filled\.pdf$/.test(f));
+        const finalPdfs = inDir.filter((f) => /fixtures\/.*-filled\.pdf$/.test(f));
         const sheets = inDir.filter((f) => /contact-sheet\/.*\.pdf$/.test(f));
-        const proof = readJsonAt(ref, `${dir}/contact-sheet/contact-sheet-proof.json`);
+        // Lanes place the contact-sheet proof differently -- some under
+        // contact-sheet/, some under reports/ -- and some wrap it as
+        // {built, proof}. Search rather than assume, or the manifest silently
+        // reports evidence as absent when it is merely elsewhere.
+        const proofPath = inDir.find((f) => /contact-sheet-proof\.json$/.test(f));
+        const proofRaw = proofPath ? readJsonAt(ref, proofPath) : null;
+        const proof = proofRaw?.proof ?? (proofRaw && "allExpectedValuesVisible" in proofRaw ? proofRaw : null);
+        const proofBuilt = proofRaw ? (proofRaw.built ?? Boolean(proof)) : null;
         const scan = readJsonAt(ref, `${dir}/reports/protected-fields-scan.json`);
 
         // The commit that last touched this family on its lane branch, so a
         // correction can name an exact commit rather than a branch head that
         // will have moved.
         const commit = gitQuiet(["log", "-1", "--format=%H", ref, "--", dir]);
+        // A lane branch also carries families it never touched, inherited from
+        // the D0 base. Those are not corrected work and must not be counted or
+        // reviewed as though they were.
+        const changed = (gitQuiet(["diff", "--name-only", D0_BASE, ref, "--", dir]) || "").split("\n").filter(Boolean);
+        const correctedInThisWave = changed.length > 0;
 
         families.push({
           familyId,
@@ -138,7 +167,7 @@ export function buildManifest() {
           structuralClass: record?.structuralClassObserved ?? null,
           documentOwnership: record?.documentOwnership ?? null,
           implementationStatus: record?.implementationStatus ?? null,
-          nonFilingNotice: record?.notForFilingNotice ?? null,
+          nonFilingNotice: nonFilingNoticeOf(record),
           finalPdfPaths: finalPdfs,
           contactSheetPaths: sheets,
           contactSheetProof: proof
@@ -146,10 +175,14 @@ export function buildManifest() {
                 panelsDiffer: proof.panelsDiffer ?? null,
                 finalizedSha256: proof.finalizedSha256 ?? null }
             : null,
+          contactSheetBuilt: proofBuilt,
+          contactSheetProofPath: proofPath ?? null,
           protectedFieldScanPass: scan?.pass ?? null,
           activeContentResidue: scan?.activeContentResidue ?? null,
           ...holdsOf(record),
           requiredReviewType: reviewTypeOf(record, finalPdfs.length > 0, sheets.length > 0),
+          correctedInThisWave,
+          filesChangedInThisWave: changed.length,
           reviewShard: shardForFamily(familyId)
         });
         laneFamilies += 1;
@@ -160,7 +193,10 @@ export function buildManifest() {
   }
 
   families.sort((a, b) => a.familyId.localeCompare(b.familyId));
-  const shardCounts = [0, 1, 2].map((s) => families.filter((f) => f.reviewShard === s).length);
+  // Only corrected families go to review. An inherited family is recorded for
+  // completeness but is not this wave's work.
+  const corrected = families.filter((f) => f.correctedInThisWave);
+  const shardCounts = [0, 1, 2].map((s) => corrected.filter((f) => f.reviewShard === s).length);
 
   return {
     schema: "rcap-d-corrected-review-manifest/v1",
@@ -170,13 +206,16 @@ export function buildManifest() {
     lanes: laneStatus,
     totals: {
       lanesPushed: laneStatus.filter((l) => l.pushed).length,
-      families: families.length,
-      withFinalizedPdf: families.filter((f) => f.finalPdfPaths.length > 0).length,
-      withContactSheet: families.filter((f) => f.contactSheetPaths.length > 0).length,
-      nonFilingHeld: families.filter((f) => f.nonFilingNotice).length,
+      familiesPresentOnLaneBranches: families.length,
+      familiesCorrectedInThisWave: corrected.length,
+      familiesInheritedUntouched: families.length - corrected.length,
+      withFinalizedPdf: corrected.filter((f) => f.finalPdfPaths.length > 0).length,
+      withContactSheet: corrected.filter((f) => f.contactSheetPaths.length > 0).length,
+      nonFilingHeld: corrected.filter((f) => f.nonFilingNotice).length,
       shardCounts
     },
-    families
+    families: corrected,
+    inheritedFamilies: families.filter((f) => !f.correctedInThisWave).map((f) => f.familyId)
   };
 }
 
