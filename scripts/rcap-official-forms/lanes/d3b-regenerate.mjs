@@ -450,10 +450,15 @@ function censusFlatSlots(pdfDoc) {
 function classifyCensus(census, opts) {
   const { explicitMappings = {}, captionOnly = false, documentAcceptsFill = true, chargeRows = 0 } = opts;
   return census.map((f) => {
-    const decision = decideBinding(
-      { name: f.name, pdfType: f.type === "flat_slot" ? "text" : f.type, effectiveLabel: f.effectiveLabel },
-      { explicitMappings, captionOnly, availableChargeRows: chargeRows, documentAcceptsFill }
-    );
+    const field = { name: f.name, pdfType: f.type === "flat_slot" ? "text" : f.type, effectiveLabel: f.effectiveLabel };
+    const shared = { explicitMappings, captionOnly, availableChargeRows: chargeRows };
+    // The document-level gate refuses every field at once, which is the right
+    // effective answer for a held document but tells a reviewer nothing about
+    // the fields themselves. So each field is also put through the binder with
+    // the gate open, and both answers are recorded: what the field is, and
+    // what the document's hold does to it.
+    const intrinsic = decideBinding(field, { ...shared, documentAcceptsFill: true });
+    const effective = decideBinding(field, { ...shared, documentAcceptsFill });
     const protectedBy = protectCategoryOf(f.effectiveLabel ?? f.name) ?? protectCategoryOf(f.name);
     return {
       name: f.name,
@@ -461,10 +466,14 @@ function classifyCensus(census, opts) {
       page: f.widgets?.[0]?.page ?? f.page ?? null,
       effectiveLabel: f.effectiveLabel ?? null,
       protectCategory: protectedBy,
-      writable: decision.writable === true,
-      factId: decision.factId ?? null,
-      reason: decision.writable ? "bound_to_allowlisted_fact" : decision.reason,
-      category: decision.category ?? null
+      writable: effective.writable === true,
+      factId: effective.factId ?? null,
+      reason: effective.writable ? "bound_to_allowlisted_fact" : effective.reason,
+      category: effective.category ?? null,
+      intrinsicWritable: intrinsic.writable === true,
+      intrinsicFactId: intrinsic.factId ?? null,
+      intrinsicReason: intrinsic.writable ? "bound_to_allowlisted_fact" : intrinsic.reason,
+      intrinsicCategory: intrinsic.category ?? null
     };
   });
 }
@@ -586,7 +595,71 @@ export const FAMILY_SPECS = {
       "p2.r90.5.x78": "street_address", "p2.r90.5.x330": "city",
       "p2.r90.5.x429": "state", "p2.r90.5.x474": "zip"
     }
-  })
+  }),
+
+  // ----------------------------------------------------- Massachusetts -----
+  // Both Massachusetts assets are source-gated in Edition 1 with the
+  // currentness gate open, and the manifest says so in terms: the Probation
+  // Service petition's "current published revision remains a freshness gate",
+  // and TC0021 is to be "preserved as source-gated until converted or handled
+  // by an approved strategy". A 2018 petition and an XFA form are both capable
+  // of rendering; neither is capable of being current on this lane's say-so.
+  // So Massachusetts is inventoried and classified in full, and nothing is
+  // filled. That is the hold being preserved, not a gap in the work.
+  "MA:MA-PROBATION-SERVICE": {
+    slug: "ma-probation-service-petition-to-expunge-100f-100g-100h",
+    title: "Petition to Expunge Under G.L. c. 276, §§ 100F, 100G or 100H",
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      "A petitioner's own petition addressed to the Commissioner of Probation. It is participant-completed, but its face carries race, ethnicity, Social Security number, occupation, and parents' and spouse's names — five categories D0 protects by default — and its published revision is October 2018, which the Edition 1 manifest records as an open freshness gate.",
+    participantFillable: false,
+    noFillReason:
+      "source-gated in Edition 1 with the currentness gate open: the manifest records the current published revision as a freshness gate, and Massachusetts expungement practice under c. 276 §§ 100F–100K has moved since this October 2018 sheet. A rendered sample of a possibly-superseded petition would invite exactly the inference this hold exists to prevent.",
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: [],
+    bindingCorrections: {
+      "p1.r503.9.x155": "participant.alias_or_former_name",
+      "p1.r450.0.x95": "third_party.father_name",
+      "p1.r450.0.x321": "third_party.mother_maiden_name",
+      "p1.r450.0.x470": "third_party.spouse_name",
+      "p1.r468.0.x436": "participant.phone_local_number"
+    },
+    bindingCorrectionRationale: {
+      "p1.r503.9.x155": "'Alias/Maiden/Previous Name' resolves to participant.full_legal_name on the descriptor's bare \\\\bname\\\\b match. An alias is a different fact from a legal name, and stamping the legal name into an alias line misstates the record.",
+      "p1.r450.0.x95": "'Father's Name' resolves to participant.full_legal_name on the same bare name match. It names a third party, and the participant's own name is not it.",
+      "p1.r450.0.x321": "'Mother's Maiden Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.",
+      "p1.r450.0.x470": "'Spouse's Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.",
+      "p1.r468.0.x436": "the telephone rule sits beside a Social Security number rule in the same band; the lane declines the pair rather than risk the wrong one."
+    },
+    slotBindings: [],
+    fidelityFindings: [
+      "Binder finding, recorded whether or not this form is ever un-gated: run with the document-level hold open, D0's binder resolves 'Alias/Maiden/Previous Name', 'Father's Name', 'Mother's Maiden Name' and 'Spouse's Name' all to participant.full_legal_name, because the descriptor for that fact matches a bare \\\\bname\\\\b. A generic fill would have written the petitioner's own name into three third-party blanks and an alias line. The four fields are refused by explicit counter-mapping. This is a descriptor-list observation for D0, not a defect in this state's package.",
+      "The compiled Massachusetts profile's legacy formInventory lists four PDFs — OCP004 (10-day opt-out notice package), fillable-jud-mps-Petition-to-Seal, jud-Petition-for-Expungement and jud-tc-Petition-to-Seal-for-Nolle-Prosequi-or-Dismissal. Not one of their sha256 values appears anywhere in Edition 1, and Edition 1 carries only two Massachusetts binaries. The pack manifest wins.",
+      "OCP004 is not present in the Edition 1 pack in any form. Identity was resolved by sha256 against the pack manifest rather than by filename, so the URL-encoded legacy filename is not the reason it was not found — the binary is simply not in the edition. Nothing is bound to it, and no opinion is recorded here about whether it is participant-completed, because this lane never had the binary to inspect."
+    ]
+  },
+  "MA:TC0021": {
+    slug: "tc0021-petition-for-expungement-of-marijuana-offenses",
+    title: "Petition for Expungement of Marijuana Offenses, G.L. c. 276, § 100K¼",
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      "A petitioner's own Trial Court petition, sworn under the pains and penalties of perjury. Its 29 AcroForm fields are XFA-generated and carry no meaningful names — every one is form1[0].#subform[0].TextField1[n] or CheckBoxN[n] — so not one of them matches an allowlisted fact descriptor and D0's binder refuses the entire form on its own terms.",
+    participantFillable: false,
+    xfaHold: true,
+    noFillReason:
+      "source-gated and XFA. The Edition 1 manifest states that the runtime renderer cannot fill XFA and that the form is to be preserved as source-gated until converted or handled by an approved strategy. Independently of that hold, all 29 field names are XFA-generated positional identifiers, so D0's fail-closed binder matches none of them to a fact descriptor.",
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: [],
+    bindingCorrections: {},
+    bindingCorrectionRationale: {},
+    slotBindings: [],
+    fidelityFindings: [
+      "The profile's legacy `jud-Petition-for-Expungement.pdf` (sha256 19842819786d812c82c0b310aed8a5065e516a95122a59e0662a7ca67159a5ce, 1,387,408 bytes) is not this binary. Edition 1's TC0021 is a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c at 1,393,680 bytes, revision 11/22. The pack manifest wins; the profile is not edited.",
+      "The manifest classes TC0021 as `acroform_pdf` with 29 fields, which the binary confirms, and separately notes that it is XFA. Both are true: an XFA form ships an AcroForm fallback layer. The fallback is what pdf-lib can see, and its field names carry no semantics."
+    ]
+  }
 };
 
 // ---------------------------------------------------------------------------
@@ -1073,8 +1146,11 @@ function emitFamily({ state, row, spec, dir, result, readme }) {
     classCounts: {
       writable: classification.filter((c) => c.writable).length,
       protected: classification.filter((c) => c.protectCategory).length,
-      refused: classification.filter((c) => !c.writable).length
+      refused: classification.filter((c) => !c.writable).length,
+      intrinsicallyWritableBeforeDocumentLevelHold: classification.filter((c) => c.intrinsicWritable).length
     },
+    documentLevelHoldApplied: spec.participantFillable !== true,
+    intrinsicRefusalsByReason: countBy(classification.filter((c) => !c.intrinsicWritable), (c) => c.intrinsicCategory ?? c.intrinsicReason),
     entries: classification
   });
 
