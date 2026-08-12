@@ -27,6 +27,7 @@
     "held_on_source_or_design": 88,
     "families": 253
   },
+  "reviewFindingsInShards": 114,
   "observedTotals": {
     "technical_approved": 104,
     "correction_required": 61,
@@ -4405,6 +4406,23 @@
         "pass": true,
         "observed": {
           "unclassified": 0
+        }
+      },
+      {
+        "assertion": "every review finding is represented exactly once",
+        "pass": true,
+        "observed": {
+          "findingsInReviewArtifacts": 114,
+          "findingsInIndex": 114,
+          "distinct": 114,
+          "duplicated": []
+        }
+      },
+      {
+        "assertion": "every family names the correction branch its lane will use",
+        "pass": true,
+        "observed": {
+          "withoutBranch": []
         }
       },
       {

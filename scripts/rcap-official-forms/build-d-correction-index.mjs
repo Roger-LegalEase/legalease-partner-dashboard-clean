@@ -229,6 +229,10 @@ export function buildCorrectionIndex() {
   const heldIds = new Set();
   const rows = [];
   const unclassified = [];
+  // Counted straight off the review artifacts, before any normalization, so
+  // the index can be checked against what the reviewers actually wrote rather
+  // than against its own bookkeeping.
+  let reviewFindingsInShards = 0;
 
   for (const { doc, head, branch } of shards) {
     const shard = doc.shard ?? doc.shardIndex;
@@ -242,6 +246,7 @@ export function buildCorrectionIndex() {
       const lane = family.lane ?? m?.lane ?? null;
       const laneRoute = lane ? LANE_CORRECTION_BRANCHES[lane] : null;
 
+      reviewFindingsInShards += defectEntriesOf(family).length;
       const corrections = [];
       for (const [i, entry] of defectEntriesOf(family).entries()) {
         const cls = classifyDefect(entry);
@@ -334,6 +339,7 @@ export function buildCorrectionIndex() {
       held_on_source_or_design: 88,
       families: 253
     },
+    reviewFindingsInShards,
     observedTotals: { ...dispositionCounts, families: Object.values(dispositionCounts).reduce((a, b) => a + b, 0) },
     defectClasses: DEFECT_CLASSES,
     laneCorrectionBranches: LANE_CORRECTION_BRANCHES,
@@ -422,6 +428,38 @@ export function assertIndex(index) {
     assertion: "every reviewer defect entry was classified",
     pass: index.unclassified.length === 0,
     observed: { unclassified: index.unclassified.length }
+  });
+
+  // Every finding the reviewers wrote must appear once and only once. A finding
+  // counted twice inflates the work list; a finding dropped means a defect
+  // nobody fixes. Identity is the family plus the reviewer's own ordinal, since
+  // several findings in one family legitimately share an id.
+  const seen = new Map();
+  for (const f of index.families) {
+    for (const [i, c] of f.corrections.entries()) {
+      const id = `${f.familyId}#${c.reviewShard}#${i}#${c.reviewFindingId}`;
+      seen.set(id, (seen.get(id) ?? 0) + 1);
+    }
+  }
+  const duplicated = [...seen].filter(([, n]) => n > 1).map(([id]) => id);
+  const totalInIndex = index.families.reduce((n, f) => n + f.corrections.length, 0);
+  results.push({
+    assertion: "every review finding is represented exactly once",
+    pass: duplicated.length === 0
+      && seen.size === totalInIndex
+      && totalInIndex === index.reviewFindingsInShards,
+    observed: {
+      findingsInReviewArtifacts: index.reviewFindingsInShards,
+      findingsInIndex: totalInIndex,
+      distinct: seen.size,
+      duplicated: duplicated.slice(0, 10)
+    }
+  });
+
+  results.push({
+    assertion: "every family names the correction branch its lane will use",
+    pass: index.families.every((f) => typeof f.correctionBranch === "string" && f.correctionBranch.endsWith("-corrections-v2")),
+    observed: { withoutBranch: index.families.filter((f) => !f.correctionBranch).map((f) => f.familyId) }
   });
 
   const spv = index.sourcePointerVerification;
