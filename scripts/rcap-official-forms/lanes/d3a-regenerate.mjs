@@ -1312,6 +1312,32 @@ export async function buildFamily(opts) {
       handling: "left blank in the artifact; recorded for a human"
     });
   }
+  // A value can also be refused before the fitter ever runs, when it is longer
+  // than the form's own declared /MaxLen. New Hampshire's petitions declare 17
+  // characters for "case number" and the boundary value is 60, so the field is
+  // correctly left blank -- but the ledger said nothing about it at all, and a
+  // ledger that reports only the refusals it happens to know about reads as a
+  // clean run.
+  //
+  // Independent review asked for these to be recorded as refused below the
+  // readable floor, with a required width at 6pt. They are not: the form's
+  // declared maximum stops the value first, and writing "refused_below_
+  // readable_floor" here would put a false statement in the ledger the entry
+  // exists to correct. They are recorded for what they are, and
+  // refusedBelowFloor stays an accurate count of floor refusals only.
+  for (const label of ["boundary", "canonical"]) {
+    const render = label === "boundary" ? boundaryRender : canonicalRender;
+    for (const r of render.report.refused) {
+      if (r.reason !== "value_exceeds_form_max_length") continue;
+      overflow.push({
+        fixture: label, field: r.field, check: "refused_exceeds_form_declared_max_length",
+        reason: r.reason, declaredMaxLength: r.maxLength ?? null, valueLength: r.valueLength ?? null,
+        factId: r.factId ?? null,
+        handling: "left blank in the artifact; the form's own limit is not ours to override"
+      });
+    }
+  }
+
   for (const w of boundaryRender.report.written) {
     if (w.outcome === "shrunk") {
       overflow.push({ fixture: "boundary", field: w.field, check: "shrink_to_fit_applied", fontSize: w.fontSize, lines: w.lines ?? 1, handling: "written at the fitted size" });
@@ -1378,6 +1404,12 @@ export async function buildFamily(opts) {
     minimumReadableFontSize: MIN_READABLE_FONT_SIZE,
     shrinkToFitApplied: true,
     refusedBelowFloor: boundaryRender.report.unfittable.length,
+    // Counted separately because it is a different refusal with a different
+    // remedy: a floor refusal means the box is too small for readable text, a
+    // max-length refusal means the form itself will not accept a value that
+    // long. The total is what tells a reader nothing was silently dropped.
+    refusedExceedingFormMaxLength: overflow.filter((o) => o.check === "refused_exceeds_form_declared_max_length").length,
+    refusalsRecorded: overflow.filter((o) => o.check.startsWith("refused_")).length,
     findings: overflow
   });
 
