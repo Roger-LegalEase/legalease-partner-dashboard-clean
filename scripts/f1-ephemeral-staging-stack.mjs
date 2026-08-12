@@ -85,9 +85,10 @@ function psql(sql, { expectFail = false } = {}) {
 }
 function psqlFile(rel) {
   const r = spawnSync("psql", [DB_URL, "-v", "ON_ERROR_STOP=1", "-X", "-q", "-f", path.join(rootDir, rel)], { encoding: "utf8" });
-  // NOTICE spam must not bury the one line that matters.
+  // NOTICE spam must not bury the one line that matters; the full stream goes
+  // to the evidence bundle for the post-mortem either way.
   const errors = (r.stderr || "").split("\n").filter((l) => /ERROR|FATAL|DETAIL|HINT/.test(l)).join(" | ");
-  return { status: r.status, err: (errors || (r.stderr || "").slice(-300)).slice(0, 600) };
+  return { status: r.status, err: (errors || (r.stderr || "").slice(-300)).slice(0, 600), fullErr: r.stderr || "" };
 }
 async function api(url, { method = "GET", key = ANON_KEY, token = null, body = null, headers = {} } = {}) {
   const res = await fetch(url, {
@@ -138,10 +139,17 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
   record("migration_hashes_match", hashesOk, hashesOk ? `all ${action.migrationsInApplyOrder.length} recomputed hashes equal the prepared action` : "HASH DRIFT — refusing to apply");
   if (!hashesOk) finish(1);
 
+  console.log(`  stack postgres: ${psql(`select version()`).out.slice(0, 60)}`);
   let applied = 0;
   let applyErr = null;
   for (const m of action.migrationsInApplyOrder) {
     const r = psqlFile(m.path);
+    fs.writeFileSync(path.join(EVIDENCE_DIR, `migration-phase-${m.phase}.stderr.log`), r.fullErr ?? "");
+    const probe = psql(
+      `select coalesce(to_regclass('public.rcap_partner_packet_allocation')::text,'-') || '/' || coalesce(to_regclass('public.rcap_packet_credit_consumptions')::text,'-')`,
+      { expectFail: true }
+    ).out;
+    console.log(`    phase ${m.phase}: exit ${r.status}; allocation/consumptions = ${probe}`);
     if (r.status !== 0) { applyErr = `${m.path}: ${r.err}`; break; }
     applied += 1;
   }
