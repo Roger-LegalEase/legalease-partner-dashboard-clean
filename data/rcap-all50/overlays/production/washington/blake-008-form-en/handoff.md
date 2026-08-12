@@ -6,7 +6,7 @@
 - Source sha256: `8c861a358be2cdfc38b43a567c030ae4a36b11add031d8cab6e35d7f3b402426` — verified against the Edition 1 STATE_MANIFEST
 - Structure: flat (declared `flat_pdf`)
 - Ownership: court_issued_caption_only
-- Status: `overlay_no_extractable_text_layer`
+- Status: `overlay_no_participant_label_matched`
 
 ## What was bound
 
