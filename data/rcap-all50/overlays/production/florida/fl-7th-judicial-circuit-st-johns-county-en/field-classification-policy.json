@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-two-gate",
+  "lane": "D2B",
+  "factoryVersion": "d0-remediated-v1",
+  "gates": [
+    {
+      "order": 1,
+      "gate": "D0 typed fail-closed binder",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "note": "Never bypassed, never weakened. Every field starts protected."
+    },
+    {
+      "order": 2,
+      "gate": "lane D2B reviewed mapping table",
+      "note": "A field D0 would write is written only when this lane's table names the exact fact it carries. The table can only subtract."
+    }
+  ],
+  "reviewedFields": {
+    "DefendantPetitioner": "participant.full_legal_name",
+    "DefendantPetitioner_2": "participant.full_legal_name",
+    "DefendantPetitioner_3": "participant.full_legal_name",
+    "DefendantPetitioner_4": "participant.full_legal_name",
+    "The petitioner": "participant.full_legal_name",
+    "Name": "participant.full_legal_name",
+    "Address": "participant.street_address",
+    "Telephone No": "participant.phone",
+    "CASE NO": "matter.case_number"
+  },
+  "heldFields": {
+    "CASE NO_2": "trailing suffix misread as a charge row index",
+    "CASE NO_3": "trailing suffix misread as a charge row index",
+    "CityState": "composite city-and-state blank; no single fact carries both",
+    "Email Address": "matched the street address descriptor",
+    "racesex whose date of birth is": "composite blank carrying race and sex alongside the date of birth",
+    "Print type or stamp commissioned name of": "notary name",
+    "of St Johns County who will comply with the procedures set forth in section 9430585 Florida": "recites the county in the body of a certification, not a caption county",
+    "certain records of the petitioners arrest on 1": "arrest date blank",
+    "certain records of the petitioners arrest on 2": "arrest date blank",
+    "records of the court concerning the petitioners arrest on": "arrest date blank",
+    "date the petitioner": "arrest date blank"
+  },
+  "explicitMappings": {},
+  "captionOnly": false,
+  "documentAcceptsFill": true,
+  "neverWriteCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "rcap-overflow-report/v2",
+  "boundaryFixtureApplied": true,
+  "readableFloor": 6,
+  "unfittableCount": 5,
+  "findings": [
+    {
+      "fixture": "boundary",
+      "field": "DefendantPetitioner",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6,
+      "requiredHeightAtMin": null,
+      "handling": "left blank for a human rather than stamped illegibly"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Address",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 214.7,
+      "requiredHeightAtMin": null,
+      "handling": "left blank for a human rather than stamped illegibly"
+    },
+    {
+      "fixture": "boundary",
+      "field": "DefendantPetitioner_2",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6,
+      "requiredHeightAtMin": null,
+      "handling": "left blank for a human rather than stamped illegibly"
+    },
+    {
+      "fixture": "boundary",
+      "field": "DefendantPetitioner_3",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6,
+      "requiredHeightAtMin": null,
+      "handling": "left blank for a human rather than stamped illegibly"
+    },
+    {
+      "fixture": "boundary",
+      "field": "DefendantPetitioner_4",
+      "check": "refused_below_readable_floor",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6,
+      "requiredHeightAtMin": null,
+      "handling": "left blank for a human rather than stamped illegibly"
+    },
+    {
+      "fixture": "boundary",
+      "field": "CASE NO",
+      "check": "shrink_to_fit_applied",
+      "fontSize": 6,
+      "lines": 1
+    },
+    {
+      "fixture": "boundary",
+      "field": "The petitioner",
+      "check": "shrink_to_fit_applied",
+      "fontSize": 6,
+      "lines": 1
+    },
+    {
+      "fixture": "boundary",
+      "field": "Name",
+      "check": "shrink_to_fit_applied",
+      "fontSize": 6.5,
+      "lines": 1
+    }
+  ],
+  "assertion": "No value is drawn below the readable floor. A value that cannot fit is left blank and reported, so clipping, overlap and truncation cannot occur by construction."
+}

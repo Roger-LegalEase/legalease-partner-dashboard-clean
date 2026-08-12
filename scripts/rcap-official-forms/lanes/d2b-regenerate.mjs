@@ -1542,6 +1542,23 @@ function profileFidelity(stateCode, profileFile, records) {
       detail: "The compiled legal-design profile's legacy formInventory records a PDF whose sha256 appears nowhere in this state's Edition 1 manifest."
     });
   }
+  // The other direction, which matters more for this lane: an Edition 1 binary
+  // the compiled profile has never heard of. Florida's profile carries no PDF
+  // inventory at all and Louisiana's formInventory is empty, so every binary in
+  // those states' packs is new to the profile.
+  const legacyHashes = new Set(inventory.filter((e) => e.extension === ".pdf").map((e) => e.sha256));
+  for (const record of records) {
+    if (legacyHashes.has(record.sha256)) continue;
+    findings.push({
+      finding: "state_pack_fidelity",
+      jurisdiction: stateCode,
+      profileFile,
+      editionOneDocumentId: record.document_id,
+      editionOneSha256: record.sha256,
+      resolution: "Edition 1 pack manifest wins; the compiled profile is read-only to this lane and is not edited.",
+      detail: "This Edition 1 binary's sha256 appears nowhere in the compiled profile's legacy packetGenerator.formInventory."
+    });
+  }
   const matched = inventory.filter((e) => e.extension === ".pdf" && packHashes.has(e.sha256)).length;
   return { findings, matched, legacyPdfCount: inventory.filter((e) => e.extension === ".pdf").length };
 }

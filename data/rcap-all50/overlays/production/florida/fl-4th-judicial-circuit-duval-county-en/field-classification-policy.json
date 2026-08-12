@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-two-gate",
+  "lane": "D2B",
+  "factoryVersion": "d0-remediated-v1",
+  "gates": [
+    {
+      "order": 1,
+      "gate": "D0 typed fail-closed binder",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "note": "Never bypassed, never weakened. Every field starts protected."
+    },
+    {
+      "order": 2,
+      "gate": "lane D2B reviewed mapping table",
+      "note": "A field D0 would write is written only when this lane's table names the exact fact it carries. The table can only subtract."
+    }
+  ],
+  "reviewedFields": {
+    "Name": "participant.full_legal_name",
+    "Name_2": "participant.full_legal_name",
+    "Name_3": "participant.full_legal_name",
+    "Name_4": "participant.full_legal_name",
+    "Name_5": "participant.full_legal_name",
+    "Name_6": "participant.full_legal_name",
+    "The Petitioner Name": "participant.full_legal_name",
+    "The Petitioner Name_2": "participant.full_legal_name",
+    "the petitioner Name": "participant.full_legal_name",
+    "the petitioner Name_2": "participant.full_legal_name",
+    "whose date of birth is": "participant.date_of_birth",
+    "whose date of birth is_2": "participant.date_of_birth",
+    "CASE NO": "matter.case_number"
+  },
+  "heldFields": {
+    "CASE NO_2": "the trailing _2 reads as a charge row index, so the caption case number repeated on the affidavit would receive charge 2's number",
+    "CASE NO_3": "trailing suffix misread as a charge row index",
+    "CASE NO_4": "trailing suffix misread as a charge row index",
+    "CASE NO_5": "trailing suffix misread as a charge row index",
+    "CASE NO_6": "trailing suffix misread as a charge row index",
+    "DONE AND ORDERED in Chambers at Jacksonville Duval County Florida this 1": "the judge's dating blank on the order",
+    "DONE AND ORDERED in Chambers at Jacksonville Duval County Florida this 1_2": "the judge's dating blank on the order",
+    "DONE AND ORDERED in Chambers at Jacksonville Duval County Florida this 2": "the judge's dating blank on the order",
+    "DONE AND ORDERED in Chambers at Jacksonville Duval County Florida this 2_2": "the judge's dating blank on the order",
+    "of the court concerning the petitioners arrest on the": "arrest date blank matched the full legal name descriptor",
+    "records of the court concerning the petitioners arrest on the": "arrest date blank matched the full legal name descriptor"
+  },
+  "explicitMappings": {},
+  "captionOnly": true,
+  "documentAcceptsFill": true,
+  "neverWriteCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing"
+  ]
+}
