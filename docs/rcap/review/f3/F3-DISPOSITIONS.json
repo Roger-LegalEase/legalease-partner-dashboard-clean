@@ -1,0 +1,2690 @@
+{
+ "schemaVersion": "rcap-f3-review-dispositions/v1",
+ "lane": "F3",
+ "role": "independent_read_only_visual_review",
+ "generatedAt": "2026-08-12",
+ "reviewBranch": "claude/rcap-review-f3-official-forms",
+ "targets": [
+  {
+   "terminal": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "branch": "origin/claude/rcap-terminalize-d-official-forms",
+   "verified": true
+  },
+  {
+   "terminal": "E",
+   "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+   "branch": "origin/claude/rcap-terminalize-e-hard-forms",
+   "verified": true
+  }
+ ],
+ "familyCount": 69,
+ "dispositionCounts": {
+  "correction_required": 62,
+  "held_on_source_or_design": 7
+ },
+ "families": [
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AK",
+   "family": "tf-800-form-en",
+   "path": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 8 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_form",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-05",
+   "pinnedSourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AK",
+   "family": "tf-805-form-en",
+   "path": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 8 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_form",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-05",
+   "pinnedSourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AK",
+   "family": "tf-810-form-en",
+   "path": "data/rcap-all50/overlays/production/alaska/tf-810-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "5 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "output PDFs retain 2 AcroForm JavaScript action(s) inherited from the official source, 2 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 7 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_form",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-05",
+   "pinnedSourceSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AK",
+   "family": "dps-cri-103-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/alaska/dps-cri-103-source-gated-en",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "'Requester Name' and 'Subject Name' left blank while participant.full_legal_name and participant.phone are written into the yellow 'Person responsible for granting or denying privilege' block (Name / Telephone) - an outside-party decision-maker block",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 6 field(s) - the hold does not describe the artifact",
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "fail",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2022-07-25",
+   "pinnedSourceSha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AL",
+   "family": "sbi-form-46-support-en",
+   "path": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "10 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 1 of them already fire on the canonical (normal-length) fixture",
+    "'Full Name (First, Middle, Last, Suffix)' classified manual and left blank while the same participant name is written into 'Name of Witness' and 'Name of Witness_2'",
+    "'Address of Witness'/'Address of Witness_2'/'City State and Zip'x2 filled with the participant's own address - the applicant is entered as their own two witnesses on a form that requires two witnesses OR notarization",
+    "the 'Work Phone' AcroForm widget sits at x=363-533 y=606-621, on the Race / 'Other (please specify)' line (printed 'Work Phone:' label is at y=582); the bound phone renders as the self-specified race",
+    "'Issuing State' filled with participant.state while 'Drivers License Number' is blank",
+    "'Work Email Address' bound to participant.street_address",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "fail",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_reference",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2017-10-01",
+   "pinnedSourceSha256": "02ce19decc585903f73456371c2f51f8c01b39befa9b9b80560454e901bfb5e7"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AL",
+   "family": "c-94a-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "10 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "'Mailing Address of Board or other entity to be served', its City/State/Zip and its Telephone filled with the participant's own contact details - the licensing board's service block carries the petitioner's address",
+    "petitioner name line left blank (classified manual) while the board block is filled",
+    "10 clipping findings; county and case number visibly truncated mid-word in the boundary render",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "fail",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2023-10",
+   "pinnedSourceSha256": "e7ebe16d45d9a5619fd36f2834d4696efc4c0e7bf3ef42c44fa684906effc2c2"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-of-probation-under-act-346-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-of-probation-under-act-346-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "1 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 3 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-08-25",
+   "pinnedSourceSha256": "5e0923268f5c5a0893118ac07bdf6d468190c77ad58ee7db9f077631c996d320"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 5 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-01-01",
+   "pinnedSourceSha256": "70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "9 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 2 of them already fire on the canonical (normal-length) fixture",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 7 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-01-01",
+   "pinnedSourceSha256": "731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "8 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 1 of them already fire on the canonical (normal-length) fixture",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 7 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-01-01",
+   "pinnedSourceSha256": "b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 5 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-01-01",
+   "pinnedSourceSha256": "5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "4 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 1 of them already fire on the canonical (normal-length) fixture",
+    "'1 The Defendant was arrested on the' (day-of-month blank) bound to participant.full_legal_name",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 6 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-01-01",
+   "pinnedSourceSha256": "b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "'1 The Defendant was arrested on the' (day-of-month blank) bound to participant.full_legal_name",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 5 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2021-08-16",
+   "pinnedSourceSha256": "dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "held_on_source_or_design",
+   "findings": [
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 4 field(s) - the hold does not describe the artifact",
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2021-07-27",
+   "pinnedSourceSha256": "ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 4 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2019-08-01",
+   "pinnedSourceSha256": "4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 4 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2023-10-25",
+   "pinnedSourceSha256": "4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "held_on_source_or_design",
+   "findings": [
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 4 field(s) - the hold does not describe the artifact",
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2022-03-07",
+   "pinnedSourceSha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "1 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 3 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-08-25",
+   "pinnedSourceSha256": "edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "12 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 2 of them already fire on the canonical (normal-length) fixture",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-01-01",
+   "pinnedSourceSha256": "99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "14 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 2 of them already fire on the canonical (normal-length) fixture",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-08-25",
+   "pinnedSourceSha256": "7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "held_on_source_or_design",
+   "findings": [
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2021-07-27",
+   "pinnedSourceSha256": "2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "7 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-08-25",
+   "pinnedSourceSha256": "f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "6 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2015-04-01",
+   "pinnedSourceSha256": "015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "12 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 2 of them already fire on the canonical (normal-length) fixture",
+    "caption field '(First, Middle and Last name)' bound to participant.last_name - the petition caption carries a surname only",
+    "'1 The Defendant was arrested on the' (the day-of-month blank) bound to participant.full_legal_name",
+    "'and charged with the offenses of' widget (x=124,y=383, the date-continuation blank) bound to matter.charge",
+    "'misdemeanor in violation of A C A_2' is a 15pt-wide widget bound to matter.charges[1].charge",
+    "'Defendants Address' is a 39pt-wide widget bound to participant.street_address",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2021-07-21",
+   "pinnedSourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "held_on_source_or_design",
+   "findings": [
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2021-07-27",
+   "pinnedSourceSha256": "04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "12 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 1 of them already fire on the canonical (normal-length) fixture",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2020-04-22",
+   "pinnedSourceSha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "AR",
+   "family": "ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+   "path": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "5 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "repo_source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2014-08-25",
+   "pinnedSourceSha256": "cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-334-form-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 2 AcroForm JavaScript action(s) inherited from the official source",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 6 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "revision_confirmation_required",
+   "revision": "REV-UNKNOWN",
+   "pinnedSourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-496-2-form-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "4 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "3 value(s) silently truncated by form maxLength",
+    "4 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 7 AcroForm JavaScript action(s) inherited from the official source, 1 of them attached to a BOUND field (format/keystroke/calculate)",
+    "Def.Address.City and Def.Address.Zip bound to participant.street_address",
+    "3 values truncated by form maxLength",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2016-07",
+   "pinnedSourceSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-496-3-form-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "1 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "revision_confirmation_required",
+   "revision": "REV-UNKNOWN",
+   "pinnedSourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-496-4-form-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "1 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 1 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2023-06",
+   "pinnedSourceSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-496-5-form-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-496-5-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 3 AcroForm JavaScript action(s) inherited from the official source",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 2 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2019-06",
+   "pinnedSourceSha256": "273e45032d4f1caed9442ebcfe5804e9202c29eb6265f5b7dde7734e44048ca8"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-496-form-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 5 AcroForm JavaScript action(s) inherited from the official source",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 3 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2016-07",
+   "pinnedSourceSha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-497-form-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "5 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 4 AcroForm JavaScript action(s) inherited from the official source",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "revision_confirmation_required",
+   "revision": "REV-UNKNOWN",
+   "pinnedSourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-333-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 2 AcroForm JavaScript action(s) inherited from the official source",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 2 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-UNKNOWN",
+   "pinnedSourceSha256": "7af13bcf7ea1d395471c381b10f2200049d1c0a6380add604360da39b51f3587"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "KY",
+   "family": "aoc-497-3-source-gated-en",
+   "path": "data/rcap-all50/overlays/production/kentucky/aoc-497-3-source-gated-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "output PDFs retain 3 AcroForm JavaScript action(s) inherited from the official source",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 4 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "source_gated_never_runtime_selectable",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "source_gated",
+   "freshnessStatus": "source_or_currentness_gate_open",
+   "revision": "REV-2020-07",
+   "pinnedSourceSha256": "71049fcaf0321ff6ccd3bdc5142c92fabcb4134f7aebb48a6859083085f7c2eb"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cr-287-form-es",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "the official source prints 'NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH VERSION ... INSTEAD' and a diagonal watermark, yet the overlay writes a matter value onto it; the source-record records it as an ordinary 'Participant-completed filing' and carries no non-filing hold",
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "fail_required_non_filing_hold_absent"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2020-12",
+   "pinnedSourceSha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cr-287-form-en",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "11 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "output PDFs retain 68 AcroForm JavaScript action(s) inherited from the official source, 42 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 14 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-12",
+   "pinnedSourceSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cr-288-form-es",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "the official source prints 'NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH VERSION ... INSTEAD' and a diagonal watermark, yet the overlay writes a matter value onto it; the source-record records it as an ordinary 'Participant-completed filing' and carries no non-filing hold",
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "fail_required_non_filing_hold_absent"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2020-12",
+   "pinnedSourceSha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cr-288-form-en",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "10 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "output PDFs retain 74 AcroForm JavaScript action(s) inherited from the official source, 46 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-03",
+   "pinnedSourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cr-296-form-en",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "8 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "output PDFs retain 80 AcroForm JavaScript action(s) inherited from the official source, 50 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-03",
+   "pinnedSourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cr-297-form-en",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "13 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 1 of them already fire on the canonical (normal-length) fixture",
+    "output PDFs retain 26 AcroForm JavaScript action(s) inherited from the official source, 10 of them attached to a BOUND field (format/keystroke/calculate)",
+    "EmailAddressOfRecord bound to participant.street_address",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 16 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-06",
+   "pinnedSourceSha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cr-298-form-en",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "13 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 1 of them already fire on the canonical (normal-length) fixture",
+    "output PDFs retain 26 AcroForm JavaScript action(s) inherited from the official source, 10 of them attached to a BOUND field (format/keystroke/calculate)",
+    "EmailAddressOfRecord bound to participant.street_address",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 16 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-07",
+   "pinnedSourceSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cv-226-support-es",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-es",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "the official source prints 'NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH VERSION ... INSTEAD' and a diagonal watermark, yet the overlay writes a matter value onto it; the source-record records it as an ordinary 'Participant-completed filing' and carries no non-filing hold",
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "fail_required_non_filing_hold_absent"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2021-06",
+   "pinnedSourceSha256": "08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cv-226-support-vi",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-vi",
+   "mapKind": "flat_overlay",
+   "buildStatus": "overlay_implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "the official source prints 'NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH VERSION ... INSTEAD' and a diagonal watermark, yet the overlay writes a matter value onto it; the source-record records it as an ordinary 'Participant-completed filing' and carries no non-filing hold",
+    "flat_overlay values are drawn in dark blue (rgb 0,0,0.55), not black; acceptable as an internal preview marker, not as filed ink"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "fail_required_non_filing_hold_absent"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2021-06",
+   "pinnedSourceSha256": "76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NC",
+   "family": "aoc-cv-226-support-en",
+   "path": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "16 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 3 of them already fire on the canonical (normal-length) fixture",
+    "output PDFs retain 70 AcroForm JavaScript action(s) inherited from the official source, 6 of them attached to a BOUND field (format/keystroke/calculate)",
+    "participant.full_legal_name bound to ApplicantStreetNumberAndStreetNameLine1/Line2 (name printed in the street rows)",
+    "participant.full_legal_name bound to ApplicantEmploymentIncomeMonthlyAmount and MoneyOwedToOrHeldForApplicantAssetsAmount (a name printed in sworn dollar-amount fields on a G.S. 7A-450 indigency affidavit)",
+    "participant.street_address bound to ApplicantFullPermanentMailingAddressCity/State/Zip (State widget is 24pt wide)",
+    "participant.street_address bound to SpousesEmployerNameAndAddress and ApplicantsEmployerNameAndAddress (outside-party fields)",
+    "3 clipping findings already fire on the canonical fixture",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "fail",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2023-04",
+   "pinnedSourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NE",
+   "family": "cc-6-11-2-form-en",
+   "path": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "1 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 4 AcroForm JavaScript action(s) inherited from the official source, 1 of them attached to a BOUND field (format/keystroke/calculate)",
+    "TYPEOFCOURTDROPDOWN bound to matter.court but no option matched, so the caption keeps the unselected 'Choose the court' placeholder",
+    "TYPEOFCOURTRESULTS is listed in the AcroForm /CO calculation order and carries the calculate script event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value; opening the output in a calculation-running viewer replaces the rendered court type with the unselected placeholder",
+    "source-record revision, officialTitle, documentRole, sourceStatus, freshnessStatus and declaredPages are all null; declaredFieldCount 0 vs observedAcroFieldCount",
+    "source-record 'revision' is null - the official revision is not recorded (the canonical bundle filename does carry one)",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 4 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "fail_revision_unrecorded",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": null,
+   "freshnessStatus": null,
+   "revision": null,
+   "pinnedSourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NE",
+   "family": "cc-6-11-form-en",
+   "path": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "4 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 6 AcroForm JavaScript action(s) inherited from the official source, 3 of them attached to a BOUND field (format/keystroke/calculate)",
+    "TYPEOFCOURTDROPDOWN bound to matter.court but no option matched, so the caption keeps the unselected 'Choose the court' placeholder",
+    "TYPEOFCOURTRESULTS is listed in the AcroForm /CO calculation order and carries the calculate script event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value; opening the output in a calculation-running viewer replaces the rendered court type with the unselected placeholder",
+    "source-record revision, officialTitle, documentRole, sourceStatus, freshnessStatus and declaredPages are all null; declaredFieldCount 0 vs observedAcroFieldCount",
+    "source-record 'revision' is null - the official revision is not recorded (the canonical bundle filename does carry one)",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 9 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "fail_revision_unrecorded",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": null,
+   "freshnessStatus": null,
+   "revision": null,
+   "pinnedSourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NE",
+   "family": "cc-6-12-form-en",
+   "path": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "4 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 6 AcroForm JavaScript action(s) inherited from the official source, 3 of them attached to a BOUND field (format/keystroke/calculate)",
+    "TYPEOFCOURTDROPDOWN bound to matter.court but no option matched, so the caption keeps the unselected 'Choose the court' placeholder",
+    "TYPEOFCOURTRESULTS is listed in the AcroForm /CO calculation order and carries the calculate script event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value; opening the output in a calculation-running viewer replaces the rendered court type with the unselected placeholder",
+    "source-record revision, officialTitle, documentRole, sourceStatus, freshnessStatus and declaredPages are all null; declaredFieldCount 0 vs observedAcroFieldCount",
+    "source-record 'revision' is null - the official revision is not recorded (the canonical bundle filename does carry one)",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 9 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "fail_revision_unrecorded",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": null,
+   "freshnessStatus": null,
+   "revision": null,
+   "pinnedSourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NE",
+   "family": "cc-6-15-1-form-en",
+   "path": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 4 AcroForm JavaScript action(s) inherited from the official source, 3 of them attached to a BOUND field (format/keystroke/calculate)",
+    "TYPEOFCOURTDROPDOWN bound to matter.court but no option matched, so the caption keeps the unselected 'Choose the court' placeholder",
+    "TYPEOFCOURTRESULTS is listed in the AcroForm /CO calculation order and carries the calculate script event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value; opening the output in a calculation-running viewer replaces the rendered court type with the unselected placeholder",
+    "source-record revision, officialTitle, documentRole, sourceStatus, freshnessStatus and declaredPages are all null; declaredFieldCount 0 vs observedAcroFieldCount",
+    "source-record 'revision' is null - the official revision is not recorded (the canonical bundle filename does carry one)",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 8 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "fail_revision_unrecorded",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": null,
+   "freshnessStatus": null,
+   "revision": null,
+   "pinnedSourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NE",
+   "family": "dc-1-15-form-en",
+   "path": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 8 AcroForm JavaScript action(s) inherited from the official source, 1 of them attached to a BOUND field (format/keystroke/calculate)",
+    "TYPEOFCOURTDROPDOWN bound to matter.court but no option matched, so the caption keeps the unselected 'Choose the court' placeholder",
+    "TYPEOFCOURTRESULTS is listed in the AcroForm /CO calculation order and carries the calculate script event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value; opening the output in a calculation-running viewer replaces the rendered court type with the unselected placeholder",
+    "source-record revision, officialTitle, documentRole, sourceStatus, freshnessStatus and declaredPages are all null; declaredFieldCount 0 vs observedAcroFieldCount",
+    "source-record 'revision' is null - the official revision is not recorded (the canonical bundle filename does carry one)",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 5 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "fail_revision_unrecorded",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": null,
+   "freshnessStatus": null,
+   "revision": null,
+   "pinnedSourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "NE",
+   "family": "dc-6-7-2-form-en",
+   "path": "data/rcap-all50/overlays/production/nebraska/dc-6-7-2-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 dropdown binding(s) matched no option and were left at the unselected placeholder",
+    "output PDFs retain 4 AcroForm JavaScript action(s) inherited from the official source, 1 of them attached to a BOUND field (format/keystroke/calculate)",
+    "TYPEOFCOURTDROPDOWN bound to matter.court but no option matched, so the caption keeps the unselected 'Choose the court' placeholder",
+    "TYPEOFCOURTRESULTS is listed in the AcroForm /CO calculation order and carries the calculate script event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value; opening the output in a calculation-running viewer replaces the rendered court type with the unselected placeholder",
+    "source-record revision, officialTitle, documentRole, sourceStatus, freshnessStatus and declaredPages are all null; declaredFieldCount 0 vs observedAcroFieldCount",
+    "source-record 'revision' is null - the official revision is not recorded (the canonical bundle filename does carry one)",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 5 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "fail_revision_unrecorded",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": null,
+   "freshnessStatus": null,
+   "revision": null,
+   "pinnedSourceSha256": "33765f661ddeaacfbc623b77e4e0b873b24816bfda472fa2c6b0f093945d96be"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VA",
+   "family": "cc-1201-a-form-en",
+   "path": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "9 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "1 value(s) silently truncated by form maxLength",
+    "output PDFs retain 16 AcroForm JavaScript action(s) inherited from the official source, 8 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2026-07",
+   "pinnedSourceSha256": "01427e4ea4dce8ea5b053bb681556533c1313a8fd362983a9616465acdf6a8ed"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VA",
+   "family": "cc-1201-form-en",
+   "path": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "12 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 2 of them already fire on the canonical (normal-length) fixture",
+    "1 value(s) silently truncated by form maxLength",
+    "output PDFs retain 26 AcroForm JavaScript action(s) inherited from the official source, 12 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2026-07",
+   "pinnedSourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VA",
+   "family": "cc-1203-a-form-en",
+   "path": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "6 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "1 value(s) silently truncated by form maxLength",
+    "output PDFs retain 16 AcroForm JavaScript action(s) inherited from the official source, 8 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2026-07",
+   "pinnedSourceSha256": "3f9bb4dcc114dc5a36aaf14439841dfd536ca8e84febbc01aca52792dc190da1"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VA",
+   "family": "cc-1203-b-form-en",
+   "path": "data/rcap-all50/overlays/production/virginia/cc-1203-b-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "1 value(s) silently truncated by form maxLength",
+    "output PDFs retain 8 AcroForm JavaScript action(s) inherited from the official source, 4 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2026-07",
+   "pinnedSourceSha256": "9ec9a6b12adb3a3f14ec0afd39ddcfab4ec00ec2fa441ff5e1648ffb8b334781"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VA",
+   "family": "cc-1203-form-en",
+   "path": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "13 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype; 1 of them already fire on the canonical (normal-length) fixture",
+    "1 value(s) silently truncated by form maxLength",
+    "output PDFs retain 26 AcroForm JavaScript action(s) inherited from the official source, 14 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2026-07",
+   "pinnedSourceSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VA",
+   "family": "cc-1473-form-en",
+   "path": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "3 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "2 value(s) silently truncated by form maxLength",
+    "output PDFs retain 14 AcroForm JavaScript action(s) inherited from the official source, 8 of them attached to a BOUND field (format/keystroke/calculate)",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2026-07",
+   "pinnedSourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VT",
+   "family": "200-00130-form-en",
+   "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "pass"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-07",
+   "pinnedSourceSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VT",
+   "family": "200-00132a-form-en",
+   "path": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 3 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-07",
+   "pinnedSourceSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VT",
+   "family": "200-00132-form-en",
+   "path": "data/rcap-all50/overlays/production/vermont/200-00132-form-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "2 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 3 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_no_xfa_no_javascript",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2025-07",
+   "pinnedSourceSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+  },
+  {
+   "lane": "D1",
+   "sha": "a6cd03b7d50e5b141676960ebc6b94458065a496",
+   "jurisdiction": "VT",
+   "family": "600-00228-support-en",
+   "path": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+   "mapKind": "acroform",
+   "buildStatus": "implemented_pending_independent_review",
+   "disposition": "correction_required",
+   "findings": [
+    "contact-sheet/blank-vs-filled.pdf is blind: it is built with pdf-lib embedPdf/drawPage, which copies page content streams only, so AcroForm widget appearances are dropped and the 'canonical fill' panel is identical to the blank; none of the fixture's field values appear in the sheet's text",
+    "1 clipping finding(s) recorded with handling 'shrink_to_fit_required_at_render', but the acroform fill path (scripts/implement-rcap-official-forms-d1.mjs ~L560-572) only reports and never reduces the font size; long values are silently truncated mid-word or auto-shrunk to illegible microtype",
+    "output PDFs retain 48 AcroForm JavaScript action(s) inherited from the official source",
+    "source-record structuralClassAgrees=false (declared 'acroform_pdf' vs observed 'acroform')",
+    "hold 'not_participant_fillable_no_fixture_fill' is asserted although participantFillable=true and the canonical fixture writes 2 field(s) - the hold does not describe the artifact"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "unverified_source_binary_absent",
+    "2_source_sha_matches_pin": "unverified_source_binary_absent_from_clone",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "fail",
+    "5_long_name_and_multiline": "fail",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "fail_javascript_present_xfa_absent",
+    "10_official_appearance_preserved": "pass_in_fixture_render_contact_sheet_artifact_unusable",
+    "11_holds_preserved": "fail_hold_misdescribes_artifact"
+   },
+   "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "not_participant_fillable_no_fixture_fill",
+    "f_independent_visual_review_required"
+   ],
+   "sourceStatus": "acquired_2026-08-02",
+   "freshnessStatus": "candidate_current_source",
+   "revision": "REV-2026-04",
+   "pinnedSourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+  },
+  {
+   "lane": "E",
+   "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+   "jurisdiction": "CA",
+   "family": "cr-180-petition-for-dismissal",
+   "path": "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+   "strategy": "tier_1_hybrid_xfa_shadow_fill",
+   "disposition": "correction_required",
+   "findings": [
+    "binding CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0] <- offense1Description writes a narrative offense description into the fifth conviction-table column, whose printed header (pdftotext -bbox: x=453.6-569.6) reads 'Eligible for reduction to infraction under Penal Code, s 17(d)(2) (yes or no)'; the widget rect is x=453.6-569.3, exactly that column",
+    "the fourth column Reduce1[0] ('Eligible for reduction to misdemeanor under Penal Code, s 17(b) (yes or no)') has no binding and stays blank, so the two eligibility answers the form asks for are one wrong and one missing",
+    "CR-180 has no column for a narrative offense description; offense1Description has no valid target on this form",
+    "output is byte-reproducible against reports/output-fingerprints.json for all three fixtures; XFA deleted, form flattened, 0 annotations, 0 fields, no JS/AA/OpenAction"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "pass_revision_recorded_source_binary_absent_from_clone",
+    "2_source_sha_matches_pin": "pass_derived_source_sha256_matches_pin_official_sha_unverified",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_xfa_deleted_form_flattened_no_js_no_aa_no_openaction_no_annots",
+    "10_official_appearance_preserved": "fail_value_rendered_in_the_wrong_table_column",
+    "11_holds_preserved": "pass"
+   }
+  },
+  {
+   "lane": "E",
+   "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+   "jurisdiction": "CA",
+   "family": "cr-181-order-for-dismissal",
+   "path": "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+   "strategy": "tier_1_hybrid_xfa_shadow_fill",
+   "disposition": "correction_required",
+   "findings": [
+    "fixtures/boundary.json is a near-copy of canonical: participantStreet '1841 Mission Street, Apt 4', participantCity 'San Francisco', participantZip '94103', participantPhone '(415) 555-0142', participantEmail 'jordan.rivera@example.com' are all canonical-length, so 10 of the 12 bound fields are never stress-tested and check 5 cannot be discharged from the committed fixture",
+    "the same boundary fixture sets courtCounty 'San Francisco' but courtCityZip 'San Bernardino, CA 92415-0210', an internally inconsistent court block",
+    "the page-1 caption DEFENDANT and CASE NUMBER are neither bound nor listed in protectedFields (only CR-181[0].Page2[0].P2Header[0].CaseNumber2[0] is protected), so the proposed order is lodged with a blank case caption",
+    "all decretal GRANTS/DENIES boxes, judicial signature and date are blank in every fixture, as the legalIntegrityDisposition requires",
+    "output byte-reproducible; XFA deleted, flattened, 0 annotations, 0 fields, no JS/AA/OpenAction"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "pass_revision_recorded_source_binary_absent_from_clone",
+    "2_source_sha_matches_pin": "pass_derived_source_sha256_matches_pin_official_sha_unverified",
+    "3_field_census_completeness": "pass_census_complete_but_two_caption_fields_have_no_disposition_in_the_profile",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "fail_boundary_fixture_does_not_exercise_long_values",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_xfa_deleted_form_flattened_no_js_no_aa_no_openaction_no_annots",
+    "10_official_appearance_preserved": "pass",
+    "11_holds_preserved": "pass"
+   }
+  },
+  {
+   "lane": "E",
+   "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+   "jurisdiction": "CA",
+   "family": "cr-409-petition-to-seal-arrest-records",
+   "path": "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records",
+   "strategy": "tier_1_hybrid_xfa_shadow_fill",
+   "disposition": "correction_required",
+   "findings": [
+    "binding rightCaption[0].TCCaseName[0] <- caseName writes 'People v. Rivera' into a box whose pre-printed label already reads 'Trial Court Case Name: / People of the State of California v.', so the rendered caption reads 'People of the State of California v. People v. Rivera' (canonical) and 'People of the State of California v. People v. Rivera' (boundary)",
+    "the boundary fixture's caseName 'People v. Rivera' is a canonical-length value carrying the wrong surname for the boundary participant (Featherstonehaugh-Wetherby), so the field is not stress-tested",
+    "long values otherwise render cleanly with auto font shrink and no clipping: name, street, city, zip and the 47-character email all fit within their rules",
+    "Notice of Court Hearing block (clerk fills), Date of birth, hearing date/time/dept/room and section 3 arrest details are blank in both fixtures",
+    "output byte-reproducible; XFA deleted, flattened, 0 annotations, 0 fields, no JS/AA/OpenAction"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "pass_revision_recorded_source_binary_absent_from_clone",
+    "2_source_sha_matches_pin": "pass_derived_source_sha256_matches_pin_official_sha_unverified",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_xfa_deleted_form_flattened_no_js_no_aa_no_openaction_no_annots",
+    "10_official_appearance_preserved": "fail_caption_reads_people_of_the_state_of_california_v_people_v_x",
+    "11_holds_preserved": "pass"
+   }
+  },
+  {
+   "lane": "E",
+   "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+   "jurisdiction": "CA",
+   "family": "cr-410-order-to-seal-arrest-records",
+   "path": "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records",
+   "strategy": "tier_1_hybrid_xfa_shadow_fill",
+   "disposition": "correction_required",
+   "findings": [
+    "binding Stamp_court_case[0].TCCaseName_ft[0] <- caseName produces the same duplicated caption as CR-409: the box pre-prints 'People of the State of California' and 'v.' and the fill adds 'People v. Rivera' / 'People v. Featherstonehaugh-Wetherby'",
+    "every GRANTS/DENIES finding, the sealing directive, Date and Signature of judicial officer are blank in all three fixtures, as the caption-only legalIntegrityDisposition requires",
+    "the long court name wraps to four lines inside the court box without clipping in the boundary fixture",
+    "output byte-reproducible; XFA deleted, flattened, 0 annotations, 0 fields, no JS/AA/OpenAction"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "pass_revision_recorded_source_binary_absent_from_clone",
+    "2_source_sha_matches_pin": "pass_derived_source_sha256_matches_pin_official_sha_unverified",
+    "3_field_census_completeness": "pass",
+    "4_no_clipping_or_overlap": "pass",
+    "5_long_name_and_multiline": "pass",
+    "6_protected_and_outside_party_blank": "pass",
+    "7_no_unresolved_placeholders": "pass",
+    "8_page_sequence": "pass",
+    "9_no_active_xfa_no_javascript": "pass_xfa_deleted_form_flattened_no_js_no_aa_no_openaction_no_annots",
+    "10_official_appearance_preserved": "fail_caption_reads_people_of_the_state_of_california_v_people_v_x",
+    "11_holds_preserved": "pass"
+   }
+  },
+  {
+   "lane": "E",
+   "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+   "jurisdiction": "CA",
+   "family": "cr-106-proof-of-service",
+   "path": "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json (instructionComponents[CR-106])",
+   "strategy": "tier_1_capable_binding_policy_open",
+   "disposition": "held_on_source_or_design",
+   "findings": [
+    "no field map authored by design; the recorded reason is that the per-county service-recipient determination for PC 1203.4x and PC 851.91 is legal design lane E does not own, and guessing it would put a false service declaration under a participant signature",
+    "the decrypted derivative data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr106-rescued.pdf is committed at this SHA and hashes to the pinned b20f56ea218afc4ca83aebc8f2537ab461785689164b536326acf18308743868",
+    "the derivative still carries a full XFA package (packets xdp:xdp/config/template/datasets/localeSet/xmpmeta/xfdf/form) and 59 AcroForm terminal fields; no output is produced so no output-side XFA/JS check applies",
+    "blocker names the missing evidence, the owner (counsel / state-pack legal design CA) and the next action"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "pass_revision_recorded_source_binary_absent_from_clone",
+    "2_source_sha_matches_pin": "pass_derived_source_sha256_matches_pin_official_sha_unverified",
+    "3_field_census_completeness": "not_applicable_no_field_map_by_design",
+    "4_no_clipping_or_overlap": "not_applicable_no_output",
+    "5_long_name_and_multiline": "not_applicable_no_output",
+    "6_protected_and_outside_party_blank": "not_applicable_no_output",
+    "7_no_unresolved_placeholders": "not_applicable_no_output",
+    "8_page_sequence": "pass_2_pages_observed",
+    "9_no_active_xfa_no_javascript": "not_applicable_no_output_source_is_xfa",
+    "10_official_appearance_preserved": "not_applicable_no_output",
+    "11_holds_preserved": "pass_hold_intact_and_specific"
+   }
+  },
+  {
+   "lane": "E",
+   "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+   "jurisdiction": "DE",
+   "family": "family-court-form-281",
+   "path": "data/rcap-all50/hard-forms/delaware/family-court-form-281",
+   "strategy": "exact_supported_deferral",
+   "disposition": "held_on_source_or_design",
+   "findings": [
+    "no official Form 281 principal petition binary exists in the canonical bundle at any revision; only FORM-281E (charge sheet) is present",
+    "lane E explicitly refuses to reconstruct the form, on the ground that a derived reconstruction would carry a form id and revision no canonical byte supports",
+    "no profile bindings, no fixtures and no output are committed, so checks 3-10 have nothing to evaluate",
+    "blocker names the missing evidence, the owner (source acquisition) and the next action"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "fail_no_official_source_exists_this_is_the_hold",
+    "2_source_sha_matches_pin": "not_applicable_no_source",
+    "3_field_census_completeness": "not_applicable_no_output",
+    "4_no_clipping_or_overlap": "not_applicable_no_output",
+    "5_long_name_and_multiline": "not_applicable_no_output",
+    "6_protected_and_outside_party_blank": "not_applicable_no_output",
+    "7_no_unresolved_placeholders": "not_applicable_no_output",
+    "8_page_sequence": "not_applicable_no_output",
+    "9_no_active_xfa_no_javascript": "not_applicable_no_output",
+    "10_official_appearance_preserved": "not_applicable_no_output",
+    "11_holds_preserved": "pass_hold_intact_and_specific"
+   }
+  },
+  {
+   "lane": "E",
+   "sha": "fab2861205be8e6c61f23c24bd700b6b1bb751e6",
+   "jurisdiction": "ME",
+   "family": "cr-289-motion-to-seal-prostitution-conviction",
+   "path": "data/rcap-all50/hard-forms/maine/cr-289-motion-to-seal-prostitution-conviction",
+   "strategy": "exact_supported_deferral",
+   "disposition": "held_on_source_or_design",
+   "findings": [
+    "binary is in hand and technically Tier-0 ready (not encrypted, no XFA, AcroForm, 14 terminal fields, 1 page, 612x792, no OpenAction, no document JavaScript) but is deferred on currentness: whether the Maine Judicial Branch issued a CR-289 revision after PL 2025 c.513 (effective 2026-01-11) is unresolved",
+    "pinned sha256 bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423 is reconciled against the packetGenerator formCandidate in src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+    "no bindings, fixtures or output committed, so checks 3-10 have nothing to evaluate",
+    "blocker names the missing evidence, the owner (source acquisition) and the next action"
+   ],
+   "checks": {
+    "1_official_source_and_revision": "held_currentness_unconfirmed",
+    "2_source_sha_matches_pin": "pass_derived_source_sha256_matches_pin_official_sha_unverified",
+    "3_field_census_completeness": "not_applicable_no_output",
+    "4_no_clipping_or_overlap": "not_applicable_no_output",
+    "5_long_name_and_multiline": "not_applicable_no_output",
+    "6_protected_and_outside_party_blank": "not_applicable_no_output",
+    "7_no_unresolved_placeholders": "not_applicable_no_output",
+    "8_page_sequence": "not_applicable_no_output",
+    "9_no_active_xfa_no_javascript": "not_applicable_no_output",
+    "10_official_appearance_preserved": "not_applicable_no_output",
+    "11_holds_preserved": "pass_hold_intact_and_specific"
+   }
+  }
+ ]
+}
