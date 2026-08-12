@@ -7,9 +7,21 @@
 // petition. Unknown input fails closed.
 
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
-import { componentDeferralForTrack, guidanceTracksForPathway } from "@/lib/rcap/documents/guidance-packet-registry";
+import {
+  componentDeferralForTrack,
+  exactDeferralForPathway,
+  exactDeferralForTrack,
+  guidanceTracksForPathway
+} from "@/lib/rcap/documents/guidance-packet-registry";
 
-export type PacketRouteKind = "factory_v2" | "legacy_verified" | "guidance_only" | "typed_stop" | "disabled" | "component_deferral";
+export type PacketRouteKind =
+  | "factory_v2"
+  | "legacy_verified"
+  | "guidance_only"
+  | "typed_stop"
+  | "disabled"
+  | "component_deferral"
+  | "exact_supported_deferral";
 
 export type PacketRouteResolution = {
   routeKind: PacketRouteKind;
@@ -29,6 +41,8 @@ export type PacketRouteResolution = {
   guidanceTrackIds?: string[];
   /** Every deferred official-form component id, when routeKind is component_deferral. */
   deferralComponentIds?: string[];
+  /** The serving track id, when routeKind is exact_supported_deferral. */
+  exactDeferralTrackId?: string;
 };
 
 export type PacketRouteInput = {
@@ -85,6 +99,31 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
         ? `${deferral.trackId} is a composed route whose official-form component(s) are deferred; it serves the component deferral treatment and never a paid packet.`
         : `${deferral.trackId} carries an invalid component-deferral record (${deferral.invalidReason ?? "unspecified"}); the route fails closed and never opens payment or credit.`,
       deferralComponentIds: deferral.componentIds
+    };
+  }
+
+  // An exact supported deferral also has PRIORITY over the legacy-verified
+  // jurisdictions, and for the same reason: LEGACY_VERIFIED classifies a whole
+  // state, while a deferral is a decision about one route. Texas expunction
+  // after a qualifying dismissal is the case that made this necessary — the
+  // accepted treatment tells the participant no packet is prepared or sold,
+  // and without this the resolver offered them a Harris-County packet for $50.
+  // Matched by exact track id when the caller has one, otherwise by the
+  // compiled pathway the participant actually arrived through.
+  const exact = exactDeferralForTrack(input.trackId ?? null)
+    ?? exactDeferralForPathway(jurisdiction, pathwayId);
+  if (exact) {
+    return {
+      routeKind: "exact_supported_deferral",
+      jurisdiction,
+      pathwayId,
+      rendererKind: "none",
+      sellable: false,
+      creditConsumable: false,
+      reason: exact.classification === "exact_supported_deferral"
+        ? `${exact.trackId} is served by an accepted exact supported deferral: no packet is prepared or sold for this route, and the participant receives the deferral treatment.`
+        : `${exact.trackId} carries an invalid exact-deferral record (${exact.invalidReason ?? "unspecified"}); the route fails closed and never opens payment or credit.`,
+      exactDeferralTrackId: exact.trackId
     };
   }
 

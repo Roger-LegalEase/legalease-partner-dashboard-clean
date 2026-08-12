@@ -559,3 +559,352 @@ export function componentDeferralBundle(
     components
   };
 }
+
+/* -------------------------------------------------------------------------
+ * Lane-B exact supported deferrals.
+ *
+ * The third non-sellable treatment on the SAME authority as the two above.
+ * An exact supported deferral tells the participant, in their own language,
+ * that no packet is currently prepared or sold for the route and exactly what
+ * to do instead. Until now the runtime could not see that: a Texas participant
+ * on the qualifying-dismissal route was handed a $50 checkout for a
+ * Harris-County-templated packet on a route whose own accepted treatment says
+ * nothing is being prepared, because LEGACY_VERIFIED classifies by
+ * jurisdiction and nothing consulted the packet.
+ *
+ * The set is CLOSED and fails closed. A packet declaring this treatment must
+ * carry the complete participant treatment in substantive English and Spanish,
+ * an exact destination, supporting authority, and payment and sale prohibited.
+ * A packet that declares the treatment and fails validation yields
+ * `invalid_exact_supported_deferral`, which suppresses exactly as hard: a
+ * broken treatment is not permission to sell.
+ * ---------------------------------------------------------------------- */
+
+export type ExactDeferralClassification = "exact_supported_deferral" | "invalid_exact_supported_deferral";
+
+export type ExactSupportedDeferral = {
+  trackId: string;
+  jurisdiction: string;
+  classification: ExactDeferralClassification;
+  paymentAllowed: false;
+  checkoutSuppressed: true;
+  packetCreditConsumption: "none";
+  partnerCreditConsumed: false;
+  /** Every compiled pathway the track is reachable through, from the crosswalk. */
+  compiledPathwayIds: string[];
+  evidencePath: string;
+  /** The participant treatment, kept bilingual for the Briefcase. */
+  routeLabel: LocalizedText;
+  exactReason: LocalizedText;
+  destinationName: string;
+  destinationUrl: string | null;
+  destination: LocalizedText;
+  nextAction: LocalizedText;
+  gather: LocalizedList;
+  whatNotToFileOrAssume: LocalizedText;
+  handoff: LocalizedText;
+  briefcaseSaved: LocalizedList;
+  afterNextStep: LocalizedText;
+  authorityCount: number;
+  invalidReason?: string;
+};
+
+const CROSSWALK_PATH = "data/rcap-ledger/track-pathway-crosswalk.json";
+
+let exactDeferralCache: {
+  byTrack: Map<string, ExactSupportedDeferral>;
+  byPathway: Map<string, string[]>;
+} | null = null;
+
+function invalidExact(trackId: string, jurisdiction: string, evidencePath: string, pathwayIds: string[], reason: string): ExactSupportedDeferral {
+  const empty: LocalizedText = { en: "", es: "" };
+  const emptyList: LocalizedList = { en: [], es: [] };
+  return {
+    trackId,
+    jurisdiction,
+    classification: "invalid_exact_supported_deferral",
+    paymentAllowed: false,
+    checkoutSuppressed: true,
+    packetCreditConsumption: "none",
+    partnerCreditConsumed: false,
+    compiledPathwayIds: pathwayIds,
+    evidencePath,
+    routeLabel: empty,
+    exactReason: empty,
+    destinationName: "",
+    destinationUrl: null,
+    destination: empty,
+    nextAction: empty,
+    gather: emptyList,
+    whatNotToFileOrAssume: empty,
+    handoff: empty,
+    briefcaseSaved: emptyList,
+    afterNextStep: empty,
+    authorityCount: 0,
+    invalidReason: reason,
+  };
+}
+
+function loadExactDeferrals() {
+  if (exactDeferralCache) return exactDeferralCache;
+  const byTrack = new Map<string, ExactSupportedDeferral>();
+  // A pathway may be shared by more than one deferred track — Kentucky's two
+  // felony routes and West Virginia's three conviction routes each compile to
+  // a single pathway. The index keeps every claimant rather than the last one
+  // written, because picking one arbitrarily would hand a participant another
+  // route's legal treatment.
+  const byPathway = new Map<string, string[]>();
+
+  // The track → compiled-pathway mapping comes from the canonical crosswalk,
+  // the same artifact the ledger derives coverage from. A deferral with no
+  // mapped pathway is still registered by track id; it simply has no pathway
+  // the resolver can be asked about.
+  const pathwaysByTrack = new Map<string, string[]>();
+  const crosswalkPath = path.join(process.cwd(), CROSSWALK_PATH);
+  if (fs.existsSync(crosswalkPath)) {
+    const crosswalk = JSON.parse(fs.readFileSync(crosswalkPath, "utf8")) as {
+      registryTracks?: Array<{ jurisdiction?: string; registryTrackId?: string; mappedCompiledPathwayIds?: string[] }>;
+    };
+    for (const entry of crosswalk.registryTracks ?? []) {
+      if (!entry.jurisdiction || !entry.registryTrackId) continue;
+      pathwaysByTrack.set(
+        `${entry.jurisdiction.toUpperCase()}:${entry.registryTrackId}`,
+        Array.isArray(entry.mappedCompiledPathwayIds) ? entry.mappedCompiledPathwayIds : []
+      );
+    }
+  }
+
+  const dir = path.join(process.cwd(), PACKET_DIR);
+  if (!fs.existsSync(dir)) {
+    exactDeferralCache = { byTrack, byPathway };
+    return exactDeferralCache;
+  }
+
+  for (const file of fs.readdirSync(dir).sort()) {
+    if (!file.endsWith(".json") || file.startsWith("_")) continue;
+    const evidencePath = `${PACKET_DIR}/${file}`;
+    let parsed: { jurisdiction?: string; packets?: Array<Record<string, unknown>> };
+    try {
+      parsed = JSON.parse(fs.readFileSync(path.join(dir, file), "utf8"));
+    } catch {
+      continue;
+    }
+    const jurisdiction = String(parsed.jurisdiction ?? "").toUpperCase();
+    for (const packet of parsed.packets ?? []) {
+      if (packet.treatment !== "exact_supported_deferral") continue;
+      const trackId = typeof packet.trackId === "string" ? packet.trackId : "";
+      if (!trackId || !jurisdiction) continue;
+      const pathwayIds = pathwaysByTrack.get(`${jurisdiction}:${trackId}`) ?? [];
+
+      const record = buildExactDeferral(packet, trackId, jurisdiction, evidencePath, pathwayIds);
+
+      // One deferral per track. Two records claiming a track is a
+      // contradiction between owners, not something to resolve silently.
+      if (byTrack.has(trackId)) {
+        byTrack.set(trackId, invalidExact(trackId, jurisdiction, evidencePath, pathwayIds, "two packets declare an exact supported deferral for this track"));
+      } else {
+        byTrack.set(trackId, record);
+      }
+      for (const pathwayId of pathwayIds) {
+        const key = `${jurisdiction}:${pathwayId}`;
+        const existing = byPathway.get(key) ?? [];
+        existing.push(trackId);
+        byPathway.set(key, existing);
+      }
+    }
+  }
+
+  exactDeferralCache = { byTrack, byPathway };
+  return exactDeferralCache;
+}
+
+function buildExactDeferral(
+  packet: Record<string, unknown>,
+  trackId: string,
+  jurisdiction: string,
+  evidencePath: string,
+  pathwayIds: string[]
+): ExactSupportedDeferral {
+  const invalid = (reason: string) => invalidExact(trackId, jurisdiction, evidencePath, pathwayIds, reason);
+
+  // Payment and sale prohibited. A deferral that could be sold is not one, and
+  // a packet saying otherwise is refused rather than quietly corrected.
+  if (packet.paymentAllowed !== false || packet.sellable !== false) {
+    return invalid("the packet does not declare paymentAllowed=false and sellable=false");
+  }
+
+  const routeLabel = localized(packet.routeLabel);
+  const exactReason = localized(packet.stopReason);
+  const nextAction = localized(packet.nextStep);
+  const whatNotToFileOrAssume = localized(packet.participantFiles);
+  const handoff = localized(packet.handoff);
+  const afterNextStep = localized(packet.afterNextStep);
+  const gather = localizedList(packet.gather);
+  const briefcaseSaved = localizedList(packet.briefcaseSaved);
+  const destinationNode = (packet.destination ?? null) as Record<string, unknown> | null;
+  const destination = destinationNode ? localized(destinationNode) : null;
+
+  if (!routeLabel) return invalid("no substantive bilingual route label");
+  if (!exactReason) return invalid("no substantive bilingual exact reason");
+  if (!nextAction) return invalid("no substantive bilingual next action");
+  if (!whatNotToFileOrAssume) return invalid("no substantive bilingual statement of what not to file or assume");
+  if (!handoff) return invalid("no substantive bilingual handoff");
+  if (!afterNextStep) return invalid("no substantive bilingual after-next-step");
+  if (!gather) return invalid("no complete bilingual gathering instructions");
+  if (!briefcaseSaved) return invalid("no complete bilingual Briefcase preservation list");
+  if (!destination || typeof destinationNode?.name !== "string" || destinationNode.name.trim().length === 0) {
+    return invalid("no exact destination");
+  }
+  if (!Array.isArray(packet.authority) || packet.authority.length === 0) {
+    return invalid("no supporting authority");
+  }
+
+  return {
+    trackId,
+    jurisdiction,
+    classification: "exact_supported_deferral",
+    paymentAllowed: false,
+    checkoutSuppressed: true,
+    packetCreditConsumption: "none",
+    partnerCreditConsumed: false,
+    compiledPathwayIds: pathwayIds,
+    evidencePath,
+    routeLabel,
+    exactReason,
+    destinationName: destinationNode.name,
+    destinationUrl: typeof destinationNode.url === "string" ? destinationNode.url : null,
+    destination,
+    nextAction,
+    gather,
+    whatNotToFileOrAssume,
+    handoff,
+    briefcaseSaved,
+    afterNextStep,
+    authorityCount: packet.authority.length,
+  };
+}
+
+/** The exact supported deferral for a track id, or null when the track has none. */
+export function exactDeferralForTrack(trackId: string | null | undefined): ExactSupportedDeferral | null {
+  if (!trackId) return null;
+  return loadExactDeferrals().byTrack.get(trackId) ?? null;
+}
+
+/**
+ * The exact supported deferral serving a compiled pathway, or null.
+ *
+ * This is the lookup the route resolver uses, because a participant arrives
+ * through a pathway rather than through a track id.
+ */
+export function exactDeferralForPathway(
+  jurisdiction: string | null | undefined,
+  pathwayId: string | null | undefined
+): ExactSupportedDeferral | null {
+  if (!jurisdiction || !pathwayId) return null;
+  const state = String(jurisdiction).toUpperCase();
+  const loaded = loadExactDeferrals();
+  const trackIds = loaded.byPathway.get(`${state}:${pathwayId}`) ?? [];
+  if (trackIds.length === 0) return null;
+  if (trackIds.length === 1) return loaded.byTrack.get(trackIds[0]) ?? null;
+
+  // Several deferred tracks compile to this one pathway. They agree on the
+  // thing that matters here — nothing is prepared or sold — so the route is
+  // still suppressed. What cannot be answered from a pathway alone is WHICH
+  // legal treatment the participant should read, so none is asserted: the
+  // record fails closed and the caller must supply an exact track id to get
+  // the treatment itself.
+  const first = loaded.byTrack.get(trackIds[0]);
+  return invalidExact(
+    trackIds.join(" | "),
+    state,
+    first?.evidencePath ?? "",
+    [pathwayId],
+    `${trackIds.length} exact supported deferrals serve this pathway (${trackIds.join(", ")}); an exact track id is required to select the participant treatment`
+  );
+}
+
+/** Every deferred track serving a compiled pathway, in load order. */
+export function exactDeferralTrackIdsForPathway(
+  jurisdiction: string | null | undefined,
+  pathwayId: string | null | undefined
+): string[] {
+  if (!jurisdiction || !pathwayId) return [];
+  return loadExactDeferrals().byPathway.get(`${String(jurisdiction).toUpperCase()}:${pathwayId}`) ?? [];
+}
+
+/** Every registered exact supported deferral, for verifiers and audits. */
+export function allExactDeferrals(): ExactSupportedDeferral[] {
+  return [...loadExactDeferrals().byTrack.values()].sort((a, b) => a.trackId.localeCompare(b.trackId));
+}
+
+export type ExactDeferralBundle = {
+  trackId: string;
+  locale: DeferralLocale;
+  classification: ExactDeferralClassification;
+  paymentAllowed: false;
+  checkoutSuppressed: true;
+  packetCreditConsumption: "none";
+  partnerCreditConsumed: false;
+  summary: string;
+  exactReason: string;
+  destinationName: string;
+  destinationUrl: string | null;
+  destination: string;
+  nextAction: string;
+  gather: string[];
+  whatNotToFileOrAssume: string;
+  handoff: string;
+  briefcaseSaved: string[];
+  nextSteps: string[];
+};
+
+/**
+ * The participant-facing treatment for a deferred route, in one locale.
+ * Everything the Briefcase preserves for these routes is assembled here from
+ * the committed packet; nothing downstream writes its own version.
+ */
+export function exactDeferralBundle(
+  trackId: string | null | undefined,
+  locale: unknown
+): ExactDeferralBundle | null {
+  const deferral = exactDeferralForTrack(trackId);
+  if (!deferral) return null;
+  const lang = normalizeDeferralLocale(locale);
+  const valid = deferral.classification === "exact_supported_deferral";
+
+  const nextSteps = valid
+    ? [
+      deferral.exactReason[lang],
+      deferral.whatNotToFileOrAssume[lang],
+      deferral.destination[lang],
+      ...deferral.gather[lang],
+      deferral.nextAction[lang],
+      deferral.afterNextStep[lang],
+      deferral.handoff[lang],
+      ...deferral.briefcaseSaved[lang],
+    ]
+    : [lang === "es"
+      ? "El registro de aplazamiento de esta ruta no se validó, por lo que se guarda como orientación, sin pago ni crédito."
+      : "This route's deferral record did not validate, so it is saved as guidance with payment and credit closed."];
+
+  return {
+    trackId: deferral.trackId,
+    locale: lang,
+    classification: deferral.classification,
+    paymentAllowed: false,
+    checkoutSuppressed: true,
+    packetCreditConsumption: "none",
+    partnerCreditConsumed: false,
+    summary: valid ? deferral.routeLabel[lang] : (lang === "es" ? "Ruta aplazada" : "Deferred route"),
+    exactReason: valid ? deferral.exactReason[lang] : "",
+    destinationName: deferral.destinationName,
+    destinationUrl: deferral.destinationUrl,
+    destination: valid ? deferral.destination[lang] : "",
+    nextAction: valid ? deferral.nextAction[lang] : "",
+    gather: valid ? deferral.gather[lang] : [],
+    whatNotToFileOrAssume: valid ? deferral.whatNotToFileOrAssume[lang] : "",
+    handoff: valid ? deferral.handoff[lang] : "",
+    briefcaseSaved: valid ? deferral.briefcaseSaved[lang] : [],
+    nextSteps,
+  };
+}

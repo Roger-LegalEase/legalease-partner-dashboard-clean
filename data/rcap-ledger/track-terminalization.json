@@ -104,24 +104,24 @@
   "aggregates": {
     "windowId": "2026-08-12-w3",
     "registryTracks": 497,
-    "tracksTerminal": 382,
-    "tracksNonterminal": 115,
+    "tracksTerminal": 383,
+    "tracksNonterminal": 114,
     "tracksWithRuntimeCoverage": 285,
     "requiredTreatmentBreakdown": {
       "production_packet": 85,
       "complete_guidance": 12,
       "complete_composed_route": 16,
       "deliberate_scope_exclusion": 0,
-      "exact_supported_deferral": 2
+      "exact_supported_deferral": 1
     },
     "nonterminalTracksByLane": {
-      "B": 14,
+      "B": 13,
       "C": 28,
       "D": 67,
       "E": 6,
       "F": 0
     },
-    "jobsRemainingToLaunch": 56,
+    "jobsRemainingToLaunch": 55,
     "tracksTerminalizedThisWindow": 106,
     "candidateTreatmentsPendingReview": 16,
     "candidateTreatmentBreakdown": {
@@ -130,7 +130,7 @@
       "production_packet": 44,
       "complete_composed_route": 16
     },
-    "deferralCandidatesRefusedOnRuntimeContradiction": 2,
+    "deferralCandidatesRefusedOnRuntimeContradiction": 0,
     "tracksImplementedPendingIndependentReview": 6,
     "guidanceRegistryServedTracks": 64,
     "d1Implementation": {
@@ -145,27 +145,7 @@
     "genericComingSoonStates": 0,
     "unsupportedRoutesSellable": 0
   },
-  "runtimeContradictedDeferrals": [
-    {
-      "trackKey": "TX:tx_exp_acquittal",
-      "evidence": "data/rcap-all50/guidance-packets/tx.json",
-      "sellablePathwayIds": [
-        "expunction-after-acquittal-not-guilty-disposition-chapter-55a"
-      ],
-      "why": "the packet tells the participant nothing is being sold on this route, while the authoritative route resolver still reports the compiled pathway as sellable or credit-consumable",
-      "owner": "Terminal A route owner, with the jurisdiction's legacy-route owner"
-    },
-    {
-      "trackKey": "TX:tx_exp_dismissed",
-      "evidence": "data/rcap-all50/guidance-packets/tx.json",
-      "sellablePathwayIds": [
-        "expunction-after-qualifying-class-c-deferred-disposition",
-        "expunction-after-qualifying-dismissal-or-quash"
-      ],
-      "why": "the packet tells the participant nothing is being sold on this route, while the authoritative route resolver still reports the compiled pathway as sellable or credit-consumable",
-      "owner": "Terminal A route owner, with the jurisdiction's legacy-route owner"
-    }
-  ],
+  "runtimeContradictedDeferrals": [],
   "jobs": [
     {
       "jobId": "T-B-AK-complete-guidance",
@@ -362,27 +342,6 @@
       "runtimeWiringRequired": false,
       "trackIds": [
         "tx_exp_acquittal"
-      ]
-    },
-    {
-      "jobId": "T-B-TX-exact-supported-deferral",
-      "lane": "B",
-      "jurisdiction": "TX",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "exact_supported_deferral",
-      "sourceDependency": "private/Nationwide Record Clearing/ (TX) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/guidance-packets/",
-        "docs/record-clearing/deferrals/"
-      ],
-      "reviewArchetype": "F-deferral-statement-exactness",
-      "terminalEffect": [
-        "TX:tx_exp_dismissed -> terminal"
-      ],
-      "runtimeWiringRequired": false,
-      "trackIds": [
-        "tx_exp_dismissed"
       ]
     },
     {
@@ -8537,11 +8496,11 @@
         "expunction-after-qualifying-class-c-deferred-disposition",
         "expunction-after-qualifying-dismissal-or-quash"
       ],
-      "terminal": false,
+      "terminal": true,
       "holds": [
         "counsel_review_requirement"
       ],
-      "requiredTreatment": "exact_supported_deferral",
+      "requiredTreatment": null,
       "candidateTreatment": "exact_supported_deferral",
       "candidateEvidence": "data/rcap-all50/guidance-packets/tx.json",
       "candidateStatus": "promoted_by_f2",

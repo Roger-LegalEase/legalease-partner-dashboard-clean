@@ -31,7 +31,7 @@ export type ExpungementAiEligibilityResult = {
    * never populated from a client body.
    */
   selectedTrackId?: string | null;
-  treatmentClassification?: "component_deferral" | null;
+  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | null;
   deferralComponentIds?: string[];
   /**
    * The localized participant treatment for a deferred route, assembled by the
@@ -73,7 +73,7 @@ export type ConsumerBriefcaseItem = {
    * for metadata.
    */
   selectedTrackId?: string | null;
-  treatmentClassification?: "component_deferral" | null;
+  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | null;
   deferralComponentIds?: string[];
   paymentStatus?: "not_applicable" | "unpaid" | "paid" | "refunded";
   paymentProvider?: "stripe" | "dry_run";
@@ -100,7 +100,7 @@ export type CreateConsumerBriefcaseItemInput = {
   artifactRefs?: Record<string, unknown>;
   /** Server-authored only; persisted inside the existing artifact_refs_json column. */
   selectedTrackId?: string | null;
-  treatmentClassification?: "component_deferral" | null;
+  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | null;
   deferralComponentIds?: string[];
   paymentStatus?: ConsumerBriefcaseItem["paymentStatus"];
   paymentProvider?: ConsumerBriefcaseItem["paymentProvider"];

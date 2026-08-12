@@ -155,7 +155,7 @@ async function runChecks() {
   console.log(`  lane-B exact deferrals: ${packets.length} packets, ${approvedPackets.length} independently approved, ${qualifying.length} terminal`);
   check(packets.length === 9, `expected 9 lane-B exact_supported_deferral packets, found ${packets.length}`);
   check(approvedPackets.length === 8, `expected 8 with an unsuperseded technical_approved closure, found ${approvedPackets.length}`);
-  check(qualifying.length === 7, `expected 7 to satisfy every safeguard, found ${qualifying.length}`);
+  check(qualifying.length === 8, `expected 8 to satisfy every safeguard, found ${qualifying.length}`);
 
   // The ninth packet — the one with no independent approval — is never terminal.
   const unapproved = keys.filter((key) => !approved.has(key));
@@ -195,6 +195,176 @@ async function runChecks() {
     baseline.aggregates.tracksTerminal + qualifying.length === ledger.aggregates.tracksTerminal,
     `ledger moved ${baseline.aggregates.tracksTerminal} -> ${ledger.aggregates.tracksTerminal}, expected +${qualifying.length}`
   );
+
+  // ---- the runtime honours the treatment, route by route ------------------
+  //
+  // Twelve executable cases, in the order they matter to a participant: the
+  // route resolves to the deferral, it cannot be sold, payment is refused,
+  // checkout is refused, no credit moves, and the Briefcase keeps the whole
+  // treatment in both languages.
+  const {
+    exactDeferralForTrack,
+    exactDeferralForPathway,
+    exactDeferralBundle,
+    exactDeferralTrackIdsForPathway,
+  } = await import("../src/lib/rcap/documents/guidance-packet-registry.ts");
+  const { buildRenderJobSpec } = await import("../src/lib/rcap/render/job-contract.ts");
+  const { assertCheckoutAllowed, createConsumerPaymentPlaceholder } = await import("../src/lib/expungement-ai/payment-adapter.ts");
+
+  for (const key of keys) {
+    const [jurisdiction, trackId] = [key.slice(0, key.indexOf(":")), key.slice(key.indexOf(":") + 1)];
+    const record = exactDeferralForTrack(trackId);
+
+    // 1. the track resolves to the exact deferral treatment
+    check(Boolean(record), `${key}: the registry does not serve this track`);
+    if (!record) continue;
+    check(record.classification === "exact_supported_deferral", `${key}: classification is ${record.classification} (${record.invalidReason ?? ""})`);
+
+    for (const pathwayId of record.compiledPathwayIds) {
+      const route = resolvePacketRoute({ state: jurisdiction, pathway: pathwayId });
+      // 2. the affected pathways are not sellable
+      check(route.routeKind === "exact_supported_deferral", `${key} @ ${pathwayId}: routeKind is ${route.routeKind}`);
+      check(route.sellable === false, `${key} @ ${pathwayId}: sellable`);
+      // 3/5. payment prohibited, no packet or partner credit consumable
+      check(route.creditConsumable === false, `${key} @ ${pathwayId}: credit consumable`);
+      check(route.rendererKind === "none", `${key} @ ${pathwayId}: rendererKind is ${route.rendererKind}`);
+      // A pathway served by one deferred track names it. A pathway shared by
+      // several names none of them, because a pathway alone cannot say which
+      // legal treatment the participant should read — it suppresses and stops.
+      const sharing = exactDeferralTrackIdsForPathway(jurisdiction, pathwayId);
+      check(sharing.includes(trackId), `${key} @ ${pathwayId}: the pathway index does not list this track`);
+      if (sharing.length === 1) {
+        check(route.exactDeferralTrackId === trackId, `${key} @ ${pathwayId}: route names track ${route.exactDeferralTrackId}`);
+      } else {
+        const shared = exactDeferralForPathway(jurisdiction, pathwayId);
+        check(
+          shared?.classification === "invalid_exact_supported_deferral",
+          `${key} @ ${pathwayId}: ${sharing.length} tracks share this pathway but one treatment was asserted anyway`
+        );
+        check(route.sellable === false && route.creditConsumable === false, `${key} @ ${pathwayId}: a shared deferred pathway is still sellable`);
+      }
+
+      // no render job, so no artifact and no accounting call
+      const built = buildRenderJobSpec({
+        packetId: "00000000-0000-4000-8000-000000000000",
+        state: jurisdiction,
+        pathway: pathwayId,
+        profileId: jurisdiction,
+        profileVersion: "1.3.0",
+        packetFields: {},
+      });
+      check(built.spec === null, `${key} @ ${pathwayId}: a render job spec was built for a deferred route`);
+
+      // 4. checkout is suppressed, even for a corrupted packet-ready item
+      const corrupted = {
+        id: `verify-${trackId}`,
+        type: "result",
+        title: "verifier",
+        state: jurisdiction,
+        status: "packet_ready",
+        resultCode: "packet_ready",
+        createdAt: "2026-08-12T00:00:00.000Z",
+        summary: "",
+        nextSteps: [],
+        paymentAllowed: true,
+        packetReady: true,
+        pathwayLabel: pathwayId,
+      };
+      let refused = false;
+      try {
+        assertCheckoutAllowed(corrupted);
+      } catch {
+        refused = true;
+      }
+      check(refused, `${key} @ ${pathwayId}: checkout was allowed on a mutated packet-ready item`);
+
+      const placeholder = createConsumerPaymentPlaceholder({
+        resultCode: "packet_ready",
+        userLabel: "",
+        state: jurisdiction,
+        pathwayLabel: pathwayId,
+        confidence: "high",
+        paymentAllowed: true,
+        reasons: [],
+        nextSteps: [],
+        emailCaptureRecommended: false,
+        disclaimer: "",
+      });
+      check(placeholder.enabled === false, `${key} @ ${pathwayId}: a payment placeholder was offered`);
+      check(placeholder.amountCents === undefined, `${key} @ ${pathwayId}: a price was shown`);
+
+      check(Boolean(exactDeferralForPathway(jurisdiction, pathwayId)), `${key} @ ${pathwayId}: the pathway index does not serve this route`);
+    }
+
+    // 5. the registry's own accounting stays at zero
+    check(record.paymentAllowed === false, `${key}: registry paymentAllowed is not false`);
+    check(record.checkoutSuppressed === true, `${key}: registry checkoutSuppressed is not true`);
+    check(record.packetCreditConsumption === "none", `${key}: packet credit consumption is ${record.packetCreditConsumption}`);
+    check(record.partnerCreditConsumed === false, `${key}: partner credit consumed is ${record.partnerCreditConsumed}`);
+
+    // 6. the Briefcase handoff is complete in English and Spanish
+    const en = exactDeferralBundle(trackId, "en");
+    const es = exactDeferralBundle(trackId, "es");
+    check(Boolean(en) && Boolean(es), `${key}: no bilingual Briefcase bundle`);
+    if (en && es) {
+      for (const [field, value] of Object.entries({
+        exactReason: [en.exactReason, es.exactReason],
+        destination: [en.destination, es.destination],
+        nextAction: [en.nextAction, es.nextAction],
+        whatNotToFileOrAssume: [en.whatNotToFileOrAssume, es.whatNotToFileOrAssume],
+        handoff: [en.handoff, es.handoff],
+      })) {
+        check(nonEmptyString(value[0]) && nonEmptyString(value[1]), `${key}: empty ${field} in one language`);
+        check(value[0] !== value[1], `${key}: ${field} is untranslated`);
+      }
+      check(en.gather.length > 0 && en.gather.length === es.gather.length, `${key}: gathering instructions are not at parity`);
+      check(en.briefcaseSaved.length > 0 && en.briefcaseSaved.length === es.briefcaseSaved.length, `${key}: saved-handoff list is not at parity`);
+      check(nonEmptyString(en.destinationName), `${key}: no exact destination name`);
+      check(en.paymentAllowed === false && en.packetCreditConsumption === "none" && en.partnerCreditConsumed === false, `${key}: the bundle does not close payment and credit`);
+    }
+  }
+
+  // 7. TX:tx_exp_acquittal is a candidate carrying correction_required and is
+  //    not promoted by this change.
+  const acquittal = byKey.get("TX:tx_exp_acquittal");
+  check(Boolean(acquittal), "TX:tx_exp_acquittal is missing from the ledger");
+  check(acquittal?.terminal === false, "TX:tx_exp_acquittal is terminal");
+  check(acquittal?.candidateTreatment === "exact_supported_deferral", `TX:tx_exp_acquittal candidateTreatment is ${acquittal?.candidateTreatment}`);
+  check(acquittal?.candidateStatus === "correction_required", `TX:tx_exp_acquittal candidateStatus is ${acquittal?.candidateStatus}`);
+
+  // 8. unrelated Texas production packet routes are untouched, and so is the
+  //    legacy generator, which presents its own stored pathway value rather
+  //    than a compiled id.
+  const deferredTxPathways = new Set(
+    keys.filter((k) => k.startsWith("TX:"))
+      .flatMap((k) => exactDeferralForTrack(k.slice(3))?.compiledPathwayIds ?? [])
+  );
+  const txProfile = (await import("../src/lib/rcap-engine/profile-registry.ts")).getProfileByJurisdiction("TX");
+  let untouchedTx = 0;
+  for (const pathway of txProfile.pathways) {
+    if (deferredTxPathways.has(pathway.id)) continue;
+    const route = resolvePacketRoute({ state: "TX", pathway: pathway.id });
+    check(route.routeKind === "legacy_verified", `TX ${pathway.id}: unrelated route changed to ${route.routeKind}`);
+    check(route.sellable === true, `TX ${pathway.id}: an unrelated supported Texas route was disabled`);
+    untouchedTx += 1;
+  }
+  check(untouchedTx > 0, "no unrelated Texas route was checked, so the preservation proof is vacuous");
+  const legacyGeneratorRoute = resolvePacketRoute({ state: "TX", pathway: "more_information_needed" });
+  check(
+    legacyGeneratorRoute.routeKind === "legacy_verified" && legacyGeneratorRoute.sellable === true,
+    "the Texas-Harris legacy generator's own stored pathway lost its route"
+  );
+
+  // The other legacy-verified jurisdictions are untouched.
+  for (const [state, pathway] of [["MS", "expungement-petition"], ["IL", "sealing_conviction"], ["PA", "pa-limited-access"], ["DC", "automatic_expungement"]]) {
+    const route = resolvePacketRoute({ state, pathway });
+    check(route.routeKind === "legacy_verified", `${state} lost its legacy_verified classification`);
+  }
+
+  // No participant reaches checkout through an alternate adapter: every caller
+  // of the resolver returns nothing renderable for these routes, and the
+  // resolver is the only classifier.
+  check((ledger.runtimeContradictedDeferrals ?? []).length === 0, "a deferral still contradicts the runtime");
 
   if (failures.length > 0) {
     console.error(`FAIL verify-rcap-lane-b-exact-deferrals (${failures.length}/${checks} checks failed)`);
@@ -264,12 +434,21 @@ async function runMutations() {
       }),
     },
     {
-      name: "enabling credit consumption on the route turns it red",
+      // The predecessor of this case added WV to LEGACY_VERIFIED and required
+      // the suite to go red. It no longer does, and that is the fix rather
+      // than a hole: the exact-deferral lookup now runs BEFORE the
+      // legacy-verified check, so widening that list cannot make a deferred
+      // route sellable. The guarantee is proven directly instead — remove the
+      // priority and the suite must fail.
+      name: "demoting the deferral lookup below the legacy-verified check turns it red",
       files: [path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts")],
       apply: () => replaceOnce(
         path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts"),
-        `export const LEGACY_VERIFIED_JURISDICTIONS = ["MS", "IL", "DC", "PA", "TX"] as const;`,
-        `export const LEGACY_VERIFIED_JURISDICTIONS = ["MS", "IL", "DC", "PA", "TX", "WV"] as const;`
+        `  const exact = exactDeferralForTrack(input.trackId ?? null)
+    ?? exactDeferralForPathway(jurisdiction, pathwayId);`,
+        `  const exact = LEGACY_VERIFIED.has(jurisdiction)
+    ? null
+    : exactDeferralForTrack(input.trackId ?? null) ?? exactDeferralForPathway(jurisdiction, pathwayId);`
       ),
     },
     {
@@ -291,6 +470,59 @@ async function runMutations() {
         const packet = packetFor(json, trackId);
         packet.stopReason.es = packet.stopReason.en;
       }),
+    },
+    {
+      name: "restoring the legacy sellable behaviour on a deferred Texas pathway turns the suite red",
+      files: [path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts")],
+      apply: () => replaceOnce(
+        path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts"),
+        `  const exact = exactDeferralForTrack(input.trackId ?? null)
+    ?? exactDeferralForPathway(jurisdiction, pathwayId);`,
+        `  const exact = jurisdiction === "TX"
+    ? null
+    : exactDeferralForTrack(input.trackId ?? null) ?? exactDeferralForPathway(jurisdiction, pathwayId);`
+      ),
+    },
+    {
+      name: "making a deferred route sellable in the resolver turns the suite red",
+      files: [path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts")],
+      apply: () => replaceOnce(
+        path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts"),
+        `      routeKind: "exact_supported_deferral",
+      jurisdiction,
+      pathwayId,
+      rendererKind: "none",
+      sellable: false,`,
+        `      routeKind: "exact_supported_deferral",
+      jurisdiction,
+      pathwayId,
+      rendererKind: "none",
+      sellable: true,`
+      ),
+    },
+    {
+      name: "letting a deferred route consume credit turns the suite red",
+      files: [path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts")],
+      apply: () => replaceOnce(
+        path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts"),
+        `      rendererKind: "none",
+      sellable: false,
+      creditConsumable: false,
+      reason: exact.classification === "exact_supported_deferral"`,
+        `      rendererKind: "none",
+      sellable: false,
+      creditConsumable: true,
+      reason: exact.classification === "exact_supported_deferral"`
+      ),
+    },
+    {
+      name: "allowing checkout on a deferred route turns the suite red",
+      files: [path.join(rootDir, "src/lib/expungement-ai/payment-adapter.ts")],
+      apply: () => replaceOnce(
+        path.join(rootDir, "src/lib/expungement-ai/payment-adapter.ts"),
+        "  assertNotExactDeferral(item);\n  assertNotComponentDeferral(item);",
+        "  assertNotComponentDeferral(item);"
+      ),
     },
     {
       name: "blindly promoting all nine packets turns the suite red",

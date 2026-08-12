@@ -6,7 +6,7 @@ import {
   ConsumerCheckoutTemporarilyUnavailableError,
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
-import { componentDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,6 +31,15 @@ export async function POST(request: NextRequest) {
   // not the only one.
   const deferralTrackId = item.selectedTrackId
     ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null);
+  if (item.treatmentClassification === "exact_supported_deferral"
+    || exactDeferralForTrack(deferralTrackId)
+    || exactDeferralForPathway(item.state, item.pathwayLabel ?? null)) {
+    return NextResponse.json({
+      error: "No packet is prepared or sold for this route; it is served as an exact supported deferral.",
+      resultCode: "exact_supported_deferral"
+    }, { status: 403 });
+  }
+
   if (item.treatmentClassification === "component_deferral" || componentDeferralForTrack(deferralTrackId)) {
     return NextResponse.json({
       error: "Checkout is not available while this route is missing an official form we do not supply.",

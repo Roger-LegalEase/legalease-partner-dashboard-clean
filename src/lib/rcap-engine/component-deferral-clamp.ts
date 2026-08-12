@@ -1,7 +1,11 @@
 import "server-only";
 
 import type { ScreeningEvaluation, ScreeningEvaluationRequest } from "@/lib/rcap-engine/contracts";
-import { componentDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import {
+  componentDeferralForTrack,
+  exactDeferralForPathway,
+  type ExactSupportedDeferral
+} from "@/lib/rcap/documents/guidance-packet-registry";
 
 /**
  * The single component-deferral clamp on the screening engine.
@@ -27,6 +31,9 @@ export function applyComponentDeferralClamp(
   request: ScreeningEvaluationRequest,
   evaluation: ScreeningEvaluation
 ): ScreeningEvaluation {
+  const exact = exactDeferralForPathway(evaluation.jurisdiction, evaluation.pathwayId ?? null);
+  if (exact) return applyExactDeferralClamp(exact, evaluation);
+
   const deferral = componentDeferralForTrack(request.selectedTrackId ?? null);
   if (!deferral) return evaluation;
 
@@ -63,4 +70,44 @@ function nextStepsFor(deferral: {
     steps.push(`${component.absentComponent.en} ${component.nextAction.en}`);
   }
   return steps;
+}
+
+/**
+ * The exact-supported-deferral clamp.
+ *
+ * A route whose accepted treatment says no packet is prepared or sold must not
+ * leave the engine as packet_ready with payment open — otherwise the
+ * participant is shown a price for something the route itself says does not
+ * exist, and only later surfaces refuse it. Matched on the compiled pathway,
+ * because that is what the participant actually arrives through.
+ *
+ * An invalid record clamps exactly as hard as a valid one.
+ */
+function applyExactDeferralClamp(
+  exact: ExactSupportedDeferral,
+  evaluation: ScreeningEvaluation
+): ScreeningEvaluation {
+  const { packetPlan: _discardedPaidPlan, ...withoutPlan } = evaluation;
+  void _discardedPaidPlan;
+
+  const valid = exact.classification === "exact_supported_deferral";
+  return {
+    ...withoutPlan,
+    resultCode: "guidance_only",
+    userLabel: valid
+      ? exact.routeLabel.en
+      : "This route is guidance-only while its deferral record is being corrected.",
+    paymentAllowed: false,
+    cautions: [
+      ...evaluation.cautions,
+      valid
+        ? "No packet is prepared or sold for this route; it is served as an exact supported deferral."
+        : "This route's deferral record did not validate, so it fails closed as guidance with payment and credit disabled.",
+    ],
+    nextSteps: valid
+      ? [exact.exactReason.en, exact.whatNotToFileOrAssume.en, exact.destination.en, ...exact.gather.en, exact.nextAction.en, exact.handoff.en]
+      : evaluation.nextSteps,
+    treatmentClassification: "exact_supported_deferral",
+    selectedTrackId: exact.trackId,
+  };
 }

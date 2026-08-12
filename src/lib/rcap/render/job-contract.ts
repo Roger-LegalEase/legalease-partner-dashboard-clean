@@ -302,7 +302,7 @@ export function buildRenderJobSpec(input: {
   const route = resolvePacketRoute({ state: input.state, pathway: input.pathway, trackId: input.trackId ?? null });
   // No job for a deferred route, so there is no artifact finalization and no
   // path into partner-credit accounting.
-  if (route.routeKind === "component_deferral" || !packetRouteCanRender(route)) {
+  if (route.routeKind === "component_deferral" || route.routeKind === "exact_supported_deferral" || !packetRouteCanRender(route)) {
     return { spec: null, route };
   }
 

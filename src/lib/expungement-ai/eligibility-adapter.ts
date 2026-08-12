@@ -9,7 +9,7 @@ import type { ExpungementAiCheckInput, ExpungementAiEligibilityResult } from "@/
 import type { ScreeningEvaluation, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { evaluateExpungementAiMatter } from "@/lib/rcap-engine/expungement-ai-adapter";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
-import { componentDeferralBundle } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralBundle, exactDeferralBundle, exactDeferralForPathway } from "@/lib/rcap/documents/guidance-packet-registry";
 
 export function runExpungementAiEligibilityCheck(input: ExpungementAiCheckInput): ExpungementAiEligibilityResult {
   saveEligibilityCheckToBriefcase(input.state);
@@ -46,22 +46,33 @@ function legacyShapeFromEvaluation(engineResult: ScreeningEvaluation, locale?: s
   // from the evaluation's own boolean. If the registry says this route defers a
   // component, payment closes here even when an upstream flag says otherwise.
   const deferral = componentDeferralBundle(engineResult.selectedTrackId ?? null, locale);
-  const paymentAllowed = !deferral && isConsumerPaymentAllowed(resultCode, engineResult.paymentAllowed);
+  // An exact supported deferral closes payment on the same terms, matched on
+  // the compiled pathway the participant arrived through.
+  const exactRecord = exactDeferralForPathway(engineResult.jurisdiction, engineResult.pathwayId ?? null);
+  const exact = exactRecord ? exactDeferralBundle(exactRecord.trackId, locale) : null;
+  const paymentAllowed = !deferral && !exact && isConsumerPaymentAllowed(resultCode, engineResult.paymentAllowed);
   const result: ExpungementAiEligibilityResult = {
-    resultCode: deferral ? "guidance_only" : resultCode,
+    resultCode: (deferral || exact) ? "guidance_only" : resultCode,
     userLabel: engineResult.userLabel,
     state: engineResult.jurisdiction,
     pathwayLabel: engineResult.pathwayId ?? `${engineResult.jurisdiction} record-clearing review`,
-    confidence: confidenceForResult(deferral ? "guidance_only" : resultCode),
+    confidence: confidenceForResult((deferral || exact) ? "guidance_only" : resultCode),
     paymentAllowed,
     priceCents: paymentAllowed ? 5000 : undefined,
-    packetType: packetTypeForResult(deferral ? "guidance_only" : resultCode),
+    packetType: packetTypeForResult((deferral || exact) ? "guidance_only" : resultCode),
     reasons: engineResult.reasons.map((reason) => reason.text),
     missingInfo: engineResult.missingQuestionIds.length > 0 ? engineResult.missingQuestionIds : undefined,
-    nextSteps: deferral ? deferral.nextSteps : engineResult.nextSteps,
+    nextSteps: deferral ? deferral.nextSteps : (exact ? exact.nextSteps : engineResult.nextSteps),
     emailCaptureRecommended: resultCode !== "packet_ready",
     reminderRecommended: resultCode === "not_yet",
     disclaimer: consumerDisclaimer(),
+    ...(exact && !deferral
+      ? {
+        selectedTrackId: exact.trackId,
+        treatmentClassification: "exact_supported_deferral" as const,
+        componentDeferralTreatment: exact as unknown as Record<string, unknown>
+      }
+      : {}),
     ...(deferral
       ? {
         selectedTrackId: deferral.trackId,

@@ -7,14 +7,14 @@ unconditioned. Counsel review promotion is the separate launch gate.
 
 | Metric | Value |
 |---|---|
-| tracksTerminal | 382 / 497 |
+| tracksTerminal | 383 / 497 |
 | tracksWithRuntimeCoverage | 285 / 497 |
-| jobsRemainingToLaunch | 56 |
+| jobsRemainingToLaunch | 55 |
 | tracksTerminalizedThisWindow | 106 |
 | unknownTrackDispositions | 0 |
 | unownedBlockers | 0 |
 
-## Required treatments for the 115 nonterminal tracks
+## Required treatments for the 114 nonterminal tracks
 
 | Treatment | Tracks |
 |---|---|
@@ -22,13 +22,13 @@ unconditioned. Counsel review promotion is the separate launch gate.
 | complete_guidance | 12 |
 | complete_composed_route | 16 |
 | deliberate_scope_exclusion | 0 |
-| exact_supported_deferral | 2 |
+| exact_supported_deferral | 1 |
 
 ## Nonterminal tracks by lane
 
 | Lane | Scope | Tracks |
 |---|---|---|
-| B | guidance, exclusions, exact deferrals | 14 |
+| B | guidance, exclusions, exact deferrals | 13 |
 | C | controlled pleadings and composed routes | 28 |
 | D | official PDFs, AcroForms and overlays | 67 |
 | E | XFA and hardest technical families | 6 |

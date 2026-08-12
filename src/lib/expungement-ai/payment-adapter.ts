@@ -3,7 +3,7 @@ import "server-only";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
-import { componentDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { getBriefcaseItem, updateBriefcaseCheckoutSessionMetadata } from "@/lib/expungement-ai/briefcase";
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
@@ -41,7 +41,10 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
   // The placeholder is the first surface a participant sees. A component
   // deferral shows no amount at all, independently of the result booleans.
   const deferred = result.treatmentClassification === "component_deferral"
-    || Boolean(componentDeferralForTrack(result.selectedTrackId ?? null));
+    || result.treatmentClassification === "exact_supported_deferral"
+    || Boolean(componentDeferralForTrack(result.selectedTrackId ?? null))
+    || Boolean(exactDeferralForTrack(result.selectedTrackId ?? null))
+    || Boolean(exactDeferralForPathway(result.state, result.pathwayLabel ?? null));
   const enabled = !deferred && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
@@ -245,6 +248,23 @@ export async function recordConsumerPaymentConfirmation({
  * before any Stripe or dry-run session is created, so a mutated
  * paymentAllowed=true cannot buy an incomplete packet.
  */
+/**
+ * An exact supported deferral is refused independently of the item's own
+ * booleans, matched by track id or by the pathway the item was saved under. A
+ * corrupted item claiming packet_ready with paymentAllowed=true on a deferred
+ * route still gets nothing.
+ */
+function assertNotExactDeferral(item: ConsumerBriefcaseItem) {
+  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
+  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
+  const deferred = classification === "exact_supported_deferral"
+    || Boolean(exactDeferralForTrack(trackId))
+    || Boolean(exactDeferralForPathway(item.state, item.pathwayLabel ?? null));
+  if (deferred) {
+    throw new ConsumerCheckoutNotAllowedError("exact_supported_deferral");
+  }
+}
+
 function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
   const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
   const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
@@ -254,6 +274,7 @@ function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
 }
 
 export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
+  assertNotExactDeferral(item);
   assertNotComponentDeferral(item);
   if (!item.paymentAllowed || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
     throw new ConsumerCheckoutNotAllowedError(item.resultCode ?? "missing_result_code");

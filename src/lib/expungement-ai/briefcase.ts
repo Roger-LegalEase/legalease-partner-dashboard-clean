@@ -8,7 +8,7 @@ import type {
   ExpungementAiEligibilityResult
 } from "@/lib/expungement-ai/types";
 import { findItemForSession } from "@/lib/expungement-ai/save-result-policy";
-import { componentDeferralBundle, componentDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralBundle, componentDeferralForTrack, exactDeferralBundle, exactDeferralForPathway, exactDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 
 // Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS.
 // Safe fallback path: local/unconfigured shells return deterministic items without service-role writes.
@@ -78,6 +78,54 @@ export async function isRcapPartnerScreeningSession(sessionId: string): Promise<
 }
 
 /**
+ * The Briefcase-side exact-deferral clamp.
+ *
+ * What the participant keeps for a deferred route is the whole point of the
+ * treatment: the exact reason, where to go, what to do next, what to gather,
+ * what not to file or assume, and how to come back. All of it is written from
+ * the committed packet in the participant's own locale, at the single write
+ * path, with payment and credit closed.
+ */
+function clampExactDeferral(input: CreateConsumerBriefcaseItemInput): CreateConsumerBriefcaseItemInput {
+  const declaredTrackId = input.selectedTrackId
+    ?? (typeof input.artifactRefs?.selectedTrackId === "string" ? input.artifactRefs.selectedTrackId : null);
+  const byPathway = exactDeferralForPathway(input.jurisdiction, input.pathwayLabel ?? null);
+  const deferral = exactDeferralForTrack(declaredTrackId) ?? byPathway;
+  const declared = input.treatmentClassification === "exact_supported_deferral"
+    || input.artifactRefs?.treatmentClassification === "exact_supported_deferral";
+  if (!declared && !deferral) return input;
+
+  const trackId = deferral?.trackId ?? declaredTrackId;
+  const localeHint = typeof input.artifactRefs?.locale === "string" ? input.artifactRefs.locale : "en";
+  const bundle = exactDeferralBundle(trackId, localeHint);
+
+  return {
+    ...input,
+    paymentAllowed: false,
+    status: "guidance_saved",
+    resultCode: "guidance_only",
+    packetType: "guidance_packet",
+    paymentStatus: "not_applicable",
+    paymentProvider: undefined,
+    checkoutSessionId: undefined,
+    paymentIntentId: undefined,
+    amountCents: undefined,
+    receiptUrl: undefined,
+    packetStatus: "not_started",
+    summary: bundle?.summary ?? input.summary,
+    nextSteps: bundle?.nextSteps ?? input.nextSteps,
+    selectedTrackId: trackId,
+    treatmentClassification: "exact_supported_deferral",
+    artifactRefs: {
+      ...(input.artifactRefs ?? {}),
+      selectedTrackId: trackId,
+      treatmentClassification: "exact_supported_deferral",
+      ...(bundle ? { exactDeferralTreatment: bundle } : {})
+    }
+  };
+}
+
+/**
  * The Briefcase-side component-deferral clamp.
  *
  * It sits at the single write path, so every caller — the save endpoint, the
@@ -128,7 +176,7 @@ function clampComponentDeferral(input: CreateConsumerBriefcaseItemInput): Create
 }
 
 export async function createBriefcaseItem(rawInput: CreateConsumerBriefcaseItemInput): Promise<ConsumerBriefcaseItem> {
-  const input = clampComponentDeferral(rawInput);
+  const input = clampComponentDeferral(clampExactDeferral(rawInput));
   const fallbackItem = fallbackItemFromCreateInput(input);
   const supabase = await getConsumerBriefcaseClient();
 
@@ -668,7 +716,11 @@ function rowToBriefcaseItem(row: ConsumerBriefcaseRow): ConsumerBriefcaseItem {
     // Re-surfaced from the stored refs so downstream payment and render checks
     // read the same server-authored identity that was persisted.
     selectedTrackId: typeof row.artifact_refs_json?.selectedTrackId === "string" ? row.artifact_refs_json.selectedTrackId : null,
-    treatmentClassification: row.artifact_refs_json?.treatmentClassification === "component_deferral" ? "component_deferral" : null,
+    treatmentClassification: row.artifact_refs_json?.treatmentClassification === "component_deferral"
+      ? "component_deferral"
+      : row.artifact_refs_json?.treatmentClassification === "exact_supported_deferral"
+        ? "exact_supported_deferral"
+        : null,
     ...(Array.isArray(row.artifact_refs_json?.deferralComponentIds)
       ? { deferralComponentIds: row.artifact_refs_json.deferralComponentIds as string[] }
       : {}),

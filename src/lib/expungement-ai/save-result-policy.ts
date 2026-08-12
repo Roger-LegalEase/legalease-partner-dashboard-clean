@@ -66,7 +66,7 @@ export function statusForResultCode(resultCode: ExpungementAiResultCode): Consum
 export function resolveSavePaymentAllowed(
   isPartnerSession: boolean,
   evaluationPaymentAllowed: boolean,
-  treatmentClassification?: "component_deferral" | null
+  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | null
 ): boolean {
   if (treatmentClassification === "component_deferral") return false;
   return isPartnerSession ? false : evaluationPaymentAllowed;
@@ -87,7 +87,7 @@ export type SaveScreeningResultPayload = {
    * screening session; a client body that carries them is rejected upstream.
    */
   selectedTrackId?: string | null;
-  treatmentClassification?: "component_deferral" | null;
+  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | null;
   deferralComponentIds?: string[];
   componentDeferralTreatment?: Record<string, unknown>;
 };
