@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "rcap-reviewed-withholdings/v1",
+  "basis": "the field is named with a fact its own name does not resolve to, so D0's binder fails closed with explicit_mapping_conflicts_with_field_name; no protection was weakened and the shared binder was not edited",
+  "count": 1,
+  "withheld": [
+    {
+      "field": "Mailing Address.2",
+      "rationale": "Slot in the aligned multi-slot construct 'Mailing Address.', but 'participant.street_address' is not scoped to a slot; every slot of the construct would receive the same value."
+    }
+  ],
+  "exemptions": [
+    {
+      "field": "Mailing Address.1",
+      "rationale": "The two mailing-address boxes are stacked at one margin, so the geometric test reads them as one construct. They are the petitioner's own address lines, and the first is the wide street line — 340pt against the second's 156pt. The street address is written there and the narrower second line is left blank, because no supplied fact says what belongs on it."
+    }
+  ]
+}

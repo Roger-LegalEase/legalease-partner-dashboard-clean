@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-d0",
+  "factoryVersion": "d0-remediated-v1",
+  "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — typed fail-closed binder, unmodified",
+  "everyFieldStartsProtected": true,
+  "writableRequires": [
+    "no protect rule matches the field name or its measured label",
+    "the PDF control type is text or dropdown",
+    "the name matches exactly one allowlisted fact descriptor",
+    "the resolved value matches the descriptor's declared type",
+    "a sensitive descriptor was named for this exact field by the caller",
+    "an indexed charge row resolves to a charge that was actually supplied"
+  ],
+  "documentAcceptsFill": true,
+  "captionOnly": false,
+  "ownership": "participant_completed",
+  "ownershipDetermination": "Participant-completed filing: participant and deterministic fields may bind; every other class stays blank.",
+  "explicitMappings": {},
+  "reviewedWithholdings": [
+    {
+      "field": "Mailing Address.2",
+      "rationale": "Slot in the aligned multi-slot construct 'Mailing Address.', but 'participant.street_address' is not scoped to a slot; every slot of the construct would receive the same value."
+    }
+  ],
+  "protectionsWeakened": false,
+  "note": "D0's default protections were not altered and rcap-field-semantics.mjs was not edited. Where a genuinely safe participant field was refused by name, it was named through the sanctioned explicitMappings option. Where the binder would have written a correct value into a field whose subject is something else, the field was named with its real subject so the binder fails closed on the conflict."
+}
