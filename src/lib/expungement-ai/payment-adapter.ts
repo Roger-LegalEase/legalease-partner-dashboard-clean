@@ -3,6 +3,7 @@ import "server-only";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
+import { componentDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { getBriefcaseItem, updateBriefcaseCheckoutSessionMetadata } from "@/lib/expungement-ai/briefcase";
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
@@ -37,7 +38,11 @@ export type ConsumerCheckoutStatus = {
 };
 
 export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilityResult): ConsumerPaymentIntent {
-  const enabled = isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
+  // The placeholder is the first surface a participant sees. A component
+  // deferral shows no amount at all, independently of the result booleans.
+  const deferred = result.treatmentClassification === "component_deferral"
+    || Boolean(componentDeferralForTrack(result.selectedTrackId ?? null));
+  const enabled = !deferred && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
     enabled,
@@ -233,7 +238,23 @@ export async function recordConsumerPaymentConfirmation({
   return current ?? item;
 }
 
+/**
+ * A composed route whose official-form component is deferred can never be
+ * checked out, whatever the item's stored booleans say. This reads the
+ * server-owned track identity and denies BEFORE already-paid handling and
+ * before any Stripe or dry-run session is created, so a mutated
+ * paymentAllowed=true cannot buy an incomplete packet.
+ */
+function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
+  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
+  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
+  if (classification === "component_deferral" || componentDeferralForTrack(trackId)) {
+    throw new ConsumerCheckoutNotAllowedError("component_deferral");
+  }
+}
+
 export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
+  assertNotComponentDeferral(item);
   if (!item.paymentAllowed || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
     throw new ConsumerCheckoutNotAllowedError(item.resultCode ?? "missing_result_code");
   }

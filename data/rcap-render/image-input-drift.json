@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-image-input-drift/v1",
-  "recordedWindow": "2026-08-12-w2",
+  "recordedWindow": "2026-08-12-w3",
   "purpose": "Roger's terminalization-window directive: any src change must be recorded as image-input drift for the single final republish after the terminalization wave. This record names every worker image-input path that has diverged from the published image's freeze SHA, and what diverged it.",
   "publishedImage": {
     "workerSourceFreezeSha": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
@@ -8,12 +8,28 @@
     "status": "valid_for_f1_evidence_only_pending_final_republish"
   },
   "driftedPaths": {
-    "package.json": "six terminalization verifiers/checks wired into the npm test chain",
+    "package.json": "terminalization verifiers/checks wired into the npm test chain, now including the component-deferral runtime verifier, its mutation suite and the lane-C dependency verifier",
     "src/lib/rcap-engine/evaluator.ts": "structural automatic/no-filing clamp: routeIsAutomaticOrNoFiling veto in isCourtFiledPetitionRoute, pre-route and post-route guidance backstops, paymentAllowed clamp (lane-B MI rule-11 defect class)",
     "src/lib/rcap-engine/compiled/profiles/*.json": "57 decision rules across 15 profiles (AK, CA, CO, CT, DC, DE, IL, MA, MD, MI, NE, NY, SD, UT, VA) whose candidates are all automatic/no-filing corrected from packet_ready_with_caution/show_cautions_then_allow_packet_checkout to guidance_only/save_state_guidance_no_checkout",
-    "src/lib/rcap/documents/packet-route-resolver.ts": "guidance_only resolutions carry guidanceTrackIds from the lane-B registry; sellable/creditConsumable unchanged (false)",
-    "src/lib/rcap/documents/guidance-packet-registry.ts": "new: fail-closed runtime registry for lane-B complete-guidance treatments"
+    "src/lib/rcap/documents/packet-route-resolver.ts": "guidance_only resolutions carry guidanceTrackIds from the lane-B registry; new component_deferral route kind resolved from the exact trackId with priority over the LEGACY_VERIFIED jurisdictions; sellable/creditConsumable remain false",
+    "src/lib/rcap/documents/guidance-packet-registry.ts": "fail-closed runtime registry for lane-B complete-guidance treatments, extended with the closed component-deferral loader (10 composed routes, 31 components) and the localized participant bundle builder",
+    "src/lib/rcap-engine/component-deferral-clamp.ts": "new: the single component-deferral clamp applied at both server engine adapters (evaluator.ts left byte-identical to the pinned parity approval)",
+    "src/lib/rcap-engine/composed-route-selector.ts": "new: the single server-owned composed-route selector and the forbidden client route-identity field list",
+    "src/lib/rcap-engine/expungement-ai-adapter.ts": "applies the component-deferral clamp",
+    "src/lib/rcap-engine/rcap-adapter.ts": "applies the component-deferral clamp",
+    "src/lib/rcap-engine/contracts.ts": "server-only selectedTrackId on the request; treatmentClassification, selectedTrackId and deferralComponentIds on the evaluation",
+    "src/lib/expungement-ai/screening-session-route-identity.ts": "new: re-derives server-authored route identity from the saved screening session inputs",
+    "src/lib/expungement-ai/eligibility-adapter.ts": "component-deferral clamp on the consumer shape: guidance_only, paymentAllowed false, no priceCents, localized treatment carried",
+    "src/lib/expungement-ai/types.ts": "server-authored component-deferral metadata on the result, Briefcase item and create input (persisted in the existing artifact_refs_json column; no migration)",
+    "src/lib/expungement-ai/save-result-policy.ts": "component deferral forces paymentAllowed false for sponsored and direct sessions alike, guidance_saved, guidance_packet, not_applicable, metadata into artifactRefs",
+    "src/lib/expungement-ai/briefcase.ts": "single-write-path component-deferral clamp; localized summary/next steps from the registry; metadata re-surfaced on read",
+    "src/lib/expungement-ai/payment-adapter.ts": "independent component-deferral denial in assertCheckoutAllowed and the payment placeholder, before already-paid handling",
+    "src/lib/expungement-ai/consumer-render-request.ts": "passes exact track identity so a deferred route returns route_not_renderable before any packet row, payment check or enqueue",
+    "src/lib/rcap/render/job-contract.ts": "accepts the authoritative trackId and returns spec=null for component_deferral",
+    "src/app/api/expungement-ai/evaluate/route.ts": "rejects client-supplied route identity; server-side composed-route selection; fail-closed guidance when identity is unavailable",
+    "src/app/api/expungement-ai/screening/save-result/route.ts": "rejects client-supplied route identity; re-derives session route identity; 409 on mismatch; registry bundle replaces client payment, packet type, summary and next steps",
+    "src/app/api/expungement-ai/checkout/route.ts": "403 for component_deferral after ownership resolution and before sponsored/payment handling"
   },
   "republishPlan": "One final republish after the terminalization wave: new freeze SHA, new image-input fingerprint base, new GHCR digest, and a rerun of the F1 ephemeral staging regression against the new digest. No interim image is published from a drifted tree.",
-  "authorizedBy": "Roger — first terminalization integration window directive, 2026-08-12"
+  "authorizedBy": "Roger \u2014 first terminalization integration window directive, 2026-08-12"
 }

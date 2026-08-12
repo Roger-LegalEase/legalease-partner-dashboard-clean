@@ -291,10 +291,18 @@ export function buildRenderJobSpec(input: {
   sourceSha256?: string | null;
   partnerSlug?: string | null;
   briefcaseItemId?: string | null;
+  /**
+   * The server-owned composed-route track id. Passing it is what stops an
+   * incomplete composed route in a legacy-verified jurisdiction (IL, TX) from
+   * inheriting that jurisdiction's renderability and becoming a queued job.
+   */
+  trackId?: string | null;
   packetFields: Record<string, unknown>;
 }): { spec: RenderJobSpec; route: PacketRouteResolution } | { spec: null; route: PacketRouteResolution } {
-  const route = resolvePacketRoute({ state: input.state, pathway: input.pathway });
-  if (!packetRouteCanRender(route)) {
+  const route = resolvePacketRoute({ state: input.state, pathway: input.pathway, trackId: input.trackId ?? null });
+  // No job for a deferred route, so there is no artifact finalization and no
+  // path into partner-credit accounting.
+  if (route.routeKind === "component_deferral" || !packetRouteCanRender(route)) {
     return { spec: null, route };
   }
 

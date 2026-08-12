@@ -120,6 +120,10 @@ export async function requestConsumerPacketRender(input: {
   const item = await getBriefcaseItem(authUserId, input.briefcaseItemId);
   if (!item) return { status: "item_not_found" };
 
+  // Exact track identity from the item's own server-authored metadata, so a
+  // deferred composed route is refused here — before a packet row is created,
+  // before payment is consulted, before a person is resolved and before
+  // anything is enqueued.
   const built = buildRenderJobSpec({
     packetId: deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${item.id}`),
     state: item.state,
@@ -127,6 +131,8 @@ export async function requestConsumerPacketRender(input: {
     profileId: item.state ?? "",
     profileVersion: "1.3.0",
     briefcaseItemId: item.id,
+    trackId: item.selectedTrackId
+      ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
     packetFields: {}
   });
   if (!built.spec) return { status: "route_not_renderable", reason: built.route.reason };

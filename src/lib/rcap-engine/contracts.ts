@@ -16,6 +16,14 @@ export type ScreeningEvaluationRequest = {
   profileVersion: string;
   matterId: string;
   answers: Record<string, ScreeningAnswerValue>;
+  /**
+   * The composed-route track id, supplied ONLY by a server-owned selector.
+   * The HTTP boundary rejects this field when it appears in a client body: a
+   * participant must not be able to name the legal route their own matter is
+   * evaluated against. Absent means "no composed route was authoritatively
+   * selected".
+   */
+  selectedTrackId?: string | null;
 };
 
 export type ScreeningReason = {
@@ -56,6 +64,17 @@ export type ScreeningEvaluation = {
   nextSteps: string[];
   paymentAllowed: boolean;
   packetPlan?: ScreeningPacketPlan;
+  /**
+   * Set to "component_deferral" when the server-selected composed route has an
+   * official-form component that is not supplied. The result is guidance with
+   * payment closed; the field exists so every downstream consumer (Briefcase,
+   * checkout, render) can recognise the treatment without re-deriving it.
+   */
+  treatmentClassification?: "component_deferral" | null;
+  /** The exact server-selected track id, echoed back for persistence. */
+  selectedTrackId?: string | null;
+  /** Every deferred component id, in route.json order. */
+  deferralComponentIds?: string[];
 };
 
 export type PublicQuestion = {

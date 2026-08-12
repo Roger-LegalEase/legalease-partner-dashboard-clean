@@ -25,6 +25,20 @@ export type ExpungementAiEligibilityResult = {
   reminderRecommended?: boolean;
   disclaimer: string;
   briefcaseItemId?: string;
+  /**
+   * Server-authored composed-route identity and component-deferral treatment.
+   * Present only when the server itself selected an affected composed route;
+   * never populated from a client body.
+   */
+  selectedTrackId?: string | null;
+  treatmentClassification?: "component_deferral" | null;
+  deferralComponentIds?: string[];
+  /**
+   * The localized participant treatment for a deferred route, assembled by the
+   * guidance registry. Typed as a record here so this module stays free of
+   * server-only imports.
+   */
+  componentDeferralTreatment?: Record<string, unknown>;
 };
 
 export type ConsumerMatterStatus =
@@ -52,6 +66,15 @@ export type ConsumerBriefcaseItem = {
   pathwayLabel?: string;
   packetType?: ExpungementAiEligibilityResult["packetType"];
   artifactRefs?: Record<string, unknown>;
+  /**
+   * Server-authored composed-route identity. Never accepted from a client
+   * body; written only from an evaluation the server itself produced. Stored
+   * inside the existing artifact_refs_json column, so no migration is added
+   * for metadata.
+   */
+  selectedTrackId?: string | null;
+  treatmentClassification?: "component_deferral" | null;
+  deferralComponentIds?: string[];
   paymentStatus?: "not_applicable" | "unpaid" | "paid" | "refunded";
   paymentProvider?: "stripe" | "dry_run";
   checkoutSessionId?: string;
@@ -75,6 +98,10 @@ export type CreateConsumerBriefcaseItemInput = {
   summary: string;
   nextSteps: string[];
   artifactRefs?: Record<string, unknown>;
+  /** Server-authored only; persisted inside the existing artifact_refs_json column. */
+  selectedTrackId?: string | null;
+  treatmentClassification?: "component_deferral" | null;
+  deferralComponentIds?: string[];
   paymentStatus?: ConsumerBriefcaseItem["paymentStatus"];
   paymentProvider?: ConsumerBriefcaseItem["paymentProvider"];
   checkoutSessionId?: string;

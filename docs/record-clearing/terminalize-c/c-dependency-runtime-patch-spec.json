@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-c-component-deferral-runtime-patch-spec/v1",
-  "status": "captain_action_required",
+  "status": "captain_applied",
   "authoringBase": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
   "assignment": {
     "path": "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json",
@@ -73,7 +73,8 @@
         "paymentAllowed": false,
         "sellable": false,
         "creditConsumable": false
-      }
+      },
+      "appliedSha256": "36c99cc9699cc694a97ce33575375de617fee0edb4bf15fb522e5e73609e5722"
     },
     {
       "id": "c-deferral-engine-identity-and-clamp",
@@ -92,7 +93,8 @@
         "selectedTrackId": "same exact id when accepted",
         "treatmentClassification": "component_deferral when the registry reports any dependency treatment",
         "deferralComponentIds": "all component ids in route.json order"
-      }
+      },
+      "appliedSha256": "2a1b09314cd11607216d2d386fc8cc8a6e1056c1cdac2dd6c432c5f9ec5fd904"
     },
     {
       "id": "c-deferral-evaluate-route-authoritative-track",
@@ -113,7 +115,8 @@
         "paymentAllowed": false,
         "packetPlan": null,
         "persistence": "The exact selectedTrackId and evaluation identity are stored for save-result to re-resolve rather than trusting its client body."
-      }
+      },
+      "appliedSha256": "d5a092914db54f5db96b95a570371d920405a14efc8470eef36086acb42d58a7"
     },
     {
       "id": "c-deferral-engine-clamp",
@@ -134,7 +137,8 @@
         "paymentAllowed": false,
         "treatmentClassification": "component_deferral",
         "packetPlan": null
-      }
+      },
+      "appliedSha256": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e"
     },
     {
       "id": "c-deferral-consumer-shape",
@@ -155,7 +159,8 @@
         "packetType": "guidance_packet",
         "paymentAllowed": false,
         "priceCents": "absent"
-      }
+      },
+      "appliedSha256": "92493a17a30ee1408aec17505a0d9abdd7afa20635f8744f5da48ab8e4816fdc"
     },
     {
       "id": "c-deferral-consumer-types-and-save-policy",
@@ -175,7 +180,8 @@
         "artifactRefs.rcapTrackId": "exact track id",
         "artifactRefs.treatmentClassification": "component_deferral",
         "artifactRefs.deferralComponentIds": "31-subset for the exact route"
-      }
+      },
+      "appliedSha256": "1310d9aa88185d967da3731b6778749c7517713333e1e8dae57200bbeb5a419d"
     },
     {
       "id": "c-deferral-save-policy",
@@ -193,7 +199,8 @@
       },
       "output": {
         "CreateConsumerBriefcaseItemInput": "non-payable guidance item with exact deferral metadata"
-      }
+      },
+      "appliedSha256": "0307ae481df142e276e912cb84bd2d3bbaebfc72de6ee2ef388aaece473508e4"
     },
     {
       "id": "c-deferral-briefcase-save",
@@ -217,7 +224,8 @@
         "packetReady": false,
         "paymentStatus": "not_applicable",
         "amountCents": null
-      }
+      },
+      "appliedSha256": "12acbbd05ce0255691f510eb114252e6453074c429fa8f83e7ecf574dd64d6d5"
     },
     {
       "id": "c-deferral-save-endpoint-authority",
@@ -235,7 +243,8 @@
       },
       "output": {
         "Briefcase item": "server-authored component_deferral guidance item"
-      }
+      },
+      "appliedSha256": "d0258eaeddcc747e09770f46b7feca4c68739261077d75bfb5a12d85f8680f9f"
     },
     {
       "id": "c-deferral-route-priority",
@@ -259,7 +268,8 @@
         "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false
-      }
+      },
+      "appliedSha256": "34d74e625e9466eb3ab0fc694fa80621e22b36d148ea50a07cd077ce86a1d9ce"
     },
     {
       "id": "c-deferral-checkout-defense",
@@ -279,7 +289,8 @@
       "output": {
         "enabled": false,
         "exception": "ConsumerCheckoutNotAllowedError for any direct checkout call"
-      }
+      },
+      "appliedSha256": "16ba711627b8189b6eea2b994bcf6bc30ee25189a594c6c01b0b3d46b9197cc0"
     },
     {
       "id": "c-deferral-checkout-route-defense",
@@ -296,7 +307,8 @@
       "output": {
         "status": 403,
         "body": "non-purchasable result without checkout fields"
-      }
+      },
+      "appliedSha256": "6ad2ca8f6d5abab70fe394178a22087807c79780986ce9d470af71b232fd5660"
     },
     {
       "id": "c-deferral-render-and-credit-defense",
@@ -314,7 +326,8 @@
         "spec": null,
         "route.routeKind": "component_deferral",
         "route.creditConsumable": false
-      }
+      },
+      "appliedSha256": "09859def06324dc10830398416e9e9995d728d3bc5d8ce93b802f7a0408f969b"
     },
     {
       "id": "c-deferral-consumer-render-defense",
@@ -332,7 +345,8 @@
       "output": {
         "status": "route_not_renderable",
         "sideEffects": "none"
-      }
+      },
+      "appliedSha256": "a632170ddf24573ec16027675215599d0ece8d7f9178b9970424e0b2e41a5149"
     }
   ],
   "acceptanceTests": [
@@ -390,5 +404,29 @@
     "No canonical ledger or job-graph regeneration in the Codex correction branch.",
     "No Supabase migration is required for the treatment metadata; use the existing artifact_refs_json carrier.",
     "No new payment, checkout, credit, Briefcase, or route-resolution subsystem."
-  ]
+  ],
+  "captainApplication": {
+    "appliedBy": "Terminal A (captain)",
+    "appliedAtWindow": "2026-08-12-w3",
+    "note": "Every target below was patched by the captain in one pass. baseSha256 is preserved as the authoring-base fingerprint; appliedSha256 records the bytes after application. The dedicated verifier accepts either state and nothing else, so the shared runtime cannot drift to a third unrecorded shape.",
+    "captainOwnedModulesAdded": [
+      "src/lib/rcap-engine/composed-route-selector.ts",
+      "src/lib/expungement-ai/screening-session-route-identity.ts"
+    ],
+    "runtimeVerifier": "scripts/verify-rcap-component-deferral-runtime.mjs",
+    "deviations": [
+      {
+        "patchId": "c-deferral-engine-clamp",
+        "specifiedFile": "src/lib/rcap-engine/evaluator.ts",
+        "appliedInstead": [
+          "src/lib/rcap-engine/component-deferral-clamp.ts (new)",
+          "src/lib/rcap-engine/expungement-ai-adapter.ts",
+          "src/lib/rcap-engine/rcap-adapter.ts"
+        ],
+        "reason": "src/lib/rcap-engine/evaluator.ts is byte-pinned by the reviewed screening parity approval (data/expungement-ai/screening-parity-approved-deltas.json, delta md-pardon-signed-date-2026-08-11, authorizedSha256 54cea35b...). Editing it would silently re-authorize bytes Roger approved at an exact hash, which is the widening that mechanism exists to prevent. The required behaviour is applied at the two server adapters instead, which together are every server-side path into the engine, and evaluator.ts is left byte-identical to the approved hash.",
+        "behaviourPreserved": "The clamp still runs after route selection and before any packet-ready result leaves the engine boundary. scripts/verify-rcap-component-deferral-runtime.mjs proves the clamp on both adapters and asserts that the pinned evaluator itself remains deferral-unaware; two mutations prove each adapter's clamp is load-bearing.",
+        "requiresRogerDecision": "Only if Terminal A is later directed to place the clamp inside evaluator.ts, which would require a fresh parity re-authorization."
+      }
+    ]
+  }
 }

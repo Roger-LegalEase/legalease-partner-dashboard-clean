@@ -6,6 +6,7 @@ import {
   ConsumerCheckoutTemporarilyUnavailableError,
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
+import { componentDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,6 +24,20 @@ export async function POST(request: NextRequest) {
   if (!item) {
     return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
   }
+  // Component deferral is answered before sponsored and payment handling, so an
+  // incomplete composed route is refused the same way for a sponsored
+  // participant and a direct-to-consumer one. No URL, no session, no amount.
+  // The payment adapter denies it again independently; this is the first guard,
+  // not the only one.
+  const deferralTrackId = item.selectedTrackId
+    ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null);
+  if (item.treatmentClassification === "component_deferral" || componentDeferralForTrack(deferralTrackId)) {
+    return NextResponse.json({
+      error: "Checkout is not available while this route is missing an official form we do not supply.",
+      resultCode: "component_deferral"
+    }, { status: 403 });
+  }
+
   if (await isPartnerSponsoredPacketItem(item)) {
     return NextResponse.json({ error: "Checkout is not used for partner-sponsored RCAP sessions." }, { status: 403 });
   }

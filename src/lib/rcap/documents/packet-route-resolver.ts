@@ -7,9 +7,9 @@
 // petition. Unknown input fails closed.
 
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
-import { guidanceTracksForPathway } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralForTrack, guidanceTracksForPathway } from "@/lib/rcap/documents/guidance-packet-registry";
 
-export type PacketRouteKind = "factory_v2" | "legacy_verified" | "guidance_only" | "typed_stop" | "disabled";
+export type PacketRouteKind = "factory_v2" | "legacy_verified" | "guidance_only" | "typed_stop" | "disabled" | "component_deferral";
 
 export type PacketRouteResolution = {
   routeKind: PacketRouteKind;
@@ -27,11 +27,19 @@ export type PacketRouteResolution = {
    * sellable or credit-consumable.
    */
   guidanceTrackIds?: string[];
+  /** Every deferred official-form component id, when routeKind is component_deferral. */
+  deferralComponentIds?: string[];
 };
 
 export type PacketRouteInput = {
   state?: string | null;
   pathway?: string | null;
+  /**
+   * The server-owned composed-route track id. Never populated from an
+   * unverified client body: the caller resolves it from the screening
+   * evaluation or from server-owned Briefcase metadata.
+   */
+  trackId?: string | null;
 };
 
 /**
@@ -57,6 +65,27 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
 
   if (!jurisdiction) {
     return { ...DISABLED, jurisdiction: "", pathwayId, reason: "No jurisdiction was supplied; a packet route cannot be resolved." };
+  }
+
+  // Component deferral has PRIORITY over every other classification,
+  // including the legacy-verified jurisdictions. A composed route missing an
+  // official-form component is not sellable in Illinois or Texas either, and
+  // an invalid deferral record is treated exactly as strictly as a valid one:
+  // a broken treatment is not permission.
+  const deferral = componentDeferralForTrack(input.trackId ?? null);
+  if (deferral) {
+    return {
+      routeKind: "component_deferral",
+      jurisdiction,
+      pathwayId,
+      rendererKind: "none",
+      sellable: false,
+      creditConsumable: false,
+      reason: deferral.classification === "component_deferral"
+        ? `${deferral.trackId} is a composed route whose official-form component(s) are deferred; it serves the component deferral treatment and never a paid packet.`
+        : `${deferral.trackId} carries an invalid component-deferral record (${deferral.invalidReason ?? "unspecified"}); the route fails closed and never opens payment or credit.`,
+      deferralComponentIds: deferral.componentIds
+    };
   }
 
   const profile = getProfileByJurisdiction(jurisdiction);

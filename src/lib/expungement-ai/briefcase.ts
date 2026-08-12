@@ -8,6 +8,7 @@ import type {
   ExpungementAiEligibilityResult
 } from "@/lib/expungement-ai/types";
 import { findItemForSession } from "@/lib/expungement-ai/save-result-policy";
+import { componentDeferralBundle, componentDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 
 // Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS.
 // Safe fallback path: local/unconfigured shells return deterministic items without service-role writes.
@@ -76,7 +77,58 @@ export async function isRcapPartnerScreeningSession(sessionId: string): Promise<
   return !error && Boolean(data?.session_id);
 }
 
-export async function createBriefcaseItem(input: CreateConsumerBriefcaseItemInput): Promise<ConsumerBriefcaseItem> {
+/**
+ * The Briefcase-side component-deferral clamp.
+ *
+ * It sits at the single write path, so every caller — the save endpoint, the
+ * adapter, a future one — persists the same thing for an affected route: a
+ * guidance item, payment closed, no amount, no checkout id, packet not started,
+ * and the exact treatment metadata in the existing artifact_refs_json column.
+ * The summary and next steps come from the registry in the participant's
+ * locale, so the saved item itself carries what is preserved, what is
+ * outstanding, where to go and how to return.
+ */
+function clampComponentDeferral(input: CreateConsumerBriefcaseItemInput): CreateConsumerBriefcaseItemInput {
+  const trackId = input.selectedTrackId
+    ?? (typeof input.artifactRefs?.selectedTrackId === "string" ? input.artifactRefs.selectedTrackId : null);
+  const declared = input.treatmentClassification === "component_deferral"
+    || input.artifactRefs?.treatmentClassification === "component_deferral";
+  const deferral = componentDeferralForTrack(trackId);
+  if (!declared && !deferral) return input;
+
+  const localeHint = typeof input.artifactRefs?.locale === "string" ? input.artifactRefs.locale : "en";
+  const bundle = componentDeferralBundle(trackId, localeHint);
+
+  return {
+    ...input,
+    paymentAllowed: false,
+    status: "guidance_saved",
+    resultCode: "guidance_only",
+    packetType: "guidance_packet",
+    paymentStatus: "not_applicable",
+    paymentProvider: undefined,
+    checkoutSessionId: undefined,
+    paymentIntentId: undefined,
+    amountCents: undefined,
+    receiptUrl: undefined,
+    packetStatus: "not_started",
+    summary: bundle?.summary ?? input.summary,
+    nextSteps: bundle?.nextSteps ?? input.nextSteps,
+    selectedTrackId: trackId,
+    treatmentClassification: "component_deferral",
+    deferralComponentIds: bundle?.componentIds ?? input.deferralComponentIds ?? [],
+    artifactRefs: {
+      ...(input.artifactRefs ?? {}),
+      selectedTrackId: trackId,
+      treatmentClassification: "component_deferral",
+      deferralComponentIds: bundle?.componentIds ?? input.deferralComponentIds ?? [],
+      ...(bundle ? { componentDeferralTreatment: bundle } : {})
+    }
+  };
+}
+
+export async function createBriefcaseItem(rawInput: CreateConsumerBriefcaseItemInput): Promise<ConsumerBriefcaseItem> {
+  const input = clampComponentDeferral(rawInput);
   const fallbackItem = fallbackItemFromCreateInput(input);
   const supabase = await getConsumerBriefcaseClient();
 
@@ -465,7 +517,23 @@ export function saveEligibilityResultToBriefcase(result: ExpungementAiEligibilit
     paymentAllowed: result.paymentAllowed,
     packetReady: result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution",
     pathwayLabel: result.pathwayLabel,
-    packetType: result.packetType
+    packetType: result.packetType,
+    ...(result.treatmentClassification === "component_deferral"
+      ? {
+        paymentAllowed: false,
+        paymentStatus: "not_applicable" as const,
+        packetStatus: "not_started" as const,
+        selectedTrackId: result.selectedTrackId ?? null,
+        treatmentClassification: "component_deferral" as const,
+        deferralComponentIds: result.deferralComponentIds ?? [],
+        artifactRefs: {
+          selectedTrackId: result.selectedTrackId ?? null,
+          treatmentClassification: "component_deferral",
+          deferralComponentIds: result.deferralComponentIds ?? [],
+          ...(result.componentDeferralTreatment ? { componentDeferralTreatment: result.componentDeferralTreatment } : {})
+        }
+      }
+      : {})
   };
   rememberFallbackItem(userId, item);
   return item;
@@ -564,6 +632,9 @@ function fallbackItemFromCreateInput(input: CreateConsumerBriefcaseItemInput): C
     pathwayLabel: input.pathwayLabel,
     packetType: input.packetType,
     artifactRefs: input.artifactRefs,
+    selectedTrackId: input.selectedTrackId ?? null,
+    treatmentClassification: input.treatmentClassification ?? null,
+    ...(input.deferralComponentIds ? { deferralComponentIds: input.deferralComponentIds } : {}),
     paymentStatus: input.paymentStatus ?? (input.paymentAllowed ? "unpaid" : "not_applicable"),
     paymentProvider: input.paymentProvider,
     checkoutSessionId: input.checkoutSessionId,
@@ -594,6 +665,13 @@ function rowToBriefcaseItem(row: ConsumerBriefcaseRow): ConsumerBriefcaseItem {
     pathwayLabel: row.pathway_label ?? undefined,
     packetType: row.packet_type ?? undefined,
     artifactRefs: row.artifact_refs_json,
+    // Re-surfaced from the stored refs so downstream payment and render checks
+    // read the same server-authored identity that was persisted.
+    selectedTrackId: typeof row.artifact_refs_json?.selectedTrackId === "string" ? row.artifact_refs_json.selectedTrackId : null,
+    treatmentClassification: row.artifact_refs_json?.treatmentClassification === "component_deferral" ? "component_deferral" : null,
+    ...(Array.isArray(row.artifact_refs_json?.deferralComponentIds)
+      ? { deferralComponentIds: row.artifact_refs_json.deferralComponentIds as string[] }
+      : {}),
     paymentStatus: row.payment_status ?? undefined,
     paymentProvider: row.payment_provider ?? undefined,
     checkoutSessionId: row.checkout_session_id ?? undefined,

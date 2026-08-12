@@ -301,7 +301,17 @@ function validatePatchSpec(assignment) {
   const errors = [];
   const spec = readJson(PATCH_SPEC_PATH);
   add(errors, spec.schemaVersion === "rcap-c-component-deferral-runtime-patch-spec/v1", "[runtime-patch-spec] schemaVersion is invalid");
-  add(errors, spec.status === "captain_action_required", "[runtime-patch-spec] must remain captain_action_required");
+  // The specification is Codex-authored and captain-applied: it is pending
+  // until Terminal A patches the shared runtime, and applied afterwards. No
+  // third status is accepted, and neither status promotes a route.
+  add(
+    errors,
+    spec.status === "captain_action_required" || spec.status === "captain_applied",
+    "[runtime-patch-spec] status must be captain_action_required or captain_applied"
+  );
+  if (spec.status === "captain_applied") {
+    add(errors, isRecord(spec.captainApplication), "[runtime-patch-spec] captain_applied requires a captainApplication record");
+  }
   add(errors, spec.assignment?.path === ASSIGNMENT_PATH && spec.assignment?.sha256 === ASSIGNMENT_SHA256, "[runtime-patch-spec] assignment pin differs from the frozen input");
   const expectedRoutes = assignment.routes.map((route) => route.trackId).sort();
   const affectedRoutes = Array.isArray(spec.affectedRouteIds) ? [...spec.affectedRouteIds].sort() : [];
@@ -322,7 +332,17 @@ function validatePatchSpec(assignment) {
       const absolute = path.join(ROOT, patch.file);
       add(errors, fs.existsSync(absolute), `${label} file does not resolve`);
       if (fs.existsSync(absolute) && /^[0-9a-f]{64}$/.test(String(patch.baseSha256 ?? ""))) {
-        add(errors, sha256File(patch.file) === patch.baseSha256, `${label} baseSha256 does not match current canonical bytes`);
+        // The target must be in one of exactly two known states: the authoring
+        // base (patch not yet applied) or the captain-recorded applied bytes.
+        // Anything else means the shared runtime moved underneath the
+        // specification, which is the drift this check exists to catch.
+        const current = sha256File(patch.file);
+        const applied = String(patch.appliedSha256 ?? "");
+        add(
+          errors,
+          current === patch.baseSha256 || (/^[0-9a-f]{64}$/.test(applied) && current === applied),
+          `${label} file bytes match neither baseSha256 nor the captain-recorded appliedSha256`
+        );
       }
     }
   }
