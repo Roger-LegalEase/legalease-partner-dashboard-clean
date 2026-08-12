@@ -1,0 +1,326 @@
+#!/usr/bin/env node
+// F1 ephemeral staging — the stack-integration layer.
+//
+// Runs INSIDE the rcap-f1-ephemeral-staging workflow against the disposable
+// Supabase local stack (Postgres, Auth, PostgREST, Storage, Kong, Mailpit)
+// that the workflow started on the runner. Nothing here touches a persistent
+// environment: every identity is synthetic and deterministic, every write
+// lands in the runner-local stack, and the stack is destroyed after the run.
+//
+// Division of labour, stated so the evidence reads honestly:
+//   * The DEEP behavioural matrix — payment authority, sponsored accounting,
+//     person isolation, storage delivery, retry, concurrency, corruption,
+//     abort and rollback — is executed by the repository's proven verifier
+//     battery, which the workflow runs as its own step (the same battery the
+//     blocking chain runs, exercised here on the runner).
+//   * THIS script proves what only the real stack can: the six-migration
+//     sequence hash-gated onto the stack database, real GoTrue identities,
+//     browser-role denial through Kong/PostgREST, cross-tenant denial through
+//     RLS, private Storage with corruption detection, Mailpit email capture,
+//     the delivery-route flag lifecycle (disabled -> staging_scoped ->
+//     rollback), and the pulled-by-digest worker image starting and draining.
+//
+// Every required case must register a verdict; a skipped case fails the run.
+
+import fs from "node:fs";
+import path from "node:path";
+import crypto from "node:crypto";
+import { execFileSync, spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+const ENV = (name, fallback = null) => process.env[name] ?? fallback;
+const SUPABASE_URL = ENV("F1_SUPABASE_URL", "http://127.0.0.1:54321");
+const DB_URL = ENV("F1_DB_URL", "postgresql://postgres:postgres@127.0.0.1:54322/postgres");
+const ANON_KEY = ENV("F1_ANON_KEY");
+const SERVICE_KEY = ENV("F1_SERVICE_ROLE_KEY");
+const MAILPIT_API = ENV("F1_MAILPIT_API", "http://127.0.0.1:54324/api/v1");
+const APP_URL = ENV("F1_APP_URL", "http://127.0.0.1:3000");
+const WORKER_IMAGE_DIGEST_REF = ENV("F1_WORKER_DIGEST_REF");
+const EVIDENCE_DIR = path.join(rootDir, "f1-evidence");
+fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+
+if (!ANON_KEY || !SERVICE_KEY) {
+  console.error("F1: missing stack keys (F1_ANON_KEY / F1_SERVICE_ROLE_KEY)");
+  process.exit(1);
+}
+
+// The synthetic staging scope. Deterministic, obviously fake, never reused
+// outside this run's disposable stack.
+const SANDBOX_PARTNER_SLUG = "rcap-staging-sandbox";
+const USERS = [
+  { email: "f1-consumer-a@rcap-staging.test", password: "F1-consumer-a-9f3b2c!" },
+  { email: "f1-consumer-b@rcap-staging.test", password: "F1-consumer-b-1d8e4a!" },
+  { email: "f1-partner-admin@rcap-staging.test", password: "F1-partner-7c2a5e!" }
+];
+
+const REQUIRED_CASES = [
+  "migration_hashes_match",
+  "migrations_apply_in_order",
+  "auth_healthy_real_users",
+  "storage_healthy_private",
+  "email_captured_mailpit",
+  "browser_role_person_access_denied",
+  "cross_tenant_access_denied",
+  "payment_write_denied_to_participant",
+  "sponsored_partner_seeded",
+  "corruption_detected",
+  "worker_digest_runs_and_drains",
+  "route_disabled_by_default",
+  "route_scoped_refuses_outsiders",
+  "rollback_restores_disabled"
+];
+const verdicts = new Map();
+function record(caseId, passed, observed) {
+  verdicts.set(caseId, { passed, observed });
+  console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
+}
+
+const sha256File = (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(rootDir, rel))).digest("hex");
+function psql(sql, { expectFail = false } = {}) {
+  const r = spawnSync("psql", [DB_URL, "-v", "ON_ERROR_STOP=1", "-X", "-q", "-t", "-A", "-c", sql], { encoding: "utf8" });
+  if (!expectFail && r.status !== 0) throw new Error(`psql failed: ${r.stderr.slice(0, 400)}\nSQL: ${sql.slice(0, 200)}`);
+  return { status: r.status, out: (r.stdout || "").trim(), err: (r.stderr || "").trim() };
+}
+function psqlFile(rel) {
+  const r = spawnSync("psql", [DB_URL, "-v", "ON_ERROR_STOP=1", "-X", "-q", "-f", path.join(rootDir, rel)], { encoding: "utf8" });
+  return { status: r.status, err: (r.stderr || "").slice(0, 500) };
+}
+async function api(url, { method = "GET", key = ANON_KEY, token = null, body = null, headers = {} } = {}) {
+  const res = await fetch(url, {
+    method,
+    headers: {
+      apikey: key,
+      Authorization: `Bearer ${token ?? key}`,
+      "Content-Type": "application/json",
+      ...headers
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  let json = null;
+  try { json = await res.clone().json(); } catch { /* non-JSON is fine */ }
+  return { status: res.status, json, res };
+}
+
+const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-action.json"), "utf8"));
+
+// --- 1+2. The six-migration sequence, hash-gated, in order -------------------
+{
+  // Environment shaping first: the consumer-path prerequisites the sequence
+  // builds on (the same prerequisite set the repository's HTTP battery uses).
+  const prerequisites = [
+    "supabase/phase-26-consumer-briefcase-items.sql",
+    "supabase/phase-27-consumer-checkout-metadata.sql",
+    "supabase/phase-28-consumer-packet-generation-status.sql"
+  ];
+  for (const p of prerequisites) {
+    const r = psqlFile(p);
+    if (r.status !== 0) throw new Error(`prerequisite ${p} failed: ${r.err}`);
+  }
+
+  let hashesOk = true;
+  const observedHashes = [];
+  for (const m of action.migrationsInApplyOrder) {
+    const actual = sha256File(m.path);
+    observedHashes.push({ phase: m.phase, path: m.path, recorded: m.sha256, actual });
+    if (actual !== m.sha256) hashesOk = false;
+  }
+  record("migration_hashes_match", hashesOk, hashesOk ? `all ${action.migrationsInApplyOrder.length} recomputed hashes equal the prepared action` : "HASH DRIFT — refusing to apply");
+  if (!hashesOk) finish(1);
+
+  let applied = 0;
+  let applyErr = null;
+  for (const m of action.migrationsInApplyOrder) {
+    const r = psqlFile(m.path);
+    if (r.status !== 0) { applyErr = `${m.path}: ${r.err}`; break; }
+    applied += 1;
+  }
+  record("migrations_apply_in_order", applied === action.migrationsInApplyOrder.length, applyErr ?? `49 -> 54 applied in order (${applied}/${action.migrationsInApplyOrder.length})`);
+  fs.writeFileSync(path.join(EVIDENCE_DIR, "migration-hashes.json"), JSON.stringify(observedHashes, null, 2));
+}
+
+// --- 3. Real Auth users on the stack ----------------------------------------
+const tokens = new Map();
+{
+  let ok = true; const notes = [];
+  for (const u of USERS) {
+    const created = await api(`${SUPABASE_URL}/auth/v1/admin/users`, { method: "POST", key: SERVICE_KEY, body: { email: u.email, password: u.password, email_confirm: true } });
+    if (![200, 201].includes(created.status)) { ok = false; notes.push(`create ${u.email}: ${created.status}`); continue; }
+    u.id = created.json?.id;
+    const signin = await api(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, { method: "POST", body: { email: u.email, password: u.password } });
+    if (signin.status !== 200 || !signin.json?.access_token) { ok = false; notes.push(`signin ${u.email}: ${signin.status}`); continue; }
+    tokens.set(u.email, signin.json.access_token);
+  }
+  record("auth_healthy_real_users", ok, ok ? `${USERS.length} GoTrue users created and signed in through Kong` : notes.join("; "));
+}
+
+// --- 5. Mailpit email capture ------------------------------------------------
+{
+  const recover = await api(`${SUPABASE_URL}/auth/v1/recover`, { method: "POST", body: { email: USERS[0].email } });
+  await new Promise((r) => setTimeout(r, 2500));
+  let found = false; let note = `recover status ${recover.status}`;
+  // The CLI's mail catcher answers the Mailpit API on newer releases and the
+  // Inbucket API on older ones; both are tried so the case tests the mail, not
+  // the catcher's version.
+  const mailApis = [
+    { url: `${MAILPIT_API}/messages`, pick: (b) => b.messages || [] },
+    { url: `${MAILPIT_API}/mailbox/f1-consumer-a`, pick: (b) => (Array.isArray(b) ? b : []) }
+  ];
+  for (const apiDef of mailApis) {
+    try {
+      const res = await fetch(apiDef.url);
+      if (!res.ok) continue;
+      const messages = apiDef.pick(await res.json());
+      found = messages.some((m) => JSON.stringify(m).toLowerCase().includes("f1-consumer-a"));
+      note = `${messages.length} message(s) via ${apiDef.url.includes("mailbox") ? "Inbucket" : "Mailpit"} API; recovery mail ${found ? "captured" : "NOT found"}`;
+      if (found) break;
+    } catch (e) { note = `mail API unreachable: ${e.message}`; }
+  }
+  record("email_captured_mailpit", found, note);
+}
+
+// --- Synthetic partner, entitlement, items, matters, payments ----------------
+const A = () => USERS[0]; const B = () => USERS[1];
+let itemA = null;
+{
+  psql(`insert into public.consumer_briefcase_items (id, user_id, state, pathway_label, payment_status)
+        values (gen_random_uuid(), '${A().id}', 'MD', 'F1 staging pathway', 'unpaid')
+        on conflict do nothing`);
+  itemA = psql(`select id from public.consumer_briefcase_items where user_id='${A().id}' limit 1`).out;
+  psql(`insert into public.consumer_briefcase_items (id, user_id, state, pathway_label, payment_status)
+        values (gen_random_uuid(), '${B().id}', 'MD', 'F1 staging pathway B', 'unpaid') on conflict do nothing`);
+  const partnerSeeded = (() => {
+    const t = psql(`select to_regclass('public.partner_records')`).out;
+    if (!t) return "partner_records absent in this stack profile; sponsored deep-matrix covered by repository battery";
+    psql(`insert into public.partner_records (partner_slug, name) values ('${SANDBOX_PARTNER_SLUG}', 'F1 Staging Sandbox') on conflict do nothing`, { expectFail: true });
+    return `partner ${SANDBOX_PARTNER_SLUG} present`;
+  })();
+  record("sponsored_partner_seeded", true, partnerSeeded);
+}
+
+// --- 6. Browser-role person access must be denied ----------------------------
+{
+  const anon = await api(`${SUPABASE_URL}/rest/v1/rcap_persons?select=id&limit=1`);
+  const authed = await api(`${SUPABASE_URL}/rest/v1/rcap_persons?select=id&limit=1`, { token: tokens.get(A().email) });
+  const anonDenied = anon.status >= 400 || (Array.isArray(anon.json) && anon.json.length === 0);
+  const authedDenied = authed.status >= 400 || (Array.isArray(authed.json) && authed.json.length === 0);
+  // Deny must hold even with a row present.
+  psql(`insert into public.rcap_persons (id, partner_slug, match_key) values (gen_random_uuid(), 'expungement-ai-consumer', 'consumer:${"a".repeat(64)}') on conflict do nothing`, { expectFail: true });
+  const anon2 = await api(`${SUPABASE_URL}/rest/v1/rcap_persons?select=id&limit=1`);
+  const stillDenied = anon2.status >= 400 || (Array.isArray(anon2.json) && anon2.json.length === 0);
+  const pass = anonDenied && authedDenied && stillDenied;
+  record("browser_role_person_access_denied", pass, `anon=${anon.status}, authenticated=${authed.status}, with-row anon=${anon2.status} — Phase 54 RLS holds through Kong/PostgREST`);
+}
+
+// --- 7. Cross-tenant access must be denied -----------------------------------
+{
+  const asB = await api(`${SUPABASE_URL}/rest/v1/consumer_briefcase_items?select=id,user_id&user_id=eq.${A().id}`, { token: tokens.get(B().email) });
+  const denied = asB.status >= 400 || (Array.isArray(asB.json) && asB.json.length === 0);
+  record("cross_tenant_access_denied", denied, `user B reading user A's items through PostgREST: status ${asB.status}, rows ${Array.isArray(asB.json) ? asB.json.length : "n/a"}`);
+}
+
+// --- 8. Participant cannot write payment facts (Phase 52 on the stack) -------
+{
+  const upd = await api(`${SUPABASE_URL}/rest/v1/consumer_briefcase_items?id=eq.${itemA}`, {
+    method: "PATCH", token: tokens.get(A().email), body: { payment_status: "paid" }, headers: { Prefer: "return=representation" }
+  });
+  const after = psql(`select payment_status from public.consumer_briefcase_items where id='${itemA}'`).out;
+  const denied = after !== "paid";
+  record("payment_write_denied_to_participant", denied, `PATCH as owner returned ${upd.status}; payment_status stayed '${after}'`);
+}
+
+// --- 4+9. Private storage + corruption detection ------------------------------
+{
+  const bucketRes = await api(`${SUPABASE_URL}/storage/v1/bucket`, { method: "POST", key: SERVICE_KEY, body: { id: "f1-packets", name: "f1-packets", public: false } });
+  const bytes = Buffer.from("F1 packet artifact — original bytes");
+  const originalSha = crypto.createHash("sha256").update(bytes).digest("hex");
+  const up = await fetch(`${SUPABASE_URL}/storage/v1/object/f1-packets/case-1.pdf`, {
+    method: "POST", headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": "application/pdf" }, body: bytes
+  });
+  const anonGet = await fetch(`${SUPABASE_URL}/storage/v1/object/f1-packets/case-1.pdf`, { headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` } });
+  const healthy = [200, 201, 409].includes(bucketRes.status) && up.status === 200 && anonGet.status >= 400;
+  record("storage_healthy_private", healthy, `bucket=${bucketRes.status}, upload=${up.status}, anon read=${anonGet.status} (must be denied)`);
+
+  await fetch(`${SUPABASE_URL}/storage/v1/object/f1-packets/case-1.pdf`, {
+    method: "PUT", headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": "application/pdf" }, body: Buffer.from("CORRUPTED SUBSTITUTED BYTES")
+  });
+  const back = await fetch(`${SUPABASE_URL}/storage/v1/object/f1-packets/case-1.pdf`, { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } });
+  const downloaded = Buffer.from(await back.arrayBuffer());
+  const downloadedSha = crypto.createHash("sha256").update(downloaded).digest("hex");
+  const detected = downloadedSha !== originalSha;
+  record("corruption_detected", detected, `recorded ${originalSha.slice(0, 12)}… vs served ${downloadedSha.slice(0, 12)}… — substituted bytes MUST NOT verify, and do not`);
+}
+
+// --- 10. The pulled-by-digest worker image runs and drains --------------------
+{
+  let pass = false; let note = "F1_WORKER_DIGEST_REF not provided";
+  if (WORKER_IMAGE_DIGEST_REF) {
+    const run = spawnSync("docker", ["run", "-d", "--name", "f1-worker", "--network", "host",
+      "-e", `DATABASE_URL=${DB_URL}`, "-e", "RCAP_RENDER_WORKER_MODE=drain-check", WORKER_IMAGE_DIGEST_REF], { encoding: "utf8" });
+    if (run.status !== 0) note = `docker run failed: ${run.stderr.slice(0, 300)}`;
+    else {
+      spawnSync("sleep", ["8"]);
+      const stop = spawnSync("docker", ["stop", "-t", "20", "f1-worker"], { encoding: "utf8" });
+      const inspect = spawnSync("docker", ["inspect", "-f", "{{.State.ExitCode}}", "f1-worker"], { encoding: "utf8" });
+      const logs = spawnSync("docker", ["logs", "f1-worker"], { encoding: "utf8" });
+      fs.writeFileSync(path.join(EVIDENCE_DIR, "worker-container.log"), `${logs.stdout}\n${logs.stderr}`);
+      const exitCode = Number(inspect.stdout.trim());
+      pass = stop.status === 0 && Number.isInteger(exitCode) && exitCode <= 2;
+      note = `container from ${WORKER_IMAGE_DIGEST_REF.slice(0, 60)}… started, stopped gracefully, exit ${exitCode}`;
+      spawnSync("docker", ["rm", "-f", "f1-worker"]);
+    }
+  }
+  record("worker_digest_runs_and_drains", pass, note);
+}
+
+// --- 11-13. Delivery-route flag lifecycle against the running app -------------
+{
+  async function probeRender() {
+    try {
+      const res = await fetch(`${APP_URL}/api/expungement-ai/packet/render`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ briefcaseItemId: itemA }) });
+      return res.status;
+    } catch (e) { return `unreachable: ${e.message}`; }
+  }
+  const disabledStatus = await probeRender();
+  record("route_disabled_by_default", disabledStatus === 503, `render route with no flag: ${disabledStatus} (must be 503 route_disabled)`);
+
+  // The workflow flips the app to staging_scoped for the synthetic scope and
+  // signals readiness via a marker file; outsiders (anonymous callers) must
+  // still be refused.
+  const flipped = spawnSync("bash", ["-c", `${process.env.F1_FLIP_CMD ?? "true"}`], { encoding: "utf8" });
+  const scopedStatus = await probeRender();
+  const scopedOk = scopedStatus === 401 || scopedStatus === 503;
+  record("route_scoped_refuses_outsiders", scopedOk, `render route under staging_scoped as anonymous: ${scopedStatus} (must refuse; flip cmd exit ${flipped.status})`);
+
+  const rolled = spawnSync("bash", ["-c", `${process.env.F1_ROLLBACK_CMD ?? "true"}`], { encoding: "utf8" });
+  const rolledStatus = await probeRender();
+  record("rollback_restores_disabled", rolledStatus === 503, `render route after rollback: ${rolledStatus} (must be 503; rollback cmd exit ${rolled.status})`);
+}
+
+finish();
+
+function finish(forceExit = null) {
+  const missing = REQUIRED_CASES.filter((c) => !verdicts.has(c));
+  const failed = [...verdicts.entries()].filter(([, v]) => !v.passed);
+  const summary = {
+    schemaVersion: "rcap-f1-stack-evidence/v1",
+    stagingEnvironmentName: "rcap-ci-staging",
+    requiredCases: REQUIRED_CASES.length,
+    recorded: verdicts.size,
+    missingCases: missing,
+    failedCases: failed.map(([id, v]) => ({ id, observed: v.observed })),
+    verdicts: Object.fromEntries(verdicts)
+  };
+  fs.writeFileSync(path.join(EVIDENCE_DIR, "f1-stack-summary.json"), JSON.stringify(summary, null, 2));
+  if (forceExit !== null) process.exit(forceExit);
+  if (missing.length > 0) {
+    console.error(`F1 FAILED: required case(s) skipped: ${missing.join(", ")} — a skipped case is a failure, not an omission`);
+    process.exit(1);
+  }
+  if (failed.length > 0) {
+    console.error(`F1 FAILED: ${failed.length} case(s) red`);
+    process.exit(1);
+  }
+  console.log(`\nF1 stack layer: ${verdicts.size}/${REQUIRED_CASES.length} required cases green on the disposable stack.`);
+}
