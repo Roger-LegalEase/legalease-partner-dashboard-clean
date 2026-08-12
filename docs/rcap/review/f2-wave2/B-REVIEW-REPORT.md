@@ -84,13 +84,27 @@
 | 19 | `KY:ky_felony_vacatur_expungement` | technical_approved | exact_supported_deferral verified: the two concurrently published versions of the KRS 431.073(1)(a) eligibility list with the 30 April 2027 changeover (adding KRS 286.13-150) and the $300-at-filing conflict are stated.... |
 | 20 | `LA:la-999-expedited-expungement` | technical_approved | Authority traced to LA.memo.json (art. |
 
+### Group 4: MD/ME/MN/MO
+
+| # | Track | Outcome | Summary |
+|---|---|---|---|
+| 21 | `MD:md_10103_1_automatic` | technical_approved | Authority traced to MD.memo.json including the honest treatment of the unidentified step after a law-enforcement unit's failure (per the lane evidence record, no filing invented); cross-track pointer to md_10103_legac.... |
+| 22 | `MD:md_10104_pre_service` | technical_approved | Authority traced to MD.memo.json (§ 10-104 District Court action on nolle prosequi, State objection/show-cause); cross-track pointers resolve; parity, payment suppression and elements verified with no defect.. |
+| 23 | `MD:md_10112_dpscs_cannabis` | technical_approved | Authority traced to MD.memo.json (§ 10-112 DPSCS cannabis expungement; the 2026 bill gloss 'change which charges it reaches' is a fair meaning-equivalent of the memo's change-'issued'-to-'disposed of', with the precis.... |
+| 24 | `ME:me-deferred` | technical_approved | Authority traced to ME.memo.json; the 'finished its sentence in full, including any fine or restitution' phrase is carried by me-seal-gen waitingPeriods/participantInputs in the same committed memo; parity, payment su.... |
+| 31 | `MN:mn_ceb_felony_cannabis` | correction_required | Defect: gather.en[2]/es[2] asserts Minnesota Court Records Online is 'the free public case-lookup service run by the Minnesota Judicial Branch' ('el servicio público y gratuito...'). |
+| 32 | `MN:mn_inherent_authority` | technical_approved | Authority traced to MN.memo.json (inherent-authority expungement; hearing statement carried via mn_petition_609a02_subd3.rules.notice plus the track's same-as-main-petition rules); parity, payment suppression and elem.... |
+| 33 | `MN:mn_mistaken_identity_iddata` | technical_approved | Authority traced to MN.memo.json (mistaken-identity relief; correctly framed as not something one buys or applies for); parity, payment suppression and elements verified with no defect.. |
+| 34 | `MN:mn_pardon_auto_expungement` | technical_approved | Authority traced to MN.memo.json (automatic expungement following pardon; MCRO attribution carried by the compiled profile's record-source pairing); parity, payment suppression and elements verified with no defect.. |
+| 35 | `MO:mo-610-141-automatic-drug` | technical_approved | Authority traced to MO.memo.json (§ 610.141 automatic drug expungement; MACHS carried by officialSources, MULES an acronym gloss on the memo-carried full name); parity, payment suppression and elements verified with n.... |
+
 Full defect statements, byte evidence and acceptance conditions are in `B-DISPOSITIONS.json` (the notes are the normative text; this table is a summary).
 
 ## Totals
 
 | Outcome | Tracks |
 |---|---:|
-| technical_approved | 21 |
-| correction_required | 5 |
+| technical_approved | 29 |
+| correction_required | 6 |
 | held_on_source_or_design | 0 |
-| **Total reviewed** | **26** |
+| **Total reviewed** | **35** |

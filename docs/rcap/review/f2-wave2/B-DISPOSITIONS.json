@@ -11,7 +11,8 @@
   "atomicGroupsClosedSoFar": [
     "AK/CA/IL/IN/MI (prior-correction states)",
     "AR/CO/CT/DE",
-    "GA/HI/KY/LA"
+    "GA/HI/KY/LA",
+    "MD/ME/MN/MO"
   ],
   "evidenceRule": "Every closure's evidenceSha is the manifest's packetSha256, recomputed by this reviewer from `git show a20987d1:<packet path>` and matched before review. The tip at branch point differs from the review base only by data/rcap-all50/review-artifacts/f2-wave2-dispatch.json, so reviewed working-tree bytes are the review-base bytes.",
   "committedAuthorityUniverse": [
@@ -226,6 +227,46 @@
       "evidenceSha": "295bd6fca9503a0941df22e33d6159dd0d785af7839684c6ce72be210e1d1e16"
     },
     {
+      "reviewId": 21,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10103_1_automatic"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json including the honest treatment of the unidentified step after a law-enforcement unit's failure (per the lane evidence record, no filing invented); cross-track pointer to md_10103_legacy_police resolves; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d"
+    },
+    {
+      "reviewId": 22,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10104_pre_service"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json (§ 10-104 District Court action on nolle prosequi, State objection/show-cause); cross-track pointers resolve; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d"
+    },
+    {
+      "reviewId": 23,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10112_dpscs_cannabis"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json (§ 10-112 DPSCS cannabis expungement; the 2026 bill gloss 'change which charges it reaches' is a fair meaning-equivalent of the memo's change-'issued'-to-'disposed of', with the precise language in authority[5]); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d"
+    },
+    {
+      "reviewId": 24,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ME:me-deferred"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to ME.memo.json; the 'finished its sentence in full, including any fine or restitution' phrase is carried by me-seal-gen waitingPeriods/participantInputs in the same committed memo; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "5c66774afbec264afe1a798252767d9fc2d54bf966e3dd0ca40af8b83740be7d"
+    },
+    {
       "reviewId": 25,
       "outcome": "correction_required",
       "trackKeys": [
@@ -284,12 +325,62 @@
       "owner": "Terminal B",
       "note": "Defect: nextSteps.en[2] misstates the age element of the minor-offence definition as 'committed under age 21' (es[2] 'cometidos antes de los 21 años'). The only committed source carrying the test — MI.memo.json controllingAuthority.summary — says 'committed by a person not more than 21 years old', which includes 21-year-olds; the packet's own mechanism.en/es states it correctly ('not more than 21 years old' / 'no más de 21 años'), so the entry contradicts itself and no committed source carries the under-21 formulation. A 21-year-old participant screening with nextSteps would wrongly exclude a qualifying minor offence. Acceptance: change nextSteps item 3 in both languages to 'committed by a person not more than 21 years old' / 'cometidos por una persona de no más de 21 años', matching the memo, the mechanism and authority[2].",
       "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 31,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MN:mn_ceb_felony_cannabis"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: gather.en[2]/es[2] asserts Minnesota Court Records Online is 'the free public case-lookup service run by the Minnesota Judicial Branch' ('el servicio público y gratuito...'). No committed source carries the no-fee claim: MN.memo.json says only 'look your cases up on Minnesota Court Records Online' and MN-minnesota.json carries no cost statement for MCRO (contrast MD, whose memo expressly carries 'Free.' for Maryland Judiciary Case Search). A cost expectation stated to the participant must be carried. Acceptance: drop 'free'/'gratuito' from the MCRO descriptor in both languages, or have the owning source amended to carry the no-fee claim first.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93"
+    },
+    {
+      "reviewId": 32,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_inherent_authority"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (inherent-authority expungement; hearing statement carried via mn_petition_609a02_subd3.rules.notice plus the track's same-as-main-petition rules); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93"
+    },
+    {
+      "reviewId": 33,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_mistaken_identity_iddata"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (mistaken-identity relief; correctly framed as not something one buys or applies for); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93"
+    },
+    {
+      "reviewId": 34,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_pardon_auto_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (automatic expungement following pardon; MCRO attribution carried by the compiled profile's record-source pairing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93"
+    },
+    {
+      "reviewId": 35,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MO:mo-610-141-automatic-drug"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MO.memo.json (§ 610.141 automatic drug expungement; MACHS carried by officialSources, MULES an acronym gloss on the memo-carried full name); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d498bad4614dc2731889d186635c635489f209151ab866cab2462e85784f4f21"
     }
   ],
   "totals": {
-    "tracksReviewed": 26,
-    "technical_approved": 21,
-    "correction_required": 5,
+    "tracksReviewed": 35,
+    "technical_approved": 29,
+    "correction_required": 6,
     "held_on_source_or_design": 0
   }
 }
