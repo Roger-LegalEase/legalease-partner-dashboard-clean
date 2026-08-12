@@ -405,11 +405,183 @@ export async function buildScriptedBlankCanary() {
   return doc.save({ useObjectStreams: false });
 }
 
+// What the subset-font canary draws, and what a correct decoder must read back.
+export const SUBSET_FONT_CANARY = {
+  // Mapped code by code with bfchar, because real label text is not a
+  // contiguous run of codepoints.
+  identityText: "PETITION TO SEAL",
+  // Mapped with a single bfrange. A bfrange assigns consecutive codepoints, so
+  // it is only correct for text that is itself consecutive -- which is exactly
+  // why it needs its own case rather than being folded into the label above.
+  rangeText: "ABCDEF",
+  differencesText: "CASE NO",
+  undecodableCode: 0x00ff
+};
+
+/**
+ * Canary 7 — a subset-font text layer.
+ *
+ * pdf-lib cannot author a Type0 font, so this is assembled directly: object
+ * bodies emitted in order, byte offsets recorded, and an xref written from
+ * those offsets. Washington's BLAKE-006 and BLAKE-008 draw their whole text
+ * layer this way, and reading their two-byte codes one byte at a time returned
+ * nothing legible, so both were dispositioned as having no extractable text.
+ *
+ * Three code spaces in one file: an Identity-H run decoded through a /ToUnicode
+ * CMap, a simple-font run decoded through /Encoding /Differences, and one code
+ * the CMap does not cover, which must be refused rather than guessed.
+ */
+export function buildSubsetFontCanary() {
+  const C = SUBSET_FONT_CANARY;
+  const hex4 = (n) => n.toString(16).padStart(4, "0");
+  // Codes 1..n carry the label; the range text follows in its own block of
+  // codes so the two CMap constructs cannot mask each other.
+  const identityCodes = [...C.identityText].map((_, i) => i + 1);
+  const rangeCodes = [...C.rangeText].map((_, i) => identityCodes.length + 1 + i);
+  const hexRun = identityCodes.map(hex4).join("");
+  const hexRange = rangeCodes.map(hex4).join("");
+  const unmapped = hex4(C.undecodableCode);
+
+  const bfchars = identityCodes
+    .map((code, i) => `<${hex4(code)}> <${hex4(C.identityText.charCodeAt(i))}>`)
+    .join("\n");
+
+  const cmap = `/CIDInit /ProcSet findresource begin\n12 dict begin\nbegincmap\n`
+    + `1 begincodespacerange\n<0000> <FFFF>\nendcodespacerange\n`
+    + `1 beginbfrange\n<${hex4(rangeCodes[0])}> <${hex4(rangeCodes[rangeCodes.length - 1])}> `
+      + `<${hex4(C.rangeText.charCodeAt(0))}>\nendbfrange\n`
+    + `${identityCodes.length} beginbfchar\n${bfchars}\nendbfchar\n`
+    + `endcmap\nCMapName currentdict /CMap defineresource pop\nend\nend`;
+
+  const diffNames = [...C.differencesText].map((ch) => (ch === " " ? "/space" : `/${ch}`)).join(" ");
+  const diffCodes = [...C.differencesText].map((_, i) => i + 1);
+  const diffRun = diffCodes.map((c) => c.toString(16).padStart(2, "0")).join("");
+
+  const content = `BT /F1 14 Tf 60 700 Td <${hexRun}> Tj ET\n`
+    + `BT /F1 14 Tf 60 685 Td <${hexRange}> Tj ET\n`
+    + `BT /F1 14 Tf 60 670 Td <${unmapped}> Tj ET\n`
+    + `BT /F2 12 Tf 60 640 Td <${diffRun}> Tj ET\n`;
+
+  const objects = [
+    `<< /Type /Catalog /Pages 2 0 R >>`,
+    `<< /Type /Pages /Kids [3 0 R] /Count 1 >>`,
+    `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R `
+      + `/Resources << /Font << /F1 5 0 R /F2 9 0 R >> >> >>`,
+    `<< /Length ${content.length} >>\nstream\n${content}endstream`,
+    `<< /Type /Font /Subtype /Type0 /BaseFont /AAAAAA+Canary /Encoding /Identity-H `
+      + `/DescendantFonts [6 0 R] /ToUnicode 8 0 R >>`,
+    `<< /Type /Font /Subtype /CIDFontType2 /BaseFont /AAAAAA+Canary `
+      + `/CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> `
+      + `/FontDescriptor 7 0 R /DW 1000 /W [1 [${[...identityCodes, ...rangeCodes].map(() => 600).join(" ")}]] >>`,
+    `<< /Type /FontDescriptor /FontName /AAAAAA+Canary /Flags 4 /ItalicAngle 0 `
+      + `/Ascent 800 /Descent -200 /CapHeight 700 /StemV 80 /FontBBox [0 -200 1000 800] /MissingWidth 600 >>`,
+    `<< /Length ${cmap.length} >>\nstream\n${cmap}\nendstream`,
+    `<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /FirstChar 1 /LastChar ${diffCodes.length} `
+      + `/Widths [${diffCodes.map(() => 500).join(" ")}] `
+      + `/Encoding << /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences [1 ${diffNames}] >> >>`
+  ];
+
+  let pdf = "%PDF-1.7\n";
+  const offsets = [];
+  objects.forEach((body, i) => {
+    offsets.push(pdf.length);
+    pdf += `${i + 1} 0 obj\n${body}\nendobj\n`;
+  });
+  const xrefStart = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  for (const off of offsets) pdf += `${String(off).padStart(10, "0")} 00000 n \n`;
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF\n`;
+  return Buffer.from(pdf, "latin1");
+}
+
+export const RICH_TEXT_CANARY = {
+  // pdf-lib raises RichTextFieldReadError only when /V is empty and /RV is
+  // present, which is the shape Missouri's CR-145 actually has. A field
+  // carrying both reads fine and would not reproduce the defect, so the canary
+  // carries one of each: the first aborts the render, the second proves the
+  // plain value is not collateral damage of fixing the first.
+  packetOnlyFieldName: "narrativePacketOnly",
+  packetOnlyText: "Arrested on the date stated in the attached record.",
+  bothFieldName: "narrativeWithPlainValue",
+  bothPlainValue: "Charges were dismissed before trial.",
+  plainFieldName: "petitionerName",
+  officialPrintedText: "PETITION D0-V3 RICH TEXT CANARY"
+};
+
+/**
+ * Canary 8 — an AcroForm carrying a rich-text field.
+ *
+ * pdf-lib throws `Reading rich text fields is not supported` the moment
+ * appearances are generated, so one such field aborts an entire family before a
+ * page is written. Missouri's CR-145 declares two and produced no artifact of
+ * any kind. This field carries a plain /V beside its /RV packet, so the canary
+ * can also prove the participant-visible value survives the conversion.
+ */
+export async function buildRichTextCanary() {
+  const C = RICH_TEXT_CANARY;
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([612, 500]);
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const form = doc.getForm();
+  const ctx = doc.context;
+
+  page.drawText(C.officialPrintedText, { x: 90, y: 450, size: 12, font });
+  page.drawText("Petitioner Name", { x: 40, y: 405, size: 8, font });
+  page.drawText("Narrative", { x: 40, y: 345, size: 8, font });
+
+  const name = form.createTextField(C.plainFieldName);
+  name.addToPage(page, { x: 40, y: 385, width: 260, height: 16 });
+  for (const w of name.acroField.getWidgets()) w.dict.set(PDFName.of("F"), ctx.obj(4));
+
+  const packet = (text) => PDFString.of(
+    `<?xml version="1.0"?><body xmlns="http://www.w3.org/1999/xhtml">`
+    + `<p><span style="font-weight:bold">${text}</span></p></body>`);
+  const makeRich = (field, { plainValue, packetText }) => {
+    const dict = field.acroField.dict;
+    const ff = Number(dict.get(PDFName.of("Ff"))?.asNumber?.() ?? 0);
+    dict.set(PDFName.of("Ff"), ctx.obj(ff | (1 << 25)));
+    if (plainValue !== null) dict.set(PDFName.of("V"), PDFString.of(plainValue));
+    else dict.delete(PDFName.of("V"));
+    dict.set(PDFName.of("RV"), packet(packetText));
+    dict.set(PDFName.of("DS"), PDFString.of("font: 12pt Helvetica"));
+    // A rich-text field as an issuing authority ships it has no pdf-lib-shaped
+    // appearance, so pdf-lib considers it in need of one and tries to read the
+    // value to build it -- which is the moment the render dies. Leaving the
+    // appearance pdf-lib generated on addToPage would make the field look
+    // up-to-date and the canary would reproduce nothing.
+    for (const w of field.acroField.getWidgets()) w.dict.delete(PDFName.of("AP"));
+  };
+
+  // Packet only, no /V: the shape that aborts the render.
+  const packetOnly = form.createTextField(C.packetOnlyFieldName);
+  packetOnly.enableMultiline();
+  packetOnly.addToPage(page, { x: 40, y: 280, width: 460, height: 55 });
+  for (const w of packetOnly.acroField.getWidgets()) w.dict.set(PDFName.of("F"), ctx.obj(4));
+  makeRich(packetOnly, { plainValue: null, packetText: C.packetOnlyText });
+
+  // Packet and /V together: reads fine, and must come through unchanged.
+  const both = form.createTextField(C.bothFieldName);
+  both.enableMultiline();
+  both.addToPage(page, { x: 40, y: 210, width: 460, height: 55 });
+  for (const w of both.acroField.getWidgets()) w.dict.set(PDFName.of("F"), ctx.obj(4));
+  makeRich(both, { plainValue: C.bothPlainValue, packetText: C.bothPlainValue });
+
+  finishDeterministically(doc);
+  // pdf-lib regenerates field appearances on save, which walks straight into
+  // the very error this canary exists to reproduce. Writing the source without
+  // that pass is what lets the file exist at all -- and it is faithful to the
+  // real forms, whose appearances were generated by the issuing authority's
+  // own tooling rather than by pdf-lib.
+  return doc.save({ useObjectStreams: false, updateFieldAppearances: false });
+}
+
 export const CANARIES = [
   { id: "acroform", build: buildAcroFormCanary, structuralClass: "acroform" },
   { id: "flat", build: buildFlatOverlayCanary, structuralClass: "flat" },
   { id: "scripted", build: buildScriptedCanary, structuralClass: "acroform" },
   { id: "xfa-residue", build: async () => buildXfaResidueCanary(), structuralClass: "acroform" },
+  { id: "subset-font", build: async () => buildSubsetFontCanary(), structuralClass: "flat" },
+  { id: "rich-text", build: buildRichTextCanary, structuralClass: "acroform" },
   { id: "print-flags", build: buildPrintFlagCanary, structuralClass: "acroform" },
   { id: "scripted-blank", build: buildScriptedBlankCanary, structuralClass: "acroform" }
 ];
