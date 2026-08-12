@@ -84,6 +84,34 @@
       "fields": 11,
       "role": "INSTRUCTIONS",
       "disposition": "Not a fill target."
+    },
+    {
+      "formId": "CR-106",
+      "officialName": "Proof of Service (Criminal Record Clearing)",
+      "revision": "Rev. January 1, 2020",
+      "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+      "derivedSource": {
+        "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr106-rescued.pdf",
+        "sha256": "b20f56ea218afc4ca83aebc8f2537ab461785689164b536326acf18308743868",
+        "derivation": "pypdf 6.15.0 decrypt with empty owner password then clone_from re-save; no content edit"
+      },
+      "firstHandFindings": {
+        "encrypted": true,
+        "xfa": true,
+        "acroForm": true,
+        "terminalFields": 48,
+        "pages": 2,
+        "geometry": "612x792",
+        "creator": "Designer 6.3"
+      },
+      "role": "PROOF_OF_SERVICE",
+      "classification": "tier_1_capable_binding_policy_open",
+      "disposition": "Technically Tier 1 — XFA source with a widget shadow, and the decrypted derivative is committed and pinned. Its field map is deliberately NOT authored here: a proof of service asserts who was served, at which address, on what date, by which method, and that determination (the prosecuting agency and, for § 851.91, the law enforcement agency for each county) is legal design this lane does not own. Authoring it from guesswork would put a false service declaration under a participant signature.",
+      "blocker": {
+        "exactMissingEvidence": "The per-county service-recipient design for CA record-clearing petitions: which agency or agencies must be served for PC 1203.4x and PC 851.91, and their service addresses.",
+        "owner": "counsel / state-pack legal design (CA)",
+        "nextAction": "Supply the service-recipient rules; lane E then authors the CR-106 field map and completes it as Tier 1 alongside CR-180 and CR-409."
+      }
     }
   ],
   "outOfScopeForThisJob": [
