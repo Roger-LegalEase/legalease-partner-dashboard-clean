@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ksjc-order-expungement-cover-sheet-122016",
+  "mapKind": "acroform_name_binding",
+  "promotedFrom": {
+    "committedDraft": "docs/record-clearing/field-map-drafts/all50/kansas-legalease-kansas-order-of-expungement-of-conviction-or-diversion-cover-sheet-122016.field-map-draft.json",
+    "draftNote": "The committed draft carried no recoverable AcroForm names (dirty_acroform raw inspection); bindings are promoted against the field census extracted from the committed shadow-batch sample of the same source binary.",
+    "committedSample": "tmp/official-pdf-shadow-batch/all50/kansas-legalease-kansas-order-of-expungement-of-conviction-or-diversion-cover-sheet-122016-sample.pdf"
+  },
+  "sourceBinary": {
+    "fileName": "Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+    "relativePath": "LegalEase Kansas/Order of Expungement of Conviction or Diversion Cover Sheet 122016.pdf",
+    "sha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537"
+  },
+  "participantFactVocabulary": {
+    "source": "src/lib/rcap-engine/compiled/profiles/KS-*.json (questions[].id + packetGenerator.requiredInputs)",
+    "questionIds": [
+      "ownership_scope",
+      "jurisdiction_scope",
+      "case_outcome",
+      "offense_level",
+      "possible_pathway_context",
+      "financial_obligations",
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id"
+    ]
+  },
+  "renderRule": "Renderer populates ONLY the bindings below. Every other census field is listed in neverPopulate or manualParticipantFields and must remain empty at render time.",
+  "bindings": [
+    {
+      "field": "ADDRESS",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine1"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    }
+  ],
+  "manualParticipantFields": [
+    "DEFENDANTS INFORMATION",
+    "DOB",
+    "WHITE",
+    "BLACK",
+    "ASIAN",
+    "PACIFIC ISLAND",
+    "AMERICAN INDIANALASKAN",
+    "UNKNOWN",
+    "HISPANIC",
+    "NONHISPANIC",
+    "UNKNOWN_2",
+    "ALIAS NAMES USED 1",
+    "ALIAS NAMES USED 2",
+    "ALIAS NAMES USED 3",
+    "ALIAS NAMES USED 4",
+    "ALIAS NAMES USED 5"
+  ],
+  "neverPopulate": [
+    {
+      "field": "undefined",
+      "class": "unused"
+    },
+    {
+      "field": "Text1",
+      "class": "unused"
+    },
+    {
+      "field": "Check Box2",
+      "class": "unused"
+    },
+    {
+      "field": "Check Box3",
+      "class": "unused"
+    }
+  ],
+  "overflowPolicy": {
+    "default": "shrink_to_fit down to minFontSize 6; if still overflowing, move content to a labeled addendum page and mark the field \"See attached addendum\"",
+    "hard_stop": "value exceeding the bound is a render error (identity-critical short fields such as state/zip)",
+    "must_match_dropdown_option": "value must exactly match one of the form’s dropdown options or the render fails closed"
+  }
+}

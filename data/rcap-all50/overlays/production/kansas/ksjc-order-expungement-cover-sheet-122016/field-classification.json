@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ksjc-order-expungement-cover-sheet-122016",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 21,
+  "fields": [
+    {
+      "name": "DEFENDANTS INFORMATION",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "First field under the defendant-information heading; exact label not confirmable from committed field evidence, completed manually and confirmed at F review."
+    },
+    {
+      "name": "undefined",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Label not recoverable; never populated."
+    },
+    {
+      "name": "ADDRESS",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine1",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "DOB",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "WHITE",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "BLACK",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "ASIAN",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "PACIFIC ISLAND",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "AMERICAN INDIANALASKAN",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "UNKNOWN",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "HISPANIC",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "NONHISPANIC",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "UNKNOWN_2",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Demographic checkbox."
+    },
+    {
+      "name": "ALIAS NAMES USED 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "ALIAS NAMES USED 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "ALIAS NAMES USED 3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "ALIAS NAMES USED 4",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "ALIAS NAMES USED 5",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Text1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Unlabeled stray field; never populated."
+    },
+    {
+      "name": "Check Box2",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Unlabeled checkbox; never populated pending F visual confirmation."
+    },
+    {
+      "name": "Check Box3",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Unlabeled checkbox; never populated pending F visual confirmation."
+    }
+  ]
+}
