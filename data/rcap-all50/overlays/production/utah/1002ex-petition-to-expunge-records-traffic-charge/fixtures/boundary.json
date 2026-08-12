@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-boundary-fixture/v4",
+  "applied": true,
+  "intent": "longest plausible participant values, so shrink-to-fit and the 6pt readable floor are exercised rather than asserted",
+  "facts": {
+    "participant.full_legal_name": "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+    "participant.street_address": "18244 Northwest Meadowbrook Terrace Extension Apartment 2201B",
+    "participant.city_state_zip": "Wappingers Falls, Massachusetts 02108-3417",
+    "participant.phone": "1-413-555-0199 ext. 44021",
+    "participant.email": "maximiliana.vasquez.featherstonehaugh@long-domain-example.org",
+    "matter.county": "Salt Lake",
+    "matter.case_number": "249900123456789-CR-EX"
+  },
+  "written": [
+    {
+      "anchor": "Name",
+      "factId": "participant.full_legal_name",
+      "fontSize": 9,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "fontSize": 7.039999999999999,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "City, State, Zip",
+      "factId": "participant.city_state_zip",
+      "fontSize": 7.539999999999999,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Phone",
+      "factId": "participant.phone",
+      "fontSize": 7.539999999999999,
+      "outcome": "fit"
+    },
+    {
+      "anchor": "Email",
+      "factId": "participant.email",
+      "fontSize": 7,
+      "outcome": "shrunk"
+    },
+    {
+      "anchor": "Case Number",
+      "factId": "matter.case_number",
+      "fontSize": 10.5,
+      "outcome": "fit"
+    }
+  ],
+  "refused": [],
+  "unfittable": [],
+  "artifact": "fixtures/boundary-filled.pdf",
+  "reasonNotApplied": null
+}

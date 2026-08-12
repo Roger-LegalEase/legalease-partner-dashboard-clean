@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2",
+  "lane": "D3B",
+  "factoryVersion": "d0-remediated-v1",
+  "policy": "Every field starts protected. Writing requires all of: no protect rule matches the field name or its measured label; the PDF type is text or dropdown; the name matches an allowlisted fact descriptor; the resolved value matches the descriptor's declared type; a sensitive descriptor has been named for that exact field; and an indexed charge row resolves to a charge actually supplied.",
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "bindingCorrections": {
+    "p2.r385.6.x218.rule": "court.ordered_case_number",
+    "p2.r220.3.x218.rule": "court.ordered_case_number"
+  },
+  "bindingCorrectionRationale": {
+    "p2.r385.6.x218.rule": "The decretal 'case number:' blanks on the later pages sit inside bracketed elections about which records the court orders expunged. They are the court's findings, not the caption, and writing a case number beside an unchecked box would assert an election nobody made.",
+    "p2.r220.3.x218.rule": "The decretal 'case number:' blanks on the later pages sit inside bracketed elections about which records the court orders expunged. They are the court's findings, not the caption, and writing a case number beside an unchecked box would assert an election nobody made."
+  },
+  "explicitSensitiveMappingsAuthorized": [],
+  "weakeningsApplied": "none — no D0 protect rule, type guard or readable-size floor was relaxed for this family"
+}

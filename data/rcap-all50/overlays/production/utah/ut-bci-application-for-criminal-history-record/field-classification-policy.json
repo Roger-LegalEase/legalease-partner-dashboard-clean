@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2",
+  "lane": "D3B",
+  "factoryVersion": "d0-remediated-v1",
+  "policy": "Every field starts protected. Writing requires all of: no protect rule matches the field name or its measured label; the PDF type is text or dropdown; the name matches an allowlisted fact descriptor; the resolved value matches the descriptor's declared type; a sensitive descriptor has been named for that exact field; and an indexed charge row resolves to a charge actually supplied.",
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "bindingCorrections": {
+    "p2.r620.1.x238.rule": "participant.previously_used_names",
+    "p2.r597.1.x134.rule": "participant.mailing_address_single_line",
+    "p2.r576.5.x140.rule": "participant.physical_address_single_line",
+    "p2.r555.7.x391.rule": "participant.daytime_phone",
+    "p2.r554.1.x155.rule": "participant.home_phone",
+    "p2.r532.8.x389.rule": "participant.driver_licence_number_and_state",
+    "p2.r318.6.x78.rule": "agency.identification_checked_by",
+    "p2.r45.4.x430.rule": "payment.name_on_credit_card"
+  },
+  "bindingCorrectionRationale": {
+    "p2.r620.1.x238.rule": "'PREVIOUSLY USED NAME(S) (Maiden, etc.)' resolves to participant.full_legal_name on a bare name match, which would answer the question with the very name it is asking the applicant to distinguish from.",
+    "p2.r597.1.x134.rule": "the caption beneath reads '(Street/Box number) (Apt #) (City) (State) (Zip)' — one rule carrying the whole address. participant.street_address fills the first fifth of it and leaves the rest missing on a form whose purpose is to have a record mailed back.",
+    "p2.r576.5.x140.rule": "same composite caption on the physical-address line, same refusal.",
+    "p2.r555.7.x391.rule": "'DAYTIME PHONE NUMBER' is a distinct fact from the single participant.phone this lane holds; so is the home number beside it. Writing one number into both would assert they are the same.",
+    "p2.r554.1.x155.rule": "'HOME PHONE NUMBER', same reasoning.",
+    "p2.r532.8.x389.rule": "'DRIVER LICENSE # AND STATE' resolves to participant.state on a bare \\bstate\\b match, and would put a two-letter code on a line that wants a licence number and its issuing state.",
+    "p2.r318.6.x78.rule": "'Name on ID' sits in the identification-check block a BCI clerk completes when the applicant appears.",
+    "p2.r45.4.x430.rule": "'Name on Credit Card' is part of the payment block."
+  },
+  "explicitSensitiveMappingsAuthorized": [],
+  "weakeningsApplied": "none — no D0 protect rule, type guard or readable-size floor was relaxed for this family"
+}

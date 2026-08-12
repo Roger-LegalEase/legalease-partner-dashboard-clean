@@ -908,6 +908,356 @@ FAMILY_SPECS["OR:OR-OSP-SET-ASIDE-CCH"] = oregonRecordCheckSpec({
   agency: "the Oregon State Police"
 });
 
+
+// -------------------------------------------------------------- Utah -----
+// Utah is the largest family set in this lane: 21 binaries across packet
+// forms, court orders, a civil cover sheet, participant instructions,
+// supporting process and a source-gated block. Every one of them is
+// generation_allowed=no and runtime_disabled in Edition 1, and seven carry an
+// open source gate on top of that.
+//
+// The three petitions share a layout, so they share a builder. What differs
+// between them is which blanks the text layer renders cleanly enough to
+// measure, and that difference is recorded rather than papered over.
+function utahPetitionSpec({ slug, title, statute, name, address, cityStateZip, phone, email, caseNumber, printedName, county, petitioner, courtAddress, extraFindings = [] }) {
+  const bindings = [
+    { slot: name, factId: "participant.full_legal_name" },
+    { slot: address, factId: "participant.street_address" },
+    { slot: cityStateZip, factId: "participant.city_state_zip" },
+    { slot: phone, factId: "participant.phone" },
+    { slot: email, factId: "participant.email" },
+    { slot: caseNumber, factId: "matter.case_number" },
+    { slot: printedName, factId: "participant.full_legal_name" }
+  ];
+  const corrections = {}, rationale = {};
+  if (county) bindings.push({ slot: county, label: "County", factId: "matter.county" });
+  if (petitioner) bindings.push({ slot: petitioner, factId: "participant.full_legal_name" });
+  if (courtAddress) {
+    corrections[courtAddress] = "court.street_address";
+    rationale[courtAddress] = "'Court Address' resolves to participant.street_address on the descriptor's bare \\baddress\\b match. It is the court's address, and D0 keeps court fields blank.";
+  }
+  return {
+    slug, title,
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      `A petitioner's own petition to a Utah district or justice court under ${statute}, signed under criminal penalty. The contact block, the caption and the printed name in the signature block are the participant's. The judge line, the bar-number line, the place of signing, the signature itself and the eligibility recitals are not.`,
+    participantFillable: true,
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: [
+      "participant.full_legal_name", "participant.street_address", "participant.city_state_zip",
+      "participant.phone", "participant.email", "matter.county", "matter.case_number"
+    ],
+    bindingCorrections: corrections,
+    bindingCorrectionRationale: rationale,
+    slotBindings: bindings,
+    fidelityFindings: extraFindings
+  };
+}
+
+const UTAH_ORDER_UNSELECTED =
+  "The decretal 'case number:' blanks on the later pages sit inside bracketed elections about which records the court orders expunged. They are the court's findings, not the caption, and writing a case number beside an unchecked box would assert an election nobody made.";
+
+function utahOrderSpec({ slug, title, name, caseNumber, decretalCaseNumbers }) {
+  const corrections = {}, rationale = {};
+  for (const slot of decretalCaseNumbers) {
+    corrections[slot] = "court.ordered_case_number";
+    rationale[slot] = UTAH_ORDER_UNSELECTED;
+  }
+  return {
+    slug, title,
+    documentOwnership: "court_issued",
+    ownershipDetermination:
+      "A proposed order the petitioner submits and the court signs. Its decretal paragraphs, its findings and its signature line belong to the judge. D0's caption-only rule governs everything this lane may touch: only a caption fact can bind, so the petitioner's name and the case number are written and the contact block, the address, the telephone number and the email address are refused with the reason recorded.",
+    participantFillable: true,
+    captionOnly: true,
+    nonFilingNotice: null,
+    facts: ["participant.full_legal_name", "matter.case_number", "matter.county"],
+    bindingCorrections: corrections,
+    bindingCorrectionRationale: rationale,
+    slotBindings: [
+      { slot: name, factId: "participant.full_legal_name" },
+      { slot: caseNumber, factId: "matter.case_number" }
+    ],
+    fidelityFindings: [
+      "This order's top contact block is identical to the petitions' and would bind name, address, city/state/zip, telephone and email. Under D0's caption-only rule for a court-issued order, four of the five are refused with reason court_issued_order_accepts_caption_facts_only. That is the intended outcome for an order, and it is what the classification records."
+    ]
+  };
+}
+
+function utahHeldSpec({ slug, title, ownership, determination, reason, findings = [] }) {
+  return {
+    slug, title,
+    documentOwnership: ownership,
+    ownershipDetermination: determination,
+    participantFillable: false,
+    noFillReason: reason,
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: [],
+    bindingCorrections: {},
+    bindingCorrectionRationale: {},
+    slotBindings: [],
+    fidelityFindings: findings
+  };
+}
+
+const UTAH_SOURCE_GATE =
+  "source-gated in Edition 1 with the currentness gate open. The manifest marks this asset source_gated / source_or_currentness_gate_open, and three of the seven carry a 2010 revision. It is inventoried and classified in full; nothing is written, because a rendered sample of a possibly-superseded form invites exactly the inference the gate exists to prevent.";
+const UTAH_REV_UNKNOWN =
+  "the manifest records this asset's revision as REV-UNKNOWN with freshness_status revision_confirmation_required. A form whose published revision cannot be confirmed is not a form to render a participant sample from, whatever its fields would accept.";
+
+Object.assign(FAMILY_SPECS, {
+  "UT:1000EX": utahPetitionSpec({
+    slug: "1000ex-petition-to-expunge-records-with-certificate-of-eligibility",
+    title: "1000EX — Petition to Expunge Records with Certificate of Eligibility",
+    statute: "Utah Code 77-40a-305(1)(a)",
+    name: "p1.r665.5.x67.rule", address: "p1.r637.8.x67.rule", cityStateZip: "p1.r610.1.x67.rule",
+    phone: "p1.r582.5.x67.rule", email: "p1.r552.0.x67.rule",
+    caseNumber: "p1.r342.9.x330.rule", printedName: "p2.r589.7.x328.rule",
+    county: "p1.r458.2.x309.rule", petitioner: "p1.r354.4.x72.rule", courtAddress: "p1.r432.4.x166.rule",
+    extraFindings: [
+      "The county blank is named by the word printed after it, not before it. The line reads '__________ Judicial District ________________ County', so the text to this blank's left is 'Judicial District' — which resolves to matter.court — and the only word that names it is the 'County' that follows. The census records left, right and beneath labels for every blank, and this binding uses the right-hand one explicitly.",
+      "Of the three Utah petitions, only 1000EX renders its court block cleanly enough to measure. See the 1002EX and 1003EX findings."
+    ]
+  }),
+  "UT:1002EX": utahPetitionSpec({
+    slug: "1002ex-petition-to-expunge-records-traffic-charge",
+    title: "1002EX — Petition to Expunge Records, Traffic Charge",
+    statute: "Utah Code 77-40a-305(3)",
+    name: "p1.r665.5.x67.rule", address: "p1.r637.8.x67.rule", cityStateZip: "p1.r610.1.x67.rule",
+    phone: "p1.r582.5.x67.rule", email: "p1.r552.0.x67.rule",
+    caseNumber: "p1.r354.4.x330.rule", printedName: "p2.r234.0.x328.rule",
+    extraFindings: [
+      "This form's court block and petitioner caption exist on the page but are not written. Its text layer interleaves glyphs — the county line reads back as 'C_________ounty', and elsewhere 'oYu', 'usJtice' and 'arB #' — so the underscore runs on those lines cannot be bounded reliably. The blanks stay in the census as unlabelled rules and are left to the participant. Placing an overlay on geometry this lane cannot trust would be worse than leaving the line blank.",
+      "1000EX carries the same court block and does render it cleanly, so the difference is this binary's text encoding rather than the form's design."
+    ]
+  }),
+  "UT:1003EX": utahPetitionSpec({
+    slug: "1003ex-petition-to-expunge-records-cannabis-conviction",
+    title: "1003EX — Petition to Expunge Records, Cannabis Conviction",
+    statute: "Utah Code 77-40a-305",
+    name: "p1.r665.5.x67.rule", address: "p1.r637.8.x67.rule", cityStateZip: "p1.r610.1.x67.rule",
+    phone: "p1.r582.5.x67.rule", email: "p1.r552.0.x67.rule",
+    caseNumber: "p1.r354.4.x330.rule", printedName: "p4.r330.4.x328.rule",
+    extraFindings: [
+      "Same interleaved text layer as 1002EX: the court block and petitioner caption are present on the page, unmeasurable, and left blank.",
+      "This is the oldest of the three petitions (March 2020) and the only one whose running footer contains the word 'Conviction', which D0 protects under disposition_or_hearing. The footer is not a blank; the protection simply also covers it."
+    ]
+  }),
+
+  "UT:1020EX": utahOrderSpec({
+    slug: "1020ex-order-on-petition-to-expunge-records-with-certificate-of-eligibility",
+    title: "1020EX — Order on Petition to Expunge Records with Certificate of Eligibility",
+    name: "p1.r701.5.x67.rule", caseNumber: "p1.r425.5.x330.rule",
+    decretalCaseNumbers: ["p2.r385.6.x218.rule", "p2.r220.3.x218.rule"]
+  }),
+  "UT:1022EX": utahOrderSpec({
+    slug: "1022ex-order-on-petition-to-expunge-records-traffic-conviction",
+    title: "1022EX — Order on Petition to Expunge Records, Traffic Conviction",
+    name: "p1.r665.5.x67.rule", caseNumber: "p1.r389.5.x330.rule",
+    decretalCaseNumbers: ["p2.r621.1.x187.rule", "p2.r569.5.x187.rule"]
+  }),
+
+  "UT:1044XX": {
+    slug: "1044xx-district-court-cover-sheet-for-civil-actions",
+    title: "1044XX — Utah District Court Cover Sheet for Civil Actions",
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      "The filing party's own cover sheet. It is laid out as two mirrored columns — Plaintiff/Petitioner on the left, Defendant/Respondent on the right — repeated for a second party, with an attorney or licensed paralegal practitioner block under each. On an expungement petition the participant is the petitioner, so only the first left-hand block is theirs.",
+    participantFillable: true,
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: [
+      "participant.full_legal_name", "participant.street_address",
+      "participant.city_state_zip", "participant.phone", "participant.email"
+    ],
+    bindingCorrections: {},
+    bindingCorrectionRationale: {},
+    unselectedRationale:
+      "Every unselected blank on this sheet belongs to somebody else. The right-hand column is the Defendant/Respondent's; the second pair of blocks is for a second plaintiff and a second defendant; each attorney block is for counsel or a licensed paralegal practitioner, whose addresses the sheet says the Utah State Bar supplies. All of them carry the same captions as the petitioner's block — Name, Address, City, State, Zip, Phone, Email — and so resolve to the same participant facts. Writing the petitioner's details into an opposing party's column would misstate the case to the court.",
+    slotBindings: [
+      { slot: "p1.r671.7.x32.rule", factId: "participant.full_legal_name" },
+      { slot: "p1.r648.2.x32.rule", factId: "participant.street_address" },
+      { slot: "p1.r624.7.x32.rule", factId: "participant.city_state_zip" },
+      { slot: "p1.r601.3.x32.rule", factId: "participant.phone" },
+      { slot: "p1.r601.3.x171.rule", factId: "participant.email" }
+    ],
+    fidelityFindings: [
+      "The bar-number blanks are refused by D0's attorney protect rule without any help from this lane, on both attorney blocks and for both parties.",
+      "The 'Total Claim for Damages $______' blank is refused under the money rule, which is the correct outcome on an expungement filing that claims no damages."
+    ]
+  },
+
+  "UT:1305GE": {
+    slug: "1305ge-motion-to-waive-fees-for-expungement",
+    title: "1305GE — Motion to Waive Fees for Expungement",
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      "A petitioner's own motion and the financial declaration that supports it. Page 1 is the ordinary caption and contact block. Pages 2 to 10 are a sworn statement of income, employment, property, vehicles, debts and household members, and they name employers, lien holders, title holders and other third parties throughout.",
+    participantFillable: true,
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: [
+      "participant.full_legal_name", "participant.street_address", "participant.city_state_zip",
+      "participant.phone", "participant.email", "matter.case_number"
+    ],
+    bindingCorrections: {
+      "p1.r432.4.x173.rule": "court.street_address",
+      "p2.r682.9.x355.rule": "third_party.nonprofit_provider_name",
+      "p5.r511.4.x284.rule": "money.state_income_tax_withheld",
+      "p7.r675.7.x221.rule": "third_party.employer_business_name",
+      "p7.r552.5.x221.rule": "third_party.employer_business_name",
+      "p7.r651.7.x221.rule": "third_party.employer_address_and_phone",
+      "p7.r528.5.x221.rule": "third_party.employer_address_and_phone",
+      "p9.r666.6.x217.rule": "third_party.names_on_title",
+      "p9.r504.6.x217.rule": "third_party.names_on_title",
+      "p9.r626.1.x108.rule": "third_party.first_lien_holder",
+      "p9.r464.1.x108.rule": "third_party.first_lien_holder",
+      "p9.r594.8.x108.rule": "third_party.second_lien_holder",
+      "p9.r432.8.x108.rule": "third_party.second_lien_holder"
+    },
+    bindingCorrectionRationale: {
+      "p1.r432.4.x173.rule": "'Court Address' resolves to participant.street_address on a bare address match. It is the court's address.",
+      "p2.r682.9.x355.rule": "'a nonprofit provider: (name of provider)' resolves to participant.full_legal_name on a bare name match. It names an organisation representing the petitioner, not the petitioner.",
+      "p5.r511.4.x284.rule": "'State income tax' resolves to participant.state on a bare \\bstate\\b match, and the blank is a dollar amount on a withholding line. Writing a two-letter state code into a money field would be a plain misstatement of the declarant's finances.",
+      "p7.r675.7.x221.rule": "'Business name' on the employment page resolves to participant.full_legal_name. It names an employer.",
+      "p7.r552.5.x221.rule": "second employer entry, same resolution and same refusal.",
+      "p7.r651.7.x221.rule": "'Address & phone' beneath an employer's name resolves to participant.street_address. It is the employer's address.",
+      "p7.r528.5.x221.rule": "second employer entry, same resolution and same refusal.",
+      "p9.r666.6.x217.rule": "'Name(s) on title' for real property resolves to participant.full_legal_name and may name co-owners this lane knows nothing about.",
+      "p9.r504.6.x217.rule": "second property entry, same resolution and same refusal.",
+      "p9.r626.1.x108.rule": "'First mortgage or lien holder (name & address)' resolves to participant.street_address. It names a creditor.",
+      "p9.r464.1.x108.rule": "second property entry, same resolution and same refusal.",
+      "p9.r594.8.x108.rule": "'Second mortgage or lien holder (name & address)', same resolution and same refusal.",
+      "p9.r432.8.x108.rule": "second property entry, same resolution and same refusal."
+    },
+    unselectedRationale:
+      "This lane writes page 1 and nothing else. Pages 2 to 10 are a sworn financial declaration: income, employment, property, vehicles, debts, household members and the third parties attached to each. Nothing on them is a caption fact, several of the blanks are dollar amounts that D0 protects outright, and the remainder describe people and organisations this lane holds no facts about. A fee-waiver affidavit is sworn to; a partially machine-filled one is worse than a blank one.",
+    slotBindings: [
+      { slot: "p1.r665.5.x67.rule", factId: "participant.full_legal_name" },
+      { slot: "p1.r637.8.x67.rule", factId: "participant.street_address" },
+      { slot: "p1.r610.1.x67.rule", factId: "participant.city_state_zip" },
+      { slot: "p1.r582.4.x67.rule", factId: "participant.phone" },
+      { slot: "p1.r552.0.x67.rule", factId: "participant.email" },
+      { slot: "p1.r343.0.x72.rule", factId: "participant.full_legal_name" },
+      { slot: "p1.r343.0.x330.rule", factId: "matter.case_number" }
+    ],
+    fidelityFindings: [
+      "The county blank on the court line is not written. Its text layer interleaves glyphs the same way 1002EX's does — the word reads back as 'ounty', with the leading C absorbed into the underscore run — so the label-override check refused it and the blank is left to the participant. 1000EX carries the identical line and does render it cleanly.",
+      "This is a money document, and D0's money rule does most of the work on it unaided. What the rule does not catch is a financial blank whose caption happens to name something else — 'State income tax' being the clearest — and those are refused here by counter-mapping."
+    ]
+  },
+
+  "UT:UT-BCI-ROA": {
+    slug: "ut-bci-application-for-criminal-history-record",
+    title: "BCI Application for Criminal History Record",
+    documentOwnership: "participant_completed",
+    ownershipDetermination:
+      "An applicant's own request to the Utah Bureau of Criminal Identification for their criminal history record. Name and date of birth are the participant's and are written. The previously-used-name line, both address lines, both telephone lines, the driver licence line, the identification check and the payment block are not.",
+    participantFillable: true,
+    captionOnly: false,
+    nonFilingNotice: null,
+    facts: ["participant.full_legal_name", "participant.date_of_birth"],
+    bindingCorrections: {
+      "p2.r620.1.x238.rule": "participant.previously_used_names",
+      "p2.r597.1.x134.rule": "participant.mailing_address_single_line",
+      "p2.r576.5.x140.rule": "participant.physical_address_single_line",
+      "p2.r555.7.x391.rule": "participant.daytime_phone",
+      "p2.r554.1.x155.rule": "participant.home_phone",
+      "p2.r532.8.x389.rule": "participant.driver_licence_number_and_state",
+      "p2.r318.6.x78.rule": "agency.identification_checked_by",
+      "p2.r45.4.x430.rule": "payment.name_on_credit_card"
+    },
+    bindingCorrectionRationale: {
+      "p2.r620.1.x238.rule": "'PREVIOUSLY USED NAME(S) (Maiden, etc.)' resolves to participant.full_legal_name on a bare name match, which would answer the question with the very name it is asking the applicant to distinguish from.",
+      "p2.r597.1.x134.rule": "the caption beneath reads '(Street/Box number) (Apt #) (City) (State) (Zip)' — one rule carrying the whole address. participant.street_address fills the first fifth of it and leaves the rest missing on a form whose purpose is to have a record mailed back.",
+      "p2.r576.5.x140.rule": "same composite caption on the physical-address line, same refusal.",
+      "p2.r555.7.x391.rule": "'DAYTIME PHONE NUMBER' is a distinct fact from the single participant.phone this lane holds; so is the home number beside it. Writing one number into both would assert they are the same.",
+      "p2.r554.1.x155.rule": "'HOME PHONE NUMBER', same reasoning.",
+      "p2.r532.8.x389.rule": "'DRIVER LICENSE # AND STATE' resolves to participant.state on a bare \\bstate\\b match, and would put a two-letter code on a line that wants a licence number and its issuing state.",
+      "p2.r318.6.x78.rule": "'Name on ID' sits in the identification-check block a BCI clerk completes when the applicant appears.",
+      "p2.r45.4.x430.rule": "'Name on Credit Card' is part of the payment block."
+    },
+    slotBindings: [
+      { slot: "p2.r639.3.x69.rule", factId: "participant.full_legal_name" },
+      { slot: "p2.r640.9.x513.rule", factId: "participant.date_of_birth" }
+    ],
+    fidelityFindings: [
+      "This is the only one of the five BCI assets in Edition 1 with a confirmed revision (January 2025) and freshness_status candidate_current_source. The other four are REV-UNKNOWN and are not filled.",
+      "Recorded for D0 rather than for Utah: several fields on this form ask for one composite value on one rule — a whole mailing address, a licence number with its issuing state. The descriptor list has no composite for either, so both are refused. A composite address descriptor would make forms of this shape fillable across the corpus."
+    ]
+  }
+});
+
+// Held families. Each is censused and classified in full; none is filled.
+const UTAH_HELD = [
+  ["UT:UT-BCI-EXP-INSTRUCTIONS", "ut-bci-expungement-applicant-instructions", "BCI Expungement Applicant Instructions",
+    "participant_instructions",
+    "A one-page instruction sheet BCI gives an expungement applicant. It carries no blank a participant completes: the census finds no rule line on it at all.",
+    `an instruction sheet with no participant blanks, and ${UTAH_REV_UNKNOWN}`],
+  ["UT:UT-BCI-INDIGENT-INSTRUCTIONS", "ut-bci-indigent-expungement-instructions", "BCI Indigent Expungement Instructions",
+    "participant_instructions",
+    "A one-page instruction sheet for an applicant seeking the indigent fee waiver. Like the general instructions, it carries no blank a participant completes.",
+    `an instruction sheet with no participant blanks, and ${UTAH_REV_UNKNOWN}`],
+  ["UT:1020GE", "1020ge-proof-of-completed-service", "1020GE — Proof of Completed Service",
+    "server_completed",
+    "A return of service. The person who served the papers completes and signs it, states how and when service was made, and identifies the party served. D0 keeps service blocks blank as a category, and the document is a service block end to end.",
+    "a return of service completed by whoever served the papers. It is not a participant document, and every blank on it is a service-block field D0 protects by category."],
+  ["UT:UT-BCI-EXP-APPLICATION", "ut-bci-application-for-certificate-of-eligibility", "BCI Application for Certificate of Eligibility for Expungement",
+    "participant_completed",
+    "An applicant's own BCI application for the certificate of eligibility a petition-based expungement requires. Participant-completed in principle, but its revision is unconfirmed and its text layer is largely a Type0 subset whose labels read back as raw byte pairs.",
+    UTAH_REV_UNKNOWN],
+  ["UT:UT-BCI-EXP-VERIFICATION", "ut-bci-automatic-and-petitioned-expungement-verification-application", "BCI Automatic and Petitioned Expungement Verification Application",
+    "participant_completed",
+    "An applicant's own BCI verification application. Participant-completed in principle, with the same unconfirmed revision and the same Type0 text layer.",
+    UTAH_REV_UNKNOWN],
+  ["UT:UT-BCI-THIRD-PARTY-RELEASE", "ut-bci-third-party-release-form", "BCI Third-Party Release Form",
+    "participant_completed",
+    "A release authorising BCI to send the applicant's record to somebody else. Its top block — NAME, MAILING ADDRESS, PHONE NUMBER, EMAIL ADDRESS — is the third party who receives the report, not the applicant; only the 'Name of applicant (Print)' line near the foot is the participant's. The binder resolves the recipient's name to participant.full_legal_name on a bare name match.",
+    `${UTAH_REV_UNKNOWN} Independently of the revision, the whole of this form's contact block names a third party, and a fill that mistook it for the applicant would disclose a criminal history record to the wrong person.`],
+  ["UT:1146XX", "1146xx-acceptance-of-service-expungement", "1146XX — Acceptance of Service, Expungement",
+    "served_party_completed",
+    "The party served signs this to accept service rather than be served formally. It is completed by the recipient of the papers — in an expungement, the prosecutor or the relevant agency.",
+    UTAH_SOURCE_GATE],
+  ["UT:1148XX", "1148xx-consent-and-waiver-of-hearing-expungement", "1148XX — Consent and Waiver of Hearing, Expungement",
+    "prosecutor_completed",
+    "The prosecuting agency consents to the petition and waives a hearing on it. It is the prosecutor's election, not the petitioner's.",
+    UTAH_SOURCE_GATE],
+  ["UT:1149XX", "1149xx-victims-or-prosecutors-statement", "1149XX — Victim's or Prosecutor's Statement",
+    "outside_party_completed",
+    "A statement by the victim or the prosecutor about the petition. Both are outside parties, which D0 protects as a category.",
+    UTAH_SOURCE_GATE],
+  ["UT:1164XX", "1164xx-notice-of-hearing-expungement", "1164XX — Notice of Hearing, Expungement",
+    "court_issued",
+    "Notice of the hearing date. The court sets the date and the clerk issues the notice.",
+    UTAH_SOURCE_GATE],
+  ["UT:1169XX", "1169xx-reply-to-victim-prosecutor-or-app-response", "1169XX — Reply to Victim's Statement, Prosecutor's Statement, or AP&P Response",
+    "participant_completed",
+    "The petitioner's own reply to a victim statement, a prosecutor statement or an Adult Probation and Parole response. This is the one source-gated Utah asset the participant completes.",
+    `${UTAH_SOURCE_GATE} This one is participant-completed, so the gate is the only thing holding it; when the gate closes it is a candidate for the same treatment the petitions received.`],
+  ["UT:1170XX", "1170xx-request-for-response-by-adult-probation-and-parole", "1170XX — Request for Response by Adult Probation and Parole",
+    "court_issued",
+    "The court's request that Adult Probation and Parole respond to the petition.",
+    UTAH_SOURCE_GATE],
+  ["UT:1173XX", "1173xx-response-by-adult-probation-and-parole", "1173XX — Response by Adult Probation and Parole",
+    "agency_completed",
+    "Adult Probation and Parole's own response. An agency document end to end.",
+    UTAH_SOURCE_GATE]
+];
+
+for (const [key, slug, title, ownership, determination, reason] of UTAH_HELD) {
+  FAMILY_SPECS[key] = utahHeldSpec({ slug, title, ownership, determination, reason });
+}
+
+FAMILY_SPECS["UT:1173XX"].fidelityFindings = [
+  "The STATE_README records '1173XX participant reply to AP&P response' as `mapping_corrected` / `resolved`. The correction is right and is reflected here: 1173XX is Adult Probation and Parole's response, and the participant's reply to it is 1169XX."
+];
+FAMILY_SPECS["UT:1000EX"].fidelityFindings.push(
+  "The STATE_README records three Utah open items as `link_only_binary_missing` / `build_blocker`: 1001EX (special-certificate petition), 1021EX and 1023EX (the orders on the special-certificate and cannabis petitions). None is in Edition 1 and none is built. Note that the compiled Utah profile's legacy formInventory does carry a binary for 1023EX, at sha256 24868a504130... (110,830 bytes), which Edition 1 does not — so the build blocker is real for this edition even though an older corpus held the file.",
+  "Eleven of the twelve PDFs in the compiled Utah profile's legacy formInventory match Edition 1 binaries exactly by sha256. Utah's coded state pack is the most faithful of this lane's four states; the single divergence is the 1023EX order described above."
+);
+
 // ---------------------------------------------------------------------------
 // Source resolution
 // ---------------------------------------------------------------------------

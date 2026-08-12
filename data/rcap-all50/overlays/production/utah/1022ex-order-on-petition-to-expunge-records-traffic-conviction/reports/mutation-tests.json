@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-mutation-tests/v1",
+  "basis": "each mutation removes one guarantee and confirms the check that guards it goes red",
+  "allPassed": true,
+  "results": [
+    {
+      "mutation": "source_drift_detected",
+      "passed": true,
+      "detail": {
+        "error": "source drift: expected b0d9c6f1100c7d40e63c1261fa55cc868f91d2fe7cc8df05b6ba0036ff37f952, read 7e2f5fac1079aead9196cea806c9937dfd0812a483b41cd11013febd71f5dd3f",
+        "matchedExpectedPattern": true
+      }
+    },
+    {
+      "mutation": "contact_sheet_rejects_unflattened_stand_in",
+      "passed": true,
+      "detail": {
+        "error": "finalized artifact does not visibly contain 2 expected value(s)",
+        "matchedExpectedPattern": true
+      }
+    },
+    {
+      "mutation": "unfittable_value_refused_at_readable_floor",
+      "passed": true,
+      "detail": {
+        "outcome": "refused",
+        "reason": "value_exceeds_widget_width_at_minimum_font",
+        "minFontSize": 6,
+        "rect": {
+          "x": 68.6,
+          "y": 667.72,
+          "width": 226.4,
+          "height": 9.54
+        }
+      }
+    },
+    {
+      "mutation": "no_token_reaches_artifact_without_an_expected_value_behind_it",
+      "passed": true,
+      "detail": {
+        "basis": "every token visible in the finalized artifact but not in the untouched source must decompose into expected values and source tokens",
+        "addedTokenCount": 4,
+        "unexplainedTokens": [],
+        "pass": true
+      }
+    }
+  ]
+}

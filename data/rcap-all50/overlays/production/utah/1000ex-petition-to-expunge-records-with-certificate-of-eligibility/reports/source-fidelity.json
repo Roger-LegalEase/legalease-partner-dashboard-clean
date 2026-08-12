@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-source-fidelity/v1",
+  "packManifestIsAuthority": true,
+  "sha256Matches": true,
+  "byteLengthMatches": true,
+  "declaredVsObserved": {
+    "structuralClass": {
+      "declared": "flat_pdf",
+      "observed": "flat"
+    },
+    "pages": {
+      "declared": 2,
+      "observed": 2
+    },
+    "fieldCount": {
+      "declared": 0,
+      "observed": 0
+    }
+  },
+  "statePackFidelityFindings": [
+    "The county blank is named by the word printed after it, not before it. The line reads '__________ Judicial District ________________ County', so the text to this blank's left is 'Judicial District' — which resolves to matter.court — and the only word that names it is the 'County' that follows. The census records left, right and beneath labels for every blank, and this binding uses the right-hand one explicitly.",
+    "Of the three Utah petitions, only 1000EX renders its court block cleanly enough to measure. See the 1002EX and 1003EX findings.",
+    "The STATE_README records three Utah open items as `link_only_binary_missing` / `build_blocker`: 1001EX (special-certificate petition), 1021EX and 1023EX (the orders on the special-certificate and cannabis petitions). None is in Edition 1 and none is built. Note that the compiled Utah profile's legacy formInventory does carry a binary for 1023EX, at sha256 24868a504130... (110,830 bytes), which Edition 1 does not — so the build blocker is real for this edition even though an older corpus held the file.",
+    "Eleven of the twelve PDFs in the compiled Utah profile's legacy formInventory match Edition 1 binaries exactly by sha256. Utah's coded state pack is the most faithful of this lane's four states; the single divergence is the 1023EX order described above."
+  ],
+  "nonFilingHold": null
+}
