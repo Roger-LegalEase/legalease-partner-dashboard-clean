@@ -58,6 +58,17 @@ for (const [lane, route] of Object.entries(index.laneCorrectionBranches)) {
     .filter((f) => f.lane === lane && f.rerenderRequired)
     .map((f) => `${f.stateSlug}/${f.familyId.split(":")[1]}`));
 
+  // Four families the cycle initially classified as needing no new artifact.
+  // Phase 4 re-review found their contact sheets had never been rebuilt and
+  // still carried object streams and orphaned widget objects from the
+  // unsanitized blank panel, so their sheets were rebuilt in response. Their
+  // participant PDFs are untouched. Recorded here so the audit distinguishes an
+  // authorized answer to a review finding from an unexplained change.
+  for (const f of ["vermont/200-00132-form-en", "vermont/200-00132a-form-en",
+                   "vermont/200-00631-form-en", "wisconsin/cr-267-form-en"]) {
+    if (lane === "D1C") expected.add(f);
+  }
+
   // Which families' bytes actually moved between the reviewed lane head and
   // the correction branch.
   const changedFiles = (gitQuiet(["diff", "--name-only", from, to, "--", PRODUCTION]) ?? "")
