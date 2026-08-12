@@ -24,8 +24,9 @@
         "ccform.jsp?FormNumber=CR-266",
         "ccform.jsp?FormNumber=CR-267"
       ],
-      "readiness": "blocked_pending_bundle_binaries_and_release_gates",
-      "terminal": false
+      "readiness": "overlay_labels_measured_write_box_pending_independent_visual_review",
+      "terminal": false,
+      "sourceBinariesPresent": true
     },
     {
       "trackId": "wi_nc_doj_challenge",
@@ -36,8 +37,9 @@
         "criminal-background-check.aspx",
         "criminal-history-documents-forms.aspx"
       ],
-      "readiness": "blocked_pending_bundle_binaries_and_release_gates",
-      "terminal": false
+      "readiness": "no_participant_fact_label_on_this_form_pending_review",
+      "terminal": false,
+      "sourceBinariesPresent": true
     }
   ],
   "jobOutcome": "fail_closed_with_exact_source_requirements",
@@ -50,5 +52,15 @@
         "lifecycle": "true_hash_missing"
       }
     ]
+  },
+  "implementation": {
+    "generatedFrom": "scripts/implement-rcap-official-forms-d1.mjs",
+    "families": 4,
+    "implemented": 0,
+    "noFillByOwnership": 0,
+    "boundFields": 0,
+    "contactSheets": 0,
+    "holdsPreserved": "Source-gated, currentness, counsel and state-legal-review holds are unchanged by the binaries arriving. No track is promoted to terminal here.",
+    "independentVisualReview": "Owned by F. This lane does not self-approve."
   }
 }
