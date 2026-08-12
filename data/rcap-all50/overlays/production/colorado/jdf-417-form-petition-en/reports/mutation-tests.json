@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-mutation-tests/v1",
+  "basis": "each mutation removes one protection and confirms the corresponding guarantee stops holding",
+  "allHeld": true,
+  "mutations": [
+    {
+      "mutation": "non_filing_notice_supplied",
+      "expectation": "NonFilingHoldError and no fill",
+      "held": true
+    },
+    {
+      "mutation": "withholdings_withdrawn",
+      "expectation": "a field the lane withheld binds again once the withholding is removed, proving the withholding is load-bearing",
+      "withheld": 3,
+      "boundAfterRemoval": 1,
+      "held": true
+    },
+    {
+      "mutation": "document_marked_not_fillable",
+      "expectation": "no field is written",
+      "written": 0,
+      "held": true
+    },
+    {
+      "mutation": "caption_only_enforced",
+      "expectation": "written set shrinks to caption facts or stays equal when the form only ever carried caption facts",
+      "writtenCaptionOnly": 2,
+      "writtenNormal": 4,
+      "held": true
+    },
+    {
+      "mutation": "facts_withheld",
+      "expectation": "no field is written",
+      "written": 0,
+      "held": true
+    }
+  ]
+}
