@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "exp-ad-order-denying",
+  "mapKind": "acroform_name_binding",
+  "promotedFrom": {
+    "committedDraft": "docs/record-clearing/field-map-drafts/all50/illinois-legalease-illinois-exp-ad-order-denying.field-map-draft.json",
+    "draftNote": "The committed draft carried no recoverable AcroForm names (dirty_acroform raw inspection); bindings are promoted against the field census extracted from the committed shadow-batch sample of the same source binary.",
+    "committedSample": "tmp/official-pdf-shadow-batch/all50/illinois-legalease-illinois-exp-ad-order-denying-sample.pdf"
+  },
+  "sourceBinary": {
+    "fileName": "EXP-AD Order Denying.pdf",
+    "relativePath": "LegalEase Illinois/EXP-AD Order Denying.pdf",
+    "sha256": "2d3039fa873801bc58bf425a2c73f489951bb82de33b11af031e8bf62df3ffa8"
+  },
+  "participantFactVocabulary": {
+    "source": "src/lib/rcap-engine/compiled/profiles/IL-*.json (questions[].id + packetGenerator.requiredInputs)",
+    "questionIds": [
+      "ownership_scope",
+      "jurisdiction_scope",
+      "case_outcome",
+      "offense_level",
+      "possible_pathway_context",
+      "source_question_01_ask-in-this-order",
+      "source_question_02_was-this-an-illinois-state-case-federal-",
+      "source_question_03_were-you-under-18-when-it-happened-and-w",
+      "source_question_04_what-county-court-and-case-number",
+      "source_question_05_was-there-an-arrest-ticket-or-charge-not",
+      "source_question_06_how-did-the-case-end-released-without-ch",
+      "source_question_07_what-was-the-exact-charge-and-statute",
+      "source_question_08_was-the-case-a-dui-reckless-driving-mino",
+      "source_question_09_did-you-successfully-complete-supervisio",
+      "source_question_10_was-it-qualified-probation-under-a-drug-",
+      "source_question_11_when-did-the-last-sentence-supervision-o",
+      "source_question_12_do-you-have-any-pending-criminal-charges",
+      "source_question_13_was-the-case-cannabis-related-if-yes-amo",
+      "source_question_14_was-the-case-connected-to-trafficking-co",
+      "source_question_15_was-someone-else-using-your-name-or-iden",
+      "source_question_16_do-you-have-your-isp-access-and-review-r",
+      "age_at_offense",
+      "sentence_completion_date",
+      "trafficking_status",
+      "pardon_status",
+      "disposition_date",
+      "court",
+      "charge",
+      "state_exclusion_categories",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "requiredInputs": [
+      "age_at_offense",
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "court",
+      "disposition_date",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "pardon_status",
+      "participant_full_legal_name",
+      "pathway_id",
+      "record_type",
+      "residency_or_location",
+      "sentence_completion_date",
+      "trafficking_status"
+    ]
+  },
+  "renderRule": "Renderer populates ONLY the bindings below. Every other census field is listed in neverPopulate or manualParticipantFields and must remain empty at render time.",
+  "bindings": [
+    {
+      "field": "1 - County",
+      "type": "dropdown",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "county_or_filing_location"
+      },
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      }
+    },
+    {
+      "field": "2 - Your name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "7 - Case Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "case_identifier"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "3 - Address",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine1"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "3 - Telephone",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.phone"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "3 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "3 - Email",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.email"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 50,
+        "onOverflow": "overflow_to_addendum"
+      }
+    }
+  ],
+  "manualParticipantFields": [
+    "3 - Other name",
+    "4 - Date of birth",
+    "5 - Race",
+    "6 - Gender",
+    "3 - Attorney Number"
+  ],
+  "neverPopulate": [
+    {
+      "field": "4 - Request is Denied for All Cases sought to be expunged or the request is denied for the following cases",
+      "class": "protected"
+    },
+    {
+      "field": "4 - List the cases",
+      "class": "protected"
+    },
+    {
+      "field": "10 - Request is denied for all cases sought to be sealed or your request is denied for the following cases",
+      "class": "protected"
+    },
+    {
+      "field": "11 - List the cases",
+      "class": "protected"
+    },
+    {
+      "field": "5 - Your records are not legally eligible to be expunged",
+      "class": "protected"
+    },
+    {
+      "field": "6 - You failed to attach or present the required documents",
+      "class": "protected"
+    },
+    {
+      "field": "7 - The court finds that the public’s interest in retaining your criminal records is greater than your interest in expunging your records",
+      "class": "protected"
+    },
+    {
+      "field": "8 - Other",
+      "class": "protected"
+    },
+    {
+      "field": "9 - List Other",
+      "class": "protected"
+    },
+    {
+      "field": "Judge's Name",
+      "class": "protected"
+    },
+    {
+      "field": "Entered Date",
+      "class": "protected"
+    },
+    {
+      "field": "12 - Your records are not legally eligible to be sealed",
+      "class": "protected"
+    },
+    {
+      "field": "13 - You failed to attach or present the required documents",
+      "class": "protected"
+    },
+    {
+      "field": "14 - The court finds that the public’s interest in retaining your criminal records is greater than your interest in sealing your records",
+      "class": "protected"
+    },
+    {
+      "field": "15 - Other",
+      "class": "protected"
+    },
+    {
+      "field": "16 - List Other",
+      "class": "protected"
+    }
+  ],
+  "overflowPolicy": {
+    "default": "shrink_to_fit down to minFontSize 6; if still overflowing, move content to a labeled addendum page and mark the field \"See attached addendum\"",
+    "hard_stop": "value exceeding the bound is a render error (identity-critical short fields such as state/zip)",
+    "must_match_dropdown_option": "value must exactly match one of the form’s dropdown options or the render fails closed"
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "exp-ad-order-denying",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 28,
+  "fields": [
+    {
+      "name": "1 - County",
+      "type": "dropdown",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "Statewide dropdown; value must match a county option on the form."
+    },
+    {
+      "name": "2 - Your name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "3 - Other name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Alias/other names; not collected by the compiled screening vocabulary."
+    },
+    {
+      "name": "4 - Date of birth",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "DOB not collected by compiled screening vocabulary; participant supplies at assembly."
+    },
+    {
+      "name": "5 - Race",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "6 - Gender",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "7 - Case Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "case_identifier",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "3 - Address",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine1",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "3 - Telephone",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.phone",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "3 - Attorney Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "ARDC number; blank for self-represented participants."
+    },
+    {
+      "name": "4 - Request is Denied for All Cases sought to be expunged or the request is denied for the following cases",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court disposition checkbox. Never populated."
+    },
+    {
+      "name": "3 - Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      },
+      "note": "Petitioner notice/mailing block."
+    },
+    {
+      "name": "3 - Email",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.email",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 50,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "4 - List the cases",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court disposition content. Never populated."
+    },
+    {
+      "name": "10 - Request is denied for all cases sought to be sealed or your request is denied for the following cases",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court disposition checkbox. Never populated."
+    },
+    {
+      "name": "11 - List the cases",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court disposition content. Never populated."
+    },
+    {
+      "name": "5 - Your records are not legally eligible to be expunged",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding. Never populated."
+    },
+    {
+      "name": "6 - You failed to attach or present the required documents",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding. Never populated."
+    },
+    {
+      "name": "7 - The court finds that the public’s interest in retaining your criminal records is greater than your interest in expunging your records",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding. Never populated."
+    },
+    {
+      "name": "8 - Other",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding checkbox. Never populated."
+    },
+    {
+      "name": "9 - List Other",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding text. Never populated."
+    },
+    {
+      "name": "Judge's Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Judicial identification. Never populated."
+    },
+    {
+      "name": "Entered Date",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Order entry date set by the court. Never populated."
+    },
+    {
+      "name": "12 - Your records are not legally eligible to be sealed",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding. Never populated."
+    },
+    {
+      "name": "13 - You failed to attach or present the required documents",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding. Never populated."
+    },
+    {
+      "name": "14 - The court finds that the public’s interest in retaining your criminal records is greater than your interest in sealing your records",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding. Never populated."
+    },
+    {
+      "name": "15 - Other",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding checkbox. Never populated."
+    },
+    {
+      "name": "16 - List Other",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "protected",
+      "populatable": false,
+      "note": "Court finding text. Never populated."
+    }
+  ]
+}

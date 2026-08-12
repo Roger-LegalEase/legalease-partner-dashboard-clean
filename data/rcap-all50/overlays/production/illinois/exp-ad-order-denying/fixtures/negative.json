@@ -1,0 +1,66 @@
+{
+  "fixtureKind": "negative",
+  "description": "Adversarial facts that must NOT reach the form. Given these facts, every listed field must remain empty after render.",
+  "adversarialFacts": {
+    "judge_name": "Hon. Improper Autofill",
+    "clerk_name": "Deputy Clerk Should-Not-Appear",
+    "prosecutor_name": "ADA Never Populated",
+    "prosecutor_address": "1 Prosecutor Plaza, Must Stay Blank",
+    "hearing_date": "2026-12-31",
+    "hearing_result": "GRANTED",
+    "court_disposition_text": "Petition granted in full",
+    "notary_commission": "Commission 000000, expires never",
+    "service_completion_date": "2026-11-30",
+    "arresting_officer_statement": "Officer narrative that must not be transcribed"
+  },
+  "expectedEmptyFields": [
+    "3 - Other name",
+    "4 - Date of birth",
+    "5 - Race",
+    "6 - Gender",
+    "3 - Attorney Number",
+    "4 - Request is Denied for All Cases sought to be expunged or the request is denied for the following cases",
+    "4 - List the cases",
+    "10 - Request is denied for all cases sought to be sealed or your request is denied for the following cases",
+    "11 - List the cases",
+    "5 - Your records are not legally eligible to be expunged",
+    "6 - You failed to attach or present the required documents",
+    "7 - The court finds that the public’s interest in retaining your criminal records is greater than your interest in expunging your records",
+    "8 - Other",
+    "9 - List Other",
+    "Judge's Name",
+    "Entered Date",
+    "12 - Your records are not legally eligible to be sealed",
+    "13 - You failed to attach or present the required documents",
+    "14 - The court finds that the public’s interest in retaining your criminal records is greater than your interest in sealing your records",
+    "15 - Other",
+    "16 - List Other"
+  ],
+  "expectedEmptyByClass": {
+    "manual_participant": [
+      "3 - Other name",
+      "4 - Date of birth",
+      "5 - Race",
+      "6 - Gender",
+      "3 - Attorney Number"
+    ],
+    "protected": [
+      "4 - Request is Denied for All Cases sought to be expunged or the request is denied for the following cases",
+      "4 - List the cases",
+      "10 - Request is denied for all cases sought to be sealed or your request is denied for the following cases",
+      "11 - List the cases",
+      "5 - Your records are not legally eligible to be expunged",
+      "6 - You failed to attach or present the required documents",
+      "7 - The court finds that the public’s interest in retaining your criminal records is greater than your interest in expunging your records",
+      "8 - Other",
+      "9 - List Other",
+      "Judge's Name",
+      "Entered Date",
+      "12 - Your records are not legally eligible to be sealed",
+      "13 - You failed to attach or present the required documents",
+      "14 - The court finds that the public’s interest in retaining your criminal records is greater than your interest in sealing your records",
+      "15 - Other",
+      "16 - List Other"
+    ]
+  }
+}
