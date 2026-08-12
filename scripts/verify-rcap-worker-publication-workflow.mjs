@@ -12,6 +12,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -128,6 +129,29 @@ for (const [title, pattern] of [
   ['the workflow does not apply a migration', /\bpsql\b|supabase db push|supabase migration up/i],
 ]) {
   check(title, !pattern.test(src), 'a forbidden operation appears in the workflow');
+}
+
+// --- the image-input fingerprint gate ---------------------------------------
+// A publication workflow whose source fingerprint is stale publishes bytes the
+// freeze record does not name, so the fingerprint verifier and its mutation
+// proof are blocking here. They are chained from THIS step rather than listed
+// in package.json because package.json is itself an image input: the commit
+// that introduced this gate was forbidden from touching any image-input path,
+// and wiring here keeps both non-skippable without doing so.
+for (const script of [
+  'scripts/verify-rcap-image-input-fingerprint.mjs',
+  'scripts/test-rcap-image-fingerprint-mutations.mjs',
+]) {
+  const run = spawnSync(process.execPath, [path.join(rootDir, script)], {
+    cwd: rootDir,
+    encoding: 'utf8',
+    stdio: 'inherit',
+    timeout: 600_000,
+    killSignal: 'SIGKILL',
+  });
+  if (run.status !== 0) {
+    failures.push(`${script} did not pass (exit ${run.status ?? `signal ${run.signal}`})`);
+  }
 }
 
 console.log('');

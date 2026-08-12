@@ -247,7 +247,7 @@
     ]
   },
   "imageInputs": {
-    "note": "Exactly the paths the Dockerfile copies. package.json changed between the recorded publication proof (abbc48a1) and the candidate SHA, so the image bytes differ from that proof and the publishable digest MUST be minted by a rebuild at the final accepted SHA.",
+    "note": "Exactly the paths the Dockerfile copies. Derived from imageInputFingerprintBaseSha, never from securityCheckpointSha: the checkpoint records where the migration security lineage was verified, and substituting it for the build source pins trees no build would use. The publishable digest MUST be minted by a rebuild at the declared freeze SHA.",
     "dockerfile": "deploy/rcap-render-worker/Dockerfile",
     "inputs": [
       {
@@ -268,11 +268,11 @@
       },
       {
         "path": "scripts/lib/",
-        "treeSha": "6276149b76728ebf86169d80c91c4ab28e3392f7"
+        "treeSha": "e8f80d8b59b889061363f4ea24d3d4f8c30b129c"
       },
       {
         "path": "src/",
-        "treeSha": "bd87f46dd44a81d4671fcb177e8cfe86238d0f0a"
+        "treeSha": "6ae7362894fe118ce9ac231f7ef8913e3cb7feee"
       },
       {
         "path": "deploy/rcap-render-worker/Dockerfile",
@@ -280,6 +280,19 @@
       }
     ]
   },
+  "imageInputFingerprint": {
+    "algorithm": "sha256-file+git-tree/v1",
+    "packageJsonSha256": "ee2b9fcdf7be28c228e72c4a4f3349d336698ea2b2e70f61399556c6b737c65e",
+    "packageLockSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+    "tsconfigSha256": "f096fb57605f57b18db33441a4b4b85901e1ad816183a87d6d8dc086f7e088b5",
+    "workerEntrypointSha256": "e021e936bb677ea98283823bc0a1ac3ad7295a8d61b2fd21635feda718020b70",
+    "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
+    "scriptsLibTreeHash": "e8f80d8b59b889061363f4ea24d3d4f8c30b129c",
+    "srcTreeHash": "6ae7362894fe118ce9ac231f7ef8913e3cb7feee"
+  },
+  "imageInputFingerprintBaseSha": "763bb42e1955da66383dfd54aa04753bad6e51fd",
+  "imageInputEquivalenceRequired": true,
+  "imageInputEquivalenceRule": "git diff --quiet {imageInputFingerprintBaseSha} HEAD -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs scripts/lib src deploy/rcap-render-worker/Dockerfile must exit 0; a commit that changes any image-input path invalidates this fingerprint and requires regeneration.",
   "supersedes": [
     {
       "id": "staging-action-two-migrations",

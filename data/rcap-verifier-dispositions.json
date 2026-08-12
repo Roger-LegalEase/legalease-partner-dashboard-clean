@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 103,
+    "keep_available": 105,
     "wired": 97,
     "fix_then_wire": 27,
     "retire": 1,
@@ -1416,6 +1416,18 @@
       "disposition": "wired",
       "reason": "Proves the reviewed screening-parity delta mechanism is a constraint rather than a bypass: 11 mutations - a second added question, a reworded existing question, reordered existing questions, the approved question moved to another stage, another jurisdiction, another pathway, a path prefix widening, byte drift in an approved file, an unrecognised schema key, an absent record and a malformed record - each turn verify-expungement-plain-language-values red, and each is checked for the right failure message rather than only a non-zero exit.",
       "observedStatus": "in_chain",
+      "decidedBy": "captain"
+    },
+    "verify-rcap-image-input-fingerprint.mjs": {
+      "disposition": "keep_available",
+      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails. Not listed in the npm test chain string because package.json is itself an image input and the commit introducing this gate was forbidden from touching image-input paths. Independently recomputes all seven image-input hashes (sha256 for files, git tree hashes for scripts/lib/ and src/), enforces base-to-HEAD image-input equivalence, rejects checkpoint-substitution, algorithm drift, omitted inputs, dirty trees and hand-edited records.",
+      "observedStatus": "chained_via_worker_publication_workflow",
+      "decidedBy": "captain"
+    },
+    "test-rcap-image-fingerprint-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails; kept out of the npm test chain string because package.json is an image input. 11 mutations - file drift, missing input, src/ and scripts/lib/ working-tree change, omitted fingerprint key, silent algorithm change, checkpoint tree substitution, stale base, rewritten hash, hand edit, waived equivalence - each turns verify-rcap-image-input-fingerprint red for its named reason, with signal-safe byte restoration.",
+      "observedStatus": "chained_via_worker_publication_workflow",
       "decidedBy": "captain"
     },
     "verify-rcap-person-identity-post-phase54.mjs": {

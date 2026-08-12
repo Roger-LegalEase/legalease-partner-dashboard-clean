@@ -53,6 +53,48 @@ const IMAGE_INPUT_PATHS = [
 const sha256 = (rel) => crypto.createHash('sha256').update(fs.readFileSync(path.join(rootDir, rel))).digest('hex');
 const git = (args) => execFileSync('git', args, { cwd: rootDir, encoding: 'utf8' }).trim();
 
+// ---------------------------------------------------------------------------
+// The image-input fingerprint.
+//
+// Two facts used to share one constant here, and they are different facts:
+//
+//   * securityCheckpointSha records where the migration security lineage was
+//     verified. It moves only when a new checkpoint is declared, and it must
+//     NEVER be advanced merely because the worker source changed.
+//   * The image-input fingerprint records what the worker image would be built
+//     FROM. It must describe the accepted source tree, not the checkpoint.
+//
+// Deriving the fingerprint's tree hashes from the checkpoint (as this file
+// once did) produced a record that pinned trees no build would use. The
+// fingerprint is therefore derived from the commit being generated against —
+// with one self-reference rule: a record cannot name the commit that will
+// contain it. The commit that lands this record touches only non-image-input
+// paths, so its image-input trees are identical to the base's; `--check`
+// enforces exactly that equivalence (`git diff --quiet <base> HEAD -- <image
+// inputs>`) instead of demanding the impossible byte-equal base SHA.
+//
+// Generation refuses a working tree that is dirty on any image-input path: a
+// fingerprint must describe bytes that actually exist in a commit.
+// ---------------------------------------------------------------------------
+
+const FINGERPRINT_ALGORITHM = 'sha256-file+git-tree/v1';
+const IMAGE_INPUT_DIFF_PATHS = IMAGE_INPUT_PATHS.map((p) => p.replace(/\/$/, ''));
+
+function imageInputWorktreeDirt() {
+  return execFileSync('git', ['status', '--porcelain', '--untracked-files=all', '--', ...IMAGE_INPUT_DIFF_PATHS], {
+    cwd: rootDir,
+    encoding: 'utf8',
+  }).trim();
+}
+
+function imageInputEquivalent(baseSha) {
+  const result = execFileSync('git', ['diff', '--name-only', `${baseSha}`, 'HEAD', '--', ...IMAGE_INPUT_DIFF_PATHS], {
+    cwd: rootDir,
+    encoding: 'utf8',
+  }).trim();
+  return { equivalent: result.length === 0, changed: result };
+}
+
 const problems = [];
 const queue = JSON.parse(fs.readFileSync(path.join(rootDir, 'data/rcap-authorization-queue.json'), 'utf8'));
 const byId = new Map((queue.entries || []).map((e) => [e.id, e]));
@@ -88,15 +130,66 @@ const migrations = SEQUENCE.map((m, i) => {
   };
 }).filter(Boolean);
 
+const dirt = imageInputWorktreeDirt();
+if (dirt) {
+  problems.push(`the working tree is dirty on image-input paths; a fingerprint must describe committed bytes:\n${dirt}`);
+}
+
+// In write mode the base is HEAD — the accepted tip being generated against.
+// In --check mode the base is whatever the committed record claims, and the
+// claim is validated by image-input equivalence to HEAD rather than identity,
+// because the commit carrying the record can never be its own base.
+let fingerprintBaseSha = git(['rev-parse', 'HEAD']);
+if (checkOnly && fs.existsSync(outPath)) {
+  const existing = JSON.parse(fs.readFileSync(outPath, 'utf8'));
+  const recordedBase = existing?.imageInputFingerprintBaseSha;
+  if (typeof recordedBase === 'string' && /^[0-9a-f]{40}$/.test(recordedBase)) {
+    try {
+      git(['cat-file', '-e', `${recordedBase}^{commit}`]);
+      const { equivalent, changed } = imageInputEquivalent(recordedBase);
+      if (equivalent) {
+        fingerprintBaseSha = recordedBase;
+      } else {
+        problems.push(
+          `imageInputFingerprintBaseSha ${recordedBase.slice(0, 8)} is not image-input-equivalent to HEAD; changed: ${changed.split('\n').join(', ')} — the fingerprint is stale and must be regenerated`
+        );
+      }
+    } catch {
+      problems.push(`imageInputFingerprintBaseSha ${recordedBase.slice(0, 8)} does not resolve to a commit`);
+    }
+  } else {
+    problems.push('the committed record carries no imageInputFingerprintBaseSha');
+  }
+}
+
 const imageInputs = IMAGE_INPUT_PATHS.map((p) => {
   const abs = path.join(rootDir, p);
   if (!fs.existsSync(abs)) return { path: p, sha256: null, note: 'absent' };
   if (fs.statSync(abs).isDirectory()) {
-    // Directory contents are covered by the tree hash git already maintains.
-    return { path: p, treeSha: git(['rev-parse', `${CANDIDATE_SHA}:${p.replace(/\/$/, '')}`]) };
+    // Directory contents are covered by the tree hash git already maintains,
+    // taken at the fingerprint base — NEVER at the security checkpoint, which
+    // records lineage, not build source. With the dirty-tree guard above and
+    // base equivalence enforced in --check, these hashes describe the bytes a
+    // build at HEAD would actually copy.
+    return { path: p, treeSha: git(['rev-parse', `${fingerprintBaseSha}:${p.replace(/\/$/, '')}`]) };
   }
   return { path: p, sha256: sha256(p) };
 });
+
+const inputByPath = new Map(imageInputs.map((i) => [i.path, i]));
+const imageInputFingerprint = {
+  algorithm: FINGERPRINT_ALGORITHM,
+  packageJsonSha256: inputByPath.get('package.json')?.sha256 ?? null,
+  packageLockSha256: inputByPath.get('package-lock.json')?.sha256 ?? null,
+  tsconfigSha256: inputByPath.get('tsconfig.json')?.sha256 ?? null,
+  workerEntrypointSha256: inputByPath.get('scripts/rcap-render-worker.mjs')?.sha256 ?? null,
+  dockerfileSha256: inputByPath.get('deploy/rcap-render-worker/Dockerfile')?.sha256 ?? null,
+  scriptsLibTreeHash: inputByPath.get('scripts/lib/')?.treeSha ?? null,
+  srcTreeHash: inputByPath.get('src/')?.treeSha ?? null,
+};
+for (const [key, value] of Object.entries(imageInputFingerprint)) {
+  if (value === null) problems.push(`imageInputFingerprint.${key} could not be derived; a partial fingerprint is not a fingerprint`);
+}
 
 // Required environment values. Anything null here keeps the action unrequestable.
 const REQUIRED_ENVIRONMENT = {
@@ -126,8 +219,10 @@ const action = {
 
   canonicalIntegrationBranch: CANONICAL_BRANCH,
   // The security checkpoint the migrations were verified at. NOT the final
-  // accepted SHA: the preparation that generated this record descends from it,
-  // so the final SHA is a descendant to be re-derived when CI is green on it.
+  // accepted SHA, and NOT the worker build source: it records the
+  // security-checkpoint lineage and is never advanced merely because the worker
+  // source changed. Image inputs are derived from imageInputFingerprintBaseSha
+  // below, which moves with the accepted source tree; this field does not.
   securityCheckpointSha: CANDIDATE_SHA,
   finalAcceptedSha: null,
   finalAcceptedShaNote:
@@ -216,10 +311,20 @@ const action = {
 
   imageInputs: {
     note:
-      'Exactly the paths the Dockerfile copies. package.json changed between the recorded publication proof (abbc48a1) and the candidate SHA, so the image bytes differ from that proof and the publishable digest MUST be minted by a rebuild at the final accepted SHA.',
+      'Exactly the paths the Dockerfile copies. Derived from imageInputFingerprintBaseSha, never from securityCheckpointSha: the checkpoint records where the migration security lineage was verified, and substituting it for the build source pins trees no build would use. The publishable digest MUST be minted by a rebuild at the declared freeze SHA.',
     dockerfile: 'deploy/rcap-render-worker/Dockerfile',
     inputs: imageInputs,
   },
+
+  imageInputFingerprint,
+  // The commit the fingerprint's tree hashes were taken at. NOT the freeze SHA:
+  // the freeze SHA is the follow-on commit that carries this record, and by the
+  // self-reference rule it cannot appear here. Equivalence, not identity, is the
+  // required relation between the two, and it is machine-checked.
+  imageInputFingerprintBaseSha: fingerprintBaseSha,
+  imageInputEquivalenceRequired: true,
+  imageInputEquivalenceRule:
+    `git diff --quiet ${'{imageInputFingerprintBaseSha}'} HEAD -- ${IMAGE_INPUT_DIFF_PATHS.join(' ')} must exit 0; a commit that changes any image-input path invalidates this fingerprint and requires regeneration.`,
 
   supersedes: [
     { id: 'staging-action-two-migrations', was: 'Apply phases 49 and 50 to staging', reason: 'Phase 50 alone marks every unsponsored job delivery-eligible with no payment check.' },
