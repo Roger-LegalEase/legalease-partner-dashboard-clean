@@ -197,6 +197,19 @@
       "detail": "BLOCKED — lane D/E dependency: the post-order transmission to BCI uses the Ohio Attorney General's 'Sealings and Expungements Request' official form (registry component role bci_transmission, outputStrategy official_pdf_fill). A mandatory official form is not drafted in this lane; the participant instructions describe the step and the official form is lane D/E scope."
     }
   },
+  "dependencies": [
+    {
+      "component": "bci_transmission",
+      "kind": "official_form_dependency",
+      "form": "Sealings and Expungements Request (Ohio Attorney General), registry component role bci_transmission, outputStrategy official_pdf_fill",
+      "issuingBody": "Ohio Attorney General, Bureau of Criminal Investigation",
+      "publishedWhere": "Published by the Ohio Attorney General as the official post-order transmission request form; no copy is committed to this lane and no field map exists in lane C3.",
+      "exactMissingSource": "A verified field map / overlay for the Ohio Attorney General's 'Sealings and Expungements Request' form. Lane C3 holds no committed copy of the form and no field map to fill.",
+      "barsDraftingBecause": "Drafting this component would replicate a mandatory official Ohio Attorney General form. Official-PDF overlay work belongs to lane D/E, and a replica is prohibited outright.",
+      "routeTo": "lane D/E official-PDF overlay, then counsel review",
+      "statement": "Blocked as a custom pleading component: the post-order transmission to BCI uses the Ohio Attorney General's official 'Sealings and Expungements Request' form rather than drafted content. The participant instructions describe the step; the form itself is lane D/E scope."
+    }
+  ],
   "sourceSilences": [
     {
       "field": "config.verificationStatute.citation",
