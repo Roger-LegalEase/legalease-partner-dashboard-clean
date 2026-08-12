@@ -1,19 +1,46 @@
 {
-  "schemaVersion": "rcap-protected-fields/v2",
-  "basis": "ownership determination on the verified binary",
-  "participantFillable": false,
-  "neverPopulated": [
-    "judge",
-    "clerk",
-    "prosecutor",
-    "agency_certification",
-    "hearing_result",
-    "service_completion",
-    "signature",
-    "notarization",
-    "court_disposition",
-    "outside_party_fact"
+  "documentOwnership": "court_issued_caption_only",
+  "wholeDocumentUnwritable": false,
+  "unwritableFields": [
+    {
+      "field": "Court",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "On",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "2",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "2_2",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Reset",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Print",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "payment in full",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Notice",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "ATTY_LABEL",
+      "class": "court_or_agency"
+    }
   ],
-  "wholeDocumentProtected": true,
-  "reason": "documentRole=ORDER is completed by the court or agency, or is a supporting-process asset with generation disabled. No participant fill is produced."
+  "manualFields": [
+    "Division",
+    "Attorney_name"
+  ]
 }
