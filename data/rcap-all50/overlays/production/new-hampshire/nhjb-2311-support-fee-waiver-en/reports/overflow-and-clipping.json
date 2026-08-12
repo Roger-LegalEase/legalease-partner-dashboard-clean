@@ -4,5 +4,18 @@
   "minimumReadableFontSize": 6,
   "shrinkToFitApplied": true,
   "refusedBelowFloor": 0,
-  "findings": []
+  "refusedExceedingFormMaxLength": 1,
+  "refusalsRecorded": 1,
+  "findings": [
+    {
+      "fixture": "boundary",
+      "field": "case number",
+      "check": "refused_exceeds_form_declared_max_length",
+      "reason": "value_exceeds_form_max_length",
+      "declaredMaxLength": 17,
+      "valueLength": 60,
+      "factId": "matter.case_number",
+      "handling": "left blank in the artifact; the form's own limit is not ours to override"
+    }
+  ]
 }

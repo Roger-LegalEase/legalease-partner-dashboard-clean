@@ -4,7 +4,39 @@
   "minimumReadableFontSize": 6,
   "shrinkToFitApplied": true,
   "refusedBelowFloor": 0,
+  "refusedExceedingFormMaxLength": 3,
+  "refusalsRecorded": 3,
   "findings": [
+    {
+      "fixture": "boundary",
+      "field": "case number",
+      "check": "refused_exceeds_form_declared_max_length",
+      "reason": "value_exceeds_form_max_length",
+      "declaredMaxLength": 17,
+      "valueLength": 60,
+      "factId": "matter.case_number",
+      "handling": "left blank in the artifact; the form's own limit is not ours to override"
+    },
+    {
+      "fixture": "boundary",
+      "field": "DefDate",
+      "check": "refused_exceeds_form_declared_max_length",
+      "reason": "value_exceeds_form_max_length",
+      "declaredMaxLength": 18,
+      "valueLength": 66,
+      "factId": "participant.full_legal_name",
+      "handling": "left blank in the artifact; the form's own limit is not ours to override"
+    },
+    {
+      "fixture": "canonical",
+      "field": "DefDate",
+      "check": "refused_exceeds_form_declared_max_length",
+      "reason": "value_exceeds_form_max_length",
+      "declaredMaxLength": 18,
+      "valueLength": 19,
+      "factId": "participant.full_legal_name",
+      "handling": "left blank in the artifact; the form's own limit is not ours to override"
+    },
     {
       "fixture": "boundary",
       "field": "Mailing Address.1",
