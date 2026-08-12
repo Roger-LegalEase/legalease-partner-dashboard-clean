@@ -55,6 +55,38 @@
     }
   },
   "qaProhibitedTerms": ["expungement", "expunge", "sealing", "set aside", "set-aside", "annulment", "vacatur"],
+  "sourceSilences": [
+    {
+      "field": "verificationStatute.citation",
+      "sourceStatement": "The source review does not state a notarization requirement.",
+      "note": "No verification or notarization statute is recorded for the § 13-4051 petition, so config.verificationStatute.citation stays null and the petition carries an ordinary declaration and signature block. The field is not filled from another state's practice.",
+      "counselFlag": "The source review does not state a notarization requirement; confirm with the clerk whether the petition must be notarized."
+    },
+    {
+      "field": "filingFee",
+      "sourceStatement": "Rules: fees, fee waiver, service and notarization are each recorded as not stated in the source review.",
+      "note": "The source records the filing fee as not stated and quotes no figure. No monetary figure appears in the pleading, the participant instructions or the handoff, and the fee field stays null.",
+      "counselFlag": "The source review does not state a filing fee for this petition; confirm the current fee and any fee-waiver option with the clerk of the superior court."
+    },
+    {
+      "field": "feeWaiver",
+      "sourceStatement": "Rules: fees, fee waiver, service and notarization are each recorded as not stated in the source review.",
+      "note": "No fee waiver route is recorded, and none is asserted; the field stays null.",
+      "counselFlag": "The source review does not address a fee waiver; a fee-waiver application applies only when the participant cannot pay the filing fee."
+    },
+    {
+      "field": "serviceNote",
+      "sourceStatement": "Rules: fees, fee waiver, service and notarization are each recorded as not stated in the source review.",
+      "note": "No service requirement is recorded for the § 13-4051 petition, so config.serviceNote stays null, includeCertificateOfService is false and the certificate_of_service component is recorded absent rather than drafted from an unsourced rule.",
+      "counselFlag": "The source review does not state a service requirement for this petition; no certificate of service is included. Confirm any service obligation with the clerk before filing."
+    },
+    {
+      "field": "venue",
+      "sourceStatement": "Venue: Statewide Arizona law; petition in superior court.",
+      "note": "The statute names the superior court but the source states no county venue rule, so no county is asserted as a track constant; the county remains a participant input carried through the caption.",
+      "counselFlag": "The statute names the superior court but the source does not state a county venue rule; confirm the proper county superior court (ordinarily where the arrest, indictment or charge occurred) with the clerk before filing."
+    }
+  ],
   "componentInventory": [
     { "component": "caption", "status": "present", "sectionId": "court_caption", "notes": "Movant-first caption; format not prescribed by the source and flagged for clerk confirmation." },
     { "component": "case_number_block", "status": "present", "sectionId": "case_number_block", "notes": "Docket left as a confirm bracket; participant supplies the case identifiers from the underlying arrest or charge." },
