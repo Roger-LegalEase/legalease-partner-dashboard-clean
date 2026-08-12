@@ -1136,12 +1136,24 @@ async function buildFamily(state, row, mode) {
   const keep = new Set();
   const renderable = mapKind === "acroform" ? bindings.length > 0 : anchors.length > 0;
 
+  // A refusal recorded above has to reach the renderer, or it is only a note.
+  // `finalizeOfficialForm` re-runs D0's binder over whatever census it is
+  // given, so passing the full census re-decided every field this lane had
+  // already withheld -- and D0's descriptor order then bound them to the very
+  // facts the withholding existed to keep out. The independent review found 32
+  // of these: a defendant's SSN box printing a name, an email-of-record box
+  // printing a street address, a bank-account box printing a name. The census
+  // handed to the renderer is therefore narrowed to this lane's own decisions,
+  // as D1A already does.
+  const laneRefusedNames = new Set(bindingRefusals.map((r) => r.field).filter(Boolean));
+  const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name));
+
   if (!noFill && renderable) {
     try {
       const rendered = {};
       for (const [label, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
         const args = mapKind === "acroform"
-          ? { sourceBytes: bytes, expectedSha256: sha, census, facts, explicitMappings,
+          ? { sourceBytes: bytes, expectedSha256: sha, census: renderCensus, facts, explicitMappings,
               captionOnly: ownership === OWNERSHIP.COURT_ORDER, nonFilingNotice: null,
               minFontSize: MIN_READABLE_FONT_SIZE, title: `${state} ${row.document_id}` }
           : { sourceBytes: bytes, expectedSha256: sha, anchors, facts, nonFilingNotice: null,
@@ -1162,7 +1174,7 @@ async function buildFamily(state, row, mode) {
       // Determinism: the same source and the same facts must give the same
       // bytes, or a recorded artifact hash means nothing.
       const second = mapKind === "acroform"
-        ? await finalizeOfficialForm({ sourceBytes: bytes, expectedSha256: sha, census, facts: CANONICAL,
+        ? await finalizeOfficialForm({ sourceBytes: bytes, expectedSha256: sha, census: renderCensus, facts: CANONICAL,
             explicitMappings, captionOnly: ownership === OWNERSHIP.COURT_ORDER, nonFilingNotice: null,
             minFontSize: MIN_READABLE_FONT_SIZE, title: `${state} ${row.document_id}` })
         : await finalizeFlatOverlay({ sourceBytes: bytes, expectedSha256: sha, anchors, facts: CANONICAL,
