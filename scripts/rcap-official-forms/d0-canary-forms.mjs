@@ -267,9 +267,149 @@ export function buildXfaResidueCanary() {
   return Buffer.from(pdf, "latin1");
 }
 
+// Text that must never reach a filed artifact, and text that must always
+// survive to it. Both are asserted by name, so a change in either direction is
+// a test failure rather than a judgement call.
+export const PRINT_FLAG_CANARY = {
+  officialPrintedText: "PETITION FOR EXPUNGEMENT OF ARREST RECORDS",
+  officialPrintedLabel: "Petitioner Name",
+  hiddenHelperText: "The items in this box will NOT print on your form.",
+  noViewHelperText: "Internal routing code QX-7741",
+  resetCaption: "Reset",
+  clearFormCaption: "Clear Form",
+  printCaption: "Print Form",
+  printableFieldName: "petitionerName",
+  hiddenFieldName: "helperNotice",
+  noViewFieldName: "internalRouting"
+};
+
+/**
+ * Canary 5 — a form whose widgets disagree about whether they print.
+ *
+ * Real official forms carry helper text and control buttons that the issuing
+ * authority marked as non-printing, and the D wave's review found them
+ * flattened into filed artifacts: Nebraska's DC-6-7-2 printed "The items in
+ * this box will NOT print on your form." onto a court filing, and eight forms
+ * printed a "Reset" caption. This reproduces that shape.
+ *
+ * The official text drawn into page content is the control: flattening must
+ * never remove it, so a fix that suppresses too much fails here too.
+ */
+export async function buildPrintFlagCanary() {
+  const C = PRINT_FLAG_CANARY;
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([612, 500]);
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+  const form = doc.getForm();
+
+  // Legitimate printed official text: page content, not an annotation. No
+  // flag logic may touch it.
+  page.drawText(C.officialPrintedText, { x: 90, y: 450, size: 12, font: bold });
+  page.drawText(C.officialPrintedLabel, { x: 40, y: 405, size: 8, font });
+  page.drawText("Case No.", { x: 340, y: 405, size: 8, font });
+
+  // The /F entry is set on the widget after it is placed, because pdf-lib
+  // writes its own flags when it adds an annotation to a page.
+  const flag = (field, value) => {
+    for (const w of field.acroField.getWidgets()) w.dict.set(PDFName.of("F"), doc.context.obj(value));
+  };
+
+  // Printable participant fields: Print (4) set, as 99.4% of real text widgets
+  // in the source corpus have it.
+  const name = form.createTextField(C.printableFieldName);
+  name.addToPage(page, { x: 40, y: 385, width: 240, height: 16 });
+  flag(name, 4);
+
+  const caseNo = form.createTextField("caseNumber");
+  caseNo.addToPage(page, { x: 340, y: 385, width: 160, height: 16 });
+  flag(caseNo, 4);
+
+  // A hidden helper: Hidden (2) and Print (4) both set, which is how a form
+  // marks guidance that is visible on screen only. Honoring Print alone would
+  // let this through, so the Hidden bit has to be tested independently.
+  const helper = form.createTextField(C.hiddenFieldName);
+  helper.setText(C.hiddenHelperText);
+  helper.enableMultiline();
+  helper.addToPage(page, { x: 40, y: 300, width: 460, height: 40 });
+  flag(helper, 2 | 4);
+
+  // A NoView field: it prints but is never displayed. Present so the flag test
+  // cannot be reduced to "Print is set".
+  const routing = form.createTextField(C.noViewFieldName);
+  routing.setText(C.noViewHelperText);
+  routing.addToPage(page, { x: 40, y: 270, width: 240, height: 16 });
+  flag(routing, 32 | 4);
+
+  // Control buttons: no /F entry at all, which means zero, which means they do
+  // not print. This is exactly how the Arizona, Nebraska and New Hampshire
+  // forms in the corpus mark theirs.
+  const reset = form.createButton("resetButton");
+  reset.addToPage(C.resetCaption, page, { x: 40, y: 220, width: 72, height: 20, font });
+  for (const w of reset.acroField.getWidgets()) w.dict.delete(PDFName.of("F"));
+
+  const clear = form.createButton("clearFormButton");
+  clear.addToPage(C.clearFormCaption, page, { x: 130, y: 220, width: 90, height: 20, font });
+  for (const w of clear.acroField.getWidgets()) w.dict.delete(PDFName.of("F"));
+
+  const print = form.createButton("printButton");
+  print.addToPage(C.printCaption, page, { x: 240, y: 220, width: 82, height: 20, font });
+  for (const w of print.acroField.getWidgets()) w.dict.set(PDFName.of("F"), doc.context.obj(0));
+
+  finishDeterministically(doc);
+  return doc.save({ useObjectStreams: false });
+}
+
+/**
+ * Canary 6 — a blank source whose widgets carry additional-action JavaScript.
+ *
+ * The contact sheet embeds the blank form beside the finalized one. `embedPdf`
+ * reaches into the source document for what the page references, so an
+ * unsanitized blank carries its /AA and /JS objects into the sheet, where
+ * saving with object streams then hides them from the residue scan. Seven of
+ * the 252 source PDFs in the D packs do exactly this.
+ */
+export async function buildScriptedBlankCanary() {
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([612, 400]);
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const form = doc.getForm();
+  const ctx = doc.context;
+
+  page.drawText("APPLICATION TO SEAL — D0 SCRIPTED BLANK CANARY", { x: 90, y: 350, size: 11, font });
+  page.drawText("Applicant Name", { x: 40, y: 300, size: 8, font });
+
+  const applicant = form.createTextField("applicantName");
+  applicant.addToPage(page, { x: 40, y: 280, width: 260, height: 16 });
+  for (const w of applicant.acroField.getWidgets()) {
+    w.dict.set(PDFName.of("F"), ctx.obj(4));
+    // /AA -> /JS on the widget: the exact shape the review found in 20 sheets.
+    w.dict.set(PDFName.of("AA"), ctx.obj({
+      K: ctx.register(ctx.obj({ S: PDFName.of("JavaScript"), JS: PDFString.of("event.value = event.value.toUpperCase();") })),
+      F: ctx.register(ctx.obj({ S: PDFName.of("JavaScript"), JS: PDFString.of("AFNumber_Format(0,0,0,0,'',true);") }))
+    }));
+  }
+
+  doc.catalog.set(PDFName.of("Names"), ctx.obj({
+    JavaScript: ctx.register(ctx.obj({
+      Names: ctx.obj([PDFString.of("blankCanary"), ctx.register(ctx.obj({
+        S: PDFName.of("JavaScript"), JS: PDFString.of("app.alert('blank canary');")
+      }))])
+    }))
+  }));
+  doc.catalog.set(PDFName.of("OpenAction"), ctx.register(ctx.obj({
+    S: PDFName.of("JavaScript"), JS: PDFString.of("this.print();")
+  })));
+
+  finishDeterministically(doc);
+  return doc.save({ useObjectStreams: false });
+}
+
 export const CANARIES = [
   { id: "acroform", build: buildAcroFormCanary, structuralClass: "acroform" },
   { id: "flat", build: buildFlatOverlayCanary, structuralClass: "flat" },
   { id: "scripted", build: buildScriptedCanary, structuralClass: "acroform" },
-  { id: "xfa-residue", build: async () => buildXfaResidueCanary(), structuralClass: "acroform" }
+  { id: "xfa-residue", build: async () => buildXfaResidueCanary(), structuralClass: "acroform" },
+  { id: "print-flags", build: buildPrintFlagCanary, structuralClass: "acroform" },
+  { id: "scripted-blank", build: buildScriptedBlankCanary, structuralClass: "acroform" }
 ];
