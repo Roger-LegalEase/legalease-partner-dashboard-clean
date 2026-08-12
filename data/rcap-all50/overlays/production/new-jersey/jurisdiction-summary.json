@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-official-forms-jurisdiction-summary/v1",
+  "lane": "D2B",
+  "factoryVersion": "d0-remediated-v1",
+  "jobId": "T-D2B-NJ-production-packet",
+  "jurisdiction": "NJ",
+  "jurisdictionName": "New Jersey",
+  "edition": "Expungement_AI_RCAP_Master_Library_Edition_1",
+  "sourcePack": "RCAP_D_D2_SOURCE_PACK.zip",
+  "sourcePackSha256": "8f7ef41b7077105dc0bc23e7e3963cff88104004db0745012bf76e6b47c14557",
+  "families": [
+    {
+      "familySlug": "cn-10557-en",
+      "documentId": "CN-10557",
+      "language": "EN",
+      "componentRole": "statewide_expungement_kit_multi_component",
+      "documentOwnership": "participant_completed",
+      "structuralClass": "acroform",
+      "status": "implementation_complete_pending_independent_review"
+    },
+    {
+      "familySlug": "background-steps-en",
+      "documentId": "BACKGROUND-STEPS",
+      "language": "EN",
+      "componentRole": "participant_instructions_not_a_filing",
+      "documentOwnership": "instructional_not_a_filing",
+      "structuralClass": "flat",
+      "status": "whole_document_unwritable_by_ownership"
+    }
+  ],
+  "totals": {
+    "fieldsInventoried": 179,
+    "measuredBlanks": 1,
+    "fieldsBound": 5,
+    "valuesWritten": 5,
+    "protectedOrRefused": 175,
+    "unfittable": 0,
+    "contactSheets": 1
+  },
+  "stateHolds": [
+    {
+      "hold": "state_runtime_disabled",
+      "source": "STATES/NJ/STATE_README.md",
+      "value": "runtime_disabled"
+    }
+  ],
+  "statePackFidelity": {
+    "basis": "Edition 1 STATE_MANIFEST.csv is the identity authority. Where the compiled profile's packetGenerator.formInventory records a different sha256 for the same form, the pack manifest wins and the disagreement is recorded here as a state-pack fidelity finding. The profile is not edited by this lane.",
+    "compiledProfile": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+    "legacyPdfEntries": 1,
+    "matchedEditionOneBinaries": 1,
+    "findings": []
+  },
+  "reviewStatus": "qa_review_pending",
+  "buildStatus": "state_built",
+  "note": "Build status and review status are tracked separately. Nothing here is approved for live."
+}

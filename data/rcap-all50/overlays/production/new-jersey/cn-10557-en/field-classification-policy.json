@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-two-gate",
+  "lane": "D2B",
+  "factoryVersion": "d0-remediated-v1",
+  "gates": [
+    {
+      "order": 1,
+      "gate": "D0 typed fail-closed binder",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "note": "Never bypassed, never weakened. Every field starts protected."
+    },
+    {
+      "order": 2,
+      "gate": "lane D2B reviewed mapping table",
+      "note": "A field D0 would write is written only when this lane's table names the exact fact it carries. The table can only subtract."
+    }
+  ],
+  "reviewedFields": {
+    "DefName": "participant.full_legal_name",
+    "DefAddrCity": "participant.city",
+    "DefAddrZip": "participant.zip",
+    "DefPhone": "participant.phone",
+    "origCaseNums": "matter.case_number"
+  },
+  "heldFields": {
+    "DefAddrStr": "descriptor_collision: the field name's 'Def' matches participant.full_legal_name ahead of participant.street_address, and an explicit mapping cannot redirect a descriptor D0 already chose",
+    "DefAddrStr2": "descriptor_collision: same as DefAddrStr",
+    "DefAddrSt": "descriptor_collision: the state field binds participant.full_legal_name",
+    "DefBirthDt": "descriptor_collision: the date-of-birth field binds participant.full_legal_name",
+    "DefAddr2": "address continuation line of unverified meaning; binding the street fact here would duplicate line 1",
+    "DefAddr3": "address continuation line of unverified meaning",
+    "ExpungeCntyName": "descriptor_collision: a county dropdown binding participant.full_legal_name",
+    "SccCntyName": "service recipient (Superior Court Criminal Case Management)",
+    "ProsCntyName": "service recipient (prosecutor)",
+    "ProbCntyName": "service recipient (probation)",
+    "Prob2CntyName": "service recipient (probation)",
+    "FamDivName": "service recipient (Family Division)",
+    "IdbCnty": "service recipient",
+    "ProsAddr2": "service recipient address (prosecutor)",
+    "ProbAddr2": "service recipient address (probation)",
+    "Prob2Addr2": "service recipient address (probation)",
+    "SccAddr2": "service recipient address",
+    "MuniCrtsAddr2": "service recipient address (municipal courts)",
+    "WardenAddr2": "service recipient address (warden)",
+    "SuperintendentAddr2": "service recipient address (superintendent)",
+    "FamDivAddr2": "service recipient address (Family Division)",
+    "arrest1CaseNum": "charge table row not indexable from this field name, so every row would receive the same case number",
+    "arrest2CaseNum": "charge table row not indexable from this field name",
+    "arrest3CaseNum": "charge table row not indexable from this field name",
+    "arrest4CaseNum": "charge table row not indexable from this field name",
+    "arrest5CaseNum": "charge table row not indexable from this field name",
+    "jdgmntDocket1": "money judgment docket, paired with jdgmntAmt1",
+    "jdgmntDocket2": "money judgment docket",
+    "jdgmntDocket3": "money judgment docket",
+    "fjDocketNums": "final judgment dockets, clerk assigned",
+    "oweDocket": "outstanding obligation docket, paired with a money field",
+    "expungDocketNum": "expungement docket, clerk assigned",
+    "ExpungeDocketNum": "expungement docket, clerk assigned"
+  },
+  "explicitMappings": {},
+  "captionOnly": false,
+  "documentAcceptsFill": true,
+  "neverWriteCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing"
+  ]
+}

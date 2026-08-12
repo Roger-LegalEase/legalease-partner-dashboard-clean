@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-holds/v1",
+  "assertion": "Every lifecycle, currentness, legal-design, counsel, adoption and product-scope hold carried by the Edition 1 manifest and STATE_README is preserved. A technically clean render does not clear a hold, and no held form becomes a sellable route because it renders.",
+  "holds": [
+    {
+      "hold": "state_manifest_generation_allowed_no",
+      "source": "STATE_MANIFEST.csv",
+      "value": "no"
+    },
+    {
+      "hold": "edition_1_runtime_disabled",
+      "source": "STATE_MANIFEST.csv",
+      "value": "runtime_disabled"
+    },
+    {
+      "hold": "freshness:candidate_current_source",
+      "source": "STATE_MANIFEST.csv",
+      "value": "candidate_current_source"
+    },
+    {
+      "hold": "source:acquired_2026-08-02",
+      "source": "STATE_MANIFEST.csv",
+      "value": "acquired_2026-08-02"
+    },
+    {
+      "hold": "legal_review_mapping:requires_track-level import mapping",
+      "source": "STATE_MANIFEST.csv",
+      "value": "requires_track-level import mapping"
+    },
+    {
+      "hold": "state_runtime_disabled",
+      "source": "STATES/NJ/STATE_README.md",
+      "value": "runtime_disabled"
+    },
+    {
+      "hold": "f_independent_visual_review_required",
+      "source": "lane D2B status rule"
+    }
+  ],
+  "nonFilingNoticeDetected": null,
+  "findings": [
+    {
+      "check": "declared_field_count_disagrees_with_first_hand_census",
+      "declared": 269,
+      "observed": 179,
+      "note": "The census is the binary's own field list. The manifest count is recorded but not relied on."
+    }
+  ]
+}

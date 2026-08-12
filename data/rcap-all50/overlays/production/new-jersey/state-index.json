@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "rcap-lane-state-index/v1",
+  "lane": "D2B",
+  "factoryVersion": "d0-remediated-v1",
+  "jurisdiction": "NJ",
+  "jurisdictionSlug": "new-jersey",
+  "mergeTarget": [
+    "data/rcap-all50/overlays/production/verified-binary-index.json",
+    "data/rcap-all50/overlays/production/implementation-index.json"
+  ],
+  "mergeNote": "Written lane-scoped on purpose. The captain merges these entries into the two shared indexes at import; this lane never writes them.",
+  "sourcePack": {
+    "name": "RCAP_D_D2_SOURCE_PACK.zip",
+    "releaseTag": "rcap-d-source-packs-2026-08-12",
+    "sha256": "8f7ef41b7077105dc0bc23e7e3963cff88104004db0745012bf76e6b47c14557",
+    "manifestSha256": "75fca7a213c26a88992a93ff4547eed8b5e19dfcedc97474f0c3e35182814e88",
+    "edition": "Expungement_AI_RCAP_Master_Library_Edition_1"
+  },
+  "verifiedBinaries": [
+    {
+      "familySlug": "cn-10557-en",
+      "documentId": "CN-10557",
+      "language": "EN",
+      "sha256": "c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7",
+      "sha256MatchesManifest": true,
+      "structuralClass": "acroform",
+      "renderStrategy": "acroform",
+      "packagePath": "data/rcap-all50/overlays/production/new-jersey/cn-10557-en",
+      "implementationStatus": "implementation_complete_pending_independent_review",
+      "generationAllowed": false,
+      "holds": [
+        "state_manifest_generation_allowed_no",
+        "edition_1_runtime_disabled",
+        "freshness:candidate_current_source",
+        "source:acquired_2026-08-02",
+        "legal_review_mapping:requires_track-level import mapping",
+        "state_runtime_disabled",
+        "f_independent_visual_review_required"
+      ],
+      "findings": [
+        {
+          "check": "declared_field_count_disagrees_with_first_hand_census",
+          "declared": 269,
+          "observed": 179,
+          "note": "The census is the binary's own field list. The manifest count is recorded but not relied on."
+        }
+      ]
+    },
+    {
+      "familySlug": "background-steps-en",
+      "documentId": "BACKGROUND-STEPS",
+      "language": "EN",
+      "sha256": "0da62ed4c9f43f8cf05c02d811eb96a62f5934d3ca9a75b02f9391892b2259d9",
+      "sha256MatchesManifest": true,
+      "structuralClass": "flat",
+      "renderStrategy": "flat_overlay",
+      "packagePath": "data/rcap-all50/overlays/production/new-jersey/background-steps-en",
+      "implementationStatus": "whole_document_unwritable_by_ownership",
+      "generationAllowed": false,
+      "holds": [
+        "state_manifest_generation_allowed_no",
+        "edition_1_runtime_disabled",
+        "freshness:revision_confirmation_required",
+        "source:acquired_2026-08-02",
+        "legal_review_mapping:requires_track-level import mapping",
+        "state_runtime_disabled",
+        "f_independent_visual_review_required"
+      ],
+      "findings": []
+    }
+  ],
+  "totals": {
+    "fieldsInventoried": 179,
+    "measuredBlanks": 1,
+    "fieldsBound": 5,
+    "valuesWritten": 5,
+    "protectedOrRefused": 175,
+    "unfittable": 0,
+    "contactSheets": 1
+  }
+}

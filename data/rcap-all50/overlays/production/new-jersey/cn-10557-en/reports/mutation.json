@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-mutation-suite/v1",
+  "basis": "Each mutation removes one guarantee and confirms the pipeline refuses. No shared D0 module is modified; every mutation is applied to inputs.",
+  "mutations": [
+    {
+      "mutation": "source_byte_perturbed",
+      "expected": "refusal",
+      "refused": true,
+      "message": "source drift: expected c1dd37b5e27bd76ea2330b07f51847c420d359db8f10c0576682e6558d09c5f7, read f1d5a659eb1d7ba23000e8106e"
+    },
+    {
+      "mutation": "non_filing_notice_injected",
+      "expected": "NonFilingHoldError",
+      "held": true,
+      "errorName": "NonFilingHoldError"
+    },
+    {
+      "mutation": "contact_sheet_fed_the_unfilled_source",
+      "expected": "ContactSheetProofError",
+      "refused": true,
+      "errorName": "ContactSheetProofError"
+    },
+    {
+      "mutation": "protected_field_named_through_explicit_mappings",
+      "field": "guiltyFineDt",
+      "expected": "still refused",
+      "refused": true,
+      "reason": "protected_category"
+    },
+    {
+      "mutation": "charge_row_7_requested_with_one_charge_supplied",
+      "expected": "refused",
+      "refused": true,
+      "reason": "repeating_row_without_indexed_fact"
+    },
+    {
+      "mutation": "oversized_value_into_a_40pt_widget",
+      "expected": "refused",
+      "refused": true,
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6
+    }
+  ],
+  "allRefusedAsExpected": true
+}

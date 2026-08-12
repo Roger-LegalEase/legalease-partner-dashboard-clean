@@ -1,0 +1,2124 @@
+{
+  "schemaVersion": "rcap-field-classification/v4-nine-class",
+  "documentOwnership": "participant_completed",
+  "ownershipBasis": "document role, canonical filename, official title and the printed face of the document, re-checked field by field",
+  "classCounts": {
+    "participant": 5,
+    "held_by_lane_review": 33,
+    "protected": 18,
+    "manual": 123
+  },
+  "entries": [
+    {
+      "name": "formPrint",
+      "type": "button",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "formSafeClear",
+      "type": "button",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "DefPhone",
+      "type": "text",
+      "class": "participant",
+      "factId": "participant.phone",
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.phone"
+      },
+      "reason": null
+    },
+    {
+      "name": "DefName",
+      "type": "text",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": null
+    },
+    {
+      "name": "DefAddrStr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "descriptor_collision: same as DefAddrStr"
+    },
+    {
+      "name": "DefAddrCity",
+      "type": "text",
+      "class": "participant",
+      "factId": "participant.city",
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.city"
+      },
+      "reason": null
+    },
+    {
+      "name": "DefAddrSt",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "descriptor_collision: the state field binds participant.full_legal_name"
+    },
+    {
+      "name": "DefAddrZip",
+      "type": "text",
+      "class": "participant",
+      "factId": "participant.zip",
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.zip"
+      },
+      "reason": null
+    },
+    {
+      "name": "arrestOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "arrestOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "arrestStatute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "arrestMuni",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "origCaseNums",
+      "type": "text",
+      "class": "participant",
+      "factId": "matter.case_number",
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": null
+    },
+    {
+      "name": "dismiss",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "dismissDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "dismissOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "dismissOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "dismissPlea",
+      "type": "checkbox",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      "reason": "protected_category:disposition_or_hearing"
+    },
+    {
+      "name": "acquit",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "acquitDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "acquitOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "acquitOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "acquitCrt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "dismissPti",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "dismissPtiDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "dismissPtiOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "dismissPtiOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "dismissCrt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guilty",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "guiltyDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyStatute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "guiltyFinal1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyFinal2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyCrt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyTimeType",
+      "type": "dropdown",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyDocCmpltDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyProbDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "guiltyFineDt",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "money"
+      },
+      "reason": "protected_category:money"
+    },
+    {
+      "name": "contOwe",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "oweDocket",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "outstanding obligation docket, paired with a money field"
+    },
+    {
+      "name": "oweAmt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "cnt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contArrestDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contOffense1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "contOffense2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "contStatute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "contArrestMuni",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contOrigNums",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDismiss",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "contDismissDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDismissOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDsmissOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDismissCrt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDismissPlea",
+      "type": "checkbox",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "disposition_or_hearing"
+      },
+      "reason": "protected_category:disposition_or_hearing"
+    },
+    {
+      "name": "contAcquit",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "contAcquitDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contAcquitOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contAcquitOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contAcquitCrt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDismissPti",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "contDismissPtiDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDismissPtiOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDismissPtiOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contDismissPtiCrt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuilty",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "contGuiltyDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyOff1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyOff2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyStatute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "contGuiltyFinal1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyFinal2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyCrt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyTimeType",
+      "type": "dropdown",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyDocCmpltDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyProbDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "contGuiltyFineDt",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "money"
+      },
+      "reason": "protected_category:money"
+    },
+    {
+      "name": "seek5yrs",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "seek34degree",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "seek5yrsDetails",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "seekJuvNever",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "changeName",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "notaryDay",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "notarization"
+      },
+      "reason": "protected_category:notarization"
+    },
+    {
+      "name": "notaryMnth",
+      "type": "dropdown",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "notarization"
+      },
+      "reason": "protected_category:notarization"
+    },
+    {
+      "name": "notaryYear",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "notarization"
+      },
+      "reason": "protected_category:notarization"
+    },
+    {
+      "name": "DefAddrStr",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "descriptor_collision: the field name's 'Def' matches participant.full_legal_name ahead of participant.street_address, and an explicit mapping cannot redirect a descriptor D0 already chose"
+    },
+    {
+      "name": "DefAddr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "address continuation line of unverified meaning; binding the street fact here would duplicate line 1"
+    },
+    {
+      "name": "DefAddr3",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "address continuation line of unverified meaning"
+    },
+    {
+      "name": "ExpungeCntyName",
+      "type": "dropdown",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "descriptor_collision: a county dropdown binding participant.full_legal_name"
+    },
+    {
+      "name": "orderHearDay",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "orderHearMnth",
+      "type": "dropdown",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "orderHearYr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "hearDay",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "hearMnth",
+      "type": "dropdown",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "hearYr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "hearTime",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "hearTimeM",
+      "type": "dropdown",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "sigHearJdg",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "signature"
+      },
+      "reason": "protected_category:signature"
+    },
+    {
+      "name": "gradDC",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "marijuana",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "cleanSlate",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "DefBirthDt",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "descriptor_collision: the date-of-birth field binds participant.full_legal_name"
+    },
+    {
+      "name": "DefSbiNum",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      "reason": "protected_category:agency"
+    },
+    {
+      "name": "orderFinalDay",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "orderFinalMnth",
+      "type": "dropdown",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "orderFinalYr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "prosCntys",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "MuniCrts",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "PoliceLoc",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      "reason": "protected_category:agency"
+    },
+    {
+      "name": "probDivCntys",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "WardenLoc",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "SuperintendentLoc",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "deputyClerkSCCOCnty",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "clerk"
+      },
+      "reason": "protected_category:clerk"
+    },
+    {
+      "name": "arrest1Dt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "arrest1Statute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "arrest1CaseNum",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "charge table row not indexable from this field name, so every row would receive the same case number"
+    },
+    {
+      "name": "arrest2Dt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "arrest2Statute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "arrest2CaseNum",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "charge table row not indexable from this field name"
+    },
+    {
+      "name": "arrest3Dt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "arrest3Statute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "arrest3CaseNum",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "charge table row not indexable from this field name"
+    },
+    {
+      "name": "arrest4Dt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "arrest4Statute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "arrest4CaseNum",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "charge table row not indexable from this field name"
+    },
+    {
+      "name": "arrest5Dt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "arrest5Statute",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "requires_explicit_mapping",
+        "category": "sensitive_fact"
+      },
+      "reason": "requires_explicit_mapping"
+    },
+    {
+      "name": "arrest5CaseNum",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "charge table row not indexable from this field name"
+    },
+    {
+      "name": "fjDocketNums",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "final judgment dockets, clerk assigned"
+    },
+    {
+      "name": "jdmnt",
+      "type": "checkbox",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      "reason": "non_text_field_type"
+    },
+    {
+      "name": "jdgmntDocket1",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.charges[0].case_number"
+      },
+      "reason": "money judgment docket, paired with jdgmntAmt1"
+    },
+    {
+      "name": "jdgmntAmt1",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "jdgmntDocket2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.charges[1].case_number"
+      },
+      "reason": "money judgment docket"
+    },
+    {
+      "name": "jdgmntAmt2",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "jdgmntDocket3",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.charges[2].case_number"
+      },
+      "reason": "money judgment docket"
+    },
+    {
+      "name": "jdgmntAmt3",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "jdgmntDocket4",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "repeating_row_without_indexed_fact",
+        "category": "charge_row"
+      },
+      "reason": "repeating_row_without_indexed_fact"
+    },
+    {
+      "name": "jdgmntAmt4",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "sigFinalJdg",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "signature"
+      },
+      "reason": "protected_category:signature"
+    },
+    {
+      "name": "CoverLtrDDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "SccCntyName",
+      "type": "dropdown",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "service recipient (Superior Court Criminal Case Management)"
+    },
+    {
+      "name": "SccAddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "SccAddr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "service recipient address"
+    },
+    {
+      "name": "enc",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "CoverLtrEDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "SheriffLoc",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      "reason": "protected_category:agency"
+    },
+    {
+      "name": "SheriffAddrStr",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      "reason": "protected_category:agency"
+    },
+    {
+      "name": "SheriffAddr2",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      "reason": "protected_category:agency"
+    },
+    {
+      "name": "CoverLtrEHearDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "CoverLtrEHearTime",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "expungDocketNum",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "expungement docket, clerk assigned"
+    },
+    {
+      "name": "mailPetition",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "sigNoticeDt",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "signature"
+      },
+      "reason": "protected_category:signature"
+    },
+    {
+      "name": "CoverLtrGDt",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "ProsCntyName",
+      "type": "dropdown",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "service recipient (prosecutor)"
+    },
+    {
+      "name": "ProsAddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "ProsAddr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "service recipient address (prosecutor)"
+    },
+    {
+      "name": "PoliceAddrStr",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      "reason": "protected_category:agency"
+    },
+    {
+      "name": "PoliceAddr2",
+      "type": "text",
+      "class": "protected",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      "reason": "protected_category:agency"
+    },
+    {
+      "name": "ProbCntyName",
+      "type": "dropdown",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "service recipient (probation)"
+    },
+    {
+      "name": "ProbAddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "ProbAddr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "service recipient address (probation)"
+    },
+    {
+      "name": "SuperintendentAddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "SuperintendentAddr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "service recipient address (superintendent)"
+    },
+    {
+      "name": "MuniCrtsAddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "MuniCrtsAddr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "service recipient address (municipal courts)"
+    },
+    {
+      "name": "WardenAddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "WardenAddr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "service recipient address (warden)"
+    },
+    {
+      "name": "Prob2CntyName",
+      "type": "dropdown",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "service recipient (probation)"
+    },
+    {
+      "name": "Prob2AddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "Prob2Addr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "service recipient address (probation)"
+    },
+    {
+      "name": "IdbCnty",
+      "type": "dropdown",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "service recipient"
+    },
+    {
+      "name": "IdbAddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "FamDivName",
+      "type": "dropdown",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.full_legal_name"
+      },
+      "reason": "service recipient (Family Division)"
+    },
+    {
+      "name": "FamDivAddrStr",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    },
+    {
+      "name": "FamDivAddr2",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "participant.street_address"
+      },
+      "reason": "service recipient address (Family Division)"
+    },
+    {
+      "name": "ExpungeDocketNum",
+      "type": "text",
+      "class": "held_by_lane_review",
+      "factId": null,
+      "d0Decision": {
+        "writable": true,
+        "factId": "matter.case_number"
+      },
+      "reason": "expungement docket, clerk assigned"
+    },
+    {
+      "name": "AdminMuniCts",
+      "type": "text",
+      "class": "manual",
+      "factId": null,
+      "d0Decision": {
+        "writable": false,
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      "reason": "no_allowlisted_fact_matches"
+    }
+  ]
+}

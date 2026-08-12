@@ -1,0 +1,421 @@
+{
+  "documentOwnership": "participant_completed",
+  "wholeDocumentUnwritable": false,
+  "unwritableFields": [
+    {
+      "field": "dismissPlea",
+      "class": "protected",
+      "reason": "protected_category:disposition_or_hearing"
+    },
+    {
+      "field": "guiltyFineDt",
+      "class": "protected",
+      "reason": "protected_category:money"
+    },
+    {
+      "field": "contDismissPlea",
+      "class": "protected",
+      "reason": "protected_category:disposition_or_hearing"
+    },
+    {
+      "field": "contGuiltyFineDt",
+      "class": "protected",
+      "reason": "protected_category:money"
+    },
+    {
+      "field": "notaryDay",
+      "class": "protected",
+      "reason": "protected_category:notarization"
+    },
+    {
+      "field": "notaryMnth",
+      "class": "protected",
+      "reason": "protected_category:notarization"
+    },
+    {
+      "field": "notaryYear",
+      "class": "protected",
+      "reason": "protected_category:notarization"
+    },
+    {
+      "field": "sigHearJdg",
+      "class": "protected",
+      "reason": "protected_category:signature"
+    },
+    {
+      "field": "DefSbiNum",
+      "class": "protected",
+      "reason": "protected_category:agency"
+    },
+    {
+      "field": "PoliceLoc",
+      "class": "protected",
+      "reason": "protected_category:agency"
+    },
+    {
+      "field": "deputyClerkSCCOCnty",
+      "class": "protected",
+      "reason": "protected_category:clerk"
+    },
+    {
+      "field": "sigFinalJdg",
+      "class": "protected",
+      "reason": "protected_category:signature"
+    },
+    {
+      "field": "SheriffLoc",
+      "class": "protected",
+      "reason": "protected_category:agency"
+    },
+    {
+      "field": "SheriffAddrStr",
+      "class": "protected",
+      "reason": "protected_category:agency"
+    },
+    {
+      "field": "SheriffAddr2",
+      "class": "protected",
+      "reason": "protected_category:agency"
+    },
+    {
+      "field": "sigNoticeDt",
+      "class": "protected",
+      "reason": "protected_category:signature"
+    },
+    {
+      "field": "PoliceAddrStr",
+      "class": "protected",
+      "reason": "protected_category:agency"
+    },
+    {
+      "field": "PoliceAddr2",
+      "class": "protected",
+      "reason": "protected_category:agency"
+    }
+  ],
+  "heldByLaneReview": [
+    {
+      "field": "DefAddrStr2",
+      "reason": "descriptor_collision: same as DefAddrStr",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "DefAddrSt",
+      "reason": "descriptor_collision: the state field binds participant.full_legal_name",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "oweDocket",
+      "reason": "outstanding obligation docket, paired with a money field",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    },
+    {
+      "field": "DefAddrStr",
+      "reason": "descriptor_collision: the field name's 'Def' matches participant.full_legal_name ahead of participant.street_address, and an explicit mapping cannot redirect a descriptor D0 already chose",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "DefAddr2",
+      "reason": "address continuation line of unverified meaning; binding the street fact here would duplicate line 1",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "DefAddr3",
+      "reason": "address continuation line of unverified meaning",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "ExpungeCntyName",
+      "reason": "descriptor_collision: a county dropdown binding participant.full_legal_name",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "DefBirthDt",
+      "reason": "descriptor_collision: the date-of-birth field binds participant.full_legal_name",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "arrest1CaseNum",
+      "reason": "charge table row not indexable from this field name, so every row would receive the same case number",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    },
+    {
+      "field": "arrest2CaseNum",
+      "reason": "charge table row not indexable from this field name",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    },
+    {
+      "field": "arrest3CaseNum",
+      "reason": "charge table row not indexable from this field name",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    },
+    {
+      "field": "arrest4CaseNum",
+      "reason": "charge table row not indexable from this field name",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    },
+    {
+      "field": "arrest5CaseNum",
+      "reason": "charge table row not indexable from this field name",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    },
+    {
+      "field": "fjDocketNums",
+      "reason": "final judgment dockets, clerk assigned",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    },
+    {
+      "field": "jdgmntDocket1",
+      "reason": "money judgment docket, paired with jdgmntAmt1",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.charges[0].case_number"
+    },
+    {
+      "field": "jdgmntDocket2",
+      "reason": "money judgment docket",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.charges[1].case_number"
+    },
+    {
+      "field": "jdgmntDocket3",
+      "reason": "money judgment docket",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.charges[2].case_number"
+    },
+    {
+      "field": "SccCntyName",
+      "reason": "service recipient (Superior Court Criminal Case Management)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "SccAddr2",
+      "reason": "service recipient address",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "expungDocketNum",
+      "reason": "expungement docket, clerk assigned",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    },
+    {
+      "field": "ProsCntyName",
+      "reason": "service recipient (prosecutor)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "ProsAddr2",
+      "reason": "service recipient address (prosecutor)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "ProbCntyName",
+      "reason": "service recipient (probation)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "ProbAddr2",
+      "reason": "service recipient address (probation)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "SuperintendentAddr2",
+      "reason": "service recipient address (superintendent)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "MuniCrtsAddr2",
+      "reason": "service recipient address (municipal courts)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "WardenAddr2",
+      "reason": "service recipient address (warden)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "Prob2CntyName",
+      "reason": "service recipient (probation)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "Prob2Addr2",
+      "reason": "service recipient address (probation)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "IdbCnty",
+      "reason": "service recipient",
+      "d0WouldHaveWritten": false,
+      "d0FactId": null
+    },
+    {
+      "field": "FamDivName",
+      "reason": "service recipient (Family Division)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.full_legal_name"
+    },
+    {
+      "field": "FamDivAddr2",
+      "reason": "service recipient address (Family Division)",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "participant.street_address"
+    },
+    {
+      "field": "ExpungeDocketNum",
+      "reason": "expungement docket, clerk assigned",
+      "d0WouldHaveWritten": true,
+      "d0FactId": "matter.case_number"
+    }
+  ],
+  "manualFields": [
+    "formPrint",
+    "formSafeClear",
+    "arrestOff1",
+    "arrestOff2",
+    "arrestStatute",
+    "arrestMuni",
+    "dismiss",
+    "dismissDt",
+    "dismissOff1",
+    "dismissOff2",
+    "acquit",
+    "acquitDt",
+    "acquitOff1",
+    "acquitOff2",
+    "acquitCrt",
+    "dismissPti",
+    "dismissPtiDt",
+    "dismissPtiOff1",
+    "dismissPtiOff2",
+    "dismissCrt",
+    "guilty",
+    "guiltyDt",
+    "guiltyOff1",
+    "guiltyOff2",
+    "guiltyStatute",
+    "guiltyFinal1",
+    "guiltyFinal2",
+    "guiltyCrt",
+    "guiltyTimeType",
+    "guiltyDocCmpltDt",
+    "guiltyProbDt",
+    "contOwe",
+    "oweAmt",
+    "cnt",
+    "contArrestDt",
+    "contOffense1",
+    "contOffense2",
+    "contStatute",
+    "contArrestMuni",
+    "contOrigNums",
+    "contDismiss",
+    "contDismissDt",
+    "contDismissOff1",
+    "contDsmissOff2",
+    "contDismissCrt",
+    "contAcquit",
+    "contAcquitDt",
+    "contAcquitOff1",
+    "contAcquitOff2",
+    "contAcquitCrt",
+    "contDismissPti",
+    "contDismissPtiDt",
+    "contDismissPtiOff1",
+    "contDismissPtiOff2",
+    "contDismissPtiCrt",
+    "contGuilty",
+    "contGuiltyDt",
+    "contGuiltyOff1",
+    "contGuiltyOff2",
+    "contGuiltyStatute",
+    "contGuiltyFinal1",
+    "contGuiltyFinal2",
+    "contGuiltyCrt",
+    "contGuiltyTimeType",
+    "contGuiltyDocCmpltDt",
+    "contGuiltyProbDt",
+    "seek5yrs",
+    "seek34degree",
+    "seek5yrsDetails",
+    "seekJuvNever",
+    "changeName",
+    "orderHearDay",
+    "orderHearMnth",
+    "orderHearYr",
+    "hearDay",
+    "hearMnth",
+    "hearYr",
+    "hearTime",
+    "hearTimeM",
+    "gradDC",
+    "marijuana",
+    "cleanSlate",
+    "orderFinalDay",
+    "orderFinalMnth",
+    "orderFinalYr",
+    "prosCntys",
+    "MuniCrts",
+    "probDivCntys",
+    "WardenLoc",
+    "SuperintendentLoc",
+    "arrest1Dt",
+    "arrest1Statute",
+    "arrest2Dt",
+    "arrest2Statute",
+    "arrest3Dt",
+    "arrest3Statute",
+    "arrest4Dt",
+    "arrest4Statute",
+    "arrest5Dt",
+    "arrest5Statute",
+    "jdmnt",
+    "jdgmntAmt1",
+    "jdgmntAmt2",
+    "jdgmntAmt3",
+    "jdgmntDocket4",
+    "jdgmntAmt4",
+    "CoverLtrDDt",
+    "SccAddrStr",
+    "enc",
+    "CoverLtrEDt",
+    "CoverLtrEHearDt",
+    "CoverLtrEHearTime",
+    "mailPetition",
+    "CoverLtrGDt",
+    "ProsAddrStr",
+    "ProbAddrStr",
+    "SuperintendentAddrStr",
+    "MuniCrtsAddrStr",
+    "WardenAddrStr",
+    "Prob2AddrStr",
+    "IdbAddrStr",
+    "FamDivAddrStr",
+    "AdminMuniCts"
+  ]
+}

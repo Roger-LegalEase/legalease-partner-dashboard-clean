@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v3",
+  "assertion": "With no participant facts supplied the renderer writes nothing. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "rendered": true,
+  "valuesWritten": 0,
+  "refusals": [
+    {
+      "field": "DefPhone",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.phone"
+    },
+    {
+      "field": "DefName",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "DefAddrCity",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.city"
+    },
+    {
+      "field": "DefAddrZip",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.zip"
+    },
+    {
+      "field": "origCaseNums",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.case_number"
+    }
+  ],
+  "unwritableFields": [
+    {
+      "field": "dismissPlea",
+      "class": "protected"
+    },
+    {
+      "field": "guiltyFineDt",
+      "class": "protected"
+    },
+    {
+      "field": "contDismissPlea",
+      "class": "protected"
+    },
+    {
+      "field": "contGuiltyFineDt",
+      "class": "protected"
+    },
+    {
+      "field": "notaryDay",
+      "class": "protected"
+    },
+    {
+      "field": "notaryMnth",
+      "class": "protected"
+    },
+    {
+      "field": "notaryYear",
+      "class": "protected"
+    },
+    {
+      "field": "sigHearJdg",
+      "class": "protected"
+    },
+    {
+      "field": "DefSbiNum",
+      "class": "protected"
+    },
+    {
+      "field": "PoliceLoc",
+      "class": "protected"
+    },
+    {
+      "field": "deputyClerkSCCOCnty",
+      "class": "protected"
+    },
+    {
+      "field": "sigFinalJdg",
+      "class": "protected"
+    },
+    {
+      "field": "SheriffLoc",
+      "class": "protected"
+    },
+    {
+      "field": "SheriffAddrStr",
+      "class": "protected"
+    },
+    {
+      "field": "SheriffAddr2",
+      "class": "protected"
+    },
+    {
+      "field": "sigNoticeDt",
+      "class": "protected"
+    },
+    {
+      "field": "PoliceAddrStr",
+      "class": "protected"
+    },
+    {
+      "field": "PoliceAddr2",
+      "class": "protected"
+    }
+  ]
+}
