@@ -163,6 +163,38 @@
       "detail": "File the petition and proposed order in the district court of the county where the arrest information is located; combine same-county arrests, separate counties need separate petitions; the district court filing fee is unresolved and must be confirmed with the clerk."
     }
   },
+  "sourceSilences": [
+    {
+      "field": "config.verificationStatute.citation",
+      "statement": "The source records that the participant signs and verifies the petition but establishes no notarization requirement and identifies no verification statute. The citation is held null rather than filled with a general Oklahoma verification statute that no committed source ties to this petition.",
+      "counselFlag": "The source records that the participant signs and verifies the petition but establishes no notarization requirement and no specific verification statute; confirm the required verification form with counsel before filing.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "config.serviceNote",
+      "statement": "Null because notice under 22 O.S. § 19 is the court's act: the court sets the hearing with 30 days' notice to the prosecuting agency, the arresting agency, OSBI and any other relevant agency. No committed Oklahoma source prescribes any service by the participant, so no service note is stated.",
+      "counselFlag": "Notice is the court's act under 22 O.S. § 19 (hearing set with 30 days' notice to the prosecuting agency, arresting agency, OSBI, and any other relevant agency); the proposed order must identify every agency to which it applies.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "districtCourtFilingFee",
+      "statement": "No committed Oklahoma evidence establishes a district court filing fee for a §§ 18/19/19a petition. OSBI states that a court-record expungement is free and that an arrest-record expungement carries a $150 OSBI processing fee, but neither figure is a court filing fee. No district court amount appears anywhere in the packet and none is rendered.",
+      "counselFlag": "Registry release blocker: the district court filing fee is not established and must not be stated to a participant; OSBI states the court-record expungement is free while an arrest-record expungement carries a $150 OSBI processing fee (cashier's check or money order only).",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "section18CategoryNumbering",
+      "statement": "The enrolled text of 22 O.S. §§ 18 and 19 as amended by Senate Bill 2030 (2026) was not obtained, so the Section 18 paragraph numbering is unverified after three consecutive years of amendments. No paragraph number is asserted anywhere; the eligibility screen runs on the category description instead.",
+      "counselFlag": "Registry build blocker: the enrolled text of 22 O.S. §§ 18 and 19 as amended by Senate Bill 2030 (2026) was not obtained; the Section 18 category numbering is unstable after three consecutive years of amendments, so the eligibility screen runs on the category description, never a paragraph number.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "freeSealingRouteScope",
+      "statement": "Which participants are reached by the SB 2030 sealing-without-petition route is not established, because the enrolled text was not obtained. The scope is left unresolved and screened for before any paid petition, rather than assumed either way.",
+      "counselFlag": "Registry release blocker: before any paid petition, screen whether the participant is reached by the SB 2030 sealing-without-petition route; generating a paid petition for someone entitled to a free route is the specific harm the controlling review warns against.",
+      "counselFlagChannel": "counselFlags"
+    }
+  ],
   "counselNotes": [
     "SB 2030 (2026) enrolled text unread — category screen by description only.",
     "Free-route (sealing without petition) screen must precede any paid petition.",

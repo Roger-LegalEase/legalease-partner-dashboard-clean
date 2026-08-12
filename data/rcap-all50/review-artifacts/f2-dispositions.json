@@ -7,7 +7,12 @@
     "commit": "9c030920c91aea07ecf9d90d669fd26d104e2a86",
     "file": "docs/rcap/review/f2/F2-DISPOSITIONS.json",
     "reviewDate": "2026-08-12",
-    "totals": { "treatmentsReviewed": 13, "technical_approved": 1, "correction_required": 11, "held_on_source_or_design": 1 }
+    "totals": {
+      "treatmentsReviewed": 13,
+      "technical_approved": 1,
+      "correction_required": 11,
+      "held_on_source_or_design": 1
+    }
   },
   "closingOutcomeSemantics": {
     "technical_approved": "eligible for captain integration, subject to runtime wiring, legal-adoption continuity and the final ledger state.",
@@ -18,55 +23,77 @@
     {
       "reviewId": 2,
       "outcome": "technical_approved",
-      "trackKeys": ["AK:ak-sej"],
+      "trackKeys": [
+        "AK:ak-sej"
+      ],
       "note": "AK suspended-entry-of-judgment guidance packet approved by F2; promoted to terminal. Runtime representation is the guidance registry (jurisdiction-level; no compiled pathway exists for this track)."
-    },
+    }
+  ],
+  "supersededClosures": [
     {
       "reviewId": 1,
       "outcome": "correction_required",
-      "trackKeys": ["AK:ak-nonconviction-confidential"],
+      "trackKeys": [
+        "AK:ak-nonconviction-confidential"
+      ],
       "owner": "Terminal B",
       "note": "F2-08: shipped complete_guidance, but the committed AK pathway is a court filing (filingRequired=true, routeType court_filing); the treatment classification must be reconciled with the compiled pathway before acceptance."
     },
     {
       "reviewId": 3,
       "outcome": "correction_required",
-      "trackKeys": ["CA:ca-auto-conviction"],
+      "trackKeys": [
+        "CA:ca-auto-conviction"
+      ],
       "owner": "Terminal B",
       "note": "See F2 findings for treatment 3."
     },
     {
       "reviewId": 4,
       "outcome": "correction_required",
-      "trackKeys": ["IL:il-auto-seal-2028"],
+      "trackKeys": [
+        "IL:il-auto-seal-2028"
+      ],
       "owner": "Terminal B",
       "note": "See F2 findings for treatment 4."
     },
     {
       "reviewId": 5,
       "outcome": "correction_required",
-      "trackKeys": ["MI:mi_auto_misd92"],
+      "trackKeys": [
+        "MI:mi_auto_misd92"
+      ],
       "owner": "Terminal B",
       "note": "F2-01: the packet screens only the MCL 780.621c never-eligible list; the source also excludes assaultive-crime histories from automatic set-aside — the second track-wide screen must reach the participant."
     },
     {
       "reviewId": 6,
       "outcome": "correction_required",
-      "trackKeys": ["MI:mi_auto_misd93"],
+      "trackKeys": [
+        "MI:mi_auto_misd93"
+      ],
       "owner": "Terminal B",
       "note": "Same class as treatment 5 for the 93-day-or-more track."
     },
     {
       "reviewId": 7,
       "outcome": "correction_required",
-      "trackKeys": ["CA:ca-1203-41", "CA:ca-1203-42", "CA:ca-1203-43", "CA:ca-1203-4a", "CA:ca-17b-reduction"],
+      "trackKeys": [
+        "CA:ca-1203-41",
+        "CA:ca-1203-42",
+        "CA:ca-1203-43",
+        "CA:ca-1203-4a",
+        "CA:ca-17b-reduction"
+      ],
       "owner": "Terminal E (with Terminal A for wiring)",
       "note": "F2-07 (no Spanish participant surface), F2-10 (service component absent), F2-19 (checkout prohibition is prose-only at lane level; structurally the route resolver does not sell CA, which the captain records as the load-bearing control)."
     },
     {
       "reviewId": 9,
       "outcome": "correction_required",
-      "trackKeys": ["CA:ca-851-91"],
+      "trackKeys": [
+        "CA:ca-851-91"
+      ],
       "owner": "Terminal E (with Terminal A for wiring)",
       "note": "Same cross-cutting findings as treatment 7, plus the CR-106 proof-of-service dependency."
     },
@@ -80,16 +107,21 @@
     {
       "reviewId": 12,
       "outcome": "correction_required",
-      "trackKeys": ["DE:de_discretionary_family_court"],
+      "trackKeys": [
+        "DE:de_discretionary_family_court"
+      ],
       "owner": "Terminal E",
       "note": "F2-05: the every-charge-disposed-in-Family-Court eligibility premise is not carried by any committed source; the deferral statement must cite committed authority or restate the condition it can support."
     },
     {
       "reviewId": 13,
       "outcome": "correction_required",
-      "trackKeys": ["ME:me-seal-prost"],
+      "trackKeys": [
+        "ME:me-seal-prost"
+      ],
       "owner": "Terminal E",
       "note": "See F2 findings for treatment 13."
     }
-  ]
+  ],
+  "supersededNote": "These closures reviewed the stale lane snapshots (B @ a26eda05, E @ fab28612). The complete B branch (a79eb0a7, all 73 tracks with the F2 corrections applied) and the corrected E branches (rcap-e-ca-corrections @ 78c77afd, rcap-e-de-me-deferral-corrections @ 92dc2abf) superseded the reviewed bytes in window 2026-08-12-w3. Per the refresh directive they do NOT count as review of the current branches; the affected candidates return to pending fresh independent review. The AK:ak-sej technical_approved promotion is expressly preserved."
 }

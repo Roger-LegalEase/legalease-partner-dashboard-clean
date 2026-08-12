@@ -1,0 +1,103 @@
+{
+  "jobId": "T-C-DC-production-packet",
+  "jurisdiction": "DC",
+  "lane": "C2",
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "reusedCodedConfig": "src/lib/record-clearing/dc-config.ts",
+  "trackIds": [
+    "dc_correct_misattributed_arrest",
+    "dc_seal_fugitive",
+    "dc_yra_set_aside"
+  ],
+  "tracks": {
+    "dc_correct_misattributed_arrest": {
+      "status": "pleading_packet_rendered",
+      "reviewStatus": "qa_review_pending",
+      "documentForm": "court_pleading",
+      "componentCount": 18,
+      "presentComponents": 17,
+      "absentComponents": 1,
+      "blockedComponents": [],
+      "recordedSourceSilences": [
+        "verificationStatute.citation",
+        "filingFee",
+        "feeWaiver"
+      ]
+    },
+    "dc_seal_fugitive": {
+      "status": "pleading_packet_rendered",
+      "reviewStatus": "qa_review_pending",
+      "documentForm": "court_pleading",
+      "componentCount": 20,
+      "presentComponents": 18,
+      "absentComponents": 1,
+      "blockedComponents": [
+        {
+          "component": "eligibility_branch_confirmation",
+          "requirement": "required",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "dependencyLane": "Council of the District of Columbia — current applicability of the temporary-law provision and the reverted subsection text"
+        }
+      ],
+      "recordedSourceSilences": [
+        "verificationStatute.citation",
+        "filingFee",
+        "feeWaiver",
+        "waitingPeriod"
+      ],
+      "buildBlocked": true,
+      "buildBlockers": [
+        {
+          "question": "What expires on September 11, 2026, and which subsections of § 16-806 revert.",
+          "affectedElement": "eligibility_branch"
+        }
+      ],
+      "promotionNote": "Promotion past pleading_packet_rendered is withheld until the pinned build blockers are answered."
+    },
+    "dc_yra_set_aside": {
+      "status": "blocked_pleading_dependency_recorded",
+      "reviewStatus": "qa_review_pending",
+      "documentForm": "blocked_pleading",
+      "componentCount": 6,
+      "presentComponents": 1,
+      "absentComponents": 4,
+      "blockedComponents": [
+        {
+          "component": "primary_filing",
+          "requirement": "required",
+          "officialFormId": null,
+          "officialSourceUrl": null,
+          "dependencyLane": "Superior Court of the District of Columbia, Criminal Division — confirmation of form or standing practice, service and response mechanics, and current statutory factors"
+        }
+      ],
+      "recordedSourceSilences": [
+        "verificationStatute.citation",
+        "filingFee",
+        "feeWaiver",
+        "venue"
+      ],
+      "buildBlocked": true,
+      "buildBlockers": [
+        {
+          "question": "Section 24-903(c)(2) factors and current Superior Court practice for YRA set-aside motions.",
+          "affectedElement": "packet_components"
+        },
+        {
+          "question": "Service and response mechanics for a YRA set-aside motion.",
+          "affectedElement": "notice_or_service"
+        },
+        {
+          "question": "Whether the set-aside and the sealing motion are filed together or in sequence.",
+          "affectedElement": "packet_components"
+        },
+        {
+          "question": "Whether the Superior Court has any form or standing practice for these motions.",
+          "affectedElement": "correct_form"
+        }
+      ],
+      "promotionNote": "Promotion past pleading_packet_rendered is withheld until the pinned build blockers are answered."
+    }
+  },
+  "componentCount": 44
+}

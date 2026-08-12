@@ -1,54 +1,59 @@
 {
-  "fixtureId": "ct-decriminalized-negative",
-  "trackId": "ct-decriminalized",
-  "configPath": "data/rcap-all50/pleadings/connecticut/ct-decriminalized/pleading-config.json",
-  "description": "Must fail pleading QA.",
-  "synthetic": true,
-  "partyData": {
-    "petitionerName": "JAMIE Q. SAMPLE",
-    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE TOWN, CT 00000",
-    "otherNamesUsed": ""
+ "fixtureId": "ct-decriminalized-negative",
+ "trackId": "ct-decriminalized",
+ "configPath": "data/rcap-all50/pleadings/connecticut/ct-decriminalized/pleading-config.json",
+ "description": "Must fail pleading QA.",
+ "synthetic": true,
+ "partyData": {
+  "petitionerName": "JAMIE Q. SAMPLE",
+  "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE TOWN, CT 00000",
+  "otherNamesUsed": ""
+ },
+ "caseData": {
+  "courtName": "SUPERIOR COURT, JUDICIAL DISTRICT OF HARTFORD",
+  "judicialDistrictOrGaLocation": "HARTFORD",
+  "countyName": "HARTFORD COUNTY",
+  "docketNumber": "H14M-CR00-0000000",
+  "otn": "0000000000",
+  "judgeName": "HON. EXAMPLE JUDGE",
+  "prosecutorName": "EXAMPLE STATE'S ATTORNEY",
+  "prosecutorPosition": "consents to the petition",
+  "filingDate": "01/01/2026"
+ },
+ "chargeData": {
+  "chargeDescription": "Possession of a controlled substance",
+  "statuteSection": "§ 21a-279(c)",
+  "dispositionDate": "06/12/1998",
+  "arrestDate": "05/01/1998",
+  "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
+ },
+ "eligibilityData": {
+  "screeningAnswers": {
+   "countsOnDocket": "two counts"
   },
-  "caseData": {
-    "courtName": "SUPERIOR COURT, JUDICIAL DISTRICT OF HARTFORD",
-    "judicialDistrictOrGaLocation": "HARTFORD",
-    "countyName": "HARTFORD COUNTY",
-    "docketNumber": "H14M-CR00-0000000",
-    "otn": "0000000000",
-    "judgeName": "HON. EXAMPLE JUDGE",
-    "prosecutorName": "EXAMPLE STATE'S ATTORNEY",
-    "prosecutorPosition": "consents to the petition",
-    "filingDate": "01/01/2026"
-  },
-  "chargeData": {
-    "chargeDescription": "Possession of a controlled substance",
-    "statuteSection": "§ 21a-279(c)",
-    "dispositionDate": "06/12/1998",
-    "arrestDate": "05/01/1998",
-    "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
-  },
-  "eligibilityData": {
-    "screeningAnswers": {
-      "countsOnDocket": "two counts"
-    },
-    "eligibilityBasisLabel": "Eligible — the offense has been decriminalized",
-    "decriminalizationAssertedByLegalEase": true,
-    "additionalFacts": [
-      "The offense of which petitioner was convicted has since been decriminalized within the meaning of C.G.S. § 54-142d.",
-      "No filing fee is required for this petition under C.G.S. § 54-142a(k).",
-      "Petitioner requests erasure and expungement of all records of this conviction.",
-      "The State's Attorney was served with this petition and consents to it.",
-      "The court granted the petition at a hearing held on 02/01/2026 and the records have been destroyed."
-    ]
-  },
-  "protectedFields": {
-    "dateOfBirth": "03/05/1976",
-    "ssnLastFour": "0000",
-    "stateIdNumber": "CT0000000",
-    "sbiNumber": "00000000"
-  },
-  "attachments": [],
-  "productName": "LegalEase RCAP",
-  "shadowMode": true,
-  "expectFailure": "Must fail pleading QA for these reasons, each prohibited for this track: (1) it asserts, as LegalEase's own allegation, that the offense has since been decriminalized — the single thing the scope restriction says LegalEase must never generate, because that is the § 54-142d question and it carries case law; (2) it asserts that no filing fee is required under § 54-142a(k), when whether that fee bar reaches § 54-142d is an open build blocker and no fee statement may be made; (3) it uses the prohibited terms 'erasure' and 'expungement' — the remedy on this track is physical destruction, and the track is separate from the cannabis erasure petition; (4) it fills court name, judicial district, county, docket number, OTN, judge, prosecutor and prosecutor position that no source supplies; (5) it asserts an outside-party act and service completion (the State's Attorney was served and consents) when the source states no service requirement at all; (6) it asserts a hearing outcome and a completed destruction; and (7) it populates protected fields that must stay blank."
+  "eligibilityBasisLabel": "Eligible — the offense has been decriminalized",
+  "decriminalizationAssertedByLegalEase": true,
+  "additionalFacts": [
+   "The offense of which petitioner was convicted has since been decriminalized within the meaning of C.G.S. § 54-142d.",
+   "No filing fee is required for this petition under C.G.S. § 54-142a(k).",
+   "Petitioner requests erasure and expungement of all records of this conviction.",
+   "The State's Attorney was served with this petition and consents to it.",
+   "The court granted the petition at a hearing held on 02/01/2026 and the records have been destroyed."
+  ]
+ },
+ "protectedFields": {
+  "dateOfBirth": "03/05/1976",
+  "ssnLastFour": "0000",
+  "stateIdNumber": "CT0000000",
+  "sbiNumber": "00000000"
+ },
+ "attachments": [],
+ "productName": "LegalEase RCAP",
+ "shadowMode": true,
+ "expectFailure": "Must fail pleading QA for these reasons, each prohibited for this track: (1) it asserts, as LegalEase's own allegation, that the offense has since been decriminalized — the single thing the scope restriction says LegalEase must never generate, because that is the § 54-142d question and it carries case law; (2) it asserts that no filing fee is required under § 54-142a(k), when whether that fee bar reaches § 54-142d is an open build blocker and no fee statement may be made; (3) it uses the prohibited terms 'erasure' and 'expungement' — the remedy on this track is physical destruction, and the track is separate from the cannabis erasure petition; (4) it fills court name, judicial district, county, docket number, OTN, judge, prosecutor and prosecutor position that no source supplies; (5) it asserts an outside-party act and service completion (the State's Attorney was served and consents) when the source states no service requirement at all; (6) it asserts a hearing outcome and a completed destruction; and (7) it populates protected fields that must stay blank.",
+ "expectedSignals": [
+  "protected_case_identifier",
+  "court_finding_asserted"
+ ],
+ "expectedSignalsNote": "Derived by rendering this fixture and recording which invention signals fire. The verifier requires every signal listed here to fire on every run; a fixture that stops tripping them is a regression."
 }

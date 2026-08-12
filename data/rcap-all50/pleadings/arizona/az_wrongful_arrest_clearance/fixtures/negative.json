@@ -1,22 +1,49 @@
 {
   "fixtureId": "az-wrongful-arrest-negative",
-  "description": "Negative fixture: overrides templateGrade to the blocked Grade E value. QA must fail because Grade E (html_replica_or_unverified) output is blocked from any pleading generation.",
+  "fixtureKind": "invented_content_negative",
+  "description": "NEGATIVE FIXTURE — THE CONTENT BELOW IS DELIBERATELY INVENTED AND MUST BE REJECTED. Every clause in eligibilityData.additionalFacts, and every populated field in caseData, asserts something the Arizona sources for this track do not supply. The A.R.S. § 13-4051 source review records fees, fee waiver, service and notarization as 'not stated', states no county venue rule, and leaves the wrongfulness merits to the petitioner's burden at a hearing the judge has not yet held. This fixture nevertheless states a court finding, a hearing outcome, a filing fee, the prosecuting agency's position, completed service, a fabricated Code section and the court's own docket, tracking-number and judge fields. runPleadingQa PASSES content of this kind — it checks relief vocabulary, template grade/lifecycle and the footer, and cannot see invented content — so the verifier's invention and protected-field detectors are what must reject it. The Grade E templateGrade override is retained so the QA gate is exercised as well.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:hearing_outcome",
+    "invention:fee_amount",
+    "invention:prosecutor_position",
+    "invention:service_completed",
+    "invention:unsourced_citation",
+    "protected_field:populated",
+    "qa"
+  ],
   "expectedQaFailureSubstring": "Grade E",
   "configOverrides": {
     "templateGrade": "html_replica_or_unverified"
   },
   "partyData": {
-    "petitionerName": "JOHN DOE"
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "1000 Sample Street, Phoenix, AZ 85003"
   },
   "caseData": {
-    "countyName": "Maricopa"
+    "countyName": "Maricopa",
+    "docketNumber": "CR2023-000123-001",
+    "otn": "AZ0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "175 Sample Courthouse Way, Phoenix, AZ 85003"
   },
   "chargeData": {
     "chargeDescription": "Shoplifting (synthetic sample charge)",
-    "disposition": "Charge dismissed"
+    "disposition": "Charge dismissed",
+    "arrestDate": "02/03/2023",
+    "arrestingAgency": "Sample City Police Department (synthetic)"
   },
   "eligibilityData": {
-    "eligibilityBasisLabel": "wrongful arrest or charge under A.R.S. § 13-4051"
+    "eligibilityBasisLabel": "wrongful arrest or charge under A.R.S. § 13-4051",
+    "additionalFacts": [
+      "INVENTED — court finding the source does not supply: This Court finds that Petitioner was wrongfully arrested and that justice will be served by entry of the notation of clearance.",
+      "INVENTED — hearing outcome the source does not supply: A hearing was held on 03/10/2026, and the Court granted the relief requested in this Petition.",
+      "INVENTED — fee the source records as not stated: Petitioner paid the $89.00 filing fee to the Clerk of the Superior Court at the time of filing.",
+      "INVENTED — prosecuting agency position the source does not supply: The prosecuting agency does not oppose this Petition and has agreed that the notation should be entered.",
+      "INVENTED — service the source does not require and cannot record as done: Service was completed on the prosecuting agency and on each record-holding agency on 03/01/2026.",
+      "INVENTED — fabricated authority: Relief is further authorized by A.R.S. § 13-4051.01, which governs notation of clearance for this category of record.",
+      "INVENTED — protected fields belonging to the court and to outside parties: Petitioner's date of birth: 04/12/1988; Petitioner's social security number: 123-45-6789."
+    ]
   },
   "productName": "LegalEase RCAP",
   "shadowMode": true

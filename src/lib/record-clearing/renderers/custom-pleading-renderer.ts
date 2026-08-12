@@ -15,12 +15,17 @@ export interface PleadingStatute {
  * the correct sovereign, court, and vocabulary.
  */
 export interface PleadingPresentation {
-  /** Caption + proposed-order header party, upper-case (e.g. "COMMONWEALTH OF PENNSYLVANIA"). */
-  sovereignPartyName: string;
-  /** Sentence-case party for the parties block (e.g. "the Commonwealth of Pennsylvania"). */
-  sovereignPartyProper: string;
-  /** Role label under the sovereign in the caption (e.g. "Respondent"). */
-  sovereignRole: string;
+  /**
+   * Caption + proposed-order header party, upper-case (e.g. "COMMONWEALTH OF
+   * PENNSYLVANIA"). Null is a sourced statement that no sovereign party appears
+   * in the caption (ex parte proceedings, e.g. TX Art. 55A applications); it
+   * suppresses the sovereign block and the "v." line rather than rendering.
+   */
+  sovereignPartyName: string | null;
+  /** Sentence-case party for the parties block. Null suppresses the parties line. */
+  sovereignPartyProper: string | null;
+  /** Role label under the sovereign in the caption. Null with a null party suppresses the block. */
+  sovereignRole: string | null;
   /** Movant role noun (e.g. "Petitioner" / "Movant"). */
   movantRole: string;
   /** Filing noun (e.g. "Petition" / "Motion"). */
@@ -33,16 +38,20 @@ export interface PleadingPresentation {
   courtName: string;
   /** Venue descriptor used when usesCounty is false (e.g. "the District of Columbia"). */
   venueDescriptor: string;
-  /** Lead record custodians for the proposed order when usesCounty is false. */
-  recordCustodianLead: string;
+  /**
+   * Lead record custodians for the proposed order when usesCounty is false.
+   * Null renders the bracketed to-be-confirmed placeholder (never the word
+   * "null", never an invented custodian) and records a warning.
+   */
+  recordCustodianLead: string | null;
   /** Verification verb phrase (e.g. "verify" / "declare under penalty of perjury"). */
-  verificationVerb: string;
+  verificationVerb: string | null;
   /** Penalty label appended when a verification statute citation is present. */
-  verificationPenaltyLabel: string;
+  verificationPenaltyLabel: string | null;
   /** Certificate-of-service recipient label (e.g. "the attorney for the Commonwealth"). */
-  serviceRecipientLabel: string;
+  serviceRecipientLabel: string | null;
   /** Certificate-of-service recipient address placeholder. */
-  serviceRecipientAddressLabel: string;
+  serviceRecipientAddressLabel: string | null;
   /** Optional override for the requested-relief action verb (clause (b)). */
   reliefActionVerb?: string;
   /** Optional override for the proposed-order action verb. */
@@ -229,20 +238,27 @@ function buildSections(
   if (pres.divisionLine) captionLines.push(pres.divisionLine);
   // Top party uses a trailing comma, bottom party a trailing period, regardless
   // of which party is listed first (sovereign-first vs movant-first jurisdictions).
-  const sovereignParty = { name: pres.sovereignPartyName, role: pres.sovereignRole };
+  //
+  // A null sovereignPartyName is a sourced statement that no opposing party
+  // appears in this caption (ex parte proceedings). The sovereign block and the
+  // "v." line are suppressed — printing a null, defaulting to another state's
+  // sovereign, or inventing a respondent are all wrong (lane C3 defect report:
+  // 18 rendered documents carried the literal word "null").
+  const partyLinesFor = (party: { name: string; role: string | null }, terminal: "," | ".") =>
+    party.role
+      ? [`${party.name},`, `    ${party.role}${terminal}`]
+      : [`${party.name}${terminal}`];
+  const sovereignParty = pres.sovereignPartyName
+    ? { name: pres.sovereignPartyName, role: pres.sovereignRole }
+    : null;
   const movantParty = { name: petitioner.toUpperCase(), role: movantRole };
-  const topParty = pres.movantFirstInCaption ? movantParty : sovereignParty;
-  const bottomParty = pres.movantFirstInCaption ? sovereignParty : movantParty;
-  captionLines.push(
-    "",
-    `${topParty.name},`,
-    `    ${topParty.role},`,
-    "",
-    "v.",
-    "",
-    `${bottomParty.name},`,
-    `    ${bottomParty.role}.`
-  );
+  if (sovereignParty) {
+    const topParty = pres.movantFirstInCaption ? movantParty : sovereignParty;
+    const bottomParty = pres.movantFirstInCaption ? sovereignParty : movantParty;
+    captionLines.push("", ...partyLinesFor(topParty, ","), "", "v.", "", ...partyLinesFor(bottomParty, "."));
+  } else {
+    captionLines.push("", ...partyLinesFor(movantParty, "."));
+  }
   sections.push({ sectionId: "court_caption", heading: "", text: captionLines.join("\n") });
 
   // Case number block
@@ -292,8 +308,12 @@ function buildSections(
         ? `, whose address is ${partyData.petitionerAddress}.`
         : `. [${movantRole.toUpperCase()} ADDRESS — ADD IF REQUIRED BY LOCAL RULES]`)
   );
-  p += 1;
-  partyLines.push(`${p}. ${pres.sovereignRole} is ${pres.sovereignPartyProper}.`);
+  // Ex parte proceedings have no sovereign party to describe; the line is
+  // suppressed rather than rendered from nulls or invented.
+  if (pres.sovereignRole && pres.sovereignPartyProper) {
+    p += 1;
+    partyLines.push(`${p}. ${pres.sovereignRole} is ${pres.sovereignPartyProper}.`);
+  }
   if (partyData.otherNamesUsed) {
     p += 1;
     partyLines.push(`${p}. ${movantRole} has also been known as: ${partyData.otherNamesUsed}.`);
@@ -351,10 +371,20 @@ function buildSections(
   sections.push({ sectionId: "facts_case_history", heading: "III. FACTS AND CASE HISTORY", text: factLines.join("\n") });
 
   // IV. Eligibility allegations
+  //
+  // A null basis label is a sourced statement that no label exists for this
+  // track; like every other unconfirmed value it renders as a bracketed
+  // merge-field with a warning — never the literal word "null" in an
+  // eligibility allegation (the second escape site in the lane-C3 18-document
+  // defect report).
   const eligLines: string[] = [];
   p += 1;
+  if (!eligibilityData.eligibilityBasisLabel) {
+    warnings.push("Eligibility basis label not provided; the allegation carries a to-be-confirmed placeholder.");
+  }
+  const eligibilityBasis = eligibilityData.eligibilityBasisLabel || "[ELIGIBILITY BASIS TO BE CONFIRMED]";
   eligLines.push(
-    `${p}. ${movantRole} may be eligible for ${config.primaryReliefTerm} on the following basis: ${eligibilityData.eligibilityBasisLabel}.`
+    `${p}. ${movantRole} may be eligible for ${config.primaryReliefTerm} on the following basis: ${eligibilityBasis}.`
   );
   if (eligibilityData.restitutionText) {
     p += 1;
@@ -394,11 +424,18 @@ function buildSections(
   sections.push({ sectionId: "requested_relief", heading: "V. REQUESTED RELIEF", text: reliefLines.join("\n") });
 
   // VI. Verification and signature block
-  const penaltySentence = config.verificationStatute.citation
+  //
+  // Null verification fields are sourced statements that the element does not
+  // exist for this route ("no penalty language is stated", "notarization
+  // recorded as none"). The affected sentence is suppressed; the signature
+  // block always renders.
+  const penaltySentence = config.verificationStatute.citation && pres.verificationPenaltyLabel
     ? ` I understand that false statements herein are made subject to ${pres.verificationPenaltyLabel} under ${config.verificationStatute.citation}.`
     : "";
   const verificationLines = [
-    `I, ${petitioner}, ${pres.verificationVerb} that the statements made in this ${filingNounLower} are true and correct to the best of my knowledge, information, and belief.${penaltySentence}`,
+    ...(pres.verificationVerb
+      ? [`I, ${petitioner}, ${pres.verificationVerb} that the statements made in this ${filingNounLower} are true and correct to the best of my knowledge, information, and belief.${penaltySentence}`]
+      : []),
     "",
     "________________________________",
     petitioner,
@@ -419,9 +456,9 @@ function buildSections(
     const serviceLines = [
       config.serviceNote,
       "",
-      `I certify that on ________________________, I served a copy of this ${filingNoun} upon ${pres.serviceRecipientLabel} at the following address:`,
+      `I certify that on ________________________, I served a copy of this ${filingNoun} upon ${pres.serviceRecipientLabel ?? "[SERVICE RECIPIENT — CONFIRM PER LOCAL PRACTICE]"} at the following address:`,
       "",
-      pres.serviceRecipientAddressLabel,
+      pres.serviceRecipientAddressLabel ?? "[SERVICE RECIPIENT ADDRESS — CONFIRM PER LOCAL PRACTICE]",
       "",
       "Service method: [personal delivery / first-class mail / other as permitted by applicable court rules]",
       "",
@@ -443,15 +480,21 @@ function buildSections(
     const custodianLead = pres.usesCounty
       ? `The Pennsylvania State Police, ${county} County Court of Common Pleas`
       : pres.recordCustodianLead;
+    if (!custodianLead) warnings.push("Record custodian not provided; the proposed order carries a to-be-confirmed placeholder.");
+    const resolvedCustodianLead = custodianLead ?? "[RECORD CUSTODIAN TO BE CONFIRMED]";
     const arrestingAgency = chargeData.arrestingAgency || "[ARRESTING AGENCY]";
-    const custodianClause = custodianLead.includes(arrestingAgency)
-      ? custodianLead
-      : `${custodianLead}, ${arrestingAgency}`;
+    const custodianClause = resolvedCustodianLead.includes(arrestingAgency)
+      ? resolvedCustodianLead
+      : `${resolvedCustodianLead}, ${arrestingAgency}`;
     const orderHeaderLines: string[] = [config.courtCaption];
     if (pres.usesCounty) orderHeaderLines.push(`COUNTY OF ${county.toUpperCase()}`);
-    const orderCaption = pres.movantFirstInCaption
-      ? `${petitioner.toUpperCase()} v. ${pres.sovereignPartyName}`
-      : `${pres.sovereignPartyName} v. ${petitioner.toUpperCase()}`;
+    // An ex parte order header names only the movant — same suppression rule
+    // as the caption.
+    const orderCaption = !pres.sovereignPartyName
+      ? petitioner.toUpperCase()
+      : pres.movantFirstInCaption
+        ? `${petitioner.toUpperCase()} v. ${pres.sovereignPartyName}`
+        : `${pres.sovereignPartyName} v. ${petitioner.toUpperCase()}`;
     const orderLines = [
       ...orderHeaderLines,
       "",

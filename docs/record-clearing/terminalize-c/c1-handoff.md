@@ -8,11 +8,12 @@ shared path between them.
 |---|---|---|---|---|
 | C1 (this session) | `claude/rcap-terminalize-c-pleadings` | 16 | 27 | AR CA CT IA IL IN KY MT TX VT WV |
 | C2 | `claude/rcap-terminalize-c2-pleadings` | 8 | 24 | GA TN DC HI AZ MA ME NC |
-| C3 | `claude/rcap-terminalize-c3-pleadings` | 11 | 22 | NV ND SC ID KS WA NE OH OK VA WI |
+| C3 | `claude/rcap-terminalize-c3-pleadings` | 11 | 21 | NV ND SC ID KS WA NE OH OK VA WI |
 
-Live ledger count for lane C: **35 jobs / 73 tracks**, partitioned with no job
-or path in two sets. (The dispatch's "approximately 72" is the track count; the
-ledger controls and reads 73 across 35 jobs.)
+Live ledger count for lane C: **35 jobs / 72 tracks**, partitioned with no job
+or path in two sets — sum of `trackIds` equals unique `trackIds`, no duplicates
+across jobs. (An earlier revision of this document said 73; that was a
+miscount, and the dispatch's figure was correct.)
 
 ## Partition rule
 

@@ -58,6 +58,26 @@
     }
   },
   "qaProhibitedTerms": ["sealing", "set aside", "set-aside", "annulment", "vacatur"],
+  "sourceSilences": [
+    {
+      "field": "filingFee",
+      "sourceStatement": "Fees: none prescribed for stage one; clerk cost practice is a release-level open question; an HCJDC application fee applies at stage two.",
+      "note": "No fee is prescribed for the stage-one motion and the Judiciary publishes none, so the field stays null and no monetary figure appears in the motion, the participant instructions or the handoff. The stage-two HCJDC application fee is named without a figure because the source quotes none.",
+      "counselFlag": "No fee is prescribed by the statute for the stage-one motion and the Judiciary publishes no filing fee for a motion filed in an existing penal case; clerk cost practice remains a release-level open question — confirm with the clerk."
+    },
+    {
+      "field": "feeWaiver",
+      "sourceStatement": "No fee-waiver form is part of this packet: Haw. R. Penal P. Form B is the companion to the Rule 40 post-conviction petition, not an expungement component.",
+      "note": "The only fee-waiver instrument the source names belongs to a different proceeding, so no fee-waiver route is recorded for this track and the field stays null.",
+      "counselFlag": "No fee-waiver form is part of this packet: Haw. R. Penal P. Form B is the companion to the Rule 40 post-conviction petition, not an expungement component."
+    },
+    {
+      "field": "venue",
+      "sourceStatement": "Venue follows the offence and is a participant input.",
+      "note": "The source fixes no venue as a track constant: the motion is filed in the participant's own existing penal case, in the court that sentenced or convicted them. No court name or circuit is asserted; the caption carries a confirm bracket the participant completes from their own court record.",
+      "counselFlag": "Venue follows the offence and is a participant input, not a track constant; the caption's court name must be confirmed from the participant's own court record."
+    }
+  ],
   "componentInventory": [
     { "component": "caption", "status": "present", "sectionId": "court_caption", "notes": "Filed in the existing penal case; the court name is a confirm bracket because venue follows the offence and is a participant input." },
     { "component": "case_number_block", "status": "present", "sectionId": "case_number_block", "notes": "Case number is read by the participant from their own court record; stays a confirm bracket in canonical output." },

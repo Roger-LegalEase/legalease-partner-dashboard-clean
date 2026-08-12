@@ -168,6 +168,34 @@
       "detail": "Serve the prosecuting attorney first, then file the petition, mandatory proposed order and proof of service with the clerk of the existing criminal case; fee not established — confirm with the clerk."
     }
   },
+  "sourceSilences": [
+    {
+      "field": "config.verificationStatute.citation",
+      "statement": "Chapter 12-60.1 as read at source prescribes no verification or notarization form for a sealing petition and identifies no verification statute. The citation is held null rather than filled with a general oath statute that no committed North Dakota source ties to this petition.",
+      "counselFlag": "North Dakota petition verification: confirm the required verification/notarization form and any applicable statute with counsel; the source does not specify one.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "filingFee",
+      "statement": "No committed North Dakota evidence establishes a filing fee for a Chapter 12-60.1 petition. No amount appears anywhere in the packet and none is rendered; the participant is directed to confirm with the clerk before paying anything.",
+      "counselFlag": "Registry release blocker: the filing fee for a Chapter 12-60.1 petition is not established; the participant must confirm with the clerk before paying anything.",
+      "counselFlagChannel": "counselNotes",
+      "counselFlagChannelReason": "config.counselFlags cannot carry this flag: the verifier requires this track's config to equal the pre-existing runtime export ndConvictionSealingConfig byte for byte (trackId aside), so adding a flag to the config would be the fork that check forbids. The silence is surfaced through the artifact's counselNotes instead."
+    },
+    {
+      "field": "caption.countyAndJudicialDistrict",
+      "statement": "The county and judicial district are case-specific and are not supplied by any committed evidence. They are left as confirm-before-filing values in the caption rather than defaulted to a county, because filing in the wrong district would misdirect the petition.",
+      "counselFlag": "Caption should name the specific county and judicial district and be filed in the existing North Dakota criminal case per local rules; confirm before filing.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "impairedDrivingExclusionBasis",
+      "statement": "N.D.C.C. § 12-60.1-02(2) as read at source does not state the impaired-driving exclusion; it appears only in the North Dakota Courts self-help guides. The statutory basis for the exclusion is left unrecorded rather than attributed to a subsection that does not carry it.",
+      "counselFlag": "Registry release blocker: the impaired-driving exclusion from Chapter 12-60.1 appears only in ND Courts guides, not in § 12-60.1-02(2); confirm the basis before release.",
+      "counselFlagChannel": "counselNotes",
+      "counselFlagChannelReason": "config.counselFlags cannot carry this flag: the verifier requires this track's config to equal the pre-existing runtime export ndConvictionSealingConfig byte for byte (trackId aside), so adding a flag to the config would be the fork that check forbids. The silence is surfaced through the artifact's counselNotes instead."
+    }
+  ],
   "counselNotes": [
     "Registry release blocker: the filing fee for a Chapter 12-60.1 petition is not established; the participant must confirm with the clerk before paying anything.",
     "Registry release blocker: the impaired-driving exclusion from Chapter 12-60.1 appears only in ND Courts guides, not in § 12-60.1-02(2); confirm the basis before release.",

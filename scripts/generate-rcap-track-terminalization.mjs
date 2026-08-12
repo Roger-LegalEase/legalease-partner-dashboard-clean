@@ -38,7 +38,7 @@ const checkOnly = process.argv.includes('--check');
 
 // The integration window this ledger was generated in. Advanced by the captain
 // once per window; deliberately not a wall-clock read so --check is exact.
-const WINDOW_ID = '2026-08-12-w2';
+const WINDOW_ID = '2026-08-12-w3';
 const WINDOW_DATE = '2026-08-12';
 
 const problems = [];

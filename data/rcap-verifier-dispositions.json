@@ -3,8 +3,8 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 109,
-    "wired": 102,
+    "keep_available": 107,
+    "wired": 106,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -1424,6 +1424,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     },
+    "verify-rcap-hard-form-rendered-assertions.mjs": {
+      "disposition": "wired",
+      "reason": "Lane E's corrected-input proof: 43 assertions over the rendered hard-form artifacts (the F2 correction wave). Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
     "verify-rcap-image-input-fingerprint.mjs": {
       "disposition": "keep_available",
       "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails. Not listed in the npm test chain string because package.json is itself an image input and the commit introducing this gate was forbidden from touching image-input paths. Independently recomputes all seven image-input hashes (sha256 for files, git tree hashes for scripts/lib/ and src/), enforces base-to-HEAD image-input equivalence, rejects checkpoint-substitution, algorithm drift, omitted inputs, dirty trees and hand-edited records.",
@@ -1446,6 +1452,12 @@
     "verify-rcap-no-checkout-on-automatic-routes.mjs": {
       "disposition": "wired",
       "reason": "The lane-B invariant made checkable everywhere: no automatic/no-filing route can produce a packet-ready result, open payment, or carry a checkout-declaring compiled rule (the MI rule-11 defect class, found in 57 rules across 14 profiles and corrected in window 2026-08-12-w2). Static sweep + live evaluation sweep + resolver assertions.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-no-null-presentation.mjs": {
+      "disposition": "wired",
+      "reason": "The lane-C3 18-document defect regression: renders every pleading config (pleadings and composed-route components) through the live renderer and fails on any escaped literal null/undefined/NaN, on a null-sovereign caption that still carries a v. line or a borrowed sovereign, and on a null custodian that does not fall back to the bracketed placeholder. Wired blocking with the captain's renderer fix in window 2026-08-12-w3.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     },
@@ -1490,15 +1502,15 @@
       "decidedBy": "recorded_decision"
     },
     "verify-rcap-terminalize-c2.mjs": {
-      "disposition": "keep_available",
-      "reason": "Lane C2's partition contract. Red by design until every C2 jurisdiction lands (tennessee is still in flight); completed jurisdictions are imported as they land per the hour-6 directive. Becomes wired when the partition completes.",
-      "observedStatus": "added_since_audit",
+      "disposition": "wired",
+      "reason": "Lane C2's partition contract, complete at 24 tracks including the previously-missing Tennessee jurisdiction (tip 6b4895f4). Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     },
     "verify-rcap-terminalize-c3.mjs": {
-      "disposition": "keep_available",
-      "reason": "Lane C3's partition contract. Red by design until every C3 jurisdiction lands (wisconsin and the ID/NV/SC renders are still in flight); completed jurisdictions are imported as they land per the hour-6 directive. Becomes wired when the partition completes.",
-      "observedStatus": "added_since_audit",
+      "disposition": "wired",
+      "reason": "Lane C3's partition contract, complete at 21 tracks including the previously-missing Wisconsin jurisdiction with fixture/signal hardening (tip d7fa8e5c). Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     },
     "verify-rcap-worker-publication-workflow.mjs": {

@@ -41,6 +41,7 @@
       "This action presupposes the automatic expunction occurred; where it did not run, the petition tracks apply instead. Cases inside the 180-to-210-day statutory window have not yet matured (outer edge: at least 210 days from final disposition).",
       "Federal record holders and out-of-state agencies are excluded: North Carolina expunction does not reach them.",
       "The participant obtains a right-to-review copy of their own SBI criminal history before the request goes out; LegalEase never sees it.",
+      "Verification: the source records that the participant signs and dates the request and that notarization is not required, and states no verification statute; verificationStatute.citation is left null and the request carries an ordinary signature and date block the sender completes personally.",
       "Fees: none for the request itself; a certificate of verification, where the holder requires one, may carry a clerk's fee.",
       "The record holder's name and mailing address are participant-confirmed against the agency's own published contact details; never guessed.",
       "Self-help ends if the holder refuses or does not respond — a second letter is not the answer and the participant needs a lawyer. Immigration matters: this correspondence should not go out without advice, because expunction can harm an immigration case by destroying record access."
@@ -80,6 +81,26 @@
     ]
   },
   "qaProhibitedTerms": ["expungement", "petition", "pleading", "WHEREFORE", "demand"],
+  "sourceSilences": [
+    {
+      "field": "verificationStatute.citation",
+      "sourceStatement": "Participant signs and dates; notarization none required.",
+      "note": "The source records the sender's signature and date and records notarization as not required, but names no verification statute for a written request to a non-court record holder, so config.verificationStatute.citation stays null and the request carries an ordinary signature and date block. Nothing is sworn.",
+      "counselFlag": "Verification: the source records that the participant signs and dates the request and that notarization is not required, and states no verification statute; verificationStatute.citation is left null and the request carries an ordinary signature and date block the sender completes personally."
+    },
+    {
+      "field": "serviceNote",
+      "sourceStatement": "No notice; no service ('This is correspondence, not a filing').",
+      "note": "No service rule applies to a records-conformity request: the sender posts it to the holder's published address with proof of posting, and no court, prosecutor or opposing party receives notice. config.serviceNote stays null, includeCertificateOfService is false and the certificate_of_service component is recorded absent rather than drafted from a borrowed litigation rule.",
+      "counselFlag": "This is correspondence, not a filing: nothing is filed with a court, no court, prosecutor or opposing party receives notice, and no service rule applies."
+    },
+    {
+      "field": "filingFee",
+      "sourceStatement": "No fee for the request itself (a certificate of verification may carry a clerk's fee).",
+      "note": "Nothing is filed, so there is no filing fee, and the source quotes no figure for the clerk's certificate-of-verification fee that may arise later. The field stays null and no monetary figure appears in the letter, the participant instructions or the handoff; the certificate fee is named without an amount because the source states none.",
+      "counselFlag": "Fees: none for the request itself; a certificate of verification, where the holder requires one, may carry a clerk's fee."
+    }
+  ],
   "componentInventory": [
     { "component": "caption", "status": "absent", "reason": "This is correspondence, not a filing; it seeks no new relief and asks no court for anything. Sender and addressee blocks stand in its place." },
     { "component": "case_number_block", "status": "absent", "reason": "The county and file number are stated in the letter body from the participant's own record; nothing is filed with a court." },

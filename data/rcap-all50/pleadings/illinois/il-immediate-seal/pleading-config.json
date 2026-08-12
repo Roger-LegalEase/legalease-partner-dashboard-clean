@@ -413,5 +413,87 @@
     "profileCoverageNote": "The compiled IL profile records no pathway, question, ordered decision rule, waiting-period rule, exclusion rule or packet-generator entry for il-immediate-seal. Its nine pathways are adult non-conviction expungement, expungement after supervision or qualified probation, adult conviction sealing, cannabis, human-trafficking survivor, felony prostitution, criminal identity theft, juvenile, and Clean Slate automatic sealing. A full-value scan for \"5.2(g)\", \"5.2(c)(3)(A)\" and \"certificate of eligibility\" returns zero hits; the eighteen hits for \"immediate seal\" all belong to the § 5.2(h) human-trafficking survivor route, which is a different track. The profile is used here only for the illustrative caption (sourceSections[25]), the terminology and copy guardrails, the fee and filing narrative, and the statewide-forms mandate recorded as a source conflict.",
     "reviewedAsOf": "2026-07-30"
   },
-  "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass. This Illinois draft packet is a preparation aid, not legal advice and not a final court filing (IL state pack illinoisSafetyDisclaimer)."
+  "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass. This Illinois draft packet is a preparation aid, not legal advice and not a final court filing (IL state pack illinoisSafetyDisclaimer).",
+  "sourceSilences": [
+    {
+      "field": "venue",
+      "nullKeys": [
+        "namedCourt",
+        "namedCounty",
+        "clerkAddress"
+      ],
+      "sourceIsSilentBecause": "No county, no circuit, no courtroom, no clerk address and no judge name is prefilled. The track's generationRequirements do not even collect a county — see counselFlag il-immediate-seal-county-not-collected. IL state pack all50-build-metadata.filingDestinationGuidance[2]: \"Do not invent clerk addresses, agency addresses, local fees, or service rules.\"",
+      "sourceRef": "registry@3b6f4c1:tracks[140].venue; .destination.name (\"Presiding trial judge at the disposition hearing\")"
+    },
+    {
+      "field": "verificationStatute",
+      "nullKeys": [
+        "citation"
+      ],
+      "sourceIsSilentBecause": "The source review states that the participant verifies the petition and that notarization is \"none\", but states no verification statute and no prescribed verification form. Left null and flagged rather than invented, in the same posture the ND config uses for its missing verification statute.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.participantSignature; .rules.notarization; .manualCompletionItems[2] (\"Verification — Petition, verification block — The petition is verified. The participant signs their own verification.\")"
+    },
+    {
+      "field": "eligibilityScope",
+      "nullKeys": [
+        "effectiveTo"
+      ],
+      "sourceIsSilentBecause": "No eligibility conclusion is asserted in any drafted document. The presiding trial judge rules at the hearing.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].recordTypes; .dispositions; .effectiveFrom; .exclusions; .waitingPeriods[0]"
+    },
+    {
+      "field": "presentation.sovereignPartyName",
+      "nullKeys": [
+        "sovereignPartyName"
+      ],
+      "sourceIsSilentBecause": "No source read for this track names the sovereign party or supplies a party-versus-party caption line. The compiled profile's only illustrative Illinois caption (sourceSections[25], an EXP-AD Request example) reads \"IN THE CIRCUIT COURT OF COOK COUNTY, ILLINOIS\" followed directly by the form title and \"Petitioner:\", with no plaintiff/defendant line at all. A full-value scan of the compiled profile for \"People of the State\" and \"PEOPLE\" returns zero hits. Not invented.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.sovereignPartyProper",
+      "nullKeys": [
+        "sovereignPartyProper"
+      ],
+      "sourceIsSilentBecause": "As above. No source read for this track names the sovereign party or supplies a party-versus-party caption line. The compiled profile's only illustrative Illinois caption (sourceSections[25], an EXP-AD Request example) reads \"IN THE CIRCUIT COURT OF COOK COUNTY, ILLINOIS\" followed directly by the form title and \"Petitioner:\", with no plaintiff/defendant line at all. A full-value scan of the compiled profile for \"People of the State\" and \"PEOPLE\" returns zero hits. Not invented.",
+      "sourceRef": null,
+      "resolvedFrom": "presentation.sovereignPartyName"
+    },
+    {
+      "field": "presentation.sovereignRole",
+      "nullKeys": [
+        "sovereignRole"
+      ],
+      "sourceIsSilentBecause": "As above. § 5.2(g)(5)(A) frames the movant as \"the defendant\" in an existing criminal case, which implies an existing criminal caption, but no source read supplies that caption's text.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.recordCustodianLead",
+      "nullKeys": [
+        "recordCustodianLead"
+      ],
+      "sourceIsSilentBecause": "The sources read for this track do not enumerate record custodians for a § 5.2(g) immediate sealing. The § 5.2(d) custodian and notice list (State's Attorney, arresting agency, chief legal officer of the arresting unit of local government, Illinois State Police) appears in the IL state pack filing instructions and in profile sourceSections[10] and [21], but those describe the statewide-suite route that the review says expressly does not govern this track. Not carried across.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.verificationPenaltyLabel",
+      "nullKeys": [
+        "verificationPenaltyLabel"
+      ],
+      "sourceIsSilentBecause": "No penalty language is stated for this verification, and notarization is recorded as \"none\". Not invented.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.serviceRecipientAddressLabel",
+      "nullKeys": [
+        "serviceRecipientAddressLabel"
+      ],
+      "sourceIsSilentBecause": "No address placeholder is rendered. Service is oral and in-person — a copy handed to the State's Attorney in open court — so no mailing address exists to place. No source supplies one.",
+      "sourceRef": null
+    }
+  ],
+  "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
+  "runtimeDefects": [
+    "renderer-null-presentation"
+  ],
+  "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
 }

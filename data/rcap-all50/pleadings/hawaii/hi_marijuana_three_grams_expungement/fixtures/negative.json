@@ -1,22 +1,49 @@
 {
   "fixtureId": "hi-marijuana-negative",
-  "description": "Negative fixture: overrides templateGrade to the blocked Grade E value; QA must fail because Grade E output is blocked from any pleading generation.",
+  "fixtureKind": "invented_content_negative",
+  "description": "NEGATIVE FIXTURE — THE CONTENT BELOW IS DELIBERATELY INVENTED AND MUST BE REJECTED. Every clause in eligibilityData.additionalFacts, and every populated field in caseData, asserts something the Hawaii sources for this track do not supply. Under HRS § 706-622.5(5) the grant is mandatory with quantity as the only proviso, but the quantity finding is the court's and a quantity dispute is a self-help stop condition; whether another charge arose from the same facts is a participant answer, not a judicial determination the packet may recite. The source prescribes no fee for the stage-one motion; Haw. R. Penal P. 49(a) service happens after filing; the prosecuting attorney's position is unknown at filing; and the case number, judge and OTN are read from the participant's own court record. This fixture states all of them anyway, plus a fabricated HRS § 706-622.51. runPleadingQa PASSES content of this kind — it checks relief vocabulary, template grade/lifecycle and the footer, and cannot see invented content — so the verifier's invention and protected-field detectors are what must reject it. The Grade E templateGrade override is retained so the QA gate is exercised as well.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:hearing_outcome",
+    "invention:fee_amount",
+    "invention:prosecutor_position",
+    "invention:service_completed",
+    "invention:unsourced_citation",
+    "protected_field:populated",
+    "qa"
+  ],
   "expectedQaFailureSubstring": "Grade E",
   "configOverrides": {
     "templateGrade": "html_replica_or_unverified"
   },
   "partyData": {
-    "petitionerName": "JOHN DOE"
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "1000 Sample Street, Honolulu, HI 96813"
   },
   "caseData": {
-    "countyName": "the First Circuit (synthetic sample venue)"
+    "countyName": "the First Circuit (synthetic sample venue)",
+    "docketNumber": "1DTC-20-0001234",
+    "otn": "HI0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "777 Sample Courthouse Street, Honolulu, HI 96813"
   },
   "chargeData": {
     "chargeDescription": "Promoting a detrimental drug in the third degree (synthetic)",
-    "disposition": "Convicted; sentence completed (synthetic)"
+    "disposition": "Convicted; sentence completed (synthetic)",
+    "arrestDate": "04/20/2020",
+    "arrestingAgency": "Sample City Police Department (synthetic)"
   },
   "eligibilityData": {
-    "eligibilityBasisLabel": "marijuana expungement under HRS § 706-622.5(5)"
+    "eligibilityBasisLabel": "marijuana expungement under HRS § 706-622.5(5)",
+    "additionalFacts": [
+      "INVENTED — the quantity proviso and the same-facts question decided as findings of the court: This Court finds that the amount of marijuana involved was three grams or less, that no other criminal charge arose from the same facts and circumstances, and that no prior expungement bars this Motion.",
+      "INVENTED — hearing outcome the source does not supply: A hearing was held on 04/02/2026, and the Court entered an order expunging the record of conviction.",
+      "INVENTED — fee the source records as not prescribed for stage one: Defendant paid the $60.00 clerk's fee at the time of filing.",
+      "INVENTED — prosecuting attorney's position, which is unknown at filing: The prosecuting attorney does not oppose this Motion and consents to the expungement.",
+      "INVENTED — service recited as done, when Haw. R. Penal P. 49(a) service follows filing: Service was completed on the prosecuting attorney on 03/15/2026.",
+      "INVENTED — fabricated authority: Relief is further authorized by HRS § 706-622.51, which governs marijuana expungement of three grams or less.",
+      "INVENTED — protected fields belonging to the court and to outside parties: Defendant's date of birth: 04/12/1988; Defendant's social security number: 123-45-6789."
+    ]
   },
   "productName": "LegalEase RCAP",
   "shadowMode": true

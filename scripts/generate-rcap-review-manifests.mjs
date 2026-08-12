@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const checkOnly = process.argv.includes('--check');
 
-const WINDOW_ID = '2026-08-12-w2';
+const WINDOW_ID = '2026-08-12-w3';
 const OUT_DIR = 'data/rcap-all50/review-artifacts';
 const F2_PATH = path.join(OUT_DIR, 'f2-independent-technical-review.json');
 const F3_PATH = path.join(OUT_DIR, 'f3-visual-review.json');
@@ -59,43 +59,55 @@ for (const state of stateDirs.sort()) {
       familyDir: rel,
       ...(fs.existsSync(sourceRecordPath) ? { sourceRecordSha256: sha256(sourceRecordPath) } : {}),
     };
-    if (/no_fill/.test(status)) {
-      reviewExempt.push({ family, state, status, reason: 'No participant fill is performed; the no-fill classification itself is reviewed with the jurisdiction summary.' });
-      continue;
-    }
-    f2Jobs.push({
-      jobId: `F2-D1-${state}-${family}`,
-      lane: 'D1',
-      state,
-      family,
-      implementationStatus: status,
-      holds: indexed?.holds ?? null,
-      evidence,
-      reviewArchetype: 'F-visual-and-field-fidelity',
-      mustVerify: [
-        'every binding writes a writable field and only a writable field',
-        'no protected or court-issued field is populated',
-        'the census and map match the sha-pinned source record',
-        'overflow/clipping report is clean or its exceptions are recorded',
-        'holds recorded on the family remain accurate',
-      ],
-      status: 'pending_independent_review',
-    });
-    const renderedPath = path.join(familyDir, 'reports', 'rendered-artifacts.json');
-    if (fs.existsSync(renderedPath)) {
-      f3Jobs.push({
-        jobId: `F3-D1-${state}-${family}`,
-        lane: 'D1',
-        state,
-        family,
-        renderedArtifacts: `${rel}/reports/rendered-artifacts.json`,
-        renderedArtifactsSha256: sha256(renderedPath),
+    // Window w3: every D1 generated state package is superseded by the D0
+    // form-factory remediation. The packages will be regenerated from the D0
+    // commit by disjoint sessions and enter review as they land; reviewing the
+    // superseded bytes would spend F on artifacts that are already scheduled
+    // for replacement.
+    reviewExempt.push({ family, state, status, reason: 'Superseded pending regeneration from the D0 form factory (claude/rcap-d0-form-factory-remediation @ 03c14f98); enters F2/F3 when the regenerated package lands.' });
+  }
+}
+
+// --- B complete guidance lane (fresh review of the a79eb0a7 branch) ----------
+//
+// The earlier F2 pass reviewed the stale a26eda05 snapshot and does not count
+// as review of the complete branch. One job per state packet file; the
+// already-promoted AK:ak-sej stays promoted and is noted rather than re-queued.
+{
+  const guidanceRoot = path.join(rootDir, 'data/rcap-all50/guidance-packets');
+  const PROMOTED = new Set(['ak-sej']);
+  if (fs.existsSync(guidanceRoot)) {
+    for (const file of fs.readdirSync(guidanceRoot).sort()) {
+      if (!file.endsWith('.json') || file.startsWith('_')) continue;
+      const packetPath = path.join(guidanceRoot, file);
+      const parsed = JSON.parse(fs.readFileSync(packetPath, 'utf8'));
+      const tracks = (parsed.packets || []).map((packet) => packet.trackId);
+      const pending = tracks.filter((trackId) => !PROMOTED.has(trackId));
+      if (pending.length === 0) {
+        reviewExempt.push({ family: file, state: parsed.jurisdiction, status: 'all_tracks_promoted', reason: 'Every track in this packet already carries an F2 technical_approved promotion.' });
+        continue;
+      }
+      f2Jobs.push({
+        jobId: `F2-B-${parsed.jurisdiction}-${file.replace(/\.json$/, '')}`,
+        lane: 'B',
+        state: parsed.jurisdiction,
+        family: file,
+        implementationStatus: 'complete_guidance_pending_fresh_review',
+        holds: null,
+        evidence: { familyDir: `data/rcap-all50/guidance-packets/${file}`, packetSha256: sha256(packetPath) },
+        trackIds: pending,
+        ...(tracks.some((trackId) => PROMOTED.has(trackId))
+          ? { promotedOutOfScope: tracks.filter((trackId) => PROMOTED.has(trackId)) }
+          : {}),
+        reviewArchetype: 'F-plain-language-and-accuracy',
         mustVerify: [
-          'rendered bytes match their recorded hashes',
-          'every populated value sits inside its field box at print size',
-          'no rendered page differs from the official form beyond the populated fields',
+          'legal support: every mechanism claim carries committed authority',
+          'English/Spanish parity, key for key, translation not copy',
+          'payment suppression: paymentAllowed=false and sellable=false and no copy suggests purchase',
+          'useful participant treatment: all eleven elements present and specific, no bare referral',
+          'the F2 correction the earlier pass required for this state is actually applied',
         ],
-        status: 'pending_visual_review',
+        status: 'pending_independent_review',
       });
     }
   }
@@ -186,8 +198,27 @@ for (const state of fs.readdirSync(hardFormsRoot).sort()) {
     const profile = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
     const tier = profile.strategy?.tier || '';
     const rel = `data/rcap-all50/hard-forms/${state}/${family}`;
+    if (tier === 'held_on_source_or_design') {
+      reviewExempt.push({ family, state, status: tier, reason: 'Held on an upstream source/design decision (e.g. CR-106 per-county service recipients); a hold is preserved, not reviewed.' });
+      continue;
+    }
     if (tier === 'exact_supported_deferral') {
-      reviewExempt.push({ family, state, status: tier, reason: 'Deferral treatment; reviewed through the F-deferral-statement-exactness archetype with lane B outputs.' });
+      f2Jobs.push({
+        jobId: `F2-E-${state}-${family}`,
+        lane: 'E',
+        state,
+        family,
+        implementationStatus: 'deferral_corrected_pending_fresh_review',
+        holds: null,
+        evidence: { familyDir: rel, profileSha256: sha256(profilePath) },
+        reviewArchetype: 'F-deferral-statement-exactness',
+        mustVerify: [
+          'every deferral claim quotes a pinned committed carrier (the F2-05 defect class)',
+          'the participant treatment is complete and states the deferral condition exactly',
+          'no payment surface exists on the deferred route',
+        ],
+        status: 'pending_independent_review',
+      });
       continue;
     }
     if (!tier.startsWith('tier_')) continue;

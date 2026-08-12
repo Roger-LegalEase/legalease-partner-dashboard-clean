@@ -1,4 +1,4 @@
-# 497-track terminalization — window 2026-08-12-w2
+# 497-track terminalization — window 2026-08-12-w3
 
 Terminality is a build fact: the participant treatment is complete, routed and
 unconditioned. Counsel review promotion is the separate launch gate.

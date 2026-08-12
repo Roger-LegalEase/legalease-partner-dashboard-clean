@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-c3-jurisdiction-manifest/v1",
+  "jobId": "T-C-NE-production-packet",
+  "jurisdiction": "NE",
+  "jurisdictionSlug": "nebraska",
+  "windowId": "2026-08-12-w1",
+  "lane": "C",
+  "implementationFamily": "controlled_pleading",
+  "outputStrategy": "custom_pleading",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "file": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+  },
+  "trackIds": [
+    "ne-seal-enforcement"
+  ],
+  "partitionNote": "The single Nebraska track is drafted. Neb. Rev. Stat. § 29-3528 authorises the general action to compel compliance on its own terms, so the vehicle is settled. Two unsurveyed items are recorded rather than invented: the service rule for a Nebraska state agency or political subdivision (source silence, no certificate of service drafted) and Nebraska mandamus procedure (component dependency on notice_affidavit).",
+  "tracks": [
+    {
+      "trackId": "ne-seal-enforcement",
+      "legalName": "Action to Compel Compliance With the Criminal History Record Information Act (Neb. Rev. Stat. § 29-3528)",
+      "status": "pleading_packet_rendered",
+      "disposition": "drafted",
+      "componentCount": 11,
+      "blockedComponents": [
+        "notice_affidavit"
+      ],
+      "note": "Civil enforcement action, movant-first caption, respondent is the non-complying officer/agency/political subdivision and is participant-named. Venue is a statutory election the participant makes. Mandamus application, affidavit and alternative writ are not drafted — Nebraska mandamus procedure was not surveyed. No certificate of service: the agency-service rule was not surveyed. Scope limits (private data brokers, federal and out-of-state agencies) are surfaced to the participant before any spend."
+    }
+  ],
+  "summary": {
+    "tracksTotal": 1,
+    "drafted": 1,
+    "blocked": 0
+  }
+}

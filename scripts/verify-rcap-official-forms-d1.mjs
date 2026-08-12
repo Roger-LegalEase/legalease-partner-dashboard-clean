@@ -11,6 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { protectCategoryOf } from "./rcap-official-forms/rcap-field-semantics.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_ROOT = path.join(rootDir, "data/rcap-all50/overlays/production");
@@ -273,10 +274,49 @@ if (fs.existsSync(indexPath)) {
       }
     }
 
+    // --- D0-remediated invariants -------------------------------------------
+    //
+    // Applied only to packages the remediated factory produced. A package from
+    // the previous factory is left under the older rules until its own state
+    // session regenerates it, so this branch can be the base for that work
+    // without turning the whole corpus red first.
+    if (map.factoryVersion === "d0-remediated-v1") {
+      assert(typeof map.bindingBasis === "string" && /typed fail-closed/.test(map.bindingBasis),
+        `${id}: bindings come from the typed fail-closed binder`);
+      assert(Array.isArray(map.bindingRefusals),
+        `${id}: refused bindings are recorded, so protection is auditable`);
+      for (const b of map.bindings ?? []) {
+        const category = protectCategoryOf(b.field);
+        assert(category === null, `${id}: binding on '${b.field}' is not a protected category (${category})`);
+      }
+
+      const proofPath = path.join(dir, "contact-sheet/contact-sheet-proof.json");
+      const sheetPath = path.join(dir, "contact-sheet/blank-vs-filled.pdf");
+      if (fs.existsSync(sheetPath)) {
+        assert(fs.existsSync(proofPath), `${id}: a contact sheet carries the proof that backs it`);
+        if (fs.existsSync(proofPath)) {
+          const proof = readJson(proofPath);
+          assert(proof.allExpectedValuesVisible === true,
+            `${id}: every expected value is visibly present in the finalized artifact`);
+          assert(proof.panelsDiffer === true,
+            `${id}: the blank and filled panels differ`);
+          const canonical = path.join(dir, "fixtures/canonical-filled.pdf");
+          assert(fs.existsSync(canonical) && sha256File(canonical) === proof.finalizedSha256,
+            `${id}: the contact sheet is pinned to the finalized artifact it depicts`);
+        }
+      }
+    }
+
     const scanPath = path.join(dir, "reports/protected-fields-scan.json");
     if (fs.existsSync(scanPath)) {
       const scan = readJson(scanPath);
       assert(scan.pass === true, `${id}: rendered fixture wrote no unwritable field and no placeholder value`);
+      if (map.factoryVersion === "d0-remediated-v1") {
+        assert((scan.activeContentResidue ?? []).length === 0,
+          `${id}: the finalized artifact carries no active-content residue`);
+        assert((scan.valuesWrittenButNotVisible ?? []).length === 0,
+          `${id}: every value the renderer wrote is visible in the artifact`);
+      }
     }
   }
   assert(implemented >= 60, `completed implementation packages present (found ${implemented})`);

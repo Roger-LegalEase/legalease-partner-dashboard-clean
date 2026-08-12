@@ -98,6 +98,47 @@ function extractText(pdfDoc) {
   return chunks.join(" ");
 }
 
+/**
+ * Page text with coordinates, so a bound value can be checked against the
+ * label actually printed above or beside its widget.
+ *
+ * A LiveCycle field name is not evidence of what a column asks for — CR-180's
+ * `Offense1` sits under the printed header "Eligible for reduction to
+ * infraction under Penal Code, § 17(d)(2) (yes or no)". Only geometry settles
+ * it, so text is collected with the x/y from the preceding Td/TD/Tm operator.
+ */
+function extractPositionedText(pdfDoc, pageIndex) {
+  const page = pdfDoc.getPages()[pageIndex];
+  if (!page) return [];
+  const contents = page.node.Contents();
+  if (!contents) return [];
+  const streams = contents instanceof PDFArray
+    ? contents.asArray().map((ref) => page.node.context.lookup(ref))
+    : [contents];
+  const items = [];
+  for (const stream of streams) {
+    if (!stream || typeof stream.getContents !== "function") continue;
+    let raw = Buffer.from(stream.getContents());
+    try { raw = zlib.inflateSync(raw); } catch { /* plain */ }
+    const text = raw.toString("latin1");
+    const re = /([-\d.]+)\s+([-\d.]+)\s+(?:Td|TD)|([-\d.]+)\s+[-\d.]+\s+[-\d.]+\s+[-\d.]+\s+([-\d.]+)\s+([-\d.]+)\s+Tm|\(((?:[^()\\]|\\.)*)\)\s*Tj/g;
+    let m;
+    let x = 0;
+    let y = 0;
+    while ((m = re.exec(text)) !== null) {
+      if (m[1] !== undefined) { x = Number(m[1]); y = Number(m[2]); }
+      else if (m[4] !== undefined) { x = Number(m[4]); y = Number(m[5]); }
+      else if (m[6] !== undefined && m[6].trim()) {
+        items.push({ x, y, text: m[6].replace(/\\([()\\])/g, "$1") });
+      }
+    }
+  }
+  return items;
+}
+
+/** Normalizes for label comparison: lowercase, collapse whitespace, drop punctuation noise. */
+const normLabel = (s) => String(s).toLowerCase().replace(/\\247/g, "§").replace(/[^a-z0-9§()]+/g, " ").trim();
+
 const profiles = findProfiles(HARD_FORMS);
 if (profiles.length === 0) {
   console.error("verify-rcap-hard-form-outputs: no profiles found under data/rcap-all50/hard-forms/");
@@ -109,7 +150,7 @@ for (const profilePath of profiles) {
   const familyDir = path.dirname(profilePath);
   const rel = path.relative(rootDir, familyDir);
 
-  if (profile.strategy?.tier === "exact_supported_deferral" || profile.strategy?.tier === "deliberate_scope_exclusion") {
+  if (["exact_supported_deferral", "deliberate_scope_exclusion", "held_on_source_or_design"].includes(profile.strategy?.tier)) {
     // Non-packet terminal treatments render nothing; their discipline is checked
     // by verify-rcap-hard-form-dispositions.mjs instead.
     continue;
@@ -131,6 +172,115 @@ for (const profilePath of profiles) {
   const protectedSet = new Set(profile.protectedFields || []);
   for (const binding of profile.bindings || []) {
     if (protectedSet.has(binding.field)) failures.push(`${rel}: profile binds protected field ${binding.field}`);
+  }
+
+  // Checkout prohibition has to be a machine-checked fact, not prose in a
+  // handoff. A packet family that renders a filing is not sellable until its
+  // route is wired and independently approved, so the profile must say so in a
+  // field a verifier can read.
+  if (profile.checkoutProhibited !== true) {
+    failures.push(`${rel}: profile does not carry checkoutProhibited: true`);
+  }
+
+  // Participant-facing strings must ship in both languages. Parity is checked
+  // key by key, because an es block that silently omits a key is the same
+  // defect as having no es block at all.
+  const en = profile.participantFacingStrings?.en;
+  const es = profile.participantFacingStrings?.es;
+  if (!en || !es) {
+    failures.push(`${rel}: participantFacingStrings must carry both en and es`);
+  } else {
+    const enKeys = Object.keys(en).sort();
+    const esKeys = Object.keys(es).sort();
+    if (enKeys.join("|") !== esKeys.join("|")) {
+      failures.push(`${rel}: en/es key parity broken (en: ${enKeys.join(",")} | es: ${esKeys.join(",")})`);
+    }
+    for (const k of enKeys) {
+      if (typeof es[k] !== "string" || es[k].trim().length === 0) failures.push(`${rel}: es.${k} is empty`);
+      if (typeof en[k] === "string" && es[k] === en[k]) failures.push(`${rel}: es.${k} is identical to en.${k} — untranslated`);
+    }
+  }
+
+  // Field-census cross-check: a binding must name a field the census carries,
+  // and its declared page must match. A profile that drifts from the census is
+  // binding by name alone, which is how a value lands in the wrong column.
+  const censusPath = path.join(familyDir, "field-census.json");
+  let census = null;
+  if (fs.existsSync(censusPath)) {
+    census = JSON.parse(fs.readFileSync(censusPath, "utf8"));
+    // The label assertions read the SOURCE page text, so the source document is
+    // attached to the census object for the checks below.
+    census.__doc = await PDFDocument.load(sourceBytes, { updateMetadata: false });
+    const byName = new Map((census.fields || []).map((f) => [f.name, f]));
+    for (const binding of profile.bindings || []) {
+      const cf = byName.get(binding.field);
+      if (!cf) {
+        failures.push(`${rel}: binding ${binding.field} is absent from field-census.json`);
+        continue;
+      }
+      if (cf.class === "protected") failures.push(`${rel}: binding ${binding.field} is classified protected in the census`);
+
+      // Column/label assertion. A binding may declare the printed text that
+      // must sit above or beside its widget; the assertion is checked against
+      // the source page's own content stream, so a value cannot be bound into
+      // a column whose header says something else.
+      // Geometric column assertion. Text position is only recoverable where a
+      // page sets absolute Tm matrices; CR-180 emits relative Td offsets that
+      // accumulate from a scaled Tm, so label proximity cannot be computed
+      // there without a full text-state machine. Column identity, however, is
+      // unambiguous from the widget rect: the profile declares which printed
+      // column it believes it fills and at what x the census puts it, and both
+      // must agree. This is the check that catches a value bound into the
+      // neighbouring column under a misleading LiveCycle field name.
+      if (binding.columnCheck) {
+        const want = Number(binding.columnCheck.x);
+        const got = Number((cf.rect || {}).x);
+        if (!Number.isFinite(want) || !Number.isFinite(got) || Math.abs(want - got) > 0.5) {
+          failures.push(
+            `${rel}: binding ${binding.field} declares column "${binding.columnCheck.header}" at x=${want}, census rect is x=${got}`
+          );
+        }
+      }
+
+      if (binding.printedLabelMustContain) {
+        const sourceDoc = census.__doc;
+        const items = sourceDoc ? extractPositionedText(sourceDoc, cf.page ?? 0) : [];
+        const rect = cf.rect || {};
+        // Header text for a table column sits above the widget and overlaps it
+        // horizontally; a row label sits to the left on the same line.
+        // Label placement is not uniform: a table header prints above its
+        // column, while CA identity sublabels ("Last", "First", "Middle",
+        // "Street", "City") print directly BENEATH their boxes. Searching only
+        // upward would fail those honestly-bound fields, so the window covers
+        // both directions and instead tightens horizontally to the widget's own
+        // column.
+        const near = items.filter((it) => {
+          const inColumn = it.x >= rect.x - 12 && it.x <= rect.x + (rect.width || 0) + 12;
+          const vertical = Math.abs(it.y - rect.y) <= 45;
+          const sameLine = Math.abs(it.y - rect.y) <= 6 && it.x < rect.x;
+          return (inColumn && vertical) || sameLine;
+        });
+        const blob = normLabel(near.map((n) => n.text).join(" "));
+        const want = normLabel(binding.printedLabelMustContain);
+        if (!blob.includes(want)) {
+          failures.push(
+            `${rel}: binding ${binding.field} declares printed label "${binding.printedLabelMustContain}" but the text near its rect reads "${blob.slice(0, 120)}"`
+          );
+        }
+      }
+      if (binding.printedLabelMustNotContain) {
+        const sourceDoc = census.__doc;
+        const items = sourceDoc ? extractPositionedText(sourceDoc, cf.page ?? 0) : [];
+        const rect = cf.rect || {};
+        const near = items.filter((it) => it.x >= rect.x - 12 && it.x <= rect.x + (rect.width || 0) + 12 && Math.abs(it.y - rect.y) <= 45);
+        const blob = normLabel(near.map((n) => n.text).join(" "));
+        for (const banned of [].concat(binding.printedLabelMustNotContain)) {
+          if (blob.includes(normLabel(banned))) {
+            failures.push(`${rel}: binding ${binding.field} sits under forbidden printed label "${banned}"`);
+          }
+        }
+      }
+    }
   }
 
   const fixtureDir = path.join(familyDir, "fixtures");

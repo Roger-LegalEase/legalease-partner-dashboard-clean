@@ -37,6 +37,7 @@
       "Venue: file in the BMC division identified by the Standing Order's residence-based venue rule; a person no longer residing in BMC territory files in the division where the most recent eligible record is from. Confirm the division before filing.",
       "Notice and hearings: a preliminary hearing, public notice and a final hearing follow filing per the Standing Order, and the judge may request additional information or documents about the listed cases from the Clerk-Magistrate or the Probation Department.",
       "Service: per the Standing Order; the source states no separate certificate-of-service component, so none is drafted. Confirm service mechanics with the Clerk-Magistrate.",
+      "Verification: the source records the participant's signature as required and notarization as none, and states no verification statute; verificationStatute.citation is left null and the petition carries an ordinary signature and declaration block. Confirm the signature and declaration form with counsel and the Clerk-Magistrate.",
       "Fees: none identified in the review; fee waiver none identified. Confirm with the Clerk-Magistrate.",
       "The good-cause narrative across all listed records is participant-authored through structured prompts against the Pon factors; it must not be drafted for the participant.",
       "Records outside the Boston Municipal Court Department are excluded: this route does not reach District Court, Juvenile Court or Superior Court records.",
@@ -64,23 +65,123 @@
       "recordsScopePhrase": "the criminal records listed on the attached schedule of Boston Municipal Court cases (three or more records from two or more BMC divisions)"
     }
   },
-  "qaProhibitedTerms": ["expungement", "expunge", "expunging", "set aside", "set-aside", "annulment", "vacatur"],
+  "qaProhibitedTerms": [
+    "expungement",
+    "expunge",
+    "expunging",
+    "set aside",
+    "set-aside",
+    "annulment",
+    "vacatur"
+  ],
+  "sourceSilences": [
+    {
+      "field": "verificationStatute.citation",
+      "sourceStatement": "Participant signature required; notarization none.",
+      "note": "The source requires the participant's signature and records notarization as none, but names no verification statute for the consolidated petition, so config.verificationStatute.citation stays null and the petition carries an ordinary signature and declaration block rather than a borrowed statutory form.",
+      "counselFlag": "Verification: the source records the participant's signature as required and notarization as none, and states no verification statute; verificationStatute.citation is left null and the petition carries an ordinary signature and declaration block. Confirm the signature and declaration form with counsel and the Clerk-Magistrate."
+    },
+    {
+      "field": "serviceNote",
+      "sourceStatement": "Service per the Standing Order.",
+      "note": "The source routes service to Amended Standing Order No. 1-09 without stating its mechanics and records no separate certificate-of-service component, so config.serviceNote stays null, includeCertificateOfService is false and the certificate_of_service component is recorded absent rather than drafted from an unsourced rule.",
+      "counselFlag": "Service: per the Standing Order; the source states no separate certificate-of-service component, so none is drafted. Confirm service mechanics with the Clerk-Magistrate."
+    },
+    {
+      "field": "filingFee",
+      "sourceStatement": "Fees none identified.",
+      "note": "The review identifies no fee for the consolidated petition and quotes no figure; the field stays null and no monetary figure appears in the petition, the participant instructions or the handoff.",
+      "counselFlag": "Fees: none identified in the review; fee waiver none identified. Confirm with the Clerk-Magistrate."
+    },
+    {
+      "field": "feeWaiver",
+      "sourceStatement": "Fee waiver none identified.",
+      "note": "No fee-waiver route is identified for the consolidated petition, so none is asserted and the field stays null.",
+      "counselFlag": "Fees: none identified in the review; fee waiver none identified. Confirm with the Clerk-Magistrate."
+    }
+  ],
   "componentInventory": [
-    { "component": "caption", "status": "present", "sectionId": "court_caption", "notes": "BMC division rendered from the participant-supplied division (venue per Standing Order); caption format flagged for Clerk-Magistrate confirmation." },
-    { "component": "case_number_block", "status": "present", "sectionId": "case_number_block", "notes": "Individual docket numbers live on the participant's attached schedule; the docket line stays a confirm bracket." },
-    { "component": "court_party_identity", "status": "present", "sectionId": "parties" },
-    { "component": "title", "status": "present", "sectionId": "document_title" },
-    { "component": "allegations", "status": "present", "sectionId": "facts_case_history", "notes": "Consolidated case history summarized; per-case detail is on the attached schedule." },
-    { "component": "statutory_basis", "status": "present", "sectionId": "statutory_authority" },
-    { "component": "eligibility_allegations", "status": "present", "sectionId": "eligibility_allegations", "notes": "Pon-factor good-cause narrative is participant-authored through structured prompts; fixture text is synthetic sample only." },
-    { "component": "requested_relief", "status": "present", "sectionId": "requested_relief" },
-    { "component": "verification", "status": "present", "sectionId": "verification_signature", "notes": "Signature required; notarization 'none' per source; no verification statute stated." },
-    { "component": "signatures", "status": "present", "sectionId": "verification_signature" },
-    { "component": "proposed_order", "status": "absent", "reason": "The registry packet set defines primary_filing and instructions components only; no proposed-order component is recorded in the source for the consolidated petition." },
-    { "component": "certificate_of_service", "status": "absent", "reason": "Service is 'per the Standing Order' with no certificate component recorded in the source; service mechanics flagged for Clerk-Magistrate confirmation instead of drafting an unsourced certificate." },
-    { "component": "notice_or_affidavit", "status": "absent", "reason": "Preliminary hearing, public notice and final hearing are court-run steps under the Standing Order; no participant notice document is recorded in the source." },
-    { "component": "participant_cover_sheet", "status": "present", "location": "participant-instructions.md" },
-    { "component": "filing_instructions", "status": "present", "location": "participant-instructions.md", "notes": "Registry 'instructions' component." }
+    {
+      "component": "caption",
+      "status": "present",
+      "sectionId": "court_caption",
+      "notes": "BMC division rendered from the participant-supplied division (venue per Standing Order); caption format flagged for Clerk-Magistrate confirmation."
+    },
+    {
+      "component": "case_number_block",
+      "status": "present",
+      "sectionId": "case_number_block",
+      "notes": "Individual docket numbers live on the participant's attached schedule; the docket line stays a confirm bracket."
+    },
+    {
+      "component": "court_party_identity",
+      "status": "present",
+      "sectionId": "parties"
+    },
+    {
+      "component": "title",
+      "status": "present",
+      "sectionId": "document_title"
+    },
+    {
+      "component": "allegations",
+      "status": "present",
+      "sectionId": "facts_case_history",
+      "notes": "Consolidated case history summarized; per-case detail is on the attached schedule."
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "sectionId": "statutory_authority"
+    },
+    {
+      "component": "eligibility_allegations",
+      "status": "present",
+      "sectionId": "eligibility_allegations",
+      "notes": "Pon-factor good-cause narrative is participant-authored through structured prompts; fixture text is synthetic sample only."
+    },
+    {
+      "component": "requested_relief",
+      "status": "present",
+      "sectionId": "requested_relief"
+    },
+    {
+      "component": "verification",
+      "status": "present",
+      "sectionId": "verification_signature",
+      "notes": "Signature required; notarization 'none' per source; no verification statute stated."
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "sectionId": "verification_signature"
+    },
+    {
+      "component": "proposed_order",
+      "status": "absent",
+      "reason": "The registry packet set defines primary_filing and instructions components only; no proposed-order component is recorded in the source for the consolidated petition."
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "absent",
+      "reason": "Service is 'per the Standing Order' with no certificate component recorded in the source; service mechanics flagged for Clerk-Magistrate confirmation instead of drafting an unsourced certificate."
+    },
+    {
+      "component": "notice_or_affidavit",
+      "status": "absent",
+      "reason": "Preliminary hearing, public notice and final hearing are court-run steps under the Standing Order; no participant notice document is recorded in the source."
+    },
+    {
+      "component": "participant_cover_sheet",
+      "status": "present",
+      "location": "participant-instructions.md"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "location": "participant-instructions.md",
+      "notes": "Registry 'instructions' component."
+    }
   ],
   "provenance": {
     "statePackFiles": [
@@ -93,7 +194,7 @@
     ],
     "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
     "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
-    "fingerprint": "1c1b7cb5da7af9833ed388afd878397877c51218feddfe40431b4b75ae800f28",
+    "fingerprint": "5bbfb4a10cb7a269008be6914fe5a36b12d0376099f06b5790e482b0c2d46079",
     "registryAuthority": [
       "G.L. c. 276, § 100C",
       "Boston Municipal Court Department Amended Standing Order No. 1-09",

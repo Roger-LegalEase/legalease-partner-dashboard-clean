@@ -102,23 +102,22 @@ function tokenize(src) {
 // computed from the document's own metrics rather than estimated. A font that
 // does not (a Type0/Identity-H subset) is reported as inexact and its runs are
 // excluded from anchor placement.
-function loadPageFonts(page) {
+function loadFonts(res, ctx) {
   const out = new Map();
-  const res = page.node.Resources?.();
   if (!res) return out;
   let fonts;
   try { fonts = res.lookup(PDFName.of("Font"), PDFDict); } catch { return out; }
   if (!fonts) return out;
   for (const [key, ref] of fonts.entries()) {
     let fd;
-    try { fd = page.node.context.lookup(ref, PDFDict); } catch { continue; }
+    try { fd = ctx.lookup(ref, PDFDict); } catch { continue; }
     if (!fd) continue;
     const subtype = String(fd.get(PDFName.of("Subtype")) ?? "");
     const firstChar = Number(fd.get(PDFName.of("FirstChar"))?.asNumber?.() ?? 0);
     let widths = null;
     try {
       const w = fd.lookupMaybe(PDFName.of("Widths"), PDFArray);
-      if (w) widths = w.asArray().map((n) => Number(page.node.context.lookup(n)?.asNumber?.() ?? n?.asNumber?.() ?? 0));
+      if (w) widths = w.asArray().map((n) => Number(ctx.lookup(n)?.asNumber?.() ?? n?.asNumber?.() ?? 0));
     } catch { /* no widths */ }
     let missingWidth = 0;
     try {
@@ -159,14 +158,25 @@ const mul = (a, b) => [
 // position. Text is grouped into runs so a label split across several Tj
 // operators reads back as one anchor.
 export function extractTextItems(page) {
-  const bytes = contentBytesOf(page);
-  if (bytes.length === 0) return [];
+  return walkContent(contentBytesOf(page), page.node.Resources?.(), page.node.context, [1, 0, 0, 1, 0, 0], 0);
+}
+
+// Flattening a filled form does not inline the value as page text: pdf-lib
+// draws each field's appearance stream as a Form XObject and references it
+// with `Do`. Text inside that XObject is genuinely visible on the page, so a
+// walker that stops at the page's own content stream reports a filled form as
+// empty. Recursing through `Do` is what makes "the value is visibly present"
+// a checkable claim rather than an assumption.
+const MAX_XOBJECT_DEPTH = 12;
+
+function walkContent(bytes, resources, ctx, baseCtm, depth) {
+  if (!bytes || bytes.length === 0) return [];
   const src = Buffer.from(bytes).toString("latin1");
   const tokens = tokenize(src);
 
-  const fonts = loadPageFonts(page);
+  const fonts = loadFonts(resources, ctx);
   const items = [];
-  let ctm = [1, 0, 0, 1, 0, 0];
+  let ctm = baseCtm.slice();
   let font = null;
   const stack = [];
   let tm = [1, 0, 0, 1, 0, 0], tlm = [1, 0, 0, 1, 0, 0];
@@ -228,6 +238,27 @@ export function extractTextItems(page) {
             else if (el.t === "num") tm = mul([1, 0, 0, 1, -el.v / 1000 * fontSize * hScale, 0], tm);
           }
         }
+        break;
+      }
+      case "Do": {
+        if (depth >= MAX_XOBJECT_DEPTH) break;
+        const nameTok = [...operands].reverse().find((o) => o.t === "name");
+        if (!nameTok || !resources) break;
+        try {
+          const xobjects = resources.lookupMaybe(PDFName.of("XObject"), PDFDict);
+          const xo = xobjects ? ctx.lookup(xobjects.get(PDFName.of(nameTok.v))) : null;
+          if (!(xo instanceof PDFRawStream)) break;
+          const dict = xo.dict;
+          if (String(dict.get(PDFName.of("Subtype")) ?? "").replace(/^\//, "") !== "Form") break;
+          // A Form XObject carries its own space: /Matrix maps it into the
+          // current one, and its /Resources shadow the parent's when present.
+          const matrixArr = dict.lookupMaybe(PDFName.of("Matrix"), PDFArray);
+          const matrix = matrixArr
+            ? matrixArr.asArray().map((v) => Number(ctx.lookup(v)?.asNumber?.() ?? v?.asNumber?.() ?? 0))
+            : [1, 0, 0, 1, 0, 0];
+          const inner = dict.lookupMaybe(PDFName.of("Resources"), PDFDict) ?? resources;
+          items.push(...walkContent(decodePDFRawStream(xo).decode(), inner, ctx, mul(matrix, ctm), depth + 1));
+        } catch { /* an unreadable XObject contributes nothing */ }
         break;
       }
       default: break;

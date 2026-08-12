@@ -1,78 +1,83 @@
 {
-  "fixtureId": "il-immediate-seal-negative",
-  "trackId": "il-immediate-seal",
-  "configPath": "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json",
-  "description": "Must fail pleading QA. Every populated value below is either a prohibited term for this track or invention that no source supports.",
-  "synthetic": true,
-  "partyData": {
-    "petitionerName": "JAMIE Q. SAMPLE",
-    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IL 00000",
-    "otherNamesUsed": ""
+ "fixtureId": "il-immediate-seal-negative",
+ "trackId": "il-immediate-seal",
+ "configPath": "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json",
+ "description": "Must fail pleading QA. Every populated value below is either a prohibited term for this track or invention that no source supports.",
+ "synthetic": true,
+ "partyData": {
+  "petitionerName": "JAMIE Q. SAMPLE",
+  "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IL 00000",
+  "otherNamesUsed": ""
+ },
+ "caseData": {
+  "courtName": "IN THE CIRCUIT COURT OF COOK COUNTY, ILLINOIS",
+  "countyName": "COOK",
+  "circuitOrDistrict": "First Municipal District",
+  "courtroom": "Courtroom 101",
+  "docketNumber": "21-CR-118842",
+  "caseNumber": "21-CR-118842",
+  "otn": "0000000000",
+  "judgeName": "HON. EXAMPLE JUDGE",
+  "prosecutorName": "EXAMPLE ASSISTANT STATE'S ATTORNEY",
+  "prosecutorPosition": "no objection",
+  "filingDate": "01/01/2026",
+  "dispositionHearingDate": "01/01/2026"
+ },
+ "chargeData": {
+  "chargeDescription": "Retail theft",
+  "offenseGrade": "Class A misdemeanor",
+  "statuteTitle": "720 ILCS",
+  "statuteSection": "5/16-25",
+  "disposition": "Dismissed with prejudice on 01/01/2026",
+  "dispositionDate": "01/01/2026",
+  "arrestDate": "05/03/2017",
+  "arrestingAgency": "CHICAGO POLICE DEPARTMENT"
+ },
+ "eligibilityData": {
+  "screeningAnswers": {
+   "hasUpcomingDisposition": "No — the case was already disposed of three weeks ago",
+   "isRepresented": "No — the participant has no lawyer and will file this themselves",
+   "offenseDateOnOrAfter2018": "No — the arrest was on 05/03/2017",
+   "dismissalWithPrejudice": "Dismissed without prejudice"
   },
-  "caseData": {
-    "courtName": "IN THE CIRCUIT COURT OF COOK COUNTY, ILLINOIS",
-    "countyName": "COOK",
-    "circuitOrDistrict": "First Municipal District",
-    "courtroom": "Courtroom 101",
-    "docketNumber": "21-CR-118842",
-    "caseNumber": "21-CR-118842",
-    "otn": "0000000000",
-    "judgeName": "HON. EXAMPLE JUDGE",
-    "prosecutorName": "EXAMPLE ASSISTANT STATE'S ATTORNEY",
-    "prosecutorPosition": "no objection",
-    "filingDate": "01/01/2026",
-    "dispositionHearingDate": "01/01/2026"
-  },
-  "chargeData": {
-    "chargeDescription": "Retail theft",
-    "offenseGrade": "Class A misdemeanor",
-    "statuteTitle": "720 ILCS",
-    "statuteSection": "5/16-25",
-    "disposition": "Dismissed with prejudice on 01/01/2026",
-    "dispositionDate": "01/01/2026",
-    "arrestDate": "05/03/2017",
-    "arrestingAgency": "CHICAGO POLICE DEPARTMENT"
-  },
-  "eligibilityData": {
-    "screeningAnswers": {
-      "hasUpcomingDisposition": "No — the case was already disposed of three weeks ago",
-      "isRepresented": "No — the participant has no lawyer and will file this themselves",
-      "offenseDateOnOrAfter2018": "No — the arrest was on 05/03/2017",
-      "dismissalWithPrejudice": "Dismissed without prejudice"
-    },
-    "recordType": "conviction",
-    "eligibilityBasisLabel": "Eligible — confirmed for immediate expungement",
-    "waitingPeriodText": "None. The participant may file at any time after the hearing.",
-    "additionalFacts": [
-      "The Petitioner is eligible to have this record expunged and the court must grant this petition.",
-      "The Assistant State's Attorney was served with a copy of this petition and has no objection.",
-      "The presiding judge granted the petition in open court and the records have been sealed and destroyed.",
-      "The filing fee of $136 was paid to the Circuit Clerk of Cook County.",
-      "This record will also be sealed automatically under the Clean Slate Act, so no further action is needed.",
-      "Counsel has reviewed and adopted this petition."
-    ]
-  },
-  "protectedFields": {
-    "dateOfBirth": "07/22/1992",
-    "ssnLastFour": "0000",
-    "stateIdNumber": "IL0000000",
-    "iuclidOrIrNumber": "IR0000000",
-    "fbiNumber": "000000AA0"
-  },
-  "outsidePartyFields": {
-    "prosecutorPosition": "no objection",
-    "counselSignature": "/s/ EXAMPLE PUBLIC DEFENDER",
-    "counselName": "EXAMPLE PUBLIC DEFENDER",
-    "counselArdcNumber": "0000000",
-    "serviceCompletion": "Served in open court on 01/01/2026",
-    "judgeSignature": "/s/ HON. EXAMPLE JUDGE",
-    "hearingOutcome": "GRANTED"
-  },
-  "attachments": [
-    "Certificate of Service by Circuit Clerk",
-    "Notice of Filing served on the State's Attorney, the arresting agency, the chief legal officer and the Illinois State Police"
-  ],
-  "productName": "LegalEase RCAP",
-  "shadowMode": true,
-  "expectFailure": "Must fail pleading QA. (1) Prohibited vocabulary: it says \"expunged\" and \"immediate expungement\" — this is a sealing track, and the IL state pack states that expungement and sealing are not interchangeable; it also says the records were \"destroyed\", which is expungement language and is asserted of a sealing remedy. (2) Prohibited invention of court identity: court name, county, district, courtroom, docket number, case number, OTN and judge name are filled, and this track collects none of them in screening. (3) Prohibited invention of prosecutor position and outside-party acts: it names the Assistant State's Attorney and asserts \"no objection\", asserts that service was completed in open court, and asserts counsel's review, adoption and signature — all outside-party acts LegalEase never asserts, and counsel's signature is a required manual completion item. (4) Prohibited hearing outcome: it asserts the judge granted the petition and signs the judge's name on the proposed order, which must be an empty-outcome instrument. (5) Prohibited fee: it states a $136 figure; no statewide fee schedule exists, the source review states no fee for this route, and county fee figures are an open release blocker. (6) Prohibited eligibility conclusion: \"Eligible — confirmed\" and \"the court must grant this petition\"; the presiding trial judge rules and no packet asserts a conclusion. (7) Contradicts every screening gate on the track at once: the case was already disposed of three weeks ago (the window is the same hearing), the participant is unrepresented (the route is attorney-mediated under § 5.2(g)(5)(A) and referral is the default), the arrest predates January 1, 2018 (an express exclusion), the dismissal was without prejudice (an express exclusion), and the record type is a conviction rather than an arrest or a charge not initiated by arrest. (8) Prohibited timing statement: \"the participant may file at any time after the hearing\" inverts the rule and violates the scope restriction against telling the participant they may self-file after leaving court. (9) Prohibited Clean Slate promise: automatic sealing does not begin until January 1, 2029 and the agent must not tell a user their record will be sealed automatically before then. (10) Protected fields populated: date of birth, SSN, state ID, IR number and FBI number must stay blank. (11) Wrong-suite attachments: the Certificate of Service by Circuit Clerk and the Notice of Filing belong to the § 5.2(d) statewide suite, which expressly does not govern this track; service here is a copy handed to the State's Attorney in open court and to no one else."
+  "recordType": "conviction",
+  "eligibilityBasisLabel": "Eligible — confirmed for immediate expungement",
+  "waitingPeriodText": "None. The participant may file at any time after the hearing.",
+  "additionalFacts": [
+   "The Petitioner is eligible to have this record expunged and the court must grant this petition.",
+   "The Assistant State's Attorney was served with a copy of this petition and has no objection.",
+   "The presiding judge granted the petition in open court and the records have been sealed and destroyed.",
+   "The filing fee of $136 was paid to the Circuit Clerk of Cook County.",
+   "This record will also be sealed automatically under the Clean Slate Act, so no further action is needed.",
+   "Counsel has reviewed and adopted this petition."
+  ]
+ },
+ "protectedFields": {
+  "dateOfBirth": "07/22/1992",
+  "ssnLastFour": "0000",
+  "stateIdNumber": "IL0000000",
+  "iuclidOrIrNumber": "IR0000000",
+  "fbiNumber": "000000AA0"
+ },
+ "outsidePartyFields": {
+  "prosecutorPosition": "no objection",
+  "counselSignature": "/s/ EXAMPLE PUBLIC DEFENDER",
+  "counselName": "EXAMPLE PUBLIC DEFENDER",
+  "counselArdcNumber": "0000000",
+  "serviceCompletion": "Served in open court on 01/01/2026",
+  "judgeSignature": "/s/ HON. EXAMPLE JUDGE",
+  "hearingOutcome": "GRANTED"
+ },
+ "attachments": [
+  "Certificate of Service by Circuit Clerk",
+  "Notice of Filing served on the State's Attorney, the arresting agency, the chief legal officer and the Illinois State Police"
+ ],
+ "productName": "LegalEase RCAP",
+ "shadowMode": true,
+ "expectFailure": "Must fail pleading QA. (1) Prohibited vocabulary: it says \"expunged\" and \"immediate expungement\" — this is a sealing track, and the IL state pack states that expungement and sealing are not interchangeable; it also says the records were \"destroyed\", which is expungement language and is asserted of a sealing remedy. (2) Prohibited invention of court identity: court name, county, district, courtroom, docket number, case number, OTN and judge name are filled, and this track collects none of them in screening. (3) Prohibited invention of prosecutor position and outside-party acts: it names the Assistant State's Attorney and asserts \"no objection\", asserts that service was completed in open court, and asserts counsel's review, adoption and signature — all outside-party acts LegalEase never asserts, and counsel's signature is a required manual completion item. (4) Prohibited hearing outcome: it asserts the judge granted the petition and signs the judge's name on the proposed order, which must be an empty-outcome instrument. (5) Prohibited fee: it states a $136 figure; no statewide fee schedule exists, the source review states no fee for this route, and county fee figures are an open release blocker. (6) Prohibited eligibility conclusion: \"Eligible — confirmed\" and \"the court must grant this petition\"; the presiding trial judge rules and no packet asserts a conclusion. (7) Contradicts every screening gate on the track at once: the case was already disposed of three weeks ago (the window is the same hearing), the participant is unrepresented (the route is attorney-mediated under § 5.2(g)(5)(A) and referral is the default), the arrest predates January 1, 2018 (an express exclusion), the dismissal was without prejudice (an express exclusion), and the record type is a conviction rather than an arrest or a charge not initiated by arrest. (8) Prohibited timing statement: \"the participant may file at any time after the hearing\" inverts the rule and violates the scope restriction against telling the participant they may self-file after leaving court. (9) Prohibited Clean Slate promise: automatic sealing does not begin until January 1, 2029 and the agent must not tell a user their record will be sealed automatically before then. (10) Protected fields populated: date of birth, SSN, state ID, IR number and FBI number must stay blank. (11) Wrong-suite attachments: the Certificate of Service by Circuit Clerk and the Notice of Filing belong to the § 5.2(d) statewide suite, which expressly does not govern this track; service here is a copy handed to the State's Attorney in open court and to no one else.",
+ "expectedSignals": [
+  "protected_case_identifier",
+  "unstated_fee_asserted"
+ ],
+ "expectedSignalsNote": "Derived by rendering this fixture and recording which invention signals fire. The verifier requires every signal listed here to fire on every run; a fixture that stops tripping them is a regression."
 }

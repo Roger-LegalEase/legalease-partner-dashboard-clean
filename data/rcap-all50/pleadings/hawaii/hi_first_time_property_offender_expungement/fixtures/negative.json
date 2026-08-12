@@ -1,22 +1,49 @@
 {
   "fixtureId": "hi-property-offender-negative",
-  "description": "Negative fixture: overrides templateGrade to the blocked Grade E value; QA must fail because Grade E output is blocked from any pleading generation.",
+  "fixtureKind": "invented_content_negative",
+  "description": "NEGATIVE FIXTURE — THE CONTENT BELOW IS DELIBERATELY INVENTED AND MUST BE REJECTED. Every clause in eligibilityData.additionalFacts, and every populated field in caseData, asserts something the Hawaii sources for this track do not supply. HRS § 706-622.9(4) relief is not automatic: two of the four provisos are findings the court makes, and the substance-abuse-treatment fallback is a discretionary grant. The source prescribes no fee for the stage-one motion and the Judiciary publishes none; Haw. R. Penal P. 49(a) service happens after filing, so a stage-one motion can never recite it as done; the prosecuting attorney's position is unknown at filing; and the case number, judge and OTN are read from the participant's own court record, not asserted by the packet. This fixture states all of them anyway, plus a fabricated HRS § 706-622.95. runPleadingQa PASSES content of this kind — it checks relief vocabulary, template grade/lifecycle and the footer, and cannot see invented content — so the verifier's invention and protected-field detectors are what must reject it. The Grade E templateGrade override is retained so the QA gate is exercised as well.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:hearing_outcome",
+    "invention:fee_amount",
+    "invention:prosecutor_position",
+    "invention:service_completed",
+    "invention:unsourced_citation",
+    "protected_field:populated",
+    "qa"
+  ],
   "expectedQaFailureSubstring": "Grade E",
   "configOverrides": {
     "templateGrade": "html_replica_or_unverified"
   },
   "partyData": {
-    "petitionerName": "JOHN DOE"
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "1000 Sample Street, Honolulu, HI 96813"
   },
   "caseData": {
-    "countyName": "the First Circuit (synthetic sample venue)"
+    "countyName": "the First Circuit (synthetic sample venue)",
+    "docketNumber": "1FC-21-0000456",
+    "otn": "HI0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "777 Sample Courthouse Street, Honolulu, HI 96813"
   },
   "chargeData": {
     "chargeDescription": "Theft in the fourth degree (synthetic)",
-    "disposition": "Convicted; sentence completed (synthetic)"
+    "disposition": "Convicted; sentence completed (synthetic)",
+    "arrestDate": "01/10/2021",
+    "arrestingAgency": "Sample City Police Department (synthetic)"
   },
   "eligibilityData": {
-    "eligibilityBasisLabel": "first-time property offender expungement under HRS § 706-622.9"
+    "eligibilityBasisLabel": "first-time property offender expungement under HRS § 706-622.9",
+    "additionalFacts": [
+      "INVENTED — statutory findings only the court can make, and the discretionary fallback presented as settled: This Court finds that Defendant is a first-time property offender, that each of the provisos in paragraphs (a) through (d) is satisfied, and that Defendant successfully completed a substance abuse treatment program, so expungement is automatic.",
+      "INVENTED — hearing outcome the source does not supply: A hearing was held on 04/02/2026, and the Court granted this Motion.",
+      "INVENTED — fee the source records as not prescribed for stage one: Defendant paid the $100.00 filing fee to the clerk of the sentencing court at the time of filing.",
+      "INVENTED — prosecuting attorney's position, which is unknown at filing: The prosecuting attorney has no objection to this Motion and consents to the expungement.",
+      "INVENTED — service recited as done, when Haw. R. Penal P. 49(a) service follows filing: Service was completed on the prosecuting attorney on 03/15/2026.",
+      "INVENTED — fabricated authority: Relief is further authorized by HRS § 706-622.95, which governs first-time property offender expungement.",
+      "INVENTED — protected fields belonging to the court and to outside parties: Defendant's date of birth: 04/12/1988; Defendant's social security number: 123-45-6789."
+    ]
   },
   "productName": "LegalEase RCAP",
   "shadowMode": true

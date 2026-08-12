@@ -287,5 +287,60 @@
     "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ct-decriminalized]",
     "statePackNote": "The committed Connecticut state pack carries build metadata and the Nationwide official-form/resource inventory only; it records no track-level pleading text. The compiled CT profile does not describe § 54-142d at all — it covers automatic erasure, Clean Slate, the JD-CR-202 petition, cannabis erasure and pardons. All § 54-142d content here comes from the pinned registry entry.",
     "reviewedAsOf": "2026-07-30"
-  }
+  },
+  "sourceSilences": [
+    {
+      "field": "verificationStatute",
+      "nullKeys": [
+        "citation"
+      ],
+      "sourceIsSilentBecause": "The source review does not state a notarization requirement and states no verification statute for this petition. It states only that the petitioner signs their own petition. The registry separately lists a required 'notarize' participant action, which conflicts with the stated rule. Left null and flagged rather than invented.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-decriminalized].rules.notarization; registry@3b6f4c1:tracks[ct-decriminalized].rules.participantSignature"
+    },
+    {
+      "field": "presentation.sovereignRole",
+      "nullKeys": [
+        "sovereignRole"
+      ],
+      "sourceIsSilentBecause": "No source read for this track labels the State's role in a § 54-142d caption. Not invented.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.verificationVerb",
+      "nullKeys": [
+        "verificationVerb"
+      ],
+      "sourceIsSilentBecause": "No verification or oath formula is stated. The source states only that the petitioner signs their own petition.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.verificationPenaltyLabel",
+      "nullKeys": [
+        "verificationPenaltyLabel"
+      ],
+      "sourceIsSilentBecause": "No source read for this track supplies this presentation field; it is held null rather than filled with a substitute. See the track handoff for the caption evidence.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.serviceRecipientLabel",
+      "nullKeys": [
+        "serviceRecipientLabel"
+      ],
+      "sourceIsSilentBecause": "No source read for this track supplies this presentation field; it is held null rather than filled with a substitute. See the track handoff for the caption evidence.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.serviceRecipientAddressLabel",
+      "nullKeys": [
+        "serviceRecipientAddressLabel"
+      ],
+      "sourceIsSilentBecause": "No source read for this track supplies this presentation field; it is held null rather than filled with a substitute. See the track handoff for the caption evidence.",
+      "sourceRef": null
+    }
+  ],
+  "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
+  "runtimeDefects": [
+    "renderer-null-presentation"
+  ],
+  "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
 }

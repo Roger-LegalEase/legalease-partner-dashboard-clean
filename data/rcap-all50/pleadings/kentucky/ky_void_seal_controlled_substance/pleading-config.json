@@ -1,399 +1,467 @@
 {
-  "schemaVersion": "rcap-pleading-track-config/v1",
-  "jurisdictionCode": "KY",
-  "jurisdiction": {
-    "code": "KY",
-    "name": "Kentucky",
-    "slug": "kentucky"
+ "schemaVersion": "rcap-pleading-track-config/v1",
+ "jurisdictionCode": "KY",
+ "jurisdiction": {
+  "code": "KY",
+  "name": "Kentucky",
+  "slug": "kentucky"
+ },
+ "trackId": "ky_void_seal_controlled_substance",
+ "jobId": "T-C-KY-production-packet",
+ "family": "controlled_pleading",
+ "treatment": "production_packet",
+ "legalName": "Motion to Void a First Controlled-Substance Possession Conviction and Seal the Records (KRS 218A.275)",
+ "publicName": "Void and seal a first Kentucky drug possession conviction",
+ "templateGrade": "legal_ops_custom_pleading",
+ "templateLifecycle": "replacement_candidate",
+ "primaryReliefTerm": "sealing",
+ "compositeReliefNote": "The statutory remedy is composite: under KRS 218A.275(8) the court may void the conviction, and under (9) it shall then order the records sealed. \"sealing\" is carried as the single relief noun because it is the operative relief on the records; the voiding is carried as presentation.reliefActionVerb (\"void and seal\"). No source read for this track supplies a one-word name for the composite remedy.",
+ "documentTitleFull": "MOTION TO VOID CONVICTION AND SEAL RECORDS PURSUANT TO KRS 218A.275",
+ "documentTitleFullSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalName",
+ "courtCaption": "{courtLevel} COURT — {county} COUNTY, COMMONWEALTH OF KENTUCKY — CASE NO. {caseNumber}",
+ "courtCaptionNote": "Token pattern only. The registry records that the motion \"is made in the original criminal case\" and is \"filed under the original case number as motion type SA\", so the caption is the caption of the existing criminal case rather than a new one. No source read for this track states an accepted caption, a party-role line, or a court-name format. Every token is filled only from the participant's own screening answers (vcsCourtLevel, vcsCounty, vcsCaseNumber). Accepted caption is an open counsel flag.",
+ "courtCaptionSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].venue; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].generationRequirements[key=vcsCounty,vcsCourtLevel,vcsCaseNumber]",
+ "routeDecision": {
+  "decision": "custom_pleading_drafted_with_official_form_proposed_order_dependency",
+  "rationale": [
+   "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading' for this track with compositionMode null and units[] empty, so this is a single-document controlled pleading, not a composed route.",
+   "packetSet.components lists three components: a required primary filing (custom_pleading), a required proposed order that is an official PDF fill of AOC-334, and a required certificate of service (custom_pleading). Lane C drafts the two custom-pleading components and drafts nothing for AOC-334.",
+   "AOC-334 is a Kentucky AOC official form with a recorded officialFormId and officialSourceUrl. It is recorded as a mandatory official-form dependency and handed to the official-PDF overlay lane; drafting a substitute order would be invention of a court order."
+  ],
+  "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].outputStrategy; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].compositionMode; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components"
+ },
+ "primaryStatutoryAuthority": [
+  {
+   "citation": "KRS 218A.275(8)",
+   "description": "After satisfactory completion of treatment, probation or other sentence on a first conviction for possession of a controlled substance, the court may void the conviction.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[0]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism"
   },
-  "trackId": "ky_void_seal_controlled_substance",
-  "jobId": "T-C-KY-production-packet",
-  "family": "controlled_pleading",
-  "treatment": "production_packet",
-  "legalName": "Motion to Void a First Controlled-Substance Possession Conviction and Seal the Records (KRS 218A.275)",
-  "publicName": "Void and seal a first Kentucky drug possession conviction",
-  "templateGrade": "legal_ops_custom_pleading",
-  "templateLifecycle": "replacement_candidate",
-  "primaryReliefTerm": "sealing",
-  "compositeReliefNote": "The statutory remedy is composite: under KRS 218A.275(8) the court may void the conviction, and under (9) it shall then order the records sealed. \"sealing\" is carried as the single relief noun because it is the operative relief on the records; the voiding is carried as presentation.reliefActionVerb (\"void and seal\"). No source read for this track supplies a one-word name for the composite remedy.",
-  "documentTitleFull": "MOTION TO VOID CONVICTION AND SEAL RECORDS PURSUANT TO KRS 218A.275",
-  "documentTitleFullSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalName",
-  "courtCaption": "{courtLevel} COURT — {county} COUNTY, COMMONWEALTH OF KENTUCKY — CASE NO. {caseNumber}",
-  "courtCaptionNote": "Token pattern only. The registry records that the motion \"is made in the original criminal case\" and is \"filed under the original case number as motion type SA\", so the caption is the caption of the existing criminal case rather than a new one. No source read for this track states an accepted caption, a party-role line, or a court-name format. Every token is filled only from the participant's own screening answers (vcsCourtLevel, vcsCounty, vcsCaseNumber). Accepted caption is an open counsel flag.",
-  "courtCaptionSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].venue; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].generationRequirements[key=vcsCounty,vcsCourtLevel,vcsCaseNumber]",
-  "routeDecision": {
-    "decision": "custom_pleading_drafted_with_official_form_proposed_order_dependency",
-    "rationale": [
-      "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading' for this track with compositionMode null and units[] empty, so this is a single-document controlled pleading, not a composed route.",
-      "packetSet.components lists three components: a required primary filing (custom_pleading), a required proposed order that is an official PDF fill of AOC-334, and a required certificate of service (custom_pleading). Lane C drafts the two custom-pleading components and drafts nothing for AOC-334.",
-      "AOC-334 is a Kentucky AOC official form with a recorded officialFormId and officialSourceUrl. It is recorded as a mandatory official-form dependency and handed to the official-PDF overlay lane; drafting a substitute order would be invention of a court order."
-    ],
-    "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].outputStrategy; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].compositionMode; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components"
+  {
+   "citation": "KRS 218A.275(9)",
+   "description": "On voiding, the court shall order the records sealed, except as provided in KRS 27A.099.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=packet_instruction][0]"
   },
-  "primaryStatutoryAuthority": [
-    {
-      "citation": "KRS 218A.275(8)",
-      "description": "After satisfactory completion of treatment, probation or other sentence on a first conviction for possession of a controlled substance, the court may void the conviction.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[0]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism"
-    },
-    {
-      "citation": "KRS 218A.275(9)",
-      "description": "On voiding, the court shall order the records sealed, except as provided in KRS 27A.099.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=packet_instruction][0]"
-    },
-    {
-      "citation": "KRS 218A.275(10)",
-      "description": "A voided conviction is not a first offence for later Chapter 218A purposes and is not a conviction for disqualifications or disabilities imposed by law.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[2]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism"
-    },
-    {
-      "citation": "KRS 218A.275(12)",
-      "description": "Voiding may occur only once for any person, and the subsection excludes a person who has previously had a charge dismissed after completion of a deferred prosecution programme under KRS 218A.14151.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[3]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].exclusions[2]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].buildBlockers[0]"
-    },
-    {
-      "citation": "KRS 27A.099",
-      "description": "Records excepted from sealing. Records excepted by KRS 27A.099 are not sealed.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[4]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].officialSources[2]"
-    },
-    {
-      "citation": "KRS 431.078(2)",
-      "description": "The five-year period does not apply where the conviction was voided under KRS 218A.275(8). Carried as a packet instruction for onward routing, not as relief requested in this motion.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[5]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=packet_instruction][1]"
-    }
-  ],
-  "verificationStatute": {
-    "citation": null,
-    "description": "No verification statute is cited because the motion is not verified. The registry states in terms: notarization \"none required. The motion is not verified.\" This is the affirmative-absence case, distinct from the ND config's unknown-verification case: there the source was silent and the requirement was flagged as unconfirmed; here the source states there is none. No verification or notarization block is rendered.",
-    "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notarization; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.participantActionRequired[kind=notarize]"
+  {
+   "citation": "KRS 218A.275(10)",
+   "description": "A voided conviction is not a first offence for later Chapter 218A purposes and is not a conviction for disqualifications or disabilities imposed by law.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[2]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism"
   },
-  "includeProposedOrder": false,
-  "includeProposedOrderReason": "A proposed order IS required on this track and IS tendered with the motion — but it is official form AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22, not a drafted document. Lane C drafts no official forms. Recorded as a mandatory official-form dependency at components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json and handed to the official-PDF overlay lane. includeProposedOrder is false because this config drafts no order text, not because no order is filed.",
-  "includeCertificateOfService": true,
-  "includeCertificateOfServiceReason": "Required component in the registry packet set (role certificate_of_service, requirement required, outputStrategy custom_pleading). The registry states: \"No summons issues. The movant serves the prosecuting attorney and files a certificate of service.\"",
-  "serviceNote": "By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.",
-  "serviceNoteSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service",
-  "qaProhibitedTerms": [
-    "expungement",
-    "expunge",
-    "expunged",
-    "erasure",
-    "destroy",
-    "destruction"
-  ],
-  "qaProhibitedTermsSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetInstructions[0] (\"Sealing is not expungement. The records continue to exist and are sealed\"); profile:copyGuardrails[0] (\"Use Kentucky-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.\")",
-  "qaProhibitedTermsNote": "The prohibition governs the rendered court document. Expungement is named in participant-instructions.md only as the separately sourced onward route under KRS 431.078(2), never as relief this motion requests.",
-  "presentation": {
-    "sovereignPartyName": "COMMONWEALTH OF KENTUCKY",
-    "sovereignPartyProper": "the Commonwealth of Kentucky",
-    "sovereignPartyNameSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service (\"the county or Commonwealth's attorney that prosecuted the case\")",
-    "sovereignRole": null,
-    "sovereignRoleNullReason": "No source read for this track labels the Commonwealth's role in the caption. The motion is filed inside the existing criminal case, whose caption already exists; this config does not construct a new party-role line. Not invented.",
-    "movantRole": "Movant",
-    "movantRoleSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.participantSignature (\"The movant signs the motion\"); registry manualCompletionItems and legalDesignLimitations use \"the movant\" throughout.",
-    "filingNoun": "Motion",
-    "filingNounSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalName; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail (\"the Clerks' Manual records the filing as motion type SA\")",
-    "divisionLine": "",
-    "divisionLineNote": "No source records a division line for a Kentucky District or Circuit Court criminal caption. Left empty rather than invented.",
-    "usesCounty": false,
-    "usesCountyNote": "Set false deliberately, and NOT because Kentucky venue is county-independent — it is county-based. In this renderer usesCounty:true is a Pennsylvania-specific branch: it emits \"the Court of Common Pleas of {county} County, Pennsylvania\" into the jurisdiction and venue paragraphs and \"The Pennsylvania State Police, {county} County Court of Common Pleas\" into the custodian line. Setting it true on a Kentucky track puts Pennsylvania into a Kentucky motion. The county is instead carried through the {county} token in courtName and venueDescriptor, which is how the ND config handles the same problem.",
-    "usesCountySourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail (\"in the county of conviction\"); registry generationRequirements[key=vcsCounty]; renderer PA_DEFAULT_PRESENTATION branch at renderers/custom-pleading-renderer.ts",
-    "courtName": "{courtLevel} Court of {county} County, Kentucky",
-    "courtNameNote": "Token pattern. Both tokens come only from screening (vcsCourtLevel, vcsCounty). No county, court level or court name is prefilled from any source.",
-    "venueDescriptor": "{county} County, Kentucky",
-    "venueDescriptorNote": "Noun phrase, because the renderer inserts venueDescriptor into the sentence \"Venue is proper in this Court because the criminal proceedings ... occurred in {venueDescriptor}.\" The full recorded venue rule is preserved verbatim in venueDescriptorFull below and is not shortened away.",
-    "venueDescriptorFull": "The court of conviction: District Court for misdemeanor possession, Circuit Court for possession in the first degree. The motion is made in the original criminal case.",
-    "venueDescriptorSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].venue (verbatim in venueDescriptorFull)",
-    "recordCustodianLead": null,
-    "recordCustodianLeadNullReason": "No source read for this track enumerates the agencies that hold the records or that a sealing order must reach. The registry instead asks the participant: \"Which agencies are likely to hold records of this case?\" (vcsAgencies). The order that names custodians is AOC-334, an official form this lane does not draft. Not invented.",
-    "verificationVerb": null,
-    "verificationVerbNullReason": "The motion is not verified; no verification clause is rendered.",
-    "verificationPenaltyLabel": null,
-    "verificationPenaltyLabelNullReason": "No verification statute and no verification clause, so no penalty label.",
-    "serviceRecipientLabel": "the county attorney or the Commonwealth's attorney that prosecuted the case",
-    "serviceRecipientLabelSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service; registry generationRequirements[key=vcsProsecutorOffice]",
-    "serviceRecipientAddressLabel": "[PROSECUTING ATTORNEY ADDRESS — PARTICIPANT SUPPLIES; NO SOURCE READ FOR THIS TRACK RECORDS IT]",
-    "reliefActionVerb": "void and seal",
-    "orderActionVerb": "seal",
-    "recordsScopePhrase": "the records of the case identified in this motion, except records excepted by KRS 27A.099",
-    "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=packet_instruction][0]",
-    "movantFirstInCaption": null,
-    "movantFirstInCaptionNullReason": "The caption is the existing criminal case caption; no source states party order for it. Not set."
+  {
+   "citation": "KRS 218A.275(12)",
+   "description": "Voiding may occur only once for any person, and the subsection excludes a person who has previously had a charge dismissed after completion of a deferred prosecution programme under KRS 218A.14151.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[3]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].exclusions[2]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].buildBlockers[0]"
   },
-  "counselFlags": [
-    {
-      "id": "ky-vcs-deferred-prosecution-bar-unencoded",
-      "statement": "KRS 218A.275(12) bars this relief to anyone who previously had a possession charge dismissed after a deferred prosecution under KRS 218A.14151. The controlling legal review does not record that bar. It changes who receives a packet at all. The screening question vcsPriorDeferredProsecution exists on the track, but the bar itself is not ratified as encoded.",
-      "mustConfirm": "That the KRS 218A.275(12) deferred-prosecution bar is encoded as an absolute eligibility bar before this route is built, and that vcsPriorDeferredProsecution gates packet generation rather than merely being collected.",
-      "impact": "build_blocker",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].buildBlockers[0]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].exclusions[3]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignBlockers[0]"
-    },
-    {
-      "id": "ky-vcs-legal-effect-propositions-unratified",
-      "statement": "The static legal propositions this motion would assert about the effect of voiding and sealing — that a voided conviction is not a first offence for later Chapter 218A purposes and is not a conviction for disqualifications or disabilities imposed by law (KRS 218A.275(10)), and that the court shall order the records sealed (KRS 218A.275(9)) — have not been ratified by counsel. The motion cannot go out until they are.",
-      "mustConfirm": "Ratify the fixed statements of legal effect the void-and-seal motion may make about KRS 218A.275(9) and (10).",
-      "impact": "release_blocker",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].releaseBlockers[0]"
-    },
-    {
-      "id": "ky-vcs-aoc334-official-form-dependency",
-      "statement": "The required proposed order is official form AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22, tendered with the motion. Lane C drafts no order text for it. This is a mandatory official-form handoff to the official-PDF overlay lane; the order's own content, including which agencies it names as custodians, comes from that form and not from this config.",
-      "mustConfirm": "That AOC-334 overlay and field mapping is owned and completed by the official-PDF overlay lane, and that the packet tenders the official form rather than any drafted substitute.",
-      "impact": "official_form_dependency",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].officialSources[0]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.filing"
-    },
-    {
-      "id": "ky-vcs-deferred-prosecution-mechanism-classification",
-      "statement": "KRS 218A.14151 deferred prosecution is an adjacent record-clearing mechanism the controlling review never identifies. AOC-333 is its sealing order and AOC-331 its participant-facing application. Recorded as an observation only; it is not normalized here and no packet references it.",
-      "mustConfirm": "Should KRS 218A.14151 deferred prosecution be added to the Kentucky mechanism denominator in a later edition?",
-      "impact": "counsel_classification_required",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].awaitingCounselClassification[0]"
-    },
-    {
-      "id": "ky-vcs-27a099-scope-open",
-      "statement": "The scope of the KRS 27A.099 exception, which keeps some records outside the sealing order, is an open research note. The motion and the participant copy say that records excepted by KRS 27A.099 are not reached; neither enumerates which records those are.",
-      "mustConfirm": "The scope of KRS 27A.099 before any statement is made to a participant about which records survive sealing.",
-      "impact": "nonblocking_research_note",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].openLegalQuestions[0]"
-    },
-    {
-      "id": "ky-vcs-caption-and-clerk-practice-unconfirmed",
-      "statement": "No source read for this track states an accepted caption or format. What is sourced is that the motion is made in the original criminal case, is filed under the original case number as motion type SA, that no summons issues, and that the clerk delivers it to the judge who decided the case. The caption in this config is a token pattern built from those facts plus the participant's screening answers.",
-      "mustConfirm": "The caption and format Kentucky circuit court clerks accept for a KRS 218A.275(8) motion, since no official form exists for the motion itself.",
-      "impact": "counsel_confirmation",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].venue"
-    },
-    {
-      "id": "ky-vcs-first-offence-is-participant-fact",
-      "statement": "Whether this is a first offence is the participant's own statement of fact and is never generated as a legal conclusion. Any dispute ends automated assistance. The motion states the participant's answer as the participant's own averment and asserts no first-offence conclusion of its own.",
-      "mustConfirm": "That no pipeline stage derives, infers or asserts first-offence status from any record.",
-      "impact": "self_help_boundary",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=self_help_boundary]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].selfHelpBoundaries[0]"
-    },
-    {
-      "id": "ky-vcs-once-only-voiding",
-      "statement": "Voiding may occur only once for any person. A participant who has already had a conviction voided under KRS 218A.275 is excluded, and the packet asserts nothing about prior voidings beyond the participant's own answer to vcsPriorVoid.",
-      "mustConfirm": "That vcsPriorVoid is an eligibility gate and not merely a collected answer.",
-      "impact": "scope_restriction",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].exclusions[2]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism"
-    },
-    {
-      "id": "ky-vcs-sealing-is-not-expungement",
-      "statement": "Sealing is not expungement. The records continue to exist and are sealed, and records excepted by KRS 27A.099 are not reached at all. The rendered motion must never use expungement vocabulary; qaProhibitedTerms enforces that.",
-      "mustConfirm": "That participant copy and rendered output for this track never promise erasure or destruction of records.",
-      "impact": "packet_instruction",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetInstructions[0]; profile:copyGuardrails[2] (\"Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.\")"
-    },
-    {
-      "id": "ky-vcs-onward-expungement-route",
-      "statement": "A conviction voided under KRS 218A.275(8) can then be expunged under KRS 431.078 with no five-year wait; where the offence was a misdemeanor the participant should be routed on to ky_misdemeanor_expungement. That is a downstream routing instruction, not relief requested in this motion, and it is stated in participant copy only.",
-      "mustConfirm": "That routing to the KRS 431.078 expungement track happens only after an order voiding the conviction is entered, never before.",
-      "impact": "packet_instruction",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetInstructions[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[5]"
-    },
-    {
-      "id": "ky-vcs-noncitizen-stop",
-      "statement": "Any participant who is not a United States citizen is a self-help stop condition on this track, because a voided conviction may still be a conviction for immigration purposes.",
-      "mustConfirm": "That screening stops on a non-citizen participant before any packet is produced.",
-      "impact": "self_help_boundary",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].selfHelpStopConditions[2]"
-    },
-    {
-      "id": "ky-vcs-void-versus-expunge-strategy-stop",
-      "statement": "A participant choosing between void-and-seal and expungement is making a lifetime-consequence strategy decision and is a self-help stop condition. A clerk who demands a filing fee is also a stop condition: the Clerks' Manual records no filing fee for this proceeding.",
-      "mustConfirm": "That both stop conditions are wired, and that no fee figure of any kind is quoted to a participant.",
-      "impact": "self_help_boundary",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].selfHelpStopConditions[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].selfHelpStopConditions[3]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.fees"
-    },
-    {
-      "id": "ky-vcs-court-identity-and-outside-parties-blank",
-      "statement": "Court level, county, case number, judge, prosecutor identity, prosecutor position, filing date, service completion and hearing outcome are blank in every fixture and are never prefilled from any source. County, court level and case number reach the document only as the participant's own screening answers.",
-      "mustConfirm": "That no pipeline stage populates court identity, prosecutor position, service completion or any outside-party act.",
-      "impact": "counsel_confirmation",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].generationRequirements; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].manualCompletionItems"
-    },
-    {
-      "id": "ky-vcs-legal-status-gate",
-      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document; output review, visual review and technical proof are all outstanding. implementationQueue is F_source_problem.",
-      "mustConfirm": "Output review, visual review and technical proof before this pleading leaves internal review.",
-      "impact": "output_review_gate",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalStatus / .legalDesignStatus / .runtimeDisabledReason / .implementationQueue"
-    },
-    {
-      "id": "ky-vcs-source-freshness-gate",
-      "statement": "All four official sources on this track carry sha256 null — AOC-334 Rev. 1-22, KRS 218A.275, KRS 27A.099 and the Kentucky Circuit Court Clerks' Manual (recorded only as the Circuit Court portal root). Staleness cannot be detected for any of them.",
-      "mustConfirm": "Capture hashes for all four official sources, and a direct URL for the Clerks' Manual rather than the portal root, before release.",
-      "impact": "source_gate",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].blockers[kind=source_gate]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].officialSources"
-    },
-    {
-      "id": "ky-vcs-compiled-profile-silent-on-this-mechanism",
-      "statement": "The compiled KY profile does not record this mechanism at all. Its five pathways are KRS 431.078, KRS 431.073, KRS 431.076 and two juvenile routes; the strings '218A.275', '27A.099' and 'AOC-334' appear nowhere in it, and its official-form inventory holds only AOC-496.2, 496.3, 497.2, Kentucky-Expungement-Reference.pdf, JV-29, JV-29.1 and JV-30, with two HTML reference files in its resource-packet inventory. The committed Kentucky state pack likewise carries build metadata and the Nationwide inventory only. This track rests on the pinned registry entry.",
-      "mustConfirm": "Whether the KY compiled profile should be regenerated to include the KRS 218A.275 and 218A.276 void-and-seal mechanisms and the KRS 17.142 segregation mechanism, none of which the Nationwide source corpus for Kentucky contains.",
-      "impact": "source_gate",
-      "sourceRef": "profile:packetGenerator.pathways (5 entries, none this mechanism); profile:terminology.pathwayLabels; profile:source.allFolderFiles; statePack:all50-build-metadata.officialFormInventory"
-    }
-  ],
-  "componentInventory": [
-    {
-      "component": "caption",
-      "status": "present",
-      "note": "Token caption reproducing the existing criminal case: {courtLevel} COURT — {county} COUNTY, COMMONWEALTH OF KENTUCKY — CASE NO. {caseNumber}. All tokens from screening. Accepted caption is an open counsel flag.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail"
-    },
-    {
-      "component": "court_and_party_identity",
-      "status": "present",
-      "note": "Movant name and address from screening. Court level, county and case number are the participant's own screening answers. Judge, prosecutor identity, prosecutor position, OTN and filing date are rendered blank and never prefilled.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].generationRequirements"
-    },
-    {
-      "component": "title",
-      "status": "present",
-      "note": "MOTION TO VOID CONVICTION AND SEAL RECORDS PURSUANT TO KRS 218A.275, from the legalName recorded on the track.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalName"
-    },
-    {
-      "component": "allegations",
-      "status": "present",
-      "note": "Container only, and only for the facts the registry's own generationRequirements collect: the county, court level and case number; the possession offence of conviction; the conviction date; what was completed (treatment, probation or the sentence) and when; and the participant's own answers on first-offence status, prior voiding and prior deferred prosecution. Each is rendered as the movant's own averment. No allegation is generated, inferred or supplemented.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].generationRequirements; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=self_help_boundary]"
-    },
-    {
-      "component": "statutory_basis",
-      "status": "present",
-      "note": "Six citations, all from the track authority list. KRS 431.078(2) is cited in participant copy only, as onward routing.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority"
-    },
-    {
-      "component": "requested_relief",
-      "status": "present",
-      "note": "That the court void the conviction under KRS 218A.275(8) and order the records of the case sealed under KRS 218A.275(9), except records excepted by KRS 27A.099.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[0..1]"
-    },
-    {
-      "component": "verification",
-      "status": "absent",
-      "reason": "The motion is not verified. The registry states notarization: \"none required. The motion is not verified.\" No verification or notarization block is rendered, and verificationStatute.citation is null.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notarization"
-    },
-    {
-      "component": "signatures",
-      "status": "present",
-      "note": "Two blocks, both the movant's: the motion signature block, and the certificate-of-service signature on the final page. No wet-signature rule beyond ordinary practice applies. No LegalEase signature block.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.participantSignature; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].manualCompletionItems"
-    },
-    {
-      "component": "proposed_order",
-      "status": "absent_official_form_dependency",
-      "reason": "Required and tendered with the motion, but it is official form AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22. Lane C drafts no official forms. See components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.filing"
-    },
-    {
-      "component": "certificate_of_service",
-      "status": "present",
-      "note": "Required custom-pleading component. The movant serves the prosecuting attorney by mail or hand delivery and certifies it. Service completion, date and recipient address are left blank for the movant to complete; nothing asserts that service happened.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components[2]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notice"
-    },
-    {
-      "component": "notice",
-      "status": "absent",
-      "reason": "No summons issues. The only notice mechanism recorded is service of the motion on the prosecuting attorney, which is carried by the certificate of service. No separate notice document is recorded anywhere.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notice"
-    },
-    {
-      "component": "affidavit",
-      "status": "absent",
-      "reason": "No source records an affidavit for this motion. Proof of completion of treatment, probation or sentence is a conditional participant-obtained document that the statute does not require to be filed; it is named in participant copy and never drafted, obtained or inspected by LegalEase.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].participantFilingRequirements[0]"
-    },
-    {
-      "component": "participant_only_cover_sheet",
-      "status": "absent",
-      "reason": "Neither the registry entry nor the compiled profile records a cover sheet for this track. The registry packet set has exactly three components and none is a cover sheet.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components"
-    },
-    {
-      "component": "filing_instructions",
-      "status": "present",
-      "note": "Participant-only. participant-instructions.md, drawn from rules.filing, rules.service, rules.fees, packetInstructions and packetSet.participantActionRequired. Never filed with the court.",
-      "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.filing; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.participantActionRequired"
-    }
-  ],
-  "participantOnlyDocuments": [
-    "participant-instructions.md"
-  ],
-  "courtDocuments": [
-    {
-      "item": "Motion to Void Conviction and Seal Records",
-      "componentId": "ky_void_seal_controlled_substance-primary-filing-1",
-      "drafted": true,
-      "requirement": "required"
-    },
-    {
-      "item": "Certificate of service on the prosecuting attorney",
-      "componentId": "ky_void_seal_controlled_substance-certificate-of-service-3",
-      "drafted": true,
-      "requirement": "required"
-    },
-    {
-      "item": "AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22 (tendered proposed order)",
-      "componentId": "ky_void_seal_controlled_substance-proposed-order-2",
-      "drafted": false,
-      "requirement": "required",
-      "reason": "Official Kentucky AOC form. Lane C drafts no official forms; overlay and field-map ownership sits with the official-PDF overlay lane. See components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json."
-    },
-    {
-      "item": "Proof of completion of treatment, probation or sentence",
-      "componentId": null,
-      "drafted": false,
-      "requirement": "conditional",
-      "reason": "Participant obtains it from the treatment provider, the probation office or the court. The statute does not require it to be filed, though judges commonly expect to see it. LegalEase does not obtain, receive or inspect it."
-    }
-  ],
-  "officialFormDependencies": [
-    {
-      "componentId": "ky_void_seal_controlled_substance-proposed-order-2",
-      "officialFormId": "AOC-334",
-      "officialFormName": "AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22",
-      "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
-      "dependencyManifestPath": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json"
-    }
-  ],
-  "rendererCompatibility": {
-    "note": "This config is data. It is written against the PleadingTrackConfig shape consumed by src/lib/record-clearing/renderers/custom-pleading-renderer.ts, but that renderer cannot yet consume it faithfully. The defects below were observed in a rendered sample of fixtures/canonical.json produced in this worktree. They are renderer/adapter defects, not data defects, and no source-faithful field has been altered to work around them.",
-    "adapterDefects": [
-      {
-        "id": "null-fields-stringified",
-        "observed": "Fields deliberately set to null under the sourced-content-only rule are printed literally as the text 'null' — the caption rendered \"COMMONWEALTH OF KENTUCKY,\\n    null,\", the parties block rendered \"null is the Commonwealth of Kentucky.\", and the verification clause rendered \"I, [NAME], null that the statements ...\".",
-        "affectedFields": ["presentation.sovereignRole", "presentation.verificationVerb", "presentation.verificationPenaltyLabel", "eligibilityData.eligibilityBasisLabel"],
-        "requiredAdapterBehavior": "A null role, verb or label means the source does not state one. The adapter must omit the line or clause entirely, never stringify null. Null is the convention this artifact set is required to use for unsourced values; supplying a value instead would be invention."
-      },
-      {
-        "id": "verification-section-rendered-though-absent",
-        "observed": "A 'VI. VERIFICATION' section was emitted with a truth-of-statements clause, although this track's registry entry states \"none required. The motion is not verified.\" and componentInventory marks verification absent.",
-        "requiredAdapterBehavior": "The renderer needs a way to suppress the verification section when verificationStatute.citation is null AND the source affirmatively states the filing is not verified. Rendering an unsourced verification clause into a Kentucky motion is exactly the invention this artifact set exists to prevent."
-      },
-      {
-        "id": "county-mode-is-pennsylvania-mode",
-        "observed": "With usesCounty:true the renderer emitted \"the Court of Common Pleas of EXAMPLE County, Pennsylvania\" into a Kentucky motion.",
-        "resolvedInThisConfig": true,
-        "requiredAdapterBehavior": "usesCounty is documented as a county-line flag but its true branch is hardcoded Pennsylvania text. This config sets usesCounty:false and carries the county through the {county} token instead. The renderer should separate 'this jurisdiction uses a county line' from 'this jurisdiction is Pennsylvania'."
-      }
-    ],
-    "fixtureShapeNote": "Fixture partyData uses the renderer's own field names (petitionerName, petitionerAddress, otherNamesUsed) so that fixtures are valid PleadingRenderInput. The movant/applicant role label comes from presentation.movantRole, not from the fixture key."
+  {
+   "citation": "KRS 27A.099",
+   "description": "Records excepted from sealing. Records excepted by KRS 27A.099 are not sealed.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[4]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].officialSources[2]"
   },
-  "provenance": {
-    "statePackFiles": [
-      "src/lib/rcap/state-packs/kentucky/index.ts",
-      "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
-    ],
-    "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
-    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
-    "profileSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
-    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ky_void_seal_controlled_substance]",
-    "statePackNote": "The committed Kentucky state pack carries build metadata and the Nationwide official-form/resource inventory only; it records no track-level pleading text, and its official-form inventory (AOC-496.2, 496.3, 497.2, Kentucky-Expungement-Reference.pdf, JV-29, JV-29.1, JV-30, plus two HTML reference files in its resource-packet inventory) does not include AOC-334. The compiled KY profile does not mention KRS 218A.275 anywhere. Track prose, authority, rules and packet composition therefore come from the pinned registry entry.",
-    "reviewedAsOf": "2026-08-06",
-    "effectiveFrom": "2012-07-12"
+  {
+   "citation": "KRS 431.078(2)",
+   "description": "The five-year period does not apply where the conviction was voided under KRS 218A.275(8). Carried as a packet instruction for onward routing, not as relief requested in this motion.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[5]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=packet_instruction][1]"
   }
+ ],
+ "verificationStatute": {
+  "citation": null,
+  "description": "No verification statute is cited because the motion is not verified. The registry states in terms: notarization \"none required. The motion is not verified.\" This is the affirmative-absence case, distinct from the ND config's unknown-verification case: there the source was silent and the requirement was flagged as unconfirmed; here the source states there is none. No verification or notarization block is rendered.",
+  "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notarization; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.participantActionRequired[kind=notarize]"
+ },
+ "includeProposedOrder": false,
+ "includeProposedOrderReason": "A proposed order IS required on this track and IS tendered with the motion — but it is official form AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22, not a drafted document. Lane C drafts no official forms. Recorded as a mandatory official-form dependency at components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json and handed to the official-PDF overlay lane. includeProposedOrder is false because this config drafts no order text, not because no order is filed.",
+ "includeCertificateOfService": true,
+ "includeCertificateOfServiceReason": "Required component in the registry packet set (role certificate_of_service, requirement required, outputStrategy custom_pleading). The registry states: \"No summons issues. The movant serves the prosecuting attorney and files a certificate of service.\"",
+ "serviceNote": "By mail or hand delivery on the county or Commonwealth's attorney that prosecuted the case.",
+ "serviceNoteSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service",
+ "qaProhibitedTerms": [
+  "expungement",
+  "expunge",
+  "expunged",
+  "erasure",
+  "destroy",
+  "destruction"
+ ],
+ "qaProhibitedTermsSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetInstructions[0] (\"Sealing is not expungement. The records continue to exist and are sealed\"); profile:copyGuardrails[0] (\"Use Kentucky-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.\")",
+ "qaProhibitedTermsNote": "The prohibition governs the rendered court document. Expungement is named in participant-instructions.md only as the separately sourced onward route under KRS 431.078(2), never as relief this motion requests.",
+ "presentation": {
+  "sovereignPartyName": "COMMONWEALTH OF KENTUCKY",
+  "sovereignPartyProper": "the Commonwealth of Kentucky",
+  "sovereignPartyNameSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service (\"the county or Commonwealth's attorney that prosecuted the case\")",
+  "sovereignRole": null,
+  "sovereignRoleNullReason": "No source read for this track labels the Commonwealth's role in the caption. The motion is filed inside the existing criminal case, whose caption already exists; this config does not construct a new party-role line. Not invented.",
+  "movantRole": "Movant",
+  "movantRoleSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.participantSignature (\"The movant signs the motion\"); registry manualCompletionItems and legalDesignLimitations use \"the movant\" throughout.",
+  "filingNoun": "Motion",
+  "filingNounSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalName; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail (\"the Clerks' Manual records the filing as motion type SA\")",
+  "divisionLine": "",
+  "divisionLineNote": "No source records a division line for a Kentucky District or Circuit Court criminal caption. Left empty rather than invented.",
+  "usesCounty": false,
+  "usesCountyNote": "Set false deliberately, and NOT because Kentucky venue is county-independent — it is county-based. In this renderer usesCounty:true is a Pennsylvania-specific branch: it emits \"the Court of Common Pleas of {county} County, Pennsylvania\" into the jurisdiction and venue paragraphs and \"The Pennsylvania State Police, {county} County Court of Common Pleas\" into the custodian line. Setting it true on a Kentucky track puts Pennsylvania into a Kentucky motion. The county is instead carried through the {county} token in courtName and venueDescriptor, which is how the ND config handles the same problem.",
+  "usesCountySourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail (\"in the county of conviction\"); registry generationRequirements[key=vcsCounty]; renderer PA_DEFAULT_PRESENTATION branch at renderers/custom-pleading-renderer.ts",
+  "courtName": "{courtLevel} Court of {county} County, Kentucky",
+  "courtNameNote": "Token pattern. Both tokens come only from screening (vcsCourtLevel, vcsCounty). No county, court level or court name is prefilled from any source.",
+  "venueDescriptor": "{county} County, Kentucky",
+  "venueDescriptorNote": "Noun phrase, because the renderer inserts venueDescriptor into the sentence \"Venue is proper in this Court because the criminal proceedings ... occurred in {venueDescriptor}.\" The full recorded venue rule is preserved verbatim in venueDescriptorFull below and is not shortened away.",
+  "venueDescriptorFull": "The court of conviction: District Court for misdemeanor possession, Circuit Court for possession in the first degree. The motion is made in the original criminal case.",
+  "venueDescriptorSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].venue (verbatim in venueDescriptorFull)",
+  "recordCustodianLead": null,
+  "recordCustodianLeadNullReason": "No source read for this track enumerates the agencies that hold the records or that a sealing order must reach. The registry instead asks the participant: \"Which agencies are likely to hold records of this case?\" (vcsAgencies). The order that names custodians is AOC-334, an official form this lane does not draft. Not invented.",
+  "verificationVerb": null,
+  "verificationVerbNullReason": "The motion is not verified; no verification clause is rendered.",
+  "verificationPenaltyLabel": null,
+  "verificationPenaltyLabelNullReason": "No verification statute and no verification clause, so no penalty label.",
+  "serviceRecipientLabel": "the county attorney or the Commonwealth's attorney that prosecuted the case",
+  "serviceRecipientLabelSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service; registry generationRequirements[key=vcsProsecutorOffice]",
+  "serviceRecipientAddressLabel": "[PROSECUTING ATTORNEY ADDRESS — PARTICIPANT SUPPLIES; NO SOURCE READ FOR THIS TRACK RECORDS IT]",
+  "reliefActionVerb": "void and seal",
+  "orderActionVerb": "seal",
+  "recordsScopePhrase": "the records of the case identified in this motion, except records excepted by KRS 27A.099",
+  "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=packet_instruction][0]",
+  "movantFirstInCaption": null,
+  "movantFirstInCaptionNullReason": "The caption is the existing criminal case caption; no source states party order for it. Not set."
+ },
+ "counselFlags": [
+  {
+   "id": "ky-vcs-deferred-prosecution-bar-unencoded",
+   "statement": "KRS 218A.275(12) bars this relief to anyone who previously had a possession charge dismissed after a deferred prosecution under KRS 218A.14151. The controlling legal review does not record that bar. It changes who receives a packet at all. The screening question vcsPriorDeferredProsecution exists on the track, but the bar itself is not ratified as encoded.",
+   "mustConfirm": "That the KRS 218A.275(12) deferred-prosecution bar is encoded as an absolute eligibility bar before this route is built, and that vcsPriorDeferredProsecution gates packet generation rather than merely being collected.",
+   "impact": "build_blocker",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].buildBlockers[0]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].exclusions[3]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignBlockers[0]"
+  },
+  {
+   "id": "ky-vcs-legal-effect-propositions-unratified",
+   "statement": "The static legal propositions this motion would assert about the effect of voiding and sealing — that a voided conviction is not a first offence for later Chapter 218A purposes and is not a conviction for disqualifications or disabilities imposed by law (KRS 218A.275(10)), and that the court shall order the records sealed (KRS 218A.275(9)) — have not been ratified by counsel. The motion cannot go out until they are.",
+   "mustConfirm": "Ratify the fixed statements of legal effect the void-and-seal motion may make about KRS 218A.275(9) and (10).",
+   "impact": "release_blocker",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].releaseBlockers[0]"
+  },
+  {
+   "id": "ky-vcs-aoc334-official-form-dependency",
+   "statement": "The required proposed order is official form AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22, tendered with the motion. Lane C drafts no order text for it. This is a mandatory official-form handoff to the official-PDF overlay lane; the order's own content, including which agencies it names as custodians, comes from that form and not from this config.",
+   "mustConfirm": "That AOC-334 overlay and field mapping is owned and completed by the official-PDF overlay lane, and that the packet tenders the official form rather than any drafted substitute.",
+   "impact": "official_form_dependency",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].officialSources[0]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.filing"
+  },
+  {
+   "id": "ky-vcs-deferred-prosecution-mechanism-classification",
+   "statement": "KRS 218A.14151 deferred prosecution is an adjacent record-clearing mechanism the controlling review never identifies. AOC-333 is its sealing order and AOC-331 its participant-facing application. Recorded as an observation only; it is not normalized here and no packet references it.",
+   "mustConfirm": "Should KRS 218A.14151 deferred prosecution be added to the Kentucky mechanism denominator in a later edition?",
+   "impact": "counsel_classification_required",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].awaitingCounselClassification[0]"
+  },
+  {
+   "id": "ky-vcs-27a099-scope-open",
+   "statement": "The scope of the KRS 27A.099 exception, which keeps some records outside the sealing order, is an open research note. The motion and the participant copy say that records excepted by KRS 27A.099 are not reached; neither enumerates which records those are.",
+   "mustConfirm": "The scope of KRS 27A.099 before any statement is made to a participant about which records survive sealing.",
+   "impact": "nonblocking_research_note",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].openLegalQuestions[0]"
+  },
+  {
+   "id": "ky-vcs-caption-and-clerk-practice-unconfirmed",
+   "statement": "No source read for this track states an accepted caption or format. What is sourced is that the motion is made in the original criminal case, is filed under the original case number as motion type SA, that no summons issues, and that the clerk delivers it to the judge who decided the case. The caption in this config is a token pattern built from those facts plus the participant's screening answers.",
+   "mustConfirm": "The caption and format Kentucky circuit court clerks accept for a KRS 218A.275(8) motion, since no official form exists for the motion itself.",
+   "impact": "counsel_confirmation",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].venue"
+  },
+  {
+   "id": "ky-vcs-first-offence-is-participant-fact",
+   "statement": "Whether this is a first offence is the participant's own statement of fact and is never generated as a legal conclusion. Any dispute ends automated assistance. The motion states the participant's answer as the participant's own averment and asserts no first-offence conclusion of its own.",
+   "mustConfirm": "That no pipeline stage derives, infers or asserts first-offence status from any record.",
+   "impact": "self_help_boundary",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=self_help_boundary]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].selfHelpBoundaries[0]"
+  },
+  {
+   "id": "ky-vcs-once-only-voiding",
+   "statement": "Voiding may occur only once for any person. A participant who has already had a conviction voided under KRS 218A.275 is excluded, and the packet asserts nothing about prior voidings beyond the participant's own answer to vcsPriorVoid.",
+   "mustConfirm": "That vcsPriorVoid is an eligibility gate and not merely a collected answer.",
+   "impact": "scope_restriction",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].exclusions[2]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism"
+  },
+  {
+   "id": "ky-vcs-sealing-is-not-expungement",
+   "statement": "Sealing is not expungement. The records continue to exist and are sealed, and records excepted by KRS 27A.099 are not reached at all. The rendered motion must never use expungement vocabulary; qaProhibitedTerms enforces that.",
+   "mustConfirm": "That participant copy and rendered output for this track never promise erasure or destruction of records.",
+   "impact": "packet_instruction",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetInstructions[0]; profile:copyGuardrails[2] (\"Do not promise erasure, sealing, eligibility, timing, filing acceptance, or a court outcome.\")"
+  },
+  {
+   "id": "ky-vcs-onward-expungement-route",
+   "statement": "A conviction voided under KRS 218A.275(8) can then be expunged under KRS 431.078 with no five-year wait; where the offence was a misdemeanor the participant should be routed on to ky_misdemeanor_expungement. That is a downstream routing instruction, not relief requested in this motion, and it is stated in participant copy only.",
+   "mustConfirm": "That routing to the KRS 431.078 expungement track happens only after an order voiding the conviction is entered, never before.",
+   "impact": "packet_instruction",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetInstructions[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[5]"
+  },
+  {
+   "id": "ky-vcs-noncitizen-stop",
+   "statement": "Any participant who is not a United States citizen is a self-help stop condition on this track, because a voided conviction may still be a conviction for immigration purposes.",
+   "mustConfirm": "That screening stops on a non-citizen participant before any packet is produced.",
+   "impact": "self_help_boundary",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].selfHelpStopConditions[2]"
+  },
+  {
+   "id": "ky-vcs-void-versus-expunge-strategy-stop",
+   "statement": "A participant choosing between void-and-seal and expungement is making a lifetime-consequence strategy decision and is a self-help stop condition. A clerk who demands a filing fee is also a stop condition: the Clerks' Manual records no filing fee for this proceeding.",
+   "mustConfirm": "That both stop conditions are wired, and that no fee figure of any kind is quoted to a participant.",
+   "impact": "self_help_boundary",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].selfHelpStopConditions[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].selfHelpStopConditions[3]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.fees"
+  },
+  {
+   "id": "ky-vcs-court-identity-and-outside-parties-blank",
+   "statement": "Court level, county, case number, judge, prosecutor identity, prosecutor position, filing date, service completion and hearing outcome are blank in every fixture and are never prefilled from any source. County, court level and case number reach the document only as the participant's own screening answers.",
+   "mustConfirm": "That no pipeline stage populates court identity, prosecutor position, service completion or any outside-party act.",
+   "impact": "counsel_confirmation",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].generationRequirements; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].manualCompletionItems"
+  },
+  {
+   "id": "ky-vcs-legal-status-gate",
+   "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document; output review, visual review and technical proof are all outstanding. implementationQueue is F_source_problem.",
+   "mustConfirm": "Output review, visual review and technical proof before this pleading leaves internal review.",
+   "impact": "output_review_gate",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalStatus / .legalDesignStatus / .runtimeDisabledReason / .implementationQueue"
+  },
+  {
+   "id": "ky-vcs-source-freshness-gate",
+   "statement": "All four official sources on this track carry sha256 null — AOC-334 Rev. 1-22, KRS 218A.275, KRS 27A.099 and the Kentucky Circuit Court Clerks' Manual (recorded only as the Circuit Court portal root). Staleness cannot be detected for any of them.",
+   "mustConfirm": "Capture hashes for all four official sources, and a direct URL for the Clerks' Manual rather than the portal root, before release.",
+   "impact": "source_gate",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].blockers[kind=source_gate]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].officialSources"
+  },
+  {
+   "id": "ky-vcs-compiled-profile-silent-on-this-mechanism",
+   "statement": "The compiled KY profile does not record this mechanism at all. Its five pathways are KRS 431.078, KRS 431.073, KRS 431.076 and two juvenile routes; the strings '218A.275', '27A.099' and 'AOC-334' appear nowhere in it, and its official-form inventory holds only AOC-496.2, 496.3, 497.2, Kentucky-Expungement-Reference.pdf, JV-29, JV-29.1 and JV-30, with two HTML reference files in its resource-packet inventory. The committed Kentucky state pack likewise carries build metadata and the Nationwide inventory only. This track rests on the pinned registry entry.",
+   "mustConfirm": "Whether the KY compiled profile should be regenerated to include the KRS 218A.275 and 218A.276 void-and-seal mechanisms and the KRS 17.142 segregation mechanism, none of which the Nationwide source corpus for Kentucky contains.",
+   "impact": "source_gate",
+   "sourceRef": "profile:packetGenerator.pathways (5 entries, none this mechanism); profile:terminology.pathwayLabels; profile:source.allFolderFiles; statePack:all50-build-metadata.officialFormInventory"
+  }
+ ],
+ "componentInventory": [
+  {
+   "component": "caption",
+   "status": "present",
+   "note": "Token caption reproducing the existing criminal case: {courtLevel} COURT — {county} COUNTY, COMMONWEALTH OF KENTUCKY — CASE NO. {caseNumber}. All tokens from screening. Accepted caption is an open counsel flag.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].destination.detail"
+  },
+  {
+   "component": "court_and_party_identity",
+   "status": "present",
+   "note": "Movant name and address from screening. Court level, county and case number are the participant's own screening answers. Judge, prosecutor identity, prosecutor position, OTN and filing date are rendered blank and never prefilled.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].generationRequirements"
+  },
+  {
+   "component": "title",
+   "status": "present",
+   "note": "MOTION TO VOID CONVICTION AND SEAL RECORDS PURSUANT TO KRS 218A.275, from the legalName recorded on the track.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalName"
+  },
+  {
+   "component": "allegations",
+   "status": "present",
+   "note": "Container only, and only for the facts the registry's own generationRequirements collect: the county, court level and case number; the possession offence of conviction; the conviction date; what was completed (treatment, probation or the sentence) and when; and the participant's own answers on first-offence status, prior voiding and prior deferred prosecution. Each is rendered as the movant's own averment. No allegation is generated, inferred or supplemented.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].generationRequirements; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].legalDesignLimitations[classification=self_help_boundary]"
+  },
+  {
+   "component": "statutory_basis",
+   "status": "present",
+   "note": "Six citations, all from the track authority list. KRS 431.078(2) is cited in participant copy only, as onward routing.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority"
+  },
+  {
+   "component": "requested_relief",
+   "status": "present",
+   "note": "That the court void the conviction under KRS 218A.275(8) and order the records of the case sealed under KRS 218A.275(9), except records excepted by KRS 27A.099.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].mechanism; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].authority[0..1]"
+  },
+  {
+   "component": "verification",
+   "status": "absent",
+   "reason": "The motion is not verified. The registry states notarization: \"none required. The motion is not verified.\" No verification or notarization block is rendered, and verificationStatute.citation is null.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notarization"
+  },
+  {
+   "component": "signatures",
+   "status": "present",
+   "note": "Two blocks, both the movant's: the motion signature block, and the certificate-of-service signature on the final page. No wet-signature rule beyond ordinary practice applies. No LegalEase signature block.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.participantSignature; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].manualCompletionItems"
+  },
+  {
+   "component": "proposed_order",
+   "status": "absent_official_form_dependency",
+   "reason": "Required and tendered with the motion, but it is official form AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22. Lane C drafts no official forms. See components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components[1]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.filing"
+  },
+  {
+   "component": "certificate_of_service",
+   "status": "present",
+   "note": "Required custom-pleading component. The movant serves the prosecuting attorney by mail or hand delivery and certifies it. Service completion, date and recipient address are left blank for the movant to complete; nothing asserts that service happened.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components[2]; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notice"
+  },
+  {
+   "component": "notice",
+   "status": "absent",
+   "reason": "No summons issues. The only notice mechanism recorded is service of the motion on the prosecuting attorney, which is carried by the certificate of service. No separate notice document is recorded anywhere.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notice"
+  },
+  {
+   "component": "affidavit",
+   "status": "absent",
+   "reason": "No source records an affidavit for this motion. Proof of completion of treatment, probation or sentence is a conditional participant-obtained document that the statute does not require to be filed; it is named in participant copy and never drafted, obtained or inspected by LegalEase.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].participantFilingRequirements[0]"
+  },
+  {
+   "component": "participant_only_cover_sheet",
+   "status": "absent",
+   "reason": "Neither the registry entry nor the compiled profile records a cover sheet for this track. The registry packet set has exactly three components and none is a cover sheet.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.components"
+  },
+  {
+   "component": "filing_instructions",
+   "status": "present",
+   "note": "Participant-only. participant-instructions.md, drawn from rules.filing, rules.service, rules.fees, packetInstructions and packetSet.participantActionRequired. Never filed with the court.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.filing; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.participantActionRequired"
+  }
+ ],
+ "participantOnlyDocuments": [
+  "participant-instructions.md"
+ ],
+ "courtDocuments": [
+  {
+   "item": "Motion to Void Conviction and Seal Records",
+   "componentId": "ky_void_seal_controlled_substance-primary-filing-1",
+   "drafted": true,
+   "requirement": "required"
+  },
+  {
+   "item": "Certificate of service on the prosecuting attorney",
+   "componentId": "ky_void_seal_controlled_substance-certificate-of-service-3",
+   "drafted": true,
+   "requirement": "required"
+  },
+  {
+   "item": "AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22 (tendered proposed order)",
+   "componentId": "ky_void_seal_controlled_substance-proposed-order-2",
+   "drafted": false,
+   "requirement": "required",
+   "reason": "Official Kentucky AOC form. Lane C drafts no official forms; overlay and field-map ownership sits with the official-PDF overlay lane. See components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json."
+  },
+  {
+   "item": "Proof of completion of treatment, probation or sentence",
+   "componentId": null,
+   "drafted": false,
+   "requirement": "conditional",
+   "reason": "Participant obtains it from the treatment provider, the probation office or the court. The statute does not require it to be filed, though judges commonly expect to see it. LegalEase does not obtain, receive or inspect it."
+  }
+ ],
+ "officialFormDependencies": [
+  {
+   "componentId": "ky_void_seal_controlled_substance-proposed-order-2",
+   "officialFormId": "AOC-334",
+   "officialFormName": "AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22",
+   "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
+   "dependencyManifestPath": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json"
+  }
+ ],
+ "rendererCompatibility": {
+  "note": "This config is data. It is written against the PleadingTrackConfig shape consumed by src/lib/record-clearing/renderers/custom-pleading-renderer.ts, but that renderer cannot yet consume it faithfully. The defects below were observed in a rendered sample of fixtures/canonical.json produced in this worktree. They are renderer/adapter defects, not data defects, and no source-faithful field has been altered to work around them.",
+  "adapterDefects": [
+   {
+    "id": "null-fields-stringified",
+    "observed": "Fields deliberately set to null under the sourced-content-only rule are printed literally as the text 'null' — the caption rendered \"COMMONWEALTH OF KENTUCKY,\\n    null,\", the parties block rendered \"null is the Commonwealth of Kentucky.\", and the verification clause rendered \"I, [NAME], null that the statements ...\".",
+    "affectedFields": [
+     "presentation.sovereignRole",
+     "presentation.verificationVerb",
+     "presentation.verificationPenaltyLabel",
+     "eligibilityData.eligibilityBasisLabel"
+    ],
+    "requiredAdapterBehavior": "A null role, verb or label means the source does not state one. The adapter must omit the line or clause entirely, never stringify null. Null is the convention this artifact set is required to use for unsourced values; supplying a value instead would be invention."
+   },
+   {
+    "id": "verification-section-rendered-though-absent",
+    "observed": "A 'VI. VERIFICATION' section was emitted with a truth-of-statements clause, although this track's registry entry states \"none required. The motion is not verified.\" and componentInventory marks verification absent.",
+    "requiredAdapterBehavior": "The renderer needs a way to suppress the verification section when verificationStatute.citation is null AND the source affirmatively states the filing is not verified. Rendering an unsourced verification clause into a Kentucky motion is exactly the invention this artifact set exists to prevent."
+   },
+   {
+    "id": "county-mode-is-pennsylvania-mode",
+    "observed": "With usesCounty:true the renderer emitted \"the Court of Common Pleas of EXAMPLE County, Pennsylvania\" into a Kentucky motion.",
+    "resolvedInThisConfig": true,
+    "requiredAdapterBehavior": "usesCounty is documented as a county-line flag but its true branch is hardcoded Pennsylvania text. This config sets usesCounty:false and carries the county through the {county} token instead. The renderer should separate 'this jurisdiction uses a county line' from 'this jurisdiction is Pennsylvania'."
+   }
+  ],
+  "fixtureShapeNote": "Fixture partyData uses the renderer's own field names (petitionerName, petitionerAddress, otherNamesUsed) so that fixtures are valid PleadingRenderInput. The movant/applicant role label comes from presentation.movantRole, not from the fixture key."
+ },
+ "provenance": {
+  "statePackFiles": [
+   "src/lib/rcap/state-packs/kentucky/index.ts",
+   "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
+  ],
+  "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "profileSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+  "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ky_void_seal_controlled_substance]",
+  "statePackNote": "The committed Kentucky state pack carries build metadata and the Nationwide official-form/resource inventory only; it records no track-level pleading text, and its official-form inventory (AOC-496.2, 496.3, 497.2, Kentucky-Expungement-Reference.pdf, JV-29, JV-29.1, JV-30, plus two HTML reference files in its resource-packet inventory) does not include AOC-334. The compiled KY profile does not mention KRS 218A.275 anywhere. Track prose, authority, rules and packet composition therefore come from the pinned registry entry.",
+  "reviewedAsOf": "2026-08-06",
+  "effectiveFrom": "2012-07-12"
+ },
+ "sourceSilences": [
+  {
+   "field": "verificationStatute",
+   "nullKeys": [
+    "citation"
+   ],
+   "sourceIsSilentBecause": "No verification statute is cited because the motion is not verified. The registry states in terms: notarization \"none required. The motion is not verified.\" This is the affirmative-absence case, distinct from the ND config's unknown-verification case: there the source was silent and the requirement was flagged as unconfirmed; here the source states there is none. No verification or notarization block is rendered.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.notarization; registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].packetSet.participantActionRequired[kind=notarize]"
+  },
+  {
+   "field": "courtDocuments.3",
+   "nullKeys": [
+    "componentId"
+   ],
+   "sourceIsSilentBecause": "Participant obtains it from the treatment provider, the probation office or the court. The statute does not require it to be filed, though judges commonly expect to see it. LegalEase does not obtain, receive or inspect it.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.sovereignRole",
+   "nullKeys": [
+    "sovereignRole"
+   ],
+   "sourceIsSilentBecause": "No source read for this track labels the Commonwealth's role in the caption. The motion is filed inside the existing criminal case, whose caption already exists; this config does not construct a new party-role line. Not invented.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service (\"the county or Commonwealth's attorney that prosecuted the case\")"
+  },
+  {
+   "field": "presentation.recordCustodianLead",
+   "nullKeys": [
+    "recordCustodianLead"
+   ],
+   "sourceIsSilentBecause": "No source read for this track enumerates the agencies that hold the records or that a sealing order must reach. The registry instead asks the participant: \"Which agencies are likely to hold records of this case?\" (vcsAgencies). The order that names custodians is AOC-334, an official form this lane does not draft. Not invented.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service (\"the county or Commonwealth's attorney that prosecuted the case\")"
+  },
+  {
+   "field": "presentation.verificationVerb",
+   "nullKeys": [
+    "verificationVerb"
+   ],
+   "sourceIsSilentBecause": "The motion is not verified; no verification clause is rendered.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service (\"the county or Commonwealth's attorney that prosecuted the case\")"
+  },
+  {
+   "field": "presentation.verificationPenaltyLabel",
+   "nullKeys": [
+    "verificationPenaltyLabel"
+   ],
+   "sourceIsSilentBecause": "No verification statute and no verification clause, so no penalty label.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service (\"the county or Commonwealth's attorney that prosecuted the case\")"
+  },
+  {
+   "field": "presentation.movantFirstInCaption",
+   "nullKeys": [
+    "movantFirstInCaption"
+   ],
+   "sourceIsSilentBecause": "The caption is the existing criminal case caption; no source states party order for it. Not set.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_void_seal_controlled_substance].rules.service (\"the county or Commonwealth's attorney that prosecuted the case\")"
+  }
+ ],
+ "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
+ "runtimeDefects": [
+  "renderer-null-presentation"
+ ],
+ "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
 }

@@ -1,0 +1,16 @@
+{
+  "fixtureId": "boundary",
+  "description": "Sparse-input boundary: no address, no arrest date, no disposition, no arresting agency. Unsupplied values must fall through to the renderer's own confirm-later tokens.",
+  "expectations": { "qaPassed": true },
+  "protectedProbes": [ "the Court finds", "does not object", "filing fee" ],
+  "renderInput": {
+    "partyData": { "petitionerName": "Jordan Boundary-Sample" },
+    "caseData": { "countyName": "Douglas" },
+    "chargeData": {},
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Action under Neb. Rev. Stat. § 29-3528 to compel compliance with the sealing duty imposed by the Security, Privacy, and Dissemination of Criminal History Information Act"
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

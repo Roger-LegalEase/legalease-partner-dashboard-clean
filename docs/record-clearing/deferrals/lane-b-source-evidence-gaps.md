@@ -1,95 +1,144 @@
-# Lane B — tracks that cannot be completed from committed sources
+# Lane B — authority coverage and the evidence record
 
 Owner: Terminal B (guidance, exclusions and exact deferrals)
 Base: `df3d8607e8a0c723e23c346f1cd725c17a2c22b0`
-Scope of this record: partition B1 (AK, CA, GA, IL, IN, MD, MI, NC, ND, NH, UT)
+Scope: all of lane B — 33 states, 39 jobs, 73 tracks
 
-This is an internal record, not participant copy.
+## Outcome
 
-## Why this record exists
+Every one of the 73 assigned tracks reaches exactly one supported treatment.
 
-Every lane-B job names `private/Nationwide Record Clearing/ (<ST>) + pinned
-registry 3b6f4c10` as its source dependency. That archive is gitignored and is
-not present in the repository, so the only committed legal material available to
-this lane is each state's compiled profile under
-`src/lib/rcap-engine/compiled/profiles/`.
+| Treatment | Tracks |
+|---|---:|
+| `complete_guidance` | 64 |
+| `exact_supported_deferral` | 9 |
+| `deliberate_scope_exclusion` | 0 |
+| **Total** | **73** |
 
-Separately, 64 of the 73 lane-B tracks are `missing_from_compiled_runtime` with
-an empty `mappedCompiledPathwayIds`. That flag means no track-specific pathway;
-it does not by itself mean no committed authority, because a profile often
-carries the same statutory mechanism under a different pathway id. Each B1 track
-was therefore checked against its state's profile individually.
+**No lane-B track is blocked on operator source.** There is no evidence gap in
+this lane. Every deferral below rests on a stated legal or documentary condition
+that the committed record actually establishes — not on a missing file.
 
-The result is three groups. The first two are buildable now. The third is not
-buildable without source evidence that only the operator can supply, and the
-guidance for those tracks must not be written from inference — inventing a
-statute, forum, waiting period or form for someone seeking record relief is the
-one failure this lane must never produce.
+## Correction to the first version of this record
 
-## Group 1 — direct authority, buildable
+The first version reported that five tracks had no committed authority and were
+blocked on operator source: `IN:in_auto_expungement`, `MD:md_10104_pre_service`,
+`MI:mi_arrest_acquittal_dismissal`, `MI:mi_arrest_no_charge` and
+`MI:mi_deferral_status`.
 
-| Track | Carrier in the committed profile |
-|---|---|
-| `AK:ak-nonconviction-confidential` | CourtView non-publication pathway; AS 22.35.030 / Admin. R. 40; 60-day rule; Forms TF-810 / TF-805 / TF-800; trial court where the case was filed. **Shipped.** |
-| `CA:ca-auto-conviction` | `tool-2-automatic-relief`; PC 1203.425 under AB 1076 / SB 731; 1-year and 4-year clocks; DOJ as the actor; no form by design. **Shipped.** |
-| `IL:il-auto-seal-2028` | `clean-slate-automatic-sealing`. Mechanism is direct, but there is a hard conflict on the "2028" element of the track id — the profile's dates do not corroborate it. Build the mechanism; do not assert the 2028 date. |
-| `MI:mi_auto_misd92`, `MI:mi_auto_misd93` | Stated verbatim inside the umbrella `automatic-clean-slate-set-aside-under-mcl-780-621g` pathway; they have no pathway id of their own. |
-| `ND:nd-dna-profile-removal-routing` | Mechanism fully stated; only the container id differs. |
+That finding was scoped to the compiled profiles under
+`src/lib/rcap-engine/compiled/profiles/`, and for those files it was accurate —
+none of the five has a pathway or source section there. The inference drawn from
+it was wrong, because the compiled profiles are not the authority universe.
 
-## Group 2 — adjacent authority, buildable with a stated limitation
+The governed **Master Library** carries a per-track legal design memo for every
+one of them, at `data/record-clearing/legal-design-intake/<ST>.memo.json` on
+`feat/record-clearing-production-integration` at the pinned tip `3b6f4c10` — the
+same tip every lane-B job already names in its `sourceDependency`. The memos are
+keyed by exact `trackId`, and all 51 states have one. All five were built from
+those memos and are terminalized.
 
-These carry a real statutory mechanism, but the profile is missing at least one
-element the participant needs. Build them, cite what exists, and state the
-missing element as a limitation rather than filling it in.
+`MI:mi_deferral_status` is the clearest example of the original error: the
+compiled profile has no mention of deferrals at all, while the memo classifies it
+as a non-relief routing node with ten citations — MCL 333.7411, 762.11 to 762.15,
+769.4a, 436.1703, 600.1070, 600.1209, 750.350a, 750.430, 780.621(2) and
+780.621d(7)(d).
 
-| Track | What is present | What is missing |
+## What each memo carries
+
+Per track: `legalName`, `publicName`, `controllingAuthority` (statutory citation
+list plus a summary), `destination` (kind, name, detail), `outputStrategy`,
+`eligibleRecordTypes`, `eligibleDispositions`, `exclusions`, `waitingPeriods`,
+`components`, `participantInputs`, `supportingDocuments`,
+`manualCompletionItems`, `selfHelpStopConditions`, `unresolvedQuestions`,
+`officialSources`, and `legalDesignDecision` with its status, rationale and
+limitations.
+
+Two kinds of memo content are binding on participant copy and are followed rather
+than summarised away:
+
+- `legalDesignDecision.limitations` — for example Michigan requires "set aside"
+  rather than "expunge", Georgia's statutes have not used "expungement" since
+  1 July 2013, Connecticut says "erasure", New Hampshire says "annulment", and
+  Montana keeps removal, expungement and sealing as three distinct things.
+- `selfHelpStopConditions` — the points at which a self-help route must stop.
+
+Where a memo marks `destination.name` as "Not applicable" because the node
+explains a disposition rather than granting relief, the participant is told what
+the disposition means for them and routed to the mechanism that does apply. Where
+a memo names no usable destination at all, a real one is supplied from elsewhere
+in the same committed memo rather than invented — Hawaii is the one instance, and
+the Criminal Justice Data Center is named there as the place to verify a record
+and explicitly not as a place to apply.
+
+## The nine deferrals and what supports each
+
+Each has its own statement under this directory naming the track literally, the
+exact supported reason, and what the participant is told.
+
+| State | Track | Supported condition |
 |---|---|---|
-| `AK:ak-sej` | AS 12.55.078 with effect, once-per-lifetime limit, and 12.55.078(f) exclusions; downstream 60-day CourtView relief | No procedure for requesting one — it is a sentencing-stage disposition, not a post-hoc petition. **Shipped on that basis.** |
-| `GA:ga-fo-sentencing-post2026` | The first-offender statutory family (O.C.G.A. § 42-8-60 et seq., § 42-8-66 retroactive treatment) | The sentencing-side statute and the entire post-2026 scope are absent |
-| `GA:ga-time-expired` | Time-lapse triggers as disposition categories | The period itself is never quantified; the limitations-expiry trigger is not named |
-| `MD:md_10103_1_automatic` | Split across two pathways | Neither is § 10-103.1 |
-| `MD:md_10112_dpscs_cannabis` | Cannabis relief as a court petition | The DPSCS/agency-automatic half is effectively absent |
-| `MI:mi_setaside_csc4_pre2015` | Named only | No pathway, no subsection cite, no date, no waiting period, no form |
-| `ND:nd-trafficking-vacatur-routing` | A records-retention/destruction statement | That is not a petition-based relief mechanism; no statute, forum or procedure |
-| `ND:nd-juvenile-records-routing`, `ND:nd-unconstitutional-arrest-expungement-routing` | Topic named with one eligibility trigger | No statute, no forum, no procedure — escalation stubs |
-| `NH:nh_supreme_court_record` | Split verdict across the annulment pathways | See the per-track note; the Supreme Court record half is not carried |
+| AR | `ar-misdemeanor-dwi-seal` | Waiting period unsettled: § 16-90-1405(b)(2) refers out to the § 5-65-111 lookback and two readings are live at once — the 2026 *Coleman* appellate reading against the statutory text with existing ACIC forms and practice |
+| KY | `ky_felony_vacatur_expungement` | Two versions of the KRS 431.073(1)(a) eligibility list are published concurrently, with a 30 April 2027 changeover adding KRS 286.13-150 |
+| KY | `ky_felony_expungement_after_pardon` | Eligibility turns on characterising a full pardon under KRS 431.073(1)(c) — a document LegalEase never sees and does not authenticate |
+| OK | `ok_clean_slate` | Administration does not exist (Bureau has until 1 Nov 2027 to begin, 1 Nov 2029 to finish) and § 18b(B) confers eligibility "subject to the availability of funds" with no determinable appropriation |
+| TX | `tx_exp_acquittal` | Filing cost not stateable: art. 102.006 repealed 1 Sep 2025, temporarily re-added with an expiry, replaced by art. 102.0061 from 1 Jan 2026, which sets a county-varying ex parte civil fee |
+| TX | `tx_exp_dismissed` | Same fee condition, plus further release-blocking questions in the governing review |
+| WV | `wv_conv_multiple_misdemeanors` | Forum unresolved: § 61-11-26(a)(1) names the convicting circuit court while the (d) proviso requires grouping by circuit court, and convictions spanning circuits are unanswered |
+| WV | `wv_conv_nonviolent_felony` | § 61-11-26(p)(5) makes two of the four nonviolent-felony limbs express findings for the circuit court, not statements a self-help service makes |
+| WV | `wv_conv_single_misdemeanor` | Which of the five published Judiciary forms is the operative § 61-11-26 misdemeanour petition is unsettled |
 
-## Group 3 — no committed authority: blocked on operator source
+None of these is "coming soon". In every case the participant still receives the
+mechanism, the exact destination, the settled timing, what to gather, the next
+step, and a handoff carrying the specific question to ask.
 
-For these the profile carries no pathway and no source section for the mechanism
-the track names. There is nothing to cite and nothing to ground guidance in.
+## Where authority is genuinely thin, and what was done instead
 
-| Track | Mechanism the id names | Evidence needed |
-|---|---|---|
-| `IN:in_auto_expungement` | Automatic expungement by court order or operation of law without a petition | Indiana source material for the automatic route; the profile carries only the four petition pathways |
-| `MD:md_10104_pre_service` | Crim. Proc. § 10-104 — expungement where a charging document was filed but never served | § 10-104 text and procedure |
-| `MI:mi_arrest_acquittal_dismissal` | Non-conviction arrest record / fingerprint-card destruction after acquittal, dismissal or nolle prosequi | MSP arrest-card destruction procedure and its authority |
-| `MI:mi_arrest_no_charge` | Arrest with no charge filed — record and fingerprint removal, MCL 28.243 | MCL 28.243 text and the MSP process |
-| `MI:mi_deferral_status` | Deferral/diversion dispositions taken under advisement then dismissed — HYTA (MCL 762.11 et seq.) and controlled-substance deferrals | HYTA and deferral-statute text and their record consequences |
+Four routes could not be described fully from the committed record. None was
+filled in with a plausible substitute, and each says so to the participant:
 
-The Michigan profile's filing-destination rules are entirely
-application-track set-aside venue, and its only MSP section is scoped to
-convictions, so neither arrest track can borrow a destination from it. The
-juvenile case-outcome option routes to `automatic-set-aside` and is a
-juvenile-adjudication concept — it must not be stretched to cover the deferral
-track.
+- **TN `tn_trafficking_40_32_105`** — the current text of T.C.A. § 40-32-105 could
+  not be retrieved from any official source on 6 August 2026; the Tennessee Code
+  is a licensed publication. That the route exists rests on official
+  cross-references in the enacted Public Chapter 268. No eligibility condition,
+  waiting period, fee, form or court is stated.
+- **ND `nd-unconstitutional-arrest-expungement-routing`** — *State v. Howe*,
+  308 N.W.2d 743 (N.D. 1981), is named by the state courts' own guide but is not
+  published at ndcourts.gov. No unofficial mirror was used to supply the standard.
+- **MD `md_10103_1_automatic`** — the step following a law enforcement unit's
+  failure to complete a § 10-103.1 expungement is not identified in the
+  controlling review, and no filing was invented for it.
+- **OH `oh_2953_39_prosecutor`** — the full text of ORC 2953.39 was not read at
+  source, leaving it unknown whether a person can prompt a prosecutor and what
+  follows a refusal. The route deliberately does not end at the prosecutor's
+  door, because waiting on something you cannot start is the worst outcome
+  available.
 
-## What is being asked for
+## Integration handoff
 
-For the five Group 3 tracks, the operator-held per-state material named in the
-job's `sourceDependency` — or any official statutory text and procedure for the
-named mechanism — pinned the way the PA and SC extracts already are under
-`data/rcap-crosswalk-enrichment/final-official-sources/`, with retrieval date,
-issuing body and SHA-256.
+This lane produced data, not a rendering path. Nothing in `src/**` reads
+`data/rcap-all50/guidance-packets/` yet.
 
-Until then these five keep their assigned treatment and are not written as
-complete guidance, because the only way to complete them from what is committed
-would be to invent the statute, the forum, the timing and the form.
+The Briefcase surface at `src/app/briefcase/[packetId]/page.tsx` already renders
+guidance-only items as an accessible ordered list from `item.nextSteps` and
+suppresses the filing stepper, payment and generation for them, so the surface
+exists. What does not exist is the loader that maps these packet files onto that
+surface. `src/lib/rcap/all50-internal-preview.ts` shows the established pattern —
+it reads sibling directories under `data/rcap-all50/` with `fs` at runtime.
+
+Both languages are committed as data rather than resolved at runtime, because
+`resolveRuntimeText` only translates strings already present in
+`EXACT_ENGLISH_INDEX`. A loader must read `es` from these files directly.
+
+## Note on path shape
+
+The dispatch describes owned paths as
+`data/rcap-all50/guidance-packets/<state>/**`, but the frozen shared verifier
+globs that directory flat and non-recursively, skipping `_`-prefixed files. Flat
+`<st>.json` files were used so the verifier — a shared artifact this lane must not
+modify — keeps working. Nested directories would require changing it first.
 
 ## What the participant is told
 
-Nothing in this record reaches a participant. It exists so the gap is visible
-and owned rather than silently filled. Where a Group 2 track ships, the
-limitation is stated to the participant in plain language, with an exact
-destination and next step still given, and never in the internal vocabulary used
-here.
+Nothing in this record reaches a participant. It exists so the authority basis
+for each track is visible and auditable.

@@ -306,5 +306,68 @@
     "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ct-cannabis-petition]",
     "statePackNote": "The committed Connecticut state pack carries build metadata and the Nationwide official-form/resource inventory only; it records no track-level pleading text. Track prose, authority, rules and packet composition come from the pinned registry entry and the compiled CT profile, both listed here.",
     "reviewedAsOf": "2026-07-30"
-  }
+  },
+  "sourceSilences": [
+    {
+      "field": "verificationStatute",
+      "nullKeys": [
+        "citation"
+      ],
+      "sourceIsSilentBecause": "The source review does not state a verification statute for the petition, and does not state whether a notary or another proper officer must take the affidavit. It states only that the petitioner signs the petition and swears the affidavit where the affidavit route is used. Left null and flagged rather than invented.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-cannabis-petition].rules.notarization; registry@3b6f4c1:tracks[ct-cannabis-petition].rules.participantSignature"
+    },
+    {
+      "field": "courtDocuments.2",
+      "nullKeys": [
+        "componentId"
+      ],
+      "sourceIsSilentBecause": "Participant obtains it from the arresting police department or the Superior Court clerk. LegalEase does not obtain, receive or inspect it.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.sovereignRole",
+      "nullKeys": [
+        "sovereignRole"
+      ],
+      "sourceIsSilentBecause": "No source read for this track labels the State's role in a § 54-142v caption. The compiled profile's illustrative caption reads \"STATE OF CONNECTICUT v. [NAME]\" with no role labels. Not invented.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.recordCustodianLead",
+      "nullKeys": [
+        "recordCustodianLead"
+      ],
+      "sourceIsSilentBecause": "The sources read for this track do not enumerate the record custodians for a § 54-142v erasure; § 54-142a is cited only as \"erasure mechanics\". Not invented.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.verificationPenaltyLabel",
+      "nullKeys": [
+        "verificationPenaltyLabel"
+      ],
+      "sourceIsSilentBecause": "No source read for this track supplies this presentation field; it is held null rather than filled with a substitute. See the track handoff for the caption evidence.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.serviceRecipientLabel",
+      "nullKeys": [
+        "serviceRecipientLabel"
+      ],
+      "sourceIsSilentBecause": "No source read for this track supplies this presentation field; it is held null rather than filled with a substitute. See the track handoff for the caption evidence.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.serviceRecipientAddressLabel",
+      "nullKeys": [
+        "serviceRecipientAddressLabel"
+      ],
+      "sourceIsSilentBecause": "No source read for this track supplies this presentation field; it is held null rather than filled with a substitute. See the track handoff for the caption evidence.",
+      "sourceRef": null
+    }
+  ],
+  "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
+  "runtimeDefects": [
+    "renderer-null-presentation"
+  ],
+  "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
 }

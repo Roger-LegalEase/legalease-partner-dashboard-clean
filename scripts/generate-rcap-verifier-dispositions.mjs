@@ -73,14 +73,24 @@ const OVERRIDES = {
       "Lane C1's acceptance contract, green at 27/27 (11 pleading + 16 composed tracks, 64 components, 5 recorded external-source blocks, 18 canonical renders). Wired by the captain in window 2026-08-12-w2 after re-pinning provenance profile hashes that moved with the automatic-route rule corrections."
   },
   "verify-rcap-terminalize-c2.mjs": {
-    disposition: "keep_available",
+    disposition: "wired",
     reason:
-      "Lane C2's partition contract. Red by design until every C2 jurisdiction lands (tennessee is still in flight); completed jurisdictions are imported as they land per the hour-6 directive. Becomes wired when the partition completes."
+      "Lane C2's partition contract, complete at 24 tracks including the previously-missing Tennessee jurisdiction (tip 6b4895f4). Wired by the captain in window 2026-08-12-w3."
   },
   "verify-rcap-terminalize-c3.mjs": {
-    disposition: "keep_available",
+    disposition: "wired",
     reason:
-      "Lane C3's partition contract. Red by design until every C3 jurisdiction lands (wisconsin and the ID/NV/SC renders are still in flight); completed jurisdictions are imported as they land per the hour-6 directive. Becomes wired when the partition completes."
+      "Lane C3's partition contract, complete at 21 tracks including the previously-missing Wisconsin jurisdiction with fixture/signal hardening (tip d7fa8e5c). Wired by the captain in window 2026-08-12-w3."
+  },
+  "verify-rcap-no-null-presentation.mjs": {
+    disposition: "wired",
+    reason:
+      "The lane-C3 18-document defect regression: renders every pleading config (pleadings and composed-route components) through the live renderer and fails on any escaped literal null/undefined/NaN, on a null-sovereign caption that still carries a v. line or a borrowed sovereign, and on a null custodian that does not fall back to the bracketed placeholder. Wired blocking with the captain's renderer fix in window 2026-08-12-w3."
+  },
+  "verify-rcap-hard-form-rendered-assertions.mjs": {
+    disposition: "wired",
+    reason:
+      "Lane E's corrected-input proof: 43 assertions over the rendered hard-form artifacts (the F2 correction wave). Wired by the captain in window 2026-08-12-w3."
   },
   "verify-all51-launch-enabled.mjs": {
     disposition: "retire",

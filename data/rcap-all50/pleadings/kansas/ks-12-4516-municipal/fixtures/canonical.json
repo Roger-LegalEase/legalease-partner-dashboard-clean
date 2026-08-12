@@ -1,0 +1,42 @@
+{
+  "fixtureId": "canonical",
+  "description": "Obviously synthetic canonical participant on the three-year conviction path. Protected/outside-party fields (docket number, OTN, judge, prosecutor position) stay blank. The three statutory findings are requested of the court, never asserted as made.",
+  "expectations": { "qaPassed": true },
+  "protectedProbes": [
+    "the Court finds",
+    "does not object",
+    "filing fee",
+    "was served"
+  ],
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Riley Sample",
+      "petitionerAddress": "1234 Example Avenue, Topeka, KS 66601",
+      "otherNamesUsed": "Riley Q. Sample"
+    },
+    "caseData": { "countyName": "Shawnee" },
+    "chargeData": {
+      "chargeDescription": "Violation of a city ordinance prohibiting theft of property",
+      "disposition": "Convicted of the ordinance violation",
+      "dispositionDate": "04/12/2019",
+      "arrestDate": "01/15/2019",
+      "arrestingAgency": "City of Example Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Expungement of a city ordinance conviction under K.S.A. 12-4516(a)(1), three or more years having elapsed from the latest of satisfying the sentence imposed or discharge from probation, parole or a suspended sentence",
+      "waitingPeriodText": "Three or more years have elapsed since Petitioner satisfied the sentence imposed and was discharged from supervision on the conviction identified above.",
+      "additionalFacts": [
+        "Petitioner asks the Court to set a hearing and to give notice to the prosecuting attorney and the arresting law enforcement agency, as the statute directs.",
+        "Petitioner asks the Court to find that Petitioner has not been convicted of a felony in the past two years and that no such proceeding is pending or being instituted; that Petitioner's circumstances and behaviour warrant expungement; and that expungement is consistent with the public welfare.",
+        "Petitioner states the circumstances and behaviour relied on in the accompanying statement; that statement is completed by Petitioner and is not supplied by any other person."
+      ]
+    },
+    "attachments": [
+      "Proposed order of expungement",
+      "Certified municipal court record and disposition",
+      "Proof of satisfaction of sentence or discharge from supervision"
+    ],
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

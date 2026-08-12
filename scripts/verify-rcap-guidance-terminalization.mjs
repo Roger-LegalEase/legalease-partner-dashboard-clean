@@ -103,6 +103,15 @@ function check(condition, message) {
 
 const ledger = JSON.parse(read(LEDGER));
 const laneBJobs = ledger.jobs.filter((j) => j.lane === "B");
+// A track whose guidance treatment was already PROMOTED by an F2 closure is
+// terminal and leaves the job list, but its packet legitimately remains — the
+// packet IS the delivered treatment (first case: AK:ak-sej, promoted
+// 2026-08-12-w2). Promoted tracks count as validly terminalized here.
+const promotedGuidanceTracks = new Set(
+  (ledger.tracks ?? [])
+    .filter((t) => t.candidateTreatment === "complete_guidance" && t.candidateStatus === "promoted_by_f2")
+    .map((t) => t.trackId)
+);
 const assignedByState = new Map();
 for (const job of laneBJobs) {
   const entry = assignedByState.get(job.jurisdiction) ?? { tracks: new Map(), jobIds: new Set() };
@@ -179,7 +188,7 @@ for (const file of packetFiles) {
     // exactly once, with exactly the treatment the ledger requires.
     check(Boolean(entry.trackId), `${label}: trackId is required`);
     if (entry.trackId && assigned) {
-      check(assigned.tracks.has(entry.trackId), `${label}: this track is not assigned to lane B for ${doc.jurisdiction}`);
+      check(assigned.tracks.has(entry.trackId) || promotedGuidanceTracks.has(entry.trackId), `${label}: this track is not assigned to lane B for ${doc.jurisdiction}`);
       const requiredTreatment = assigned.tracks.get(entry.trackId);
       if (requiredTreatment) {
         check(
@@ -269,7 +278,7 @@ for (const st of inScopeStates) {
 
 // No packet may terminalize a track lane B was never assigned.
 for (const [trackId, file] of seenTracks) {
-  const assignedAnywhere = laneBJobs.some((j) => j.trackIds.includes(trackId));
+  const assignedAnywhere = laneBJobs.some((j) => j.trackIds.includes(trackId)) || promotedGuidanceTracks.has(trackId);
   check(assignedAnywhere, `${file}: terminalizes "${trackId}", which is not assigned to lane B`);
 }
 
