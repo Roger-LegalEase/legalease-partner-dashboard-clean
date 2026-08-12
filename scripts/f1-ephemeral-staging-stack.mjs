@@ -317,6 +317,7 @@ let itemA = null;
   async function killApp() {
     spawnSync("pkill", ["-f", "next-server"]);
     spawnSync("pkill", ["-f", "next start"]);
+    spawnSync("pkill", ["-f", "next dev"]);
     for (const pid of appPids.splice(0)) { try { process.kill(-pid, "SIGTERM"); } catch { /* already gone */ } }
     for (let i = 0; i < 45; i += 1) {
       try {
@@ -327,13 +328,13 @@ let itemA = null;
         // A timeout or reset means something still holds the socket: keep waiting.
       }
       await new Promise((r) => setTimeout(r, 1000));
-      if (i === 12) { spawnSync("pkill", ["-9", "-f", "next-server"]); spawnSync("pkill", ["-9", "-f", "next start"]); }
+      if (i === 12) { spawnSync("pkill", ["-9", "-f", "next-server"]); spawnSync("pkill", ["-9", "-f", "next start"]); spawnSync("pkill", ["-9", "-f", "next dev"]); }
     }
     throw new Error("the previous application instance never released port 3000 (ECONNREFUSED never observed)");
   }
 
-  async function startApp(extraEnv, logName) {
-    const child = spawn("npx", ["next", "start", "-p", "3000"], {
+  async function startApp(extraEnv, logName, mode = "start") {
+    const child = spawn("npx", ["next", mode, "-p", "3000"], {
       cwd: rootDir,
       detached: true,
       stdio: ["ignore", fs.openSync(path.join(EVIDENCE_DIR, logName), "w"), fs.openSync(path.join(EVIDENCE_DIR, `${logName}.err`), "w")],
@@ -428,25 +429,30 @@ let itemA = null;
   // an anonymous outsider stays 401; and under disabled/rollback even A gets
   // 503. A 402 here is the strongest possible proof the scoped state admitted
   // exactly its named identity and that the payment gate still holds behind it.
-  // NODE_ENV=test is the runner declaring what it is — an ephemeral staging
-  // environment, not production. Next.js keeps an explicitly-set NODE_ENV
-  // (`process.env.NODE_ENV = process.env.NODE_ENV || defaultEnv`), so the
-  // production build still serves; only the runtime designation changes.
+  //
+  // This instance runs `next dev` — the ONLY runtime in which staging_scoped
+  // can execute at all. Runs 31574433046/31576133598 proved that a production
+  // build compiles the control's `NODE_ENV === "production"` check to a
+  // literal true (the built chunk reads `"production"===process.env.VERCEL_ENV||1`),
+  // so every production build refuses staging_scoped unconditionally — that
+  // fail-closed behaviour is asserted by scoped_refused_in_production_runtime
+  // above. The dev compile executes the same TypeScript source with
+  // NODE_ENV=development, which is what lets the scope logic itself be proven.
   await killApp();
   const upScoped = await startApp(
     {
-      NODE_ENV: "test",
       RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "staging_scoped",
       RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: `${A().id},f1-scope-2`
     },
-    "app-scoped.log"
+    "app-scoped.log",
+    "dev"
   );
   const anonScoped = await probeRender(false);
   const authScoped = await probeRender(true);
   record(
     "route_scoped_refuses_outsiders",
     upScoped && authScoped.status === 402 && anonScoped.status === 401,
-    `staging_scoped: in-scope authenticated A=${authScoped.status} ("${authScoped.reason.slice(0, 60)}") — past the delivery gate, stopped by the payment gate; anonymous outsider=${anonScoped.status}`
+    `staging_scoped (dev-compiled runtime, the only one where the scoped state executes): in-scope authenticated A=${authScoped.status} ("${authScoped.reason.slice(0, 60)}") — past the delivery gate, stopped by the payment gate; anonymous outsider=${anonScoped.status}`
   );
 
   await killApp();
