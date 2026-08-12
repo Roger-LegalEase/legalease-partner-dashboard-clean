@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T04:15:41.737Z",
+  "family": "ar41-confidential-info-form",
+  "jurisdiction": "ND",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "neverPopulateRule": "judge/clerk/prosecutor/agency certification/hearing result/service completion/signature/notarization/court disposition/outside-party facts are never renderer-populated",
+  "fields": [
+    {
+      "censusId": "ar41-confidential-info-form-acro-1",
+      "name": "Social Security 2",
+      "page": null,
+      "class": "manual_participant",
+      "populatable": false,
+      "rationale": "Committed field name 'Social Security 2' is ambiguous (which SSN slot/format is unrecorded); the participant completes it by hand until F confirms the slot semantics. Sensitive PII."
+    },
+    {
+      "censusId": "ar41-confidential-info-form-acro-2",
+      "name": "Phone Number",
+      "page": null,
+      "class": "participant",
+      "populatable": true,
+      "rationale": "Committed draft records target participant_phone; bound to the phone component of contact_information."
+    }
+  ]
+}
