@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T04:15:41.737Z",
+  "generatedBy": "terminal-d3-official-forms",
+  "jurisdiction": {
+    "code": "MO",
+    "slug": "missouri"
+  },
+  "ledgerJob": "T-D-MO-production-packet",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "files": {
+      "data/record-clearing/legal-design-track-registry.json": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+      "data/record-clearing/legal-design-track-source-relationships.json": "8376337488a0e07eb0b476f7623bfbb623272d167ecd15b23c93cbb47922b826"
+    }
+  },
+  "sourcePresenceInClone": false,
+  "families": [
+    {
+      "slug": "cr360-petition-for-expungement",
+      "formId": "CR360 (SJRC 10-24)",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "ready_except_render",
+        "reason": "field package complete from committed evidence; render and contact sheet blocked pending the source binary"
+      },
+      "censusFieldCount": 2,
+      "populatedCount": 1,
+      "path": "data/rcap-all50/overlays/production/missouri/cr360-petition-for-expungement"
+    },
+    {
+      "slug": "fi-05-confidential-filing-sheet",
+      "formId": "FI-05 (SJRC 04-23)",
+      "componentRole": "supporting_filing",
+      "status": {
+        "state": "ready_except_render",
+        "reason": "field package complete from committed evidence; render and contact sheet blocked pending the source binary"
+      },
+      "censusFieldCount": 6,
+      "populatedCount": 1,
+      "path": "data/rcap-all50/overlays/production/missouri/fi-05-confidential-filing-sheet"
+    },
+    {
+      "slug": "gn10-poor-person-motion",
+      "formId": "GN10 (SJRC 07-15)",
+      "componentRole": "fee_waiver",
+      "status": {
+        "state": "fail_closed",
+        "reason": "scanned_pdf — no committed field geometry; manual geometry pass or text-layer source required"
+      },
+      "censusFieldCount": 0,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/missouri/gn10-poor-person-motion"
+    },
+    {
+      "slug": "cr370-judgment-and-order",
+      "formId": "CR370",
+      "componentRole": "supporting_proposed_order",
+      "status": {
+        "state": "fail_closed",
+        "reason": "scanned_pdf — no committed field geometry; manual geometry pass or text-layer source required"
+      },
+      "censusFieldCount": 0,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/missouri/cr370-judgment-and-order"
+    },
+    {
+      "slug": "cr300-identity-theft-petition",
+      "formId": "CR300 (OSCA 04-10 superseded; current revision required)",
+      "componentRole": "principal_petition",
+      "status": {
+        "state": "fail_closed",
+        "reason": "source binary absent from the Nationwide inventory in committed evidence"
+      },
+      "censusFieldCount": 0,
+      "populatedCount": 0,
+      "path": "data/rcap-all50/overlays/production/missouri/cr300-identity-theft-petition"
+    }
+  ],
+  "trackFamilyMap": {
+    "mo-610-140-arrest": [
+      "cr360-petition-for-expungement",
+      "fi-05-confidential-filing-sheet",
+      "gn10-poor-person-motion",
+      "cr370-judgment-and-order"
+    ],
+    "mo-575-120-identity-theft-correction": [
+      "cr300-identity-theft-petition"
+    ]
+  },
+  "trackReadiness": {
+    "mo-610-140-arrest": {
+      "state": "readyExceptRender",
+      "reason": "Principal CR360 + FI-05 packaged; render blocked pending source binaries. Component gaps: GN10 fee waiver and CR370 proposed judgment are scanned—fail closed (optional/companion components; they do not block the principal filing package). Arrest-only presentation on CR360's conviction-worded body is an open F/counsel item (authority ledger)."
+    },
+    "mo-575-120-identity-theft-correction": {
+      "state": "blocked",
+      "reason": "CR300 (current revision, Missouri Courts index reports updated 2025-01-01) absent from the Nationwide inventory; the inventoried CR301 mistaken-identity form is a different remedy and is not substituted — fail closed pending operator-supplied current CR300/CR310."
+    }
+  }
+}
