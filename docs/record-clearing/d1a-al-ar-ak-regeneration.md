@@ -41,8 +41,9 @@ other. No source mismatches, no missing binaries, nothing invented.
 Every one of the 30 manifest rows carries `generation_allowed=no` and
 `runtime_status=runtime_disabled`, and all three STATE_READMEs record the
 state legal-design review as `missing_from_supplied_corpus` /
-`release_blocker`. 25 of the 30 are additionally
-`source_or_currentness_gate_open`, and 27 are `source_gated`.
+`release_blocker`. 25 of the 30 are additionally `source_gated` and never
+runtime-selectable, and the same 25 carry `source_or_currentness_gate_open`.
+202 holds are recorded across the three states.
 
 Those holds survive regeneration and are re-derived from the manifest on every
 build rather than copied forward. **A family that renders cleanly here is not
