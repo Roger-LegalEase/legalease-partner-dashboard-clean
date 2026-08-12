@@ -1,42 +1,532 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "refusedFields": [
     {
       "field": "ScanNumbers",
-      "class": "prohibited"
+      "reason": "protected_category",
+      "category": "clerk"
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "CkBox_Attchmt",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ReasonCont",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SuperiorCourtCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "DistrictCourtCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "DriversLicenseNumber",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FullSocialSecurityNumber",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "AgeAtTimeOfOffense",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "PetitionersAttorneyName",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyAddr1",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyAddr2",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyCity",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyState",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyZip",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "ArrestingAgencyName",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyAddr1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyAddr2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyCity",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyState",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyZip",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1Name",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1Addr1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1Addr2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1City",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1State",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1Zip",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2Name",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2Addr1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2Addr2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2City",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2State",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2Zip",
+      "reason": "protected_category",
+      "category": "agency"
     },
     {
       "field": "NoChargeDismissedDeferredProsecutionCkBox",
-      "class": "outside_party"
+      "reason": "protected_category",
+      "category": "prosecutor"
+    },
+    {
+      "field": "PetitionSignedDate",
+      "reason": "protected_category",
+      "category": "signature"
     },
     {
       "field": "PetitionSignedByName",
-      "class": "signature"
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "PetitionerCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "PetitionersAttorneyCkBox",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "ThereIsACivilRevocationRecordCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ChargesLine1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ChargesLine2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ChargedWithMultipleNotAllDismissedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ChargedWithMultipleAndAllDismissedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsNotAllDismissedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsAllDismissedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsThereIsACivilRevocationRecordCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsShouldBeGrantedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsShouldNotBeGrantedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ReasonLine1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "PetitionIsGrantedCkBox",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "court"
     },
     {
       "field": "PetitionIsDeniedCkBox",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "court"
     },
     {
       "field": "CertificationByClerkDate",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "clerk"
     },
     {
       "field": "CertificationByClerkName",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "clerk"
     },
     {
       "field": "PresidingJudgeName",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "OrderSignedDate",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "DeputyCSCCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "AssistantCSCCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     },
     {
       "field": "ClerkOfSuperiorCourtCkBox",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "clerk"
+    },
+    {
+      "field": "FileNumber2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "FileNumber3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "FileNumber4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "FileNumber5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "FileNumber6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "FileNumber7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "FileNumber8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "FileNumber9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "FileNumber10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfArrest10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "OffenseDescription10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense2",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense3",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense4",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense5",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense6",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense7",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense8",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense9",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfOffense10",
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
+    },
+    {
+      "field": "DateOfDismissal1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

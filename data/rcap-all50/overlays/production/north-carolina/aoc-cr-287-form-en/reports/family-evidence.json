@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "NC",
+  "family": "aoc-cr-287-form-en",
+  "sourceSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+  "sourceIdentity": {
+    "documentId": "AOC-CR-287",
+    "revision": "REV-2025-12",
+    "language": "EN",
+    "documentRole": "PACKET",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 2,
+    "observedPages": 2,
+    "manifestDeclaredFieldCount": 119,
+    "observedAcroFieldCount": 119,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": {
+    "documentId": "AOC-CR-287",
+    "note": "Ten-row charge table. Every row is mapped so the row guard, not a missing mapping, is what decides which rows fill. AgeAtTimeOfOffense is refused on purpose: it matches the charge descriptor by name and is not a charge.",
+    "refusedOnPurpose": {
+      "AgeAtTimeOfOffense": "an age is not a charge; the name match is incidental"
+    },
+    "mappings": {
+      "DateOfArrest1": "matter.arrest_date",
+      "DateOfArrest2": "matter.arrest_date",
+      "DateOfArrest3": "matter.arrest_date",
+      "DateOfArrest4": "matter.arrest_date",
+      "DateOfArrest5": "matter.arrest_date",
+      "DateOfArrest6": "matter.arrest_date",
+      "DateOfArrest7": "matter.arrest_date",
+      "DateOfArrest8": "matter.arrest_date",
+      "DateOfArrest9": "matter.arrest_date",
+      "DateOfArrest10": "matter.arrest_date",
+      "OffenseDescription1": "matter.charge",
+      "OffenseDescription2": "matter.charge",
+      "OffenseDescription3": "matter.charge",
+      "OffenseDescription4": "matter.charge",
+      "OffenseDescription5": "matter.charge",
+      "OffenseDescription6": "matter.charge",
+      "OffenseDescription7": "matter.charge",
+      "OffenseDescription8": "matter.charge",
+      "OffenseDescription9": "matter.charge",
+      "OffenseDescription10": "matter.charge",
+      "DateOfOffense1": "matter.offense_date",
+      "DateOfOffense2": "matter.offense_date",
+      "DateOfOffense3": "matter.offense_date",
+      "DateOfOffense4": "matter.offense_date",
+      "DateOfOffense5": "matter.offense_date",
+      "DateOfOffense6": "matter.offense_date",
+      "DateOfOffense7": "matter.offense_date",
+      "DateOfOffense8": "matter.offense_date",
+      "DateOfOffense9": "matter.offense_date",
+      "DateOfOffense10": "matter.offense_date"
+    }
+  },
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "8355448958d2aec3202999c51cb1c9bc945ec27bc490d79b10226c6ff69d8141",
+    "secondSha256": "8355448958d2aec3202999c51cb1c9bc945ec27bc490d79b10226c6ff69d8141",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed, read 7df729ea2e2a248e855a7ac18967bac5f0790a476b200b7ff67ae5ea910ddda7"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 8,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "PetitionerAddr2",
+        "factIdTheBinderOffered": "participant.street_address",
+        "reason": "The continuation line of the petitioner's address; as address2."
+      },
+      {
+        "field": "DriversLicenseState",
+        "factIdTheBinderOffered": "participant.state",
+        "reason": "The state that issued the licence, which is not the participant's mailing state and is not held as a distinct fact."
+      }
+    ],
+    "overridesApplied": []
+  }
+}

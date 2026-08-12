@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "NC",
+  "family": "aoc-cr-287-form-es",
+  "sourceSha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+  "sourceIdentity": {
+    "documentId": "AOC-CR-287",
+    "revision": "REV-2020-12",
+    "language": "ES",
+    "documentRole": "PETITION",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 4,
+    "observedPages": 4,
+    "manifestDeclaredFieldCount": null,
+    "observedAcroFieldCount": 0,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required",
+    "source_states_do_not_complete_for_filing",
+    "not_participant_fillable_no_fixture_fill"
+  ],
+  "nonFilingNotice": {
+    "notice": "NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH",
+    "page": 1,
+    "decodeBasis": "page_content_stream_tounicode_decoded_per_run",
+    "cmapsConsulted": 8,
+    "matched": "do_not_complete_this_form_for_filing"
+  },
+  "explicitMappings": null,
+  "determinism": null,
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a, read 7feaecb5b00c1a307a98e22be2b927052d1dacb728140bc94d3952ba9dbdf4cd"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 0,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [],
+    "overridesApplied": []
+  },
+  "nonFilingHoldEnforcement": {
+    "noticePage": 1,
+    "noticeText": "NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH",
+    "decodeBasis": "page_content_stream_tounicode_decoded_per_run",
+    "finalizerRefused": true,
+    "error": "document states it is not for filing: NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH",
+    "fillProduced": false
+  }
+}

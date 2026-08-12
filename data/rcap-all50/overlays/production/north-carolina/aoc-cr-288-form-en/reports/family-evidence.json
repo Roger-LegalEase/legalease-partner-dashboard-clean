@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "NC",
+  "family": "aoc-cr-288-form-en",
+  "sourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+  "sourceIdentity": {
+    "documentId": "AOC-CR-288",
+    "revision": "REV-2025-03",
+    "language": "EN",
+    "documentRole": "PETITION",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 2,
+    "observedPages": 2,
+    "manifestDeclaredFieldCount": 128,
+    "observedAcroFieldCount": 128,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": {
+    "documentId": "AOC-CR-288",
+    "note": "Eleven-row charge table. The offense-description column on this form is named Description:N, which matches no allowlisted fact descriptor at all, so the escape hatch cannot reach it and the column stays blank. That is recorded as a factory gap rather than worked around here.",
+    "mappings": {
+      "ArrestDate:1": "matter.arrest_date",
+      "ArrestDate:2": "matter.arrest_date",
+      "ArrestDate:3": "matter.arrest_date",
+      "ArrestDate:4": "matter.arrest_date",
+      "ArrestDate:5": "matter.arrest_date",
+      "ArrestDate:6": "matter.arrest_date",
+      "ArrestDate:7": "matter.arrest_date",
+      "ArrestDate:8": "matter.arrest_date",
+      "ArrestDate:9": "matter.arrest_date",
+      "ArrestDate:10": "matter.arrest_date",
+      "ArrestDate:11": "matter.arrest_date"
+    }
+  },
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "9e64b19c6a70096535e844f05da7f6819504f22340ef5924e9e4b9e2e8afbd41",
+    "secondSha256": "9e64b19c6a70096535e844f05da7f6819504f22340ef5924e9e4b9e2e8afbd41",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08, read 488f3b3abe86c1b0fc0b7ec2979982727dafda2f462547f967191675f7ade03e"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 8,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [
+    {
+      "field": "NameAtty",
+      "factId": "participant.full_legal_name",
+      "class": "participant",
+      "reading": "Read as the petitioner's own line on a self-represented filing; the value written is a participant fact, never counsel's identity.",
+      "confirmWith": "counsel review"
+    },
+    {
+      "field": "CityAtty",
+      "factId": "participant.city",
+      "class": "participant",
+      "reading": "Read as the petitioner's own line on a self-represented filing; the value written is a participant fact, never counsel's identity.",
+      "confirmWith": "counsel review"
+    },
+    {
+      "field": "StateAtty",
+      "factId": "participant.state",
+      "class": "participant",
+      "reading": "Read as the petitioner's own line on a self-represented filing; the value written is a participant fact, never counsel's identity.",
+      "confirmWith": "counsel review"
+    },
+    {
+      "field": "ZipCodeAtty",
+      "factId": "participant.zip",
+      "class": "participant",
+      "reading": "Read as the petitioner's own line on a self-represented filing; the value written is a participant fact, never counsel's identity.",
+      "confirmWith": "counsel review"
+    }
+  ],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "PetitionNotFiledSignName",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "A name written on a signature line. It escapes both signature guards because 'sign' sits mid-name, so it is withheld here instead."
+      }
+    ],
+    "overridesApplied": []
+  }
+}

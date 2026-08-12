@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "NC",
+  "family": "aoc-cr-296-form-en",
+  "sourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+  "sourceIdentity": {
+    "documentId": "AOC-CR-296",
+    "revision": "REV-2025-03",
+    "language": "EN",
+    "documentRole": "PETITION",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 2,
+    "observedPages": 2,
+    "manifestDeclaredFieldCount": 126,
+    "observedAcroFieldCount": 126,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": {
+    "documentId": "AOC-CR-296",
+    "note": "Twelve-row charge table, same Description:N naming as AOC-CR-288 and the same recorded gap.",
+    "mappings": {
+      "ArrestDate:1": "matter.arrest_date",
+      "ArrestDate:2": "matter.arrest_date",
+      "ArrestDate:3": "matter.arrest_date",
+      "ArrestDate:4": "matter.arrest_date",
+      "ArrestDate:5": "matter.arrest_date",
+      "ArrestDate:6": "matter.arrest_date",
+      "ArrestDate:7": "matter.arrest_date",
+      "ArrestDate:8": "matter.arrest_date",
+      "ArrestDate:9": "matter.arrest_date",
+      "ArrestDate:10": "matter.arrest_date",
+      "ArrestDate:11": "matter.arrest_date",
+      "ArrestDate:12": "matter.arrest_date"
+    }
+  },
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "49e940821d334c5f3b474e053a81df1c38667437743cf0a0505eac8354cd5c6a",
+    "secondSha256": "49e940821d334c5f3b474e053a81df1c38667437743cf0a0505eac8354cd5c6a",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d, read f9b890be0b17ecbe98f3421e31c51bd48f1eecb7e4382de2f1a6971190d6da40"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 8,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "PetitionNotFiledSignName",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "A name written on a signature line. It escapes both signature guards because 'sign' sits mid-name, so it is withheld here instead."
+      }
+    ],
+    "overridesApplied": []
+  }
+}

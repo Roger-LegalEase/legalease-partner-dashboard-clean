@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "NC",
+  "family": "aoc-cr-297-form-en",
+  "sourceSha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+  "sourceIdentity": {
+    "documentId": "AOC-CR-297",
+    "revision": "REV-2025-06",
+    "language": "EN",
+    "documentRole": "PACKET",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 2,
+    "observedPages": 2,
+    "manifestDeclaredFieldCount": 110,
+    "observedAcroFieldCount": 110,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": {
+    "documentId": "AOC-CR-297",
+    "note": "Two-row charge table with a named offense-description column.",
+    "mappings": {
+      "ArrestDate:1": "matter.arrest_date",
+      "ArrestDate:2": "matter.arrest_date",
+      "OffenseDescription:1": "matter.charge",
+      "OffenseDescription:2": "matter.charge",
+      "DateOfOffense:1": "matter.offense_date",
+      "DateOfOffense:2": "matter.offense_date"
+    }
+  },
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "495dc839889f1508c5ba848bdf2975b58d7514d7509aa71bac81b5c210bd4fdc",
+    "secondSha256": "495dc839889f1508c5ba848bdf2975b58d7514d7509aa71bac81b5c210bd4fdc",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c, read 1bad52f7e83d39701a73c95087ca8e136bef69aede329d7c9ce3df15dfbf557e"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 8,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "EmailAddressOfRecord",
+        "factIdTheBinderOffered": "participant.street_address",
+        "reason": "The district attorney's email inside a certificate-of-service block, and the binder was offering it the participant's street address. Two independent defects meet here: the descriptor list puts \\baddress\\b above \\bemail\\b, and the protect rules read field names only, so a field whose role is stated purely in the surrounding prose escapes both the prosecutor and the service-block guards. Never populated."
+      }
+    ],
+    "overridesApplied": []
+  }
+}

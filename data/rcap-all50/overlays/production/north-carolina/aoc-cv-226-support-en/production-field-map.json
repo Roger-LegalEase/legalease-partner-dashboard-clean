@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "aoc-cv-226-support-en",
+  "lane": "D1B",
   "documentOwnership": "participant_completed",
   "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
   "pageGeometry": [
@@ -18,6 +19,9 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "explicitMappings": {},
   "bindings": [
     {
       "field": "FileNumber",
@@ -93,26 +97,387 @@
       "field": "ApplicantDateOfBirth",
       "class": "participant",
       "factId": "participant.date_of_birth"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "TotalAssets",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "TotalLiabilities",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "BondType",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "DistrictCourtDivisionCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "SuperiorCourtDivisionCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "YesHaveServedInUnitedStatesArmedForcesCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "NoHaveNotServedInUnitedStatesArmedForcesCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "ApplicantIsDefendantCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "ApplicantIsPlaintiffCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
     },
     {
       "field": "ApplicantsEmployerNameAndAddress",
-      "class": "participant",
-      "factId": "participant.street_address"
+      "reason": "protected_category",
+      "category": "outside_party",
+      "factId": null
+    },
+    {
+      "field": "OtherIncomeMonthlyAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "SpouseEmploymentIncomeMonthlyAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
     },
     {
       "field": "SpousesEmployerNameAndAddress",
-      "class": "participant",
-      "factId": "participant.street_address"
+      "reason": "protected_category",
+      "category": "outside_party",
+      "factId": null
+    },
+    {
+      "field": "TotalMonthlyIncome",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "BuyingShelterCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "RentingShelterCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "VehicleInstallmentPaymentsCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "OtherInstallmentPaymentsCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "OtherMonthlyExpensesDescription",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "NumberOfDependents",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "ShelterMonthlyExpensesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "FoodMonthlyExpensesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "UtilitiesMonthlyExpensesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "HealthCareMonthlyExpensesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "InstallmentPaymentsMonthlyExpensesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "CarMonthlyExpensesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "SupportPaymentsMonthlyExpensesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "OtherMonthlyExpensesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "TotalMonthlyExpenses",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "BondAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "ByWhomPosted",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "BankNameAndAccountType",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "A bank name and account type on the affidavit of indigency. The binder matched the word 'Name'. Financial account details are never populated."
+    },
+    {
+      "field": "MotorVehicles",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "LastIncomeTaxFiledYearLastTwoDigits",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "LastIncomeTaxFiledRefundCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "LastIncomeTaxFiledOweCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "CashOnHandAndInBankAccountsAssetsAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
     },
     {
       "field": "MoneyOwedToOrHeldForApplicantAssetsAmount",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "MotorVehiclesAssetsAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "RealEstateAssetsAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "PersonalPropertyAssetsAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "IncomeTaxAssetsAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "OtherAssetsAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "MotorVehiclesLiabilitiesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "RealEstateLiabilitiesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "PersonalPropertyLiabilitiesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "OtherDebtsLiabilitiesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "IncomeTaxLiabilitiesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "OtherLiabilitiesAmount",
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
+    },
+    {
+      "field": "GovernmentalAgenciesOrOtherEntitesAuthorizedToBeContactedAndOrToReleaseInformation",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "SignedByApplicantDate",
+      "reason": "protected_category",
+      "category": "signature",
+      "factId": null
+    },
+    {
+      "field": "SignedByApplicantName",
+      "reason": "protected_category",
+      "category": "signature",
+      "factId": null
+    },
+    {
+      "field": "SigningApplicantIsDefendantCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "SigningApplicantIsPlaintiffCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "JuratPersonAdministerOathsSignDate",
+      "reason": "protected_category",
+      "category": "notarization",
+      "factId": null
+    },
+    {
+      "field": "JuratDeputyCSCCkBox",
+      "reason": "protected_category",
+      "category": "notarization",
+      "factId": null
+    },
+    {
+      "field": "JuratAssistantCSCCkBox",
+      "reason": "protected_category",
+      "category": "notarization",
+      "factId": null
+    },
+    {
+      "field": "JuratClerkOfSuperiorCourtCkBox",
+      "reason": "protected_category",
+      "category": "notarization",
+      "factId": null
+    },
+    {
+      "field": "JuratMagistrateCkBox",
+      "reason": "protected_category",
+      "category": "notarization",
+      "factId": null
+    },
+    {
+      "field": "JuratNotaryCkBox",
+      "reason": "protected_category",
+      "category": "notarization",
+      "factId": null
+    },
+    {
+      "field": "JuratCommissionExpiresDate",
+      "reason": "protected_category",
+      "category": "notarization",
+      "factId": null
+    },
+    {
+      "field": "JuratCountyWhereNotarized",
+      "reason": "protected_category",
+      "category": "notarization",
+      "factId": null
     },
     {
       "field": "ApplicantEmploymentIncomeMonthlyAmount",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "reason": "protected_category",
+      "category": "money",
+      "factId": null
     }
   ],
   "unwritableFields": [
@@ -206,7 +571,7 @@
   ],
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }
