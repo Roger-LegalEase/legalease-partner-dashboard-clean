@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-12T04:15:41.737Z",
+  "family": "mps-petition-to-seal",
+  "jurisdiction": "MA",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "neverPopulateRule": "judge/clerk/prosecutor/agency certification/hearing result/service completion/signature/notarization/court disposition/outside-party facts are never renderer-populated",
+  "fields": [
+    {
+      "censusId": "mps-petition-to-seal-review-anchor-1-1",
+      "name": "review-anchor-1-1",
+      "page": 1,
+      "class": "participant",
+      "populatable": true,
+      "rationale": "Page-1 caption zone; bound to caption facts, render only after F confirms coordinates (committed anchors are low-confidence review zones)."
+    },
+    {
+      "censusId": "mps-petition-to-seal-review-anchor-1-2",
+      "name": "review-anchor-1-2",
+      "page": 1,
+      "class": "signature",
+      "populatable": false,
+      "rationale": "Participant (or affiant) signature/date zone; signed by hand after review — never populated by the renderer."
+    }
+  ]
+}
