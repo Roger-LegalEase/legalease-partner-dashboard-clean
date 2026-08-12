@@ -98,10 +98,65 @@ function tokenize(src) {
   return tokens;
 }
 
-// Every font in this corpus carries an explicit /Widths array, so advances are
-// computed from the document's own metrics rather than estimated. A font that
-// does not (a Type0/Identity-H subset) is reported as inexact and its runs are
-// excluded from anchor placement.
+// A Type0/Identity-H font addresses glyphs by two-byte index, so its strings
+// are unreadable until the font's own ToUnicode CMap is applied. Parsing that
+// CMap turns a subset-encoded form -- North Carolina's Vietnamese and Spanish
+// petitions, Arkansas's pardoned-offender petition -- back into text.
+function parseToUnicode(bytes) {
+  const src = Buffer.from(bytes).toString("latin1");
+  const map = new Map();
+  const hexToStr = (h) => {
+    let out = "";
+    for (let i = 0; i < h.length; i += 4) out += String.fromCharCode(parseInt(h.slice(i, i + 4).padEnd(4, "0"), 16));
+    return out;
+  };
+  for (const block of src.match(/beginbfchar([\s\S]*?)endbfchar/g) ?? []) {
+    for (const m of block.matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>/g)) {
+      map.set(parseInt(m[1], 16), hexToStr(m[2]));
+    }
+  }
+  for (const block of src.match(/beginbfrange([\s\S]*?)endbfrange/g) ?? []) {
+    for (const m of block.matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>\s*\[([\s\S]*?)\]/g)) {
+      const lo = parseInt(m[1], 16);
+      [...m[3].matchAll(/<([0-9a-fA-F]+)>/g)].forEach((d, i) => map.set(lo + i, hexToStr(d[1])));
+    }
+    for (const m of block.matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>/g)) {
+      const lo = parseInt(m[1], 16), hi = parseInt(m[2], 16), dst = m[3];
+      if (hi < lo || hi - lo > 65535) continue;
+      const base = parseInt(dst.slice(-4), 16);
+      const prefix = hexToStr(dst.slice(0, -4));
+      for (let c = lo; c <= hi; c++) map.set(c, prefix + String.fromCharCode(base + (c - lo)));
+    }
+  }
+  return map;
+}
+
+// Type0 advances live in the descendant font's /W array, defaulting to /DW.
+function parseCidWidths(wArray, ctx) {
+  const widths = new Map();
+  if (!wArray) return widths;
+  const items = wArray.asArray().map((v) => ctx.lookup(v) ?? v);
+  for (let i = 0; i < items.length;) {
+    const first = Number(items[i]?.asNumber?.() ?? NaN);
+    const next = items[i + 1];
+    if (next instanceof PDFArray) {
+      next.asArray().map((v) => Number((ctx.lookup(v) ?? v)?.asNumber?.() ?? 0))
+        .forEach((w, k) => widths.set(first + k, w));
+      i += 2;
+    } else {
+      const last = Number(next?.asNumber?.() ?? NaN);
+      const w = Number(items[i + 2]?.asNumber?.() ?? 0);
+      if (Number.isFinite(first) && Number.isFinite(last) && last >= first && last - first <= 65535) {
+        for (let c = first; c <= last; c++) widths.set(c, w);
+      }
+      i += 3;
+    }
+  }
+  return widths;
+}
+
+// Every simple font in this corpus carries an explicit /Widths array, so
+// advances are computed from the document's own metrics rather than estimated.
 function loadPageFonts(page) {
   const out = new Map();
   const res = page.node.Resources?.();
@@ -113,7 +168,8 @@ function loadPageFonts(page) {
     let fd;
     try { fd = page.node.context.lookup(ref, PDFDict); } catch { continue; }
     if (!fd) continue;
-    const subtype = String(fd.get(PDFName.of("Subtype")) ?? "");
+    // The dictionary value serializes as "/Type0"; compare on the bare name.
+    const subtype = String(fd.get(PDFName.of("Subtype")) ?? "").replace(/^\//, "");
     const firstChar = Number(fd.get(PDFName.of("FirstChar"))?.asNumber?.() ?? 0);
     let widths = null;
     try {
@@ -125,28 +181,61 @@ function loadPageFonts(page) {
       const desc = fd.lookupMaybe(PDFName.of("FontDescriptor"), PDFDict);
       missingWidth = Number(desc?.get(PDFName.of("MissingWidth"))?.asNumber?.() ?? 0);
     } catch { /* default */ }
+    let toUnicode = null;
+    try {
+      const tu = fd.lookup(PDFName.of("ToUnicode"));
+      if (tu instanceof PDFRawStream) toUnicode = parseToUnicode(decodePDFRawStream(tu).decode());
+    } catch { /* unreadable CMap */ }
+
+    // Type0: two-byte codes, widths from the descendant font.
+    let cidWidths = null, defaultWidth = 1000;
+    if (subtype === "Type0") {
+      try {
+        const df = fd.lookupMaybe(PDFName.of("DescendantFonts"), PDFArray);
+        const d0 = df ? page.node.context.lookup(df.get(0), PDFDict) : null;
+        if (d0) {
+          cidWidths = parseCidWidths(d0.lookupMaybe(PDFName.of("W"), PDFArray), page.node.context);
+          defaultWidth = Number(d0.get(PDFName.of("DW"))?.asNumber?.() ?? 1000);
+        }
+      } catch { /* fall back to DW */ }
+    }
+
     out.set(key.asString().replace(/^\//, ""), {
-      subtype, firstChar, widths, missingWidth,
-      exact: Boolean(widths) && subtype !== "Type0"
+      subtype, firstChar, widths, missingWidth, toUnicode, cidWidths, defaultWidth,
+      twoByte: subtype === "Type0",
+      // A Type0 font is only exact once both its CMap and its widths resolve.
+      exact: subtype === "Type0" ? Boolean(toUnicode && cidWidths) : Boolean(widths)
     });
   }
   return out;
 }
 
-function charAdvance(font, ch, size, charSpace, wordSpace, hScale) {
-  const code = ch.charCodeAt(0);
-  let w;
-  if (font?.widths && code >= font.firstChar && code - font.firstChar < font.widths.length) {
-    w = font.widths[code - font.firstChar];
-  } else if (font?.missingWidth) w = font.missingWidth;
-  else w = 500;
-  return ((w / 1000) * size + charSpace + (code === 32 ? wordSpace : 0)) * hScale;
-}
-
-function advanceOf(font, text, size, charSpace, wordSpace, hScale) {
-  let total = 0;
-  for (const ch of text) total += charAdvance(font, ch, size, charSpace, wordSpace, hScale);
-  return total;
+// Splits a shown string into the glyphs the font actually addresses, decoding
+// each to text and pairing it with its own advance. A Type0 string is read two
+// bytes at a time; a simple font one byte at a time.
+function decodeGlyphs(font, raw, size, charSpace, wordSpace, hScale) {
+  const out = [];
+  if (font?.twoByte) {
+    for (let i = 0; i + 1 < raw.length; i += 2) {
+      const code = (raw.charCodeAt(i) << 8) | raw.charCodeAt(i + 1);
+      const text = font.toUnicode?.get(code) ?? "\uFFFD";
+      const w = font.cidWidths?.get(code) ?? font.defaultWidth ?? 1000;
+      out.push({ text, advance: ((w / 1000) * size + charSpace) * hScale });
+    }
+    return out;
+  }
+  for (const ch of raw) {
+    const code = ch.charCodeAt(0);
+    let w;
+    if (font?.widths && code >= font.firstChar && code - font.firstChar < font.widths.length) {
+      w = font.widths[code - font.firstChar];
+    } else if (font?.missingWidth) w = font.missingWidth;
+    else w = 500;
+    // A simple font's ToUnicode map still governs what the byte means.
+    const text = font?.toUnicode?.get(code) ?? ch;
+    out.push({ text, advance: ((w / 1000) * size + charSpace + (code === 32 ? wordSpace : 0)) * hScale });
+  }
+  return out;
 }
 
 const mul = (a, b) => [
@@ -180,14 +269,18 @@ export function extractTextItems(page) {
     const size = fontSize * scale;
     // Per-character positions: a fill-in-the-blank form's rule lines are found
     // by locating contiguous underscores, which needs each glyph's own x.
+    const glyphs = decodeGlyphs(font, text, fontSize, charSpace, wordSpace, hScale);
     const chars = [];
-    let cursor = 0;
-    for (const ch of text) {
-      const a = charAdvance(font, ch, fontSize, charSpace, wordSpace, hScale);
-      chars.push({ c: ch, x: Number((m[4] + cursor * scale).toFixed(2)), w: Number((a * scale).toFixed(2)) });
-      cursor += a;
+    let cursor = 0, decoded = "";
+    for (const g of glyphs) {
+      const gx = m[4] + cursor * scale, gw = g.advance * scale;
+      // A glyph may decode to more than one character (a ligature); they share
+      // the glyph's box rather than inventing sub-positions.
+      for (const c of g.text) chars.push({ c, x: Number(gx.toFixed(2)), w: Number((gw / g.text.length).toFixed(2)) });
+      decoded += g.text;
+      cursor += g.advance;
     }
-    items.push({ text, x: m[4], y: m[5], size: Number(size.toFixed(2)),
+    items.push({ text: decoded, x: m[4], y: m[5], size: Number(size.toFixed(2)),
       width: Number((cursor * scale).toFixed(2)), metricsExact: font?.exact === true, chars });
     tm = mul([1, 0, 0, 1, cursor, 0], tm);
   };

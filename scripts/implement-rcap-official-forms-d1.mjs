@@ -65,7 +65,10 @@ function haystack(name) {
 const CID_ENCODED = /\u0000/;
 
 // --- document ownership -----------------------------------------------------
+const NOT_FOR_FILING = /do not complete this form for filing|informational purposes only|not to be filed|no lo debe presentar|kh\u00f4ng \u0111i\u1ec1n v\u00e0 n\u1ed9p/i;
+
 const OWNERSHIP = {
+  NOT_FOR_FILING: "informational_not_for_filing_no_fill",
   INSTRUCTIONAL: "instructional_no_participant_fill",
   OUTSIDE_PARTY: "outside_party_completed",
   COURT_ORDER: "court_issued_caption_only",
@@ -361,7 +364,7 @@ for (const fam of index.families) {
   const sha = crypto.createHash("sha256").update(bytes).digest("hex");
   if (sha !== record.sha256) { results.push({ family: fam.familySlug, status: "source_drift_detected" }); continue; }
 
-  const ownership = determineOwnership(record);
+  let ownership = determineOwnership(record);
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
   const pages = doc.getPages();
   const pageIndexOf = new Map(pages.map((p, i) => [p.ref.toString(), i + 1]));
@@ -496,7 +499,32 @@ for (const fam of index.families) {
   });
   const effectiveNameOf = new Map(classification.map((c) => [c.name, c.labelAmbiguous ? c.name : (c.effectiveLabel ?? c.name)]));
 
-  const noFill = ownership === OWNERSHIP.INSTRUCTIONAL || ownership === OWNERSHIP.OUTSIDE_PARTY;
+  // Some official translations carry a notice, in the document's own words,
+  // that they exist for reference and must not be filed. North Carolina's
+  // Spanish and Vietnamese petitions all say so on page 1. A manifest cannot
+  // show that; only reading the document can. Nothing that says this about
+  // itself is ever filled.
+  let notForFilingNotice = null;
+  for (let pi = 0; pi < Math.min(pages.length, 2) && !notForFilingNotice; pi++) {
+    for (const line of groupIntoLines(extractTextItems(pages[pi]))) {
+      if (NOT_FOR_FILING.test(line.text)) { notForFilingNotice = line.text.trim().slice(0, 200); break; }
+    }
+  }
+  if (notForFilingNotice) ownership = OWNERSHIP.NOT_FOR_FILING;
+
+  const noFill = ownership === OWNERSHIP.INSTRUCTIONAL || ownership === OWNERSHIP.OUTSIDE_PARTY
+    || ownership === OWNERSHIP.NOT_FOR_FILING;
+
+  // A family that becomes no-fill must not keep fixtures rendered by an
+  // earlier, wrong reading of the document.
+  if (noFill) {
+    for (const stale of ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"]) {
+      const p2 = path.join(familyDir, stale);
+      if (fs.existsSync(p2)) fs.rmSync(p2);
+    }
+    const sheetDir = path.join(familyDir, "contact-sheet");
+    if (fs.existsSync(sheetDir) && fs.readdirSync(sheetDir).length === 0) fs.rmdirSync(sheetDir);
+  }
   const bindings = [];
   if (!noFill) {
     for (const c of classification) {
@@ -791,10 +819,22 @@ for (const fam of index.families) {
     reproducible: "Modification dates are pinned, so re-rendering from the same source binary reproduces these hashes byte for byte.",
     artifacts: renderedArtifacts }, null, 2) + "\n");
 
+  // Holds must track the current reading of the document, in both directions:
+  // a family that becomes non-fillable gains the no-fixture-fill hold, and one
+  // that becomes fillable must not keep a stale one.
+  const holds = new Set(record.productionHolds ?? []);
+  if (noFill) holds.add("not_participant_fillable_no_fixture_fill");
+  else holds.delete("not_participant_fillable_no_fixture_fill");
+  if (notForFilingNotice) {
+    record.notForFilingNotice = notForFilingNotice;
+    holds.add("document_states_not_for_filing");
+  }
+  record.productionHolds = [...holds];
   record.documentOwnership = ownership;
   record.participantFillable = !noFill;
   record.implementationStatus = noFill
-    ? (ownership === OWNERSHIP.INSTRUCTIONAL ? "no_fill_instructional_document" : "no_fill_outside_party_document")
+    ? (ownership === OWNERSHIP.NOT_FOR_FILING ? "no_fill_document_states_not_for_filing"
+      : ownership === OWNERSHIP.INSTRUCTIONAL ? "no_fill_instructional_document" : "no_fill_outside_party_document")
     : mapKind === "flat_overlay"
       ? (anchors.length > 0 ? "overlay_implemented_pending_independent_review"
         : candidateLabels.length > 0 ? "overlay_labels_measured_write_box_pending_review"
@@ -805,6 +845,7 @@ for (const fam of index.families) {
     : "acroform_mapped_all_fields_manual_or_unwritable";
   record.censusBasis = "first_hand_inspection_of_verified_binary";
   record.ownershipDetermination = {
+    [OWNERSHIP.NOT_FOR_FILING]: "The document states on its own face that it is for information only and must not be completed for filing. No fill is produced.",
     [OWNERSHIP.INSTRUCTIONAL]: "Instructional document. It is read, not filed, so no participant fill is produced.",
     [OWNERSHIP.OUTSIDE_PARTY]: "Completed by the opposing party, not the participant. No fill is produced.",
     [OWNERSHIP.COURT_ORDER]: "Court-issued order. Only caption facts are bound; no decretal or dispositional field is ever written.",
@@ -833,6 +874,7 @@ console.log(JSON.stringify({
   overlayNoTextLayer: sum((r) => r.status === "overlay_no_extractable_text_layer"),
   allManual: sum((r) => r.status === "acroform_mapped_all_fields_manual_or_unwritable"),
   instructional: sum((r) => r.status === "no_fill_instructional_document"),
+  notForFiling: sum((r) => r.status === "no_fill_document_states_not_for_filing"),
   outsideParty: sum((r) => r.status === "no_fill_outside_party_document"),
   totalFields: results.reduce((a, r) => a + (r.fields ?? 0), 0),
   boundFields: results.reduce((a, r) => a + (r.bound ?? 0), 0),
