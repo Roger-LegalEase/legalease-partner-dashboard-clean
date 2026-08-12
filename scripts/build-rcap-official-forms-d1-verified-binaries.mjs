@@ -82,7 +82,11 @@ for (const stateDir of fs.existsSync(path.join(SRC, "STATES")) ? fs.readdirSync(
       const participantFillable = documentRole ? PARTICIPANT_FILLABLE_ROLES.has(documentRole) : false;
       const generationAllowed = (row?.generation_allowed ?? "no").toLowerCase() === "yes";
 
-      const familySlug = slugify(`${documentId}-${row?.language ?? "EN"}`);
+      // Asset class is part of the family identity: a FORM and its
+      // INSTRUCTIONS sheet share a document id (e.g. NE CC-6-12) and must
+      // never collide onto one package directory.
+      const assetClass = fileName.split("__")[1] ?? "FORM";
+      const familySlug = slugify(`${documentId}-${assetClass}-${row?.language ?? "EN"}`);
       const familyDir = path.join(OUT, jurisdictionSlug, familySlug);
       fs.mkdirSync(path.join(familyDir, "reports"), { recursive: true });
       fs.mkdirSync(path.join(familyDir, "fixtures"), { recursive: true });
