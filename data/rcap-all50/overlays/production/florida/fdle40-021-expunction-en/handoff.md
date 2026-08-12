@@ -21,8 +21,8 @@ Nothing. No blank on this document is a participant fact this lane will bind, so
 
 Blanks measured on the page and refused, by reason:
 
-- `not_on_the_reviewed_anchor_allowlist` — 28
-- `protected_category` — 3
+- `not_on_the_reviewed_anchor_allowlist` — 23
+- `protected_category` — 8
 
 ## Evidence
 

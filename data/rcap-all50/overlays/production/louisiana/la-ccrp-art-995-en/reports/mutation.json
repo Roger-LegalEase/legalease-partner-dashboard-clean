@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "rcap-mutation-suite/v1",
+  "basis": "Each mutation removes one guarantee and confirms the pipeline refuses. No shared D0 module is modified; every mutation is applied to inputs.",
+  "mutations": [
+    {
+      "mutation": "source_byte_perturbed",
+      "expected": "refusal",
+      "refused": true,
+      "message": "source drift: expected b90e8cc62a2762c7d52b0a2b0f712147ca2ead4703fe091e26e9927cbab71c39, read bf23222be354a1df45b21e8e7c"
+    },
+    {
+      "mutation": "non_filing_notice_injected",
+      "expected": "NonFilingHoldError",
+      "held": true,
+      "errorName": "NonFilingHoldError"
+    },
+    {
+      "mutation": "charge_row_7_requested_with_one_charge_supplied",
+      "expected": "refused",
+      "refused": true,
+      "reason": "repeating_row_without_indexed_fact"
+    },
+    {
+      "mutation": "oversized_value_into_a_40pt_widget",
+      "expected": "refused",
+      "refused": true,
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "minFontSize": 6
+    }
+  ],
+  "allRefusedAsExpected": true
+}

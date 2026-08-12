@@ -702,15 +702,22 @@ function discoverBlanks(pdfDoc, { minGapWidth = 40, minRuleWidth = 18 } = {}) {
       const textBetween = (from, to) =>
         chars.slice(from, to).map((c) => c.c).join("").replace(/\s+/g, " ").trim();
 
-      segments.forEach((seg, segIndex) => {
+      // Only a run wide enough to be a fill area counts as a blank, and only a
+      // blank breaks a label. Word spacing inside a label is not a boundary:
+      // treating the single space in `NAME: ______` as one would leave the rule
+      // with an empty label and the participant's name unbound.
+      const kept = segments.filter((seg) => {
+        const width = (chars[seg.to - 1].x + chars[seg.to - 1].w) - chars[seg.from].x;
+        return seg.kind === "printed_rule" ? width >= minRuleWidth : width >= minGapWidth;
+      });
+
+      kept.forEach((seg, segIndex) => {
         const x = chars[seg.from].x;
         const x2 = chars[seg.to - 1].x + chars[seg.to - 1].w;
         const width = x2 - x;
-        if (seg.kind === "printed_rule" && width < minRuleWidth) return;
-        if (seg.kind === "measured_gap" && width < minGapWidth) return;
 
-        const prev = segments[segIndex - 1];
-        const next = segments[segIndex + 1];
+        const prev = kept[segIndex - 1];
+        const next = kept[segIndex + 1];
         found.push({
           page: pageIndex + 1,
           lineIndex,
