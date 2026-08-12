@@ -1,0 +1,824 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "exp-ad-case-list",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 78,
+  "fields": [
+    {
+      "name": "1 - County",
+      "type": "dropdown",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county_or_filing_location",
+      "boundsCheck": {
+        "strategy": "must_match_dropdown_option"
+      },
+      "note": "Statewide dropdown; value must match a county option on the form."
+    },
+    {
+      "name": "2 - Your name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "3 - Other name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Alias/other names; not collected by the compiled screening vocabulary."
+    },
+    {
+      "name": "4 - Date of birth",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "DOB not collected by compiled screening vocabulary; participant supplies at assembly."
+    },
+    {
+      "name": "5 - Race",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "6 - Gender",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "7 - Case Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "case_identifier",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "arrest1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest4",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest5",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest7",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest8",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest9",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest10",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest11",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest12",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest13",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest14",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest6",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest15",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest16",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest17",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest18",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest19",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest20",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest22",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest23",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest24",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest25",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest26",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest27",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest28",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest21",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest29",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest30",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest31",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest32",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest33",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest34",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest35",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest36",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest37",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest38",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest39",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest40",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest41",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest42",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest43",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest44",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest45",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest46",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest47",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest48",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest50",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest51",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest52",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest53",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest54",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest55",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest56",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest49",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest57",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest58",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest59",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest60",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest61",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest62",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest63",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest64",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest65",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest66",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest67",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest68",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest69",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "arrest70",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Case-list grid row (arrest/case number). Sourced from the participant’s records at assembly; renderer does not auto-fill."
+    },
+    {
+      "name": "Page 1 - More Arrests or Case Numbers",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "derivation": "case_row_overflow_flag",
+      "valueMap": {
+        "checkedWhen": "participant case rows exceed on-form capacity and an addendum page is attached",
+        "uncheckedWhen": "all rows fit on the form"
+      },
+      "note": "Checked only as a mechanical consequence of row overflow."
+    }
+  ]
+}

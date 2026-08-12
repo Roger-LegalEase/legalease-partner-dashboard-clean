@@ -1,0 +1,35 @@
+{
+  "fixtureKind": "boundary",
+  "description": "Longest plausible name/address/case-number values plus multiline content; every value must survive the family boundsChecks (shrink-to-fit or addendum overflow), never silent truncation.",
+  "participantFacts": {
+    "participant_full_legal_name": "Alexandria Konstantina Papadopoulos-Vandenberg y de la Cruz Martinez III",
+    "county_or_filing_location": "Jo Daviess",
+    "case_identifier": "2015-CM-0009999-01; 2016-CF-0012345-02; 2017-DV-0000042",
+    "charge": "Unlawful possession of a controlled substance with intent to deliver within 1,000 feet of a school, 720 ILCS 570/407(b)(1), reduced on amended information to simple possession, 720 ILCS 570/402(c)",
+    "contact_information": {
+      "addressLine1": "12847 South Doctor Martin Luther King Junior Memorial Drive, Building C, Apartment 14-B",
+      "cityStateZip": "East Saint Louis, IL 62201-9998",
+      "phone": "+1 (618) 555-0199 ext. 4402",
+      "email": "alexandria.papadopoulos.vandenberg@example-very-long-domain.org"
+    },
+    "case_outcome": "Released without charging"
+  },
+  "expectedFieldValues": {
+    "1 - County": "Jo Daviess",
+    "2 - Your name": "Alexandria Konstantina Papadopoulos-Vandenberg y de la Cruz Martinez III",
+    "7 - Case Number": "2015-CM-0009999-01; 2016-CF-0012345-02; 2017-DV-0000042",
+    "Page 1 - More Arrests or Case Numbers": true
+  },
+  "overflowExpectations": [
+    {
+      "field": "2 - Your name",
+      "softMaxLen": 60,
+      "onOverflow": "overflow_to_addendum"
+    },
+    {
+      "field": "7 - Case Number",
+      "softMaxLen": 30,
+      "onOverflow": "overflow_to_addendum"
+    }
+  ]
+}
