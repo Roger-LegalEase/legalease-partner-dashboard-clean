@@ -13,20 +13,20 @@ Ownership: `participant_completed`. Render strategy: `flat_overlay`. Observed st
 
 ## Census and binding
 
-- Census entries: **19**
+- Census entries: **25**
 - Bound by D0's binder: **0**
-- Refused: **19** (document_does_not_accept_fill 19)
+- Refused: **25** (document_does_not_accept_fill 25)
 - Written: **0** — source-gated in Edition 1 with the currentness gate open: the manifest records the current published revision as a freshness gate, and Massachusetts expungement practice under c. 276 §§ 100F–100K has moved since this October 2018 sheet. A rendered sample of a possibly-superseded petition would invite exactly the inference this hold exists to prevent.
 
 ### Binding corrections
 
 Each entry names the field's true fact. Because that fact differs from the one the field's own name resolves to, D0's binder refuses the field rather than writing an approximately-right value. A correction can only ever remove a binding.
 
-- `p1.r503.9.x155` → `participant.alias_or_former_name` — 'Alias/Maiden/Previous Name' resolves to participant.full_legal_name on the descriptor's bare \\bname\\b match. An alias is a different fact from a legal name, and stamping the legal name into an alias line misstates the record.
-- `p1.r450.0.x95` → `third_party.father_name` — 'Father's Name' resolves to participant.full_legal_name on the same bare name match. It names a third party, and the participant's own name is not it.
-- `p1.r450.0.x321` → `third_party.mother_maiden_name` — 'Mother's Maiden Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.
-- `p1.r450.0.x470` → `third_party.spouse_name` — 'Spouse's Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.
-- `p1.r468.0.x436` → `participant.phone_local_number` — the telephone rule sits beside a Social Security number rule in the same band; the lane declines the pair rather than risk the wrong one.
+- `p1.r503.9.x155.rule` → `participant.alias_or_former_name` — 'Alias/Maiden/Previous Name' resolves to participant.full_legal_name on the descriptor's bare \\bname\\b match. An alias is a different fact from a legal name, and stamping the legal name into an alias line misstates the record.
+- `p1.r450.0.x95.rule` → `third_party.father_name` — 'Father's Name' resolves to participant.full_legal_name on the same bare name match. It names a third party, and the participant's own name is not it.
+- `p1.r450.0.x321.rule` → `third_party.mother_maiden_name` — 'Mother's Maiden Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.
+- `p1.r450.0.x470.rule` → `third_party.spouse_name` — 'Spouse's Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.
+- `p1.r468.0.x436.rule` → `participant.phone_local_number` — the telephone rule sits beside a Social Security number rule in the same band; the lane declines the pair rather than risk the wrong one.
 
 ## Holds carried forward
 

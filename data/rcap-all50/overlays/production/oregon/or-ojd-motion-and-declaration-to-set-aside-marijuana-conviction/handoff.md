@@ -13,16 +13,17 @@ Ownership: `participant_completed`. Render strategy: `flat_overlay`. Observed st
 
 ## Census and binding
 
-- Census entries: **18**
-- Bound by D0's binder: **8**
-- Refused: **10** (no_allowlisted_fact_matches 6, signature 2, prosecutor 1, mapping_conflict 1)
+- Census entries: **21**
+- Bound by D0's binder: **7**
+- Refused: **14** (no_allowlisted_fact_matches 9, signature 2, mapping_conflict 2, prosecutor 1)
 - Written into the canonical artifact: **8**
 
 ### Binding corrections
 
 Each entry names the field's true fact. Because that fact differs from the one the field's own name resolves to, D0's binder refuses the field rather than writing an approximately-right value. A correction can only ever remove a binding.
 
-- `p2.r371.6.x288` → `service_recipient.certifying_party_name` — 'Name (typed or printed)' inside the certificate of mailing rather than the declaration. The identical caption appears in both blocks; only the declaration's copy is written.
+- `p2.r371.6.x288.rule` → `service_recipient.certifying_party_name` — 'Name (typed or printed)' inside the certificate of mailing rather than the declaration. The identical caption appears in both blocks; only the declaration's copy is written.
+- `p2.r577.7.x432.rule` → `participant.phone_second_rule_segment` — the telephone blank is drawn as two rule segments under one 'Phone Number' caption, and both resolve to participant.phone. The number is written once, into the segment the caption sits over; writing it into both would duplicate it on the page.
 
 ## Holds carried forward
 

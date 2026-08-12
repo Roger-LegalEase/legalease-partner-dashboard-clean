@@ -434,7 +434,36 @@ function labelRule(rule, lines) {
     labelChoiceBasis = "text_printed_to_the_left_of_the_rule";
   }
 
-  return { leftLabel, belowLabel, effectiveLabel, labelChoiceBasis };
+  // Text immediately following the rule. Utah writes "____ Judicial District
+  // ____ County": the second blank's only name is the word after it, and the
+  // text to its left names the blank before it. This is recorded for the
+  // census and offered to a spec's label override; it never wins on its own,
+  // because a trailing word is as often the next sentence as it is a label.
+  let rightLabel = "";
+  for (const l of sameBand) {
+    const after = l.runs.filter((r) => !isBlankRun(r.text) && r.x >= rule.x2 - 3);
+    if (after.length === 0) continue;
+    const picked = [];
+    for (const r of after) {
+      if (picked.length && r.x - picked[picked.length - 1].x2 > 7) break;
+      picked.push(r);
+      if (joinRuns(picked, l.size).length >= 32) break;
+    }
+    const phrase = joinRuns(picked, l.size);
+    if (phrase.length > rightLabel.length) rightLabel = phrase;
+  }
+
+  // rcap-pdf-anchor-capture reports whether a run's advances came from the
+  // font's own /Widths array. A Type0/Identity-H subset has none, so its
+  // positions are estimated -- and Utah's BCI forms are full of them, which is
+  // why their labels read back as raw byte pairs. The module's doctrine is
+  // that inexact runs are excluded from anchor placement; that verdict is
+  // carried here so a spec cannot write onto a blank whose geometry is a
+  // guess.
+  const metricsExact = [...sameBand, ...(under ? [under] : [])]
+    .every((l) => l.metricsExact !== false);
+
+  return { leftLabel, belowLabel, rightLabel, effectiveLabel, labelChoiceBasis, metricsExact };
 }
 
 function censusFlatSlots(pdfDoc) {
@@ -449,14 +478,23 @@ function censusFlatSlots(pdfDoc) {
       .sort((a, b) => b.y - a.y || a.x - b.x);
 
     for (const rule of all) {
-      const { leftLabel, belowLabel, effectiveLabel, labelChoiceBasis } = labelRule(rule, lines);
-      if (effectiveLabel.length === 0) continue;
+      const { leftLabel, belowLabel, rightLabel, effectiveLabel, labelChoiceBasis, metricsExact } = labelRule(rule, lines);
+      // A rule the form draws but never names is still a blank on the page, so
+      // it stays in the census with a null label rather than being dropped. It
+      // cannot bind — the binder falls back to the slot id, which matches no
+      // descriptor — but a census that quietly omitted it would be claiming a
+      // completeness it does not have.
       const nearbySize = lines
         .filter((l) => Math.abs(l.y - rule.y) <= 14)
         .reduce((best, l) => (best === null || l.size > best ? l.size : best), null) ?? 10;
       const fontSize = Math.max(MIN_READABLE_FONT_SIZE, Math.min(11, nearbySize));
       slots.push({
-        name: `p${pageIndex + 1}.r${rule.y.toFixed(1)}.x${rule.x.toFixed(0)}`,
+        // The trailing ".rule" is load-bearing. D0 reads a trailing one- or
+        // two-digit group on a field name as a repeating charge-row index, so
+        // a slot id ending in "...x330" is read as row 30 and refused for want
+        // of a thirtieth charge. Utah's case-number blank was lost to exactly
+        // that before the suffix was added.
+        name: `p${pageIndex + 1}.r${rule.y.toFixed(1)}.x${rule.x.toFixed(0)}.rule`,
         type: "flat_slot",
         page: pageIndex + 1,
         maxLength: null,
@@ -465,8 +503,11 @@ function censusFlatSlots(pdfDoc) {
         ruleThickness: rule.thickness,
         leftLabel,
         belowLabel,
-        effectiveLabel,
+        rightLabel,
+        effectiveLabel: effectiveLabel.length > 0 ? effectiveLabel : null,
+        unlabelled: effectiveLabel.length === 0,
         labelChoiceBasis,
+        metricsExact,
         baselineFontSize: round2(fontSize),
         widgets: [{
           page: pageIndex + 1,
@@ -490,9 +531,14 @@ function censusFlatSlots(pdfDoc) {
 // put it through, so the recorded classification is the decision that actually
 // governs the artifact rather than a parallel opinion about it.
 function classifyCensus(census, opts) {
-  const { explicitMappings = {}, captionOnly = false, documentAcceptsFill = true, chargeRows = 0 } = opts;
+  const { explicitMappings = {}, captionOnly = false, documentAcceptsFill = true, chargeRows = 0, labelOverrides = {}, subRegionBindings = {}, selectedSlots = new Set() } = opts;
   return census.map((f) => {
-    const field = { name: f.name, pdfType: f.type === "flat_slot" ? "text" : f.type, effectiveLabel: f.effectiveLabel };
+    // Where a spec names the blank by the text printed after it rather than
+    // before it, the classification has to be computed from that same label:
+    // a recorded decision that differs from the one governing the artifact is
+    // worse than no record at all.
+    const label = labelOverrides[f.name] ?? f.effectiveLabel;
+    const field = { name: f.name, pdfType: f.type === "flat_slot" ? "text" : f.type, effectiveLabel: label };
     const shared = { explicitMappings, captionOnly, availableChargeRows: chargeRows };
     // The document-level gate refuses every field at once, which is the right
     // effective answer for a held document but tells a reviewer nothing about
@@ -501,12 +547,17 @@ function classifyCensus(census, opts) {
     // what the document's hold does to it.
     const intrinsic = decideBinding(field, { ...shared, documentAcceptsFill: true });
     const effective = decideBinding(field, { ...shared, documentAcceptsFill });
-    const protectedBy = protectCategoryOf(f.effectiveLabel ?? f.name) ?? protectCategoryOf(f.name);
+    const protectedBy = protectCategoryOf(label ?? f.name) ?? protectCategoryOf(f.name);
     return {
       name: f.name,
       type: f.type,
       page: f.widgets?.[0]?.page ?? f.page ?? null,
       effectiveLabel: f.effectiveLabel ?? null,
+      labelUsedForBinding: label ?? null,
+      labelOverriddenBySpec: labelOverrides[f.name] !== undefined,
+      subRegionsBoundSeparately: subRegionBindings[f.name] ?? null,
+      laneSelectedForWriting: selectedSlots.has(f.name),
+      metricsExact: f.metricsExact ?? null,
       protectCategory: protectedBy,
       writable: effective.writable === true,
       factId: effective.factId ?? null,
@@ -545,7 +596,7 @@ const PARTICIPANT_ADDRESS_FACTS = [
 // offense: an identical two-page layout, an identical signature page carrying
 // a self-represented block, an attorney block and a certification of service.
 // Only the self-represented block belongs to the participant.
-function iowaSpec({ slug, title, page1, blockA, blockB, service }) {
+function iowaSpec({ slug, title, page1, blockA, blockB, service, strays }) {
   const corrections = {};
   const rationale = {};
   const note = (slot, factId, why) => { corrections[slot] = factId; rationale[slot] = why; };
@@ -563,6 +614,14 @@ function iowaSpec({ slug, title, page1, blockA, blockB, service }) {
   for (const [slot, fact] of Object.entries(service)) {
     note(slot, `service_recipient.${fact}`,
       "certification of service: this names the county attorney the copy went to, not the participant");
+  }
+  note(strays.alternativePlaintiff, "plaintiff.alternative_municipality",
+    "the caption reads 'State of Iowa or ______', and the blank is for a city prosecuting under its own ordinance. The descriptor list resolves 'State of Iowa or' to participant.state, which would name the petitioner's home state as the plaintiff.");
+  note(strays.captionTableBorder, "not_a_participant_blank.caption_border_rule",
+    "a measured rule that is the caption table's own border rather than a blank. It sits under the word 'County' and so resolves to matter.county. Recorded rather than silently dropped: the census reports every rule the document draws, and this one is not a field.");
+  for (const [slot, fact] of Object.entries(strays.attorneyExtra ?? {})) {
+    note(slot, `attorney.${fact}`,
+      "attorney block: the form fills this only when counsel files on the defendant's behalf, and no attorney fact is a participant fact");
   }
 
   return {
@@ -599,43 +658,53 @@ export const FAMILY_SPECS = {
   "IA:RULE-2.86-FORM-4": iowaSpec({
     slug: "rule-2-86-form-4-application-to-expunge-underage-alcohol-records",
     title: "Rule 2.86 Form 4 — Application to Expunge Possession of Alcohol under the Legal Age Court Records",
-    page1: { county: "p1.r677.6.x298", caseNumber: "p1.r635.9.x361", defendant: "p1.r578.4.x72" },
+    page1: { county: "p1.r677.6.x298.rule", caseNumber: "p1.r635.9.x361.rule", defendant: "p1.r578.4.x72.rule" },
     blockA: {
-      name: "p2.r639.6.x117", address: "p2.r551.3.x108",
-      city: "p2.r520.3.x108", state: "p2.r520.3.x306", zip: "p2.r520.3.x432",
-      areaCode: "p2.r489.1.x112", phone: "p2.r489.1.x149", email: "p2.r489.1.x306"
+      name: "p2.r639.6.x117.rule", address: "p2.r551.3.x108.rule",
+      city: "p2.r520.3.x108.rule", state: "p2.r520.3.x306.rule", zip: "p2.r520.3.x432.rule",
+      areaCode: "p2.r489.1.x112.rule", phone: "p2.r489.1.x149.rule", email: "p2.r489.1.x306.rule"
     },
     blockB: {
-      "p2.r317.0.x108": "street_address", "p2.r286.1.x108": "city",
-      "p2.r286.1.x306": "state", "p2.r286.1.x432": "zip",
-      "p2.r254.8.x112": "phone_area_code", "p2.r254.8.x148": "phone_local_number",
-      "p2.r225.5.x108": "email"
+      "p2.r317.0.x108.rule": "street_address", "p2.r286.1.x108.rule": "city",
+      "p2.r286.1.x306.rule": "state", "p2.r286.1.x432.rule": "zip",
+      "p2.r254.8.x112.rule": "phone_area_code", "p2.r254.8.x148.rule": "phone_local_number",
+      "p2.r225.5.x108.rule": "email"
     },
     service: {
-      "p2.r144.4.x86": "certifying_party_name", "p2.r105.0.x78": "recipient_name",
-      "p2.r80.2.x78": "street_address", "p2.r80.2.x330": "city",
-      "p2.r80.2.x429": "state", "p2.r80.2.x474": "zip"
+      "p2.r144.4.x86.rule": "certifying_party_name", "p2.r105.0.x78.rule": "recipient_name",
+      "p2.r80.2.x78.rule": "street_address", "p2.r80.2.x330.rule": "city",
+      "p2.r80.2.x429.rule": "state", "p2.r80.2.x474.rule": "zip"
+    },
+    strays: {
+      alternativePlaintiff: "p1.r635.2.x165.rule",
+      captionTableBorder: "p1.r661.8.x306.rule",
+      attorneyExtra: { "p2.r225.5.x306.rule": "additional_email" }
     }
   }),
   "IA:RULE-2.86-FORM-5": iowaSpec({
     slug: "rule-2-86-form-5-application-to-expunge-prostitution-records",
     title: "Rule 2.86 Form 5 — Application to Expunge Prostitution Court Records under Iowa Code section 725.1",
-    page1: { county: "p1.r677.6.x298", caseNumber: "p1.r635.9.x361", defendant: "p1.r578.4.x72" },
+    page1: { county: "p1.r677.6.x298.rule", caseNumber: "p1.r635.9.x361.rule", defendant: "p1.r578.4.x72.rule" },
     blockA: {
-      name: "p2.r649.9.x117", address: "p2.r561.7.x108",
-      city: "p2.r530.8.x108", state: "p2.r530.8.x306", zip: "p2.r530.8.x432",
-      areaCode: "p2.r499.4.x112", phone: "p2.r499.4.x149", email: "p2.r499.4.x306"
+      name: "p2.r649.9.x117.rule", address: "p2.r561.7.x108.rule",
+      city: "p2.r530.8.x108.rule", state: "p2.r530.8.x306.rule", zip: "p2.r530.8.x432.rule",
+      areaCode: "p2.r499.4.x112.rule", phone: "p2.r499.4.x149.rule", email: "p2.r499.4.x306.rule"
     },
     blockB: {
-      "p2.r327.4.x108": "street_address", "p2.r296.4.x108": "city",
-      "p2.r296.4.x306": "state",
-      "p2.r265.2.x112": "phone_area_code", "p2.r265.2.x148": "phone_local_number",
-      "p2.r235.8.x108": "email"
+      "p2.r327.4.x108.rule": "street_address", "p2.r296.4.x108.rule": "city",
+      "p2.r296.4.x306.rule": "state",
+      "p2.r265.2.x112.rule": "phone_area_code", "p2.r265.2.x148.rule": "phone_local_number",
+      "p2.r235.8.x108.rule": "email"
     },
     service: {
-      "p2.r154.7.x86": "certifying_party_name", "p2.r115.3.x78": "recipient_name",
-      "p2.r90.5.x78": "street_address", "p2.r90.5.x330": "city",
-      "p2.r90.5.x429": "state", "p2.r90.5.x474": "zip"
+      "p2.r154.7.x86.rule": "certifying_party_name", "p2.r115.3.x78.rule": "recipient_name",
+      "p2.r90.5.x78.rule": "street_address", "p2.r90.5.x330.rule": "city",
+      "p2.r90.5.x429.rule": "state", "p2.r90.5.x474.rule": "zip"
+    },
+    strays: {
+      alternativePlaintiff: "p1.r635.2.x165.rule",
+      captionTableBorder: "p1.r661.8.x306.rule",
+      attorneyExtra: { "p2.r296.4.x432.rule": "zip", "p2.r235.8.x306.rule": "additional_email" }
     }
   }),
 
@@ -661,18 +730,18 @@ export const FAMILY_SPECS = {
     nonFilingNotice: null,
     facts: [],
     bindingCorrections: {
-      "p1.r503.9.x155": "participant.alias_or_former_name",
-      "p1.r450.0.x95": "third_party.father_name",
-      "p1.r450.0.x321": "third_party.mother_maiden_name",
-      "p1.r450.0.x470": "third_party.spouse_name",
-      "p1.r468.0.x436": "participant.phone_local_number"
+      "p1.r503.9.x155.rule": "participant.alias_or_former_name",
+      "p1.r450.0.x95.rule": "third_party.father_name",
+      "p1.r450.0.x321.rule": "third_party.mother_maiden_name",
+      "p1.r450.0.x470.rule": "third_party.spouse_name",
+      "p1.r468.0.x436.rule": "participant.phone_local_number"
     },
     bindingCorrectionRationale: {
-      "p1.r503.9.x155": "'Alias/Maiden/Previous Name' resolves to participant.full_legal_name on the descriptor's bare \\\\bname\\\\b match. An alias is a different fact from a legal name, and stamping the legal name into an alias line misstates the record.",
-      "p1.r450.0.x95": "'Father's Name' resolves to participant.full_legal_name on the same bare name match. It names a third party, and the participant's own name is not it.",
-      "p1.r450.0.x321": "'Mother's Maiden Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.",
-      "p1.r450.0.x470": "'Spouse's Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.",
-      "p1.r468.0.x436": "the telephone rule sits beside a Social Security number rule in the same band; the lane declines the pair rather than risk the wrong one."
+      "p1.r503.9.x155.rule": "'Alias/Maiden/Previous Name' resolves to participant.full_legal_name on the descriptor's bare \\\\bname\\\\b match. An alias is a different fact from a legal name, and stamping the legal name into an alias line misstates the record.",
+      "p1.r450.0.x95.rule": "'Father's Name' resolves to participant.full_legal_name on the same bare name match. It names a third party, and the participant's own name is not it.",
+      "p1.r450.0.x321.rule": "'Mother's Maiden Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.",
+      "p1.r450.0.x470.rule": "'Spouse's Name' resolves to participant.full_legal_name on the same bare name match, and is likewise a third party's fact.",
+      "p1.r468.0.x436.rule": "the telephone rule sits beside a Social Security number rule in the same band; the lane declines the pair rather than risk the wrong one."
     },
     slotBindings: [],
     fidelityFindings: [
@@ -719,37 +788,33 @@ export const FAMILY_SPECS = {
       "matter.county", "matter.case_number"
     ],
     bindingCorrections: {
-      "p4.r295.2.x144": "matter.charges[n].charge",
-      "p4.r282.1.x477": "matter.charges[n].count_number",
-      "p4.r128.4.x126": "matter.charges[n].citation_or_arrest_offense",
-      "p5.r115.6.x288": "service_recipient.certifying_defendant_name"
+      "p4.r295.2.x144.rule": "matter.charges[n].charge",
+      "p4.r282.1.x477.rule": "matter.charges[n].count_number",
+      "p4.r128.4.x126.rule": "matter.charges[n].citation_or_arrest_offense",
+      "p5.r115.6.x288.rule": "service_recipient.certifying_defendant_name",
+      "p3.r256.2.x341.rule": "not_a_participant_blank.underline_inside_instruction_text"
     },
     bindingCorrectionRationale: {
-      "p4.r295.2.x144": "'Name of Charges' is the header of a seven-row charge table, and the descriptor list resolves it to participant.full_legal_name on a bare name match. A charge row may only be written from an indexed participant fact this lane does not supply, so every row stays blank.",
-      "p4.r282.1.x477": "second column of the same charge table ('Count #'), resolved to participant.full_legal_name by the header above it for the same reason.",
-      "p4.r128.4.x126": "'Name of Citation/Arrest Offenses' heads a second five-row table and resolves the same way. Offence rows are charge-row facts.",
-      "p5.r115.6.x288": "'Defendant Name' inside the certificate of mailing. The block records service on the prosecuting attorney, and D0 keeps service blocks blank."
+      "p4.r295.2.x144.rule": "'Name of Charges' is the header of a seven-row charge table, and the descriptor list resolves it to participant.full_legal_name on a bare name match. A charge row may only be written from an indexed participant fact this lane does not supply, so every row stays blank.",
+      "p4.r282.1.x477.rule": "second column of the same charge table ('Count #'), resolved to participant.full_legal_name by the header above it for the same reason.",
+      "p4.r128.4.x126.rule": "'Name of Citation/Arrest Offenses' heads a second five-row table and resolves the same way. Offence rows are charge-row facts.",
+      "p5.r115.6.x288.rule": "'Defendant Name' inside the certificate of mailing. The block records service on the prosecuting attorney, and D0 keeps service blocks blank.",
+      "p3.r256.2.x341.rule": "an underline drawn inside a sentence on the instruction pages, not a blank. It follows '...contact the Oregon State Bar Lawyer Referral Service' and so resolves to participant.state. Recorded rather than dropped: the census reports every rule the document draws, and this one is not a field."
     },
     slotBindings: [
-      { slot: "p4.r693.7.x305", factId: "matter.county" },
-      { slot: "p4.r666.5.x395", factId: "matter.case_number" },
-      { slot: "p4.r611.9.x72", factId: "participant.full_legal_name" },
-      { slot: "p4.r585.6.x102", factId: "participant.date_of_birth" },
-      { slot: "p5.r340.8.x288", factId: "participant.full_legal_name" },
-      { slot: "p5.r340.8.x72", factId: "participant.email" },
-      { slot: "p5.r303.2.x72", subRegion: { xFrom: 74, xTo: 248 }, label: "Address", factId: "participant.street_address" },
-      {
-        slot: "p5.r303.2.x72", subRegion: { xFrom: 252, xTo: 500 }, label: "City, State, ZIP",
-        factId: "participant.city_state_zip",
-        explicitFactMapping: {
-          factId: "participant.city_state_zip",
-          rationale: "the caption printed under this span is 'City, State, ZIP', and the city_state_zip descriptor matches /city\\\\s*state\\\\s*zip/, which the commas this form sets between the words defeat. The binder therefore resolves the span to participant.city alone and would write only 'Springfield' onto a mailing line that has to carry the state and postal code as well. The override names the fact the caption names; writability is still D0's decision and every protect rule still runs against this label."
-        }
-      },
-      { slot: "p5.r303.2.x72", subRegion: { xFrom: 504, xTo: 538 }, label: "Phone", factId: "participant.phone" }
+      { slot: "p4.r693.7.x305.rule", factId: "matter.county" },
+      { slot: "p4.r666.5.x395.rule", factId: "matter.case_number" },
+      { slot: "p4.r611.9.x72.rule", factId: "participant.full_legal_name" },
+      { slot: "p4.r585.6.x102.rule", factId: "participant.date_of_birth" },
+      { slot: "p5.r340.8.x288.rule", factId: "participant.full_legal_name" },
+      { slot: "p5.r340.8.x72.rule", factId: "participant.email" },
+      { slot: "p5.r303.2.x72.rule", subRegion: { xFrom: 74, xTo: 248 }, label: "Address", factId: "participant.street_address" },
+      { slot: "p5.r303.2.x72.rule", subRegion: { xFrom: 252, xTo: 500 }, label: "City, State, ZIP", factId: "participant.city_state_zip" },
+      { slot: "p5.r303.2.x72.rule", subRegion: { xFrom: 504, xTo: 538 }, label: "Phone", factId: "participant.phone" }
     ],
     fidelityFindings: [
       "The compiled Oregon profile's legacy formInventory carries `CriminalSetAside_AdultCases2.pdf` at sha256 6d1f70c6079d56dc49fff49ac356d53e1b3c3749515f1c5029d3e39e1899b69a (253,599 bytes). Edition 1's packet is b22cc346cd8cd8730e9992d74016e948180d92b379b6592ab333b06ac880071 at 256,978 bytes, revision January 2026. Different binaries; the pack manifest wins and the profile is not edited.",
+      "Correction to an earlier reading in this lane: the address sub-regions were first built with an explicit fact mapping, on the belief that the commas in the caption 'City, State, ZIP' defeat the city_state_zip descriptor's /city\\s*state\\s*zip/. They do not. D0's haystack carries a fully squashed copy of every name alongside the separator-normalised one, and 'citystatezip' matches directly. The override was unnecessary, and it and its machinery are gone; the caption binds on the binder's own terms.",
       "Sub-region evidence: the address rule on page 5 spans x 72 to 540 and carries three captions beneath it — 'Address' at x 72, 'City, State, ZIP' at x 252 and 'Phone' at x 504. Each sub-region runs from its own caption's left edge to the next caption's left edge. The phone span is only 34 points wide, which is the form's geometry rather than this lane's choice; whether a telephone number fits it at or above the six-point readable floor is left to D0's fitter and recorded in the overflow report.",
       "Date presentation, recorded for D0 rather than for Oregon: this form captions its date-of-birth blank MM/DD/YYYY, and the factory writes 1991-04-17. D0's type check requires date facts in ISO 8601 form and there is no presentation layer between the fact and the page, so every date this factory writes is ISO. The value is correct and unambiguous, but it does not follow the caption. A per-form date format belongs in the shared factory, not in a lane.",
       "The STATE_README records one open item for Oregon — OJD or county set-aside packets for supported counties plus OSP fingerprint materials, classed `local_jurisdiction_required` / `jurisdiction_input_required`. It is carried forward as a hold, not cleared."
@@ -769,20 +834,22 @@ export const FAMILY_SPECS = {
       "participant.city_state_zip", "participant.phone", "matter.county", "matter.case_number"
     ],
     bindingCorrections: {
-      "p2.r371.6.x288": "service_recipient.certifying_party_name"
+      "p2.r371.6.x288.rule": "service_recipient.certifying_party_name",
+      "p2.r577.7.x432.rule": "participant.phone_second_rule_segment"
     },
     bindingCorrectionRationale: {
-      "p2.r371.6.x288": "'Name (typed or printed)' inside the certificate of mailing rather than the declaration. The identical caption appears in both blocks; only the declaration's copy is written."
+      "p2.r371.6.x288.rule": "'Name (typed or printed)' inside the certificate of mailing rather than the declaration. The identical caption appears in both blocks; only the declaration's copy is written.",
+      "p2.r577.7.x432.rule": "the telephone blank is drawn as two rule segments under one 'Phone Number' caption, and both resolve to participant.phone. The number is written once, into the segment the caption sits over; writing it into both would duplicate it on the page."
     },
     slotBindings: [
-      { slot: "p1.r693.7.x305", factId: "matter.county" },
-      { slot: "p1.r666.5.x395", factId: "matter.case_number" },
-      { slot: "p1.r611.9.x72", factId: "participant.full_legal_name" },
-      { slot: "p1.r586.8.x99", factId: "participant.date_of_birth" },
-      { slot: "p2.r613.1.x293", factId: "participant.full_legal_name" },
-      { slot: "p2.r579.0.x72", subRegion: { xFrom: 74, xTo: 212 }, label: "Address", factId: "participant.street_address" },
-      { slot: "p2.r579.0.x72", subRegion: { xFrom: 216, xTo: 430 }, label: "City/State/Zip", factId: "participant.city_state_zip" },
-      { slot: "p2.r579.0.x468", factId: "participant.phone" }
+      { slot: "p1.r693.7.x305.rule", factId: "matter.county" },
+      { slot: "p1.r666.5.x395.rule", factId: "matter.case_number" },
+      { slot: "p1.r611.9.x72.rule", factId: "participant.full_legal_name" },
+      { slot: "p1.r586.8.x99.rule", factId: "participant.date_of_birth" },
+      { slot: "p2.r613.1.x293.rule", factId: "participant.full_legal_name" },
+      { slot: "p2.r579.0.x72.rule", subRegion: { xFrom: 74, xTo: 212 }, label: "Address", factId: "participant.street_address" },
+      { slot: "p2.r579.0.x72.rule", subRegion: { xFrom: 216, xTo: 430 }, label: "City/State/Zip", factId: "participant.city_state_zip" },
+      { slot: "p2.r579.0.x468.rule", factId: "participant.phone" }
     ],
     fidelityFindings: [
       "The compiled Oregon profile's legacy formInventory holds no binary for this motion at all — its only Oregon PDF is the adult set-aside packet, at a hash Edition 1 does not carry. Oregon's coded state pack is behind Edition 1 on both packet forms.",
@@ -892,20 +959,6 @@ async function inspectBinary(bytes) {
 // one measured slot, and nothing in the label protects it. An ambiguous or
 // unresolved name is a defect in the spec and stops the build rather than
 // silently writing somewhere else.
-// The only facts an explicit anchor mapping may name. Every sensitive
-// descriptor is absent by construction: an arrest, offence, conviction or
-// disposition date and a charge describe the criminal event itself, and D0
-// already requires those to be named field by field on the AcroForm path. The
-// flat path takes no explicitMappings at all, so allowing an override to reach
-// them here would be a way around a protection rather than a use of one.
-const OVERRIDABLE_FACTS = new Set([
-  "participant.full_legal_name", "participant.first_name", "participant.middle_name",
-  "participant.last_name", "participant.date_of_birth", "participant.street_address",
-  "participant.city", "participant.state", "participant.zip", "participant.city_state_zip",
-  "participant.phone", "participant.email", "matter.county", "matter.court",
-  "matter.case_number", "matter.citation_number", "deterministic.filing_date"
-]);
-
 function anchorsFor(spec, slots) {
   const anchors = [], notes = [];
   const corrections = spec.bindingCorrections ?? {};
@@ -920,6 +973,10 @@ function anchorsFor(spec, slots) {
     // no explicitMappings, so the lane enforces the same refusal here.
     if (corrections[slot.name] !== undefined) {
       notes.push({ slot: slot.name, label: slot.effectiveLabel, refused: "explicit_mapping_conflicts_with_field_name", trueFactId: corrections[slot.name] });
+      continue;
+    }
+    if (slot.metricsExact === false) {
+      notes.push({ slot: slot.name, label: slot.effectiveLabel, refused: "font_metrics_inexact_geometry_is_estimated" });
       continue;
     }
     const leftProtect = protectCategoryOf(slot.leftLabel);
@@ -945,34 +1002,11 @@ function anchorsFor(spec, slots) {
     }
     let label = slot.effectiveLabel;
     if (binding.label) {
-      const printed = `${slot.leftLabel} ${slot.belowLabel}`.replace(/\s+/g, " ").toLowerCase();
+      const printed = `${slot.leftLabel} ${slot.belowLabel} ${slot.rightLabel ?? ""}`.replace(/\s+/g, " ").toLowerCase();
       if (!printed.includes(binding.label.replace(/\s+/g, " ").toLowerCase())) {
         throw new Error(`label override "${binding.label}" is not text this document prints beside ${slot.name} (printed: "${printed}")`);
       }
       label = binding.label;
-    }
-    // An explicit fact mapping. D0's binder decides writability first and
-    // keeps deciding it: the protect rules and the type guard run against this
-    // label whatever the mapping says. What the mapping changes is only which
-    // allowlisted fact is written, and only where the printed caption names a
-    // composite the descriptor list has no single regex for — Oregon's
-    // "City, State, ZIP" resolves to participant.city alone, because the
-    // city_state_zip descriptor matches "city state zip" and not the commas
-    // this form sets between them. Under-filling a mailing line is a defect;
-    // so is writing a fact the caption does not name, which is why the
-    // override is confined to the non-sensitive descriptors.
-    let factIdOverride = null;
-    if (binding.explicitFactMapping) {
-      const { factId: wanted, rationale } = binding.explicitFactMapping;
-      if (!OVERRIDABLE_FACTS.has(wanted)) {
-        throw new Error(`explicit fact mapping ${wanted} for ${slot.name} is not an overridable fact`);
-      }
-      if (!rationale) throw new Error(`explicit fact mapping for ${slot.name} carries no rationale`);
-      const decision = decideBinding({ name: label, pdfType: "text", effectiveLabel: label }, {});
-      if (!decision.writable) {
-        throw new Error(`explicit fact mapping for ${slot.name} would override a refusal (${decision.reason}); overrides may not create a binding`);
-      }
-      factIdOverride = wanted;
     }
     anchors.push({
       label,
@@ -982,9 +1016,7 @@ function anchorsFor(spec, slots) {
       captionOnly: spec.captionOnly === true,
       slot: slot.name,
       subRegion: binding.subRegion ?? null,
-      factId: factIdOverride ?? undefined,
-      explicitFactMapping: binding.explicitFactMapping ?? null,
-      expectedFactId: factIdOverride ?? binding.factId
+      expectedFactId: binding.factId
     });
   }
   return { anchors, notes };
@@ -1200,12 +1232,41 @@ async function buildFamily({ state, row, spec, readme, mode }) {
     ? anchorsFor(spec, census)
     : { anchors: [], notes: [] };
 
+  // A label override only makes sense where one blank has one binding. Where a
+  // single long rule is split into several sub-regions, the slot has several
+  // labels at once and no one of them is "the" decision; those are recorded
+  // against the sub-regions instead, in the overlay profile and here.
+  const bindingsBySlot = {};
+  for (const b of spec.slotBindings ?? []) (bindingsBySlot[b.slot] ??= []).push(b);
+  const labelOverrides = Object.fromEntries(
+    Object.entries(bindingsBySlot)
+      .filter(([, bs]) => bs.length === 1 && bs[0].label)
+      .map(([slot, bs]) => [slot, bs[0].label]));
+  const subRegionBindings = Object.fromEntries(
+    Object.entries(bindingsBySlot)
+      .filter(([, bs]) => bs.length > 1)
+      .map(([slot, bs]) => [slot, bs.map((b) => ({ label: b.label ?? null, factId: b.factId, subRegion: b.subRegion ?? null }))]));
   const classification = classifyCensus(census, {
     explicitMappings: spec.bindingCorrections ?? {},
     captionOnly: spec.captionOnly === true,
     documentAcceptsFill: spec.participantFillable === true,
-    chargeRows: 0
+    chargeRows: 0,
+    labelOverrides,
+    subRegionBindings,
+    selectedSlots: new Set((spec.slotBindings ?? []).map((b) => b.slot))
   });
+
+  // A blank D0's binder would write but this lane did not select has to be
+  // explained. Without that, a reader cannot tell a deliberate scope decision
+  // from a blank someone forgot.
+  if (strategy === "flat_overlay" && spec.participantFillable === true) {
+    const unselected = classification.filter((c) => c.intrinsicWritable && !c.laneSelectedForWriting);
+    if (unselected.length > 0 && !spec.unselectedRationale) {
+      throw new Error(
+        `${state.code}:${family} — ${unselected.length} blank(s) bind under D0's binder but are not selected for writing ` +
+        `and the spec gives no unselectedRationale: ${unselected.slice(0, 6).map((c) => `${c.name} (${c.intrinsicFactId})`).join(", ")}`);
+    }
+  }
 
   const holds = holdsFor(row, spec, readme);
   const result = {
@@ -1392,6 +1453,11 @@ function emitFamily({ state, row, spec, dir, result, readme }) {
       intrinsicallyWritableBeforeDocumentLevelHold: classification.filter((c) => c.intrinsicWritable).length
     },
     documentLevelHoldApplied: spec.participantFillable !== true,
+    laneSelectionPolicy: "A blank is written only when this lane names it explicitly. Every blank the binder would bind but the lane did not select is listed below with the reason.",
+    boundByBinderButNotSelectedByLane: classification
+      .filter((c) => c.intrinsicWritable && !c.laneSelectedForWriting)
+      .map((c) => ({ field: c.name, label: c.labelUsedForBinding, factId: c.intrinsicFactId })),
+    unselectedRationale: spec.unselectedRationale ?? null,
     intrinsicRefusalsByReason: countBy(classification.filter((c) => !c.intrinsicWritable), (c) => c.intrinsicCategory ?? c.intrinsicReason),
     entries: classification
   });
@@ -1408,9 +1474,6 @@ function emitFamily({ state, row, spec, dir, result, readme }) {
     ],
     bindingCorrections: spec.bindingCorrections ?? {},
     bindingCorrectionRationale: spec.bindingCorrectionRationale ?? {},
-    explicitFactMappingsAuthorized: (spec.slotBindings ?? [])
-      .filter((b) => b.explicitFactMapping)
-      .map((b) => ({ slot: b.slot, factId: b.explicitFactMapping.factId, rationale: b.explicitFactMapping.rationale })),
     explicitSensitiveMappingsAuthorized: [],
     weakeningsApplied: "none — no D0 protect rule, type guard or readable-size floor was relaxed for this family"
   });
@@ -1430,7 +1493,7 @@ function emitFamily({ state, row, spec, dir, result, readme }) {
       ? populated.map((w) => ({ field: w.field ?? w.anchor, factId: w.factId, kind: w.kind ?? "flat_overlay_text", fontSize: w.fontSize ?? null, outcome: w.outcome ?? null }))
       : [],
     anchors: strategy === "flat_overlay"
-      ? anchors.map((a) => ({ label: a.label, page: a.page, writeBox: a.writeBox, fontSize: a.fontSize, slot: a.slot, subRegion: a.subRegion, factId: a.expectedFactId, explicitFactMapping: a.explicitFactMapping }))
+      ? anchors.map((a) => ({ label: a.label, page: a.page, writeBox: a.writeBox, fontSize: a.fontSize, slot: a.slot, subRegion: a.subRegion, factId: a.expectedFactId }))
       : null,
     anchorRefusals: anchorNotes,
     unwritableFields: classification.filter((c) => !c.writable).map((c) => c.name),
