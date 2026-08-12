@@ -56,6 +56,7 @@ const USERS = [
 ];
 
 const REQUIRED_CASES = [
+  "baseline_schema_complete",
   "migration_hashes_match",
   "migrations_apply_in_order",
   "auth_healthy_real_users",
@@ -73,6 +74,8 @@ const REQUIRED_CASES = [
   "rollback_restores_disabled"
 ];
 const verdicts = new Map();
+let observedHashes = [];
+let baselineDetail = { missing: ["case did not run"], assertedBeforePhase49: false };
 function record(caseId, passed, observed) {
   verdicts.set(caseId, { passed, observed });
   console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
@@ -116,7 +119,11 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
   const prerequisites = [
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
-    "supabase/phase-28-consumer-packet-generation-status.sql"
+    "supabase/phase-28-consumer-packet-generation-status.sql",
+    // partner_entitlement is not referenced by phases 49-54 (verified: 0 hits in
+    // all six files), but the real pre-49 staging schema carries it and the
+    // sponsored surface reads it, so the disposable baseline carries it too.
+    "supabase/phase-35-rcap-partner-entitlement.sql"
   ];
   for (const p of prerequisites) {
     const r = psqlFile(p);
@@ -130,8 +137,73 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
   psql(`create table if not exists public.rcap_persons (id uuid primary key default gen_random_uuid(), partner_slug text not null, match_key text not null)`);
   psql(`grant select, insert, update on public.consumer_briefcase_items to authenticated`);
 
+  // --- baseline_schema_complete ---------------------------------------------
+  //
+  // Proves the disposable stack carries the REAL pre-Phase-49 application
+  // schema before a single migration of the sequence is applied. Derived from
+  // what phases 49-54 actually reference, plus the consumer baseline columns
+  // phases 51-53 read. Deliberately asserts NO phase 49-54 object: `currency`,
+  // `provider_event_id`, `payment_authority`, `payment_recorded_at`,
+  // `payment_recorded_by`, `consumer_briefcase_item_id` and
+  // `consumer_auth_user_id` are created BY phase 52/53, so requiring them here
+  // would assert an object before its migration and could never pass.
+  const BASELINE_TABLES = ["partner_records", "rcap_persons", "rcap_document_packets", "consumer_briefcase_items", "partner_entitlement"];
+  const BASELINE_ITEM_COLUMNS = ["id", "user_id", "item_type", "jurisdiction", "status", "payment_status", "amount_cents", "payment_provider", "checkout_session_id", "payment_intent_id", "receipt_url"];
+  const BASELINE_PERSON_COLUMNS = ["id", "partner_slug", "match_key"];
+  const BASELINE_PARTNER_COLUMNS = ["id", "partner_slug"];
+  const censusSql = `
+    select coalesce(string_agg(missing, ', ' order by missing), '') from (
+      select 'table:public.' || t as missing from unnest(array[${BASELINE_TABLES.map((t) => `'${t}'`).join(",")}]) t
+        where to_regclass('public.' || t) is null
+      union all
+      select 'column:consumer_briefcase_items.' || c from unnest(array[${BASELINE_ITEM_COLUMNS.map((c) => `'${c}'`).join(",")}]) c
+        where not exists (select 1 from information_schema.columns
+                          where table_schema='public' and table_name='consumer_briefcase_items' and column_name=c)
+      union all
+      select 'column:rcap_persons.' || c from unnest(array[${BASELINE_PERSON_COLUMNS.map((c) => `'${c}'`).join(",")}]) c
+        where not exists (select 1 from information_schema.columns
+                          where table_schema='public' and table_name='rcap_persons' and column_name=c)
+      union all
+      select 'column:partner_records.' || c from unnest(array[${BASELINE_PARTNER_COLUMNS.map((c) => `'${c}'`).join(",")}]) c
+        where not exists (select 1 from information_schema.columns
+                          where table_schema='public' and table_name='partner_records' and column_name=c)
+      union all
+      select 'unique:partner_records.partner_slug'
+        where not exists (select 1 from pg_constraint c join pg_class r on r.oid=c.conrelid
+                          where r.relname='partner_records' and c.contype in ('u','p')
+                            and pg_get_constraintdef(c.oid) ilike '%(partner_slug)%')
+      union all
+      select 'fk:consumer_briefcase_items.user_id->auth.users'
+        where not exists (select 1 from pg_constraint c join pg_class r on r.oid=c.conrelid
+                          where r.relname='consumer_briefcase_items' and c.contype='f'
+                            and pg_get_constraintdef(c.oid) ilike '%auth.users%')
+      union all
+      select 'function:auth.uid()' where to_regprocedure('auth.uid()') is null
+      union all
+      select 'extension:pgcrypto' where not exists (select 1 from pg_extension where extname='pgcrypto')
+      union all
+      -- Ordering proof: the case must run BEFORE phase 49 installs its objects.
+      select 'ordering:packet_render_jobs already exists (this case must precede phase 49)'
+        where to_regclass('public.packet_render_jobs') is not null
+    ) s`;
+  const censusMissing = psql(censusSql, { expectFail: true }).out;
+  const baselineOk = censusMissing === "";
+  baselineDetail = {
+    tables: BASELINE_TABLES,
+    consumerItemColumns: BASELINE_ITEM_COLUMNS,
+    missing: censusMissing === "" ? [] : censusMissing.split(", "),
+    assertedBeforePhase49: true
+  };
+  record("baseline_schema_complete", baselineOk, baselineOk
+    ? `pre-phase-49 baseline complete: ${BASELINE_TABLES.length} tables, ${BASELINE_ITEM_COLUMNS.length} consumer payment/ownership columns, partner_slug unique boundary, auth.users FK, auth.uid(), pgcrypto; no phase 49-54 object present yet`
+    : `MISSING: ${censusMissing}`);
+  if (!baselineOk) {
+    console.error("F1: refusing to apply phase 49 onto an incomplete baseline");
+    finish(1);
+  }
+
   let hashesOk = true;
-  const observedHashes = [];
+  observedHashes = [];
   for (const m of action.migrationsInApplyOrder) {
     const actual = sha256File(m.path);
     observedHashes.push({ phase: m.phase, path: m.path, recorded: m.sha256, actual });
@@ -473,19 +545,97 @@ let itemA = null;
 
 finish();
 
+function gitHead() {
+  try { return execFileSync("git", ["rev-parse", "HEAD"], { cwd: rootDir, encoding: "utf8" }).trim(); }
+  catch { return null; }
+}
+
+// Sanitized by construction: this object is BUILT from case verdicts, hashes
+// and synthetic ids. No key, token, password, secret or connection string is
+// ever read into it. The scrub below is a second line of defence, not the
+// first — if it ever fires, that is a bug worth seeing.
+const SECRET_PATTERN = /(eyJ[A-Za-z0-9_-]{20,}|sk_[A-Za-z0-9_]{8,}|whsec_[A-Za-z0-9_]{8,}|ghp_[A-Za-z0-9]{20,}|postgres(?:ql)?:\/\/[^\s"]+)/g;
+function scrub(value) {
+  if (typeof value === "string") return value.replace(SECRET_PATTERN, "***REDACTED***");
+  if (Array.isArray(value)) return value.map(scrub);
+  if (value && typeof value === "object") return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, scrub(v)]));
+  return value;
+}
+
+function resultOf(...caseIds) {
+  const present = caseIds.filter((c) => verdicts.has(c));
+  if (present.length === 0) return "skipped";
+  return present.every((c) => verdicts.get(c).passed) ? "pass" : "fail";
+}
+
 function finish(forceExit = null) {
   const missing = REQUIRED_CASES.filter((c) => !verdicts.has(c));
   const failed = [...verdicts.entries()].filter(([, v]) => !v.passed);
-  const summary = {
-    schemaVersion: "rcap-f1-stack-evidence/v1",
+  const passed = [...verdicts.entries()].filter(([, v]) => v.passed);
+
+  const evidence = scrub({
+    schemaVersion: "rcap-f1-stack-evidence/v2",
+    generatedAtUtc: new Date().toISOString(),
     stagingEnvironmentName: "rcap-ci-staging",
-    requiredCases: REQUIRED_CASES.length,
-    recorded: verdicts.size,
+    workflowRunId: ENV("GITHUB_RUN_ID"),
+    toolsSha: gitHead(),
+    applicationSha: ENV("AUTHORIZED_APPLICATION_SHA"),
+    workerSourceSha: ENV("AUTHORIZED_WORKER_SOURCE_SHA"),
+    workerDigest: ENV("AUTHORIZED_WORKER_DIGEST"),
+    baselineSchemaComplete: {
+      result: verdicts.has("baseline_schema_complete") ? (verdicts.get("baseline_schema_complete").passed ? "pass" : "fail") : "skipped",
+      observed: verdicts.get("baseline_schema_complete")?.observed ?? null,
+      detail: baselineDetail
+    },
+    migrations: observedHashes,
+    cases: Object.fromEntries([...verdicts.entries()].map(([id, v]) => [id, { result: v.passed ? "pass" : "fail", observed: v.observed }])),
+    totals: {
+      required: REQUIRED_CASES.length,
+      recorded: verdicts.size,
+      passed: passed.length,
+      failed: failed.length,
+      skipped: missing.length
+    },
+    results: {
+      auth: resultOf("auth_healthy_real_users"),
+      payment: resultOf("payment_write_denied_to_participant"),
+      sponsored: resultOf("sponsored_partner_seeded"),
+      phase54Isolation: resultOf("browser_role_person_access_denied", "cross_tenant_access_denied"),
+      storage: resultOf("storage_healthy_private"),
+      worker: resultOf("worker_digest_runs_and_drains"),
+      scopedRoute: resultOf("route_disabled_by_default", "scoped_refused_in_production_runtime", "route_scoped_refuses_outsiders"),
+      mailpit: resultOf("email_captured_mailpit"),
+      corruption: resultOf("corruption_detected"),
+      rollback: resultOf("rollback_restores_disabled"),
+      migrations: resultOf("migration_hashes_match", "migrations_apply_in_order")
+    },
+    syntheticIds: {
+      partnerSlug: SANDBOX_PARTNER_SLUG,
+      users: USERS.map((u) => ({ handle: u.email.split("@")[0], authUserId: u.id ?? null })),
+      consumerItemA: itemA ?? null
+    },
     missingCases: missing,
-    failedCases: failed.map(([id, v]) => ({ id, observed: v.observed })),
-    verdicts: Object.fromEntries(verdicts)
-  };
-  fs.writeFileSync(path.join(EVIDENCE_DIR, "f1-stack-summary.json"), JSON.stringify(summary, null, 2));
+    failedCases: failed.map(([id, v]) => ({ id, observed: v.observed }))
+  });
+
+  const json = JSON.stringify(evidence, null, 2);
+  fs.writeFileSync(path.join(EVIDENCE_DIR, "f1-stack-summary.json"), json);
+
+  // The artifact CDN is not always reachable from a coding terminal, so the
+  // same sanitized object is printed between exact markers. Single-line JSON
+  // keeps it greppable out of a raw log.
+  const marked = `F1_EVIDENCE_JSON_BEGIN\n${JSON.stringify(evidence)}\nF1_EVIDENCE_JSON_END`;
+  console.log(marked);
+  fs.writeFileSync(path.join(EVIDENCE_DIR, "f1-evidence-marked.log"), `${marked}\n`);
+
+  // Self-check: the markers this run just emitted must satisfy the contract.
+  const check = spawnSync("node", [path.join(rootDir, "scripts/verify-f1-evidence-markers.mjs"), path.join(EVIDENCE_DIR, "f1-evidence-marked.log"), path.join(EVIDENCE_DIR, "f1-stack-summary.json")], { encoding: "utf8" });
+  console.log((check.stdout || "").trim());
+  if (check.status !== 0) {
+    console.error(`F1 FAILED: emitted evidence did not satisfy the marker contract\n${(check.stderr || "").slice(0, 600)}`);
+    process.exit(1);
+  }
+
   if (forceExit !== null) process.exit(forceExit);
   if (missing.length > 0) {
     console.error(`F1 FAILED: required case(s) skipped: ${missing.join(", ")} — a skipped case is a failure, not an omission`);
