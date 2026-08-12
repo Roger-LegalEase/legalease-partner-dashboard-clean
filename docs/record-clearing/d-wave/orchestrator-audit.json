@@ -1,0 +1,39 @@
+{
+  "schema": "rcap-d-wave-orchestrator-audit/v1",
+  "auditedAt": "2026-08-12",
+  "auditorRole": "orchestrator, independent of every implementation lane",
+  "d0Base": "03c14f985beda55596b894686bf70833e44a8f5b",
+  "laneBaseAncestry": { "lanesChecked": 7, "allDescendFromD0Base": true },
+  "pathOwnership": {
+    "lanesChecked": 7,
+    "filesOutsideOwnedPaths": 0,
+    "forbiddenSharedFilesTouched": 0,
+    "note": "No lane wrote verified-binary-index.json, implementation-index.json, package.json, src/**, migrations, workflows or another lane's states."
+  },
+  "factoryIntegrity": {
+    "d0OwnedFactoryFilesChangedByAnyLane": 0,
+    "canaryAtD0": "107 checks across 4 canaries and 6 mutations, passed",
+    "note": "Every lane head carries a byte-identical copy of the D0-owned factory modules."
+  },
+  "sourceHashVerification": {
+    "familiesWithRecordedSourceSha": 253,
+    "hashesMatchingARealPackAsset": 253,
+    "fabricatedOrUnmatchedHashes": 0,
+    "method": "Every recorded sha256 recomputed against the extracted D1/D2/D3 pack assets.",
+    "note": "MO:gn10-source-gated-motion-en initially appeared unmatched because the audit indexed only PDFs; its source is a real .docx in the pack carrying exactly the recorded hash, and the lane recorded it as docx_not_pdf with no fill produced."
+  },
+  "activeContentScan": {
+    "artifactsOpenedFromCommittedBlobs": 456,
+    "cleanOfActiveContent": 456,
+    "withResidue": 0,
+    "unreadable": 0,
+    "coverage": "every finalized fixture and every contact sheet across all seven lanes"
+  },
+  "f3ContactSheetDefect": {
+    "canonicalArtifactsChecked": 137,
+    "visiblyDifferFromBlankSource": 137,
+    "identicalToBlank": 0,
+    "method": "Decoded page content of each finalized artifact, including text inside flattened field appearances, and compared it against the blank pack source.",
+    "note": "Zero artifacts show the F3 signature of a filled panel that renders identically to the blank one."
+  }
+}
