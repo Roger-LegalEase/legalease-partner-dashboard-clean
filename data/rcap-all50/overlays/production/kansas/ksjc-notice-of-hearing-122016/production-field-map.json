@@ -1,0 +1,288 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ksjc-notice-of-hearing-122016",
+  "mapKind": "acroform_name_binding",
+  "promotedFrom": {
+    "committedDraft": "docs/record-clearing/field-map-drafts/all50/kansas-legalease-kansas-notice-of-hearing-on-petition-for-expungement-of-conviction-or-diversion-122016.field-map-draft.json",
+    "draftNote": "The committed draft carried no recoverable AcroForm names (dirty_acroform raw inspection); bindings are promoted against the field census extracted from the committed shadow-batch sample of the same source binary.",
+    "committedSample": "tmp/official-pdf-shadow-batch/all50/kansas-legalease-kansas-notice-of-hearing-on-petition-for-expungement-of-conviction-or-diversion-122016-sample.pdf"
+  },
+  "sourceBinary": {
+    "fileName": "Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+    "relativePath": "LegalEase Kansas/Notice of Hearing on Petition for Expungement of Conviction or Diversion 122016.pdf",
+    "sha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd"
+  },
+  "participantFactVocabulary": {
+    "source": "src/lib/rcap-engine/compiled/profiles/KS-*.json (questions[].id + packetGenerator.requiredInputs)",
+    "questionIds": [
+      "ownership_scope",
+      "jurisdiction_scope",
+      "case_outcome",
+      "offense_level",
+      "possible_pathway_context",
+      "financial_obligations",
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "requiredInputs": [
+      "case_outcome",
+      "charge",
+      "contact_information",
+      "county",
+      "court",
+      "financial_obligations",
+      "jurisdiction",
+      "offense_category",
+      "offense_level",
+      "participant_full_legal_name",
+      "pathway_id"
+    ]
+  },
+  "renderRule": "Renderer populates ONLY the bindings below. Every other census field is listed in neverPopulate or manualParticipantFields and must remain empty at render time.",
+  "bindings": [
+    {
+      "field": "DISTRICT COURT OF",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "county"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Case No",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "case_identifier"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Name Print",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "participant_full_legal_name"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Address 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine1"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Address 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.addressLine2"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "City State Zip",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.cityStateZip"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Telephone Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.phone"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "field": "Email Address",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "binding": {
+        "factId": "contact_information",
+        "factPath": "contact_information.email"
+      },
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 50,
+        "onOverflow": "overflow_to_addendum"
+      }
+    }
+  ],
+  "manualParticipantFields": [
+    "IN THE",
+    "Fax Number"
+  ],
+  "neverPopulate": [
+    {
+      "field": "The court will hold hearing on this matter on",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "day of",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "20",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "at",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "undefined",
+      "class": "unused"
+    },
+    {
+      "field": "am",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "undefined_2",
+      "class": "unused"
+    },
+    {
+      "field": "pm at the",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "County Courthouse in division",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "room",
+      "class": "court_or_agency"
+    },
+    {
+      "field": "Prosecuting Attorney Print",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Arresting Law Enforcement Agency Print",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Address 1_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Address 1_3",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Address 2_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "Address 2_3",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "City State Zip_2",
+      "class": "prosecutor_or_outside_party"
+    },
+    {
+      "field": "City State Zip_3",
+      "class": "prosecutor_or_outside_party"
+    }
+  ],
+  "overflowPolicy": {
+    "default": "shrink_to_fit down to minFontSize 6; if still overflowing, move content to a labeled addendum page and mark the field \"See attached addendum\"",
+    "hard_stop": "value exceeding the bound is a render error (identity-critical short fields such as state/zip)",
+    "must_match_dropdown_option": "value must exactly match one of the form’s dropdown options or the render fails closed"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "fixtureKind": "negative",
+  "description": "Adversarial facts that must NOT reach the form. Given these facts, every listed field must remain empty after render.",
+  "adversarialFacts": {
+    "judge_name": "Hon. Improper Autofill",
+    "clerk_name": "Deputy Clerk Should-Not-Appear",
+    "prosecutor_name": "ADA Never Populated",
+    "prosecutor_address": "1 Prosecutor Plaza, Must Stay Blank",
+    "hearing_date": "2026-12-31",
+    "hearing_result": "GRANTED",
+    "court_disposition_text": "Petition granted in full",
+    "notary_commission": "Commission 000000, expires never",
+    "service_completion_date": "2026-11-30",
+    "arresting_officer_statement": "Officer narrative that must not be transcribed"
+  },
+  "expectedEmptyFields": [
+    "IN THE",
+    "The court will hold hearing on this matter on",
+    "day of",
+    "20",
+    "at",
+    "undefined",
+    "am",
+    "undefined_2",
+    "pm at the",
+    "County Courthouse in division",
+    "room",
+    "Fax Number",
+    "Prosecuting Attorney Print",
+    "Arresting Law Enforcement Agency Print",
+    "Address 1_2",
+    "Address 1_3",
+    "Address 2_2",
+    "Address 2_3",
+    "City State Zip_2",
+    "City State Zip_3"
+  ],
+  "expectedEmptyByClass": {
+    "manual_participant": [
+      "IN THE",
+      "Fax Number"
+    ],
+    "court_or_agency": [
+      "The court will hold hearing on this matter on",
+      "day of",
+      "20",
+      "at",
+      "am",
+      "pm at the",
+      "County Courthouse in division",
+      "room"
+    ],
+    "unused": [
+      "undefined",
+      "undefined_2"
+    ],
+    "prosecutor_or_outside_party": [
+      "Prosecuting Attorney Print",
+      "Arresting Law Enforcement Agency Print",
+      "Address 1_2",
+      "Address 1_3",
+      "Address 2_2",
+      "Address 2_3",
+      "City State Zip_2",
+      "City State Zip_3"
+    ]
+  }
+}

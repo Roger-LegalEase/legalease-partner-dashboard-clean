@@ -1,0 +1,380 @@
+{
+  "schemaVersion": 1,
+  "familySlug": "ksjc-notice-of-hearing-122016",
+  "classes": [
+    "participant",
+    "deterministic",
+    "manual_participant",
+    "court_or_agency",
+    "prosecutor_or_outside_party",
+    "signature",
+    "protected",
+    "prohibited",
+    "unused"
+  ],
+  "populatableClasses": [
+    "participant",
+    "deterministic"
+  ],
+  "rule": "Only participant and deterministic fields may be populated by the renderer. Judge/clerk/prosecutor/agency certification, hearing results, service completion, signatures, notarization, court dispositions and outside-party facts are never populated.",
+  "fieldCount": 29,
+  "fields": [
+    {
+      "name": "IN THE",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false,
+      "note": "Judicial district number; county-to-district mapping not in committed evidence."
+    },
+    {
+      "name": "DISTRICT COURT OF",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "deterministic",
+      "populatable": true,
+      "factId": "county",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Case No",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "case_identifier",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 30,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Name",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "The court will hold hearing on this matter on",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing setting assigned by the court. Never populated by the renderer."
+    },
+    {
+      "name": "day of",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing date component. Never populated."
+    },
+    {
+      "name": "20",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing year component. Never populated."
+    },
+    {
+      "name": "at",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing time component. Never populated."
+    },
+    {
+      "name": "undefined",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Label not recoverable from committed evidence; never populated."
+    },
+    {
+      "name": "am",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing time meridiem. Never populated."
+    },
+    {
+      "name": "undefined_2",
+      "type": "checkbox",
+      "pages": [
+        0
+      ],
+      "class": "unused",
+      "populatable": false,
+      "note": "Label not recoverable; never populated."
+    },
+    {
+      "name": "pm at the",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing location component. Never populated."
+    },
+    {
+      "name": "County Courthouse in division",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing location component. Never populated."
+    },
+    {
+      "name": "room",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "court_or_agency",
+      "populatable": false,
+      "note": "Hearing location component. Never populated."
+    },
+    {
+      "name": "Name Print",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "participant_full_legal_name",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Address 1",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine1",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Address 2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.addressLine2",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 70,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "City State Zip",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.cityStateZip",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 60,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Telephone Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.phone",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 25,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Fax Number",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "manual_participant",
+      "populatable": false
+    },
+    {
+      "name": "Email Address",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "participant",
+      "populatable": true,
+      "factId": "contact_information",
+      "factPath": "contact_information.email",
+      "boundsCheck": {
+        "strategy": "shrink_to_fit",
+        "baseFontSize": 10,
+        "minFontSize": 6,
+        "softMaxLen": 50,
+        "onOverflow": "overflow_to_addendum"
+      }
+    },
+    {
+      "name": "Prosecuting Attorney Print",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Never populated."
+    },
+    {
+      "name": "Arresting Law Enforcement Agency Print",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Never populated."
+    },
+    {
+      "name": "Address 1_2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Prosecutor / agency service address. Never populated."
+    },
+    {
+      "name": "Address 1_3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Prosecutor / agency service address. Never populated."
+    },
+    {
+      "name": "Address 2_2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Prosecutor / agency service address. Never populated."
+    },
+    {
+      "name": "Address 2_3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Prosecutor / agency service address. Never populated."
+    },
+    {
+      "name": "City State Zip_2",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Prosecutor / agency service address. Never populated."
+    },
+    {
+      "name": "City State Zip_3",
+      "type": "text",
+      "pages": [
+        0
+      ],
+      "class": "prosecutor_or_outside_party",
+      "populatable": false,
+      "note": "Prosecutor / agency service address. Never populated."
+    }
+  ]
+}
