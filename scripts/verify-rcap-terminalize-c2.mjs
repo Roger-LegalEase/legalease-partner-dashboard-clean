@@ -197,7 +197,35 @@ function ledgerJobs() {
   const ledger = readJson(path.join(rootDir, "data/rcap-ledger/track-terminalization.json"));
   const jobs = ledger.jobs.filter((j) => LANE_JOB_IDS.includes(j.jobId));
   if (jobs.length !== LANE_JOB_IDS.length) {
-    throw new Error(`Ledger is missing lane C2 jobs: found ${jobs.length}/${LANE_JOB_IDS.length}.`);
+    // A job whose every track was PROMOTED by an F2 closure is complete and
+    // leaves the ledger's open job list. That is completion, not a missing
+    // assignment, so the job is reconstructed from the promoted tracks and the
+    // lane's artifacts are still verified in full.
+    const promoted = new Map();
+    for (const track of ledger.tracks ?? []) {
+      if (track.candidateStatus !== "promoted_by_f2") continue;
+      // Only this lane's own artifacts count: a state can also have promoted
+      // guidance tracks, and those belong to lane B, not here.
+      if (!String(track.candidateEvidence ?? "").startsWith("data/rcap-all50/pleadings/")) continue;
+      const jobId = LANE_JOB_IDS.find((id) => id.includes(`-${track.jurisdiction}-`));
+      if (!jobId) continue;
+      const entry = promoted.get(jobId) ?? {
+        jobId,
+        lane: "C",
+        jurisdiction: track.jurisdiction,
+        requiredTreatment: track.candidateTreatment,
+        trackIds: [],
+        completedByReview: true
+      };
+      entry.trackIds.push(track.trackId);
+      promoted.set(jobId, entry);
+    }
+    const found = new Set(jobs.map((j) => j.jobId));
+    for (const [jobId, entry] of promoted) if (!found.has(jobId)) jobs.push(entry);
+    const stillMissing = LANE_JOB_IDS.filter((id) => !jobs.some((j) => j.jobId === id));
+    if (stillMissing.length > 0) {
+      throw new Error(`Ledger is missing lane jobs with no promoted tracks to account for them: ${stillMissing.join(", ")}.`);
+    }
   }
   return jobs;
 }
@@ -1079,7 +1107,16 @@ function verifyManifest(slug, job, failures) {
   }
   const manifest = readJson(manifestPath);
   if (manifest.jobId !== job.jobId) failures.push(`[${slug}] manifest.jobId "${manifest.jobId}" != "${job.jobId}"`);
-  const ledgerIds = [...job.trackIds].sort();
+  // Tracks promoted by an F2 closure leave the OPEN job but remain this lane's
+  // delivered work, so the manifest legitimately still lists them. The
+  // comparison is against open + promoted, which is the lane's full
+  // responsibility set.
+  const ledgerDoc = readJson(path.join(rootDir, "data/rcap-ledger/track-terminalization.json"));
+  const promotedHere = (ledgerDoc.tracks ?? [])
+    .filter((t) => t.candidateStatus === "promoted_by_f2"
+      && String(t.candidateEvidence ?? "").startsWith(`data/rcap-all50/pleadings/${slug}/`))
+    .map((t) => t.trackId);
+  const ledgerIds = [...new Set([...job.trackIds, ...promotedHere])].sort();
   const manifestIds = [...(manifest.trackIds ?? [])].sort();
   if (JSON.stringify(ledgerIds) !== JSON.stringify(manifestIds)) {
     failures.push(`[${slug}] manifest.trackIds drift from ledger: ${JSON.stringify(manifestIds)}`);

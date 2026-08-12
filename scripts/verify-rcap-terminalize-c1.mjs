@@ -52,6 +52,35 @@ const REGISTRY_PIN = "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5";
 
 const ledger = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-ledger/track-terminalization.json"), "utf8"));
 const jobs = ledger.jobs.filter((j) => j.lane === "C" && C1[j.jurisdiction]);
+// A job whose every track was PROMOTED by an F2 closure is complete and leaves
+// the ledger's open job list. Completion is not a missing assignment: the job
+// is reconstructed from this lane's own promoted tracks (matched by owned
+// evidence path, so another lane's promotions in the same state never count)
+// and its artifacts are still verified in full below.
+{
+  const ownedPrefixes = ["data/rcap-all50/pleadings/", "data/rcap-all50/composed-routes/"];
+  const bySlug = new Map(Object.entries(C1).map(([code, slug]) => [slug, code]));
+  const completed = new Map();
+  for (const track of ledger.tracks ?? []) {
+    if (track.candidateStatus !== "promoted_by_f2") continue;
+    const evidence = String(track.candidateEvidence ?? "");
+    const prefix = ownedPrefixes.find((p) => evidence.startsWith(p));
+    if (!prefix) continue;
+    const slug = evidence.slice(prefix.length).split("/")[0];
+    const code = bySlug.get(slug);
+    if (!code || code !== track.jurisdiction) continue;
+    const jobId = `T-C-${code}-${String(track.candidateTreatment).replace(/_/g, "-")}`;
+    const entry = completed.get(jobId) ?? {
+      jobId, lane: "C", jurisdiction: code,
+      requiredTreatment: track.candidateTreatment,
+      trackIds: [], completedByReview: true
+    };
+    entry.trackIds.push(track.trackId);
+    completed.set(jobId, entry);
+  }
+  const open = new Set(jobs.map((j) => j.jobId));
+  for (const [jobId, entry] of completed) if (!open.has(jobId)) jobs.push(entry);
+}
 assert(jobs.length === 16, `expected 16 C1 jobs from the ledger, found ${jobs.length}`);
 
 const RELIEF_VOCAB = {

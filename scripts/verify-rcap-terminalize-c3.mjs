@@ -444,6 +444,24 @@ function gitShow(ref) {
 
 const ledger = readJson(path.join(rootDir, LEDGER_PATH));
 const ledgerJobs = new Map(ledger.jobs.map((j) => [j.jobId, j]));
+// A job whose every track was PROMOTED by an F2 closure leaves the open job
+// list; that is completion, not a missing assignment. Reconstruct it from this
+// lane's own promoted tracks (matched by owned evidence path).
+for (const track of ledger.tracks ?? []) {
+  if (track.candidateStatus !== "promoted_by_f2") continue;
+  if (!String(track.candidateEvidence ?? "").startsWith("data/rcap-all50/pleadings/")) continue;
+  const jobId = `T-C-${track.jurisdiction}-${String(track.candidateTreatment).replace(/_/g, "-")}`;
+  const existing = ledgerJobs.get(jobId);
+  if (existing) {
+    if (!existing.trackIds.includes(track.trackId)) existing.trackIds = [...existing.trackIds, track.trackId];
+    continue;
+  }
+  ledgerJobs.set(jobId, {
+    jobId, lane: "C", jurisdiction: track.jurisdiction,
+    requiredTreatment: track.candidateTreatment,
+    trackIds: [track.trackId], completedByReview: true
+  });
+}
 for (const assignment of ASSIGNMENTS) {
   const job = ledgerJobs.get(assignment.jobId);
   if (!job) {
