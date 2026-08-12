@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "rcap-codex-proposed-jurisdiction-summary/v1",
+  "proposalOnly": true,
+  "canonicalArtifactOverwritten": false,
+  "lane": "D2A",
+  "jurisdiction": "KS",
+  "canonicalJobId": "T-D-KS-production-packet",
+  "implementationBranch": "claude/rcap-d2a-corrections-v2",
+  "implementationCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+  "persistenceFailure": {
+    "canonicalJurisdictionSummaryPresentAtImplementationTip": false,
+    "exactFailure": "The D2A regeneration driver writes state-index.json only and never imports the canonical job/relationship graph or writes jurisdiction-summary.json. The correction tip changes Illinois proof artifacts but does not persist track relationships.",
+    "evidence": [
+      "bc139e24c987728dda585a58e0736ec14b6a996a:scripts/rcap-official-forms/lanes/d2a-regenerate.mjs:1-17,1393-1456",
+      "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/kansas/state-index.json",
+      "d324b897a8342d81f1a73d62cd529c87b8408feb:scripts/rcap-official-forms/build-d-captain-handoff.mjs:159-176"
+    ]
+  },
+  "terminal": false,
+  "families": {
+    "KS:ks-notice-of-hearing-on-petition-for-expungem-source-gated-en": {
+      "documentId": "KS-NOTICE-OF-HEARING-ON-PETITION-FOR-EXPUNGEM",
+      "revision": "REV-2016-12",
+      "sourceSha256": "a960c857ec505a3013e725526718580ad2047aa9b3dd85191a70b8375cc83ffd",
+      "finalTechnicalDisposition": "technical_approved",
+      "currentness": "source_or_currentness_gate_open",
+      "legalDesign": "legal_review_mapping_status_see_state_legal_review",
+      "evidence": [
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=KS:ks-notice-of-hearing-on-petition-for-expungem-source-gated-en]",
+        "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/kansas/state-index.json",
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=KS:ks-notice-of-hearing-on-petition-for-expungem-source-gated-en]"
+      ]
+    },
+    "KS:ks-order-of-expungement-of-conviction-or-dive-source-gated-en": {
+      "documentId": "KS-ORDER-OF-EXPUNGEMENT-OF-CONVICTION-OR-DIVE",
+      "revision": "REV-2016-12",
+      "sourceSha256": "d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537",
+      "finalTechnicalDisposition": "technical_approved",
+      "currentness": "source_or_currentness_gate_open",
+      "legalDesign": "legal_review_mapping_status_see_state_legal_review",
+      "evidence": [
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=KS:ks-order-of-expungement-of-conviction-or-dive-source-gated-en]",
+        "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/kansas/state-index.json",
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=KS:ks-order-of-expungement-of-conviction-or-dive-source-gated-en]"
+      ]
+    },
+    "KS:ksjc-source-gated-en": {
+      "documentId": "KSJC",
+      "revision": "REV-2022-08",
+      "sourceSha256": "104c40187f530d4a55306550f262ba9eefdec8ba732e2adbb1790dfd9378e683",
+      "finalTechnicalDisposition": "technical_approved",
+      "currentness": "source_or_currentness_gate_open",
+      "legalDesign": "legal_review_mapping_status_see_state_legal_review",
+      "evidence": [
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=KS:ksjc-source-gated-en]",
+        "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/kansas/state-index.json",
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=KS:ksjc-source-gated-en]"
+      ]
+    }
+  },
+  "tracks": [
+    {
+      "trackId": "ks-21-6614-diversion",
+      "requiredFamilyIds": [],
+      "familyEdges": [],
+      "candidateFamilyEdges": [
+        {
+          "familyIds": [
+            "KS:ks-notice-of-hearing-on-petition-for-expungem-source-gated-en",
+            "KS:ks-order-of-expungement-of-conviction-or-dive-source-gated-en",
+            "KS:ksjc-source-gated-en"
+          ],
+          "status": "blocked_not_a_family_edge",
+          "reason": "Titles suggest related conviction/diversion assets, but none has a documentId exactly equal to the pinned relationship IDs. The generic KSJC ID cannot be substring-joined.",
+          "evidence": [
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:data/rcap-ledger/registry-crosswalk-projection.json#/tracks[trackId=ks-21-6614-diversion]/officialFormRefs",
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-21-6614-diversion]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=KS:ks-notice-of-hearing-on-petition-for-expungem-source-gated-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/kansas/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=KS:ks-notice-of-hearing-on-petition-for-expungem-source-gated-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=KS:ks-order-of-expungement-of-conviction-or-dive-source-gated-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=KS:ks-order-of-expungement-of-conviction-or-dive-source-gated-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=KS:ksjc-source-gated-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=KS:ksjc-source-gated-en]"
+          ]
+        }
+      ],
+      "unresolvedFormRelationships": [
+        {
+          "componentId": "ks-21-6614-diversion-cover-sheet-1",
+          "officialFormId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult",
+          "relationshipSourceSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-21-6614-diversion][officialFormId=KS-CRIMINAL-COVER-SHEET-10-14-2025]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        },
+        {
+          "componentId": "ks-21-6614-diversion-primary-filing-2",
+          "officialFormId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+          "relationshipSourceSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-21-6614-diversion][officialFormId=KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        },
+        {
+          "componentId": "ks-21-6614-diversion-notice-3",
+          "officialFormId": "KSJC-NOTICE-OF-HEARING-12-2016",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+          "relationshipSourceSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-21-6614-diversion][officialFormId=KSJC-NOTICE-OF-HEARING-12-2016]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        },
+        {
+          "componentId": "ks-21-6614-diversion-cover-sheet-4",
+          "officialFormId": "KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+          "relationshipSourceSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-21-6614-diversion][officialFormId=KSJC-ORDER-EXPUNGEMENT-COVER-SHEET-12-2016]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        },
+        {
+          "componentId": "ks-21-6614-diversion-proposed-order-5",
+          "officialFormId": "KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+          "relationshipSourceSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-21-6614-diversion][officialFormId=KSJC-ORDER-FOR-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        },
+        {
+          "componentId": "ks-21-6614-diversion-proposed-order-6",
+          "officialFormId": "KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/conviction-or-diversion",
+          "relationshipSourceSha256": "1113f7b64a57d7ca9568f75d04922d94fabbeea6c7c5839402689ed7fc0db07c",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-21-6614-diversion][officialFormId=KSJC-ORDER-DENYING-EXPUNGEMENT-12-2016]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        }
+      ],
+      "terminal": false,
+      "proposedTerminalProductTreatment": "held_on_source_or_design",
+      "exactBlocker": "Whether the Kansas Judicial Council will permit LegalEase to generate and deliver its copyrighted expungement forms in a paid packet. The Council publishes the forms free of charge for non-commercial use and states they may not be sold, republished or transferred for value without express permission."
+    },
+    {
+      "trackId": "ks-22-2410-arrest",
+      "requiredFamilyIds": [],
+      "familyEdges": [],
+      "candidateFamilyEdges": [],
+      "unresolvedFormRelationships": [
+        {
+          "componentId": "ks-22-2410-arrest-cover-sheet-1",
+          "officialFormId": "KS-CRIMINAL-COVER-SHEET-10-14-2025",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult",
+          "relationshipSourceSha256": "6384f934dc431601dfd07d0822c32b83ee8fcd0412cff5496af1481169cdea60",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-22-2410-arrest][officialFormId=KS-CRIMINAL-COVER-SHEET-10-14-2025]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        },
+        {
+          "componentId": "ks-22-2410-arrest-primary-filing-2",
+          "officialFormId": "KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+          "relationshipSourceSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-22-2410-arrest][officialFormId=KSJC-PETITION-EXPUNGEMENT-ARREST-RECORD-02-2013]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        },
+        {
+          "componentId": "ks-22-2410-arrest-cover-sheet-3",
+          "officialFormId": "KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016",
+          "officialSourceUrl": "https://www.kjc.ks.gov/legal-forms/expungement-adult/arrest-record-only",
+          "relationshipSourceSha256": "bf4b2309f831aa317d235389a6bd1f24bca55075290ddb3d916083c6f64d840d",
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=ks-22-2410-arrest][officialFormId=KSJC-ORDER-EXPUNGEMENT-ARREST-RECORD-COVER-SHEET-12-2016]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=KS]"
+          ]
+        }
+      ],
+      "terminal": false,
+      "proposedTerminalProductTreatment": "held_on_source_or_design",
+      "exactBlocker": "The Kansas Judicial Council Petition for Expungement of Arrest Record carries revision KSJC 02/2013, which predates the 2025 House Bill 2393 amendments to K.S.A. 22-2410. Those amendments added the (a)(2) mandatory expungement category, restated the docket fee, and broadened the fee exemption in (b)(3)(B). Whether the Council has issued a later revision must be confirmed before release; kjc.ks.gov returns HTTP 403 to automated retrieval."
+    }
+  ]
+}

@@ -67,6 +67,11 @@ const OVERRIDES = {
     reason:
       "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain."
   },
+  "generate-rcap-d-track-queue.mjs": {
+    disposition: "wired",
+    reason:
+      "The captain-owned D work queue. It reconciles the final family handoff (157/8/88 across 253 families, each appearing once), recomputes every one of the 67 track gates against those final dispositions rather than carrying over the track map's older outcomes, keeps the 104 blocked component relationships in their seven distinct classifications instead of one source bucket, and freezes the four bounded correction assignments over exactly the eight open families. Runs with --check in the chain so the queue cannot drift from its inputs. It promotes nothing."
+  },
   "verify-rcap-lane-b-exact-deferrals.mjs": {
     disposition: "wired",
     reason:

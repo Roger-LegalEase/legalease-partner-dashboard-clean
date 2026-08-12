@@ -1,0 +1,882 @@
+{
+  "schemaVersion": "rcap-d-correction-assignments/v1",
+  "window": "2026-08-12-w3",
+  "statement": "Four bounded correction assignments covering exactly the eight open D families. No assignment may touch a family outside its own list.",
+  "openFamilyIds": [
+    "MO:cr145-form-petition-en",
+    "NH:nhjb-2956-support-record-request-en",
+    "VA:cc-1203-form-en",
+    "VT:200-00631-form-en",
+    "WA:blake-006-form-en",
+    "WA:blake-008-form-en",
+    "WA:crrlj-09-0100-form-en",
+    "WA:crrlj-09-0870-form-en"
+  ],
+  "assignments": [
+    {
+      "id": "D-FIX-1",
+      "title": "Missouri semantic binding",
+      "familyIds": [
+        "MO:cr145-form-petition-en"
+      ],
+      "defect": "The petitioner's own name is bound into 'Other Defendants', a field whose printed label names an outside agency, while every sibling agency field is refused as protected. The filed petition therefore names the petitioner as an additional respondent agency.",
+      "requiredResult": [
+        "Participant identity must not populate an agency or outside-party field.",
+        "Agency identity and address stay protected unless exact reviewed evidence supplies them.",
+        "Canonical, boundary and negative fixtures.",
+        "Actual PDF and contact-sheet proof, not a description of one.",
+        "Fresh independent review."
+      ],
+      "trackIds": [],
+      "reviewFindingIds": [
+        "D-V3-R-007"
+      ],
+      "reviewFindings": [
+        {
+          "id": "D-V3-R-007",
+          "familyId": "MO:cr145-form-petition-en",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/fixtures/canonical-filled.pdf",
+          "fieldOrRegion": "'Other Defendants', widget rect [56.2, 364.5, 569.7, 410.8]",
+          "visibleDefect": "The petitioner's own name is written into a field that names a different party. The printed label immediately above this widget reads 'Other (include name and address of agency):' and its sibling agency fields — 'County Sheriff's Dept', 'Municipal Police Dept', 'Missouri Highway Patrol Troop' — are all refused with reason 'protected_category'. This one is bound to participant.full_legal_name and carries 'Marion T. Ellsworth' in the canonical fixture and 'Maximiliana Aurelia Featherstonehaugh-Wintersgill de la Concepcion' in the boundary fixture, so the petition names the petitioner as an additional agency respondent.",
+          "acceptanceCondition": "'Other Defendants' binds only from a fact describing another respondent agency, or is refused with an agency/outside_party-class reason and left blank; the petitioner's name no longer appears in it."
+        }
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/**",
+        "data/rcap-all50/hard-forms/**",
+        "scripts/rcap-official-forms/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "independentReviewRequired": true,
+      "promotionEffect": "none; an accepted correction makes the family eligible for re-review and makes no track terminal"
+    },
+    {
+      "id": "D-FIX-2",
+      "title": "New Hampshire evidence rebuild",
+      "familyIds": [
+        "NH:nhjb-2956-support-record-request-en"
+      ],
+      "defect": "The participant artifact and its evidence disagree: the contact sheet was not regenerated from the corrected artifact, so the manifest hashes and the removed control captions cannot both be trusted.",
+      "requiredResult": [
+        "The participant PDF remains the reviewed corrected artifact.",
+        "The contact sheet is regenerated from that exact final artifact.",
+        "Manifest hashes match the artifact they claim.",
+        "Removed control captions remain absent.",
+        "Fresh independent review."
+      ],
+      "trackIds": [
+        "nh_conviction_streamlined",
+        "nh_petition_nonconviction_pre2019",
+        "nh_petition_vacated"
+      ],
+      "reviewFindingIds": [
+        "D-V3-R-001"
+      ],
+      "reviewFindings": [
+        {
+          "id": "D-V3-R-001",
+          "familyId": "NH:nhjb-2956-support-record-request-en",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/contact-sheet/blank-vs-filled.pdf",
+          "fieldOrRegion": "right-hand panel, which the sheet's own caption labels 'finalized fill'",
+          "visibleDefect": "The participant artifact was re-rendered in v3 (59275 -> 56111 bytes, sha 0ba50bb2...), but the contact sheet was not rebuilt: it is byte-identical to the approval-evidence branch (sha 8864675c...). Its right-hand panel still shows the superseded artifact, complete with the three control captions the re-render removed — 'Clear Form' at [744.69, 70.58], 'Top of Page' at [735.85, 534.54] and 'Instructions' at [684.03, 69.7]. Each appears only in the right panel; the left panel carries no counterpart, and the current canonical-filled.pdf contains none of the three in its 77 text runs. The accompanying contact-sheet-proof.json still records participantArtifactSha256 'bd2ae477...' (the pre-v3 artifact) and still carries filedArtifactChecksPassed: false with those captions listed as the failure.",
+          "acceptanceCondition": "Rebuild blank-vs-filled.pdf from the current canonical-filled.pdf and regenerate contact-sheet-proof.json so participantArtifactSha256 equals 0ba50bb2d169b0cccdda4a2b97e7663635ee1279cb66824070d52f960c6109eb and filedArtifactChecksPassed is true; then re-run the manifest checker so rendered-artifacts.json records the new sheet."
+        }
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/**",
+        "data/rcap-all50/hard-forms/**",
+        "scripts/rcap-official-forms/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "independentReviewRequired": true,
+      "promotionEffect": "none; an accepted correction makes the family eligible for re-review and makes no track terminal"
+    },
+    {
+      "id": "D-FIX-3",
+      "title": "Washington decoder and matcher",
+      "familyIds": [
+        "WA:blake-006-form-en",
+        "WA:blake-008-form-en",
+        "WA:crrlj-09-0100-form-en",
+        "WA:crrlj-09-0870-form-en"
+      ],
+      "defect": "The lane profile and the decoder disagree about which lines were refused and which were rendered, and an unreadable-line count of zero coexists with a decoder that refused lines. Single-character PDF text runs are matched before assembly, so labels are matched against fragments.",
+      "requiredResult": [
+        "The lane profile and decoder report the same refused and rendered lines.",
+        "The unreadable-line count cannot remain zero while the decoder refuses lines.",
+        "Single-character text runs are assembled into usable label tokens before matching.",
+        "No guessed anchor; undecodable geometry fails closed.",
+        "Exact fixture, PDF, contact-sheet and refusal-ledger proof.",
+        "Fresh independent review."
+      ],
+      "trackIds": [
+        "wa_vac_homicide_victim_prostitution",
+        "wa_vac_misdemeanor_ordinary",
+        "wa_vac_substance_use_disorder"
+      ],
+      "reviewFindingIds": [
+        "D-V3-R-008",
+        "D-V3-R-009",
+        "D-V3-R-010",
+        "D-V3-R-011"
+      ],
+      "reviewFindings": [
+        {
+          "id": "D-V3-R-010",
+          "familyId": "WA:blake-006-form-en",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/blake-006-form-en/overlay-profile.json",
+          "fieldOrRegion": "anchorCapture.candidateLabelCount / anchorCount",
+          "visibleDefect": "The profile records 172 lines read, 0 unreadable, 0 anchors and 0 candidate labels, which reads as 'the form was read and has no participant label'. It cannot mean that here: every one of this document's 10,503 text runs is a single character, so the run-level label matcher, which skips any run shorter than three characters, can never match anything. The line-level matcher needs a whole line to equal a label, and the caption draws 'Defendant' and 'DOB' on one shared baseline and 'No.' on another. The decoded caption does contain labels in the lane's own CAPTION_FACTS vocabulary; the count is a property of the matcher's granularity, and the profile does not say so.",
+          "acceptanceCondition": "Either the matcher can see labels below whole-line granularity on documents drawn one glyph per show operation, or the profile records that run granularity prevented matching, so 'overlay_no_participant_label_matched' cannot be read as a finding about the form."
+        },
+        {
+          "id": "D-V3-R-011",
+          "familyId": "WA:blake-008-form-en",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/blake-008-form-en/overlay-profile.json",
+          "fieldOrRegion": "anchorCapture.candidateLabelCount / anchorCount",
+          "visibleDefect": "The profile records 183 lines read, 0 unreadable, 0 anchors and 0 candidate labels, which reads as 'the form was read and has no participant label'. It cannot mean that here: every one of this document's 10,975 text runs is a single character, so the run-level label matcher, which skips any run shorter than three characters, can never match anything. The line-level matcher needs a whole line to equal a label, and the caption draws 'Defendant' and 'DOB' on one shared baseline and 'No.' on another. The decoded caption does contain labels in the lane's own CAPTION_FACTS vocabulary; the count is a property of the matcher's granularity, and the profile does not say so.",
+          "acceptanceCondition": "Either the matcher can see labels below whole-line granularity on documents drawn one glyph per show operation, or the profile records that run granularity prevented matching, so 'overlay_no_participant_label_matched' cannot be read as a finding about the form."
+        },
+        {
+          "id": "D-V3-R-008",
+          "familyId": "WA:crrlj-09-0100-form-en",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en/overlay-profile.json",
+          "fieldOrRegion": "anchorCapture.pages[].unreadableLines",
+          "visibleDefect": "The profile reports unreadableLines 0 on every page, but the decoder's own gate (partitionDecodableAnchors) refuses 2 of this form's 197 lines with reason 'line_carries_undecoded_character_codes'. The renderer that wrote this profile does not use that gate: d2a-regenerate.mjs still filters readable lines with CID_ENCODED = /\\u0000/, and the D0-v3 decoder marks an undecoded code with U+FFFD, not NUL, so no line can ever match. Lines the decoder itself cannot read are counted as readable and offered to the anchor matcher.",
+          "acceptanceCondition": "d2a-regenerate.mjs partitions lines with partitionDecodableAnchors and reports its refusal counts, so unreadableLines equals what the decoder actually refused and no undecodable line can become an anchor."
+        },
+        {
+          "id": "D-V3-R-009",
+          "familyId": "WA:crrlj-09-0870-form-en",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en/overlay-profile.json",
+          "fieldOrRegion": "anchorCapture.pages[].unreadableLines",
+          "visibleDefect": "The profile reports unreadableLines 0 on every page, but the decoder's own gate (partitionDecodableAnchors) refuses 7 of this form's 64 lines with reason 'line_carries_undecoded_character_codes'. The renderer that wrote this profile does not use that gate: d2a-regenerate.mjs still filters readable lines with CID_ENCODED = /\\u0000/, and the D0-v3 decoder marks an undecoded code with U+FFFD, not NUL, so no line can ever match. Lines the decoder itself cannot read are counted as readable and offered to the anchor matcher.",
+          "acceptanceCondition": "d2a-regenerate.mjs partitions lines with partitionDecodableAnchors and reports its refusal counts, so unreadableLines equals what the decoder actually refused and no undecodable line can become an anchor."
+        }
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/**",
+        "data/rcap-all50/hard-forms/**",
+        "scripts/rcap-official-forms/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "independentReviewRequired": true,
+      "promotionEffect": "none; an accepted correction makes the family eligible for re-review and makes no track terminal"
+    },
+    {
+      "id": "D-FIX-4",
+      "title": "Shared fitter and overflow reporting",
+      "familyIds": [
+        "VA:cc-1203-form-en",
+        "VT:200-00631-form-en"
+      ],
+      "defect": "The fitter reports a clean shrink while the drawn value is shortened, so mid-word truncation is recorded as complete output and text beyond the widget bounds is reported as fitted.",
+      "requiredResult": [
+        "Drawn output preserves the complete supplied value or records an explicit refusal or clip.",
+        "Text extending beyond widget bounds is never reported as clean shrinking.",
+        "Mid-word truncation is never reported as complete.",
+        "requiredWidth, availableWidth, chosen font size, rendered value length and disposition agree.",
+        "A shortened drawn value is recorded as clipped or refused.",
+        "Mutations for false clean-shrink outcomes.",
+        "Fresh independent review."
+      ],
+      "trackIds": [],
+      "reviewFindingIds": [
+        "D-V3-R-002",
+        "D-V3-R-003",
+        "D-V3-R-004",
+        "D-V3-R-005",
+        "D-V3-R-006"
+      ],
+      "reviewFindings": [
+        {
+          "id": "D-V3-R-002",
+          "familyId": "VA:cc-1203-form-en",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/fixtures/boundary-filled.pdf",
+          "fieldOrRegion": "User.AncillaryCaseNumber, widget rect [365.07, 327.04, 494.79, 341.2]",
+          "visibleDefect": "The case number is drawn truncated and past both widget edges. The value written is '0123-45-2026-CR-900123.00-AB-CDE/2201'; the page draws '5-2026-CR-900123.00-AB-CD' at 10pt with bbox [362.68, 326.96, 496.61, 340.7] — 2.39pt beyond the left edge and 1.82pt beyond the right. Rendering the region shows the leading and trailing glyphs sliced mid-character. The two sibling fields carrying the identical value, User.AncillaryCaseNumberA (page 4) and User.AncillaryCaseNumberB (page 5), each render it complete at 6pt inside their rectangles, so the shrink path works and was not applied here. A reader sees a case number that is not the case number.",
+          "acceptanceCondition": "User.AncillaryCaseNumber either renders the whole value inside its rectangle (as its two siblings do) or is refused and left blank with a recorded reason; and overflow-and-clipping.json records an entry for this field in the boundary fixture."
+        },
+        {
+          "id": "D-V3-R-003",
+          "familyId": "VA:cc-1203-form-en",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/overflow-and-clipping.json",
+          "fieldOrRegion": "findings[]",
+          "visibleDefect": "The report states the policy 'Nothing is written past a widget edge' and lists four findings — three width refusals and one max-length refusal — none of them for User.AncillaryCaseNumber. The one value that is in fact written past a widget edge is the one the report does not mention.",
+          "acceptanceCondition": "The overflow reporter detects and records a value whose drawn extent leaves its widget rectangle, so a clipped write cannot pass as an unreported clean write."
+        },
+        {
+          "id": "D-V3-R-004",
+          "familyId": "VA:cc-1203-form-en",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/populated-fields.json",
+          "fieldOrRegion": "User.VSBCaseNumber",
+          "visibleDefect": "User.VSBCaseNumber is bound to matter.case_number. Its printed context on page 6 is 'SIGNATURE OF [ ] PETITIONER / [ ] ATTORNEY FOR PETITIONER (VSB No. .......... )' — a Virginia State Bar number belonging to the attorney, not a case number. Nothing reaches the page in either fixture, but only because the 23pt-wide rectangle cannot hold the value: overflow-and-clipping.json records the refusal as 'value_exceeds_widget_width_at_minimum_font'. The field is blank by width, not by category.",
+          "acceptanceCondition": "A field whose printed context identifies it as an attorney bar number is refused on category with an attorney-class reason, so its blankness does not depend on the widget being narrow."
+        },
+        {
+          "id": "D-V3-R-005",
+          "familyId": "VT:200-00631-form-en",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/boundary-filled.pdf",
+          "fieldOrRegion": "field '1', second occurrence, widget rect [53.43, 614.69, 209.73, 627.65]",
+          "visibleDefect": "The participant's name is drawn truncated mid-word. The value is 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III' (70 characters); the page draws 'Alexandrina-Katharine Montgomery-Vanden' (39 characters) at 8pt with bbox [54.43, 615.44, 210.49, 626.43], 0.76pt past the widget's right edge, with no continuation line and no second span. Rendering the region shows the name ending at 'Vanden' over the signature rule. 70 characters at 8pt need roughly 280pt and the widget is 156.3pt wide, so the value could never have fitted at the size chosen.",
+          "acceptanceCondition": "The value either fits whole inside the rectangle at a legible size, or is refused and the field left blank with a recorded reason; no partial name is drawn."
+        },
+        {
+          "id": "D-V3-R-006",
+          "familyId": "VT:200-00631-form-en",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/populated-fields.json",
+          "fieldOrRegion": "boundaryWritten[0], field '1'",
+          "visibleDefect": "The record states outcome 'shrunk' at fontSize 8 for a value that was in fact cut to 39 of its 70 characters, and overflow-and-clipping.json reports unfittableBoundary: [] and findings: [] under the policy 'Nothing is clipped and nothing is shrunk below legibility.' Both records describe a clean shrink that did not happen.",
+          "acceptanceCondition": "A write whose drawn text is shorter than the value supplied, or whose extent leaves the widget, is recorded as a clip rather than as a shrink."
+        }
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/**",
+        "data/rcap-all50/hard-forms/**",
+        "scripts/rcap-official-forms/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "independentReviewRequired": true,
+      "promotionEffect": "none; an accepted correction makes the family eligible for re-review and makes no track terminal"
+    }
+  ],
+  "jobs": [
+    {
+      "jobId": "D-FIX-1",
+      "kind": "d_correction",
+      "owner": "Terminal D remediation owner",
+      "trackIds": [],
+      "familyIds": [
+        "MO:cr145-form-petition-en"
+      ],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/**",
+        "data/rcap-all50/hard-forms/**",
+        "scripts/rcap-official-forms/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "Participant identity must not populate an agency or outside-party field. Agency identity and address stay protected unless exact reviewed evidence supplies them. Canonical, boundary and negative fixtures. Actual PDF and contact-sheet proof, not a description of one. Fresh independent review.",
+      "stopCondition": "Stop if the correction would touch a family outside this assignment's exact family ids.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the family becomes eligible for re-review; no track becomes terminal"
+    },
+    {
+      "jobId": "D-FIX-2",
+      "kind": "d_correction",
+      "owner": "Terminal D remediation owner",
+      "trackIds": [
+        "nh_conviction_streamlined",
+        "nh_petition_nonconviction_pre2019",
+        "nh_petition_vacated"
+      ],
+      "familyIds": [
+        "NH:nhjb-2956-support-record-request-en"
+      ],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/**",
+        "data/rcap-all50/hard-forms/**",
+        "scripts/rcap-official-forms/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "The participant PDF remains the reviewed corrected artifact. The contact sheet is regenerated from that exact final artifact. Manifest hashes match the artifact they claim. Removed control captions remain absent. Fresh independent review.",
+      "stopCondition": "Stop if the correction would touch a family outside this assignment's exact family ids.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the family becomes eligible for re-review; no track becomes terminal"
+    },
+    {
+      "jobId": "D-FIX-3",
+      "kind": "d_correction",
+      "owner": "Terminal D remediation owner",
+      "trackIds": [
+        "wa_vac_homicide_victim_prostitution",
+        "wa_vac_misdemeanor_ordinary",
+        "wa_vac_substance_use_disorder"
+      ],
+      "familyIds": [
+        "WA:blake-006-form-en",
+        "WA:blake-008-form-en",
+        "WA:crrlj-09-0100-form-en",
+        "WA:crrlj-09-0870-form-en"
+      ],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/**",
+        "data/rcap-all50/hard-forms/**",
+        "scripts/rcap-official-forms/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "The lane profile and decoder report the same refused and rendered lines. The unreadable-line count cannot remain zero while the decoder refuses lines. Single-character text runs are assembled into usable label tokens before matching. No guessed anchor; undecodable geometry fails closed. Exact fixture, PDF, contact-sheet and refusal-ledger proof. Fresh independent review.",
+      "stopCondition": "Stop if the correction would touch a family outside this assignment's exact family ids.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the family becomes eligible for re-review; no track becomes terminal"
+    },
+    {
+      "jobId": "D-FIX-4",
+      "kind": "d_correction",
+      "owner": "Terminal D remediation owner",
+      "trackIds": [],
+      "familyIds": [
+        "VA:cc-1203-form-en",
+        "VT:200-00631-form-en"
+      ],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/rcap-all50/overlays/production/**",
+        "data/rcap-all50/hard-forms/**",
+        "scripts/rcap-official-forms/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "Drawn output preserves the complete supplied value or records an explicit refusal or clip. Text extending beyond widget bounds is never reported as clean shrinking. Mid-word truncation is never reported as complete. requiredWidth, availableWidth, chosen font size, rendered value length and disposition agree. A shortened drawn value is recorded as clipped or refused. Mutations for false clean-shrink outcomes. Fresh independent review.",
+      "stopCondition": "Stop if the correction would touch a family outside this assignment's exact family ids.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the family becomes eligible for re-review; no track becomes terminal"
+    },
+    {
+      "jobId": "D-SRC-ACQUIRE",
+      "kind": "source acquisition",
+      "owner": "Terminal D source owner",
+      "trackIds": [
+        "al-pardon",
+        "ia-dci77",
+        "il-exp-pardon",
+        "il-exp-precompletion",
+        "il-seal-edu",
+        "il-seal-nonconv",
+        "ky_expungement_certification",
+        "ky_protective_order_record_expungement",
+        "la-987-set-aside-and-dismiss",
+        "ma-seal-decrim",
+        "mn_petition_15218",
+        "mn_petition_juvenile_as_adult",
+        "nc_145_5_misdemeanor",
+        "nc_146_dismissal_petition",
+        "nd-nonconviction-close-petition",
+        "nd-prohibit-remote-public-access",
+        "nd-regular-pardon",
+        "ne-seal-pre2017",
+        "nh_conviction_streamlined",
+        "nh_petition_nonconviction_pre2019",
+        "nh_petition_vacated",
+        "nm_identity_theft",
+        "tx_nd_dwi_conviction",
+        "tx_nd_dwi_deferred",
+        "tx_nd_probation_misdemeanor",
+        "tx_nd_veterans_court",
+        "ut_pet_remove_link"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/rcap-all50/official-sources/**",
+        "data/record-clearing/legal-design-track-source-relationships.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "retrieve and pin the named official binary",
+      "stopCondition": "Stop if closing this would require asserting a document identity the evidence does not supply.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the blocked relationship resolves; the track's family gate is re-evaluated"
+    },
+    {
+      "jobId": "D-SRC-CURRENT",
+      "kind": "currentness confirmation",
+      "owner": "Terminal D source owner",
+      "trackIds": [
+        "ks-21-6614-diversion",
+        "ks-22-2410-arrest",
+        "mo-575-120-identity-theft-correction",
+        "mo-610-140-arrest"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/rcap-all50/official-sources/**",
+        "data/record-clearing/legal-design-track-source-relationships.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "confirm the pinned binary is the currently operative revision",
+      "stopCondition": "Stop if closing this would require asserting a document identity the evidence does not supply.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the blocked relationship resolves; the track's family gate is re-evaluated"
+    },
+    {
+      "jobId": "D-REL-META",
+      "kind": "relationship metadata",
+      "owner": "Terminal D relationship-metadata owner",
+      "trackIds": [
+        "al-felony-dwop",
+        "al-felony-nonconviction-90",
+        "al-misd-dwop",
+        "al-misd-nonconviction-90",
+        "ar-act531",
+        "ar-cs-possession-seal",
+        "ar-misdemeanor-seal",
+        "ar-nonconviction-seal",
+        "az_certificate_second_chance",
+        "az_marijuana_expungement_limited_jurisdiction",
+        "az_marijuana_expungement_superior_court",
+        "az_record_sealing_conviction",
+        "co_municipal_conviction_seal",
+        "fl-expunction",
+        "ia-dci77"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/record-clearing/legal-design-track-source-relationships.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "supply the canonical relationship metadata that names which official document the component binds",
+      "stopCondition": "Stop if closing this would require asserting a document identity the evidence does not supply.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the blocked relationship resolves; the track's family gate is re-evaluated"
+    },
+    {
+      "jobId": "D-REL-AMBIG",
+      "kind": "relationship metadata",
+      "owner": "Terminal D relationship-metadata owner",
+      "trackIds": [
+        "wa_vac_treaty_fishing"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/record-clearing/legal-design-track-source-relationships.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "resolve the conflict between the track-specific form set and the generic registry relationship",
+      "stopCondition": "Stop if closing this would require asserting a document identity the evidence does not supply.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the blocked relationship resolves; the track's family gate is re-evaluated"
+    },
+    {
+      "jobId": "D-REL-UNSUPPORTED",
+      "kind": "relationship metadata",
+      "owner": "Terminal D relationship-metadata owner",
+      "trackIds": [
+        "wa_vac_treaty_fishing"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/record-clearing/legal-design-track-source-relationships.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "either render a family for the pinned document or withdraw the relationship",
+      "stopCondition": "Stop if closing this would require asserting a document identity the evidence does not supply.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the blocked relationship resolves; the track's family gate is re-evaluated"
+    },
+    {
+      "jobId": "D-HELD-FAMILY",
+      "kind": "legal-design completion",
+      "owner": "Terminal D source/design owner",
+      "trackIds": [
+        "co_decriminalized_conduct_seal",
+        "co_municipal_conviction_seal",
+        "co_pardoned_conviction_seal",
+        "mn_petition_15218",
+        "mn_petition_juvenile_as_adult",
+        "mo-575-120-identity-theft-correction",
+        "mo-610-140-arrest",
+        "nc_145_5_misdemeanor",
+        "nc_146_dismissal_petition"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "data/rcap-all50/official-sources/**",
+        "data/record-clearing/legal-design-track-source-relationships.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "close the recorded source or legal-design hold on each named family",
+      "stopCondition": "Stop if the hold's recorded reason is not the reason being closed.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the family gate re-evaluates; no track becomes terminal"
+    },
+    {
+      "jobId": "D-ADOPT",
+      "kind": "legal-adoption continuity",
+      "owner": "Roger/counsel with Terminal A",
+      "trackIds": [
+        "ak-tf800",
+        "ak-tf805",
+        "al-felony-dwop",
+        "al-felony-nonconviction-90",
+        "al-misd-dwop",
+        "al-misd-nonconviction-90",
+        "az_record_sealing_conviction",
+        "az_record_sealing_dismissal_not_guilty",
+        "co_motion_seal_nonconviction",
+        "co_multiple_conviction_seal",
+        "il-exp-pardon",
+        "il-exp-precompletion",
+        "il-seal-edu",
+        "il-seal-nonconv",
+        "ne-seal-pre2017",
+        "nj_indictable_conviction",
+        "nj_ordinance",
+        "nm_identity_theft",
+        "or_arrest_no_charges",
+        "or_dismissed_charge",
+        "va_exp_nonconviction",
+        "va_seal_enumerated_seven_year",
+        "va_seal_petition_felony",
+        "va_seal_petition_misdemeanor",
+        "vt_seal_pardon",
+        "wi_exp_cr266",
+        "wi_nc_doj_challenge"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "docs/record-clearing/d-wave/**",
+        "data/rcap-all50/review-artifacts/d-*.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "classify each track's adoption as standing_adoption_applies, layout_only_continuity_applies, new_substantive_review_required, outside_standing_scope or insufficient_evidence_to_classify",
+      "stopCondition": "Stop rather than classify a track whose evidence does not support any of the five.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "adoption continuity closes for the named tracks"
+    },
+    {
+      "jobId": "D-PARTICIPANT",
+      "kind": "participant guidance or exact deferral",
+      "owner": "Terminal B participant-treatment owner",
+      "trackIds": [
+        "ak-tf800",
+        "ak-tf805",
+        "al-felony-dwop",
+        "al-felony-nonconviction-90",
+        "al-misd-dwop",
+        "al-misd-nonconviction-90",
+        "az_record_sealing_conviction",
+        "az_record_sealing_dismissal_not_guilty",
+        "co_motion_seal_nonconviction",
+        "co_multiple_conviction_seal",
+        "il-exp-pardon",
+        "il-exp-precompletion",
+        "il-seal-edu",
+        "il-seal-nonconv",
+        "ne-seal-pre2017",
+        "nj_indictable_conviction",
+        "nj_ordinance",
+        "nm_identity_theft",
+        "or_arrest_no_charges",
+        "or_dismissed_charge",
+        "va_exp_nonconviction",
+        "va_seal_enumerated_seven_year",
+        "va_seal_petition_felony",
+        "va_seal_petition_misdemeanor",
+        "vt_seal_pardon",
+        "wi_exp_cr266",
+        "wi_nc_doj_challenge"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "docs/record-clearing/d-wave/**",
+        "data/rcap-all50/review-artifacts/d-*.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "an EN/ES participant treatment for each track, with payment and credit suppressed",
+      "stopCondition": "Stop if the treatment would assert a legal claim the family evidence does not support.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the participant-treatment gate closes"
+    },
+    {
+      "jobId": "D-RUNTIME",
+      "kind": "runtime wiring",
+      "owner": "Terminal A runtime owner",
+      "trackIds": [
+        "ak-tf800",
+        "ak-tf805",
+        "al-felony-dwop",
+        "al-felony-nonconviction-90",
+        "al-misd-dwop",
+        "al-misd-nonconviction-90",
+        "az_record_sealing_conviction",
+        "az_record_sealing_dismissal_not_guilty",
+        "co_motion_seal_nonconviction",
+        "co_multiple_conviction_seal",
+        "il-exp-pardon",
+        "il-exp-precompletion",
+        "il-seal-edu",
+        "il-seal-nonconv",
+        "ne-seal-pre2017",
+        "nj_indictable_conviction",
+        "nj_ordinance",
+        "nm_identity_theft",
+        "or_arrest_no_charges",
+        "or_dismissed_charge",
+        "va_exp_nonconviction",
+        "va_seal_enumerated_seven_year",
+        "va_seal_petition_felony",
+        "va_seal_petition_misdemeanor",
+        "vt_seal_pardon",
+        "wi_exp_cr266",
+        "wi_nc_doj_challenge"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "src/lib/rcap-engine/compiled/profiles/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "a compiled pathway for each track, or a recorded decision that it stays out of the runtime",
+      "stopCondition": "Stop if the track's primary blocker has not closed first.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the runtime gate closes; the route remains non-sellable"
+    },
+    {
+      "jobId": "D-STAGING",
+      "kind": "staging acceptance",
+      "owner": "Terminal A staging owner",
+      "trackIds": [
+        "ak-tf800",
+        "ak-tf805",
+        "al-felony-dwop",
+        "al-felony-nonconviction-90",
+        "al-misd-dwop",
+        "al-misd-nonconviction-90",
+        "az_record_sealing_conviction",
+        "az_record_sealing_dismissal_not_guilty",
+        "co_motion_seal_nonconviction",
+        "co_multiple_conviction_seal",
+        "il-exp-pardon",
+        "il-exp-precompletion",
+        "il-seal-edu",
+        "il-seal-nonconv",
+        "ne-seal-pre2017",
+        "nj_indictable_conviction",
+        "nj_ordinance",
+        "nm_identity_theft",
+        "or_arrest_no_charges",
+        "or_dismissed_charge",
+        "va_exp_nonconviction",
+        "va_seal_enumerated_seven_year",
+        "va_seal_petition_felony",
+        "va_seal_petition_misdemeanor",
+        "vt_seal_pardon",
+        "wi_exp_cr266",
+        "wi_nc_doj_challenge"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "docs/record-clearing/d-wave/**",
+        "data/rcap-all50/review-artifacts/d-*.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "staging acceptance evidence on the final source and digest",
+      "stopCondition": "Stop until the final worker digest is published.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the staging gate closes"
+    },
+    {
+      "jobId": "D-REVIEW",
+      "kind": "independent review",
+      "owner": "independent reviewer (not the author)",
+      "trackIds": [
+        "ak-tf800",
+        "ak-tf805",
+        "al-felony-dwop",
+        "al-felony-nonconviction-90",
+        "al-misd-dwop",
+        "al-misd-nonconviction-90",
+        "az_record_sealing_conviction",
+        "az_record_sealing_dismissal_not_guilty",
+        "co_motion_seal_nonconviction",
+        "co_multiple_conviction_seal",
+        "il-exp-pardon",
+        "il-exp-precompletion",
+        "il-seal-edu",
+        "il-seal-nonconv",
+        "ne-seal-pre2017",
+        "nj_indictable_conviction",
+        "nj_ordinance",
+        "nm_identity_theft",
+        "or_arrest_no_charges",
+        "or_dismissed_charge",
+        "va_exp_nonconviction",
+        "va_seal_enumerated_seven_year",
+        "va_seal_petition_felony",
+        "va_seal_petition_misdemeanor",
+        "vt_seal_pardon",
+        "wi_exp_cr266",
+        "wi_nc_doj_challenge"
+      ],
+      "familyIds": [],
+      "baseSha": null,
+      "ownedPaths": [
+        "docs/record-clearing/d-wave/**",
+        "data/rcap-all50/review-artifacts/d-*.json"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "src/**",
+        "supabase/**",
+        "package.json",
+        "deploy/**"
+      ],
+      "requiredEvidence": "exact rendered artifact, contact sheet and manifest hashes, or the exact official source bytes, as the kind requires",
+      "expectedOutput": "an independent disposition for every corrected or newly authored D artifact",
+      "stopCondition": "Stop if the reviewer authored the artifact.",
+      "independentReviewRequired": true,
+      "terminalEffectWhenAccepted": "the review gate closes"
+    }
+  ]
+}
