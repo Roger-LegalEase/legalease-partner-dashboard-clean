@@ -1,69 +1,74 @@
 {
-  "fixtureId": "ky_void_seal_controlled_substance-negative",
-  "trackId": "ky_void_seal_controlled_substance",
-  "configPath": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json",
-  "description": "Must fail pleading QA.",
-  "synthetic": true,
-  "partyData": {
-    "petitionerName": "JAMIE Q. SAMPLE",
-    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
-    "otherNamesUsed": ""
+ "fixtureId": "ky_void_seal_controlled_substance-negative",
+ "trackId": "ky_void_seal_controlled_substance",
+ "configPath": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json",
+ "description": "Must fail pleading QA.",
+ "synthetic": true,
+ "partyData": {
+  "petitionerName": "JAMIE Q. SAMPLE",
+  "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+  "otherNamesUsed": ""
+ },
+ "caseData": {
+  "courtLevel": "DISTRICT",
+  "countyName": "FAYETTE",
+  "caseNumber": "00-M-00000",
+  "docketNumber": "00-M-00000",
+  "otn": "0000000000",
+  "judgeName": "HON. EXAMPLE JUDGE",
+  "prosecutorOffice": "county attorney",
+  "prosecutorName": "EXAMPLE COUNTY ATTORNEY",
+  "prosecutorPosition": "does not object",
+  "prosecutorAddress": "000 COURTHOUSE SQUARE, LEXINGTON, KY 00000",
+  "filingDate": "01/01/2026",
+  "serviceDate": "01/01/2026"
+ },
+ "chargeData": {
+  "chargeDescription": "possession of a controlled substance",
+  "statuteSection": "KRS 218A.1415",
+  "offenseGrade": "Class D felony",
+  "convictionDate": "06/01/2019",
+  "dispositionDate": "06/01/2019",
+  "arrestDate": "02/01/2019",
+  "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
+ },
+ "eligibilityData": {
+  "screeningAnswers": {
+   "vcsCounty": "FAYETTE",
+   "vcsCourtLevel": "district court",
+   "vcsCharges": "possession of a controlled substance",
+   "vcsCompletionType": "probation",
+   "vcsCompletionDate": "07/15/2021",
+   "vcsFirstOffence": "unsure",
+   "vcsPriorVoid": "yes",
+   "vcsPriorDeferredProsecution": "yes",
+   "vcsProsecutorOffice": "county attorney"
   },
-  "caseData": {
-    "courtLevel": "DISTRICT",
-    "countyName": "FAYETTE",
-    "caseNumber": "00-M-00000",
-    "docketNumber": "00-M-00000",
-    "otn": "0000000000",
-    "judgeName": "HON. EXAMPLE JUDGE",
-    "prosecutorOffice": "county attorney",
-    "prosecutorName": "EXAMPLE COUNTY ATTORNEY",
-    "prosecutorPosition": "does not object",
-    "prosecutorAddress": "000 COURTHOUSE SQUARE, LEXINGTON, KY 00000",
-    "filingDate": "01/01/2026",
-    "serviceDate": "01/01/2026"
-  },
-  "chargeData": {
-    "chargeDescription": "possession of a controlled substance",
-    "statuteSection": "KRS 218A.1415",
-    "offenseGrade": "Class D felony",
-    "convictionDate": "06/01/2019",
-    "dispositionDate": "06/01/2019",
-    "arrestDate": "02/01/2019",
-    "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
-  },
-  "eligibilityData": {
-    "screeningAnswers": {
-      "vcsCounty": "FAYETTE",
-      "vcsCourtLevel": "district court",
-      "vcsCharges": "possession of a controlled substance",
-      "vcsCompletionType": "probation",
-      "vcsCompletionDate": "07/15/2021",
-      "vcsFirstOffence": "unsure",
-      "vcsPriorVoid": "yes",
-      "vcsPriorDeferredProsecution": "yes",
-      "vcsProsecutorOffice": "county attorney"
-    },
-    "eligibilityBasisLabel": "Eligible — confirmed first offence, qualifies for expungement",
-    "completionProofInHand": false,
-    "additionalFacts": [
-      "This is the Movant's first conviction for possession of a controlled substance.",
-      "The Movant's record has been expunged and the conviction is erased for all purposes.",
-      "The county attorney was served with this motion on 01/01/2026 and does not object.",
-      "A filing fee of $50.00 was paid to the clerk.",
-      "The Court held a hearing and granted the motion, and the records have been destroyed."
-    ]
-  },
-  "protectedFields": {
-    "dateOfBirth": "03/05/1986",
-    "ssnLastFour": "0000",
-    "stateIdNumber": "KY0000000",
-    "driversLicenseNumber": "K00000000",
-    "fbiNumber": "000000AA0"
-  },
-  "attachments": [],
-  "productName": "LegalEase RCAP",
-  "shadowMode": true,
-  "expectFailure": "Must fail pleading QA. Each ground below is either a prohibited term for this track or prohibited invention. (1) Prohibited terms: the output uses 'expunged', 'expungement', 'erased' and 'destroyed' — the packet instruction on this track is \"Sealing is not expungement. The records continue to exist and are sealed\", and the profile copy guardrail forbids relabelling every Kentucky remedy as expungement. (2) It asserts first-offence status as a legal conclusion (\"This is the Movant's first conviction\") while the participant's own answer is 'unsure' — the track's self-help boundary states that first-offence status is the participant's own statement of fact, is never generated as a legal conclusion, and that any dispute ends automated assistance. (3) It proceeds despite vcsPriorVoid = yes, which the exclusions bar absolutely: voiding may occur only once for any person. (4) It proceeds despite vcsPriorDeferredProsecution = yes, which KRS 218A.275(12) makes an absolute bar. (5) It fills court identity no source supplies: county, case number, docket number, OTN and judge name, all of which must reach the document only as the participant's own screening answers, and none of which may be prefilled. (6) It asserts a prosecutor position ('does not object') and an outside-party act, and asserts service completion on a stated date; the movant effects and certifies service by hand and no source states it happened. (7) It asserts a fee of $50.00 when the recorded rule is \"none. The Clerks' Manual records that there is no filing fee for this proceeding\" — and a clerk who demands a fee is a self-help stop condition, not a figure to print. (8) It asserts a hearing outcome (\"the Court held a hearing and granted the motion\"), which is a court act no packet may state. (9) It populates protected fields — date of birth, SSN last four, state ID, driver's licence and FBI number — that must stay blank. (10) It states an eligibilityBasisLabel asserting confirmed eligibility when the config records that KRS 218A.275(8) voiding is discretionary and no eligibility conclusion may be asserted.",
-  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+  "eligibilityBasisLabel": "Eligible — confirmed first offence, qualifies for expungement",
+  "completionProofInHand": false,
+  "additionalFacts": [
+   "This is the Movant's first conviction for possession of a controlled substance.",
+   "The Movant's record has been expunged and the conviction is erased for all purposes.",
+   "The county attorney was served with this motion on 01/01/2026 and does not object.",
+   "A filing fee of $50.00 was paid to the clerk.",
+   "The Court held a hearing and granted the motion, and the records have been destroyed."
+  ]
+ },
+ "protectedFields": {
+  "dateOfBirth": "03/05/1986",
+  "ssnLastFour": "0000",
+  "stateIdNumber": "KY0000000",
+  "driversLicenseNumber": "K00000000",
+  "fbiNumber": "000000AA0"
+ },
+ "attachments": [],
+ "productName": "LegalEase RCAP",
+ "shadowMode": true,
+ "expectFailure": "Must fail pleading QA. Each ground below is either a prohibited term for this track or prohibited invention. (1) Prohibited terms: the output uses 'expunged', 'expungement', 'erased' and 'destroyed' — the packet instruction on this track is \"Sealing is not expungement. The records continue to exist and are sealed\", and the profile copy guardrail forbids relabelling every Kentucky remedy as expungement. (2) It asserts first-offence status as a legal conclusion (\"This is the Movant's first conviction\") while the participant's own answer is 'unsure' — the track's self-help boundary states that first-offence status is the participant's own statement of fact, is never generated as a legal conclusion, and that any dispute ends automated assistance. (3) It proceeds despite vcsPriorVoid = yes, which the exclusions bar absolutely: voiding may occur only once for any person. (4) It proceeds despite vcsPriorDeferredProsecution = yes, which KRS 218A.275(12) makes an absolute bar. (5) It fills court identity no source supplies: county, case number, docket number, OTN and judge name, all of which must reach the document only as the participant's own screening answers, and none of which may be prefilled. (6) It asserts a prosecutor position ('does not object') and an outside-party act, and asserts service completion on a stated date; the movant effects and certifies service by hand and no source states it happened. (7) It asserts a fee of $50.00 when the recorded rule is \"none. The Clerks' Manual records that there is no filing fee for this proceeding\" — and a clerk who demands a fee is a self-help stop condition, not a figure to print. (8) It asserts a hearing outcome (\"the Court held a hearing and granted the motion\"), which is a court act no packet may state. (9) It populates protected fields — date of birth, SSN last four, state ID, driver's licence and FBI number — that must stay blank. (10) It states an eligibilityBasisLabel asserting confirmed eligibility when the config records that KRS 218A.275(8) voiding is discretionary and no eligibility conclusion may be asserted.",
+ "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name.",
+ "expectedSignals": [
+  "protected_case_identifier",
+  "unstated_fee_asserted"
+ ],
+ "expectedSignalsNote": "Derived by rendering this fixture and recording which invention signals fire. The verifier requires every signal listed here to fire on every run; a fixture that stops tripping them is a regression."
 }
