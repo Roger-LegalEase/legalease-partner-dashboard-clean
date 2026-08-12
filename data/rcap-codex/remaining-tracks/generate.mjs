@@ -24,7 +24,7 @@ import { dirname, extname, join, relative, resolve } from 'node:path';
 
 const ROOT = process.cwd();
 const CHECK = process.argv.includes('--check');
-const BASE = '3d8695cf8e5e9fe4464b559c97e04a526a462ade';
+const BASE = 'c1f0741a6bf027d52cb74a26b67a811cb9194065';
 const CANONICAL_REF = 'origin/claude/rcap-final-sprint-integration';
 const BRANCH = 'codex/rcap-remaining-tracks-wave';
 const DATA_DIR = 'data/rcap-codex/remaining-tracks';

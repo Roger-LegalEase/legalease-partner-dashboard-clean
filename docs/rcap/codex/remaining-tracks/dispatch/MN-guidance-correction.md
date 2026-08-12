@@ -4,9 +4,9 @@ Status: paste-ready, frozen at the exact base below. This assignment grants no a
 
 ## Exact scope
 
-- Base commit: `3d8695cf8e5e9fe4464b559c97e04a526a462ade`
+- Base commit: `c1f0741a6bf027d52cb74a26b67a811cb9194065`
 - Canonical base ref: `origin/claude/rcap-final-sprint-integration`
-- Frozen group key: `MN-guidance-correction:27ae11bb7a0a`
+- Frozen group key: `MN-guidance-correction:5f09562439d1`
 - Jurisdiction: `MN`
 - Implementation family: `guidance`
 - Source dependency: `private/Nationwide Record Clearing/ (MN) + pinned registry 3b6f4c10`

@@ -3,7 +3,7 @@
   "generatedBy": "data/rcap-codex/remaining-tracks/generate.mjs",
   "base": {
     "canonicalRef": "origin/claude/rcap-final-sprint-integration",
-    "commit": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+    "commit": "c1f0741a6bf027d52cb74a26b67a811cb9194065",
     "branch": "codex/rcap-remaining-tracks-wave",
     "wave2Ledger": {
       "path": "data/rcap-ledger/track-terminalization.json",
@@ -317,7 +317,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "AK-guidance-correction",
-        "frozenGroupKey": "AK-guidance-correction:aa7ac9bd56e1"
+        "frozenGroupKey": "AK-guidance-correction:a3f53a04151d"
       },
       "requiredEvidence": [
         "Defect: the 'all charges dismissed' eligibility ground is stated without the Criminal Rule 11 carve-out that both committed sources attach to it (AK-alaska.json pathway ruleClauses / wait-01: 'all charges were dismissed (not as part of a Rule 11 plea in another case)'; AK.memo.json eligibleDispositions carries the same qualifier). mechanism.en/es, gather and nextSteps state the ground unqualified, so a participant whose dismissal was part of a Rule 11 plea in another case is told the case comes off CourtView automatically when the committed rule says it does not. Same defect class as first-pass F2-02 (limiting conditions dropped from a stated rule). Acceptance: add the Rule 11 qualifier to the dismissal ground in mechanism (and gather) in both languages, e.g. 'every charge was dismissed (and not as part of a plea agreement in another criminal case under Criminal Rule 11)'. VERIFIED AS APPLIED: the wave-2 required correction — honest automatic-with-TF-810-fallback mechanism description — is in the committed bytes (mechanism/participantFiles/stopReason/afterNextStep all describe automatic non-publication at 60 days with TF-810 only as the fallback correction request), carried by AK-alaska.json wait-08 and ruleClauses[5]; the F2-08b bad exclusionRules[8] pointer is gone. Residual out-of-lane item, not charged to this track: the compiled pathway's metadata (automatic=false, filingRequired=true, routeType=court_filing) still contradicts the treatment; recorded with its owner in docs/record-clearing/deferrals/lane-b-f2-corrections.md as a state-pack fidelity item for the profile owner with Terminal A."
@@ -481,7 +481,7 @@
         },
         "action": "Terminal A implements the exact candidate-recognition specification and regenerates the ledger byte-stably.",
         "frozenAssignment": "AR-deferral-recognition",
-        "frozenGroupKey": "AR-deferral-recognition:d6a8b5c05528"
+        "frozenGroupKey": "AR-deferral-recognition:c8f722771170"
       },
       "requiredEvidence": [
         {
@@ -665,7 +665,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "CA-cr180-correction",
-        "frozenGroupKey": "CA-cr180-correction:1273af88523c"
+        "frozenGroupKey": "CA-cr180-correction:663c50c1680b"
       },
       "requiredEvidence": [
         "Everything on the job's mustVerify list passes: the XFA package is observed in the input and deleted before getForm() with raw-byte re-scan of the output; all four fixtures re-render to their recorded fingerprints; protected fields are never bound (engine throws, verifier re-asserts); both required text anchors survive; tracksServed names only the five dismissal/reduction tracks. F2-12a is corrected (petitionDate rebound to deferredEntryDismissalDate, supplied only by the route-1203-43 fixture, with lineMustNotMatch proving the item-7 § 1000.3 line stays blank on canonical/boundary/negative — note routeGate is declarative only, no script enforces it; the enforcement is fact-supply discipline plus the rendered assertions). F2-12b is corrected (Offense1/Reduce1 moved to unboundByDecision; every conviction-table binding carries a census-checked columnCheck). F2-07 is corrected (participantFacingStrings en/es key-for-key, machine-checked for parity and untranslated strings). F2-19 is corrected structurally (profile carries checkoutProhibited:true which verify-rcap-hard-form-outputs fails without, and LEGACY_VERIFIED_JURISDICTIONS in src/lib/rcap/documents/packet-route-resolver.ts is exactly [MS, IL, DC, PA, TX] — a CA route resolves guidance_only with sellable:false fail-closed). TWO DEFECTS REMAIN. Defect 1 — F2-10 residual: the participant-facing service surface (CR-106 profile, which now covers all six CA tracks and passes the dispositions verifier) nowhere states the 15-day prosecutor-notice period that CA-california.json carries verbatim for the 1203.4 routes ('For 1203.4, the prosecutor must receive at least 15 days notice before relief is granted'), and the wave-1 acceptance condition's second conjunct — a verifier assertion that a CA petition family declares its service component or an explicit service instruction — exists in no verifier: deleting cr-106-proof-of-service/profile.json would fail nothing for this family. Acceptance: state the 15-day notice on the participant-facing service surface in en and es with CA-california.json as the carrier, and add a machine check (outputs or dispositions verifier) that fails any CA petition-family profile that neither ships a service component nor declares a participant-facing service instruction. Defect 2 — the profile's overflowPolicy.note asserts 'bounds are enforced and an over-length value fails the render instead of inventing an attachment', which is false of the committed engine: renderHardFormPacket records report.overflowed and returns success (verified empirically at the review base — a 100-character value bound into the 14-char Code1 field renders cleanly, exit 0), no verifier reads report.overflowed, and scripts/rcap-hard-form-xfa-shadow-fill.mjs line 138 still carries the truncate_with_addendum branch that fabricates 'see Attachment A' (dead for committed profiles, live code). Acceptance: make the claim true — fail the render or turn the outputs verifier red when report.overflowed is non-empty, and remove or fail-closed the truncate_with_addendum fabrication branch — or restate the note to exactly what the bytes do; both verifiers stay green and fingerprints stay unchanged unless rendered bytes genuinely change."
@@ -884,7 +884,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "CA-cr180-correction",
-        "frozenGroupKey": "CA-cr180-correction:1273af88523c"
+        "frozenGroupKey": "CA-cr180-correction:663c50c1680b"
       },
       "requiredEvidence": [
         "Everything on the job's mustVerify list passes: the XFA package is observed in the input and deleted before getForm() with raw-byte re-scan of the output; all four fixtures re-render to their recorded fingerprints; protected fields are never bound (engine throws, verifier re-asserts); both required text anchors survive; tracksServed names only the five dismissal/reduction tracks. F2-12a is corrected (petitionDate rebound to deferredEntryDismissalDate, supplied only by the route-1203-43 fixture, with lineMustNotMatch proving the item-7 § 1000.3 line stays blank on canonical/boundary/negative — note routeGate is declarative only, no script enforces it; the enforcement is fact-supply discipline plus the rendered assertions). F2-12b is corrected (Offense1/Reduce1 moved to unboundByDecision; every conviction-table binding carries a census-checked columnCheck). F2-07 is corrected (participantFacingStrings en/es key-for-key, machine-checked for parity and untranslated strings). F2-19 is corrected structurally (profile carries checkoutProhibited:true which verify-rcap-hard-form-outputs fails without, and LEGACY_VERIFIED_JURISDICTIONS in src/lib/rcap/documents/packet-route-resolver.ts is exactly [MS, IL, DC, PA, TX] — a CA route resolves guidance_only with sellable:false fail-closed). TWO DEFECTS REMAIN. Defect 1 — F2-10 residual: the participant-facing service surface (CR-106 profile, which now covers all six CA tracks and passes the dispositions verifier) nowhere states the 15-day prosecutor-notice period that CA-california.json carries verbatim for the 1203.4 routes ('For 1203.4, the prosecutor must receive at least 15 days notice before relief is granted'), and the wave-1 acceptance condition's second conjunct — a verifier assertion that a CA petition family declares its service component or an explicit service instruction — exists in no verifier: deleting cr-106-proof-of-service/profile.json would fail nothing for this family. Acceptance: state the 15-day notice on the participant-facing service surface in en and es with CA-california.json as the carrier, and add a machine check (outputs or dispositions verifier) that fails any CA petition-family profile that neither ships a service component nor declares a participant-facing service instruction. Defect 2 — the profile's overflowPolicy.note asserts 'bounds are enforced and an over-length value fails the render instead of inventing an attachment', which is false of the committed engine: renderHardFormPacket records report.overflowed and returns success (verified empirically at the review base — a 100-character value bound into the 14-char Code1 field renders cleanly, exit 0), no verifier reads report.overflowed, and scripts/rcap-hard-form-xfa-shadow-fill.mjs line 138 still carries the truncate_with_addendum branch that fabricates 'see Attachment A' (dead for committed profiles, live code). Acceptance: make the claim true — fail the render or turn the outputs verifier red when report.overflowed is non-empty, and remove or fail-closed the truncate_with_addendum fabrication branch — or restate the note to exactly what the bytes do; both verifiers stay green and fingerprints stay unchanged unless rendered bytes genuinely change."
@@ -1099,7 +1099,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "CA-cr180-correction",
-        "frozenGroupKey": "CA-cr180-correction:1273af88523c"
+        "frozenGroupKey": "CA-cr180-correction:663c50c1680b"
       },
       "requiredEvidence": [
         "Everything on the job's mustVerify list passes: the XFA package is observed in the input and deleted before getForm() with raw-byte re-scan of the output; all four fixtures re-render to their recorded fingerprints; protected fields are never bound (engine throws, verifier re-asserts); both required text anchors survive; tracksServed names only the five dismissal/reduction tracks. F2-12a is corrected (petitionDate rebound to deferredEntryDismissalDate, supplied only by the route-1203-43 fixture, with lineMustNotMatch proving the item-7 § 1000.3 line stays blank on canonical/boundary/negative — note routeGate is declarative only, no script enforces it; the enforcement is fact-supply discipline plus the rendered assertions). F2-12b is corrected (Offense1/Reduce1 moved to unboundByDecision; every conviction-table binding carries a census-checked columnCheck). F2-07 is corrected (participantFacingStrings en/es key-for-key, machine-checked for parity and untranslated strings). F2-19 is corrected structurally (profile carries checkoutProhibited:true which verify-rcap-hard-form-outputs fails without, and LEGACY_VERIFIED_JURISDICTIONS in src/lib/rcap/documents/packet-route-resolver.ts is exactly [MS, IL, DC, PA, TX] — a CA route resolves guidance_only with sellable:false fail-closed). TWO DEFECTS REMAIN. Defect 1 — F2-10 residual: the participant-facing service surface (CR-106 profile, which now covers all six CA tracks and passes the dispositions verifier) nowhere states the 15-day prosecutor-notice period that CA-california.json carries verbatim for the 1203.4 routes ('For 1203.4, the prosecutor must receive at least 15 days notice before relief is granted'), and the wave-1 acceptance condition's second conjunct — a verifier assertion that a CA petition family declares its service component or an explicit service instruction — exists in no verifier: deleting cr-106-proof-of-service/profile.json would fail nothing for this family. Acceptance: state the 15-day notice on the participant-facing service surface in en and es with CA-california.json as the carrier, and add a machine check (outputs or dispositions verifier) that fails any CA petition-family profile that neither ships a service component nor declares a participant-facing service instruction. Defect 2 — the profile's overflowPolicy.note asserts 'bounds are enforced and an over-length value fails the render instead of inventing an attachment', which is false of the committed engine: renderHardFormPacket records report.overflowed and returns success (verified empirically at the review base — a 100-character value bound into the 14-char Code1 field renders cleanly, exit 0), no verifier reads report.overflowed, and scripts/rcap-hard-form-xfa-shadow-fill.mjs line 138 still carries the truncate_with_addendum branch that fabricates 'see Attachment A' (dead for committed profiles, live code). Acceptance: make the claim true — fail the render or turn the outputs verifier red when report.overflowed is non-empty, and remove or fail-closed the truncate_with_addendum fabrication branch — or restate the note to exactly what the bytes do; both verifiers stay green and fingerprints stay unchanged unless rendered bytes genuinely change."
@@ -1314,7 +1314,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "CA-cr180-correction",
-        "frozenGroupKey": "CA-cr180-correction:1273af88523c"
+        "frozenGroupKey": "CA-cr180-correction:663c50c1680b"
       },
       "requiredEvidence": [
         "Everything on the job's mustVerify list passes: the XFA package is observed in the input and deleted before getForm() with raw-byte re-scan of the output; all four fixtures re-render to their recorded fingerprints; protected fields are never bound (engine throws, verifier re-asserts); both required text anchors survive; tracksServed names only the five dismissal/reduction tracks. F2-12a is corrected (petitionDate rebound to deferredEntryDismissalDate, supplied only by the route-1203-43 fixture, with lineMustNotMatch proving the item-7 § 1000.3 line stays blank on canonical/boundary/negative — note routeGate is declarative only, no script enforces it; the enforcement is fact-supply discipline plus the rendered assertions). F2-12b is corrected (Offense1/Reduce1 moved to unboundByDecision; every conviction-table binding carries a census-checked columnCheck). F2-07 is corrected (participantFacingStrings en/es key-for-key, machine-checked for parity and untranslated strings). F2-19 is corrected structurally (profile carries checkoutProhibited:true which verify-rcap-hard-form-outputs fails without, and LEGACY_VERIFIED_JURISDICTIONS in src/lib/rcap/documents/packet-route-resolver.ts is exactly [MS, IL, DC, PA, TX] — a CA route resolves guidance_only with sellable:false fail-closed). TWO DEFECTS REMAIN. Defect 1 — F2-10 residual: the participant-facing service surface (CR-106 profile, which now covers all six CA tracks and passes the dispositions verifier) nowhere states the 15-day prosecutor-notice period that CA-california.json carries verbatim for the 1203.4 routes ('For 1203.4, the prosecutor must receive at least 15 days notice before relief is granted'), and the wave-1 acceptance condition's second conjunct — a verifier assertion that a CA petition family declares its service component or an explicit service instruction — exists in no verifier: deleting cr-106-proof-of-service/profile.json would fail nothing for this family. Acceptance: state the 15-day notice on the participant-facing service surface in en and es with CA-california.json as the carrier, and add a machine check (outputs or dispositions verifier) that fails any CA petition-family profile that neither ships a service component nor declares a participant-facing service instruction. Defect 2 — the profile's overflowPolicy.note asserts 'bounds are enforced and an over-length value fails the render instead of inventing an attachment', which is false of the committed engine: renderHardFormPacket records report.overflowed and returns success (verified empirically at the review base — a 100-character value bound into the 14-char Code1 field renders cleanly, exit 0), no verifier reads report.overflowed, and scripts/rcap-hard-form-xfa-shadow-fill.mjs line 138 still carries the truncate_with_addendum branch that fabricates 'see Attachment A' (dead for committed profiles, live code). Acceptance: make the claim true — fail the render or turn the outputs verifier red when report.overflowed is non-empty, and remove or fail-closed the truncate_with_addendum fabrication branch — or restate the note to exactly what the bytes do; both verifiers stay green and fingerprints stay unchanged unless rendered bytes genuinely change."
@@ -1529,7 +1529,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "CA-cr180-correction",
-        "frozenGroupKey": "CA-cr180-correction:1273af88523c"
+        "frozenGroupKey": "CA-cr180-correction:663c50c1680b"
       },
       "requiredEvidence": [
         "Everything on the job's mustVerify list passes: the XFA package is observed in the input and deleted before getForm() with raw-byte re-scan of the output; all four fixtures re-render to their recorded fingerprints; protected fields are never bound (engine throws, verifier re-asserts); both required text anchors survive; tracksServed names only the five dismissal/reduction tracks. F2-12a is corrected (petitionDate rebound to deferredEntryDismissalDate, supplied only by the route-1203-43 fixture, with lineMustNotMatch proving the item-7 § 1000.3 line stays blank on canonical/boundary/negative — note routeGate is declarative only, no script enforces it; the enforcement is fact-supply discipline plus the rendered assertions). F2-12b is corrected (Offense1/Reduce1 moved to unboundByDecision; every conviction-table binding carries a census-checked columnCheck). F2-07 is corrected (participantFacingStrings en/es key-for-key, machine-checked for parity and untranslated strings). F2-19 is corrected structurally (profile carries checkoutProhibited:true which verify-rcap-hard-form-outputs fails without, and LEGACY_VERIFIED_JURISDICTIONS in src/lib/rcap/documents/packet-route-resolver.ts is exactly [MS, IL, DC, PA, TX] — a CA route resolves guidance_only with sellable:false fail-closed). TWO DEFECTS REMAIN. Defect 1 — F2-10 residual: the participant-facing service surface (CR-106 profile, which now covers all six CA tracks and passes the dispositions verifier) nowhere states the 15-day prosecutor-notice period that CA-california.json carries verbatim for the 1203.4 routes ('For 1203.4, the prosecutor must receive at least 15 days notice before relief is granted'), and the wave-1 acceptance condition's second conjunct — a verifier assertion that a CA petition family declares its service component or an explicit service instruction — exists in no verifier: deleting cr-106-proof-of-service/profile.json would fail nothing for this family. Acceptance: state the 15-day notice on the participant-facing service surface in en and es with CA-california.json as the carrier, and add a machine check (outputs or dispositions verifier) that fails any CA petition-family profile that neither ships a service component nor declares a participant-facing service instruction. Defect 2 — the profile's overflowPolicy.note asserts 'bounds are enforced and an over-length value fails the render instead of inventing an attachment', which is false of the committed engine: renderHardFormPacket records report.overflowed and returns success (verified empirically at the review base — a 100-character value bound into the 14-char Code1 field renders cleanly, exit 0), no verifier reads report.overflowed, and scripts/rcap-hard-form-xfa-shadow-fill.mjs line 138 still carries the truncate_with_addendum branch that fabricates 'see Attachment A' (dead for committed profiles, live code). Acceptance: make the claim true — fail the render or turn the outputs verifier red when report.overflowed is non-empty, and remove or fail-closed the truncate_with_addendum fabrication branch — or restate the note to exactly what the bytes do; both verifiers stay green and fingerprints stay unchanged unless rendered bytes genuinely change."
@@ -1746,7 +1746,7 @@
         },
         "action": "Terminal A implements the exact E3 compiled-pathway job, then runs legal-adoption continuity and PREP_ONLY staging.",
         "frozenAssignment": "CA-85191-runtime",
-        "frozenGroupKey": "CA-85191-runtime:12ae13f884be"
+        "frozenGroupKey": "CA-85191-runtime:735b1636b1eb"
       },
       "requiredEvidence": [
         "a compiled pathway implementing this track, or a decision that it stays out of the runtime"
@@ -1956,7 +1956,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "CT-guidance-correction",
-        "frozenGroupKey": "CT-guidance-correction:c9b3d55addc0"
+        "frozenGroupKey": "CT-guidance-correction:31a8f1f59f6e"
       },
       "requiredEvidence": [
         "Defect: destination.en/es asserts affirmatively that 'The Board publishes the application and the instructions'. No committed source carries that claim: CT.memo.json tracks[ct-provisional-pardon].rules.filing says only 'Application is made to the Board of Pardons and Paroles. LegalEase does not generate or submit it.', and the same track's unresolvedQuestions[0] — impact release_blocker — expressly records as UNRESOLVED 'Whether the Board exposes a stable participant application document... An intake worksheet is not the legal filing packet.' The packet states as fact precisely what the committed record marks open, and the participant is sent to obtain a published application that the committed bytes do not establish exists. Acceptance: soften the destination sentence to the carried facts (application is made to the Board; obtain the Board's current application requirements from the Board directly), in both languages, matching the packet's own correctly-hedged gather/timing copy."
@@ -2127,7 +2127,7 @@
         },
         "action": "Counsel answers the exact frozen practice questions; Terminal C then selects the instrument.",
         "frozenAssignment": "DC-yra-counsel",
-        "frozenGroupKey": "DC-yra-counsel:33f43598b124"
+        "frozenGroupKey": "DC-yra-counsel:e7ef191b660b"
       },
       "requiredEvidence": [
         "Current Superior Court standing practice or form confirmation",
@@ -2300,7 +2300,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "ID-2604-source-design",
-        "frozenGroupKey": "ID-2604-source-design:a37850fc1b71"
+        "frozenGroupKey": "ID-2604-source-design:0b02723c5a6e"
       },
       "requiredEvidence": [
         "Statewide form search plus county-by-county vehicle exceptions",
@@ -2474,7 +2474,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "ID-2604-source-design",
-        "frozenGroupKey": "ID-2604-source-design:a37850fc1b71"
+        "frozenGroupKey": "ID-2604-source-design:0b02723c5a6e"
       },
       "requiredEvidence": [
         "Statewide form search plus county-by-county vehicle exceptions",
@@ -2638,7 +2638,7 @@
         },
         "action": "Terminal A implements the exact candidate-recognition specification and regenerates the ledger byte-stably.",
         "frozenAssignment": "KY-deferral-recognition",
-        "frozenGroupKey": "KY-deferral-recognition:3d9cacf47e9f"
+        "frozenGroupKey": "KY-deferral-recognition:cfd470688721"
       },
       "requiredEvidence": [
         {
@@ -2811,7 +2811,7 @@
         },
         "action": "Terminal A implements the exact candidate-recognition specification and regenerates the ledger byte-stably.",
         "frozenAssignment": "KY-deferral-recognition",
-        "frozenGroupKey": "KY-deferral-recognition:3d9cacf47e9f"
+        "frozenGroupKey": "KY-deferral-recognition:cfd470688721"
       },
       "requiredEvidence": [
         {
@@ -2992,7 +2992,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "MI-guidance-corrections",
-        "frozenGroupKey": "MI-guidance-corrections:e105e0aeaf60"
+        "frozenGroupKey": "MI-guidance-corrections:084d9c3d2475"
       },
       "requiredEvidence": [
         "Defect: afterNextStep.en/es presents an exhaustive stopper list — 'Three things can stop it' (prior conviction under MCL 28.243(14); objection on a dismissal; records lag) — that omits the other committed exclusion prong of MCL 28.243(14): 'a person arraigned for enumerated offences, including the commission or attempted commission of a crime with or against a child under 16' (MI.memo.json tracks[mi_arrest_acquittal_dismissal].exclusions[0]; the memo also asks participantInput arraignedEnumeratedOffence). gather never asks about it either, so a participant arraigned for an enumerated offence is affirmatively told automatic destruction has only three stoppers and would wrongly expect relief. Same defect class as first-pass F2-01 (committed screen not reaching the participant). Acceptance: add the arraigned-for-enumerated-offence prong to gather and afterNextStep in both languages (and drop or widen the 'three things' count)."
@@ -3161,7 +3161,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "MI-guidance-corrections",
-        "frozenGroupKey": "MI-guidance-corrections:e105e0aeaf60"
+        "frozenGroupKey": "MI-guidance-corrections:084d9c3d2475"
       },
       "requiredEvidence": [
         "Defect: the packet gives the blanket lead-with-ICHAT instruction that the committed memo's binding packet_instruction for this exact track forbids. MI.memo.json tracks[mi_auto_misd92].legalDesignDecision.limitations: 'Where the participant's only record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, checking ICHAT proves nothing. Tell them to check with the convicting court. A blanket instruction to lead with the MSP Clean Slate check is wrong for this population.' The committed nextStep.en/es and destination.en/es lead with ICHAT unconditionally ('ICHAT is where you confirm the set-aside actually happened') and no element tells a never-fingerprinted participant that an ICHAT result proves nothing for them; lane B's own evidence record states memo limitations are binding on participant copy and 'followed rather than summarised away'. Acceptance: add the never-fingerprinted caveat and the convicting-court verification path to nextStep/destination/afterNextStep in both languages. VERIFIED AS APPLIED: the wave-2 required correction (F2-01) is in the committed bytes — gather.en/es[3-6] and nextSteps.en/es[0] run both screens (MCL 780.621c never-eligible list AND the five-category automatic-track exclusion list), carry the more-than-one-assaultive bar and the two-felony cap, byte-consistent with mi_auto_misd93."
@@ -3334,7 +3334,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "MI-guidance-corrections",
-        "frozenGroupKey": "MI-guidance-corrections:e105e0aeaf60"
+        "frozenGroupKey": "MI-guidance-corrections:084d9c3d2475"
       },
       "requiredEvidence": [
         "Defect: nextSteps.en[2] misstates the age element of the minor-offence definition as 'committed under age 21' (es[2] 'cometidos antes de los 21 años'). The only committed source carrying the test — MI.memo.json controllingAuthority.summary — says 'committed by a person not more than 21 years old', which includes 21-year-olds; the packet's own mechanism.en/es states it correctly ('not more than 21 years old' / 'no más de 21 años'), so the entry contradicts itself and no committed source carries the under-21 formulation. A 21-year-old participant screening with nextSteps would wrongly exclude a qualifying minor offence. Acceptance: change nextSteps item 3 in both languages to 'committed by a person not more than 21 years old' / 'cometidos por una persona de no más de 21 años', matching the memo, the mechanism and authority[2]."
@@ -3499,7 +3499,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "MN-guidance-correction",
-        "frozenGroupKey": "MN-guidance-correction:27ae11bb7a0a"
+        "frozenGroupKey": "MN-guidance-correction:5f09562439d1"
       },
       "requiredEvidence": [
         "Defect: gather.en[2]/es[2] asserts Minnesota Court Records Online is 'the free public case-lookup service run by the Minnesota Judicial Branch' ('el servicio público y gratuito...'). No committed source carries the no-fee claim: MN.memo.json says only 'look your cases up on Minnesota Court Records Online' and MN-minnesota.json carries no cost statement for MCRO (contrast MD, whose memo expressly carries 'Free.' for Maryland Judiciary Case Search). A cost expectation stated to the participant must be carried. Acceptance: drop 'free'/'gratuito' from the MCRO descriptor in both languages, or have the owning source amended to carry the no-fee claim first."
@@ -3666,7 +3666,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "ND-guidance-corrections",
-        "frozenGroupKey": "ND-guidance-corrections:1b6f0b14663d"
+        "frozenGroupKey": "ND-guidance-corrections:ba393d73f64d"
       },
       "requiredEvidence": [
         "Defect: the timing element is null — one of the eleven required participant elements is not delivered, and unlike MI:mi_deferral_status there is no committed 'not applicable' statement backing a considered null: ND.memo.json tracks[nd-dna-profile-removal-routing] carries writable timing facts (waitingPeriods = [] i.e. no waiting period recorded; effectiveFrom 2019-08-01), and the sibling nd-juvenile-records-routing entry in the same packet file populates timing. The participant gets no answer on whether any clock attaches to a § 31-13-07 petition. Acceptance: add an EN/ES timing element grounded in committed bytes (no waiting period recorded; any deadline is a first question for the lawyer taking the case, mirroring the NE routing pattern)."
@@ -3837,7 +3837,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "ND-guidance-corrections",
-        "frozenGroupKey": "ND-guidance-corrections:1b6f0b14663d"
+        "frozenGroupKey": "ND-guidance-corrections:ba393d73f64d"
       },
       "requiredEvidence": [
         "Defect: the timing element is null — required participant element not delivered. ND.memo.json tracks[nd-trafficking-vacatur-routing] carries committed material for an honest timing statement (waitingPeriods = []; unresolvedQuestions on the ch. 29-32.1 procedural overlay), and a trafficking survivor is left with no answer on whether any deadline attaches to a § 12.1-41-14(1) motion. Acceptance: add an EN/ES timing element stating per committed bytes that no waiting period is recorded, the ch. 29-32.1 overlay is unmapped, and time limits are a first question for the lawyer or survivor clinic."
@@ -4004,7 +4004,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "ND-guidance-corrections",
-        "frozenGroupKey": "ND-guidance-corrections:1b6f0b14663d"
+        "frozenGroupKey": "ND-guidance-corrections:ba393d73f64d"
       },
       "requiredEvidence": [
         "Defect: the timing element is null — required participant element not delivered; the participant is told nothing about time pressure on a State v. Howe petition. ND.memo.json carries waitingPeriods = [] and the packet honestly refuses to supply the unpublished Howe standard, so an honest timing statement was writable (no waiting period recorded; the standard and any timing rules come from Howe, which the lawyer must obtain and read). The sibling juvenile entry populates timing, so null here is an omission, not a convention. Acceptance: add that EN/ES timing element."
@@ -4171,7 +4171,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "NE-guidance-correction",
-        "frozenGroupKey": "NE-guidance-correction:6e76bc7da910"
+        "frozenGroupKey": "NE-guidance-correction:145ee40793e5"
       },
       "requiredEvidence": [
         "Defect: destination.en/es, handoff.en/es and nextSteps.en[2]/es[2] assert as a who-acts fact that the route's counsel may be 'an immigration attorney or an accredited representative' ('un representante acreditado para ejercer en materia migratoria'). No committed source carries the accredited-representative claim: NE.memo.json tracks[ne-immigration-routing] says only 'immigration counsel' (destination.detail, self_help_boundary limitation) and NE-nebraska.json contains no immigration-counsel language at all; the packet's own destination copy concedes the design 'does not name a particular organization', then names a category of practitioner anyway. On a track whose entire treatment IS the referral, who the participant may consult is the load-bearing claim. Acceptance: restrict the copy to 'immigration counsel / an immigration attorney' in destination, handoff and nextSteps, EN and ES, or add committed-source support for accredited representatives."
@@ -4336,7 +4336,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "NJ-guidance-correction",
-        "frozenGroupKey": "NJ-guidance-correction:705c2bd942f4"
+        "frozenGroupKey": "NJ-guidance-correction:822293cffc71"
       },
       "requiredEvidence": [
         "Two uncarried participant-facing claims in handoff.en/es. (1) The referral 'the county bar association's lawyer referral service and Legal Services of New Jersey are the usual starting points': no committed source mentions a bar association or lawyer referral service (zero hits in NJ.memo.json and NJ-new-jersey.json); the committed resource is Legal Services of New Jersey and its free online expungement navigator. (2) The legal-effect rationale 'losing easy access to your own records can hurt an immigration case': the committed record carries only 'Immigration exposure. New Jersey expungement has no federal immigration effect.' (selfHelpStopConditions) — the records-access-harm theory is carried nowhere and could deter a participant from pursuing relief on an uncarried legal claim. Acceptance: restate the low-cost-help referral on the carried resource only, and either delete the records-access rationale or limit the immigration warning to the carried statement (no federal immigration effect; get immigration advice first), in both languages."
@@ -4508,7 +4508,7 @@
         },
         "action": "Canonical participant-treatment owner adopts the exact bilingual no-checkout candidate and obtains review.",
         "frozenAssignment": "NV-agency-treatment",
-        "frozenGroupKey": "NV-agency-treatment:748336b482b7"
+        "frozenGroupKey": "NV-agency-treatment:34f2bbed1352"
       },
       "requiredEvidence": [
         "Agency-confirmed application contents or an exact no-prescribed-form treatment for NRS 179A.160",
@@ -4688,7 +4688,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "NV-sealing-source-design",
-        "frozenGroupKey": "NV-sealing-source-design:179da7b7138a"
+        "frozenGroupKey": "NV-sealing-source-design:14f9696f13d5"
       },
       "requiredEvidence": [
         "Counsel-approved form and local-rule determination for NRS 179.271 and 179.273",
@@ -4863,7 +4863,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "NV-sealing-source-design",
-        "frozenGroupKey": "NV-sealing-source-design:179da7b7138a"
+        "frozenGroupKey": "NV-sealing-source-design:14f9696f13d5"
       },
       "requiredEvidence": [
         "Counsel-approved form and local-rule determination for NRS 179.271 and 179.273",
@@ -5033,7 +5033,7 @@
         },
         "action": "Terminal A implements the exact candidate-recognition specification and regenerates the ledger byte-stably.",
         "frozenAssignment": "OK-deferral-recognition",
-        "frozenGroupKey": "OK-deferral-recognition:ae37a052aa20"
+        "frozenGroupKey": "OK-deferral-recognition:00359e251134"
       },
       "requiredEvidence": [
         {
@@ -5218,7 +5218,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "OK-guidance-correction",
-        "frozenGroupKey": "OK-guidance-correction:b0ae1f592aa5"
+        "frozenGroupKey": "OK-guidance-correction:ce3449947d2e"
       },
       "requiredEvidence": [
         "Defect: handoff.en/es and nextSteps.en[4]/es[4] state the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. No committed source carries it: OK.memo.json's immigration statements are limited to escalation ('an immigration attorney before any Oklahoma route is used'), scope ('immigration is federal and out of scope') and the no-representation rule ('LegalEase never represents Oklahoma sealing as producing an immigration outcome'); zero hits for the evidence-destruction theory in OK.memo.json or OK-oklahoma.json. The uncarried theory could deter a participant from pursuing relief. Acceptance: delete the rationale in both elements and both languages, or replace it with the carried formulation (immigration is federal and out of scope; see an immigration attorney before using any Oklahoma route). The $150 OSBI processing fee copy is an official government fee and is fine."
@@ -5392,7 +5392,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "SC-form-family",
-        "frozenGroupKey": "SC-form-family:e5b9c535a343"
+        "frozenGroupKey": "SC-form-family:b4f0f010fbc6"
       },
       "requiredEvidence": [
         "Track-specific application of sections 17-22-350, 17-22-550, and 17-22-940 and resolution of the recorded fee conflict",
@@ -5577,7 +5577,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "SC-form-family",
-        "frozenGroupKey": "SC-form-family:e5b9c535a343"
+        "frozenGroupKey": "SC-form-family:b4f0f010fbc6"
       },
       "requiredEvidence": [
         "Track-specific application of sections 17-22-350, 17-22-550, and 17-22-940 and resolution of the recorded fee conflict",
@@ -5762,7 +5762,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "SC-form-family",
-        "frozenGroupKey": "SC-form-family:e5b9c535a343"
+        "frozenGroupKey": "SC-form-family:b4f0f010fbc6"
       },
       "requiredEvidence": [
         "Track-specific application of sections 17-22-350, 17-22-550, and 17-22-940 and resolution of the recorded fee conflict",
@@ -5933,7 +5933,7 @@
         },
         "action": "Canonical owner applies the exact Codex candidate/specification and obtains the required fresh review.",
         "frozenAssignment": "TX-guidance-correction",
-        "frozenGroupKey": "TX-guidance-correction:a73108fb662e"
+        "frozenGroupKey": "TX-guidance-correction:9409e628630f"
       },
       "requiredEvidence": [
         "Defect: handoff.en/es states the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. No committed source carries it: TX.memo.json tracks[tx_exp_acquittal].selfHelpStopConditions carries only 'Immigration consequences.' as a referral-out stop and TX-texas.json contains no immigration text; the operative carried instruction is to take any immigration matter to an immigration attorney before using a Texas route. The uncarried theory could deter a participant from pursuing relief. Acceptance: trim the sentence to the carried instruction in both languages, or have the memo amended to carry the rationale first. The exact_supported_deferral itself is verified: docs/record-clearing/deferrals/tx-deferrals.md names the track and states the exact carried conditions (art. 102.0061(a) county fee figure unresolved; the doubled $25 charge under arts. 55A.254(f)/55A.351(b-3) unconfirmed), and the Rule 145 no-charge claim is carried by rules.feeWaiver/components[fee_waiver_statement]."
@@ -6090,7 +6090,7 @@
         },
         "action": "Terminal A implements the exact candidate-recognition specification and regenerates the ledger byte-stably.",
         "frozenAssignment": "TX-deferral-recognition",
-        "frozenGroupKey": "TX-deferral-recognition:7673a1c80611"
+        "frozenGroupKey": "TX-deferral-recognition:e3fd75381782"
       },
       "requiredEvidence": [
         {
@@ -6274,7 +6274,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "VA-identity-form",
-        "frozenGroupKey": "VA-identity-form:3d158c939e64"
+        "frozenGroupKey": "VA-identity-form:dd9f92363b27"
       },
       "requiredEvidence": [
         "Canonical field map, fixtures, and review",
@@ -6452,7 +6452,7 @@
         },
         "action": "Canonical source/design owner ingests the Codex official-source receipts, closes only the listed residual, and produces a reviewable treatment.",
         "frozenAssignment": "WA-crop-form-set",
-        "frozenGroupKey": "WA-crop-form-set:542a48d54c72"
+        "frozenGroupKey": "WA-crop-form-set:8f61225deb39"
       },
       "requiredEvidence": [
         "Counsel-approved pattern-form decision grounded in RCW 9.97.020(11)",
@@ -6635,7 +6635,7 @@
         },
         "action": "Canonical participant-treatment owner adopts the exact bilingual no-checkout candidate and obtains review.",
         "frozenAssignment": "WI-correspondence-treatment",
-        "frozenGroupKey": "WI-correspondence-treatment:9d1597414eaa"
+        "frozenGroupKey": "WI-correspondence-treatment:6ee9e6e9f398"
       },
       "requiredEvidence": [
         "Canonical participant-correspondence adoption and a counsel-reviewed determination of any case-specific non-response remedy",
@@ -6804,7 +6804,7 @@
         },
         "action": "Terminal A implements the exact candidate-recognition specification and regenerates the ledger byte-stably.",
         "frozenAssignment": "WV-deferral-recognition",
-        "frozenGroupKey": "WV-deferral-recognition:5f3783763246"
+        "frozenGroupKey": "WV-deferral-recognition:a1d00981c755"
       },
       "requiredEvidence": [
         {
@@ -6978,7 +6978,7 @@
         },
         "action": "Terminal A implements the exact candidate-recognition specification and regenerates the ledger byte-stably.",
         "frozenAssignment": "WV-deferral-recognition",
-        "frozenGroupKey": "WV-deferral-recognition:5f3783763246"
+        "frozenGroupKey": "WV-deferral-recognition:a1d00981c755"
       },
       "requiredEvidence": [
         {
@@ -7152,7 +7152,7 @@
         },
         "action": "Terminal A implements the exact candidate-recognition specification and regenerates the ledger byte-stably.",
         "frozenAssignment": "WV-deferral-recognition",
-        "frozenGroupKey": "WV-deferral-recognition:5f3783763246"
+        "frozenGroupKey": "WV-deferral-recognition:a1d00981c755"
       },
       "requiredEvidence": [
         {

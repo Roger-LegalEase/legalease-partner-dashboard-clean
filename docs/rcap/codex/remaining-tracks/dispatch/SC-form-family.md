@@ -4,9 +4,9 @@ Status: paste-ready, frozen at the exact base below. This assignment grants no a
 
 ## Exact scope
 
-- Base commit: `3d8695cf8e5e9fe4464b559c97e04a526a462ade`
+- Base commit: `c1f0741a6bf027d52cb74a26b67a811cb9194065`
 - Canonical base ref: `origin/claude/rcap-final-sprint-integration`
-- Frozen group key: `SC-form-family:e5b9c535a343`
+- Frozen group key: `SC-form-family:b4f0f010fbc6`
 - Jurisdiction: `SC`
 - Implementation family: `controlled_pleading`
 - Source dependency: `private/Nationwide Record Clearing/ (SC) + pinned registry 3b6f4c10`

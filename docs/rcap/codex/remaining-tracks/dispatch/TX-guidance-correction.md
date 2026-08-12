@@ -4,9 +4,9 @@ Status: paste-ready, frozen at the exact base below. This assignment grants no a
 
 ## Exact scope
 
-- Base commit: `3d8695cf8e5e9fe4464b559c97e04a526a462ade`
+- Base commit: `c1f0741a6bf027d52cb74a26b67a811cb9194065`
 - Canonical base ref: `origin/claude/rcap-final-sprint-integration`
-- Frozen group key: `TX-guidance-correction:a73108fb662e`
+- Frozen group key: `TX-guidance-correction:9409e628630f`
 - Jurisdiction: `TX`
 - Implementation family: `composed_route`
 - Source dependency: `private/Nationwide Record Clearing/ (TX) + pinned registry 3b6f4c10`

@@ -1,6 +1,6 @@
 # RCAP remaining-track wave — Codex bounded lane
 
-Base: `3d8695cf8e5e9fe4464b559c97e04a526a462ade` (`origin/claude/rcap-final-sprint-integration`)<br>
+Base: `c1f0741a6bf027d52cb74a26b67a811cb9194065` (`origin/claude/rcap-final-sprint-integration`)<br>
 Branch: `codex/rcap-remaining-tracks-wave`<br>
 Ledger position: **375 / 497 terminal; 122 nonterminal**.
 

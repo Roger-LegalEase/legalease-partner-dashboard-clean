@@ -4,9 +4,9 @@ Status: paste-ready, frozen at the exact base below. This assignment grants no a
 
 ## Exact scope
 
-- Base commit: `3d8695cf8e5e9fe4464b559c97e04a526a462ade`
+- Base commit: `c1f0741a6bf027d52cb74a26b67a811cb9194065`
 - Canonical base ref: `origin/claude/rcap-final-sprint-integration`
-- Frozen group key: `TX-deferral-recognition:7673a1c80611`
+- Frozen group key: `TX-deferral-recognition:e3fd75381782`
 - Jurisdiction: `TX`
 - Implementation family: `controlled_pleading`
 - Source dependency: `private/Nationwide Record Clearing/ (TX) + pinned registry 3b6f4c10`
