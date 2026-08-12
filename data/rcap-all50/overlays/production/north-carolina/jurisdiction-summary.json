@@ -65,8 +65,9 @@
         "forms",
         "petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors"
       ],
-      "readiness": "blocked_pending_bundle_binaries_and_release_gates",
-      "terminal": false
+      "readiness": "implemented_pending_release_gates_and_independent_visual_review",
+      "terminal": false,
+      "sourceBinariesPresent": true
     },
     {
       "trackId": "nc_146_dismissal_petition",
@@ -83,11 +84,12 @@
         "forms",
         "petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed"
       ],
-      "readiness": "blocked_pending_bundle_binaries_and_release_gates",
-      "terminal": false
+      "readiness": "overlay_implemented_pending_release_gates_and_independent_visual_review",
+      "terminal": false,
+      "sourceBinariesPresent": true
     }
   ],
-  "jobOutcome": "fail_closed_with_exact_source_requirements",
+  "jobOutcome": "official_forms_implemented_pending_release_gates_and_independent_visual_review",
   "generatedFrom": "committed evidence only; no source binary present in clone",
   "bundleReconciliation": {
     "bundleManifestSha256": "454a7ef079552eb12ae343f89e6ff1e44ab5ee52fd646b61cc6dd48a715d0199",
@@ -121,5 +123,15 @@
         "lifecycle": "true_hash_missing"
       }
     ]
+  },
+  "implementation": {
+    "generatedFrom": "scripts/implement-rcap-official-forms-d1.mjs",
+    "families": 21,
+    "implemented": 10,
+    "noFillByOwnership": 9,
+    "boundFields": 205,
+    "contactSheets": 10,
+    "holdsPreserved": "Source-gated, currentness, counsel and state-legal-review holds are unchanged by the binaries arriving. No track is promoted to terminal here.",
+    "independentVisualReview": "Owned by F. This lane does not self-approve."
   }
 }
