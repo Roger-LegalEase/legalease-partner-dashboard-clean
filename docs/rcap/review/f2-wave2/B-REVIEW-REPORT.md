@@ -71,13 +71,26 @@
 | 9 | `CT:ct-provisional-pardon` | correction_required | Defect: destination.en/es asserts affirmatively that 'The Board publishes the application and the instructions'. |
 | 10 | `DE:de_attorney_general_expungement` | technical_approved | Authority traced to DE.memo.json (AG mandatory-expungement route, eligible record types/dispositions, venue and no-participant-court-filing posture, cross-track pointers to de_mandatory_expungement and de_discretionar.... |
 
+### Group 3: GA/HI/KY/LA
+
+| # | Track | Outcome | Summary |
+|---|---|---|---|
+| 11 | `GA:ga-fo-sentencing-post2026` | technical_approved | Authority claims (First Offender Act sentencing-stage relief post-2026, restriction-vs-sealing effect) traced to GA.memo.json; parity, payment suppression and elements verified. |
+| 12 | `GA:ga-time-expired` | technical_approved | Authority traced to GA.memo.json (time-expired restriction route, 60-day clerk seal, 30-day agency compliance, record-report practice); parity, payment suppression and elements verified with no defect.. |
+| 13 | `HI:hi_state_initiated_marijuana_pilot` | technical_approved | State-initiated pilot honestly framed on committed bytes: the open-status caveats (2025 Act 62 continuation and AG report to the 2026 Legislature not acquired; pilot's current reach unresolved) mirror HI.memo.json unr.... |
+| 16 | `KY:ky_automatic_nonconviction_expungement_verification` | technical_approved | Authority traced to KY.memo.json (KRS 431.076(6) automatic expungement of acquittals/dismissals after 30/60-day windows, AOC verification); parity, payment suppression and elements verified with no defect.. |
+| 17 | `KY:ky_diversion_disposition_routing` | technical_approved | Authority traced to KY.memo.json (KRS 533.258 dismissed-diverted status and non-disclosure). |
+| 18 | `KY:ky_felony_expungement_after_pardon` | technical_approved | exact_supported_deferral verified: docs/record-clearing/deferrals/ky-deferrals.md names the track and states the exact supported condition (eligibility turns on characterising a full pardon under KRS 431.073(1)(c), a .... |
+| 19 | `KY:ky_felony_vacatur_expungement` | technical_approved | exact_supported_deferral verified: the two concurrently published versions of the KRS 431.073(1)(a) eligibility list with the 30 April 2027 changeover (adding KRS 286.13-150) and the $300-at-filing conflict are stated.... |
+| 20 | `LA:la-999-expedited-expungement` | technical_approved | Authority traced to LA.memo.json (art. |
+
 Full defect statements, byte evidence and acceptance conditions are in `B-DISPOSITIONS.json` (the notes are the normative text; this table is a summary).
 
 ## Totals
 
 | Outcome | Tracks |
 |---|---:|
-| technical_approved | 13 |
+| technical_approved | 21 |
 | correction_required | 5 |
 | held_on_source_or_design | 0 |
-| **Total reviewed** | **18** |
+| **Total reviewed** | **26** |

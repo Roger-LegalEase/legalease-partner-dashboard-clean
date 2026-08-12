@@ -10,7 +10,8 @@
   "scope": "All 33 lane-B jobs in data/rcap-all50/review-artifacts/f2-independent-technical-review.json — 72 pending tracks (AK:ak-sej is promoted and out of scope). Nothing from the superseded first F2 pass carries over; every track was re-reviewed against the bytes at the review base.",
   "atomicGroupsClosedSoFar": [
     "AK/CA/IL/IN/MI (prior-correction states)",
-    "AR/CO/CT/DE"
+    "AR/CO/CT/DE",
+    "GA/HI/KY/LA"
   ],
   "evidenceRule": "Every closure's evidenceSha is the manifest's packetSha256, recomputed by this reviewer from `git show a20987d1:<packet path>` and matched before review. The tip at branch point differs from the review base only by data/rcap-all50/review-artifacts/f2-wave2-dispatch.json, so reviewed working-tree bytes are the review-base bytes.",
   "committedAuthorityUniverse": [
@@ -125,6 +126,36 @@
       "evidenceSha": "e4c10d8bca7b5c039ccc6f26032fa72d1967d26ddf5b5c86e3e43df71e0e0ff3"
     },
     {
+      "reviewId": 11,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fo-sentencing-post2026"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority claims (First Offender Act sentencing-stage relief post-2026, restriction-vs-sealing effect) traced to GA.memo.json; parity, payment suppression and elements verified. Minor: the terminology framing (Georgia statutes have not used 'expungement' since 1 July 2013; neither restriction nor sealing destroys the record) is carried by GA.memo.json tracks[ga-time-expired].legalDesignDecision.limitations but has no authority[] pointer in this entry — add one.",
+      "evidenceSha": "6f1a3cea14f23f3d1add5b67e80b4ab2f17b61e85a7b84c8b881915db4e0b51c"
+    },
+    {
+      "reviewId": 12,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-time-expired"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to GA.memo.json (time-expired restriction route, 60-day clerk seal, 30-day agency compliance, record-report practice); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "6f1a3cea14f23f3d1add5b67e80b4ab2f17b61e85a7b84c8b881915db4e0b51c"
+    },
+    {
+      "reviewId": 13,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "HI:hi_state_initiated_marijuana_pilot"
+      ],
+      "owner": "Terminal B",
+      "note": "State-initiated pilot honestly framed on committed bytes: the open-status caveats (2025 Act 62 continuation and AG report to the 2026 Legislature not acquired; pilot's current reach unresolved) mirror HI.memo.json unresolvedQuestions, and the packet deliberately names HCJDC only as the place to verify a record, not to apply — matching the lane evidence record. Minor: authority[6].sourceRef uses an empty track selector ('tracks[]...across the Hawaii expungement routes') for the HCJDC characterization; the claim is carried (HCJDC-159B component notes; hi_nonconviction_expungement) — point the ref at those tracks.",
+      "evidenceSha": "a2797ad30b74cdfbbd234d16cf2ce4715e773d426b557023963c7b289fa0c1a6"
+    },
+    {
       "reviewId": 14,
       "outcome": "technical_approved",
       "trackKeys": [
@@ -143,6 +174,56 @@
       "owner": "Terminal B",
       "note": "Authority fully memo-grounded (IN.memo.json in_auto_expungement: 1(b) own-motion/no petition, 1(a) pretrial-diversion bar, post-30-June-2022 cutoff, immediate vs 60-day effectiveness, prosecutor delay up to one year, 1(k) sealed-not-destroyed, ISP certified limited criminal history, Section 1 fallback); parity, payment suppression and all eleven elements verified with no defect.",
       "evidenceSha": "55a9edc23824815737cea6cfef859761fc0d169811859bf76d4cd65b80f6491f"
+    },
+    {
+      "reviewId": 16,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_automatic_nonconviction_expungement_verification"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to KY.memo.json (KRS 431.076(6) automatic expungement of acquittals/dismissals after 30/60-day windows, AOC verification); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad"
+    },
+    {
+      "reviewId": 17,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_diversion_disposition_routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to KY.memo.json (KRS 533.258 dismissed-diverted status and non-disclosure). Minor: the packet enumerates 'employment, credit or licensure' for KRS 533.258(2) where the memo summary reads 'employment, licensure or otherwise'; the enumeration is subsumed by the carried 'or otherwise' (and 'credit' appears in the compiled profile's 431.076/431.078 order text), so no condition is dropped or changed — conform the wording to the memo at will.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad"
+    },
+    {
+      "reviewId": 18,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_felony_expungement_after_pardon"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ky-deferrals.md names the track and states the exact supported condition (eligibility turns on characterising a full pardon under KRS 431.073(1)(c), a document LegalEase never sees or authenticates), carried by KY.memo.json unresolvedQuestions; participant copy still delivers the settled elements. Minor: the thirty-day certification-filing window is cited to the pardon track's locations, which do not carry it — the claim is carried by tracks[ky_expungement_certification].waitingPeriods and the vacatur track's required_before_filing limitation; extend the sourceRef.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad"
+    },
+    {
+      "reviewId": 19,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_felony_vacatur_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the two concurrently published versions of the KRS 431.073(1)(a) eligibility list with the 30 April 2027 changeover (adding KRS 286.13-150) and the $300-at-filing conflict are stated exactly and carried verbatim by KY.memo.json; participant copy still delivers the settled elements and does not read as 'coming soon'.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad"
+    },
+    {
+      "reviewId": 20,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "LA:la-999-expedited-expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to LA.memo.json (art. 999 expedited no-fee expungement, no-wait/no-objection-window posture, art. 976 fallback in handoff); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "295bd6fca9503a0941df22e33d6159dd0d785af7839684c6ce72be210e1d1e16"
     },
     {
       "reviewId": 25,
@@ -206,8 +287,8 @@
     }
   ],
   "totals": {
-    "tracksReviewed": 18,
-    "technical_approved": 13,
+    "tracksReviewed": 26,
+    "technical_approved": 21,
     "correction_required": 5,
     "held_on_source_or_design": 0
   }
