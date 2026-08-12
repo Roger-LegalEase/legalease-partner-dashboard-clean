@@ -1,0 +1,236 @@
+{
+  "schema": "rcap-d-approval-evidence/v1",
+  "lane": "D1B",
+  "laneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+  "totals": {
+    "lane": "D1B",
+    "approvedFamiliesInLane": 3,
+    "withParticipantArtifact": 2,
+    "noParticipantArtifact": 1,
+    "evidenceRegeneratedClean": 0,
+    "problems": 2,
+    "participantHashesUnchanged": 2,
+    "written": 2
+  },
+  "families": [
+    {
+      "familyId": "KY:aoc-333-source-gated-en",
+      "lane": "D1B",
+      "state": "KY",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "the participant PDF on this branch is the one that was approved at the lane head",
+          "detail": {
+            "hashAtLaneHead": "58ae72b187e020df",
+            "onBranch": "58ae72b187e020df"
+          }
+        },
+        {
+          "ok": true,
+          "msg": "the blank source hashes to the recorded sha256"
+        },
+        {
+          "ok": true,
+          "msg": "the participant PDF is byte-identical after regenerating its evidence",
+          "detail": {
+            "before": "58ae72b187e020df",
+            "after": "58ae72b187e020df"
+          }
+        },
+        {
+          "ok": true,
+          "msg": "every expected participant value is visible (2 value(s))"
+        },
+        {
+          "ok": true,
+          "msg": "the blank and filled panels differ where values are expected"
+        },
+        {
+          "ok": true,
+          "msg": "the sheet is byte-inspectable",
+          "detail": "clean"
+        },
+        {
+          "ok": true,
+          "msg": "no XFA, JavaScript, /AA, OpenAction, Launch, Submit, Import, URI or network action remains",
+          "detail": []
+        },
+        {
+          "ok": true,
+          "msg": "both panels were clean at the moment they were embedded",
+          "detail": {
+            "blank": [],
+            "finalized": []
+          }
+        },
+        {
+          "ok": false,
+          "msg": "no Reset, Clear Form or Print caption appears in the filed artifact",
+          "detail": [
+            {
+              "page": 1,
+              "text": "Reset "
+            },
+            {
+              "page": 1,
+              "text": "Print"
+            }
+          ]
+        },
+        {
+          "ok": false,
+          "msg": "no helper text from a non-printing widget appears in the filed artifact",
+          "detail": [
+            {
+              "page": 1,
+              "text": "Reset "
+            },
+            {
+              "page": 1,
+              "text": "Form"
+            },
+            {
+              "page": 1,
+              "text": "Print"
+            }
+          ]
+        }
+      ],
+      "failures": [
+        "no Reset, Clear Form or Print caption appears in the filed artifact",
+        "no helper text from a non-printing widget appears in the filed artifact"
+      ],
+      "written": {
+        "sheet": "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+        "sheetSha256": "a77d6d355b18ee24be044e1f7d87428f156ff9239240c2e7e2e72685f26c4833"
+      },
+      "participantArtifact": "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en/fixtures/canonical-filled.pdf",
+      "participantArtifactSha256": "58ae72b187e020df650e48fba850c7b5221bce6387a8bcd6b9930348315cdae4",
+      "participantArtifactUnchanged": true,
+      "expectedValueCount": 2,
+      "sheetSha256": "a77d6d355b18ee24be044e1f7d87428f156ff9239240c2e7e2e72685f26c4833",
+      "outcome": "evidence_regeneration_found_a_problem"
+    },
+    {
+      "familyId": "KY:aoc-496-5-form-en",
+      "lane": "D1B",
+      "state": "KY",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "the participant PDF on this branch is the one that was approved at the lane head",
+          "detail": {
+            "hashAtLaneHead": "243924e0db8b2088",
+            "onBranch": "243924e0db8b2088"
+          }
+        },
+        {
+          "ok": true,
+          "msg": "the blank source hashes to the recorded sha256"
+        },
+        {
+          "ok": true,
+          "msg": "the participant PDF is byte-identical after regenerating its evidence",
+          "detail": {
+            "before": "243924e0db8b2088",
+            "after": "243924e0db8b2088"
+          }
+        },
+        {
+          "ok": true,
+          "msg": "every expected participant value is visible (2 value(s))"
+        },
+        {
+          "ok": true,
+          "msg": "the blank and filled panels differ where values are expected"
+        },
+        {
+          "ok": true,
+          "msg": "the sheet is byte-inspectable",
+          "detail": "clean"
+        },
+        {
+          "ok": true,
+          "msg": "no XFA, JavaScript, /AA, OpenAction, Launch, Submit, Import, URI or network action remains",
+          "detail": []
+        },
+        {
+          "ok": true,
+          "msg": "both panels were clean at the moment they were embedded",
+          "detail": {
+            "blank": [],
+            "finalized": []
+          }
+        },
+        {
+          "ok": false,
+          "msg": "no Reset, Clear Form or Print caption appears in the filed artifact",
+          "detail": [
+            {
+              "page": 1,
+              "text": "Reset "
+            },
+            {
+              "page": 1,
+              "text": "Print"
+            },
+            {
+              "page": 1,
+              "text": "save "
+            }
+          ]
+        },
+        {
+          "ok": false,
+          "msg": "no helper text from a non-printing widget appears in the filed artifact",
+          "detail": [
+            {
+              "page": 1,
+              "text": "\u0000$\u00002\u0000&\u0000\u0010\u0000\u0017\u0000\u001c\u0000\u0019\u0000\u0011\u0000\u0018"
+            },
+            {
+              "page": 1,
+              "text": "\u0000\u0003"
+            },
+            {
+              "page": 1,
+              "text": "\u0000'\u0000R\u0000F\u0000\u0011\u0000\u0003\u0000&\u0000R\u0000G\u0000H\u0000\u001d\u0000\u0003\u00001\u00002\u0000;"
+            },
+            {
+              "page": 1,
+              "text": "\u00005\u0000H\u0000Y"
+            },
+            {
+              "page": 1,
+              "text": "\u0000\u0011\u0000\u0003\u0000\u0019\u0000\u0010\u0000\u0014\u0000\u001c"
+            }
+          ]
+        }
+      ],
+      "failures": [
+        "no Reset, Clear Form or Print caption appears in the filed artifact",
+        "no helper text from a non-printing widget appears in the filed artifact"
+      ],
+      "written": {
+        "sheet": "data/rcap-all50/overlays/production/kentucky/aoc-496-5-form-en/contact-sheet/blank-vs-filled.pdf",
+        "sheetSha256": "9765ef8fb32bcb55521c1d94c8cf2fdea5bcd683c9e45cfeba1776df1fca0ce3"
+      },
+      "participantArtifact": "data/rcap-all50/overlays/production/kentucky/aoc-496-5-form-en/fixtures/canonical-filled.pdf",
+      "participantArtifactSha256": "243924e0db8b20888bd14f54f54c8fb13e486cfc22c116c009f4e9a79560c3e4",
+      "participantArtifactUnchanged": true,
+      "expectedValueCount": 2,
+      "sheetSha256": "9765ef8fb32bcb55521c1d94c8cf2fdea5bcd683c9e45cfeba1776df1fca0ce3",
+      "outcome": "evidence_regeneration_found_a_problem"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-instructions-en",
+      "lane": "D1B",
+      "state": "NC",
+      "checks": [],
+      "failures": [],
+      "outcome": "no_participant_artifact_nothing_to_reevidence",
+      "implementationStatus": "no_fill_instructional_document"
+    }
+  ]
+}
