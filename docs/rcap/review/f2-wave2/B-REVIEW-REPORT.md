@@ -114,13 +114,25 @@
 | 45 | `NE:ne-pardon-routing` | technical_approved | Authority traced to NE.memo.json (Board of Pardons routing, executive body, no court venue). |
 | 46 | `NE:ne-postconviction-routing` | technical_approved | Authority traced to NE.memo.json (postconviction routing); parity, payment suppression and elements verified with no defect.. |
 
+### Group 6: NH/NJ/NY/OH/OK
+
+| # | Track | Outcome | Summary |
+|---|---|---|---|
+| 47 | `NH:nh_supreme_court_record` | technical_approved | Authority traced to NH.memo.json (RSA 651:5 annulment reach and the Supreme Court record question, 'annulment' terminology respected); parity verified (the Spanish afterNextStep adds a Spanish rendering alongside the .... |
+| 48 | `NJ:nj_automated_clean_slate` | correction_required | Two uncarried participant-facing claims in handoff.en/es. |
+| 49 | `NY:ny_clean_slate_dwai` | technical_approved | Authority traced to NY.memo.json (Clean Slate CPL 160.57 DWAI treatment; the sealed-record background-check sentence is carried by tracks[ny_clean_slate_convictions].controllingAuthority.summary in the same committed .... |
+| 50 | `NY:ny_clean_slate_manual_review` | technical_approved | Authority traced to NY.memo.json (manual-review pathway; same carried background-check sentence); parity, payment suppression and elements verified with no defect.. |
+| 51 | `OH:oh_2953_39_prosecutor` | technical_approved | Authority traced to OH.memo.json; the packet honestly carries the lane-recorded limits (ORC 2953.39 full text not read at source; whether a person can prompt the prosecutor unknown) and deliberately does not end the r.... |
+| 52 | `OK:ok_osbi_portal` | correction_required | Defect: handoff.en/es and nextSteps.en[4]/es[4] state the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. |
+| 53 | `OK:ok_clean_slate` | technical_approved | exact_supported_deferral verified: docs/record-clearing/deferrals/ok-deferrals.md names the track and job and states both exact supported conditions (22 O.S. |
+
 Full defect statements, byte evidence and acceptance conditions are in `B-DISPOSITIONS.json` (the notes are the normative text; this table is a summary).
 
 ## Totals
 
 | Outcome | Tracks |
 |---|---:|
-| technical_approved | 36 |
-| correction_required | 10 |
+| technical_approved | 41 |
+| correction_required | 12 |
 | held_on_source_or_design | 0 |
-| **Total reviewed** | **46** |
+| **Total reviewed** | **53** |

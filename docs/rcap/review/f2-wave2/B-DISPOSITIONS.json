@@ -13,7 +13,8 @@
     "AR/CO/CT/DE",
     "GA/HI/KY/LA",
     "MD/ME/MN/MO",
-    "MT/NC/ND/NE"
+    "MT/NC/ND/NE",
+    "NH/NJ/NY/OH/OK"
   ],
   "evidenceRule": "Every closure's evidenceSha is the manifest's packetSha256, recomputed by this reviewer from `git show a20987d1:<packet path>` and matched before review. The tip at branch point differs from the review base only by data/rcap-all50/review-artifacts/f2-wave2-dispatch.json, so reviewed working-tree bytes are the review-base bytes.",
   "committedAuthorityUniverse": [
@@ -486,12 +487,82 @@
       "owner": "Terminal B",
       "note": "Authority traced to NE.memo.json (postconviction routing); parity, payment suppression and elements verified with no defect.",
       "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 47,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NH:nh_supreme_court_record"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NH.memo.json (RSA 651:5 annulment reach and the Supreme Court record question, 'annulment' terminology respected); parity verified (the Spanish afterNextStep adds a Spanish rendering alongside the required English RSA 651:5, X(f) inquiry — accuracy-preserving); payment suppression and elements verified with no defect.",
+      "evidenceSha": "485a9bf617caddf26393aeb72f67b68036d9f49366d3b8ebf97f786c05a92297"
+    },
+    {
+      "reviewId": 48,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "NJ:nj_automated_clean_slate"
+      ],
+      "owner": "Terminal B",
+      "note": "Two uncarried participant-facing claims in handoff.en/es. (1) The referral 'the county bar association's lawyer referral service and Legal Services of New Jersey are the usual starting points': no committed source mentions a bar association or lawyer referral service (zero hits in NJ.memo.json and NJ-new-jersey.json); the committed resource is Legal Services of New Jersey and its free online expungement navigator. (2) The legal-effect rationale 'losing easy access to your own records can hurt an immigration case': the committed record carries only 'Immigration exposure. New Jersey expungement has no federal immigration effect.' (selfHelpStopConditions) — the records-access-harm theory is carried nowhere and could deter a participant from pursuing relief on an uncarried legal claim. Acceptance: restate the low-cost-help referral on the carried resource only, and either delete the records-access rationale or limit the immigration warning to the carried statement (no federal immigration effect; get immigration advice first), in both languages.",
+      "evidenceSha": "c3ca532f14228b67a28602971c6d5aac987b5f180dcaf516d307c83342be8325"
+    },
+    {
+      "reviewId": 49,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NY:ny_clean_slate_dwai"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NY.memo.json (Clean Slate CPL 160.57 DWAI treatment; the sealed-record background-check sentence is carried by tracks[ny_clean_slate_convictions].controllingAuthority.summary in the same committed file); parity, payment suppression (DCJS Record Review fee is an official fee) and elements verified with no defect.",
+      "evidenceSha": "bc824b400e484d497245aaa51c4986b9d50a00c08820f75cec6edd994137bb26"
+    },
+    {
+      "reviewId": 50,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NY:ny_clean_slate_manual_review"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NY.memo.json (manual-review pathway; same carried background-check sentence); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "bc824b400e484d497245aaa51c4986b9d50a00c08820f75cec6edd994137bb26"
+    },
+    {
+      "reviewId": 51,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OH:oh_2953_39_prosecutor"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to OH.memo.json; the packet honestly carries the lane-recorded limits (ORC 2953.39 full text not read at source; whether a person can prompt the prosecutor unknown) and deliberately does not end the route at the prosecutor's door; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "4984a2121fce67e1907dc543dff4e356f0fd3bd4633a48ff0e004d8118481b24"
+    },
+    {
+      "reviewId": 52,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "OK:ok_osbi_portal"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: handoff.en/es and nextSteps.en[4]/es[4] state the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. No committed source carries it: OK.memo.json's immigration statements are limited to escalation ('an immigration attorney before any Oklahoma route is used'), scope ('immigration is federal and out of scope') and the no-representation rule ('LegalEase never represents Oklahoma sealing as producing an immigration outcome'); zero hits for the evidence-destruction theory in OK.memo.json or OK-oklahoma.json. The uncarried theory could deter a participant from pursuing relief. Acceptance: delete the rationale in both elements and both languages, or replace it with the carried formulation (immigration is federal and out of scope; see an immigration attorney before using any Oklahoma route). The $150 OSBI processing fee copy is an official government fee and is fine.",
+      "evidenceSha": "1c288106cc1af5918447ecc93c4a1abfd6fa6ca7ec0d67adc38c0afafdd50f50"
+    },
+    {
+      "reviewId": 53,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OK:ok_clean_slate"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ok-deferrals.md names the track and job and states both exact supported conditions (22 O.S. § 18b(B) funds-availability with no traceable appropriation; § 19d administration/portal not operating against the 1 Nov 2026/2027/2029 statutory dates), each carried verbatim by OK.memo.json legal_design_blocker limitations and release_blocker unresolvedQuestions; the participant copy delivers the elements, routes to the open § 19 petition preserved by § 19d(G), honours the § 19(L) re-lettering caution, and does not read as 'coming soon'.",
+      "evidenceSha": "1c288106cc1af5918447ecc93c4a1abfd6fa6ca7ec0d67adc38c0afafdd50f50"
     }
   ],
   "totals": {
-    "tracksReviewed": 46,
-    "technical_approved": 36,
-    "correction_required": 10,
+    "tracksReviewed": 53,
+    "technical_approved": 41,
+    "correction_required": 12,
     "held_on_source_or_design": 0
   }
 }
