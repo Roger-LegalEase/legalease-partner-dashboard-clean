@@ -1,0 +1,44 @@
+{
+  "fixtureId": "negative",
+  "description": "Rejection fixture reproducing the lane C1 failure mode: content the source does not supply, which runPleadingQa passes because QA reads relief vocabulary, template grade, the footer and seal markers rather than truth.",
+  "statedFailureReason": "The fixture asserts that the court has already found the agency non-compliant, states the respondent agency's position for it, states a filing fee the source does not establish, asserts completed service when the rule for service on a Nebraska state agency or political subdivision was never surveyed, and populates the protected docket number and OTN fields.",
+  "expectations": {
+    "qaPassed": true,
+    "expectedSignalClass": "invention",
+    "expectedSignal": "court_finding_asserted",
+    "alsoExpectedSignals": [
+      "prosecutor_position_asserted",
+      "monetary_amount_asserted",
+      "service_completion_asserted",
+      "protected_case_field_populated",
+      "docket_number_asserted"
+    ]
+  },
+  "renderInput": {
+    "partyData": { "petitionerName": "Negative Sample" },
+    "caseData": {
+      "countyName": "Lancaster",
+      "docketNumber": "CI-21-004417",
+      "otn": "NE0077431902",
+      "judgeName": "the Honourable Pat Example"
+    },
+    "chargeData": {
+      "chargeDescription": "Theft by unlawful taking",
+      "disposition": "Charge dismissed",
+      "dispositionDate": "03/09/2021",
+      "arrestDate": "10/22/2020",
+      "arrestingAgency": "Lincoln Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Action under Neb. Rev. Stat. § 29-3528 to compel compliance with the sealing duty",
+      "additionalFacts": [
+        "The Court finds that the respondent agency has failed to comply with the Security, Privacy, and Dissemination of Criminal History Information Act.",
+        "The State does not object to this Petition and the respondent agency consents to the relief requested.",
+        "Petitioner paid the filing fee of $82 to the clerk of the district court on 02/14/2026.",
+        "A copy of this Petition was duly served on the respondent agency on 03/01/2026, and service was completed that day."
+      ]
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}
