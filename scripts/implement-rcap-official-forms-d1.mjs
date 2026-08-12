@@ -23,7 +23,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { extractTextItems, groupIntoLines } from "./lib/rcap-pdf-anchor-capture.mjs";
+import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList, StandardFonts, rgb } = require("pdf-lib");
@@ -52,6 +52,11 @@ function haystack(name) {
   const squashed = raw.toLowerCase().replace(/[^a-z0-9]+/g, "");
   return `${spaced} || ${squashed}`;
 }
+
+// A Type0/Identity-H subset font with no ToUnicode map decodes to glyph
+// indices, which surface as NUL-padded text. Those runs name nothing and
+// are excluded from anchor placement rather than guessed at.
+const CID_ENCODED = /\u0000/;
 
 // --- document ownership -----------------------------------------------------
 const OWNERSHIP = {
@@ -404,7 +409,7 @@ for (const fam of index.families) {
     const helvA = await (await PDFDocument.create()).embedFont(StandardFonts.Helvetica);
     for (let pi = 0; pi < pages.length; pi++) {
       const lines = groupIntoLines(extractTextItems(pages[pi]));
-      const readable = lines.filter((l) => !/ /.test(l.text));
+      const readable = lines.filter((l) => !CID_ENCODED.test(l.text));
       anchorPages.push({ page: pi + 1, lines: lines.length, readableLines: readable.length,
         unreadableLines: lines.length - readable.length });
       for (const line of readable) {
@@ -432,7 +437,7 @@ for (const fam of index.families) {
             reason: "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted." });
         }
         for (const run of line.runs) {
-          if (/ /.test(run.text)) continue;
+          if (CID_ENCODED.test(run.text)) continue;
           const label = run.text.trim();
           if (label.length < 3) continue;
           const target = overlayFactFor(label, ownership);

@@ -47,7 +47,7 @@ Ownership is decided per document, then re-checked per field:
 ## Flat PDFs
 
 A flat PDF has no widgets, so nothing can be interrogated for geometry.
-`scripts/lib/rcap-pdf-anchor-capture.mjs` decodes each page's content stream,
+`scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs` decodes each page's content stream,
 walks the text operators while tracking the text and line matrices, and
 computes advances from each font's own `/Widths` array. Positions are
 therefore measured from the document, not estimated.
