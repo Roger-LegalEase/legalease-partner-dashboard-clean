@@ -8,7 +8,8 @@
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
-    "blocked_on_family": 5
+    "blocked_on_family": 5,
+    "wire": 1
   },
   "entries": {
     "audit-all50-state-pack-substance.mjs": {
@@ -879,6 +880,12 @@
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
+    "verify-rcap-official-forms-d1.mjs": {
+      "disposition": "wire",
+      "reason": "Green at 146 family packages and 62 completed implementation packages. Red on census/map sha drift from the source record, a fact bound to an unwritable class, a binding on a checkbox or radio group, a court-issued order bound outside its caption, an overlay anchor on a denied label, a rendered fixture that modified an unwritable field, and a rendered artifact that no longer matches its recorded hash. Not wired here only because lane D1 must not edit package.json; wiring is the captain's call.",
+      "observedStatus": "orphan_passing",
+      "decidedBy": "human"
+    },
     "verify-rcap-onboarding-artifact-database.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1086,7 +1093,7 @@
       "sourceCommit": "f237c89f3a3ed0eab44d9c84f07833de822eea54",
       "auditOwned": true,
       "knownNondeterminism": "The G6 observed string embeds the fixture briefcase item id, which is gen_random_uuid() per run, so data/rcap-render/phase51-consumer-payment-security.json is not byte-reproducible across runs. One line only; totals and pass state are stable. Referred to the audit lane rather than patched here, because the artifact is audit-owned.",
-      "committedArtifactRule": "The committed bytes of data/rcap-render/phase51-consumer-payment-security.json are the audit lane's own, from f237c89. Running npm test rewrites that file in the working tree with this machine's fixture ids; that rewrite is a local side effect and must not be staged. Restore it from f237c89 before committing. This is not pedantry — the file is the audit's record of what the audit observed, and overwriting it with a captain-side run quietly replaces independent evidence with self-issued evidence.",
+      "committedArtifactRule": "The committed bytes of data/rcap-render/phase51-consumer-payment-security.json are the audit lane's own, from f237c89. Running npm test rewrites that file in the working tree with this machine's fixture ids; that rewrite is a local side effect and must not be staged. Restore it from f237c89 before committing. This is not pedantry \u2014 the file is the audit's record of what the audit observed, and overwriting it with a captain-side run quietly replaces independent evidence with self-issued evidence.",
       "supersedes": "the Phase 52-ending revision of the same audit (19/19 gate, 0/3 reach); no second payment audit is maintained"
     },
     "verify-rcap-prepay-question-gate.mjs": {
@@ -1408,7 +1415,7 @@
     },
     "test-rcap-phase54-mutations.mjs": {
       "disposition": "wired",
-      "reason": "Proves each Phase 54 defence is load-bearing: 5 mutations — phase omitted, RLS not enabled, browser-role revokes dropped, reserved slug claimable, shape constraint stops discriminating — all turn the namespace proof red.",
+      "reason": "Proves each Phase 54 defence is load-bearing: 5 mutations \u2014 phase omitted, RLS not enabled, browser-role revokes dropped, reserved slug claimable, shape constraint stops discriminating \u2014 all turn the namespace proof red.",
       "observedStatus": "in_chain",
       "decidedBy": "captain"
     },
