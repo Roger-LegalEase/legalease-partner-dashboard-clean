@@ -1,0 +1,3370 @@
+{
+  "schema": "rcap-d-correction-reconciliation/v1",
+  "gate": "Gate 1 — reconcile all 61 prior corrections",
+  "d0v2": "b412f543",
+  "totals": {
+    "priorCorrectionFamilies": 61,
+    "uniqueFamilies": 61,
+    "underlyingReviewFindings": 114,
+    "familiesRerendered": 48,
+    "participantArtifactChanged": 32,
+    "reviewEvidenceOnlyChangedParticipantPdfIdentical": 16,
+    "producedNoNewBytesButAccounted": 13,
+    "unaccounted": 0,
+    "reconcilesTo61": 61,
+    "byNonRerenderAccount": {
+      "blocked_on_unnamed_shared_defect": 5,
+      "orchestrator_evidence_only_no_artifact_implicated": 8
+    },
+    "contactSheetChanged": 48,
+    "onlySupportingChanged": 0,
+    "phase4ShardCounts": [
+      34,
+      19,
+      8
+    ],
+    "approvedOrHeldFamiliesPresent": 0
+  },
+  "gates": [
+    {
+      "gate": "exactly 61 unique prior correction families",
+      "pass": true,
+      "observed": {
+        "rows": 61,
+        "unique": 61
+      }
+    },
+    {
+      "gate": "48 families re-rendered",
+      "pass": true,
+      "observed": 48
+    },
+    {
+      "gate": "the remaining 13 produced no new bytes and are each explicitly accounted for",
+      "pass": true,
+      "observed": {
+        "remaining": 13,
+        "unaccounted": []
+      }
+    },
+    {
+      "gate": "no finding omitted",
+      "pass": true,
+      "observed": {
+        "inTable": 114,
+        "inIndex": 114
+      }
+    },
+    {
+      "gate": "no technical_approved or held family moved into the correction population",
+      "pass": true,
+      "observed": []
+    },
+    {
+      "gate": "the three buckets reconcile to 61",
+      "pass": true,
+      "observed": "32 + 16 + 13"
+    },
+    {
+      "gate": "participant_artifact_changed equals the 48 originally assumed",
+      "pass": null,
+      "advisory": true,
+      "observed": {
+        "assumed": 48,
+        "actualParticipantPdfChanged": 32,
+        "participantPdfIdenticalButSheetCorrected": 16,
+        "explanation": "Defect A (print flags) changes the filed artifact; Defects B and C change only the contact sheet. 16 of the 48 re-rendered families carried only a sheet defect, so their filed PDF is byte-identical to the one already reviewed."
+      }
+    }
+  ],
+  "families": [
+    {
+      "familyId": "AZ:aoccrsl1f-050825-form-en",
+      "state": "AZ",
+      "stateSlug": "arizona",
+      "lane": "D2A",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d2a-regenerate-az-il-wa-ks-mn",
+      "priorImplementationCommit": "ed1baac93dcc56b3826d342c8bfbac4f8542577c",
+      "reviewedLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "correctionCategories": [
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 6,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d2a-corrections-v2",
+      "correctedCommit": "44f38826ec41df7ce800d7055ba47a24884fe649",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/arizona/aoccrsl1f-050825-form-en/fixtures/canonical-filled.pdf",
+          "page": "1",
+          "fieldOrRegion": "Reset @[72,738.4,144,758.4]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "AZ:aoccrsl2f-050825-form-en",
+      "state": "AZ",
+      "stateSlug": "arizona",
+      "lane": "D2A",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d2a-regenerate-az-il-wa-ks-mn",
+      "priorImplementationCommit": "ed1baac93dcc56b3826d342c8bfbac4f8542577c",
+      "reviewedLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "correctionCategories": [
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 6,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d2a-corrections-v2",
+      "correctedCommit": "44f38826ec41df7ce800d7055ba47a24884fe649",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/arizona/aoccrsl2f-050825-form-en/fixtures/canonical-filled.pdf",
+          "page": "1",
+          "fieldOrRegion": "Reset @[76.7,751.6,148.7,771.6]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "CO:jdf-2371-form-motion-en",
+      "state": "CO",
+      "stateSlug": "colorado",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "314107f09cb13e38d37eb2129d23b58af7068236",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "2355e40ec0ffab0512aec2413175359ac9ffbee3",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "CO:jdf-641-form-motion-en",
+      "state": "CO",
+      "stateSlug": "colorado",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "CO-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "314107f09cb13e38d37eb2129d23b58af7068236",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "2355e40ec0ffab0512aec2413175359ac9ffbee3",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "CO-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "FL:fl-4th-judicial-circuit-duval-county-en",
+      "state": "FL",
+      "stateSlug": "florida",
+      "lane": "D2B",
+      "priorReviewFindingIds": [
+        "FL-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d2b-regenerate-nj-fl-la-nm",
+      "priorImplementationCommit": "1f2632bb66a9d83d90381318f2a35d8b02005312",
+      "reviewedLaneHead": "1f2632bb66a9d83d90381318f2a35d8b02005312",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 4,
+      "changedKinds": [
+        "contactSheet",
+        "evidence"
+      ],
+      "correctedBranch": "claude/rcap-d2b-corrections-v2",
+      "correctedCommit": "f444d08cd924503ab909e54e56019c69c4bccb69",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "FL-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/florida/fl-4th-judicial-circuit-duval-county-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "IA:rule-2-86-form-4-application-to-expunge-underage-alcohol-records",
+      "state": "IA",
+      "stateSlug": "iowa",
+      "lane": "D3B",
+      "priorReviewFindingIds": [
+        "IA-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d3b-regenerate-or-ia-ma-ut",
+      "priorImplementationCommit": "62f8c482a290dd52d8df6301494217cf2bbdf257",
+      "reviewedLaneHead": "2cf9a5a60c9bc32c879ac800857a98e63ec59daa",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 4,
+      "changedKinds": [
+        "contactSheet",
+        "evidence"
+      ],
+      "correctedBranch": "claude/rcap-d3b-corrections-v2",
+      "correctedCommit": "bc257bf8276f25711f8cb3f476b8e38e4c6a7a56",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "IA-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/iowa/rule-2-86-form-4-application-to-expunge-underage-alcohol-records/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "IL:exp-ad-request-form-en",
+      "state": "IL",
+      "stateSlug": "illinois",
+      "lane": "D2A",
+      "priorReviewFindingIds": [
+        "IL-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d2a-regenerate-az-il-wa-ks-mn",
+      "priorImplementationCommit": "c591118fb7517a64e5d7c43b6d9f50ddad50efad",
+      "reviewedLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 3,
+      "changedKinds": [
+        "contactSheet",
+        "evidence"
+      ],
+      "correctedBranch": "claude/rcap-d2a-corrections-v2",
+      "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "IL-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/illinois/exp-ad-request-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "IL:fw-civ-application-form-en",
+      "state": "IL",
+      "stateSlug": "illinois",
+      "lane": "D2A",
+      "priorReviewFindingIds": [
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d2a-regenerate-az-il-wa-ks-mn",
+      "priorImplementationCommit": "c591118fb7517a64e5d7c43b6d9f50ddad50efad",
+      "reviewedLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 3,
+      "changedKinds": [
+        "contactSheet",
+        "evidence"
+      ],
+      "correctedBranch": "claude/rcap-d2a-corrections-v2",
+      "correctedCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/illinois/fw-civ-application-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "81846d7762a3b483c16c441c4aacb7b1352c8105",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "0cb5fdc7fd38526f72d1762de4a3a52d25c6184d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/fixtures/canonical-filled.pdf",
+          "page": "1",
+          "fieldOrRegion": "Print @[203,0.1,277,18.2]; Reset @[325,0.1,399,18.2]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "81846d7762a3b483c16c441c4aacb7b1352c8105",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "0cb5fdc7fd38526f72d1762de4a3a52d25c6184d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/fixtures/canonical-filled.pdf",
+          "page": "2",
+          "fieldOrRegion": "Print @[127,527.4,241.2,551.7]; Reset @[243.6,527.4,357.8,551.7]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "81846d7762a3b483c16c441c4aacb7b1352c8105",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "0cb5fdc7fd38526f72d1762de4a3a52d25c6184d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/fixtures/canonical-filled.pdf",
+          "page": "3",
+          "fieldOrRegion": "Print Form @[194.1,14.6,291.6,33.4]; Reset Form @[320.4,14.6,417.9,33.4]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "KY:aoc-496-4-form-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "81846d7762a3b483c16c441c4aacb7b1352c8105",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "0cb5fdc7fd38526f72d1762de4a3a52d25c6184d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/fixtures/canonical-filled.pdf",
+          "page": "4",
+          "fieldOrRegion": "Print Form @[194.1,23,291.6,41.8]; Reset Form @[320.4,23,417.9,41.8]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "81846d7762a3b483c16c441c4aacb7b1352c8105",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "0cb5fdc7fd38526f72d1762de4a3a52d25c6184d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/fixtures/canonical-filled.pdf",
+          "page": "2",
+          "fieldOrRegion": "Print @[170.5,351.3,287.5,380.2]; Reset @[324.9,351.3,441.9,380.2]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "KY:aoc-497-3-source-gated-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "KY:aoc-497-3-source-gated-en#0"
+      ],
+      "priorReviewShard": 2,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "81846d7762a3b483c16c441c4aacb7b1352c8105",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "withheld_field_written_by_lane"
+      ],
+      "fixRoutes": [
+        "lane_specific"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "0cb5fdc7fd38526f72d1762de4a3a52d25c6184d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "KY:aoc-497-3-source-gated-en#0",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-497-3-source-gated-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "Defendants SSN (widget rect x=444 y=487 w=128 h=17)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 2,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-2",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "state": "KY",
+      "stateSlug": "kentucky",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "81846d7762a3b483c16c441c4aacb7b1352c8105",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "0cb5fdc7fd38526f72d1762de4a3a52d25c6184d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en/fixtures/canonical-filled.pdf",
+          "page": "2",
+          "fieldOrRegion": "Reset @[329.9,0.2,403.9,18.3]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "state": "MO",
+      "stateSlug": "missouri",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "MO:cr145-form-petition-en#0"
+      ],
+      "priorReviewShard": 2,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "321fef30d1b1bf01c4f329b5d230c6def5f84551",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "rich_text_field_finalize_crash"
+      ],
+      "fixRoutes": [
+        "shared_factory_outside_the_three_named_defects"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "MO:cr145-form-petition-en#0",
+          "defectClass": "rich_text_field_finalize_crash",
+          "file": "scripts/rcap-official-forms/rcap-active-content.mjs",
+          "page": "n/a - the failure occurs before any page is written",
+          "fieldOrRegion": "AcroForm rich-text fields 'Other Defendants' and 'Address at Time of Arrest'",
+          "acceptanceCondition": "sanitizeAndFlatten must finalize a document containing rich-text AcroForm fields without throwing - either by clearing the rich-text flag/RV entry on fields it does not write, or by updating appearances per-field and skipping rich-text fields with a recorded refusal. Acceptance: running the D3A lane over MO CR-145 emits fixtures/canonical-filled.pdf, boundary-filled.pdf and negative-filled.pdf; each is byte-inspectable with zero active-content residue; 'Other Defendants' and 'Address at Time of Arrest' are blank in all three; and the hold d0_factory_cannot_finalize_rich_text_acroform is removed from the family's productionHolds."
+        }
+      ],
+      "nonRerenderAccount": "blocked_on_unnamed_shared_defect",
+      "nonRerenderDetail": "sanitizeAndFlatten calls updateFieldAppearances with no guard for rich-text (/RV) fields, so this family throws RichTextFieldReadError before a page is written and no artifact exists to correct. Outside the three defects this cycle authorized; the family is unchanged and unapproved.",
+      "phase4ReviewerShard": 2,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-2",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "MO:cr300-source-gated-petition-en",
+      "state": "MO",
+      "stateSlug": "missouri",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "MOcr300-arrest-locality-asserted",
+        "MO-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "321fef30d1b1bf01c4f329b5d230c6def5f84551",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "semantic_binding_error"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "c1aaf917595ac9eb53b739fa89c5599766618133",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "MOcr300-arrest-locality-asserted",
+          "defectClass": "semantic_binding_error",
+          "file": "data/rcap-all50/overlays/production/missouri/cr300-source-gated-petition-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "'County Where Arrest Occurred' (rect 39.79,275.79 269.95x13.62)",
+          "acceptanceCondition": "A field naming the locality of the arrest, offence or conviction binds only from a fact that describes that event (or is refused), and never from matter.county; 'County Where Arrest Occurred' is blank in both fixtures until such a fact exists."
+        },
+        {
+          "reviewFindingId": "MO-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/missouri/cr300-source-gated-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "state": "NC",
+      "stateSlug": "north-carolina",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "NC:aoc-cr-287-form-en#0",
+        "NC:aoc-cr-287-form-en#1",
+        "NC:aoc-cr-287-form-en#2",
+        "NC:aoc-cr-287-form-en#3"
+      ],
+      "priorReviewShard": 2,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "1dc4201cbc7ca781141676888b4dd0d7c2329354",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "withheld_field_written_by_lane"
+      ],
+      "fixRoutes": [
+        "lane_specific"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "8f4010a22bd8335ad2882fccb9fb9f8aa1f8309d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NC:aoc-cr-287-form-en#0",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "PetitionerAddr2 (widget rect x=37 y=655 w=278 h=13)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "NC:aoc-cr-287-form-en#1",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "DriversLicenseState (widget rect x=176 y=618 w=45 h=16)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "NC:aoc-cr-287-form-en#2",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/fixtures/boundary-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "PetitionerAddr2 (widget rect x=37 y=655 w=278 h=13)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "NC:aoc-cr-287-form-en#3",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/fixtures/boundary-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "DriversLicenseState (widget rect x=176 y=618 w=45 h=16)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 2,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-2",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "state": "NC",
+      "stateSlug": "north-carolina",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "NC288-attorney-block",
+        "NC288-findings-of-fact",
+        "NC-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "1dc4201cbc7ca781141676888b4dd0d7c2329354",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "semantic_binding_error"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "8f4010a22bd8335ad2882fccb9fb9f8aa1f8309d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NC288-attorney-block",
+          "defectClass": "semantic_binding_error",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "NameAtty (rect 317,632 278x13), CityAtty (317,594 196x13), StateAtty (513,594 23x13), ZipCodeAtty (535,594 59x13)",
+          "acceptanceCondition": "NameAtty, StAddrAtty, MailAddrAtty, CityAtty, StateAtty and ZipCodeAtty are refused with category 'attorney' and are blank in both fixtures, and the D0 attorney protect rule matches the 'Atty'/'Attys' abbreviation so no other AOC form can bind them."
+        },
+        {
+          "reviewFindingId": "NC288-findings-of-fact",
+          "defectClass": "semantic_binding_error",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "PetitionerIsEligibleBecauseText1 (rect 71,674 519x15) and PetitionerIsEligibleBecauseText2 (rect 71,660 519x15), the two rules under FINDINGS OF FACT item 5",
+          "acceptanceCondition": "PetitionerIsEligibleBecauseText1 and PetitionerIsEligibleBecauseText2 are refused and blank in every fixture, and a combined petition/order form applies caption-only discipline to the pages the court completes rather than to the document as a whole."
+        },
+        {
+          "reviewFindingId": "NC-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "state": "NC",
+      "stateSlug": "north-carolina",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "NC-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "1dc4201cbc7ca781141676888b4dd0d7c2329354",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "8f4010a22bd8335ad2882fccb9fb9f8aa1f8309d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NC-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "state": "NC",
+      "stateSlug": "north-carolina",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "NC:aoc-cr-297-form-en#0"
+      ],
+      "priorReviewShard": 2,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "1dc4201cbc7ca781141676888b4dd0d7c2329354",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "withheld_field_written_by_lane"
+      ],
+      "fixRoutes": [
+        "lane_specific"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "8f4010a22bd8335ad2882fccb9fb9f8aa1f8309d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NC:aoc-cr-297-form-en#0",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "EmailAddressOfRecord (widget rect x=242 y=198 w=138 h=13)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 2,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-2",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "state": "NC",
+      "stateSlug": "north-carolina",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "NC-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "1dc4201cbc7ca781141676888b4dd0d7c2329354",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "8f4010a22bd8335ad2882fccb9fb9f8aa1f8309d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NC-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-en",
+      "state": "NC",
+      "stateSlug": "north-carolina",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "NC:aoc-cv-226-support-en#0",
+        "NC:aoc-cv-226-support-en#1"
+      ],
+      "priorReviewShard": 2,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "1dc4201cbc7ca781141676888b4dd0d7c2329354",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "withheld_field_written_by_lane"
+      ],
+      "fixRoutes": [
+        "lane_specific"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "8f4010a22bd8335ad2882fccb9fb9f8aa1f8309d",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NC:aoc-cv-226-support-en#0",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "BankNameAndAccountType (widget rect x=40 y=243 w=276 h=16)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "NC:aoc-cv-226-support-en#1",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/fixtures/boundary-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "BankNameAndAccountType (widget rect x=40 y=243 w=276 h=16)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 2,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-2",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "ND:nd-north-dakota-pardon-advisory-board-applica-support-instructions-en",
+      "state": "ND",
+      "stateSlug": "north-dakota",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "ND-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "ebfdb06d4415bfe1827a064a9dd2f924e3958a9c",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "e3667884453f45f8501ba4eb566eba7f02468a75",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "ND-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/north-dakota/nd-north-dakota-pardon-advisory-board-applica-support-instructions-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:cc-6-11-2-form-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet",
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "orchestrator_manifest_source_pointer",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 6,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": "8e2ebd6411a0e32e7a3981c8d544f2eedea3d8d4",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/fixtures/canonical-filled.pdf",
+          "page": "1",
+          "fieldOrRegion": "TYPEOFCOURTDROPDOWN @[142.3,659.2,221.7,673.6]; DROPDOWNCOUNTY2 @[289.8,659.2,368.8,673.6]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        },
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:cc-6-11-form-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet",
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "orchestrator_manifest_source_pointer",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 6,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": "8e2ebd6411a0e32e7a3981c8d544f2eedea3d8d4",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/fixtures/canonical-filled.pdf",
+          "page": "1",
+          "fieldOrRegion": "DROPDOWNCOUNTY2 @[289.8,659.2,368.8,673.6]; TYPEOFCOURTDROPDOWN @[142.3,659.2,221.7,673.6]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        },
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:cc-6-11a-instructions-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": "orchestrator_evidence_only_no_artifact_implicated",
+      "nonRerenderDetail": "The finding was against the review manifest, not the family: the builder read canonicalBundlePath while lane D1C records canonicalRelativePath, so the source pointer reported null. The manifest now normalizes both spellings and the pointer resolves to pack bytes matching the recorded sha256. No artifact was ever implicated, so none was re-rendered.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:cc-6-12-form-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "NEcc612-caption-overlap",
+        "NE-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "caption_overlap",
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 6,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": "8e2ebd6411a0e32e7a3981c8d544f2eedea3d8d4",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NEcc612-caption-overlap",
+          "defectClass": "caption_overlap",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "caption block 'IN THE ___ COURT OF ___ COUNTY, NEBRASKA', two overlapping text pairs at x 144-230 and x 285-362",
+          "acceptanceCondition": "The finalized artifact shows at most one string in each caption slot and no two written or flattened runs overlap; a helper field whose value is the form's own parenthetical instruction is dropped rather than flattened."
+        },
+        {
+          "reviewFindingId": "NE-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:cc-6-12-instructions-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": "orchestrator_evidence_only_no_artifact_implicated",
+      "nonRerenderDetail": "The finding was against the review manifest, not the family: the builder read canonicalBundlePath while lane D1C records canonicalRelativePath, so the source pointer reported null. The manifest now normalizes both spellings and the pointer resolves to pack bytes matching the recorded sha256. No artifact was ever implicated, so none was re-rendered.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "NEcc6151-caption-overlap",
+        "NE-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "caption_overlap",
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 6,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": "8e2ebd6411a0e32e7a3981c8d544f2eedea3d8d4",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NEcc6151-caption-overlap",
+          "defectClass": "caption_overlap",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "caption block 'IN THE ___ COURT OF ___ COUNTY, NEBRASKA', two overlapping text pairs at x 144-230 and x 285-362",
+          "acceptanceCondition": "No two runs overlap in the caption block of either fixture, and the form's own parenthetical guidance is not baked into the filed page."
+        },
+        {
+          "reviewFindingId": "NE-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:dc-1-15-form-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": "orchestrator_evidence_only_no_artifact_implicated",
+      "nonRerenderDetail": "The finding was against the review manifest, not the family: the builder read canonicalBundlePath while lane D1C records canonicalRelativePath, so the source pointer reported null. The manifest now normalizes both spellings and the pointer resolves to pack bytes matching the recorded sha256. No artifact was ever implicated, so none was re-rendered.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:dc-6-7-2-form-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet",
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "orchestrator_manifest_source_pointer",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 6,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": "8e2ebd6411a0e32e7a3981c8d544f2eedea3d8d4",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/nebraska/dc-6-7-2-form-en/fixtures/canonical-filled.pdf",
+          "page": "1",
+          "fieldOrRegion": "Text24 @[72.2,712.4,222.2,725.3]; Text20 @[88.3,689.1,572.8,729.3]; TYPEOFCOURTDROPDOWN @[142.3,659.9,221.7,674.3]; DROPDOWNCOUNTY2 @[289.8,659.2,368.8,673.6]; adultnamechangeof @[105.4,538.7,321.4,646.7]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/nebraska/dc-6-7-2-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        },
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NE:dc-6-7-2a-instructions-en",
+      "state": "NE",
+      "stateSlug": "nebraska",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "12375668e3e17f08f9c1fc957633c08700b78f13",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": "orchestrator_evidence_only_no_artifact_implicated",
+      "nonRerenderDetail": "The finding was against the review manifest, not the family: the builder read canonicalBundlePath while lane D1C records canonicalRelativePath, so the source pointer reported null. The manifest now normalizes both spellings and the pointer resolves to pack bytes matching the recorded sha256. No artifact was ever implicated, so none was re-rendered.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NH:nhjb-2311-support-fee-waiver-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "NH2311-buttons-flattened",
+        "NH-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "bfb7fa7f8d2877941fa4ed2ec58a3f4482d5e90e",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "f0073c180b2dbaf2854fc3229fb75d1738cc3b74",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NH2311-buttons-flattened",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2311-support-fee-waiver-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "pushbuttons 'Clear Form - multi', 'Save and lock form', 'top page', '1st page'; and the signature widget sig.8 (signature category)",
+          "acceptanceCondition": "Pushbutton widgets are removed before flattening and no button caption, button border or field placeholder appears in any finalized artifact; the signature block is blank."
+        },
+        {
+          "reviewFindingId": "NH-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2311-support-fee-waiver-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NH:nhjb-2317-form-petition-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet",
+        "boundary_refusal_absent_from_overflow_ledger"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "bfb7fa7f8d2877941fa4ed2ec58a3f4482d5e90e",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "overflow_ledger_missing_refusal",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "f0073c180b2dbaf2854fc3229fb75d1738cc3b74",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/fixtures/canonical-filled.pdf",
+          "page": "1,2,3",
+          "fieldOrRegion": "Clear Form - multi @[515,771.3,594.9,790]; Save and lock form @[489.8,740.6,607.1,759.9]; top page @[492.8,18.4,596,37.2]; (untitled) @[499.3,14.4,602.4,33.2]; (untitled) @[490.3,22.1,593.5,40.9]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        },
+        {
+          "reviewFindingId": "boundary_refusal_absent_from_overflow_ledger",
+          "defectClass": "overflow_ledger_missing_refusal",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2317-form-petition-en/reports/overflow-and-clipping.json",
+          "page": 1,
+          "fieldOrRegion": "field \"case number\" (bound to matter.case_number), widget p1 rect x=127.73 y=649.84 w=196.93 h=14.68",
+          "acceptanceCondition": "reports/overflow-and-clipping.json for each NH family must contain a refusal entry for field \"case number\" on the boundary fixture naming the value, the widget rect, minFontSize 6 and requiredWidthAtMin 210.4, and refusedBelowFloor must equal the number of such entries (>= 1)."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NH:nhjb-3056-form-petition-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet",
+        "boundary_refusal_absent_from_overflow_ledger"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "bfb7fa7f8d2877941fa4ed2ec58a3f4482d5e90e",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "overflow_ledger_missing_refusal",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "f0073c180b2dbaf2854fc3229fb75d1738cc3b74",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/fixtures/canonical-filled.pdf",
+          "page": "1,2",
+          "fieldOrRegion": "Clear Form - multi @[510.6,770.1,590.5,788.8]; Save and lock form @[485.4,739.4,602.7,758.7]; top page @[479.2,13,582.4,31.8]; 1st page @[481.9,13.2,585,32]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        },
+        {
+          "reviewFindingId": "boundary_refusal_absent_from_overflow_ledger",
+          "defectClass": "overflow_ledger_missing_refusal",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3056-form-petition-en/reports/overflow-and-clipping.json",
+          "page": 1,
+          "fieldOrRegion": "field \"case number\" (bound to matter.case_number), widget p1 rect x=127.73 y=649.84 w=196.93 h=14.68",
+          "acceptanceCondition": "reports/overflow-and-clipping.json for each NH family must contain a refusal entry for field \"case number\" on the boundary fixture naming the value, the widget rect, minFontSize 6 and requiredWidthAtMin 210.4, and refusedBelowFloor must equal the number of such entries (>= 1)."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NH:nhjb-3057-form-petition-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "NH3057-buttons-flattened",
+        "NH-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "bfb7fa7f8d2877941fa4ed2ec58a3f4482d5e90e",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "f0073c180b2dbaf2854fc3229fb75d1738cc3b74",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NH3057-buttons-flattened",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3057-form-petition-en/fixtures/canonical-filled.pdf",
+          "page": "1, 2 and 4",
+          "fieldOrRegion": "pushbutton captions 'Clear Form' and 'Lock & Save Form' on page 1, 'Top Page' / '1st Page' at the foot of pages 1, 2 and 4",
+          "acceptanceCondition": "No pushbutton caption appears anywhere in the finalized artifacts, and the negative fixture adds no text to the source page content at all."
+        },
+        {
+          "reviewFindingId": "NH-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3057-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NH:nhjb-3124-form-petition-en",
+      "state": "NH",
+      "stateSlug": "new-hampshire",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet",
+        "boundary_refusal_absent_from_overflow_ledger"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "bfb7fa7f8d2877941fa4ed2ec58a3f4482d5e90e",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "overflow_ledger_missing_refusal",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "f0073c180b2dbaf2854fc3229fb75d1738cc3b74",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/fixtures/canonical-filled.pdf",
+          "page": "1,2",
+          "fieldOrRegion": "Clear Form - multi @[515,771.3,594.9,790]; 1st page @[499.3,14.4,602.4,33.2]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        },
+        {
+          "reviewFindingId": "boundary_refusal_absent_from_overflow_ledger",
+          "defectClass": "overflow_ledger_missing_refusal",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-3124-form-petition-en/reports/overflow-and-clipping.json",
+          "page": 1,
+          "fieldOrRegion": "field \"case number\" (bound to matter.case_number), widget p1 rect x=127.73 y=649.84 w=196.93 h=14.68",
+          "acceptanceCondition": "reports/overflow-and-clipping.json for each NH family must contain a refusal entry for field \"case number\" on the boundary fixture naming the value, the widget rect, minFontSize 6 and requiredWidthAtMin 210.4, and refusedBelowFloor must equal the number of such entries (>= 1)."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NJ:cn-10557-en",
+      "state": "NJ",
+      "stateSlug": "new-jersey",
+      "lane": "D2B",
+      "priorReviewFindingIds": [
+        "NJ-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d2b-regenerate-nj-fl-la-nm",
+      "priorImplementationCommit": "1f2632bb66a9d83d90381318f2a35d8b02005312",
+      "reviewedLaneHead": "1f2632bb66a9d83d90381318f2a35d8b02005312",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 7,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d2b-corrections-v2",
+      "correctedCommit": "72afdd99dbd314aad351197299a92453bf179b25",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "NJ-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/new-jersey/cn-10557-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "NM:nm-san-juan-nonconviction-packet-en",
+      "state": "NM",
+      "stateSlug": "new-mexico",
+      "lane": "D2B",
+      "priorReviewFindingIds": [
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d2b-regenerate-nj-fl-la-nm",
+      "priorImplementationCommit": "1f2632bb66a9d83d90381318f2a35d8b02005312",
+      "reviewedLaneHead": "1f2632bb66a9d83d90381318f2a35d8b02005312",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 4,
+      "changedKinds": [
+        "contactSheet",
+        "evidence"
+      ],
+      "correctedBranch": "claude/rcap-d2b-corrections-v2",
+      "correctedCommit": "02fc83c3cfdf8ef84fa33ab9bc5e12a2ad0a68fc",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/new-mexico/nm-san-juan-nonconviction-packet-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "TX:tx-gc-411-0725-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "TX-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "524d10b4075aec917ffe8d7c8e1a3c9e0a11e6fc",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "TX-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/texas/tx-gc-411-0725-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "TX:tx-gc-411-0726-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "524d10b4075aec917ffe8d7c8e1a3c9e0a11e6fc",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/texas/tx-gc-411-0726-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "TX:tx-gc-411-0727-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "TX-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "524d10b4075aec917ffe8d7c8e1a3c9e0a11e6fc",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "TX-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/texas/tx-gc-411-0727-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "TX:tx-gc-411-0728-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "524d10b4075aec917ffe8d7c8e1a3c9e0a11e6fc",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/texas/tx-gc-411-0728-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "TX:tx-gc-411-0729-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "524d10b4075aec917ffe8d7c8e1a3c9e0a11e6fc",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/texas/tx-gc-411-0729-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "TX:tx-gc-411-073-411-0732-form-petition-en",
+      "state": "TX",
+      "stateSlug": "texas",
+      "lane": "D3A",
+      "priorReviewFindingIds": [
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d3a-regenerate-co-tx-nd-nh-mo",
+      "priorImplementationCommit": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "reviewedLaneHead": "b1cac44fb5a170caca38394a3c520a70cc9efc01",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 5,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger"
+      ],
+      "correctedBranch": "claude/rcap-d3a-corrections-v2",
+      "correctedCommit": "524d10b4075aec917ffe8d7c8e1a3c9e0a11e6fc",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/texas/tx-gc-411-073-411-0732-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VA:cc-1201-a-form-en",
+      "state": "VA",
+      "stateSlug": "virginia",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "VA:cc-1201-a-form-en#0",
+        "VA:cc-1201-a-form-en#1",
+        "VA:cc-1201-a-form-en#2",
+        "VA:cc-1201-a-form-en#3",
+        "VA:cc-1201-a-form-en#4",
+        "VA:cc-1201-a-form-en#5",
+        "VA:cc-1201-a-form-en#6",
+        "VA:cc-1201-a-form-en#7",
+        "VA:cc-1201-a-form-en#8",
+        "VA:cc-1201-a-form-en#9"
+      ],
+      "priorReviewShard": 2,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "e7a22117bbdfe2a224d565fb13d30178484b419d",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "withheld_field_written_by_lane"
+      ],
+      "fixRoutes": [
+        "lane_specific"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#0",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "User.FullNameOfArrest (widget rect x=240 y=99 w=227 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#1",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "User.CityOrCounty (widget rect x=221 y=79 w=182 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#2",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.AncillaryFullNameOfArrest (widget rect x=271 y=359 w=170 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#3",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.AncillaryCityOrCounty (widget rect x=308 y=339 w=119 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#4",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryFullNameOfArrest1 (widget rect x=285 y=658 w=156 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#5",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryCityOrCounty1 (widget rect x=308 y=639 w=123 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#6",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryFullNameOfArrestD (widget rect x=285 y=244 w=156 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#7",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryCityOrCountyD (widget rect x=309 y=224 w=123 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#8",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/boundary-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "User.FullNameOfArrest (widget rect x=240 y=99 w=227 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1201-a-form-en#9",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/fixtures/boundary-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "User.CityOrCounty (widget rect x=221 y=79 w=182 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 2,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-2",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "state": "VA",
+      "stateSlug": "virginia",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "non_printing_widget_ink_flattened_into_filed_artifact",
+        "active_content_residue_in_contact_sheet"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "e7a22117bbdfe2a224d565fb13d30178484b419d",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "print_flag_ink_leak"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "non_printing_widget_ink_flattened_into_filed_artifact",
+          "defectClass": "print_flag_ink_leak",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/fixtures/canonical-filled.pdf",
+          "page": "1",
+          "fieldOrRegion": "ResetButton @[0,768.8,86.4,791.3]",
+          "acceptanceCondition": "Before form.flatten(), remove or suppress every widget annotation whose /F lacks the Print bit (4) or sets the Hidden bit (2), so their appearance streams are not drawn. Re-verify by re-rendering canonical-filled.pdf and confirming that no text run inside such a widget's /Rect is present in the artifact but absent from the untouched source's printed page content."
+        },
+        {
+          "reviewFindingId": "active_content_residue_in_contact_sheet",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "document-level objects",
+          "fieldOrRegion": "orphaned /Widget dictionaries copied in by embedPdf of the blank source",
+          "acceptanceCondition": "buildContactSheet must (a) sanitize the embedded blank and finalized bytes before embedding, or rebuild the sheet so no source widget objects are copied, and (b) save with { useObjectStreams: false } and assert scanBytesForActiveContent(bytes) returns inspectable:true with hits:[] before writing the file."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VA:cc-1203-a-form-en",
+      "state": "VA",
+      "stateSlug": "virginia",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "VA:cc-1203-a-form-en#0",
+        "VA:cc-1203-a-form-en#1",
+        "VA:cc-1203-a-form-en#2",
+        "VA:cc-1203-a-form-en#3",
+        "VA:cc-1203-a-form-en#4",
+        "VA:cc-1203-a-form-en#5",
+        "VA:cc-1203-a-form-en#6",
+        "VA:cc-1203-a-form-en#7",
+        "VA:cc-1203-a-form-en#8",
+        "VA:cc-1203-a-form-en#9"
+      ],
+      "priorReviewShard": 2,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "e7a22117bbdfe2a224d565fb13d30178484b419d",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "withheld_field_written_by_lane"
+      ],
+      "fixRoutes": [
+        "lane_specific"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#0",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.FullNameOfArrest (widget rect x=239 y=739 w=228 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#1",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.CityOrCounty (widget rect x=219 y=719 w=166 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#2",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.AncillaryFullNameOfArrest (widget rect x=271 y=316 w=195 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#3",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.AncillaryCityOrCounty (widget rect x=307 y=295 w=82 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#4",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryFullNameOfArrestA (widget rect x=285 y=624 w=163 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#5",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryCityOrCountyA (widget rect x=308 y=604 w=86 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#6",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryFullNameOfArrestB (widget rect x=285 y=215 w=164 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#7",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/canonical-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryCityOrCountyB (widget rect x=308 y=196 w=86 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#8",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/boundary-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.FullNameOfArrest (widget rect x=239 y=739 w=228 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-a-form-en#9",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/fixtures/boundary-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.CityOrCounty (widget rect x=219 y=719 w=166 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 2,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-2",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VA:cc-1203-b-form-en",
+      "state": "VA",
+      "stateSlug": "virginia",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "VA:cc-1203-b-form-en#0",
+        "VA:cc-1203-b-form-en#1",
+        "VA:cc-1203-b-form-en#2",
+        "VA:cc-1203-b-form-en#3"
+      ],
+      "priorReviewShard": 2,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "e7a22117bbdfe2a224d565fb13d30178484b419d",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "withheld_field_written_by_lane"
+      ],
+      "fixRoutes": [
+        "lane_specific"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "VA:cc-1203-b-form-en#0",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-b-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "User.AncillaryFullNameOfArrest (widget rect x=272 y=223 w=195 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-b-form-en#1",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-b-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "User.AncillaryCityOrCounty (widget rect x=309 y=206 w=81 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-b-form-en#2",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-b-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.AncillaryFullNameOfArrestA (widget rect x=285 y=432 w=163 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        },
+        {
+          "reviewFindingId": "VA:cc-1203-b-form-en#3",
+          "defectClass": "withheld_field_written_by_lane",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-b-form-en/fixtures/canonical-filled.pdf",
+          "page": 2,
+          "fieldOrRegion": "User.AncillaryCityOrCountyA (widget rect x=308 y=412 w=86 h=14)",
+          "acceptanceCondition": "The finalized artifact must contain no value in any field the family's production-field-map.json records with reason \"withheld_by_lane_review\". Concretely: d1b-regenerate.mjs must pass a render census narrowed to the lane's own decisions -- as d1a-regenerate.mjs already does with `const renderCensus = census.filter((f) => !laneRefusedNames.has(f.name))` -- into finalizeOfficialForm, instead of the unfiltered `census`. After re-rendering, re-running the flattened-widget scan over canonical-filled.pdf and boundary-filled.pdf must find every withheld field blank, and reports/protected-fields-scan.json must be regenerated so its pass flag reflects the re-render."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 2,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-2",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "state": "VA",
+      "stateSlug": "virginia",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "VA1203-caption-wrong-fact",
+        "VA-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "e7a22117bbdfe2a224d565fb13d30178484b419d",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "semantic_binding_error"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "VA1203-caption-wrong-fact",
+          "defectClass": "semantic_binding_error",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "User.CourtName (rect 67,617 364x12)",
+          "acceptanceCondition": "User.CourtName is either bound to matter.county/participant.city to match its printed 'CITY OR COUNTY' label, or refused and left blank; and D1B measures printed labels for every positional caption field as the other lanes do."
+        },
+        {
+          "reviewFindingId": "VA-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "state": "VA",
+      "stateSlug": "virginia",
+      "lane": "D1B",
+      "priorReviewFindingIds": [
+        "VA1473-unresolved-party-election",
+        "VA-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d1b-regenerate-va-ky-nc",
+      "priorImplementationCommit": "e7a22117bbdfe2a224d565fb13d30178484b419d",
+      "reviewedLaneHead": "21f5c446d234b69e00a08dffa1c2d79e0cd7b186",
+      "correctionCategories": [
+        "contact_sheet_active_content",
+        "semantic_binding_error"
+      ],
+      "fixRoutes": [
+        "lane_specific",
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": true,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 9,
+      "changedKinds": [
+        "contactSheet",
+        "evidence",
+        "ledger",
+        "participantPdf"
+      ],
+      "correctedBranch": "claude/rcap-d1b-corrections-v2",
+      "correctedCommit": "994e976d92befc9078309e08f065a761362ba7b7",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "VA1473-unresolved-party-election",
+          "defectClass": "semantic_binding_error",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "User.AddressOf, User.PetetionerPhoneNumber, User.PetetionerEmail",
+          "acceptanceCondition": "Either the petitioner election is marked in the same render that writes these three fields, or the three fields are refused with an outside_party-class reason and left for the participant to complete."
+        },
+        {
+          "reviewFindingId": "VA-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": null,
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "9d440402f6221a97c6713c435856e11c40462e3f",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": "orchestrator_evidence_only_no_artifact_implicated",
+      "nonRerenderDetail": "The finding was against the review manifest, not the family: the builder read canonicalBundlePath while lane D1C records canonicalRelativePath, so the source pointer reported null. The manifest now normalizes both spellings and the pointer resolves to pack bytes matching the recorded sha256. No artifact was ever implicated, so none was re-rendered.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "9d440402f6221a97c6713c435856e11c40462e3f",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": "orchestrator_evidence_only_no_artifact_implicated",
+      "nonRerenderDetail": "The finding was against the review manifest, not the family: the builder read canonicalBundlePath while lane D1C records canonicalRelativePath, so the source pointer reported null. The manifest now normalizes both spellings and the pointer resolves to pack bytes matching the recorded sha256. No artifact was ever implicated, so none was re-rendered.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "state": "VT",
+      "stateSlug": "vermont",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "9d440402f6221a97c6713c435856e11c40462e3f",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": "orchestrator_evidence_only_no_artifact_implicated",
+      "nonRerenderDetail": "The finding was against the review manifest, not the family: the builder read canonicalBundlePath while lane D1C records canonicalRelativePath, so the source pointer reported null. The manifest now normalizes both spellings and the pointer resolves to pack bytes matching the recorded sha256. No artifact was ever implicated, so none was re-rendered.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "priorReviewFindingIds": [
+        "anchor_capture_cannot_decode_subset_font_text_layer"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d2a-regenerate-az-il-wa-ks-mn",
+      "priorImplementationCommit": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "reviewedLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "correctionCategories": [
+        "anchor_decoder_subset_font"
+      ],
+      "fixRoutes": [
+        "shared_factory_outside_the_three_named_defects"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d2a-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "anchor_capture_cannot_decode_subset_font_text_layer",
+          "defectClass": "anchor_decoder_subset_font",
+          "file": "data/rcap-all50/overlays/production/washington/blake-006-form-en/overlay-profile.json",
+          "page": "all",
+          "fieldOrRegion": "anchorCapture: 199 lines across 6 pages, readableLines 0 on every page",
+          "acceptanceCondition": "loadFonts must build a code->unicode map from each font's /ToUnicode CMap (falling back to /Encoding /Differences and the standard encodings) and extractTextItems must emit decoded characters. After the fix, anchorCapture for blake-006 and blake-008 must report readableLines > 0 on every page, and each family must be re-dispositioned on the real anchor set rather than on 'no extractable text layer'."
+        }
+      ],
+      "nonRerenderAccount": "blocked_on_unnamed_shared_defect",
+      "nonRerenderDetail": "rcap-pdf-anchor-capture loadFonts consults neither /ToUnicode nor /Encoding /Differences, so this family's subset-font text layer decodes to nothing and its no-extractable-text disposition rests on a false premise. Outside the three defects this cycle authorized; the family is unchanged and unapproved.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "priorReviewFindingIds": [
+        "anchor_capture_cannot_decode_subset_font_text_layer"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d2a-regenerate-az-il-wa-ks-mn",
+      "priorImplementationCommit": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "reviewedLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "correctionCategories": [
+        "anchor_decoder_subset_font"
+      ],
+      "fixRoutes": [
+        "shared_factory_outside_the_three_named_defects"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d2a-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "anchor_capture_cannot_decode_subset_font_text_layer",
+          "defectClass": "anchor_decoder_subset_font",
+          "file": "data/rcap-all50/overlays/production/washington/blake-008-form-en/overlay-profile.json",
+          "page": "all",
+          "fieldOrRegion": "anchorCapture: 222 lines across 7 pages, readableLines 0 on every page",
+          "acceptanceCondition": "loadFonts must build a code->unicode map from each font's /ToUnicode CMap (falling back to /Encoding /Differences and the standard encodings) and extractTextItems must emit decoded characters. After the fix, anchorCapture for blake-006 and blake-008 must report readableLines > 0 on every page, and each family must be re-dispositioned on the real anchor set rather than on 'no extractable text layer'."
+        }
+      ],
+      "nonRerenderAccount": "blocked_on_unnamed_shared_defect",
+      "nonRerenderDetail": "rcap-pdf-anchor-capture loadFonts consults neither /ToUnicode nor /Encoding /Differences, so this family's subset-font text layer decodes to nothing and its no-extractable-text disposition rests on a false premise. Outside the three defects this cycle authorized; the family is unchanged and unapproved.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "priorReviewFindingIds": [
+        "anchor_capture_partial_text_loss_undermines_no_label_disposition"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d2a-regenerate-az-il-wa-ks-mn",
+      "priorImplementationCommit": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "reviewedLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "correctionCategories": [
+        "anchor_decoder_subset_font"
+      ],
+      "fixRoutes": [
+        "shared_factory_outside_the_three_named_defects"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d2a-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "anchor_capture_partial_text_loss_undermines_no_label_disposition",
+          "defectClass": "anchor_decoder_subset_font",
+          "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en/overlay-profile.json",
+          "page": "multiple",
+          "fieldOrRegion": "anchorCapture: 52 of 197 lines recorded unreadable",
+          "acceptanceCondition": "After the decoder fix, anchorCapture must report unreadableLines 0 for these families, and the no-participant-label disposition must be re-derived from the fully decoded text (or replaced by a real overlay map)."
+        }
+      ],
+      "nonRerenderAccount": "blocked_on_unnamed_shared_defect",
+      "nonRerenderDetail": "rcap-pdf-anchor-capture loadFonts consults neither /ToUnicode nor /Encoding /Differences, so this family's subset-font text layer decodes to nothing and its no-extractable-text disposition rests on a false premise. Outside the three defects this cycle authorized; the family is unchanged and unapproved.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "state": "WA",
+      "stateSlug": "washington",
+      "lane": "D2A",
+      "priorReviewFindingIds": [
+        "anchor_capture_partial_text_loss_undermines_no_label_disposition"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d2a-regenerate-az-il-wa-ks-mn",
+      "priorImplementationCommit": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "reviewedLaneHead": "d7ce458ce14fd97c13efbf83fe72a5cc14e21b1f",
+      "correctionCategories": [
+        "anchor_decoder_subset_font"
+      ],
+      "fixRoutes": [
+        "shared_factory_outside_the_three_named_defects"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d2a-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "anchor_capture_partial_text_loss_undermines_no_label_disposition",
+          "defectClass": "anchor_decoder_subset_font",
+          "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en/overlay-profile.json",
+          "page": "multiple",
+          "fieldOrRegion": "anchorCapture: 10 of 63 lines recorded unreadable",
+          "acceptanceCondition": "After the decoder fix, anchorCapture must report unreadableLines 0 for these families, and the no-participant-label disposition must be re-derived from the fully decoded text (or replaced by a real overlay map)."
+        }
+      ],
+      "nonRerenderAccount": "blocked_on_unnamed_shared_defect",
+      "nonRerenderDetail": "rcap-pdf-anchor-capture loadFonts consults neither /ToUnicode nor /Encoding /Differences, so this family's subset-font text layer decodes to nothing and its no-extractable-text disposition rests on a false premise. Outside the three defects this cycle authorized; the family is unchanged and unapproved.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "WI:cr-267-form-en",
+      "state": "WI",
+      "stateSlug": "wisconsin",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "source_canonical_path_null_in_review_manifest"
+      ],
+      "priorReviewShard": 0,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "orchestrator_manifest_source_pointer"
+      ],
+      "fixRoutes": [
+        "orchestrator_evidence_only"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": false,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": true,
+      "filesChanged": 0,
+      "changedKinds": [],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": null,
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "source_canonical_path_null_in_review_manifest",
+          "defectClass": "orchestrator_manifest_source_pointer",
+          "file": "docs/record-clearing/d-wave/corrected-review-manifest.json",
+          "page": "n/a",
+          "fieldOrRegion": "sourceCanonicalPath (manifest) / canonicalRelativePath (D1C source-record)",
+          "acceptanceCondition": "Either normalize D1C source-records to `canonicalBundlePath` with the Edition-1 prefix, or make the manifest builder accept both keys and normalize to one form. Afterwards no family in corrected-review-manifest.json may have a null sourceCanonicalPath, and each value must resolve to a file in the source pack whose sha256 equals the family's sourceSha256."
+        }
+      ],
+      "nonRerenderAccount": "orchestrator_evidence_only_no_artifact_implicated",
+      "nonRerenderDetail": "The finding was against the review manifest, not the family: the builder read canonicalBundlePath while lane D1C records canonicalRelativePath, so the source pointer reported null. The manifest now normalizes both spellings and the pointer resolves to pack bytes matching the recorded sha256. No artifact was ever implicated, so none was re-rendered.",
+      "phase4ReviewerShard": 0,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-0",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    },
+    {
+      "familyId": "WI:dj-le-247-support-en",
+      "state": "WI",
+      "stateSlug": "wisconsin",
+      "lane": "D1C",
+      "priorReviewFindingIds": [
+        "WI-contact-sheet-active-content"
+      ],
+      "priorReviewShard": 1,
+      "priorImplementationBranch": "claude/rcap-d1c-regenerate-ne-vt-wi",
+      "priorImplementationCommit": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "reviewedLaneHead": "a7e49afe780695baa0d04c08f5223a0ded29cdcb",
+      "correctionCategories": [
+        "contact_sheet_active_content"
+      ],
+      "fixRoutes": [
+        "shared_factory_d0v2"
+      ],
+      "participantPdfBytesChanged": false,
+      "contactSheetBytesChanged": true,
+      "onlyEvidenceVerifierClassificationOrLedgerChanged": false,
+      "nothingChanged": false,
+      "filesChanged": 3,
+      "changedKinds": [
+        "contactSheet",
+        "evidence"
+      ],
+      "correctedBranch": "claude/rcap-d1c-corrections-v2",
+      "correctedCommit": "135a2997e4a5731df420fcfd46075ba79ccbe424",
+      "acceptanceConditions": [
+        {
+          "reviewFindingId": "WI-contact-sheet-active-content",
+          "defectClass": "contact_sheet_active_content",
+          "file": "data/rcap-all50/overlays/production/wisconsin/dj-le-247-support-en/contact-sheet/blank-vs-filled.pdf",
+          "page": "whole document",
+          "fieldOrRegion": "orphaned objects carried in from the blank source's AcroForm",
+          "acceptanceCondition": "The contact sheet is built from sanitised, flattened, rebuilt page bytes for both panels, is serialised so a byte scan can inspect it, and scanBytesForActiveContent returns {hits: [], inspectable: true} on the stored sheet before it is written."
+        }
+      ],
+      "nonRerenderAccount": "unaccounted",
+      "nonRerenderDetail": null,
+      "phase4ReviewerShard": 1,
+      "phase4ReviewBranch": "claude/rcap-review-d-corrections-v2-shard-1",
+      "newIndependentDisposition": "pending_phase_4_independent_review"
+    }
+  ]
+}
