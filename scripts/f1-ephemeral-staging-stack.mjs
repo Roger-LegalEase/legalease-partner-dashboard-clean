@@ -118,6 +118,10 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     const r = psqlFile(p);
     if (r.status !== 0) throw new Error(`prerequisite ${p} failed: ${r.err}`);
   }
+  // The same environment shaping the repository's apply-evidence verifier
+  // uses: phase 49 references rcap_document_packets, which staging carries
+  // from its earlier lineage and an empty stack does not.
+  psql(`create table if not exists public.rcap_document_packets (id uuid primary key default gen_random_uuid())`);
 
   let hashesOk = true;
   const observedHashes = [];
@@ -184,12 +188,12 @@ const tokens = new Map();
 const A = () => USERS[0]; const B = () => USERS[1];
 let itemA = null;
 {
-  psql(`insert into public.consumer_briefcase_items (id, user_id, state, pathway_label, payment_status)
-        values (gen_random_uuid(), '${A().id}', 'MD', 'F1 staging pathway', 'unpaid')
+  psql(`insert into public.consumer_briefcase_items (id, user_id, item_type, jurisdiction, pathway_label, status, payment_status)
+        values (gen_random_uuid(), '${A().id}', 'packet', 'MD', 'F1 staging pathway', 'packet_ready', 'unpaid')
         on conflict do nothing`);
   itemA = psql(`select id from public.consumer_briefcase_items where user_id='${A().id}' limit 1`).out;
-  psql(`insert into public.consumer_briefcase_items (id, user_id, state, pathway_label, payment_status)
-        values (gen_random_uuid(), '${B().id}', 'MD', 'F1 staging pathway B', 'unpaid') on conflict do nothing`);
+  psql(`insert into public.consumer_briefcase_items (id, user_id, item_type, jurisdiction, pathway_label, status, payment_status)
+        values (gen_random_uuid(), '${B().id}', 'packet', 'MD', 'F1 staging pathway B', 'packet_ready', 'unpaid') on conflict do nothing`);
   const partnerSeeded = (() => {
     const t = psql(`select to_regclass('public.partner_records')`).out;
     if (!t) return "partner_records absent in this stack profile; sponsored deep-matrix covered by repository battery";
