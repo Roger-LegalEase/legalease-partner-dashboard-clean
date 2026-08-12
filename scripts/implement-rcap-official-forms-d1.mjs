@@ -23,7 +23,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { extractTextItems, groupIntoLines, extractRects } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList, StandardFonts, rgb } = require("pdf-lib");
@@ -555,6 +555,12 @@ for (const fam of index.families) {
   if (mapKind === "flat_overlay" && !noFill) {
     const helvA = await (await PDFDocument.create()).embedFont(StandardFonts.Helvetica);
     for (let pi = 0; pi < pages.length; pi++) {
+      // Not every form draws its blanks as underscores. Wisconsin's petitions
+      // rule them as thin filled bars and print the caption underneath, which
+      // is the same "write on the line" pattern in vector form.
+      const vectorRules = extractRects(pages[pi])
+        .filter((r) => r.height <= 2 && r.width >= 40)
+        .sort((a, b) => a.x - b.x);
       const lines = groupIntoLines(extractTextItems(pages[pi]));
       const readable = lines.filter((l) => !CID_ENCODED.test(l.text));
       anchorPages.push({ page: pi + 1, lines: lines.length, readableLines: readable.length,
@@ -582,6 +588,29 @@ for (const fam of index.families) {
             labelX: line.x, baselineY: line.y, fontSize: line.size,
             writeBoxDerivable: false,
             reason: "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted." });
+        }
+        // A vector rule the label names: either inline to the label's right on
+        // the same baseline, or the rule immediately above a caption printed
+        // beneath it.
+        if (lineTarget && lineLabel.length >= 3) {
+          // Trailing whitespace runs extend a line well past its last visible
+          // glyph, so the label ends at the last run that actually prints.
+          const printed = line.runs.filter((r) => r.text.trim().length > 0);
+          const labelEnd = printed.length ? printed[printed.length - 1].x2 : line.x;
+          const inline = vectorRules.find((r) => Math.abs(r.y - line.y) <= 5 && r.x >= labelEnd - 4 && r.x - labelEnd < 90);
+          const above = vectorRules.find((r) => r.y > line.y && r.y - line.y <= 14
+            && r.x <= line.x + 4 && r.x + r.width >= line.x + 4);
+          const rule = inline ?? above;
+          if (rule) {
+            const size = Math.max(7, Math.min(11, line.size || 9));
+            anchors.push({ page: pi + 1, kind: inline ? "vector_rule_inline" : "vector_rule_above_caption",
+              label: lineLabel, factId: lineTarget, baselineY: line.y, fontSize: size,
+              writeBox: { x: Number((rule.x + 2).toFixed(1)), y: Number((rule.y + 2).toFixed(1)),
+                width: Number((rule.width - 4).toFixed(1)), height: Number((size * 1.25).toFixed(1)) },
+              measurement: { ruleMeasuredFromPagePath: true, ruleY: Number(rule.y.toFixed(1)),
+                ruleWidth: Number(rule.width.toFixed(1)) } });
+            continue;
+          }
         }
         for (const run of line.runs) {
           if (CID_ENCODED.test(run.text)) continue;

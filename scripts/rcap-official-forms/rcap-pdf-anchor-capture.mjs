@@ -333,6 +333,39 @@ export function extractTextItems(page) {
   return items;
 }
 
+// Returns every rectangle the page paints, in device space. A boxed caption
+// form draws its cells as real rectangles, so the box that holds a value can
+// be measured rather than assumed from the label's position.
+export function extractRects(page) {
+  const bytes = contentBytesOf(page);
+  if (bytes.length === 0) return [];
+  const tokens = tokenize(Buffer.from(bytes).toString("latin1"));
+  const rects = [];
+  let ctm = [1, 0, 0, 1, 0, 0];
+  const stack = [];
+  const operands = [];
+  let pending = null;
+  for (const tk of tokens) {
+    if (tk.t !== "op") { operands.push(tk); continue; }
+    const n = (k) => { const v = operands[operands.length - k]; return v && v.t === "num" ? v.v : 0; };
+    if (tk.v === "q") stack.push(ctm.slice());
+    else if (tk.v === "Q") ctm = stack.pop() ?? ctm;
+    else if (tk.v === "cm") ctm = mul([n(6), n(5), n(4), n(3), n(2), n(1)], ctm);
+    else if (tk.v === "re") {
+      const [x, y, w, h] = [n(4), n(3), n(2), n(1)];
+      const p1 = mul([1, 0, 0, 1, x, y], ctm), p2 = mul([1, 0, 0, 1, x + w, y + h], ctm);
+      pending = { x: Math.min(p1[4], p2[4]), y: Math.min(p1[5], p2[5]),
+        width: Math.abs(p2[4] - p1[4]), height: Math.abs(p2[5] - p1[5]) };
+    } else if (pending && /^(f|F|f\*|B|B\*|b|b\*|S|s|n)$/.test(tk.v)) {
+      // A rectangle used purely as a clip (W n) is not a drawn cell.
+      if (tk.v !== "n") rects.push({ ...pending, op: tk.v });
+      pending = null;
+    }
+    if (tk.v === "[" || tk.v === "]") operands.push(tk); else operands.length = 0;
+  }
+  return rects;
+}
+
 // Merges items drawn on the same baseline into readable label runs.
 export function groupIntoLines(items, yTolerance = 2.2) {
   const lines = [];
