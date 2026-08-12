@@ -1,0 +1,1085 @@
+{
+  "schema": "rcap-d-v3-review-findings/v1",
+  "cycle": "d-final-remediation",
+  "reviewer": "independent read-only review, shard 0",
+  "reviewBranch": "claude/rcap-review-d-v3-shard-0",
+  "scope": {
+    "v3Rerendered": [
+      "KY:aoc-333-source-gated-en",
+      "KY:aoc-496-5-form-en",
+      "MO:cr145-form-petition-en",
+      "MO:cr300-source-gated-petition-en",
+      "NC:aoc-cr-288-form-en",
+      "NH:nhjb-2328-support-affidavit-en",
+      "NH:nhjb-2956-support-record-request-en",
+      "VA:cc-1203-form-en",
+      "VA:cc-1473-form-en",
+      "WA:blake-006-form-en",
+      "WA:blake-008-form-en",
+      "WA:crrlj-09-0100-form-en",
+      "WA:crrlj-09-0870-form-en"
+    ],
+    "correctedAfterReview": [
+      "NH:nhjb-2317-form-petition-en",
+      "NH:nhjb-3056-form-petition-en",
+      "NH:nhjb-3124-form-petition-en",
+      "VT:200-00132-form-en",
+      "VT:200-00132a-form-en",
+      "VT:200-00631-form-en",
+      "WI:cr-267-form-en"
+    ],
+    "familiesReviewed": 20,
+    "familiesDeliberatelyNotReviewed": "the other 233 D-wave families; their dispositions stand"
+  },
+  "sourcePacks": {
+    "releaseTag": "rcap-d-source-packs-2026-08-12",
+    "verifiedSha256": {
+      "RCAP_D_D1_SOURCE_PACK.zip": "01ab34d2eee2ae5621e18fa74e4c03f24df667965eb27a4e3bf7f80c3216acaa",
+      "RCAP_D_D2_SOURCE_PACK.zip": "8f7ef41b7077105dc0bc23e7e3963cff88104004db0745012bf76e6b47c14557",
+      "RCAP_D_D3_SOURCE_PACK.zip": "70c9a6f759a744bc95f6f969ecd0a5fe7cbdfbfff08062dd2d968597a447753b"
+    },
+    "allThreeMatched": true,
+    "extractedOutsideEveryGitWorktree": true,
+    "committed": false
+  },
+  "totals": {
+    "familiesInScope": 20,
+    "familiesReviewed": 20,
+    "artifactsOpened": 55,
+    "findings": 11,
+    "findingsBySeverity": {
+      "high": 4,
+      "medium": 7
+    },
+    "familiesWithFindings": 8,
+    "sourceSha256VerifiedUnchanged": 20,
+    "familiesWithNoParticipantArtifact": 4
+  },
+  "dispositionCounts": {
+    "technical_approved": 12,
+    "correction_required": 8
+  },
+  "families": [
+    {
+      "familyId": "KY:aoc-333-source-gated-en",
+      "jurisdiction": "KY",
+      "lane": "D1B",
+      "branch": "claude/rcap-d1b-corrections-v3",
+      "commit": "e719d1d3",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "previouslyReportedControlCaptionRunsAbsent": true,
+        "noValueClippedOrTruncated": true,
+        "noValueSpanningBeyondItsWidget": true,
+        "contactSheetRebuiltFromTheCurrentArtifact": true
+      },
+      "findings": [],
+      "rationale": "The two runs that reopened the approval ('Print', 'Reset Form') are absent from both filed fixtures; I found no run of the filed page content inside any non-printing widget rectangle. The contact sheet was rebuilt and its proof names the canonical fixture's current sha256. Source sha256 matches the recorded value; 1 page in, 1 page out; no widget, no AcroForm and no active-content marker survives, in the original bytes or after re-saving with object streams off."
+    },
+    {
+      "familyId": "KY:aoc-496-5-form-en",
+      "jurisdiction": "KY",
+      "lane": "D1B",
+      "branch": "claude/rcap-d1b-corrections-v3",
+      "commit": "e719d1d3",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "previouslyReportedControlCaptionRunsAbsent": true,
+        "runsInsideNonPrintingWidgetRectAdjudicatedAgainstTheSource": true,
+        "noValueClippedOrTruncated": true,
+        "contactSheetRebuiltFromTheCurrentArtifact": true
+      },
+      "findings": [],
+      "rationale": "The eleven helper-text runs that reopened this approval ('NOTICE:', 'Not all bowsers handle fillable PDFs the same', and the rest) are gone. Eight runs of the filed page still fall inside the rectangle of the non-printing 'Notice' widget, and I checked each one against the untouched source: all eight ('AOC-496.5', 'Doc. Code: NOX', 'Rev. 6-19', 'Page 1 of 1', 'Commonwealth of Kentucky', 'Court of Justice', 'www.courts.ky.gov', 'KRS 431.073') are drawn by the source itself at the same position. They are the form's own printed header sitting beneath a large helper box, not a leak."
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "jurisdiction": "MO",
+      "lane": "D3A",
+      "branch": "claude/rcap-d3a-corrections-v3",
+      "commit": "875640b7",
+      "disposition": "correction_required",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "canonicalBoundaryAndNegativeFixturesEmitted": true,
+        "contactSheetEmitted": true,
+        "participantVisibleValuesSurvive": true,
+        "noRichTextPacketInTheFiledArtifact": true,
+        "noStaleRichTextAppearanceFlattenedIn": true,
+        "everyBoundFieldNamesThePartyItsPrintedLabelDescribes": false
+      },
+      "findings": [
+        {
+          "id": "D-V3-R-007",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "'Other Defendants', widget rect [56.2, 364.5, 569.7, 410.8]",
+          "visibleDefect": "The petitioner's own name is written into a field that names a different party. The printed label immediately above this widget reads 'Other (include name and address of agency):' and its sibling agency fields \u2014 'County Sheriff's Dept', 'Municipal Police Dept', 'Missouri Highway Patrol Troop' \u2014 are all refused with reason 'protected_category'. This one is bound to participant.full_legal_name and carries 'Marion T. Ellsworth' in the canonical fixture and 'Maximiliana Aurelia Featherstonehaugh-Wintersgill de la Concepcion' in the boundary fixture, so the petition names the petitioner as an additional agency respondent.",
+          "likelyOwner": "D0 typed binder / D3A lane deny rules",
+          "acceptanceCondition": "'Other Defendants' binds only from a fact describing another respondent agency, or is refused with an agency/outside_party-class reason and left blank; the petitioner's name no longer appears in it.",
+          "evidenceBasis": "The printed label read from the untouched MO CR145 binary in the clip above the widget rectangle; MuPDF text extraction at that rectangle in all three fixtures on claude/rcap-d3a-corrections-v3; reports/populated-fields.json and reports/protected-fields.json on the same branch."
+        }
+      ],
+      "rationale": "The rich-text finalization is sound. This family now emits canonical, boundary and negative fixtures and a contact sheet where it previously produced nothing; both pages of the source are preserved; the participant values are visible; and the sanitizer is thorough \u2014 the source's 100 /JS, 100 /JavaScript and 52 /AA entries and all 96 widgets are gone, /Annots is an empty array on both pages, and no /RV packet appears in the original bytes, in the decompressed streams or after re-saving with object streams off. The corpus audit records both rich-text fields as carrying no /RV packet, so no stale appearance could be flattened in, and the values on the page are the freshly written ones. The source binary is unmodified. What fails is a binding: the petitioner's name is written into the form's 'Other (include name and address of agency)' field. Because this family had never produced an artifact, no reviewer had ever been able to see it."
+    },
+    {
+      "familyId": "MO:cr300-source-gated-petition-en",
+      "jurisdiction": "MO",
+      "lane": "D3A",
+      "branch": "claude/rcap-d3a-corrections-v3",
+      "commit": "875640b7",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "countyWhereArrestOccurredBlankInEveryFixture": true,
+        "fieldsThatShouldCarryValuesStillDo": true,
+        "noValueClippedOrTruncated": true
+      },
+      "findings": [],
+      "rationale": "'County Where Arrest Occurred' is blank in the canonical and boundary bytes at its own widget rectangle [39.79, 502.6, 309.74, 516.21] on page 1; the glyphs the extractor returns there are present at the same position in the untouched source, so they are the printed label, not a written value. The field is absent from populated-fields.json. The seven fields that should carry values still do. One canonical run spans two overlapping source widget rectangles ('Case number' and 'Court ORI number'); those two rectangles overlap in the source itself and the run sits wholly inside 'Case number'."
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "jurisdiction": "NC",
+      "lane": "D1B",
+      "branch": "claude/rcap-d1b-corrections-v3",
+      "commit": "e719d1d3",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "allSixAttorneyFieldsBlank": true,
+        "bothEligibilityRuleFieldsBlank": true,
+        "fieldsThatShouldCarryValuesStillDo": true,
+        "noValueClippedOrTruncated": true
+      },
+      "findings": [],
+      "rationale": "NameAtty, StAddrAtty, MailAddrAtty, CityAtty, StateAtty and ZipCodeAtty are blank in both fixtures at their own rectangles on page 1; the fragments the extractor returns ('y', 'p') are drawn by the untouched source at the same coordinates. PetitionerIsEligibleBecauseText1 and PetitionerIsEligibleBecauseText2 are blank on page 2. Eleven petitioner and matter fields still carry their values. Five canonical runs overlap more than one source widget rectangle; NamePetitioner, StreetAddr, MailAddr, City, State and ZipCode are nested address boxes in the source, and every run sits wholly inside one of them."
+    },
+    {
+      "familyId": "NH:nhjb-2328-support-affidavit-en",
+      "jurisdiction": "NH",
+      "lane": "D3A",
+      "branch": "claude/rcap-d3a-corrections-v3",
+      "commit": "875640b7",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "previouslyReportedControlCaptionRunsAbsent": true,
+        "contactSheetRebuiltFromTheCurrentArtifact": true,
+        "noValueClippedOrTruncated": true
+      },
+      "findings": [],
+      "rationale": "The six runs that reopened this approval ('Clear Form', 'Lock & Save Form', 'Top of Page', 'Top of 1st Page') are absent from all three fixtures and from the rebuilt contact sheet. Three pages in, three out. The contact-sheet proof names the current canonical sha256. The case-number run that crosses 'case1' and 'case number1' sits inside both: those two rectangles overlap in the source."
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "jurisdiction": "NH",
+      "lane": "D3A",
+      "branch": "claude/rcap-d3a-corrections-v3",
+      "commit": "875640b7",
+      "disposition": "correction_required",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "previouslyReportedControlCaptionRunsAbsentFromTheFiledArtifact": true,
+        "contactSheetRebuiltFromTheCurrentArtifact": false,
+        "contactSheetProofNamesTheCurrentArtifact": false
+      },
+      "findings": [
+        {
+          "id": "D-V3-R-001",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/contact-sheet/blank-vs-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "right-hand panel, which the sheet's own caption labels 'finalized fill'",
+          "visibleDefect": "The participant artifact was re-rendered in v3 (59275 -> 56111 bytes, sha 0ba50bb2...), but the contact sheet was not rebuilt: it is byte-identical to the approval-evidence branch (sha 8864675c...). Its right-hand panel still shows the superseded artifact, complete with the three control captions the re-render removed \u2014 'Clear Form' at [744.69, 70.58], 'Top of Page' at [735.85, 534.54] and 'Instructions' at [684.03, 69.7]. Each appears only in the right panel; the left panel carries no counterpart, and the current canonical-filled.pdf contains none of the three in its 77 text runs. The accompanying contact-sheet-proof.json still records participantArtifactSha256 'bd2ae477...' (the pre-v3 artifact) and still carries filedArtifactChecksPassed: false with those captions listed as the failure.",
+          "likelyOwner": "D3A lane regeneration (contact-sheet step)",
+          "acceptanceCondition": "Rebuild blank-vs-filled.pdf from the current canonical-filled.pdf and regenerate contact-sheet-proof.json so participantArtifactSha256 equals 0ba50bb2d169b0cccdda4a2b97e7663635ee1279cb66824070d52f960c6109eb and filedArtifactChecksPassed is true; then re-run the manifest checker so rendered-artifacts.json records the new sheet.",
+          "evidenceBasis": "git diff origin/claude/rcap-d3a-approval-evidence-v2..origin/claude/rcap-d3a-corrections-v3 over the family directory (three fixture PDFs changed, no contact-sheet file changed); sha256 of the files on the v3 branch; MuPDF text extraction with per-run bounding boxes on both the sheet and the current fixture; the proof file's own recorded hashes."
+        }
+      ],
+      "rationale": "The filed artifact itself is clean: all three fixtures are free of the three control captions that reopened this approval, carry no widget, AcroForm or active-content marker, and preserve the single source page. The defect is in the evidence. The contact sheet \u2014 the artifact QA and counsel actually look at \u2014 was left at its pre-v3 bytes and depicts the defect as still present, and its own proof file agrees, recording filedArtifactChecksPassed: false. Repairing rendered-artifacts.json to the stale sheet's hash made the manifest self-consistent while leaving the evidence contradicting the corrected artifact. This is the only one of the thirteen re-rendered families whose contact sheet was not rebuilt."
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "jurisdiction": "VA",
+      "lane": "D1B",
+      "branch": "claude/rcap-d1b-corrections-v3",
+      "commit": "e719d1d3",
+      "disposition": "correction_required",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "courtNameBlank": true,
+        "fieldsThatShouldCarryValuesStillDo": true,
+        "noValueClippedOrTruncatedInTheCanonicalFixture": true,
+        "noValueClippedOrTruncatedInTheBoundaryFixture": false,
+        "overflowReportDescribesEveryValueItWrote": false
+      },
+      "findings": [
+        {
+          "id": "D-V3-R-002",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/fixtures/boundary-filled.pdf",
+          "page": 3,
+          "fieldOrRegion": "User.AncillaryCaseNumber, widget rect [365.07, 327.04, 494.79, 341.2]",
+          "visibleDefect": "The case number is drawn truncated and past both widget edges. The value written is '0123-45-2026-CR-900123.00-AB-CDE/2201'; the page draws '5-2026-CR-900123.00-AB-CD' at 10pt with bbox [362.68, 326.96, 496.61, 340.7] \u2014 2.39pt beyond the left edge and 1.82pt beyond the right. Rendering the region shows the leading and trailing glyphs sliced mid-character. The two sibling fields carrying the identical value, User.AncillaryCaseNumberA (page 4) and User.AncillaryCaseNumberB (page 5), each render it complete at 6pt inside their rectangles, so the shrink path works and was not applied here. A reader sees a case number that is not the case number.",
+          "likelyOwner": "D0 factory text-fitting / D1B lane regeneration",
+          "acceptanceCondition": "User.AncillaryCaseNumber either renders the whole value inside its rectangle (as its two siblings do) or is refused and left blank with a recorded reason; and overflow-and-clipping.json records an entry for this field in the boundary fixture.",
+          "evidenceBasis": "MuPDF span extraction with bounding boxes on boundary-filled.pdf page 3 vs the source widget rectangle; 4x pixmap render of the region; comparison against pages 4 and 5 of the same fixture; the family's overflow-and-clipping.json, which contains no entry for this field."
+        },
+        {
+          "id": "D-V3-R-003",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/overflow-and-clipping.json",
+          "page": null,
+          "fieldOrRegion": "findings[]",
+          "visibleDefect": "The report states the policy 'Nothing is written past a widget edge' and lists four findings \u2014 three width refusals and one max-length refusal \u2014 none of them for User.AncillaryCaseNumber. The one value that is in fact written past a widget edge is the one the report does not mention.",
+          "likelyOwner": "D0 factory overflow reporter",
+          "acceptanceCondition": "The overflow reporter detects and records a value whose drawn extent leaves its widget rectangle, so a clipped write cannot pass as an unreported clean write.",
+          "evidenceBasis": "The report file on branch claude/rcap-d1b-corrections-v3 read alongside the measured span geometry in finding D-V3-R-002."
+        },
+        {
+          "id": "D-V3-R-004",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/populated-fields.json",
+          "page": 6,
+          "fieldOrRegion": "User.VSBCaseNumber",
+          "visibleDefect": "User.VSBCaseNumber is bound to matter.case_number. Its printed context on page 6 is 'SIGNATURE OF [ ] PETITIONER / [ ] ATTORNEY FOR PETITIONER (VSB No. .......... )' \u2014 a Virginia State Bar number belonging to the attorney, not a case number. Nothing reaches the page in either fixture, but only because the 23pt-wide rectangle cannot hold the value: overflow-and-clipping.json records the refusal as 'value_exceeds_widget_width_at_minimum_font'. The field is blank by width, not by category.",
+          "likelyOwner": "D0 typed binder / D1B lane deny rules",
+          "acceptanceCondition": "A field whose printed context identifies it as an attorney bar number is refused on category with an attorney-class reason, so its blankness does not depend on the widget being narrow.",
+          "evidenceBasis": "populated-fields.json and overflow-and-clipping.json on claude/rcap-d1b-corrections-v3; the source widget rectangle and the printed text read from the untouched CC-1203 binary; MuPDF text extraction at the rectangle in both fixtures confirming nothing is drawn."
+        }
+      ],
+      "rationale": "The correction under review holds: User.CourtName is blank in both fixtures at its own rectangle on page 1, and the fourteen fields that should carry values still do. Six pages in, six out; no widget, AcroForm or active-content marker survives. But inspecting the bytes at every widget rectangle surfaced a clipped write in the boundary fixture that no report records, and a binding that is safe only by accident of widget width. The canonical fixture renders cleanly."
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "jurisdiction": "VA",
+      "lane": "D1B",
+      "branch": "claude/rcap-d1b-corrections-v3",
+      "commit": "e719d1d3",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "addressOfBlank": true,
+        "petitionerPhoneNumberBlank": true,
+        "petitionerEmailBlank": true,
+        "fieldsThatShouldCarryValuesStillDo": true,
+        "noValueClippedOrTruncated": true,
+        "noValueSpanningBeyondItsWidget": true
+      },
+      "findings": [],
+      "rationale": "User.AddressOf, User.PetetionerPhoneNumber and User.PetetionerEmail are blank in the canonical and boundary bytes at their own rectangles on page 1 \u2014 only the form's printed dotted rule is drawn there. User.PetitionerName and User.PrintName still carry the participant's name in both fixtures. No run exceeds its widget and nothing is truncated; the three boundary fields that go blank are recorded as width refusals in overflow-and-clipping.json rather than clipped."
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "jurisdiction": "WA",
+      "lane": "D2A",
+      "branch": "claude/rcap-d2a-corrections-v3",
+      "commit": "eedd19fc",
+      "disposition": "correction_required",
+      "artifactsOpened": [],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "textLayerNowDecodes": true,
+        "decodedTextConfirmedGenuineByAnIndependentEngine": true,
+        "decodingMovedNothingThatWasAlreadyReadable": true,
+        "noParticipantArtifactExistsSoNoValueCanBeMisplaced": true,
+        "undecodableAnchorsRefusedByTheDecoderGate": true,
+        "undecodableAnchorsRefusedByTheRendererThatProducedThisProfile": false,
+        "overlayProfileUnreadableLineCountIsAccurate": true,
+        "noParticipantLabelMatchedIsSupportedByTheDecodedEvidence": false,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true
+      },
+      "findings": [
+        {
+          "id": "D-V3-R-010",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/blake-006-form-en/overlay-profile.json",
+          "page": null,
+          "fieldOrRegion": "anchorCapture.candidateLabelCount / anchorCount",
+          "visibleDefect": "The profile records 172 lines read, 0 unreadable, 0 anchors and 0 candidate labels, which reads as 'the form was read and has no participant label'. It cannot mean that here: every one of this document's 10,503 text runs is a single character, so the run-level label matcher, which skips any run shorter than three characters, can never match anything. The line-level matcher needs a whole line to equal a label, and the caption draws 'Defendant' and 'DOB' on one shared baseline and 'No.' on another. The decoded caption does contain labels in the lane's own CAPTION_FACTS vocabulary; the count is a property of the matcher's granularity, and the profile does not say so.",
+          "likelyOwner": "D2A lane regeneration",
+          "acceptanceCondition": "Either the matcher can see labels below whole-line granularity on documents drawn one glyph per show operation, or the profile records that run granularity prevented matching, so 'overlay_no_participant_label_matched' cannot be read as a finding about the form.",
+          "evidenceBasis": "Run-length distribution measured from groupIntoLines on the verified source (10,503 runs, all length 1); the caption lines dumped with their runs; my replay of the lane's own OVERLAY_LABEL_BINDINGS, BLANK_BINDINGS and CAPTION_FACTS over the decoded text, which reproduces 0 matches."
+        }
+      ],
+      "rationale": "The decoder fix is verified and it is good work. Where the old decoder read this Identity-H text layer as 21,122 meaningless byte-wide glyphs, the new one reads the form's real text: I decoded the same binary with MuPDF, an unrelated engine, and it confirms every line, and glyph positions agree to within 0.005pt across 8,764 characters. Nothing is misplaced because nothing is placed: this family has no fixtures, no contact sheet and an empty artifacts map. What I cannot sign off is the evidence the disposition rests on. And a zero candidate-label count that is forced by the matcher's granularity should not be recorded in a way that reads as a finding about the form. The existing source, legal and visual-review holds on this family are untouched by this review."
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "jurisdiction": "WA",
+      "lane": "D2A",
+      "branch": "claude/rcap-d2a-corrections-v3",
+      "commit": "eedd19fc",
+      "disposition": "correction_required",
+      "artifactsOpened": [],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "textLayerNowDecodes": true,
+        "decodedTextConfirmedGenuineByAnIndependentEngine": true,
+        "decodingMovedNothingThatWasAlreadyReadable": true,
+        "noParticipantArtifactExistsSoNoValueCanBeMisplaced": true,
+        "undecodableAnchorsRefusedByTheDecoderGate": true,
+        "undecodableAnchorsRefusedByTheRendererThatProducedThisProfile": false,
+        "overlayProfileUnreadableLineCountIsAccurate": true,
+        "noParticipantLabelMatchedIsSupportedByTheDecodedEvidence": false,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true
+      },
+      "findings": [
+        {
+          "id": "D-V3-R-011",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/blake-008-form-en/overlay-profile.json",
+          "page": null,
+          "fieldOrRegion": "anchorCapture.candidateLabelCount / anchorCount",
+          "visibleDefect": "The profile records 183 lines read, 0 unreadable, 0 anchors and 0 candidate labels, which reads as 'the form was read and has no participant label'. It cannot mean that here: every one of this document's 10,975 text runs is a single character, so the run-level label matcher, which skips any run shorter than three characters, can never match anything. The line-level matcher needs a whole line to equal a label, and the caption draws 'Defendant' and 'DOB' on one shared baseline and 'No.' on another. The decoded caption does contain labels in the lane's own CAPTION_FACTS vocabulary; the count is a property of the matcher's granularity, and the profile does not say so.",
+          "likelyOwner": "D2A lane regeneration",
+          "acceptanceCondition": "Either the matcher can see labels below whole-line granularity on documents drawn one glyph per show operation, or the profile records that run granularity prevented matching, so 'overlay_no_participant_label_matched' cannot be read as a finding about the form.",
+          "evidenceBasis": "Run-length distribution measured from groupIntoLines on the verified source (10,975 runs, all length 1); the caption lines dumped with their runs; my replay of the lane's own OVERLAY_LABEL_BINDINGS, BLANK_BINDINGS and CAPTION_FACTS over the decoded text, which reproduces 0 matches."
+        }
+      ],
+      "rationale": "The decoder fix is verified and it is good work. Where the old decoder read this Identity-H text layer as 22,094 meaningless byte-wide glyphs, the new one reads the form's real text: I decoded the same binary with MuPDF, an unrelated engine, and it confirms every line, and glyph positions agree to within 0.005pt across 8,764 characters. Nothing is misplaced because nothing is placed: this family has no fixtures, no contact sheet and an empty artifacts map. What I cannot sign off is the evidence the disposition rests on. And a zero candidate-label count that is forced by the matcher's granularity should not be recorded in a way that reads as a finding about the form. The existing source, legal and visual-review holds on this family are untouched by this review."
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "jurisdiction": "WA",
+      "lane": "D2A",
+      "branch": "claude/rcap-d2a-corrections-v3",
+      "commit": "eedd19fc",
+      "disposition": "correction_required",
+      "artifactsOpened": [],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "textLayerNowDecodes": true,
+        "decodedTextConfirmedGenuineByAnIndependentEngine": true,
+        "decodingMovedNothingThatWasAlreadyReadable": true,
+        "noParticipantArtifactExistsSoNoValueCanBeMisplaced": true,
+        "undecodableAnchorsRefusedByTheDecoderGate": true,
+        "undecodableAnchorsRefusedByTheRendererThatProducedThisProfile": false,
+        "overlayProfileUnreadableLineCountIsAccurate": false,
+        "noParticipantLabelMatchedIsSupportedByTheDecodedEvidence": false,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true
+      },
+      "findings": [
+        {
+          "id": "D-V3-R-008",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en/overlay-profile.json",
+          "page": null,
+          "fieldOrRegion": "anchorCapture.pages[].unreadableLines",
+          "visibleDefect": "The profile reports unreadableLines 0 on every page, but the decoder's own gate (partitionDecodableAnchors) refuses 2 of this form's 197 lines with reason 'line_carries_undecoded_character_codes'. The renderer that wrote this profile does not use that gate: d2a-regenerate.mjs still filters readable lines with CID_ENCODED = /\\u0000/, and the D0-v3 decoder marks an undecoded code with U+FFFD, not NUL, so no line can ever match. Lines the decoder itself cannot read are counted as readable and offered to the anchor matcher.",
+          "likelyOwner": "D2A lane regeneration",
+          "acceptanceCondition": "d2a-regenerate.mjs partitions lines with partitionDecodableAnchors and reports its refusal counts, so unreadableLines equals what the decoder actually refused and no undecodable line can become an anchor.",
+          "evidenceBasis": "scripts/rcap-official-forms/lanes/d2a-regenerate.mjs line 374 and lines 763-800 on claude/rcap-d2a-corrections-v3; my own run of d0-v3-corpus-decode-audit.mjs against the verified source pack, reporting 195 usable and 2 refused; the refused lines dumped individually through partitionDecodableAnchors."
+        }
+      ],
+      "rationale": "The decoder fix is verified. Comparing the pre-v3 and post-v3 decoders on this same binary, every line whose text was already readable kept its glyph positions to within 0.06pt, so the fix moved nothing. Nothing is misplaced because nothing is placed: this family has no fixtures, no contact sheet and an empty artifacts map. What I cannot sign off is the evidence the disposition rests on. The profile's readability figures are contradicted by the decoder's own refusal gate, which the renderer does not call. The existing source, legal and visual-review holds on this family are untouched by this review."
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "jurisdiction": "WA",
+      "lane": "D2A",
+      "branch": "claude/rcap-d2a-corrections-v3",
+      "commit": "eedd19fc",
+      "disposition": "correction_required",
+      "artifactsOpened": [],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "textLayerNowDecodes": true,
+        "decodedTextConfirmedGenuineByAnIndependentEngine": true,
+        "decodingMovedNothingThatWasAlreadyReadable": true,
+        "noParticipantArtifactExistsSoNoValueCanBeMisplaced": true,
+        "undecodableAnchorsRefusedByTheDecoderGate": true,
+        "undecodableAnchorsRefusedByTheRendererThatProducedThisProfile": false,
+        "overlayProfileUnreadableLineCountIsAccurate": false,
+        "noParticipantLabelMatchedIsSupportedByTheDecodedEvidence": false,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true
+      },
+      "findings": [
+        {
+          "id": "D-V3-R-009",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en/overlay-profile.json",
+          "page": null,
+          "fieldOrRegion": "anchorCapture.pages[].unreadableLines",
+          "visibleDefect": "The profile reports unreadableLines 0 on every page, but the decoder's own gate (partitionDecodableAnchors) refuses 7 of this form's 64 lines with reason 'line_carries_undecoded_character_codes'. The renderer that wrote this profile does not use that gate: d2a-regenerate.mjs still filters readable lines with CID_ENCODED = /\\u0000/, and the D0-v3 decoder marks an undecoded code with U+FFFD, not NUL, so no line can ever match. Lines the decoder itself cannot read are counted as readable and offered to the anchor matcher.",
+          "likelyOwner": "D2A lane regeneration",
+          "acceptanceCondition": "d2a-regenerate.mjs partitions lines with partitionDecodableAnchors and reports its refusal counts, so unreadableLines equals what the decoder actually refused and no undecodable line can become an anchor.",
+          "evidenceBasis": "scripts/rcap-official-forms/lanes/d2a-regenerate.mjs line 374 and lines 763-800 on claude/rcap-d2a-corrections-v3; my own run of d0-v3-corpus-decode-audit.mjs against the verified source pack, reporting 57 usable and 7 refused; the refused lines dumped individually through partitionDecodableAnchors."
+        }
+      ],
+      "rationale": "The decoder fix is verified. Comparing the pre-v3 and post-v3 decoders on this same binary, every line whose text was already readable kept its glyph positions to within 0.06pt, so the fix moved nothing. Nothing is misplaced because nothing is placed: this family has no fixtures, no contact sheet and an empty artifacts map. What I cannot sign off is the evidence the disposition rests on. The profile's readability figures are contradicted by the decoder's own refusal gate, which the renderer does not call. The existing source, legal and visual-review holds on this family are untouched by this review."
+    },
+    {
+      "familyId": "NH:nhjb-2317-form-petition-en",
+      "jurisdiction": "NH",
+      "lane": "D3A",
+      "branch": "claude/rcap-d3a-corrections-v3",
+      "commit": "875640b7",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "correctedBytesInspectedForTheFirstTime": true,
+        "noValueClippedOrTruncated": true,
+        "negativeFixtureWritesNothing": true
+      },
+      "findings": [],
+      "rationale": "Corrected bytes inspected independently for the first time. Page count and boxes match the source; no widget, AcroForm or active-content marker survives in the original bytes or after re-saving with object streams off; no control caption or helper text appears in the filed page content (the only 'print' token is the form's own printed 'Printed Name of Judge' label). The canonical fixture carries every expected participant value, the negative fixture writes nothing, and the one boundary field that goes blank is a recorded width refusal. No protected-category field is written."
+    },
+    {
+      "familyId": "NH:nhjb-3056-form-petition-en",
+      "jurisdiction": "NH",
+      "lane": "D3A",
+      "branch": "claude/rcap-d3a-corrections-v3",
+      "commit": "875640b7",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "correctedBytesInspectedForTheFirstTime": true,
+        "noValueClippedOrTruncated": true,
+        "negativeFixtureWritesNothing": true
+      },
+      "findings": [],
+      "rationale": "Corrected bytes inspected independently for the first time. Page count and boxes match the source; no widget, AcroForm or active-content marker survives in the original bytes or after re-saving with object streams off; no control caption or helper text appears in the filed page content (the only 'print' token is the form's own printed 'Printed Name of Judge' label). The canonical fixture carries every expected participant value, the negative fixture writes nothing, and the one boundary field that goes blank is a recorded width refusal. No protected-category field is written."
+    },
+    {
+      "familyId": "NH:nhjb-3124-form-petition-en",
+      "jurisdiction": "NH",
+      "lane": "D3A",
+      "branch": "claude/rcap-d3a-corrections-v3",
+      "commit": "875640b7",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "correctedBytesInspectedForTheFirstTime": true,
+        "noValueClippedOrTruncated": true,
+        "negativeFixtureWritesNothing": true
+      },
+      "findings": [],
+      "rationale": "Corrected bytes inspected independently for the first time. Page count and boxes match the source; no widget, AcroForm or active-content marker survives in the original bytes or after re-saving with object streams off; no control caption or helper text appears in the filed page content (the only 'print' token is the form's own printed 'Printed Name of Judge' label). The canonical fixture carries every expected participant value, the negative fixture writes nothing, and the one boundary field that goes blank is a recorded width refusal. No protected-category field is written."
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "jurisdiction": "VT",
+      "lane": "D1C",
+      "branch": "claude/rcap-d1c-corrections-v3",
+      "commit": "becff2f4",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "correctedBytesInspectedForTheFirstTime": true,
+        "longBoundaryValueRenderedInFull": true,
+        "noValueClippedOrTruncated": true
+      },
+      "findings": [],
+      "rationale": "Corrected bytes inspected independently for the first time. Two pages in, two out. The canonical fixture carries all four expected values; the boundary fixture renders the 70-character name in full at 9pt inside its widget (bbox [93.66, 88.71, 387.76, 101.07]), so the shrink path holds here. The 'Printed Name' tokens are the form's own printed labels. No active content, no residual widget, no protected field written."
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "jurisdiction": "VT",
+      "lane": "D1C",
+      "branch": "claude/rcap-d1c-corrections-v3",
+      "commit": "becff2f4",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "correctedBytesInspectedForTheFirstTime": true,
+        "longBoundaryValueRenderedInFull": true,
+        "noValueClippedOrTruncated": true
+      },
+      "findings": [],
+      "rationale": "Corrected bytes inspected independently for the first time. Two pages in, two out. The canonical fixture carries all four expected values; the boundary fixture renders the 70-character name in full at 9pt inside its widget (bbox [93.66, 88.71, 387.76, 101.07]), so the shrink path holds here. The 'Printed Name' tokens are the form's own printed labels. No active content, no residual widget, no protected field written."
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "jurisdiction": "VT",
+      "lane": "D1C",
+      "branch": "claude/rcap-d1c-corrections-v3",
+      "commit": "becff2f4",
+      "disposition": "correction_required",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "correctedBytesInspectedForTheFirstTime": true,
+        "noValueClippedOrTruncatedInTheCanonicalFixture": true,
+        "noValueClippedOrTruncatedInTheBoundaryFixture": false,
+        "overflowReportDescribesEveryValueItWrote": false
+      },
+      "findings": [
+        {
+          "id": "D-V3-R-005",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/boundary-filled.pdf",
+          "page": 1,
+          "fieldOrRegion": "field '1', second occurrence, widget rect [53.43, 614.69, 209.73, 627.65]",
+          "visibleDefect": "The participant's name is drawn truncated mid-word. The value is 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III' (70 characters); the page draws 'Alexandrina-Katharine Montgomery-Vanden' (39 characters) at 8pt with bbox [54.43, 615.44, 210.49, 626.43], 0.76pt past the widget's right edge, with no continuation line and no second span. Rendering the region shows the name ending at 'Vanden' over the signature rule. 70 characters at 8pt need roughly 280pt and the widget is 156.3pt wide, so the value could never have fitted at the size chosen.",
+          "likelyOwner": "D0 factory text-fitting / D1C lane regeneration",
+          "acceptanceCondition": "The value either fits whole inside the rectangle at a legible size, or is refused and the field left blank with a recorded reason; no partial name is drawn.",
+          "evidenceBasis": "MuPDF span extraction with bounding boxes on boundary-filled.pdf page 1 vs the source widget rectangle read from the untouched VT 200-00631 binary; 4x pixmap render of the region."
+        },
+        {
+          "id": "D-V3-R-006",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/populated-fields.json",
+          "page": 1,
+          "fieldOrRegion": "boundaryWritten[0], field '1'",
+          "visibleDefect": "The record states outcome 'shrunk' at fontSize 8 for a value that was in fact cut to 39 of its 70 characters, and overflow-and-clipping.json reports unfittableBoundary: [] and findings: [] under the policy 'Nothing is clipped and nothing is shrunk below legibility.' Both records describe a clean shrink that did not happen.",
+          "likelyOwner": "D0 factory overflow reporter",
+          "acceptanceCondition": "A write whose drawn text is shorter than the value supplied, or whose extent leaves the widget, is recorded as a clip rather than as a shrink.",
+          "evidenceBasis": "populated-fields.json and overflow-and-clipping.json on claude/rcap-d1c-corrections-v3 read alongside the measured span in finding D-V3-R-005."
+        }
+      ],
+      "rationale": "These bytes had never been independently inspected. The canonical fixture is clean and carries its expected value; one page in, one out; no widget, AcroForm or active-content marker survives. The boundary fixture, however, draws a participant's legal name cut off mid-word and slightly past its widget edge, and both evidence files describe that write as a successful shrink. VT 200-00132 and 200-00132a render the same 70-character name in full at 9pt, which shows the fitting path can handle it and did not here."
+    },
+    {
+      "familyId": "WI:cr-267-form-en",
+      "jurisdiction": "WI",
+      "lane": "D1C",
+      "branch": "claude/rcap-d1c-corrections-v3",
+      "commit": "becff2f4",
+      "disposition": "technical_approved",
+      "artifactsOpened": [
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "sourceBinaryNotModified": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "artifactInspectableAfterResaveWithoutObjectStreams": true,
+        "noProtectedCategoryFieldWritten": true,
+        "noControlCaptionOrHelperTextLeakInFiledArtifact": true,
+        "determinismEvidenceRecordedAndTiedToBytesOnDisk": true,
+        "creationAndModificationDatesPinned": true,
+        "renderedArtifactsManifestAgreesWithFilesOnDisk": true,
+        "correctedBytesInspectedForTheFirstTime": true,
+        "noValueClippedOrTruncated": true
+      },
+      "findings": [],
+      "rationale": "Corrected bytes inspected independently for the first time. One page in, one out. The canonical fixture carries all three expected anchor values ('Example County', '1991-04-17', '24-CR-001234'); the boundary fixture's 'Case No' anchor is a recorded width refusal, not a clip. No run exceeds an anchor's write box, no active content, no residual widget."
+    }
+  ],
+  "manifestEvidence": {
+    "checkerLocation": "scripts/rcap-official-forms/repair-rendered-artifact-manifests.mjs, present on claude/rcap-d-corrected-review-manifest @ eca9336 and absent from all seven correction branches; run against each branch's checked-out tree",
+    "branches": [
+      {
+        "branch": "claude/rcap-d1a-corrections-v3",
+        "commit": "5f160693",
+        "checkerRun": "node scripts/rcap-official-forms/repair-rendered-artifact-manifests.mjs <worktree>  (check mode; the script lives on claude/rcap-d-corrected-review-manifest @ eca9336, not on the correction branches)",
+        "checkerExitCode": 0,
+        "checkerTotals": {
+          "mode": "check",
+          "familiesWithManifest": 90,
+          "clean": 90,
+          "withProblems": 0,
+          "unreadable": 0,
+          "repaired": 0,
+          "problemsByKind": {}
+        },
+        "checkerVerdict": "EVERY MANIFEST AGREES WITH ITS FILES",
+        "checkModeWroteNothing": true,
+        "checkModeEvidence": "manifest file list, sizes, mtimes and content hashes snapshotted before and after the run and compared; git status on the worktree clean afterwards (0 files)",
+        "independentReAudit": {
+          "method": "my own Python audit, sharing no code with the checker: every recorded path resolved and re-hashed, and every PDF found anywhere under a family directory (not only fixtures/ and contact-sheet/) checked for a manifest entry",
+          "familiesWithManifest": 90,
+          "recordedPathsMissing": 0,
+          "recordedHashMismatches": 0,
+          "pdfsOnDiskNotRecorded": 0,
+          "unreadableManifests": 0,
+          "agreesWithTheChecker": true
+        },
+        "manifestsChangedFromTheApprovalEvidenceBranch": 28
+      },
+      {
+        "branch": "claude/rcap-d1b-corrections-v3",
+        "commit": "e719d1d3",
+        "checkerRun": "node scripts/rcap-official-forms/repair-rendered-artifact-manifests.mjs <worktree>  (check mode; the script lives on claude/rcap-d-corrected-review-manifest @ eca9336, not on the correction branches)",
+        "checkerExitCode": 0,
+        "checkerTotals": {
+          "mode": "check",
+          "familiesWithManifest": 89,
+          "clean": 89,
+          "withProblems": 0,
+          "unreadable": 0,
+          "repaired": 0,
+          "problemsByKind": {}
+        },
+        "checkerVerdict": "EVERY MANIFEST AGREES WITH ITS FILES",
+        "checkModeWroteNothing": true,
+        "checkModeEvidence": "manifest file list, sizes, mtimes and content hashes snapshotted before and after the run and compared; git status on the worktree clean afterwards (0 files)",
+        "independentReAudit": {
+          "method": "my own Python audit, sharing no code with the checker: every recorded path resolved and re-hashed, and every PDF found anywhere under a family directory (not only fixtures/ and contact-sheet/) checked for a manifest entry",
+          "familiesWithManifest": 89,
+          "recordedPathsMissing": 0,
+          "recordedHashMismatches": 0,
+          "pdfsOnDiskNotRecorded": 0,
+          "unreadableManifests": 0,
+          "agreesWithTheChecker": true
+        },
+        "manifestsChangedFromTheApprovalEvidenceBranch": 5
+      },
+      {
+        "branch": "claude/rcap-d1c-corrections-v3",
+        "commit": "becff2f4",
+        "checkerRun": "node scripts/rcap-official-forms/repair-rendered-artifact-manifests.mjs <worktree>  (check mode; the script lives on claude/rcap-d-corrected-review-manifest @ eca9336, not on the correction branches)",
+        "checkerExitCode": 0,
+        "checkerTotals": {
+          "mode": "check",
+          "familiesWithManifest": 90,
+          "clean": 90,
+          "withProblems": 0,
+          "unreadable": 0,
+          "repaired": 0,
+          "problemsByKind": {}
+        },
+        "checkerVerdict": "EVERY MANIFEST AGREES WITH ITS FILES",
+        "checkModeWroteNothing": true,
+        "checkModeEvidence": "manifest file list, sizes, mtimes and content hashes snapshotted before and after the run and compared; git status on the worktree clean afterwards (0 files)",
+        "independentReAudit": {
+          "method": "my own Python audit, sharing no code with the checker: every recorded path resolved and re-hashed, and every PDF found anywhere under a family directory (not only fixtures/ and contact-sheet/) checked for a manifest entry",
+          "familiesWithManifest": 90,
+          "recordedPathsMissing": 0,
+          "recordedHashMismatches": 0,
+          "pdfsOnDiskNotRecorded": 0,
+          "unreadableManifests": 0,
+          "agreesWithTheChecker": true
+        },
+        "manifestsChangedFromTheApprovalEvidenceBranch": 9
+      },
+      {
+        "branch": "claude/rcap-d2a-corrections-v3",
+        "commit": "eedd19fc",
+        "checkerRun": "node scripts/rcap-official-forms/repair-rendered-artifact-manifests.mjs <worktree>  (check mode; the script lives on claude/rcap-d-corrected-review-manifest @ eca9336, not on the correction branches)",
+        "checkerExitCode": 0,
+        "checkerTotals": {
+          "mode": "check",
+          "familiesWithManifest": 125,
+          "clean": 125,
+          "withProblems": 0,
+          "unreadable": 0,
+          "repaired": 0,
+          "problemsByKind": {}
+        },
+        "checkerVerdict": "EVERY MANIFEST AGREES WITH ITS FILES",
+        "checkModeWroteNothing": true,
+        "checkModeEvidence": "manifest file list, sizes, mtimes and content hashes snapshotted before and after the run and compared; git status on the worktree clean afterwards (0 files)",
+        "independentReAudit": {
+          "method": "my own Python audit, sharing no code with the checker: every recorded path resolved and re-hashed, and every PDF found anywhere under a family directory (not only fixtures/ and contact-sheet/) checked for a manifest entry",
+          "familiesWithManifest": 125,
+          "recordedPathsMissing": 0,
+          "recordedHashMismatches": 0,
+          "pdfsOnDiskNotRecorded": 0,
+          "unreadableManifests": 0,
+          "agreesWithTheChecker": true
+        },
+        "manifestsChangedFromTheApprovalEvidenceBranch": 9
+      },
+      {
+        "branch": "claude/rcap-d2b-corrections-v3",
+        "commit": "a94faf07",
+        "checkerRun": "node scripts/rcap-official-forms/repair-rendered-artifact-manifests.mjs <worktree>  (check mode; the script lives on claude/rcap-d-corrected-review-manifest @ eca9336, not on the correction branches)",
+        "checkerExitCode": 0,
+        "checkerTotals": {
+          "mode": "check",
+          "familiesWithManifest": 120,
+          "clean": 120,
+          "withProblems": 0,
+          "unreadable": 0,
+          "repaired": 0,
+          "problemsByKind": {}
+        },
+        "checkerVerdict": "EVERY MANIFEST AGREES WITH ITS FILES",
+        "checkModeWroteNothing": true,
+        "checkModeEvidence": "manifest file list, sizes, mtimes and content hashes snapshotted before and after the run and compared; git status on the worktree clean afterwards (0 files)",
+        "independentReAudit": {
+          "method": "my own Python audit, sharing no code with the checker: every recorded path resolved and re-hashed, and every PDF found anywhere under a family directory (not only fixtures/ and contact-sheet/) checked for a manifest entry",
+          "familiesWithManifest": 120,
+          "recordedPathsMissing": 0,
+          "recordedHashMismatches": 0,
+          "pdfsOnDiskNotRecorded": 0,
+          "unreadableManifests": 0,
+          "agreesWithTheChecker": true
+        },
+        "manifestsChangedFromTheApprovalEvidenceBranch": 16
+      },
+      {
+        "branch": "claude/rcap-d3a-corrections-v3",
+        "commit": "875640b7",
+        "checkerRun": "node scripts/rcap-official-forms/repair-rendered-artifact-manifests.mjs <worktree>  (check mode; the script lives on claude/rcap-d-corrected-review-manifest @ eca9336, not on the correction branches)",
+        "checkerExitCode": 0,
+        "checkerTotals": {
+          "mode": "check",
+          "familiesWithManifest": 117,
+          "clean": 117,
+          "withProblems": 0,
+          "unreadable": 0,
+          "repaired": 0,
+          "problemsByKind": {}
+        },
+        "checkerVerdict": "EVERY MANIFEST AGREES WITH ITS FILES",
+        "checkModeWroteNothing": true,
+        "checkModeEvidence": "manifest file list, sizes, mtimes and content hashes snapshotted before and after the run and compared; git status on the worktree clean afterwards (0 files)",
+        "independentReAudit": {
+          "method": "my own Python audit, sharing no code with the checker: every recorded path resolved and re-hashed, and every PDF found anywhere under a family directory (not only fixtures/ and contact-sheet/) checked for a manifest entry",
+          "familiesWithManifest": 117,
+          "recordedPathsMissing": 0,
+          "recordedHashMismatches": 0,
+          "pdfsOnDiskNotRecorded": 0,
+          "unreadableManifests": 0,
+          "agreesWithTheChecker": true
+        },
+        "manifestsChangedFromTheApprovalEvidenceBranch": 14
+      },
+      {
+        "branch": "claude/rcap-d3b-corrections-v3",
+        "commit": "e089d064",
+        "checkerRun": "node scripts/rcap-official-forms/repair-rendered-artifact-manifests.mjs <worktree>  (check mode; the script lives on claude/rcap-d-corrected-review-manifest @ eca9336, not on the correction branches)",
+        "checkerExitCode": 0,
+        "checkerTotals": {
+          "mode": "check",
+          "familiesWithManifest": 118,
+          "clean": 118,
+          "withProblems": 0,
+          "unreadable": 0,
+          "repaired": 0,
+          "problemsByKind": {}
+        },
+        "checkerVerdict": "EVERY MANIFEST AGREES WITH ITS FILES",
+        "checkModeWroteNothing": true,
+        "checkModeEvidence": "manifest file list, sizes, mtimes and content hashes snapshotted before and after the run and compared; git status on the worktree clean afterwards (0 files)",
+        "independentReAudit": {
+          "method": "my own Python audit, sharing no code with the checker: every recorded path resolved and re-hashed, and every PDF found anywhere under a family directory (not only fixtures/ and contact-sheet/) checked for a manifest entry",
+          "familiesWithManifest": 118,
+          "recordedPathsMissing": 0,
+          "recordedHashMismatches": 0,
+          "pdfsOnDiskNotRecorded": 0,
+          "unreadableManifests": 0,
+          "agreesWithTheChecker": true
+        },
+        "manifestsChangedFromTheApprovalEvidenceBranch": 13
+      }
+    ],
+    "totals": {
+      "branchesChecked": 7,
+      "manifestsChecked": 749,
+      "manifestsClean": 749,
+      "manifestsWithProblems": 0,
+      "manifestsRepairedByAnyCheckModeRun": 0,
+      "branchesWhereCheckModeWroteNothing": 7,
+      "manifestsChangedFromApprovalEvidence": 94
+    },
+    "noParticipantPdfChangedMerelyToMakeAManifestCurrent": {
+      "claim": "verified for all 81 manifest-repair-only families, not a sample",
+      "method": "git diff --name-only <lane>-approval-evidence-v2..<lane>-corrections-v3 restricted to each family directory",
+      "familiesCompared": 81,
+      "familiesWhosePdfsChanged": 0,
+      "distinctFileBasenamesChangedAcrossAll81": {
+        "rendered-artifacts.json": 81
+      },
+      "result": "every one of the 81 changed exactly one file, its manifest; no participant PDF differs from the approval-evidence branch"
+    },
+    "reconciliation": {
+      "manifestsChangedAcrossTheSevenBranches": 94,
+      "accountedFor": "81 manifest-repair-only families plus the 13 families whose participant artifacts were re-rendered",
+      "consistent": true,
+      "note": "D1B has no separate manifest-repair commit; its five manifest updates are folded into the semantic-correction commit e719d1d3. The other six branches carry a dedicated commit that touches rendered-artifacts.json files and nothing else."
+    },
+    "observations": [
+      {
+        "id": "D-V3-R-012",
+        "severity": "low",
+        "observation": "The checker only visits family directories that already contain reports/rendered-artifacts.json, so a directory holding participant PDFs with no manifest is silently counted as no problem. One such directory exists on all seven branches: data/rcap-all50/overlays/production/vermont/200-00130-en, which holds two fixture PDFs and no manifest.",
+        "inScopeForThisReview": false,
+        "why": "It is a legacy directory from an earlier integration window (first added in commit f20971dd), distinct from the D-wave family vermont/200-00130-form-en, which does have a manifest and passes. It is byte-identical between the approval-evidence and v3 branches, so nothing in this cycle created or changed it.",
+        "acceptanceCondition": "The checker reports family directories that hold participant PDFs but no manifest, rather than skipping them.",
+        "evidenceBasis": "my independent audit walking every family directory on all seven branches; git log --diff-filter=A on the directory; git diff between the approval-evidence and v3 branches over that path."
+      }
+    ]
+  },
+  "factoryLevelObservations": [
+    {
+      "id": "D-V3-R-013",
+      "severity": "medium",
+      "scope": "shared factory, outside the 20 families' dispositions",
+      "file": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+      "observation": "On forms drawn with simple TrueType fonts the decoder's per-character advances do not match the widths the fonts declare, and the error accumulates. On WA CRRLJ-09.0870 page 2 I compared one full-width line of 86 characters three ways: the font's own /Widths array (YASEES+ArialMT, FirstChar 32) gives 'v' and 'c' 500 units and 'o' and 'n' 556; MuPDF's rendered glyph origins agree exactly; the decoder advances roughly 0.58pt further per character for most glyphs. Both runs start at x=72.01 and the decoder's last glyph sits 37.36pt - about half an inch - to the right of where MuPDF puts it. On CRRLJ-09.0100 the worst line diverges by 24.46pt.",
+      "notARegression": "The pre-D0-v3 decoder produces the identical 37.36pt divergence on the identical line, so this predates the anchor-decoder fix and was not introduced by it. On the Type0/Identity-H forms the fix targeted, the new decoder agrees with MuPDF to within 0.005pt across 17,914 characters.",
+      "whyItMattersAnyway": "No anchor is derived from these four Washington forms, so nothing is misplaced on them. But the same decoder measures anchors for families that do write values from a label's position, and an anchor measured from a simple-font label can sit a column away from where it looks.",
+      "acceptanceCondition": "The decoder's advance for a simple-font glyph equals the width the font declares for that code, checked against an independent engine on a form drawn with subset TrueType fonts.",
+      "evidenceBasis": "per-character comparison of the decoder's own chars[] output against MuPDF glyph origins and against the /Widths array read from the font dictionary at xref 99 of the verified CRRLJ-09.0870 binary; the same comparison run with the decoder taken from claude/rcap-d2a-approval-evidence-v2."
+    }
+  ],
+  "methodAndLimits": {
+    "toolsUsed": [
+      "MuPDF 1.28.2 via PyMuPDF, as an engine unrelated to the factory's pdf-lib path",
+      "the factory's own rcap-pdf-anchor-capture.mjs and d0-v3-corpus-decode-audit.mjs, run from a copy outside every git worktree",
+      "repair-rendered-artifact-manifests.mjs in check mode",
+      "raw byte scans of the original files, of every FlateDecode stream decompressed, and of each file re-saved with object streams off and streams expanded"
+    ],
+    "determinism": {
+      "whatIVerified": "for each of the 16 families that produce artifacts, the recorded determinism evidence names two renders with the same sha256 and that sha256 is the hash of the canonical fixture actually on the branch; creation and modification dates are pinned to D:20260101000000Z in every artifact I opened",
+      "whatIDidNotDo": "I did not render anything a second time myself. The assignment forbids re-rendering, and the lane scripts write into the family directories they would have to be run against. So determinism is verified as recorded-and-tied-to-the-bytes, not as independently reproduced.",
+      "washingtonNote": "the four Washington families record rendered: false with the reason that no finalized artifact was produced, which matches the empty artifacts map and the absent fixtures"
+    },
+    "boundaryFixtureNote": "Boundary fixtures carry deliberately long values that differ from the canonical ones, so a canonical value missing from a boundary fixture is expected and is not treated as a defect.",
+    "controlCaptionRule": "A run inside a non-printing widget's rectangle was called a leak only when it also belonged to no overlapping printing widget and did not appear in the untouched source's own page content at that position. Contact sheets compose two scaled panels, so source widget rectangles do not apply to them; they were judged by panel attribution instead.",
+    "notReviewed": "the other 233 D-wave families; no implementation, correction or evidence branch was modified; no legal or source hold was reopened; nothing here approves a family for live use or marks any track terminal"
+  }
+}
