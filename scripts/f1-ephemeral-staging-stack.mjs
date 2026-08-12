@@ -205,8 +205,13 @@ const tokens = new Map();
 const A = () => USERS[0]; const B = () => USERS[1];
 let itemA = null;
 {
+  // Item A is jurisdiction MS — a LEGACY_VERIFIED_JURISDICTIONS member, so the
+  // packet-route resolver marks it sellable and the unpaid item reaches the
+  // PAYMENT gate (402). Run 31577042237 proved a non-legacy jurisdiction (MD)
+  // stops earlier at the renderability gate (403 guidance-only), which would
+  // mask the payment-gate proof the scoped case exists to make.
   psql(`insert into public.consumer_briefcase_items (id, user_id, item_type, jurisdiction, pathway_label, status, payment_status)
-        values (gen_random_uuid(), '${A().id}', 'packet', 'MD', 'F1 staging pathway', 'packet_ready', 'unpaid')
+        values (gen_random_uuid(), '${A().id}', 'packet', 'MS', 'F1 staging pathway', 'packet_ready', 'unpaid')
         on conflict do nothing`);
   itemA = psql(`select id from public.consumer_briefcase_items where user_id='${A().id}' limit 1`).out;
   psql(`insert into public.consumer_briefcase_items (id, user_id, item_type, jurisdiction, pathway_label, status, payment_status)
