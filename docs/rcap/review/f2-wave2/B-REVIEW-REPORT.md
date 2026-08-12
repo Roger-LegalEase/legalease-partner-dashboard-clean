@@ -98,13 +98,29 @@
 | 34 | `MN:mn_pardon_auto_expungement` | technical_approved | Authority traced to MN.memo.json (automatic expungement following pardon; MCRO attribution carried by the compiled profile's record-source pairing); parity, payment suppression and elements verified with no defect.. |
 | 35 | `MO:mo-610-141-automatic-drug` | technical_approved | Authority traced to MO.memo.json (§ 610.141 automatic drug expungement; MACHS carried by officialSources, MULES an acronym gloss on the memo-carried full name); parity, payment suppression and elements verified with n.... |
 
+### Group 5: MT/NC/ND/NE
+
+| # | Track | Outcome | Summary |
+|---|---|---|---|
+| 36 | `MT:mt_auto_nonconviction` | technical_approved | Authority traced to MT.memo.json (automatic non-conviction removal; CRISS address/phone/email and CHOPRS $10-$30 official fees carried; the removal/expungement/sealing three-way distinction respected per the memo limi.... |
+| 37 | `NC:nc_auto_146_a4` | technical_approved | Authority traced to NC.memo.json (§ 15A-146(a4) automatic expungement; petition-route fallback details carried by nc_146_dismissal_petition / nc_146_acquittal_petition including the $175 petition-route fee); parity, p.... |
+| 38 | `ND:nd-dna-profile-removal-routing` | correction_required | Defect: the timing element is null — one of the eleven required participant elements is not delivered, and unlike MI:mi_deferral_status there is no committed 'not applicable' statement backing a considered null: ND.me.... |
+| 39 | `ND:nd-juvenile-records-routing` | technical_approved | Authority traced to ND.memo.json (juvenile-records routing with populated timing); parity, payment suppression and elements verified with no defect.. |
+| 40 | `ND:nd-trafficking-vacatur-routing` | correction_required | Defect: the timing element is null — required participant element not delivered. |
+| 41 | `ND:nd-unconstitutional-arrest-expungement-routing` | correction_required | Defect: the timing element is null — required participant element not delivered; the participant is told nothing about time pressure on a State v. |
+| 42 | `NE:ne-firearm-restoration-routing` | technical_approved | Authority traced to NE.memo.json (firearm-rights routing; set-aside does not restore firearm rights; pardon waiting periods carried cross-track); parity, payment suppression and elements verified with no defect.. |
+| 43 | `NE:ne-immigration-routing` | correction_required | Defect: destination.en/es, handoff.en/es and nextSteps.en[2]/es[2] assert as a who-acts fact that the route's counsel may be 'an immigration attorney or an accredited representative' ('un representante acreditado para.... |
+| 44 | `NE:ne-out-of-jurisdiction-routing` | technical_approved | Authority traced to NE.memo.json (out-of-jurisdiction routing); parity, payment suppression and elements verified with no defect.. |
+| 45 | `NE:ne-pardon-routing` | technical_approved | Authority traced to NE.memo.json (Board of Pardons routing, executive body, no court venue). |
+| 46 | `NE:ne-postconviction-routing` | technical_approved | Authority traced to NE.memo.json (postconviction routing); parity, payment suppression and elements verified with no defect.. |
+
 Full defect statements, byte evidence and acceptance conditions are in `B-DISPOSITIONS.json` (the notes are the normative text; this table is a summary).
 
 ## Totals
 
 | Outcome | Tracks |
 |---|---:|
-| technical_approved | 29 |
-| correction_required | 6 |
+| technical_approved | 36 |
+| correction_required | 10 |
 | held_on_source_or_design | 0 |
-| **Total reviewed** | **35** |
+| **Total reviewed** | **46** |

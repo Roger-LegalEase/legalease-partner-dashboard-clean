@@ -12,7 +12,8 @@
     "AK/CA/IL/IN/MI (prior-correction states)",
     "AR/CO/CT/DE",
     "GA/HI/KY/LA",
-    "MD/ME/MN/MO"
+    "MD/ME/MN/MO",
+    "MT/NC/ND/NE"
   ],
   "evidenceRule": "Every closure's evidenceSha is the manifest's packetSha256, recomputed by this reviewer from `git show a20987d1:<packet path>` and matched before review. The tip at branch point differs from the review base only by data/rcap-all50/review-artifacts/f2-wave2-dispatch.json, so reviewed working-tree bytes are the review-base bytes.",
   "committedAuthorityUniverse": [
@@ -375,12 +376,122 @@
       "owner": "Terminal B",
       "note": "Authority traced to MO.memo.json (§ 610.141 automatic drug expungement; MACHS carried by officialSources, MULES an acronym gloss on the memo-carried full name); parity, payment suppression and elements verified with no defect.",
       "evidenceSha": "d498bad4614dc2731889d186635c635489f209151ab866cab2462e85784f4f21"
+    },
+    {
+      "reviewId": 36,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MT:mt_auto_nonconviction"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MT.memo.json (automatic non-conviction removal; CRISS address/phone/email and CHOPRS $10-$30 official fees carried; the removal/expungement/sealing three-way distinction respected per the memo limitation); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "277a7f892ac594da330179a15df07eca00a6527e9b4a5f5c2251396092f11724"
+    },
+    {
+      "reviewId": 37,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NC:nc_auto_146_a4"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NC.memo.json (§ 15A-146(a4) automatic expungement; petition-route fallback details carried by nc_146_dismissal_petition / nc_146_acquittal_petition including the $175 petition-route fee); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "201ea84de8368320457684cfcd9715d9ae56f71aff7b394cc33bca00a3d47316"
+    },
+    {
+      "reviewId": 38,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-dna-profile-removal-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null — one of the eleven required participant elements is not delivered, and unlike MI:mi_deferral_status there is no committed 'not applicable' statement backing a considered null: ND.memo.json tracks[nd-dna-profile-removal-routing] carries writable timing facts (waitingPeriods = [] i.e. no waiting period recorded; effectiveFrom 2019-08-01), and the sibling nd-juvenile-records-routing entry in the same packet file populates timing. The participant gets no answer on whether any clock attaches to a § 31-13-07 petition. Acceptance: add an EN/ES timing element grounded in committed bytes (no waiting period recorded; any deadline is a first question for the lawyer taking the case, mirroring the NE routing pattern).",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520"
+    },
+    {
+      "reviewId": 39,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-juvenile-records-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to ND.memo.json (juvenile-records routing with populated timing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520"
+    },
+    {
+      "reviewId": 40,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-trafficking-vacatur-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null — required participant element not delivered. ND.memo.json tracks[nd-trafficking-vacatur-routing] carries committed material for an honest timing statement (waitingPeriods = []; unresolvedQuestions on the ch. 29-32.1 procedural overlay), and a trafficking survivor is left with no answer on whether any deadline attaches to a § 12.1-41-14(1) motion. Acceptance: add an EN/ES timing element stating per committed bytes that no waiting period is recorded, the ch. 29-32.1 overlay is unmapped, and time limits are a first question for the lawyer or survivor clinic.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520"
+    },
+    {
+      "reviewId": 41,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-unconstitutional-arrest-expungement-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null — required participant element not delivered; the participant is told nothing about time pressure on a State v. Howe petition. ND.memo.json carries waitingPeriods = [] and the packet honestly refuses to supply the unpublished Howe standard, so an honest timing statement was writable (no waiting period recorded; the standard and any timing rules come from Howe, which the lawyer must obtain and read). The sibling juvenile entry populates timing, so null here is an omission, not a convention. Acceptance: add that EN/ES timing element.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520"
+    },
+    {
+      "reviewId": 42,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-firearm-restoration-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (firearm-rights routing; set-aside does not restore firearm rights; pardon waiting periods carried cross-track); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 43,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "NE:ne-immigration-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: destination.en/es, handoff.en/es and nextSteps.en[2]/es[2] assert as a who-acts fact that the route's counsel may be 'an immigration attorney or an accredited representative' ('un representante acreditado para ejercer en materia migratoria'). No committed source carries the accredited-representative claim: NE.memo.json tracks[ne-immigration-routing] says only 'immigration counsel' (destination.detail, self_help_boundary limitation) and NE-nebraska.json contains no immigration-counsel language at all; the packet's own destination copy concedes the design 'does not name a particular organization', then names a category of practitioner anyway. On a track whose entire treatment IS the referral, who the participant may consult is the load-bearing claim. Acceptance: restrict the copy to 'immigration counsel / an immigration attorney' in destination, handoff and nextSteps, EN and ES, or add committed-source support for accredited representatives.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 44,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-out-of-jurisdiction-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (out-of-jurisdiction routing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 45,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-pardon-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (Board of Pardons routing, executive body, no court venue). Minor: afterNextStep's 'this route carries no appeal to a court' can be read as a claim that no judicial review of a Board denial exists, which the memo does not carry; rephrase to the design-scoped statement ('nothing in this route goes to a court') in both languages.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 46,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-postconviction-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (postconviction routing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
     }
   ],
   "totals": {
-    "tracksReviewed": 35,
-    "technical_approved": 29,
-    "correction_required": 6,
+    "tracksReviewed": 46,
+    "technical_approved": 36,
+    "correction_required": 10,
     "held_on_source_or_design": 0
   }
 }
