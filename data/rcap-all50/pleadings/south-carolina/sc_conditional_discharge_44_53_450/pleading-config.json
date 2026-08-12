@@ -168,6 +168,12 @@
       "detail": "Absent because no packet is produced. Issuing participant instructions for a drafted document would imply a substitute for the official SCCA form that this track must not produce."
     }
   },
+  "negativeFixtureDisposition": {
+    "status": "not_applicable",
+    "reason": "No component of this track is drafted: componentInventory is blocked track-wide, and the verifier bars fixtures/, rendered/ and participant-instructions.md for a blocked_pleading track. There is no render against which a negative fixture could assert anything, and authoring one would mean drafting the very pleading the recorded dependency says cannot be drafted. The anti-invention contract for this track is carried by that dependency, not by a fixture.",
+    "dependencyKind": "official_form_dependency",
+    "revisitWhen": "A verified field map / overlay for SCCA 223A1 (and SCCA 223B1 for the order, SCCA 223E for the summary-court not-fingerprinted route). The committed South Carolina form catalog records that supporting PDF field-map detail lives in the south-carolina-scca223a1 field-map draft, which is marked visual_review_required and hard-blocked, that no field map is wired, and that no renderer is wired. Lane C3 has no verified field map to fill and no authority to substitute for the form."
+  },
   "dependencies": [
     {
       "component": "*",
