@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "c-94a-source-gated-en",
+  "lane": "D1A",
   "documentOwnership": "participant_completed",
   "sha256": "e7ebe16d45d9a5619fd36f2834d4696efc4c0e7bf3ef42c44fa684906effc2c2",
   "pageGeometry": [
@@ -24,6 +25,9 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Court Case Number",
@@ -32,26 +36,6 @@
     },
     {
       "field": "Name of County",
-      "class": "participant",
-      "factId": "matter.county"
-    },
-    {
-      "field": "Mailing Address of Board or other entity to be served",
-      "class": "participant",
-      "factId": "participant.street_address"
-    },
-    {
-      "field": "City State Zip Code",
-      "class": "participant",
-      "factId": "participant.city_state_zip"
-    },
-    {
-      "field": "Telephone Number",
-      "class": "participant",
-      "factId": "participant.phone"
-    },
-    {
-      "field": "If granted or denied list the county and case number",
       "class": "participant",
       "factId": "matter.county"
     },
@@ -86,36 +70,266 @@
       "factId": "participant.date_of_birth"
     },
     {
-      "field": "PetitionerPrinted Name",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "Court Case Number_3",
       "class": "participant",
       "factId": "matter.charges[2].case_number"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Please print all fields clearly",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Licensing Board or Commission",
+      "reason": "protected_category",
+      "category": "licensing_board"
+    },
+    {
+      "field": "Mailing Address of Board or other entity to be served",
+      "factId": "participant.street_address",
+      "reason": "lane_protected_category",
+      "category": "service_recipient_or_server",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "City State Zip Code",
+      "factId": "participant.city_state_zip",
+      "reason": "contact_detail_inside_a_service_recipient_block",
+      "category": "service_block_extent",
+      "openedBy": "Mailing Address of Board or other entity to be served",
+      "openedByCategory": "service_recipient_or_server",
+      "blockOpensAtY": 583,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "Telephone Number",
+      "factId": "participant.phone",
+      "reason": "contact_detail_inside_a_service_recipient_block",
+      "category": "service_block_extent",
+      "openedBy": "Mailing Address of Board or other entity to be served",
+      "openedByCategory": "service_recipient_or_server",
+      "blockOpensAtY": 583,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "If granted or denied list the county and case number",
+      "factId": "matter.county",
+      "reason": "lane_protected_category",
+      "category": "prior_disposition_conditional",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "consequences to which the Order of Limited Relief should apply 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "consequences to which the Order of Limited Relief should apply 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "consequences to which the Order of Limited Relief should apply 3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "consequences to which the Order of Limited Relief should apply 4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "consequences to which the Order of Limited Relief should apply 5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Name of Attorney if applicable",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "PetitionerPrinted Name",
+      "factId": "participant.full_legal_name",
+      "reason": "inside_service_or_notarization_block",
+      "category": "block_region",
+      "heading": "Before me, the undersigned authority, personally appeared the Petitioner, who is",
+      "cutoffY": 391.4,
+      "widgetY": 276,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "Date_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Name of Person Served",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "reason": "lane_protected_category",
+      "category": "service_recipient_or_server",
+      "refusedBy": "lane_d1a_tightening"
     },
     {
       "field": "Name of County_2",
-      "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "reason": "inside_service_or_notarization_block",
+      "category": "block_region",
+      "heading": "RETURN ON SERVICE",
+      "cutoffY": 629.2,
+      "widgetY": 518,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "Date_3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Type of Process Server",
+      "reason": "protected_category",
+      "category": "service_block"
     },
     {
       "field": "Address of Server",
-      "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "reason": "lane_protected_category",
+      "category": "service_recipient_or_server",
+      "refusedBy": "lane_d1a_tightening"
     },
     {
       "field": "Servers Printed Name",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "reason": "lane_protected_category",
+      "category": "service_recipient_or_server",
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Text29",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text30",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 9,
+    "refusals": [
+      {
+        "field": "Mailing Address of Board or other entity to be served",
+        "factId": "participant.street_address",
+        "reason": "lane_protected_category",
+        "category": "service_recipient_or_server"
+      },
+      {
+        "field": "City State Zip Code",
+        "factId": "participant.city_state_zip",
+        "reason": "contact_detail_inside_a_service_recipient_block",
+        "category": "service_block_extent",
+        "openedBy": "Mailing Address of Board or other entity to be served",
+        "openedByCategory": "service_recipient_or_server",
+        "blockOpensAtY": 583
+      },
+      {
+        "field": "Telephone Number",
+        "factId": "participant.phone",
+        "reason": "contact_detail_inside_a_service_recipient_block",
+        "category": "service_block_extent",
+        "openedBy": "Mailing Address of Board or other entity to be served",
+        "openedByCategory": "service_recipient_or_server",
+        "blockOpensAtY": 583
+      },
+      {
+        "field": "If granted or denied list the county and case number",
+        "factId": "matter.county",
+        "reason": "lane_protected_category",
+        "category": "prior_disposition_conditional"
+      },
+      {
+        "field": "PetitionerPrinted Name",
+        "factId": "participant.full_legal_name",
+        "reason": "inside_service_or_notarization_block",
+        "category": "block_region",
+        "heading": "Before me, the undersigned authority, personally appeared the Petitioner, who is",
+        "cutoffY": 391.4,
+        "widgetY": 276
+      },
+      {
+        "field": "Name of Person Served",
+        "factId": "participant.full_legal_name",
+        "reason": "lane_protected_category",
+        "category": "service_recipient_or_server"
+      },
+      {
+        "field": "Name of County_2",
+        "factId": "matter.county",
+        "reason": "inside_service_or_notarization_block",
+        "category": "block_region",
+        "heading": "RETURN ON SERVICE",
+        "cutoffY": 629.2,
+        "widgetY": 518
+      },
+      {
+        "field": "Address of Server",
+        "factId": "participant.street_address",
+        "reason": "lane_protected_category",
+        "category": "service_recipient_or_server"
+      },
+      {
+        "field": "Servers Printed Name",
+        "factId": "participant.full_legal_name",
+        "reason": "lane_protected_category",
+        "category": "service_recipient_or_server"
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [
     {
       "field": "Type of Process Server",
