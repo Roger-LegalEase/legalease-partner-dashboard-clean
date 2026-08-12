@@ -301,11 +301,24 @@ let itemA = null;
 {
   const { spawn } = await import("node:child_process");
 
-  function killApp() {
-    // Match the real server process name, never this script's own arguments.
+  async function killApp() {
+    // Match the real server process name, never this script's own arguments —
+    // and then WAIT for the port to actually free. Without that, the next
+    // instance dies on EADDRINUSE while the dying old instance keeps answering
+    // probes with the old flag state, which run 31571996835 proved: the scoped
+    // probes were served by the still-draining disabled app.
     spawnSync("pkill", ["-f", "next-server"]);
     spawnSync("pkill", ["-f", "next start"]);
-    return new Promise((r) => setTimeout(r, 2500));
+    for (let i = 0; i < 30; i += 1) {
+      try {
+        await fetch(`${APP_URL}/`, { signal: AbortSignal.timeout(1500) });
+      } catch {
+        return; // connection refused — the port is free
+      }
+      await new Promise((r) => setTimeout(r, 1000));
+      if (i === 10) spawnSync("pkill", ["-9", "-f", "next-server"]);
+    }
+    throw new Error("the previous application instance never released port 3000");
   }
   async function startApp(extraEnv, logName) {
     const child = spawn("npx", ["next", "start", "-p", "3000"], {

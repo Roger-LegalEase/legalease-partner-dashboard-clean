@@ -1173,8 +1173,22 @@ $$;
 -- roles is exactly what the boundary forbids. RLS stays enabled with no
 -- permissive policy for any runtime role.
 drop policy if exists packet_render_jobs_service_role_all on public.packet_render_jobs;
-drop policy if exists rcap_packet_credit_consumptions_service_role_all on public.rcap_packet_credit_consumptions;
-drop policy if exists rcap_partner_packet_allocation_service_role_all on public.rcap_partner_packet_allocation;
+-- The two phase-49 accounting tables were dropped above in this same
+-- transaction, so their relations are already gone here. DROP POLICY IF
+-- EXISTS on a missing RELATION is an error on PostgreSQL 17 (the IF EXISTS
+-- covers only the policy), which surfaced in the F1 staging rehearsal as a
+-- mid-sequence rollback; the guards make this portable and semantically
+-- identical.
+do $drop_p49_policies$
+begin
+  if to_regclass('public.rcap_packet_credit_consumptions') is not null then
+    execute 'drop policy if exists rcap_packet_credit_consumptions_service_role_all on public.rcap_packet_credit_consumptions';
+  end if;
+  if to_regclass('public.rcap_partner_packet_allocation') is not null then
+    execute 'drop policy if exists rcap_partner_packet_allocation_service_role_all on public.rcap_partner_packet_allocation';
+  end if;
+end
+$drop_p49_policies$;
 
 alter table public.partner_packet_entitlement enable row level security;
 alter table public.packet_credit_ledger enable row level security;
