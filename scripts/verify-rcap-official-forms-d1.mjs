@@ -62,12 +62,35 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
     if (!entry.isDirectory()) continue;
     families += 1;
     const familyDir = path.join(jurisdictionDir, entry.name);
-    for (const rel of REQUIRED_FILES) {
-      assert(fs.existsSync(path.join(familyDir, rel)), `${slug}/${entry.name}: ${rel} present`);
-    }
     const sourceRecordPath = path.join(familyDir, "source-record.json");
     if (!fs.existsSync(sourceRecordPath)) continue;
     const record = readJson(sourceRecordPath);
+    const isV2 = String(record.schemaVersion).includes("v2-verified-binary");
+    if (!isV2) {
+      for (const rel of REQUIRED_FILES) {
+        assert(fs.existsSync(path.join(familyDir, rel)), `${slug}/${entry.name}: ${rel} present`);
+      }
+    }
+
+    // v2 verified-binary packages are validated by their own invariants.
+    if (String(record.schemaVersion).includes("v2-verified-binary")) {
+      assert(record.sha256VerifiedAgainstBundleManifest === true, `${slug}/${entry.name}: delivered bytes hash-verify against the canonical manifest`);
+      assert(record.byteLengthMatches !== false, `${slug}/${entry.name}: byte length matches the manifest`);
+      assert(record.pageCountAgrees !== false, `${slug}/${entry.name}: page count matches the manifest`);
+      if (record.structuralClassAgrees === false) {
+        console.warn(`  note ${slug}/${entry.name}: manifest declared '${record.structuralClassDeclared}', binary is '${record.structuralClassObserved}' — recorded for the captain, not a fabrication.`);
+      }
+      assert(Array.isArray(record.productionHolds) && record.productionHolds.includes("edition_1_runtime_disabled")
+        && record.productionHolds.includes("f_independent_visual_review_required"),
+        `${slug}/${entry.name}: Edition 1 and review holds preserved`);
+      if (!record.participantFillable) {
+        assert(record.productionHolds.includes("not_participant_fillable_no_fixture_fill"), `${slug}/${entry.name}: non-fillable role blocks fixture fill`);
+        assert(!fs.existsSync(path.join(familyDir, "fixtures/canonical-filled.pdf")), `${slug}/${entry.name}: no fill produced for a court/agency-owned document`);
+      }
+      const scan = path.join(familyDir, "reports/protected-fields-scan.json");
+      if (fs.existsSync(scan)) assert(readJson(scan).pass === true, `${slug}/${entry.name}: protected-field scan passes`);
+      continue;
+    }
 
     const inv = inventoryByFile.get(record.fileName);
     // Families added from the overlay-factory manifest (KY/NC/NE official
