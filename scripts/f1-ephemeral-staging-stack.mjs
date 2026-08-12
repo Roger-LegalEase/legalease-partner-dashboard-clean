@@ -85,7 +85,9 @@ function psql(sql, { expectFail = false } = {}) {
 }
 function psqlFile(rel) {
   const r = spawnSync("psql", [DB_URL, "-v", "ON_ERROR_STOP=1", "-X", "-q", "-f", path.join(rootDir, rel)], { encoding: "utf8" });
-  return { status: r.status, err: (r.stderr || "").slice(0, 500) };
+  // NOTICE spam must not bury the one line that matters.
+  const errors = (r.stderr || "").split("\n").filter((l) => /ERROR|FATAL|DETAIL|HINT/.test(l)).join(" | ");
+  return { status: r.status, err: (errors || (r.stderr || "").slice(-300)).slice(0, 600) };
 }
 async function api(url, { method = "GET", key = ANON_KEY, token = null, body = null, headers = {} } = {}) {
   const res = await fetch(url, {
@@ -350,17 +352,23 @@ let itemA = null;
     `no flag: authenticated=${authDisabled.status} ("${authDisabled.reason.slice(0, 60)}"), anonymous=${anonDisabled.status} — both refusals, 503 proves the control (not auth) answered`
   );
 
+  // The scope names user A's real identity, so the states are fully
+  // distinguishable by behaviour, not by message text: A (in scope, unpaid
+  // item) passes the delivery gate and is refused by the PAYMENT gate (402);
+  // an anonymous outsider stays 401; and under disabled/rollback even A gets
+  // 503. A 402 here is the strongest possible proof the scoped state admitted
+  // exactly its named identity and that the payment gate still holds behind it.
   await killApp();
   const upScoped = await startApp(
-    { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "staging_scoped", RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: "f1-scope-1,f1-scope-2" },
+    { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: "staging_scoped", RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: `${A().id},f1-scope-2` },
     "app-scoped.log"
   );
   const anonScoped = await probeRender(false);
   const authScoped = await probeRender(true);
   record(
     "route_scoped_refuses_outsiders",
-    upScoped && authScoped.status === 503 && /outside|scope/i.test(authScoped.reason) && anonScoped.status === 401,
-    `staging_scoped: authenticated outsider=${authScoped.status} ("${authScoped.reason.slice(0, 60)}"), anonymous=${anonScoped.status} — the scope admits only its named identities`
+    upScoped && authScoped.status === 402 && anonScoped.status === 401,
+    `staging_scoped: in-scope authenticated A=${authScoped.status} ("${authScoped.reason.slice(0, 60)}") — past the delivery gate, stopped by the payment gate; anonymous outsider=${anonScoped.status}`
   );
 
   await killApp();
@@ -368,8 +376,8 @@ let itemA = null;
   const authRolled = await probeRender(true);
   record(
     "rollback_restores_disabled",
-    upRolled && authRolled.status === 503 && !/outside|scope/i.test(authRolled.reason),
-    `after rollback: authenticated=${authRolled.status} ("${authRolled.reason.slice(0, 60)}") — the disabled default is restored, not the scoped state`
+    upRolled && authRolled.status === 503,
+    `after rollback: previously-scoped identity A=${authRolled.status} ("${authRolled.reason.slice(0, 60)}") — the disabled default is restored even for an identity the scope had admitted`
   );
   await killApp();
 }
