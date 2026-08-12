@@ -1,0 +1,548 @@
+{
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "emptyFactSetRender": {
+    "written": 0,
+    "refused": 55,
+    "refusedFields": [
+      {
+        "field": "JUDICIAL DISTRICT",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "COUNTY KANSAS",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.county"
+      },
+      {
+        "field": "Case No",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "matter.case_number"
+      },
+      {
+        "field": "Name",
+        "reason": "no_value_or_type_mismatch",
+        "factId": "participant.full_legal_name"
+      },
+      {
+        "field": "day of",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "20",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "the Court considers the Petition for",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "assistant",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "The petitioner appears",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "pro se",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "Attorneys name if any",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "undefined",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "The Court",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "upon agreement of the parties",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "having reviewed the file",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "received the evidence andor",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "undefined_2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "undefined_3",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Race",
+        "reason": "protected_category",
+        "category": "race"
+      },
+      {
+        "field": "Sex born in",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Year of Birth",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "County Kansas on",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "undefined_4",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Law Enforcement Agency and charged with",
+        "reason": "protected_category",
+        "category": "agency"
+      },
+      {
+        "field": "undefined_5",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "on",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Date",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "on_2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Date_2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "undefined_6",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "undefined_7",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "More than",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "one",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "three",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "five",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "seven",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "ten years have elapsed since",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "The petitioner successfully completed a specialty courts program and no proceeding",
+        "reason": "non_text_field_type",
+        "category": "type_guard"
+      },
+      {
+        "field": "NamePrint",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "Supreme Court Number",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Address 1",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "Address 2",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "City State Zip",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "Telephone",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "Fax Number",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Email Address",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "NamePrint_2",
+        "reason": "explicit_mapping_conflicts_with_field_name",
+        "category": "mapping_conflict"
+      },
+      {
+        "field": "Supreme Court Number_2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Address 1_2",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "Address 2_2",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "City State Zip_2",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "Telephone_2",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "Fax Number_2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      },
+      {
+        "field": "Email Address_2",
+        "reason": "court_issued_order_accepts_caption_facts_only",
+        "category": "court"
+      },
+      {
+        "field": "Text2",
+        "reason": "no_allowlisted_fact_matches",
+        "category": null
+      }
+    ]
+  },
+  "refusedFields": [
+    {
+      "field": "JUDICIAL DISTRICT",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "day of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "20",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "the Court considers the Petition for",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "assistant",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "The petitioner appears",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "pro se",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Attorneys name if any",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "undefined",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "The Court",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "upon agreement of the parties",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "having reviewed the file",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "received the evidence andor",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "undefined_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Sex born in",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Year of Birth",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "County Kansas on",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "undefined_4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Law Enforcement Agency and charged with",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "undefined_5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "on",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "on_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Date_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "More than",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "one",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "three",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "five",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "seven",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ten years have elapsed since",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "The petitioner successfully completed a specialty courts program and no proceeding",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "NamePrint",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "Supreme Court Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Address 1",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Address 2",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "City State Zip",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Telephone",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Fax Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Email Address",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "NamePrint_2",
+      "reason": "explicit_mapping_conflicts_with_field_name",
+      "category": "mapping_conflict"
+    },
+    {
+      "field": "Supreme Court Number_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Address 1_2",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Address 2_2",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "City State Zip_2",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Telephone_2",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Fax Number_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Email Address_2",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Text2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    }
+  ]
+}

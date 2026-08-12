@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "rcap-mutation-tests/v1",
+  "basis": "each mutation removes or contradicts one load-bearing property and asserts the factory refuses",
+  "allPassed": true,
+  "mutations": [
+    {
+      "mutation": "source_bytes_perturbed",
+      "expectation": "the factory refuses to render a source whose hash does not match its pin",
+      "passed": true,
+      "detail": "source drift: expected d4171396d12f55a50d6c4e0d5a3b694ad982325e7377d74deaa5839d3bfad537, read 7aa59af7b104992a28eb5a0d7b"
+    },
+    {
+      "mutation": "non_filing_notice_asserted",
+      "expectation": "a form stating it is not for filing raises NonFilingHoldError and produces no fill",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "mutation": "contact_sheet_given_unfilled_artifact",
+      "expectation": "the sheet refuses when the filled panel is not the finalized artifact",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "mutation": "value_far_exceeds_widget",
+      "expectation": "a value that cannot be drawn at 6pt is refused, not clipped",
+      "passed": true,
+      "detail": "value_exceeds_widget_width_at_minimum_font"
+    },
+    {
+      "mutation": "bound_field_is_protected_category",
+      "expectation": "no bound field matches a protect rule",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

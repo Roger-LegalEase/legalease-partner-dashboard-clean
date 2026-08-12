@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-d0",
+  "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — every field starts protected",
+  "laneAddition": "The fact is selected by D0 from the field name alone. Four further gates may then refuse it and can never write anything D0 would not: the nine-class classifier, this lane's additional deny rules (applied to the field name and to the text measured beside the widget), a refusal of any name matching more than one allowlisted descriptor unless this lane reviewed the binary, and per-field decisions authored against the printed form.",
+  "laneProtectRules": [
+    {
+      "category": "attorney",
+      "pattern": "/\\blawyer\\b|\\battorneys\\b|\\bcounsel\\b|\\bclient\\b|\\blaw\\s*firm\\b|\\bprosecutors\\b/"
+    },
+    {
+      "category": "other_name",
+      "pattern": "/\\bother\\s*name|\\balias|\\bmaiden\\b|formerly\\s*known|\\ba\\.?k\\.?a\\.?\\b|name\\s*at\\s*(the\\s*time\\s*of\\s*)?arrest|name\\s*used/"
+    },
+    {
+      "category": "court",
+      "pattern": "/\\bdivision\\b|\\bcourtroom\\b|\\bdepartment\\s*(no|num|number)\\b/"
+    },
+    {
+      "category": "court",
+      "pattern": "/judicial\\s*(district|circuit)/"
+    },
+    {
+      "category": "court",
+      "pattern": "/\\bcourt\\s*(address|street|mailing)|address\\s*of\\s*(the\\s*)?court/"
+    },
+    {
+      "category": "service_block",
+      "pattern": "/\\bthis\\s*address\\b|\\bserved\\s*at\\b|\\bmailed\\s*to\\b|\\bdelivered\\s*to\\b/"
+    }
+  ],
+  "laneFieldDecisions": {
+    "City State Zip": {
+      "bind": "participant.city_state_zip",
+      "why": "The petitioner's own contact block, printed directly beneath their address lines. The composite descriptor is the one the form means; the bare city, state and zip descriptors also match the name and are not."
+    },
+    "Email Address": {
+      "refuse": true,
+      "why": "D0's descriptor list tests the street-address pattern before the email pattern, and `\\baddress\\b` matches `Email Address`, so the binder resolves this field to the participant's street address. Writing a street address into an email field is wrong and the ordering cannot be corrected from this lane, which may not edit rcap-field-semantics.mjs. The field is left blank and the ordering is reported as a factory finding."
+    }
+  },
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "explicitMappings": {
+    "Address 1_2": "lane.refused_by_first_hand_review",
+    "Address 1_3": "lane.refused_by_first_hand_review",
+    "Address 2_2": "lane.refused_by_first_hand_review",
+    "Address 2_3": "lane.refused_by_first_hand_review",
+    "City State Zip_2": "lane.refused_by_first_hand_review",
+    "City State Zip_3": "lane.refused_by_first_hand_review"
+  },
+  "explicitMappingRationale": "The form carries three identically-named contact blocks. The first is the petitioner's. The second and third are the prosecuting attorney's and the arresting law-enforcement agency's, and are service recipients whose addresses must never be filled from participant facts. Naming them with the lane sentinel makes D0's own explicit-mapping conflict guard refuse them.",
+  "laneEnforcedRefusals": [
+    "Address 1_2",
+    "Address 1_3",
+    "Address 2_2",
+    "Address 2_3",
+    "City State Zip_2",
+    "City State Zip_3",
+    "County Courthouse in division",
+    "Email Address",
+    "Address 2"
+  ]
+}

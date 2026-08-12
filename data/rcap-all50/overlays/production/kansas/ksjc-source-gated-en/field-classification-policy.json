@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-field-classification-policy/v2-d0",
+  "basis": "scripts/rcap-official-forms/rcap-field-semantics.mjs — every field starts protected",
+  "laneAddition": "The fact is selected by D0 from the field name alone. Four further gates may then refuse it and can never write anything D0 would not: the nine-class classifier, this lane's additional deny rules (applied to the field name and to the text measured beside the widget), a refusal of any name matching more than one allowlisted descriptor unless this lane reviewed the binary, and per-field decisions authored against the printed form.",
+  "laneProtectRules": [
+    {
+      "category": "attorney",
+      "pattern": "/\\blawyer\\b|\\battorneys\\b|\\bcounsel\\b|\\bclient\\b|\\blaw\\s*firm\\b|\\bprosecutors\\b/"
+    },
+    {
+      "category": "other_name",
+      "pattern": "/\\bother\\s*name|\\balias|\\bmaiden\\b|formerly\\s*known|\\ba\\.?k\\.?a\\.?\\b|name\\s*at\\s*(the\\s*time\\s*of\\s*)?arrest|name\\s*used/"
+    },
+    {
+      "category": "court",
+      "pattern": "/\\bdivision\\b|\\bcourtroom\\b|\\bdepartment\\s*(no|num|number)\\b/"
+    },
+    {
+      "category": "court",
+      "pattern": "/judicial\\s*(district|circuit)/"
+    },
+    {
+      "category": "court",
+      "pattern": "/\\bcourt\\s*(address|street|mailing)|address\\s*of\\s*(the\\s*)?court/"
+    },
+    {
+      "category": "service_block",
+      "pattern": "/\\bthis\\s*address\\b|\\bserved\\s*at\\b|\\bmailed\\s*to\\b|\\bdelivered\\s*to\\b/"
+    }
+  ],
+  "laneFieldDecisions": {
+    "JUDICIAL DISTRICT": {
+      "refuse": true,
+      "why": "Measured context shows the widget sits between the printed words `THE` and `JUDICIAL DISTRICT`, so it carries the district's ordinal number. D0's descriptor list reads `judicial district` as a court name, which is a different fact."
+    },
+    "NamePrint": {
+      "refuse": true,
+      "why": "The print-name line beneath `Signature of Defendant/Defendant's Attorney`. Whether the person signing is the participant or their counsel is not determinable from the form, and the whole block is a signature block."
+    },
+    "NamePrint_2": {
+      "refuse": true,
+      "why": "The second signature block's print-name line, which belongs to the party opposing the petition."
+    },
+    "County Kansas on": {
+      "refuse": true,
+      "why": "The execution line, reading `at ___ County, Kansas, on ___`, sits under the court's signature block and records where the order was signed. That is the court's county, not the participant's."
+    }
+  },
+  "defaultProtectedCategories": [
+    "money",
+    "race",
+    "responsible_official",
+    "signature",
+    "notarization",
+    "service_block",
+    "licensing_board",
+    "agency",
+    "court",
+    "clerk",
+    "prosecutor",
+    "attorney",
+    "outside_party",
+    "disposition_or_hearing",
+    "non_text_controls",
+    "unindexed_charge_rows"
+  ],
+  "explicitMappings": {},
+  "explicitMappingRationale": null,
+  "laneEnforcedRefusals": [
+    "JUDICIAL DISTRICT",
+    "Attorneys name if any",
+    "County Kansas on",
+    "NamePrint",
+    "NamePrint_2"
+  ]
+}
