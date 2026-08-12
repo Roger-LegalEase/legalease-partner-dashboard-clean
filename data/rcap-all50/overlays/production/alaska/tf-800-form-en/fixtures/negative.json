@@ -1,10 +1,134 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v5-rendered",
+  "level": "participant_fact",
+  "assertion": "Rendered with an empty fact set. Nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "writtenWithNoFacts": 0,
+  "pass": true,
+  "refusedFields": [
+    {
+      "field": "address",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "caseName",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "partyNames",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "Group1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "documents",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "dateHearing",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "audioRecording",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "transcript",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "confidentialBecause",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "caseNo",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.case_number"
+    },
+    {
+      "field": "name",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "dayPhone",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.phone"
+    },
+    {
+      "field": "email",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.email"
+    },
+    {
+      "field": "time2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "mail",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "hd",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "tf",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "emailCB",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "needText1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
     {
       "field": "signature0",
-      "class": "signature"
+      "reason": "protected_category",
+      "category": "signature"
     }
   ]
 }

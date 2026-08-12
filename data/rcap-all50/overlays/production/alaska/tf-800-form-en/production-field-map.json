@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "tf-800-form-en",
+  "lane": "D1A",
   "documentOwnership": "participant_completed",
   "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
   "pageGeometry": [
@@ -24,6 +25,9 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "address",
@@ -59,13 +63,126 @@
       "field": "email",
       "class": "participant",
       "factId": "participant.email"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Group1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "documents",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "dateHearing",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "audioRecording",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "transcript",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "confidentialBecause",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "certDate",
-      "class": "deterministic",
-      "factId": "deterministic.filing_date"
+      "factId": "deterministic.filing_date",
+      "reason": "inside_service_or_notarization_block",
+      "category": "block_region",
+      "heading": "Subscribed and sworn to or affirmed before me at , Alaska on",
+      "cutoffY": 640.8,
+      "widgetY": 357,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "time2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "mail",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "hd",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "tf",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "emailCB",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "needText1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "signature0",
+      "reason": "protected_category",
+      "category": "signature"
     }
   ],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 1,
+    "refusals": [
+      {
+        "field": "certDate",
+        "factId": "deterministic.filing_date",
+        "reason": "inside_service_or_notarization_block",
+        "category": "block_region",
+        "heading": "Subscribed and sworn to or affirmed before me at , Alaska on",
+        "cutoffY": 640.8,
+        "widgetY": 357
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [
     {
       "field": "signature0",

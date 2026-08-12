@@ -1,5 +1,34 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the overlay draws nothing. No anchor is bound to a court, prosecutor, agency, signature, notarization or service label.",
-  "unwritableAnchorLabels": []
+  "schemaVersion": "rcap-negative-fixture/v5-rendered",
+  "level": "participant_fact",
+  "assertion": "Rendered with an empty fact set. Nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "writtenWithNoFacts": 0,
+  "pass": true,
+  "refusedFields": [
+    {
+      "anchor": "Mailing Address:",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.street_address"
+    },
+    {
+      "anchor": "City/State/Zip:",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.city_state_zip"
+    },
+    {
+      "anchor": "Date of Birth:",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.date_of_birth"
+    },
+    {
+      "anchor": "Email:",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.email"
+    },
+    {
+      "anchor": "message #) __________________Telephone: ___",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.phone"
+    }
+  ]
 }

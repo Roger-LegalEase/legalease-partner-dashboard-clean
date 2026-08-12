@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-flat_overlay-map/v5",
   "family": "dps-cri-103-source-gated-en",
+  "lane": "D1A",
   "documentOwnership": "participant_completed",
   "sha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
   "pageGeometry": [
@@ -12,7 +13,24 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [],
+  "bindingRefusals": [],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 1,
+    "refusals": [
+      {
+        "anchor": "Date of Birth:SSN:Name: ___",
+        "factId": "participant.full_legal_name",
+        "reason": "lane_protected_category",
+        "category": "identification_document"
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [],
   "manualFields": [],
   "anchorCapture": {
@@ -25,7 +43,7 @@
         "unreadableLines": 4
       }
     ],
-    "anchorCount": 6,
+    "anchorCount": 5,
     "anchors": [
       {
         "page": 1,
@@ -65,25 +83,6 @@
           "labelPositionMeasured": true,
           "rightBoundaryMeasured": true,
           "leftEdgeEstimatedFromLabelWidth": true
-        }
-      },
-      {
-        "page": 1,
-        "kind": "rule_line_blank",
-        "label": "Date of Birth:SSN:Name: ___",
-        "factId": "participant.full_legal_name",
-        "baselineY": 503.6,
-        "fontSize": 9.84,
-        "writeBox": {
-          "x": 379,
-          "y": 505.6,
-          "width": 203.9,
-          "height": 12.3
-        },
-        "measurement": {
-          "blankStartMeasured": true,
-          "blankEndMeasured": true,
-          "fromGlyphMetrics": true
         }
       },
       {

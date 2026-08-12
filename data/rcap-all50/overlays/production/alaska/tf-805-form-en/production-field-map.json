@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "tf-805-form-en",
+  "lane": "D1A",
   "documentOwnership": "participant_completed",
   "sha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
   "pageGeometry": [
@@ -18,6 +19,9 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "availableChargeRowsAtMapTime": 3,
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "name",
@@ -53,13 +57,81 @@
       "field": "partyNames",
       "class": "participant",
       "factId": "participant.full_legal_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "why",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "reason",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "certDate",
-      "class": "deterministic",
-      "factId": "deterministic.filing_date"
+      "factId": "deterministic.filing_date",
+      "reason": "inside_service_or_notarization_block",
+      "category": "block_region",
+      "heading": "Use the Certificate of Service below if:",
+      "cutoffY": 654.6,
+      "widgetY": 568,
+      "refusedBy": "lane_d1a_tightening"
+    },
+    {
+      "field": "time2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "mail",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "hd",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "tf",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "emailCB",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "needText1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "signature0",
+      "reason": "protected_category",
+      "category": "signature"
     }
   ],
+  "laneTightening": {
+    "basis": "Rules that only ever remove a binding D0 allowed. D0 itself is unmodified; no protection was weakened to raise the fill count.",
+    "refusedCount": 1,
+    "refusals": [
+      {
+        "field": "certDate",
+        "factId": "deterministic.filing_date",
+        "reason": "inside_service_or_notarization_block",
+        "category": "block_region",
+        "heading": "Use the Certificate of Service below if:",
+        "cutoffY": 654.6,
+        "widgetY": 568
+      }
+    ]
+  },
+  "explicitMappings": {},
   "unwritableFields": [
     {
       "field": "signature0",

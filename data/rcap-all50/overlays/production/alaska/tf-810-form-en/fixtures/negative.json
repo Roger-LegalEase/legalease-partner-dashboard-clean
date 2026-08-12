@@ -1,10 +1,124 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v5-rendered",
+  "level": "participant_fact",
+  "assertion": "Rendered with an empty fact set. Nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "writtenWithNoFacts": 0,
+  "pass": true,
+  "refusedFields": [
+    {
+      "field": "name",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "email",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.email"
+    },
+    {
+      "field": "address",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.street_address"
+    },
+    {
+      "field": "phoneNo",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.phone"
+    },
+    {
+      "field": "partyNames",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "field": "caseNo",
+      "reason": "no_value_or_type_mismatch",
+      "factId": "matter.case_number"
+    },
+    {
+      "field": "Check Box1.0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2.0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2.1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2.2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box3.0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box3.1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box3.2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box4.0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box5.0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box6.0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box7.0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box8.0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box8.1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box8.2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "rule",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "dateSigned",
+      "reason": "protected_category",
+      "category": "signature"
+    },
     {
       "field": "signature",
-      "class": "signature"
+      "reason": "protected_category",
+      "category": "signature"
     }
   ]
 }
