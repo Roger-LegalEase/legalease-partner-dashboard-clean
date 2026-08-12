@@ -742,10 +742,62 @@ function validateInstructionsAgainstSilences(trackId, dir, doc, failures) {
   }
 }
 
+// --- Blocked pleadings ---
+//
+// A track whose filing vehicle the source leaves unsettled is not drafted. The
+// pin's own build blockers govern: where they reach the form or standing
+// practice, the service and response mechanics, or the packet's composition,
+// there is no settled instrument to render and inventing one would be the exact
+// failure this lane guards against. Such a track carries documentForm
+// "blocked_pleading": the intended vehicle is recorded in config, every blocking
+// question is quoted from the pin, and no fixtures, no rendered artifacts and no
+// participant instructions are produced — shipping participant-facing filing
+// instructions would imply a packet that does not exist.
+function validateBlockedPleading(trackId, dir, doc, failures) {
+  const bp = doc.blockedPleading;
+  if (!bp) {
+    failures.push(`[${trackId}] documentForm is blocked_pleading but no blockedPleading block present`);
+    return;
+  }
+  for (const key of ["reason", "whatIsSettled", "whatIsBarred", "dependencyLane"]) {
+    if (typeof bp[key] !== "string" || bp[key].length === 0) {
+      failures.push(`[${trackId}] blockedPleading.${key} missing`);
+    }
+  }
+  if (!Array.isArray(bp.blockingQuestions) || bp.blockingQuestions.length === 0) {
+    failures.push(`[${trackId}] blockedPleading.blockingQuestions must quote at least one blocker from the pin`);
+  } else {
+    for (const q of bp.blockingQuestions) {
+      if (!q || typeof q.question !== "string" || typeof q.affectedElement !== "string" || typeof q.impact !== "string") {
+        failures.push(`[${trackId}] blockedPleading.blockingQuestions entry malformed: ${JSON.stringify(q)}`);
+      }
+    }
+  }
+  const primary = (doc.componentInventory ?? []).find((c) => c.component === "primary_filing");
+  if (!primary || primary.status !== "blocked_dependency") {
+    failures.push(`[${trackId}] a blocked pleading must record primary_filing as blocked_dependency`);
+  }
+  for (const forbidden of ["fixtures", "rendered", "participant-instructions.md"]) {
+    if (fs.existsSync(path.join(dir, forbidden))) {
+      failures.push(
+        `[${trackId}] blocked pleading must not ship ${forbidden}; there is no settled instrument to render`
+      );
+    }
+  }
+  for (const required of ["handoff.md", "blocked-pleading.md"]) {
+    if (!fs.existsSync(path.join(dir, required))) failures.push(`[${trackId}] missing ${required}`);
+  }
+}
+
 async function renderTrack(slug, trackId, writeArtifacts, failures, warnings) {
   const loaded = loadTrackFiles(slug, trackId, failures);
   if (!loaded) return null;
   const { dir, doc, fixtures } = loaded;
+
+  if (doc.documentForm === "blocked_pleading") {
+    if (mode === "verify") validateBlockedPleading(trackId, dir, doc, failures);
+    return { doc, results: {}, blocked: true };
+  }
   if (!fixtures.canonical) {
     failures.push(`[${trackId}] fixtures/canonical.json missing`);
     return null;
