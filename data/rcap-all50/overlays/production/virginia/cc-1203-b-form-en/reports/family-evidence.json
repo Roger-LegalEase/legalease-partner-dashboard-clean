@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "VA",
+  "family": "cc-1203-b-form-en",
+  "sourceSha256": "9ec9a6b12adb3a3f14ec0afd39ddcfab4ec00ec2fa441ff5e1648ffb8b334781",
+  "sourceIdentity": {
+    "documentId": "CC-1203(B)",
+    "revision": "REV-2026-07",
+    "language": "EN",
+    "documentRole": "PETITION",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 2,
+    "observedPages": 2,
+    "manifestDeclaredFieldCount": 44,
+    "observedAcroFieldCount": 44,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": {
+    "documentId": "CC-1203(B)",
+    "note": "This addendum is itself the ancillary-matter sheet, so its first ancillary block is its primary block and carries the supplied arrest date. The second block is a further offense and stays blank.",
+    "refusedOnPurpose": {
+      "User.AncillaryDateOfArrestA": "second offense block on the ancillary sheet"
+    },
+    "mappings": {
+      "User.AncillaryDateOfArrest": "matter.arrest_date"
+    }
+  },
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "c9e43be066e1df2fdff4fc4c8c3d0efc2d4d67b5f2f264a0cb7b5abc1eac5ff3",
+    "secondSha256": "c9e43be066e1df2fdff4fc4c8c3d0efc2d4d67b5f2f264a0cb7b5abc1eac5ff3",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 9ec9a6b12adb3a3f14ec0afd39ddcfab4ec00ec2fa441ff5e1648ffb8b334781, read 7468e9c4b74dc516ed3a09bf0d71bf686bdad32cd94a057a2c5eb291befc253e"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 2,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "User.AncillaryFullNameOfArrest",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "The name used in the ancillary matter, a separate fact from the petitioner's legal name."
+      },
+      {
+        "field": "User.AncillaryCityOrCounty",
+        "factIdTheBinderOffered": "participant.city",
+        "reason": "Venue of the ancillary matter's court; as User.CityOrCounty."
+      },
+      {
+        "field": "User.AncillaryFullNameOfArrestA",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "Further ancillary block; same reasoning."
+      },
+      {
+        "field": "User.AncillaryCityOrCountyA",
+        "factIdTheBinderOffered": "participant.city",
+        "reason": "Venue of a further ancillary matter's court."
+      }
+    ],
+    "overridesApplied": []
+  }
+}

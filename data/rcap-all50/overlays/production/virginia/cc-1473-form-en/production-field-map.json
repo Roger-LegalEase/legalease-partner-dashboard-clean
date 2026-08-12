@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "cc-1473-form-en",
+  "lane": "D1B",
   "documentOwnership": "participant_completed",
   "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
   "pageGeometry": [
@@ -18,6 +19,12 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "explicitMappings": {
+    "User.SpecificCharge": "matter.charge",
+    "User.DateOfArrest": "matter.arrest_date"
+  },
   "bindings": [
     {
       "field": "User.CaseNumber",
@@ -60,6 +67,11 @@
       "factId": "matter.arrest_date"
     },
     {
+      "field": "User.PrintName",
+      "class": "manual",
+      "factId": "participant.full_legal_name"
+    },
+    {
       "field": "User.AddressOf",
       "class": "participant",
       "factId": "participant.street_address"
@@ -73,6 +85,176 @@
       "field": "User.PetetionerEmail",
       "class": "participant",
       "factId": "participant.email"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "ResetButton",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.Officer",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.Title",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.Check0",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.ArrestingAgency",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "User.Check5",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.Check7",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.Because",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.DateOfFinalDisposition1",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "factId": null
+    },
+    {
+      "field": "User.DateOfFinalDisposition2",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "factId": null
+    },
+    {
+      "field": "User.DisposingCourt1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.DisposingCourt2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.CheckPetitioner",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CheckAttorney",
+      "reason": "protected_category",
+      "category": "attorney",
+      "factId": null
+    },
+    {
+      "field": "User.CheckPetitionerContact",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CheckAttorneyContact",
+      "reason": "protected_category",
+      "category": "attorney",
+      "factId": null
+    },
+    {
+      "field": "User.CheckPetitionerPhone",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CheckAttorneyPhone",
+      "reason": "protected_category",
+      "category": "attorney",
+      "factId": null
+    },
+    {
+      "field": "User.CheckPetitionerEmail",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CheckAttorneyEmail",
+      "reason": "protected_category",
+      "category": "attorney",
+      "factId": null
+    },
+    {
+      "field": "User.PetetionerVSB",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.HearDateTime",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.EndDate",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.CBCertify",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB1",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB3",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
     }
   ],
   "unwritableFields": [],
@@ -105,7 +287,7 @@
   ],
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

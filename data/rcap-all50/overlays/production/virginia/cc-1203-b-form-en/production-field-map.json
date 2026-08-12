@@ -1,6 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "cc-1203-b-form-en",
+  "lane": "D1B",
   "documentOwnership": "participant_completed",
   "sha256": "9ec9a6b12adb3a3f14ec0afd39ddcfab4ec00ec2fa441ff5e1648ffb8b334781",
   "pageGeometry": [
@@ -18,6 +19,11 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "explicitMappings": {
+    "User.AncillaryDateOfArrest": "matter.arrest_date"
+  },
   "bindings": [
     {
       "field": "User.CaseNo",
@@ -40,11 +46,6 @@
       "factId": "matter.arrest_date"
     },
     {
-      "field": "User.AncillaryCityOrCounty",
-      "class": "participant",
-      "factId": "participant.city"
-    },
-    {
       "field": "User.CaseNumberDesc",
       "class": "participant",
       "factId": "matter.case_number"
@@ -60,19 +61,231 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "User.AncillaryDateOfArrestA",
-      "class": "participant",
-      "factId": "matter.arrest_date"
-    },
-    {
-      "field": "User.AncillaryCityOrCountyA",
-      "class": "participant",
-      "factId": "participant.city"
-    },
-    {
       "field": "UserPetitionerName",
       "class": "participant",
       "factId": "participant.full_legal_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "ResetButton",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB19",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB20",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB21",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB22",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryDateOfDisp",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryAgency",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryDCN",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.CB23",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryReasonably",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrest",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "The name used in the ancillary matter, a separate fact from the petitioner's legal name."
+    },
+    {
+      "field": "User.AncillaryCityOrCounty",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.city",
+      "note": "Venue of the ancillary matter's court; as User.CityOrCounty."
+    },
+    {
+      "field": "User.AncillaryCCourt",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryGDCourt",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryJDCourt",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB24",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB25",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryWarrantSummons",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.CB28",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB29",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB30",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB31",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryDateOfDispA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryDateOfArrestA",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "factId": "matter.arrest_date"
+    },
+    {
+      "field": "User.AncillaryAgencyA",
+      "reason": "protected_category",
+      "category": "agency",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryDCNA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.CB32",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryReasonablyA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrestA",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.full_legal_name",
+      "note": "Further ancillary block; same reasoning."
+    },
+    {
+      "field": "User.AncillaryCityOrCountyA",
+      "reason": "withheld_by_lane_review",
+      "category": "lane_withholding",
+      "factId": "participant.city",
+      "note": "Venue of a further ancillary matter's court."
+    },
+    {
+      "field": "User.AncillaryCCourtA",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryGDCourtA",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryJDCourtA",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB33",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.CB34",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "factId": null
+    },
+    {
+      "field": "User.AncillaryWarrantSummonA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "factId": null
     }
   ],
   "unwritableFields": [],
@@ -113,7 +326,7 @@
   ],
   "anchorCapture": null,
   "overflowPolicy": {
-    "longText": "shrink_to_fit_then_addendum",
+    "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
   }
 }

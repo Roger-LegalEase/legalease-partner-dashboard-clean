@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "rcap-d1b-family-evidence/v1",
+  "lane": "D1B",
+  "jurisdiction": "VA",
+  "family": "cc-1201-a-form-en",
+  "sourceSha256": "01427e4ea4dce8ea5b053bb681556533c1313a8fd362983a9616465acdf6a8ed",
+  "sourceIdentity": {
+    "documentId": "CC-1201(A)",
+    "revision": "REV-2026-07",
+    "language": "EN",
+    "documentRole": "PETITION",
+    "assetClass": "packet_form",
+    "confirmedAgainst": "STATE_MANIFEST.csv canonical_relative_path + sha256, then the binary itself",
+    "manifestDeclaredPages": 3,
+    "observedPages": 3,
+    "manifestDeclaredFieldCount": 97,
+    "observedAcroFieldCount": 97,
+    "fieldCountDiscrepancyNote": null
+  },
+  "ownership": "participant_completed",
+  "holds": [
+    "state_manifest_generation_allowed_no",
+    "edition_1_runtime_disabled",
+    "f_independent_visual_review_required"
+  ],
+  "nonFilingNotice": null,
+  "explicitMappings": {
+    "documentId": "CC-1201(A)",
+    "note": "Addendum. Its first offense block is mapped; the repeated blocks (suffixed 1, D and AncillaryB) are separate offences. Note that D0's row index reads a trailing '1' as charge row 1, which on this form is a block number rather than a table row, so mapping it would silently re-stamp the first charge.",
+    "refusedOnPurpose": {
+      "User.AncillaryChargeDoc": "second offense block",
+      "User.DateOfArrest1": "second offense block; trailing digit is a block number, not a charge-table row",
+      "User.AncillaryChargeDoc1": "second offense block",
+      "User.DateOfArrestD": "further offense block",
+      "User.AncillaryChargeDocD": "further offense block",
+      "User.ArrestDateAncillaryB": "further offense block"
+    },
+    "mappings": {
+      "User.ChargeDesc": "matter.charge",
+      "User.DateOfArrest": "matter.arrest_date"
+    }
+  },
+  "determinism": {
+    "basis": "the canonical fixture rendered twice from the same source bytes and the same facts",
+    "firstSha256": "6aac64a40ee0050757859ac16b307e9c61674b20865d3b50224c8cc6ab9261c4",
+    "secondSha256": "6aac64a40ee0050757859ac16b307e9c61674b20865d3b50224c8cc6ab9261c4",
+    "identical": true
+  },
+  "sourceDrift": {
+    "basis": "one byte of the source flipped, then finalized against the pinned sha256",
+    "refused": true,
+    "message": "source drift: expected 01427e4ea4dce8ea5b053bb681556533c1313a8fd362983a9616465acdf6a8ed, read 8af00c2cd58e7c2fd86a760091dd7092d0542452c82f4acbc5ba10f327787498"
+  },
+  "mutations": [
+    {
+      "mutation": "value_forced_into_undersized_widget",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    },
+    {
+      "mutation": "protected_named_fields_offered_to_binder",
+      "sampled": 4,
+      "expected": "all refused",
+      "leaked": [],
+      "passed": true
+    },
+    {
+      "mutation": "charge_row_7_with_one_supplied_charge",
+      "expected": "refused",
+      "observed": "repeating_row_without_indexed_fact",
+      "passed": true
+    },
+    {
+      "mutation": "checkbox_offered_a_participant_fact",
+      "expected": "refused",
+      "observed": "non_text_field_type",
+      "passed": true
+    },
+    {
+      "mutation": "javascript_action_planted_in_object_structure",
+      "expected": "detected",
+      "observed": [
+        "document_javascript",
+        "field_javascript"
+      ],
+      "passed": true
+    },
+    {
+      "mutation": "contact_sheet_built_from_the_unfilled_source",
+      "expected": "refused",
+      "observed": "refused",
+      "passed": true
+    }
+  ],
+  "ambiguousRoleBindings": [],
+  "classifierAgreement": {
+    "rule": "A binding needs both keys: the typed fail-closed binder and the independent nine-class classifier. Where they disagree the field is withheld unless a recorded override says why it is safe.",
+    "bindingsOnNeverWriteClasses": [],
+    "withheldOnDisagreement": [],
+    "withheldByLaneReview": [
+      {
+        "field": "User.FullNameOfArrest",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "The name the arrest record was made under. The form itself offers a 'same as above' box, so it is a different fact from the petitioner's current legal name and is not one this fact set holds. Writing the current name here would misstate the arrest record."
+      },
+      {
+        "field": "User.CityOrCounty",
+        "factIdTheBinderOffered": "participant.city",
+        "reason": "The city or county of the court of final disposition -- a venue, not the participant's home city. Virginia's independent cities make 'city or county' one jurisdiction field, and \\bcity\\b matches before \\bcounty\\b, so the binder offers participant.city. Withheld."
+      },
+      {
+        "field": "User.AncillaryFullNameOfArrest",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "The name used in the ancillary matter, a separate fact from the petitioner's legal name."
+      },
+      {
+        "field": "User.AncillaryCityOrCounty",
+        "factIdTheBinderOffered": "participant.city",
+        "reason": "Venue of the ancillary matter's court; as User.CityOrCounty."
+      },
+      {
+        "field": "User.AncillaryFullNameOfArrest1",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "Further ancillary block; same reasoning."
+      },
+      {
+        "field": "User.AncillaryCityOrCounty1",
+        "factIdTheBinderOffered": "participant.city",
+        "reason": "Venue of a further ancillary matter's court."
+      },
+      {
+        "field": "User.AncillaryFullNameOfArrestD",
+        "factIdTheBinderOffered": "participant.full_legal_name",
+        "reason": "Further ancillary block; same reasoning."
+      },
+      {
+        "field": "User.AncillaryCityOrCountyD",
+        "factIdTheBinderOffered": "participant.city",
+        "reason": "Venue of a further ancillary matter's court."
+      }
+    ],
+    "overridesApplied": []
+  }
+}

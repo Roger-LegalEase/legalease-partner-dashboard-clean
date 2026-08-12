@@ -1,49 +1,434 @@
 {
   "schemaVersion": "rcap-overflow-report/v2",
   "boundaryFixtureApplied": true,
+  "policy": "A value that cannot be drawn at 6pt or larger inside its own widget is refused and the field left blank. Nothing is written past a widget edge.",
   "findings": [
     {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "ResetButton",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.Officer",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.Title",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.Check0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.ArrestingAgency",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.Check5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.Check7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.Because",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.DateOfFinalDisposition1",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.DateOfFinalDisposition2",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.DisposingCourt1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.DisposingCourt2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CheckPetitioner",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CheckAttorney",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CheckPetitionerContact",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CheckAttorneyContact",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CheckPetitionerPhone",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CheckAttorneyPhone",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CheckPetitionerEmail",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CheckAttorneyEmail",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.PetetionerVSB",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.HearDateTime",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.EndDate",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CBCertify",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CB1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CB2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.CB3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "field": "User.SpecificCharge",
+      "factId": "matter.charge",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Possession of a controlled or counterfeit substance, second degree, with an extended statutory description that materially exceeds one line",
+      "rect": {
+        "x": 233,
+        "y": 460,
+        "width": 342,
+        "height": 16
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 367.8
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "ResetButton",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
       "field": "User.CaseNumber",
-      "check": "overflow",
+      "reason": "value_exceeds_form_max_length",
       "maxLength": 30,
       "valueLength": 37,
-      "handling": "truncated_by_form_maxlength"
+      "factId": "matter.case_number"
     },
     {
       "fixture": "boundary",
-      "field": "User.CaseNumber",
-      "check": "clipping",
-      "widgetWidth": 157,
-      "textWidthAt": 157.8,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "check": "binding_refused",
+      "field": "User.Officer",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
-      "field": "User.PetitionerName",
-      "check": "clipping",
-      "widgetWidth": 312,
-      "textWidthAt": 326.1,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "check": "binding_refused",
+      "field": "User.Title",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
-      "field": "User.SpecificCharge",
-      "check": "clipping",
-      "widgetWidth": 342,
-      "textWidthAt": 613,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "check": "binding_refused",
+      "field": "User.Check0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     },
     {
       "fixture": "boundary",
+      "check": "binding_refused",
       "field": "User.UnderlyingCaseNumbers",
-      "check": "overflow",
+      "reason": "value_exceeds_form_max_length",
       "maxLength": 15,
       "valueLength": 37,
-      "handling": "truncated_by_form_maxlength"
+      "factId": "matter.case_number"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.ArrestingAgency",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.Check5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.Check7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.Because",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.DateOfFinalDisposition1",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.DateOfFinalDisposition2",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.DisposingCourt1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.DisposingCourt2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CheckPetitioner",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CheckAttorney",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CheckPetitionerContact",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CheckAttorneyContact",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CheckPetitionerPhone",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CheckAttorneyPhone",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CheckPetitionerEmail",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CheckAttorneyEmail",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.PetetionerVSB",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.HearDateTime",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.EndDate",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CBCertify",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CB1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CB2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.CB3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     }
   ]
 }
