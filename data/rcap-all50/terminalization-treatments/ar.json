@@ -993,8 +993,8 @@
         ]
       },
       "timing": {
-        "en": "Our sources set no waiting period for this route: a non-conviction record does not have one to wait out. After the petition is filed, the prosecuting attorney is served within three days and has thirty days to object.",
-        "es": "Nuestras fuentes no fijan un período de espera para esta vía: un expediente sin condena no tiene uno que esperar. Después de presentar la petición, se notifica al fiscal acusador dentro de tres días y este dispone de treinta días para objetar."
+        "en": "Our sources set no separate waiting period for this route, so we do not state one. After the petition is filed, the prosecuting attorney is served within three days and has thirty days to object.",
+        "es": "Nuestras fuentes no fijan un período de espera propio para esta vía, así que no indicamos ninguno. Después de presentar la petición, se notifica al fiscal acusador dentro de tres días y este dispone de treinta días para objetar."
       },
       "afterNextStep": {
         "en": "If you hold a nolle prosequi order or a dismissal order, you know your court: the one that entered it. The ACIC petition and order pair goes there, the prosecuting attorney is served within three days, and the thirty-day window runs. If your case ended in an acquittal or charges were never filed, the venue question has to be answered first, and that is a question for an Arkansas attorney or the clerk of the court that handled the matter.",
@@ -1021,12 +1021,14 @@
           "en": [
             "The venue question, if your case ended in an acquittal or charges were never filed.",
             "Confirmation that a nolle prossed charge was not refiled.",
-            "The fingerprint card and your Arkansas criminal history."
+            "The fingerprint card and your Arkansas criminal history.",
+            "Whether any waiting period applies before you may file: our sources do not settle it, so ask the clerk of the court that entered the order."
           ],
           "es": [
             "La cuestión del foro, si su caso terminó en absolución o nunca se presentaron cargos.",
             "La confirmación de que un cargo retirado por nolle prosequi no fue vuelto a presentar.",
-            "La tarjeta de huellas dactilares y su historial penal de Arkansas."
+            "La tarjeta de huellas dactilares y su historial penal de Arkansas.",
+            "Si corresponde algún período de espera antes de poder presentar la petición: nuestras fuentes no lo resuelven, así que pregúntele al secretario del tribunal que dictó la orden."
           ]
         },
         "return": {
@@ -1109,7 +1111,7 @@
       "trackId": "ar-pardon-seal",
       "jurisdiction": "AR",
       "treatment": "exact_supported_deferral",
-      "treatmentBasis": "The sealing stage after a pardon is a participant filing on a named ACIC pardoned-offender pair, so the mechanism is in scope, but the committed evidence has not cleared the output and technical proof checks required before a court filing is handed over, and obtaining the pardon itself sits outside this route.",
+      "treatmentBasis": "The sealing stage after a pardon is a participant filing on a named ACIC pardoned-offender pair, so the mechanism is in scope, but the committed evidence has not cleared the output and technical proof checks required before a court filing is handed over and never names the court that takes the § 16-90-1411 petition, so the treatment gives the exact form pair, states that venue gap and sends the participant to the clerk of the court that entered the conviction and to the ACIC to settle it before filing.",
       "routeLabel": {
         "en": "Sealing an Arkansas record after you have received a pardon",
         "es": "Sellar un expediente de Arkansas después de haber recibido un indulto"
@@ -1128,19 +1130,19 @@
         "es": "Dos actores, en secuencia. La autoridad que concede decide el indulto. Después, el tribunal que tramita el sellado decide la petición, previa notificación al fiscal acusador, que puede objetar."
       },
       "stopReason": {
-        "en": "No completed pardoned-offender petition is being produced for you right now. The build behind the sealing stage has not finished the output and technical proof checks we require before we hand anyone a filing. Separately, and permanently, nothing on this route helps you obtain a pardon: that decision belongs to the granting authority and this route begins only once you hold one.",
-        "es": "En este momento no se le está generando una petición completada para personas indultadas. El desarrollo detrás de la etapa de sellado no ha terminado las comprobaciones de resultado y de prueba técnica que exigimos antes de entregar una presentación a alguien. Además, y de forma permanente, nada en esta vía le ayuda a obtener un indulto: esa decisión corresponde a la autoridad que lo concede y esta vía comienza solo cuando usted ya lo tiene."
+        "en": "No completed pardoned-offender petition is being produced for you right now. The build behind the sealing stage has not finished the output and technical proof checks we require before we hand anyone a filing. There is also something our sources do not settle, and we will not paper over it: they place the sealing in the court and ACIC process that follows a pardon, but they do not name the court that takes the § 16-90-1411 petition. We are not going to guess a courthouse for you, so that answer has to be obtained before you file, and below we say exactly who to get it from. Separately, and permanently, nothing on this route helps you obtain a pardon: that decision belongs to the granting authority and this route begins only once you hold one.",
+        "es": "En este momento no se le está generando una petición completada para personas indultadas. El desarrollo detrás de la etapa de sellado no ha terminado las comprobaciones de resultado y de prueba técnica que exigimos antes de entregar una presentación a alguien. Hay además algo que nuestras fuentes no resuelven, y no vamos a disimularlo: sitúan el sellado en el proceso judicial y del ACIC posterior a un indulto, pero no nombran el tribunal que recibe la petición del § 16-90-1411. No vamos a adivinar un tribunal por usted, así que esa respuesta debe obtenerse antes de presentar, y más abajo le decimos exactamente a quién pedírsela. Por otro lado, y de forma permanente, nada en esta vía le ayuda a obtener un indulto: esa decisión corresponde a la autoridad que lo concede y esta vía comienza solo cuando usted ya lo tiene."
       },
       "destination": {
-        "name": "The court handling the sealing after the pardon, on the ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
-        "kind": "court",
+        "name": "The clerk of the Arkansas court that entered the pardoned conviction, and the Arkansas Crime Information Center, to establish which court takes the § 16-90-1411 sealing petition, which is filed on the ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+        "kind": "clerk",
         "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
-        "en": "The sealing petition goes to the court handling the sealing after the pardon, on the Arkansas Crime Information Center's pardoned-offender petition and order pair. That pair is published on the ACIC criminal history forms page; the pardon documentation comes from the granting authority and is attached to the petition.",
-        "es": "La petición de sellado va al tribunal que tramita el sellado después del indulto, con el par de petición y orden para personas indultadas del Centro de Información Criminal de Arkansas. Ese par está publicado en la página de formularios de antecedentes penales del ACIC; la documentación del indulto proviene de la autoridad que lo concedió y se adjunta a la petición."
+        "en": "Our sources do not name the court that takes the sealing petition after a pardon, so the first place you go is the clerk of the Arkansas court that entered the conviction you want sealed: ask that clerk in which court a § 16-90-1411 petition is filed once a pardon has been granted, and get the answer in writing if you can. If that clerk cannot answer, put the same question to the Arkansas Crime Information Center, which publishes the forms for this filing and holds your criminal history record. The filing itself is the ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender, published on the ACIC criminal history forms page; the pardon documentation comes from the granting authority and is attached to the petition.",
+        "es": "Nuestras fuentes no nombran el tribunal que recibe la petición de sellado después de un indulto, así que el primer lugar al que acude es el secretario del tribunal de Arkansas que dictó la condena que quiere sellar: pregúntele en qué tribunal se presenta una petición del § 16-90-1411 una vez concedido el indulto, y obtenga la respuesta por escrito si puede. Si ese secretario no puede responder, dirija la misma pregunta al Centro de Información Criminal de Arkansas, que publica los formularios de esta presentación y conserva su historial penal. La presentación en sí es la Petición y la Orden para Sellar los Expedientes de una Persona Indultada o de un Joven Indultado por Delito Grave del ACIC, publicadas en la página de formularios de antecedentes penales del ACIC; la documentación del indulto proviene de la autoridad que lo concedió y se adjunta a la petición."
       },
       "nextStep": {
-        "en": "Get a complete copy of your pardon documentation from the granting authority, and read what it covers. Every offense you intend to name in the sealing petition has to be covered by the pardon you actually hold.",
-        "es": "Obtenga de la autoridad que lo concedió una copia completa de la documentación de su indulto, y lea qué abarca. Cada delito que pretenda mencionar en la petición de sellado debe estar cubierto por el indulto que efectivamente tiene."
+        "en": "Two things, in this order. Get a complete copy of your pardon documentation from the granting authority and read what it covers, because every offense you intend to name in the sealing petition has to be covered by the pardon you actually hold. Then ask the clerk of the Arkansas court that entered that conviction in which court a § 16-90-1411 sealing petition is filed after a pardon, because our sources do not name that court and you need the answer before you file.",
+        "es": "Dos cosas, en este orden. Obtenga de la autoridad que lo concedió una copia completa de la documentación de su indulto y lea qué abarca, porque cada delito que pretenda mencionar en la petición de sellado debe estar cubierto por el indulto que efectivamente tiene. Después, pregunte al secretario del tribunal de Arkansas que dictó esa condena en qué tribunal se presenta una petición de sellado del § 16-90-1411 después de un indulto, porque nuestras fuentes no nombran ese tribunal y usted necesita la respuesta antes de presentar."
       },
       "gather": {
         "en": [
@@ -1159,6 +1161,7 @@
       "doNot": {
         "en": [
           "Do not file the sealing petition before the pardon has actually been granted. Without the pardon in hand there is nothing for this petition to rest on.",
+          "Do not choose a courthouse for this petition by guess. Our sources do not name the court that takes a § 16-90-1411 petition after a pardon, and filing in the wrong court wastes the filing — get that answer from the clerk of the court that entered the conviction, or from the Arkansas Crime Information Center, first.",
           "Do not expect us to review your pardon documentation. It is attached to the petition by you; we do not read it or judge what it covers.",
           "Do not substitute a pleading you draft for the ACIC pardoned-offender petition and order. That named pair is what controls this stage.",
           "Do not treat the clemency application as part of this route. Obtaining a pardon is a separate process before a different decision-maker.",
@@ -1167,6 +1170,7 @@
         ],
         "es": [
           "No presente la petición de sellado antes de que el indulto haya sido efectivamente concedido. Sin el indulto en mano, esta petición no tiene base.",
+          "No elija por conjetura el tribunal para esta petición. Nuestras fuentes no nombran el tribunal que recibe una petición del § 16-90-1411 después de un indulto, y presentar en el tribunal equivocado desperdicia la presentación: obtenga primero esa respuesta del secretario del tribunal que dictó la condena, o del Centro de Información Criminal de Arkansas.",
           "No espere que revisemos la documentación de su indulto. Usted la adjunta a la petición; nosotros no la leemos ni juzgamos qué abarca.",
           "No sustituya la petición y la orden del ACIC para personas indultadas por un escrito redactado por usted. Ese par con nombre propio es lo que rige esta etapa.",
           "No trate la solicitud de clemencia como parte de esta vía. Obtener un indulto es un proceso aparte ante otra autoridad decisoria.",
@@ -1179,60 +1183,70 @@
         "es": "La presentación de sellado se hace después de concedido el indulto; nuestras fuentes no fijan ningún período de espera adicional. Una vez presentada la petición, usted notifica al fiscal acusador dentro de tres días y a partir de ahí corren treinta días para objetar."
       },
       "afterNextStep": {
-        "en": "With the pardon documentation in hand and matched to the convictions you want sealed, the ACIC pardoned-offender petition and order go to the court handling the sealing, with the pardon attached. The prosecuting attorney is served within three days and the thirty-day objection window runs before the judge acts on the order.",
-        "es": "Con la documentación del indulto en mano y correspondida con las condenas que quiere sellar, la petición y la orden del ACIC para personas indultadas van al tribunal que tramita el sellado, con el indulto adjunto. Se notifica al fiscal acusador dentro de tres días y corre el plazo de objeción de treinta días antes de que el juez actúe sobre la orden."
+        "en": "You will be holding the two answers this filing needs: pardon documentation matched to the convictions you want sealed, and a named court, given to you by the clerk of the court that entered the conviction or by the Arkansas Crime Information Center, rather than assumed by us. The ACIC pardoned-offender petition and order then go to that named court with the pardon attached. The prosecuting attorney is served within three days and the thirty-day objection window runs before the judge acts on the order.",
+        "es": "Tendrá en su poder las dos respuestas que necesita esta presentación: la documentación del indulto correspondida con las condenas que quiere sellar, y un tribunal identificado por nombre, indicado por el secretario del tribunal que dictó la condena o por el Centro de Información Criminal de Arkansas, y no supuesto por nosotros. La petición y la orden del ACIC para personas indultadas van entonces a ese tribunal identificado, con el indulto adjunto. Se notifica al fiscal acusador dentro de tres días y corre el plazo de objeción de treinta días antes de que el juez actúe sobre la orden."
       },
       "escalation": {
-        "en": "If the pardon documentation does not clearly cover a conviction you want sealed, go back to the granting authority for a complete copy or a clarification before filing anything. If the prosecuting attorney objects or a contested hearing is set after filing, get the objection from the clerk of the court handling the sealing and take it to an Arkansas attorney.",
-        "es": "Si la documentación del indulto no cubre con claridad una condena que quiere sellar, vuelva a la autoridad que lo concedió para pedir una copia completa o una aclaración antes de presentar nada. Si el fiscal acusador objeta o se fija una audiencia contenciosa después de presentar, obtenga la objeción del secretario del tribunal que tramita el sellado y llévela a un abogado de Arkansas."
+        "en": "If neither the clerk of the Arkansas court that entered the conviction nor the Arkansas Crime Information Center can tell you in which court a § 16-90-1411 petition is filed after a pardon, take that question, together with your pardon documentation, to an Arkansas attorney before you file anything. If the pardon documentation does not clearly cover a conviction you want sealed, go back to the granting authority for a complete copy or a clarification first. If the prosecuting attorney objects or a contested hearing is set after filing, get the objection from the clerk of the court where you filed and take it to an Arkansas attorney.",
+        "es": "Si ni el secretario del tribunal de Arkansas que dictó la condena ni el Centro de Información Criminal de Arkansas pueden decirle en qué tribunal se presenta una petición del § 16-90-1411 después de un indulto, lleve esa pregunta, junto con la documentación de su indulto, a un abogado de Arkansas antes de presentar nada. Si la documentación del indulto no cubre con claridad una condena que quiere sellar, vuelva primero a la autoridad que lo concedió para pedir una copia completa o una aclaración. Si el fiscal acusador objeta o se fija una audiencia contenciosa después de presentar, obtenga la objeción del secretario del tribunal donde presentó y llévela a un abogado de Arkansas."
       },
       "briefcase": {
         "preserved": {
           "en": [
             "That the sealing stage runs on the ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender, under A.C.A. § 16-90-1411.",
+            "That our sources do not name the court that takes the § 16-90-1411 petition after a pardon, and that the clerk of the Arkansas court that entered the conviction and the Arkansas Crime Information Center are who to ask.",
             "That obtaining the pardon is a separate matter before the granting authority and is not part of this route.",
             "That the pardon documentation is attached by you and is not reviewed here."
           ],
           "es": [
             "Que la etapa de sellado se tramita con la Petición y la Orden del ACIC para Sellar los Expedientes de una Persona Indultada o de un Joven Indultado por Delito Grave, conforme a A.C.A. § 16-90-1411.",
+            "Que nuestras fuentes no nombran el tribunal que recibe la petición del § 16-90-1411 después de un indulto, y que el secretario del tribunal de Arkansas que dictó la condena y el Centro de Información Criminal de Arkansas son a quienes hay que preguntar.",
             "Que obtener el indulto es un asunto aparte ante la autoridad que lo concede y no forma parte de esta vía.",
             "Que la documentación del indulto la adjunta usted y aquí no se revisa."
           ]
         },
         "outstanding": {
           "en": [
+            "Which court takes the § 16-90-1411 sealing petition after a pardon, which our sources do not name and which the clerk or the Arkansas Crime Information Center has to give you.",
             "The pardon itself, if it has not been granted.",
             "Matching each conviction you want sealed against what the pardon covers.",
             "The fingerprint card and your Arkansas criminal history."
           ],
           "es": [
+            "Qué tribunal recibe la petición de sellado del § 16-90-1411 después de un indulto, que nuestras fuentes no nombran y que debe indicarle el secretario o el Centro de Información Criminal de Arkansas.",
             "El indulto en sí, si todavía no ha sido concedido.",
             "Corresponder cada condena que quiere sellar con lo que abarca el indulto.",
             "La tarjeta de huellas dactilares y su historial penal de Arkansas."
           ]
         },
         "return": {
-          "en": "Reopen this route from your Briefcase to get the two-stage structure, the ACIC form pair and the attachment requirement back as you left them.",
-          "es": "Vuelva a abrir esta vía desde su Maletín para recuperar la estructura de dos etapas, el par de formularios del ACIC y el requisito de adjuntar el indulto tal como los dejó."
+          "en": "Reopen this route from your Briefcase to get the two-stage structure, the ACIC form pair, the attachment requirement and the open question about which court takes the petition back as you left them.",
+          "es": "Vuelva a abrir esta vía desde su Maletín para recuperar la estructura de dos etapas, el par de formularios del ACIC, el requisito de adjuntar el indulto y la cuestión pendiente de qué tribunal recibe la petición, tal como los dejó."
         }
       },
       "nextSteps": {
         "en": [
           "Obtain a full copy of your pardon documentation from the granting authority.",
           "List each conviction you want sealed and confirm the pardon covers it.",
+          "Ask the clerk of the Arkansas court that entered that conviction in which court a § 16-90-1411 sealing petition is filed after a pardon, and write the answer down — our sources do not name that court.",
+          "If that clerk cannot answer, put the same question to the Arkansas Crime Information Center, which publishes the forms for this filing.",
           "Get the Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender from the Arkansas Crime Information Center forms page.",
           "Have your fingerprints taken and request your Arkansas criminal history through the ACIC authorization form.",
-          "Sign and date the petition, attach the pardon documentation, and file the petition and proposed order with the court handling the sealing.",
+          "Sign and date the petition, attach the pardon documentation, and file the petition and proposed order in the court the clerk or the Arkansas Crime Information Center identified.",
           "Serve the prosecuting attorney within three days of filing.",
+          "If neither the clerk nor the Arkansas Crime Information Center can name the court, take that question and your pardon documentation to an Arkansas attorney before filing.",
           "If an objection comes within thirty days or a hearing is set, take the papers to an Arkansas attorney."
         ],
         "es": [
           "Obtenga una copia completa de la documentación de su indulto de la autoridad que lo concedió.",
           "Enumere cada condena que quiere sellar y confirme que el indulto la cubre.",
+          "Pregunte al secretario del tribunal de Arkansas que dictó esa condena en qué tribunal se presenta una petición de sellado del § 16-90-1411 después de un indulto, y anote la respuesta: nuestras fuentes no nombran ese tribunal.",
+          "Si ese secretario no puede responder, dirija la misma pregunta al Centro de Información Criminal de Arkansas, que publica los formularios de esta presentación.",
           "Obtenga la Petición y la Orden para Sellar los Expedientes de una Persona Indultada o de un Joven Indultado por Delito Grave en la página de formularios del Centro de Información Criminal de Arkansas.",
           "Hágase tomar las huellas dactilares y solicite su historial penal de Arkansas mediante el formulario de autorización del ACIC.",
-          "Firme y feche la petición, adjunte la documentación del indulto, y presente la petición y la orden propuesta ante el tribunal que tramita el sellado.",
+          "Firme y feche la petición, adjunte la documentación del indulto, y presente la petición y la orden propuesta en el tribunal que le haya indicado el secretario o el Centro de Información Criminal de Arkansas.",
           "Notifique al fiscal acusador dentro de los tres días siguientes a la presentación.",
+          "Si ni el secretario ni el Centro de Información Criminal de Arkansas pueden nombrar el tribunal, lleve esa pregunta y la documentación de su indulto a un abogado de Arkansas antes de presentar.",
           "Si llega una objeción dentro de los treinta días o se fija una audiencia, lleve los documentos a un abogado de Arkansas."
         ]
       },
@@ -1248,6 +1262,10 @@
         {
           "citation": "The pardon itself is a prerequisite event; the later sealing filing is a participant packet",
           "sourceRef": "AR:ar-pardon-seal destination.detail; scopeRestrictions[0]"
+        },
+        {
+          "citation": "Venue: the sealing follows through the court and ACIC process after the pardon is granted; the court that takes the § 16-90-1411 petition is not named",
+          "sourceRef": "AR:ar-pardon-seal venue; destination.name"
         },
         {
           "citation": "Pardon documentation obtained from the granting authority and attached to the petition; not reviewed by LegalEase",

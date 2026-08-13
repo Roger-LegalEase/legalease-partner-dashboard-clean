@@ -1,0 +1,105 @@
+{
+  "reviewId": "w3-shard-ar-al",
+  "reviewer": "independent read-only reviewer, correction re-review",
+  "reviewedBaseSha": "283982fdc751a0568b384ad2433a5aee7f7878fa",
+  "reviewedFileSha256": {
+    "AR": "06bd1554f1884d04359ec53a9cd152972387e1c9d273911d06ba4a188c55b802",
+    "AL": "af60c25a9fb95e774e90871a6658247c450108943e12cd3e2e247ddd03e0e8d5"
+  },
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "runtimeProbeNote": "Probe written outside the repo and run with cwd=/home/user/legalease-partner-dashboard-clean. Loaded src/lib/rcap/documents/guidance-packet-registry.ts and src/lib/rcap/documents/packet-route-resolver.ts through scripts/lib/ts-esm-loader.mjs. All 13 AR/AL tracks load as terminal_treatment_candidate (none invalid) with sellable=false, paymentAllowed=false, checkoutSuppressed=true, renderJobAllowed=false, packetPromise=none, packetCreditConsumption=none, partnerCreditConsumption=none, partnerCreditConsumed=false; resolvePacketRoute returns routeKind=exact_supported_deferral, rendererKind='none', sellable=false, creditConsumable=false, treatmentReviewState=pending_independent_review, and packetRouteCanRender=false for every one. Depth-probed ar-nonconviction-seal and al-pardon: buildRenderJobSpec returns spec=null (no render spec); createBriefcaseItem called with paymentAllowed:true, resultCode:'packet_ready', packetType:'custom_pleading', paymentStatus:'paid', amountCents:5000, checkoutSessionId, paymentIntentId, receiptUrl and packetStatus:'ready' is clamped to status=guidance_saved, resultCode=guidance_only, packetStatus=not_started, packetType=guidance_packet, paymentAllowed=false, paymentStatus=not_applicable with amountCents/checkoutSessionId/paymentIntentId/receiptUrl all undefined; assertCheckoutAllowed throws ConsumerCheckoutNotAllowedError('terminal_treatment_candidate'); the item reopens from getConsumerBriefcaseItems to the same trackId and the same exact_supported_deferral treatment bundle, honouring locale (es bundle returned, Spanish stopReason and nextSteps), and terminalTreatmentBundle resolves in both en and es with differing text for all 13 tracks.",
+  "dispositions": [
+    {
+      "trackId": "ar-act346",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct. Mechanism is staged accurately: the Act 346 election happens at the plea and this route is the post-completion filing, matching brief mechanism and scopeRestrictions. Exact destination: the Arkansas criminal court that handled the Act 346 case, on the named ACIC Petition and Order to Dismiss and Seal First Offenders, with the ACIC criminal-history forms URL carried by officialSources[0]. Next action is exact (confirm Act 346 placement from the Order of Probation, then obtain the ACIC pair). Gather is track-specific (Order of Probation, completion date, fingerprint card, ACIC Authorization for Review of Criminal History Information, case number/court). doNot covers filing while still on probation, substituting a custom pleading where ACIC forms control, mistaking plea-stage prosecutor concurrence for self-help, and the service step. Only durations stated are the three-day service and thirty-day objection window, both in packetInstructions[0]; no fee, address or waiting period invented. Fingerprint card carried as required, not softened to optional. Spanish is genuine participant-register prose, not a gloss (e.g. 'Orden de Probación', 'fiscal acusador', 'audiencia contenciosa'), and differs structurally from the English. Briefcase preserved/outstanding/return all complete; return promises no packet. No packet-promise or coming-soon-class language."
+    },
+    {
+      "trackId": "ar-act531",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct, and a clean example of an openly stated unresolved limitation. stopReason gives two supported reasons: the route is not bound into the assembly system, and the sources do not settle which historical group of Community Punishment Act cases the sealing route still reaches (brief scopeRestrictions[1], destination.detail, selfHelpStopConditions[3]). Despite that limitation it still names an exact destination (the Arkansas criminal court that handled the case, on the ACIC Petition and Order to Seal Pursuant to Act 531 and Act 1460) and an exact next step (get the court file from that clerk and establish in writing under which law the case was resolved). Timing is compliant on the absent fact: 'Our sources set no separate waiting period for this route, so we do not state one.' Only the three-day/thirty-day service and objection figures appear, both briefed. Spanish is a real translation throughout. Briefcase triple complete and it carries the open eligibility question as outstanding."
+    },
+    {
+      "trackId": "ar-cs-possession-seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct. Mechanism correctly distinguishes this treatment path from the ordinary felony track and names the § 16-90-1415(c) standard the judge applies, both from the brief authority list. Destination is exact and venue-specific: the circuit court of the county where the offense was committed and the conviction entered, with an explicit doNot against filing where the participant lives now. The required sentencing order from the clerk of the sentencing court is carried as required (brief participantFilingRequirements[2]), and fingerprint card as required, ACIC history authorization as the means of obtaining the record. The waiting period is handled correctly: the brief carries only 'per the statutory schedule', and the treatment says so and refuses to state a number of years, listing it in briefcase.outstanding and directing the participant to the sentencing order and clerk. doNot warns against assuming the grant is mandatory. Spanish genuine and idiomatic ('foro competente', 'orden de sentencia', 'restitución'). Briefcase triple complete."
+    },
+    {
+      "trackId": "ar-drug-court",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct, and not boilerplate against its AR siblings: the distinguishing fact of this route — that ACIC publishes two different pairs, pre-adjudication and post-adjudication (brief authority[1]) — drives the stopReason, the next step, the gather list, a dedicated doNot against guessing between them, and briefcase.outstanding. Destination exact (the Arkansas criminal court underlying the drug court case, on the matching ACIC pair). Correctly treats prosecutor concurrence at admission as a prerequisite/negotiation rather than a reason to suppress the participant filing, exactly as the brief's scopeRestriction directs. Only briefed durations (three days to serve, thirty days to object) appear; no fee or waiting period invented. Spanish genuine. Briefcase triple complete; return promises no packet."
+    },
+    {
+      "trackId": "ar-misdemeanor-seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct. Carries all four operative citations from the brief in their briefed roles (§ 16-90-1405; procedure §§ 16-90-1413, 16-90-1414; standard § 16-90-1415(a); effect § 16-90-1417). The two hard rules of this track land: one petition per county with a multi-county fan-out, and the six listed offenses plus DWI/BWI routed out. The CDL, registration and excused-obligation questions are explicitly reserved to the participant and flagged as never auto-completed, matching the brief's scope restriction — no required component silently made optional. Waiting period handled correctly: 'per the statutory schedule' in the brief, so the treatment states no number of years and puts it in briefcase.outstanding. Next step is exact and useful (obtain the ACIC criminal history first, then build the county list that determines how many filings). Spanish genuine throughout. Briefcase triple complete."
+    },
+    {
+      "trackId": "ar-nonconviction-seal",
+      "outcome": "correction_required",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "One specific defect, narrow and fixable; everything else on this track is correct. DEFECT — fabricated waiting-period fact in timing, both languages. EN: 'Our sources set no waiting period for this route: a non-conviction record does not have one to wait out.' ES: 'Nuestras fuentes no fijan un período de espera para esta vía: un expediente sin condena no tiene uno que esperar.' The brief AR:ar-nonconviction-seal carries waitingPeriods: [] — an absence of any briefed period, not a briefed rule that none applies. The first clause is compliant; the clause after the colon converts that absence into an affirmative legal statement to the participant that no waiting period exists on this route, which is a waiting-period fact the brief does not carry (schema evidenceRule lists waiting periods as facts requiring track-level support). The same authoring pass states the compliant form three times in this very file — ar-act531 ('Our sources set no separate waiting period for this route, so we do not state one'), ar-pardon-seal, ar-veterans-court — and AL:al-pardon models it explicitly ('That is a gap in what we can tell you, not a statement that there is no timing rule'). FIX: delete the clause after the colon in both en and es (or reframe to the ar-act531 wording), and add the waiting-period question to briefcase.outstanding as ar-cs-possession-seal and ar-misdemeanor-seal already do. NOT defects, confirmed correct: the venue treatment is exemplary — § 16-90-1410(b) is applied exactly for nolle prosequi and dismissal (the court that entered the order), and the treatment openly states that the statute does not name the court for an acquittal or for charges never filed, refuses to guess a courthouse, and still supplies an exact next step and an exact escalation for those two dispositions; the ACIC non-conviction petition and order pair is named; the refiling check on a nolle prossed charge is carried from the brief; the three-day/thirty-day figures are briefed; Spanish is genuine; briefcase preserved/outstanding/return are complete; runtime behaviour is fully suppressed as probed."
+    },
+    {
+      "trackId": "ar-pardon-seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correction lands, and lands well. The brief only ever says 'The court handling the sealing after the pardon' and never names the court that takes a § 16-90-1411 petition. Rather than repeat that non-answer or guess a courthouse, the treatment states the venue gap plainly and gives a genuinely exact destination for the participant's next act: the clerk of the Arkansas court that entered the pardoned conviction, with the Arkansas Crime Information Center as the named fallback, both asked the specific question of where a § 16-90-1411 petition is filed after a pardon; destination.kind is 'clerk', which is in the schema enum, and the ACIC forms URL is the briefed one. This is the pattern the standard describes as correct: an openly stated limitation plus an exact destination and next step. The two-stage structure is right — obtaining the pardon is the granting authority's, the sealing filing is the participant's on the named ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender, with pardon documentation attached by the participant and expressly not reviewed. doNot and nextSteps both route through the venue question before filing, and escalation covers the case where neither the clerk nor ACIC can answer. Timing compliant ('our sources set no separate waiting period beyond that'). Spanish genuine, including the full form title. Briefcase triple complete and carries the venue gap as outstanding."
+    },
+    {
+      "trackId": "ar-veterans-court",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct, and disciplined about the one thing the brief forbids. The brief's packetInstruction is 'Verify § 16-101-106 text before publishing any participant-facing description'; the treatment therefore refuses to summarise what that section requires, says so in the stopReason, warns the participant in doNot not to rely on a second-hand summary 'including from us', and points to the citations printed on the current official ACIC form or to an Arkansas attorney. That is a stated limitation with an exact destination (the Arkansas criminal court underlying the veterans treatment court case, on the ACIC veterans treatment court petition and order pair) and an exact next step, which the standard treats as correct. No eligibility rule or waiting period is invented; only the briefed three-day/thirty-day figures appear. Program completion is carried as a prerequisite to filing, not as something this route obtains. Spanish genuine. Briefcase triple complete and records the deliberate non-summary and its reason."
+    },
+    {
+      "trackId": "al-felony-dwop",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct, and notably strong on the fabrication test. The brief carries both § 15-27-2(a)(7) clocks only as 'As set by § 15-27-2(a)(7)' with no figures, and the treatment states no number of years anywhere, says explicitly in timing that it will not supply one, adds a doNot against writing a period into the petition on the strength of anything LegalEase gave, and lists the lengths in briefcase.outstanding while pointing to the Alabama Code site the brief carries. The unresolved 'minor traffic violations' definition is stated as the second supported reason and is never resolved for the participant. Destination is exact (criminal division of the circuit court for the county where the charge was filed, with the AOC criminal forms library as the source of the blank forms, URL from officialSources[0]). CR-65 and its certificate of service are carried as required and C-10-CRIMINAL correctly as conditional on needing costs waived — the brief's conditional requirement is not silently made optional, nor is a required component softened. Both certified records (clerk and ALEA) carried as required. No fee amount stated anywhere. Spanish is real participant prose, not a gloss. Briefcase triple complete."
+    },
+    {
+      "trackId": "al-felony-nonconviction-90",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct. The 90-day rule from the disposition is the only period stated and it is the brief's waitingPeriods[0]. The supported second reason is stated honestly: the sources leave open which felony offences the current § 15-27-2(a) reaches because the archive and internal reference both carry the older non-violent framing, and the treatment turns that into a doNot rather than an eligibility assurance. Destination exact, one petition per offence carried from venue, and local counter practice openly flagged as not fixed by the sources with the clerk named as who to ask — a stated limitation with an exact destination. Certified local record and ALEA record carried as required before filing, not as preconditions to starting, matching the brief. C-10-CRIMINAL conditional. No fee amount, address or extra deadline invented. Spanish genuine and structurally independent. Briefcase triple complete."
+    },
+    {
+      "trackId": "al-misd-dwop",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct. Shares a mechanism with al-felony-dwop by design — the brief describes the felony route as the counterpart of this one with the same two clocks — so the parallel structure is a shared mechanism rather than boilerplate across genuinely different mechanisms, and the statute is correctly § 15-27-1(a)(7) throughout with no leakage from § 15-27-2. Handles a real gap well: the brief names the subsection only as the misdemeanour-level one and does not list the offence categories it reaches, and the treatment says exactly that and sends the participant to the certified disposition and the circuit clerk rather than asserting coverage. Both clock lengths withheld with an explicit doNot against naming a period, matching the brief's 'As set by' entries. Destination exact; CR-65 required with its certificate of service, C-10-CRIMINAL conditional. No fee or address invented. Spanish genuine. Briefcase triple complete."
+    },
+    {
+      "trackId": "al-misd-nonconviction-90",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct, and the most fact-dense track in the shard, all of it traceable. 90 days from the disposition with no conviction-free interim requirement is the brief's waitingPeriods[0] verbatim in substance; one petition per offence with a single fee for petitions filed together is packetInstructions[0]; the uncapped case count under § 15-27-2.1(a)(1) is packetInstructions[2]; § 15-27-5(b) is stated with its exact nuance — discretionary on the merits, directed to grant only where unopposed and the court is reasonably satisfied of compliance — and doNot warns against reading an unopposed petition as automatic. The fail-closed scope restriction is honoured: where the disposition cannot be identified the treatment stops and routes to the clerk and the prosecuting agency rather than guessing a checkbox. Crucially, the ALEA fee is NOT invented — the brief marks its request instructions and fee as not source-approved, and the treatment tells the participant to ask ALEA directly and lists it in briefcase.outstanding. The conditional continuation page is presented as conditional. No dollar figure anywhere. Spanish genuine, including 'sobreseimiento (nolle prosse)' rendered for a Spanish reader. Briefcase triple complete."
+    },
+    {
+      "trackId": "al-pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct. Treatment choice is right and matches the brief: the applicant files ABPP-3, so the Board's later investigation and decision do not convert this into complete_guidance. Destination is exact and two-part in the way the brief describes — the Alabama Board of Pardons and Paroles as decision-maker, with the local probation office as the intake point where the application actually begins, and the Board's own forms page URL from officialSources[0]. The June 2025 ABPP-3 revision requirement and the obsolete October 2020 archive copy are carried exactly from packetInstructions[0] and turned into a participant-usable check and a doNot. This track is also the model for handling an absent fact: timing states that the sources carry no waiting period and no deadline, expressly says that is a gap rather than a statement that no timing rule exists, and names the probation office as who to ask. Gather correctly says no required attachment set is listed and directs the participant to ask, instead of inventing one. No fee, no deadline, no eligibility rule invented. Spanish genuine, with the Board's name rendered naturally and the English retained parenthetically. Briefcase triple complete; return promises no packet."
+    }
+  ]
+}

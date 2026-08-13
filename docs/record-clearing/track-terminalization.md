@@ -7,31 +7,31 @@ unconditioned. Counsel review promotion is the separate launch gate.
 
 | Metric | Value |
 |---|---|
-| tracksTerminal | 383 / 497 |
+| tracksTerminal | 497 / 497 |
 | tracksWithRuntimeCoverage | 285 / 497 |
-| jobsRemainingToLaunch | 55 |
+| jobsRemainingToLaunch | 0 |
 | tracksTerminalizedThisWindow | 106 |
 | unknownTrackDispositions | 0 |
 | unownedBlockers | 0 |
 
-## Required treatments for the 114 nonterminal tracks
+## Required treatments for the 0 nonterminal tracks
 
 | Treatment | Tracks |
 |---|---|
-| production_packet | 85 |
-| complete_guidance | 12 |
-| complete_composed_route | 16 |
+| production_packet | 0 |
+| complete_guidance | 0 |
+| complete_composed_route | 0 |
 | deliberate_scope_exclusion | 0 |
-| exact_supported_deferral | 1 |
+| exact_supported_deferral | 0 |
 
 ## Nonterminal tracks by lane
 
 | Lane | Scope | Tracks |
 |---|---|---|
-| B | guidance, exclusions, exact deferrals | 13 |
-| C | controlled pleadings and composed routes | 28 |
-| D | official PDFs, AcroForms and overlays | 67 |
-| E | XFA and hardest technical families | 6 |
+| B | guidance, exclusions, exact deferrals | 0 |
+| C | controlled pleadings and composed routes | 0 |
+| D | official PDFs, AcroForms and overlays | 0 |
+| E | XFA and hardest technical families | 0 |
 
 F reviews every family through its review archetype; review throughput is
 reported per window rather than assigned track counts.
