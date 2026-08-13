@@ -61,18 +61,56 @@ const jobs = ledger.jobs.filter((j) => j.lane === "C" && C1[j.jurisdiction]);
   const ownedPrefixes = ["data/rcap-all50/pleadings/", "data/rcap-all50/composed-routes/"];
   const bySlug = new Map(Object.entries(C1).map(([code, slug]) => [slug, code]));
   const completed = new Map();
+  // Ownership is resolved from the ARTIFACT on disk, not only from the ledger's
+  // candidateEvidence pointer. A lane-C track can now be promoted by the
+  // terminalization review, in which case its candidateEvidence names the
+  // terminal treatment that closed it rather than the pleading or composed
+  // route this lane authored — but the artifact is still here, still this
+  // lane's, and still has to pass every check below. Reading the directory
+  // keeps the verifier measuring the work rather than the bookkeeping.
+  const ownedArtifactFor = (track) => {
+    const slug = C1[track.jurisdiction];
+    if (!slug) return null;
+    for (const prefix of ownedPrefixes) {
+      const candidate = path.join(rootDir, prefix, slug, track.trackId);
+      if (fs.existsSync(candidate)) {
+        return prefix === "data/rcap-all50/composed-routes/"
+          ? { treatment: "complete_composed_route", family: "composed_route" }
+          : { treatment: "production_packet", family: "controlled_pleading" };
+      }
+    }
+    return null;
+  };
   for (const track of ledger.tracks ?? []) {
-    if (track.candidateStatus !== "promoted_by_f2") continue;
+    if (!String(track.candidateStatus ?? "").startsWith("promoted_by_")) continue;
     const evidence = String(track.candidateEvidence ?? "");
     const prefix = ownedPrefixes.find((p) => evidence.startsWith(p));
-    if (!prefix) continue;
-    const slug = evidence.slice(prefix.length).split("/")[0];
-    const code = bySlug.get(slug);
-    if (!code || code !== track.jurisdiction) continue;
-    const jobId = `T-C-${code}-${String(track.candidateTreatment).replace(/_/g, "-")}`;
+    let code = null;
+    let treatment = track.candidateTreatment;
+    // The directory the artifacts live in is chosen from implementationFamily
+    // below, so a reconstructed job has to carry it too.
+    let family = track.implementationFamily;
+    if (prefix) {
+      const slug = evidence.slice(prefix.length).split("/")[0];
+      const mapped = bySlug.get(slug);
+      if (mapped && mapped === track.jurisdiction) {
+        code = mapped;
+        family = prefix === "data/rcap-all50/composed-routes/" ? "composed_route" : "controlled_pleading";
+      }
+    } else {
+      const owned = ownedArtifactFor(track);
+      if (owned) {
+        code = track.jurisdiction;
+        treatment = owned.treatment;
+        family = owned.family;
+      }
+    }
+    if (!code) continue;
+    const jobId = `T-C-${code}-${String(treatment).replace(/_/g, "-")}`;
     const entry = completed.get(jobId) ?? {
       jobId, lane: "C", jurisdiction: code,
-      requiredTreatment: track.candidateTreatment,
+      requiredTreatment: treatment,
+      implementationFamily: family,
       trackIds: [], completedByReview: true
     };
     entry.trackIds.push(track.trackId);
