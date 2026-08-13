@@ -444,13 +444,27 @@ function gitShow(ref) {
 
 const ledger = readJson(path.join(rootDir, LEDGER_PATH));
 const ledgerJobs = new Map(ledger.jobs.map((j) => [j.jobId, j]));
-// A job whose every track was PROMOTED by an F2 closure leaves the open job
-// list; that is completion, not a missing assignment. Reconstruct it from this
-// lane's own promoted tracks (matched by owned evidence path).
+// A job whose every track was PROMOTED by review leaves the open job list; that
+// is completion, not a missing assignment. Reconstruct it from this lane's own
+// promoted tracks.
+//
+// Ownership is resolved from the ARTIFACT on disk as well as from the evidence
+// pointer: a track promoted by the terminalization review carries the terminal
+// treatment that closed it as its candidateEvidence, not the pleading this lane
+// authored — but the pleading is still here and still ours, and it still has to
+// pass every check below.
+const c3Slug = (jurisdiction) => (ASSIGNMENTS.find((a) => a.jurisdiction === jurisdiction) ?? {}).slug;
 for (const track of ledger.tracks ?? []) {
-  if (track.candidateStatus !== "promoted_by_f2") continue;
-  if (!String(track.candidateEvidence ?? "").startsWith("data/rcap-all50/pleadings/")) continue;
-  const jobId = `T-C-${track.jurisdiction}-${String(track.candidateTreatment).replace(/_/g, "-")}`;
+  if (!String(track.candidateStatus ?? "").startsWith("promoted_by_")) continue;
+  const evidence = String(track.candidateEvidence ?? "");
+  const slug = c3Slug(track.jurisdiction);
+  const ownsArtifact = slug
+    && fs.existsSync(path.join(rootDir, "data/rcap-all50/pleadings", slug, track.trackId));
+  if (!evidence.startsWith("data/rcap-all50/pleadings/") && !ownsArtifact) continue;
+  const treatment = evidence.startsWith("data/rcap-all50/pleadings/")
+    ? track.candidateTreatment
+    : "production_packet";
+  const jobId = `T-C-${track.jurisdiction}-${String(treatment).replace(/_/g, "-")}`;
   const existing = ledgerJobs.get(jobId);
   if (existing) {
     if (!existing.trackIds.includes(track.trackId)) existing.trackIds = [...existing.trackIds, track.trackId];
@@ -458,7 +472,7 @@ for (const track of ledger.tracks ?? []) {
   }
   ledgerJobs.set(jobId, {
     jobId, lane: "C", jurisdiction: track.jurisdiction,
-    requiredTreatment: track.candidateTreatment,
+    requiredTreatment: treatment,
     trackIds: [track.trackId], completedByReview: true
   });
 }
