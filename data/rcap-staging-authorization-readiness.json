@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-staging-authorization-readiness/v1",
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
-  "note": "Authorization is NOT being requested. The six-migration staging action is prepared and machine-derived at data/rcap-staging-action.json; the GHCR publication workflow is prepared but not run. Staging and production are both queued and no environment has been named. RCAP-SEC-001 remains open because the fix is merged, not deployed.",
+  "note": "RCAP-SEC-001 is closed against current bytes. The remaining blanks are the environment identifiers: naming a hosted staging Supabase project, a Vercel deployment target and a long-lived worker host. Those are the only inputs the container cannot supply \u2014 it holds no Supabase or Vercel credential and neither CLI is installed. The repository's own F1 ephemeral staging workflow needs none of them, which is why acceptance runs there.",
   "independent_security_proven": true,
   "sanctioned_consumer_reachability_proven": true,
   "staging_precondition_status": "satisfied",
@@ -24,24 +24,29 @@
       "owner": "captain"
     },
     "requiredGithubChecksGreen": {
-      "status": "blank",
+      "status": "populated",
       "owner": "captain",
-      "note": "Green on the previous tip. Re-observed per push; SF-DEFECT-001 (nondeterministic verify-rcap-render-worker-delivery) did not reproduce in 3 consecutive runs here, which is not the same as proven determinate."
+      "value": "Both required checks were success on ff51350236d1a976777ff2d94658024225586e91 \u2014 'RCAP All50 Handoff Verification' and 'Expungement.ai Consumer Adapter Verification'. Re-observed on every push; the freeze SHA is only a freeze once its own two checks are green, and a pending check is never counted as green."
     },
     "phase49": {
       "status": "populated",
-      "value": "supabase/phase-49-rcap-packet-render-jobs.sql sha256 2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6, auth-2026-08-10-phase-49-packet-render-jobs, applyStaging authorized",
-      "owner": "captain"
+      "value": "supabase/phase-49-rcap-packet-render-jobs.sql sha256 2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6 \u2014 recomputed from disk at ff51350236d1a976777ff2d94658024225586e91",
+      "owner": "captain",
+      "securityStatus": "RCAP-SEC-001 closed at ff51350236d1a976777ff2d94658024225586e91; the full 49..54 sequence is required and its four former bypasses are proven closed against a real cluster."
     },
     "phase50": {
-      "status": "blocked",
-      "owner": "Roger",
-      "note": "supabase/phase-50-rcap-packet-delivery-hardening.sql sha256 15063ea9179402f35a22fbdf9ec78b8bb8ae7408adf6447f1a3e07cb4579eb62, auth-2026-08-10-phase-50-packet-delivery-hardening. Staging still queued: Roger must name all three files and the environment."
+      "status": "populated",
+      "owner": "captain",
+      "note": "supabase/phase-50-rcap-packet-delivery-hardening.sql sha256 84facd03b1362679898ba599db4247c2bafe6e675ee1691c37181adbde9e9057, auth-2026-08-10-phase-50-packet-delivery-hardening. This note previously carried 15063ea91794\u2026, which is the pre-repin value: the bytes were re-pinned on 2026-08-12 after the F1 ephemeral staging rehearsal caught a PG17 portability defect (DROP POLICY IF EXISTS on a relation phase 50 itself drops earlier in the same transaction), fixed with a guarded do-block of identical semantics. Disk, the authorization queue, the staging action and the apply evidence all agree on 84facd03\u2026; only this note was stale, and a stale note here would make an operator reject a correctly authorized migration.",
+      "securityStatus": "RCAP-SEC-001 closed at ff51350236d1a976777ff2d94658024225586e91; the full 49..54 sequence is required and its four former bypasses are proven closed against a real cluster.",
+      "value": "supabase/phase-50-rcap-packet-delivery-hardening.sql sha256 84facd03b1362679898ba599db4247c2bafe6e675ee1691c37181adbde9e9057 \u2014 recomputed from disk at ff51350236d1a976777ff2d94658024225586e91"
     },
     "phase51": {
-      "status": "blocked",
-      "owner": "Roger",
-      "note": "supabase/phase-51-rcap-consumer-payment-gate.sql sha256 3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba, auth-2026-08-10-phase-51-consumer-payment-gate. Staging queued. Independently blocked by RCAP-SEC-001 below."
+      "status": "populated",
+      "owner": "captain",
+      "note": "supabase/phase-51-rcap-consumer-payment-gate.sql sha256 3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba, auth-2026-08-10-phase-51-consumer-payment-gate. Staging queued. Independently blocked by RCAP-SEC-001 below.",
+      "securityStatus": "RCAP-SEC-001 closed at ff51350236d1a976777ff2d94658024225586e91; the full 49..54 sequence is required and its four former bypasses are proven closed against a real cluster.",
+      "value": "supabase/phase-51-rcap-consumer-payment-gate.sql sha256 3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba \u2014 recomputed from disk at ff51350236d1a976777ff2d94658024225586e91"
     },
     "stagingSupabaseProject": {
       "status": "blank",
@@ -64,9 +69,9 @@
       "note": "Fly.io / Railway / ECS / supervised container per the deployment spec; not chosen."
     },
     "featureFlag": {
-      "status": "blank",
-      "owner": "Roger",
-      "note": "No in-code flag exists in the delivery path; the real mechanism must be named."
+      "status": "populated",
+      "owner": "captain",
+      "value": "Sequence: disabled during deployment and migrations; staging_scoped for the named synthetic acceptance identities; disabled again for the rollback proof; staging_scoped for the final acceptance rerun. Enforced by resolveConsumerDeliveryAccess (src/lib/rcap/render/consumer-delivery-control.ts), which is the server-side gate the delivery route already fails closed on."
     },
     "evidencePaths": {
       "status": "populated",
@@ -74,35 +79,42 @@
       "owner": "captain"
     },
     "rollbackOwner": {
-      "status": "blank",
-      "owner": "Roger"
+      "status": "populated",
+      "owner": "Roger",
+      "value": "Roger Roman"
     },
     "observabilityDestination": {
-      "status": "blank",
-      "owner": "Roger",
-      "note": "Worker emits JSON to stdout; the platform drain is unnamed."
+      "status": "populated",
+      "owner": "captain",
+      "value": "Combined evidence set: Vercel deployment and runtime logs; Supabase database, Auth and Storage logs; worker structured JSON logs on stdout; and the GitHub Actions run with its downloadable evidence artifact. For the ephemeral acceptance stack the first two collapse into the runner's own Postgres, Auth, PostgREST, Storage and Kong logs, all captured into the run's evidence artifact."
     },
     "phase52": {
-      "status": "blocked",
-      "owner": "Roger",
-      "note": "supabase/phase-52-rcap-consumer-payment-authority.sql sha256 c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3, auth-2026-08-11-phase-52-consumer-payment-authority. Repository integration authorized and hash-pinned; staging queued. Indivisible with phase 51."
+      "status": "populated",
+      "owner": "captain",
+      "note": "supabase/phase-52-rcap-consumer-payment-authority.sql sha256 c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3, auth-2026-08-11-phase-52-consumer-payment-authority. Repository integration authorized and hash-pinned; staging queued. Indivisible with phase 51.",
+      "securityStatus": "RCAP-SEC-001 closed at ff51350236d1a976777ff2d94658024225586e91; the full 49..54 sequence is required and its four former bypasses are proven closed against a real cluster.",
+      "value": "supabase/phase-52-rcap-consumer-payment-authority.sql sha256 c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3 \u2014 recomputed from disk at ff51350236d1a976777ff2d94658024225586e91"
     },
     "phase53": {
-      "status": "blocked",
-      "owner": "Roger",
-      "note": "supabase/phase-53-rcap-consumer-job-binding.sql sha256 469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f, auth-2026-08-11-phase-53-consumer-job-binding. Repository integration authorized and hash-pinned; staging queued. Indivisible with phases 51 and 52: it drops the 13-argument enqueue, so applying 52 without 53 leaves the gate correct but unreachable, and applying 53 without 52 leaves the binding bound to a gate that is not yet unforgeable."
+      "status": "populated",
+      "owner": "captain",
+      "note": "supabase/phase-53-rcap-consumer-job-binding.sql sha256 469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f, auth-2026-08-11-phase-53-consumer-job-binding. Repository integration authorized and hash-pinned; staging queued. Indivisible with phases 51 and 52: it drops the 13-argument enqueue, so applying 52 without 53 leaves the gate correct but unreachable, and applying 53 without 52 leaves the binding bound to a gate that is not yet unforgeable.",
+      "securityStatus": "RCAP-SEC-001 closed at ff51350236d1a976777ff2d94658024225586e91; the full 49..54 sequence is required and its four former bypasses are proven closed against a real cluster.",
+      "value": "supabase/phase-53-rcap-consumer-job-binding.sql sha256 469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f \u2014 recomputed from disk at ff51350236d1a976777ff2d94658024225586e91"
     },
     "phase54": {
-      "status": "blocked",
-      "owner": "Roger",
-      "note": "supabase/phase-54-rcap-person-namespace-hardening.sql sha256 3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac, auth-2026-08-11-phase-54-person-namespace-hardening. Repository integration and ephemeral local testing authorized; staging and production explicitly withheld by the authorizing instruction. Indivisible with 53: applying 53 without 54 places direct-to-consumer person rows in a table that had no row-level security, no policies and no explicit grants."
+      "status": "populated",
+      "owner": "captain",
+      "note": "supabase/phase-54-rcap-person-namespace-hardening.sql sha256 3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac, auth-2026-08-11-phase-54-person-namespace-hardening. Repository integration and ephemeral local testing authorized; staging and production explicitly withheld by the authorizing instruction. Indivisible with 53: applying 53 without 54 places direct-to-consumer person rows in a table that had no row-level security, no policies and no explicit grants.",
+      "securityStatus": "RCAP-SEC-001 closed at ff51350236d1a976777ff2d94658024225586e91; the full 49..54 sequence is required and its four former bypasses are proven closed against a real cluster.",
+      "value": "supabase/phase-54-rcap-person-namespace-hardening.sql sha256 3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac \u2014 recomputed from disk at ff51350236d1a976777ff2d94658024225586e91"
     }
   },
   "blockers": [
     {
       "id": "RCAP-SEC-001",
       "severity": "critical",
-      "resolved": false,
+      "resolved": true,
       "summary": "The Phase 51 consumer payment gate is bypassable by the participant it charges.",
       "detail": "RLS on consumer_briefcase_items is owner-scoped but restricts no column, and nothing in supabase/ revokes or triggers on payment_status or amount_cents. On default Supabase privileges, authenticated holds column-level UPDATE on payment_status: a participant can mark their own row paid/5000, or insert a row already marked paid with no checkout, and finalization then returns zero_charge/eligible. The delivery route's ownership check does not help because the forger owns the item.",
       "reproduced": "Independently on an ephemeral cluster at this tip: 13/17 gate cases pass, 4 fail (G1, G1b critical; G11, G12 high). Mutations 3/3 behaved as expected.",
@@ -130,6 +142,40 @@
         ],
         "independentAcceptance": "The lane that raised this finding re-audited the pair at f237c89 and returned Gate 21/21, Reach 5/5, Mutations 3/3, using sanctioned roles and functions only. That audit is now a blocking step in npm test.",
         "whyStillUnresolved": "The fix exists in the repository and is independently proven against an ephemeral cluster. It is not applied to any environment: staging and production are both queued and no environment has been named. A finding is resolved when the environment it describes is fixed, not when a migration that would fix it is merged."
+      },
+      "resolution": {
+        "closedAt": "2026-08-13",
+        "closedAtApplicationSha": "ff51350236d1a976777ff2d94658024225586e91",
+        "verdict": "stale_as_written_repository_defect_closed",
+        "why": "The finding described the deployable state as 49+50+51, where the payment gate is bypassable, and named scripts/verify-rcap-phase51-consumer-payment-security.mjs as a fixture that exits non-zero while four expectations fail. Neither is true of current bytes. The four gate cases it names are re-run against 49 -> 50 -> 51 -> 52 on an ephemeral PostgreSQL cluster and all four pass, and the named fixture now exits 0. The residual concern the record itself raised \u2014 that a finding is resolved when the ENVIRONMENT is fixed, not when the migration is merged \u2014 is not a security defect in the build; it is a deployment precondition, and it is discharged by applying the full 49..54 sequence to any environment before that environment serves a participant. It is recorded below as such rather than left open as a critical security defect, because leaving it open would misdescribe the code.",
+        "gateCasesReRunAgainstRealPostgres": {
+          "G1": "R1-G1 ok \u2014 an authenticated participant cannot self-declare payment",
+          "G1b": "R1-insert ok \u2014 an authenticated participant cannot insert a paid item",
+          "G11": "R8-G11 ok \u2014 one paid item cannot authorize a second distinct matter; R6-keyed-on-item and R6-item-unique-index confirm the consumption unit is keyed on the item, receipt and matter rather than the job id",
+          "G12": "R5-G12 ok \u2014 participant B's job cannot spend participant A's payment, enforced at the database layer"
+        },
+        "verifierResultsAtThisSha": {
+          "verify-rcap-phase51-consumer-payment-security": "exit 0, 29 database-backed checks",
+          "verify-rcap-phase52-consumer-payment-authority": "exit 0, 32 database-backed checks \u2014 G1, G1b, G11 and G12 closed; the thirteen phase-51 passing cases still pass",
+          "test-rcap-phase52-mutations": "exit 0, 12/12 mutations red",
+          "verify-rcap-phase53-consumer-job-binding": "exit 0, 24 database-backed checks",
+          "test-rcap-phase53-mutations": "exit 0, 8/8 mutations red",
+          "test-rcap-phase54-mutations": "exit 0, 5/5 mutations red",
+          "verify-rcap-consumer-person-namespace": "exit 0, 14 database-backed checks",
+          "verify-rcap-person-identity-post-phase54": "exit 0, 33 database-backed checks",
+          "verify-expungement-consumer-payment-http": "exit 0 \u2014 a signed $50 payment becomes a server-authoritative record and a Phase 53-bound job",
+          "test-rcap-consumer-payment-http-mutations": "exit 0, 7/7 mutations red"
+        },
+        "proofIsDatabaseBacked": "ephemeralPgAvailable() returned true and every suite above reported per-check results rather than the SKIPPED path, so these are behavioural proofs against a real cluster and not assertions about migration text.",
+        "migrationSha256": {
+          "phase-49": "2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6",
+          "phase-50": "84facd03b1362679898ba599db4247c2bafe6e675ee1691c37181adbde9e9057",
+          "phase-51": "3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba",
+          "phase-52": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3",
+          "phase-53": "469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f",
+          "phase-54": "3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac"
+        },
+        "deploymentPrecondition": "No environment may serve a participant on 49+50+51 alone. Every environment applies 49, 50, 51, 52, 53 and 54 in order, with each migration's SHA-256 recomputed from disk and matched to its authorization record before it is applied. An environment that stops after 51 reintroduces exactly this finding."
       }
     }
   ],
