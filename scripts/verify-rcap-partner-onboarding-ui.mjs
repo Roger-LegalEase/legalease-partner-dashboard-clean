@@ -12,6 +12,25 @@ const ts = require("typescript");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const moduleCache = new Map();
 
+const internalDetailPageSource = fs.readFileSync(
+  path.join(
+    rootDir,
+    "src/app/internal/partners/onboarding/[partnerSlug]/page.tsx"
+  ),
+  "utf8"
+);
+assert.match(
+  internalDetailPageSource,
+  /phase1Snapshot\.workspace\s*&&\s*isRcapOnboardingPrefillEnabled\(\)/,
+  "A partner without a Phase 1 workspace must still reach the workspace creation control when Prefill is enabled."
+);
+
+assert.match(
+  internalDetailPageSource,
+  /phase1Snapshot\.workspace\s*&&\s*isRcapOnboardingLaunchPrepEnabled\(\)/,
+  "A partner without a Phase 1 workspace must still reach the workspace creation control when Launch Prep is enabled."
+);
+
 const mocks = {
   "next/link": function Link({ children, href, ...props }) {
     return React.createElement("a", { ...props, href: String(href) }, children);
