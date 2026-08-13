@@ -65,9 +65,9 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_APPLICATION_SHA: c5aa751296d8de2ed70bbb87294e27c88efce714
-  AUTHORIZED_WORKER_SOURCE_SHA: c5aa751296d8de2ed70bbb87294e27c88efce714
-  AUTHORIZED_WORKER_DIGEST: sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8
+  AUTHORIZED_APPLICATION_SHA: f2ab56cc31c16d973ef755abb651872e3738e538
+  AUTHORIZED_WORKER_SOURCE_SHA: f2ab56cc31c16d973ef755abb651872e3738e538
+  AUTHORIZED_WORKER_DIGEST: sha256:57d08bd3ea228575c778a4ea299222b2bc5b7f85c19e35985f594744f7ed2b30
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/rcap-final-sprint-integration
@@ -137,6 +137,22 @@ jobs:
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: node scripts/rcap-hosted-acceptance-migrate.mjs
+
+      # Deploys the FROZEN application bytes. The equivalence check above has
+      # already proven this checkout is byte-identical to application_sha on
+      # src, package.json, package-lock.json, tsconfig.json, next.config.ts and
+      # public — so deploying this tree deploys the freeze, and the tools commit
+      # carrying this step is not a new application freeze.
+      - name: Deploy the frozen application SHA to Vercel Preview
+        if: inputs.phase == 'deploy' || inputs.phase == 'full'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-hosted-acceptance-deploy.mjs
 
       - name: Upload the hosted acceptance evidence
         if: always()

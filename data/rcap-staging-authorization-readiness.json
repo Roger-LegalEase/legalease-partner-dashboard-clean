@@ -20,8 +20,9 @@
   "fields": {
     "finalIntegrationSha": {
       "status": "populated",
-      "value": "set at the integration tip; re-derive immediately before any apply — never reuse a SHA quoted in a report",
-      "owner": "captain"
+      "owner": "captain",
+      "value": "f2ab56cc31c16d973ef755abb651872e3738e538 — the final application SHA. Both required checks green on this exact SHA: RCAP All50 Handoff Verification run 31747005532 and Expungement.ai Consumer Adapter Verification run 31747005481.",
+      "toolsSha": "f1cc9ec8ced493765134153c5588a0d55925460a — deployment tooling only; git diff --quiet proves it changes neither the application bytes nor the worker image inputs relative to the freeze, so it is not a new application freeze."
     },
     "requiredGithubChecksGreen": {
       "status": "populated",
@@ -65,7 +66,8 @@
     "workerImageSourceAndDigest": {
       "status": "populated",
       "owner": "captain",
-      "value": "ghcr.io/roger-legalease/rcap-render-worker@sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8, built from source SHA c5aa751296d8de2ed70bbb87294e27c88efce714 and tagged with that full SHA only. No mutable latest tag was created. Dockerfile sha256 6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7; lockfile sha256 fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7. Workflow run 31709404015 on workflow SHA c5aa751296d8de2ed70bbb87294e27c88efce714. This supersedes the historical F1 digest sha256:337083a2…, which was built from different source inputs and must not be used for this freeze."
+      "value": "ghcr.io/roger-legalease/rcap-render-worker@sha256:57d08bd3ea228575c778a4ea299222b2bc5b7f85c19e35985f594744f7ed2b30, built from source SHA f2ab56cc31c16d973ef755abb651872e3738e538 and tagged with that full SHA only. No mutable latest tag. Publication run 31748354318; the record reports publishOnlyNoDeploy true, workerClaimingStarted false, stagingAndProductionUnchanged true. Dockerfile sha256 6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7; lockfile sha256 fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7.",
+      "supersedes": "sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8 — superseded historical acceptance evidence, not deployable."
     },
     "workerDeploymentTarget": {
       "status": "populated",
@@ -208,9 +210,27 @@
     "stagingWorkerHostReadPermission": "The staging worker host must authenticate to ghcr.io and hold read:packages for the private package ghcr.io/roger-legalease/rcap-render-worker. In practice that is a GitHub token or a GitHub App installation token with package read scope on Roger-LegalEase, supplied to the host as a registry pull secret. It must NOT be the workflow's GITHUB_TOKEN, which does not exist outside the run.",
     "imageBytesChanged": "package.json changed between the recorded publication proof (abbc48a1) and the candidate SHA. The image bytes therefore differ from that proof and the publishable digest must be minted by a rebuild at the final accepted SHA.",
     "owner": "Terminal D executes the publication after the final SHA is cleared; this terminal does not run it.",
-    "publishedDigest": "sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8",
-    "publishedSourceSha": "c5aa751296d8de2ed70bbb87294e27c88efce714",
-    "workflowRunId": "31709404015",
-    "mutableLatestTagCreated": false
+    "publishedDigest": "sha256:57d08bd3ea228575c778a4ea299222b2bc5b7f85c19e35985f594744f7ed2b30",
+    "publishedSourceSha": "f2ab56cc31c16d973ef755abb651872e3738e538",
+    "workflowRunId": "31748354318",
+    "mutableLatestTagCreated": false,
+    "imageTag": "f2ab56cc31c16d973ef755abb651872e3738e538",
+    "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:f2ab56cc31c16d973ef755abb651872e3738e538",
+    "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:57d08bd3ea228575c778a4ea299222b2bc5b7f85c19e35985f594744f7ed2b30",
+    "supersededDigests": [
+      {
+        "digest": "sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8",
+        "sourceSha": "c5aa751296d8de2ed70bbb87294e27c88efce714",
+        "workflowRunId": "31709404015",
+        "status": "superseded_historical_acceptance_evidence",
+        "why": "Built before the authorized delivery-control correction. Its src tree predates the VERCEL_TARGET_ENV/VERCEL_ENV classifier, so it carries the defect that made staging_scoped unreachable on every hosted deployment. It remains valid evidence of the ephemeral acceptance run 31710245816 and must not be deployed."
+      },
+      {
+        "digest": "sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
+        "sourceSha": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
+        "status": "superseded_historical_acceptance_evidence",
+        "why": "The original F1 digest, built from different source inputs again."
+      }
+    ]
   }
 }

@@ -23,10 +23,10 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_full"
+        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_full"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_full]
+        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_full]
         default: ephemeral
       supabase_project_ref:
         description: "Acceptance Supabase project ref (hosted modes only)"
@@ -59,9 +59,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTHORIZED_APPLICATION_SHA: c5aa751296d8de2ed70bbb87294e27c88efce714
-  AUTHORIZED_WORKER_SOURCE_SHA: c5aa751296d8de2ed70bbb87294e27c88efce714
-  AUTHORIZED_WORKER_DIGEST: sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8
+  AUTHORIZED_APPLICATION_SHA: f2ab56cc31c16d973ef755abb651872e3738e538
+  AUTHORIZED_WORKER_SOURCE_SHA: f2ab56cc31c16d973ef755abb651872e3738e538
+  AUTHORIZED_WORKER_DIGEST: sha256:57d08bd3ea228575c778a4ea299222b2bc5b7f85c19e35985f594744f7ed2b30
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/rcap-final-sprint-integration
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
@@ -72,7 +72,7 @@ jobs:
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight') }}
+      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight')) }}
       application_sha: ${{ inputs.application_sha }}
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}
