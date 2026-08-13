@@ -248,24 +248,85 @@ const sequence = action.migrationsInApplyOrder;
 
 // --- 3. The authorized six, in order, indivisibly ---------------------------
 {
-  let applied = 0;
+  // A migration ledger, because "apply the sequence" and "the sequence is
+  // applied" are different claims and only the second one matters.
+  //
+  // These six files are not written to be re-runnable — phase 50 creates a
+  // trigger unconditionally — so a second run against an environment that
+  // already has them fails on a duplicate object. That is a re-run artifact,
+  // not a defect, and treating it as a failure would mean the pipeline could
+  // never verify an environment it had already built.
+  //
+  // So each phase is applied once and recorded against the exact SHA-256 that
+  // was applied. A later run skips a phase whose recorded hash matches the file
+  // on disk. A phase whose recorded hash DIFFERS is not skipped and not
+  // silently re-applied: the hash gate above has already refused the run in
+  // that case, because the file no longer matches its authorization record.
+  await query(`
+    create table if not exists public.rcap_acceptance_migration_ledger (
+      phase int primary key,
+      sha256 text not null,
+      authorization_id text not null,
+      applied_at timestamptz not null default now(),
+      applied_by text not null
+    )
+  `);
+  await query(`revoke all on public.rcap_acceptance_migration_ledger from anon, authenticated`);
+
+  const ledgerRows = await query(`select phase, sha256 from public.rcap_acceptance_migration_ledger`);
+  const ledger = new Map(
+    (Array.isArray(ledgerRows.json) ? ledgerRows.json : []).map((row) => [Number(row.phase), String(row.sha256)])
+  );
+
+  // Duplicate-object codes. Seeing one means the phase's objects are already
+  // present from an earlier apply — which the readback below then has to
+  // confirm on its own terms. It is recorded as adopted rather than applied, so
+  // the evidence never claims this run did work it did not do.
+  const ALREADY_PRESENT = /42710|42P07|42701|42P06|already exists/i;
+
+  let satisfied = 0;
   let failure = null;
   for (const entry of sequence) {
+    const row = evidence.authorizedSequence.find((candidate) => candidate.phase === entry.phase);
+    const onDisk = row.onDisk;
+
+    if (ledger.get(entry.phase) === onDisk) {
+      row.applied = true;
+      row.disposition = "already_applied_at_this_hash";
+      satisfied += 1;
+      console.log(`    phase ${entry.phase} already applied at ${onDisk.slice(0, 12)}… (ledger)`);
+      continue;
+    }
+
     const sql = fs.readFileSync(path.join(rootDir, entry.path), "utf8");
     const r = await query(sql);
-    const row = evidence.authorizedSequence.find((candidate) => candidate.phase === entry.phase);
-    row.applied = r.ok;
-    row.error = r.ok ? null : String(r.json?.message ?? r.text).slice(0, 400);
-    if (!r.ok) { failure = `phase ${entry.phase} failed: ${row.error}`; break; }
-    applied += 1;
-    console.log(`    applied phase ${entry.phase} (${entry.authorizationId})`);
+    const duplicate = !r.ok && ALREADY_PRESENT.test(String(r.json?.message ?? r.text));
+
+    if (r.ok || duplicate) {
+      await query(`
+        insert into public.rcap_acceptance_migration_ledger (phase, sha256, authorization_id, applied_by)
+        values (${entry.phase}, '${onDisk}', '${entry.authorizationId}', '${duplicate ? "adopted_existing_objects" : "hosted_acceptance_pipeline"}')
+        on conflict (phase) do update set sha256 = excluded.sha256, applied_at = now(), applied_by = excluded.applied_by
+      `);
+      row.applied = true;
+      row.disposition = duplicate ? "objects_already_present_adopted" : "applied_by_this_run";
+      satisfied += 1;
+      console.log(`    phase ${entry.phase} ${duplicate ? "adopted (objects already present)" : "applied"} (${entry.authorizationId})`);
+      continue;
+    }
+
+    row.applied = false;
+    row.error = String(r.json?.message ?? r.text).slice(0, 400);
+    failure = `phase ${entry.phase} failed: ${row.error}`;
+    break;
   }
+
   record(
     "authorized_sequence_applied_in_order",
-    applied === sequence.length,
-    applied === sequence.length
-      ? `49 -> 50 -> 51 -> 52 -> 53 -> 54 applied in order to ${PROJECT_REF} (${applied}/${sequence.length}), each hash-gated against both records`
-      : `${failure} — applied ${applied}/${sequence.length}; the sequence is indivisible, so this environment must not serve a participant`
+    satisfied === sequence.length,
+    satisfied === sequence.length
+      ? `49 -> 50 -> 51 -> 52 -> 53 -> 54 are all present on ${PROJECT_REF} at their authorized hashes (${satisfied}/${sequence.length}: ${evidence.authorizedSequence.map((r) => `${r.phase}=${r.disposition}`).join(", ")}). The readback below is what proves they took effect.`
+      : `${failure} — satisfied ${satisfied}/${sequence.length}; the sequence is indivisible, so this environment must not serve a participant`
   );
 }
 
