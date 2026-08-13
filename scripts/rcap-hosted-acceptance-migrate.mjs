@@ -278,17 +278,17 @@ const sequence = action.migrationsInApplyOrder;
   const truthy = (value) => value === true || value === "true" || value === "t";
 
   {
-    const exists = await scalar(`select to_regclass('public.rcap_packet_render_jobs') is not null`);
-    const rls = await rlsOn("rcap_packet_render_jobs");
+    const exists = await scalar(`select to_regclass('public.packet_render_jobs') is not null`);
+    const rls = await rlsOn("packet_render_jobs");
     const browserGrants = await scalar(
       `select count(*)::int from information_schema.role_table_grants
-       where table_schema = 'public' and table_name = 'rcap_packet_render_jobs' and grantee in ('anon','authenticated')`
+       where table_schema = 'public' and table_name = 'packet_render_jobs' and grantee in ('anon','authenticated')`
     );
     const pass = truthy(exists) && truthy(rls) && Number(browserGrants) === 0;
     record(
       "render_jobs_table_secured",
       pass,
-      `rcap_packet_render_jobs exists=${truthy(exists)}, rowsecurity=${truthy(rls)}, anon/authenticated table grants=${browserGrants} (must be 0)`
+      `packet_render_jobs exists=${truthy(exists)}, rowsecurity=${truthy(rls)}, anon/authenticated table grants=${browserGrants} (must be 0)`
     );
     evidence.readback.renderJobs = { exists: truthy(exists), rls: truthy(rls), browserGrants: Number(browserGrants) };
   }
@@ -378,8 +378,18 @@ const sequence = action.migrationsInApplyOrder;
         probe_item uuid;
         forged boolean := false;
       begin
-        insert into public.consumer_briefcase_items (user_id, item_type, jurisdiction, summary, payment_status)
-        values (probe_user, 'result', 'MS', 'hosted acceptance negative control', 'unpaid')
+        -- consumer_briefcase_items.user_id references auth.users, so the probe
+        -- needs a real identity. It is created here, used for one statement,
+        -- and removed in the same block whatever the outcome.
+        insert into auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, created_at, updated_at)
+        values (probe_user, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
+                'negative-control-' || probe_user || '@rcap-acceptance.test', '', now(), now(), now());
+
+        insert into public.consumer_briefcase_items
+          (user_id, item_type, jurisdiction, status, summary_json, payment_status)
+        values
+          (probe_user, 'result', 'MS', 'guidance_saved',
+           '{"note":"hosted acceptance negative control"}'::jsonb, 'unpaid')
         returning id into probe_item;
 
         begin
@@ -393,10 +403,12 @@ const sequence = action.migrationsInApplyOrder;
 
         if forged or exists (select 1 from public.consumer_briefcase_items where id = probe_item and payment_status = 'paid') then
           delete from public.consumer_briefcase_items where id = probe_item;
+          delete from auth.users where id = probe_user;
           raise exception 'RCAP-SEC-001 REPRODUCED ON THE HOSTED ACCEPTANCE PROJECT';
         end if;
 
         delete from public.consumer_briefcase_items where id = probe_item;
+        delete from auth.users where id = probe_user;
       end $$;
     `);
     const reproduced = !probe.ok && /RCAP-SEC-001 REPRODUCED/.test(String(probe.json?.message ?? probe.text));
