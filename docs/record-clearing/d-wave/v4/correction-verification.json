@@ -1,0 +1,704 @@
+{
+  "schema": "rcap-d-v4-correction-verification/v1",
+  "posture": "Every claim the implementation makes about the final bytes, answered from those bytes. Not a review: the implementation session may not approve its own work.",
+  "canonicalControlPlaneBase": "08dbcfe1b287bac9cf72be0db168d94542d513a5",
+  "totals": {
+    "families": 8,
+    "assertions": 75,
+    "passed": 75,
+    "failed": 0
+  },
+  "byFamily": {
+    "MO:cr145-form-petition-en": {
+      "pass": 8,
+      "fail": 0,
+      "failed": []
+    },
+    "NH:nhjb-2956-support-record-request-en": {
+      "pass": 7,
+      "fail": 0,
+      "failed": []
+    },
+    "VA:cc-1203-form-en": {
+      "pass": 10,
+      "fail": 0,
+      "failed": []
+    },
+    "VT:200-00631-form-en": {
+      "pass": 10,
+      "fail": 0,
+      "failed": []
+    },
+    "WA:blake-006-form-en": {
+      "pass": 10,
+      "fail": 0,
+      "failed": []
+    },
+    "WA:blake-008-form-en": {
+      "pass": 10,
+      "fail": 0,
+      "failed": []
+    },
+    "WA:crrlj-09-0100-form-en": {
+      "pass": 10,
+      "fail": 0,
+      "failed": []
+    },
+    "WA:crrlj-09-0870-form-en": {
+      "pass": 10,
+      "fail": 0,
+      "failed": []
+    }
+  },
+  "assertions": [
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "assertion": "every manifest path exists on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "assertion": "every manifest digest is the digest of the file on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "assertion": "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+      "pass": true,
+      "detail": {
+        "fixtures/canonical-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/boundary-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/negative-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "contact-sheet/blank-vs-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        }
+      }
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "assertion": "the contact sheet was built from the finalized participant artifact",
+      "pass": true,
+      "detail": {
+        "proofBuiltFrom": "e38212978685b7a5851754c451595fea3438afc137036674fa2f9a6e60c548ac",
+        "proofFinalized": "e38212978685b7a5851754c451595fea3438afc137036674fa2f9a6e60c548ac",
+        "artifactOnDisk": "e38212978685b7a5851754c451595fea3438afc137036674fa2f9a6e60c548ac"
+      }
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "assertion": "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "assertion": "'Other Defendants' is refused with an agency or outside-party reason",
+      "pass": true,
+      "detail": {
+        "field": "Other Defendants",
+        "reason": "protected_category",
+        "category": "outside_party"
+      }
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "assertion": "the petitioner's name does not appear in the 'Other Defendants' widget on the page",
+      "pass": true,
+      "detail": {
+        "outcome": "absent",
+        "drawn": ""
+      }
+    },
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "assertion": "the sibling agency fields remain refused",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "assertion": "every manifest path exists on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "assertion": "every manifest digest is the digest of the file on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "assertion": "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+      "pass": true,
+      "detail": {
+        "fixtures/canonical-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/boundary-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/negative-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "contact-sheet/blank-vs-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        }
+      }
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "assertion": "the contact sheet was built from the finalized participant artifact",
+      "pass": true,
+      "detail": {
+        "proofBuiltFrom": "1325545d6a8e71c173e736fc31d2860e5de8a363647c9781bca412059198911b",
+        "proofFinalized": "1325545d6a8e71c173e736fc31d2860e5de8a363647c9781bca412059198911b",
+        "artifactOnDisk": "1325545d6a8e71c173e736fc31d2860e5de8a363647c9781bca412059198911b"
+      }
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "assertion": "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "assertion": "the sheet's panels differ and its scan is clean",
+      "pass": true,
+      "detail": {
+        "hits": [],
+        "inspectable": true,
+        "compressed": false,
+        "clean": true,
+        "verdict": "clean"
+      }
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "assertion": "the manifest records the sheet that is on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "every manifest path exists on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "every manifest digest is the digest of the file on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+      "pass": true,
+      "detail": {
+        "fixtures/canonical-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/boundary-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "contact-sheet/blank-vs-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        }
+      }
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "the contact sheet was built from the finalized participant artifact",
+      "pass": true,
+      "detail": {
+        "proofBuiltFrom": "857f5c87fe4dba2d092c77394c1e7c4cdb5337e4652124fa470a63fbbe5de4af",
+        "proofFinalized": "857f5c87fe4dba2d092c77394c1e7c4cdb5337e4652124fa470a63fbbe5de4af",
+        "artifactOnDisk": "857f5c87fe4dba2d092c77394c1e7c4cdb5337e4652124fa470a63fbbe5de4af"
+      }
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "every fitting decision is either rendered-whole or withdrawn",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "no decision records a clean outcome while the rendered text is shorter than the supplied value",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "no rendered value leaves its widget",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "every withdrawn value is recorded with its geometry and both character counts",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "assertion": "a withdrawn value is blank on the page, not filed in a shorter form",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "every manifest path exists on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "every manifest digest is the digest of the file on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+      "pass": true,
+      "detail": {
+        "fixtures/canonical-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/boundary-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "contact-sheet/blank-vs-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        }
+      }
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "the contact sheet was built from the finalized participant artifact",
+      "pass": true,
+      "detail": {
+        "proofBuiltFrom": "cd2e117a6395acc9ff850ee0864ae51383d32c1bd1e0e7721ec16fa69715915d",
+        "proofFinalized": "cd2e117a6395acc9ff850ee0864ae51383d32c1bd1e0e7721ec16fa69715915d",
+        "artifactOnDisk": "cd2e117a6395acc9ff850ee0864ae51383d32c1bd1e0e7721ec16fa69715915d"
+      }
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "every fitting decision is either rendered-whole or withdrawn",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "no decision records a clean outcome while the rendered text is shorter than the supplied value",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "no rendered value leaves its widget",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "every withdrawn value is recorded with its geometry and both character counts",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "assertion": "a withdrawn value is blank on the page, not filed in a shorter form",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "every manifest path exists on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "every manifest digest is the digest of the file on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+      "pass": true,
+      "detail": {
+        "fixtures/canonical-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/boundary-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "contact-sheet/blank-vs-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        }
+      }
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "the contact sheet was built from the finalized participant artifact",
+      "pass": true,
+      "detail": {
+        "proofBuiltFrom": "850a77c35f59945ef5b78e6c51dd65c4e6b095949e645bdd3a57dd77709f0086",
+        "proofFinalized": "850a77c35f59945ef5b78e6c51dd65c4e6b095949e645bdd3a57dd77709f0086",
+        "artifactOnDisk": "850a77c35f59945ef5b78e6c51dd65c4e6b095949e645bdd3a57dd77709f0086"
+      }
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "the profile's unreadable-line count equals the decoder's own refusal count",
+      "pass": true,
+      "detail": {
+        "profile": 0,
+        "perPage": 0,
+        "ledger": 0
+      }
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "a zero-unreadable result is not recorded while the decoder refused a line",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "'no participant label matched' is not concluded where usable labels were read",
+      "pass": true,
+      "detail": 79
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "every refused line and every refused label is recorded with a reason",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "assertion": "undecodable geometry fails closed: no anchor sits on a refused line",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "every manifest path exists on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "every manifest digest is the digest of the file on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+      "pass": true,
+      "detail": {
+        "fixtures/canonical-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/boundary-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "contact-sheet/blank-vs-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        }
+      }
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "the contact sheet was built from the finalized participant artifact",
+      "pass": true,
+      "detail": {
+        "proofBuiltFrom": "7163e0088ce5b3279c33903bbd89126dcda2718967633de34827c7f33f55ef73",
+        "proofFinalized": "7163e0088ce5b3279c33903bbd89126dcda2718967633de34827c7f33f55ef73",
+        "artifactOnDisk": "7163e0088ce5b3279c33903bbd89126dcda2718967633de34827c7f33f55ef73"
+      }
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "the profile's unreadable-line count equals the decoder's own refusal count",
+      "pass": true,
+      "detail": {
+        "profile": 0,
+        "perPage": 0,
+        "ledger": 0
+      }
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "a zero-unreadable result is not recorded while the decoder refused a line",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "'no participant label matched' is not concluded where usable labels were read",
+      "pass": true,
+      "detail": 91
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "every refused line and every refused label is recorded with a reason",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "assertion": "undecodable geometry fails closed: no anchor sits on a refused line",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "every manifest path exists on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "every manifest digest is the digest of the file on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+      "pass": true,
+      "detail": {
+        "fixtures/canonical-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/boundary-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "contact-sheet/blank-vs-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        }
+      }
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "the contact sheet was built from the finalized participant artifact",
+      "pass": true,
+      "detail": {
+        "proofBuiltFrom": "96c0242ccbb59b93e997ee9da6faa42a1f90e73ab90f2e8b09fedefa2326778f",
+        "proofFinalized": "96c0242ccbb59b93e997ee9da6faa42a1f90e73ab90f2e8b09fedefa2326778f",
+        "artifactOnDisk": "96c0242ccbb59b93e997ee9da6faa42a1f90e73ab90f2e8b09fedefa2326778f"
+      }
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "the profile's unreadable-line count equals the decoder's own refusal count",
+      "pass": true,
+      "detail": {
+        "profile": 2,
+        "perPage": 2,
+        "ledger": 2
+      }
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "a zero-unreadable result is not recorded while the decoder refused a line",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "'no participant label matched' is not concluded where usable labels were read",
+      "pass": true,
+      "detail": 76
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "every refused line and every refused label is recorded with a reason",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "assertion": "undecodable geometry fails closed: no anchor sits on a refused line",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "every manifest path exists on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "every manifest digest is the digest of the file on disk",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+      "pass": true,
+      "detail": {
+        "fixtures/canonical-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "fixtures/boundary-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        },
+        "contact-sheet/blank-vs-filled.pdf": {
+          "inspectable": true,
+          "clean": true,
+          "hits": []
+        }
+      }
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "the contact sheet was built from the finalized participant artifact",
+      "pass": true,
+      "detail": {
+        "proofBuiltFrom": "5d0ee077940ac9cafddc7978471e00aac1fe3dbda4303073f66c50e4c3a0b567",
+        "proofFinalized": "5d0ee077940ac9cafddc7978471e00aac1fe3dbda4303073f66c50e4c3a0b567",
+        "artifactOnDisk": "5d0ee077940ac9cafddc7978471e00aac1fe3dbda4303073f66c50e4c3a0b567"
+      }
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "the profile's unreadable-line count equals the decoder's own refusal count",
+      "pass": true,
+      "detail": {
+        "profile": 7,
+        "perPage": 7,
+        "ledger": 7
+      }
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "a zero-unreadable result is not recorded while the decoder refused a line",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "'no participant label matched' is not concluded where usable labels were read",
+      "pass": true,
+      "detail": 41
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "every refused line and every refused label is recorded with a reason",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "assertion": "undecodable geometry fails closed: no anchor sits on a refused line",
+      "pass": true,
+      "detail": null
+    }
+  ]
+}
