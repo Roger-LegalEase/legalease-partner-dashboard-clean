@@ -47,16 +47,34 @@ function record(caseId, passed, observed) {
   console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
 }
 
-const REQUIRED_CASES = [
+// Two gates, because they guard different actions.
+//
+// The SUPABASE gate is what permits writing to the acceptance project. Its
+// emptiness case is conclusive on its own: a production LegalEase database
+// cannot be missing all six of the tables the product's own migrations create,
+// so a project where none of them exists is not production, whatever any other
+// system says about it.
+//
+// The VERCEL gate is what permits deploying. Its disjointness cases are a
+// second, independent proof of the same fact, from the deployment side.
+//
+// PREFLIGHT_SCOPE selects which gates must pass. It is set by the workflow's
+// mode, not by a soft override, and the scope that ran is recorded in the
+// evidence — so "supabase_only" can never be mistaken for a full pass.
+const SUPABASE_GATE = [
   "supabase_token_usable",
   "acceptance_project_resolves",
   "acceptance_project_reachable_for_sql",
-  "acceptance_project_carries_no_production_data",
+  "acceptance_project_carries_no_production_data"
+];
+const VERCEL_GATE = [
   "vercel_token_usable",
   "vercel_project_resolves",
   "acceptance_ref_disjoint_from_vercel_production",
   "acceptance_ref_absent_from_every_production_value"
 ];
+const SCOPE = process.env.PREFLIGHT_SCOPE === "supabase_only" ? "supabase_only" : "full";
+const REQUIRED_CASES = SCOPE === "supabase_only" ? SUPABASE_GATE : [...SUPABASE_GATE, ...VERCEL_GATE];
 
 const sha256 = (value) => crypto.createHash("sha256").update(String(value)).digest("hex");
 
@@ -136,6 +154,10 @@ async function query(sql) {
 const evidence = {
   schemaVersion: "rcap-hosted-acceptance-preflight/v1",
   acceptanceProjectRef: ACCEPTANCE_PROJECT_REF,
+  scope: SCOPE,
+  scopeMeaning: SCOPE === "supabase_only"
+    ? "Only the Supabase gate was required. This authorizes writing to the acceptance project. It does NOT authorize deploying, and it is not a full preflight pass."
+    : "Both gates were required: writing to the acceptance project and deploying the application.",
   cases: {}
 };
 
@@ -251,12 +273,46 @@ let vercelProject = null;
   // working credential as broken.
   const listing = await vercelApi("/v9/projects?limit=1");
   const usable = listing.status === 200;
+
+  // A bare 403 is not an actionable report. When the scoped listing is refused,
+  // three unscoped probes separate "the token is bad" from "the token is fine
+  // but the org identifier is wrong" from "the token is fine and scoped to a
+  // different team". Shapes are reported; values never are.
+  let diagnosis = "";
+  if (!usable) {
+    const shape = (name, value) => `${name}=<${value.length} chars, prefix "${value.slice(0, 5)}…">`;
+    const unscopedProjects = await vercelFetch("https://api.vercel.com/v9/projects?limit=1");
+    const teams = await vercelFetch("https://api.vercel.com/v2/teams?limit=20");
+    const teamList = Array.isArray(teams.json?.teams) ? teams.json.teams : [];
+    const orgMatches = teamList.some((team) => team.id === VERCEL_ORG_ID || team.slug === VERCEL_ORG_ID);
+
+    if (teams.status === 403 && unscopedProjects.status === 403) {
+      diagnosis = "the token is refused on every endpoint including unscoped ones, so the credential itself is not valid for this account — it is expired, revoked, or was pasted incompletely. Reissue a Vercel access token and update the VERCEL_TOKEN secret.";
+    } else if (teamList.length > 0 && !orgMatches) {
+      diagnosis = `the token is valid and can see ${teamList.length} team(s), but VERCEL_ORG_ID matches none of their ids or slugs. Update VERCEL_ORG_ID to the team the project lives under.`;
+    } else if (unscopedProjects.status === 200) {
+      diagnosis = "the token is valid for personal-scope projects but is refused under the supplied org, so it is scoped to a different account or team than VERCEL_ORG_ID names.";
+    } else {
+      diagnosis = `unscoped project listing returned ${unscopedProjects.status} and team listing returned ${teams.status}; the token is authenticated but authorized for neither, which usually means an access token limited to a specific scope that excludes this project.`;
+    }
+    diagnosis += ` Supplied identifier shapes (values never printed): ${shape("VERCEL_ORG_ID", VERCEL_ORG_ID)}, ${shape("VERCEL_PROJECT_ID", VERCEL_PROJECT_ID)}.`;
+    evidence.cases.vercelDiagnosis = {
+      scopedListingStatus: listing.status,
+      unscopedListingStatus: unscopedProjects.status,
+      teamListingStatus: teams.status,
+      visibleTeamCount: teamList.length,
+      orgIdMatchesAVisibleTeam: orgMatches,
+      orgIdLooksLikeTeamId: VERCEL_ORG_ID.startsWith("team_"),
+      projectIdLooksLikeProjectId: VERCEL_PROJECT_ID.startsWith("prj_")
+    };
+  }
+
   record(
     "vercel_token_usable",
     usable,
     usable
       ? `the token lists projects under the supplied org scope (scoped by ${teamParam}); this is the access the deployment step needs`
-      : `project listing returned ${listing.status}: ${listing.text}`
+      : `project listing returned ${listing.status} — ${diagnosis}`
   );
 
   // The endpoint accepts an id or a name, so the supplied value is accepted as
@@ -346,11 +402,17 @@ let vercelProject = null;
 // --- verdict -----------------------------------------------------------------
 {
   const missing = REQUIRED_CASES.filter((caseId) => !verdicts.has(caseId));
-  const failed = [...verdicts.entries()].filter(([, v]) => !v.passed).map(([caseId]) => caseId);
+  // Only cases inside the required scope can fail the run; the others are still
+  // executed and still reported, so a scoped run never hides what it saw.
+  const failed = REQUIRED_CASES.filter((caseId) => verdicts.get(caseId)?.passed === false);
+  const failedOutsideScope = [...verdicts.entries()]
+    .filter(([caseId, v]) => !v.passed && !REQUIRED_CASES.includes(caseId))
+    .map(([caseId]) => caseId);
   evidence.cases.verdicts = Object.fromEntries([...verdicts.entries()].map(([k, v]) => [k, v.passed]));
   evidence.requiredCases = REQUIRED_CASES;
   evidence.missingCases = missing;
   evidence.failedCases = failed;
+  evidence.failedOutsideRequiredScope = failedOutsideScope;
   evidence.passed = missing.length === 0 && failed.length === 0;
   fs.writeFileSync(
     path.join(EVIDENCE_DIR, "preflight.json"),
@@ -359,9 +421,16 @@ let vercelProject = null;
 
   console.log("");
   if (missing.length > 0) console.error(`PREFLIGHT INCOMPLETE — no verdict registered for: ${missing.join(", ")}`);
-  if (failed.length > 0) console.error(`PREFLIGHT FAILED — ${failed.join(", ")}`);
+  if (failed.length > 0) console.error(`PREFLIGHT FAILED (scope ${SCOPE}) — ${failed.join(", ")}`);
+  if (failedOutsideScope.length > 0) {
+    console.log(`PREFLIGHT NOTE — outside the required scope and still failing: ${failedOutsideScope.join(", ")}. These do not gate this run and must be closed before the deployment step.`);
+  }
   if (evidence.passed) {
-    console.log(`PREFLIGHT PASSED — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; ${ACCEPTANCE_PROJECT_REF} is credentialled, reachable and demonstrably not production.`);
+    console.log(
+      SCOPE === "supabase_only"
+        ? `PREFLIGHT PASSED (SUPABASE GATE ONLY) — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; ${ACCEPTANCE_PROJECT_REF} may be written to. This is NOT authorization to deploy.`
+        : `PREFLIGHT PASSED — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; ${ACCEPTANCE_PROJECT_REF} is credentialled, reachable and demonstrably not production.`
+    );
   }
   process.exit(evidence.passed ? 0 : 1);
 }

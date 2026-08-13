@@ -120,12 +120,27 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          # `migrate` requires only the Supabase gate, because writing to the
+          # acceptance project and deploying the application are different
+          # actions guarded by different proofs. The scope is recorded in the
+          # evidence, so a Supabase-only pass can never read as a full one.
+          PREFLIGHT_SCOPE: ${{ inputs.phase == 'migrate' && 'supabase_only' || 'full' }}
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
 
-      - name: Upload the preflight evidence
+      # Guarded by the preflight above: this step is not reached unless the
+      # acceptance project has been proven empty of production data in this
+      # same job, moments earlier and against the same project ref.
+      - name: Apply the authorized sequence to the acceptance project
+        if: inputs.phase == 'migrate' || inputs.phase == 'full'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+        run: node scripts/rcap-hosted-acceptance-migrate.mjs
+
+      - name: Upload the hosted acceptance evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rcap-hosted-preflight-${{ github.run_id }}
+          name: rcap-hosted-${{ inputs.phase }}-${{ github.run_id }}
           path: hosted-acceptance-evidence/
           if-no-files-found: error
