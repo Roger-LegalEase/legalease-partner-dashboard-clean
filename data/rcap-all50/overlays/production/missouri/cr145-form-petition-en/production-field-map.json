@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-acroform-map/v6-d0",
-  "factoryVersion": "d0-remediated-v1",
+  "factoryVersion": "d0-v4",
   "family": "cr145-form-petition-en",
   "jurisdiction": "MO",
   "documentOwnership": "participant_completed",
@@ -21,298 +21,302 @@
     }
   ],
   "captionOnly": false,
-  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs), unmodified; every field starts protected",
+  "bindingBasis": "typed fail-closed binder applied to the field name and to the printed label measured beside each widget; every field starts protected",
   "explicitMappings": {},
   "bindings": [
     {
-      "field": "Other Defendants",
-      "class": "participant",
-      "factId": "participant.full_legal_name",
-      "kind": "text"
-    },
-    {
       "field": "Criminal Case Number",
-      "class": "participant",
       "factId": "matter.case_number",
       "kind": "text"
     },
     {
       "field": "Petitioner",
-      "class": "participant",
       "factId": "participant.full_legal_name",
       "kind": "text"
     },
     {
       "field": "Case Number",
-      "class": "participant",
       "factId": "matter.case_number",
       "kind": "text"
     },
     {
       "field": "County",
-      "class": "participant",
       "factId": "matter.county",
       "kind": "text"
     },
     {
       "field": "Full Name",
-      "class": "participant",
       "factId": "participant.full_legal_name",
       "kind": "text"
     },
     {
       "field": "Date of Birth",
-      "class": "participant",
       "factId": "participant.date_of_birth",
       "kind": "text"
     },
     {
       "field": "Address at Time of Arrest",
-      "class": "participant",
       "factId": "participant.street_address",
       "kind": "text"
     },
     {
       "field": "Arrest Citation Number",
-      "class": "participant",
       "factId": "matter.citation_number",
       "kind": "text"
     },
     {
       "field": "County where Petitioner was arrested",
-      "class": "participant",
       "factId": "matter.county",
       "kind": "text"
     },
     {
       "field": "Case Number of the Offense",
-      "class": "participant",
       "factId": "matter.case_number",
       "kind": "text"
     }
   ],
   "bindingRefusals": [
     {
+      "field": "Other Defendants",
+      "reason": "protected_category",
+      "category": "outside_party"
+    }
+  ],
+  "measuredLabels": [
+    {
       "field": "Defendant: Circuit Court Division Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Defendant(s):",
+      "source": "above_widget"
     },
     {
       "field": "Circuit Court Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "Circuit Court Division",
+      "source": "left_of_widget"
     },
     {
       "field": "Defendant: County Sheriff's Department Check box",
-      "reason": "protected_category",
-      "category": "agency",
-      "factId": null
+      "label": "Defendant(s):",
+      "source": "line_above_widget"
     },
     {
       "field": "County Sheriff's Dept",
-      "reason": "protected_category",
-      "category": "agency",
-      "factId": null
+      "label": "Defendant(s):",
+      "source": "line_above_widget"
     },
     {
       "field": "Defendant: Associate Court Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Circuit Court Division",
+      "source": "line_above_widget"
     },
     {
       "field": "Associate Court Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "Circuit Court Division",
+      "source": "line_above_widget"
     },
     {
       "field": "Defendant: Municipal Police Department Check box",
-      "reason": "protected_category",
-      "category": "agency",
-      "factId": null
+      "label": "Circuit Court Division",
+      "source": "line_above_widget"
     },
     {
       "field": "Municipal Police Dept",
-      "reason": "protected_category",
-      "category": "agency",
-      "factId": null
+      "label": "County Sheriff’s Dept.",
+      "source": "above_widget"
     },
     {
       "field": "Defendant: Municipal Court Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Associate Court Division",
+      "source": "line_above_widget"
     },
     {
       "field": "Municipal Court Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "Associate Court Division",
+      "source": "above_widget"
     },
     {
       "field": "Defendant: Missouri Highway Patrol Troop Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Associate Court Division",
+      "source": "line_above_widget"
     },
     {
       "field": "Missouri Highway Patrol Troop",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "Municipal Police Dept.",
+      "source": "above_widget"
     },
     {
       "field": "Defendant: Criminal Records Repository Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Patrol Troop",
+      "source": "line_above_widget"
     },
     {
       "field": "County Prosecutor's Office",
-      "reason": "protected_category",
-      "category": "prosecutor",
-      "factId": null
+      "label": "County",
+      "source": "left_of_widget"
     },
     {
       "field": "Defendant: County Prosecutor's Office Check box",
-      "reason": "protected_category",
-      "category": "prosecutor",
-      "factId": null
+      "label": "Prosecutor’s Office (include name of county or city)",
+      "source": "above_widget"
     },
     {
       "field": "Defendant: Municipal Prosecutor's Office Check box",
-      "reason": "protected_category",
-      "category": "prosecutor",
-      "factId": null
+      "label": "County",
+      "source": "line_above_widget"
     },
     {
       "field": "Municipal Prosecutor's Office",
-      "reason": "protected_category",
-      "category": "prosecutor",
-      "factId": null
+      "label": "Municipal",
+      "source": "left_of_widget"
     },
     {
       "field": "Defendant's: Other Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Municipal",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "Other Defendants",
+      "label": "Other (include name and address of agency):",
+      "source": "above_widget"
+    },
+    {
+      "field": "Criminal Case Number",
+      "label": "Pursuant to section 610.122, RSMo, I request that the court issue an order to expunge my record of",
+      "source": "above_widget"
     },
     {
       "field": "CB1A",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "arrest, for the following criminal case:",
+      "source": "above_widget"
     },
     {
       "field": "CB1B",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "verification of my identity.",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "Petitioner",
+      "label": "Court ORI No.:",
+      "source": "line_above_widget"
     },
     {
       "field": "Judge or Division",
-      "reason": "protected_category",
-      "category": "court",
-      "factId": null
+      "label": "Judge:",
+      "source": "left_of_widget"
+    },
+    {
+      "field": "Case Number",
+      "label": "COUNTY, MISSOURI",
+      "source": "above_widget"
     },
     {
       "field": "Court ORI Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "Court ORI No.:",
+      "source": "left_of_widget"
+    },
+    {
+      "field": "County",
+      "label": "JUDICIAL CIRCUIT,",
+      "source": "left_of_widget"
     },
     {
       "field": "Male Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Sex",
+      "source": "left_of_widget"
     },
     {
       "field": "Female Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "M",
+      "source": "left_of_widget"
     },
     {
       "field": "Race",
-      "reason": "protected_category",
-      "category": "race",
-      "factId": null
+      "label": "Race",
+      "source": "left_of_widget"
+    },
+    {
+      "field": "Date of Birth",
+      "label": "Date of Birth",
+      "source": "above_widget"
     },
     {
       "field": "Social Security Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "Social Security Number",
+      "source": "above_widget"
     },
     {
       "field": "DLN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "Driver’s License Number",
+      "source": "above_widget"
+    },
+    {
+      "field": "Address at Time of Arrest",
+      "label": "Address at Time of Arrest",
+      "source": "above_widget"
     },
     {
       "field": "Offense Charged",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact",
-      "factId": null
+      "label": "Offense Charged",
+      "source": "above_widget"
     },
     {
       "field": "Date of Arrest",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact",
-      "factId": null
+      "label": "Date of Arrest",
+      "source": "above_widget"
+    },
+    {
+      "field": "Arrest Citation Number",
+      "label": "Arrest Citation Number",
+      "source": "above_widget"
     },
     {
       "field": "Date of Dismissal or Reversal",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "If criminal charges were filed, date of dismissal or reversal",
+      "source": "above_widget"
+    },
+    {
+      "field": "County where Petitioner was arrested",
+      "label": "also Name Municipality)",
+      "source": "above_widget"
     },
     {
       "field": "Name of Arresting Agency",
-      "reason": "protected_category",
-      "category": "agency",
-      "factId": null
+      "label": "Name of Arresting Agency",
+      "source": "above_widget"
     },
     {
       "field": "Division of Court of the Offense: Circuit Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Case Number and Division of Court of the Offense",
+      "source": "left_of_widget"
     },
     {
       "field": "Division of Court of the Offense: Associate Court Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Circuit",
+      "source": "left_of_widget"
     },
     {
       "field": "Division of Court of the Offense: Municipal Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Associate",
+      "source": "left_of_widget"
     },
     {
       "field": "Division of Court of the Offense",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact",
-      "factId": null
+      "label": "Circuit",
+      "source": "above_widget"
+    },
+    {
+      "field": "Case Number of the Offense",
+      "label": "#",
+      "source": "left_of_widget"
     },
     {
       "field": "Not Applicable Check box",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "factId": null
+      "label": "Division",
+      "source": "above_widget"
     },
     {
       "field": "Circuit",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "factId": null
+      "label": "Petition for Expungement of Arrest Records",
+      "source": "above_widget"
     }
   ]
 }

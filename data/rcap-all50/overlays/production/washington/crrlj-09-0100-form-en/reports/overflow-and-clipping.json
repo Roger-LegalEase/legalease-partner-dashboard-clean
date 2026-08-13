@@ -1,6 +1,147 @@
 {
-  "schemaVersion": "rcap-overflow-report/v2",
-  "boundaryFixtureApplied": false,
-  "unfittableRefusedNotClipped": [],
-  "findings": []
+  "schemaVersion": "rcap-overflow-report/v4-d0v4",
+  "policy": "A value renders whole inside its measured write box or the anchor is refused and nothing is drawn.",
+  "findings": [
+    {
+      "fixture": "boundary",
+      "anchor": "Print Name",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 386.1,
+        "y": 284.8,
+        "width": 171.89999999999998,
+        "height": 13.04
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
+    },
+    {
+      "fixture": "boundary",
+      "anchor": "Street Address or PO Box",
+      "factId": "participant.street_address",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+      "rect": {
+        "x": 205.7,
+        "y": 349.8,
+        "width": 114.30000000000001,
+        "height": 13.04
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 214.7
+    },
+    {
+      "fixture": "boundary",
+      "anchor": "City",
+      "factId": "participant.city",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Unincorporated Township of Long Hollow Crossing",
+      "rect": {
+        "x": 350,
+        "y": 349.8,
+        "width": 78,
+        "height": 13.04
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 134
+    }
+  ],
+  "allFittingDecisions": [
+    {
+      "fixture": "canonical",
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "canonical",
+      "anchor": "Print Name",
+      "factId": "participant.full_legal_name",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "canonical",
+      "anchor": "I, (name)",
+      "factId": "participant.full_legal_name",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "canonical",
+      "anchor": "Print Name",
+      "factId": "participant.full_legal_name",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "canonical",
+      "anchor": "Mailing Address, unless confidential:",
+      "factId": "participant.street_address",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "canonical",
+      "anchor": "Street Address or PO Box",
+      "factId": "participant.street_address",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "canonical",
+      "anchor": "City",
+      "factId": "participant.city",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "canonical",
+      "anchor": "Zip",
+      "factId": "participant.zip",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "boundary",
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name",
+      "selectedFontSize": 8,
+      "fittingOutcome": "shrunk"
+    },
+    {
+      "fixture": "boundary",
+      "anchor": "I, (name)",
+      "factId": "participant.full_legal_name",
+      "selectedFontSize": 8,
+      "fittingOutcome": "shrunk"
+    },
+    {
+      "fixture": "boundary",
+      "anchor": "Print Name",
+      "factId": "participant.full_legal_name",
+      "selectedFontSize": 11,
+      "fittingOutcome": "fit"
+    },
+    {
+      "fixture": "boundary",
+      "anchor": "Mailing Address, unless confidential:",
+      "factId": "participant.street_address",
+      "selectedFontSize": 8,
+      "fittingOutcome": "shrunk"
+    },
+    {
+      "fixture": "boundary",
+      "anchor": "Zip",
+      "factId": "participant.zip",
+      "selectedFontSize": 8.5,
+      "fittingOutcome": "shrunk"
+    }
+  ]
 }

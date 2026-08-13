@@ -6,7 +6,7 @@
   "documentId": "200-00631",
   "revision": "REV-2019-09",
   "sha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
-  "factoryVersion": "d0-remediated-v1",
+  "factoryVersion": "d0-v4",
   "documentOwnership": "court_issued_caption_only",
   "documentOwnershipBasis": "manifest_document_role_ORDER",
   "captionOnly": true,
@@ -18,81 +18,15 @@
       "orientation": "portrait"
     }
   ],
-  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs decideBinding), unmodified, with lane-level guards that only ever narrow it",
+  "bindingBasis": "typed fail-closed binder applied to the field name and to the printed label measured beside each widget; every field starts protected",
   "bindings": [
     {
       "field": "1",
       "factId": "participant.full_legal_name",
-      "valueType": "string",
-      "subject": "Name of Person Requesting Sealing Order",
-      "subjectBasis": "measured_printed_label_positional_widget_name"
+      "kind": "text"
     }
   ],
-  "bindingRefusals": [
-    {
-      "field": "2",
-      "reason": "protected_category",
-      "category": "agency",
-      "subject": "Name of Requestor’s Criminal Justice Agency",
-      "fallbackLabelTried": null
-    },
-    {
-      "field": "3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "subject": "3",
-      "fallbackLabelTried": null
-    },
-    {
-      "field": "4",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "subject": "4",
-      "fallbackLabelTried": null
-    },
-    {
-      "field": "5",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "subject": "5",
-      "fallbackLabelTried": null
-    },
-    {
-      "field": "6",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "subject": "6",
-      "fallbackLabelTried": null
-    },
-    {
-      "field": "7",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "subject": "7",
-      "fallbackLabelTried": null
-    },
-    {
-      "field": "8",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "subject": "8",
-      "fallbackLabelTried": null
-    },
-    {
-      "field": "9",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "subject": "9",
-      "fallbackLabelTried": null
-    },
-    {
-      "field": "10",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "subject": "10",
-      "fallbackLabelTried": null
-    }
-  ],
+  "bindingRefusals": [],
   "overlapGuard": {
     "rule": "Two writable widgets whose rectangles overlap are refused as a group: once the form's own scripting is stripped there is nothing left in the document that says which one the court reads.",
     "groups": []
@@ -109,5 +43,57 @@
   "overflowPolicy": {
     "longText": "shrink_to_fit_then_refuse_below_6pt",
     "multiline": "wrap_within_widget_rect"
-  }
+  },
+  "measuredLabels": [
+    {
+      "field": "2",
+      "label": "Name of Requestor’s Criminal Justice Agency",
+      "source": "left_of_widget"
+    },
+    {
+      "field": "3",
+      "label": "Name of Requestor’s Criminal Justice Agency",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "4",
+      "label": "Phone Number",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "5",
+      "label": "Email Address",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "6",
+      "label": "Information Regarding Sealing Order Requested",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "7",
+      "label": "Defendant’s date of birth (required)",
+      "source": "left_of_widget"
+    },
+    {
+      "field": "8",
+      "label": "Defendant’s date of birth (required)",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "9",
+      "label": "County of venue (required)",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "10",
+      "label": "Docket number",
+      "source": "line_above_widget"
+    },
+    {
+      "field": "1",
+      "label": "Name of Person Requesting Sealing Order",
+      "source": "left_of_widget"
+    }
+  ]
 }
