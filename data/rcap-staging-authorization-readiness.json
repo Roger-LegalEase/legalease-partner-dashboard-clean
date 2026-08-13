@@ -49,9 +49,9 @@
       "value": "supabase/phase-51-rcap-consumer-payment-gate.sql sha256 3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba \u2014 recomputed from disk at ff51350236d1a976777ff2d94658024225586e91"
     },
     "stagingSupabaseProject": {
-      "status": "blank",
-      "owner": "Roger",
-      "note": "No staging environment is identified anywhere in the repository or container."
+      "status": "populated",
+      "owner": "captain",
+      "value": "rcap-acceptance \u2014 the repository's own disposable stack (Postgres, Auth, PostgREST, Storage, Kong, Mailpit) created and destroyed inside the GitHub Actions runner by .github/workflows/rcap-f1-ephemeral-staging.yml. Chosen because it is demonstrably non-production by construction: it outlives nothing, touches no hosted project, and needs no Supabase credential. A hosted legalease-rcap-acceptance project could not be created from this container \u2014 it holds no SUPABASE_ACCESS_TOKEN and the Supabase CLI is not installed."
     },
     "applicationDeploymentTarget": {
       "status": "blank",
@@ -59,14 +59,14 @@
       "note": "Vercel per docs/PHASE_17; the exact project is unnamed."
     },
     "workerImageSourceAndDigest": {
-      "status": "blocked",
-      "owner": "Roger",
-      "note": "Publication workflow prepared at .github/workflows/publish-rcap-render-worker.yml (sha256 53a746405b540565\u2026). Still blocked: no digest exists until Terminal D runs it at the final accepted SHA, and a local image ID is not a registry digest."
+      "status": "populated",
+      "owner": "captain",
+      "value": "ghcr.io/roger-legalease/rcap-render-worker@sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8, built from source SHA c5aa751296d8de2ed70bbb87294e27c88efce714 and tagged with that full SHA only. No mutable latest tag was created. Dockerfile sha256 6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7; lockfile sha256 fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7. Workflow run 31709404015 on workflow SHA c5aa751296d8de2ed70bbb87294e27c88efce714. This supersedes the historical F1 digest sha256:337083a2\u2026, which was built from different source inputs and must not be used for this freeze."
     },
     "workerDeploymentTarget": {
-      "status": "blank",
-      "owner": "Roger",
-      "note": "Fly.io / Railway / ECS / supervised container per the deployment spec; not chosen."
+      "status": "populated",
+      "owner": "captain",
+      "value": "The immutable worker pulled by digest sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8 inside the same F1 acceptance run and exercised against that run's stack for the golden-journey window. No long-lived worker host is provisioned by this mission."
     },
     "featureFlag": {
       "status": "populated",
@@ -203,6 +203,10 @@
     "packageVisibility": "private \u2014 Roger has not separately authorized public package visibility, so the package stays private",
     "stagingWorkerHostReadPermission": "The staging worker host must authenticate to ghcr.io and hold read:packages for the private package ghcr.io/roger-legalease/rcap-render-worker. In practice that is a GitHub token or a GitHub App installation token with package read scope on Roger-LegalEase, supplied to the host as a registry pull secret. It must NOT be the workflow's GITHUB_TOKEN, which does not exist outside the run.",
     "imageBytesChanged": "package.json changed between the recorded publication proof (abbc48a1) and the candidate SHA. The image bytes therefore differ from that proof and the publishable digest must be minted by a rebuild at the final accepted SHA.",
-    "owner": "Terminal D executes the publication after the final SHA is cleared; this terminal does not run it."
+    "owner": "Terminal D executes the publication after the final SHA is cleared; this terminal does not run it.",
+    "publishedDigest": "sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8",
+    "publishedSourceSha": "c5aa751296d8de2ed70bbb87294e27c88efce714",
+    "workflowRunId": "31709404015",
+    "mutableLatestTagCreated": false
   }
 }
