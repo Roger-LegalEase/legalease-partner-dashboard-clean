@@ -53,8 +53,25 @@ if (registrySha !== regSrc.sha256[REGISTRY_PATH]) {
 const registry = JSON.parse(registryRaw);
 const byKey = new Map(registry.tracks.map((t) => [`${t.jurisdiction}:${t.trackId}`, t]));
 
-const nonterminal = ledger.tracks.filter((t) => !t.terminal);
-if (nonterminal.length === 0) fail("the ledger reports no nonterminal tracks; there is nothing to brief");
+// The window's track set, not "whatever is nonterminal right now".
+//
+// These briefs are the evidence record for one terminalization window: the 114
+// tracks that were nonterminal when it opened. Once those tracks are terminal —
+// which is the point of the exercise — deriving from the live nonterminal set
+// would empty the artifact and strand every treatment and review that cites it.
+// So the committed artifact's own track list is authoritative once it exists,
+// and the pinned registry is still the only source of what each brief may say.
+const committed = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, "utf8")) : null;
+const windowTrackKeys = committed
+  ? new Set(committed.briefs.map((b) => b.key))
+  : new Set(ledger.tracks.filter((t) => !t.terminal).map((t) => `${t.jurisdiction}:${t.trackId}`));
+const nonterminal = ledger.tracks.filter((t) => windowTrackKeys.has(`${t.jurisdiction}:${t.trackId}`));
+if (nonterminal.length === 0) {
+  fail("no window track set could be derived: the ledger reports no nonterminal tracks and no committed briefs artifact exists");
+}
+if (committed && nonterminal.length !== committed.briefs.length) {
+  fail(`the committed briefs cover ${committed.briefs.length} tracks but only ${nonterminal.length} resolve in the ledger`);
+}
 
 /**
  * Whether the participant themselves files something.
@@ -98,6 +115,7 @@ function scopeExclusionEvidence(record) {
   return { hits, wholeMechanismExcluded };
 }
 
+const committedByKey = new Map((committed?.briefs ?? []).map((b) => [b.key, b]));
 const briefs = [];
 const counts = { complete_guidance: 0, exact_supported_deferral: 0, deliberate_scope_exclusion: 0 };
 
@@ -141,7 +159,14 @@ for (const track of nonterminal.slice().sort((a, b) => `${a.jurisdiction}:${a.tr
     proposedTreatmentBasis: basis,
     // Why no packet, stated exactly and from committed bytes. This is the
     // sentence a participant is owed, and the one a reviewer checks.
-    exactUnavailabilityEvidence: {
+    // The ledger-derived blocks are the ENTRY-TIME snapshot: why this track had
+    // no packet when the window opened. They are preserved verbatim once
+    // committed, because that is the evidence every treatment was authored
+    // against and every reviewer cited. Re-deriving them after the window closed
+    // would rewrite history to say the tracks were already terminal, which is
+    // both untrue of the moment and useless to a reader. Everything sourced from
+    // the pinned registry below is still re-derived on every run.
+    exactUnavailabilityEvidence: committedByKey.get(key)?.exactUnavailabilityEvidence ?? {
       coverageDisposition: track.coverageDisposition,
       holds: track.holds ?? [],
       mappedCompiledPathwayIds: track.mappedCompiledPathwayIds ?? [],
@@ -149,7 +174,7 @@ for (const track of nonterminal.slice().sort((a, b) => `${a.jurisdiction}:${a.tr
       legalStatus: record.legalStatus ?? null,
       legalDesignStatus: record.legalDesignStatus ?? null
     },
-    ledger: {
+    ledger: committedByKey.get(key)?.ledger ?? {
       requiredTreatment: track.requiredTreatment,
       implementationFamily: track.implementationFamily,
       declaredStrategy: track.declaredStrategy,
@@ -202,7 +227,8 @@ const payload = {
     path: REGISTRY_PATH,
     sha256: registrySha
   },
-  ledgerSource: {
+  // Also the entry-time snapshot, and for the same reason.
+  ledgerSource: committed?.ledgerSource ?? {
     path: "data/rcap-ledger/track-terminalization.json",
     windowId: ledger.windowId ?? null,
     tracksTerminal: ledger.aggregates?.tracksTerminal ?? null,
