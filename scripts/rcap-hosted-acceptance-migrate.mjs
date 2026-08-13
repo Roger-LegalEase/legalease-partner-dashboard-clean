@@ -129,6 +129,34 @@ const sequence = action.migrationsInApplyOrder;
   }
 }
 
+// --- 1b. Stamp the environment before the first write -----------------------
+// Written only to the pinned acceptance ref, and it names that ref, so a copy
+// of this row in any other database identifies the wrong project and is
+// rejected by the preflight. This is what lets the emptiness proof — which is
+// necessarily one-time — keep meaning something on every later run.
+{
+  await query(`
+    create table if not exists public.rcap_acceptance_environment_marker (
+      project_ref text primary key,
+      stamped_at timestamptz not null default now(),
+      application_sha text not null,
+      note text not null
+    )
+  `);
+  await query(`
+    insert into public.rcap_acceptance_environment_marker (project_ref, application_sha, note)
+    values (
+      '${PROJECT_REF}',
+      '${(process.env.HOSTED_APPLICATION_SHA ?? "unrecorded").replace(/[^0-9a-f]/g, "").slice(0, 40) || "unrecorded"}',
+      'RCAP acceptance environment. Stamped by the hosted acceptance pipeline immediately before its first write, at which point every production witness table was proven absent or empty. Not a production database.'
+    )
+    on conflict (project_ref) do update set stamped_at = now(), application_sha = excluded.application_sha
+  `);
+  // The marker is metadata about the environment, never participant data, so
+  // no browser role has any business reading it.
+  await query(`revoke all on public.rcap_acceptance_environment_marker from anon, authenticated`);
+}
+
 // --- 2. Baseline: everything before phase 49, in phase order ----------------
 {
   const files = fs.readdirSync(path.join(rootDir, "supabase"))
@@ -155,28 +183,48 @@ const sequence = action.migrationsInApplyOrder;
   for (const name of ordered) {
     const rel = `supabase/${name}`;
     const sql = fs.readFileSync(path.join(rootDir, rel), "utf8");
-    const r = await query(sql);
+    let r = await query(sql);
+    let elevated = false;
+
+    // On hosted Supabase the Management API executes as `postgres`, which is a
+    // MEMBER of supabase_storage_admin but not the owner of storage.objects —
+    // so a migration that enables RLS or defines a policy on that table is
+    // refused with 42501 even though the same file applies fine on a local
+    // stack where postgres owns everything. Retrying once under the role that
+    // does own it is the difference between the hosted and local platforms, not
+    // a relaxation of anything: the migration file is used byte-for-byte and is
+    // never edited, and the elevation is recorded per file.
+    if (!r.ok && /42501|must be owner of/i.test(String(r.json?.message ?? r.text))) {
+      r = await query(`set role supabase_storage_admin;\n${sql}\nreset role;`);
+      elevated = r.ok;
+    }
+
     evidence.baseline.push({
       file: rel,
       sha256: sha256File(rel),
       applied: r.ok,
+      appliedUnderStorageAdminRole: elevated,
       // Truncated hard: a database error can echo a statement, and a statement
       // in the seed file can contain values. The full text is never kept.
       error: r.ok ? null : String(r.json?.message ?? r.text).slice(0, 300)
     });
-    console.log(`    ${r.ok ? "applied " : "skipped "} ${rel}${r.ok ? "" : ` — ${String(r.json?.message ?? r.text).slice(0, 160)}`}`);
+    console.log(`    ${r.ok ? (elevated ? "applied*" : "applied ") : "skipped "} ${rel}${r.ok ? "" : ` — ${String(r.json?.message ?? r.text).slice(0, 160)}`}`);
   }
 
   // The baseline is judged on its RESULT, not on how many files were clean.
   // These are the tables the acceptance journeys and the authorized sequence
   // both need; if one is missing, the baseline failed no matter what applied.
+  // Exact relation names as the migrations create them. `screening_sessions`
+  // and `partner_entitlement` carry no rcap_ prefix, and an earlier version of
+  // this list invented one for each — which failed the run for two tables that
+  // had in fact applied cleanly.
   const REQUIRED_BASELINE_TABLES = [
     "partner_records",
     "rcap_document_packets",
     "rcap_persons",
     "consumer_briefcase_items",
-    "rcap_screening_sessions",
-    "rcap_partner_entitlement"
+    "screening_sessions",
+    "partner_entitlement"
   ];
   const missing = [];
   for (const table of REQUIRED_BASELINE_TABLES) {

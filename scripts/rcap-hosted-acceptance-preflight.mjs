@@ -214,14 +214,32 @@ const evidence = {
     // The tables a production LegalEase database necessarily has. If any of
     // these exists AND holds rows, this is not an empty acceptance project and
     // the run stops before it writes anything.
-    const PRODUCTION_WITNESS_TABLES = [
+    //
+    // Each name is the exact relation the repository's own migrations create.
+    // An earlier version listed two names that no migration creates — they read
+    // "absent" against ANY database, production included, so they proved
+    // nothing while inflating the count. The corroboration below makes that
+    // class of mistake impossible to repeat quietly: a witness that no
+    // supabase/*.sql file creates is dropped from the proof and reported.
+    const CANDIDATE_WITNESS_TABLES = [
       "partner_records",
-      "rcap_screening_sessions",
+      "screening_sessions",
       "consumer_briefcase_items",
       "rcap_document_packets",
       "rcap_persons",
-      "rcap_partner_access_codes"
+      "partner_access_codes"
     ];
+    const migrationCorpus = fs.readdirSync(path.join(rootDir, "supabase"))
+      .filter((name) => name.endsWith(".sql"))
+      .map((name) => fs.readFileSync(path.join(rootDir, "supabase", name), "utf8"))
+      .join("\n");
+    const vacuousWitnesses = CANDIDATE_WITNESS_TABLES.filter(
+      (table) => !new RegExp(`create table (if not exists )?(public\\.)?${table}\\b`, "i").test(migrationCorpus)
+    );
+    const PRODUCTION_WITNESS_TABLES = CANDIDATE_WITNESS_TABLES.filter((table) => !vacuousWitnesses.includes(table));
+    if (vacuousWitnesses.length > 0) {
+      console.log(`  note  dropped from the emptiness proof because no migration creates them: ${vacuousWitnesses.join(", ")}`);
+    }
     const sql = PRODUCTION_WITNESS_TABLES
       .map((table) => `select '${table}' as table_name, (select count(*) from public.${table}) as row_count`)
       .join("\nunion all\n");
@@ -244,18 +262,47 @@ const evidence = {
     }
 
     const populated = counts.filter((row) => Number(row.row_count) > 0);
-    const clean = presence.status === 200 || presence.status === 201 ? populated.length === 0 : false;
+    const hasWitnesses = PRODUCTION_WITNESS_TABLES.length >= 4;
+    const empty = hasWitnesses && (presence.status === 200 || presence.status === 201) && populated.length === 0;
+
+    // Emptiness is a ONE-TIME proof: the first successful migrate fills these
+    // tables, and after that a purely emptiness-based gate would refuse every
+    // re-run of the environment it just built. So the first run that writes
+    // stamps a marker naming this exact project ref as an acceptance
+    // environment. A project carrying the marker was proven empty when the
+    // marker was written and has been under this pipeline's control ever since.
+    //
+    // The marker cannot launder a production database: it is only ever written
+    // to the pinned acceptance ref, and it must name the ref it is found in —
+    // a marker copied into another database names the wrong project and is
+    // rejected.
+    const markerRows = await query(
+      `select project_ref, stamped_at, application_sha from public.rcap_acceptance_environment_marker limit 1`
+    );
+    const marker = Array.isArray(markerRows.json) ? markerRows.json[0] ?? null : null;
+    const markerValid = Boolean(marker) && String(marker.project_ref) === ACCEPTANCE_PROJECT_REF;
+
+    const clean = empty || markerValid;
     record(
       "acceptance_project_carries_no_production_data",
       clean,
-      clean
-        ? `of ${PRODUCTION_WITNESS_TABLES.length} production witness tables, ${PRODUCTION_WITNESS_TABLES.length - present.length} do not exist and ${present.length} exist with 0 rows — no production data is present`
-        : `REFUSING: production witness table(s) hold rows: ${populated.map((r) => `${r.table_name}=${r.row_count}`).join(", ")}`
+      !hasWitnesses
+        ? `only ${PRODUCTION_WITNESS_TABLES.length} witness table(s) are corroborated by a migration; that is too few to decide the question`
+        : empty
+          ? `of ${PRODUCTION_WITNESS_TABLES.length} corroborated production witness tables, ${PRODUCTION_WITNESS_TABLES.length - present.length} do not exist and ${present.length} exist with 0 rows — no production data is present${vacuousWitnesses.length > 0 ? ` (${vacuousWitnesses.length} uncorroborated name(s) excluded)` : ""}`
+          : markerValid
+            ? `the witness tables now hold rows because this pipeline built this environment: the acceptance marker names ${marker.project_ref} (this project), stamped ${marker.stamped_at} at application SHA ${String(marker.application_sha).slice(0, 12)}…, so the project was proven empty before its first write`
+            : marker
+              ? `REFUSING: an acceptance marker exists but names ${marker.project_ref}, not ${ACCEPTANCE_PROJECT_REF} — this database is not the one that was stamped`
+              : `REFUSING: production witness table(s) hold rows and no acceptance marker is present: ${populated.map((r) => `${r.table_name}=${r.row_count}`).join(", ")}`
     );
     evidence.cases.emptinessProof = {
       witnessTables: PRODUCTION_WITNESS_TABLES,
+      excludedAsUncorroborated: vacuousWitnesses,
       absent: PRODUCTION_WITNESS_TABLES.filter((t) => !present.includes(t)),
       presentWithCounts: counts.map((r) => ({ table: r.table_name, rows: Number(r.row_count) })),
+      provenBy: empty ? "emptiness" : markerValid ? "acceptance_marker" : "neither",
+      marker: marker ? { projectRef: marker.project_ref, stampedAt: marker.stamped_at } : null,
       unusedSql: sql.length > 0
     };
   } else {
