@@ -1107,14 +1107,20 @@ function verifyManifest(slug, job, failures) {
   }
   const manifest = readJson(manifestPath);
   if (manifest.jobId !== job.jobId) failures.push(`[${slug}] manifest.jobId "${manifest.jobId}" != "${job.jobId}"`);
-  // Tracks promoted by an F2 closure leave the OPEN job but remain this lane's
+  // Tracks promoted by review leave the OPEN job but remain this lane's
   // delivered work, so the manifest legitimately still lists them. The
   // comparison is against open + promoted, which is the lane's full
   // responsibility set.
+  //
+  // Ownership is resolved from the ARTIFACT on disk as well as from
+  // candidateEvidence: a track promoted by the terminalization review carries
+  // the terminal treatment that closed it as its evidence pointer, not the
+  // pleading this lane authored, but the pleading is still here and still ours.
   const ledgerDoc = readJson(path.join(rootDir, "data/rcap-ledger/track-terminalization.json"));
   const promotedHere = (ledgerDoc.tracks ?? [])
-    .filter((t) => t.candidateStatus === "promoted_by_f2"
-      && String(t.candidateEvidence ?? "").startsWith(`data/rcap-all50/pleadings/${slug}/`))
+    .filter((t) => String(t.candidateStatus ?? "").startsWith("promoted_by_")
+      && (String(t.candidateEvidence ?? "").startsWith(`data/rcap-all50/pleadings/${slug}/`)
+        || fs.existsSync(path.join(rootDir, "data/rcap-all50/pleadings", slug, t.trackId))))
     .map((t) => t.trackId);
   const ledgerIds = [...new Set([...job.trackIds, ...promotedHere])].sort();
   const manifestIds = [...(manifest.trackIds ?? [])].sort();
