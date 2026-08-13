@@ -366,7 +366,7 @@ const mul = (a, b) => [
 // position. Text is grouped into runs so a label split across several Tj
 // operators reads back as one anchor.
 export function extractTextItems(page) {
-  return walkContent(contentBytesOf(page), page.node.Resources?.(), page.node.context, [1, 0, 0, 1, 0, 0], 0);
+  return walkContent(contentBytesOf(page), page.node.Resources?.(), page.node.context, [1, 0, 0, 1, 0, 0], 0, null);
 }
 
 // Flattening a filled form does not inline the value as page text: pdf-lib
@@ -377,7 +377,35 @@ export function extractTextItems(page) {
 // a checkable claim rather than an assumption.
 const MAX_XOBJECT_DEPTH = 12;
 
-function walkContent(bytes, resources, ctx, baseCtm, depth) {
+// Transforms a Form XObject's /BBox into device space, so a run can say which
+// appearance stream drew it and not merely where it landed.
+//
+// Provenance matters because geometry alone cannot separate a filled value from
+// the form text printed around it: on a flattened form the label, the rule line
+// and the value all share a baseline, and a value that overflows its box
+// overlaps its neighbours by construction. Asking "which appearance drew this?"
+// answers exactly what a read-back needs to know; asking "what is near this
+// rectangle?" answers something else and is right only by luck.
+function placedBBox(dict, ctx, matrixToDevice) {
+  const arr = dict.lookupMaybe(PDFName.of("BBox"), PDFArray);
+  if (!arr) return null;
+  const v = arr.asArray().map((e) => Number(ctx.lookup(e)?.asNumber?.() ?? e?.asNumber?.() ?? 0));
+  if (v.length < 4 || v.some((n) => !Number.isFinite(n))) return null;
+  const corners = [[v[0], v[1]], [v[2], v[1]], [v[2], v[3]], [v[0], v[3]]]
+    .map(([x, y]) => [
+      matrixToDevice[0] * x + matrixToDevice[2] * y + matrixToDevice[4],
+      matrixToDevice[1] * x + matrixToDevice[3] * y + matrixToDevice[5]
+    ]);
+  const xs = corners.map((c) => c[0]);
+  const ys = corners.map((c) => c[1]);
+  return {
+    x: Number(Math.min(...xs).toFixed(2)), y: Number(Math.min(...ys).toFixed(2)),
+    width: Number((Math.max(...xs) - Math.min(...xs)).toFixed(2)),
+    height: Number((Math.max(...ys) - Math.min(...ys)).toFixed(2))
+  };
+}
+
+function walkContent(bytes, resources, ctx, baseCtm, depth, container) {
   if (!bytes || bytes.length === 0) return [];
   const src = Buffer.from(bytes).toString("latin1");
   const tokens = tokenize(src);
@@ -423,7 +451,9 @@ function walkContent(bytes, resources, ctx, baseCtm, depth) {
       // Carried so a caller can refuse a run it cannot read rather than
       // silently treating an undecodable run as absent.
       fullyDecoded, undecodedCodes, codeCount: codes.length,
-      fontSubtype: font?.subtype ?? null, chars
+      fontSubtype: font?.subtype ?? null, chars,
+      // Which appearance stream drew this run, if it was not the page itself.
+      container
     });
     tm = mul([1, 0, 0, 1, cursor, 0], tm);
   };
@@ -483,7 +513,12 @@ function walkContent(bytes, resources, ctx, baseCtm, depth) {
             ? matrixArr.asArray().map((v) => Number(ctx.lookup(v)?.asNumber?.() ?? v?.asNumber?.() ?? 0))
             : [1, 0, 0, 1, 0, 0];
           const inner = dict.lookupMaybe(PDFName.of("Resources"), PDFDict) ?? resources;
-          items.push(...walkContent(decodePDFRawStream(xo).decode(), inner, ctx, mul(matrix, ctm), depth + 1));
+          const toDevice = mul(matrix, ctm);
+          const bbox = placedBBox(dict, ctx, toDevice);
+          // The innermost enclosing appearance wins: a widget's stream may draw
+          // through a nested one, and it is the widget the caller asked about.
+          const nested = bbox ? { depth: depth + 1, name: nameTok.v, bbox } : container;
+          items.push(...walkContent(decodePDFRawStream(xo).decode(), inner, ctx, toDevice, depth + 1, nested));
         } catch { /* an unreadable XObject contributes nothing */ }
         break;
       }
@@ -524,6 +559,74 @@ export function groupIntoLines(items, yTolerance = 2.2) {
       chars: sorted.flatMap((i) => i.chars ?? [])
     };
   }).filter((l) => l.text.length > 0);
+}
+
+/**
+ * Splits one line into the label-sized tokens a matcher can actually use.
+ *
+ * A line is not a label. Two Washington order forms draw every glyph as its own
+ * text-showing operator -- 100% of their runs are one character long -- so a
+ * matcher that looks at runs sees "D", "i", "s" and concludes that no label is
+ * present. That conclusion is about the matcher, not the form: the same page
+ * carries "District/Municipal Court of Washington, County/City of" in plain
+ * sight. But merging everything on a baseline into one string is the opposite
+ * error, because a caption line holds "Plaintiff" on the left and "No." on the
+ * right, and an anchor measured from their concatenation points at neither.
+ *
+ * So adjacency decides. Glyphs separated by no more than an ordinary word space
+ * belong to the same token; a gap wide enough to be a column boundary ends it.
+ * The threshold scales with the type size, because a 6pt footnote and a 14pt
+ * heading do not share a definition of "far apart".
+ *
+ * Returns tokens in reading order, each with its own extent, so a caller can
+ * both read a label and place something beside it.
+ */
+export function assembleLabelTokens(line, { gapFactor = 1.1, minGap = 2.5 } = {}) {
+  const chars = (line?.chars ?? []).filter((c) => c && Number.isFinite(c.x)).sort((a, b) => a.x - b.x);
+  if (chars.length === 0) return [];
+  const size = Number(line.size) > 0 ? Number(line.size) : 10;
+  const threshold = Math.max(minGap, gapFactor * size);
+
+  const tokens = [];
+  let current = null;
+  let cursor = null;
+  for (const ch of chars) {
+    const gap = cursor === null ? 0 : ch.x - cursor;
+    if (current === null || gap > threshold) {
+      if (current) tokens.push(current);
+      current = { text: "", x: ch.x, x2: ch.x + (ch.w ?? 0), chars: [] };
+    }
+    current.text += ch.c;
+    current.x2 = Math.max(current.x2, ch.x + (ch.w ?? 0));
+    current.chars.push(ch);
+    cursor = ch.x + (ch.w ?? 0);
+  }
+  if (current) tokens.push(current);
+
+  return tokens
+    .map((t) => ({
+      text: t.text.replace(/\s+/g, " ").trim(),
+      x: Number(t.x.toFixed(1)), x2: Number(t.x2.toFixed(1)),
+      y: line.y, size: line.size,
+      charCount: t.chars.length,
+      // Carried through so a token inherits the line's readability rather than
+      // appearing trustworthy on its own.
+      fullyDecoded: line.fullyDecoded !== false,
+      metricsExact: line.metricsExact !== false
+    }))
+    .filter((t) => t.text.length > 0);
+}
+
+/**
+ * Every usable label token on a page's decodable lines, in reading order.
+ *
+ * Refused lines never contribute: a token assembled from codes nobody could
+ * decode is a guess wearing the costume of a measurement.
+ */
+export function assembleLabelTokensFromLines(lines, options = {}) {
+  return lines
+    .filter((l) => l.fullyDecoded !== false && l.metricsExact !== false)
+    .flatMap((l) => assembleLabelTokens(l, options));
 }
 
 /**

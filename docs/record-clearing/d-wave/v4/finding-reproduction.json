@@ -1,0 +1,437 @@
+{
+  "schema": "rcap-d-v4-finding-reproduction/v1",
+  "posture": "Read-only. Reproduces each open finding against the imported bytes before any correction, so a fix can be shown to have addressed the defect that was actually reported.",
+  "canonicalControlPlaneBase": "08dbcfe1b287bac9cf72be0db168d94542d513a5",
+  "totals": {
+    "findings": 8,
+    "reproduced": 8
+  },
+  "findings": [
+    {
+      "findingId": "D-V3-R-007",
+      "familyId": "MO:cr145-form-petition-en",
+      "reviewerClaim": "the petitioner's own name is written into 'Other Defendants', whose printed label names an agency",
+      "reproduced": true,
+      "observed": {
+        "boundFactId": "participant.full_legal_name",
+        "boundClass": "participant",
+        "printedLabelAboveWidget": "Other (include name and address of agency):",
+        "widgetRect": {
+          "x": 56.2,
+          "y": 381.15,
+          "width": 513.47,
+          "height": 46.33
+        },
+        "valueVisibleInArtifact": "complete",
+        "drawnText": null
+      },
+      "detail": "bound to participant.full_legal_name; printed label above the widget reads \"Other (include name and address of agency):\""
+    },
+    {
+      "findingId": "D-V3-R-001",
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "reviewerClaim": "the participant artifact was re-rendered but its contact sheet was not, so the sheet still shows the superseded artifact with the control captions the re-render removed",
+      "reproduced": true,
+      "observed": {
+        "controlCaptionsVisibleInSheet": [
+          {
+            "text": "Clear",
+            "y": 505,
+            "x": 744.7
+          }
+        ],
+        "controlCaptionCount": 1,
+        "sheetSha256": "8864675ca3d27403443ffa4bca344f5834b73658858aa121eef1d4df83ecd9dc",
+        "manifestSheetSha256": "8864675ca3d27403443ffa4bca344f5834b73658858aa121eef1d4df83ecd9dc",
+        "manifestAgreesWithSheet": true
+      },
+      "detail": "1 control caption(s) still drawn on the sheet; manifest agrees with the sheet on disk"
+    },
+    {
+      "findingId": "D-V3-R-002",
+      "familyId": "VA:cc-1203-form-en",
+      "reviewerClaim": "User.AncillaryCaseNumber is drawn truncated past both widget edges and the overflow reporter did not record it",
+      "reproduced": true,
+      "observed": {
+        "clippedWrites": [
+          {
+            "fixture": "boundary",
+            "field": "User.FullName",
+            "factId": "participant.full_legal_name",
+            "recordedFittingOutcome": null,
+            "recordedInOverflowReport": false,
+            "suppliedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "suppliedChars": 70,
+            "visibleValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "visibleChars": 70,
+            "overflowLeftPt": 0,
+            "overflowRightPt": 21,
+            "widget": {
+              "x": 142,
+              "y": 288,
+              "width": 332,
+              "height": 12
+            },
+            "reason": "drawn text leaves the widget rectangle",
+            "readbackOutcome": "clipped",
+            "runsSelectedBy": "appearance_stream"
+          },
+          {
+            "fixture": "boundary",
+            "field": "User.AncillaryCaseNumber",
+            "factId": "matter.case_number",
+            "recordedFittingOutcome": null,
+            "recordedInOverflowReport": false,
+            "suppliedValue": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+            "suppliedChars": 37,
+            "visibleValue": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+            "visibleChars": 37,
+            "overflowLeftPt": 33.45,
+            "overflowRightPt": 21.55,
+            "widget": {
+              "x": 365,
+              "y": 451,
+              "width": 130,
+              "height": 14
+            },
+            "reason": "drawn text leaves the widget rectangle",
+            "readbackOutcome": "clipped",
+            "runsSelectedBy": "appearance_stream"
+          },
+          {
+            "fixture": "boundary",
+            "field": "User.PrintedNameOfPetAtt",
+            "factId": "participant.full_legal_name",
+            "recordedFittingOutcome": null,
+            "recordedInOverflowReport": false,
+            "suppliedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "suppliedChars": 70,
+            "visibleValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "visibleChars": 70,
+            "overflowLeftPt": 0,
+            "overflowRightPt": 11.65,
+            "widget": {
+              "x": 73,
+              "y": 312,
+              "width": 219,
+              "height": 14
+            },
+            "reason": "drawn text leaves the widget rectangle",
+            "readbackOutcome": "clipped",
+            "runsSelectedBy": "appearance_stream"
+          },
+          {
+            "fixture": "boundary",
+            "field": "User.AddressOfPetAtt",
+            "factId": "participant.street_address",
+            "recordedFittingOutcome": null,
+            "recordedInOverflowReport": false,
+            "suppliedValue": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+            "suppliedChars": 75,
+            "visibleValue": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+            "visibleChars": 75,
+            "overflowLeftPt": 0,
+            "overflowRightPt": 2.68,
+            "widget": {
+              "x": 340,
+              "y": 308,
+              "width": 230,
+              "height": 14
+            },
+            "reason": "drawn text leaves the widget rectangle",
+            "readbackOutcome": "clipped",
+            "runsSelectedBy": "appearance_stream"
+          },
+          {
+            "fixture": "boundary",
+            "field": "User.CityOfPetAtt",
+            "factId": "participant.city",
+            "recordedFittingOutcome": null,
+            "recordedInOverflowReport": false,
+            "suppliedValue": "Unincorporated Township of Long Hollow Crossing",
+            "suppliedChars": 47,
+            "visibleValue": "Unincorporated Township of Long Hollow Crossing",
+            "visibleChars": 47,
+            "overflowLeftPt": 0,
+            "overflowRightPt": 8.4,
+            "widget": {
+              "x": 340,
+              "y": 234,
+              "width": 230,
+              "height": 14
+            },
+            "reason": "drawn text leaves the widget rectangle",
+            "readbackOutcome": "clipped",
+            "runsSelectedBy": "appearance_stream"
+          },
+          {
+            "fixture": "boundary",
+            "field": "UserPetitionerName",
+            "factId": "participant.full_legal_name",
+            "recordedFittingOutcome": null,
+            "recordedInOverflowReport": false,
+            "suppliedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "suppliedChars": 70,
+            "visibleValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "visibleChars": 70,
+            "overflowLeftPt": 0,
+            "overflowRightPt": 12.44,
+            "widget": {
+              "x": 66,
+              "y": 583,
+              "width": 349,
+              "height": 12
+            },
+            "reason": "drawn text leaves the widget rectangle",
+            "readbackOutcome": "clipped",
+            "runsSelectedBy": "appearance_stream"
+          }
+        ],
+        "refusalsConfirmed": [
+          {
+            "fixture": "canonical",
+            "field": "User.VSBCaseNumber",
+            "factId": "matter.case_number",
+            "note": "recorded as refused and nothing is drawn on the page: the refusal held"
+          },
+          {
+            "fixture": "boundary",
+            "field": "User.CaseNo",
+            "factId": "matter.case_number",
+            "note": "recorded as refused and nothing is drawn on the page: the refusal held"
+          },
+          {
+            "fixture": "boundary",
+            "field": "User.ChargeCaseNumber",
+            "factId": "matter.case_number",
+            "note": "recorded as refused and nothing is drawn on the page: the refusal held"
+          },
+          {
+            "fixture": "boundary",
+            "field": "User.VSBCaseNumber",
+            "factId": "matter.case_number",
+            "note": "recorded as refused and nothing is drawn on the page: the refusal held"
+          }
+        ],
+        "overflowReportFindings": 4
+      },
+      "detail": "boundary/User.FullName: supplied 70 chars, visible 70, recorded \"null\", in overflow report: false; boundary/User.AncillaryCaseNumber: supplied 37 chars, visible 37, recorded \"null\", in overflow report: false; boundary/User.PrintedNameOfPetAtt: supplied 70 chars, visible 70, recorded \"null\", in overflow report: false; boundary/User.AddressOfPetAtt: supplied 75 chars, visible 75, recorded \"null\", in overflow report: false; boundary/User.CityOfPetAtt: supplied 47 chars, visible 47, recorded \"null\", in overflow report: false; boundary/UserPetitionerName: supplied 70 chars, visible 70, recorded \"null\", in overflow report: false"
+    },
+    {
+      "findingId": "D-V3-R-005",
+      "familyId": "VT:200-00631-form-en",
+      "reviewerClaim": "the participant's name is drawn cut mid-word at 39 of 70 characters and recorded as a clean 'shrunk' outcome",
+      "reproduced": true,
+      "observed": {
+        "clippedWrites": [
+          {
+            "fixture": "boundary",
+            "field": "1",
+            "factId": "participant.full_legal_name",
+            "recordedFittingOutcome": "shrunk",
+            "recordedInOverflowReport": false,
+            "suppliedValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "suppliedChars": 70,
+            "visibleValue": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+            "visibleChars": 70,
+            "overflowLeftPt": 0,
+            "overflowRightPt": 7.45,
+            "widget": {
+              "x": 287.3,
+              "y": 611.9,
+              "width": 273.6,
+              "height": 13
+            },
+            "reason": "drawn text leaves the widget rectangle",
+            "readbackOutcome": "clipped",
+            "runsSelectedBy": "appearance_stream"
+          }
+        ],
+        "refusalsConfirmed": [],
+        "overflowReportFindings": 0
+      },
+      "detail": "boundary/1: supplied 70 chars, visible 70, recorded \"shrunk\", in overflow report: false"
+    },
+    {
+      "findingId": "D-V3-R-010",
+      "familyId": "WA:blake-006-form-en",
+      "reviewerClaim": "every text run is a single character, so the run-level label matcher cannot see labels at all; 'no participant label matched' is not a supportable conclusion",
+      "reproduced": true,
+      "observed": {
+        "totalRuns": 10561,
+        "singleCharacterRuns": 10561,
+        "singleCharacterRunShare": 1,
+        "decoderLines": 172,
+        "decoderUsableLines": 172,
+        "decoderRefusedLines": 0,
+        "decoderRefusedByReason": {},
+        "profileUnreadableLines": 0,
+        "profileCandidateLabelCount": 0,
+        "profileAnchorCount": 0,
+        "recordedImplementationStatus": "overlay_no_participant_label_matched",
+        "readableLabelSample": [
+          "District/Municipal Court of Washington, County/City of",
+          "State of Washington/City of ______________,",
+          "No.",
+          "Plaintiff",
+          "Order on Blake Motion to Vacate Specific"
+        ],
+        "refusedSample": []
+      },
+      "detail": "profile says 0 unreadable, decoder refuses 0; 10561/10561 runs are single characters; profile found 0 candidate labels against 172 usable decoder lines"
+    },
+    {
+      "findingId": "D-V3-R-011",
+      "familyId": "WA:blake-008-form-en",
+      "reviewerClaim": "same",
+      "reproduced": true,
+      "observed": {
+        "totalRuns": 11047,
+        "singleCharacterRuns": 11047,
+        "singleCharacterRunShare": 1,
+        "decoderLines": 183,
+        "decoderUsableLines": 183,
+        "decoderRefusedLines": 0,
+        "decoderRefusedByReason": {},
+        "profileUnreadableLines": 0,
+        "profileCandidateLabelCount": 0,
+        "profileAnchorCount": 0,
+        "recordedImplementationStatus": "overlay_no_participant_label_matched",
+        "readableLabelSample": [
+          "Superior Court of Washington, County of",
+          "State of Washington,",
+          "No.",
+          "Plaintiff",
+          "Order on Blake Motion to Vacate Specific Drug"
+        ],
+        "refusedSample": []
+      },
+      "detail": "profile says 0 unreadable, decoder refuses 0; 11047/11047 runs are single characters; profile found 0 candidate labels against 183 usable decoder lines"
+    },
+    {
+      "findingId": "D-V3-R-008",
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "reviewerClaim": "the profile reports 0 unreadable lines while the decoder's own gate refuses 2",
+      "reproduced": true,
+      "observed": {
+        "totalRuns": 6906,
+        "singleCharacterRuns": 4088,
+        "singleCharacterRunShare": 0.5919,
+        "decoderLines": 197,
+        "decoderUsableLines": 195,
+        "decoderRefusedLines": 2,
+        "decoderRefusedByReason": {
+          "line_carries_undecoded_character_codes": 2
+        },
+        "profileUnreadableLines": 0,
+        "profileCandidateLabelCount": 0,
+        "profileAnchorCount": 0,
+        "recordedImplementationStatus": "overlay_no_participant_label_matched",
+        "readableLabelSample": [
+          "Court of Washington, County of",
+          "No.",
+          "_______",
+          "Plaintiff",
+          "Petition and Declaration"
+        ],
+        "refusedSample": [
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 53,
+            "y": 708.1,
+            "x": 120.4,
+            "partialText": "•�����������������������������������������������������"
+          },
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 41,
+            "y": 695.5,
+            "x": 136.9,
+            "partialText": "�����������������������������������������"
+          }
+        ]
+      },
+      "detail": "profile says 0 unreadable, decoder refuses 2; 4088/6906 runs are single characters; profile found 0 candidate labels against 195 usable decoder lines"
+    },
+    {
+      "findingId": "D-V3-R-009",
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "reviewerClaim": "the profile reports 0 unreadable lines while the decoder's own gate refuses 7",
+      "reproduced": true,
+      "observed": {
+        "totalRuns": 2159,
+        "singleCharacterRuns": 1202,
+        "singleCharacterRunShare": 0.5567,
+        "decoderLines": 64,
+        "decoderUsableLines": 57,
+        "decoderRefusedLines": 7,
+        "decoderRefusedByReason": {
+          "line_carries_undecoded_character_codes": 7
+        },
+        "profileUnreadableLines": 0,
+        "profileCandidateLabelCount": 0,
+        "profileAnchorCount": 0,
+        "recordedImplementationStatus": "overlay_no_participant_label_matched",
+        "readableLabelSample": [
+          "_______________ Court of Washington, County/City of _______________",
+          "No.",
+          "Plaintiff Order on Petition to Vacate Cannabis",
+          "vs. Conviction",
+          " Denied (ORVCJD)"
+        ],
+        "refusedSample": [
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 6,
+            "y": 493.9,
+            "x": 312,
+            "partialText": "����� �(in full or in part) (ORVCJG)"
+          },
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 6,
+            "y": 456,
+            "x": 312,
+            "partialText": "Clerk's Action Required: ������"
+          },
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 1,
+            "y": 443.3,
+            "x": 312,
+            "partialText": "�"
+          },
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 36,
+            "y": 423,
+            "x": 167.3,
+            "partialText": "������������������������������������"
+          },
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 1,
+            "y": 697.1,
+            "x": 108,
+            "partialText": "Defendant�s criminal history for purposes of determining a s"
+          },
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 1,
+            "y": 583.2,
+            "x": 108,
+            "partialText": "or knowingly remaining within, a specified distance of a loc"
+          },
+          {
+            "reason": "line_carries_undecoded_character_codes",
+            "undecodedCodes": 1,
+            "y": 570.6,
+            "x": 108,
+            "partialText": "person, or a protected party�s vehicle; (ii) stalking; or (i"
+          }
+        ]
+      },
+      "detail": "profile says 0 unreadable, decoder refuses 7; 1202/2159 runs are single characters; profile found 0 candidate labels against 57 usable decoder lines"
+    }
+  ]
+}

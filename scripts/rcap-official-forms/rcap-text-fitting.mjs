@@ -152,19 +152,45 @@ export function applyFitToTextField(textField, fit) {
  * `runs` are the text items extracted from the finalized page, `rect` is the
  * widget's own rectangle, and `value` is what the caller meant to write.
  */
-export function verifyWrittenValue({ value, rect, runs, tolerance = 0.5 }) {
+export function verifyWrittenValue({ value, rect, runs, tolerance = 0.5, containerTolerance = 1.5, runSource = "auto" }) {
   const expected = String(value ?? "");
   if (!rect || expected === "") return { outcome: "not_checkable", reason: "no widget rectangle or no value" };
 
-  // Runs belonging to this widget: on its baseline band, and horizontally
-  // overlapping it.
+  // Which runs belong to this widget is the whole question, and there are two
+  // ways to answer it.
   //
-  // Overlap rather than origin-inside, because a run that starts to the left of
-  // the rectangle is precisely the case this exists to catch. Keying on the
-  // origin would exclude it and report the field as empty, turning "drawn past
-  // the left edge" into "nothing was drawn" -- still a refusal, but the wrong
-  // diagnosis, and the ledger would say the wrong thing about why.
-  const inside = runs.filter((r) => {
+  // The reliable one is provenance. A flattened field's value is drawn inside
+  // its own appearance stream, whose placed bounding box is the widget's own
+  // rectangle, so a run can be attributed to the widget that drew it rather
+  // than to whatever sits near it. That distinction is not academic: on a real
+  // form the printed label, the rule line and the next column's text share the
+  // value's baseline, and a value that overflows its box overlaps its
+  // neighbours by definition. Selecting by position alone sweeps all of that
+  // in, and a twelve-character case number reads back as seventy-eight
+  // characters of "drawn" text -- a false clip reported with exactly the
+  // confidence of a true one.
+  const fromAppearance = runs.filter((r) => {
+    const b = r.container?.bbox;
+    if (!b) return false;
+    return Math.abs(b.x - rect.x) <= containerTolerance
+      && Math.abs(b.y - rect.y) <= containerTolerance
+      && Math.abs(b.width - rect.width) <= containerTolerance
+      && Math.abs(b.height - rect.height) <= containerTolerance;
+  });
+
+  // The fallback is geometry, for artifacts where the value was drawn straight
+  // onto the page -- a flat overlay has no appearance stream to ask. Overlap
+  // rather than origin-inside, because a run starting to the left of the
+  // rectangle is precisely the case this exists to catch: keying on the origin
+  // would exclude it and report the field as empty, turning "drawn past the
+  // left edge" into "nothing was drawn".
+  //
+  // Only page-drawn runs are eligible. Provenance is authoritative in both
+  // directions: a run that names a different appearance as its origin has
+  // already answered the question, and letting geometry overrule it would
+  // credit one widget's value to the widget next to it.
+  const byGeometry = runs.filter((r) => {
+    if (r.container?.bbox) return false;
     const onBand = r.y >= rect.y - tolerance && r.y <= rect.y + rect.height + tolerance;
     if (!onBand) return false;
     const start = r.x;
@@ -172,13 +198,33 @@ export function verifyWrittenValue({ value, rect, runs, tolerance = 0.5 }) {
     return end >= rect.x - tolerance && start <= rect.x + rect.width + tolerance;
   });
 
+  // Which channel applies is a property of the artifact, not of the field.
+  //
+  // An artifact that draws any value through an appearance stream is a
+  // flattened AcroForm, and every one of its written values arrives that way.
+  // A field with no appearance runs on such a page therefore had nothing
+  // written into it -- it was refused -- and the honest answer is "absent".
+  // Falling back to geometry for that field instead reports whatever the form
+  // prints there as if it were the value: on Virginia's CC-1203 the dot
+  // leaders under three correctly refused fields read back as thirteen and
+  // sixty-six characters of "drawn text", turning three sound refusals into
+  // three fabricated clipping defects.
+  //
+  // Deciding per field would make the fallback fire exactly where it is most
+  // wrong. Deciding per artifact keeps geometry for the flat overlays that
+  // genuinely have no appearance to ask, and nowhere else.
+  const artifactUsesAppearances = runSource === "appearance"
+    || (runSource === "auto" && runs.some((r) => r.container?.bbox));
+  const inside = artifactUsesAppearances ? fromAppearance : byGeometry;
+  const selectedBy = artifactUsesAppearances ? "appearance_stream" : "widget_geometry";
+
   const norm = (s) => String(s).replace(/\s+/g, "").toLowerCase();
   const drawn = inside.map((r) => r.text).join("");
   const drawnNorm = norm(drawn);
   const expectedNorm = norm(expected);
 
   if (drawnNorm.length === 0) {
-    return { outcome: "absent", reason: "nothing is drawn inside the widget", expected, drawn: "" };
+    return { outcome: "absent", reason: "nothing is drawn inside the widget", expected, drawn: "", selectedBy };
   }
 
   // Past an edge, measured from each run's own extent rather than estimated.
@@ -204,8 +250,9 @@ export function verifyWrittenValue({ value, rect, runs, tolerance = 0.5 }) {
       drawnChars: drawn.length,
       overflowLeftPt: Number(Math.max(0, overflow.left).toFixed(2)),
       overflowRightPt: Number(Math.max(0, overflow.right).toFixed(2)),
-      widget: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
+      widget: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+      selectedBy
     };
   }
-  return { outcome: "complete", expected, drawnChars: drawn.length };
+  return { outcome: "complete", expected, drawnChars: drawn.length, selectedBy };
 }
