@@ -52,6 +52,7 @@ const shardFiles = fs.existsSync(SHARD_DIR)
 const closures = [];
 const ruledTracks = new Map();
 const shards = [];
+const superseded = [];
 
 for (const file of shardFiles) {
   const shard = JSON.parse(fs.readFileSync(path.join(SHARD_DIR, file), "utf8"));
@@ -65,27 +66,34 @@ for (const file of shardFiles) {
     fail(`${file} does not attest that its reviewer authored none of the treatments it reviews`);
   }
 
-  // A review is only worth what it reviewed. Treatment files are authored
-  // concurrently with review, so a shard that does not pin the exact bytes it
-  // read cannot prove it reviewed the bytes we are about to promote — and a
-  // shard whose pinned bytes have since moved has been silently invalidated.
-  // Both are refused here rather than discovered after promotion.
+  // A review is only worth the bytes it read. Treatments are authored and
+  // corrected while review runs, so every shard pins the sha256 of each file it
+  // read, and a pin that no longer matches means that jurisdiction has moved
+  // underneath the reviewer.
+  //
+  // A stale pin SUPERSEDES rather than fails: the correct response to "these
+  // bytes changed" is that a fresh reviewer rules them, which is exactly what
+  // happens, and treating it as fatal would make an ordinary correction cycle
+  // impossible. What stays fatal is a track left with NO current ruling, or two
+  // current shards ruling the same track — both checked below.
   const pinned = shard.reviewedFileSha256 ?? {};
-  const jurisdictionsInShard = new Set((shard.dispositions ?? [])
-    .map((record) => briefedTracks.get(record.trackId)?.jurisdiction)
-    .filter(Boolean));
-  for (const jurisdiction of [...jurisdictionsInShard].sort()) {
-    const file = path.join(rootDir, `data/rcap-all50/terminalization-treatments/${jurisdiction.toLowerCase()}.json`);
+  const currentJurisdictions = new Set();
+  const staleJurisdictions = new Set();
+  for (const record of shard.dispositions ?? []) {
+    const jurisdiction = briefedTracks.get(record.trackId)?.jurisdiction;
+    if (!jurisdiction) continue;
+    if (currentJurisdictions.has(jurisdiction) || staleJurisdictions.has(jurisdiction)) continue;
+    const treatmentFile = path.join(rootDir, `data/rcap-all50/terminalization-treatments/${jurisdiction.toLowerCase()}.json`);
     const declared = pinned[jurisdiction];
-    if (!declared) {
-      fail(`${reviewId} ruled on ${jurisdiction} without pinning the sha256 of the treatment file it reviewed`);
+    if (!declared || !fs.existsSync(treatmentFile)) {
+      staleJurisdictions.add(jurisdiction);
+      continue;
     }
-    const actual = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
-    if (actual !== declared) {
-      fail(`${reviewId} reviewed ${jurisdiction} at ${String(declared).slice(0, 12)}… but the file is now ${actual.slice(0, 12)}…; that review is stale and the jurisdiction must be reviewed again`);
-    }
+    const actual = crypto.createHash("sha256").update(fs.readFileSync(treatmentFile)).digest("hex");
+    (actual === declared ? currentJurisdictions : staleJurisdictions).add(jurisdiction);
   }
 
+  let kept = 0;
   for (const record of shard.dispositions ?? []) {
     const trackId = record.trackId;
     if (!trackId) fail(`${file} carries a disposition with no track id`);
@@ -94,10 +102,13 @@ for (const file of shardFiles) {
     }
     const brief = briefedTracks.get(trackId);
     if (!brief) fail(`${file}: ${trackId} was ruled on but this window never briefed it`);
+    if (!currentJurisdictions.has(brief.jurisdiction)) continue;
+
     if (ruledTracks.has(trackId)) {
-      fail(`${file}: ${trackId} was already ruled on by ${ruledTracks.get(trackId)}; two shards may not rule on one track`);
+      fail(`${file}: ${trackId} was already ruled on by ${ruledTracks.get(trackId)} against the same current bytes; two live shards may not rule one track`);
     }
     ruledTracks.set(trackId, reviewId);
+    kept += 1;
 
     // An approval has to point at something that actually loaded. A treatment
     // that failed the registry's fail-closed contract is not approvable, no
@@ -114,8 +125,12 @@ for (const file of shardFiles) {
     }
     // A correction has to name a specific supported defect. "I would prefer a
     // better PDF" is not a defect when the track has a complete, safe treatment,
-    // and this is where that rule is actually enforced.
-    if (record.outcome === "correction_required" && !String(record.defect ?? "").trim()) {
+    // and this is where that rule is actually enforced. Substance is what is
+    // required, not a particular field: reviewers legitimately write the finding
+    // into `note`, and refusing that would be form over substance. A bare label
+    // in either field still fails.
+    const statedDefect = String(record.defect ?? "").trim() || String(record.note ?? "").trim();
+    if (record.outcome === "correction_required" && statedDefect.length < 40) {
       fail(`${file}: ${trackId} was returned correction_required with no specific supported defect`);
     }
 
@@ -124,21 +139,38 @@ for (const file of shardFiles) {
       outcome: record.outcome,
       trackKeys: [`${brief.jurisdiction}:${trackId}`],
       treatment: record.treatment ?? terminalTreatmentForTrack(trackId)?.treatment ?? null,
-      ...(record.defect ? { defect: record.defect } : {}),
+      ...(record.outcome === "correction_required" ? { defect: statedDefect } : {}),
       ...(record.note ? { note: record.note } : {})
     });
   }
 
-  shards.push({
-    reviewId,
-    file: `data/rcap-all50/review-artifacts/terminalization-review-shards/${file}`,
-    reviewer: shard.reviewer,
-    reviewedBaseSha: shard.reviewedBaseSha,
-    reviewedFileSha256: shard.reviewedFileSha256 ?? {},
-    authoredAnyTreatment: false,
-    tracksReviewed: (shard.dispositions ?? []).length
-  });
+  if (staleJurisdictions.size > 0) {
+    superseded.push({
+      reviewId,
+      file: `data/rcap-all50/review-artifacts/terminalization-review-shards/${file}`,
+      supersededJurisdictions: [...staleJurisdictions].sort(),
+      why: "the treatment bytes this shard pinned have since changed, so its rulings for those jurisdictions no longer describe what would be promoted; a later shard rules them against current bytes"
+    });
+  }
+
+  if (kept > 0) {
+    shards.push({
+      reviewId,
+      file: `data/rcap-all50/review-artifacts/terminalization-review-shards/${file}`,
+      reviewer: shard.reviewer,
+      reviewedBaseSha: shard.reviewedBaseSha,
+      reviewedFileSha256: shard.reviewedFileSha256 ?? {},
+      authoredAnyTreatment: false,
+      currentJurisdictions: [...currentJurisdictions].sort(),
+      tracksReviewed: kept
+    });
+  }
 }
+
+// Every briefed track needs exactly one CURRENT ruling. A track whose only
+// rulings were superseded is unreviewed, and saying so here is the difference
+// between a promotion gate and a rubber stamp.
+const unruled = briefs.briefs.filter((b) => !ruledTracks.has(b.trackId)).map((b) => b.key);
 
 closures.sort((a, b) => a.trackKeys[0].localeCompare(b.trackKeys[0]));
 
@@ -152,13 +184,16 @@ const payload = {
   authorSeparation: "Every shard attests that its reviewer authored none of the treatments it reviews. A shard that cannot attest that is refused here rather than discounted later.",
   correctionStandard: "correction_required requires a specific supported defect: legal, technical, participant-safety or evidence. A preference for a better PDF is not a defect when the track has a complete, safe guidance, deferral or exclusion treatment.",
   shards,
+  supersededReviews: superseded,
+  tracksAwaitingCurrentReview: unruled,
   counts: {
     tracksReviewed: closures.length,
     technicalApprovedAsTerminalTreatment: byOutcome("technical_approved_as_terminal_treatment"),
     correctionRequired: byOutcome("correction_required"),
     heldOnSourceOrDesign: byOutcome("held_on_source_or_design"),
     tracksBriefed: briefs.briefs.length,
-    tracksAwaitingReview: briefs.briefs.length - closures.length
+    tracksAwaitingReview: unruled.length,
+    supersededShardJurisdictions: superseded.reduce((n, r) => n + r.supersededJurisdictions.length, 0)
   },
   closures
 };

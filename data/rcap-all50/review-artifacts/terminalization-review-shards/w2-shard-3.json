@@ -1,0 +1,148 @@
+{
+  "reviewId": "w2-shard-3",
+  "reviewer": "independent read-only reviewer, terminalization definitive wave",
+  "reviewedBaseSha": "e025ced8d6c3fd6c3c74f4bd56b746c4225b5855",
+  "reviewedFileSha256": {
+    "KY": "62f938ced173e2701fafa5efa145f8acf8cd69f9664cd904ae3c1c54f4c55998",
+    "ND": "466eb4c9ce14e4076640666406fe95db30697212aefbfc58ce023d5d7ef4150f",
+    "NV": "fc64c9c7ad5f6b22d32f8c0cd50353d2b5dcce0dd919191109613d5dcde12563",
+    "OR": "62df9c0644f223f33779b4e08550e35368f50ee4d359a1d9c6a6fbc36d5e00e4"
+  },
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "runtimeProbe": {
+    "script": "/tmp/probe-w2-shard-3.mjs",
+    "cwd": "/home/user/legalease-partner-dashboard-clean",
+    "tracksProbed": 14,
+    "coverage": "every track in every jurisdiction of this shard, not a sample",
+    "observedOnEveryTrack": {
+      "classification": "terminal_treatment_candidate",
+      "routeKind": "exact_supported_deferral",
+      "sellable": false,
+      "creditConsumable": false,
+      "rendererKind": "none",
+      "renderJobSpecBuilt": false,
+      "checkoutRefused": true,
+      "briefcasePaymentAllowed": false,
+      "briefcaseStatus": "guidance_saved",
+      "briefcaseResultCode": "guidance_only",
+      "briefcasePacketStatus": "not_started",
+      "briefcaseAmountCents": null,
+      "reopenReturnsSameTreatment": true,
+      "spanishBundleDistinctFromEnglish": true
+    },
+    "note": "resolvePacketRoute returns routeKind exact_supported_deferral for every terminalization-window treatment by design (packet-route-resolver.ts binds the whole window on one branch); it is not a per-track contradiction of the complete_guidance treatments on the three ND routing nodes."
+  },
+  "dispositions": [
+    {
+      "trackId": "ky_criminal_record_segregation",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Both KRS 17.142 routes are carried correctly and independently: written requests to each record-holding agency under (1), and the application to the trial court under (2) producing an order binding all law enforcement agencies. The stop reason is exact and about LegalEase (no Kentucky form for either route; drafts have not cleared output and technical proof), never about the participant. The treatment does the participant a real service by putting KRS 17.142(4) first — routing to KRS 431.076/431.078 sealing as materially stronger — which the brief carries at scopeRestrictions[1] and exclusions[0]. Court records excluded, all-charges gate, no-waiting-period and the 'segregation is not expungement' warning all trace to the brief. Spanish is a genuine translation throughout (separar/sellado/vía judicial), not a gloss. Briefcase preserved/outstanding/return complete; the return line does not promise a packet."
+    },
+    {
+      "trackId": "ky_expungement_certification",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Every fact is in the brief: AOC-RU-009, the $40 fee by check or money order payable to the Kentucky State Treasurer, the AOC Records Unit at 1001 Vandalay Drive, Frankfort, Kentucky 40601, the kcoj.kycourts.net/RecordRequest channel, four-to-five-month processing, and the 30-day filing window from receipt. The nextStep correctly inverts the participant's instinct (request early, because the long wait is at the front and the short window at the back). doNot covers the fee form, the four petitions that need no certification, the adverse-certification trap and a wrong certification. Spanish is substantive and idiomatic. No required component described as optional."
+    },
+    {
+      "trackId": "ky_protective_order_record_expungement",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "AOC-275.18, KRS 403.745 and KRS 456.070, the six-month wait from dismissal, the separate six-month no-order-of-protection condition, the clerk's five filing actions and the movant's first-class-mail service (clerk serves only if the movant has not) all trace to the brief. The two eligibility gates are put ahead of everything else, which is the right order. The service instruction is explicitly not optional. Correctly warns this reaches the civil protective-order record only and needs no expungement certification. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "nd-dna-profile-removal-routing",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct treatment: the brief's packet set has no participant filing component and the controlling review makes every DNA matter an attorney handoff. The treatment earns its keep by isolating the one act that is genuinely the participant's — carrying a certified sealing order from the clerk of district court to the North Dakota State Crime Laboratory, because the court will not — and by stating the two hard limits from N.D.C.C. § 31-13-07(2) and (3): the seal cannot be reopened even by the court, and a detention, arrest or conviction based on database information is not invalidated. Destination is two exactly named places, not a referral. Timing correctly states that no waiting period exists in the materials rather than inventing one. Spanish is substantive."
+    },
+    {
+      "trackId": "nd-nonconviction-close-petition",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The single decisive fact — the date the order of nonconviction was entered, before or on/after 1 August 2025 — is the nextStep, and the treatment tells the participant to stop and file nothing if the record closes on its own after sixty-one days. All four statutory exceptions, the § 12-60.1-01(5) all-charges rule, the ten-day closing order, the free ndcourts.gov bundle, no filing fee, the perjury declaration with date and place, and the instruction to leave the proposed order unsigned and undated are each carried by the brief. Correctly warns the BCI criminal history record does not change. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "nd-prohibit-remote-public-access",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Routes the participant to the stronger § 12-60.1-05 nonconviction close first, exactly as the brief's scope restriction directs, and says plainly that sending them here first would be a disservice. All four required documents are named as required, the balancing argument is correctly identified as the participant's own, the proposed findings are to be filed unsigned, and the participant is told the result is not a seal: the case stays searchable in person and the search result displays that internet access is prohibited. The district-court-only limit of the April 2024 packet is stated, with the municipal-court clerk given as the escalation. N.D.R.Ct. 3.2 decision-on-the-briefs is carried. Spanish is substantive."
+    },
+    {
+      "trackId": "nd-regular-pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact destination and deadline arithmetic: Clerk, Pardon Advisory Board, NDDOCR, P.O. Box 1898, Bismarck, North Dakota 58502-1898 or pardonclerk@nd.gov; meetings in April and November; received ninety days before. The attachment rule that gets applications returned (a criminal judgment for each offence plus the licence or state ID photocopy) is stated as required, not optional. Correctly says a pardon neither clears the criminal history record nor seals anything, that no court reviews the Board or the Governor and nothing is official until the Governor signs, and that an unconditional pardon is the eligibility ground for the separate § 12-60.1-02(1)(c) seal. The waiting period is honestly described as Board policy rather than statute, with the pardon clerk named as the person to confirm it — a stated limitation with an exact destination, not a defect. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "nd-trafficking-vacatur-routing",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct treatment: no participant filing component, and the controlling review makes trafficking vacatur an attorney or survivor legal clinic matter in every case. The most participant-protective line in the file is here and is correct on the brief: the absence of official agency documentation of victim status is not a bar, it only changes the weight, so a survivor is not turned away by their own assumption. The § 12.1-41-12(1) offence list is reproduced exactly. The destination is the convicting court under ch. 29-32.1, reached through counsel; the brief names no specific clinic and the treatment does not invent one, but it does not stop at 'find a lawyer' either — the escalation gives an executable step (ask the clerk of the convicting court which legal services organisations appear in that district, and ask any clinic reached for a referral rather than treating a refusal as the end). Timing correctly declines to state a deadline the materials do not carry. Spanish is substantive."
+    },
+    {
+      "trackId": "nd-unconstitutional-arrest-expungement-routing",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is stated plainly and honestly: the controlling authority is State v. Howe, 308 N.W.2d 743 (N.D. 1981), the sources record that its text cannot be obtained from any official electronic source, and LegalEase will not build a route on an unofficial copy. That is an openly stated limitation the brief does not resolve, and the treatment still gives exact destinations — the court where the arrest record originates, the clerk holding the dismissal or reversal order, and the North Dakota Supreme Court law library or an official reporter for the decision itself — plus an executable first step. It also points the participant back to the § 12-60.1-05 close as the far more travelled path where the case ended without a conviction. Correct, not a defect. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "nv_repository_removal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies this as a route where the participant does file — a written application under NRS 179A.160(1) — and to two recipients, not one: the Central Repository at 333 West Nye Lane, Suite 100, Carson City, Nevada 89706, and the agency which maintains the record. All five NRS 179A.160(2) exclusions are reproduced with their subsection letters, including (2)(c) deferred prosecution or plea bargain, which the treatment flags as the one that most often defeats an outcome the participant will reasonably call favourable. The stop reason is exact: the Division publishes no form for this section, and 'favourable to the person' is an undefined legal characterisation. Warns that no appeal lies from a refusal, that the court's own record is a separate petition, and that there is no firearm or immigration effect. Sex-trafficking fee waiver surfaced per the brief. Spanish is substantive."
+    },
+    {
+      "trackId": "nv_seal_decrim",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason states the limitation the brief actually carries and does not paper over it: NRS 179.271's presence and official title were confirmed in the Legislature's chapter index but its text was not reproduced, so what the section requires is not established, and Nevada publishes no statewide petition form. It still gives the exact route — prosecutor-first to the district attorney or city attorney, then the clerk of the court in which the record was entered — plus the statutory attachment (verified Central Repository criminal history under NRS 179.245(2)(a) and 179.255(3)(a)), the handwritten-signature rule with the Las Vegas Municipal Court immediate-denial consequence, the up-to-six-month repository stage, and the sealing-is-not-expungement / no-firearm-rights / no-immigration-effect boundaries. A stated limitation with an exact destination and executable next step is correct, not a defect. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "nv_seal_pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Gets the participant-protective sequencing right: NRS 179.273 provides automatic sealing after an unconditional pardon, so the first move is verification of the Central Repository record rather than a filing, and the treatment says the check may be the whole route. Where a petition is needed it correctly states the section carries no fee, and tells the participant not to pay one. Prosecutor-first workflow, handwritten signatures with the Las Vegas Municipal Court consequence, the conditional-versus-unconditional pardon gate, and that applying for a pardon at all is an NRS chapter 213 Board of Pardons matter out of scope, are all carried by the brief. The missing-from-internal-reference limitation is stated openly. Spanish is substantive."
+    },
+    {
+      "trackId": "or_arrest_no_charges",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The gate that decides this route is correctly made the whole product: the 60 days run from the date the prosecuting attorney indicated the state elected not to proceed, not from the arrest, and that date is often not on the docket. Exact destination (circuit court for the county of arrest, citation or charge), service on the prosecuting attorney's office, fingerprints to the Department of State Police with its fee, LEDS history first, one filing per county, no court filing fee under ORS 137.225(1)(g), and the ORS 137.225(3)(b) shall-grant rule are all in the brief. The most important warning on this paragraph is present and correctly limited to it: ORS 137.225(11)(b) lets a prosecutor unseal a set-aside arrest to start a proceeding within the limitation period on written notice. The absence of a published web address for the OJD packet is stated honestly with the county circuit court clerk given as the exact place to obtain it — a preference for a better source is not a defect. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "or_dismissed_charge",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly distinguished from the (1)(c) paragraph rather than boilerplated against it: no waiting period, ORS 137.225(9) no time limit, the order of work (LEDS history, then the court record, then fingerprints, then the motion) as the product, and the two carve-outs — an ORS 813.200 DUII diversion dismissal and a traffic violation citation dismissal — flagged as the most common reason this motion fails, with the circuit court clerk's judgment or order named as the document that settles which kind of dismissal occurred. ORS 137.225(10) and (11) limits, no firearm restoration under 2024 OSP policy, one filing per county and no court filing fee all trace to the brief. Spanish is substantive and idiomatic."
+    }
+  ],
+  "summary": {
+    "tracksReviewed": 14,
+    "approved": 14,
+    "correctionRequired": 0,
+    "held": 0,
+    "defectsFound": 0,
+    "fabricatedFactsFound": 0,
+    "bilingualDefectsFound": 0,
+    "genericReferralsFound": 0,
+    "prohibitedPhrasesFound": 0,
+    "runtimeContractViolationsFound": 0
+  }
+}
