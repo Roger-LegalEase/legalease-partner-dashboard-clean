@@ -11,9 +11,28 @@ name: RCAP F1 ephemeral staging
 # SHA or digest other than the authorized values, so this cannot be repointed
 # at other bytes without editing the workflow on the default branch.
 
+#
+# This workflow is also the DISPATCH ENTRY POINT for the persistent hosted
+# acceptance environment. GitHub lists workflow_dispatch only for files that
+# exist on the default branch, and pushing to main is Roger's decision, so the
+# hosted workflow is reached through `mode` here and runs as a reusable
+# workflow resolved from this run's own commit. `mode: ephemeral` — the
+# default — behaves exactly as it always has.
+
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_full"
+        required: false
+        type: choice
+        options: [ephemeral, hosted_preflight, hosted_full]
+        default: ephemeral
+      supabase_project_ref:
+        description: "Acceptance Supabase project ref (hosted modes only)"
+        required: false
+        type: string
+        default: ""
       application_sha:
         description: "Pinned application SHA (must equal the authorized value)"
         required: true
@@ -48,8 +67,26 @@ env:
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
+  hosted:
+    name: Persistent hosted acceptance staging
+    if: inputs.mode == 'hosted_preflight' || inputs.mode == 'hosted_full'
+    uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
+    with:
+      phase: ${{ inputs.mode == 'hosted_full' && 'full' || 'preflight' }}
+      application_sha: ${{ inputs.application_sha }}
+      worker_source_sha: ${{ inputs.worker_source_sha }}
+      worker_digest: ${{ inputs.worker_digest }}
+      tools_sha: ${{ inputs.tools_sha }}
+      supabase_project_ref: ${{ inputs.supabase_project_ref }}
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
   f1:
     name: Ephemeral F1 staging rehearsal (rcap-ci-staging)
+    if: inputs.mode == 'ephemeral' || inputs.mode == ''
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:

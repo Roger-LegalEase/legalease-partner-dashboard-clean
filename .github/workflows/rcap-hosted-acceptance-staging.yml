@@ -17,15 +17,19 @@ name: RCAP hosted acceptance staging
 #     alias, or writes a project-level environment variable, so production
 #     domains and production environment stay exactly as they were.
 
+# Reached as a reusable workflow rather than a dispatch of its own. GitHub only
+# offers workflow_dispatch for files that exist on the DEFAULT branch, and
+# pushing to main is Roger's decision, not this terminal's. A local-path
+# `uses:` resolves from the CALLER'S commit, so dispatching the already-listed
+# F1 workflow at the integration branch runs this file from the integration
+# branch — no main push, and no weakening of any pin.
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       phase:
         description: "preflight (read-only proof) or full (deploy, migrate, accept)"
         required: true
-        type: choice
-        options: [preflight, full]
-        default: preflight
+        type: string
       application_sha:
         description: "Pinned application SHA (must equal the authorized value)"
         required: true
@@ -46,14 +50,19 @@ on:
         description: "Acceptance Supabase project ref (must equal the authorized value)"
         required: true
         type: string
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+      VERCEL_ORG_ID:
+        required: true
+      VERCEL_PROJECT_ID:
+        required: true
+      SUPABASE_ACCESS_TOKEN:
+        required: true
 
 permissions:
   contents: read
   packages: read
-
-concurrency:
-  group: rcap-hosted-acceptance-staging
-  cancel-in-progress: false
 
 env:
   AUTHORIZED_APPLICATION_SHA: c5aa751296d8de2ed70bbb87294e27c88efce714
