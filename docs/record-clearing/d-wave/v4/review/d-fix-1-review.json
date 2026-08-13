@@ -1,0 +1,219 @@
+{
+  "schema": "rcap-d-wave-independent-review/v1",
+  "review": "D-FIX-1",
+  "family": "MO:cr145-form-petition-en",
+  "familyPackagePath": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en",
+  "branchReviewed": "claude/rcap-d-fix-1-mo-cr145",
+  "commitsReviewed": [
+    {
+      "sha": "4c8aa852d467ee8bf678689e95445327bb4ae8b3",
+      "scope": "family package",
+      "subject": "D-FIX-1: Missouri CR-145 no longer names the petitioner as a respondent agency"
+    },
+    {
+      "sha": "257bf0499b4327341ed103f9431733508b415e25",
+      "scope": "shared factory",
+      "subject": "Bind fields by printed meaning, and read the corpus for the same clipping defect"
+    }
+  ],
+  "posture": "Read-only independent review. The reviewer did not write this code. Every claim about the rendered artifacts was answered from the bytes with a dependency-free PDF parser written for this review, not with the factory's own read-back helpers.",
+  "disposition": "correction_required",
+  "dispositionSummary": "The substantive correction is right and is proven from the bytes: the petitioner's name is gone from the 'Other Defendants' widget, it is still present in the two fields that legitimately carry it, exactly one binding was removed, and the other ten are byte-for-byte unchanged. The package is nevertheless not shippable to QA or counsel as it stands. Six files in the family package were not regenerated and now contradict the corrected artifacts: handoff.md still lists 'Other Defendants <- participant.full_legal_name' as a written field, and reports/determinism.json certifies the digest of the superseded pre-fix artifact. Separately, the refusal ledger was narrowed from 37 disclosed refusals to 1, so the package no longer records why 37 of 48 fields are blank -- including the agency refusals that were the original finding's own evidence.",
+
+  "sourceBinaryAvailability": {
+    "sourcePdfInGit": false,
+    "declaredSourceSha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+    "consequence": "The reviewer could not verify the declared source digest, the field census against the original AcroForm, or the reproducibility claim in reports/rendered-artifacts.json. Every rendered artifact was reviewed in full. No finding below depends on the source binary."
+  },
+
+  "verifiedClean": [
+    {
+      "item": "the petitioner's name is absent from the 'Other Defendants' widget",
+      "method": "Independent raw parse of fixtures/canonical-filled.pdf. The artifact is fully flattened -- no /AcroForm, no /Widget, both /Annots arrays empty -- and each former widget is a Form XObject drawn onto the page. All 48 XObject placements were matched to the 48 field-census rects by geometry (worst match error 0.012pt). The XObject at the 'Other Defendants' rect (page 1, x=56.2 y=381.15 w=513.47 h=46.33) draws no text at all.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the petitioner's name is still in the fields that legitimately carry it",
+      "method": "Same extraction. 'Marion T. Ellsworth' is drawn at the 'Petitioner' widget (page 1, y=639, directly above the printed word 'Petitioner' at y=623 and beside 'vs.' at y=637) and at the 'Full Name' widget (page 2, y=761, above the printed 'Full Name' at y=759).",
+      "result": "confirmed"
+    },
+    {
+      "item": "the printed label above the widget is what the field map says it is",
+      "method": "Page-1 printed text at y=430.0 starting x=57.60, immediately above the widget top edge at y=427.48 and left-aligned with the widget at x=56.2, reads 'Other (include name and address of agency):'. This matches the measuredLabels entry exactly.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the correction is substantively right, not merely defensible",
+      "method": "Page 1 line y=63 reads 'I have reason to believe the agencies named above as defendants may possess records subject to expungement.' The widget is the free-text slot in an agency-defendant list. Writing the petitioner's name there asserted to the court that the petitioner is an additional respondent agency.",
+      "result": "confirmed"
+    },
+    {
+      "item": "exactly one binding was removed and the other ten were not silently changed",
+      "method": "Set comparison of production-field-map.json across 4c8aa85^..4c8aa85: bindings 11 -> 10, removed = ['Other Defendants'], added = [], factId changes among the remaining ten = none. Corroborated at the byte level: the pre-fix canonical artifact was extracted from git and re-parsed; it draws 11 values, the new one draws 10, and the delta is exactly 'Marion T. Ellsworth' in the 'Other Defendants' rect. Every other field draws an identical string at an identical position.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the ten surviving bindings are correct against the printed form",
+      "method": "Each bound widget was located on the page and read against surrounding printed text. 'County' -> 'Greene' sits in the caption blank of 'IN THE __ JUDICIAL CIRCUIT, __ COUNTY, MISSOURI'. 'Case Number' -> '2023CR004182' sits on the 'Judge: __ Case Number: __' line. 'Criminal Case Number' sits after 'arrest, for the following criminal case:'. Page-2 fields sit under their own printed captions. No value is misplaced.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the measured labels are faithful to the page, including the unflattering ones",
+      "method": "Each measuredLabels entry for a bound field was checked against the printed lines actually adjacent to that widget. All are true substrings of real page text at the stated position, including 'COUNTY, MISSOURI' for 'Case Number' and 'Court ORI No.:' for 'Petitioner'. The label channel reports what it measured rather than what would look tidy.",
+      "result": "confirmed"
+    },
+    {
+      "item": "reports/rendered-artifacts.json -- every path exists and every digest matches disk",
+      "method": "sha256 recomputed for all four artifacts. canonical e38212978685b7a5851754c451595fea3438afc137036674fa2f9a6e60c548ac, boundary d7fc6cb84846396424e654a676797d0b492c7e32bda87f82e1052a0be25dc0fa, negative 7a4f2979185af4f57c8b24c12ee88804be1c47e8695691e1ad6e662f390b2523, contact sheet 2e5122f777bff6de4ede423719535bb6978db253af8bb6ffbf6b12a575d67d46. All four match; byte counts match.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the contact sheet is built from the finalized artifact, not an intermediate",
+      "method": "Verified beyond the digest claim. The sheet's filled panels embed EmbeddedPdfPage XObjects whose nested FlatWidget children are the same ten XObject names, carrying the same ten values, as the finalized canonical artifact. An intermediate would have carried an eleventh value in the 'Other Defendants' rect; none is present. contact-sheet-proof.json builtFromSha256 and finalizedSha256 both equal the canonical artifact's digest on disk.",
+      "result": "confirmed"
+    },
+    {
+      "item": "no active content or orphaned widget in any artifact",
+      "method": "Independent scan of all four artifacts over both the raw bytes and every inflated stream, for /XFA, /JavaScript, /JS, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData, /URI, /GoToR, /GoToE, /Movie, /Sound, /RichMedia, /EmbeddedFile, /Rendition, /SetOCGState, /AcroForm, /Widget, /RV, /Names, /OCProperties. Zero occurrences of any token in any artifact. The only /Subtype values present are Form, Image, TrueType and Type1. Both /Annots arrays are empty in every artifact. No object carries /Widget or /T, so there is no orphaned widget.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the negative fixture leaks nothing",
+      "method": "Independent extraction of fixtures/negative-filled.pdf: zero text drawn by any FlatWidget XObject.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the boundary fixture's two withdrawals are real and are blank on the page",
+      "method": "reports/overflow-and-clipping.json records 19 fitting decisions, 17 rendered whole and 2 withdrawn ('Petitioner' overflowing 10.43pt right, 'Full Name' overflowing 4.66pt right, both 66 supplied / 66 rendered chars, both with widget geometry). Independent extraction of the new boundary artifact confirms both widgets draw nothing, and that the pre-fix boundary artifact did draw the 66-character name in both. The withdrawal is disclosed, not concealed.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the three canaries pass",
+      "method": "Re-run after installing pdf-lib (absent from the container; node_modules is gitignored and was removed afterwards). d0-v4-canary-verify: 35 checks across 11 cases and 6 mutations, pass. d0-v3-canary-verify: 43 checks across 2 canaries and 5 mutations, pass. d0-canary-verify: 149 checks across 9 canaries and 9 mutations, pass. All exit 0.",
+      "result": "confirmed"
+    },
+    {
+      "item": "d-v4-verify-corrections.mjs MO:cr145-form-petition-en passes",
+      "method": "Re-run: 8 passed, 0 failed. Note that this script writes docs/record-clearing/d-wave/v4/correction-verification.json as a side effect; that output was moved out of the worktree and not committed.",
+      "result": "confirmed"
+    },
+    {
+      "item": "the new outside_party alternation does not over-refuse the approved corpus",
+      "method": "The new alternation was isolated from the pre-existing outside_party pattern and applied to every binding in all 84 production field maps (878 bindings). Bindings that the new alternation alone would newly refuse: 0.",
+      "result": "confirmed"
+    }
+  ],
+
+  "findings": [
+    {
+      "id": "D-FIX-1-R-001",
+      "severity": "high",
+      "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/handoff.md",
+      "fieldOrRegion": "sections 'What was written', 'Field classification', 'Evidence', and the factory-version line",
+      "visibleDefect": "handoff.md was not regenerated and still describes the uncorrected package. It states '11 field(s) bound from the canonical fixture; 37 refused' and lists '`Other Defendants` <- `participant.full_legal_name`' as the first written field. It also reports 'participant: 11' in the field classification, 'Boundary fixture refused 1 value(s)' where the corrected boundary withdraws 2, and 'built by lane D3A on factory `d0-remediated-v1`' where the field map now declares d0-v4. This is the human-readable document a QA reviewer or attorney reads first, and it currently advertises, in plain language, the exact defect the commit says it removed. A reviewer reading only this file would conclude the petition still names the petitioner as a respondent agency.",
+      "acceptanceCondition": "handoff.md is regenerated from the corrected package. Its 'What was written' section lists exactly the ten bound fields present in production-field-map.json and does not contain the string 'Other Defendants'; the bound/refused counts read 10 and 38; the participant class count matches field-classification.json after that file is corrected; the boundary line states 2 withdrawn values; and the factory version matches production-field-map.json's factoryVersion."
+    },
+    {
+      "id": "D-FIX-1-R-002",
+      "severity": "high",
+      "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/reports/determinism.json",
+      "fieldOrRegion": "firstSha256, secondSha256, identical",
+      "visibleDefect": "The determinism report was not re-run. It records firstSha256 = secondSha256 = 4b2e82c241fea02806c6a4073bfa449d41b894a98e143f0fca121226581cfdc3 and identical: true. That digest is the digest of the PRE-FIX canonical-filled.pdf, verified by extracting the artifact from commit 4c8aa85^ and hashing it. The canonical artifact now shipping in the package is e38212978685b7a5851754c451595fea3438afc137036674fa2f9a6e60c548ac. The package therefore ships a determinism attestation for an artifact it no longer contains, while reading as if it certifies the one it does. This is the failure mode d-v4-verify-corrections.mjs itself names in its comments -- 'a manifest that describes something else is worse than no manifest, because it reads as verification' -- applied to a report the verifier does not check.",
+      "acceptanceCondition": "reports/determinism.json is regenerated by rendering the corrected canonical fixture twice from the same source bytes and the same facts. firstSha256 and secondSha256 are equal to each other AND equal to the sha256 of fixtures/canonical-filled.pdf as recorded in reports/rendered-artifacts.json."
+    },
+    {
+      "id": "D-FIX-1-R-003",
+      "severity": "medium",
+      "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/reports/protected-fields.json AND .../production-field-map.json",
+      "fieldOrRegion": "protected-fields.json refusals[] / unwritableFields[]; production-field-map.json bindingRefusals[]",
+      "visibleDefect": "The refusal ledger was narrowed from a full disclosure to a single entry. Before this commit, production-field-map.json carried 37 bindingRefusals and reports/protected-fields.json carried 37 unwritableFields, each naming the field, its class and the reason it was refused ('County Sheriff's Dept' -> protected_category/agency, 'Race' -> protected_category/race, 'Offense Charged' -> requires_explicit_mapping/sensitive_fact, and so on). Both files now list exactly one entry, 'Other Defendants'. 47 measuredLabels entries were added, but a measured label is not a refusal reason. The package therefore no longer records why 37 of its 48 fields are left blank. Two concrete consequences: the evidence that the three sibling agency fields were refused as 'agency' -- the comparison on which the original finding D-V3-R-007 rested -- is no longer in the package; and reports/protected-fields-scan.json still asserts 'unwritableFieldsChecked: 37' while no file in the package any longer names those 37. rcap-field-semantics.mjs states as its own contract that 'a field that fails any of these is reported with the reason it was refused, so a refusal is auditable rather than silent', and AGENTS.md makes review artifacts the mechanism by which counsel review happens.",
+      "acceptanceCondition": "production-field-map.json bindingRefusals and reports/protected-fields.json together account for every field in field-census.json that is not in bindings -- 38 fields -- each with its refusal reason and, where applicable, its protected category, and with the new protectedBy/printedLabel channel recorded for any field the printed label refused. The counts in reports/protected-fields-scan.json reconcile against that ledger."
+    },
+    {
+      "id": "D-FIX-1-R-004",
+      "severity": "medium",
+      "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/reports/protected-fields-scan.json",
+      "fieldOrRegion": "unwritableFieldsChecked, expectedValues, expectedValuesAbsentFromBlankSource, pass",
+      "visibleDefect": "The protected-field leak scan was not re-run against the corrected bytes. It still records unwritableFieldsChecked: 37 (the corrected package has 38 unwritable fields), expectedValues: 11 and expectedValuesAbsentFromBlankSource: 11 (the corrected canonical writes 10), and asserts pass: true. This is the report whose specific job is to prove that no protected field received a value and that no negative-fixture value leaked; it is currently a pass certificate issued over superseded bytes. The reviewer independently confirmed no leak exists in the shipped artifacts, so the underlying property holds -- but the report attesting to it does not describe them.",
+      "acceptanceCondition": "reports/protected-fields-scan.json is regenerated against the artifacts recorded in reports/rendered-artifacts.json. unwritableFieldsChecked equals 38, expectedValues equals the number of values written by the canonical fixture (10), and the report records the digest of the artifact it scanned so a later reader can tell which bytes it describes."
+    },
+    {
+      "id": "D-FIX-1-R-005",
+      "severity": "medium",
+      "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/reports/mutation-tests.json",
+      "fieldOrRegion": "mutations[2] caption_only_enforced -- writtenNormal, writtenCaptionOnly, held",
+      "visibleDefect": "The mutation suite was not re-run. The caption-only mutation records writtenCaptionOnly: 10 against writtenNormal: 11 and concludes held: true on the strength of the written set shrinking. In the corrected package the normal write set is 10, so the same mutation now produces 10 against 10. The stated expectation admits that outcome ('or stays equal when the form only ever carried caption facts'), but the proof degenerates from 'the caption-only restriction demonstrably removed a field' to 'nothing changed' -- a materially weaker guarantee that the report does not disclose, because the report still shows the stronger numbers. The removed field was 'Other Defendants', which was the only non-caption fact this form ever bound.",
+      "acceptanceCondition": "reports/mutation-tests.json is regenerated against the corrected binding set. writtenNormal equals 10. If writtenCaptionOnly then also equals 10, the report states explicitly that the caption-only restriction is vacuous for this family because every bound fact is already a caption fact, rather than presenting an unchanged count as a passed mutation."
+    },
+    {
+      "id": "D-FIX-1-R-006",
+      "severity": "medium",
+      "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/field-classification.json",
+      "fieldOrRegion": "classCounts.participant and entries[] for 'Other Defendants'",
+      "visibleDefect": "The field classification was not regenerated. It still classifies 'Other Defendants' as class 'participant' and reports classCounts.participant: 11. production-field-map.json now refuses that same field as protected_category/outside_party. The two files in the same package give opposite answers to the question of whether this field describes the participant, and the classification file is the one that feeds the handoff's class table. Its factoryVersion is also still d0-remediated-v1.",
+      "acceptanceCondition": "field-classification.json classifies 'Other Defendants' as protected (or the project's equivalent non-participant class), classCounts.participant reads 10, protected reads 15, the counts sum to 48, and factoryVersion matches production-field-map.json."
+    },
+    {
+      "id": "D-FIX-1-R-007",
+      "severity": "medium",
+      "file": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "fieldOrRegion": "PROTECT_RULES, the outside_party entry and its preceding comment (lines 47-55)",
+      "visibleDefect": "The rule does not do what its own comment and the commit message say it does. Both state that '\"Other\", \"additional\" and \"co-\" mark a party who is not the participant, whatever noun follows' and that the qualifier 'protects the field regardless of which party noun follows'. The implemented alternation has a closed noun list -- defendant|part(y|ies)|respondent|petitioner|plaintiff|person|name and plurals -- and adds no general 'co-' rule beyond the pre-existing \\bco-?defendant\\b. Nouns that FACT_DESCRIPTORS maps straight to participant.full_legal_name are missing from that list, so the defect class survives verbatim: decideBinding returns writable participant.full_legal_name for 'Co-Petitioner', 'Co-Applicant', 'Other Applicant' and 'Other Movant' (verified by direct invocation with pdfType text and documentAcceptsFill true). A reviewer who trusts the comment would believe this class is closed. It is not; only the seven listed nouns are covered. The asymmetry the change is built on -- labels may protect but never select -- is sound and is correctly implemented; this finding is about the breadth of the protect pattern, not that design.",
+      "acceptanceCondition": "Either the outside_party pattern is widened so that a qualifier from {other, others, additional, further, remaining, each, co-} followed by any noun that FACT_DESCRIPTORS can resolve to a participant identity fact (at minimum applicant, movant, affiant, claimant, defendant, petitioner, plaintiff, respondent, party, person, name) is refused -- demonstrated by a canary case asserting that 'Co-Petitioner' and 'Other Applicant' are refused as outside_party -- or the comment and commit narrative are corrected to state the closed noun list explicitly, and the residual gap is recorded as a known limitation. Widening must be re-run against all 84 production field maps and must not newly refuse any currently approved binding."
+    },
+    {
+      "id": "D-FIX-1-R-008",
+      "severity": "low",
+      "file": "scripts/rcap-official-forms/d-v4-verify-corrections.mjs",
+      "fieldOrRegion": "the MO:cr145-form-petition-en assertion block",
+      "visibleDefect": "The assertion set passes, but it does not distinguish the correction from an empty render, and it does not cover what the reviewer was asked to check. Demonstrated with the package's own bytes: running the same absence check against fixtures/negative-filled.pdf -- which draws nothing at all -- also yields outcome 'absent', so all four MO assertions would pass on a package that had written no values whatsoever. Nothing asserts that the petitioner's name is still PRESENT in 'Petitioner' and 'Full Name'; nothing asserts that the other ten bindings survived unchanged, which was instruction 2 to the reviewer; nothing asserts anything about the two new boundary withdrawals, because the overflow assertions are gated to VA and VT only even though this fix newly withdrew two MO values; and nothing checks package-internal consistency, which is why the six stale files in findings 001-006 all passed. The absence check is also answered by verifyWrittenValue, the factory's own read-back helper, so the assertion is not independent of the code that wrote the bytes -- the reviewer confirmed it separately with a dependency-free parser.",
+      "acceptanceCondition": "The MO block additionally asserts that participant.full_legal_name reads back 'complete' in the 'Petitioner' and 'Full Name' widgets; that the set of bound fields equals the ten named fields with their exact factIds; and that reports/determinism.json, reports/protected-fields-scan.json, reports/mutation-tests.json, field-classification.json and handoff.md agree with production-field-map.json and reports/rendered-artifacts.json. The overflow/withdrawal assertions currently gated to VA and VT are applied to any family whose overflow ledger records a withdrawn value, MO included."
+    },
+    {
+      "id": "D-FIX-1-R-009",
+      "severity": "low",
+      "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/source-record.json",
+      "fieldOrRegion": "factoryVersion",
+      "visibleDefect": "factoryVersion still reads d0-remediated-v1 while production-field-map.json and every regenerated report declare d0-v4. Minor on its own, but it is the fourth file in the package carrying the superseded version string and it contributes to a package that cannot be version-reconciled by inspection.",
+      "acceptanceCondition": "Every file in the family package that declares a factoryVersion declares the same one, and that value matches the factory that produced the artifacts in reports/rendered-artifacts.json."
+    }
+  ],
+
+  "observationsOutsideFamilyScope": [
+    {
+      "id": "D-FIX-1-R-OBS-1",
+      "severity": "medium",
+      "file": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en/production-field-map.json",
+      "note": "Not part of this family and not a defect in this branch, but it is direct evidence about the factory rule this review was asked to attack, so it is recorded rather than dropped. The approved Alabama family c-94a-source-gated-en binds the field 'Mailing Address of Board or other entity to be served' to participant.street_address, and reports/populated-fields.json confirms it is written. The petitioner's own street address is filed into the box asking for the mailing address of the Board or other entity to be served -- the same defect class as D-V3-R-007, live in an approved family. The new outside_party alternation does not catch it: 'entity' is not in the noun list and the phrase carries no parenthesis for the \\bother\\s*\\( branch. That family sits on an older factory (no measuredLabels, no factoryVersion) and was not re-run by this fix. This is offered as scope input for the D wave, not as a correction required of this branch."
+    },
+    {
+      "id": "D-FIX-1-R-OBS-2",
+      "severity": "informational",
+      "file": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "note": "The new alternation refuses 'Other Names', 'Other names used' and 'Any other names you have used (AKA)' as outside_party. On an expungement petition those fields ask for the PARTICIPANT's aliases, not an outside party, so the category is inaccurate even though the refusal is in the safe direction -- there is no alias fact in FACT_DESCRIPTORS, and before this change such a field would have matched \\bname\\b and received the petitioner's legal name, which would have been wrong in a worse way. No such field exists in the current corpus, so nothing is affected today. If an alias fact is ever added, this rule will need a carve-out or those fields will be silently refused under a misleading category."
+    },
+    {
+      "id": "D-FIX-1-R-OBS-3",
+      "severity": "informational",
+      "file": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "note": "isPositionalFieldName treats bare 'form', 'box', 'line', 'item', 'field' and 'fill' as positional because the trailing digit group is \\d{0,3}. That is harmless for the current corpus and errs toward letting the printed label carry the question, which is the intended direction. It does not match real XFA paths such as topmostSubform[0].Page1[0].f1_01[0], which fall through to the named branch; that is also currently harmless because no corpus family uses them, but the third alternative in the pattern suggests coverage it does not provide."
+    }
+  ],
+
+  "methodNotes": {
+    "independentParser": "A dependency-free PDF reader was written for this review. It parses the raw objects, inflates FlateDecode streams, interprets page content streams with full q/Q/cm/BT/Tm/Td/TJ handling, recurses into Form XObjects composing the CTM, and reports every drawn run in device space together with the XObject chain that drew it. It shares no code with the factory.",
+    "geometryMatching": "All 48 FlatWidget placements were matched to the 48 field-census rects by comparing the placement CTM translation and the XObject BBox extent against each rect. Worst-case match error across all 48 was 0.012pt, so the field-to-drawn-text attribution is unambiguous.",
+    "environment": "pdf-lib is not vendored and node_modules was absent. It was installed into the session scratchpad and symlinked in to run the canaries and the correction verifier, then removed. The symlink target is gitignored and nothing from it was committed. docs/record-clearing/d-wave/v4/correction-verification.json, written as a side effect of d-v4-verify-corrections.mjs, was moved out of the worktree and not committed.",
+    "pathsModified": [
+      "docs/record-clearing/d-wave/v4/review/d-fix-1-review.json",
+      "docs/record-clearing/d-wave/v4/review/d-fix-1-review.md"
+    ]
+  },
+
+  "verifierRuns": [
+    { "command": "node scripts/rcap-official-forms/d0-v4-canary-verify.mjs", "result": "pass", "detail": "35 checks across 11 cases and 6 mutations" },
+    { "command": "node scripts/rcap-official-forms/d0-v3-canary-verify.mjs", "result": "pass", "detail": "43 checks across 2 canaries and 5 mutations" },
+    { "command": "node scripts/rcap-official-forms/d0-canary-verify.mjs", "result": "pass", "detail": "149 checks across 9 canaries and 9 mutations" },
+    { "command": "node scripts/rcap-official-forms/d-v4-verify-corrections.mjs MO:cr145-form-petition-en", "result": "pass", "detail": "8 passed, 0 failed -- see finding D-FIX-1-R-008 on whether these are the right assertions" }
+  ]
+}
