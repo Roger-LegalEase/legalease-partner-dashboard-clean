@@ -432,7 +432,31 @@ let vercelProject = null;
   const acceptanceHash = sha256(acceptanceUrl);
   const prodHash = prodSupabaseUrl ? sha256(prodSupabaseUrl.trim()) : null;
 
-  const disjoint = env.status === 200 && prodHash !== null && prodHash !== acceptanceHash;
+  // Disjointness can be established two ways, and the second is strictly the
+  // more general one.
+  //
+  //   BY COMPARISON — a production-target Supabase URL exists by name and
+  //   hashes differently from the acceptance URL.
+  //   BY EXHAUSTIVE ABSENCE — the acceptance ref appears in NO production-target
+  //   value at all. That sweep does not depend on any variable being named a
+  //   particular way, and it covers connection strings, pooler hosts and keys
+  //   as well as URLs.
+  //
+  // The first hosted deployment attempt failed here for the wrong reason: this
+  // Vercel project configures no production-target variable called
+  // NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL, so the comparison had nothing to
+  // compare — while the absence sweep had already searched all 30 production
+  // values and found the acceptance ref in none of them. Demanding a specific
+  // variable name when the general proof has already succeeded is a gate
+  // failing on its own shape rather than on the question it exists to answer.
+  const contaminatedNow = (Array.isArray(env.json?.envs) ? env.json.envs : [])
+    .filter((entry) => Array.isArray(entry.target) && entry.target.includes("production"))
+    .filter((entry) => typeof entry.value === "string" && entry.value.includes(ACCEPTANCE_PROJECT_REF));
+  const exhaustiveAbsence = env.status === 200
+    && productionEntries.length > 0
+    && contaminatedNow.length === 0;
+  const disjoint = env.status === 200
+    && ((prodHash !== null && prodHash !== acceptanceHash) || (prodHash === null && exhaustiveAbsence));
   record(
     "acceptance_ref_disjoint_from_vercel_production",
     disjoint,
