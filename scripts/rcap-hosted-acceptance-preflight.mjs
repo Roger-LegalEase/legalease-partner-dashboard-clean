@@ -75,15 +75,35 @@ async function supabaseApi(pathname, { method = "GET", body = null } = {}) {
   return { status: res.status, json, text: text.slice(0, 400) };
 }
 
-async function vercelApi(pathname) {
+/**
+ * Team scoping is passed as `teamId` when VERCEL_ORG_ID is a team id
+ * (`team_…`) and as `slug` otherwise, because Vercel rejects a slug supplied
+ * as teamId with the same 403 it uses for a genuinely unauthorized token. A
+ * scoping mistake and a bad credential must not be indistinguishable, so on a
+ * 403 the other spelling is tried once and whichever succeeds is remembered.
+ */
+let teamParam = null;
+function scopedUrl(pathname, param) {
+  if (!param) return `https://api.vercel.com${pathname}`;
   const joiner = pathname.includes("?") ? "&" : "?";
-  const res = await fetch(`https://api.vercel.com${pathname}${joiner}teamId=${encodeURIComponent(VERCEL_ORG_ID)}`, {
-    headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
-  });
+  return `https://api.vercel.com${pathname}${joiner}${param}=${encodeURIComponent(VERCEL_ORG_ID)}`;
+}
+async function vercelFetch(url) {
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
   let json = null;
   const text = await res.text();
   try { json = JSON.parse(text); } catch { /* non-JSON surfaces through text */ }
   return { status: res.status, json, text: text.slice(0, 400) };
+}
+async function vercelApi(pathname) {
+  if (teamParam !== null) return vercelFetch(scopedUrl(pathname, teamParam));
+  const candidates = VERCEL_ORG_ID.startsWith("team_") ? ["teamId", "slug"] : ["slug", "teamId"];
+  let last = null;
+  for (const candidate of candidates) {
+    last = await vercelFetch(scopedUrl(pathname, candidate));
+    if (last.status < 400) { teamParam = candidate; return last; }
+  }
+  return last;
 }
 
 /** Read-only SQL through the Management API. No database password is needed or held. */
@@ -224,29 +244,45 @@ const evidence = {
 // --- 3. Vercel credential and project identity -------------------------------
 let vercelProject = null;
 {
-  const user = await vercelApi("/v2/user");
-  const usable = user.status === 200;
+  // Probed against the endpoint this mission actually uses. An earlier version
+  // probed /v2/user and failed 403 on a correct token: a team-scoped Vercel
+  // token is not authorized for the personal-user endpoint at all, so that
+  // check tested something the mission never needs and would have reported a
+  // working credential as broken.
+  const listing = await vercelApi("/v9/projects?limit=1");
+  const usable = listing.status === 200;
   record(
     "vercel_token_usable",
     usable,
-    usable ? `Vercel API answered 200 for the token's own user` : `Vercel /v2/user returned ${user.status}: ${user.text}`
+    usable
+      ? `the token lists projects under the supplied org scope (scoped by ${teamParam}); this is the access the deployment step needs`
+      : `project listing returned ${listing.status}: ${listing.text}`
   );
 
+  // The endpoint accepts an id or a name, so the supplied value is accepted as
+  // either and the resolved id is what everything downstream uses.
   const project = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}`);
-  const resolved = project.status === 200 && project.json?.id === VERCEL_PROJECT_ID;
+  const resolved = project.status === 200
+    && (project.json?.id === VERCEL_PROJECT_ID || project.json?.name === VERCEL_PROJECT_ID);
   vercelProject = resolved ? project.json : null;
   record(
     "vercel_project_resolves",
     resolved,
     resolved
-      ? `project id ${VERCEL_PROJECT_ID} resolves to name="${project.json.name}", framework=${project.json.framework}, under org ${VERCEL_ORG_ID}`
+      ? `the supplied project identifier resolves to name="${project.json.name}", framework=${project.json.framework}, ssoProtection=${project.json.ssoProtection ? "on" : "off"}, passwordProtection=${project.json.passwordProtection ? "on" : "off"}`
       : `project lookup returned ${project.status}: ${project.text}`
   );
   if (resolved) {
     evidence.cases.vercelProject = {
+      resolvedId: project.json.id,
       name: project.json.name,
       framework: project.json.framework,
-      productionAliases: Array.isArray(project.json.alias)
+      teamScopeParam: teamParam,
+      ssoProtectionEnabled: Boolean(project.json.ssoProtection),
+      passwordProtectionEnabled: Boolean(project.json.passwordProtection),
+      // Recorded so the deployment step can prove afterwards that it added no
+      // production alias and removed none: this is the before-picture.
+      productionAliasesBefore: Array.isArray(project.json.alias)
         ? project.json.alias.filter((a) => a?.target === "PRODUCTION").map((a) => a.domain)
         : []
     };
