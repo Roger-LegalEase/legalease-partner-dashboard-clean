@@ -614,6 +614,14 @@ export type ExactSupportedDeferral = {
   trackId: string;
   jurisdiction: string;
   classification: ExactDeferralClassification;
+  /**
+   * True when an independent review returned correction_required for this
+   * track. The treatment still loads and still suppresses the route — a
+   * treatment under correction is never a reason to start selling — but it is
+   * no longer an ACCEPTED decision, so it must not outrank a treatment that
+   * does carry a current approval.
+   */
+  underCorrection: boolean;
   paymentAllowed: false;
   checkoutSuppressed: true;
   packetCreditConsumption: "none";
@@ -651,6 +659,8 @@ function invalidExact(trackId: string, jurisdiction: string, evidencePath: strin
     trackId,
     jurisdiction,
     classification: "invalid_exact_supported_deferral",
+    // An invalid record is not an accepted decision either.
+    underCorrection: true,
     paymentAllowed: false,
     checkoutSuppressed: true,
     packetCreditConsumption: "none",
@@ -671,6 +681,39 @@ function invalidExact(trackId: string, jurisdiction: string, evidencePath: strin
     authorityCount: 0,
     invalidReason: reason,
   };
+}
+
+/**
+ * Tracks whose lane-B treatment an independent review returned for correction.
+ *
+ * "Accepted" has to mean accepted. Without this, a packet carrying a live
+ * participant-safety defect still answered ahead of a treatment that had been
+ * reviewed and approved, and the participant received the defective one.
+ */
+let underCorrectionCache: Set<string> | null = null;
+function tracksUnderCorrection(): Set<string> {
+  if (underCorrectionCache) return underCorrectionCache;
+  const out = new Set<string>();
+  const file = path.join(process.cwd(), "data/rcap-all50/review-artifacts/f2-dispositions.json");
+  if (fs.existsSync(file)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+      const groups = [parsed.closures ?? [], parsed.notAcceptedPendingOwnerDetermination ?? []];
+      for (const group of groups) {
+        for (const record of group as Array<Record<string, unknown>>) {
+          if (record.outcome === "technical_approved") continue;
+          for (const key of (record.trackKeys ?? []) as string[]) {
+            out.add(String(key).split(":").slice(1).join(":"));
+          }
+        }
+      }
+    } catch {
+      // Unreadable dispositions must not silently widen what counts as accepted.
+      return out;
+    }
+  }
+  underCorrectionCache = out;
+  return out;
 }
 
 function loadExactDeferrals() {
@@ -791,6 +834,7 @@ function buildExactDeferral(
     trackId,
     jurisdiction,
     classification: "exact_supported_deferral",
+    underCorrection: tracksUnderCorrection().has(trackId),
     paymentAllowed: false,
     checkoutSuppressed: true,
     packetCreditConsumption: "none",

@@ -119,8 +119,22 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
   // and without this the resolver offered them a Harris-County packet for $50.
   // Matched by exact track id when the caller has one, otherwise by the
   // compiled pathway the participant actually arrived through.
-  const exact = exactDeferralForTrack(input.trackId ?? null)
+  //
+  // A deferral that an independent review returned for correction is NOT an
+  // accepted decision, so it does not outrank a treatment that carries a
+  // current approval. It still suppresses the route when nothing else serves
+  // the track — a treatment under correction is never a reason to start selling
+  // — but where an approved terminalization treatment exists for the same
+  // track, the participant gets the approved one. Texas expunction after an
+  // acquittal is the case that made this necessary: its lane-B packet carries a
+  // reviewer-identified participant-safety defect, and without this the runtime
+  // served that packet while the ledger counted the approved treatment.
+  const exactCandidate = exactDeferralForTrack(input.trackId ?? null)
     ?? exactDeferralForPathway(jurisdiction, pathwayId);
+  const supersededByApprovedTreatment = Boolean(
+    exactCandidate?.underCorrection && terminalTreatmentForTrack(input.trackId ?? null)
+  );
+  const exact = supersededByApprovedTreatment ? null : exactCandidate;
   if (exact) {
     return {
       routeKind: "exact_supported_deferral",

@@ -33,7 +33,7 @@ const MUTATION_TARGETS = ["data/rcap-all50/guidance-packets/wv.json", "data/rcap
 // whether a deliberate breakage is caught, and while the parent held the lock
 // the child died on the lock itself. Every mutation then looked "detected" for
 // a reason that had nothing to do with the mutation.
-if (process.argv.includes("--mutations")) registerTrackedMutation("verify-rcap-lane-b-exact-deferrals.mjs", MUTATION_TARGETS);
+if (process.argv.includes("--mutations")) registerTrackedMutation("verify-rcap-lane-b-exact-deferrals.mjs", [...MUTATION_TARGETS, "data/rcap-all50/review-artifacts/terminalization-review-dispositions.json"]);
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -41,6 +41,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const PACKET_DIR = path.join(rootDir, "data/rcap-all50/guidance-packets");
 const LEDGER = path.join(rootDir, "data/rcap-ledger/track-terminalization.json");
 const DISPOSITIONS = path.join(rootDir, "data/rcap-all50/review-artifacts/f2-dispositions.json");
+const TERMINALIZATION_DISPOSITIONS = path.join(rootDir, "data/rcap-all50/review-artifacts/terminalization-review-dispositions.json");
 
 // The commit this recognition correction was built on. The "nothing else moved"
 // check compares against its ledger rather than against a hand-copied list.
@@ -135,11 +136,27 @@ async function runChecks() {
     const qualifies = isApproved && !isSuperseded && !isHeldOrCorrection && sellableThrough.length === 0;
     if (qualifies) qualifying.push(key);
 
+    // Lane-B recognition promotes a track only when every safeguard holds. A
+    // track may still be terminal for a DIFFERENT reason — an independently
+    // approved terminalization treatment for the same track — and when that
+    // happens the runtime serves the approved treatment rather than this one,
+    // because a packet under correction is not an accepted decision. What must
+    // never happen is lane-B recognition promoting a track its own safeguards
+    // reject, so that is what is checked.
+    const promotedByLaneB = row.candidateStatus === "promoted_by_f2";
     check(
-      row.terminal === qualifies,
-      `${key}: ledger terminal=${row.terminal} but the safeguards say ${qualifies}`
-        + ` (approved=${isApproved}, superseded=${isSuperseded}, heldOrCorrection=${isHeldOrCorrection}, sellableThrough=${sellableThrough.join(",") || "none"})`
+      qualifies ? row.terminal === true : !promotedByLaneB,
+      qualifies
+        ? `${key}: every lane-B safeguard holds but the ledger says terminal=${row.terminal}`
+        : `${key}: lane-B recognition promoted a track its safeguards reject`
+          + ` (approved=${isApproved}, superseded=${isSuperseded}, heldOrCorrection=${isHeldOrCorrection}, sellableThrough=${sellableThrough.join(",") || "none"})`
     );
+    if (!qualifies && row.terminal === true) {
+      check(
+        row.candidateStatus === "promoted_by_terminalization_review",
+        `${key}: terminal without a lane-B qualification and without an approved terminalization treatment (candidateStatus=${row.candidateStatus})`
+      );
+    }
 
     // Every packet is a recognised candidate whether or not it is terminal —
     // that is the difference between "delivered" and "true and approved".
@@ -172,11 +189,19 @@ async function runChecks() {
   check(approvedPackets.length === 8, `expected 8 with an unsuperseded technical_approved closure, found ${approvedPackets.length}`);
   check(qualifying.length === 8, `expected 8 to satisfy every safeguard, found ${qualifying.length}`);
 
-  // The ninth packet — the one with no independent approval — is never terminal.
+  // The ninth packet — the one with no independent approval — is never terminal
+  // ON THE STRENGTH OF THIS PACKET. It may be terminal because a different
+  // treatment for the same track was independently approved, in which case the
+  // runtime serves that approved treatment instead of this one. What is refused
+  // is terminality with no approval anywhere.
   const unapproved = keys.filter((key) => !approved.has(key));
   check(unapproved.length === 1, `expected exactly 1 packet without an approval, found ${unapproved.length}`);
   for (const key of unapproved) {
-    check(byKey.get(key)?.terminal === false, `${key}: terminal without an independent approval`);
+    const row = byKey.get(key);
+    check(
+      row?.terminal === false || row?.candidateStatus === "promoted_by_terminalization_review",
+      `${key}: terminal without an independent approval (candidateStatus=${row?.candidateStatus})`
+    );
   }
 
   // ---- a complete_guidance route is untouched ----------------------------
@@ -200,15 +225,32 @@ async function runChecks() {
     .filter((t) => baseTerminal.get(`${t.jurisdiction}:${t.trackId}`) !== t.terminal)
     .map((t) => `${t.jurisdiction}:${t.trackId}`);
   const laneBKeys = new Set(keys);
-  const movedOutsideLaneB = moved.filter((key) => !laneBKeys.has(key));
+  // The blast-radius check, restated as an invariant rather than a snapshot.
+  //
+  // It originally asserted an exact delta against the baseline commit: only the
+  // lane-B set moved, and the ledger rose by exactly that many. That was true of
+  // the recognition window it was written for. A later window then terminalized
+  // every remaining track through independently approved terminal treatments, so
+  // an exact-count assertion now measures how much legitimate work has happened
+  // since, which is not a safety property.
+  //
+  // What must still hold is that nothing changed terminality without a recorded
+  // reason, and that no lane-B track ever regressed. Both are checked directly.
+  const terminalNowByKey = new Map(ledger.tracks.map((t) => [`${t.jurisdiction}:${t.trackId}`, t]));
+  const unexplained = moved.filter((key) => {
+    if (laneBKeys.has(key)) return false;
+    const row = terminalNowByKey.get(key);
+    return !String(row?.candidateStatus ?? "").startsWith("promoted_by_");
+  });
   check(
-    movedOutsideLaneB.length === 0,
-    `tracks outside the lane-B deferral set changed terminality: ${movedOutsideLaneB.join(", ")}`
+    unexplained.length === 0,
+    `tracks changed terminality with no recorded promotion: ${unexplained.join(", ")}`
   );
-  check(moved.length === qualifying.length, `${moved.length} tracks moved, expected ${qualifying.length}`);
+  const regressed = [...laneBKeys].filter((key) => baseTerminal.get(key) === true && terminalNowByKey.get(key)?.terminal !== true);
+  check(regressed.length === 0, `lane-B deferrals lost terminality: ${regressed.join(", ")}`);
   check(
-    baseline.aggregates.tracksTerminal + qualifying.length === ledger.aggregates.tracksTerminal,
-    `ledger moved ${baseline.aggregates.tracksTerminal} -> ${ledger.aggregates.tracksTerminal}, expected +${qualifying.length}`
+    ledger.aggregates.tracksTerminal >= baseline.aggregates.tracksTerminal,
+    `the ledger went backwards: ${baseline.aggregates.tracksTerminal} -> ${ledger.aggregates.tracksTerminal}`
   );
 
   // ---- the runtime honours the treatment, route by route ------------------
@@ -339,13 +381,24 @@ async function runChecks() {
     }
   }
 
-  // 7. TX:tx_exp_acquittal is a candidate carrying correction_required and is
-  //    not promoted by this change.
+  // 7. TX:tx_exp_acquittal is never promoted by lane-B RECOGNITION.
+  //
+  // Its lane-B packet carries correction_required, and delivery alone has never
+  // been terminality — that is the rule this case was written to hold. It is
+  // terminal today, but only because a separate terminalization treatment for
+  // the same track was independently reviewed and approved, which is a different
+  // authority reaching a different artifact. So the check is that lane-B
+  // recognition did not promote it, not that nothing else ever could.
   const acquittal = byKey.get("TX:tx_exp_acquittal");
   check(Boolean(acquittal), "TX:tx_exp_acquittal is missing from the ledger");
-  check(acquittal?.terminal === false, "TX:tx_exp_acquittal is terminal");
-  check(acquittal?.candidateTreatment === "exact_supported_deferral", `TX:tx_exp_acquittal candidateTreatment is ${acquittal?.candidateTreatment}`);
-  check(acquittal?.candidateStatus === "correction_required", `TX:tx_exp_acquittal candidateStatus is ${acquittal?.candidateStatus}`);
+  check(
+    acquittal?.candidateStatus !== "promoted_by_f2",
+    "TX:tx_exp_acquittal was promoted by an F2 closure despite carrying correction_required"
+  );
+  check(
+    acquittal?.terminal !== true || acquittal?.candidateStatus === "promoted_by_terminalization_review",
+    `TX:tx_exp_acquittal is terminal with candidateStatus ${acquittal?.candidateStatus}, which is not an accepted promotion route for it`
+  );
 
   // 8. unrelated Texas production packet routes are untouched, and so is the
   //    legacy generator, which presents its own stored pathway value rather
@@ -459,9 +512,9 @@ async function runMutations() {
       files: [path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts")],
       apply: () => replaceOnce(
         path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts"),
-        `  const exact = exactDeferralForTrack(input.trackId ?? null)
+        `  const exactCandidate = exactDeferralForTrack(input.trackId ?? null)
     ?? exactDeferralForPathway(jurisdiction, pathwayId);`,
-        `  const exact = LEGACY_VERIFIED.has(jurisdiction)
+        `  const exactCandidate = LEGACY_VERIFIED.has(jurisdiction)
     ? null
     : exactDeferralForTrack(input.trackId ?? null) ?? exactDeferralForPathway(jurisdiction, pathwayId);`
       ),
@@ -491,9 +544,9 @@ async function runMutations() {
       files: [path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts")],
       apply: () => replaceOnce(
         path.join(rootDir, "src/lib/rcap/documents/packet-route-resolver.ts"),
-        `  const exact = exactDeferralForTrack(input.trackId ?? null)
+        `  const exactCandidate = exactDeferralForTrack(input.trackId ?? null)
     ?? exactDeferralForPathway(jurisdiction, pathwayId);`,
-        `  const exact = jurisdiction === "TX"
+        `  const exactCandidate = jurisdiction === "TX"
     ? null
     : exactDeferralForTrack(input.trackId ?? null) ?? exactDeferralForPathway(jurisdiction, pathwayId);`
       ),
@@ -540,13 +593,26 @@ async function runMutations() {
       ),
     },
     {
+      // Delivery is never terminality. Forcing terminality alone no longer
+      // discriminates, because every track now holds a real approval and the
+      // forced value matches the true one — so the mutation removes the ninth
+      // packet's approval FIRST and then promotes on delivery. That is exactly
+      // the failure the rule exists to prevent: a packet nobody approved going
+      // terminal because it exists.
       name: "blindly promoting all nine packets turns the suite red",
-      files: [generator],
-      apply: () => replaceOnce(
-        generator,
-        "  const terminalNow = (holds.length === 0 || approvedByReview) && !runtimeSuppressionContradicted;",
-        "  const terminalNow = candidateTreatment === 'exact_supported_deferral'\n    ? true\n    : (holds.length === 0 || approvedByReview) && !runtimeSuppressionContradicted;"
-      ),
+      files: [generator, TERMINALIZATION_DISPOSITIONS],
+      apply: () => {
+        editJson(TERMINALIZATION_DISPOSITIONS, (json) => {
+          json.closures = (json.closures ?? []).filter(
+            (closure) => !(closure.trackKeys ?? []).includes("TX:tx_exp_acquittal")
+          );
+        });
+        replaceOnce(
+          generator,
+          "  const terminalNow = (holds.length === 0 || approvedByReview) && !runtimeSuppressionContradicted;",
+          "  const terminalNow = candidateTreatment === 'exact_supported_deferral'\n    ? true\n    : (holds.length === 0 || approvedByReview) && !runtimeSuppressionContradicted;"
+        );
+      },
     },
   ];
 
