@@ -67,6 +67,11 @@ const OVERRIDES = {
     reason:
       "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain."
   },
+  "verify-tracked-mutation-safety.mjs": {
+    disposition: "wired",
+    reason:
+      "Proof that an interrupted mutation harness cannot strand tracked bytes. Every case kills a real child process mid-mutation and hashes what is left on disk: SIGTERM against application source and against two migrations, SIGHUP, an uncaught exception, and SIGKILL — which is expected to strand the mutation, because no process can catch it, and which then proves the journal recovery puts the file back. Also proves a second mutator is refused by name, a tree-reading guard refuses to read a tree mid-mutation, and the Phase 52 and 54 suites still report every mutation red under the guard. Runs first in the chain so a stranded journal is recovered before anything else reads the tree."
+  },
   "generate-rcap-d-adoption-reconciliation.mjs": {
     disposition: "wired",
     reason:
