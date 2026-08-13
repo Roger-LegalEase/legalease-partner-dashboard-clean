@@ -1,0 +1,280 @@
+{
+  "schema": "rcap-d-v4-independent-review/v1",
+  "reviewId": "D-FIX-4-REVIEW",
+  "subject": "D-FIX-4, Virginia CC-1203 and Vermont 200-00631",
+  "branchReviewed": "claude/rcap-d-fix-4-va-vt-clipping",
+  "commitsInScope": [
+    {
+      "sha": "76730af859fe56f63b142387ce99901b47985c9d",
+      "role": "family commit",
+      "subject": "D-FIX-4: Virginia and Vermont withdraw clipped values instead of filing them"
+    },
+    {
+      "sha": "257bf0499b4327341ed103f9431733508b415e25",
+      "role": "base commit (shared factory + approved-corpus scan)",
+      "subject": "Bind fields by printed meaning, and read the corpus for the same clipping defect"
+    }
+  ],
+  "posture": "Read-only. Every claim below was checked against the artifact bytes with tools independent of the factory under review: Mozilla pdfjs-dist 4.x for page text and positions, a purpose-written content-stream and object-graph walker over pdf-lib's low-level API for flattened-widget provenance, and pdf-lib's own StandardFonts Helvetica metrics for true glyph widths. The repository's own capture module was used only where its output is itself the subject of a finding, and never as the sole basis for one.",
+  "sourceBinariesAvailable": false,
+  "sourceBinaryNote": "The blank official PDFs are not in git. Nothing below depends on reading one: widget rectangles were taken from each package's committed field-census.json and independently corroborated against the flattened widget appearance BBoxes and placement matrices in the finalized artifacts, which agree to within 0.1pt.",
+
+  "dispositions": {
+    "VA:cc-1203-form-en": "correction_required",
+    "VT:200-00631-form-en": "correction_required",
+    "approvedFamilyScan": "correction_required"
+  },
+
+  "verificationsThatPassed": {
+    "VA:cc-1203-form-en": [
+      "Every value drawn in canonical-filled.pdf (13) and boundary-filled.pdf (6) renders whole: the drawn string equals the supplied string in every case, read from the appearance streams.",
+      "No drawn value leaves its widget or its appearance clip path under real Helvetica metrics. Checked run-by-run: every run start is at or right of bbox.x+1 and every run end is at or left of bbox.x+width-1.",
+      "All six withdrawn values are genuinely blank, not shorter. User.FullName, User.AncillaryCaseNumber, User.PrintedNameOfPetAtt, User.AddressOfPetAtt, User.CityOfPetAtt and UserPetitionerName have no appearance stream at all in boundary-filled.pdf.",
+      "D-V3-R-002 is fixed at its true mechanism. In the pre-fix boundary artifact User.AncillaryCaseNumber was drawn at x=331.55 inside a widget starting at x=365.07 -- pdf-lib centre-quads an over-wide value on a /Q 1 widget, so (129.72-196.75)/2 = -33.5pt placed the text outside the box on both sides and the appearance clip cut it mid-token at both ends. The value is now withdrawn.",
+      "D-V3-R-003 is fixed: the withdrawal appears in reports/overflow-and-clipping.json -> findings.",
+      "D-V3-R-004 is fixed for the right reason. User.VSBCaseNumber is no longer bound; production-field-map.json refuses it as reason=protected_category, category=attorney, and its measured printed label is '[ ] ATTORNEY FOR PETITIONER (VSB No.'. Its widget is 23pt wide on page 6. It is refused for meaning, not for width.",
+      "reports/rendered-artifacts.json: all three paths exist; all three sha256 digests and byte counts match the files on disk.",
+      "No XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData, /URI, /GoToR, /RichMedia, /EmbeddedFiles, /Names, /Movie, /Sound, /Rendition or /SetOCGState in any of the three artifacts, by an independent walk of every indirect object. No AcroForm and zero annotations on any page, so no orphaned widget.",
+      "contact-sheet/blank-vs-filled.pdf was built from the finalized canonical artifact (builtFromSha256 and finalizedSha256 both equal the canonical digest computed from disk) and contains all eight distinct expected values."
+    ],
+    "VT:200-00631-form-en": [
+      "The boundary withdrawal leaves the page blank: boundary-filled.pdf contains no value run at all, in either of field 1's two widgets.",
+      "The canonical value 'Jordan Avery Reyes' renders whole and inside both widgets under real metrics (98.21pt at 11pt Helvetica against clip widths of 271.6pt and 154.3pt).",
+      "reports/rendered-artifacts.json: all three paths exist; all digests and byte counts match disk.",
+      "No active content of any kind, no AcroForm, zero annotations, no orphaned widget, by the same independent object walk.",
+      "The contact sheet was built from the finalized canonical artifact and its digest matches."
+    ],
+    "canaries": [
+      "node scripts/rcap-official-forms/d0-canary-verify.mjs -- passed, 149 checks across 9 canaries and 9 mutations.",
+      "node scripts/rcap-official-forms/d0-v3-canary-verify.mjs -- passed, 43 checks across 2 canaries and 5 mutations.",
+      "node scripts/rcap-official-forms/d0-v4-canary-verify.mjs -- passed, 35 checks across 11 cases and 6 mutations.",
+      "node scripts/rcap-official-forms/d-v4-verify-corrections.mjs VA:cc-1203-form-en VT:200-00631-form-en -- 20/20 assertions pass. Note that this verifier writes docs/record-clearing/d-wave/v4/correction-verification.json as a side effect; the file is untracked and was removed after the run."
+    ],
+    "approvedFamilyScan": [
+      "node scripts/rcap-official-forms/d-v4-approved-fitter-scan.mjs reproduces the committed report byte for byte once the seven lane branches named in docs/record-clearing/d-wave/v3/family-handoff.json are fetched: 157 approved, 135 scanned, 22 skipped, 552 values read back, 0 additional affected, and git diff on approved-fitter-scan.json is empty."
+    ]
+  },
+
+  "findings": [
+    {
+      "id": "D-R4-001",
+      "family": "VT:200-00631-form-en",
+      "severity": "high",
+      "category": "unfitted_unread_unrecorded_widget",
+      "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/canonical-filled.pdf",
+      "alsoIn": [
+        "scripts/rcap-official-forms/rcap-official-form-finalize.mjs:258",
+        "scripts/rcap-official-forms/rcap-official-form-finalize.mjs:336",
+        "scripts/rcap-official-forms/d-v4-verify-corrections.mjs:196",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/overflow-and-clipping.json"
+      ],
+      "fieldOrRegion": "field \"1\", second widget at (53.4, 164.4, 156.3, 13) on page 1",
+      "visibleDefect": "Field \"1\" has two widgets. field-census.json records both -- (287.3, 611.9, 273.6, 13) and (53.4, 164.4, 156.3, 13) -- and canonical-filled.pdf draws the value twice, as flattened widgets /FlatWidget-7888911063 at cm (287.35, 611.95) and /FlatWidget-979344929 at cm (53.43, 164.35), each carrying '/Helvetica 11 Tf ... <4A6F7264616E204176657279205265796573> Tj'. The fitter measures against widgets[0] only (finalize.mjs:258), the read-back checks widgets[0] only (finalize.mjs:336), and the acceptance verifier checks widgets[0] only (d-v4-verify-corrections.mjs:196). allFittingDecisions therefore records one decision for this write, with availableWidth 273.6, while the value is also drawn into a widget 156.3pt wide that is never fitted against and never read back. The family's central claim -- every written value read back from the page -- covers half of its only write.",
+      "acceptanceCondition": "Fit against, render into and read back every widget of a field, not widgets[0]. reports/overflow-and-clipping.json must carry one allFittingDecisions row per widget, each with that widget's own page, rectangle and available width, and the read-back must attribute each row to its own appearance stream. The same change is required in d-v4-verify-corrections.mjs before its pass can mean what it says."
+    },
+    {
+      "id": "D-R4-002",
+      "family": "VT:200-00631-form-en",
+      "severity": "high",
+      "category": "fact_filed_against_wrong_printed_context",
+      "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/production-field-map.json",
+      "alsoIn": [
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/canonical-filled.pdf",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/contact-sheet/blank-vs-filled.pdf"
+      ],
+      "fieldOrRegion": "field \"1\" second widget, over the Date rule of the perjury declaration block",
+      "visibleDefect": "The participant's full legal name is printed where the form asks for a date. Independent page read: the label 'Date' sits at (54.0, 181.1); the rule '_____________________________' it captions sits at (54.0, 167.6) with width 159.0; field 1's second widget occupies (53.4, 164.4) to (209.7, 177.4), directly on that rule; and the signature line is the separate right-hand rule at (288.0, 167.6) width 224.6, captioned 'Signature of Requestor' below it at (288.0, 154.2). The binding is justified by the label measured beside widget 1 ('Name of Person Requesting Sealing Order'); nothing measured widget 2's printed context. The name is visible on the Date line of the sworn declaration in the finalized artifact and in the contact sheet a reviewer signs off -- the sheet contains 'Jordan Avery Reyes' twice.",
+      "acceptanceCondition": "Bind per widget, from the label measured beside that widget. Where one field's widgets sit under conflicting printed contexts, refuse the field and record the conflict, on the same asymmetry the base commit states: an extra protection leaves a blank for a human, an extra selection files the wrong fact with a court. Either way, no participant fact may be drawn on the Date rule of 200-00631."
+    },
+    {
+      "id": "D-R4-003",
+      "family": "shared factory (affects VA, VT and the approved-corpus scan)",
+      "severity": "high",
+      "category": "overflow_measured_by_estimate_reported_as_measurement",
+      "file": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs:344-357",
+      "alsoIn": [
+        "scripts/rcap-official-forms/rcap-text-fitting.mjs:230-256"
+      ],
+      "fieldOrRegion": "codeAdvance() width fallback; verifyWrittenValue() overflow computation",
+      "visibleDefect": "Every overflow figure in both ledgers, and every clip verdict in the corpus scan, is computed from a 0.5-em-per-character estimate rather than glyph widths. codeAdvance falls back to w = 500 when the font carries no /Widths, and the font in every generated appearance is '/Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding' with no /Widths -- so metricsExact is false on every value run in these artifacts, and nothing downstream consults it. verifyWrittenValue's own comment says the overflow is 'measured from each run's own extent rather than estimated'. Measured against pdf-lib's Helvetica metrics the estimate is wrong in both directions: 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III' at 10pt reports 350.0 against a true 326.07 (+7.3%); '0123-45-2026-CR-900123.00-AB-CDE/2201' at 10pt reports 185.0 against a true 196.75 (-6.0%); 'jordan.reyes@example.com' at 11pt reports 132.0 against a true 136.16. Under-measurement on digit- and capital-heavy strings is a false-clean path -- a value drawn outside its widget read back as complete -- which is the D-V3-R-006 signature this work exists to abolish. Two concrete consequences are recorded separately as D-R4-004 and D-R4-011.",
+      "acceptanceCondition": "Measure the drawn extent with the metrics that drew it: either embed /Widths into the appearance font so the capture reads true advances, or measure the run with the same StandardFonts metrics pdf-lib used to generate the appearance. Until then, verifyWrittenValue must refuse to return 'complete' or a numeric overflow for any run whose metricsExact is false, and must fail closed instead."
+    },
+    {
+      "id": "D-R4-004",
+      "family": "VT:200-00631-form-en",
+      "severity": "high",
+      "category": "ledger_records_wrong_widget_and_wrong_cause_for_a_withdrawal",
+      "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/overflow-and-clipping.json",
+      "fieldOrRegion": "findings[0] / allFittingDecisions[1], fixture boundary, field \"1\"",
+      "visibleDefect": "The ledger attributes the boundary clip to widget (287.3, 611.9, 273.6, 13) with overflowRightPt 7.45. 7.45 is exactly what the 0.5-em estimate yields and nothing else: 70 characters x 0.5 x 8pt = 280.00 drawn from x=288.35 against a right edge at 560.90. With real Helvetica metrics the 70-character name at 8pt is 260.86pt wide and ends at 549.21 -- 11.7pt inside that widget, and inside its 271.6pt clip path. The clip that does exist at that size is in the second widget, whose clip path is 154.3pt wide and cuts the name at roughly 41 of 70 characters mid-word, which is D-V3-R-005 as originally reported ('39 of 70 characters'). The blank outcome is correct; the recorded widget, the recorded overflow and the recorded cause are not, and the cause the page does support appears nowhere in the package.",
+      "acceptanceCondition": "The withdrawal row must name the widget that actually clipped, with an overflow computed from true glyph widths, and must exist for each widget that clipped. Re-derive after D-R4-001 and D-R4-003 are fixed; the resulting row for field \"1\" must cite the (53.4, 164.4, 156.3, 13) widget."
+    },
+    {
+      "id": "D-R4-005",
+      "family": "VA:cc-1203-form-en",
+      "severity": "medium",
+      "category": "ledger_font_size_disagrees_with_the_artifact",
+      "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/overflow-and-clipping.json",
+      "alsoIn": [
+        "scripts/rcap-official-forms/rcap-official-form-finalize.mjs:352",
+        "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/populated-fields.json"
+      ],
+      "fieldOrRegion": "canonical / User.AncillaryCaseNumber, page 3, widget (365.07, 450.80, 129.72, 14.17)",
+      "visibleDefect": "The ledger records selectedFontSize 11. The appearance stream that draws '24-CR-001234' into that widget contains '/Helvetica 10 Tf'. Two independent readers agree on 10 (the repository's own capture module and a purpose-written content-stream walker), and the identical values in the same-width widgets on pages 4 and 5 are drawn at 11, so this is a per-field divergence and not a misread. The cause is structural: finalize.mjs:352 publishes w.fontSize, the size the fitter chose, not the size the appearance used. The stated acceptance condition requires the chosen font size to agree with the page; here the ledger publishes the prediction. Nothing is clipped at 10pt, so there is no filing harm -- but the same substitution is what let a prediction be filed as an observation in the first place.",
+      "acceptanceCondition": "selectedFontSize must be read back out of the generated appearance (the Tf operand inside the widget's own stream) rather than copied from the fit, and a divergence between the fitted size and the drawn size must itself be a recorded finding."
+    },
+    {
+      "id": "D-R4-006",
+      "family": "VA:cc-1203-form-en and VT:200-00631-form-en",
+      "severity": "medium",
+      "category": "ledger_row_missing_the_fields_its_own_comment_promises",
+      "file": "scripts/rcap-official-forms/d-v4-remediate-families.mjs:430-455",
+      "alsoIn": [
+        "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/overflow-and-clipping.json",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/overflow-and-clipping.json"
+      ],
+      "fieldOrRegion": "every allFittingDecisions row with disposition withdrawn_and_left_blank (six in Virginia, one in Vermont)",
+      "visibleDefect": "The comment above the row builder says each row carries 'required width, available width, the size chosen, what was supplied, what is visible, and what was done about it'. Withdrawn rows are built from clippedWritesWithdrawn and carry no page, no selectedFontSize, no availableWidth, no fittingOutcome and no runsSelectedBy; requiredWidth is absent from every row in both families, withdrawn or not. The acceptance condition asks for required width, available width, chosen font size, input length, visible length and disposition to agree; three of those six cannot agree because they are not recorded.",
+      "acceptanceCondition": "A withdrawn row must carry the same six quantities as a rendered one -- required width at the attempted size, the widget's available width, the size attempted, supplied characters, visible characters after withdrawal, and the disposition -- and d-v4-verify-corrections.mjs must assert their presence rather than only suppliedChars and renderedChars."
+    },
+    {
+      "id": "D-R4-007",
+      "family": "VA:cc-1203-form-en and VT:200-00631-form-en",
+      "severity": "medium",
+      "category": "renderedChars_on_a_blank_field_is_the_pre_withdrawal_draw",
+      "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/overflow-and-clipping.json",
+      "alsoIn": [
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/overflow-and-clipping.json"
+      ],
+      "fieldOrRegion": "withdrawn_and_left_blank rows: renderedChars 70, 37, 70, 75, 47, 70 (VA) and 70 (VT)",
+      "visibleDefect": "Every withdrawn row records renderedChars equal to suppliedChars. The field is blank in the artifact -- I confirmed the absence of every one of these appearances -- so the visible length is 0. Read literally, the ledger says six Virginia fields are both left blank and rendered at full length. The number is the first pass's draw, carried into a report whose stated purpose is to describe the artifact rather than the intention.",
+      "acceptanceCondition": "renderedChars on a withdrawn row must be the visible length in the emitted artifact, which is 0; the pre-withdrawal draw belongs in a separately named field (e.g. withdrawnDrawChars) if it is worth keeping."
+    },
+    {
+      "id": "D-R4-008",
+      "family": "VA:cc-1203-form-en",
+      "severity": "medium",
+      "category": "undisclosed_binding_drop_and_a_commit_message_that_contradicts_the_bytes",
+      "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/production-field-map.json",
+      "fieldOrRegion": "User.ChargeCaseNumber, page 2, widget (311, 382, 113, 14)",
+      "visibleDefect": "Two of the fifteen reviewed bindings are gone: User.ChargeCaseNumber and User.VSBCaseNumber. The commit message describes them as 'a case number the form's own width refuses and an arrest date that is a sensitive fact with no explicit mapping'. User.DateOfArrest was not dropped: it is bound, is listed in explicitMappings, and is drawn at 9pt into (192.0, 347.38, 231.71, 10.79) on page 2 of both fixtures -- I read it there. The binding that was actually dropped is User.ChargeCaseNumber, refused as protected_category / disposition_or_hearing, whose measured printed label is '2.Case number for charge or conviction:'. That is the case number of the charge being sealed, which is matter.case_number; the refusal appears to be triggered by the word 'conviction' in the caption. The drop fails safe -- the field is blank, and the pre-fix artifact drew '24-CR-001234' there -- but it silently blanks a core field of the petition, no note in the package explains it, and the family commit's own account of the change names the wrong field.",
+      "acceptanceCondition": "Either restore the binding, or record the drop as a deliberate, reasoned refusal with a note in bindingRefusals explaining why a caption reading 'Case number for charge or conviction' does not select matter.case_number. Correct the family record so that the two dropped bindings are named as User.ChargeCaseNumber and User.VSBCaseNumber."
+    },
+    {
+      "id": "D-R4-009",
+      "family": "VA:cc-1203-form-en",
+      "severity": "medium",
+      "category": "stale_package_artifacts_contradict_the_render_they_describe",
+      "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/protected-fields-scan.json",
+      "alsoIn": [
+        "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/fixtures/negative.json"
+      ],
+      "fieldOrRegion": "writtenFields count; User.VSBCaseNumber refusal reason",
+      "visibleDefect": "Neither file was regenerated by the family commit, and both now contradict the package. protected-fields-scan.json declares 'scanBasis: finalized flattened artifact', writtenFields 14 and pass true; the finalized artifact writes 13. Both files record User.VSBCaseNumber refused for value_exceeds_widget_width_at_minimum_font (category unfittable), while production-field-map.json records it refused for protected_category / attorney. So the package answers the D-V3-R-004 question two ways in two places, and the stale answer is the one the finding said was wrong. negative.json still carries schemaVersion rcap-negative-fixture/v4-typed while the rest of the package moved to the d0-v4 schemas.",
+      "acceptanceCondition": "Regenerate protected-fields-scan.json and fixtures/negative.json from the finalized artifacts, or delete them. No file in the package may state a refusal reason that production-field-map.json contradicts, and no file may report a write count the artifact does not have."
+    },
+    {
+      "id": "D-R4-010",
+      "family": "VA:cc-1203-form-en and VT:200-00631-form-en",
+      "severity": "medium",
+      "category": "refusal_evidence_regression",
+      "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/protected-fields.json",
+      "alsoIn": [
+        "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/production-field-map.json",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/protected-fields.json",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/production-field-map.json"
+      ],
+      "fieldOrRegion": "bindingRefusals and protected-fields.json refusals in both packages",
+      "visibleDefect": "Virginia's bindingRefusals went from 116 entries to 2 and its protected-fields.json from 116 refusals to 2; Vermont's went from 9 to 0 and from 9 to 0. Virginia's form has 131 fields and 13 are bound. unwritableFields (2) and manualFields (99) survive in the field map, so the fields are still listed, but the typed reason each one is blank is gone -- including hand-authored lane-review notes such as User.FullNameOfArrest: 'The name the arrest record was made under ... Writing the current name here would misstate the arrest record.' Vermont now records no reason at all for any of fields 2 through 10; field '2' was previously refused as protected_category / agency, and only the unregenerated fixtures/negative.json still says so. Behaviour is unchanged -- the fields are blank either way -- but a package whose safety argument is 'every field starts protected' no longer carries the evidence for that claim.",
+      "acceptanceCondition": "The refusal record must remain complete: every field that is not bound carries a typed reason, and any hand-authored lane-review note is preserved across the schema change rather than dropped with it."
+    },
+    {
+      "id": "D-R4-011",
+      "family": "VT:200-00631-form-en",
+      "severity": "medium",
+      "category": "measured_label_reads_the_row_above_the_widget",
+      "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/production-field-map.json",
+      "fieldOrRegion": "measuredLabels for fields 3, 4, 5, 6, 8, 9 and 10",
+      "visibleDefect": "Seven of ten measured labels are one printed row too high. On this form the label sits at the left of the same baseline as its rule and its widget: reading the page, the ten label/rule rows have baselines 616.0, 592.2, 568.3, 544.6, 520.8, 449.3, 425.5, 401.8, 377.9 and 354.1, and the ten widget rectangles (after normalising the five stored with height -13) each contain exactly one of those baselines, in order. Recorded against printed: field 3 'Name of Requestor's Criminal Justice Agency' where the form prints 'Phone Number'; field 4 'Phone Number' where it prints 'Email Address'; field 5 'Email Address' where it prints 'Mailing Address'; field 6 'Information Regarding Sealing Order Requested', a section heading, where it prints 'Defendant's name (required)'; field 8 'Defendant's date of birth (required)' where it prints 'County of venue (required)'; field 9 'County of venue (required)' where it prints 'Docket number'; field 10 'Docket number' where it prints 'Charge'. Every wrong one carries source 'line_above_widget' and every right one (1, 2, 7) carries 'left_of_widget': the left-of window is too narrow for short captions -- 'Phone Number' ends 163.7pt from its widget against the 33.6pt gap that made field 1 work -- so the search falls back to the row above. Nothing is mis-filed today because only field 1 is bound, but under the base commit's own rule a positional widget name is no evidence and this label is what would select or protect for fields 2 through 10. Field 10 is labelled 'Docket number' where the form prints 'Charge'; the first binder that trusts it puts a docket number in the charge box.",
+      "acceptanceCondition": "Prefer the caption on the widget's own baseline over the row above it, and widen the left-of window to the form's label column rather than a fixed gap. Every measured label in this package must equal the caption the form prints for that widget; fields 3, 4, 5, 6, 8, 9 and 10 must read Phone Number, Email Address, Mailing Address, Defendant's name (required), County of venue (required), Docket number and Charge."
+    },
+    {
+      "id": "D-R4-012",
+      "family": "approvedFamilyScan",
+      "severity": "high",
+      "category": "negative_result_indistinguishable_from_reading_nothing",
+      "file": "scripts/rcap-official-forms/d-v4-approved-fitter-scan.mjs:43-59,183-187",
+      "fieldOrRegion": "locate() and executableProof.interpretation",
+      "visibleDefect": "The scan fails open. On a fresh clone of the branch under review the seven lane commits named in v3/family-handoff.json are not present -- I confirmed all seven are unresolvable before fetching them -- so every git ls-tree in locate() throws, every family is skipped, and the script prints 'scanned: 0, skipped: 157, written values read back: 0, additional affected: 0' and exits 0. Its own executableProof says 'Exit status 0 with additionalAffectedFamilies == 0 is the negative result'. A run that read zero bytes satisfies the stated criterion for the negative result, and it writes that result over the report. The scan does reproduce exactly once the branches are fetched, which is what makes the failure mode dangerous rather than obvious.",
+      "acceptanceCondition": "Exit non-zero, and refuse to write the report, when any named lane commit is unresolvable or when familiesScanned is 0. State the required fetch in executableProof.command, and make the negative result conditional on familiesScanned and writesChecked matching the values the report claims."
+    },
+    {
+      "id": "D-R4-013",
+      "family": "approvedFamilyScan",
+      "severity": "high",
+      "category": "coverage_hole_widgets_and_fixtures",
+      "file": "scripts/rcap-official-forms/d-v4-approved-fitter-scan.mjs:90,102",
+      "fieldOrRegion": "filledPath and the widget map",
+      "visibleDefect": "The scan reads only fixtures/canonical-filled.pdf and only widgets[0] of each field. Both exclusions remove exactly where the defect under investigation lives. All seven clips that motivated this work -- Virginia's six and Vermont's one -- are in the boundary fixture, which the scan never opens. And multi-widget fields are present in the scanned corpus: Vermont's field '1' has two widgets of different widths, and NE:dc-1-15-form-en's 'printedname' has two, on pages 1 and 2. Vermont's true clip is in a second widget. So '552 written values read back, 0 additional affected' is a count of first widgets in canonical fixtures, not of writes on the page, and the signature the scan was written to find is in a class it does not read.",
+      "acceptanceCondition": "Read back every widget of every written field in every fixture the package ships, and report writesChecked as the number of drawn appearances examined. Re-run before the negative result is relied on for any promotion."
+    },
+    {
+      "id": "D-R4-014",
+      "family": "approvedFamilyScan",
+      "severity": "high",
+      "category": "already_in_the_ledger_is_not_the_approval_still_supportable",
+      "file": "scripts/rcap-official-forms/d-v4-approved-fitter-scan.mjs:103-107,155-164",
+      "fieldOrRegion": "the `reported` set and existingApprovalStillSupportable",
+      "visibleDefect": "existingApprovalStillSupportable is set to reported.has(name) -- a match on the field name against the union of three ledger arrays, with no check that the ledger entry concerns the same fixture or the same condition. Two of the four rows in clipsAlreadyDisclosedByTheirOwnLedger fail that test on inspection. ND:expertise-form-instructions-en / 'Judicial District': the family's ledger holds two entries for that field, both check 'shrink_to_fit_applied', handling 'written at the fitted size', and populated-fields.json records outcome 'shrunk'. That is the clean outcome, the exact opposite of a disclosed clip; yet the scan reads the artifact as 19.87pt outside the widget and files it as 'disclosed, not concealed, so the approval rests on evidence the reviewer had'. NE:dc-1-15-form-en / 'printedname': the ledger's only entry for that field is fixture 'boundary', check 'clipping', handling 'shrink_to_fit_required_at_render'; the scan's row is from the canonical fixture. Different fixture, different condition, name matched. The 'disclosed' bucket is therefore not a set of clips a reviewer saw and approved over -- it is a set of clips whose field name appears somewhere in a ledger. Had either clip been real, this classification would have waved through precisely the D-V3-R-006 signature the scan exists to detect.",
+      "acceptanceCondition": "A disclosure must match the finding it excuses: same fixture, same field, same widget, and a ledger check that actually asserts the value did not render whole. A record of shrink_to_fit_applied or outcome 'shrunk' must be treated as a contradicted claim and escalated, never as a disclosure."
+    },
+    {
+      "id": "D-R4-015",
+      "family": "approvedFamilyScan",
+      "severity": "medium",
+      "category": "dropdown_exclusion_never_fires",
+      "file": "scripts/rcap-official-forms/d-v4-approved-fitter-scan.mjs:126",
+      "fieldOrRegion": "`if (row.kind === \"dropdown\" || w.type === \"dropdown\") continue;`",
+      "visibleDefect": "The guard reads .type off the wrong object. `w` is `f.widgets?.[0]`, which in field-census.json is `{ page, rect }` and has no type; the type lives on the field, as `f.type`. And `row.kind` is absent from the older populated-fields schema these families ship. Checked directly against the family the comment cites: KY:aoc-496-3-form-en's census records type 'dropdown' on the field and {page, rect} on the widget, and its populated row is {field, class, factId} with no kind. So both Kentucky dropdowns reached the clip check, were read back as 792 characters of county list against a 14-character county, and were rescued by the ledger-name match rather than by this rule. The answer to whether skipping dropdowns is right is that nothing is being skipped -- and separately, were the rule to fire it would exempt combo boxes, whose appearance draws only the selected value and which clip like any text field.",
+      "acceptanceCondition": "Test the field's own type (`f.type`), exempt only list boxes whose appearance stream carries the option list, and record every exempted field in the report so the exemption is visible rather than silent. Both Kentucky rows must then leave the clip path by the rule and not by the ledger."
+    },
+    {
+      "id": "D-R4-016",
+      "family": "approvedFamilyScan",
+      "severity": "medium",
+      "category": "channel_falls_back_to_geometry_on_unflattened_artifacts",
+      "file": "scripts/rcap-official-forms/d-v4-approved-fitter-scan.mjs:113",
+      "fieldOrRegion": "runSource selection",
+      "visibleDefect": "runSource is set to 'appearance' only when some run already carries a container, and to 'auto' otherwise -- and verifyWrittenValue under 'auto' with no appearance runs selects geometry. The approved corpus is not uniformly flattened: NE:dc-1-15-form-en's approved canonical-filled.pdf is an 8.5 MB document that still carries an AcroForm, 105 annotations across two pages and /AA and /JS objects, produced by the older renderer scripts/implement-rcap-official-forms-d1.mjs with no active-content report in its package. It has no appearance-stream runs at all, so the scan fell to geometry and read the form's printed label 'Name:' back as the value of 'printedname' -- the label-as-value error the base commit says it eliminated, reproduced by the scan the same commit adds. This produces false positives rather than false negatives, but it also means the corpus scan is asserting a fitting result about bytes whose finalization it never established.",
+      "acceptanceCondition": "Take the channel from the family's recorded render strategy, as d-v4-verify-corrections.mjs does, and refuse -- not guess -- when a package does not record one. Report any scanned artifact that still carries an AcroForm or active content as an unreadable result rather than a clean one."
+    },
+    {
+      "id": "D-R4-017",
+      "family": "approvedFamilyScan",
+      "severity": "low",
+      "category": "skipped_families_and_lane_selection_are_asserted_rather_than_shown",
+      "file": "scripts/rcap-official-forms/d-v4-approved-fitter-scan.mjs:43-59,92",
+      "fieldOrRegion": "the 22 skipped families; locate()'s largest-package heuristic",
+      "visibleDefect": "The 22 skips are not, on inspection, a hole in the result: all 22 carry the reason 'approved package carries no participant artifact to read', and the list is dominated by document classes that write no participant values -- fourteen instructions or order packages, plus MN:fee103-support-en, NJ:background-steps-en, UT:1020ge-proof-of-completed-service and similar. A family that writes nothing cannot carry a fitting defect. But the report records only that the file is missing; it never records that the family declares no participant write, so the reader is asked to take the inference on trust for names like NM:nm-dps-roi-en and WA:blake-002-form-en that read like fillable forms. Separately, locate() resolves a family to 'the lane whose tree carries the largest package', which is a proxy for ownership with no check that the tree chosen is the one the approval was granted against.",
+      "acceptanceCondition": "For each skipped family, record whether its package declares any participant write, and skip only on that basis. Resolve the owning lane from the handoff's own record of which lane owns the family rather than by package size."
+    }
+  ],
+
+  "answersToTheReviewQuestions": {
+    "everyAllFittingDecisionsRowAgreesWithThePage": "No, with one exception each way. All nineteen rendered_whole_inside_widget rows are true of the page as far as the drawn string goes -- every one renders whole and inside its widget and its clip path under real metrics -- but Virginia's canonical User.AncillaryCaseNumber row states a font size the appearance contradicts (D-R4-005). All seven withdrawn_and_left_blank rows are true blanks, verified by the absence of the appearance stream, not merely by absence from the report -- but their renderedChars, overflow figures and, in Vermont's case, the widget named, are not (D-R4-004, D-R4-007). And Vermont's ledger is missing a row entirely, for the second widget its only bound field writes into (D-R4-001).",
+    "isTheAppearanceProvenanceApproachCorrect": "Yes, and it is the right answer to the right question. Attributing a run to the appearance stream whose placed BBox is the widget's own rectangle is exact where selection by position is not: on these pages the printed label, the dot leaders and the rule line share the value's baseline, and Virginia's own artifact demonstrates the failure it avoids -- the pre-fix boundary drew User.AncillaryCaseNumber starting 33.5pt left of its own widget, so an origin-inside test would have reported the field empty while a position-band test would have swept in the caption beside it. Binding the channel to the render strategy rather than to what happens to be on the page is also sound, and for the reason given: Vermont's boundary fixture has no appearance runs left after withdrawal, and a per-page guess reads the form's own rule line back as the withdrawn value. It is not a way of arranging for the wanted answer -- the artifact-level rule is strictly more conservative than the per-field one, and the corpus scan shows what the looser rule costs (D-R4-016). Two real defects sit under it rather than in it: the extents it measures are estimates (D-R4-003), and it asks the question of widgets[0] only (D-R4-001).",
+    "isVSBCaseNumberStillBoundToACaseNumber": "No, and it is refused for meaning rather than for width. production-field-map.json records reason protected_category, category attorney; the measured printed label is '[ ] ATTORNEY FOR PETITIONER (VSB No.'; and the widget is 23pt wide on page 6, inside the attorney signature block. That is the finding's substance and it is answered. Two qualifications: the same package still asserts the old width reason in two unregenerated files (D-R4-009), and the family commit's own account describes the drop as a width refusal, which is the pre-fix reason, not the one now recorded.",
+    "theTwoBindingsThatDoNotSurvive": "They are User.ChargeCaseNumber and User.VSBCaseNumber, not User.DateOfArrest. Dropping User.VSBCaseNumber is a correction: an attorney bar-number box is not a case number, and the 23pt widget confirms the reading. Dropping User.ChargeCaseNumber is a regression in substance though not in safety: its measured label is '2.Case number for charge or conviction:', which is matter.case_number, and the refusal category disposition_or_hearing looks triggered by the word 'conviction'. It fails safe -- the field is blank rather than wrong -- but a core field of the petition is now blank with no note explaining why. User.DateOfArrest survives, is listed in explicitMappings, and is drawn at 9pt on page 2 of both fixtures (D-R4-008).",
+    "renderedArtifactsAndContactSheets": "Clean in both families. Every manifest path exists; every sha256 and byte count matches the file on disk; each contact sheet's builtFromSha256 and finalizedSha256 equal the canonical artifact's digest computed from disk, and each sheet contains the finalized values (all eight distinct Virginia values; Vermont's one value, twice, which is D-R4-002 visible in the reviewer's own sheet).",
+    "activeContentAndOrphanedWidgets": "Clean in all six artifacts. An independent walk of every indirect object found no XFA, JavaScript, /AA, /OpenAction, /Launch, /SubmitForm, /ImportData, /URI, /GoToR, /RichMedia, /EmbeddedFiles, /Names, /Movie, /Sound, /Rendition or /SetOCGState; no AcroForm survives; every page's /Annots array is empty, so there is no orphaned widget.",
+    "theApprovedFamilyScan": "It reproduces exactly, and its headline is not yet a supportable negative result. 135 families, 552 values and 0 additional affected are reproduced byte for byte once the seven lane branches are fetched. But the scan reads only canonical fixtures and only first widgets, which excludes both classes the defect actually occupied (D-R4-013); its clip verdicts rest on estimated glyph widths (D-R4-003), demonstrated by ND's 19.87pt phantom overflow; its 'already disclosed' bucket is a name match that in two of four cases excuses a finding with a ledger entry about a different fixture or asserting the opposite (D-R4-014); its dropdown exclusion never fires (D-R4-015); it falls back to geometry on the unflattened approved artifacts (D-R4-016); and with the lane commits absent it prints the same negative headline having read nothing (D-R4-012). The 22 skipped families are not a hole -- they are instruction, order and support packages that write no participant values -- but the report records only the missing file, not that fact (D-R4-017)."
+  },
+
+  "commandsRun": [
+    "node scripts/rcap-official-forms/d0-canary-verify.mjs",
+    "node scripts/rcap-official-forms/d0-v3-canary-verify.mjs",
+    "node scripts/rcap-official-forms/d0-v4-canary-verify.mjs",
+    "node scripts/rcap-official-forms/d-v4-verify-corrections.mjs VA:cc-1203-form-en VT:200-00631-form-en",
+    "node scripts/rcap-official-forms/d-v4-approved-fitter-scan.mjs (before and after fetching the seven lane branches)"
+  ]
+}
