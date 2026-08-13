@@ -21,10 +21,10 @@ export function PartnerSupportLink({
 }) {
   return (
     <a
-      className={
+      className={`break-all ${
         className ??
         "font-semibold text-[#0F6E56] underline underline-offset-4 hover:text-[#0F1E3D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D9E75] focus-visible:ring-offset-2"
-      }
+      }`}
       href={href ?? contact.mailtoHref}
       aria-label={contact.accessibleName}
     >

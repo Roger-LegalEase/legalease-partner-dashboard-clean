@@ -213,7 +213,7 @@ async function Phase1PartnerOnboardingPage() {
 
 function Shell({ children, wide = false }: { children: React.ReactNode; wide?: boolean }) {
   return (
-    <main className="min-h-screen bg-[#f7f8f6] text-[#0F1E3D]">
+    <main className="min-h-screen break-words bg-[#f7f8f6] text-[#0F1E3D]">
       <div className={`mx-auto px-4 py-10 md:px-6 ${wide ? "max-w-7xl" : "max-w-4xl"}`}>{children}</div>
     </main>
   );

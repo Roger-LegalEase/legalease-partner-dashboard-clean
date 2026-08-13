@@ -59,7 +59,7 @@ export default async function PartnerOnboardingSectionPage({
   const nextKey = ONBOARDING_SECTION_ORDER[sectionIndex + 1];
 
   return (
-    <main className="min-h-screen bg-[#FBF7F2] px-4 py-8 text-navy md:px-6 md:py-10">
+    <main className="min-h-screen break-words bg-[#FBF7F2] px-4 py-8 text-navy md:px-6 md:py-10">
       <OnboardingSectionEditor
         sectionKey={section.key}
         sectionStatus={section.status}

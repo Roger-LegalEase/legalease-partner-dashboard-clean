@@ -27,7 +27,7 @@ export default async function PartnerArtifactsPage() {
   if (!board) notFound();
 
   return (
-    <main className="min-h-screen bg-[#f7f8f6] text-navy">
+    <main className="min-h-screen break-words bg-[#f7f8f6] text-navy">
       <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
         <Link
           href="/partner/onboarding"

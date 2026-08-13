@@ -25,6 +25,29 @@ assert.match(
   "A partner without a Phase 1 workspace must still reach the workspace creation control when Prefill is enabled."
 );
 
+for (const relativePath of [
+  "src/app/partner/onboarding/page.tsx",
+  "src/app/partner/onboarding/[sectionKey]/page.tsx",
+  "src/app/partner/onboarding/review/page.tsx",
+  "src/app/partner/onboarding/artifacts/page.tsx",
+  "src/app/partner/onboarding/resources/page.tsx"
+]) {
+  const source = fs.readFileSync(path.join(rootDir, relativePath), "utf8");
+  assert.match(
+    source,
+    /<main className="[^"]*\bbreak-words\b[^"]*"/,
+    `${relativePath} must wrap long organization names, email addresses, and blocker copy without page overflow.`
+  );
+}
+const supportLinkSource = fs.readFileSync(
+  path.join(rootDir, "src/app/partner/onboarding/PartnerSupportLink.tsx"),
+  "utf8"
+);
+assert.match(
+  supportLinkSource,
+  /className=\{`break-all /,
+  "The configured support address must wrap even when the mailbox local-part is longer than the mobile viewport."
+);
 assert.match(
   internalDetailPageSource,
   /phase1Snapshot\.workspace\s*&&\s*isRcapOnboardingLaunchPrepEnabled\(\)/,
