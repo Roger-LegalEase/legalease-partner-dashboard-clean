@@ -74,10 +74,11 @@
         "sellable": false,
         "creditConsumable": false
       },
-      "appliedSha256": "4e78cdee1449ba03831757c89c9299bc910712beb19b98ff125a2407106dc69d",
+      "appliedSha256": "9fe8b8654c068d3d2a6ecdafdd403b58cd28f7239b53e5987c00c4124d494c1f",
       "priorAppliedSha256": [
         "5bd1ed3acb4b6765e029ac55915e8783bfa1a8ff0de3f8027209ca41f1c08bcd",
-        "57b7ec6dc8d2d43dcb07f34fd1e4090cfc4d318a4d298cbe3e62c961dff7dc8c"
+        "57b7ec6dc8d2d43dcb07f34fd1e4090cfc4d318a4d298cbe3e62c961dff7dc8c",
+        "4e78cdee1449ba03831757c89c9299bc910712beb19b98ff125a2407106dc69d"
       ]
     },
     {
@@ -288,9 +289,10 @@
         "sellable": false,
         "creditConsumable": false
       },
-      "appliedSha256": "d20939ef63c8541cf0ec5e72845db4fc60c8a2165d6731421aaba279164a6aad",
+      "appliedSha256": "6fd85d63c65540ae8a3569ef8393cff6e0eb509afe3f2bc6baa2c5b9c10b7065",
       "priorAppliedSha256": [
-        "b70589747d19949ae928ffb2e4ad62a3e8a35c1f43feca683b7c83efc0cbf898"
+        "b70589747d19949ae928ffb2e4ad62a3e8a35c1f43feca683b7c83efc0cbf898",
+        "d20939ef63c8541cf0ec5e72845db4fc60c8a2165d6731421aaba279164a6aad"
       ]
     },
     {
@@ -489,6 +491,14 @@
         "reason": "Closing 497/497 added a track-scoped complete-guidance lookup and bilingual timing validation to the shared guidance registry. The C component deferrals are unchanged in behaviour and still take priority over every later treatment; only the surrounding bytes moved.",
         "movedTargets": [
           "src/lib/rcap/documents/guidance-packet-registry.ts"
+        ]
+      },
+      {
+        "window": "2026-08-13-emergency-497-precedence",
+        "reason": "A deferral whose independent review returned correction_required is no longer treated as an accepted decision, so an approved terminalization treatment for the same track takes precedence over it. The C component deferrals are unchanged in behaviour and still outrank every later treatment.",
+        "movedTargets": [
+          "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "src/lib/rcap/documents/packet-route-resolver.ts"
         ]
       }
     ]
