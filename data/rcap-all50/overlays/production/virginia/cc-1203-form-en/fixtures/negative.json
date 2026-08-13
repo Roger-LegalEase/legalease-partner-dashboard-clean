@@ -1,14 +1,12 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "level": "participant_fact",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "refusedFields": [
     {
-      "field": "User.SignaturePetitioner1",
-      "class": "signature"
-    },
-    {
-      "field": "User.SignatureAttorney1",
-      "class": "signature"
+      "field": "User.VSBCaseNumber",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
     }
   ]
 }

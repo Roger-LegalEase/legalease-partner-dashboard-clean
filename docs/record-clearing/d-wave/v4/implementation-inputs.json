@@ -1,0 +1,677 @@
+{
+  "schema": "rcap-d-v4-implementation-inputs/v1",
+  "canonicalControlPlaneBase": "08dbcfe1b287bac9cf72be0db168d94542d513a5",
+  "derivedFrom": "docs/record-clearing/d-wave/v3/family-handoff.json",
+  "ownershipRule": "Lane/state assignment read off the regeneration branch names, then checked: no non-owning lane may carry a package file the owning lane lacks.",
+  "laneStates": {
+    "D1A": [
+      "AL",
+      "AR",
+      "AK"
+    ],
+    "D1B": [
+      "VA",
+      "KY",
+      "NC"
+    ],
+    "D1C": [
+      "NE",
+      "VT",
+      "WI"
+    ],
+    "D2A": [
+      "AZ",
+      "IL",
+      "WA",
+      "KS",
+      "MN"
+    ],
+    "D2B": [
+      "NJ",
+      "FL",
+      "LA",
+      "NM"
+    ],
+    "D3A": [
+      "CO",
+      "TX",
+      "ND",
+      "NH",
+      "MO"
+    ],
+    "D3B": [
+      "OR",
+      "IA",
+      "MA",
+      "UT"
+    ]
+  },
+  "laneBranches": {
+    "D1A": {
+      "branch": "claude/rcap-d1a-corrections-v3",
+      "commit": "5f1606935f334ec9bdc1ccefe2fc7f9f7ab13b66"
+    },
+    "D1B": {
+      "branch": "claude/rcap-d1b-corrections-v3",
+      "commit": "e719d1d3491010bd776744a27d4caf6354f100a4"
+    },
+    "D1C": {
+      "branch": "claude/rcap-d1c-corrections-v3",
+      "commit": "becff2f465e6a4f880da538c85dd7c54b64f9657"
+    },
+    "D2A": {
+      "branch": "claude/rcap-d2a-corrections-v3",
+      "commit": "eedd19fc4ca4b99ff92229a725cd7fe46781e334"
+    },
+    "D2B": {
+      "branch": "claude/rcap-d2b-corrections-v3",
+      "commit": "a94faf079ba1d542a69578324d2d6607b8e8dc04"
+    },
+    "D3A": {
+      "branch": "claude/rcap-d3a-corrections-v3",
+      "commit": "875640b7106d3ed2f51a67a2e053016fbc19ef7c"
+    },
+    "D3B": {
+      "branch": "claude/rcap-d3b-corrections-v3",
+      "commit": "e089d0644dd9d627283abfc6fec68bf5b127f663"
+    }
+  },
+  "sourcePackRelease": "rcap-d-source-packs-2026-08-12 (extracted outside every Git worktree; never committed)",
+  "families": [
+    {
+      "familyId": "MO:cr145-form-petition-en",
+      "state": "Missouri",
+      "statePrefix": "MO",
+      "lane": "D3A",
+      "reviewFindingIds": [
+        "D-V3-R-007"
+      ],
+      "finalImplementationBranch": "claude/rcap-d3a-corrections-v3",
+      "finalImplementationCommit": "875640b7106d3ed2f51a67a2e053016fbc19ef7c",
+      "ownershipCheck": {
+        "supersetHolds": true,
+        "violations": []
+      },
+      "sourceSha256": "7c527bf351e9ab08658f901abc9be15e12e5beb2afe7ded14a8c5e2f0d6eb641",
+      "sourcePackMemberPath": "STATES/MO/02_PACKET_FORMS/MO__FORM__CR145__petition-for-expungement-of-arrest-records__REV-2024-04__EN.pdf",
+      "sourcePackPartition": null,
+      "sourcePackReleaseTag": null,
+      "sourceBinaryLocatedInPack": true,
+      "sourceByteLength": 1256968,
+      "renderStrategy": "acroform_fill",
+      "documentOwnership": "participant_completed",
+      "familyPackagePath": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en",
+      "packageFiles": [
+        "contact-sheet/blank-vs-filled.pdf",
+        "contact-sheet/contact-sheet-proof.json",
+        "field-census.json",
+        "field-classification-policy.json",
+        "field-classification.json",
+        "fixtures/boundary-filled.pdf",
+        "fixtures/boundary.json",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/canonical.json",
+        "fixtures/negative-filled.pdf",
+        "fixtures/negative.json",
+        "handoff.md",
+        "production-field-map.json",
+        "reports/active-content.json",
+        "reports/determinism.json",
+        "reports/findings.json",
+        "reports/mutation-tests.json",
+        "reports/non-filing-hold.json",
+        "reports/overflow-and-clipping.json",
+        "reports/populated-fields.json",
+        "reports/protected-fields-scan.json",
+        "reports/protected-fields.json",
+        "reports/rendered-artifacts.json",
+        "reports/source-drift.json",
+        "source-record.json"
+      ],
+      "participantPdfPath": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/fixtures/canonical-filled.pdf",
+      "participantPdfPresentInGit": true,
+      "contactSheetPath": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetPresentInGit": true,
+      "renderedArtifactsManifestPath": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/reports/rendered-artifacts.json",
+      "renderedArtifactsManifestPresent": true,
+      "manifestArtifactCount": 4,
+      "currentDisposition": "correction_required",
+      "artifactHashesAtOwningCommit": {
+        "participantPdf": {
+          "sha256": "4b2e82c241fea02806c6a4073bfa449d41b894a98e143f0fca121226581cfdc3",
+          "bytes": 131847
+        },
+        "contactSheet": {
+          "gitBlob": "895284b4a3449437fa83b489e2f0fd06a189e86c",
+          "sha256": "6e608a0643db531836294ed272065dea875028a6c60f9145f04dca871056a149",
+          "bytes": 376590
+        }
+      },
+      "acceptanceConditions": [
+        {
+          "id": "D-V3-R-007",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/missouri/cr145-form-petition-en/fixtures/canonical-filled.pdf",
+          "fieldOrRegion": "'Other Defendants', widget rect [56.2, 364.5, 569.7, 410.8]",
+          "visibleDefect": "The petitioner's own name is written into a field that names a different party. The printed label immediately above this widget reads 'Other (include name and address of agency):' and its sibling agency fields — 'County Sheriff's Dept', 'Municipal Police Dept', 'Missouri Highway Patrol Troop' — are all refused with reason 'protected_category'. This one is bound to participant.full_legal_name and carries 'Marion T. Ellsworth' in the canonical fixture and 'Maximiliana Aurelia Featherstonehaugh-Wintersgill de la Concepcion' in the boundary fixture, so the petition names the petitioner as an additional agency respondent.",
+          "acceptanceCondition": "'Other Defendants' binds only from a fact describing another respondent agency, or is refused with an agency/outside_party-class reason and left blank; the petitioner's name no longer appears in it.",
+          "likelyOwner": "D0 typed binder / D3A lane deny rules"
+        }
+      ]
+    },
+    {
+      "familyId": "NH:nhjb-2956-support-record-request-en",
+      "state": "New Hampshire",
+      "statePrefix": "NH",
+      "lane": "D3A",
+      "reviewFindingIds": [
+        "D-V3-R-001"
+      ],
+      "finalImplementationBranch": "claude/rcap-d3a-corrections-v3",
+      "finalImplementationCommit": "875640b7106d3ed2f51a67a2e053016fbc19ef7c",
+      "ownershipCheck": {
+        "supersetHolds": true,
+        "violations": []
+      },
+      "sourceSha256": "c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569",
+      "sourcePackMemberPath": "STATES/NH/04_SUPPORTING_PROCESS/NH__SUPPORT__NHJB-2956__nhjb-2956-criminal-record-release-authorization__REV-UNKNOWN__EN.pdf",
+      "sourcePackPartition": null,
+      "sourcePackReleaseTag": null,
+      "sourceBinaryLocatedInPack": true,
+      "sourceByteLength": 62291,
+      "renderStrategy": "acroform_fill",
+      "documentOwnership": "participant_completed",
+      "familyPackagePath": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en",
+      "packageFiles": [
+        "contact-sheet/blank-vs-filled.pdf",
+        "contact-sheet/contact-sheet-proof.json",
+        "field-census.json",
+        "field-classification-policy.json",
+        "field-classification.json",
+        "fixtures/boundary-filled.pdf",
+        "fixtures/boundary.json",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/canonical.json",
+        "fixtures/negative-filled.pdf",
+        "fixtures/negative.json",
+        "handoff.md",
+        "production-field-map.json",
+        "reports/active-content.json",
+        "reports/determinism.json",
+        "reports/findings.json",
+        "reports/mutation-tests.json",
+        "reports/non-filing-hold.json",
+        "reports/overflow-and-clipping.json",
+        "reports/populated-fields.json",
+        "reports/protected-fields-scan.json",
+        "reports/protected-fields.json",
+        "reports/rendered-artifacts.json",
+        "reports/reviewed-withholdings.json",
+        "reports/source-drift.json",
+        "source-record.json"
+      ],
+      "participantPdfPath": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/fixtures/canonical-filled.pdf",
+      "participantPdfPresentInGit": true,
+      "contactSheetPath": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetPresentInGit": true,
+      "renderedArtifactsManifestPath": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/reports/rendered-artifacts.json",
+      "renderedArtifactsManifestPresent": true,
+      "manifestArtifactCount": 4,
+      "currentDisposition": "correction_required",
+      "artifactHashesAtOwningCommit": {
+        "participantPdf": {
+          "sha256": "0ba50bb2d169b0cccdda4a2b97e7663635ee1279cb66824070d52f960c6109eb",
+          "bytes": 56111
+        },
+        "contactSheet": {
+          "gitBlob": "571a239daef81c4e387a4557dac8fa195c341372",
+          "sha256": "8864675ca3d27403443ffa4bca344f5834b73658858aa121eef1d4df83ecd9dc",
+          "bytes": 102759
+        }
+      },
+      "acceptanceConditions": [
+        {
+          "id": "D-V3-R-001",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/contact-sheet/blank-vs-filled.pdf",
+          "fieldOrRegion": "right-hand panel, which the sheet's own caption labels 'finalized fill'",
+          "visibleDefect": "The participant artifact was re-rendered in v3 (59275 -> 56111 bytes, sha 0ba50bb2...), but the contact sheet was not rebuilt: it is byte-identical to the approval-evidence branch (sha 8864675c...). Its right-hand panel still shows the superseded artifact, complete with the three control captions the re-render removed — 'Clear Form' at [744.69, 70.58], 'Top of Page' at [735.85, 534.54] and 'Instructions' at [684.03, 69.7]. Each appears only in the right panel; the left panel carries no counterpart, and the current canonical-filled.pdf contains none of the three in its 77 text runs. The accompanying contact-sheet-proof.json still records participantArtifactSha256 'bd2ae477...' (the pre-v3 artifact) and still carries filedArtifactChecksPassed: false with those captions listed as the failure.",
+          "acceptanceCondition": "Rebuild blank-vs-filled.pdf from the current canonical-filled.pdf and regenerate contact-sheet-proof.json so participantArtifactSha256 equals 0ba50bb2d169b0cccdda4a2b97e7663635ee1279cb66824070d52f960c6109eb and filedArtifactChecksPassed is true; then re-run the manifest checker so rendered-artifacts.json records the new sheet.",
+          "likelyOwner": "D3A lane regeneration (contact-sheet step)"
+        }
+      ]
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "state": "Virginia",
+      "statePrefix": "VA",
+      "lane": "D1B",
+      "reviewFindingIds": [
+        "D-V3-R-002",
+        "D-V3-R-003",
+        "D-V3-R-004"
+      ],
+      "finalImplementationBranch": "claude/rcap-d1b-corrections-v3",
+      "finalImplementationCommit": "e719d1d3491010bd776744a27d4caf6354f100a4",
+      "ownershipCheck": {
+        "supersetHolds": true,
+        "violations": []
+      },
+      "sourceSha256": "25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a",
+      "sourcePackMemberPath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1203__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+      "sourcePackPartition": null,
+      "sourcePackReleaseTag": null,
+      "sourceBinaryLocatedInPack": true,
+      "sourceByteLength": 320887,
+      "renderStrategy": "acroform_fill",
+      "documentOwnership": "participant_completed",
+      "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en",
+      "packageFiles": [
+        "contact-sheet/blank-vs-filled.pdf",
+        "contact-sheet/contact-sheet-proof.json",
+        "field-census.json",
+        "field-classification.json",
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative.json",
+        "production-field-map.json",
+        "reports/family-evidence.json",
+        "reports/overflow-and-clipping.json",
+        "reports/populated-fields.json",
+        "reports/protected-fields-scan.json",
+        "reports/protected-fields.json",
+        "reports/rendered-artifacts.json",
+        "source-record.json"
+      ],
+      "participantPdfPath": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/fixtures/canonical-filled.pdf",
+      "participantPdfPresentInGit": true,
+      "contactSheetPath": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetPresentInGit": true,
+      "renderedArtifactsManifestPath": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/rendered-artifacts.json",
+      "renderedArtifactsManifestPresent": true,
+      "manifestArtifactCount": 3,
+      "currentDisposition": "correction_required",
+      "artifactHashesAtOwningCommit": {
+        "participantPdf": {
+          "sha256": "15d0592500eb092b5455ca19000be7b43cfeea22fa3386e7c92f029b9a68d441",
+          "bytes": 194696
+        },
+        "contactSheet": {
+          "gitBlob": "254c314e8fe2827374080dbf11b85ef0729e431f",
+          "sha256": "358304e90afe93503df9dd101fb1ceb4a4552fe0c6a05d2e26d7421b596e6ff9",
+          "bytes": 1119015
+        }
+      },
+      "acceptanceConditions": [
+        {
+          "id": "D-V3-R-002",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/fixtures/boundary-filled.pdf",
+          "fieldOrRegion": "User.AncillaryCaseNumber, widget rect [365.07, 327.04, 494.79, 341.2]",
+          "visibleDefect": "The case number is drawn truncated and past both widget edges. The value written is '0123-45-2026-CR-900123.00-AB-CDE/2201'; the page draws '5-2026-CR-900123.00-AB-CD' at 10pt with bbox [362.68, 326.96, 496.61, 340.7] — 2.39pt beyond the left edge and 1.82pt beyond the right. Rendering the region shows the leading and trailing glyphs sliced mid-character. The two sibling fields carrying the identical value, User.AncillaryCaseNumberA (page 4) and User.AncillaryCaseNumberB (page 5), each render it complete at 6pt inside their rectangles, so the shrink path works and was not applied here. A reader sees a case number that is not the case number.",
+          "acceptanceCondition": "User.AncillaryCaseNumber either renders the whole value inside its rectangle (as its two siblings do) or is refused and left blank with a recorded reason; and overflow-and-clipping.json records an entry for this field in the boundary fixture.",
+          "likelyOwner": "D0 factory text-fitting / D1B lane regeneration"
+        },
+        {
+          "id": "D-V3-R-003",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/overflow-and-clipping.json",
+          "fieldOrRegion": "findings[]",
+          "visibleDefect": "The report states the policy 'Nothing is written past a widget edge' and lists four findings — three width refusals and one max-length refusal — none of them for User.AncillaryCaseNumber. The one value that is in fact written past a widget edge is the one the report does not mention.",
+          "acceptanceCondition": "The overflow reporter detects and records a value whose drawn extent leaves its widget rectangle, so a clipped write cannot pass as an unreported clean write.",
+          "likelyOwner": "D0 factory overflow reporter"
+        },
+        {
+          "id": "D-V3-R-004",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/reports/populated-fields.json",
+          "fieldOrRegion": "User.VSBCaseNumber",
+          "visibleDefect": "User.VSBCaseNumber is bound to matter.case_number. Its printed context on page 6 is 'SIGNATURE OF [ ] PETITIONER / [ ] ATTORNEY FOR PETITIONER (VSB No. .......... )' — a Virginia State Bar number belonging to the attorney, not a case number. Nothing reaches the page in either fixture, but only because the 23pt-wide rectangle cannot hold the value: overflow-and-clipping.json records the refusal as 'value_exceeds_widget_width_at_minimum_font'. The field is blank by width, not by category.",
+          "acceptanceCondition": "A field whose printed context identifies it as an attorney bar number is refused on category with an attorney-class reason, so its blankness does not depend on the widget being narrow.",
+          "likelyOwner": "D0 typed binder / D1B lane deny rules"
+        }
+      ]
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "state": "Vermont",
+      "statePrefix": "VT",
+      "lane": "D1C",
+      "reviewFindingIds": [
+        "D-V3-R-005",
+        "D-V3-R-006"
+      ],
+      "finalImplementationBranch": "claude/rcap-d1c-corrections-v3",
+      "finalImplementationCommit": "becff2f465e6a4f880da538c85dd7c54b64f9657",
+      "ownershipCheck": {
+        "supersetHolds": true,
+        "violations": []
+      },
+      "sourceSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "sourcePackMemberPath": null,
+      "sourcePackPartition": null,
+      "sourcePackReleaseTag": "rcap-d-source-packs-2026-08-12",
+      "sourceBinaryLocatedInPack": true,
+      "sourceByteLength": 832881,
+      "renderStrategy": null,
+      "documentOwnership": "court_issued_caption_only",
+      "familyPackagePath": "data/rcap-all50/overlays/production/vermont/200-00631-form-en",
+      "packageFiles": [
+        "contact-sheet/blank-vs-filled.pdf",
+        "contact-sheet/contact-sheet-proof.json",
+        "field-census.json",
+        "field-classification.json",
+        "fixtures/boundary-filled.pdf",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/negative.json",
+        "production-field-map.json",
+        "reports/determinism.json",
+        "reports/explicit-mapping-candidates.json",
+        "reports/mutation-tests.json",
+        "reports/overflow-and-clipping.json",
+        "reports/populated-fields.json",
+        "reports/protected-fields-scan.json",
+        "reports/protected-fields.json",
+        "reports/rendered-artifacts.json",
+        "source-record.json"
+      ],
+      "participantPdfPath": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/canonical-filled.pdf",
+      "participantPdfPresentInGit": true,
+      "contactSheetPath": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetPresentInGit": true,
+      "renderedArtifactsManifestPath": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/rendered-artifacts.json",
+      "renderedArtifactsManifestPresent": true,
+      "manifestArtifactCount": 3,
+      "currentDisposition": "correction_required",
+      "artifactHashesAtOwningCommit": {
+        "participantPdf": {
+          "sha256": "fd315d2dadf3e20f9a27f186edd6af817ec3a80c3c7ca4418aa91d43b7e2616f",
+          "bytes": 120730
+        },
+        "contactSheet": {
+          "gitBlob": "72c41b0e3de94ce18c3f898f2a4e672d2133d8e7",
+          "sha256": "149b4c2425ec67f47f2819d66d9bc3e939c34e9c825fd7f6998c81710768eec6",
+          "bytes": 232451
+        }
+      },
+      "acceptanceConditions": [
+        {
+          "id": "D-V3-R-005",
+          "severity": "high",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/fixtures/boundary-filled.pdf",
+          "fieldOrRegion": "field '1', second occurrence, widget rect [53.43, 614.69, 209.73, 627.65]",
+          "visibleDefect": "The participant's name is drawn truncated mid-word. The value is 'Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III' (70 characters); the page draws 'Alexandrina-Katharine Montgomery-Vanden' (39 characters) at 8pt with bbox [54.43, 615.44, 210.49, 626.43], 0.76pt past the widget's right edge, with no continuation line and no second span. Rendering the region shows the name ending at 'Vanden' over the signature rule. 70 characters at 8pt need roughly 280pt and the widget is 156.3pt wide, so the value could never have fitted at the size chosen.",
+          "acceptanceCondition": "The value either fits whole inside the rectangle at a legible size, or is refused and the field left blank with a recorded reason; no partial name is drawn.",
+          "likelyOwner": "D0 factory text-fitting / D1C lane regeneration"
+        },
+        {
+          "id": "D-V3-R-006",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/vermont/200-00631-form-en/reports/populated-fields.json",
+          "fieldOrRegion": "boundaryWritten[0], field '1'",
+          "visibleDefect": "The record states outcome 'shrunk' at fontSize 8 for a value that was in fact cut to 39 of its 70 characters, and overflow-and-clipping.json reports unfittableBoundary: [] and findings: [] under the policy 'Nothing is clipped and nothing is shrunk below legibility.' Both records describe a clean shrink that did not happen.",
+          "acceptanceCondition": "A write whose drawn text is shorter than the value supplied, or whose extent leaves the widget, is recorded as a clip rather than as a shrink.",
+          "likelyOwner": "D0 factory overflow reporter"
+        }
+      ]
+    },
+    {
+      "familyId": "WA:blake-006-form-en",
+      "state": "Washington",
+      "statePrefix": "WA",
+      "lane": "D2A",
+      "reviewFindingIds": [
+        "D-V3-R-010"
+      ],
+      "finalImplementationBranch": "claude/rcap-d2a-corrections-v3",
+      "finalImplementationCommit": "eedd19fc4ca4b99ff92229a725cd7fe46781e334",
+      "ownershipCheck": {
+        "supersetHolds": true,
+        "violations": []
+      },
+      "sourceSha256": "85bfbe2da7687db133432b4382aac07156ef7b7b1c1574f65007b607cae74ade",
+      "sourcePackMemberPath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-006__blake-006-record-vacatur-form__REV-2025-05__EN.pdf",
+      "sourcePackPartition": "D2",
+      "sourcePackReleaseTag": "rcap-d-source-packs-2026-08-12",
+      "sourceBinaryLocatedInPack": true,
+      "sourceByteLength": 518645,
+      "renderStrategy": "flat_overlay_anchor_draw",
+      "documentOwnership": "court_issued_caption_only",
+      "familyPackagePath": "data/rcap-all50/overlays/production/washington/blake-006-form-en",
+      "packageFiles": [
+        "field-census.json",
+        "field-classification-policy.json",
+        "field-classification.json",
+        "fixtures/boundary.json",
+        "fixtures/canonical.json",
+        "fixtures/negative.json",
+        "handoff.md",
+        "overlay-profile.json",
+        "reports/determinism.json",
+        "reports/mutation-tests.json",
+        "reports/overflow-and-clipping.json",
+        "reports/populated-fields.json",
+        "reports/protected-fields.json",
+        "reports/rendered-artifacts.json",
+        "source-record.json"
+      ],
+      "participantPdfPath": "data/rcap-all50/overlays/production/washington/blake-006-form-en/fixtures/canonical-filled.pdf",
+      "participantPdfPresentInGit": false,
+      "contactSheetPath": "data/rcap-all50/overlays/production/washington/blake-006-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetPresentInGit": false,
+      "renderedArtifactsManifestPath": "data/rcap-all50/overlays/production/washington/blake-006-form-en/reports/rendered-artifacts.json",
+      "renderedArtifactsManifestPresent": true,
+      "manifestArtifactCount": 0,
+      "currentDisposition": "correction_required",
+      "artifactHashesAtOwningCommit": {
+        "participantPdf": null,
+        "contactSheet": null
+      },
+      "acceptanceConditions": [
+        {
+          "id": "D-V3-R-010",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/blake-006-form-en/overlay-profile.json",
+          "fieldOrRegion": "anchorCapture.candidateLabelCount / anchorCount",
+          "visibleDefect": "The profile records 172 lines read, 0 unreadable, 0 anchors and 0 candidate labels, which reads as 'the form was read and has no participant label'. It cannot mean that here: every one of this document's 10,503 text runs is a single character, so the run-level label matcher, which skips any run shorter than three characters, can never match anything. The line-level matcher needs a whole line to equal a label, and the caption draws 'Defendant' and 'DOB' on one shared baseline and 'No.' on another. The decoded caption does contain labels in the lane's own CAPTION_FACTS vocabulary; the count is a property of the matcher's granularity, and the profile does not say so.",
+          "acceptanceCondition": "Either the matcher can see labels below whole-line granularity on documents drawn one glyph per show operation, or the profile records that run granularity prevented matching, so 'overlay_no_participant_label_matched' cannot be read as a finding about the form.",
+          "likelyOwner": "D2A lane regeneration"
+        }
+      ]
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "state": "Washington",
+      "statePrefix": "WA",
+      "lane": "D2A",
+      "reviewFindingIds": [
+        "D-V3-R-011"
+      ],
+      "finalImplementationBranch": "claude/rcap-d2a-corrections-v3",
+      "finalImplementationCommit": "eedd19fc4ca4b99ff92229a725cd7fe46781e334",
+      "ownershipCheck": {
+        "supersetHolds": true,
+        "violations": []
+      },
+      "sourceSha256": "8c861a358be2cdfc38b43a567c030ae4a36b11add031d8cab6e35d7f3b402426",
+      "sourcePackMemberPath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__BLAKE-008__blake-008-record-vacatur-form__REV-2025-05__EN.pdf",
+      "sourcePackPartition": "D2",
+      "sourcePackReleaseTag": "rcap-d-source-packs-2026-08-12",
+      "sourceBinaryLocatedInPack": true,
+      "sourceByteLength": 445290,
+      "renderStrategy": "flat_overlay_anchor_draw",
+      "documentOwnership": "court_issued_caption_only",
+      "familyPackagePath": "data/rcap-all50/overlays/production/washington/blake-008-form-en",
+      "packageFiles": [
+        "field-census.json",
+        "field-classification-policy.json",
+        "field-classification.json",
+        "fixtures/boundary.json",
+        "fixtures/canonical.json",
+        "fixtures/negative.json",
+        "handoff.md",
+        "overlay-profile.json",
+        "reports/determinism.json",
+        "reports/mutation-tests.json",
+        "reports/overflow-and-clipping.json",
+        "reports/populated-fields.json",
+        "reports/protected-fields.json",
+        "reports/rendered-artifacts.json",
+        "source-record.json"
+      ],
+      "participantPdfPath": "data/rcap-all50/overlays/production/washington/blake-008-form-en/fixtures/canonical-filled.pdf",
+      "participantPdfPresentInGit": false,
+      "contactSheetPath": "data/rcap-all50/overlays/production/washington/blake-008-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetPresentInGit": false,
+      "renderedArtifactsManifestPath": "data/rcap-all50/overlays/production/washington/blake-008-form-en/reports/rendered-artifacts.json",
+      "renderedArtifactsManifestPresent": true,
+      "manifestArtifactCount": 0,
+      "currentDisposition": "correction_required",
+      "artifactHashesAtOwningCommit": {
+        "participantPdf": null,
+        "contactSheet": null
+      },
+      "acceptanceConditions": [
+        {
+          "id": "D-V3-R-011",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/blake-008-form-en/overlay-profile.json",
+          "fieldOrRegion": "anchorCapture.candidateLabelCount / anchorCount",
+          "visibleDefect": "The profile records 183 lines read, 0 unreadable, 0 anchors and 0 candidate labels, which reads as 'the form was read and has no participant label'. It cannot mean that here: every one of this document's 10,975 text runs is a single character, so the run-level label matcher, which skips any run shorter than three characters, can never match anything. The line-level matcher needs a whole line to equal a label, and the caption draws 'Defendant' and 'DOB' on one shared baseline and 'No.' on another. The decoded caption does contain labels in the lane's own CAPTION_FACTS vocabulary; the count is a property of the matcher's granularity, and the profile does not say so.",
+          "acceptanceCondition": "Either the matcher can see labels below whole-line granularity on documents drawn one glyph per show operation, or the profile records that run granularity prevented matching, so 'overlay_no_participant_label_matched' cannot be read as a finding about the form.",
+          "likelyOwner": "D2A lane regeneration"
+        }
+      ]
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "state": "Washington",
+      "statePrefix": "WA",
+      "lane": "D2A",
+      "reviewFindingIds": [
+        "D-V3-R-008"
+      ],
+      "finalImplementationBranch": "claude/rcap-d2a-corrections-v3",
+      "finalImplementationCommit": "eedd19fc4ca4b99ff92229a725cd7fe46781e334",
+      "ownershipCheck": {
+        "supersetHolds": true,
+        "violations": []
+      },
+      "sourceSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+      "sourcePackMemberPath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0100__crrlj-09-0100-crrlj-09-0100-petition-to-vacate-conviction-f-u__REV-2024-11__EN.pdf",
+      "sourcePackPartition": "D2",
+      "sourcePackReleaseTag": "rcap-d-source-packs-2026-08-12",
+      "sourceBinaryLocatedInPack": true,
+      "sourceByteLength": 161259,
+      "renderStrategy": "flat_overlay_anchor_draw",
+      "documentOwnership": "participant_completed",
+      "familyPackagePath": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en",
+      "packageFiles": [
+        "field-census.json",
+        "field-classification-policy.json",
+        "field-classification.json",
+        "fixtures/boundary.json",
+        "fixtures/canonical.json",
+        "fixtures/negative.json",
+        "handoff.md",
+        "overlay-profile.json",
+        "reports/determinism.json",
+        "reports/mutation-tests.json",
+        "reports/overflow-and-clipping.json",
+        "reports/populated-fields.json",
+        "reports/protected-fields.json",
+        "reports/rendered-artifacts.json",
+        "source-record.json"
+      ],
+      "participantPdfPath": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en/fixtures/canonical-filled.pdf",
+      "participantPdfPresentInGit": false,
+      "contactSheetPath": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetPresentInGit": false,
+      "renderedArtifactsManifestPath": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en/reports/rendered-artifacts.json",
+      "renderedArtifactsManifestPresent": true,
+      "manifestArtifactCount": 0,
+      "currentDisposition": "correction_required",
+      "artifactHashesAtOwningCommit": {
+        "participantPdf": null,
+        "contactSheet": null
+      },
+      "acceptanceConditions": [
+        {
+          "id": "D-V3-R-008",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en/overlay-profile.json",
+          "fieldOrRegion": "anchorCapture.pages[].unreadableLines",
+          "visibleDefect": "The profile reports unreadableLines 0 on every page, but the decoder's own gate (partitionDecodableAnchors) refuses 2 of this form's 197 lines with reason 'line_carries_undecoded_character_codes'. The renderer that wrote this profile does not use that gate: d2a-regenerate.mjs still filters readable lines with CID_ENCODED = /\\u0000/, and the D0-v3 decoder marks an undecoded code with U+FFFD, not NUL, so no line can ever match. Lines the decoder itself cannot read are counted as readable and offered to the anchor matcher.",
+          "acceptanceCondition": "d2a-regenerate.mjs partitions lines with partitionDecodableAnchors and reports its refusal counts, so unreadableLines equals what the decoder actually refused and no undecodable line can become an anchor.",
+          "likelyOwner": "D2A lane regeneration"
+        }
+      ]
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "state": "Washington",
+      "statePrefix": "WA",
+      "lane": "D2A",
+      "reviewFindingIds": [
+        "D-V3-R-009"
+      ],
+      "finalImplementationBranch": "claude/rcap-d2a-corrections-v3",
+      "finalImplementationCommit": "eedd19fc4ca4b99ff92229a725cd7fe46781e334",
+      "ownershipCheck": {
+        "supersetHolds": true,
+        "violations": []
+      },
+      "sourceSha256": "a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3",
+      "sourcePackMemberPath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WA/02_PACKET_FORMS/WA__FORM__CRRLJ-09.0870__crrlj-09-0870-crrlj-09-0870-orderpetvacateconviction-cannabis-2022-07-2__REV-2022-07__EN.pdf",
+      "sourcePackPartition": "D2",
+      "sourcePackReleaseTag": "rcap-d-source-packs-2026-08-12",
+      "sourceBinaryLocatedInPack": true,
+      "sourceByteLength": 136567,
+      "renderStrategy": "flat_overlay_anchor_draw",
+      "documentOwnership": "court_issued_caption_only",
+      "familyPackagePath": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en",
+      "packageFiles": [
+        "field-census.json",
+        "field-classification-policy.json",
+        "field-classification.json",
+        "fixtures/boundary.json",
+        "fixtures/canonical.json",
+        "fixtures/negative.json",
+        "handoff.md",
+        "overlay-profile.json",
+        "reports/determinism.json",
+        "reports/mutation-tests.json",
+        "reports/overflow-and-clipping.json",
+        "reports/populated-fields.json",
+        "reports/protected-fields.json",
+        "reports/rendered-artifacts.json",
+        "source-record.json"
+      ],
+      "participantPdfPath": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en/fixtures/canonical-filled.pdf",
+      "participantPdfPresentInGit": false,
+      "contactSheetPath": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetPresentInGit": false,
+      "renderedArtifactsManifestPath": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en/reports/rendered-artifacts.json",
+      "renderedArtifactsManifestPresent": true,
+      "manifestArtifactCount": 0,
+      "currentDisposition": "correction_required",
+      "artifactHashesAtOwningCommit": {
+        "participantPdf": null,
+        "contactSheet": null
+      },
+      "acceptanceConditions": [
+        {
+          "id": "D-V3-R-009",
+          "severity": "medium",
+          "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en/overlay-profile.json",
+          "fieldOrRegion": "anchorCapture.pages[].unreadableLines",
+          "visibleDefect": "The profile reports unreadableLines 0 on every page, but the decoder's own gate (partitionDecodableAnchors) refuses 7 of this form's 64 lines with reason 'line_carries_undecoded_character_codes'. The renderer that wrote this profile does not use that gate: d2a-regenerate.mjs still filters readable lines with CID_ENCODED = /\\u0000/, and the D0-v3 decoder marks an undecoded code with U+FFFD, not NUL, so no line can ever match. Lines the decoder itself cannot read are counted as readable and offered to the anchor matcher.",
+          "acceptanceCondition": "d2a-regenerate.mjs partitions lines with partitionDecodableAnchors and reports its refusal counts, so unreadableLines equals what the decoder actually refused and no undecodable line can become an anchor.",
+          "likelyOwner": "D2A lane regeneration"
+        }
+      ]
+    }
+  ],
+  "blockers": [],
+  "note": "Source binaries are located by content hash inside the extracted D source packs, which stay outside every Git worktree and are never committed. Only the pack member path is recorded here."
+}
