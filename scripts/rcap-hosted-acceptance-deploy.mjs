@@ -99,7 +99,8 @@ const evidence = {
   applicationSha: APPLICATION_SHA,
   deliveryRouteState: ROUTE_STATE || "disabled (flag not set)",
   neverPassedProdFlag: true,
-  neverWroteProjectLevelEnv: true
+  neverWroteProjectLevelEnv: true,
+  largeFunctionsSupport: "enabled per-deployment; the checkout/status function bundles the RCAP corpus to ~611mb against a 250mb default"
 };
 
 // --- 0. Before-picture of everything this run must not disturb ---------------
@@ -131,11 +132,25 @@ const runtimeEnv = {
   STRIPE_SECRET_KEY: process.env.HOSTED_STRIPE_TEST_SECRET || "sk_test_hosted_acceptance_placeholder",
   STRIPE_WEBHOOK_SECRET: process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || "whsec_hosted_acceptance_placeholder",
   ...(ROUTE_STATE ? { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: ROUTE_STATE } : {}),
-  ...(SCOPE_IDS ? { RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS } : {})
+  ...(SCOPE_IDS ? { RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS } : {}),
+  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
 };
 const buildEnv = {
   NEXT_PUBLIC_SUPABASE_URL: SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: keys.anon
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: keys.anon,
+  // The first deploy built cleanly and then failed at "Deploying outputs":
+  // api/expungement-ai/checkout/status bundles to 610.93mb uncompressed
+  // against a 250mb default limit. That size is the RCAP corpus — compiled
+  // profiles, state packs, overlays and form assets — reached transitively
+  // from a route handler, and it is a property of the FROZEN bytes.
+  //
+  // This is Vercel's own documented remedy for a project it reports as
+  // eligible, and it is passed per-deployment rather than written to the
+  // project, so no other Preview deployment and nothing in Production is
+  // affected. Trimming the bundle instead would mean editing src/ — a new
+  // application freeze, a new worker image, and a re-run of both required
+  // checks, to change nothing a participant can observe.
+  VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
 };
 
 const args = ["vercel@latest", "deploy", "--yes", "--token", VERCEL_TOKEN, "--scope", VERCEL_ORG_ID];
