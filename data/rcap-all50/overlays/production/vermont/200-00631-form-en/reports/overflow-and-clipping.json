@@ -1,9 +1,61 @@
 {
-  "schemaVersion": "rcap-overflow-report/v3-lane-d1c",
+  "schemaVersion": "rcap-overflow-report/v4-d0v4",
+  "policy": "A value renders whole inside its own widget or the field is refused and left blank. The rendered appearance is read back and a clipped value is withdrawn, never filed.",
   "boundaryFixtureApplied": true,
-  "minimumReadableFontSize": 6,
-  "policy": "A value that cannot be drawn at 6pt or larger inside its own widget is refused and the field is left blank. Nothing is clipped and nothing is shrunk below legibility.",
-  "unfittableCanonical": [],
-  "unfittableBoundary": [],
-  "findings": []
+  "findings": [
+    {
+      "fixture": "boundary",
+      "field": "1",
+      "factId": "participant.full_legal_name",
+      "suppliedChars": 70,
+      "renderedChars": 70,
+      "readbackOutcome": "clipped",
+      "reason": "drawn text leaves the widget rectangle",
+      "overflowLeftPt": 0,
+      "overflowRightPt": 7.45,
+      "widget": {
+        "x": 287.3,
+        "y": 611.9,
+        "width": 273.6,
+        "height": 13
+      },
+      "disposition": "withdrawn_and_left_blank"
+    }
+  ],
+  "allFittingDecisions": [
+    {
+      "fixture": "canonical",
+      "field": "1",
+      "factId": "participant.full_legal_name",
+      "page": 1,
+      "selectedFontSize": 11,
+      "availableWidth": 273.6,
+      "suppliedChars": 18,
+      "renderedChars": 18,
+      "fittingOutcome": "fit",
+      "readbackOutcome": "complete",
+      "runsSelectedBy": "appearance_stream",
+      "overflowLeftPt": 0,
+      "overflowRightPt": 0,
+      "disposition": "rendered_whole_inside_widget"
+    },
+    {
+      "fixture": "boundary",
+      "field": "1",
+      "factId": "participant.full_legal_name",
+      "suppliedChars": 70,
+      "renderedChars": 70,
+      "readbackOutcome": "clipped",
+      "reason": "drawn text leaves the widget rectangle",
+      "overflowLeftPt": 0,
+      "overflowRightPt": 7.45,
+      "widget": {
+        "x": 287.3,
+        "y": 611.9,
+        "width": 273.6,
+        "height": 13
+      },
+      "disposition": "withdrawn_and_left_blank"
+    }
+  ]
 }
