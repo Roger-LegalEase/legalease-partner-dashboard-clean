@@ -1,0 +1,253 @@
+{
+  "schema": "rcap-d-fix-review/v1",
+  "reviewId": "D-FIX-2",
+  "family": "NH:nhjb-2956-support-record-request-en",
+  "familyPackagePath": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en",
+  "findingUnderReview": "D-V3-R-001",
+  "posture": "Independent read-only review. Every claim below was decided from the committed bytes with a decoder written for this review, not with the factory code under review; where repository code was used it is named. The reviewer did not write the code under review and does not adopt its conclusions.",
+  "reviewedCommits": {
+    "familyCommit": "e6bb20c2549b0c24f9b117aa6e38fd4a40b9637b",
+    "familyCommitSubject": "D-FIX-2: New Hampshire NHJB-2956 contact sheet rebuilt from the final artifact",
+    "baseCommit": "257bf0499b4327341ed103f9431733508b415e25",
+    "baseCommitSubject": "Bind fields by printed meaning, and read the corpus for the same clipping defect",
+    "reviewBranch": "claude/rcap-review-d-fix-2-nh",
+    "implementationBranch": "claude/rcap-d-fix-2-nh-nhjb-2956"
+  },
+
+  "disposition": "correction_required",
+  "dispositionBasis": "The acceptance condition of D-V3-R-001 is substantively met: the sheet is rebuilt from the exact final participant artifact, the proof records that artifact's digest as both its source and its finalized digest, rendered-artifacts.json is current for all four files, no control caption survives on the finalized artifact, and no active content remains anywhere. Five defects nevertheless remain in the evidence this family would be signed off on, and three of them are the same species as D-V3-R-001 itself -- a record that describes something other than the bytes on disk. reports/determinism.json still certifies a digest no file in the package has; the sheet's proof asserts two booleans that were never measured, one of which is false when measured the way the builder measures it; and the one NH-specific verifier assertion reads that unmeasured boolean back out of the JSON, so it cannot fail. None of these makes anything unsafe to file -- this family files nothing -- but each of them is a claim a reviewer would rely on that the bytes do not support.",
+
+  "verifiedFromBytes": {
+    "digests": {
+      "method": "sha256sum over the committed files; every value below was computed by the reviewer",
+      "fixtures/canonical-filled.pdf": "1325545d6a8e71c173e736fc31d2860e5de8a363647c9781bca412059198911b",
+      "fixtures/boundary-filled.pdf": "ce087f044c5bea899052a5e2b234bf5c8dd1a9419f8e5804e0ddf46ea670694e",
+      "fixtures/negative-filled.pdf": "8550ce85d7eee499e4e39426d5f30a6366712830639828e1d09113bd62efa12c",
+      "contact-sheet/blank-vs-filled.pdf": "334d10d3d5aabb7cb50abd0672351c2b9cd546e596d09887c673bf8dcd854e3c",
+      "contactSheetProof.builtFromSha256": "1325545d6a8e71c173e736fc31d2860e5de8a363647c9781bca412059198911b",
+      "contactSheetProof.finalizedSha256": "1325545d6a8e71c173e736fc31d2860e5de8a363647c9781bca412059198911b",
+      "contactSheetProof.sheetSha256": "334d10d3d5aabb7cb50abd0672351c2b9cd546e596d09887c673bf8dcd854e3c",
+      "builtFromEqualsFinalizedEqualsArtifactOnDisk": true,
+      "sheetProofDigestEqualsSheetOnDisk": true
+    },
+    "renderedArtifactsManifest": {
+      "path": "reports/rendered-artifacts.json",
+      "entries": 4,
+      "everyPathExists": true,
+      "everyDigestMatchesDisk": true
+    },
+    "contactSheetStructure": {
+      "objects": 69,
+      "pages": 1,
+      "pageMediaBox": [0, 0, 838.88, 581.04],
+      "leftPanel": {
+        "object": 5,
+        "resourceName": "EmbeddedPdfPage-9742682568",
+        "drawnAt": "1 0 0 1 28 28 cm, scaled 0.62",
+        "identification": "the blank official form as issued; its only XObject is the page image Im0 and it invokes no widget appearance stream at all",
+        "controlCaptions": "none"
+      },
+      "rightPanel": {
+        "object": 28,
+        "resourceName": "EmbeddedPdfPage-2000805986",
+        "drawnAt": "1 0 0 1 431.44 28 cm, scaled 0.62",
+        "identification": "the finalized participant artifact; it invokes the same 14 FlatWidget appearance streams, with the same names and the same BBoxes, that fixtures/canonical-filled.pdf invokes",
+        "controlCaptions": "none"
+      }
+    },
+    "controlCaptionScan": {
+      "method": "every Form XObject in each file inflated and its Tj/TJ operands decoded through the font's own ToUnicode CMap; separately, /CA /AC /RC /TU /MK caption entries searched in the raw object bytes",
+      "fixtures/canonical-filled.pdf": {
+        "flatWidgetAppearances": 14,
+        "appearancesDrawingVisibleText": 0,
+        "note": "each appearance builds a path and either restores without a painting operator or clips with W n, then shows an empty or space-only string; nothing is painted",
+        "buttonCaptionEntriesInBytes": "none",
+        "controlCaptionsPresent": []
+      },
+      "fixtures/boundary-filled.pdf": { "controlCaptionsPresent": [] },
+      "fixtures/negative-filled.pdf": { "controlCaptionsPresent": [] },
+      "contact-sheet/blank-vs-filled.pdf": { "controlCaptionsPresent": [] },
+      "onlyApparentMatch": "the phrase 'PLEASE PRINT CLEARLY', which is body text printed on the form itself in both panels and is not a control caption",
+      "conclusion": "No Print, Reset, Save, Clear, Submit or navigation caption appears on the finalized artifact, on either fixture, or on either panel of the sheet."
+    },
+    "defectReproducedAtBase": {
+      "method": "git show 257bf04:<path> piped to the same decoder",
+      "preFixSheetSha256": "8864675ca3d27403443ffa4bca344f5834b73658858aa121eef1d4df83ecd9dc",
+      "preFixSheetRightPanelWidgets": 17,
+      "preFixSheetRightPanelCaptions": ["Clear Form", "Top of Page", "Instructions"],
+      "preFixSheetLeftPanelCaptions": [],
+      "postFixSheetRightPanelWidgets": 14,
+      "postFixSheetRightPanelCaptions": [],
+      "conclusion": "The defect D-V3-R-001 describes is real and is fixed: the three captions were carried by FlatWidget appearance streams invoked only by the right-hand 'finalized fill' panel, and no such appearance survives in the rebuilt sheet."
+    },
+    "bindingsUnchanged": {
+      "claim": "This family binds nothing, and that is unchanged from the reviewed package.",
+      "verdict": "true",
+      "method": "git show 257bf04:.../production-field-map.json compared against the file at HEAD",
+      "baseBindings": [],
+      "headBindings": [],
+      "baseExplicitMappings": {},
+      "headExplicitMappings": {},
+      "bindingAddedOrRemoved": false,
+      "note": "No binding was added or removed, so nothing out of scope for D-V3-R-001 was introduced on that axis. The same file did lose its refusal ledger; that is finding D-FIX2-R-NH-004."
+    },
+    "activeContentAndAnnotations": {
+      "method": "every object of every file scanned for /XFA /JavaScript /JS /AA /OpenAction /Launch /SubmitForm /ImportData /URI /GoToR /GoToE /RichMedia /Movie /Sound /EmbeddedFile /Rendition /SetOCGState, in both the raw object bytes and every inflated stream",
+      "hits": "none in any of the four files",
+      "annotationArrays": "/Annots [ ] on every page of every file",
+      "widgetObjects": "none",
+      "acroFormObjects": "none",
+      "orphanedWidgets": "none; the widget appearances survive only as Form XObjects invoked from page content, with no annotation referencing them",
+      "objectStreams": "not used, so every object is directly inspectable"
+    },
+    "fixtureConsistency": {
+      "observation": "canonical-filled.pdf is 56003 bytes and boundary/negative are 55999 each",
+      "method": "cmp plus object-by-object comparison",
+      "firstDifference": "byte 550, inside object 3 (the /Info dictionary)",
+      "explanation": "the three fixtures differ only in the /Title metadata string ('canonical fixture' / 'boundary fixture' / 'negative fixture'); every content object is identical, which is what a family that writes nothing should produce",
+      "verdict": "consistent"
+    },
+    "reRenderIsMetadataOnly": {
+      "method": "all 54 objects of git show 257bf04:.../fixtures/canonical-filled.pdf compared object by object against the file at HEAD, dictionaries normalized for whitespace and streams inflated before comparison",
+      "objectsDiffering": ["3"],
+      "object3": "the /Info dictionary; /Title changed from 'NHJB-2956 — NHJB-2956 Criminal Record Release Authorization' to 'NH NHJB-2956 — canonical fixture'",
+      "conclusion": "The re-render changed no mark on the page. The artifact digest moved from 0ba50bb2... to 1325545d... solely because a metadata string and the resulting xref offsets changed."
+    }
+  },
+
+  "canariesAndVerifiers": {
+    "runByReviewer": true,
+    "npmCi": "clean install performed; node_modules was absent in the fresh worktree",
+    "results": [
+      { "command": "node scripts/rcap-official-forms/d0-canary-verify.mjs", "exitCode": 0, "summary": "149 checks across 9 canaries and 9 mutations" },
+      { "command": "node scripts/rcap-official-forms/d0-v3-canary-verify.mjs", "exitCode": 0, "summary": "43 checks across 2 canaries and 5 mutations" },
+      { "command": "node scripts/rcap-official-forms/d0-v4-canary-verify.mjs", "exitCode": 0, "summary": "35 checks across 11 cases and 6 mutations" },
+      { "command": "node scripts/rcap-official-forms/d-v4-verify-corrections.mjs NH:nhjb-2956-support-record-request-en", "exitCode": 0, "summary": "7 passed, 0 failed" }
+    ],
+    "assertionJudgment": {
+      "sound": [
+        "every manifest path exists on disk",
+        "every manifest digest is the digest of the file on disk",
+        "no XFA, JavaScript, additional-action, OpenAction, Launch, Submit, Import, URI or unsafe annotation residue in any artifact",
+        "the contact sheet was built from the finalized participant artifact",
+        "the finalized participant artifact carries no Print, Reset, Save, Clear or navigation caption",
+        "the manifest records the sheet that is on disk"
+      ],
+      "unsound": [
+        {
+          "assertion": "the sheet's panels differ and its scan is clean",
+          "location": "scripts/rcap-official-forms/d-v4-verify-corrections.mjs:148-149",
+          "problem": "the panel half of it reads proof.panelsDiffer, a value rcap-contact-sheet.mjs:159 writes as a hardcoded literal true; it is a check on the JSON the builder wrote about itself, not on the sheet",
+          "seeFinding": "D-FIX2-R-NH-003"
+        }
+      ],
+      "missing": [
+        {
+          "gap": "nothing asserts that every sha256 recorded anywhere in a family package names a file in that package",
+          "wouldHaveCaught": "D-FIX2-R-NH-001, the orphaned digest in reports/determinism.json"
+        },
+        {
+          "gap": "nothing asserts that bindings.length + bindingRefusals.length accounts for every field in field-census.json",
+          "wouldHaveCaught": "D-FIX2-R-NH-004, the emptied refusal ledger"
+        },
+        {
+          "gap": "nothing asserts that findings.json and handoff.md agree with the artifacts actually present",
+          "wouldHaveCaught": "D-FIX2-R-NH-005, the 'no sheet is emitted' note on a family that has a sheet"
+        }
+      ]
+    }
+  },
+
+  "contactSheetEvidentiaryValue": {
+    "question": "With zero written values, can this sheet's proof demonstrate that any value is visible? Is it still adequate review evidence for this family?",
+    "answer": "no_as_visual_verification_yes_as_a_null_control",
+    "reasoning": "The two panels decode to identical body text, line for line. The only difference between them is that the right panel additionally invokes 14 appearance streams, and every one of those streams clips a box and shows an empty or space-only string without painting anything. Side by side a reviewer sees two identical pages. The sheet therefore cannot demonstrate placement, fit, legibility or the visibility of any value -- there is no value. What it does prove is narrow and genuine: the artifact a reviewer would sign off carries no control caption and no active content, and nothing was written into it. That is real evidence of a negative, and it is worth keeping, because the pre-fix sheet proved the opposite and was believed. It is not visual verification, and the package should not be allowed to read as though it were.",
+    "consequence": "Adequate to close D-V3-R-001. Not adequate, by itself, to satisfy the f_independent_visual_review_required hold, and the package must stop asserting panelsDiffer and allExpectedValuesVisible as though they had been measured (D-FIX2-R-NH-002) and must stop telling the reviewer the sheet does not exist (D-FIX2-R-NH-005)."
+  },
+
+  "findings": [
+    {
+      "id": "D-FIX2-R-NH-001",
+      "severity": "medium",
+      "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/reports/determinism.json",
+      "fieldOrRegion": "firstSha256 and secondSha256, lines 4-5",
+      "visibleDefect": "Both fields record 0ba50bb2d169b0cccdda4a2b97e7663635ee1279cb66824070d52f960c6109eb. No file in the package has that digest: canonical-filled.pdf on disk is 1325545d6a8e..., boundary-filled.pdf is ce087f044c5b... and negative-filled.pdf is 8550ce85d7ee.... The orphaned digest is the pre-fix canonical artifact -- `git show 257bf04:.../fixtures/canonical-filled.pdf | sha256sum` returns exactly 0ba50bb2.... This fix re-rendered the artifact and did not regenerate the determinism report, so the family's reproducibility evidence now certifies a file that is no longer in the package. That is the same defect D-V3-R-001 raised about the contact sheet, moved one file over. A grep of the whole package finds this as the only surviving stale digest.",
+      "acceptanceCondition": "Re-run the determinism check against the artifact on disk and rewrite reports/determinism.json so firstSha256 and secondSha256 both equal the SHA-256 of fixtures/canonical-filled.pdf as committed (1325545d6a8e71c173e736fc31d2860e5de8a363647c9781bca412059198911b); or, if the D0-v4 path no longer produces determinism evidence, remove the report and record in findings.json why the family carries none. Either way, no digest may remain in the package that names no file in the package, and d-v4-verify-corrections.mjs should gain an assertion that enforces exactly that for every family."
+    },
+    {
+      "id": "D-FIX2-R-NH-002",
+      "severity": "medium",
+      "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/contact-sheet/contact-sheet-proof.json",
+      "fieldOrRegion": "panelsDiffer and allExpectedValuesVisible (originating at scripts/rcap-official-forms/rcap-contact-sheet.mjs:158-159)",
+      "visibleDefect": "panelsDiffer: true was never measured. buildContactSheet returns the literal true for that key; the only comparison that could contradict it is guarded by `expectedValues.length > 0`, and expectedValues is [] for this family, so the guard never runs. Measured the way the builder itself measures panel difference -- normalized visible text -- the panels are equal: the left panel (object 5) and the right panel (object 28) decode to the same 140 body-text runs in the same order, and the right panel's only extra content is 14 `/FlatWidget-... Do` invocations whose appearance streams paint nothing (each either builds a path and restores without a painting operator, or clips with `W n`, then shows an empty or space-only string). Had one value been expected, the builder's own equality check would have thrown on this sheet. allExpectedValuesVisible: true is vacuous in the same way -- it is true of an empty set, and it reads as a statement that values were confirmed visible.",
+      "acceptanceCondition": "Compute panelsDiffer from the two panels actually embedded -- the builder already holds blankText and finalText, so record `normalize(blankText) !== normalize(finalText)` (or an equivalent comparison of the panel bytes) rather than a literal -- and regenerate this proof so the recorded value is the measured one. Where expectedValues is empty, record allExpectedValuesVisible as null, or omit the key, rather than asserting true. No key in a proof artifact may state as measured a value that was not measured."
+    },
+    {
+      "id": "D-FIX2-R-NH-003",
+      "severity": "medium",
+      "file": "scripts/rcap-official-forms/d-v4-verify-corrections.mjs",
+      "fieldOrRegion": "lines 146-149, the NH:nhjb-2956-support-record-request-en assertion \"the sheet's panels differ and its scan is clean\"",
+      "visibleDefect": "The assertion decides panel difference by reading `proof.panelsDiffer === true` out of contact-sheet-proof.json, and rcap-contact-sheet.mjs:159 writes that key as a hardcoded literal true. The assertion therefore passes for any sheet the builder emits, including one whose two panels are byte-identical -- which is the failure mode D-V3-R-001 was reported against. It is the only NH-specific assertion in the run, and it tests nothing about the NH bytes. The other six assertions in the same run do read the bytes and are sound.",
+      "acceptanceCondition": "Make the NH assertion decide panel difference from the sheet's own bytes: load contact-sheet/blank-vs-filled.pdf, decode the two embedded page XObjects, and compare their visible text and content streams, reporting what was compared in the assertion detail. Prove it can fail by adding a mutation that composes a sheet whose finalized panel is the blank panel and confirming the assertion rejects it. Reading proof.panelsDiffer may remain only as a cross-check that the proof agrees with the recomputed result, never as the result."
+    },
+    {
+      "id": "D-FIX2-R-NH-004",
+      "severity": "medium",
+      "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/production-field-map.json",
+      "fieldOrRegion": "bindingRefusals (written by scripts/rcap-official-forms/d-v4-remediate-families.mjs:480)",
+      "visibleDefect": "At 257bf04 this map carried a 17-entry refusal ledger giving every census field a recorded reason -- explicit_mapping_conflicts_with_field_name for the four name slots and the two address fields, no_allowlisted_fact_matches for eight more, non_text_field_type for the three pushbuttons. At e6bb20c it is []. The map now states that the source has 17 fields, that bindings is [], and that bindingRefusals is [] -- 17 fields neither bound nor refused, with no reason recorded for any of them. The 15-entry measuredLabels list that replaced it is not a substitute: it records what is printed beside a widget, not why the widget stayed blank, and it omits three fields entirely, including 'Clear Form' and 'Form Guide', the two pushbuttons whose captions were the subject of D-V3-R-001. This is a regression in disclosed evidence, not in coverage: bindings and explicitMappings are both empty at base and at HEAD, so no binding was added or removed. The same commit's own factory comment states the rule it breaks -- 'A refusal that is not written down is indistinguishable from a decision that was never made' -- and the flat-overlay path still writes reports/refusal-ledger.json while the AcroForm path here writes nothing. NH is the only package in the repository on factoryVersion d0-v4, so no other family is currently affected.",
+      "acceptanceCondition": "d-v4-remediate-families.mjs must record a disposition for every field in field-census.json, so that for every regenerated AcroForm family bindings.length + bindingRefusals.length equals the census field count; regenerate this map so all 17 NH fields carry a recorded reason, keeping measuredLabels alongside rather than in place of the ledger. No binding may change: bindings and explicitMappings must remain empty. Add an assertion to d-v4-verify-corrections.mjs that fails when a map accounts for fewer fields than the census declares."
+    },
+    {
+      "id": "D-FIX2-R-NH-005",
+      "severity": "low",
+      "file": "data/rcap-all50/overlays/production/new-hampshire/nhjb-2956-support-record-request-en/reports/findings.json and .../handoff.md",
+      "fieldOrRegion": "findings[0] no_field_bound_no_contact_sheet (findings.json line 8); handoff.md line 30 'Contact sheet: not emitted' and line 49",
+      "visibleDefect": "Both still tell the reviewer that no contact sheet exists -- 'there is no filled panel to depict and no sheet is emitted' and 'Contact sheet: not emitted — the binder wrote nothing, so there is no filled panel to show'. A sheet is present at contact-sheet/blank-vs-filled.pdf, is listed in rendered-artifacts.json, and is the artifact this entire fix rebuilt. The handoff is the document a QA or counsel reviewer reads first, and on the one point this fix was about it says the evidence does not exist.",
+      "acceptanceCondition": "Regenerate reports/findings.json and handoff.md so the contact-sheet entry describes the sheet that is on disk, names its digest (334d10d3d5aabb7cb50abd0672351c2b9cd546e596d09887c673bf8dcd854e3c), and states plainly what it does and does not prove for a family with zero written values: that the finalized artifact carries no control caption and no active content, and that it demonstrates nothing about the visibility of any value because none was written."
+    }
+  ],
+
+  "observations": [
+    {
+      "id": "D-FIX2-R-NH-OBS-1",
+      "topic": "deviation from the literal acceptance condition, accepted",
+      "detail": "D-V3-R-001 asked that the sheet be rebuilt from the then-current canonical-filled.pdf and that the proof record participantArtifactSha256 == 0ba50bb2... with filedArtifactChecksPassed true. The implementation instead re-rendered the artifact to 1325545d... and emitted a new proof schema (rcap-contact-sheet-proof/v3-d0v4) in which those two keys no longer exist; builtFromSha256 and finalizedSha256 carry the same meaning and are stricter, since both must equal the artifact on disk. The deviation is accepted because the re-render is provably inert: all 54 objects of the artifact are identical to the reviewed one except object 3, the /Info dictionary, where only /Title changed. No mark on the page moved. The reviewer notes the deviation rather than waiving it silently."
+    },
+    {
+      "id": "D-FIX2-R-NH-OBS-2",
+      "topic": "the commit message misdescribes its own left panel",
+      "detail": "The family commit states that 'the sheet's left panel still shows the blank form as the state issues it, control captions included'. It does not. The left panel (object 5) references only the page image Im0 and invokes no widget appearance stream at all -- sanitizedPanel strips the blank form's widget annotations rather than flattening them, so the three pushbutton captions are absent from the left panel too. This does not affect the acceptance condition, which concerns the finalized artifact, and it is not a defect in the artifact; it is a claim in the record that the bytes do not support. The reviewer's own brief carried the same premise, and it does not hold for this sheet: there is no legitimately-appearing caption on either side."
+    },
+    {
+      "id": "D-FIX2-R-NH-OBS-3",
+      "topic": "source binary unavailable",
+      "detail": "The source binary is not in this repository. `private/` does not exist in the worktree, and no PDF tracked in git has the declared source digest c8e5e9fead600ad30a956eac98c43d30d9ca3a3b8b4bc619713e50c83524f569. Consequently rendered-artifacts.json's sourceSha256, its 'reproducible' claim, source-record.json's declared byte length and field count, and reports/source-drift.json could not be checked against the source and are carried as unverified rather than accepted. The reviewer did not guess at them."
+    },
+    {
+      "id": "D-FIX2-R-NH-OBS-4",
+      "topic": "the verifier mutates the worktree",
+      "detail": "Running d-v4-verify-corrections.mjs writes docs/record-clearing/d-wave/v4/correction-verification.json. A reviewer running it read-only leaves an untracked file behind. Minor, but a verification tool intended to be run by a reviewer should either write nowhere or write where the reviewer expects. The file was removed and is not part of this review's commit."
+    },
+    {
+      "id": "D-FIX2-R-NH-OBS-5",
+      "topic": "unpinned reports",
+      "detail": "reports/protected-fields-scan.json, reports/mutation-tests.json, reports/non-filing-hold.json and reports/reviewed-withholdings.json were computed against the pre-fix artifact and were not regenerated, but none of them records a digest, so none is provably stale. Their conclusions survive the re-render because the re-render changed only metadata (OBS-1). They are noted so that the next cycle pins them rather than relying on that coincidence."
+    }
+  ],
+
+  "acceptanceConditionOfFindingUnderReview": {
+    "sheetRebuiltFromExactFinalPdf": "met",
+    "renderedArtifactsUpdated": "met",
+    "obsoleteControlCaptionsProvenAbsent": "met",
+    "sheetAndArtifactDigestsMatchManifest": "met",
+    "overallForDVR001": "met",
+    "note": "D-V3-R-001 itself may be closed on the bytes. The correction_required disposition is carried by the five findings above, which concern other evidence in the same package and the assertion that was supposed to police it."
+  },
+
+  "methodNotes": [
+    "PDF inspection was done with a decoder written for this review: objects located by scanning for `N G obj` spans, FlateDecode streams inflated with zlib, text operands decoded through each font's own ToUnicode CMap, and Form XObjects followed recursively. It does not use pdf-lib or any script under review.",
+    "The repository's own scripts were used only to run the canaries and the correction verifier, and their results are reported as the scripts' results, not as the reviewer's independent conclusions.",
+    "Nothing outside docs/record-clearing/d-wave/v4/review/ was modified."
+  ]
+}
