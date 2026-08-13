@@ -173,11 +173,33 @@ const counselCandidates = rows.filter((r) =>
 const rogerDecisions = rows.filter((r) => r.reconciledStatus === "outside_standing_scope");
 if (rogerDecisions.length !== 13) fail(`expected 13 outside-standing-scope tracks, found ${rogerDecisions.length}`);
 
+// The v1 packet passed the upstream "missing metadata, not legal scope" label
+// through untested and recommended repairing metadata first. Every row was then
+// resolved against the canonical map, the source records and the final family
+// handoff, and none is a metadata gap: a mapping repair cannot bring a track
+// inside a memo that binds no packet family for its state. The discriminator is
+// clean across all 67 tracks — the 36 unclassified ones all have a bound family
+// and a memo entry; these 13 have neither.
+const ADOPTION_RESOLUTION = {
+  supersedes: "v1, which labelled several rows missing_metadata_not_legal_scope and recommended repairing metadata first",
+  theDecision:
+    "The standing counsel adoption of 8 August 2026 covered 57 document families across 45 states plus DC. Alabama, Arizona, Iowa and Oregon were never in it. This is one decision about four states, not thirteen decisions about filings.",
+  recommendedDisposition: "Commission one new counsel adoption covering the four states together rather than filing by filing.",
+  whatApprovalUnlocks:
+    "The legal sign-off for all thirteen filings at once, and four states on a path to launch instead of parked. It releases nothing to participants and turns no state on by itself.",
+  supportedFallbackIfDeclinedOrDeferred:
+    "Each filing stays on hold: not shown, not sellable, switched off in the live product. The packages are already built, so nothing is lost by waiting.",
+  whatRemainsBlockedEitherWay:
+    "Alabama's main petition form is still absent from the verified library — its identity and fingerprint are known but no verified copy is held, and two of that packet's three documents need it. That is source-acquisition engineering on the backlog, unaffected by this decision."
+};
+
 const decisionPacket = {
   schemaVersion: "rcap-d-roger-adoption-decision-packet/v1",
   window: "2026-08-12-w3",
   statement:
-    "One decision, thirteen tracks. Each row says what the track is, why the standing adoption does not reach it, whether the obstacle is a genuine legal-scope question or missing metadata, and what changes either way. Nothing here asks Roger to open a repository file or run anything.",
+    "One decision about four states. Every row was resolved against the canonical map and the final family handoff first; none turned out to be a metadata gap. Nothing here asks anyone to open a repository file or decide a mapping question.",
+  ...ADOPTION_RESOLUTION,
+  statesAffected: [...new Set(rogerDecisions.map((r) => r.jurisdiction))].sort(),
   decisions: rogerDecisions.map((r) => {
     const row = track.get(r.trackId);
     const record = adoption.tracks.find((t) => t.trackId === r.trackId);
@@ -190,10 +212,10 @@ const decisionPacket = {
       currentLegalAuthority: record?.legalAuthority ?? record?.authorityRefs ?? row?.legalName ?? null,
       currentTechnicalDisposition: row?.familyGate ?? null,
       whyStandingAdoptionDoesNotApply: record?.classificationRationale ?? null,
-      obstacleKind: metadataOnly ? "missing_metadata_not_legal_scope" : "actual_substantive_legal_scope",
-      recommendedDisposition: metadataOnly
-        ? "Resolve the relationship metadata first. If the track then lands inside the hash-bound design, standing adoption reaches it and no new decision is needed."
-        : "Extend the standing adoption to cover this track, or record it as outside scope and let it take its supported fallback treatment.",
+      obstacleKind: "actual_substantive_legal_scope",
+      metadataGapAlsoPresent: metadataOnly,
+      recommendedDisposition:
+        "Covered by the four-state adoption decision above. The track's state has no packet family bound by the standing adoption, so no mapping repair can bring it inside.",
       supportedFallbackTerminalTreatment: row?.candidateProductTreatment ?? "held_on_source_or_design",
       whatChangesIfApproved: "The adoption gate closes for this track. Source, currentness, participant treatment, runtime wiring, staging and independent review all remain open and unaffected.",
       whatRemainsBlockedAfterwards: (row?.rootBlocker ?? "").length > 0 ? row.rootBlocker : "the track's other recorded gates",
