@@ -98,10 +98,145 @@ function tokenize(src) {
   return tokens;
 }
 
-// Every font in this corpus carries an explicit /Widths array, so advances are
-// computed from the document's own metrics rather than estimated. A font that
-// does not (a Type0/Identity-H subset) is reported as inexact and its runs are
-// excluded from anchor placement.
+// --- text decoding ----------------------------------------------------------
+//
+// A content stream carries character *codes*, not characters. Reading those
+// bytes as if they were already text is right only for a font that happens to
+// be encoded that way, and wrong for every subset font in this corpus:
+// Washington's BLAKE-006 draws 199 lines with Type0/Identity-H fonts whose
+// codes are two bytes wide and bear no relation to Unicode, so a byte-wise read
+// returned garbage and the family was dispositioned as having no extractable
+// text layer.
+//
+// Codes and characters are therefore kept apart throughout. Widths are indexed
+// by code, because that is what the font's own metrics are indexed by; only the
+// text handed back to a caller is decoded. Conflating the two would move every
+// value on the page, which is worse than not reading it.
+
+/** Parses a /ToUnicode CMap into a code -> string map. */
+function parseToUnicode(stream) {
+  const map = new Map();
+  let text;
+  try { text = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { return map; }
+  const hexToStr = (hex) => {
+    const clean = hex.replace(/[^0-9a-fA-F]/g, "");
+    let s = "";
+    for (let i = 0; i + 3 < clean.length + 1; i += 4) {
+      const cp = parseInt(clean.slice(i, i + 4), 16);
+      if (Number.isFinite(cp)) s += String.fromCharCode(cp);
+    }
+    return s;
+  };
+  for (const block of text.match(/beginbfchar([\s\S]*?)endbfchar/g) ?? []) {
+    for (const m of block.matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>/g)) {
+      map.set(parseInt(m[1], 16), hexToStr(m[2]));
+    }
+  }
+  for (const block of text.match(/beginbfrange([\s\S]*?)endbfrange/g) ?? []) {
+    // <lo> <hi> <dst> -- a contiguous run starting at dst.
+    for (const m of block.matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>/g)) {
+      const lo = parseInt(m[1], 16), hi = parseInt(m[2], 16);
+      const base = hexToStr(m[3]);
+      if (!base || hi < lo || hi - lo > 0xffff) continue;
+      const head = base.slice(0, -1), tail = base.charCodeAt(base.length - 1);
+      for (let c = lo; c <= hi; c += 1) map.set(c, head + String.fromCharCode(tail + (c - lo)));
+    }
+    // <lo> <hi> [ <d0> <d1> ... ] -- one destination per code.
+    for (const m of block.matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>\s*\[([\s\S]*?)\]/g)) {
+      const lo = parseInt(m[1], 16);
+      const dsts = [...m[3].matchAll(/<([0-9a-fA-F]+)>/g)].map((d) => hexToStr(d[1]));
+      dsts.forEach((s, i) => map.set(lo + i, s));
+    }
+  }
+  return map;
+}
+
+// Enough of the Adobe glyph list to name what official forms actually draw.
+// Anything outside it falls through to the uniXXXX form or to a refusal, rather
+// than to a guess.
+const GLYPH_NAMES = {
+  space: " ", exclam: "!", quotedbl: '"', numbersign: "#", dollar: "$", percent: "%",
+  ampersand: "&", quotesingle: "'", parenleft: "(", parenright: ")", asterisk: "*",
+  plus: "+", comma: ",", hyphen: "-", period: ".", slash: "/", zero: "0", one: "1",
+  two: "2", three: "3", four: "4", five: "5", six: "6", seven: "7", eight: "8",
+  nine: "9", colon: ":", semicolon: ";", less: "<", equal: "=", greater: ">",
+  question: "?", at: "@", bracketleft: "[", backslash: "\\", bracketright: "]",
+  asciicircum: "^", underscore: "_", grave: "`", braceleft: "{", bar: "|",
+  braceright: "}", asciitilde: "~", quoteright: "’", quoteleft: "‘",
+  quotedblleft: "“", quotedblright: "”", endash: "–", emdash: "—",
+  bullet: "•", section: "§", paragraph: "¶", degree: "°"
+};
+
+function glyphNameToChar(name) {
+  if (!name) return null;
+  if (Object.hasOwn(GLYPH_NAMES, name)) return GLYPH_NAMES[name];
+  if (/^[A-Za-z]$/.test(name)) return name;
+  const uni = /^uni([0-9A-Fa-f]{4})$/.exec(name);
+  if (uni) return String.fromCharCode(parseInt(uni[1], 16));
+  const u = /^u([0-9A-Fa-f]{4,6})$/.exec(name);
+  if (u) return String.fromCodePoint(parseInt(u[1], 16));
+  return null;
+}
+
+/** Parses /Encoding /Differences into a code -> character map. */
+function parseDifferences(encodingDict, ctx) {
+  const map = new Map();
+  let arr;
+  try { arr = encodingDict.lookupMaybe(PDFName.of("Differences"), PDFArray); } catch { return map; }
+  if (!arr) return map;
+  let code = 0;
+  for (const entry of arr.asArray()) {
+    const resolved = ctx.lookup(entry) ?? entry;
+    const asNum = resolved?.asNumber?.();
+    if (typeof asNum === "number") { code = asNum; continue; }
+    const name = String(resolved ?? "").replace(/^\//, "");
+    const ch = glyphNameToChar(name);
+    if (ch !== null) map.set(code, ch);
+    code += 1;
+  }
+  return map;
+}
+
+/** Parses a CIDFont's /W array and /DW into per-CID widths. */
+function parseCidWidths(descendant, ctx) {
+  const widths = new Map();
+  let dw = 1000;
+  if (!descendant) return { widths, dw };
+  try {
+    const d = descendant.get(PDFName.of("DW"))?.asNumber?.();
+    if (typeof d === "number") dw = d;
+  } catch { /* default */ }
+  let w;
+  try { w = descendant.lookupMaybe(PDFName.of("W"), PDFArray); } catch { return { widths, dw }; }
+  if (!w) return { widths, dw };
+  const items = w.asArray().map((x) => ctx.lookup(x) ?? x);
+  for (let i = 0; i < items.length;) {
+    const first = items[i]?.asNumber?.();
+    const second = items[i + 1];
+    if (typeof first !== "number") { i += 1; continue; }
+    if (second instanceof PDFArray) {
+      // c [w1 w2 ...] -- consecutive CIDs starting at c.
+      second.asArray().forEach((x, k) => {
+        const v = (ctx.lookup(x) ?? x)?.asNumber?.();
+        if (typeof v === "number") widths.set(first + k, v);
+      });
+      i += 2;
+    } else {
+      // cFirst cLast w -- one width across a range.
+      const last = second?.asNumber?.();
+      const val = items[i + 2]?.asNumber?.();
+      if (typeof last === "number" && typeof val === "number" && last >= first && last - first <= 65535) {
+        for (let c = first; c <= last; c += 1) widths.set(c, val);
+      }
+      i += 3;
+    }
+  }
+  return { widths, dw };
+}
+
+// Every font in this corpus carries metrics the document itself declares, so
+// advances come from those rather than an estimate. What differs is how a code
+// maps to a character, which is why the decoder is loaded alongside the widths.
 function loadFonts(res, ctx) {
   const out = new Map();
   if (!res) return out;
@@ -112,7 +247,7 @@ function loadFonts(res, ctx) {
     let fd;
     try { fd = ctx.lookup(ref, PDFDict); } catch { continue; }
     if (!fd) continue;
-    const subtype = String(fd.get(PDFName.of("Subtype")) ?? "");
+    const subtype = String(fd.get(PDFName.of("Subtype")) ?? "").replace(/^\//, "");
     const firstChar = Number(fd.get(PDFName.of("FirstChar"))?.asNumber?.() ?? 0);
     let widths = null;
     try {
@@ -124,28 +259,101 @@ function loadFonts(res, ctx) {
       const desc = fd.lookupMaybe(PDFName.of("FontDescriptor"), PDFDict);
       missingWidth = Number(desc?.get(PDFName.of("MissingWidth"))?.asNumber?.() ?? 0);
     } catch { /* default */ }
+
+    let toUnicode = new Map();
+    try {
+      const tu = ctx.lookup(fd.get(PDFName.of("ToUnicode")));
+      if (tu instanceof PDFRawStream) toUnicode = parseToUnicode(tu);
+    } catch { /* no CMap */ }
+
+    // Identity-H and Identity-V address glyphs with two-byte codes. Reading
+    // them one byte at a time both mis-decodes the text and mis-advances the
+    // pen, so the code width has to be known before anything is read.
+    const encodingRaw = fd.get(PDFName.of("Encoding"));
+    const encodingName = String(encodingRaw ?? "").replace(/^\//, "");
+    const twoByte = subtype === "Type0" && /^Identity-[HV]$/.test(encodingName);
+
+    let differences = new Map();
+    try {
+      const encDict = fd.lookupMaybe(PDFName.of("Encoding"), PDFDict);
+      if (encDict) differences = parseDifferences(encDict, ctx);
+    } catch { /* no differences */ }
+
+    let cidWidths = null;
+    let descendantDw = 1000;
+    if (subtype === "Type0") {
+      try {
+        const kids = fd.lookupMaybe(PDFName.of("DescendantFonts"), PDFArray);
+        const descendant = kids ? ctx.lookup(kids.get(0), PDFDict) : null;
+        const parsed = parseCidWidths(descendant, ctx);
+        cidWidths = parsed.widths; descendantDw = parsed.dw;
+      } catch { /* fall back to the default width */ }
+    }
+
     out.set(key.asString().replace(/^\//, ""), {
-      subtype, firstChar, widths, missingWidth,
-      exact: Boolean(widths) && subtype !== "Type0"
+      subtype, firstChar, widths, missingWidth, toUnicode, differences,
+      twoByte, cidWidths, descendantDw, encodingName,
+      // Metrics are exact when the document declares them for this code space.
+      exact: subtype === "Type0" ? Boolean(cidWidths && cidWidths.size > 0) : Boolean(widths),
+      // A font can be read when something maps its codes to characters. A
+      // simple font with neither a CMap nor Differences is still readable if
+      // its codes are a standard encoding, which is checked per code.
+      decodable: toUnicode.size > 0 || differences.size > 0 || subtype !== "Type0"
     });
   }
   return out;
 }
 
-function charAdvance(font, ch, size, charSpace, wordSpace, hScale) {
-  const code = ch.charCodeAt(0);
+/**
+ * Splits a raw string into character codes and decodes them.
+ *
+ * Returns codes and text separately and reports whether every code could be
+ * decoded. A caller that needs meaning must consult `undecodedCodes`: a run
+ * this could not read is not an empty run, and treating it as one is how four
+ * Washington forms came to be dispositioned as having no text layer.
+ */
+function decodeCodes(font, raw) {
+  const codes = [];
+  if (font?.twoByte) {
+    for (let i = 0; i + 1 < raw.length; i += 2) codes.push((raw.charCodeAt(i) << 8) | raw.charCodeAt(i + 1));
+    if (raw.length % 2 === 1) codes.push(raw.charCodeAt(raw.length - 1));
+  } else {
+    for (let i = 0; i < raw.length; i += 1) codes.push(raw.charCodeAt(i));
+  }
+
+  let text = "";
+  let undecoded = 0;
+  for (const code of codes) {
+    const viaCMap = font?.toUnicode?.get(code);
+    if (viaCMap !== undefined && viaCMap !== "") { text += viaCMap; continue; }
+    const viaDiff = font?.differences?.get(code);
+    if (viaDiff !== undefined) { text += viaDiff; continue; }
+    // A single-byte code in the printable Latin-1 range is its own character
+    // under every standard encoding this corpus uses.
+    if (!font?.twoByte && ((code >= 0x20 && code <= 0x7e) || (code >= 0xa0 && code <= 0xff))) {
+      text += String.fromCharCode(code); continue;
+    }
+    if (!font?.twoByte && (code === 0x09 || code === 0x0a || code === 0x0d)) { text += " "; continue; }
+    undecoded += 1;
+    text += "�";
+  }
+  return { codes, text, undecodedCodes: undecoded, fullyDecoded: undecoded === 0 };
+}
+
+/** Advance for one character code, in unscaled text-space units. */
+function codeAdvance(font, code, size, charSpace, wordSpace, hScale) {
   let w;
-  if (font?.widths && code >= font.firstChar && code - font.firstChar < font.widths.length) {
+  if (font?.cidWidths) {
+    w = font.cidWidths.get(code);
+    if (w === undefined) w = font.descendantDw ?? 1000;
+  } else if (font?.widths && code >= font.firstChar && code - font.firstChar < font.widths.length) {
     w = font.widths[code - font.firstChar];
   } else if (font?.missingWidth) w = font.missingWidth;
   else w = 500;
-  return ((w / 1000) * size + charSpace + (code === 32 ? wordSpace : 0)) * hScale;
-}
-
-function advanceOf(font, text, size, charSpace, wordSpace, hScale) {
-  let total = 0;
-  for (const ch of text) total += charAdvance(font, ch, size, charSpace, wordSpace, hScale);
-  return total;
+  // Word spacing applies to single-byte code 32 only; it does not apply in a
+  // two-byte code space, and applying it there would shift every run right.
+  const isWordSpace = code === 32 && !font?.twoByte;
+  return ((w / 1000) * size + charSpace + (isWordSpace ? wordSpace : 0)) * hScale;
 }
 
 const mul = (a, b) => [
@@ -183,22 +391,40 @@ function walkContent(bytes, resources, ctx, baseCtm, depth) {
   let fontSize = 0, leading = 0, charSpace = 0, wordSpace = 0, hScale = 1;
   const operands = [];
 
-  const show = (text) => {
-    if (!text) return;
+  const show = (raw) => {
+    if (!raw) return;
     const m = mul(tm, ctm);
     const scale = Math.hypot(m[0], m[1]) || 1;
     const size = fontSize * scale;
+
+    // Codes drive the geometry, characters carry the meaning. Advancing by the
+    // decoded character instead of the code would look up the wrong width and
+    // walk every subsequent glyph off its true position, which is how a value
+    // ends up in the next column.
+    const { codes, text, undecodedCodes, fullyDecoded } = decodeCodes(font, raw);
+    const decodedChars = [...text];
+
     // Per-character positions: a fill-in-the-blank form's rule lines are found
     // by locating contiguous underscores, which needs each glyph's own x.
     const chars = [];
     let cursor = 0;
-    for (const ch of text) {
-      const a = charAdvance(font, ch, fontSize, charSpace, wordSpace, hScale);
-      chars.push({ c: ch, x: Number((m[4] + cursor * scale).toFixed(2)), w: Number((a * scale).toFixed(2)) });
+    for (let i = 0; i < codes.length; i += 1) {
+      const a = codeAdvance(font, codes[i], fontSize, charSpace, wordSpace, hScale);
+      chars.push({
+        c: decodedChars[i] ?? "�", code: codes[i],
+        x: Number((m[4] + cursor * scale).toFixed(2)), w: Number((a * scale).toFixed(2))
+      });
       cursor += a;
     }
-    items.push({ text, x: m[4], y: m[5], size: Number(size.toFixed(2)),
-      width: Number((cursor * scale).toFixed(2)), metricsExact: font?.exact === true, chars });
+    items.push({
+      text, x: m[4], y: m[5], size: Number(size.toFixed(2)),
+      width: Number((cursor * scale).toFixed(2)),
+      metricsExact: font?.exact === true,
+      // Carried so a caller can refuse a run it cannot read rather than
+      // silently treating an undecodable run as absent.
+      fullyDecoded, undecodedCodes, codeCount: codes.length,
+      fontSubtype: font?.subtype ?? null, chars
+    });
     tm = mul([1, 0, 0, 1, cursor, 0], tm);
   };
 
@@ -287,9 +513,105 @@ export function groupIntoLines(items, yTolerance = 2.2) {
       size: sorted[0].size,
       text: sorted.map((i) => i.text).join("").replace(/\s+/g, " ").trim(),
       metricsExact: sorted.every((i) => i.metricsExact),
+      // A line is only readable when every code on it decoded. Reporting a
+      // half-read line as if it were the whole line is what turns a partial
+      // decode into a confident wrong answer.
+      fullyDecoded: sorted.every((i) => i.fullyDecoded !== false),
+      undecodedCodes: sorted.reduce((n, i) => n + (i.undecodedCodes ?? 0), 0),
       runs: sorted.map((i) => ({ text: i.text, x: Number(i.x.toFixed(1)),
-        x2: Number((i.x + (i.width ?? 0)).toFixed(1)), size: i.size, metricsExact: i.metricsExact })),
+        x2: Number((i.x + (i.width ?? 0)).toFixed(1)), size: i.size,
+        metricsExact: i.metricsExact, fullyDecoded: i.fullyDecoded !== false })),
       chars: sorted.flatMap((i) => i.chars ?? [])
     };
   }).filter((l) => l.text.length > 0);
+}
+
+/**
+ * Raised when a page's text layer cannot be read well enough to anchor on.
+ *
+ * An anchor placed against a label the decoder could not read is a guess about
+ * where a participant's data belongs on a court form. Refusing is the only safe
+ * outcome, and the refusal names what could not be read so it can be fixed
+ * rather than worked around.
+ */
+export class UndecodableTextLayerError extends Error {
+  constructor(detail) {
+    super(`refusing to anchor against a text layer that could not be decoded: `
+      + `${detail.undecodedLines} of ${detail.totalLines} line(s) carry undecoded codes`);
+    this.name = "UndecodableTextLayerError";
+    this.reason = "text_layer_not_decodable";
+    this.detail = detail;
+    this.remediation = "the font's /ToUnicode CMap, /Encoding /Differences or code width is not being read; fix the decoder rather than lowering the threshold";
+  }
+}
+
+/**
+ * The gate every anchor set passes through.
+ *
+ * Two outcomes only. A page whose lines all decoded may be anchored against; a
+ * page with any undecoded line is refused, whatever proportion decoded. There
+ * is deliberately no "mostly readable" verdict: the geometry of an anchor is
+ * only as trustworthy as the label it was measured from, and a caller cannot
+ * tell which lines were the unreadable ones after the fact.
+ */
+/**
+ * Splits a page's lines into the ones that may be anchored against and the ones
+ * that may not.
+ *
+ * The unit that matters is the anchor, not the document. A form can draw a
+ * checkbox glyph from a symbol font that carries no /ToUnicode entry -- two
+ * Washington forms do, in about 1% of their runs -- and rejecting the whole
+ * text layer over a glyph that was never a label would discard 190 perfectly
+ * readable ones. Rejecting nothing would let a value be placed against a label
+ * nobody could read, which is worse.
+ *
+ * So each line is judged on its own: a line whose every code decoded is usable,
+ * and a line carrying any undecoded code is refused with a typed reason and
+ * never offered to the caller as an anchor.
+ */
+export function partitionDecodableAnchors(lines) {
+  const usable = [];
+  const refused = [];
+  for (const line of lines) {
+    if (line.fullyDecoded === false) {
+      refused.push({
+        reason: "line_carries_undecoded_character_codes",
+        undecodedCodes: line.undecodedCodes ?? null,
+        y: line.y, x: line.x, partialText: String(line.text ?? "").slice(0, 60)
+      });
+      continue;
+    }
+    if (line.metricsExact === false) {
+      // The text reads, but the advances behind its geometry are estimated, so
+      // an anchor measured from it could sit a column away from where it looks.
+      refused.push({
+        reason: "line_geometry_rests_on_estimated_metrics",
+        y: line.y, x: line.x, partialText: String(line.text ?? "").slice(0, 60)
+      });
+      continue;
+    }
+    usable.push(line);
+  }
+  return {
+    usable, refused,
+    totalLines: lines.length,
+    usableLines: usable.length,
+    refusedLines: refused.length,
+    refusedByReason: refused.reduce((a, r) => { a[r.reason] = (a[r.reason] ?? 0) + 1; return a; }, {})
+  };
+}
+
+export function assertAnchorsDecodable(lines, { allowPartial = false } = {}) {
+  const total = lines.length;
+  const undecoded = lines.filter((l) => l.fullyDecoded === false);
+  const inexact = lines.filter((l) => l.metricsExact === false);
+  const detail = {
+    totalLines: total,
+    undecodedLines: undecoded.length,
+    undecodedCodes: undecoded.reduce((n, l) => n + (l.undecodedCodes ?? 0), 0),
+    linesWithInexactMetrics: inexact.length,
+    sample: undecoded.slice(0, 5).map((l) => ({ y: l.y, x: l.x, text: l.text.slice(0, 60) }))
+  };
+  if (undecoded.length > 0 && !allowPartial) throw new UndecodableTextLayerError(detail);
+  return detail;
 }
