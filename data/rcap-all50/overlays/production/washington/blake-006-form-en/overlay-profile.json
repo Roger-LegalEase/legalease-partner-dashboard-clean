@@ -42,57 +42,84 @@
     }
   ],
   "captionOnly": true,
-  "factoryVersion": "d0-remediated-v1",
-  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
-  "bindings": [],
+  "factoryVersion": "d0-v4",
+  "bindingBasis": "label tokens assembled from the decoded text layer, then passed through the typed fail-closed binder; a line the decoder refused yields no token and no anchor",
+  "bindings": [
+    {
+      "anchor": "Defendant DOB",
+      "factId": "participant.date_of_birth"
+    }
+  ],
   "bindingRefusals": [],
   "unwritableFields": [],
   "manualFields": [],
   "anchorCapture": {
-    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "basis": "text drawn by this exact sha256, read from the page content streams and assembled into label tokens",
     "pages": [
       {
         "page": 1,
         "lines": 30,
         "readableLines": 30,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       },
       {
         "page": 2,
         "lines": 28,
         "readableLines": 28,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       },
       {
         "page": 3,
         "lines": 26,
         "readableLines": 26,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       },
       {
         "page": 4,
         "lines": 35,
         "readableLines": 35,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       },
       {
         "page": 5,
         "lines": 34,
         "readableLines": 34,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       },
       {
         "page": 6,
         "lines": 19,
         "readableLines": 19,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       }
     ],
-    "anchorCount": 0,
-    "anchors": [],
-    "candidateLabelCount": 0,
-    "candidateLabels": [],
-    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+    "totalUnreadableLines": 0,
+    "anchorCount": 1,
+    "candidateLabelCount": 79,
+    "anchors": [
+      {
+        "label": "Defendant DOB",
+        "factId": "participant.date_of_birth",
+        "page": 1,
+        "labelBox": {
+          "x": 72.7,
+          "x2": 278.6,
+          "y": 453.2
+        },
+        "writeBox": {
+          "x": 282.6,
+          "y": 453.2,
+          "width": 275.4,
+          "height": 13.02
+        }
+      }
+    ]
   },
   "overflowPolicy": {
     "longText": "shrink_to_fit_then_addendum",

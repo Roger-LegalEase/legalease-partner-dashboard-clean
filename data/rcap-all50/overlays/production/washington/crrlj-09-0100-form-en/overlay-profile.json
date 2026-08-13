@@ -36,51 +36,219 @@
     }
   ],
   "captionOnly": false,
-  "factoryVersion": "d0-remediated-v1",
-  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
-  "bindings": [],
+  "factoryVersion": "d0-v4",
+  "bindingBasis": "label tokens assembled from the decoded text layer, then passed through the typed fail-closed binder; a line the decoder refused yields no token and no anchor",
+  "bindings": [
+    {
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "anchor": "Print Name",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "anchor": "I, (name)",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "anchor": "Print Name",
+      "factId": "participant.full_legal_name"
+    },
+    {
+      "anchor": "Mailing Address, unless confidential:",
+      "factId": "participant.street_address"
+    },
+    {
+      "anchor": "Street Address or PO Box",
+      "factId": "participant.street_address"
+    },
+    {
+      "anchor": "City",
+      "factId": "participant.city"
+    },
+    {
+      "anchor": "Zip",
+      "factId": "participant.zip"
+    }
+  ],
   "bindingRefusals": [],
   "unwritableFields": [],
   "manualFields": [],
   "anchorCapture": {
-    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "basis": "text drawn by this exact sha256, read from the page content streams and assembled into label tokens",
     "pages": [
       {
         "page": 1,
         "lines": 32,
         "readableLines": 32,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       },
       {
         "page": 2,
         "lines": 42,
         "readableLines": 42,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       },
       {
         "page": 3,
         "lines": 49,
         "readableLines": 49,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       },
       {
         "page": 4,
         "lines": 50,
-        "readableLines": 50,
-        "unreadableLines": 0
+        "readableLines": 48,
+        "unreadableLines": 2,
+        "refusedByReason": {
+          "line_carries_undecoded_character_codes": 2
+        }
       },
       {
         "page": 5,
         "lines": 24,
         "readableLines": 24,
-        "unreadableLines": 0
+        "unreadableLines": 0,
+        "refusedByReason": {}
       }
     ],
-    "anchorCount": 0,
-    "anchors": [],
-    "candidateLabelCount": 0,
-    "candidateLabels": [],
-    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+    "totalUnreadableLines": 2,
+    "anchorCount": 8,
+    "candidateLabelCount": 76,
+    "anchors": [
+      {
+        "label": "Defendant",
+        "factId": "participant.full_legal_name",
+        "page": 1,
+        "labelBox": {
+          "x": 230.3,
+          "x2": 284.1,
+          "y": 464
+        },
+        "writeBox": {
+          "x": 288.1,
+          "y": 464,
+          "width": 269.9,
+          "height": 13.04
+        }
+      },
+      {
+        "label": "Print Name",
+        "factId": "participant.full_legal_name",
+        "page": 1,
+        "labelBox": {
+          "x": 324,
+          "x2": 382.1,
+          "y": 284.8
+        },
+        "writeBox": {
+          "x": 386.1,
+          "y": 284.8,
+          "width": 171.89999999999998,
+          "height": 13.04
+        }
+      },
+      {
+        "label": "I, (name)",
+        "factId": "participant.full_legal_name",
+        "page": 1,
+        "labelBox": {
+          "x": 108,
+          "x2": 158.1,
+          "y": 247.4
+        },
+        "writeBox": {
+          "x": 162.1,
+          "y": 247.4,
+          "width": 274.9,
+          "height": 13.04
+        }
+      },
+      {
+        "label": "Print Name",
+        "factId": "participant.full_legal_name",
+        "page": 5,
+        "labelBox": {
+          "x": 72,
+          "x2": 133.2,
+          "y": 405.7
+        },
+        "writeBox": {
+          "x": 137.2,
+          "y": 405.7,
+          "width": 420.8,
+          "height": 13.04
+        }
+      },
+      {
+        "label": "Mailing Address, unless confidential:",
+        "factId": "participant.street_address",
+        "page": 5,
+        "labelBox": {
+          "x": 72,
+          "x2": 253,
+          "y": 387.1
+        },
+        "writeBox": {
+          "x": 257,
+          "y": 387.1,
+          "width": 301,
+          "height": 13.04
+        }
+      },
+      {
+        "label": "Street Address or PO Box",
+        "factId": "participant.street_address",
+        "page": 5,
+        "labelBox": {
+          "x": 72,
+          "x2": 201.7,
+          "y": 349.8
+        },
+        "writeBox": {
+          "x": 205.7,
+          "y": 349.8,
+          "width": 114.30000000000001,
+          "height": 13.04
+        }
+      },
+      {
+        "label": "City",
+        "factId": "participant.city",
+        "page": 5,
+        "labelBox": {
+          "x": 324,
+          "x2": 346,
+          "y": 349.8
+        },
+        "writeBox": {
+          "x": 350,
+          "y": 349.8,
+          "width": 78,
+          "height": 13.04
+        }
+      },
+      {
+        "label": "Zip",
+        "factId": "participant.zip",
+        "page": 5,
+        "labelBox": {
+          "x": 486,
+          "x2": 504.3,
+          "y": 349.8
+        },
+        "writeBox": {
+          "x": 508.3,
+          "y": 349.8,
+          "width": 49.69999999999999,
+          "height": 13.04
+        }
+      }
+    ]
   },
   "overflowPolicy": {
     "longText": "shrink_to_fit_then_addendum",

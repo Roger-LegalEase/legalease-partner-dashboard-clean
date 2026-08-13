@@ -18,33 +18,60 @@
     }
   ],
   "captionOnly": true,
-  "factoryVersion": "d0-remediated-v1",
-  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs) selecting from the field name, then narrowed by four refusal-only gates: the nine-class classifier, this lane's additional deny rules applied to the name and to the printed context measured from this exact sha256, a descriptor-ambiguity refusal, and per-field decisions read off the binary",
-  "bindings": [],
+  "factoryVersion": "d0-v4",
+  "bindingBasis": "label tokens assembled from the decoded text layer, then passed through the typed fail-closed binder; a line the decoder refused yields no token and no anchor",
+  "bindings": [
+    {
+      "anchor": "Defendant",
+      "factId": "participant.full_legal_name"
+    }
+  ],
   "bindingRefusals": [],
   "unwritableFields": [],
   "manualFields": [],
   "anchorCapture": {
-    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "basis": "text drawn by this exact sha256, read from the page content streams and assembled into label tokens",
     "pages": [
       {
         "page": 1,
         "lines": 32,
-        "readableLines": 32,
-        "unreadableLines": 0
+        "readableLines": 28,
+        "unreadableLines": 4,
+        "refusedByReason": {
+          "line_carries_undecoded_character_codes": 4
+        }
       },
       {
         "page": 2,
         "lines": 32,
-        "readableLines": 32,
-        "unreadableLines": 0
+        "readableLines": 29,
+        "unreadableLines": 3,
+        "refusedByReason": {
+          "line_carries_undecoded_character_codes": 3
+        }
       }
     ],
-    "anchorCount": 0,
-    "anchors": [],
-    "candidateLabelCount": 0,
-    "candidateLabels": [],
-    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+    "totalUnreadableLines": 7,
+    "anchorCount": 1,
+    "candidateLabelCount": 41,
+    "anchors": [
+      {
+        "label": "Defendant",
+        "factId": "participant.full_legal_name",
+        "page": 1,
+        "labelBox": {
+          "x": 245.5,
+          "x2": 299.4,
+          "y": 473.3
+        },
+        "writeBox": {
+          "x": 303.4,
+          "y": 473.3,
+          "width": 254.60000000000002,
+          "height": 13.04
+        }
+      }
+    ]
   },
   "overflowPolicy": {
     "longText": "shrink_to_fit_then_addendum",
