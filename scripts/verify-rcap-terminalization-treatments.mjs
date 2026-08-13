@@ -67,6 +67,7 @@ async function runChecks() {
     allTerminalTreatments,
     terminalTreatmentForTrack,
     terminalTreatmentBundle,
+    allCompleteGuidanceTracks,
     componentDeferralForTrack,
     exactDeferralForTrack,
     exactDeferralForPathway
@@ -319,6 +320,21 @@ async function runChecks() {
       );
       check(reopened.paymentAllowed === false, `${key}: reopening reported payment as open`);
     }
+  }
+
+  // ---- every complete-guidance track is non-sellable by exact track id -----
+  // Not just the ones in this window. This is the guarantee that caught
+  // IL:il-auto-seal-2028 and TX:tx_exp_discretionary: a guidance track binding
+  // to no compiled pathway used to fall through to its jurisdiction's
+  // legacy_verified classification, which is sellable. Those two tracks are
+  // already terminal and outside the 114, so nothing else here exercises them —
+  // which is exactly why dropping the binding has to fail loudly right here.
+  for (const guidance of allCompleteGuidanceTracks()) {
+    const route = resolvePacketRoute({ state: guidance.jurisdiction, pathway: "", trackId: guidance.trackId });
+    const key = `${guidance.jurisdiction}:${guidance.trackId}`;
+    check(route.sellable === false, `${key}: a complete-guidance track resolves sellable by exact track id (${route.routeKind})`);
+    check(route.creditConsumable === false, `${key}: a complete-guidance track resolves credit-consumable by exact track id`);
+    check(packetRouteCanRender(route) === false, `${key}: a complete-guidance track resolves to a renderer`);
   }
 
   // ---- 12. an unrelated production route is unchanged ----------------------

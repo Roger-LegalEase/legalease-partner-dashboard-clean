@@ -114,6 +114,11 @@ export function completeGuidanceForTrack(trackId: string | null | undefined): Gu
   return null;
 }
 
+/** Every registered complete-guidance track, for verifiers and reviewers. */
+export function allCompleteGuidanceTracks(): GuidancePacketSummary[] {
+  return [...loadAll().values()].flat().sort((a, b) => a.trackId.localeCompare(b.trackId));
+}
+
 /* -------------------------------------------------------------------------
  * Component deferrals for composed routes.
  *
@@ -1123,6 +1128,16 @@ function validateTerminalTreatment(entry: Record<string, unknown>, jurisdiction:
   const briefcaseReturn = bothLanguages(briefcase.return);
   if (!briefcaseReturn) return bad("the Briefcase handoff carries no return-and-resume instruction in both languages");
   if (briefcaseReturn.en.trim() === briefcaseReturn.es.trim()) return bad("the Briefcase return instruction repeats the English text as Spanish");
+
+  // timing is optional — many mechanisms carry no deadline — but a treatment
+  // that DOES state one must state it in both languages. A bare string here
+  // reads as a deadline in the JSON and renders as an empty line to a Spanish
+  // speaker, which is worse than saying nothing at all.
+  if (entry.timing !== null && entry.timing !== undefined) {
+    const timing = bothLanguages(entry.timing);
+    if (!timing) return bad("timing is present but does not carry substantive English and Spanish");
+    if (timing.en.trim() === timing.es.trim()) return bad("timing repeats the English text as Spanish");
+  }
 
   const destination = (entry.destination ?? {}) as Record<string, unknown>;
   const destinationName = typeof destination.name === "string" ? destination.name.trim() : "";

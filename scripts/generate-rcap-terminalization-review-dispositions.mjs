@@ -16,6 +16,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -62,6 +63,27 @@ for (const file of shardFiles) {
   // and say it about this window rather than in the abstract.
   if (shard.authoredAnyTreatment !== false) {
     fail(`${file} does not attest that its reviewer authored none of the treatments it reviews`);
+  }
+
+  // A review is only worth what it reviewed. Treatment files are authored
+  // concurrently with review, so a shard that does not pin the exact bytes it
+  // read cannot prove it reviewed the bytes we are about to promote — and a
+  // shard whose pinned bytes have since moved has been silently invalidated.
+  // Both are refused here rather than discovered after promotion.
+  const pinned = shard.reviewedFileSha256 ?? {};
+  const jurisdictionsInShard = new Set((shard.dispositions ?? [])
+    .map((record) => briefedTracks.get(record.trackId)?.jurisdiction)
+    .filter(Boolean));
+  for (const jurisdiction of [...jurisdictionsInShard].sort()) {
+    const file = path.join(rootDir, `data/rcap-all50/terminalization-treatments/${jurisdiction.toLowerCase()}.json`);
+    const declared = pinned[jurisdiction];
+    if (!declared) {
+      fail(`${reviewId} ruled on ${jurisdiction} without pinning the sha256 of the treatment file it reviewed`);
+    }
+    const actual = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+    if (actual !== declared) {
+      fail(`${reviewId} reviewed ${jurisdiction} at ${String(declared).slice(0, 12)}… but the file is now ${actual.slice(0, 12)}…; that review is stale and the jurisdiction must be reviewed again`);
+    }
   }
 
   for (const record of shard.dispositions ?? []) {
@@ -112,6 +134,7 @@ for (const file of shardFiles) {
     file: `data/rcap-all50/review-artifacts/terminalization-review-shards/${file}`,
     reviewer: shard.reviewer,
     reviewedBaseSha: shard.reviewedBaseSha,
+    reviewedFileSha256: shard.reviewedFileSha256 ?? {},
     authoredAnyTreatment: false,
     tracksReviewed: (shard.dispositions ?? []).length
   });
@@ -125,6 +148,7 @@ const payload = {
   generatedBy: "scripts/generate-rcap-terminalization-review-dispositions.mjs",
   windowId: "2026-08-13-emergency-497",
   promotionRule: "Only technical_approved_as_terminal_treatment promotes a track to terminal in data/rcap-ledger/track-terminalization.json. A technical approval here approves the terminal TREATMENT — the participant product — and never the underlying PDF family, which keeps its own holds and its row in the problematic PDF register.",
+  stalenessRule: "Every shard pins the sha256 of each treatment file it read. A shard that pins nothing, or whose pinned bytes have since moved, is refused here — an approval can only promote the exact bytes it reviewed.",
   authorSeparation: "Every shard attests that its reviewer authored none of the treatments it reviews. A shard that cannot attest that is refused here rather than discounted later.",
   correctionStandard: "correction_required requires a specific supported defect: legal, technical, participant-safety or evidence. A preference for a better PDF is not a defect when the track has a complete, safe guidance, deferral or exclusion treatment.",
   shards,
