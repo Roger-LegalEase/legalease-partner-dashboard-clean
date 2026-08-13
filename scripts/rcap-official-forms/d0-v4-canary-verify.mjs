@@ -224,6 +224,29 @@ function expectedCharsOf(s) { return String(s).length; }
   assert(runLevelLabels.length === 0, "mutation: matching on runs finds nothing on this line", runLevelLabels.length);
   assert(tokens.length > 0, "mutation: assembling first finds the labels that were always there", tokens.length);
 
+  // A rule line is where the value goes, so it has to survive as its own token
+  // rather than being glued onto the caption in front of it. Washington's
+  // Blake-006 prints "State of Washington/City of ______________," with no gap
+  // at all, and a single merged token has neither a readable label nor a
+  // write area.
+  {
+    const ruled = { y: 527.9, x: 72.7, size, fullyDecoded: true, metricsExact: true,
+      chars: glyphs("State of Washington/City of ______________,", 72.7) };
+    const parts = assembleLabelTokens(ruled);
+    assert(parts.length === 3, "a caption, its rule line and its trailing comma separate", parts.map((p) => p.text));
+    assert(parts[0].text === "State of Washington/City of", "the caption reads as printed", parts[0].text);
+    assert(/^_+$/.test(parts[1].text) && parts[1].x >= parts[0].x2 - 1,
+      "the rule line is its own token, positioned after the caption", parts[1]);
+
+    // But punctuation is not a rule. A trailing period and a decimal point are
+    // the same character as the blank, and splitting on them would shatter
+    // every citation on the page.
+    const punctuated = { y: 519.8, x: 313.2, size, fullyDecoded: true, metricsExact: true,
+      chars: glyphs("No. 197 Wn.2d 170", 313.2) };
+    assert(assembleLabelTokens(punctuated).length === 1,
+      "mutation: a period is not a rule line", assembleLabelTokens(punctuated).map((p) => p.text));
+  }
+
   // A line the decoder refused must contribute no token at all.
   const refusedLine = { ...line, fullyDecoded: false };
   assert(assembleLabelTokensFromLines([refusedLine]).length === 0,
@@ -238,4 +261,4 @@ if (failures.length > 0) {
   for (const f of failures) console.error(` - ${f}`);
   process.exit(1);
 }
-console.log(`\nd0-v4-canary-verify passed: ${checks.length} checks across 10 cases and 5 mutations.`);
+console.log(`\nd0-v4-canary-verify passed: ${checks.length} checks across 11 cases and 6 mutations.`);

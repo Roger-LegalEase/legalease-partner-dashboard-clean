@@ -43,7 +43,14 @@ export const PROTECT_RULES = [
   ["clerk", /\bclerk\b|deputy\s*clerk|file\s*stamp|filed\s*stamp|filing\s*stamp|court\s*seal|scan\s*num|\bbarcode\b|entered\s*on|\bdistribution\b/],
   ["prosecutor", /prosecut|district\s*attorney|commonwealth\s*s?\s*attorney|state\s*s?\s*attorney|county\s*attorney|solicitor/],
   ["attorney", /\battorney\b|\bcounsel\b|\besq\b|law\s*firm|bar\s*(no|num|number)/],
-  ["outside_party", /\bopposing\b|third\s*party|\bvictim\b|\bcomplainant\b|\bemployer\b|\bwitness\b|\bco-?defendant\b/],
+  // "Other", "additional" and "co-" mark a party who is not the participant.
+  // Missouri's CR-145 has a widget named "Other Defendants" whose printed label
+  // reads "Other (include name and address of agency)", and the participant's
+  // own name was written into it: the petition named the petitioner as an
+  // additional respondent agency. The qualifier is the whole signal -- a form
+  // that says "other" is saying "not this person" -- so it protects the field
+  // regardless of which party noun follows.
+  ["outside_party", /\bopposing\b|third\s*party|\bvictim\b|\bcomplainant\b|\bemployer\b|\bwitness\b|\bco-?defendant\b|\b(other|others|additional|further|remaining|each)\s+(defendant|defendants|part(y|ies)|respondent|respondents|petitioner|petitioners|plaintiff|plaintiffs|person|persons|name|names)\b|\bother\s*\(/],
   ["disposition_or_hearing", /\bdisposition\b|hearing\s*(date|time|result)|\bsentenc(e|ing)\b|\bconvict(ed|ion)\b|\bplea\b|\bverdict\b/]
 ];
 
@@ -107,6 +114,23 @@ export function haystack(name) {
   return `${spaced} || ${raw.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
 }
 
+/**
+ * True when a field's name is an index rather than a description.
+ *
+ * Some forms name every widget by its position -- "1", "Text3", "fill_12",
+ * "untitled" -- and matching an allowlisted fact against those either refuses
+ * the whole form or, worse, matches something by accident. A positional name
+ * is not weak evidence about a field's subject; it is no evidence, and the
+ * printed label has to carry the question.
+ */
+export function isPositionalFieldName(name) {
+  const raw = String(name ?? "").trim();
+  if (raw === "") return true;
+  return /^\d{1,3}$/.test(raw)
+    || /^(text|field|fld|form|input|box|line|item|untitled|undefined|fill)[\s._-]*\d{0,3}$/i.test(raw)
+    || /^(topmostsubform|form1)?\[\d+\]$/i.test(raw);
+}
+
 export function protectCategoryOf(name) {
   const hay = haystack(name);
   for (const [category, re] of PROTECT_RULES) if (re.test(hay)) return category;
@@ -141,17 +165,49 @@ export function decideBinding(field, options = {}) {
 
   if (!documentAcceptsFill) return { writable: false, reason: "document_does_not_accept_fill" };
 
-  // The label a form prints beside a positional widget names it, but it is
-  // also matched against the protect rules -- a measured label must not become
-  // a way around them.
-  const subject = effectiveLabel ?? name;
-
-  const category = protectCategoryOf(subject) ?? protectCategoryOf(name);
-  if (category) return { writable: false, reason: "protected_category", category };
+  // Either channel may protect a field. Only one of them may select for it,
+  // and which one depends on whether the name means anything.
+  //
+  // A printed label is inferred from position, and position lies often enough
+  // to matter: on Missouri's CR-145 the text above the "Case Number" widget is
+  // the caption line "COUNTY, MISSOURI", and above "Criminal Case Number" is a
+  // sentence of body prose. Where the name is a real name, it is the better
+  // evidence -- it is the string the form's author bound the widget to -- and
+  // letting a misread label choose the fact writes a county into a case number.
+  //
+  // Where the name is positional it is not evidence at all. Vermont's
+  // 200-00631 names its ten widgets "1" through "10"; the form prints "Name of
+  // Person Requesting Sealing Order" above the first and "Name of Requestor's
+  // Criminal Justice Agency" above the second. Insisting on the name there
+  // does not protect anything, it just refuses every field on the form.
+  //
+  // Protection is not symmetric with selection, because the costs are not
+  // symmetric. An extra protection leaves a field blank for a human to fill; an
+  // extra selection files the wrong fact with a court. So both channels
+  // protect, and the same imprecise reading that cannot be trusted to choose a
+  // fact is trusted to veto one -- which is what catches "Other Defendants"
+  // sitting under "Other (include name and address of agency)".
+  const labelCategory = effectiveLabel ? protectCategoryOf(effectiveLabel) : null;
+  const nameCategory = protectCategoryOf(name);
+  const category = nameCategory ?? labelCategory;
+  if (category) {
+    return {
+      writable: false, reason: "protected_category", category,
+      protectedBy: nameCategory ? "field_name" : "printed_label",
+      printedLabel: nameCategory ? null : effectiveLabel
+    };
+  }
 
   if (!WRITABLE_PDF_TYPES.has(pdfType)) {
     return { writable: false, reason: "non_text_field_type", category: "type_guard", pdfType };
   }
+
+  const positional = isPositionalFieldName(name);
+  if (positional && !effectiveLabel) {
+    return { writable: false, reason: "positional_field_name_with_no_measured_label", category: "unidentifiable_field" };
+  }
+  const subject = positional ? effectiveLabel : name;
+  const subjectBasis = positional ? "measured_printed_label_positional_widget_name" : "acroform_field_name";
 
   const hay = haystack(subject);
   const matches = FACT_DESCRIPTORS.filter((d) => d.match.test(hay));
@@ -178,17 +234,22 @@ export function decideBinding(field, options = {}) {
   // when the caller actually supplied an Nth charge; otherwise the row is left
   // alone rather than stamped with the first charge.
   if (ROW_FACTS.has(descriptor.factId)) {
-    const row = rowIndexOf(name);
+    // Only a name that repeats a stem carries a row index -- "CaseNo1",
+    // "CaseNo2". A purely positional name is an index of widgets, not of
+    // charges: Vermont's tenth widget is called "10" and its printed label is
+    // "Docket number", and reading that as charge row ten refuses the docket
+    // number of every matter with fewer than ten charges.
+    const row = positional ? null : rowIndexOf(name);
     if (row !== null) {
       if (row >= availableChargeRows) {
         return { writable: false, reason: "repeating_row_without_indexed_fact", category: "charge_row", factId: descriptor.factId, rowIndex: row };
       }
       const leaf = descriptor.factId.slice("matter.".length);
-      return { writable: true, factId: `matter.charges[${row}].${leaf}`, valueType: descriptor.valueType, rowIndex: row };
+      return { writable: true, factId: `matter.charges[${row}].${leaf}`, valueType: descriptor.valueType, rowIndex: row, subject, subjectBasis };
     }
   }
 
-  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType };
+  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType, subject, subjectBasis };
 }
 
 /** Confirms a resolved value matches the type its descriptor declared. */

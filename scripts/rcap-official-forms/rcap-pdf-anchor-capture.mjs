@@ -603,7 +603,47 @@ export function assembleLabelTokens(line, { gapFactor = 1.1, minGap = 2.5 } = {}
   }
   if (current) tokens.push(current);
 
-  return tokens
+  // A rule line is a different object from a caption, even when the form draws
+  // them with no gap between: "State of Washington/City of ______________," is
+  // a label followed by the blank its value goes on, and merging the two loses
+  // both the label and the write area. So a run of three or more rule
+  // characters ends a token and becomes one of its own.
+  // A run counts as a rule only when it is long enough to be one. A trailing
+  // period in "No." and a decimal point in "197 Wn.2d" are the same character
+  // and neither is a blank to write on, so the threshold does the separating
+  // rather than the character class.
+  const RULE_CHAR = /[_.·•]/;
+  const RULE_RUN = 3;
+  const split = [];
+  for (const t of tokens) {
+    const chars = t.chars;
+    let i = 0;
+    let pending = [];
+    while (i < chars.length) {
+      let j = i;
+      while (j < chars.length && RULE_CHAR.test(chars[j].c)) j += 1;
+      const runLength = j - i;
+      if (runLength >= RULE_RUN) {
+        if (pending.length > 0) { split.push({ rule: false, chars: pending }); pending = []; }
+        split.push({ rule: true, chars: chars.slice(i, j) });
+        i = j;
+        continue;
+      }
+      // Not a rule: absorb this character (or short run) into the text piece.
+      pending.push(...chars.slice(i, Math.max(j, i + 1)));
+      i = Math.max(j, i + 1);
+    }
+    if (pending.length > 0) split.push({ rule: false, chars: pending });
+  }
+
+  return split
+    .filter((p) => p.chars.length > 0)
+    .map((p) => ({
+      x: Math.min(...p.chars.map((c) => c.x)),
+      x2: Math.max(...p.chars.map((c) => c.x + (c.w ?? 0))),
+      text: p.chars.map((c) => c.c).join(""),
+      chars: p.chars
+    }))
     .map((t) => ({
       text: t.text.replace(/\s+/g, " ").trim(),
       x: Number(t.x.toFixed(1)), x2: Number(t.x2.toFixed(1)),
@@ -627,6 +667,76 @@ export function assembleLabelTokensFromLines(lines, options = {}) {
   return lines
     .filter((l) => l.fullyDecoded !== false && l.metricsExact !== false)
     .flatMap((l) => assembleLabelTokens(l, options));
+}
+
+/**
+ * The label a form prints for one widget, measured from the page.
+ *
+ * A field's name is what the form's author typed into a tool; its label is what
+ * the court reads. Missouri's CR-145 has a widget named "Other Defendants"
+ * sitting directly under the printed line "Other (include name and address of
+ * agency):" -- the name says party, the form says agency, and a binder that
+ * only sees names writes the petitioner into a field that asks for a police
+ * department.
+ *
+ * Two positions carry a label, and they are checked in the order a reader would:
+ * text ending just left of the widget on its own baseline, then the line
+ * immediately above it. Nothing further away is offered, because a label that
+ * has to be searched for is not the label.
+ */
+export function measureWidgetLabel(rect, lines, { maxLeftGap = 72, maxAboveGap = 26, tokenOptions } = {}) {
+  if (!rect) return null;
+  // Widget rectangles are stored corner-to-corner and some forms store them
+  // upside down -- Vermont's 200-00631 records five of its ten widgets with a
+  // height of -13. Taken literally, "above the widget" then searches below it.
+  const box = {
+    x: Math.min(rect.x, rect.x + rect.width),
+    y: Math.min(rect.y, rect.y + rect.height),
+    width: Math.abs(rect.width),
+    height: Math.abs(rect.height)
+  };
+  const top = box.y + box.height;
+
+  // A rule line names nothing. Forms draw the blank a value goes on as a run of
+  // underscores, dots or dashes, and it sits exactly where a label would --
+  // above the widget or immediately to its left. Reading one as the field's
+  // subject replaces a real label with a row of punctuation.
+  const isRule = (s) => /^[\s_.·•\-–—]+$/.test(s);
+  const tokensOf = (line) => assembleLabelTokens(line, tokenOptions).filter((t) => !isRule(t.text));
+
+  // Left, on the widget's own baseline band. The window is an inch, because
+  // that is how wide a label column is: Vermont prints "Name of Person
+  // Requesting Sealing Order" ending thirty-one points short of its widget,
+  // and a tighter window reads the section heading two lines up instead. The
+  // nearest token on the widget's own baseline is the label; distance only
+  // decides which token, never whether there is one.
+  const leftCandidates = [];
+  for (const line of lines.filter((l) => l.y >= box.y - 2 && l.y <= top + 2)) {
+    for (const t of tokensOf(line)) {
+      const gap = box.x - t.x2;
+      if (gap >= -1 && gap <= maxLeftGap) leftCandidates.push({ ...t, gap, source: "left_of_widget" });
+    }
+  }
+  if (leftCandidates.length > 0) {
+    leftCandidates.sort((a, b) => a.gap - b.gap);
+    return { label: leftCandidates[0].text, source: leftCandidates[0].source, token: leftCandidates[0] };
+  }
+
+  // Above. A label that sits over the widget is the obvious case; a label that
+  // introduces a row from the left margin is the other, and it is how Vermont's
+  // form is laid out -- "Name of Person Requesting Sealing Order" begins at the
+  // margin while its widget starts two hundred points to the right.
+  const aboveLines = lines
+    .filter((l) => l.y >= top - 2 && l.y <= top + maxAboveGap)
+    .sort((a, b) => (a.y - top) - (b.y - top));
+  for (const line of aboveLines) {
+    const tokens = tokensOf(line);
+    if (tokens.length === 0) continue;
+    const overlapping = tokens.filter((t) => t.x2 >= box.x - 1 && t.x <= box.x + box.width + 1);
+    const chosen = overlapping[0] ?? tokens[0];
+    return { label: chosen.text, source: overlapping.length > 0 ? "above_widget" : "line_above_widget", token: { ...chosen, gap: chosen.y - top } };
+  }
+  return null;
 }
 
 /**

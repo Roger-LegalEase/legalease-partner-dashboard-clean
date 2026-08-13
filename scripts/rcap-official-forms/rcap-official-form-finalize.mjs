@@ -245,7 +245,7 @@ async function finalizeOfficialFormOnce({
         continue;
       }
       handle.select(match);
-      report.written.push({ field: field.name, factId: decision.factId, kind: "dropdown" });
+      report.written.push({ field: field.name, factId: decision.factId, kind: "dropdown", expectedValue: String(match) });
       report.expectedValues.push(String(match));
       continue;
     }
@@ -282,7 +282,14 @@ async function finalizeOfficialFormOnce({
     applyFitToTextField(handle, fit);
     report.written.push({
       field: field.name, factId: decision.factId, kind: "text",
-      fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length
+      fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length,
+      // Carried on the record itself. Pairing a write with its value by index
+      // into a second list works only while every write appends to both, and a
+      // dropdown that pushes an option label but no text breaks the alignment
+      // silently -- shifting every later field's read-back onto the wrong value.
+      expectedValue: text,
+      requiredWidth: fit.requiredWidthAtMin ?? null,
+      availableWidth: rect ? Number(rect.width.toFixed(2)) : null
     });
     report.expectedValues.push(text);
   }
@@ -326,13 +333,28 @@ async function finalizeOfficialFormOnce({
   {
     const rendered = await PDFDocument.load(bytes, { ignoreEncryption: true });
     const runsByPage = rendered.getPages().map((p) => extractTextItems(p));
-    const rectOf = new Map(census.map((f) => [f.name, f.widgets?.[0]?.rect ?? null]));
-    const allRuns = runsByPage.flat();
+    const widgetOf = new Map(census.map((f) => [f.name, f.widgets?.[0] ?? null]));
+    // Which channel applies is a property of the artifact, so it is decided
+    // once over every page. Deciding per page gets it wrong on exactly the
+    // pages that matter: a page whose every value was withdrawn has no
+    // appearance runs left, and a per-page decision then falls back to geometry
+    // and reads the form's own dot leader as the withdrawn value.
+    const runSource = runsByPage.flat().some((r) => r.container?.bbox) ? "appearance" : "auto";
+    // Runs themselves stay per page. Two widgets on different pages can share a
+    // rectangle -- a caption block repeated on every page is the ordinary case
+    // -- and pooling lets page 3's value satisfy page 1's field.
     report.writtenValueVerification = report.written.map((w) => {
-      const rect = rectOf.get(w.field);
-      const expected = report.expectedValues[report.written.indexOf(w)] ?? null;
-      const v = verifyWrittenValue({ value: expected, rect, runs: allRuns });
-      return { field: w.field, factId: w.factId ?? null, ...v };
+      const widget = widgetOf.get(w.field);
+      const runs = runsByPage[(widget?.page ?? 1) - 1] ?? [];
+      const v = verifyWrittenValue({ value: w.expectedValue ?? null, rect: widget?.rect ?? null, runs, runSource });
+      return {
+        field: w.field, factId: w.factId ?? null, page: widget?.page ?? null,
+        selectedFontSize: w.fontSize ?? null,
+        availableWidth: w.availableWidth ?? null,
+        suppliedChars: String(w.expectedValue ?? "").length,
+        fittingOutcome: w.outcome ?? null,
+        ...v
+      };
     });
   }
   report.outputSha256 = crypto.createHash("sha256").update(bytes).digest("hex");
