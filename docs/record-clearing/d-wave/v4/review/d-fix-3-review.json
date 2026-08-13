@@ -1,0 +1,396 @@
+{
+  "schema": "rcap-d-v4-independent-family-review/v1",
+  "cycle": "D-FIX-3",
+  "reviewer": "independent read-only reviewer; did not author the code under review",
+  "reviewBranch": "claude/rcap-review-d-fix-3-wa",
+  "reviewedBranch": "claude/rcap-d-fix-3-wa-decoder",
+  "reviewedCommits": {
+    "family": "46c312c73d79d106ca41852762082c658f681363",
+    "sharedFactory": "257bf0499b4327341ed103f9431733508b415e25"
+  },
+  "scope": [
+    "data/rcap-all50/overlays/production/washington/blake-006-form-en",
+    "data/rcap-all50/overlays/production/washington/blake-008-form-en",
+    "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en",
+    "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en",
+    "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+    "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+    "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+    "scripts/rcap-official-forms/d-v4-remediate-families.mjs",
+    "scripts/rcap-official-forms/d-v4-verify-corrections.mjs"
+  ],
+  "sourceBinaries": {
+    "presentInGit": false,
+    "extractionRootChecked": "/tmp/rcap-source-packs",
+    "consequence": "The blank source PDFs are not in this repository and were not available to this review. This did not block the substantive work: these are flat-overlay renders, so each finalized fixture still carries the source's own page content streams and vector paths verbatim, and every geometric claim below was re-derived from those bytes. It does block one thing only, recorded as D-FIX-3-R-012: the manifest's byte-for-byte reproducibility claim could not be exercised."
+  },
+  "whatWasOpened": {
+    "artifacts": [
+      "fixtures/canonical-filled.pdf (all four)",
+      "fixtures/boundary-filled.pdf (all four)",
+      "contact-sheet/blank-vs-filled.pdf (all four)"
+    ],
+    "method": [
+      "Decoded every page of every fixture and re-derived the line partition, per-line decodability and per-glyph geometry independently of the profile.",
+      "Separated the overlay's own drawn runs from the form's printed runs by font channel: the four forms draw exclusively with embedded Type0 subsets, the overlay exclusively with the standard-14 Helvetica.",
+      "Measured each drawn value's true extent with the same Helvetica metrics the overlay drew it with, not with the decoder's fallback advance, and compared it against every printed glyph's box on the page.",
+      "Walked each page's path operators through the CTM to recover the caption box borders and the printed rule lines, which the text decoder never sees."
+    ]
+  },
+  "findingsClaimedFixed": {
+    "D-V3-R-010": {
+      "family": "WA:blake-006-form-en",
+      "claim": "every text run is a single character, so the run-level label matcher could not see labels",
+      "reviewerVerdict": "confirmed_and_fixed",
+      "evidence": "Re-decoded page 1: all 10,561 runs are one character wide (e.g. baseline y=527.9 carries 45 runs for \"State of Washington/City of ______________,\"). Token assembly now yields 79 candidate labels; \"District/Municipal Court of Washington, County/City of\" reads whole. The premise was real and the assembly fix is real."
+    },
+    "D-V3-R-011": {
+      "family": "WA:blake-008-form-en",
+      "claim": "same single-character run defect",
+      "reviewerVerdict": "confirmed_and_fixed",
+      "evidence": "91 candidate labels assembled; caption reads whole."
+    },
+    "D-V3-R-008": {
+      "family": "WA:crrlj-09-0100-form-en",
+      "claim": "profile reports 0 unreadable lines while the decoder's gate refuses 2",
+      "reviewerVerdict": "confirmed_and_fixed",
+      "evidence": "Independently re-derived from the artifact: page 4 carries 2 lines whose codes do not decode (53 and 41 undecoded codes). Profile, ledger and re-derivation all report 2."
+    },
+    "D-V3-R-009": {
+      "family": "WA:crrlj-09-0870-form-en",
+      "claim": "profile reports 0 unreadable lines while the decoder's gate refuses 7",
+      "reviewerVerdict": "confirmed_and_fixed",
+      "evidence": "Independently re-derived: page 1 refuses 4, page 2 refuses 3. Profile, ledger and re-derivation all report 7."
+    }
+  },
+  "requiredOutcomes": {
+    "adjacentSingleCharacterGlyphRunsAssembledIntoUsableLabelTokens": "met, with a defect in how far a token is allowed to run (D-FIX-3-R-008)",
+    "laneProfileOutputReconciledWithDecoderOutput": "met",
+    "noZeroUnreadableResultWhileTheDecoderRefusedALine": "met; independently re-derived as 0 / 0 / 2 / 7",
+    "noNoParticipantLabelMatchedWhereUsableLabelGlyphsExist": "not met — the profile no longer says it, but source-record.json and handoff.md in all four packages still do (D-FIX-3-R-007)",
+    "undecodableGeometryFailsClosed": "met",
+    "everyRefusalRecorded": "met",
+    "participantPdfContactSheetRefusalLedgerAndManifestRegenerated": "met for those four; reports/determinism.json was not regenerated and still denies the artifact exists (D-FIX-3-R-012)"
+  },
+  "reDerivedUnreadableLineCounts": {
+    "method": "Re-decoded each finalized fixture page by page. Lines that carry overlay-drawn text read as metrics-inexact in the fixture because the overlay's standard-14 Helvetica declares no /Widths; those lines were identified by font channel and excluded, since they are exact in the source. Nothing else in any package is inexact.",
+    "WA:blake-006-form-en": { "profile": 0, "ledger": 0, "reDerived": 0, "agree": true },
+    "WA:blake-008-form-en": { "profile": 0, "ledger": 0, "reDerived": 0, "agree": true },
+    "WA:crrlj-09-0100-form-en": { "profile": 2, "ledger": 2, "reDerived": 2, "agree": true },
+    "WA:crrlj-09-0870-form-en": { "profile": 7, "ledger": 7, "reDerived": 7, "agree": true },
+    "noAnchorSitsOnALineTheDecoderRefused": true
+  },
+  "manifestEvidence": {
+    "everyManifestPathExists": true,
+    "everyManifestDigestIsTheDigestOnDisk": true,
+    "noPdfOnDiskOmittedFromAManifest": true,
+    "contactSheetsPinnedToTheFinalizedArtifact": true,
+    "contactSheetsBuiltFromTheFinalizedArtifact": "verified: each sheet's builtFromSha256 and finalizedSha256 equal the digest of fixtures/canonical-filled.pdf on disk, and decoding the sheet shows the blank form in the left panel and the written value only in the right panel",
+    "pageCountAndOrderPreserved": true,
+    "pageBoxesAndRotationsPreserved": "all pages 612x792, rotation 0, as declared",
+    "activeContent": {
+      "xfa": "absent", "javaScript": "absent", "additionalActions": "absent", "openAction": "absent",
+      "launch": "absent", "submitForm": "absent", "importData": "absent", "uriOrNetworkAction": "absent",
+      "embeddedFiles": "absent", "encryption": "absent", "objectStreams": "absent",
+      "acroForm": "absent in all twelve artifacts",
+      "widgets": "none; every page's /Annots is an empty array",
+      "orphanedWidgets": "none"
+    }
+  },
+  "canariesAndVerifiers": {
+    "d0-canary-verify": "pass — 149 checks across 9 canaries and 9 mutations",
+    "d0-v3-canary-verify": "pass — 43 checks across 2 canaries and 5 mutations",
+    "d0-v4-canary-verify": "pass — 35 checks across 11 cases and 6 mutations",
+    "d-v4-verify-corrections (the four WA families)": "pass — 40/40",
+    "judgementOnThoseAssertions": "The five WA assertions test the right subjects but two of them cannot fail, and the set omits the one class of check that would have caught the defects in this review. See D-FIX-3-R-010 and D-FIX-3-R-011.",
+    "sideEffectNoted": "d-v4-verify-corrections.mjs writes docs/record-clearing/d-wave/v4/correction-verification.json. It is described as read-only with respect to the family packages, which is true, but it is not read-only with respect to the repository. The file it wrote during this review was removed and is not part of this branch."
+  },
+  "adoptionContinuity": {
+    "washingtonRecords": [
+      "wa_vac_homicide_victim_prostitution",
+      "wa_vac_misdemeanor_ordinary",
+      "wa_vac_substance_use_disorder"
+    ],
+    "status": "stale_due_to_substantive_family_change",
+    "lastWrittenBy": "08dbcfe (before this branch)",
+    "refreshedByThisBranch": false,
+    "confirmation": "Neither commit touches data/rcap-all50/review-artifacts/d-adoption-reconciliation.json, data/rcap-codex/d-adoption-continuity/track-adoption.json, or docs/rcap/codex/d-adoption-continuity.md. The family commit changes only files under data/rcap-all50/overlays/production/washington/. generate-rcap-d-adoption-reconciliation.mjs --check reports the reconciliation current with three rows stale, which are exactly these three."
+  },
+  "totals": {
+    "families": 4,
+    "findings": 14,
+    "bySeverity": { "high": 5, "medium": 6, "low": 3 }
+  },
+  "dispositionCounts": {
+    "technical_approved": 0,
+    "correction_required": 4,
+    "held_on_source_or_design": 0
+  },
+  "families": [
+    {
+      "familyId": "WA:blake-006-form-en",
+      "jurisdiction": "WA",
+      "documentOwnership": "court_issued_caption_only",
+      "renderStrategy": "flat_overlay_anchor_draw",
+      "anchors": 1,
+      "written": ["participant.date_of_birth"],
+      "disposition": "correction_required",
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "unreadableLineCountAgreesWithIndependentReDerivation": true,
+        "noAnchorOnARefusedLine": true,
+        "everyRefusalCarriesAReason": true,
+        "manifestAgreesWithFilesOnDisk": true,
+        "contactSheetBuiltFromTheFinalizedArtifact": true,
+        "noDecretalOrDispositionalFactWritten": true,
+        "everyWrittenValueLandsWhereTheFormLeavesRoomToWrite": false,
+        "noWrittenValueOverprintsPrintedFormText": false
+      },
+      "findings": ["D-FIX-3-R-001", "D-FIX-3-R-005", "D-FIX-3-R-007", "D-FIX-3-R-008", "D-FIX-3-R-009", "D-FIX-3-R-010", "D-FIX-3-R-011", "D-FIX-3-R-012", "D-FIX-3-R-013", "D-FIX-3-R-014"],
+      "rationale": "The two findings this branch set out to fix are genuinely fixed, and I re-derived both results from the bytes. But the family previously had no rendered artifacts, and the ones it now has place the participant's date of birth 24 points past the end of the caption cell that contains its label, straight through the caption box's vertical rule and onto the printed '[ ] Granted' election in the court's own column. The form leaves about 24 points beside 'DOB' before the divider at x=306.7 — below the lane's own 40-point floor — so under the rule the implementation states, this anchor should have been refused. It was accepted because the write area was measured to an assumed page margin rather than to anything the form prints. That is ink on a court order's disposition election, so nothing here can be approved."
+    },
+    {
+      "familyId": "WA:blake-008-form-en",
+      "jurisdiction": "WA",
+      "documentOwnership": "court_issued_caption_only",
+      "renderStrategy": "flat_overlay_anchor_draw",
+      "anchors": 2,
+      "written": ["matter.county", "participant.date_of_birth"],
+      "disposition": "correction_required",
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "unreadableLineCountAgreesWithIndependentReDerivation": true,
+        "noAnchorOnARefusedLine": true,
+        "everyRefusalCarriesAReason": true,
+        "manifestAgreesWithFilesOnDisk": true,
+        "contactSheetBuiltFromTheFinalizedArtifact": true,
+        "noDecretalOrDispositionalFactWritten": true,
+        "everyWrittenValueLandsWhereTheFormLeavesRoomToWrite": false,
+        "noWrittenValueOverprintsPrintedFormText": false
+      },
+      "findings": ["D-FIX-3-R-002", "D-FIX-3-R-006", "D-FIX-3-R-005", "D-FIX-3-R-007", "D-FIX-3-R-008", "D-FIX-3-R-009", "D-FIX-3-R-010", "D-FIX-3-R-011", "D-FIX-3-R-012", "D-FIX-3-R-013", "D-FIX-3-R-014"],
+      "rationale": "Carries the same caption geometry and the same date-of-birth overprint as blake-006, glyph for glyph, and adds a second defect of its own: the county anchor's write box is declared 187.3 points wide when the printed 'County/City of' blank is 122.6 points, so the boundary fixture writes the county 64.2 points past the end of the blank and off into the page. Correctly measured, that value would have been refused rather than drawn."
+    },
+    {
+      "familyId": "WA:crrlj-09-0100-form-en",
+      "jurisdiction": "WA",
+      "documentOwnership": "participant_completed",
+      "renderStrategy": "flat_overlay_anchor_draw",
+      "anchors": 8,
+      "written": ["participant.full_legal_name x4", "participant.street_address x2", "participant.city", "participant.zip"],
+      "disposition": "correction_required",
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "unreadableLineCountAgreesWithIndependentReDerivation": true,
+        "noAnchorOnARefusedLine": true,
+        "everyRefusalCarriesAReason": true,
+        "manifestAgreesWithFilesOnDisk": true,
+        "contactSheetBuiltFromTheFinalizedArtifact": true,
+        "unfittableBoundaryValuesRefusedAndRecorded": true,
+        "noWrittenValueOverprintsPrintedFormText": true,
+        "everyWrittenValueLandsWhereTheFormLeavesRoomToWrite": false
+      },
+      "findings": ["D-FIX-3-R-004", "D-FIX-3-R-003", "D-FIX-3-R-005", "D-FIX-3-R-007", "D-FIX-3-R-008", "D-FIX-3-R-010", "D-FIX-3-R-011", "D-FIX-3-R-012", "D-FIX-3-R-013", "D-FIX-3-R-014"],
+      "rationale": "This is the one participant-completed document of the four, and the reconciliation fix is clean: page 4's two undecodable statutory bullet lines are refused, recorded with their code counts, and no anchor sits on them. Three of the eight anchors — 'I, (name)', 'Street Address or PO Box' and 'City' — have write areas genuinely measured from the next printed token and land correctly, and the boundary fixture's three unfittable values are refused and disclosed. The remaining five are measured to an assumed page margin, and two of them show it on the page: the caption name crosses the caption box border at x=310.9 into the right-hand cell, and the ZIP ends 7.9 points past the printed rule. On top of that, the address row's captions are printed beneath their rule, so the values were drawn beside the captions and the official blanks were left empty. No decretal risk here, but the artifact is not yet a correctly filled form."
+    },
+    {
+      "familyId": "WA:crrlj-09-0870-form-en",
+      "jurisdiction": "WA",
+      "documentOwnership": "court_issued_caption_only",
+      "renderStrategy": "flat_overlay_anchor_draw",
+      "anchors": 1,
+      "written": ["participant.full_legal_name"],
+      "disposition": "correction_required",
+      "verified": {
+        "sourceSha256UnchangedFromRecordedValue": true,
+        "pageCountAndOrderPreserved": true,
+        "pageBoxesAndRotationsPreserved": true,
+        "noResidualAcroFormOrWidgetInFiledArtifact": true,
+        "noActiveContentAnywhere": true,
+        "unreadableLineCountAgreesWithIndependentReDerivation": true,
+        "noAnchorOnARefusedLine": true,
+        "everyRefusalCarriesAReason": true,
+        "manifestAgreesWithFilesOnDisk": true,
+        "contactSheetBuiltFromTheFinalizedArtifact": true,
+        "noDecretalOrDispositionalFactWritten": true,
+        "everyWrittenValueLandsWhereTheFormLeavesRoomToWrite": false,
+        "noWrittenValueOverprintsPrintedFormText": false
+      },
+      "findings": ["D-FIX-3-R-003", "D-FIX-3-R-005", "D-FIX-3-R-007", "D-FIX-3-R-010", "D-FIX-3-R-011", "D-FIX-3-R-012", "D-FIX-3-R-013", "D-FIX-3-R-014"],
+      "rationale": "The worst placement of the four. The word 'Defendant' on this form is a party designator printed beneath the defendant-name rule, not a label with a blank beside it: the rule is at y=484.7, x=[78.7,297.8], inside the left caption cell, and it is left empty. The participant's name was instead drawn from x=303.4 — 2.2 points of clearance existed before the cell border at x=305.6, against a 40-point floor — into the court's own caption cell, which holds the cause number, the order title, the Granted and Denied elections and 'Clerk's Action Required'. The name's capitals rise into the band of the printed 'Denied (ORVCJD)' line eight points above it. On a proposed order that a judge signs, a participant's name printed inside the disposition cell is a statement about the disposition, and the seven refused lines on this form include the Granted election itself, so the page a reviewer would sign off is one where the name sits beside an election nobody could read."
+    }
+  ],
+  "findings": [
+    {
+      "id": "D-FIX-3-R-001",
+      "severity": "high",
+      "families": ["WA:blake-006-form-en"],
+      "file": "data/rcap-all50/overlays/production/washington/blake-006-form-en/fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf",
+      "region": "page 1; anchor \"Defendant DOB\" -> participant.date_of_birth; writeBox x=[282.6,558.0] y=453.2",
+      "visibleDefect": "The date of birth is drawn at x=[282.6,338.9] on baseline 453.2. The caption box's vertical rule is at x=306.7 (spanning y 416.2 to 550.2), so 32 of the value's 56 points lie inside the court's right-hand cell. The printed '[ ] Granted' sits on baseline 457.3 at x=[316.8,374.9]; at 11pt the drawn digits reach y=461.1, which is 3.8pt above that baseline, so the glyphs '4', '-', '1', '7' are struck through '[ ] G'. The same overprint is present in both fixtures and is reproduced in the right panel of the contact sheet. The caption cell offers about 24 points between the anchor's write origin and the divider, below the lane's own MIN_WRITE_WIDTH of 40, and the form draws no rule to the right of 'DOB' at all — the only rule in that cell is y=464.8, x=[72.7,271.7], directly above the label, and it is left empty.",
+      "acceptanceCondition": "In both fixtures and in the contact sheet, no drawn glyph's box may intersect any printed glyph's box, and no drawn glyph may cross x=306.7 on page 1. Either write the date of birth on the printed rule at y=464.8 within x=[248.7,271.7] at a size that fits, or refuse the anchor with a recorded reason and leave the date of birth to a human. A refusal here must be reported as such in the profile, the ledger and the handoff, not as a silent absence."
+    },
+    {
+      "id": "D-FIX-3-R-002",
+      "severity": "high",
+      "families": ["WA:blake-008-form-en"],
+      "file": "data/rcap-all50/overlays/production/washington/blake-008-form-en/fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf",
+      "region": "page 1; anchor \"Defendant DOB\" -> participant.date_of_birth; writeBox x=[282.6,558.0] y=453.2",
+      "visibleDefect": "Identical to D-FIX-3-R-001 to within a tenth of a point: the caption divider is again x=306.7, the name rule again y=464.8 x=[72.7,271.7], and the drawn date x=[282.6,338.9] on baseline 453.2 is struck through the printed '[ ] Granted (ORVCDC)' on baseline 457.3 at x=[313.2,432.3], overprinting '[ ] Gr'. Here the overprinted text carries the court's clerk-action code for granting the motion.",
+      "acceptanceCondition": "As D-FIX-3-R-001, against this family's geometry: no drawn glyph box intersecting a printed glyph box, nothing crossing x=306.7 on page 1, and the date of birth either placed on the printed rule at y=464.8 or refused with a recorded reason."
+    },
+    {
+      "id": "D-FIX-3-R-003",
+      "severity": "high",
+      "families": ["WA:crrlj-09-0870-form-en", "WA:crrlj-09-0100-form-en"],
+      "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0870-form-en/fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf",
+      "region": "0870 page 1; anchor \"Defendant\" -> participant.full_legal_name; writeBox x=[303.4,558.0] y=473.3. 0100 page 1; anchor \"Defendant\" -> participant.full_legal_name; writeBox x=[288.1,558.0] y=464.0",
+      "visibleDefect": "On both forms 'Defendant' is a party designator printed beneath the defendant-name rule, not a label with a blank to its right, and the write area was taken from the space to its right. On 0870 the left caption cell is bounded at x=305.6 and the right cell is the rect x=[306.4,539.3] y=[441.0,550.2]; the name is drawn x=[303.4,401.6] (canonical) and x=[303.4,548.0] (boundary), so it lies almost entirely inside the right cell, which carries 'No.', the order title, 'Granted (in full or in part) (ORVCJG)', 'Denied (ORVCJD)' and 'Clerk's Action Required'. Its capitals reach y=481.2 against the printed 'Denied (ORVCJD)' baseline at 481.3, whose parentheses descend to about y=479.0. The rule the name belongs on — y=484.7, x=[78.7,297.8] — is left empty. On 0100 the left cell is bounded at x=310.4 and the name is drawn x=[288.1,386.3] (canonical) and x=[288.1,549.0] (boundary), crossing the border into the cell that carries 'Petition and Declaration for Order Vacating Conviction (PT)'; the defendant-name rule at y=475.4, x=[78.7,279.7] is left empty. Clearance from the write origin to the cell border was 2.2pt on 0870 and 22.3pt on 0100, both below the lane's 40-point floor.",
+      "acceptanceCondition": "On each form the participant's name must be drawn inside the left caption cell, on the defendant-name rule the form prints (0870: baseline about 486, within x=[78.7,297.8]; 0100: baseline about 477, within x=[78.7,279.7]), with no glyph crossing the cell border (0870 x=305.6; 0100 x=310.4) and no glyph box intersecting a printed glyph box — or else refused with a recorded reason and left blank. A value that does not fit the printed rule at the minimum readable size must be refused, not relocated."
+    },
+    {
+      "id": "D-FIX-3-R-004",
+      "severity": "medium",
+      "families": ["WA:crrlj-09-0100-form-en"],
+      "file": "data/rcap-all50/overlays/production/washington/crrlj-09-0100-form-en/fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf",
+      "region": "page 1 anchor \"Print Name\" (writeBox x=[386.1,558.0] y=284.8); page 5 anchors \"Print Name\" (x=[137.2,558.0] y=405.7), \"Street Address or PO Box\" (y=349.8), \"City\" (y=349.8), \"Zip\" (x=[508.3,558.0] y=349.8)",
+      "visibleDefect": "On this form the write lines are printed above their captions, and the values were drawn beside the captions instead, leaving the official blanks empty. Page 1: 'Print Name' at y=284.8 is the caption for the rule at y=298.2, x=[324.0,531.0]; the name was drawn at x=[386.1,484.3] on baseline 284.8 and the rule is blank. Page 5: 'Print Name' at y=405.7 is the caption for the rule at y=417.2, x=[72.0,324.0]; 'Street Address or PO Box', 'City', 'State' and 'Zip' at y=349.8 are the column captions for the single rule at y=361.2, x=[72.0,531.0]. Every value was drawn on the caption baseline. The ZIP compounds it: '01234' is drawn x=[508.3,538.9], ending 7.9pt past the end of that rule and past the form's printed right column edge at x=531.0.",
+      "acceptanceCondition": "Each of these values must be drawn on the printed rule that its caption labels, inside the horizontal span bounded by the neighbouring captions (page 5 street: x=[72.0,320.0]; city: x=[324.0,428.0]; state: x=[432.0,482.0]; zip: x=[486.0,531.0]), with no glyph passing x=531.0 on page 5 — or refused with a recorded reason. The 'State' column is already refused for lack of room and must stay refused unless it is placed on the rule."
+    },
+    {
+      "id": "D-FIX-3-R-005",
+      "severity": "high",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0100-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "scripts/rcap-official-forms/d-v4-remediate-families.mjs",
+      "region": "buildFlatAnchors, the gapEnd computation and the MIN_WRITE_WIDTH guard (lines 296-312)",
+      "visibleDefect": "This is the root cause of D-FIX-3-R-001 through D-FIX-3-R-004. gapEnd is 'the rule token's end, or the next printed token's start, or pageWidth - RIGHT_MARGIN'. The third branch is not a measurement, and the code's own comment says so ('Without one there is no write box, only a guess about margins') immediately before taking it. Nine of the twelve anchors across these four families end at exactly 558.0 = 612 - 54, so nine write areas are the assumed page margin; the other three are next-token gaps; not one is a printed rule line. The reason no anchor found a rule is that assembleLabelTokens only recognises a blank drawn as a run of underscores, dots or bullets, while every blank on all four of these forms is a vector path the text decoder never reads. Because MIN_WRITE_WIDTH is then applied to the fabricated width, the guard cannot fire where it matters: the true clearances were about 24pt (blake-006 DOB), 2.2pt (0870 defendant), 22.3pt (0100 defendant) and 22.7pt (0100 ZIP), all below the 40-point floor, and all four were accepted. The commit message's claim that write areas are 'measured either from a printed rule line or from the gap to the next printed token' is true for three anchors of twelve.",
+      "acceptanceCondition": "A flat-overlay write area must be bounded by something the source binary draws. Read the page's path operators and treat a horizontal stroke, a thin filled rectangle and a cell border as first-class bounds alongside underscore runs, and derive gapEnd from the nearest such bound. Delete the pageWidth - RIGHT_MARGIN fallback: where no bound is found there is no write area, and the anchor must be refused with a recorded reason. After the change, re-render and confirm that every anchor in these four packages records a writeAreaBasis naming a bound the source draws, and that no anchor's write box crosses a caption cell border."
+    },
+    {
+      "id": "D-FIX-3-R-006",
+      "severity": "medium",
+      "families": ["WA:blake-008-form-en"],
+      "file": "data/rcap-all50/overlays/production/washington/blake-008-form-en/fixtures/boundary-filled.pdf",
+      "region": "page 1; anchor \"Superior Court of Washington, County of\" -> matter.county; writeBox x=[370.7,558.0] y=558.7",
+      "visibleDefect": "The printed 'County/City of' blank is the rule at y=557.4, x=[363.4,486.0] — 122.6 points. The write box is declared 187.3 points. The boundary county, 'Saint Bartholomew and the Northern Reaches County', is drawn at 7.5pt across x=[370.7,550.2], which is 64.2 points past the end of the printed blank and 25 points past the form's own caption box right edge at x=525. Measured against the real blank the value needs about 4.7pt to fit, below the 6pt minimum, so it would have been refused. The canonical fixture happens to fit and hides this.",
+      "acceptanceCondition": "The county write box must end at x=486.0. With that bound, the boundary county must appear in reports/overflow-and-clipping.json as refused with value_exceeds_widget_width_at_minimum_font and must be absent from the boundary artifact, and no drawn glyph on page 1 may pass x=486.0."
+    },
+    {
+      "id": "D-FIX-3-R-007",
+      "severity": "medium",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0100-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "source-record.json and handoff.md in all four package directories",
+      "region": "source-record.json implementationStatus and factoryVersion; handoff.md 'Status' and 'What was bound'",
+      "visibleDefect": "All four source records still read implementationStatus 'overlay_no_participant_label_matched' and factoryVersion 'd0-remediated-v1', and all four handoffs still read 'Status: overlay_no_participant_label_matched' and '0 overlay anchors measured out of the page content streams'. The overlay profiles beside them read factoryVersion 'd0-v4' with 1, 2, 8 and 1 anchors and 79, 91, 76 and 41 candidate labels, and the packages now carry three rendered artifacts each. The required outcome for this cycle was that no 'no participant label matched' disposition survive where usable label glyphs exist; it survives in the two files a reviewer opens first, and it is the disposition a lane reading the source record would act on.",
+      "acceptanceCondition": "In each of the four packages, source-record.json implementationStatus and factoryVersion, and handoff.md's status line and 'What was bound' section, must describe the anchors, candidate-label count, unreadable-line count and refusal categories that the profile and ledger on disk record. If the corrected disposition is a refusal for want of a measured write area, the record must say that rather than reverting to 'no participant label matched'."
+    },
+    {
+      "id": "D-FIX-3-R-008",
+      "severity": "medium",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+      "region": "assembleLabelTokens, the adjacency loop (lines 590-604) and the whitespace normalisation at line 648",
+      "visibleDefect": "A token is ended by a gap between glyph boxes, but a run of space glyphs leaves no gap, so a token may run for any distance as long as the form draws spaces. Blake-006 and blake-008 draw 41 space glyphs between 'Defendant' at x=[72.7,123.4] and 'DOB' at x=[248.7,272.6]; both merge into one token spanning x=[72.7,278.6], and the whitespace is then collapsed so the profile records a tidy 13-character label 'Defendant DOB' with a 205.9-point labelBox. Two separately printed labels 125 points apart are reported as one, the recorded labelBox does not bound the label that selected the fact, and the write origin is taken from the end of a label other than the selecting one. On 0870 the same mechanism merges across the caption box divider: the token 'Plaintiff Order on Petition to Vacate Cannabis' spans x=[261.8,509.5], joining the left cell's party designator to the right cell's order title.",
+      "acceptanceCondition": "A run of space glyphs wider than the line's token threshold must end a token, in the same way an empty gap does, and the reported labelBox must bound only the glyphs of the reported label. After the change, blake-006's page 1 baseline 453.2 must yield 'Defendant' and 'DOB' as separate tokens with their own extents, and 0870's baseline 519.2 must not yield a token spanning x=305.6."
+    },
+    {
+      "id": "D-FIX-3-R-009",
+      "severity": "medium",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "scripts/rcap-official-forms/d-v4-remediate-families.mjs",
+      "region": "buildFlatAnchors, the captionOnly page test (lines 329-337)",
+      "visibleDefect": "The rule the commit states is 'on a caption-only document only on page 1', and the code implements exactly that: a page index test. It is not a caption test, and page 1 of a court-issued order is mostly not caption. The ledgers show what gets through: on blake-006, the decretal blank at page 1 y=200.2, 'This jurisdiction's applicable ordinance is', cleared the caption-shape test and the write-area test — its write area was a genuine printed underscore rule — and reached the binder, where only the absence of a matching fact descriptor stopped it. On 0870, the three decretal charge rows 'Offense:' at y=254.3, 235.7 and 217 reached the binder's last gate and are recorded as refused for requires_explicit_mapping, the weaker of the two rules that would have refused them. Also admitted as candidate labels on page 1: the elections '[ ] Granted (ORVCDC)' and '[ ] Denied', and the page footers 'Blake 006' and '(05/2025)'. The caption-only guarantee currently rests entirely on the fact-descriptor allowlist; a single new descriptor would put a value in a decretal paragraph.",
+      "acceptanceCondition": "On a court_issued_caption_only document, an anchor must be inside the caption block, measured from the source's own path geometry rather than assumed from a page number. All three orders draw it explicitly (blake-006 and blake-008: the box bounded by y=[416.2,550.2] and split at x=306.7; 0870: the rects spanning y=[440.3,550.2]). An anchor outside that box must be refused with a reason naming the caption block, and blake-006's 'This jurisdiction's applicable ordinance is' and 0870's three 'Offense:' rows must each carry that refusal reason rather than a fact-descriptor miss."
+    },
+    {
+      "id": "D-FIX-3-R-010",
+      "severity": "medium",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0100-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs and scripts/rcap-official-forms/d-v4-verify-corrections.mjs",
+      "region": "finalizeFlatOverlay (lines 32-105); the WA assertion block of the verifier (lines 155-172); reports/overflow-and-clipping.json in all four packages",
+      "visibleDefect": "The AcroForm path reads back what reached the page, withdraws a clipped value and re-finalizes, and the verifier then asserts 'no rendered value leaves its widget' and 'a withdrawn value is blank on the page'. The flat-overlay path does none of this: finalizeFlatOverlay draws and returns without producing writtenValueVerification, reports/overflow-and-clipping.json for these families records only the fitter's own predictions (2, 4, 13 and 2 decisions, with findings drawn from report.unfittable), and the verifier's five WA assertions are all about line counts and refusal bookkeeping. Not one of them looks at where a value landed. That is why all four families report 10 of 10 passing while carrying the overprints in D-FIX-3-R-001 through D-FIX-3-R-003. The lane's own stated policy — 'A value renders whole inside its measured write box or the anchor is refused and nothing is drawn' — is unchecked on the only families it governs.",
+      "acceptanceCondition": "finalizeFlatOverlay must read the finalized bytes back and record, per written anchor, the drawn glyph extent, whether it stays inside the declared write box, and whether any drawn glyph box intersects a printed glyph box; a value that fails either test must be withdrawn and recorded, as the AcroForm path already does. d-v4-verify-corrections.mjs must assert both properties for every WA family, and those assertions must fail against the artifacts as committed today."
+    },
+    {
+      "id": "D-FIX-3-R-011",
+      "severity": "low",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0100-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "scripts/rcap-official-forms/d-v4-verify-corrections.mjs",
+      "region": "the first two WA assertions (lines 159-164), against scripts/rcap-official-forms/d-v4-remediate-families.mjs writeFlatReports (lines 492-519)",
+      "visibleDefect": "'The profile's unreadable-line count equals the decoder's own refusal count' compares profile.anchorCapture.totalUnreadableLines, the sum over profile.anchorCapture.pages, and ledger.unreadableLines. writeFlatReports computes totalRefusedLines once and writes it to all three from the same variable, and writes the same perPage array to both files, so the assertion cannot fail whatever the decoder did — which is the exact failure mode D-V3-R-008 and D-V3-R-009 reported. 'A zero-unreadable result is not recorded while the decoder refused a line' is tautological for the same reason. The substance does hold: I re-decoded the artifacts and got 0, 0, 2 and 7. But the assertion does not establish it, and the commit message's 'the same partition produces both, so they cannot disagree' describes why the check is empty rather than why it is sound.",
+      "acceptanceCondition": "The assertion must re-run the decoder over the source binary named by the profile's sha256 and compare its partition to the committed profile and ledger, so that hand-editing either file fails the check. The 'no anchor on a refused line' assertion must also cover line_geometry_rests_on_estimated_metrics, not only line_carries_undecoded_character_codes, since both are refusals the partition emits."
+    },
+    {
+      "id": "D-FIX-3-R-012",
+      "severity": "medium",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0100-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "reports/determinism.json in all four package directories, against reports/rendered-artifacts.json",
+      "region": "the whole file; and rendered-artifacts.json's 'reproducible' claim",
+      "visibleDefect": "Every one of the four determinism records still reads {\"rendered\": false, \"reason\": \"no finalized artifact was produced for this family, so there is nothing to re-render\"}, while three artifacts per family sit beside them. The manifest in the same directory asserts 'Creation and modification dates are pinned, so re-rendering from the same source binary reproduces these digests byte for byte'. Nothing in the package supports that assertion, and the file whose job is to support it denies the artifact exists. The source binaries are not in this repository, so I could not exercise the claim either; it is currently unverifiable from the repo and contradicted from inside the package.",
+      "acceptanceCondition": "reports/determinism.json in each package must record a re-render of the artifacts on disk from the pinned source sha256 and show the digests reproducing, or must state plainly that reproducibility was not exercised — in which case rendered-artifacts.json must not assert it. The two files must not contradict each other."
+    },
+    {
+      "id": "D-FIX-3-R-013",
+      "severity": "low",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0100-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "scripts/rcap-official-forms/d-v4-remediate-families.mjs",
+      "region": "writeFlatReports, the anchors projection at line 504",
+      "visibleDefect": "buildFlatAnchors records writeAreaBasis on every anchor — 'printed_rule_line' or 'measured_gap_to_next_printed_token' — and the profile projection drops it, keeping only label, factId, page, labelBox and writeBox. A reviewer therefore cannot tell an anchor whose write area was measured from one whose write area was assumed, which is the distinction that separates the three sound anchors in these packages from the nine unsound ones. I had to recover it arithmetically, by noticing that nine write boxes end at exactly 612 - 54.",
+      "acceptanceCondition": "Each anchor in overlay-profile.json must carry writeAreaBasis and the coordinate of the bound it was measured to, so that an assumed write area is visible on the face of the profile."
+    },
+    {
+      "id": "D-FIX-3-R-014",
+      "severity": "low",
+      "families": ["WA:blake-006-form-en", "WA:blake-008-form-en", "WA:crrlj-09-0100-form-en", "WA:crrlj-09-0870-form-en"],
+      "file": "data/rcap-all50/review-artifacts/f2-independent-technical-review.json, data/rcap-all50/review-artifacts/f3-visual-review.json",
+      "region": "the washington entries generated by scripts/generate-rcap-review-manifests.mjs",
+      "visibleDefect": "generate-rcap-review-manifests.mjs --check, which npm test runs, reports both manifests stale. Regenerating shows the four Washington families as new not_indexed rows in each. The check was already red at this branch's base for missouri/cr145 and new-hampshire/nhjb-2956, so this branch is not solely responsible, but it adds four more stale rows and leaves a committed repository check failing.",
+      "acceptanceCondition": "Either the review manifests are regenerated so generate-rcap-review-manifests.mjs --check passes, or the D-wave records why these families are expected to sit outside the manifests until a later step and the check is scoped accordingly. A red check in npm test with no recorded explanation is not an acceptable resting state."
+    }
+  ],
+  "observationsNotFindings": [
+    {
+      "subject": "the review brief's premise about document ownership",
+      "note": "The brief describes all four as court_issued_caption_only. Three are; crrlj-09-0100 is a participant-completed petition (source-record.json documentOwnership 'participant_completed', profile captionOnly false). Reviewing it under a caption-only rule would have been the wrong test, and the caption-facts restriction correctly does not apply to it."
+    },
+    {
+      "subject": "the commit message's counts",
+      "note": "The commit message states the four families 'offer 90, 104, 90 and 44 candidate labels' and that 'the ledgers carry 94, 104, 90 and 54 entries'. The artifacts record candidateLabelCount 79, 91, 76 and 41, and ledgers of 78, 89, 70 and 47 entries. The internal reconciliation is exact — anchors plus labelled refusals equals candidateLabelCount in every family — so the artifacts are self-consistent and the narrative overstates them."
+    },
+    {
+      "subject": "two entirely unreadable statutory lines on crrlj-09-0100 page 4",
+      "note": "The two refused lines carry 53 and 41 undecoded codes and are whole bullet items in the eligibility list a petitioner attests to. They are correctly refused and recorded, and no anchor sits on them, so this is not an overlay defect — but counsel and QA should see that two statements on a petition's eligibility list are unreadable in the source's text layer before anything on this form is approved for live use."
+    },
+    {
+      "subject": "the decoder's single-byte fallback encoding",
+      "note": "decodeCodes falls back to Latin-1 for a simple font with no CMap and no Differences, so WinAnsiEncoding's 0x80-0x9F range — em-dash, en-dash, curly quotes, bullet — reports as undecoded. It shows up harmlessly on the contact sheets, whose own heading 'WA BLAKE-006 — blank (left) vs finalized fill (right)' reads as one refused line. It does not affect these four sources, which are Type0 with ToUnicode throughout, but it will inflate unreadable counts on any artifact carrying standard-14 text."
+    },
+    {
+      "subject": "fact selection",
+      "note": "Nothing decretal or dispositional is written as a value in any of the twelve artifacts. Every written fact is a caption fact on the three orders and a participant fact on the petition. The protect rules and the caption-facts set are doing real work: money ('Paid LFO Amounts – Counts Remain'), disposition ('Conviction', 'Cannabis Conviction'), signature ('Defendant's Signature', 'Signed at (city or county)') and the sensitive-date and charge descriptors all refused correctly. The defects in this review are about where values landed, not which values were chosen."
+    },
+    {
+      "subject": "repository checks red on this branch but out of scope",
+      "note": "verify-rcap-official-forms-d1.mjs fails on VT:200-00631-form-en for three assertions about visible values, panel difference and contact-sheet pinning. Those read Vermont's own package files, which this branch does not touch, and belong to the Vermont family fix."
+    }
+  ],
+  "methodAndLimits": [
+    "Read-only with respect to everything outside docs/record-clearing/d-wave/v4/review/. Two scripts write into the repository when run — d-v4-verify-corrections.mjs and generate-rcap-review-manifests.mjs — and everything they wrote during this review was reverted; git status is clean apart from this review's own two files.",
+    "The blank source PDFs are not in git and no extraction root exists under /tmp/rcap-source-packs, so no artifact was compared against its blank source directly. Every geometric claim was instead re-derived from the finalized fixtures, which carry the source's page content streams and vector paths unchanged; where a claim depends on the source alone — byte-for-byte reproducibility — it is recorded as unverified rather than assumed.",
+    "Overlay-drawn text was separated from printed text by font channel and each drawn value re-measured with the standard-14 Helvetica metrics it was drawn with. An earlier pass using the decoder's own fallback advance of 500/1000 em understated some extents; the numbers in this review are the corrected ones.",
+    "Glyph bands were taken as 0.718 em above and 0.207 em below the baseline for the overlay's Helvetica and 0.72/0.21 for the forms' embedded subsets. The overprints in D-FIX-3-R-001 and D-FIX-3-R-002 exceed any reasonable choice of those constants — the drawn digits rise 3.8 points above the printed baseline they cross. The 0870 overlap in D-FIX-3-R-003 is about two points and is the one measurement sensitive to them; that finding does not depend on it, since the name is inside the wrong caption cell either way.",
+    "Caption box borders and printed rule lines were recovered by walking each page's path operators through the CTM, independently of the module under review."
+  ]
+}
