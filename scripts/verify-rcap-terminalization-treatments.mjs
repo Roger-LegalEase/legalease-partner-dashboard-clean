@@ -67,7 +67,9 @@ async function runChecks() {
     allTerminalTreatments,
     terminalTreatmentForTrack,
     terminalTreatmentBundle,
-    componentDeferralForTrack
+    componentDeferralForTrack,
+    exactDeferralForTrack,
+    exactDeferralForPathway
   } = await import("../src/lib/rcap/documents/guidance-packet-registry.ts");
   const { resolvePacketRoute, packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
   const { buildRenderJobSpec } = await import("../src/lib/rcap/render/job-contract.ts");
@@ -125,7 +127,15 @@ async function runChecks() {
     // the resolver is expected to answer with that instead. What must be true
     // either way is that the route names this track and offers nothing: which
     // of the two accepted authorities answers is not the participant's problem.
+    // An ACCEPTED treatment of any kind outranks a pending candidate: the C
+    // dependency component deferrals and the lane-B exact deferrals were both
+    // reviewed and closed before this window opened. When one of those answers,
+    // the route is already correct and carries no pending review state, because
+    // there is nothing left pending about it.
     const componentDeferral = componentDeferralForTrack(treatment.trackId);
+    const acceptedDeferral = componentDeferral
+      || exactDeferralForTrack(treatment.trackId)
+      || exactDeferralForPathway(treatment.jurisdiction, "");
     const probes = [null, ...((brief?.exactUnavailabilityEvidence?.mappedCompiledPathwayIds) ?? [])];
     for (const pathwayId of probes) {
       const route = resolvePacketRoute({
@@ -138,7 +148,7 @@ async function runChecks() {
         || (route.guidanceTrackIds ?? []).includes(treatment.trackId)
         || (route.routeKind === "component_deferral" && Boolean(componentDeferral));
       check(namesTrack, `${key}: resolver did not reach a treatment naming this track through pathway ${via} (got ${route.routeKind})`);
-      if (!componentDeferral) {
+      if (!acceptedDeferral) {
         check(route.treatmentReviewState === "pending_independent_review", `${key}: resolver did not carry pending_independent_review through pathway ${via}`);
       }
       // ---- 2/4/5. payment and both credit types stay closed -----------------
@@ -249,7 +259,8 @@ async function runChecks() {
         // Same precedence: an accepted component deferral answering first is a
         // correct outcome, not a missing classification.
         const classified = evaluation.treatmentClassification === "terminal_treatment_candidate"
-          || (Boolean(componentDeferral) && evaluation.treatmentClassification === "component_deferral");
+          || (Boolean(componentDeferral) && evaluation.treatmentClassification === "component_deferral")
+          || (Boolean(acceptedDeferral) && evaluation.treatmentClassification === "exact_supported_deferral");
         check(classified, `${key} (${label}): engine classified the treatment as ${evaluation.treatmentClassification ?? "nothing"}`);
         check(evaluation.selectedTrackId === treatment.trackId, `${key} (${label}): engine echoed selectedTrackId=${evaluation.selectedTrackId}`);
       }

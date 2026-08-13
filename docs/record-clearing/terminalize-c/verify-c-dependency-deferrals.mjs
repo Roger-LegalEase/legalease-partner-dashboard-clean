@@ -332,16 +332,27 @@ function validatePatchSpec(assignment) {
       const absolute = path.join(ROOT, patch.file);
       add(errors, fs.existsSync(absolute), `${label} file does not resolve`);
       if (fs.existsSync(absolute) && /^[0-9a-f]{64}$/.test(String(patch.baseSha256 ?? ""))) {
-        // The target must be in one of exactly two known states: the authoring
-        // base (patch not yet applied) or the captain-recorded applied bytes.
-        // Anything else means the shared runtime moved underneath the
-        // specification, which is the drift this check exists to catch.
+        // The target must be in a RECORDED state: the authoring base (patch not
+        // yet applied), the current captain-recorded applied bytes, or one of
+        // the earlier applied states this file has passed through. Anything else
+        // means the shared runtime moved underneath the specification, which is
+        // the drift this check exists to catch.
+        //
+        // The history exists because these targets are shared runtime, not
+        // C-lane property: a later window that legitimately extends the same
+        // resolver or Briefcase writer moves the bytes again. Recording each
+        // application keeps the audit trail intact while still refusing any
+        // shape nobody wrote down — which is the whole point of the check.
         const current = sha256File(patch.file);
-        const applied = String(patch.appliedSha256 ?? "");
+        const recorded = [
+          patch.baseSha256,
+          patch.appliedSha256,
+          ...(Array.isArray(patch.priorAppliedSha256) ? patch.priorAppliedSha256 : [])
+        ].filter((value) => /^[0-9a-f]{64}$/.test(String(value ?? "")));
         add(
           errors,
-          current === patch.baseSha256 || (/^[0-9a-f]{64}$/.test(applied) && current === applied),
-          `${label} file bytes match neither baseSha256 nor the captain-recorded appliedSha256`
+          recorded.includes(current),
+          `${label} file bytes match no recorded state (baseSha256, appliedSha256 or priorAppliedSha256)`
         );
       }
     }
