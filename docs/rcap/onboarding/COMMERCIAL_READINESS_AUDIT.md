@@ -5,6 +5,12 @@ Base: `origin/main` @ `2dced50e916f2aebf777a9a62026267551208207`
 Worktree: `/home/user/legalease-partner-dashboard-clean`
 Phase: 1 (portal-owned surfaces only; shared-file ownership gate active)
 
+> **2026-08-13 acceptance addendum:** the Codespace now provides a complete local
+> Supabase CLI stack and Mailpit. The authenticated acceptance lane described in
+> `HOSTED_ACCEPTANCE.md` supersedes the earlier D-3 environment blocker recorded below.
+> A-1 through A-16 and A-18 through A-20 pass. A-17 fails on the prohibited shared
+> public partner route; the exact S-1 patch specification is in that acceptance report.
+
 This audit records **confirmed** findings only. Areas inspected and found clean are
 listed in §3 so a later pass does not re-litigate them. Speculative product ideas are
 deliberately excluded.
@@ -192,7 +198,7 @@ Phase 1.
 | --- | --- | --- | --- |
 | D-1 | `supabase/` migration + `partner_onboarding` read model | Add an authoritative per-partner LegalEase support contact (program lead name + route), exposed through the partner-safe view | F-4: the onboarding home cannot show a configured support route because no such field exists. Spec §6.5 requires one and §7 forbids hardcoding a new address |
 | D-2 | CI workflow files and/or `package.json` | Add the 11 unwired onboarding verifiers listed below to the normal `npm test` gate, and fix the three `verify-launch-readiness.mjs` failures | Spec §11.2 and §15 both treat "a verifier that exists but does not block the normal gate" as a blocking condition. Both candidate files are frozen |
-| D-3 | Hosted Supabase + Vercel staging | Provision the isolated staging lane, apply reviewed onboarding migrations, configure staging-only Auth redirect URLs and feature flags | Spec §12 acceptance — hosted Auth, RLS, Storage, invitation, upload, and download behavior cannot be exercised from this container at all |
+| D-3 | Isolated acceptance services | **Closed by the Codespace lane.** Local Supabase CLI supplied Auth, Database, and Storage; Mailpit captured the invitation; the production build served the authenticated browser journeys | See the superseding run record in `HOSTED_ACCEPTANCE.md` |
 | D-4 | `/dashboard/partners` prerender path and/or shared Supabase client config | Make `/dashboard/partners` prerender without Supabase credentials, as the repo already promises | `npm run build` fails on `origin/main` today (see below). The build is a required gate in spec §11.3, so it currently blocks the release regardless of portal work |
 
 ### D-4 detail — the production build is red on `main`
@@ -275,7 +281,7 @@ environment.
 | --- | --- |
 | D-1 support destination | **Closed.** `src/lib/partners/onboarding/support-contact.ts` resolves one address from `RCAP_PARTNER_SUPPORT_EMAIL`, defaulting to `partners@legalease.com`, and returns the mailto, label and accessible name. A malformed override falls back rather than rendering a broken link. Wired into the onboarding home, both account-access dead ends, and the submission-failure card. **Residual: the mailbox must be confirmed as forwarding and monitored before launch.** |
 | D-2 gate coverage | **Closed.** `scripts/verify-onboarding-all.mjs` owns every onboarding verifier and refuses to run when one exists that no group claims. `npm test` invokes it once; local coverage went from 11 to 23. A new `RCAP Partner Onboarding` workflow runs lint, typecheck, the local group, launch readiness, and the credential-free build on every PR. |
-| D-3 hosted staging | **Still open — external.** See §4b. |
+| D-3 acceptance services | **Closed.** The complete local Supabase CLI + Mailpit lane ran in this Codespace. See §4b and `HOSTED_ACCEPTANCE.md`. |
 | D-4 credential-free build | **Closed.** Root cause was eight authenticated pages missing `export const dynamic`; sixteen siblings behind the same gate already had it. `npm run build` now completes with the Supabase variables explicitly empty, and all sixteen protected routes report as dynamic with no static HTML emitted. |
 
 Also fixed in this pass:
@@ -312,33 +318,29 @@ and the browser body contains no mention of Supabase, no key, and no stack. So t
 fail closed and leak nothing, but the failure is a generic 500 rather than a legible
 message. That residual is recorded rather than claimed as polished.
 
-## 4b. The one remaining external blocker
+## 4b. Acceptance services and remaining shared release failure
 
-**Hosted staging access.** Authenticated browser journeys cannot run here:
+The environment blocker is closed. Local GoTrue, PostgreSQL, Storage, and Mailpit ran in
+the isolated Codespace, and the authenticated portal was exercised through a credentialed
+production build. Invitation acceptance, single-use behavior, Storage privacy, tenant RLS,
+browser rendering, keyboard operation, responsive viewports, and accessibility smoke checks
+all ran.
 
-- `supabase.auth.signInWithPassword` and `auth.getUser()` call GoTrue, a hosted service. A
-  local PostgreSQL supplies the database but not the auth API, so no signed-in screen can
-  be reached in a browser.
-- The Supabase CLI is not installed, and Docker image pulls are blocked by the environment
-  proxy (`403` from the registry CDN), so GoTrue cannot be run locally either.
-- No staging Supabase credentials are available to this session.
-
-Everything that does not depend on it has been completed. The exact commands and the
-36-step numbered checklist are in `HOSTED_ACCEPTANCE.md`.
-
-Not run, and not claimed: hosted Auth redirects and session establishment, invitation email
-delivery and acceptance, single-use token behavior, Storage privacy and signed-URL expiry,
-browser rendering, keyboard operation, screen-reader output, and responsive verification at
-real viewports.
+The remaining release failure is S-1: `CoBrandedPartnerPage` renders the inactive,
+unpublished Rythm Labs record at `/p/rythm-labs-test` with HTTP 200 and no `noindex`
+directive. That participant-facing route is prohibited in this lane. The exact minimal
+patch and acceptance test are recorded in `HOSTED_ACCEPTANCE.md` for Session A or the later
+shared integration assignment.
 
 ## 5. Status
 
-Phase 1 fixes for F-1, F-2, and F-3 are implemented on this branch. F-4 is documented
-and deferred to the D-1 handoff.
+Phase 1 fixes for F-1 through F-4 are implemented on this branch, and the isolated
+acceptance-service gate is closed.
 
-**RCAP onboarding is not commercially ready.** One blocking gate remains: **D-3, hosted
-staging acceptance**, and it is external to the repository (§4b). D-1, D-2 and D-4 are
-closed. Every local gate is green, including two that were red on `main` before this work.
+**RCAP onboarding is not ready for public release.** The single exact release failure is
+S-1, the missing publication/activation gate on the shared public partner route (§4b).
+D-1 through D-4 are closed. The portal-owned functional, visual, responsive, accessibility,
+and security acceptance cases otherwise pass.
 
 ### Gates run on this branch
 
@@ -352,9 +354,11 @@ closed. Every local gate is green, including two that were red on `main` before 
 | `verify-rcap-onboarding-partner-labels.mjs` | pass, 11/11 |
 | `verify-rcap-onboarding-support-contact.mjs` | pass, 11/11 |
 | `verify-rcap-partner-onboarding-ui.mjs` | pass — **was throwing on `main`** |
-| Migrations applied in order to live PostgreSQL | 42/42 |
-| `verify-onboarding-tenant-isolation.mjs` (live RLS) | pass, 8/8 |
+| Migrations applied in order to local PostgreSQL | 42/42 |
+| `verify-onboarding-tenant-isolation.mjs` (local RLS) | pass, 8/8 |
 | `npm run build` with Supabase vars empty | pass — **was failing on `main`** |
+| Credentialed local production build (`typecheck`, Next compile, Next generate) | pass against local Supabase |
+| Authenticated browser acceptance harness | pass for A-4 through A-16 and A-18 through A-19; A-17 shared-route failure recorded |
 | Runtime probe of protected routes | fails closed, no disclosure (§4a) |
 | `git diff --check` | clean |
 
@@ -365,4 +369,5 @@ the `/internal` prefix match; removing the aggregate from `npm test`; dropping a
 from the registry; disabling RLS on an onboarding table; and broadening a tenant policy to
 `using (true)`.
 
-Still not run, and not claimed: everything in §4b.
+External SMTP delivery and monitored handling of `partners@legalease.com` remain post-merge
+canary checks. `FINAL_MAIN_SYNC_PENDING_SESSION_A: yes`.

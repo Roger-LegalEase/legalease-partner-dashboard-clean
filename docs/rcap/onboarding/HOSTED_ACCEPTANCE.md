@@ -1,201 +1,184 @@
-# RCAP Onboarding — Hosted Staging Acceptance
+# RCAP Onboarding — Codespace Acceptance
 
-The exact commands and the numbered checklist for the acceptance lane that cannot run in
-CI or in a local container, because it needs Supabase Auth (GoTrue), Storage, and real
-email delivery.
+Run date: 2026-08-13
 
-**Never run any of this against production.** Every step assumes an isolated staging
-project and synthetic organizations and people.
+Branch: `fix/rcap-onboarding-commercial-readiness`
 
-## Why this lane exists
+Starting SHA: `5079b19f64ae6c20d3ee12b8d147469ae90d6474`
 
-The local gates prove a great deal — see `VERIFICATION_GATES.md` — and the database group
-now proves RLS isolation against a real PostgreSQL. What none of them can reach:
+Acceptance partner: `Rythm Labs` (`rythm-labs-test`)
 
-| Needs | Why local cannot cover it |
+Environment: isolated GitHub Codespace, local Supabase CLI, and local Mailpit
+
+This run supersedes the earlier external-hosting blocker. The complete Auth, Database,
+Storage, email-capture, and browser lane ran inside the isolated Codespace. Vercel and a
+hosted Supabase project were not used. Production was not accessed or changed.
+
+## Environment record
+
+| Item | Acceptance value |
 | --- | --- |
-| Sign-in, session establishment, redirects | `supabase.auth.signInWithPassword` and `getUser` call GoTrue, a hosted service. A local PostgreSQL provides the database but not the auth API |
-| Invitation email delivery | Requires a real mail transport and a capture mailbox |
-| Storage privacy and signed-URL expiry | Requires the Storage service, not just the `storage.*` tables |
-| Browser journeys of signed-in screens | Every authenticated screen resolves a session first |
+| Portal | `http://127.0.0.1:3000` |
+| Private forwarded portal | `https://obscure-guide-5vgg54p9vg7phrj9-3000.app.github.dev` |
+| Supabase project reference | `local:legalease-rcap-acceptance` |
+| Supabase API / database | loopback ports `54321` / `54322` |
+| Mailpit | `http://127.0.0.1:54324` |
+| Private forwarded Mailpit | `https://obscure-guide-5vgg54p9vg7phrj9-54324.app.github.dev` |
+| Migration result | base migration plus 41 phase migrations; 42 applied, 0 failed |
+| Database verification | 68 public tables, 123 RLS policies, 2 private Storage buckets |
+| Feature flags | onboarding, prefill, and launch preparation enabled locally |
+| Support destination | `partners@legalease.com` |
 
-## Access status — 2026-08-13 isolated acceptance attempt
+Migrations were applied in numeric phase and then letter-suffix order. No migration file
+was created or changed. No production data was copied. The local email transport accepted
+only `Roger@rythmlabs.com` and delivered it to Mailpit; it could not send externally.
 
-The required preflight passed in a separate worktree on
-`fix/rcap-onboarding-commercial-readiness` at `f70efb93149fcb10c331cdc7ef13ee14ceb9635c`.
-PR #90 was confirmed open and draft at the same SHA. The hosted lane then stopped before any
-remote write because the one required acceptance-access bundle was not available.
+Ports 3000 and 54324 are private Codespace forwards. They require access to this Codespace.
 
-| # | Required | Repository variable / artifact | Who supplies it | Status |
+## Controlled data result
+
+- Rythm Labs was seeded with the required spelling, slug, program name, service area,
+  Lee Roman identity, and `Roger@rythmlabs.com` mailbox.
+- `partner_records.onboarding_status` remains `in_progress`; the reviewed onboarding
+  workspace reached `ready_to_launch`, never `live`.
+- No launch date, address, contract, billing record, funding source, packet allocation,
+  legal-services partner, or participant data was invented.
+- The control tenant is `RCAP Control Partner`. Supporting `.test` identities were created
+  through the local Supabase Admin API and received no email.
+- No active access code was created or released. No participant program was activated.
+
+## First-administrator result
+
+The actual internal workflow created and reviewed the invitation for Lee Roman as
+`partner_admin`, bound to `Roger@rythmlabs.com`, with a Preview-equivalent local callback,
+72-hour expiration, revocation control, and single-use token. Exactly one invitation email
+was delivered to Mailpit. Its setup link was accepted through the real Auth flow.
+
+The final state contains one active Rythm Labs `partner_admin` membership, the invitation
+is `accepted`, and replay creates no membership. Replay, expired, revoked, and wrong-email
+states fail closed with the recovery text: “This invite link is no longer active. Please
+request a new invitation.”
+
+## A-1 through A-20
+
+| Case | Result | Codespace acceptance evidence |
+| --- | --- | --- |
+| A-1 | PASS | One Mailpit message arrived and Lee Roman completed the real setup link |
+| A-2 | PASS | Exactly one active Rythm Labs `partner_admin` membership |
+| A-3 | PASS | Post-acceptance landing resolved to the Rythm Labs onboarding workspace |
+| A-4 | PASS | Overview matched persisted completion, blocker, owner, next action, and status |
+| A-5 | PASS | All eight sections completed through the partner workflow |
+| A-6 | PASS | Debounced autosave persisted authoritative section state |
+| A-7 | PASS | Save and Continue persisted and advanced to the next section |
+| A-8 | PASS | Refresh, sign-out, sign-in, and return preserved work |
+| A-9 | PASS | Prefill confirmed/modified/rejected states persisted without replacing reviewed values |
+| A-10 | PASS | Private logo upload, preview, signed download, replacement, removal, and final upload |
+| A-11 | PASS | Review submission persisted as `ready_for_review` |
+| A-12 | PASS | Internal operator requested a field-specific change |
+| A-13 | PASS | Lee Roman saw the request, replaced the value, responded, and resubmitted |
+| A-14 | PASS | Internal operator resolved the request, approved all sections, and kept activation off |
+| A-15 | PASS | Rythm Labs staff saw view-only controls and no administrator mutation action |
+| A-16 | PASS | RLS, table privileges, Storage, and internal-route gates denied control-tenant access |
+| A-17 | **FAIL** | Internal desktop/mobile preview is a private draft, but the shared public route returns HTTP 200; see S-1 |
+| A-18 | PASS | Launch readiness remained `not_ready` and no screen claimed Rythm Labs was live |
+| A-19 | PASS | Support action is named and opens `mailto:partners@legalease.com` |
+| A-20 | PASS | Expired, revoked, replayed, and wrong-email states failed safely with recovery guidance |
+
+A-17 is the single exact release failure. It is not worked around in the portal lane.
+
+## Verification gates
+
+All 23 onboarding verifiers, launch readiness, invitation and membership lifecycle,
+partner-role, tenant authorization, RLS, private Storage, browser journeys, responsive and
+accessibility smoke checks, lint, route type generation, typecheck, `npm test`, the
+credential-free production build, the credentialed local production build, and
+`git diff --check` passed. The database group ran against the local Supabase PostgreSQL;
+the authenticated browser harness ran against its Auth and Storage services. Because the
+Codespace command runner terminates a single long-lived build process, the credentialed
+Next build used its supported compile and generate phases after a separate successful
+typecheck; both phases completed and produced the runnable production output.
+
+## Visual parity
+
+Verdict: the portal feels like the organizational side of Expungement.ai inside the
+established partner-dashboard shell.
+
+The browser comparison confirmed the same warm background, white surfaces, navy hierarchy,
+teal progress and completion treatment, restrained orange status emphasis, neutral borders,
+compact radii and shadows, plain-language helper text, and one-task-at-a-time form pacing.
+The portal does not introduce a second app shell, hero treatment, gradients, glass effects,
+ornamental icon clutter, or consumer checkout language.
+
+## Responsive and accessibility
+
+The authenticated portal passed at 390px, 768px, 1440px, and 200% zoom. Checks covered
+keyboard navigation, visible focus, logical headings, accessible names, label association,
+required-field communication, status announcements, touch targets, reduced motion,
+horizontal overflow, and long organization, email, and blocker content.
+
+One confirmed portal-only overflow defect was fixed by applying long-text wrapping to all
+onboarding page roots and to the configured support-address link. The affected browser
+journey and source verifier pass after the correction. No accessibility dependency
+was added; the repository's existing Playwright tooling and a manual semantic/contrast smoke
+test were used.
+
+## Evidence index
+
+The evidence directory is intentionally uncommitted:
+`/tmp/rcap-hosted-acceptance/evidence/`. It contains exactly 12 sanitized screenshots.
+
+| # | Screenshot | Functional case | Visual criterion | Responsive / accessibility criterion |
 | --- | --- | --- | --- | --- |
-| A-1 | Dedicated non-production project named `legalease-rcap-acceptance` | project reference | Roger / infra owner | **Missing.** No project reference was supplied or discoverable |
-| A-2 | Acceptance API origin | `NEXT_PUBLIC_SUPABASE_URL` | same as A-1 | Missing |
-| A-3 | Acceptance anon key | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | same as A-1 | Missing |
-| A-4 | Acceptance service-role key | `SUPABASE_SERVICE_ROLE_KEY` | same as A-1 | Missing |
-| A-5 | Acceptance Postgres connection | `RCAP_TEST_DATABASE_URL` | same as A-1 | Missing |
-| A-6 | Existing PR #90 Preview deployment access | Vercel project, token, or linked checkout | Roger / Vercel owner | **Missing.** GitHub reports zero deployments for the branch/SHA; the checkout is unlinked; Vercel CLI reports logged out |
-| A-7 | Acceptance Auth redirect configuration | Supabase Auth settings | same as A-1 | Blocked by A-1/A-6 |
-| A-8 | Preview-only feature flags | `RCAP_PARTNER_ONBOARDING_ENABLED=true`, `RCAP_ONBOARDING_PREFILL_ENABLED=true`, `RCAP_PARTNER_SUPPORT_EMAIL=partners@legalease.com` | same as A-6 | Blocked by A-6 |
-| A-9 | Controlled invitation delivery | `Roger@rythmlabs.com` through the application workflow | Roger / email admin | Not sent; blocked by A-1/A-6 |
-| A-10 | Mailbox monitoring proof | see "Support mailbox" below | Roger / email admin | Missing — business-operational |
+| 1 | `01-expungement-reference-desktop.png` | visual baseline | consumer product family | 1440px reference |
+| 2 | `02-expungement-reference-mobile.png` | visual baseline | mobile pacing and control language | 390px reference |
+| 3 | `03-rythm-invitation-mailpit.png` | A-1, A-20 | clear invitation hierarchy | token obscured; recovery copy |
+| 4 | `04-rythm-administrator-active.png` | A-2, A-3 | dashboard team language | role/status names |
+| 5 | `05-onboarding-home-desktop.png` | A-3, A-4, A-18, A-19 | shell, progress, blocker, support | 1440px, heading order, names |
+| 6 | `06-dense-onboarding-section-mobile.png` | A-5, A-7 | guided form rhythm | 390px, touch, no overflow |
+| 7 | `07-private-logo-upload-preview.png` | A-10 | asset-card and field hierarchy | named upload/download controls |
+| 8 | `08-submitted-state.png` | A-11 | review and save-state treatment | table headings and status announcement |
+| 9 | `09-change-request-resubmission.png` | A-12–A-14 | blocker/correction treatment | clear status and field association |
+| 10 | `10-staff-view-only.png` | A-15 | role clarity | no inaccessible disabled admin action |
+| 11 | `11-co-branded-mobile-preview.png` | A-17 | product-family preview | 390px internal scroll preview |
+| 12 | `12-cross-tenant-denial.png` | A-16 | fail-closed state | concise denial, no tenant disclosure |
 
-The management APIs are network-reachable (`401` from Supabase without a token and `403`
-from Vercel without authorization), so network access is not the blocker. No
-`SUPABASE_ACCESS_TOKEN`, Vercel token, project link, acceptance project reference, or runtime
-keys are present. The CLI cannot safely create/configure the project or Preview without that
-authority.
+No screenshot contains a full token, password, cookie, secret, service-role key, production
+information, or participant data.
 
-The repository now identifies `wwtwtsmywnckfkdaqqeg` as the production Supabase reference in
-`docs/expungement-ai/RELEASE_HARDENING_REPORT.md`. That reference was used only as a deny target;
-it was not accessed. The acceptance project must have a different reference before migrations
-or seeding may begin.
+## Deferred shared-path patch specification
 
-### Independent work completed while hosted access was blocked
+### S-1 — unpublished partners are rendered by the public co-branded route
 
-- Captured the current Expungement.ai desktop and 390px mobile visual references to the
-  non-committed evidence directory.
-- Applied `partner-journey-os.sql` plus all 41 phase migrations to an isolated local PostgreSQL
-  in numeric-phase/letter-suffix order: 42 applied, 0 failed.
-- Proved local authenticated-role tenant isolation: 8/8 checks passed, including cross-tenant
-  read, insert, update, and delete denial plus RLS coverage.
-- Passed all 23 credential-free onboarding verifiers, launch readiness, lint (0 errors),
-  typecheck, route type generation, `npm test`, and the credential-free production build.
-- Confirmed PR #90's three GitHub checks pass and the PR remains draft.
+- **Exact file:** `src/app/p/[partnerSlug]/page.tsx`
+- **Exact symbol:** `CoBrandedPartnerPage`
+- **Exact defect:** the route renders every existing `partner_records` row. It does not
+  consult an authoritative publication/activation state and emits no partner-specific
+  `robots: noindex` guard. `GET /p/rythm-labs-test` therefore returns HTTP 200 while the
+  workspace is not live and the draft is explicitly unpublished.
+- **User impact:** an internal acceptance partner can be reached by its guessed URL and may
+  be indexed, contradicting unpublished, unindexed, and inactive status.
+- **Minimal patch:** resolve an authoritative public-page eligibility state before rendering;
+  return `notFound()` unless both publication and activation are approved; generate robots
+  metadata from that same state. Preserve an explicit legacy-live path rather than treating
+  record existence as publication.
+- **Acceptance test:** an inactive/unpublished fixture returns 404 and no indexable page;
+  a separately approved live fixture returns 200; sitemap/public navigation omit the former;
+  the internal co-branded preview remains available.
+- **Why shared change is required:** this is the shared participant-facing route and the
+  current schema has no independent authoritative publication flag in `partner_records`.
+- **Session A:** yes. It must wait for Session A or the later shared integration lane.
 
-Local results are not promoted to hosted PASS. A-1 through A-20 remain **BLOCKED**, Rythm Labs
-was not seeded, and the Lee Roman invitation was not created or sent.
+## Release bookkeeping
 
-### First command once access is supplied
+`SUPPORT_MAILBOX_MONITORING_PENDING: yes`
 
-```bash
-# 1. Prove the target is not production before touching it.
-echo "$NEXT_PUBLIC_SUPABASE_URL"        # must be the staging ref, never the production ref
+The `partners@legalease.com` action works. External SMTP delivery, monitored-inbox receipt,
+named ownership, and reply confirmation are post-merge canary checks and are not blockers to
+this isolated acceptance run.
 
-# 2. Apply migrations in the proven order, then confirm isolation on the real database.
-RCAP_TEST_DATABASE_URL="postgres://...<staging>..." \
-  node scripts/verify-onboarding-tenant-isolation.mjs
-```
+`FINAL_MAIN_SYNC_PENDING_SESSION_A: yes`
 
-If step 2 passes against staging, continue from §1 below.
-
-## Prerequisites
-
-- An isolated Supabase staging project (never production)
-- A preview deployment of this branch, or `npm start` pointed at staging
-- A capture mailbox or Supabase Inbucket for invitation mail
-- Synthetic partner organizations only
-
-```bash
-export NEXT_PUBLIC_SUPABASE_URL="https://<staging-ref>.supabase.co"
-export NEXT_PUBLIC_SUPABASE_ANON_KEY="<staging anon key>"
-export SUPABASE_SERVICE_ROLE_KEY="<staging service role key>"
-export RCAP_PARTNER_SUPPORT_EMAIL="rcap-staging@example.test"   # not the real mailbox
-export NEXT_PUBLIC_PARTNER_APP_URL="https://<staging-host>"
-```
-
-## 1. Apply migrations to staging
-
-Order matters: phase number first, then letter suffix, so phase-19 precedes phase-19i and
-phase-35 precedes 35b/c/d. A plain `sort` gets this wrong and dependent migrations fail.
-
-```bash
-ls supabase/phase-*.sql \
-  | sed -E 's|.*/phase-([0-9]+)([a-z]*)-.*|\1 \2 &|' \
-  | sort -k1,1n -k2,2 | awk '{print $NF}'
-```
-
-Apply `supabase/partner-journey-os.sql` first, then that list. All 42 apply cleanly in this
-order — verified locally by `scripts/local-onboarding-db.sh up`.
-
-## 2. Run the database group against staging
-
-```bash
-RCAP_TEST_DATABASE_URL="postgres://postgres:<pw>@db.<staging-ref>.supabase.co:5432/postgres" \
-  node scripts/verify-onboarding-tenant-isolation.mjs
-
-npm run partners:verify-onboarding-database
-```
-
-Both must pass before any browser step. The isolation verifier refuses to run against a URL
-containing `prod` or `production`.
-
-## 3. Build and serve against staging
-
-```bash
-npm run build && npm start -- -p 3001
-```
-
-## 4. Acceptance checklist
-
-Record pass/fail, evidence, and a screenshot filename for every numbered step. Nothing here
-may be marked passed from a local run.
-
-### Authentication and provisioning
-1. Signed-out request to `/partner/onboarding` redirects to `/sign-in?next=...`.
-2. Signed-out request to `/internal/partners/data` is refused (401 or redirect), not rendered.
-3. LegalEase operator creates a synthetic partner workspace in a commercially blocked state.
-4. The partner sees the block, its owner, and what is still allowed — no raw enum, no dead end.
-5. Commercial clearance is reflected from authoritative data, not editable by the partner.
-6. Operator creates the first-admin invitation; the review step precedes any durable send.
-7. The invitation email arrives in the capture mailbox. No mail reaches a real address.
-8. A brand-new recipient accepts, sets a password, and lands on the correct partner dashboard.
-9. `select count(*) from partner_users where auth_user_id = ...` is exactly 1.
-10. Accepting a second time creates no second membership.
-11. An existing-account recipient can accept and reaches the correct tenant.
-12. Expired, revoked, already-used, malformed, and wrong-email links each fail with a
-    designed state naming the next step — never a stack trace or a blank page.
-
-### Tenant and role boundaries
-13. Partner A cannot read or mutate Partner B's onboarding, assets, documents, or downloads
-    by changing the URL.
-14. A partner staff user sees view-oriented actions only; no disabled admin CTA is offered.
-15. A staff user cannot invite the first administrator, approve commercial state, or approve
-    launch.
-
-### Setup, save, and recovery
-16. All eight sections complete, with autosave and explicit save both visibly resolving.
-17. Sign out mid-section, sign back in, and no entered work is lost.
-18. A stale write from a second tab is refused with a conflict state, not a silent overwrite.
-19. A save interrupted by network loss shows an actionable error and retains entered values.
-20. Prefilled values can be confirmed, changed, and rejected, and a pending value never
-    counts as partner-confirmed.
-
-### Assets
-21. Upload succeeds; the object is private.
-22. A signed URL works, then expires.
-23. Partner A cannot fetch Partner B's asset by id.
-24. An oversized and an unsupported file each fail with a specific, recoverable message.
-
-### Review and the change-request loop
-25. Submission persists across reload and shows what happens next.
-26. Submission does not publish a page, release codes, or activate a program.
-27. LegalEase requests a change; the partner sees the affected field with a direct link.
-28. The partner responds and resubmits; history is preserved.
-
-### Documents, page, launch
-29. Documents generate, preview, and can be approved by the correct role.
-30. Editing authoritative data invalidates the affected approval and says why.
-31. Co-branded preview renders at desktop and mobile; a missing logo yields an actionable
-    state, not a broken layout.
-32. Launch readiness shows real checks with owner and next action.
-33. With one blocking check failing, no screen claims ready and no publish, code-release, or
-    activate control appears.
-34. Approved resources and the launch kit download, tenant-scoped, with correct MIME types.
-
-### Support
-35. The support link on a blocker opens a mail client addressed to the configured mailbox
-    with the organization in the subject.
-36. **Confirm `partners@legalease.com` forwards to a monitored inbox before launch.** The
-    address ships as the default; monitoring has not been confirmed.
-
-## 5. Evidence
-
-Write results and screenshots to a non-committed directory, e.g.
-`/tmp/rcap-hosted-acceptance/`, with an index mapping each numbered step to its screenshot
-and outcome. Do not commit screenshots, tokens, signed URLs, or real partner data.
-
-## 6. Do not
-
-Deploy to production, apply migrations to production, enable production flags, email a real
-partner or participant, publish a co-branded page, release access codes, or activate a
-program.
+PR #90 must remain draft and unmerged until the later main-sync assignment. Production,
+Session A's branch, nationwide files, packet delivery, consumer payment, Briefcase, credits,
+migrations, scope guards, package files, and `src/lib/partners/partner-onboarding.ts` were
+untouched.
