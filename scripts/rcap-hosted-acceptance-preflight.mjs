@@ -221,14 +221,28 @@ const evidence = {
     // nothing while inflating the count. The corroboration below makes that
     // class of mistake impossible to repeat quietly: a witness that no
     // supabase/*.sql file creates is dropped from the proof and reported.
-    const CANDIDATE_WITNESS_TABLES = [
-      "partner_records",
-      "screening_sessions",
+    //
+    // The witnesses are split, because the two kinds answer different
+    // questions and only one of them decides this.
+    //
+    //   PARTICIPANT witnesses hold the records of real people using the
+    //   product. This is the decisive set: LegalEase exists to serve
+    //   participants, so a database with zero of them is not a production
+    //   database of this product, whatever else it contains.
+    //
+    //   TENANT witnesses hold configuration — a partner row, an access code.
+    //   They are reported, never gating. The first hosted run learned this the
+    //   hard way: the repository's own demo seed put three partner rows in the
+    //   acceptance project, and a gate that treated any row as production data
+    //   then refused the environment it had just built.
+    const PARTICIPANT_WITNESS_TABLES = [
       "consumer_briefcase_items",
-      "rcap_document_packets",
+      "screening_sessions",
       "rcap_persons",
-      "partner_access_codes"
+      "rcap_document_packets"
     ];
+    const TENANT_WITNESS_TABLES = ["partner_records", "partner_access_codes"];
+    const CANDIDATE_WITNESS_TABLES = [...PARTICIPANT_WITNESS_TABLES, ...TENANT_WITNESS_TABLES];
     const migrationCorpus = fs.readdirSync(path.join(rootDir, "supabase"))
       .filter((name) => name.endsWith(".sql"))
       .map((name) => fs.readFileSync(path.join(rootDir, "supabase", name), "utf8"))
@@ -261,9 +275,17 @@ const evidence = {
       counts = Array.isArray(countRes.json) ? countRes.json : [];
     }
 
-    const populated = counts.filter((row) => Number(row.row_count) > 0);
-    const hasWitnesses = PRODUCTION_WITNESS_TABLES.length >= 4;
-    const empty = hasWitnesses && (presence.status === 200 || presence.status === 201) && populated.length === 0;
+    const countOf = (table) => {
+      const row = counts.find((candidate) => candidate.table_name === table);
+      return row ? Number(row.row_count) : 0;
+    };
+    const participantWitnesses = PRODUCTION_WITNESS_TABLES.filter((t) => PARTICIPANT_WITNESS_TABLES.includes(t));
+    const tenantWitnesses = PRODUCTION_WITNESS_TABLES.filter((t) => TENANT_WITNESS_TABLES.includes(t));
+    const populatedParticipant = participantWitnesses.filter((t) => countOf(t) > 0);
+    const populatedTenant = tenantWitnesses.filter((t) => countOf(t) > 0);
+
+    const hasWitnesses = participantWitnesses.length >= 3;
+    const empty = hasWitnesses && (presence.status === 200 || presence.status === 201) && populatedParticipant.length === 0;
 
     // Emptiness is a ONE-TIME proof: the first successful migrate fills these
     // tables, and after that a purely emptiness-based gate would refuse every
@@ -287,21 +309,23 @@ const evidence = {
       "acceptance_project_carries_no_production_data",
       clean,
       !hasWitnesses
-        ? `only ${PRODUCTION_WITNESS_TABLES.length} witness table(s) are corroborated by a migration; that is too few to decide the question`
+        ? `only ${participantWitnesses.length} participant witness table(s) are corroborated by a migration; that is too few to decide the question`
         : empty
-          ? `of ${PRODUCTION_WITNESS_TABLES.length} corroborated production witness tables, ${PRODUCTION_WITNESS_TABLES.length - present.length} do not exist and ${present.length} exist with 0 rows — no production data is present${vacuousWitnesses.length > 0 ? ` (${vacuousWitnesses.length} uncorroborated name(s) excluded)` : ""}`
+          ? `every participant witness is absent or empty (${participantWitnesses.map((t) => `${t}=${present.includes(t) ? countOf(t) : "absent"}`).join(", ")}) — this database serves no participants, so it is not a production database of a product that exists to serve them${populatedTenant.length > 0 ? `. Tenant configuration is present and reported, not gating: ${populatedTenant.map((t) => `${t}=${countOf(t)}`).join(", ")}` : ""}`
           : markerValid
-            ? `the witness tables now hold rows because this pipeline built this environment: the acceptance marker names ${marker.project_ref} (this project), stamped ${marker.stamped_at} at application SHA ${String(marker.application_sha).slice(0, 12)}…, so the project was proven empty before its first write`
+            ? `participant rows exist because this pipeline put them there: the acceptance marker names ${marker.project_ref} (this project), stamped ${marker.stamped_at} at application SHA ${String(marker.application_sha).slice(0, 12)}…, so the project was proven to serve no participants before its first write`
             : marker
               ? `REFUSING: an acceptance marker exists but names ${marker.project_ref}, not ${ACCEPTANCE_PROJECT_REF} — this database is not the one that was stamped`
-              : `REFUSING: production witness table(s) hold rows and no acceptance marker is present: ${populated.map((r) => `${r.table_name}=${r.row_count}`).join(", ")}`
+              : `REFUSING: participant data is present and no acceptance marker vouches for it: ${populatedParticipant.map((t) => `${t}=${countOf(t)}`).join(", ")}`
     );
     evidence.cases.emptinessProof = {
-      witnessTables: PRODUCTION_WITNESS_TABLES,
+      participantWitnesses,
+      tenantWitnesses,
       excludedAsUncorroborated: vacuousWitnesses,
       absent: PRODUCTION_WITNESS_TABLES.filter((t) => !present.includes(t)),
       presentWithCounts: counts.map((r) => ({ table: r.table_name, rows: Number(r.row_count) })),
-      provenBy: empty ? "emptiness" : markerValid ? "acceptance_marker" : "neither",
+      decisiveOn: "participant data only; tenant configuration is reported and never gating",
+      provenBy: empty ? "no_participant_data" : markerValid ? "acceptance_marker" : "neither",
       marker: marker ? { projectRef: marker.project_ref, stampedAt: marker.stamped_at } : null,
       unusedSql: sql.length > 0
     };

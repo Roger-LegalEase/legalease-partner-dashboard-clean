@@ -161,24 +161,24 @@ const sequence = action.migrationsInApplyOrder;
 {
   const files = fs.readdirSync(path.join(rootDir, "supabase"))
     .filter((name) => name.endsWith(".sql"))
-    .filter((name) => !/^phase-(49|50|51|52|53|54)-/.test(name));
+    .filter((name) => !/^phase-(49|50|51|52|53|54)-/.test(name))
+    // The demo seed is schema-shaping data for a sales demo, not schema. None
+    // of the acceptance journeys need it, and applying it is what first put
+    // tenant rows into the acceptance project. Schema only.
+    .filter((name) => name !== "partner-seed-demo.sql");
 
-  // Deterministic order: the un-numbered schema file first, phases ascending
-  // (with their letter suffixes in order), and the demo seed last because it
-  // inserts rows into tables the phases create.
+  // Deterministic order: the un-numbered schema file first, then phases
+  // ascending with their letter suffixes in order.
   const phaseKey = (name) => {
     const m = /^phase-(\d+)([a-z]*)-/.exec(name);
     if (!m) return name === "partner-journey-os.sql" ? [-2, "", name] : [999, "", name];
     return [Number(m[1]), m[2], name];
   };
-  const ordered = files
-    .filter((name) => name !== "partner-seed-demo.sql")
-    .sort((a, b) => {
-      const [an, as_, af] = phaseKey(a);
-      const [bn, bs, bf] = phaseKey(b);
-      return an - bn || as_.localeCompare(bs) || af.localeCompare(bf);
-    })
-    .concat(files.includes("partner-seed-demo.sql") ? ["partner-seed-demo.sql"] : []);
+  const ordered = files.sort((a, b) => {
+    const [an, as_, af] = phaseKey(a);
+    const [bn, bs, bf] = phaseKey(b);
+    return an - bn || as_.localeCompare(bs) || af.localeCompare(bf);
+  });
 
   for (const name of ordered) {
     const rel = `supabase/${name}`;
