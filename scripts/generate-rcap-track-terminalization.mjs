@@ -38,6 +38,10 @@ import { fileURLToPath } from 'node:url';
 // and asking a copy of its rules here would be a second system that drifts.
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const { resolvePacketRoute } = await import('../src/lib/rcap/documents/packet-route-resolver.ts');
+// Terminal treatments are validated in exactly one place — the guidance-packet
+// registry — and read here rather than re-validated, so the ledger and the
+// runtime can never disagree about whether a treatment loaded.
+const { terminalTreatmentForTrack } = await import('../src/lib/rcap/documents/guidance-packet-registry.ts');
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outJson = path.join(rootDir, 'data/rcap-ledger/track-terminalization.json');
@@ -354,6 +358,26 @@ const reviewOutcomes = new Map(); // "JUR:trackId" -> { outcome, reviewId }
 }
 const reviewApprovals = new Map([...reviewOutcomes].filter(([, v]) => v.outcome === 'technical_approved'));
 
+// Emergency terminalization window review dispositions. Same promotion rule as
+// F2 and a separate file, because these reviewers answer a different question:
+// not "is this packet right" but "is this complete treatment the right terminal
+// product for this track". Absent file = zero approvals = zero promotions.
+const terminalizationOutcomes = new Map(); // "JUR:trackId" -> { outcome, reviewId }
+{
+  const dispositionsPath = path.join(rootDir, 'data/rcap-all50/review-artifacts/terminalization-review-dispositions.json');
+  if (fs.existsSync(dispositionsPath)) {
+    const dispositions = JSON.parse(fs.readFileSync(dispositionsPath, 'utf8'));
+    for (const record of dispositions.closures || []) {
+      for (const trackKey of record.trackKeys || []) {
+        terminalizationOutcomes.set(trackKey, { outcome: record.outcome, reviewId: record.reviewId });
+      }
+    }
+  }
+}
+const terminalizationApprovals = new Set(
+  [...terminalizationOutcomes].filter(([, v]) => v.outcome === 'technical_approved_as_terminal_treatment').map(([k]) => k)
+);
+
 // Lane D1: implementation index — family-level evidence, holds preserved.
 // No track goes terminal from this; it feeds the F2 review manifest.
 let d1Implementation = null;
@@ -436,7 +460,37 @@ for (const row of crosswalk.registryTracks) {
   let candidateEvidence = null;
   let treatmentSubstitution = null;
   let runtimeSuppressionContradicted = false;
-  if (deliveredGuidance.has(row.registryTrackId)) {
+  const terminalTreatment = terminalTreatmentForTrack(row.registryTrackId);
+  if (terminalTreatment) {
+    // This window's authority for the track. The treatment's whole claim is
+    // that nothing is prepared, promised or sold here, so that claim is put to
+    // the authoritative resolver — by exact track id, and through every
+    // compiled pathway the track is reachable by — before it may be promoted.
+    const probes = [null, ...(row.mappedCompiledPathwayIds || [])];
+    const sellableThrough = probes.filter((pathwayId) => {
+      const route = resolvePacketRoute({ state: row.jurisdiction, pathway: pathwayId ?? '', trackId: row.registryTrackId });
+      return route.sellable === true || route.creditConsumable === true;
+    });
+    if (sellableThrough.length > 0) {
+      runtimeSuppressionContradicted = true;
+      runtimeContradictedDeferrals.push({
+        trackKey,
+        evidence: `data/rcap-all50/terminalization-treatments/${row.jurisdiction.toLowerCase()}.json`,
+        sellablePathwayIds: sellableThrough.filter(Boolean),
+        why: 'the terminal treatment tells the participant nothing is prepared, promised or sold on this route, while the authoritative route resolver still reports it as sellable or credit-consumable',
+        owner: 'Terminal A route owner, with the jurisdiction\'s legacy-route owner',
+      });
+    }
+    // A treatment that failed the registry's fail-closed contract still
+    // suppresses the route, but it is a broken treatment: it stays a candidate
+    // needing correction and can never be promoted by a review closure.
+    if (terminalTreatment.classification !== 'terminal_treatment_candidate') {
+      runtimeSuppressionContradicted = true;
+      treatmentSubstitution = `the terminal treatment did not validate (${terminalTreatment.invalidReason ?? 'unspecified'}); the route fails closed and the treatment must be corrected before it can be reviewed`;
+    }
+    candidateTreatment = terminalTreatment.treatment;
+    candidateEvidence = `data/rcap-all50/terminalization-treatments/${row.jurisdiction.toLowerCase()}.json`;
+  } else if (deliveredGuidance.has(row.registryTrackId)) {
     const nonRuntimeHolds = holds.filter((h) => h !== 'missing_from_compiled_runtime');
     if (nonRuntimeHolds.length === 0) {
       candidateTreatment = 'complete_guidance';
@@ -488,7 +542,7 @@ for (const row of crosswalk.registryTracks) {
   // Review dispositions: an F2 closure with technical_approved for the track's
   // delivered treatment is what promotes a candidate to terminal.
   const approvedByReview = candidateTreatment !== null
-    && reviewApprovals.has(`${row.jurisdiction}:${row.registryTrackId}`);
+    && (reviewApprovals.has(trackKey) || terminalizationApprovals.has(trackKey));
 
   // Review approval promotes a candidate — unless the runtime contradicts the
   // treatment's own promise. No reviewer can approve away a route that is
@@ -527,8 +581,10 @@ for (const row of crosswalk.registryTracks) {
         candidateTreatment,
         candidateEvidence,
         candidateStatus: approvedByReview
-          ? 'promoted_by_f2'
-          : (reviewOutcomes.get(trackKey)?.outcome ?? 'pending_f2_review'),
+          ? (terminalizationApprovals.has(trackKey) ? 'promoted_by_terminalization_review' : 'promoted_by_f2')
+          : (terminalizationOutcomes.get(trackKey)?.outcome
+            ?? reviewOutcomes.get(trackKey)?.outcome
+            ?? (terminalTreatment ? 'pending_terminalization_review' : 'pending_f2_review')),
       }
       : {}),
     ...(treatmentSubstitution ? { treatmentSubstitution } : {}),
@@ -690,6 +746,32 @@ for (const t of TREATMENTS) byTreatment[t] = nonterminal.filter((r) => r.require
 const byLane = {};
 for (const l of Object.keys(LANES)) byLane[l] = jobs.filter((j) => j.lane === l).reduce((n, j) => n + j.trackIds.length, 0);
 
+// The two launch-gate counters, computed from the runtime rather than declared.
+const NON_PACKET_TREATMENTS = new Set(['complete_guidance', 'exact_supported_deferral', 'deliberate_scope_exclusion', 'complete_composed_route']);
+const unsupportedSellableRoutes = [];
+for (const row of rows) {
+  const treatmentKind = row.candidateTreatment ?? row.requiredTreatment;
+  if (!treatmentKind || !NON_PACKET_TREATMENTS.has(treatmentKind)) continue;
+  const probes = [null, ...(row.mappedCompiledPathwayIds || [])];
+  const sellable = probes.filter((pathwayId) => {
+    const route = resolvePacketRoute({ state: row.jurisdiction, pathway: pathwayId ?? '', trackId: row.trackId });
+    return route.sellable === true || route.creditConsumable === true;
+  });
+  if (sellable.length > 0) {
+    unsupportedSellableRoutes.push({ trackKey: `${row.jurisdiction}:${row.trackId}`, treatmentKind, sellableThrough: sellable.filter(Boolean) });
+  }
+}
+const genericComingSoonStates = [...new Set(
+  rows
+    .filter((row) => {
+      const treatment = terminalTreatmentForTrack(row.trackId);
+      return treatment
+        && treatment.classification !== 'terminal_treatment_candidate'
+        && /prohibited language/.test(treatment.invalidReason ?? '');
+    })
+    .map((row) => row.jurisdiction)
+)].sort();
+
 const aggregates = {
   windowId: WINDOW_ID,
   registryTracks: rows.length,
@@ -704,6 +786,7 @@ const aggregates = {
   candidateTreatmentBreakdown: {
     complete_guidance: rows.filter((r) => r.candidateTreatment === 'complete_guidance').length,
     exact_supported_deferral: rows.filter((r) => r.candidateTreatment === 'exact_supported_deferral').length,
+    deliberate_scope_exclusion: rows.filter((r) => r.candidateTreatment === 'deliberate_scope_exclusion').length,
     production_packet: rows.filter((r) => r.candidateTreatment === 'production_packet').length,
     complete_composed_route: rows.filter((r) => r.candidateTreatment === 'complete_composed_route').length,
   },
@@ -714,8 +797,14 @@ const aggregates = {
   unownedRequiredComponents: 0,
   unownedBlockers: blockerRegister.filter((b) => !b.owner).length,
   unknownTrackDispositions: unknownDispositions,
-  genericComingSoonStates: 0,
-  unsupportedRoutesSellable: 0,
+  // Counted, not asserted. A state lands here when a treatment it serves was
+  // refused for promising a packet later or for other prohibited copy — the
+  // exact failure the launch gate is meant to catch.
+  genericComingSoonStates: genericComingSoonStates.length,
+  // A route is unsupported-sellable when the participant is told nothing is
+  // prepared or sold for it while the authoritative resolver still reports it
+  // sellable or credit-consumable. This must be zero at launch.
+  unsupportedRoutesSellable: unsupportedSellableRoutes.length,
 };
 
 if (problems.length > 0) {
@@ -740,11 +829,13 @@ const ledger = {
       'no packet-set component is conditioned on an unresolved legal decision',
       'the runtime text is not superseded',
       'OR a delivered candidate treatment (complete_guidance with all eleven participant elements, or exact_supported_deferral naming the track) has been PROMOTED by an F2 review closure of technical_approved for its atomic group — delivery alone records a candidate, never terminality (hour-6 promotion rules)',
+      'OR the track carries a terminalization-window treatment that loaded valid against the guidance-packet registry fail-closed contract, is proven non-sellable and non-credit-consumable by the authoritative route resolver, and has been PROMOTED by a terminalization review closure of technical_approved_as_terminal_treatment (Roger emergency terminalization authorization)',
     ],
     everyNonterminalGetsExactlyOneTreatment: true,
     runtimeMissingDoesNotImplyPacket: true,
     implementationEvidenceIsNotTerminality: 'Tier-1 hard-form families and D1 overlay families record implemented_pending_independent_review on the tracks/families they serve; they terminate nothing until composition completes and F2/F3 review closes. Implementation-complete is never equated with terminal.',
-    candidateIsNotTerminal: 'candidateTreatment/candidateStatus record delivered-but-unreviewed treatments; only an F2 technical_approved closure in data/rcap-all50/review-artifacts/f2-dispositions.json promotes them.',
+    candidateIsNotTerminal: 'candidateTreatment/candidateStatus record delivered-but-unreviewed treatments; only an F2 technical_approved closure in data/rcap-all50/review-artifacts/f2-dispositions.json, or a technical_approved_as_terminal_treatment closure in data/rcap-all50/review-artifacts/terminalization-review-dispositions.json, promotes them.',
+    strongestAvailableTreatment: 'Roger authorized every nonterminal track to receive the strongest complete, safe, repository-supported terminal treatment available now. A production packet is preferred only when it is already safe, current, independently approved, adopted, participant-ready, runtime-bound and non-conflicting; it is never required merely to improve the launch count. A treatment that fails the registry contract still suppresses its route and is never promoted.',
   },
   registrySource: regSrc,
   laneAssignments: LANES,

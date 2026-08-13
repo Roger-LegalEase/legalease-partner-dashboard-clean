@@ -3,7 +3,7 @@ import "server-only";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
-import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { getBriefcaseItem, updateBriefcaseCheckoutSessionMetadata } from "@/lib/expungement-ai/briefcase";
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
@@ -42,8 +42,10 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
   // deferral shows no amount at all, independently of the result booleans.
   const deferred = result.treatmentClassification === "component_deferral"
     || result.treatmentClassification === "exact_supported_deferral"
+    || result.treatmentClassification === "terminal_treatment_candidate"
     || Boolean(componentDeferralForTrack(result.selectedTrackId ?? null))
     || Boolean(exactDeferralForTrack(result.selectedTrackId ?? null))
+    || Boolean(terminalTreatmentForTrack(result.selectedTrackId ?? null))
     || Boolean(exactDeferralForPathway(result.state, result.pathwayLabel ?? null));
   const enabled = !deferred && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
@@ -273,9 +275,23 @@ function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
   }
 }
 
+/**
+ * A pending terminal treatment refuses checkout on the same independent terms.
+ * A candidate is not a weaker suppression than an accepted deferral — it is the
+ * same suppression, with the review still open.
+ */
+function assertNotTerminalTreatment(item: ConsumerBriefcaseItem) {
+  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
+  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
+  if (classification === "terminal_treatment_candidate" || terminalTreatmentForTrack(trackId)) {
+    throw new ConsumerCheckoutNotAllowedError("terminal_treatment_candidate");
+  }
+}
+
 export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
   assertNotExactDeferral(item);
   assertNotComponentDeferral(item);
+  assertNotTerminalTreatment(item);
   if (!item.paymentAllowed || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
     throw new ConsumerCheckoutNotAllowedError(item.resultCode ?? "missing_result_code");
   }

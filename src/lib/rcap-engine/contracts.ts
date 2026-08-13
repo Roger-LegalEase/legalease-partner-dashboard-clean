@@ -70,7 +70,7 @@ export type ScreeningEvaluation = {
    * payment closed; the field exists so every downstream consumer (Briefcase,
    * checkout, render) can recognise the treatment without re-deriving it.
    */
-  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | null;
+  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | "terminal_treatment_candidate" | null;
   /** The exact server-selected track id, echoed back for persistence. */
   selectedTrackId?: string | null;
   /** Every deferred component id, in route.json order. */

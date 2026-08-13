@@ -91,6 +91,29 @@ export function guidanceTracksForPathway(jurisdiction: string, pathwayId: string
   return guidanceTracksForJurisdiction(jurisdiction).filter((packet) => packet.compiledPathwayIds.includes(pathwayId));
 }
 
+/**
+ * A complete-guidance treatment looked up by exact track id.
+ *
+ * Pathway lookup is not enough on its own. Several guidance tracks bind to no
+ * compiled pathway at all — the Illinois 2028 automatic-sealing act and both
+ * Alaska tracks among them — so a caller holding the server-owned track id and
+ * nothing else found no treatment here and fell through to the jurisdiction's
+ * classification. In Illinois and Texas that classification is legacy_verified,
+ * which is sellable, so a route whose accepted treatment says the participant
+ * files nothing could still be offered a packet for $50.
+ *
+ * This is the track-scoped half of the same authority, and it exists so the
+ * resolver can answer "is this exact track sellable" without needing a pathway.
+ */
+export function completeGuidanceForTrack(trackId: string | null | undefined): GuidancePacketSummary | null {
+  if (!trackId) return null;
+  for (const packets of loadAll().values()) {
+    const match = packets.find((packet) => packet.trackId === trackId);
+    if (match) return match;
+  }
+  return null;
+}
+
 /* -------------------------------------------------------------------------
  * Component deferrals for composed routes.
  *
@@ -906,5 +929,367 @@ export function exactDeferralBundle(
     handoff: valid ? deferral.handoff[lang] : "",
     briefcaseSaved: valid ? deferral.briefcaseSaved[lang] : [],
     nextSteps,
+  };
+}
+
+/* -------------------------------------------------------------------------
+ * TERMINAL TREATMENTS — the emergency 497/497 terminalization window.
+ *
+ * Roger authorized every track that was still nonterminal to receive the
+ * strongest complete, safe, repository-supported treatment available now,
+ * rather than waiting for a preferred packet that is not ready. This loader is
+ * where that authorization meets the runtime.
+ *
+ * A track reaching this loader has no production packet, so the only question
+ * left is whether the participant is told the truth well: the exact reason, the
+ * exact place to go, the exact next action, what to gather, what not to sign or
+ * file, an escalation that helps, and a Briefcase they can close and reopen —
+ * in English and in Spanish. A treatment that does not do all of that is not a
+ * softer treatment, it is a broken one, and this loader refuses it.
+ *
+ * These are CANDIDATES. Registration stops the runtime from behaving as though
+ * the track were sellable and lets a reviewer exercise the real thing rather
+ * than read a JSON file, but `reviewState` is pending_independent_review on
+ * every one of them and nothing here makes a track terminal. Only an accepted
+ * independent review does that, and the session that authored a treatment is
+ * never the session that reviews it.
+ *
+ * Fail-closed throughout. A refused treatment still suppresses the route: a
+ * broken promise to the participant is a reason to close payment, never a
+ * reason to fall through to a sibling packet route.
+ * ---------------------------------------------------------------------- */
+
+const TERMINAL_TREATMENT_DIR = "data/rcap-all50/terminalization-treatments";
+
+export type TerminalTreatmentKind =
+  | "complete_guidance"
+  | "exact_supported_deferral"
+  | "deliberate_scope_exclusion";
+
+export type TerminalTreatment = {
+  trackId: string;
+  jurisdiction: string;
+  treatment: TerminalTreatmentKind;
+  classification: "terminal_treatment_candidate" | "invalid_terminal_treatment_candidate";
+  reviewState: "pending_independent_review";
+  sellable: false;
+  paymentAllowed: false;
+  checkoutSuppressed: true;
+  renderJobAllowed: false;
+  packetPromise: "none";
+  packetCreditConsumption: "none";
+  partnerCreditConsumption: "none";
+  partnerCreditConsumed: false;
+  destinationName: string | null;
+  destinationKind: string | null;
+  authorityCitations: string[];
+  evidenceRefs: string[];
+  raw: Record<string, unknown>;
+  invalidReason?: string;
+};
+
+let terminalTreatmentCache: Map<string, TerminalTreatment> | null = null;
+
+function invalidTerminalTreatment(
+  trackId: string,
+  jurisdiction: string,
+  treatment: TerminalTreatmentKind,
+  reason: string
+): TerminalTreatment {
+  return {
+    trackId,
+    jurisdiction,
+    treatment,
+    classification: "invalid_terminal_treatment_candidate",
+    reviewState: "pending_independent_review",
+    sellable: false,
+    paymentAllowed: false,
+    checkoutSuppressed: true,
+    renderJobAllowed: false,
+    packetPromise: "none",
+    packetCreditConsumption: "none",
+    partnerCreditConsumption: "none",
+    partnerCreditConsumed: false,
+    destinationName: null,
+    destinationKind: null,
+    authorityCitations: [],
+    evidenceRefs: [],
+    raw: {},
+    invalidReason: reason
+  };
+}
+
+/**
+ * Copy that promises a packet later is exactly what these treatments replace,
+ * so it is refused at load rather than shown and apologised for. The Spanish
+ * entries are here because a promise in Spanish is still a promise.
+ */
+const TERMINAL_PROHIBITED_COPY = /(coming soon|check back|research required|legal review pending|unsupported runtime|registry gap|source blocker|crosswalk|terminal disposition|implementation family|in the future|will be available|soon be available|próximamente|vuelva más tarde|estará disponible)/i;
+
+/**
+ * A destination is exact when it names the place this track actually goes to.
+ * These are the phrasings that look like an answer and are not one; a treatment
+ * whose destination is one of them leaves the participant exactly where they
+ * started, so it fails closed instead of shipping.
+ */
+const GENERIC_REFERRAL = /^(?:\s*)(?:contact (?:a|an) (?:lawyer|attorney)|consult (?:a|an) (?:lawyer|attorney)|your local court|contact your local court|see your state'?s website|a lawyer|an attorney|legal aid)(?:\s*)$/i;
+
+/** Every participant element that must exist and must carry both languages. */
+const REQUIRED_TEXT_ELEMENTS = [
+  "routeLabel", "mechanism", "participantFiles", "controllingActor",
+  "stopReason", "nextStep", "afterNextStep", "escalation"
+] as const;
+const REQUIRED_LIST_ELEMENTS = ["gather", "doNot", "nextSteps"] as const;
+
+function bothLanguages(node: unknown): { en: string; es: string } | null {
+  if (!node || typeof node !== "object") return null;
+  const en = (node as Record<string, unknown>).en;
+  const es = (node as Record<string, unknown>).es;
+  if (typeof en !== "string" || typeof es !== "string") return null;
+  if (en.trim().length === 0 || es.trim().length === 0) return null;
+  return { en, es };
+}
+
+function bothLanguageLists(node: unknown): { en: string[]; es: string[] } | null {
+  if (!node || typeof node !== "object") return null;
+  const en = (node as Record<string, unknown>).en;
+  const es = (node as Record<string, unknown>).es;
+  if (!Array.isArray(en) || !Array.isArray(es)) return null;
+  if (en.length === 0 || es.length === 0) return null;
+  if (!en.every((v) => typeof v === "string" && v.trim().length > 0)) return null;
+  if (!es.every((v) => typeof v === "string" && v.trim().length > 0)) return null;
+  return { en: en as string[], es: es as string[] };
+}
+
+function collectStrings(node: unknown, out: string[] = []): string[] {
+  if (typeof node === "string") out.push(node);
+  else if (Array.isArray(node)) for (const v of node) collectStrings(v, out);
+  else if (node && typeof node === "object") {
+    for (const [key, value] of Object.entries(node)) {
+      // Structural fields are not participant copy; only the rendered text is.
+      if (key === "evidenceRefs" || key === "authority" || key === "url" || key === "kind") continue;
+      collectStrings(value, out);
+    }
+  }
+  return out;
+}
+
+function validateTerminalTreatment(entry: Record<string, unknown>, jurisdiction: string): TerminalTreatment {
+  const trackId = typeof entry.trackId === "string" ? entry.trackId : "";
+  const treatment = entry.treatment as TerminalTreatmentKind;
+  const bad = (reason: string) => invalidTerminalTreatment(trackId, jurisdiction, treatment, reason);
+
+  if (!["complete_guidance", "exact_supported_deferral", "deliberate_scope_exclusion"].includes(String(treatment))) {
+    return bad(`unknown treatment kind ${String(treatment)}`);
+  }
+
+  const contract = (entry.runtimeContract ?? {}) as Record<string, unknown>;
+  const suppressionHolds = contract.sellable === false
+    && contract.paymentAllowed === false
+    && contract.checkoutSuppressed === true
+    && contract.renderJobAllowed === false
+    && contract.rendererKind === "none"
+    && contract.packetPlan === null
+    && contract.packetPromise === "none"
+    && contract.packetCreditConsumption === "none"
+    && contract.partnerCreditConsumption === "none"
+    && contract.partnerCreditConsumed === false;
+  if (!suppressionHolds) {
+    return bad("the treatment does not declare complete sale, payment, checkout, credit, render and packet-promise suppression");
+  }
+
+  // A treatment that claims approval for itself is refused outright.
+  if (entry.candidateOnly !== true || entry.promotionEffect !== "none" || entry.ledgerEffect !== "none") {
+    return bad("the treatment does not declare itself candidate-only with no promotion or ledger effect");
+  }
+  if (entry.reviewState !== "pending_independent_review") {
+    return bad("the treatment does not declare pending_independent_review");
+  }
+
+  for (const key of REQUIRED_TEXT_ELEMENTS) {
+    const pair = bothLanguages(entry[key]);
+    if (!pair) return bad(`${key} is missing substantive English and Spanish`);
+    if (pair.en.trim() === pair.es.trim()) return bad(`${key} repeats the English text as Spanish`);
+  }
+  for (const key of REQUIRED_LIST_ELEMENTS) {
+    const pair = bothLanguageLists(entry[key]);
+    if (!pair) return bad(`${key} is missing substantive English and Spanish entries`);
+    if (pair.en.join("|") === pair.es.join("|")) return bad(`${key} repeats the English list as Spanish`);
+  }
+
+  const briefcase = (entry.briefcase ?? {}) as Record<string, unknown>;
+  if (!bothLanguageLists(briefcase.preserved)) return bad("the Briefcase handoff does not say what is preserved in both languages");
+  if (!bothLanguageLists(briefcase.outstanding)) return bad("the Briefcase handoff does not say what is outstanding in both languages");
+  const briefcaseReturn = bothLanguages(briefcase.return);
+  if (!briefcaseReturn) return bad("the Briefcase handoff carries no return-and-resume instruction in both languages");
+  if (briefcaseReturn.en.trim() === briefcaseReturn.es.trim()) return bad("the Briefcase return instruction repeats the English text as Spanish");
+
+  const destination = (entry.destination ?? {}) as Record<string, unknown>;
+  const destinationName = typeof destination.name === "string" ? destination.name.trim() : "";
+  if (destinationName.length === 0) return bad("the treatment names no destination");
+  if (GENERIC_REFERRAL.test(destinationName)) return bad(`the destination "${destinationName}" is a generic referral rather than an exact destination`);
+  if (!bothLanguages(destination)) return bad("the destination carries no substantive English and Spanish explanation");
+
+  const authority = Array.isArray(entry.authority) ? entry.authority as Array<Record<string, unknown>> : [];
+  if (authority.length === 0) return bad("the treatment cites no operative authority");
+  const evidenceRefs = Array.isArray(entry.evidenceRefs) ? entry.evidenceRefs as string[] : [];
+  if (evidenceRefs.length === 0) return bad("the treatment cites no committed evidence");
+
+  const promise = collectStrings(entry).find((text) => TERMINAL_PROHIBITED_COPY.test(text));
+  if (promise) return bad(`the participant copy carries prohibited language: "${promise.slice(0, 90)}"`);
+
+  return {
+    trackId,
+    jurisdiction,
+    treatment,
+    classification: "terminal_treatment_candidate",
+    reviewState: "pending_independent_review",
+    sellable: false,
+    paymentAllowed: false,
+    checkoutSuppressed: true,
+    renderJobAllowed: false,
+    packetPromise: "none",
+    packetCreditConsumption: "none",
+    partnerCreditConsumption: "none",
+    partnerCreditConsumed: false,
+    destinationName,
+    destinationKind: typeof destination.kind === "string" ? destination.kind : null,
+    authorityCitations: authority.map((a) => String(a.citation ?? "")).filter(Boolean),
+    evidenceRefs,
+    raw: entry
+  };
+}
+
+function loadTerminalTreatments(): Map<string, TerminalTreatment> {
+  if (terminalTreatmentCache) return terminalTreatmentCache;
+  const byTrack = new Map<string, TerminalTreatment>();
+  const dir = path.join(process.cwd(), TERMINAL_TREATMENT_DIR);
+  if (!fs.existsSync(dir)) {
+    terminalTreatmentCache = byTrack;
+    return byTrack;
+  }
+
+  for (const file of fs.readdirSync(dir).sort()) {
+    if (!file.endsWith(".json") || file.startsWith("_")) continue;
+    let parsed: { jurisdiction?: string; treatments?: Array<Record<string, unknown>> };
+    try {
+      parsed = JSON.parse(fs.readFileSync(path.join(dir, file), "utf8"));
+    } catch {
+      continue;
+    }
+    const jurisdiction = String(parsed.jurisdiction ?? file.replace(/\.json$/, "")).toUpperCase();
+    for (const entry of parsed.treatments ?? []) {
+      const trackId = typeof entry.trackId === "string" ? entry.trackId : "";
+      if (!trackId) continue;
+      byTrack.set(trackId, validateTerminalTreatment(entry, jurisdiction));
+    }
+  }
+
+  terminalTreatmentCache = byTrack;
+  return byTrack;
+}
+
+/** The terminal treatment for an exact track id, or null. */
+export function terminalTreatmentForTrack(trackId: string | null | undefined): TerminalTreatment | null {
+  if (!trackId) return null;
+  return loadTerminalTreatments().get(trackId) ?? null;
+}
+
+/** Every registered terminal treatment, for verifiers, reviewers and the ledger. */
+export function allTerminalTreatments(): TerminalTreatment[] {
+  return [...loadTerminalTreatments().values()].sort((a, b) => a.trackId.localeCompare(b.trackId));
+}
+
+export type TerminalTreatmentBundle = {
+  trackId: string;
+  jurisdiction: string;
+  treatment: TerminalTreatmentKind;
+  classification: TerminalTreatment["classification"];
+  reviewState: "pending_independent_review";
+  locale: DeferralLocale;
+  paymentAllowed: false;
+  checkoutSuppressed: true;
+  packetCreditConsumption: "none";
+  partnerCreditConsumption: "none";
+  routeLabel: string;
+  mechanism: string;
+  participantFiles: string;
+  controllingActor: string;
+  stopReason: string;
+  destinationName: string;
+  destination: string;
+  destinationUrl: string | null;
+  nextStep: string;
+  gather: string[];
+  doNot: string[];
+  timing: string | null;
+  afterNextStep: string;
+  escalation: string;
+  briefcasePreserved: string[];
+  briefcaseOutstanding: string[];
+  briefcaseReturn: string;
+  nextSteps: string[];
+  authorityCitations: string[];
+};
+
+function localeText(node: unknown, lang: DeferralLocale): string {
+  if (!node || typeof node !== "object") return "";
+  const value = (node as Record<string, unknown>)[lang];
+  return typeof value === "string" ? value : "";
+}
+
+function localeList(node: unknown, lang: DeferralLocale): string[] {
+  if (!node || typeof node !== "object") return [];
+  const value = (node as Record<string, unknown>)[lang];
+  return Array.isArray(value) ? value.filter((v): v is string => typeof v === "string") : [];
+}
+
+/**
+ * The participant-facing terminal treatment in one locale. This is what the
+ * Briefcase saves and what a returning participant reopens, so it is assembled
+ * once here rather than by each caller.
+ */
+export function terminalTreatmentBundle(
+  trackId: string | null | undefined,
+  locale: unknown
+): TerminalTreatmentBundle | null {
+  const record = terminalTreatmentForTrack(trackId);
+  if (!record) return null;
+  const lang = normalizeDeferralLocale(locale);
+  const entry = record.raw;
+  const destination = (entry.destination ?? {}) as Record<string, unknown>;
+  const briefcase = (entry.briefcase ?? {}) as Record<string, unknown>;
+  const timing = entry.timing ? localeText(entry.timing, lang) : "";
+
+  return {
+    trackId: record.trackId,
+    jurisdiction: record.jurisdiction,
+    treatment: record.treatment,
+    classification: record.classification,
+    reviewState: "pending_independent_review",
+    locale: lang,
+    paymentAllowed: false,
+    checkoutSuppressed: true,
+    packetCreditConsumption: "none",
+    partnerCreditConsumption: "none",
+    routeLabel: localeText(entry.routeLabel, lang),
+    mechanism: localeText(entry.mechanism, lang),
+    participantFiles: localeText(entry.participantFiles, lang),
+    controllingActor: localeText(entry.controllingActor, lang),
+    stopReason: localeText(entry.stopReason, lang),
+    destinationName: typeof destination.name === "string" ? destination.name : "",
+    destination: localeText(destination, lang),
+    destinationUrl: typeof destination.url === "string" ? destination.url : null,
+    nextStep: localeText(entry.nextStep, lang),
+    gather: localeList(entry.gather, lang),
+    doNot: localeList(entry.doNot, lang),
+    timing: timing.length > 0 ? timing : null,
+    afterNextStep: localeText(entry.afterNextStep, lang),
+    escalation: localeText(entry.escalation, lang),
+    briefcasePreserved: localeList(briefcase.preserved, lang),
+    briefcaseOutstanding: localeList(briefcase.outstanding, lang),
+    briefcaseReturn: localeText(briefcase.return, lang),
+    nextSteps: localeList(entry.nextSteps, lang),
+    authorityCitations: record.authorityCitations
   };
 }

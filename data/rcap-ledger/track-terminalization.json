@@ -12,12 +12,14 @@
       "no official-source gap adjudication names a mapped pathway",
       "no packet-set component is conditioned on an unresolved legal decision",
       "the runtime text is not superseded",
-      "OR a delivered candidate treatment (complete_guidance with all eleven participant elements, or exact_supported_deferral naming the track) has been PROMOTED by an F2 review closure of technical_approved for its atomic group — delivery alone records a candidate, never terminality (hour-6 promotion rules)"
+      "OR a delivered candidate treatment (complete_guidance with all eleven participant elements, or exact_supported_deferral naming the track) has been PROMOTED by an F2 review closure of technical_approved for its atomic group — delivery alone records a candidate, never terminality (hour-6 promotion rules)",
+      "OR the track carries a terminalization-window treatment that loaded valid against the guidance-packet registry fail-closed contract, is proven non-sellable and non-credit-consumable by the authoritative route resolver, and has been PROMOTED by a terminalization review closure of technical_approved_as_terminal_treatment (Roger emergency terminalization authorization)"
     ],
     "everyNonterminalGetsExactlyOneTreatment": true,
     "runtimeMissingDoesNotImplyPacket": true,
     "implementationEvidenceIsNotTerminality": "Tier-1 hard-form families and D1 overlay families record implemented_pending_independent_review on the tracks/families they serve; they terminate nothing until composition completes and F2/F3 review closes. Implementation-complete is never equated with terminal.",
-    "candidateIsNotTerminal": "candidateTreatment/candidateStatus record delivered-but-unreviewed treatments; only an F2 technical_approved closure in data/rcap-all50/review-artifacts/f2-dispositions.json promotes them."
+    "candidateIsNotTerminal": "candidateTreatment/candidateStatus record delivered-but-unreviewed treatments; only an F2 technical_approved closure in data/rcap-all50/review-artifacts/f2-dispositions.json, or a technical_approved_as_terminal_treatment closure in data/rcap-all50/review-artifacts/terminalization-review-dispositions.json, promotes them.",
+    "strongestAvailableTreatment": "Roger authorized every nonterminal track to receive the strongest complete, safe, repository-supported terminal treatment available now. A production packet is preferred only when it is already safe, current, independently approved, adopted, participant-ready, runtime-bound and non-conflicting; it is never required merely to improve the launch count. A treatment that fails the registry contract still suppresses its route and is never promoted."
   },
   "registrySource": {
     "ref": "origin/feat/record-clearing-production-integration",
@@ -126,7 +128,8 @@
     "candidateTreatmentsPendingReview": 16,
     "candidateTreatmentBreakdown": {
       "complete_guidance": 64,
-      "exact_supported_deferral": 11,
+      "exact_supported_deferral": 13,
+      "deliberate_scope_exclusion": 0,
       "production_packet": 44,
       "complete_composed_route": 16
     },
@@ -1635,7 +1638,7 @@
       ],
       "requiredTreatment": "complete_guidance",
       "candidateTreatment": "complete_guidance",
-      "candidateEvidence": "data/rcap-all50/guidance-packets/ak.json",
+      "candidateEvidence": "data/rcap-all50/terminalization-treatments/ak.json",
       "candidateStatus": "correction_required",
       "counselItemIds": [],
       "decisionCondition": null,
@@ -1688,6 +1691,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/terminalization-treatments/ak.json",
+      "candidateStatus": "pending_terminalization_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
@@ -1704,6 +1710,9 @@
         "missing_from_compiled_runtime"
       ],
       "requiredTreatment": "production_packet",
+      "candidateTreatment": "exact_supported_deferral",
+      "candidateEvidence": "data/rcap-all50/terminalization-treatments/ak.json",
+      "candidateStatus": "pending_terminalization_review",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,

@@ -6,7 +6,7 @@ import {
   ConsumerCheckoutTemporarilyUnavailableError,
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
-import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,6 +37,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       error: "No packet is prepared or sold for this route; it is served as an exact supported deferral.",
       resultCode: "exact_supported_deferral"
+    }, { status: 403 });
+  }
+
+  // A terminalization-window treatment is refused here on the same terms and
+  // before the same sponsored/payment handling. The open independent review does
+  // not soften the refusal; it is recorded on the response so a caller can tell a
+  // pending treatment from an accepted one without either becoming sellable.
+  if (item.treatmentClassification === "terminal_treatment_candidate" || terminalTreatmentForTrack(deferralTrackId)) {
+    return NextResponse.json({
+      error: "No packet is prepared, promised or sold for this route; it is served as a complete terminal treatment.",
+      resultCode: "terminal_treatment_candidate",
+      treatmentReviewState: "pending_independent_review"
     }, { status: 403 });
   }
 

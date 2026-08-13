@@ -8,7 +8,7 @@ import type {
   ExpungementAiEligibilityResult
 } from "@/lib/expungement-ai/types";
 import { findItemForSession } from "@/lib/expungement-ai/save-result-policy";
-import { componentDeferralBundle, componentDeferralForTrack, exactDeferralBundle, exactDeferralForPathway, exactDeferralForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralBundle, componentDeferralForTrack, exactDeferralBundle, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentBundle, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 
 // Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS.
 // Safe fallback path: local/unconfigured shells return deterministic items without service-role writes.
@@ -175,8 +175,57 @@ function clampComponentDeferral(input: CreateConsumerBriefcaseItemInput): Create
   };
 }
 
+/**
+ * The Briefcase-side terminal-treatment clamp.
+ *
+ * These treatments are candidates, not decisions, so this clamp does two jobs at
+ * once. It saves the same closed guidance item every other deferral saves —
+ * payment off, no amount, no checkout id, packet not started, the participant's
+ * own locale — and it stamps pending_independent_review onto the persisted item,
+ * so a row written today cannot later be mistaken for an approved treatment. It
+ * runs innermost so an accepted exact deferral or an accepted component deferral
+ * for the same track still has the final word.
+ */
+function clampTerminalTreatment(input: CreateConsumerBriefcaseItemInput): CreateConsumerBriefcaseItemInput {
+  const trackId = input.selectedTrackId
+    ?? (typeof input.artifactRefs?.selectedTrackId === "string" ? input.artifactRefs.selectedTrackId : null);
+  const candidate = terminalTreatmentForTrack(trackId);
+  const declared = input.treatmentClassification === "terminal_treatment_candidate"
+    || input.artifactRefs?.treatmentClassification === "terminal_treatment_candidate";
+  if (!declared && !candidate) return input;
+
+  const localeHint = typeof input.artifactRefs?.locale === "string" ? input.artifactRefs.locale : "en";
+  const bundle = terminalTreatmentBundle(trackId, localeHint);
+
+  return {
+    ...input,
+    paymentAllowed: false,
+    status: "guidance_saved",
+    resultCode: "guidance_only",
+    packetType: "guidance_packet",
+    paymentStatus: "not_applicable",
+    paymentProvider: undefined,
+    checkoutSessionId: undefined,
+    paymentIntentId: undefined,
+    amountCents: undefined,
+    receiptUrl: undefined,
+    packetStatus: "not_started",
+    summary: bundle?.stopReason ?? input.summary,
+    nextSteps: bundle?.nextSteps ?? input.nextSteps,
+    selectedTrackId: trackId,
+    treatmentClassification: "terminal_treatment_candidate",
+    artifactRefs: {
+      ...(input.artifactRefs ?? {}),
+      selectedTrackId: trackId,
+      treatmentClassification: "terminal_treatment_candidate",
+      treatmentReviewState: "pending_independent_review",
+      ...(bundle ? { terminalTreatment: bundle } : {})
+    }
+  };
+}
+
 export async function createBriefcaseItem(rawInput: CreateConsumerBriefcaseItemInput): Promise<ConsumerBriefcaseItem> {
-  const input = clampComponentDeferral(clampExactDeferral(rawInput));
+  const input = clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(rawInput)));
   const fallbackItem = fallbackItemFromCreateInput(input);
   const supabase = await getConsumerBriefcaseClient();
 

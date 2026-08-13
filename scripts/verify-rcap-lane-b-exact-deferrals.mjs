@@ -25,7 +25,15 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 // Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
 // interrupted runs left tracked mutations behind. The journal this writes is
 // recovered by the next repository command even if this process is killed.
-registerTrackedMutation("verify-rcap-lane-b-exact-deferrals.mjs", ["data/rcap-all50/guidance-packets/wv.json", "data/rcap-all50/review-artifacts/f2-dispositions.json", "src/lib/rcap/documents/packet-route-resolver.ts", "src/lib/expungement-ai/save-result-policy.ts", "scripts/generate-rcap-track-terminalization.mjs", "data/rcap-ledger/track-terminalization.json", "docs/record-clearing/track-terminalization.md"]);
+const MUTATION_TARGETS = ["data/rcap-all50/guidance-packets/wv.json", "data/rcap-all50/review-artifacts/f2-dispositions.json", "src/lib/rcap/documents/packet-route-resolver.ts", "src/lib/expungement-ai/save-result-policy.ts", "scripts/generate-rcap-track-terminalization.mjs", "data/rcap-ledger/track-terminalization.json", "docs/record-clearing/track-terminalization.md"];
+
+// The lock is taken only by a run that will actually mutate. A plain
+// verification run changes nothing, and taking the lock for it made the
+// mutation harness lie: the harness spawns this same file as a child to see
+// whether a deliberate breakage is caught, and while the parent held the lock
+// the child died on the lock itself. Every mutation then looked "detected" for
+// a reason that had nothing to do with the mutation.
+if (process.argv.includes("--mutations")) registerTrackedMutation("verify-rcap-lane-b-exact-deferrals.mjs", MUTATION_TARGETS);
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 

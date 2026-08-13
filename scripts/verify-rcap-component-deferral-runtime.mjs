@@ -31,7 +31,15 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 // Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
 // interrupted runs left tracked mutations behind. The journal this writes is
 // recovered by the next repository command even if this process is killed.
-registerTrackedMutation("verify-rcap-component-deferral-runtime.mjs", ["src/lib/rcap/documents/packet-route-resolver.ts", "src/lib/expungement-ai/save-result-policy.ts", "src/lib/rcap-engine/expungement-ai-adapter.ts", "src/lib/rcap-engine/rcap-adapter.ts"]);
+const MUTATION_TARGETS = ["src/lib/rcap/documents/packet-route-resolver.ts", "src/lib/expungement-ai/save-result-policy.ts", "src/lib/rcap-engine/expungement-ai-adapter.ts", "src/lib/rcap-engine/rcap-adapter.ts"];
+
+// The lock is taken only by a run that will actually mutate. A plain
+// verification run changes nothing, and taking the lock for it made the
+// mutation harness lie: the harness spawns this same file as a child to see
+// whether a deliberate breakage is caught, and while the parent held the lock
+// the child died on the lock itself. Every mutation then looked "detected" for
+// a reason that had nothing to do with the mutation.
+if (process.argv.includes("--mutations")) registerTrackedMutation("verify-rcap-component-deferral-runtime.mjs", MUTATION_TARGETS);
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 

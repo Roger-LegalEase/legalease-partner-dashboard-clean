@@ -9,7 +9,7 @@ import type { ExpungementAiCheckInput, ExpungementAiEligibilityResult } from "@/
 import type { ScreeningEvaluation, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { evaluateExpungementAiMatter } from "@/lib/rcap-engine/expungement-ai-adapter";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
-import { componentDeferralBundle, exactDeferralBundle, exactDeferralForPathway } from "@/lib/rcap/documents/guidance-packet-registry";
+import { componentDeferralBundle, exactDeferralBundle, exactDeferralForPathway, terminalTreatmentBundle } from "@/lib/rcap/documents/guidance-packet-registry";
 
 export function runExpungementAiEligibilityCheck(input: ExpungementAiCheckInput): ExpungementAiEligibilityResult {
   saveEligibilityCheckToBriefcase(input.state);
@@ -50,22 +50,35 @@ function legacyShapeFromEvaluation(engineResult: ScreeningEvaluation, locale?: s
   // the compiled pathway the participant arrived through.
   const exactRecord = exactDeferralForPathway(engineResult.jurisdiction, engineResult.pathwayId ?? null);
   const exact = exactRecord ? exactDeferralBundle(exactRecord.trackId, locale) : null;
-  const paymentAllowed = !deferral && !exact && isConsumerPaymentAllowed(resultCode, engineResult.paymentAllowed);
+  // A terminalization-window treatment closes payment on the same terms, matched
+  // on the exact server-selected track. It is consulted only when neither
+  // accepted treatment applies, so an accepted decision always wins over a
+  // pending one.
+  const terminal = (deferral || exact) ? null : terminalTreatmentBundle(engineResult.selectedTrackId ?? null, locale);
+  const suppressed = Boolean(deferral || exact || terminal);
+  const paymentAllowed = !suppressed && isConsumerPaymentAllowed(resultCode, engineResult.paymentAllowed);
   const result: ExpungementAiEligibilityResult = {
-    resultCode: (deferral || exact) ? "guidance_only" : resultCode,
+    resultCode: suppressed ? "guidance_only" : resultCode,
     userLabel: engineResult.userLabel,
     state: engineResult.jurisdiction,
     pathwayLabel: engineResult.pathwayId ?? `${engineResult.jurisdiction} record-clearing review`,
-    confidence: confidenceForResult((deferral || exact) ? "guidance_only" : resultCode),
+    confidence: confidenceForResult(suppressed ? "guidance_only" : resultCode),
     paymentAllowed,
     priceCents: paymentAllowed ? 5000 : undefined,
-    packetType: packetTypeForResult((deferral || exact) ? "guidance_only" : resultCode),
+    packetType: packetTypeForResult(suppressed ? "guidance_only" : resultCode),
     reasons: engineResult.reasons.map((reason) => reason.text),
     missingInfo: engineResult.missingQuestionIds.length > 0 ? engineResult.missingQuestionIds : undefined,
-    nextSteps: deferral ? deferral.nextSteps : (exact ? exact.nextSteps : engineResult.nextSteps),
+    nextSteps: deferral ? deferral.nextSteps : (exact ? exact.nextSteps : (terminal ? terminal.nextSteps : engineResult.nextSteps)),
     emailCaptureRecommended: resultCode !== "packet_ready",
     reminderRecommended: resultCode === "not_yet",
     disclaimer: consumerDisclaimer(),
+    ...(terminal
+      ? {
+        selectedTrackId: terminal.trackId,
+        treatmentClassification: "terminal_treatment_candidate" as const,
+        componentDeferralTreatment: terminal as unknown as Record<string, unknown>
+      }
+      : {}),
     ...(exact && !deferral
       ? {
         selectedTrackId: exact.trackId,

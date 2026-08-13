@@ -4,7 +4,10 @@ import type { ScreeningEvaluation, ScreeningEvaluationRequest } from "@/lib/rcap
 import {
   componentDeferralForTrack,
   exactDeferralForPathway,
-  type ExactSupportedDeferral
+  terminalTreatmentBundle,
+  terminalTreatmentForTrack,
+  type ExactSupportedDeferral,
+  type TerminalTreatment
 } from "@/lib/rcap/documents/guidance-packet-registry";
 
 /**
@@ -35,7 +38,13 @@ export function applyComponentDeferralClamp(
   if (exact) return applyExactDeferralClamp(exact, evaluation);
 
   const deferral = componentDeferralForTrack(request.selectedTrackId ?? null);
-  if (!deferral) return evaluation;
+  if (!deferral) {
+    // Checked after the accepted treatments, so an accepted decision always
+    // outranks a pending candidate. A candidate still clamps the evaluation the
+    // moment it is registered: suppression is not what review decides.
+    const treatment = terminalTreatmentForTrack(request.selectedTrackId ?? null);
+    return treatment ? applyTerminalTreatmentClamp(treatment, evaluation) : evaluation;
+  }
 
   const { packetPlan: _discardedPaidPlan, ...withoutPlan } = evaluation;
   void _discardedPaidPlan;
@@ -109,5 +118,46 @@ function applyExactDeferralClamp(
       : evaluation.nextSteps,
     treatmentClassification: "exact_supported_deferral",
     selectedTrackId: exact.trackId,
+  };
+}
+
+/**
+ * The terminal-treatment clamp.
+ *
+ * These treatments are candidates awaiting an independent review the authoring
+ * session is disqualified from performing. That pending state is a reason to
+ * close the route harder, not softer: the evaluation leaves the engine as
+ * guidance with payment off and no packet plan, exactly as an accepted deferral
+ * would, and carries the pending review state so no downstream surface can read
+ * the suppression as an approval. An invalid record clamps exactly as hard as a
+ * valid one — a treatment that failed to load is a broken promise to the
+ * participant, not a licence to sell them something instead.
+ */
+function applyTerminalTreatmentClamp(
+  treatment: TerminalTreatment,
+  evaluation: ScreeningEvaluation
+): ScreeningEvaluation {
+  const { packetPlan: _discardedPaidPlan, ...withoutPlan } = evaluation;
+  void _discardedPaidPlan;
+
+  const valid = treatment.classification === "terminal_treatment_candidate";
+  // English here, because the engine contract carries no locale. The full
+  // bilingual treatment travels with the Briefcase item, which is where the
+  // participant actually reads it.
+  const bundle = valid ? terminalTreatmentBundle(treatment.trackId, "en") : null;
+
+  return {
+    ...withoutPlan,
+    resultCode: "guidance_only",
+    userLabel: bundle?.routeLabel || "This route is guidance-only while its treatment is being corrected.",
+    paymentAllowed: false,
+    cautions: [
+      ...evaluation.cautions,
+      bundle?.stopReason
+        || "This route's treatment record did not validate, so it fails closed as guidance with payment and credit disabled."
+    ],
+    nextSteps: bundle && bundle.nextSteps.length > 0 ? bundle.nextSteps : evaluation.nextSteps,
+    treatmentClassification: "terminal_treatment_candidate",
+    selectedTrackId: treatment.trackId
   };
 }

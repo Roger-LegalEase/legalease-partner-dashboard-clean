@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "rcap-terminalization-treatments/v1",
+  "owner": "Terminal A — emergency 497/497 terminalization window",
+  "purpose": "The participant-facing terminal treatment for every track that was nonterminal at the start of this window. One file per jurisdiction, one entry per track. Data only: the guidance-packet registry loads it, the single authoritative packet-route resolver binds it, and the Briefcase renders it. Nothing here introduces a second resolver, payment path, credit path or rendering path.",
+  "authorization": "Roger authorized every nonterminal track to receive the strongest complete, safe, repository-supported terminal treatment available now. A production packet is preferred when already safe, current, independently approved, adopted, participant-ready, runtime-bound and non-conflicting; it is never required merely to improve the launch count.",
+  "evidenceRule": "A treatment may state a fact only when data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json carries it for that exact track. Eligibility, fees, dates, filing addresses, venues, prosecutor consent, waiting periods, hearing rules, signatures, court actions and record availability are all facts. When a required fact is absent from the brief, the treatment states the precise participant-facing limitation and still gives an exact destination and an exact next step.",
+  "languageRule": {
+    "keys": ["en", "es"],
+    "requirement": "Every participant-facing string carries both. es must be a real translation written for a Spanish-speaking participant, never a copy of en, never English text with Spanish punctuation, and never a machine gloss that leaves legal nouns in English where Spanish has an ordinary word for them.",
+    "why": "resolveRuntimeText translates a runtime string only when its exact English is in the dictionary; otherwise Spanish degrades to pattern matching. Committing es here makes the Spanish authoritative without editing frozen runtime."
+  },
+  "prohibitedParticipantPhrases": [
+    "registry gap",
+    "source blocker",
+    "crosswalk",
+    "legal review pending",
+    "unsupported runtime",
+    "implementation family",
+    "terminal disposition",
+    "coming soon",
+    "check back",
+    "research required",
+    "in the future",
+    "will be available",
+    "próximamente",
+    "vuelva más tarde",
+    "estará disponible"
+  ],
+  "genericReferralRule": "A destination is exact when it names the specific court, clerk, agency, prosecutor, program or published resource this track actually goes to. 'Contact a lawyer', 'contact your local court' and 'see your state's website' are generic referrals and are refused.",
+  "treatments": {
+    "complete_guidance": "The participant does not file, or another actor controls the process. The product is complete monitoring and next-step instructions.",
+    "exact_supported_deferral": "The participant does file and the mechanism is in scope, but a safe filing product cannot currently be provided. The product is the exact reason, destination, next action, gathering list, cautions, escalation and saved handoff.",
+    "deliberate_scope_exclusion": "LegalEase cannot safely support the mechanism with current verified sources or product design. The product is the exact product boundary, the supported reason, a plain-language explanation, and a useful destination and next step."
+  },
+  "entrySchema": {
+    "trackId": "string — registry track id, exactly as briefed",
+    "jurisdiction": "string — two-letter code",
+    "treatment": "complete_guidance | exact_supported_deferral | deliberate_scope_exclusion",
+    "treatmentBasis": "string — why this treatment and not another, in one sentence, resting on the brief",
+    "routeLabel": { "en": "string", "es": "string" },
+    "mechanism": { "en": "string", "es": "string", "_element": "1 — what the legal mechanism or process does" },
+    "participantFiles": { "filesSomething": "boolean", "en": "string", "es": "string", "_element": "2 — whether the participant files anything" },
+    "controllingActor": { "en": "string", "es": "string", "_element": "3 — who performs the controlling action" },
+    "stopReason": { "en": "string", "es": "string", "_element": "4 — the exact, supported reason a production packet is not being offered. States the limitation in participant language and never blames the participant." },
+    "destination": { "name": "string — exact court, agency, prosecutor, clerk, program or resource", "kind": "court | agency | prosecutor | clerk | program | resource", "url": "string | null — only when the brief carries it", "en": "string", "es": "string", "_element": "5 — the exact destination" },
+    "nextStep": { "en": "string", "es": "string", "_element": "6 — the exact next action the participant takes" },
+    "gather": { "en": ["string"], "es": ["string"], "_element": "7 — the records, facts and documents to gather or monitor" },
+    "doNot": { "en": ["string"], "es": ["string"], "_element": "8 — what not to sign, file, submit or assume" },
+    "timing": { "en": "string", "es": "string", "_element": "9 — deadline or timing rule; null when the brief carries no timing rule" },
+    "afterNextStep": { "en": "string", "es": "string", "_element": "10 — what happens after the participant acts" },
+    "escalation": { "en": "string", "es": "string", "_element": "11 — useful escalation when the next step does not resolve it" },
+    "briefcase": {
+      "preserved": { "en": ["string"], "es": ["string"] },
+      "outstanding": { "en": ["string"], "es": ["string"] },
+      "return": { "en": "string", "es": "string", "_note": "How to reopen the saved treatment and resume. Never a promise that LegalEase will produce a packet." }
+    },
+    "nextSteps": { "en": ["string"], "es": ["string"], "_note": "The ordered list the Briefcase renders. One participant action per entry, consistent with nextStep, destination and timing." },
+    "authority": [{ "citation": "string — operative authority exactly as the brief carries it", "sourceRef": "string — the brief field it came from" }],
+    "evidenceRefs": ["string — brief key(s) and any additional committed artifact paths this treatment rests on"],
+    "runtimeContract": {
+      "sellable": false,
+      "paymentAllowed": false,
+      "checkoutSuppressed": true,
+      "renderJobAllowed": false,
+      "rendererKind": "none",
+      "packetPlan": null,
+      "packetPromise": "none",
+      "packetCreditConsumption": "none",
+      "partnerCreditConsumption": "none",
+      "partnerCreditConsumed": false,
+      "resultCode": "guidance_only",
+      "packetType": "guidance_packet",
+      "packetStatus": "not_started",
+      "paymentStatus": "not_applicable",
+      "status": "guidance_saved"
+    },
+    "reviewState": "pending_independent_review",
+    "candidateOnly": true,
+    "promotionEffect": "none",
+    "ledgerEffect": "none"
+  },
+  "fileShape": {
+    "schemaVersion": "rcap-terminalization-treatments/v1",
+    "jurisdiction": "string",
+    "windowId": "string — the terminalization window this batch belongs to",
+    "treatments": ["entrySchema"]
+  }
+}
