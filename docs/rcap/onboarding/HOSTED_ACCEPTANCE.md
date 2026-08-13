@@ -19,43 +19,51 @@ now proves RLS isolation against a real PostgreSQL. What none of them can reach:
 | Storage privacy and signed-URL expiry | Requires the Storage service, not just the `storage.*` tables |
 | Browser journeys of signed-in screens | Every authenticated screen resolves a session first |
 
-## Access status — what is missing, and who supplies it
+## Access status — 2026-08-13 isolated acceptance attempt
 
-Checked on branch `fix/rcap-onboarding-commercial-readiness`. None of this is available to
-an automated session in this environment, so the lane below has **not** been executed.
+The required preflight passed in a separate worktree on
+`fix/rcap-onboarding-commercial-readiness` at `f70efb93149fcb10c331cdc7ef13ee14ceb9635c`.
+PR #90 was confirmed open and draft at the same SHA. The hosted lane then stopped before any
+remote write because the one required acceptance-access bundle was not available.
 
 | # | Required | Repository variable / artifact | Who supplies it | Status |
 | --- | --- | --- | --- | --- |
-| A-1 | Dedicated non-production Supabase project | project reference | Roger / infra owner | **Missing.** No staging project is documented or configured |
-| A-2 | Staging API origin | `NEXT_PUBLIC_SUPABASE_URL` | same as A-1 | Missing |
-| A-3 | Staging anon key | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | same as A-1 | Missing |
-| A-4 | Staging service-role key | `SUPABASE_SERVICE_ROLE_KEY` | same as A-1 | Missing |
-| A-5 | Staging Postgres connection | `RCAP_TEST_DATABASE_URL` | same as A-1 | Missing |
-| A-6 | Preview/staging deployment | Vercel project + environment | Roger / Vercel owner | Missing. No `.vercel` directory, no Vercel token, `vercel` CLI absent |
-| A-7 | Staging Auth redirect URLs | Supabase Auth settings | same as A-1 | Missing |
-| A-8 | Staging feature flags | `RCAP_PARTNER_ONBOARDING_ENABLED`, `RCAP_ONBOARDING_PREFILL_ENABLED` set to `true` in the preview environment only | same as A-6 | Missing |
-| A-9 | Test mailbox / email capture | destination for `RCAP_PARTNER_SUPPORT_EMAIL` and invitation mail | Roger / email admin | Missing |
+| A-1 | Dedicated non-production project named `legalease-rcap-acceptance` | project reference | Roger / infra owner | **Missing.** No project reference was supplied or discoverable |
+| A-2 | Acceptance API origin | `NEXT_PUBLIC_SUPABASE_URL` | same as A-1 | Missing |
+| A-3 | Acceptance anon key | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | same as A-1 | Missing |
+| A-4 | Acceptance service-role key | `SUPABASE_SERVICE_ROLE_KEY` | same as A-1 | Missing |
+| A-5 | Acceptance Postgres connection | `RCAP_TEST_DATABASE_URL` | same as A-1 | Missing |
+| A-6 | Existing PR #90 Preview deployment access | Vercel project, token, or linked checkout | Roger / Vercel owner | **Missing.** GitHub reports zero deployments for the branch/SHA; the checkout is unlinked; Vercel CLI reports logged out |
+| A-7 | Acceptance Auth redirect configuration | Supabase Auth settings | same as A-1 | Blocked by A-1/A-6 |
+| A-8 | Preview-only feature flags | `RCAP_PARTNER_ONBOARDING_ENABLED=true`, `RCAP_ONBOARDING_PREFILL_ENABLED=true`, `RCAP_PARTNER_SUPPORT_EMAIL=partners@legalease.com` | same as A-6 | Blocked by A-6 |
+| A-9 | Controlled invitation delivery | `Roger@rythmlabs.com` through the application workflow | Roger / email admin | Not sent; blocked by A-1/A-6 |
 | A-10 | Mailbox monitoring proof | see "Support mailbox" below | Roger / email admin | Missing — business-operational |
 
-Also unavailable, which forecloses the local substitutes:
+The management APIs are network-reachable (`401` from Supabase without a token and `403`
+from Vercel without authorization), so network access is not the blocker. No
+`SUPABASE_ACCESS_TOKEN`, Vercel token, project link, acceptance project reference, or runtime
+keys are present. The CLI cannot safely create/configure the project or Preview without that
+authority.
 
-- The Supabase CLI is not installed, and `supabase start` requires Docker. Docker image
-  layer pulls are refused by the environment proxy (`403` from the registry CDN), so a
-  local Supabase stack cannot be brought up either.
-- `api.supabase.com` and `api.vercel.com` are unreachable through the proxy (connection
-  fails, no HTTP status), so the management APIs cannot be driven even with a token.
+The repository now identifies `wwtwtsmywnckfkdaqqeg` as the production Supabase reference in
+`docs/expungement-ai/RELEASE_HARDENING_REPORT.md`. That reference was used only as a deny target;
+it was not accessed. The acceptance project must have a different reference before migrations
+or seeding may begin.
 
-### Safety gap found while looking for the staging target
+### Independent work completed while hosted access was blocked
 
-The instruction for this lane is to prove a chosen project is *not* production by comparing
-its project reference against the documented production reference. **No production project
-reference is recorded anywhere in this repository** — `docs/supabase-partner-setup.md` uses
-the placeholder `your-project-ref`. That comparison is therefore impossible as written.
+- Captured the current Expungement.ai desktop and 390px mobile visual references to the
+  non-committed evidence directory.
+- Applied `partner-journey-os.sql` plus all 41 phase migrations to an isolated local PostgreSQL
+  in numeric-phase/letter-suffix order: 42 applied, 0 failed.
+- Proved local authenticated-role tenant isolation: 8/8 checks passed, including cross-tenant
+  read, insert, update, and delete denial plus RLS coverage.
+- Passed all 23 credential-free onboarding verifiers, launch readiness, lint (0 errors),
+  typecheck, route type generation, `npm test`, and the credential-free production build.
+- Confirmed PR #90's three GitHub checks pass and the PR remains draft.
 
-Before any remote database work, record the production project reference in the deployment
-documentation so a non-production target can be positively distinguished rather than
-assumed. Until then, the safest reading is that no remote project in this repository can be
-proven non-production.
+Local results are not promoted to hosted PASS. A-1 through A-20 remain **BLOCKED**, Rythm Labs
+was not seeded, and the Lee Roman invitation was not created or sent.
 
 ### First command once access is supplied
 
