@@ -1,11 +1,20 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import {
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const ts = require("typescript");
+const {
   FIRST_ADMIN_ROLE_LABEL,
   FIRST_ADMIN_SUPPORT_EMAIL,
   renderFirstAdminInvitationEmail
-} from "../src/lib/partners/first-admin-invitation-email.ts";
-import { buildFirstAdminProvisioningPresentation } from "../src/lib/partners/first-admin-provisioning-presentation.ts";
+} = await importTypescriptModule(
+  "src/lib/partners/first-admin-invitation-email.ts"
+);
+const { buildFirstAdminProvisioningPresentation } =
+  await importTypescriptModule(
+    "src/lib/partners/first-admin-provisioning-presentation.ts"
+  );
 
 const fixture = {
   organizationName: "Rythm Labs",
@@ -116,3 +125,25 @@ for (const file of [
 }
 
 console.log("First administrator invitation and provisioning presentation verification passed.");
+
+async function importTypescriptModule(filePath) {
+  const source = fs.readFileSync(filePath, "utf8");
+  const result = ts.transpileModule(source, {
+    fileName: filePath,
+    compilerOptions: {
+      module: ts.ModuleKind.ES2022,
+      target: ts.ScriptTarget.ES2022
+    },
+    reportDiagnostics: true
+  });
+  const errors = (result.diagnostics ?? []).filter(
+    (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error
+  );
+  assert.deepEqual(
+    errors.map((diagnostic) => ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")),
+    [],
+    `${filePath} must transpile without diagnostics`
+  );
+  const encoded = Buffer.from(result.outputText).toString("base64");
+  return import(`data:text/javascript;base64,${encoded}`);
+}
