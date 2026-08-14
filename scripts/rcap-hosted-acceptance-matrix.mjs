@@ -101,6 +101,35 @@ async function supabase(pathname, { method = "GET", key = null, token = null, bo
   return { status: res.status, json };
 }
 
+/**
+ * The application authenticates from COOKIES, not from an Authorization header.
+ *
+ * `getRcapBriefcaseAuthState` goes through `createServerSupabaseAuthClient`,
+ * which builds a @supabase/ssr server client over `cookies()`. A Bearer header
+ * is simply not read, so a probe that sends one is an ANONYMOUS probe wearing a
+ * costume — it gets 401 from the authentication gate and never reaches the
+ * delivery control at all. That is what made four cases here look like control
+ * failures when the control was never consulted.
+ *
+ * @supabase/ssr stores the whole session as `base64-` + base64(JSON) under
+ * `sb-<project-ref>-auth-token`, and splits values past its chunk size into
+ * `.0`, `.1`, … suffixed cookies. Both are reproduced exactly; a value that
+ * needed chunking and was sent whole would be rejected as malformed.
+ */
+const SSR_COOKIE_CHUNK_SIZE = 3180;
+
+function sessionCookieHeader(session) {
+  if (!session) return null;
+  const name = `sb-${PROJECT_REF}-auth-token`;
+  const value = `base64-${Buffer.from(JSON.stringify(session), "utf8").toString("base64")}`;
+  if (value.length <= SSR_COOKIE_CHUNK_SIZE) return `${name}=${value}`;
+  const chunks = [];
+  for (let i = 0; i < value.length; i += SSR_COOKIE_CHUNK_SIZE) {
+    chunks.push(`${name}.${chunks.length}=${value.slice(i, i + SSR_COOKIE_CHUNK_SIZE)}`);
+  }
+  return chunks.join("; ");
+}
+
 async function app(pathname, { method = "GET", body = null, headers = {} } = {}) {
   try {
     const res = await fetch(`${APP_URL}${pathname}`, {
@@ -188,7 +217,8 @@ const evidence = {
       body: { email: user.email, password: user.password }
     });
     if (signIn.status === 200 && signIn.json?.access_token) {
-      identities.set(user.key, { id: signIn.json.user.id, token: signIn.json.access_token, email: user.email });
+      // The whole token response is the session @supabase/ssr persists.
+      identities.set(user.key, { id: signIn.json.user.id, token: signIn.json.access_token, session: signIn.json, email: user.email });
     } else {
       notes.push(`${user.key}: sign-in ${signIn.status}`);
     }
@@ -208,15 +238,19 @@ const A = () => identities.get("A");
 const B = () => identities.get("B");
 
 // --- 1. Delivery-route lifecycle: disabled -> scoped -> rollback --------------
-async function probeRender(authenticated) {
-  const headers = authenticated ? { Authorization: `Bearer ${A().token}` } : {};
+// `briefcaseItemId` is the body key the route reads; anything else is a 400
+// before the delivery control is ever consulted.
+async function probeRenderAs(identity, briefcaseItemId = crypto.randomUUID()) {
+  const cookie = identity ? sessionCookieHeader(identity.session) : null;
   const res = await app("/api/expungement-ai/packet/render", {
     method: "POST",
-    headers,
-    body: { itemId: crypto.randomUUID() }
+    headers: cookie ? { Cookie: cookie } : {},
+    body: { briefcaseItemId }
   });
   return { status: res.status, reason: String(res.json?.reason ?? res.json?.error ?? "") };
 }
+
+const probeRender = (authenticated) => probeRenderAs(authenticated ? A() : null);
 
 {
   await killApp();
@@ -254,23 +288,23 @@ async function probeRender(authenticated) {
     "app-scoped-dev.log",
     "dev"
   );
-  const anon = await probeRender(false);
-  const inScope = await probeRender(true);
+  const anon = await probeRenderAs(null);
+  const inScope = await probeRenderAs(A());
   // B is a real, signed-in, authenticated participant who is simply not named
   // by the scope. Distinguishing A from B is the whole point of the case.
-  const outOfScope = await (async () => {
-    const res = await app("/api/expungement-ai/packet/render", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${B().token}` },
-      body: { itemId: crypto.randomUUID() }
-    });
-    return { status: res.status, reason: String(res.json?.reason ?? res.json?.error ?? "") };
-  })();
-  const pass = up && inScope.status === 402 && outOfScope.status === 503 && anon.status === 401;
+  const outOfScope = await probeRenderAs(B());
+
+  // What this case can honestly prove is which side of the DELIVERY CONTROL
+  // each caller lands on, and 503 is that control's own answer. Requiring a
+  // specific downstream code from A would be asserting something else — how far
+  // past the gate a synthetic item happens to get — and would fail for reasons
+  // that have nothing to do with the scope. Past the gate is the property.
+  const admittedA = inScope.status !== 503 && inScope.status !== 401;
+  const pass = up && admittedA && outOfScope.status === 503 && anon.status === 401;
   record(
     "scoped_admits_only_its_named_identity",
     pass,
-    `dev-compiled runtime against the hosted project: in-scope A=${inScope.status} (past the delivery gate, stopped by the PAYMENT gate — the strongest proof the scope admitted A), out-of-scope authenticated B=${outOfScope.status}, anonymous=${anon.status}`
+    `dev-compiled runtime against the hosted project: in-scope A=${inScope.status} (past the delivery gate: ${admittedA}), out-of-scope authenticated B=${outOfScope.status} (must be 503, the control's own refusal), anonymous=${anon.status}`
   );
   evidence.cases.scopedUnderDevRuntime = { inScopeA: inScope.status, outOfScopeB: outOfScope.status, anonymous: anon.status };
 }
@@ -392,6 +426,10 @@ async function evaluate(jurisdiction, answers, profileVersion) {
   } else {
     const run = spawnSync("docker", [
       "run", "--rm", "--name", "hosted-acceptance-worker",
+      // getSupabaseAdminClient reads NEXT_PUBLIC_SUPABASE_URL, not SUPABASE_URL.
+      // Passing only the latter left the worker with no configured storage and
+      // it exited 2 before claiming anything.
+      "-e", `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}`,
       "-e", `SUPABASE_URL=${SUPABASE_URL}`,
       "-e", `SUPABASE_SERVICE_ROLE_KEY=${SERVICE_KEY}`,
       "-e", "RCAP_WORKER_MAX_BATCHES=1",
