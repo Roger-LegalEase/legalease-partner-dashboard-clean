@@ -92,6 +92,21 @@ const mutations = [
     expected: "must not create a Stripe Session directly"
   },
   {
+    name: "schema-invalid compatibility packet pathway",
+    file: "gate",
+    mutate: (text) => text.replace(
+      'const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan";',
+      'const ACCEPTANCE_PACKET_PATHWAY = "Path A — Non-conviction expungement";'
+    ),
+    expected: "checkout gate is missing"
+  },
+  {
+    name: "compatibility fixture launch blocker removed",
+    file: "gate",
+    mutate: (text) => text.replace("finalLaunchBlocked: true", "finalLaunchBlocked: false"),
+    expected: "checkout gate is missing"
+  },
+  {
     name: "Vercel bypass leaked into provider-neutral gate",
     file: "gate",
     mutate: (text) => text.replace("protectionBypassUsed: false", 'protectionBypassUsed: false, note: "x-vercel-protection-bypass"'),

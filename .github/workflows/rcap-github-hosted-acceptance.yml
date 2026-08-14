@@ -323,14 +323,16 @@ jobs:
           HOSTED_BRIEFCASE_ITEM_ID: ${{ steps.checkout.outputs.briefcase_item_id }}
         run: node scripts/rcap-github-post-payment-acceptance.mjs
 
-      - name: Publish completed Pennsylvania acceptance before the continuation hold
+      - name: Publish Pennsylvania payment and delivery evidence before the continuation hold
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: rcap-github-pennsylvania-accepted-${{ github.run_id }}
+          name: rcap-github-pennsylvania-evidence-${{ github.run_id }}
           path: hosted-acceptance-evidence/
           if-no-files-found: error
 
       - name: Keep the verified same-host return surface available briefly
+        if: always() && steps.checkout.outcome == 'success'
         env:
           CONTINUATION_URL: ${{ steps.payment.outputs.continuation_url }}
         run: |
@@ -342,7 +344,7 @@ jobs:
             kill -0 "$(cat /tmp/rcap-cloudflared.pid)" 2>/dev/null || { echo "::error::temporary tunnel stopped during continuation hold"; exit 1; }
             kill -0 "$(cat /tmp/rcap-next.pid)" 2>/dev/null || { echo "::error::application stopped during continuation hold"; exit 1; }
             curl --fail --silent --output /dev/null "$HOSTED_PUBLIC_URL/api/health"
-            curl --silent --show-error --max-time 15 --output /dev/null "$CONTINUATION_URL"
+            [ -z "$CONTINUATION_URL" ] || curl --silent --show-error --max-time 15 --output /dev/null "$CONTINUATION_URL"
             sleep 15
           done
 

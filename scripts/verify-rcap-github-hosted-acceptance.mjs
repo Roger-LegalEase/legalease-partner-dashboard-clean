@@ -9,6 +9,8 @@ const workflow = fs.readFileSync(path.join(root, ".github/workflows/rcap-github-
 const bootstrap = fs.readFileSync(path.join(root, "scripts/rcap-github-acceptance-bootstrap.mjs"), "utf8");
 const gate = fs.readFileSync(path.join(root, "scripts/rcap-github-acceptance-gate.mjs"), "utf8");
 const postPayment = fs.readFileSync(path.join(root, "scripts/rcap-github-post-payment-acceptance.mjs"), "utf8");
+const consumerRender = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
+const packetConstraints = fs.readFileSync(path.join(root, "supabase/phase-37-rcap-document-packets-all-state-source-constraints.sql"), "utf8");
 
 let checks = 0;
 const failures = [];
@@ -139,6 +141,18 @@ includesEvery(gate, [
   'profileVersion === "1.3.0"',
   "briefcase_insert_returning_proves_row",
   "stored_row_matches_authoritative_resolver",
+  'const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan"',
+  "consumerPacketNamespaceMatch",
+  "functional_acceptance_packet_compatibility_fixture_inserted_once",
+  "functional_acceptance_packet_compatibility_fixture_reread_exact",
+  "insert into public.rcap_document_packets",
+  "acceptedApplicationPacketNamespace",
+  "applicationBytesChanged: false",
+  "schemaChanged: false",
+  "syntheticOnly: true",
+  "productionUseAuthorized: false",
+  "finalLaunchBlocked: true",
+  "production-shaped Vercel proof without this compatibility fixture",
   "unpaid_render_returns_402",
   "exactly_one_real_stripe_session_for_item",
   "stripe_session_amount_mode_metadata_and_product_exact",
@@ -167,12 +181,20 @@ const mismatchIndex = gate.indexOf("if (!webhookUrlExact)");
 const earlyReturnIndex = gate.indexOf('if (GATE_PHASE === "webhook")');
 const authWriteIndex = gate.indexOf('method: "PATCH"');
 const fixtureWriteIndex = gate.indexOf("insert into public.consumer_briefcase_items");
+const packetFixtureWriteIndex = gate.indexOf("insert into public.rcap_document_packets");
+const unpaidRenderIndex = gate.indexOf('const unpaidRender = await callApp(previewUrl, "/api/expungement-ai/packet/render"');
+const checkoutCallIndex = gate.indexOf('const checkoutResponse = await callApp(previewUrl, "/api/expungement-ai/checkout"');
 const realPaymentProofIndex = gate.indexOf('"real_stripe_payment_and_canonical_webhook_observed"');
 const postPaymentRenderIndex = gate.indexOf('renderRequest = await callApp(previewUrl, "/api/expungement-ai/packet/render"');
 check(webhookIndex >= 0 && earlyReturnIndex > webhookIndex, "webhook-only phase is not after the canonical comparison");
 check(healthIndex > webhookIndex && mismatchIndex > healthIndex, "host/application proof must precede the webhook-host mismatch stop");
 check(authWriteIndex > earlyReturnIndex, "acceptance Auth write can occur before the webhook-only stop");
 check(fixtureWriteIndex > authWriteIndex, "Briefcase write can occur before canonical webhook and Auth checks");
+check(packetFixtureWriteIndex > fixtureWriteIndex && unpaidRenderIndex > packetFixtureWriteIndex && checkoutCallIndex > unpaidRenderIndex, "compatibility packet fixture must be inserted/reread before the unpaid render proof and Checkout");
+check((gate.match(/insert into public\.rcap_document_packets/g) ?? []).length === 1, "gate must insert exactly one compatibility packet row");
+check(consumerRender.includes('const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1"'), "accepted application packet namespace changed without updating the fixture derivation");
+check(consumerRender.includes("pathway: input.pathwayId") && !consumerRender.match(/\.insert\(\{[\s\S]{0,900}safety_disclaimer/), "accepted application/schema packet-insert contradiction is no longer the documented shape; remove or reassess the fixture");
+check(packetConstraints.includes("'source_engine_packet_plan'") && !packetConstraints.includes("'Path A — Non-conviction expungement'"), "phase-37 compatibility pathway assumptions changed; reassess the fixture");
 check(realPaymentProofIndex >= 0 && postPaymentRenderIndex > realPaymentProofIndex, "render-job request can occur before real Stripe payment and webhook proof");
 const returnEvidenceIndex = gate.indexOf("evidence.checkoutReturn =");
 const unpaidRereadIndex = gate.indexOf("const afterItemResponse = await sql");
@@ -199,6 +221,15 @@ includesEvery(postPayment, [
   "bodySerializedOnce: true",
   "real_event_replay_creates_no_second_authority_consumption_or_job",
   "one_payment_authority_one_job_zero_preworker_consumption",
+  'const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan"',
+  "deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${BRIEFCASE_ITEM_ID}`)",
+  "functionalAcceptanceCompatibilityFixture",
+  "applicationBytesChanged: false",
+  "schemaChanged: false",
+  "syntheticOnly: true",
+  "productionUseAuthorized: false",
+  "finalLaunchBlocked: true",
+  "production-shaped Vercel proof without this compatibility fixture",
   "target_is_only_claimable_worker_job",
   '"run", "--rm", "--env-file"',
   "RCAP_WORKER_CONTAINER_DIGEST",
@@ -215,6 +246,7 @@ includesEvery(postPayment, [
   "workerStartedBeforeRealPaymentProof: false"
 ], "post-payment acceptance");
 check(!/delete\s+from/i.test(postPayment), "post-payment acceptance must preserve the fixture");
+check(!/update\s+public\.rcap_document_packets/i.test(gate + postPayment), "acceptance scripts must not rewrite the compatibility packet row after insertion");
 check(!/update\s+public\.consumer_briefcase_items[\s\S]{0,300}payment_status/i.test(postPayment), "post-payment acceptance must not write paid state");
 check(!/payment_status\s*:\s*["']paid["']/.test(postPayment), "post-payment acceptance must not fabricate a paid Stripe event");
 check(!/evt_(?:hosted|synthetic|acceptance)_/i.test(postPayment), "post-payment acceptance must not invent a Stripe event id");

@@ -40,6 +40,10 @@ const EXPECTED_PROJECT_NAME = "legalease-rcap-acceptance";
 const EXPECTED_WORKER_DIGEST = "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const EXPECTED_ROUTE_ID = "PA:Path A — Non-conviction expungement";
+const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1";
+const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan";
+const ACCEPTANCE_PACKET_SAFETY_DISCLAIMER = "Functional acceptance compatibility fixture only. This synthetic Pennsylvania packet is not legal advice, is not approved for filing, and is not production-launch evidence.";
+const ACCEPTANCE_PACKET_STATEMENT = "Pennsylvania Path A — Non-conviction expungement functional acceptance packet. Synthetic fixture only; review is required before filing.";
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",
   "checkout.session.completed",
@@ -100,6 +104,12 @@ function record(caseId, passed, observed) {
 
 function sha256(bytes) {
   return crypto.createHash("sha256").update(bytes).digest("hex");
+}
+
+function deterministicUuid(seed) {
+  const digest = sha256(Buffer.from(seed, "utf8"));
+  const variant = ((parseInt(digest[16], 16) & 0x3) | 0x8).toString(16);
+  return `${digest.slice(0, 8)}-${digest.slice(8, 12)}-4${digest.slice(13, 16)}-${variant}${digest.slice(17, 20)}-${digest.slice(20, 32)}`;
 }
 
 function sameStringSet(left, right) {
@@ -413,13 +423,17 @@ async function main() {
            j.briefcase_item_id, j.consumer_briefcase_item_id, j.consumer_auth_user_id,
            j.partner_id, j.person_id, j.matter_id, j.created_at,
            p.state as packet_state, p.jurisdiction as packet_jurisdiction,
-           p.pathway as packet_pathway, p.briefcase_id as packet_briefcase_id
+           p.pathway as packet_pathway, p.briefcase_id as packet_briefcase_id,
+           p.user_id as packet_user_id, p.partner_slug as packet_partner_slug,
+           p.generated_plain_text as packet_generated_plain_text,
+           p.safety_disclaimer as packet_safety_disclaimer
       from public.packet_render_jobs j
       join public.rcap_document_packets p on p.id = j.packet_id
      where j.briefcase_item_id = '${BRIEFCASE_ITEM_ID}'
   `);
   const jobsBefore = Array.isArray(jobBeforeResponse.json) ? jobBeforeResponse.json : [];
   const jobBefore = jobsBefore[0] ?? null;
+  const expectedPacketId = deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${BRIEFCASE_ITEM_ID}`);
   record(
     "queued_job_is_exact_pennsylvania_path_a",
     jobBeforeResponse.ok
@@ -437,12 +451,29 @@ async function main() {
       && jobBefore?.partner_id === null
       && Boolean(jobBefore?.person_id)
       && Boolean(jobBefore?.matter_id)
+      && jobBefore?.packet_id === expectedPacketId
       && jobBefore?.packet_state === "PA"
       && jobBefore?.packet_jurisdiction === "PA"
-      && jobBefore?.packet_pathway === "Path A — Non-conviction expungement"
-      && jobBefore?.packet_briefcase_id === BRIEFCASE_ITEM_ID,
-    `SQL=${jobBeforeResponse.status}; jobs=${jobsBefore.length}; id=${jobBefore?.id ?? "(none)"}; route=${jobBefore?.route_id ?? "(none)"}; renderer=${jobBefore?.renderer_kind ?? "(none)"}@${jobBefore?.renderer_version ?? "(none)"}; profile=${jobBefore?.profile_id ?? "(none)"}@${jobBefore?.profile_version ?? "(none)"}; status=${jobBefore?.status ?? "(none)"}; packet=${jobBefore?.packet_state ?? "(none)"}/${jobBefore?.packet_pathway ?? "(none)"}`
+      && jobBefore?.packet_pathway === ACCEPTANCE_PACKET_PATHWAY
+      && jobBefore?.packet_briefcase_id === BRIEFCASE_ITEM_ID
+      && jobBefore?.packet_user_id === userId
+      && jobBefore?.packet_partner_slug === "expungement-ai-consumer"
+      && jobBefore?.packet_generated_plain_text === ACCEPTANCE_PACKET_STATEMENT
+      && jobBefore?.packet_safety_disclaimer === ACCEPTANCE_PACKET_SAFETY_DISCLAIMER,
+    `SQL=${jobBeforeResponse.status}; jobs=${jobsBefore.length}; id=${jobBefore?.id ?? "(none)"}; route=${jobBefore?.route_id ?? "(none)"}; renderer=${jobBefore?.renderer_kind ?? "(none)"}@${jobBefore?.renderer_version ?? "(none)"}; profile=${jobBefore?.profile_id ?? "(none)"}@${jobBefore?.profile_version ?? "(none)"}; status=${jobBefore?.status ?? "(none)"}; packet=${jobBefore?.packet_state ?? "(none)"}/${jobBefore?.packet_pathway ?? "(none)"}; deterministic packet id exact=${jobBefore?.packet_id === expectedPacketId}`
   );
+  evidence.functionalAcceptanceCompatibilityFixture = {
+    applied: true,
+    packetId: expectedPacketId,
+    storagePathway: ACCEPTANCE_PACKET_PATHWAY,
+    authoritativeRouteId: EXPECTED_ROUTE_ID,
+    applicationBytesChanged: false,
+    schemaChanged: false,
+    syntheticOnly: true,
+    productionUseAuthorized: false,
+    finalLaunchBlocked: true,
+    blocker: "Reconcile the accepted consumer packet insert with the deployed rcap_document_packets constraints, then repeat production-shaped Vercel proof without this compatibility fixture."
+  };
   const jobId = jobBefore.id;
 
   // Replay the real Stripe Event object exactly as retrieved. The Buffer below
@@ -588,7 +619,10 @@ async function main() {
            j.output_byte_count, j.page_count, j.container_digest,
            j.delivery_eligibility, j.accounting_result,
            p.state as packet_state, p.jurisdiction as packet_jurisdiction,
-           p.pathway as packet_pathway
+           p.pathway as packet_pathway, p.briefcase_id as packet_briefcase_id,
+           p.user_id as packet_user_id, p.partner_slug as packet_partner_slug,
+           p.generated_plain_text as packet_generated_plain_text,
+           p.safety_disclaimer as packet_safety_disclaimer
       from public.packet_render_jobs j
       join public.rcap_document_packets p on p.id = j.packet_id
      where j.id = '${jobId}'
@@ -618,9 +652,15 @@ async function main() {
       && finalJob?.container_digest === EXPECTED_WORKER_DIGEST
       && finalJob?.delivery_eligibility === "eligible"
       && finalJob?.accounting_result === "zero_charge"
+      && finalJob?.packet_id === expectedPacketId
       && finalJob?.packet_state === "PA"
       && finalJob?.packet_jurisdiction === "PA"
-      && finalJob?.packet_pathway === "Path A — Non-conviction expungement"
+      && finalJob?.packet_pathway === ACCEPTANCE_PACKET_PATHWAY
+      && finalJob?.packet_briefcase_id === BRIEFCASE_ITEM_ID
+      && finalJob?.packet_user_id === userId
+      && finalJob?.packet_partner_slug === "expungement-ai-consumer"
+      && finalJob?.packet_generated_plain_text === ACCEPTANCE_PACKET_STATEMENT
+      && finalJob?.packet_safety_disclaimer === ACCEPTANCE_PACKET_SAFETY_DISCLAIMER
       && consumptionResponse.ok
       && consumptions.length === 1
       && consumption?.consumer_briefcase_item_id === BRIEFCASE_ITEM_ID
@@ -794,6 +834,8 @@ async function main() {
       `- PDF SHA-256: ${storedSha256}`,
       `- Owner download: ${new URL(downloadPath, PUBLIC_URL)}`,
       "- Consumer B: denied; anonymous: denied",
+      `- Functional-acceptance compatibility fixture: packet ${expectedPacketId}, schema pathway ${ACCEPTANCE_PACKET_PATHWAY}; authoritative job route ${EXPECTED_ROUTE_ID}`,
+      "- Final launch remains blocked until the frozen application/schema packet-insert mismatch is fixed and production-shaped Vercel proof is repeated without this fixture",
       `- Manual Workbench evidence still required: record the original delivery HTTP status for ${eventId}; do not infer it from pending_webhooks or the database`,
       "- Acceptance fixture preserved",
       ""

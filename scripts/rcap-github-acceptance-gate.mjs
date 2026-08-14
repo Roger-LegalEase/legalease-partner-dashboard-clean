@@ -38,6 +38,9 @@ const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_WORKER_DIGEST = "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
+const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan";
+const ACCEPTANCE_PACKET_SAFETY_DISCLAIMER = "Functional acceptance compatibility fixture only. This synthetic Pennsylvania packet is not legal advice, is not approved for filing, and is not production-launch evidence.";
+const ACCEPTANCE_PACKET_STATEMENT = "Pennsylvania Path A — Non-conviction expungement functional acceptance packet. Synthetic fixture only; review is required before filing.";
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",
   "checkout.session.completed",
@@ -95,6 +98,12 @@ function writeEvidence() {
 
 function sqlText(value) {
   return String(value).split("'").join("''");
+}
+
+function deterministicUuid(seed) {
+  const digest = crypto.createHash("sha256").update(seed).digest("hex");
+  const variant = ((parseInt(digest[16], 16) & 0x3) | 0x8).toString(16);
+  return `${digest.slice(0, 8)}-${digest.slice(8, 12)}-4${digest.slice(13, 16)}-${variant}${digest.slice(17, 20)}-${digest.slice(20, 32)}`;
 }
 
 async function managementApi(pathname, { method = "GET", body = null } = {}) {
@@ -460,6 +469,26 @@ async function main() {
       true,
       `Session=${CHECKOUT_SESSION_ID}; event=${completedEvent.stripe_event_id}; one authoritative paid item; consumption remains zero before the worker`
     );
+    const continuationUrl = new URL(session.success_url.replace("{CHECKOUT_SESSION_ID}", CHECKOUT_SESSION_ID));
+    record(
+      "same_host_continuation_url_exact",
+      continuationUrl.origin === publicOrigin
+        && continuationUrl.pathname === "/expungement-ai/packet-ready"
+        && continuationUrl.searchParams.get("briefcaseItemId") === BRIEFCASE_ITEM_ID
+        && continuationUrl.searchParams.get("session_id") === CHECKOUT_SESSION_ID,
+      `continuation=${sanitize(continuationUrl.toString())}`
+    );
+    const continuationProbe = await observe(continuationUrl);
+    evidence.continuation = {
+      url: continuationUrl.toString(),
+      origin: continuationUrl.origin,
+      sameTemporaryHost: continuationUrl.origin === publicOrigin,
+      unauthenticatedProbeStatus: continuationProbe.status,
+      runnerKeepsHostAliveAfterObservation: true
+    };
+    if (process.env.GITHUB_OUTPUT) {
+      fs.appendFileSync(process.env.GITHUB_OUTPUT, `continuation_url=${continuationUrl.toString()}\n`);
+    }
 
     let renderRequest = null;
     if (Number(counts?.jobs) === 0) {
@@ -504,31 +533,13 @@ async function main() {
     evidence.paymentObservation.renderJob = jobs[0] ?? null;
     evidence.paymentObservation.renderRequestIssued = renderRequest !== null;
 
-    const continuationUrl = new URL(session.success_url.replace("{CHECKOUT_SESSION_ID}", CHECKOUT_SESSION_ID));
-    record(
-      "same_host_continuation_url_exact",
-      continuationUrl.origin === publicOrigin
-        && continuationUrl.pathname === "/expungement-ai/packet-ready"
-        && continuationUrl.searchParams.get("briefcaseItemId") === BRIEFCASE_ITEM_ID
-        && continuationUrl.searchParams.get("session_id") === CHECKOUT_SESSION_ID,
-      `continuation=${sanitize(continuationUrl.toString())}`
-    );
-    const continuationProbe = await observe(continuationUrl);
-    evidence.continuation = {
-      url: continuationUrl.toString(),
-      origin: continuationUrl.origin,
-      sameTemporaryHost: continuationUrl.origin === publicOrigin,
-      unauthenticatedProbeStatus: continuationProbe.status,
-      runnerKeepsHostAliveAfterObservation: true
-    };
     evidence.outcome = "real_payment_and_webhook_observed";
     evidence.passed = true;
     writeEvidence();
     if (process.env.GITHUB_OUTPUT) {
       fs.appendFileSync(process.env.GITHUB_OUTPUT, [
         "payment_observed=true",
-        `provider_event_id=${completedEvent.stripe_event_id}`,
-        `continuation_url=${continuationUrl.toString()}`
+        `provider_event_id=${completedEvent.stripe_event_id}`
       ].join("\n") + "\n");
     }
     if (process.env.GITHUB_STEP_SUMMARY) {
@@ -598,8 +609,10 @@ async function main() {
   const consumerRenderSource = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
   const eligibilitySource = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/eligibility-adapter.ts"), "utf8");
   const callerVersionMatch = consumerRenderSource.match(/buildRenderJobSpec\(\{[\s\S]*?profileVersion:\s*"([^"]+)"/);
+  const consumerPacketNamespaceMatch = consumerRenderSource.match(/const CONSUMER_PACKET_NAMESPACE\s*=\s*"([^"]+)"/);
   const packetTypeMatch = eligibilitySource.match(/resultCode === "packet_ready"\s*\|\|\s*resultCode === "packet_ready_with_caution"\)\s*return "([^"]+)"/);
   const consumerProfileVersion = callerVersionMatch?.[1] ?? null;
+  const consumerPacketNamespace = consumerPacketNamespaceMatch?.[1] ?? null;
   const consumerResultCode = "packet_ready";
   const consumerPacketType = packetTypeMatch?.[1] ?? null;
   const compiledProfile = getProfileByJurisdiction("PA");
@@ -609,10 +622,11 @@ async function main() {
     "consumer_caller_profile_and_eligibility_mapping_exact",
     consumerProfileVersion === "1.3.0"
       && consumerPacketType === "custom_pleading"
+      && consumerPacketNamespace === "rcap:consumer-packet:v1"
       && consumerPaymentAllowed === true
       && compiledProfile?.jurisdiction?.code === "PA"
       && compiledPathway?.label === PA_PATHWAY,
-    `caller profile=${consumerProfileVersion ?? "(not derived)"}; compiled profile=${compiledProfile?.profileVersion ?? "(absent)"}; pathway id=${compiledPathway?.id ?? "(absent)"}; result=${consumerResultCode}; packet=${consumerPacketType ?? "(not derived)"}; payment admitted=${consumerPaymentAllowed}`
+    `caller profile=${consumerProfileVersion ?? "(not derived)"}; packet namespace=${consumerPacketNamespace ?? "(not derived)"}; compiled profile=${compiledProfile?.profileVersion ?? "(absent)"}; pathway id=${compiledPathway?.id ?? "(absent)"}; result=${consumerResultCode}; packet=${consumerPacketType ?? "(not derived)"}; payment admitted=${consumerPaymentAllowed}`
   );
   const itemId = crypto.randomUUID();
   const built = buildRenderJobSpec({
@@ -707,6 +721,77 @@ async function main() {
   `);
   const personRow = Array.isArray(person.json) ? person.json[0] : null;
   record("authenticated_user_resolves_unique_consumer_person", Boolean(personRow?.id) && personRow.match_key === personMatchKey, `person id=${personRow?.id ?? "(none)"}; namespace=${personRow?.partner_slug ?? "(none)"}`);
+
+  // The accepted application derives this packet id and then inserts a row
+  // whose literal display-label pathway is rejected by the repository's
+  // phase-37 pathway constraint and whose required safety_disclaimer is
+  // omitted. Functional acceptance may bridge that already-documented
+  // application/schema mismatch without changing either frozen input: create
+  // only the exact deterministic FK row, use the schema's explicit generic
+  // source-plan pathway, and label both the stored bytes and evidence as a
+  // synthetic compatibility fixture. The render job remains authoritative:
+  // its route id/profile/renderer are derived by the accepted application from
+  // the Briefcase item, never from this compatibility pathway.
+  const consumerPacketId = deterministicUuid(`${consumerPacketNamespace}:${itemId}`);
+  const packetFixtureInsert = await sql(`
+    insert into public.rcap_document_packets
+      (id, partner_slug, user_id, briefcase_id, state, jurisdiction, pathway,
+       generated_html, generated_plain_text, safety_disclaimer)
+    values
+      ('${consumerPacketId}', '${CONSUMER_PERSON_NAMESPACE}', '${A.id}', '${itemId}',
+       'PA', 'PA', '${ACCEPTANCE_PACKET_PATHWAY}',
+       '<p>${sqlText(ACCEPTANCE_PACKET_STATEMENT)}</p>',
+       '${sqlText(ACCEPTANCE_PACKET_STATEMENT)}',
+       '${sqlText(ACCEPTANCE_PACKET_SAFETY_DISCLAIMER)}')
+    on conflict (id) do nothing
+    returning id
+  `);
+  const packetFixtureInserted = Array.isArray(packetFixtureInsert.json) ? packetFixtureInsert.json : [];
+  record(
+    "functional_acceptance_packet_compatibility_fixture_inserted_once",
+    packetFixtureInsert.ok && packetFixtureInserted.length === 1 && packetFixtureInserted[0]?.id === consumerPacketId,
+    `SQL=${packetFixtureInsert.status}; inserted=${packetFixtureInserted.length}; deterministic packet=${consumerPacketId}`
+  );
+  const packetFixtureRead = await sql(`
+    select id, partner_slug, user_id, briefcase_id, state, jurisdiction, pathway,
+           document_type, status, generated_plain_text, safety_disclaimer
+      from public.rcap_document_packets
+     where id = '${consumerPacketId}'
+  `);
+  const packetFixtureRows = Array.isArray(packetFixtureRead.json) ? packetFixtureRead.json : [];
+  const packetFixture = packetFixtureRows[0] ?? null;
+  const packetFixtureExact = packetFixtureRead.ok
+    && packetFixtureRows.length === 1
+    && packetFixture?.id === consumerPacketId
+    && packetFixture?.partner_slug === CONSUMER_PERSON_NAMESPACE
+    && packetFixture?.user_id === A.id
+    && packetFixture?.briefcase_id === itemId
+    && packetFixture?.state === "PA"
+    && packetFixture?.jurisdiction === "PA"
+    && packetFixture?.pathway === ACCEPTANCE_PACKET_PATHWAY
+    && packetFixture?.document_type === null
+    && packetFixture?.status === "draft_started"
+    && packetFixture?.generated_plain_text === ACCEPTANCE_PACKET_STATEMENT
+    && packetFixture?.safety_disclaimer === ACCEPTANCE_PACKET_SAFETY_DISCLAIMER;
+  record(
+    "functional_acceptance_packet_compatibility_fixture_reread_exact",
+    packetFixtureExact,
+    `rows=${packetFixtureRows.length}; packet=${consumerPacketId}; state=${packetFixture?.state ?? "(none)"}; storage pathway=${packetFixture?.pathway ?? "(none)"}; safety disclaimer exact=${packetFixture?.safety_disclaimer === ACCEPTANCE_PACKET_SAFETY_DISCLAIMER}`
+  );
+  evidence.functionalAcceptanceCompatibilityFixture = {
+    applied: true,
+    packetId: consumerPacketId,
+    acceptedApplicationPacketNamespace: consumerPacketNamespace,
+    storagePathway: ACCEPTANCE_PACKET_PATHWAY,
+    authoritativeRouteId: routeIdentity.routeId,
+    authoritativePathway: routeIdentity.pathwayId,
+    applicationBytesChanged: false,
+    schemaChanged: false,
+    syntheticOnly: true,
+    productionUseAuthorized: false,
+    finalLaunchBlocked: true,
+    blocker: "Reconcile the accepted consumer packet insert with the deployed rcap_document_packets constraints, then repeat production-shaped Vercel proof without this compatibility fixture."
+  };
 
   const unpaidRender = await callApp(previewUrl, "/api/expungement-ai/packet/render", {
     method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId }
@@ -916,6 +1001,8 @@ async function main() {
       `- Stripe-hosted Checkout: ${checkoutUrl}`,
       `- Expected return: ${session.success_url}`,
       "- State: open and unpaid; no entitlement or render job exists",
+      `- Functional-acceptance compatibility fixture: packet ${consumerPacketId}, schema pathway ${ACCEPTANCE_PACKET_PATHWAY}; authoritative job route remains ${routeIdentity.routeId}`,
+      "- Final launch remains blocked until the frozen application/schema packet-insert mismatch is fixed and production-shaped Vercel proof is repeated without this fixture",
       ""
     ].join("\n"));
   }
