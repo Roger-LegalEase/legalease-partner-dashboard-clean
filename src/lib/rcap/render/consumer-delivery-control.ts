@@ -1,6 +1,7 @@
 import "server-only";
 
 import { all51LaunchRule } from "@/lib/rcap/state-promotion-rules";
+import { resolveDeploymentEnvironment as resolveEnvironment, type DeploymentEnvironment } from "@/lib/server-runtime-environment";
 
 /**
  * The server-side control that keeps the consumer render path closed.
@@ -40,78 +41,16 @@ const STAGING_SCOPE_ENV = "RCAP_CONSUMER_DELIVERY_STAGING_SCOPE";
 const KNOWN_STATES = new Set<ConsumerDeliveryRouteState>(["disabled", "staging_scoped", "live"]);
 
 /**
- * How this runtime is classified for the purpose of the production refusal.
- * `unknown` is not a gap in the enum — it is the fail-closed verdict, and it is
- * treated exactly as strictly as `production`.
+ * The runtime classification, now from ONE shared server-side classifier.
+ *
+ * This file used to carry its own copy while `stripe/server.ts` carried a
+ * different one that still keyed on NODE_ENV. Two copies of a rule this
+ * consequential drift, and they did: the Stripe copy classified every Vercel
+ * Preview as production and refused the sandbox key. Re-exported here so this
+ * module's own contract and its callers are unchanged.
  */
-export type DeploymentEnvironment = "production" | "preview" | "development" | "unknown";
-
-const TARGET_ENV_VAR = "VERCEL_TARGET_ENV";
-const VERCEL_ENV_VAR = "VERCEL_ENV";
-const KNOWN_ENVIRONMENTS = new Set(["production", "preview", "development"]);
-
-/**
- * Read through a computed key, never as a literal `process.env.VERCEL_ENV`.
- *
- * This is the whole reason the previous classifier could not work. Next.js
- * substitutes statically-written `process.env.X` references at BUILD time, and
- * `NODE_ENV` in particular compiles to a literal — a production build's chunk
- * read `"production"===process.env.VERCEL_ENV||1`, so the production branch was
- * unconditionally true on every deployment, Preview included. A computed lookup
- * cannot be substituted, so these are genuine runtime reads of the values Vercel
- * sets on the running instance.
- */
-function readEnv(name: string): string {
-  // Trimmed but NOT case-folded. Surrounding whitespace is a paste artifact and
-  // carries no meaning; a different case is a different value, and Vercel emits
-  // these lowercase. Accepting "Production" would mean accepting a value this
-  // control cannot be sure came from Vercel at all.
-  return (process.env[name] ?? "").trim();
-}
-
-/**
- * Which Vercel environment this server is running in.
- *
- * Server-side only. Neither variable is exposed under a NEXT_PUBLIC_ name, so a
- * browser can neither read nor set the classification: a request header, query
- * parameter or body field has no path into this function at all. The only
- * inputs are the two process variables Vercel populates on the instance.
- *
- * The rules, in the order they bite:
- *
- *   * Neither variable present — this is not a Vercel deployment. Classify by
- *     NODE_ENV, which is what the repository's own ephemeral harnesses drive,
- *     and which still resolves a locally-built production server to
- *     `production`. That preserves the existing local test behaviour without
- *     weakening the production rule: a real Vercel production deployment always
- *     sets VERCEL_ENV, so this branch cannot be how production is reached.
- *   * Either variable carries a value outside the three known environments —
- *     including a Vercel custom environment name — the value is UNSUPPORTED and
- *     the answer is `unknown`.
- *   * Both present and disagreeing — CONTRADICTORY, and the answer is
- *     `unknown`. Guessing which of two disagreeing sources to believe is
- *     exactly the kind of inference a payment control must not make.
- *   * Otherwise the declared environment, preferring VERCEL_TARGET_ENV.
- *
- * Deliberately local rather than shared with the Stripe module's own
- * production check. That one still keys on NODE_ENV and is right to: it decides
- * whether a dry-run checkout may execute, where a locally-built production
- * server should be refused too. This one answers a different question — which
- * Vercel environment is serving — and a build-time constant cannot answer it.
- */
-export function resolveDeploymentEnvironment(): DeploymentEnvironment {
-  const target = readEnv(TARGET_ENV_VAR);
-  const vercel = readEnv(VERCEL_ENV_VAR);
-  const declared = [target, vercel].filter(Boolean);
-
-  if (declared.length === 0) {
-    return process.env.NODE_ENV === "production" ? "production" : "development";
-  }
-  if (declared.some((value) => !KNOWN_ENVIRONMENTS.has(value))) return "unknown";
-  if (target && vercel && target !== vercel) return "unknown";
-
-  return (target || vercel) as DeploymentEnvironment;
-}
+export type { DeploymentEnvironment } from "@/lib/server-runtime-environment";
+export { resolveDeploymentEnvironment } from "@/lib/server-runtime-environment";
 
 export type ConsumerDeliveryAccess = {
   allowed: boolean;
@@ -162,7 +101,7 @@ export function resolveConsumerDeliveryAccess({ subjectId }: { subjectId: string
   }
 
   if (state === "staging_scoped") {
-    const environment = resolveDeploymentEnvironment();
+    const environment = resolveEnvironment();
 
     // The production refusal admits nobody. It is checked before the scope list
     // is even read, so a named test identity cannot reach the scope comparison
@@ -234,7 +173,7 @@ export const consumerDeliveryControlContract = {
   // merely that some check exists. NODE_ENV is deliberately absent: it is a
   // build-time constant on every Vercel deployment and cannot tell Preview from
   // Production.
-  environmentClassifierEnvVars: [TARGET_ENV_VAR, VERCEL_ENV_VAR] as const,
+  environmentClassifierEnvVars: ["VERCEL_TARGET_ENV", "VERCEL_ENV"] as const,
   browserSuppliedEnvironmentAccepted: false,
   unidentifiedEnvironmentFailsClosed: true,
   partialStateRolloutAllowed: all51LaunchRule.partialStateRolloutAllowed
