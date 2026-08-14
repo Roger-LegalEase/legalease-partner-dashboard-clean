@@ -20,6 +20,10 @@ import {
 import { getPartnerLaunchReadiness } from "@/lib/partners/onboarding/launch-readiness-service";
 import { buildPartnerImplementationPresentation } from "@/lib/partners/onboarding/implementation-presentation";
 import {
+  guidedSectionResumeHref,
+  resolveGuidedStep
+} from "@/lib/partners/onboarding/guided-substeps";
+import {
   getPartnerSupportContact,
   partnerSupportMailto
 } from "@/lib/partners/onboarding/support-contact";
@@ -164,10 +168,40 @@ async function Phase1PartnerOnboardingPage() {
   const reviewReady =
     portal.derivation.nextActionCode === "submit_for_review" ||
     portal.workspace.status === "ready_for_review";
+  const guidedSections = new Map(
+    portal.sections.map((section) => {
+      const activeRequest = section.changeRequests.find(
+        (request) =>
+          request.status === "open" ||
+          request.status === "partner_responded"
+      );
+      const resolutionInput = {
+        sectionKey: section.key,
+        requestedStep: null,
+        missingRequiredKeys: section.missingRequiredKeys,
+        pendingPrefillFieldKeys: section.pendingPrefillFieldKeys,
+        changeRequest: activeRequest
+          ? {
+              status: activeRequest.status,
+              targetFieldKey: activeRequest.targetFieldKey
+            }
+          : null,
+        canEdit: portal.canEdit
+      } as const;
+      return [
+        section.key,
+        {
+          href: guidedSectionResumeHref(resolutionInput),
+          resolution: resolveGuidedStep(resolutionInput)
+        }
+      ] as const;
+    })
+  );
   const dominantHref = reviewReady
     ? "/partner/onboarding/review"
     : nextSection
-      ? `/partner/onboarding/${nextSection}`
+      ? guidedSections.get(nextSection)?.href ??
+        `/partner/onboarding/${nextSection}`
       : "/partner/onboarding/review";
   const dominantLabel =
     portal.role === "partner_staff"
@@ -208,7 +242,12 @@ async function Phase1PartnerOnboardingPage() {
       changeRequestStatus: section.changeRequestStatus,
       submittedAt: section.submittedAt,
       approvedAt: section.approvedAt,
-      updatedAt: section.updatedAt
+      updatedAt: section.updatedAt,
+      resumeHref: guidedSections.get(section.key)?.href,
+      currentSubstepTitle:
+        guidedSections.get(section.key)?.resolution.requestOverview
+          ? "LegalEase requested update"
+          : guidedSections.get(section.key)?.resolution.substep.title ?? null
     })),
     teamMembers: portal.teamMembers.map((member) => ({
       requestedRole: member.requestedRole,

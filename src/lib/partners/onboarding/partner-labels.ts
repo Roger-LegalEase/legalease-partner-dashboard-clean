@@ -109,3 +109,64 @@ export function agreementTypeLabel(type: string): string {
   };
   return labels[type] ?? "Agreement";
 }
+
+const ONBOARDING_OPTION_LABELS: Readonly<Record<string, string>> = {
+  nonprofit: "Nonprofit",
+  government: "Government",
+  legal_services: "Legal services",
+  workforce: "Workforce organization",
+  faith_based: "Faith-based organization",
+  other: "Other",
+  executive_sponsor: "Executive sponsor",
+  program_operator: "Program operator",
+  communications_lead: "Communications lead",
+  reporting_evaluation_lead: "Reporting and evaluation lead",
+  legal_services_referral_contact: "Legal services referral contact",
+  finance_procurement_contact: "Finance and procurement contact",
+  technical_security_contact: "Technical and security contact",
+  media_contact: "Media contact",
+  year_round: "Year-round",
+  clinic: "Clinic",
+  event: "Event",
+  campaign: "Campaign",
+  referral_only: "Referral only",
+  cohort: "Cohort",
+  allowed: "Allowed",
+  redirected: "Redirected",
+  case_by_case: "Case by case",
+  open: "Open access",
+  optional_code: "Optional access code",
+  required_code: "Required access code",
+  invite_only: "Invitation only",
+  shared: "Shared code",
+  limited_use: "Limited-use codes",
+  single_use: "Single-use codes",
+  mixed: "Mixed code structure",
+  partner_administrator: "Partner administrator",
+  program_staff: "Program staff",
+  reporting_viewer: "Reporting viewer",
+  manage_codes: "Manage access codes",
+  view_reports: "View reports",
+  export_reports: "Export reports",
+  manage_users: "Manage users",
+  technology_access: "Technology access",
+  documentation: "Documentation",
+  transportation: "Transportation",
+  language: "Language",
+  community_trust: "Community trust",
+  legal_referral_capacity: "Legal referral capacity",
+  private: "Private",
+  pending_review: "Pending review",
+  approved_for_use: "Approved for use",
+  rejected: "Needs replacement",
+  superseded: "Replaced",
+  active: "Active"
+};
+
+/**
+ * Curated partner copy for stored option values. Unknown values remain neutral
+ * instead of exposing an enum or mechanically generated Title Case.
+ */
+export function onboardingOptionLabel(value: string): string {
+  return ONBOARDING_OPTION_LABELS[value] ?? "Recorded option";
+}

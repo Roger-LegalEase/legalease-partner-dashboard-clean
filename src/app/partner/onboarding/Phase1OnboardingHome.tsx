@@ -316,6 +316,11 @@ export function Phase1OnboardingHome({
                   <p className="mt-1 text-sm leading-5 text-[#475A6E]">
                     {section.changeRequest || section.summary}
                   </p>
+                  {section.currentSubstepTitle ? (
+                    <p className="mt-2 text-xs font-bold text-[#071B33] [font-family:var(--font-rcap-mono)]">
+                      Current task: {section.currentSubstepTitle}
+                    </p>
+                  ) : null}
                   <p className="mt-2 text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
                     {section.lastStateLabel}
                     {section.lastStateAt ? ` ${formatDate(section.lastStateAt, "")}` : ""}

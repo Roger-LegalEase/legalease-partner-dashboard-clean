@@ -39,6 +39,7 @@ export async function POST(
       body.expectedWorkspaceVersion
     );
     const mode = parseMode(body.mode);
+    const guidedStepId = parseGuidedStepId(body.guidedStepId);
 
     const result = await savePartnerOnboardingSection(context, {
       sectionKey,
@@ -46,12 +47,28 @@ export async function POST(
       expectedWorkspaceVersion,
       requestId,
       mode,
+      ...(guidedStepId ? { guidedStepId } : {}),
       data: body.data
     });
     return onboardingJson({ success: true, ...result });
   } catch (error) {
     return onboardingHttpError(error);
   }
+}
+
+function parseGuidedStepId(value: unknown): string | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  if (
+    typeof value !== "string" ||
+    value.length > 80 ||
+    !/^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(value)
+  ) {
+    throw new Phase1OnboardingError(
+      "invalid_input",
+      "Choose a valid onboarding task."
+    );
+  }
+  return value;
 }
 
 function parseSectionKey(value: string): OnboardingSectionKey {

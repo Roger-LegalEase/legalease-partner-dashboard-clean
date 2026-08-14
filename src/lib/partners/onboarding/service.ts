@@ -20,6 +20,11 @@ import {
   ONBOARDING_SECTION_ORDER
 } from "./schema";
 import { deriveRecordShieldScope } from "./scope";
+import {
+  filterValidationIssuesForGuidedStep,
+  getGuidedSection,
+  type PartnerFacingChangeRequest
+} from "./guided-substeps";
 import type {
   CommercialGateOutcome,
   OnboardingContact,
@@ -55,6 +60,7 @@ export type OnboardingSectionView<K extends OnboardingSectionKey = OnboardingSec
   missingRequiredKeys: string[];
   changeRequestInstructions: string[];
   changeRequestStatus: "open" | "partner_responded" | null;
+  changeRequests: OnboardingChangeRequestView[];
   pendingPrefillFieldKeys: string[];
   hasPendingPrefill: boolean;
   firstStartedAt: string | null;
@@ -66,6 +72,8 @@ export type OnboardingSectionView<K extends OnboardingSectionKey = OnboardingSec
   createdAt: string | null;
   updatedAt: string | null;
 };
+
+export type OnboardingChangeRequestView = PartnerFacingChangeRequest;
 
 export type OnboardingTeamMemberView = {
   id: string;
@@ -170,6 +178,7 @@ export type SaveSectionInput<K extends OnboardingSectionKey = OnboardingSectionK
   expectedWorkspaceVersion: number;
   requestId: string;
   mode: Exclude<OnboardingValidationMode, "final_submit">;
+  guidedStepId?: string;
   data: unknown;
 };
 
@@ -269,6 +278,10 @@ type ChangeRequestRow = {
   section_id: string;
   status: string;
   partner_safe_instructions: string;
+  requested_at: string;
+  partner_response: string | null;
+  responded_at: string | null;
+  resolved_at: string | null;
 };
 
 type AssetRow = {
@@ -402,10 +415,11 @@ export async function getPartnerOnboardingPortal(
       .order("created_at", { ascending: true }),
     supabase
       .from("partner_onboarding_change_requests_safe")
-      .select("id, section_id, status, partner_safe_instructions")
+      .select(
+        "id, section_id, status, partner_safe_instructions, requested_at, partner_response, responded_at, resolved_at"
+      )
       .eq("workspace_id", workspaceId)
-      .in("status", ["open", "partner_responded"])
-      .order("requested_at", { ascending: true }),
+      .order("requested_at", { ascending: false }),
     supabase
       .from("partner_onboarding_assets_safe")
       .select("id, category, original_filename, media_type, byte_size, width_pixels, height_pixels, lifecycle_status, review_status, uploaded_at")
@@ -510,7 +524,12 @@ export async function getPartnerOnboardingPortal(
       ])
     ),
     presentAssetCategories,
-    unresolvedChangeRequests: changes.map((change) => {
+    unresolvedChangeRequests: changes
+      .filter(
+        (change) =>
+          change.status === "open" || change.status === "partner_responded"
+      )
+      .map((change) => {
       const section = sectionRows.find(
         (candidate) => candidate.id === change.section_id
       );
@@ -524,7 +543,7 @@ export async function getPartnerOnboardingPortal(
         sectionKey: asSectionKey(section.section_key),
         status: asChangeRequestStatus(change.status)
       };
-    }),
+      }),
     pendingPrefillSections,
     procurementRequired,
     recordShieldInScope,
@@ -532,7 +551,10 @@ export async function getPartnerOnboardingPortal(
   });
 
   const instructionsBySection = new Map<string, string[]>();
-  for (const change of changes) {
+  for (const change of changes.filter(
+    (candidate) =>
+      candidate.status === "open" || candidate.status === "partner_responded"
+  )) {
     const list = instructionsBySection.get(change.section_id) ?? [];
     list.push(change.partner_safe_instructions);
     instructionsBySection.set(change.section_id, list);
@@ -556,6 +578,16 @@ export async function getPartnerOnboardingPortal(
       changeRequestStatus: row
         ? latestChangeRequestStatus(changes, row.id)
         : null,
+      changeRequests: row
+        ? changes
+            .filter((change) => change.section_id === row.id)
+            .map((change) =>
+              mapPartnerChangeRequest(
+                change,
+                asSectionKey(definition.key)
+              )
+            )
+        : [],
       pendingPrefillFieldKeys: pendingPrefillRows
         .filter((prefill) => prefill.section_key === definition.key)
         .map((prefill) => prefill.field_key),
@@ -671,7 +703,7 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
     throw new Phase1OnboardingError("invalid_input", "Choose a valid onboarding section.");
   }
 
-  const validation = validateOnboardingSection(input.sectionKey, input.data, input.mode, {
+  const validationContext = {
     commercialGateOutcome: portal.workspace.commercialGateStatus,
     allSections: portal.data,
     presentAssetCategories: portal.assets.map((asset) => asset.category),
@@ -684,10 +716,47 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
     procurementRequired: portal.procurementRequired,
     recordShieldInScope: portal.recordShieldInScope,
     overageApprovalRequired: portal.overageApprovalRequired
-  });
+  };
+  const validation = validateOnboardingSection(
+    input.sectionKey,
+    input.data,
+    input.mode,
+    validationContext
+  );
 
   if (!validation.success) {
     throw validationError(validation.issues, validation.data);
+  }
+
+  if (input.guidedStepId) {
+    const guidedSection = getGuidedSection(input.sectionKey);
+    if (
+      input.mode !== "draft_save" ||
+      !guidedSection.substeps.some(
+        (substep) => substep.id === input.guidedStepId
+      )
+    ) {
+      throw new Phase1OnboardingError(
+        "invalid_input",
+        "Choose a valid onboarding task."
+      );
+    }
+    const completeValidation = validateOnboardingSection(
+      input.sectionKey,
+      input.data,
+      "section_complete",
+      validationContext
+    );
+    if (!completeValidation.success) {
+      const guidedIssues = filterValidationIssuesForGuidedStep(
+        input.sectionKey,
+        input.guidedStepId,
+        completeValidation.issues
+      );
+      if (guidedIssues.length > 0) {
+        throw validationError(guidedIssues, completeValidation.data);
+      }
+    }
   }
 
   const nextData: OnboardingPartnerData = {
@@ -756,6 +825,7 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
     expectedRevision: input.expectedRevision,
     expectedWorkspaceVersion: input.expectedWorkspaceVersion,
     mode: input.mode,
+    guidedStepId: input.guidedStepId ?? null,
     data: normalized.responseData,
     collections: normalized.collections
   });
@@ -1632,6 +1702,43 @@ function asChangeRequestStatus(
     );
   }
   return value;
+}
+
+function asChangeRequestHistoryStatus(
+  value: string
+): OnboardingChangeRequestView["status"] {
+  if (
+    value !== "open" &&
+    value !== "partner_responded" &&
+    value !== "resolved" &&
+    value !== "cancelled"
+  ) {
+    throw new Phase1OnboardingError(
+      "persistence_failed",
+      "A setup change request has an invalid status."
+    );
+  }
+  return value;
+}
+
+function mapPartnerChangeRequest(
+  row: ChangeRequestRow,
+  sectionKey: OnboardingSectionKey
+): OnboardingChangeRequestView {
+  return {
+    id: row.id,
+    sectionKey,
+    status: asChangeRequestHistoryStatus(row.status),
+    requestedByLabel: "LegalEase",
+    requestedAt: row.requested_at,
+    requestedCorrection: row.partner_safe_instructions,
+    partnerResponse: row.partner_response,
+    respondedAt: row.responded_at,
+    resolvedAt: row.resolved_at,
+    // The current safe view is section-level. Task 2 does not infer a field
+    // target from prose because that would create false precision.
+    targetFieldKey: null
+  };
 }
 
 function latestChangeRequestStatus(

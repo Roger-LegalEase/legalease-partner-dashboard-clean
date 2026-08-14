@@ -33,6 +33,8 @@ export type PartnerImplementationSectionInput = {
   submittedAt: string | null;
   approvedAt: string | null;
   updatedAt: string | null;
+  resumeHref?: string;
+  currentSubstepTitle?: string | null;
 };
 
 export type PartnerImplementationTeamMemberInput = {
@@ -143,6 +145,7 @@ export type PartnerImplementationPresentation = {
       lastStateAt: string | null;
       href: string;
       actionLabel: string;
+      currentSubstepTitle: string | null;
     }>;
   };
   schedule: Array<{
@@ -435,8 +438,16 @@ export function buildPartnerImplementationPresentation(
             : null,
       lastStateLabel: lastState.label,
       lastStateAt: lastState.at,
-      href: `/partner/onboarding/${encodeURIComponent(section.key)}`,
-      actionLabel: input.canEdit ? "Open section" : "Review section"
+      href:
+        section.resumeHref ??
+        `/partner/onboarding/${encodeURIComponent(section.key)}`,
+      actionLabel:
+        section.changeRequestStatus === "open"
+          ? "Review correction"
+          : input.canEdit
+            ? "Continue task"
+            : "Review section",
+      currentSubstepTitle: section.currentSubstepTitle ?? null
     };
   });
 
