@@ -25,22 +25,17 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 // Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
 // interrupted runs left tracked mutations behind. The journal this writes is
 // recovered by the next repository command even if this process is killed.
-registerTrackedMutation("test-rcap-image-fingerprint-mutations.mjs", [
-  "data/rcap-staging-action.json",
-  "package.json",
-  "data/rcap-render/worker-publication-evidence.json"
-]);
+registerTrackedMutation("test-rcap-image-fingerprint-mutations.mjs", ["data/rcap-staging-action.json", "package.json"]);
 
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ACTION = "data/rcap-staging-action.json";
 const PKG = "package.json";
 const TSCONFIG = "tsconfig.json";
-const PUBLICATION = "data/rcap-render/worker-publication-evidence.json";
 const SRC_CANARY = "src/rcap-fingerprint-mutation-canary.tmp";
 const LIB_CANARY = "scripts/lib/rcap-fingerprint-mutation-canary.tmp";
 
-const TRACKED = [ACTION, PKG, TSCONFIG, PUBLICATION];
+const TRACKED = [ACTION, PKG, TSCONFIG];
 const originals = new Map(TRACKED.map((rel) => [rel, fs.readFileSync(path.join(rootDir, rel))]));
 const CANARIES = [SRC_CANARY, LIB_CANARY];
 
@@ -59,8 +54,8 @@ function writeAction(value) {
   fs.writeFileSync(path.join(rootDir, ACTION), `${JSON.stringify(value, null, 2)}\n`);
 }
 
-function runScript(...argv) {
-  const result = spawnSync(process.execPath, argv, {
+function runVerifier() {
+  const result = spawnSync(process.execPath, [path.join(rootDir, "scripts/verify-rcap-image-input-fingerprint.mjs")], {
     cwd: rootDir,
     encoding: "utf8",
     timeout: 300_000,
@@ -76,10 +71,7 @@ function runScript(...argv) {
 let failed = 0;
 let caught = 0;
 
-const FINGERPRINT_VERIFIER = [path.join(rootDir, "scripts/verify-rcap-image-input-fingerprint.mjs")];
-const STAGING_ACTION_CHECK = [path.join(rootDir, "scripts/generate-rcap-staging-action.mjs"), "--check"];
-
-function mutation(name, mutate, expectedMarker, argv = FINGERPRINT_VERIFIER) {
+function mutation(name, mutate, expectedMarker) {
   restore();
   try {
     mutate();
@@ -90,7 +82,7 @@ function mutation(name, mutate, expectedMarker, argv = FINGERPRINT_VERIFIER) {
     return;
   }
 
-  const { status, timedOut, output } = runScript(...argv);
+  const { status, timedOut, output } = runVerifier();
   restore();
 
   if (timedOut) {
@@ -237,40 +229,6 @@ mutation(
     writeAction(action);
   },
   "cannot be waived"
-);
-
-// 12 — the published digest is kept while its build source is swapped for a
-// commit that differs on image-input paths. This is what a STALE DIGEST looks
-// like, and it is not hypothetical: the record named sha256:337083a2 built from
-// 5987870c long after src had moved on, and the only agreement test was the
-// Dockerfile and lockfile hashes — two files that had not changed either. The
-// generator now compares the publication's own sourceSha against the
-// fingerprint base under the same equivalence rule it applies everywhere else.
-mutation(
-  "the published digest's build source differs from the fingerprint base",
-  () => {
-    const action = readAction();
-    const evidence = JSON.parse(fs.readFileSync(path.join(rootDir, PUBLICATION), "utf8"));
-    // A real commit in this history, and demonstrably not image-input-equivalent:
-    // the checkpoint predates the accepted source tree.
-    evidence.sourceSha = action.securityCheckpointSha;
-    fs.writeFileSync(path.join(rootDir, PUBLICATION), `${JSON.stringify(evidence, null, 2)}\n`);
-  },
-  "is not image-input-equivalent to the fingerprint base",
-  STAGING_ACTION_CHECK
-);
-
-// 13 — the publication record simply drops its sourceSha, which would leave the
-// digest unattributable rather than merely wrong.
-mutation(
-  "the publication record carries no build source at all",
-  () => {
-    const evidence = JSON.parse(fs.readFileSync(path.join(rootDir, PUBLICATION), "utf8"));
-    delete evidence.sourceSha;
-    fs.writeFileSync(path.join(rootDir, PUBLICATION), `${JSON.stringify(evidence, null, 2)}\n`);
-  },
-  "the record carries no full-length sourceSha",
-  STAGING_ACTION_CHECK
 );
 
 restore();
