@@ -169,7 +169,13 @@ export default async function InternalPartnerProvisioningDetailPage({
         <FirstAdminAccessPanel
           initialAccess={administratorAccess}
           onboardingEnabled={isRcapPartnerOnboardingEnabled()}
-          partner={partner}
+          partner={{
+            ...partner,
+            onboardingStatus: legacyRecord?.onboardingStatus,
+            provisioningStatus: legacyRecord?.provisioningStatus,
+            owner: legacyRecord?.assignedOwner,
+            dueDate: legacyRecord?.launchDateTarget
+          }}
         />
 
         {legacyRecord ? (
