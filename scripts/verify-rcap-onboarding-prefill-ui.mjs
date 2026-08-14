@@ -13,7 +13,7 @@ const section = read(
   "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx"
 );
 const staffSection = read(
-  "src/app/partner/onboarding/[sectionKey]/OnboardingStaffSectionSummary.tsx"
+  "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx"
 );
 const review = read(
   "src/app/partner/onboarding/review/OnboardingReviewClient.tsx"

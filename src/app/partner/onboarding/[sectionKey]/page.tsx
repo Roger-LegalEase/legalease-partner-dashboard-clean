@@ -23,10 +23,10 @@ import type {
 } from "@/lib/partners/onboarding/types";
 import {
   OnboardingSectionEditor,
+  OnboardingStaffSectionSummary,
   type OnboardingCanonicalReference,
   type OnboardingReadOnlyValue
 } from "./OnboardingSectionEditor";
-import { OnboardingStaffSectionSummary } from "./OnboardingStaffSectionSummary";
 import { onboardingRoleSurface } from "@/lib/partners/onboarding/review-presentation";
 
 export const dynamic = "force-dynamic";

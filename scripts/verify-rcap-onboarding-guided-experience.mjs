@@ -47,7 +47,7 @@ const { OnboardingSectionEditor } = loadTsModule(
 const { OnboardingStaffSectionSummary } = loadTsModule(
   path.join(
     rootDir,
-    "src/app/partner/onboarding/[sectionKey]/OnboardingStaffSectionSummary.tsx"
+    "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx"
   )
 );
 const { OnboardingReviewClient } = loadTsModule(
