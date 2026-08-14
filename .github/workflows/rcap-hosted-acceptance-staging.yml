@@ -78,7 +78,16 @@ jobs:
   preflight:
     name: Preflight — credentials usable, acceptance project demonstrably not production
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # 60, not 15. The Preview deploy of the freeze publishes 97 serverless
+    # functions, one of which carries the whole RCAP corpus; on the Pro plan it
+    # reached 14m21s of upload before the 15-minute job timer killed
+    # `npm exec vercel` mid-flight — twice, at the same point, deterministically
+    # (runs 31755348356 and 31756386367). Nothing about the deployment was
+    # failing; the harness simply ran out of clock. This is a runner budget, not
+    # an application change: the file lives outside BOTH image-input path sets
+    # the equivalence gate above checks, so raising it cannot alter the frozen
+    # application bytes or the worker image.
+    timeout-minutes: 60
     steps:
       - name: Refuse any input that is not the authorized pinned value
         run: |

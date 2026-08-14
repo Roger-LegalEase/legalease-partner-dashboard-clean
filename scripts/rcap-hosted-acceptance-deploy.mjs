@@ -111,6 +111,32 @@ const aliasesBefore = Array.isArray(beforeProject.json?.alias)
   : [];
 const envBefore = envShape(Array.isArray(beforeEnv.json?.envs) ? beforeEnv.json.envs : []);
 
+// --- 0b. Reuse a READY Preview deployment of these exact bytes, if one exists -
+//
+// A killed CLI does not cancel a Vercel deployment: the two runs the 15-minute
+// job timer cut off (31755348356, 31756386367) each left a deployment that kept
+// building server-side and may well have reached READY. Creating a third would
+// be waste, so this asks Vercel first and reuses what is already there.
+//
+// The bar for reuse is deliberately narrow. A candidate must be READY, must not
+// be a production-target deployment, and must carry rcapApplicationSha equal to
+// the SHA this run was told to deploy — the same metadata assertion the
+// freshly-created path is held to below. Anything that does not match all three
+// is ignored rather than reasoned about, and the deploy proceeds normally.
+async function findReusableDeployment() {
+  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
+  if (res.status !== 200 || !Array.isArray(res.json?.deployments)) return null;
+  const match = res.json.deployments.find(
+    (d) =>
+      (d.readyState ?? d.state) === "READY" &&
+      d.target !== "production" &&
+      d.meta?.rcapApplicationSha === APPLICATION_SHA
+  );
+  return match ? { url: `https://${match.url}`, id: match.uid ?? match.id ?? null } : null;
+}
+
+const reusable = await findReusableDeployment();
+
 // --- 1. Deploy to Preview ----------------------------------------------------
 const keys = await supabaseKeys();
 if (!keys.anon || !keys.service) {
@@ -159,28 +185,38 @@ for (const [key, value] of Object.entries(buildEnv)) args.push("--build-env", `$
 args.push("--meta", `rcapApplicationSha=${APPLICATION_SHA}`);
 args.push("--meta", `rcapAcceptanceProjectRef=${PROJECT_REF}`);
 
-console.log(`  deploying ${APPLICATION_SHA.slice(0, 12)}… to the Preview environment (no --prod, no alias, no project-level env write)`);
-const deploy = spawnSync("npx", args, {
-  cwd: rootDir,
-  encoding: "utf8",
-  maxBuffer: 64 * 1024 * 1024,
-  env: { ...process.env, VERCEL_ORG_ID, VERCEL_PROJECT_ID }
-});
-
 const redact = (text) => String(text ?? "")
   .replaceAll(VERCEL_TOKEN, "***")
   .replaceAll(SUPABASE_ACCESS_TOKEN, "***")
   .replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***")
   .replace(/sk_(test|live)_[A-Za-z0-9_]+/g, "***REDACTED***");
 
-const combined = `${deploy.stdout ?? ""}\n${deploy.stderr ?? ""}`;
-const urlMatch = combined.match(/https:\/\/[a-z0-9-]+\.vercel\.app/gi) ?? [];
-const previewUrl = urlMatch[urlMatch.length - 1] ?? null;
+let previewUrl = null;
+if (reusable) {
+  // No third deployment is created. Every proof below still runs against this
+  // URL unchanged — reuse skips the creation, never the verification.
+  previewUrl = reusable.url;
+  evidence.deploymentOrigin = "reused an existing READY Preview deployment of the same application SHA";
+  console.log(`  reusing READY Preview deployment ${reusable.id ?? "(id unknown)"} — no new deployment created`);
+} else {
+  console.log(`  deploying ${APPLICATION_SHA.slice(0, 12)}… to the Preview environment (no --prod, no alias, no project-level env write)`);
+  const deploy = spawnSync("npx", args, {
+    cwd: rootDir,
+    encoding: "utf8",
+    maxBuffer: 64 * 1024 * 1024,
+    env: { ...process.env, VERCEL_ORG_ID, VERCEL_PROJECT_ID }
+  });
 
-if (deploy.status !== 0 || !previewUrl) {
-  fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({ ...evidence, passed: false, exitCode: deploy.status, tail: redact(combined).slice(-1500) }, null, 2)}\n`);
-  console.error(`DEPLOY FAILED — vercel exited ${deploy.status}\n${redact(combined).slice(-2000)}`);
-  process.exit(1);
+  const combined = `${deploy.stdout ?? ""}\n${deploy.stderr ?? ""}`;
+  const urlMatch = combined.match(/https:\/\/[a-z0-9-]+\.vercel\.app/gi) ?? [];
+  previewUrl = urlMatch[urlMatch.length - 1] ?? null;
+
+  if (deploy.status !== 0 || !previewUrl) {
+    fs.writeFileSync(path.join(EVIDENCE_DIR, "deploy.json"), `${JSON.stringify({ ...evidence, passed: false, exitCode: deploy.status, tail: redact(combined).slice(-1500) }, null, 2)}\n`);
+    console.error(`DEPLOY FAILED — vercel exited ${deploy.status}\n${redact(combined).slice(-2000)}`);
+    process.exit(1);
+  }
+  evidence.deploymentOrigin = "created a new Preview deployment";
 }
 evidence.previewUrl = previewUrl;
 console.log(`  deployment URL: ${previewUrl}`);
