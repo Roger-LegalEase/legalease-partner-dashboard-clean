@@ -1,0 +1,41 @@
+# Paths excluded from the Vercel deployment source.
+#
+# The deployment archive reached 517.8 MB and the upload failed at 388.3 MB
+# with "Error: fetch failed" — no deployment id, no build stage, no READY
+# deployment. This file removes content the deployed application never reads.
+# It is NOT a claim that 517.8 MB exceeded a published hard limit; the problem
+# is upload reliability and shipping content the runtime has no use for.
+#
+# Every entry below is proven by scripts/verify-rcap-deployment-closure.mjs,
+# which fails if any excluded path is referenced from application or build code
+# and re-proves the required paths survive pruning.
+#
+# Deliberately NOT excluded, because the running application reads them:
+#   data/                              guidance packets, composed routes,
+#                                      crosswalk, terminalization treatments
+#   design-handoff/                    read via path.join(process.cwd(), …)
+#   tmp/review-inbox/                  all50 internal preview + promotion page
+#   docs/record-clearing/field-map-drafts/
+#                                      readdirSync in official-pdf-shadow-batch
+#   reference/                         packet-pdf source provenance
+#   public/ src/ package.json package-lock.json next.config.ts tsconfig.json
+
+# Shadow-batch render OUTPUT. The module writes to a caller-supplied outputDir
+# and no route imports it; the only mention of this path in src/ is a doc
+# comment naming where the tool renders to.
+tmp/official-pdf-shadow-batch/
+tmp/record-clearing-shadow/
+tmp/official-pdf-implementation-gate/
+
+# Generated review/evidence artifacts. No string literal or path read in src/
+# resolves here.
+artifacts/
+
+# Documentation with no runtime reader. docs/record-clearing is NOT listed:
+# it holds field-map-drafts, which is read at runtime.
+docs/expungement-ai/
+docs/rcap/
+docs/product-flows/
+docs/rcap-promotion/
+docs/rcap-crosswalk-enrichment/
+docs/state-packs/
