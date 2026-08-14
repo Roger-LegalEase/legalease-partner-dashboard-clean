@@ -54,9 +54,17 @@ async function vercelApi(pathname) {
   return { status: res.status, json };
 }
 
+// Vercel Authentication answers every unauthenticated request to a protected
+// Preview with its own wall. Without the bypass header a probe cannot tell "the
+// application's internal-admin gate withheld this" from "Vercel never let me
+// reach the application" — and both look like a body that does not name the
+// state. The header is Vercel's documented automation bypass.
+const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS, "x-vercel-set-bypass-cookie": "false" } : {};
+
 async function get(url) {
   try {
-    const res = await fetch(url, { redirect: "follow" });
+    const res = await fetch(url, { redirect: "follow", headers: bypassHeaders });
     const body = await res.text();
     return { status: res.status, body };
   } catch (error) {
@@ -64,7 +72,15 @@ async function get(url) {
   }
 }
 
-const evidence = { schemaVersion: "rcap-hosted-acceptance-gallery/v1", applicationSha: APPLICATION_SHA, states: [] };
+const evidence = {
+  schemaVersion: "rcap-hosted-acceptance-gallery/v1",
+  applicationSha: APPLICATION_SHA,
+  // Recorded so a reader can tell which gate a "withheld" verdict came from.
+  // Without the bypass, a protected Preview makes every anonymous probe pass
+  // this file's disclosure assertion for the wrong reason.
+  protectionBypassSupplied: Boolean(BYPASS),
+  states: []
+};
 
 // --- discover the Preview deployment, same predicate as every other step -----
 let previewUrl = null;

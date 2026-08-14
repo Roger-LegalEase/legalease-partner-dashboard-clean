@@ -179,6 +179,27 @@ const buildEnv = {
   VERCEL_SUPPORT_LARGE_FUNCTIONS: "1"
 };
 
+// A live Stripe key must never reach this environment, and the check is on the
+// PREFIX rather than on trust: sk_live_ and whsec_ are distinguishable without
+// reading the value, and refusing before the deploy is the only moment at which
+// refusing still costs nothing.
+{
+  const stripeSecret = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
+  const stripeWebhook = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
+  if (stripeSecret && !stripeSecret.startsWith("sk_test_")) {
+    console.error("DEPLOY: HOSTED_STRIPE_TEST_SECRET is not an sk_test_ key; refusing to deploy a non-test Stripe key to the acceptance environment");
+    process.exit(1);
+  }
+  if (stripeWebhook && !stripeWebhook.startsWith("whsec_")) {
+    console.error("DEPLOY: HOSTED_STRIPE_TEST_WEBHOOK_SECRET is not a whsec_ signing secret");
+    process.exit(1);
+  }
+  evidence.stripe = {
+    mode: stripeSecret ? "test key supplied" : "no key supplied; the placeholder cannot transact",
+    webhookSigningSecretSupplied: Boolean(stripeWebhook)
+  };
+}
+
 const args = ["vercel@latest", "deploy", "--yes", "--token", VERCEL_TOKEN, "--scope", VERCEL_ORG_ID];
 for (const [key, value] of Object.entries(runtimeEnv)) args.push("--env", `${key}=${value}`);
 for (const [key, value] of Object.entries(buildEnv)) args.push("--build-env", `${key}=${value}`);
@@ -271,9 +292,19 @@ console.log(`  deployment URL: ${previewUrl}`);
 
 // --- 4. Probe the deployed instance -----------------------------------------
 {
-  const probe = async (pathname, init) => {
+  // See the gallery script: on a Preview protected by Vercel Authentication,
+  // an unauthenticated probe is answered by Vercel, not by the application, so
+  // a refusal here would prove nothing about the delivery control.
+  const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+  const bypassHeaders = bypass ? { "x-vercel-protection-bypass": bypass, "x-vercel-set-bypass-cookie": "false" } : {};
+  evidence.protectionBypassSupplied = Boolean(bypass);
+
+  const probe = async (pathname, init = {}) => {
     try {
-      const res = await fetch(`${previewUrl}${pathname}`, init);
+      const res = await fetch(`${previewUrl}${pathname}`, {
+        ...init,
+        headers: { ...(init.headers ?? {}), ...bypassHeaders }
+      });
       let json = null;
       try { json = JSON.parse(await res.clone().text()); } catch { /* non-JSON is fine */ }
       return { status: res.status, json };
