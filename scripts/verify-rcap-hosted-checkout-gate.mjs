@@ -1,0 +1,145 @@
+#!/usr/bin/env node
+import fs from "node:fs";
+import path from "node:path";
+import { spawnSync } from "node:child_process";
+
+const root = process.cwd();
+const gatePath = path.join(root, "scripts/rcap-hosted-checkout-gate.mjs");
+const entryPath = path.join(root, ".github/workflows/rcap-f1-ephemeral-staging.yml");
+const hostedPath = path.join(root, ".github/workflows/rcap-hosted-acceptance-staging.yml");
+const gate = fs.readFileSync(gatePath, "utf8");
+const entry = fs.readFileSync(entryPath, "utf8");
+const hosted = fs.readFileSync(hostedPath, "utf8");
+
+let checks = 0;
+const failures = [];
+function check(condition, message) {
+  checks += 1;
+  if (!condition) failures.push(message);
+}
+
+function includesEvery(text, values, label) {
+  for (const value of values) check(text.includes(value), `${label} is missing ${JSON.stringify(value)}`);
+}
+
+includesEvery(gate, [
+  "264d2a240e5c857f55ee645f2683830e94f67c19",
+  "hyflxnlhpmiqxvvcoiia",
+  "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
+  "HOSTED_PREVIEW_DEPLOYMENT_ID",
+  "vercel_project_identity_resolved",
+  "/v13/deployments/",
+  'deployment?.target === null',
+  'deployment?.meta?.rcapStripeConfigured === "true"',
+  'deployment?.meta?.rcapRouteState === "staging_scoped"',
+  "worker_pulled_by_immutable_digest",
+  "/v1/webhook_endpoints",
+  "single_existing_canonical_webhook_destination",
+  "webhook_event_set_and_mode_preserved",
+  "stripe_webhook_url_update_required",
+  "header_only_bypass_reaches_application_json",
+  "query_only_bypass_reaches_application_json",
+  "canonical_webhook_reaches_application",
+  "consumer_a_admitted_to_staging_scope",
+  "consumer_b_outside_staging_scope",
+  "anonymous_access_denied",
+  "Path A — Non-conviction expungement",
+  "consumer_caller_profile_and_eligibility_mapping_exact",
+  "getProfileByJurisdiction",
+  "isConsumerPaymentAllowed",
+  'routeKind === "legacy_verified"',
+  'rendererKind === "packet_document_v1"',
+  'rendererVersion === "1.0.0"',
+  'profileVersion === "1.3.0"',
+  "briefcase_insert_returning_proves_row",
+  "stored_row_matches_authoritative_resolver",
+  "unpaid_render_returns_402",
+  "checkoutSessionId",
+  "exactly_one_real_stripe_session_for_item",
+  "stripe_session_amount_mode_metadata_and_product_exact",
+  "metadata_transitively_binds_user_person_item_matter_and_product",
+  "checkout_return_page_shape_exact",
+  "beginning_checkout_does_not_mark_paid_or_queue_work",
+  "RCAP TEST CHECKOUT READY — ROGER ACTION REQUIRED",
+  "fixtureRetainedForRoger = true"
+], "gate");
+
+for (const eventType of [
+  "checkout.session.completed",
+  "checkout.session.async_payment_succeeded",
+  "invoice.finalized",
+  "invoice.paid",
+  "invoice.payment_failed",
+  "invoice.voided"
+]) check(gate.includes(`"${eventType}"`), `gate does not pin ${eventType}`);
+
+check((gate.match(/callApp\(previewUrl, "\/api\/expungement-ai\/checkout"/g) ?? []).length === 1,
+  "gate must make exactly one application Checkout call");
+check(!gate.includes("x-vercel-set-bypass-cookie"), "gate must never request a Vercel bypass cookie");
+check(!/spawnSync\(["']docker["'],\s*\[["']run["']/.test(gate), "gate must not run the worker");
+check(!/\bvercel@[^\n]*\bdeploy\b/.test(gate), "gate must not run Vercel deploy");
+check(!/delete\s+from\s+/i.test(gate), "gate must retain the acceptance fixture");
+check(!/payment_status\s*:\s*["']paid["']/.test(gate), "gate must not fabricate a paid Session");
+check(!/evt_hosted_acceptance|signedBody\(|constructEvent/.test(gate), "gate must not synthesize a Stripe completion event");
+check(!/fetch\([^\n]*api\.stripe\.com\/v1\/checkout\/sessions[^\n]*\{[^}]*method:\s*["']POST["']/s.test(gate),
+  "gate must not create a Stripe Session directly");
+check(gate.includes("queryEntries.length === 1"), "gate must reject duplicate bypass query parameters");
+check(gate.includes("stripeGet(`/v1/checkout/sessions/${encodeURIComponent(checkoutSessionId)}`)"),
+  "gate must retrieve the application-created Session from Stripe");
+
+includesEvery(entry, [
+  "hosted_checkout_gate",
+  "preview_deployment_id",
+  "phase: ${{ inputs.mode == 'hosted_full'",
+  "preview_deployment_id: ${{ inputs.preview_deployment_id }}"
+], "entry workflow");
+
+includesEvery(hosted, [
+  "checkout_gate",
+  "preview_deployment_id",
+  "HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}",
+  "node scripts/rcap-hosted-checkout-gate.mjs",
+  "node scripts/verify-rcap-hosted-checkout-gate.mjs",
+  "checkout_gate requires one exact Vercel deployment id",
+  "if: inputs.phase == 'checkout_gate'",
+  "inputs.phase == 'payment' || inputs.phase == 'checkout_gate'"
+], "hosted workflow");
+check(hosted.includes("PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}"),
+  "workflow must transport the deployment id through the environment");
+check(!hosted.includes('"${{ inputs.preview_deployment_id }}"'),
+  "workflow must not interpolate the untrusted deployment-id input into shell source");
+
+const deployStep = hosted.match(/- name: Deploy the frozen application SHA to Vercel Preview[\s\S]*?\n\s+env:/)?.[0] ?? "";
+check(Boolean(deployStep), "could not locate the Vercel deployment step");
+check(!deployStep.includes("checkout_gate"), "checkout_gate must never satisfy the Vercel deployment step condition");
+const migrateStep = hosted.match(/- name: Apply the authorized sequence to the acceptance project[\s\S]*?\n\s+env:/)?.[0] ?? "";
+check(Boolean(migrateStep), "could not locate the migration step");
+check(!migrateStep.includes("checkout_gate"), "checkout_gate must never satisfy the migration step condition");
+const paymentStep = hosted.match(/- name: Run the hosted Stripe payment and packet-delivery journey[\s\S]*?\n\s+env:/)?.[0] ?? "";
+check(Boolean(paymentStep), "could not locate the legacy payment step");
+check(!paymentStep.includes("checkout_gate"), "checkout_gate must never run the legacy simulated payment journey");
+
+function gitDiffQuiet(paths) {
+  const run = spawnSync("git", [
+    "diff", "--quiet",
+    "264d2a240e5c857f55ee645f2683830e94f67c19",
+    "--",
+    ...paths
+  ], { cwd: root, encoding: "utf8" });
+  return run.status === 0;
+}
+
+check(gitDiffQuiet(["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public"]),
+  "checkout-gate branch changes frozen application inputs");
+check(gitDiffQuiet([
+  "package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs",
+  "deploy/rcap-render-worker/Dockerfile", "scripts/lib", "src"
+]), "checkout-gate branch changes frozen worker inputs");
+
+if (failures.length > 0) {
+  console.error(`FAIL verify-rcap-hosted-checkout-gate — ${failures.length}/${checks} checks failed`);
+  for (const failure of failures) console.error(`  - ${failure}`);
+  process.exit(1);
+}
+
+console.log(`OK verify-rcap-hosted-checkout-gate — ${checks} checks; reuse-only, one Session, unpaid stop, frozen inputs unchanged`);

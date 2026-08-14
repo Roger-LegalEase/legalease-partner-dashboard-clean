@@ -23,11 +23,16 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_accept | hosted_payment | hosted_full"
+        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_accept | hosted_checkout_gate | hosted_payment | hosted_full"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_accept, hosted_payment, hosted_full]
+        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_accept, hosted_checkout_gate, hosted_payment, hosted_full]
         default: ephemeral
+      preview_deployment_id:
+        description: "Exact existing Vercel Preview deployment id (checkout gate only; the gate never deploys)"
+        required: false
+        type: string
+        default: ""
       supabase_project_ref:
         description: "Acceptance Supabase project ref (hosted modes only)"
         required: false
@@ -72,7 +77,8 @@ jobs:
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight')))) }}
+      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight'))))) }}
+      preview_deployment_id: ${{ inputs.preview_deployment_id }}
       application_sha: ${{ inputs.application_sha }}
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}
