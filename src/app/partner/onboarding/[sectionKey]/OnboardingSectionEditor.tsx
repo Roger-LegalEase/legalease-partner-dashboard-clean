@@ -53,7 +53,6 @@ import {
   PROGRAM_MODELS,
   REQUESTED_DASHBOARD_ROLES
 } from "@/lib/partners/onboarding/schema";
-import type { OnboardingSectionView } from "@/lib/partners/onboarding/service";
 import type {
   OnboardingSectionKey,
   OnboardingSectionStatus,
@@ -174,6 +173,14 @@ type GuidedRenderContextValue = {
   activeSurface: GuidedSubstepSurface;
   requestedFieldKey: string | null;
   activeChangeRequest: PartnerFacingChangeRequest | null;
+};
+
+type OnboardingStaffSection = {
+  key: OnboardingSectionKey;
+  title: string;
+  status: OnboardingSectionStatus;
+  changeRequestStatus: "open" | "partner_responded" | null;
+  changeRequests: PartnerFacingChangeRequest[];
 };
 
 type FieldRendererProps = {
@@ -4200,7 +4207,7 @@ export function OnboardingStaffSectionSummary({
   organizationName
 }: {
   resolution: GuidedStepResolution;
-  section: OnboardingSectionView;
+  section: OnboardingStaffSection;
   values: Readonly<Record<string, unknown>>;
   readOnlyValues: Readonly<Record<string, unknown>>;
   administratorName: string | null;
