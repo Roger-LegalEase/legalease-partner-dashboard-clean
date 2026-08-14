@@ -3,6 +3,7 @@ import "server-only";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { hashAccessCode, normalizeAccessCode } from "@/lib/partners/access-code-crypto";
 import type { PartnerAccessMode } from "@/lib/partners/partner-access-codes";
+import { isPartnerActivationAuthorized } from "@/lib/partners/partner-public-eligibility";
 
 export type RcapPartnerIntakeContext = {
   partnerSlug: string;
@@ -90,7 +91,17 @@ export async function resolveRcapPartnerIntakeContext(partnerSlug: string): Prom
     .eq("partner_slug", slug)
     .maybeSingle<PartnerContextRow>();
 
-  if (error || !data || !isActiveRcapPartner(data)) return null;
+  if (
+    error ||
+    !data ||
+    !isPartnerActivationAuthorized({
+      paymentStatus: data.payment_status,
+      qualificationStatus: data.qualification_status,
+      provisioningStatus: data.provisioning_status
+    })
+  ) {
+    return null;
+  }
 
   const jurisdiction = normalizeJurisdiction(data.target_state ?? data.state);
   if (!jurisdiction) return null;
@@ -220,14 +231,6 @@ function normalizeClaimReason(reason: string | null): CodeClaimRejectReason {
 function normalizeAccessMode(value: string | null | undefined): PartnerAccessMode {
   const modes: PartnerAccessMode[] = ["open", "optional_code", "required_code", "invite_only"];
   return value && (modes as string[]).includes(value) ? (value as PartnerAccessMode) : "open";
-}
-
-function isActiveRcapPartner(row: PartnerContextRow) {
-  return (
-    (row.payment_status === "paid" || row.payment_status === "demo_paid") &&
-    row.qualification_status === "qualified" &&
-    (row.provisioning_status === "provisioned" || row.provisioning_status === "active")
-  );
 }
 
 function normalizePartnerSlug(value: string) {
