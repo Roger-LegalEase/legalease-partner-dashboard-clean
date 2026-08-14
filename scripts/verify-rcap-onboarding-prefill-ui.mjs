@@ -36,9 +36,13 @@ assert.match(internal, /min-w-\[1100px\]/);
 assert.match(internal, /window\.confirm/);
 assert.match(
   home,
-  /We filled in what we already know\. Review each section and correct/
+  /LegalEase pre-filled known information\. Review each marked section and correct/
 );
-assert.match(home, /Pre-filled — review needed|hasPendingPrefill/);
+assert.match(home, /hasPendingPrefill/);
+const presentation = read(
+  "src/lib/partners/onboarding/implementation-presentation.ts"
+);
+assert.match(presentation, /Pre-filled, review needed/);
 assert.match(section, /Pre-filled by LegalEase — please review/);
 assert.match(section, /Confirm and continue/);
 assert.match(section, /This is view only\. A partner administrator must confirm it/);

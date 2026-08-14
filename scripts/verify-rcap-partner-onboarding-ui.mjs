@@ -35,7 +35,7 @@ for (const relativePath of [
   const source = fs.readFileSync(path.join(rootDir, relativePath), "utf8");
   assert.match(
     source,
-    /<main className="[^"]*\bbreak-words\b[^"]*"/,
+    /<main[\s\S]{0,300}?className=\{?[`"]?[\s\S]{0,220}?\bbreak-words\b/,
     `${relativePath} must wrap long organization names, email addresses, and blocker copy without page overflow.`
   );
 }
@@ -75,6 +75,12 @@ const { OnboardingDashboardCard } = loadTsModule(
 const { Phase1OnboardingHome } = loadTsModule(
   path.join(rootDir, "src/app/partner/onboarding/Phase1OnboardingHome.tsx")
 );
+const { buildPartnerImplementationPresentation } = loadTsModule(
+  path.join(
+    rootDir,
+    "src/lib/partners/onboarding/implementation-presentation.ts"
+  )
+);
 const { OnboardingSectionEditor } = loadTsModule(
   path.join(
     rootDir,
@@ -106,20 +112,45 @@ assert.match(dashboardHtml, /Next-action owner/);
 assert.match(dashboardHtml, /Your organization/);
 assert.match(dashboardHtml, />Review and submit</);
 
-const homeBase = {
-  organizationName: "Synthetic Justice Collaborative",
-  programName: "Second Chance Program",
-  status: "ready_for_review",
-  statusLabel: "Awaiting LegalEase review",
+const homePresentation = buildPartnerImplementationPresentation({
+  workspaceStatus: "ready_for_review",
   completionPercentage: 100,
+  commercialGateStatus: "cleared_by_authorized_internal_override",
+  commercialGateChangedAt: "2026-07-28T11:00:00.000Z",
+  submittedAt: "2026-07-28T12:00:00.000Z",
+  internalApprovedAt: null,
+  launchedAt: null,
+  pausedAt: null,
+  closedAt: null,
+  lastMeaningfulActivityAt: "2026-07-28T12:00:00.000Z",
   targetLaunchDate: "2026-09-15",
   blockerCopy: "LegalEase review is pending.",
   nextActionCopy: "LegalEase reviews the submitted package.",
-  nextActionOwner: "LegalEase",
-  dominantHref: "/partner/onboarding/review",
-  dominantLabel: "View setup",
+  nextActionOwner: "legalease",
+  defaultActionHref: "/partner/onboarding/review",
+  defaultActionLabel: "View setup",
+  currentRole: "partner_staff",
   canEdit: false,
   sections: [],
+  teamMembers: [
+    {
+      requestedRole: "partner_administrator",
+      trainingStatus: "not_started",
+      trainingCompletedAt: null,
+      invitationStatus: "released",
+      membershipStatus: "active",
+      updatedAt: "2026-07-28T11:00:00.000Z"
+    }
+  ],
+  readiness: { ready: false, blockingFailures: 1, primaryNextAction: null },
+  coBrandedPageArtifact: null
+});
+const homeBase = {
+  organizationName: "Synthetic Justice Collaborative",
+  programName: "Second Chance Program",
+  implementationOwner: null,
+  presentation: homePresentation,
+  hasPendingPrefill: false,
   commercial: {
     label: "Cleared for setup",
     blocked: false,
@@ -144,8 +175,10 @@ const staffHomeHtml = render(Phase1OnboardingHome, {
   isPartnerStaff: true
 });
 assert.match(staffHomeHtml, /View only/);
-assert.match(staffHomeHtml, /A partner administrator can make changes/);
-assert.match(staffHomeHtml, /bg-teal\/10 text-teal/);
+assert.match(staffHomeHtml, /A partner administrator must complete any configuration change/);
+assert.match(staffHomeHtml, /Setup information/);
+assert.match(staffHomeHtml, /LegalEase review[\s\S]*In progress/);
+assert.match(staffHomeHtml, /Program activation[\s\S]*Inactive/);
 
 const lockedAdminHomeHtml = render(Phase1OnboardingHome, {
   ...homeBase,
@@ -154,7 +187,7 @@ const lockedAdminHomeHtml = render(Phase1OnboardingHome, {
 assert.doesNotMatch(lockedAdminHomeHtml, /View only/);
 assert.doesNotMatch(
   lockedAdminHomeHtml,
-  /A partner administrator can make changes/
+  /A partner administrator must complete any configuration change/
 );
 
 const reviewBase = {

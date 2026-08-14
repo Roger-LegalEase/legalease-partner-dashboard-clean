@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { redirect } from "next/navigation";
 import { logSecurityWarn } from "@/lib/observability/logger";
 import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
 import { getOnboardingForPartner, type PartnerFacingOnboarding } from "@/lib/partners/partner-onboarding";
-import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
+import {
+  isRcapOnboardingLaunchPrepEnabled,
+  isRcapPartnerOnboardingEnabled
+} from "@/lib/partners/onboarding/feature";
 import { requirePartnerOnboardingContext } from "@/lib/partners/onboarding/auth-context";
 import {
   getPartnerOnboardingPortal,
@@ -11,11 +15,10 @@ import {
 } from "@/lib/partners/onboarding/service";
 import {
   agreementStatusLabel,
-  agreementTypeLabel,
-  nextActionOwnerLabel,
-  sectionStatusLabel,
-  workspaceStatusLabel
+  agreementTypeLabel
 } from "@/lib/partners/onboarding/partner-labels";
+import { getPartnerLaunchReadiness } from "@/lib/partners/onboarding/launch-readiness-service";
+import { buildPartnerImplementationPresentation } from "@/lib/partners/onboarding/implementation-presentation";
 import {
   getPartnerSupportContact,
   partnerSupportMailto
@@ -26,6 +29,17 @@ import { Phase1OnboardingHome } from "./Phase1OnboardingHome";
 export const dynamic = "force-dynamic";
 
 const ROUTE = "/partner/onboarding";
+const rcapInter = Inter({
+  subsets: ["latin"],
+  variable: "--font-rcap-inter",
+  display: "swap"
+});
+const rcapMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-rcap-mono",
+  display: "swap"
+});
 
 export default async function PartnerOnboardingPage() {
   if (isRcapPartnerOnboardingEnabled()) {
@@ -97,9 +111,15 @@ export default async function PartnerOnboardingPage() {
 
 async function Phase1PartnerOnboardingPage() {
   let portal: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>;
+  let readinessView: Awaited<ReturnType<typeof getPartnerLaunchReadiness>> | null = null;
   try {
     const context = await requirePartnerOnboardingContext();
-    portal = await getPartnerOnboardingPortal(context);
+    [portal, readinessView] = await Promise.all([
+      getPartnerOnboardingPortal(context),
+      isRcapOnboardingLaunchPrepEnabled()
+        ? getPartnerLaunchReadiness(context)
+        : Promise.resolve(null)
+    ]);
   } catch (error) {
     if (
       error instanceof SessionPartnerError &&
@@ -149,42 +169,82 @@ async function Phase1PartnerOnboardingPage() {
     : nextSection
       ? `/partner/onboarding/${nextSection}`
       : "/partner/onboarding/review";
+  const dominantLabel =
+    portal.role === "partner_staff"
+      ? "View setup"
+      : portal.canEdit
+        ? reviewReady
+          ? "Review and submit"
+          : "Continue setup"
+        : "View setup";
+  const coBrandedPageArtifact = readinessView?.board.entries.find(
+    (entry) => entry.artifactType === "co_branded_page_configuration"
+  );
+  const presentation = buildPartnerImplementationPresentation({
+    workspaceStatus: portal.workspace.status,
+    completionPercentage: portal.workspace.completionPercentage,
+    commercialGateStatus: portal.workspace.commercialGateStatus,
+    commercialGateChangedAt: portal.workspace.commercialGateChangedAt,
+    submittedAt: portal.workspace.submittedAt,
+    internalApprovedAt: portal.workspace.internalApprovedAt,
+    launchedAt: portal.workspace.launchedAt,
+    pausedAt: portal.workspace.pausedAt,
+    closedAt: portal.workspace.closedAt,
+    lastMeaningfulActivityAt: portal.workspace.lastMeaningfulActivityAt,
+    targetLaunchDate: portal.workspace.targetLaunchDate,
+    blockerCopy: portal.workspace.blockerCopy,
+    nextActionCopy: portal.workspace.nextActionCopy,
+    nextActionOwner: portal.workspace.nextActionOwner,
+    defaultActionHref: dominantHref,
+    defaultActionLabel: dominantLabel,
+    currentRole: portal.role,
+    canEdit: portal.canEdit,
+    sections: portal.sections.map((section) => ({
+      key: section.key,
+      title: section.title,
+      status: section.status,
+      missingSummary: sectionSummary(section, portal),
+      hasPendingPrefill: section.hasPendingPrefill,
+      changeRequestStatus: section.changeRequestStatus,
+      submittedAt: section.submittedAt,
+      approvedAt: section.approvedAt,
+      updatedAt: section.updatedAt
+    })),
+    teamMembers: portal.teamMembers.map((member) => ({
+      requestedRole: member.requestedRole,
+      trainingStatus: member.trainingStatus,
+      trainingCompletedAt: member.trainingCompletedAt,
+      invitationStatus: member.invitationStatus,
+      membershipStatus: member.membershipStatus,
+      updatedAt: member.updatedAt
+    })),
+    readiness: readinessView
+      ? {
+          ready: readinessView.readiness.ready,
+          blockingFailures: readinessView.readiness.blockingFailures,
+          primaryNextAction: readinessView.readiness.primaryNextAction
+        }
+      : null,
+    coBrandedPageArtifact: coBrandedPageArtifact
+      ? {
+          available: coBrandedPageArtifact.available,
+          approvalStatus:
+            coBrandedPageArtifact.currentVersion?.approvalStatus ?? null,
+          partnerReviewStatus:
+            coBrandedPageArtifact.currentVersion?.partnerReviewStatus ?? null
+        }
+      : null
+  });
 
   return (
     <Shell wide>
       <Phase1OnboardingHome
         organizationName={portal.organizationName}
         programName={portal.programName}
-        status={portal.workspace.status}
-        statusLabel={workspaceStatusLabel(portal.workspace.status)}
-        completionPercentage={portal.workspace.completionPercentage}
-        targetLaunchDate={portal.workspace.targetLaunchDate}
-        blockerCopy={portal.workspace.blockerCopy}
-        nextActionCopy={portal.workspace.nextActionCopy}
-        nextActionOwner={nextActionOwnerLabel(portal.workspace.nextActionOwner)}
-        dominantHref={dominantHref}
-        dominantLabel={
-          portal.role === "partner_staff"
-            ? "View setup"
-            : portal.canEdit
-              ? reviewReady
-                ? "Review and submit"
-                : "Continue setup"
-              : "View setup"
-        }
-        canEdit={portal.canEdit}
+        implementationOwner={null}
+        presentation={presentation}
         isPartnerStaff={portal.role === "partner_staff"}
-        hasAppliedPrefill={portal.prefill.hasAppliedPrefill}
-        sections={portal.sections.map((section) => ({
-          key: section.key,
-          title: section.title,
-          status: section.status,
-          statusLabel: section.hasPendingPrefill
-            ? "Pre-filled — review needed"
-            : sectionStatusLabel(section.status),
-          hasPendingPrefill: section.hasPendingPrefill,
-          missingSummary: sectionSummary(section, portal)
-        }))}
+        hasPendingPrefill={portal.prefill.pendingCount > 0}
         commercial={commercialSummary(portal)}
         agreements={portal.agreements.map((agreement) => ({
           label: agreementTypeLabel(agreement.type),
@@ -213,7 +273,9 @@ async function Phase1PartnerOnboardingPage() {
 
 function Shell({ children, wide = false }: { children: React.ReactNode; wide?: boolean }) {
   return (
-    <main className="min-h-screen break-words bg-[#f7f8f6] text-[#0F1E3D]">
+    <main
+      className={`${rcapInter.variable} ${rcapMono.variable} min-h-screen break-words bg-[#F7F4EE] text-[#071B33] [font-family:var(--font-rcap-inter)]`}
+    >
       <div className={`mx-auto px-4 py-10 md:px-6 ${wide ? "max-w-7xl" : "max-w-4xl"}`}>{children}</div>
     </main>
   );

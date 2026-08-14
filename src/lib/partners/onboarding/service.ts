@@ -57,6 +57,28 @@ export type OnboardingSectionView<K extends OnboardingSectionKey = OnboardingSec
   changeRequestStatus: "open" | "partner_responded" | null;
   pendingPrefillFieldKeys: string[];
   hasPendingPrefill: boolean;
+  firstStartedAt: string | null;
+  completedAt: string | null;
+  submittedAt: string | null;
+  approvedAt: string | null;
+  waivedAt: string | null;
+  reviewedAt: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+export type OnboardingTeamMemberView = {
+  id: string;
+  name: string;
+  workEmail: string;
+  requestedRole: string;
+  trainingAttendee: boolean;
+  trainingStatus: "not_started" | "scheduled" | "in_progress" | "complete";
+  trainingCompletedAt: string | null;
+  invitationStatus: "not_invited" | "planned" | "released";
+  membershipStatus: "planned" | "active" | "disabled";
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnboardingAssetView = {
@@ -107,7 +129,15 @@ export type PartnerOnboardingPortal = {
     nextActionOwner: "partner" | "legalease" | "none";
     targetLaunchDate: string | null;
     commercialGateStatus: CommercialGateOutcome;
+    commercialGateChangedAt: string | null;
     submittedAt: string | null;
+    internalApprovedAt: string | null;
+    launchedAt: string | null;
+    pausedAt: string | null;
+    closedAt: string | null;
+    lastMeaningfulActivityAt: string | null;
+    createdAt: string;
+    updatedAt: string;
   };
   organizationName: string;
   programName: string | null;
@@ -115,6 +145,7 @@ export type PartnerOnboardingPortal = {
   canEdit: boolean;
   data: OnboardingPartnerData;
   sections: OnboardingSectionView[];
+  teamMembers: OnboardingTeamMemberView[];
   readOnlyValues: OnboardingReadOnlyValues;
   canonicalReferences: Record<string, { value: string; sourceSection: OnboardingSectionKey }>;
   assets: OnboardingAssetView[];
@@ -172,7 +203,15 @@ type WorkspaceSafeRow = {
   next_action_owner: string;
   target_launch_date: string | null;
   commercial_gate_status: string;
+  commercial_gate_changed_at: string | null;
   submitted_at: string | null;
+  internal_approved_at: string | null;
+  launched_at: string | null;
+  paused_at: string | null;
+  closed_at: string | null;
+  last_meaningful_activity_at: string | null;
+  created_at: string;
+  updated_at: string;
 };
 
 type SectionRow = {
@@ -184,6 +223,14 @@ type SectionRow = {
   status: string;
   completion_percentage: number;
   missing_required_keys: string[] | null;
+  first_started_at: string | null;
+  completed_at: string | null;
+  submitted_at: string | null;
+  approved_at: string | null;
+  waived_at: string | null;
+  reviewed_at: string | null;
+  created_at: string | null;
+  updated_at: string | null;
 };
 
 type ContactRow = {
@@ -203,6 +250,12 @@ type PlannedUserRow = {
   requested_role: string;
   special_permissions: string[] | null;
   training_attendee: boolean;
+  training_status: string;
+  training_completed_at: string | null;
+  invitation_status: string;
+  membership_status: string;
+  created_at: string;
+  updated_at: string;
 };
 
 type RecipientRow = {
@@ -298,7 +351,7 @@ export async function getPartnerOnboardingPortal(
   const { data: workspaceData, error: workspaceError } = await supabase
     .from("partner_onboarding_workspace_safe")
     .select(
-      "id, partner_slug, partner_record_id, status, schema_version, aggregate_version, completion_percentage, blocker_code, next_action_code, next_action_owner, target_launch_date, commercial_gate_status, submitted_at"
+      "id, partner_slug, partner_record_id, status, schema_version, aggregate_version, completion_percentage, blocker_code, next_action_code, next_action_owner, target_launch_date, commercial_gate_status, commercial_gate_changed_at, submitted_at, internal_approved_at, launched_at, paused_at, closed_at, last_meaningful_activity_at, created_at, updated_at"
     )
     .eq("partner_slug", context.partnerSlug)
     .maybeSingle();
@@ -327,7 +380,7 @@ export async function getPartnerOnboardingPortal(
   ] = await Promise.all([
     supabase
       .from("partner_onboarding_sections")
-      .select("id, workspace_id, section_key, response_data, revision, status, completion_percentage, missing_required_keys")
+      .select("id, workspace_id, section_key, response_data, revision, status, completion_percentage, missing_required_keys, first_started_at, completed_at, submitted_at, approved_at, waived_at, reviewed_at, created_at, updated_at")
       .eq("workspace_id", workspaceId),
     supabase
       .from("partner_onboarding_contacts")
@@ -337,7 +390,7 @@ export async function getPartnerOnboardingPortal(
       .order("created_at", { ascending: true }),
     supabase
       .from("partner_onboarding_planned_users")
-      .select("id, name, work_email, requested_role, special_permissions, training_attendee")
+      .select("id, name, work_email, requested_role, special_permissions, training_attendee, training_status, training_completed_at, invitation_status, membership_status, created_at, updated_at")
       .eq("workspace_id", workspaceId)
       .is("deleted_at", null)
       .order("created_at", { ascending: true }),
@@ -508,7 +561,15 @@ export async function getPartnerOnboardingPortal(
         .map((prefill) => prefill.field_key),
       hasPendingPrefill: pendingPrefillRows.some(
         (prefill) => prefill.section_key === definition.key
-      )
+      ),
+      firstStartedAt: row?.first_started_at ?? null,
+      completedAt: row?.completed_at ?? null,
+      submittedAt: row?.submitted_at ?? null,
+      approvedAt: row?.approved_at ?? null,
+      waivedAt: row?.waived_at ?? null,
+      reviewedAt: row?.reviewed_at ?? null,
+      createdAt: row?.created_at ?? null,
+      updatedAt: row?.updated_at ?? null
     };
   }) as OnboardingSectionView[];
 
@@ -548,7 +609,15 @@ export async function getPartnerOnboardingPortal(
       nextActionOwner: derivation.nextActionOwner,
       targetLaunchDate: workspace.target_launch_date,
       commercialGateStatus: asCommercialGate(workspace.commercial_gate_status),
-      submittedAt: workspace.submitted_at
+      commercialGateChangedAt: workspace.commercial_gate_changed_at,
+      submittedAt: workspace.submitted_at,
+      internalApprovedAt: workspace.internal_approved_at,
+      launchedAt: workspace.launched_at,
+      pausedAt: workspace.paused_at,
+      closedAt: workspace.closed_at,
+      lastMeaningfulActivityAt: workspace.last_meaningful_activity_at,
+      createdAt: workspace.created_at,
+      updatedAt: workspace.updated_at
     },
     organizationName: partner.organization_name ?? partner.partner_name ?? context.partnerSlug,
     programName: partner.program_name,
@@ -559,6 +628,9 @@ export async function getPartnerOnboardingPortal(
       ["setup_in_progress", "waiting_on_partner"].includes(workspace.status),
     data,
     sections,
+    teamMembers: ((plannedUsersResult.data ?? []) as PlannedUserRow[]).map(
+      mapTeamMember
+    ),
     readOnlyValues,
     canonicalReferences,
     assets,
@@ -1318,6 +1390,42 @@ function mapPlannedUser(row: PlannedUserRow): PlannedDashboardUser {
     special_permissions: (row.special_permissions ?? []) as PlannedDashboardUser["special_permissions"],
     training_attendee: row.training_attendee
   };
+}
+
+function mapTeamMember(row: PlannedUserRow): OnboardingTeamMemberView {
+  return {
+    id: row.id,
+    name: row.name,
+    workEmail: row.work_email,
+    requestedRole: row.requested_role,
+    trainingAttendee: row.training_attendee,
+    trainingStatus: asTeamLifecycleValue(
+      row.training_status,
+      ["not_started", "scheduled", "in_progress", "complete"],
+      "not_started"
+    ),
+    trainingCompletedAt: row.training_completed_at,
+    invitationStatus: asTeamLifecycleValue(
+      row.invitation_status,
+      ["not_invited", "planned", "released"],
+      "not_invited"
+    ),
+    membershipStatus: asTeamLifecycleValue(
+      row.membership_status,
+      ["planned", "active", "disabled"],
+      "planned"
+    ),
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function asTeamLifecycleValue<const T extends string>(
+  value: string,
+  allowed: readonly T[],
+  fallback: T
+): T {
+  return allowed.includes(value as T) ? (value as T) : fallback;
 }
 
 function mapRecipient(row: RecipientRow): OnboardingReportRecipient {
