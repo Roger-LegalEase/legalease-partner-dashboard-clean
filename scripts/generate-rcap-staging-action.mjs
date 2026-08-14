@@ -94,8 +94,8 @@ function imageInputWorktreeDirt() {
   }).trim();
 }
 
-function imageInputEquivalent(baseSha) {
-  const result = execFileSync('git', ['diff', '--name-only', `${baseSha}`, 'HEAD', '--', ...IMAGE_INPUT_DIFF_PATHS], {
+function imageInputEquivalent(baseSha, againstSha = 'HEAD') {
+  const result = execFileSync('git', ['diff', '--name-only', `${baseSha}`, againstSha, '--', ...IMAGE_INPUT_DIFF_PATHS], {
     cwd: rootDir,
     encoding: 'utf8',
   }).trim();
@@ -201,15 +201,50 @@ for (const [key, value] of Object.entries(imageInputFingerprint)) {
 // Terminal D's publication evidence, if it has been imported. The digest is
 // only ever read from committed evidence that names the exact freeze SHA —
 // never typed in — so a digest for the wrong source cannot be recorded here.
+//
+// That last sentence was a claim this file did not actually enforce. The only
+// agreement test below the record was the Dockerfile and lockfile hashes, and
+// those two files barely ever move: a publication built from an entirely
+// different `src` tree passed it unchallenged. It really happened — the record
+// named sha256:337083a2 built from 5987870c while the fingerprint described a
+// tree many commits later, and nothing objected, because `src` is an image
+// input whose hash the publication evidence does not carry.
+//
+// What the evidence DOES carry is the sourceSha, and that is enough: the same
+// image-input equivalence rule applied everywhere else in this file answers the
+// question exactly. A digest whose build source is not image-input-equivalent
+// to the fingerprint base is a digest for other bytes, and saying so out loud
+// is the whole point of the record.
 const PUBLICATION_EVIDENCE_PATH = path.join(rootDir, 'data/rcap-render/worker-publication-evidence.json');
 let publicationEvidence = null;
 if (fs.existsSync(PUBLICATION_EVIDENCE_PATH)) {
   const candidate = JSON.parse(fs.readFileSync(PUBLICATION_EVIDENCE_PATH, 'utf8'));
   const digestShape = /^sha256:[0-9a-f]{64}$/.test(String(candidate.immutableRegistryDigest || ''));
+  const sourceSha = String(candidate.sourceSha || '');
+  let sourceEquivalent = false;
+  let sourceDrift = '';
+  if (/^[0-9a-f]{40}$/.test(sourceSha)) {
+    try {
+      git(['cat-file', '-e', `${sourceSha}^{commit}`]);
+      const { equivalent, changed } = imageInputEquivalent(sourceSha, fingerprintBaseSha);
+      sourceEquivalent = equivalent;
+      sourceDrift = changed;
+    } catch {
+      sourceDrift = 'the recorded sourceSha does not resolve to a commit';
+    }
+  } else {
+    sourceDrift = 'the record carries no full-length sourceSha';
+  }
+
   if (!digestShape) {
     problems.push('worker publication evidence carries a malformed immutable digest');
   } else if (candidate.packageVisibility !== 'private' || candidate.mutableLatestTagCreated !== false || candidate.publishOnlyNoDeploy !== true) {
     problems.push('worker publication evidence violates the publication contract (visibility/latest/publish-only)');
+  } else if (!sourceEquivalent) {
+    problems.push(
+      `worker publication evidence was built from ${sourceSha.slice(0, 8) || '(none)'}, which is not image-input-equivalent to the fingerprint base ${fingerprintBaseSha.slice(0, 8)}` +
+        `${sourceDrift ? `; differs on: ${sourceDrift.split('\n').join(', ')}` : ''} — the published image is for other bytes and must be republished at the freeze`
+    );
   } else {
     publicationEvidence = candidate;
   }

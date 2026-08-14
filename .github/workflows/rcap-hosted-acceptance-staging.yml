@@ -87,6 +87,13 @@ env:
   CANONICAL_INTEGRATION_BRANCH: claude/rcap-final-sprint-integration
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
   ROLLBACK_OWNER: Roger Roman
+  # The host the Stripe sandbox webhook destination currently points at. Recorded
+  # so the deploy can DERIVE whether that destination still reaches the bytes it
+  # is about to serve, instead of assuming it does. A stale destination does not
+  # fail loudly: the old deployment stays READY and keeps answering 200, so real
+  # completion events would be delivered to replaced bytes and nothing would look
+  # wrong. Update this whenever the destination is repointed.
+  PREVIOUS_STRIPE_WEBHOOK_HOST: legalease-partner-dashboard-clean-qfqpixip0-roger947s-projects.vercel.app
 
 jobs:
   preflight:
@@ -182,6 +189,7 @@ jobs:
           # named synthetic identity the deploy resolves. Every other phase
           # leaves the flag unset so the control's disabled default applies.
           HOSTED_ROUTE_STATE: ${{ inputs.phase == 'payment' && 'staging_scoped' || '' }}
+          HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
         run: node scripts/rcap-hosted-acceptance-deploy.mjs
 
       # Points the ACCEPTANCE project's GoTrue at the discovered Preview
