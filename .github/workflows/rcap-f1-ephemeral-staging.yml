@@ -126,7 +126,7 @@ jobs:
           # The tools commit must carry the exact application and worker bytes:
           # if this diff is empty, building once at tools_sha builds the pinned
           # application SHA's bytes, and the worker fingerprint is unchanged.
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public \
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
           git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
             || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }

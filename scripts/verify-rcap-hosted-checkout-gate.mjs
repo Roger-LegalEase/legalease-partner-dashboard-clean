@@ -129,7 +129,10 @@ function gitDiffQuiet(paths) {
   return run.status === 0;
 }
 
-check(gitDiffQuiet(["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public"]),
+check(gitDiffQuiet([
+  "src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public",
+  "docs/record-clearing/field-map-drafts"
+]),
   "checkout-gate branch changes frozen application inputs");
 check(gitDiffQuiet([
   "package.json", "package-lock.json", "tsconfig.json", "scripts/rcap-render-worker.mjs",
