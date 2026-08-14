@@ -60,7 +60,8 @@ const REQUIRED_CASES = [
   "preview_deployment_discovered",
   "auth_callbacks_point_at_the_preview_deployment",
   "synthetic_identities_exist_and_sign_in",
-  "identities_are_obviously_synthetic"
+  "identities_are_obviously_synthetic",
+  "internal_admin_identity_is_provisioned"
 ];
 
 async function vercelApi(pathname) {
@@ -103,6 +104,18 @@ const USERS = [
   { key: "A", email: "acceptance-consumer-a@rcap-acceptance.test", password: "Acceptance-a-4f7c21!" },
   { key: "B", email: "acceptance-consumer-b@rcap-acceptance.test", password: "Acceptance-b-8d3e95!" }
 ];
+
+// The internal review galleries — /internal/record-clearing/** — are behind
+// `resolveInternalAdminPageAccess`, so an anonymous request gets a gate shell
+// with a 200, not the state. Opening a gallery on a phone therefore needs an
+// identity that `resolveSessionPartner` classifies as internal_admin: an active
+// partner_users row, role internal_admin, and partner_slug NULL — the code
+// rejects an internal admin that carries a partner slug.
+const INTERNAL_ADMIN = {
+  key: "ADMIN",
+  email: "acceptance-internal-admin@rcap-acceptance.test",
+  password: "Acceptance-admin-2b6f04!"
+};
 
 const evidence = {
   schemaVersion: "rcap-hosted-acceptance-auth/v1",
@@ -176,9 +189,19 @@ let previewUrl = null;
     finish();
   }
 
+  // The runner's own build of the frozen application needs the public Supabase
+  // pair at BUILD time — several dashboard pages prerender through the auth
+  // client and throw without it. Masked first so neither value can surface in a
+  // log line, then handed to later steps through the environment file rather
+  // than through a command line.
+  if (process.env.GITHUB_ENV) {
+    console.log(`::add-mask::${anon}`);
+    fs.appendFileSync(process.env.GITHUB_ENV, `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}\nNEXT_PUBLIC_SUPABASE_ANON_KEY=${anon}\n`);
+  }
+
   const created = [];
   const notes = [];
-  for (const user of USERS) {
+  for (const user of [...USERS, INTERNAL_ADMIN]) {
     // Idempotent: a 422 here means the identity already exists from an earlier
     // acceptance run, which is a pass, not a failure. The sign-in below is the
     // assertion that matters either way.
@@ -199,11 +222,12 @@ let previewUrl = null;
     }
   }
 
+  const expected = USERS.length + 1;
   record(
     "synthetic_identities_exist_and_sign_in",
-    created.length === USERS.length,
-    created.length === USERS.length
-      ? `${created.length} GoTrue identities confirmed and signed in against ${SUPABASE_URL}`
+    created.length === expected,
+    created.length === expected
+      ? `${created.length} GoTrue identities confirmed and signed in against ${SUPABASE_URL} (${USERS.length} consumers plus one internal admin)`
       : `identity setup incomplete: ${notes.join("; ")}`
   );
 
@@ -217,11 +241,54 @@ let previewUrl = null;
   );
 
   evidence.identities = created;
-  // What the scoped state must be given, and nothing more: the two UUIDs.
-  evidence.stagingScope = created.map((u) => u.id).join(",");
+  // The scope names CONSUMERS only. An internal admin is a reviewer, not a
+  // paying participant, and putting that identity in the delivery scope would
+  // blur the one distinction the scoped state exists to make.
+  evidence.stagingScope = created.filter((u) => u.key !== "ADMIN").map((u) => u.id).join(",");
   // Only participant A is admitted in the admission test; B stays out of scope
   // on purpose so the matrix can tell "admitted" from "everyone gets in".
   evidence.stagingScopeAdmittingAOnly = created.find((u) => u.key === "A")?.id ?? null;
+
+  // --- 4. Give the internal admin the identity the gallery gate requires -----
+  const admin = created.find((u) => u.key === "ADMIN");
+  if (!admin) {
+    record("internal_admin_identity_is_provisioned", false, "the internal admin identity never signed in, so no partner_users row was written");
+    finish();
+  }
+
+  // Idempotent, and deliberately narrow: it writes exactly one row, for exactly
+  // this auth user, with partner_slug NULL. It does not grant anything to any
+  // other identity and it touches no policy.
+  const upsert = await managementApi(`/v1/projects/${PROJECT_REF}/database/query`, {
+    method: "POST",
+    body: {
+      query: `
+        insert into public.partner_users (auth_user_id, partner_slug, role, status, invited_email)
+        values ('${admin.id}', null, 'internal_admin', 'active', '${admin.email}')
+        on conflict do nothing;
+        update public.partner_users
+           set role = 'internal_admin', status = 'active', partner_slug = null, updated_at = now()
+         where auth_user_id = '${admin.id}';
+        select auth_user_id, role, status, partner_slug
+          from public.partner_users
+         where auth_user_id = '${admin.id}';
+      `
+    }
+  });
+  const rows = Array.isArray(upsert.json) ? upsert.json : [];
+  const row = rows.find((r) => r?.auth_user_id === admin.id);
+  // Exactly one row: resolveSessionPartner throws partner_identity_ambiguous on
+  // two, so "a row exists" is not the property that matters — "one row exists"
+  // is.
+  const exactlyOne = rows.filter((r) => r?.auth_user_id === admin.id).length === 1;
+  record(
+    "internal_admin_identity_is_provisioned",
+    Boolean(row) && exactlyOne && row.role === "internal_admin" && row.status === "active" && row.partner_slug === null,
+    row
+      ? `partner_users row for ${admin.email}: role=${row.role}, status=${row.status}, partner_slug=${JSON.stringify(row.partner_slug)}, exactly one row: ${exactlyOne}`
+      : `no partner_users row came back for the internal admin (query status ${upsert.status})`
+  );
+  evidence.internalAdmin = { email: admin.email, id: admin.id };
 }
 
 finish();

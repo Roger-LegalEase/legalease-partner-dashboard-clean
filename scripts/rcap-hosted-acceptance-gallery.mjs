@@ -92,16 +92,47 @@ let previewUrl = null;
 for (const state of PRIORITY) {
   const url = `${previewUrl}/internal/record-clearing/states/${state.slug}`;
   const page = await get(url);
-  // A 200 that does not name the state is a shell, not a gallery. Requiring the
-  // state's own name in the body is what separates "the route exists" from
-  // "the route rendered this state".
-  const named = page.status === 200 && page.body.includes(state.name);
+
+  // These routes are behind resolveInternalAdminPageAccess. An anonymous
+  // request is answered with the sign-in/denied shell — status 200, because
+  // Next renders the redirect target — so asserting "the body names the state"
+  // anonymously would be asserting the gate is BROKEN. The correct anonymous
+  // assertion is the opposite one: the route answers, and it does not disclose
+  // the state's review content to a caller with no session.
+  const reachable = page.status === 200 || page.status === 307 || page.status === 401 || page.status === 403;
+  const withheld = !page.body.includes(state.name);
   record(
-    `gallery_renders_${state.slug}`,
-    named,
-    `GET ${url.replace(previewUrl, "")} = ${page.status}${page.status === 200 ? `, body names "${state.name}": ${page.body.includes(state.name)}` : ""}`
+    `gallery_is_reachable_and_gated_${state.slug}`,
+    reachable && withheld,
+    `GET ${url.replace(previewUrl, "")} = ${page.status}; anonymous body withholds "${state.name}": ${withheld} — these are internal-admin routes, so content disclosure here would be the failure`
   );
-  evidence.states.push({ code: state.code, slug: state.slug, url, status: page.status, named });
+  evidence.states.push({ code: state.code, slug: state.slug, url, status: page.status, anonymousContentWithheld: withheld });
+}
+
+// What an authenticated reviewer will actually see. Asserted against the data
+// layer the page renders from, in this same checkout of the frozen bytes, so
+// "gated" above cannot quietly mean "gated and also empty".
+{
+  const { register } = await import("node:module");
+  register("./lib/ts-esm-loader.mjs", import.meta.url);
+  const { getAll50StatePreview } = await import("../src/lib/rcap/all50-internal-preview.ts");
+  const missing = [];
+  const summary = [];
+  for (const state of PRIORITY) {
+    const preview = getAll50StatePreview(state.slug);
+    if (!preview || preview.build?.name !== state.name) {
+      missing.push(state.slug);
+      continue;
+    }
+    summary.push(`${state.code}=${preview.build?.buildStatus ?? preview.build?.status ?? "unknown"}`);
+  }
+  record(
+    "gallery_content_exists_for_every_priority_state",
+    missing.length === 0,
+    missing.length === 0
+      ? `the review surface has content for all three priority states: ${summary.join(", ")}`
+      : `no preview content for: ${missing.join(", ")}`
+  );
 }
 
 {
