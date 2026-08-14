@@ -290,7 +290,12 @@ async function probeRender(authenticated) {
 // --- 2. Journey classification through the evaluation surface ----------------
 // The application is left running in its ROLLED-BACK (disabled) state for
 // these, which is the state Roger's acceptance will meet it in.
-async function evaluate(jurisdiction, answers, profileVersion = "1.0.0") {
+// No default profileVersion. The compiled profiles carry a dated version string
+// and the engine answers a mismatch with 409, so a placeholder default would
+// turn every journey into a version error that still looked like "the route did
+// not open payment". The fixture carries the version on every probe.
+async function evaluate(jurisdiction, answers, profileVersion) {
+  if (!profileVersion) throw new Error("MATRIX: every journey probe must carry an explicit profileVersion");
   return app("/api/expungement-ai/evaluate", {
     method: "POST",
     body: { jurisdiction, profileVersion, matterId: crypto.randomUUID(), answers }
@@ -303,7 +308,7 @@ async function evaluate(jurisdiction, answers, profileVersion = "1.0.0") {
   for (const [caseId, spec] of Object.entries(journeys.cases)) {
     const results = [];
     for (const probe of spec.probes) {
-      const res = await evaluate(probe.jurisdiction, probe.answers, probe.profileVersion ?? "1.0.0");
+      const res = await evaluate(probe.jurisdiction, probe.answers, probe.profileVersion);
       results.push({
         label: probe.label,
         status: res.status,

@@ -163,6 +163,58 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: node scripts/rcap-hosted-acceptance-deploy.mjs
 
+      # Points the ACCEPTANCE project's GoTrue at the discovered Preview
+      # deployment and creates the named synthetic participants. Writes only
+      # site_url and uri_allow_list, and only on the acceptance project.
+      - name: Configure acceptance Auth and create the synthetic identities
+        if: inputs.phase == 'accept'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: node scripts/rcap-hosted-acceptance-auth-config.mjs
+
+      # The golden-journey matrix needs a built application to serve the
+      # runtime-classification cases, and the pinned worker image by digest.
+      - name: Build the frozen application for the matrix runtimes
+        if: inputs.phase == 'accept'
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run build
+
+      - name: Log in to the container registry for the pinned worker image
+        if: inputs.phase == 'accept'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run the hosted golden-journey matrix
+        if: inputs.phase == 'accept'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+        run: node scripts/rcap-hosted-acceptance-matrix.mjs
+
+      # Runs even when the matrix fails: the gallery URLs are what Roger opens
+      # on a phone, and they are worth having in the evidence either way.
+      - name: Prove the Pennsylvania, Mississippi and Illinois galleries render
+        if: inputs.phase == 'accept' && always()
+        env:
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: node scripts/rcap-hosted-acceptance-gallery.mjs
+
       - name: Upload the hosted acceptance evidence
         if: always()
         uses: actions/upload-artifact@v4

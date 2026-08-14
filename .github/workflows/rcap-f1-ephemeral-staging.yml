@@ -23,10 +23,10 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_full"
+        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_accept | hosted_full"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_full]
+        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_accept, hosted_full]
         default: ephemeral
       supabase_project_ref:
         description: "Acceptance Supabase project ref (hosted modes only)"
@@ -72,7 +72,7 @@ jobs:
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight')) }}
+      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight'))) }}
       application_sha: ${{ inputs.application_sha }}
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}
