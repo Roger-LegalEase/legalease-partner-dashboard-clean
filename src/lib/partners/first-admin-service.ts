@@ -25,6 +25,7 @@ import {
   type FirstAdminInput,
   type FirstAdminInvitationPayload
 } from "./first-admin-domain";
+import { renderFirstAdminInvitationEmail } from "./first-admin-invitation-email";
 
 const invitationEventType = "first_admin_invitation_record";
 const invitationEventLabel = "First administrator invitation";
@@ -957,24 +958,19 @@ export async function sendFirstAdminInvitationEmail(input: {
       occurred_at: (input.now ?? new Date()).toISOString()
     }
   );
-  const subject = `Set up administrator access for ${
-    partner.organization_name ?? partner.partner_name ?? partnerSlug
-  }`;
-  const text = [
-    `Hello ${invitation.full_name},`,
-    "",
-    `LegalEase created Partner Administrator access for ${
-      partner.organization_name ?? partner.partner_name ?? partnerSlug
-    }.`,
-    `Complete account setup before ${invitation.expires_at}:`,
-    setupLink,
-    "",
-    "If you were not expecting this invitation, do not use the link."
-  ].join("\n");
+  const rendered = renderFirstAdminInvitationEmail({
+    organizationName:
+      partner.organization_name ?? partner.partner_name ?? partnerSlug,
+    administratorName: invitation.full_name,
+    workEmail: invitation.email,
+    setupUrl: setupLink,
+    expiresAt: invitation.expires_at
+  });
   const delivery = await sendPartnerEmailMessage({
     recipientEmail: invitation.email,
-    subject,
-    text
+    subject: rendered.subject,
+    text: rendered.text,
+    html: rendered.html
   });
   const status = delivery.status === "sent" ? "sent" : "failed";
   const providerMessageId =
@@ -986,7 +982,7 @@ export async function sendFirstAdminInvitationEmail(input: {
     email_type: "first_admin_invitation",
     recipient_email: invitation.email,
     recipient_name: invitation.full_name,
-    subject,
+    subject: rendered.subject,
     status,
     provider: "resend",
     provider_message_id: providerMessageId,
