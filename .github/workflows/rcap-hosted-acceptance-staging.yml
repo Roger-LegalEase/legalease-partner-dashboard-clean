@@ -79,14 +79,21 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_APPLICATION_SHA: f2ab56cc31c16d973ef755abb651872e3738e538
-  AUTHORIZED_WORKER_SOURCE_SHA: f2ab56cc31c16d973ef755abb651872e3738e538
-  AUTHORIZED_WORKER_DIGEST: sha256:57d08bd3ea228575c778a4ea299222b2bc5b7f85c19e35985f594744f7ed2b30
+  AUTHORIZED_APPLICATION_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
+  AUTHORIZED_WORKER_SOURCE_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
+  AUTHORIZED_WORKER_DIGEST: sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-  CANONICAL_INTEGRATION_BRANCH: claude/rcap-final-sprint-integration
+  CANONICAL_INTEGRATION_BRANCH: main
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
   ROLLBACK_OWNER: Roger Roman
+  # The host the Stripe sandbox webhook destination currently points at. Recorded
+  # so the deploy can DERIVE whether that destination still reaches the bytes it
+  # is about to serve, instead of assuming it does. A stale destination does not
+  # fail loudly: the old deployment stays READY and keeps answering 200, so real
+  # completion events would be delivered to replaced bytes and nothing would look
+  # wrong. Update this whenever the destination is repointed.
+  PREVIOUS_STRIPE_WEBHOOK_HOST: legalease-partner-dashboard-clean-qfqpixip0-roger947s-projects.vercel.app
 
 jobs:
   preflight:
@@ -182,6 +189,7 @@ jobs:
           # named synthetic identity the deploy resolves. Every other phase
           # leaves the flag unset so the control's disabled default applies.
           HOSTED_ROUTE_STATE: ${{ inputs.phase == 'payment' && 'staging_scoped' || '' }}
+          HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
         run: node scripts/rcap-hosted-acceptance-deploy.mjs
 
       # Points the ACCEPTANCE project's GoTrue at the discovered Preview

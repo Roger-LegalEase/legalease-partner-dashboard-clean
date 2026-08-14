@@ -303,6 +303,67 @@ console.log(`  deployment URL: ${previewUrl}`);
     `deployment metadata records rcapApplicationSha=${meta.rcapApplicationSha ?? "(absent)"} against the declared final SHA ${APPLICATION_SHA}`
   );
   evidence.deployment = { id: detail.json?.id ?? null, target, readyState: detail.json?.readyState ?? null };
+  evidence.deploymentAliases = Array.isArray(detail.json?.alias) ? detail.json.alias : [];
+}
+
+// --- 2b. Where does the Stripe webhook now have to point? --------------------
+//
+// A Stripe webhook destination is configured once and then keeps firing at
+// whatever URL it holds. `vercel deploy` mints a fresh per-deployment hostname
+// and this script deliberately assigns no alias, so a redeploy of different
+// bytes generally moves the application to a NEW host and leaves the old host
+// serving the OLD deployment — still READY, still answering 200, still
+// verifying signatures with the same whsec_. That is the dangerous shape: a
+// stale destination does not look broken, it looks fine while delivering every
+// real completion event to bytes that were replaced.
+//
+// So this is derived rather than assumed. The previous host is queried on its
+// own and asked which application SHA it carries; the new deployment is asked
+// for any alias that would let a stable URL survive the move.
+{
+  const previousHost = (process.env.HOSTED_PREVIOUS_WEBHOOK_HOST ?? "").trim().replace(/^https:\/\//, "");
+  const newHost = previewUrl.replace(/^https:\/\//, "");
+  const stableAliases = (evidence.deploymentAliases ?? []).filter((a) => typeof a === "string" && a.length > 0);
+
+  let previousServes = null;
+  if (previousHost && previousHost !== newHost) {
+    const prior = await vercelApi(`/v13/deployments/${encodeURIComponent(previousHost)}`);
+    previousServes = {
+      status: prior.status,
+      readyState: prior.json?.readyState ?? null,
+      applicationSha: prior.json?.meta?.rcapApplicationSha ?? null,
+      stripeConfigured: prior.json?.meta?.rcapStripeConfigured ?? null,
+      routeState: prior.json?.meta?.rcapRouteState ?? null
+    };
+  }
+
+  const hostMoved = Boolean(previousHost) && previousHost !== newHost;
+  const reachableByAlias = stableAliases.includes(previousHost);
+  const mustChange = hostMoved && !reachableByAlias;
+
+  evidence.stripeWebhookDestination = {
+    previousHost: previousHost || "(not supplied)",
+    newHost,
+    hostMoved,
+    aliasesOnNewDeployment: stableAliases,
+    previousHostStillServes: previousServes,
+    reachableByAlias,
+    mustChange,
+    // Only ever the path and the parameter NAME. The bypass secret is never read
+    // by this script and never written to the evidence bundle.
+    requiredPath: "/api/stripe/webhook",
+    requiredQueryParameterName: "x-vercel-protection-bypass",
+    editNotDuplicate: true
+  };
+
+  console.log(
+    mustChange
+      ? `  STRIPE WEBHOOK URL UPDATE REQUIRED — the destination host moved from ${previousHost} to ${newHost}` +
+        `; the old host still serves rcapApplicationSha=${previousServes?.applicationSha ?? "(unknown)"}`
+      : hostMoved
+        ? `  the previous host ${previousHost} is an alias of this deployment; the Stripe destination still reaches the new bytes`
+        : `  the deployment host is unchanged (${newHost}); the Stripe destination still reaches the new bytes`
+  );
 }
 
 // --- 3. Prove the binding, and that production was not disturbed ------------

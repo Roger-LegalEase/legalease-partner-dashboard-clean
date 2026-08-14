@@ -76,3 +76,16 @@ jobs:
       - name: Verify all50 handoff
         if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         run: npm run rcap:verify-all50-handoff
+
+      # Deliberately invoked directly rather than wired into `npm test`.
+      # package.json is one of the seven worker image inputs, so adding a script
+      # entry there would change the image fingerprint and invalidate the digest
+      # published from this very commit — forcing a rebuild for a change that
+      # alters nothing the image contains. This file is in neither image-input
+      # set, so the guard runs on every pull request at no such cost.
+      #
+      # Unconditional on purpose: a stale digest is not "RCAP-affected" in the
+      # scope detector's sense, and this is exactly the check that must not be
+      # skipped on the run where someone repoints a digest.
+      - name: Verify the published worker digest is bound to its fingerprint
+        run: node scripts/test-rcap-worker-digest-binding-mutations.mjs
