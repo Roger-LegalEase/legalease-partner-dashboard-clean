@@ -575,6 +575,27 @@ let session = null;
   // expected". Asking Stripe DIRECTLY with the same key separates a key or
   // account that cannot transact from an application that sent Stripe
   // something it rejected — two faults with completely different owners.
+  // Was a session created before the application failed? Stripe is the only
+  // witness that can answer. If one exists carrying this item as its
+  // client_reference_id, then checkout DID reach Stripe and the 503 came from
+  // something after the create — which is a completely different defect from
+  // "Stripe rejected the request".
+  let sessionCreatedBeforeFailure = "not checked";
+  if (!session) {
+    try {
+      const list = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=100", {
+        headers: { Authorization: `Bearer ${STRIPE_KEY}` }
+      });
+      const body = await list.json().catch(() => null);
+      const mine = Array.isArray(body?.data) ? body.data.find((x) => x.client_reference_id === itemId) : null;
+      sessionCreatedBeforeFailure = mine
+        ? `YES — Stripe holds session ${mine.id} for this exact briefcase item (amount_total=${mine.amount_total} ${mine.currency}, payment_status=${mine.payment_status}). The application created it and then failed AFTER the create, so the 503 is not Stripe refusing the request.`
+        : "no — Stripe holds no session carrying this briefcase item as client_reference_id, so the create itself did not succeed";
+    } catch (error) {
+      sessionCreatedBeforeFailure = `could not ask Stripe: ${error.message}`;
+    }
+  }
+
   let stripeDirect = "not attempted";
   if (!session) {
     const form = new URLSearchParams();
@@ -605,9 +626,10 @@ let session = null;
     Boolean(session),
     session
       ? `the deployed application created Stripe session ${session.id} (amount_total=${session.amount_total} ${session.currency}, channel=${session.metadata?.channel ?? "(none)"}), read back from Stripe rather than from the response body`
-      : `checkout returned ${res.status} and no retrievable Stripe session: ${String(res.text).slice(0, 200)} — DIRECT STRIPE CONTROL: ${stripeDirect}`
+      : `checkout returned ${res.status}: ${String(res.text).slice(0, 160)} | SESSION CREATED BEFORE FAILURE? ${sessionCreatedBeforeFailure} | DIRECT STRIPE CONTROL: ${stripeDirect}`
   );
   evidence.stripeDirectControl = stripeDirect;
+  evidence.sessionCreatedBeforeFailure = sessionCreatedBeforeFailure;
   if (!session) finish();
   evidence.checkout = { sessionId: session.id, amountTotal: session.amount_total, currency: session.currency, expectedCents: consumerPacketPriceCents ?? null };
 }
