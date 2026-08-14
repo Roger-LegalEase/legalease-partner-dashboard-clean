@@ -109,6 +109,15 @@ check(hosted.includes("PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deploymen
 check(!hosted.includes('"${{ inputs.preview_deployment_id }}"'),
   "workflow must not interpolate the untrusted deployment-id input into shell source");
 
+for (const [label, workflow] of [["entry", entry], ["hosted", hosted]]) {
+  const inputGuard = workflow.match(/- name: Refuse any input that is not the authorized pinned value[\s\S]*?\n\s+- name:/)?.[0] ?? "";
+  check(Boolean(inputGuard), `${label} workflow input guard is missing`);
+  for (const field of ["application_sha", "worker_source_sha", "worker_digest", "tools_sha"]) {
+    check(!inputGuard.includes('"${{ inputs.' + field + ' }}"'),
+      `${label} workflow interpolates untrusted ${field} into shell source`);
+  }
+}
+
 const deployStep = hosted.match(/- name: Deploy the frozen application SHA to Vercel Preview[\s\S]*?\n\s+env:/)?.[0] ?? "";
 check(Boolean(deployStep), "could not locate the Vercel deployment step");
 check(!deployStep.includes("checkout_gate"), "checkout_gate must never satisfy the Vercel deployment step condition");
