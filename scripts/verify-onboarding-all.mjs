@@ -57,6 +57,7 @@ const REGISTRY = [
   { file: "verify-rcap-onboarding-guided-experience.mjs", group: "local" },
   { file: "verify-rcap-onboarding-support-contact.mjs", group: "local" },
   { file: "verify-first-admin-provisioning.mjs", group: "local" },
+  { file: "verify-first-admin-first-impressions.mjs", group: "local" },
   { file: "verify-launch-readiness.mjs", group: "local" },
 
   // --- database: needs a reachable Supabase --------------------------------------------

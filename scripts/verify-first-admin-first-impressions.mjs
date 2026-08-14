@@ -66,7 +66,8 @@ for (const [accessStatus, [label, action]] of Object.entries(expected)) {
     },
     jurisdiction: "Not recorded",
     selectedPackage: "Not selected",
-    onboardingStatus: "in_progress",
+    workspaceStatus: "setup_in_progress",
+    completionPercentage: 48,
     provisioningStatus: "provisioning_in_progress",
     onboardingHref: "/internal/partners/onboarding/rythm-labs"
   });
@@ -80,6 +81,31 @@ for (const [accessStatus, [label, action]] of Object.entries(expected)) {
   assert.equal(presentation.missingInformation.length, 2);
   assert.ok(presentation.missingInformation.every((item) => item.includes("Open the onboarding workspace")));
 }
+
+const submittedPresentation = buildFirstAdminProvisioningPresentation({
+  access: {
+    ...baseAccess,
+    accessStatus: "administrator_active",
+    statusLabel: "Administrator active",
+    administrator: {
+      role: "partner_admin",
+      accountStatus: "active",
+      membershipStatus: "active",
+      fullName: "Lee Roman",
+      email: "Roger@rythmlabs.com"
+    }
+  },
+  jurisdiction: "Not recorded",
+  selectedPackage: "Not selected",
+  workspaceStatus: "ready_for_review",
+  completionPercentage: 100,
+  provisioningStatus: "provisioning_in_progress",
+  onboardingHref: "/internal/partners/onboarding/rythm-labs"
+});
+assert.equal(submittedPresentation.configuration.label, "Submitted");
+assert.match(submittedPresentation.nextAction, /Wait for LegalEase/);
+assert.equal(submittedPresentation.publication.label, "Private");
+assert.equal(submittedPresentation.activation.label, "Inactive");
 
 for (const file of [
   "scripts/verify-first-admin-first-impressions.mjs",

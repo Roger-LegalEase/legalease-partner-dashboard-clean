@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import type { FirstAdminAccessView } from "@/lib/partners/first-admin-service";
 import { buildFirstAdminProvisioningPresentation } from "@/lib/partners/first-admin-provisioning-presentation";
-import type { PartnerOnboardingStatus, PartnerProvisioningStatus } from "@/lib/partners/types";
+import type { OnboardingWorkspaceStatus } from "@/lib/partners/onboarding/types";
+import type { PartnerProvisioningStatus } from "@/lib/partners/types";
 
 type PartnerSummary = {
   partnerSlug: string;
@@ -15,7 +16,8 @@ type PartnerSummary = {
   legalName: string;
   jurisdiction: string;
   selectedPackage: string;
-  onboardingStatus?: PartnerOnboardingStatus;
+  workspaceStatus?: OnboardingWorkspaceStatus;
+  completionPercentage?: number;
   provisioningStatus?: PartnerProvisioningStatus;
   owner?: string;
   dueDate?: string;
@@ -215,7 +217,8 @@ export function FirstAdminAccessPanel({
     access,
     jurisdiction: partner.jurisdiction,
     selectedPackage: partner.selectedPackage,
-    onboardingStatus: partner.onboardingStatus,
+    workspaceStatus: partner.workspaceStatus,
+    completionPercentage: partner.completionPercentage,
     provisioningStatus: partner.provisioningStatus,
     owner: partner.owner,
     dueDate: partner.dueDate,
@@ -290,8 +293,8 @@ export function FirstAdminAccessPanel({
             }
           />
           <Detail label="Administrator access" value={presentation.access.label} description={presentation.access.description} />
-          <Detail label="Account" value={presentation.account} />
-          <Detail label="Membership" value={presentation.membership} />
+          <Detail label="Auth account" value={presentation.account} />
+          <Detail label="Tenant membership" value={presentation.membership} />
           <Detail label="Program configuration" value={presentation.configuration.label} description={presentation.configuration.description} />
           <Detail label="Publication" value={presentation.publication.label} description={presentation.publication.description} />
           <Detail label="Program activation" value={presentation.activation.label} description={presentation.activation.description} />

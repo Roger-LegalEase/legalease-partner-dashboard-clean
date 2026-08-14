@@ -18,6 +18,8 @@ import {
   resolveInternalAdminPageAccess
 } from "@/lib/partners/internal-admin-gate";
 import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
+import { requireInternalOnboardingContext } from "@/lib/partners/onboarding/auth-context";
+import { getInternalOnboardingSnapshot } from "@/lib/partners/onboarding/service";
 import {
   getAssetStatusLabel,
   getPartnerBySlug,
@@ -79,6 +81,18 @@ export default async function InternalPartnerProvisioningDetailPage({
     return <PartnerUnavailable />;
   }
   const legacyRecord = getPartnerBySlug(partnerSlug);
+  let onboardingSnapshot: Awaited<
+    ReturnType<typeof getInternalOnboardingSnapshot>
+  > | null = null;
+  try {
+    const context = await requireInternalOnboardingContext(partnerSlug);
+    onboardingSnapshot = await getInternalOnboardingSnapshot(context);
+  } catch {
+    // Administrator access remains available if the separate onboarding
+    // summary cannot be read. The presentation will use truthful unknown
+    // fallbacks rather than a legacy seed value.
+  }
+  const canonicalWorkspace = onboardingSnapshot?.workspace ?? null;
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -171,10 +185,13 @@ export default async function InternalPartnerProvisioningDetailPage({
           onboardingEnabled={isRcapPartnerOnboardingEnabled()}
           partner={{
             ...partner,
-            onboardingStatus: legacyRecord?.onboardingStatus,
+            workspaceStatus: canonicalWorkspace?.status,
+            completionPercentage: canonicalWorkspace?.completionPercentage,
             provisioningStatus: legacyRecord?.provisioningStatus,
             owner: legacyRecord?.assignedOwner,
-            dueDate: legacyRecord?.launchDateTarget
+            dueDate:
+              canonicalWorkspace?.targetLaunchDate ??
+              legacyRecord?.launchDateTarget
           }}
         />
 
