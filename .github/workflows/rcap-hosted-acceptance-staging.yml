@@ -108,7 +108,7 @@ jobs:
     # an application change: the file lives outside BOTH image-input path sets
     # the equivalence gate above checks, so raising it cannot alter the frozen
     # application bytes or the worker image.
-    timeout-minutes: 60
+    timeout-minutes: 120
     steps:
       - name: Refuse any input that is not the authorized pinned value
         run: |
