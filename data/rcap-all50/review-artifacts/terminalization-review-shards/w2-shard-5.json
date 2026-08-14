@@ -1,0 +1,129 @@
+{
+  "reviewId": "w2-shard-5",
+  "reviewer": "independent read-only reviewer, terminalization definitive wave",
+  "reviewedBaseSha": "e025ced8d6c3fd6c3c74f4bd56b746c4225b5855",
+  "reviewedFileSha256": {
+    "AL": "099b4160f3e63dd730409d4588de5b793d7f9a8fca2d66c95287fa69e3c3e39e",
+    "DC": "1570dbbe1bec5707adad6d5a9ff1e8cf8af90ce23b7bbb296b7e3580cb55af2b",
+    "ID": "d176546e29bf8e696b4dbc0521b11a19e92ab514339fac68f321fbe29941c7a2",
+    "MA": "7d7834d78c6aa10fb34164a4b942e09a9fdb472e78f5adedab8811f70a8b5104",
+    "VA": "bebca47d7f9d983798a06bd8579322505ebbd1baea2f97fe630f7b448fd66309"
+  },
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "runtimeProbeNote": "Probe written outside the repo at /tmp/probe-w2-shard-5.mjs and run with cwd=/home/user/legalease-partner-dashboard-clean against all 14 tracks in scope. For every track: routeKind=exact_supported_deferral, sellable=false, creditConsumable=false, rendererKind=none, buildRenderJobSpec returned no spec, assertCheckoutAllowed threw, createBriefcaseItem forced paymentAllowed=false / status=guidance_saved / resultCode=guidance_only / packetStatus=not_started / amountCents=null despite being called with paymentAllowed:true, resultCode:'packet_ready', packetType:'custom_pleading', and getBriefcaseItem returned artifactRefs.terminalTreatment.trackId identical to the requested track. Spanish and English bundles resolved to distinct text on every track. A second probe (/tmp/probe2-w2-shard-5.mjs) confirmed the resolver reason string carries no packet promise and creditConsumable=false on AL, DC, ID, MA and VA representatives.",
+  "jurisdictionsReviewed": ["AL", "DC", "ID", "MA", "VA"],
+  "counts": {
+    "tracksReviewed": 14,
+    "approved": 13,
+    "correctionRequired": 1,
+    "held": 0
+  },
+  "dispositions": [
+    {
+      "trackId": "al-felony-dwop",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported. Destination is the criminal division of the circuit court for the county where the felony charge was filed, with the AOC criminal forms library named for CR-65 and C-10-CRIMINAL. Exemplary evidence discipline: the brief records both § 15-27-2(a)(7) clocks without carrying the year figures, and the treatment refuses to supply a number in either language and tells the participant not to write one into the petition on our word. Two-clock structure, minor-traffic-violation open question, prosecutor and victim objection window, and the certified clerk record plus certified ALEA record all trace to the brief. Spanish is a real translation with correct legal register ('desestimación sin perjuicio', 'certificado de notificación'), not a gloss. Briefcase preserved/outstanding/return complete and honest that no petition is stored."
+    },
+    {
+      "trackId": "al-felony-nonconviction-90",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported. The 90-day rule, the five CR-65 Section I grounds, §§ 15-27-3 and 15-27-5(b), one-petition-per-offence, and the certified local plus ALEA records all come from the brief. The stop reason states the brief's actual open question — whether 'any felony offense' survived the most recent amendments to § 15-27-2(a) while the archive and internal reference carry the older non-violent framing — in participant language and without blaming the participant, and the doNot list turns that into a concrete warning. Destination exact; local counter practice is openly flagged as unverified with the clerk named as the person to ask, which is a stated limitation rather than a generic referral. Spanish substantive and independently written."
+    },
+    {
+      "trackId": "al-misd-dwop",
+      "outcome": "correction_required",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Evidence defect, narrow and precisely fixable. mechanism.en asserts that '§ 15-27-1(a)(7) covers misdemeanour-level charges — misdemeanours, violations, traffic violations and municipal ordinance violations — that were dismissed without prejudice', and mechanism.es carries the same four-category enumeration ('delitos menores, contravenciones, infracciones de tránsito e infracciones de ordenanzas municipales'); destination.en/.es repeat the scope claim as 'Even a municipal or traffic matter is expunged by petitioning the criminal division...' / 'Incluso un asunto municipal o de tránsito...'. The AL:al-misd-dwop brief carries no such enumeration anywhere: legalName and publicName say only 'Misdemeanor-Level', and mechanism, waitingPeriods, exclusions and scopeRestrictions never name violations, traffic violations or municipal ordinance violations as covered offence categories. Which offence categories a subsection reaches is an eligibility fact under the schema's evidenceRule, so this is an unsourced eligibility statement in participant-facing copy, and it is the statement that would send a participant holding a municipal ordinance or traffic disposition down this route. The defect is the more visible because the same entry correctly refuses to state the two clock lengths on the ground that the brief does not carry them. Everything else in this entry is sound: exact court, exact forms, exact two-clock timing discipline, exact certified-record list, honest treatment of the unresolved 'minor traffic violations' definition, complete Briefcase, genuine Spanish, and runtime behaviour verified clean. Correction: drop the four-category enumeration from mechanism.en/.es and the municipal/traffic scope claim from destination.en/.es, or restate them as the brief's 'misdemeanour-level' framing with the category question named as something the certified disposition and the clerk settle."
+    },
+    {
+      "trackId": "al-misd-nonconviction-90",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported, and the strongest of the AL entries. It implements the brief's fail-closed instruction rather than describing it: the participant is told exactly which facts are not on the face of a case action summary (conditions on a nolle prosse, with-or-without prejudice, limitations period on a quashed indictment, prosecutor confirmation of non-refiling) and which office answers each. The 90-day rule, the § 15-27-5(b) unopposed-grant rule stated without overpromising, the one-petition-per-offence with single-fee rule, and the § 15-27-2.1(a)(1) uncapped rule all trace to the brief. The ALEA request instructions and fee are correctly disclosed as not settled in our materials rather than invented. Spanish keeps 'sobreseimiento (nolle prosse)' with the term of art preserved for clerk-facing use, which is the right choice, not a gloss."
+    },
+    {
+      "trackId": "al-pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly kept as a deferral rather than complete_guidance: the brief is explicit that the applicant files ABPP-3 and that the Board's later investigation and decision do not convert this into guidance-only. Destination is the Alabama Board of Pardons and Paroles with its forms page, and the local probation office is named as the intake point exactly as the brief has it. The June 2025 revision warning and the obsolete October 2020 archive copy come straight from the brief and are the load-bearing safety point here. The timing entry is a model of the schema's absent-fact rule: it states there is no waiting period in our materials, says plainly that this is a gap rather than a finding of no rule, and names the probation office as where to ask. Spanish is substantive and renders the agency name naturally while keeping the English name in parentheses on first use."
+    },
+    {
+      "trackId": "dc_yra_set_aside",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported. Destination is the Criminal Division of the Superior Court of the District of Columbia with the court's own sealing-records page. The stop reason names the brief's two genuinely unresolved items — service and response mechanics, and whether the set-aside and the § 16-806 sealing motion go together or in sequence — in participant language, which is a stated limitation and not a defect. The three highest-value safety points are all carried and all sourced: a set-aside is not sealing and § 16-806 is still needed; the § 24-906(a) and § 24-906(c) automatic set-asides must be checked before filing anything; and one motion per case number. The § 24-903(c)(2) factors are correctly left as the participant's own showing. Spanish is a genuine translation with sound register throughout ('anular', 'moción', 'expediente')."
+    },
+    {
+      "trackId": "id_felony_reduction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported. Destination is the specific sentencing court that entered the judgment of conviction, plus the Idaho Legislature's published text of § 19-2604 — specific, not 'your local court'. The stop reason is the brief's true output-strategy blocker (no statewide form; statewide-versus-county filing vehicle and complete pleading requirements unresolved; county practice unverified), and the next action converts it into an executable question set for the clerk: local form or pleading, hearing practice, service on the prosecuting attorney. The § 18-8304 registration exclusion, the withheld-judgment definition of conviction, the § 19-2604 dismissal sequencing trap, and the 'this is not an expungement' warning all trace to the brief. Spanish substantive."
+    },
+    {
+      "trackId": "id_set_aside_dismissal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported, and it leads with the irreversible trade-off the brief flags: a § 19-2604(1) dismissal permanently disqualifies the record from the § 67-3004(10) Idaho State Police expungement while leaving Clean Slate shielding intact. That warning is placed in mechanism, stopReason, nextStep, doNot, briefcase.preserved and nextSteps, which is the right weighting for a permanent consequence. Destination is the specific court that imposed or withheld sentence. Civil-rights restoration versus §§ 18-310 and 18-3316, the § 18-8304 exclusion and the withheld-judgment definition are all sourced. Spanish is a real translation. Terminology note only, not a defect: this file renders 'probation' as 'libertad condicional' where the DC entry uses 'probación'; both are intelligible and no legal noun is left in English."
+    },
+    {
+      "trackId": "ma-seal-decrim",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported. Destination is the Office of the Commissioner of Probation with the Trial Court's published sealing and expunging forms list. The stop reason is precisely the brief's own boundary — whether the conduct is genuinely no longer a crime and whether its elements continue to be a crime under a different designation is a statutory comparison across time plus an element-by-element analysis, on a petition signed under the penalties of perjury. Critically, the treatment implements the brief's under-service warning by putting § 100K¼ and § 100K first in nextStep, doNot, briefcase and nextSteps, so a participant who qualifies for the stronger expungement remedy is not routed into weaker sealing. Sealing and expungement are kept distinct in both languages exactly as the brief instructs. The no-waiting-period and no-affidavit facts are sourced. Spanish is fluent and legally accurate ('bajo las penas del perjurio', 'sellado' vs 'eliminación')."
+    },
+    {
+      "trackId": "va_exp_identity_used_by_another",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported. Destination is the court that disposed of the charge, with the circuit court of the locality named as the holder of district court case papers. The § 19.2-392.2(E) fingerprint chain is reproduced faithfully and in the right order — prints from a law-enforcement agency, a copy of the petition left with that agency, agency to CCRE, CCRE to the court under seal — and the fingerprint set is correctly described as part of the petition rather than an optional attachment, so no required component is downgraded. The subsection (H) misidentification shortcut is surfaced as the first thing to check, the thirty-day fingerprint-card window and the three-year voidability under subsection (L) are both sourced, and the no-fee rule is stated. The refusal to assert anything about a third party's conduct is a genuine participant-safety addition drawn from the brief's manual-completion item. Spanish is a real translation with correct register ('fiscal de la Mancomunidad', 'tarjeta dactilar')."
+    },
+    {
+      "trackId": "va_exp_nonconviction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported. Destination is the clerk of the circuit court of the locality where the case was disposed of, with CC-1473 named and linked and the Norfolk clerk's sequencing guidance carried. The Commonwealth v. Dotson screen is treated as the hard gate the brief requires: a dismissal after a stipulation or a judicial finding of facts sufficient for guilt, or a deferred or first-offender disposition such as a § 18.2-251 drug dismissal, is routed to sealing before any form is worth completing. The twenty-one-day window, the subsection F presumption stated with its exact conditions rather than as general good news, the no-hearing consent route, the no-fee rule, the CCRE forwarding request in place of fingerprints, the subsection M sealing of pleadings and the three-year voidability under subsection L are each sourced. The manifest injustice conclusion is correctly reserved to the court. Spanish substantive throughout."
+    },
+    {
+      "trackId": "va_seal_enumerated_seven_year",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported. Destination is the clerk of the circuit court of the locality where the case was disposed of, with the § 19.2-392.12:1 text and the Virginia State Police petition-based sealing page named. The closed offence list is reproduced provision by provision exactly as the brief carries it, and the treatment sensibly declines to repeat the brief's own internal 'nine provisions' count against a list that enumerates seven. The single arithmetic test, the 1 January 1986 offence-date floor, the Title 46.2 carve-out, the anywhere-in-the-country reportable-conviction rule, the subsection (D) same-date rule, the subsection (I) mandatory outcome and the subsection (E) confirmation that a grant here does not spend a § 19.2-392.12 petition are all sourced. The two-year voidability warning is present. Spanish is a genuine translation and 'lista taxativa' is the correct term of art."
+    },
+    {
+      "trackId": "va_seal_petition_felony",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported, and correctly identified as the route where an automated document would be most dangerous. The ordering rule is the next action: test § 19.2-392.12:1(A) first, because a grant there costs nothing from the two-petition lifetime cap. The five-event clock is stated in full with the probation-violation restart, the three felony-history bars are quoted with their twenty-year and ten-year measures, and all four extra criteria the internal reference omitted — rehabilitation, restitution paid in full, the two-prior-sealings criterion and manifest injustice as a condition of sealing — are carried. Subdivisions L.4, L.12, L.16 and L.19 are named by number with their actual content rather than by theme, matching the brief's explicit instruction that the list be read by Code section. Two-petition cap disclosed before any spend; no fee; thirty-day Commonwealth window; the written-notice-of-no-objection route named as the thing worth asking for. Spanish substantive and precise."
+    },
+    {
+      "trackId": "va_seal_petition_misdemeanor",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact and supported, and not boilerplate off the felony entry: it is built around the point a misdemeanour petitioner would miss, that § 19.2-392.12 brings its felony-history bars, its two-petition lifetime cap and its nineteen-subdivision exclusion list with it even for a minor charge. The seven-year five-event clock with the probation-violation restart, the 1 January 1986 floor, the restitution criterion at F.4, the two-prior-sealings criterion, the thirty-day Commonwealth window, the no-hearing consent route and the two-year voidability under subsection J are all sourced. The ordering rule to test § 19.2-392.12:1(A) first is placed before the cap is spent, and the escalation correctly tells a participant already at the cap that the section is closed and names the alternative. Destination exact; Spanish is a real translation, not a copy."
+    }
+  ],
+  "crossCuttingObservations": [
+    "No prohibited participant phrase appears in either language on any of the 14 tracks (automated scan of every string against the schema's prohibitedParticipantPhrases list, English and Spanish).",
+    "No generic referral appears as a destination on any track. Where an attorney is named it is always in escalation, always after an exact institutional destination has been given, and always attached to a specific question (the Massachusetts different-designation analysis, the Idaho filing-vehicle question, the Virginia subsection L subdivisions, the Alabama objection or hearing).",
+    "Spanish was read as Spanish on all 14 tracks. Every string differs from its English counterpart, no legal noun is left in English where Spanish has an ordinary word, and register is consistent within each file. Terminology is not uniform across files ('Briefcase' renders as 'Maletín' in DC and MA and as 'Portafolio' in AL, ID and VA; 'probation' as 'probación' in DC and 'libertad condicional' in ID); this is a cross-file consistency observation for the captain, not a defect in any track.",
+    "runtimeContract on all 14 entries matches the schema's frozen block field for field, and reviewState/candidateOnly/promotionEffect/ledgerEffect are present and correct on every entry.",
+    "Runtime probe confirmed for all 14 tracks: zero packet, zero packet credit, zero partner credit, no render spec, checkout refused, and Briefcase writes coerced to guidance_saved/guidance_only/not_started with amountCents null even when the caller supplied paymentAllowed:true and resultCode 'packet_ready'. Reopening returned the same treatment on every track."
+  ]
+}

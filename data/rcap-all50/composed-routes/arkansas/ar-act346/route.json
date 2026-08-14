@@ -1,0 +1,280 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "ar-act346",
+  "jurisdiction": {
+    "code": "AR",
+    "name": "Arkansas",
+    "slug": "arkansas"
+  },
+  "jobId": "T-C-AR-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "legalName": "Act 346 First Offender Dismiss and Seal, A.C.A. §§ 16-93-303 and 16-93-314",
+  "publicName": "Act 346 First Offender Dismiss And Seal",
+  "mechanism": "LegalEase does not recreate the plea election; it can generate the later form after the participant confirms Act 346 placement and completion.",
+  "compositionMode": "sequential",
+  "outputStrategyDeclared": "composed",
+  "routeDecision": {
+    "decision": "composed_route_with_official_form_dependencies",
+    "rationale": [
+      "The registry declares outputStrategyDeclared 'composed' with compositionMode 'sequential' for this track.",
+      "Scope restriction on this track: “The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.” No pleading_document unit is drafted for this route.",
+      "Scope restriction on this track: “The prerequisite event may remain guidance, while the later participant filing is a packet product.” Stage 1 is therefore a participant instruction, not a court document."
+    ],
+    "pleadingDocumentUnits": 0,
+    "sourceRef": "registry@3b6f4c1:tracks[ar-act346].outputStrategyDeclared; registry@3b6f4c1:tracks[ar-act346].scopeRestrictions"
+  },
+  "authoritySpine": [
+    {
+      "citation": "A.C.A. §§ 16-93-303, 16-93-314 (Act 346 of 1975)",
+      "description": "Act 346 First Offender Dismiss and Seal, A.C.A. §§ 16-93-303 and 16-93-314",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].authority[0]"
+    },
+    {
+      "citation": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation",
+      "description": "Official form authority named by the registry for this track.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].authority[1]"
+    },
+    {
+      "citation": "Petition and Order to Dismiss and Seal First Offenders (Act 346 / Act 1460) — First-offender pre-adjudication dismissal and sealing.",
+      "description": "Arkansas uses standardized AOC / ACIC uniform petition-and-order to seal forms, posted on the Department of Public Safety / ACIC site, filed in the court that handled the case. Each disposition has its own petition-and-order pair.",
+      "sourceRef": "profile:sourceSections[5] 'Required forms' lines 220-262"
+    },
+    {
+      "citation": "Arkansas filing and service sequence (compiled profile)",
+      "description": "Sealing is filed in the court that handled the case; a person with cases in several courts files in each. Venue is the court that handled the case — file separately in each county where the person has records.",
+      "sourceRef": "profile:sourceSections[6] 'Filing instructions' lines 263-285"
+    },
+    {
+      "citation": "ACIC forms index, criminal history",
+      "description": "Official source retrieved 2026-07-30. URL: https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].officialSources"
+    },
+    {
+      "citation": "A.C.A. § 16-93-303",
+      "description": "Official source retrieved 2026-07-30. URL: https://arkleg.state.ar.us/",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].officialSources"
+    }
+  ],
+  "units": [
+    {
+      "unitId": "ar-act346-stage-1",
+      "legalUnit": "Plea-stage placement under Act 346",
+      "authority": {
+        "citation": "A.C.A. §§ 16-93-303, 16-93-314 (Act 346 of 1975)",
+        "sourceRef": "registry@3b6f4c1:tracks[ar-act346].authority[0]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "ar-act346-process-guidance-1",
+      "applicability": {
+        "includedWhen": "Screening selects this route and has not yet confirmed the prerequisite event described by \"Were you placed on probation under Act 346 as a first offender?\", \"Have you completed the probation, and on what date?\".",
+        "excludedWhen": "Screening confirms the prerequisite event is complete and the participant is proceeding directly to the filing stage."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-process-guidance-1/process-guidance.md"
+      },
+      "notes": "Explain Act 346 placement. LegalEase does not recreate the plea election."
+    },
+    {
+      "unitId": "ar-act346-stage-2",
+      "legalUnit": "Post-completion dismiss-and-seal filing — petition",
+      "authority": {
+        "citation": "A.C.A. §§ 16-93-303, 16-93-314 (Act 346 of 1975)",
+        "sourceRef": "registry@3b6f4c1:tracks[ar-act346].authority[0]; registry@3b6f4c1:tracks[ar-act346].packetSet.components[1]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ar-act346-primary-filing-2",
+      "applicability": {
+        "includedWhen": "Screening confirms \"Were you placed on probation under Act 346 as a first offender?\" and \"Have you completed the probation, and on what date?\" and \"Which court and county handled the case, and what was the charge?\"",
+        "excludedWhen": "Screening reports any of: The prosecuting attorney objects within the 30-day window.; The court sets a contested hearing.; Immigration, licensing or firearm consequences are in play.; The participant is still on Act 346 probation.; Prosecutor concurrence is required at the plea stage, which is negotiation rather than self-help."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation — current official PDF from the ACIC criminal-history forms index (https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Not acquired. Registry implementationQueue: F_source_problem."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-primary-filing-2/dependency.json",
+      "notes": "Generate the ACIC Petition and Order to Dismiss and Seal First Offenders after the participant confirms Act 346 placement and completion."
+    },
+    {
+      "unitId": "ar-act346-stage-2-proposed-order",
+      "legalUnit": "Post-completion dismiss-and-seal filing — proposed uniform order for the judge",
+      "authority": {
+        "citation": "A.C.A. §§ 16-93-303, 16-93-314 (Act 346 of 1975)",
+        "sourceRef": "registry@3b6f4c1:tracks[ar-act346].packetSet.components[2]; profile:sourceSections[5] 'Required forms' lines 220-262"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ar-act346-proposed-order-3",
+      "applicability": {
+        "includedWhen": "Always paired with the petition unit. The profile states each filing “pairs the petition with a proposed uniform order for the judge”.",
+        "excludedWhen": "Never excluded while the petition unit is included."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation — current official PDF from the ACIC criminal-history forms index (https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Not acquired. Registry implementationQueue: F_source_problem."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-proposed-order-3/dependency.json",
+      "notes": "Proposed order half of the ACIC uniform pair. Not drafted: the ACIC pair governs."
+    },
+    {
+      "unitId": "ar-act346-records-authorization",
+      "legalUnit": "Arkansas criminal history request, via the ACIC Authorization for Review of Criminal History Information",
+      "authority": {
+        "citation": "ACIC Authorization for Review of Criminal History Information",
+        "sourceRef": "registry@3b6f4c1:tracks[ar-act346].participantFilingRequirements[name='Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information']; profile:sourceSections[9] 'Criminal history (ACIC) request process' lines 333-338"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ar-act346-records-authorization-0",
+      "applicability": {
+        "includedWhen": "The records step preceding the petition — screening has not produced a current ACIC criminal history confirming the court, county, offense and disposition.",
+        "excludedWhen": "Screening shows a current ACIC criminal history is already in the participant's hands and agrees with their answers."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "ACIC Authorization for Review of Criminal History Information — current official form from the ACIC criminal-history forms index (https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Not acquired."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-records-authorization-0/dependency.json",
+      "notes": "Conditional pre-filing requirement recorded in the registry, not a packetSet component. componentId is synthesized by this route; it does not appear in the registry packetSet."
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation — petition half of the ACIC uniform pair",
+        "componentId": "ar-act346-primary-filing-2",
+        "drafted": false,
+        "reason": "Official ACIC form; not acquired and not drafted."
+      },
+      {
+        "item": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation — proposed uniform order for the judge",
+        "componentId": "ar-act346-proposed-order-3",
+        "drafted": false,
+        "reason": "Official ACIC form; not acquired and not drafted."
+      },
+      {
+        "item": "Fingerprint card, submitted with the petition",
+        "componentId": null,
+        "drafted": false,
+        "reason": "Participant obtains from a law enforcement agency or authorised fingerprint vendor; LegalEase does not collect them."
+      }
+    ],
+    "participantOnly": [
+      {
+        "item": "Stage-one process guidance",
+        "componentId": "ar-act346-process-guidance-1",
+        "note": "Explains the prerequisite event. Never filed with the court."
+      },
+      {
+        "item": "Participant filing instructions",
+        "componentId": null,
+        "note": "participant-instructions.md. Never filed with the court."
+      },
+      {
+        "item": "ACIC Authorization for Review of Criminal History Information",
+        "componentId": "ar-act346-records-authorization-0",
+        "note": "Submitted to the Arkansas Crime Information Center, not to the court."
+      }
+    ]
+  },
+  "counselFlags": [
+    {
+      "id": "ar-act346-official-form-not-acquired",
+      "statement": "The ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+      "mustConfirm": "Acquire the current official ACIC petition-and-order pair named in the track authority before any document is produced for this route.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].releaseBlockers[0]"
+    },
+    {
+      "id": "ar-act346-objection-window",
+      "statement": "Registry rules.notice for this track states a single 30-day prosecutor objection window; the profile filing instructions state 30 days for a misdemeanor and 90 days for a felony. Confirm which window applies to an Act 346 first-offender charge before any participant-facing deadline is published.",
+      "mustConfirm": "Which prosecutor objection window applies to this track's record types.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].rules.notice; profile:sourceSections[6] 'Filing instructions' lines 263-285"
+    },
+    {
+      "id": "ar-act346-filing-fee-conflict",
+      "statement": "The track rules state: “The source review does not state a filing fee for this petition.” The compiled profile states that Act 1460 eliminated sealing filing fees and lists the sealing petition filing fee as $0. No fee amount is asserted anywhere in this route; the conflict must be resolved before any fee statement is shown to a participant.",
+      "mustConfirm": "Whether a filing fee exists for this specific petition, and whether the Act 1460 fee elimination reaches this route.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].rules.fees; profile:packetGenerator.feeRules"
+    },
+    {
+      "id": "ar-act346-fee-waiver-unstated",
+      "statement": "The track rules state: “The source review does not address a fee waiver.” No fee-waiver procedure is asserted in this route.",
+      "mustConfirm": "Whether a fee waiver exists and what it requires, if a fee exists at all.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].rules.feeWaiver"
+    },
+    {
+      "id": "ar-act346-notarization-conflict",
+      "statement": "The track rules state: “The source review does not state a notarization requirement.” The same registry entry nevertheless lists a participant action of kind ‘notarize’ marked required before filing. No notarization instruction is asserted in this route until the conflict is resolved.",
+      "mustConfirm": "Whether the ACIC petition for this route must be notarized.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].rules.notarization; registry@3b6f4c1:tracks[ar-act346].packetSet.participantActionRequired[kind=notarize]"
+    },
+    {
+      "id": "ar-act346-venue-and-court-identity",
+      "statement": "Court name, county, division, docket number, judge and prosecuting attorney are left null in this route. The only sourced venue rule is: “Sealing is filed in the court that handled the case; a person with cases in several courts files in each. Venue is the court that handled the case — file separately in each county where the person has records.” The destination recorded for this track is “The underlying criminal court”.",
+      "mustConfirm": "That the participant's screening answers supply the court that handled the case, and that no court identity is prefilled from any other source.",
+      "sourceRef": "profile:sourceSections[6] 'Filing instructions' lines 263-285; registry@3b6f4c1:tracks[ar-act346].destination"
+    },
+    {
+      "id": "ar-act346-legal-status",
+      "statement": "Track legalStatus is ‘legal_review_pending’ and legalDesignStatus is ‘legal_design_approved_with_limitations’. Runtime is disabled: “Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.”",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].legalStatus / .legalDesignStatus / .runtimeDisabledReason"
+    },
+    {
+      "id": "ar-act346-plea-stage-concurrence",
+      "statement": "Self-help boundary on this track: “Prosecutor concurrence is required at the plea stage, which is negotiation rather than self-help.” The route produces nothing for the plea stage.",
+      "mustConfirm": "That screening asks whether Act 346 actually applied before the post-completion filing is offered.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-act346].selfHelpBoundaries"
+    }
+  ],
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit the pinned registry entry and the compiled AR profile record for this track: the two ordered stages in registry units[] (stage 1 process guidance, stage 2 official petition-and-order filing), split into the three packetSet components the registry lists (process_guidance, primary_filing, proposed_order), plus the one conditional pre-filing legal unit the registry records outside packetSet (the ACIC criminal-history authorization). Nothing else in either source describes a document, form, letter or cover sheet for this track.",
+    "unitCount": 4,
+    "registryPassagesEnumerated": [
+      "registry@3b6f4c1:tracks[ar-act346].units[] (2 entries: ar-act346-stage-1, ar-act346-stage-2)",
+      "registry@3b6f4c1:tracks[ar-act346].packetSet.components[] (3 entries: ar-act346-process-guidance-1, ar-act346-primary-filing-2, ar-act346-proposed-order-3)",
+      "registry@3b6f4c1:tracks[ar-act346].participantFilingRequirements[] (2 entries)"
+    ],
+    "profilePassageReferenced": {
+      "ref": "profile:sourceSections[5] 'Required forms' lines 220-262",
+      "passage": "Each filing identifies the petitioner, the case and court, the offense and class, the disposition, and the statutory basis, and pairs the petition with a proposed uniform order for the judge. The petition is filed with the circuit or district court that handled the case, and a copy goes to the prosecuting attorney.",
+      "reading": "The profile records exactly two court documents per Arkansas sealing filing — a petition and a paired proposed uniform order. This route contains exactly those two court-document units plus the participant-only units above."
+    },
+    "nonUnitParticipantActions": [
+      "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+      "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+      "Check your answer to \"Which court and county handled the case, and what was the charge?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+      "Signature and date — ACIC petition, signature block.",
+      "The petitioner signs their own petition."
+    ],
+    "coverSheetAbsent": "No participant-only cover sheet unit is included: neither the registry entry nor the profile records a cover sheet for this track.",
+    "agencyRequestLetterAbsent": "No agency_request_letter unit is included: the only agency step recorded is submission of the ACIC Authorization for Review of Criminal History Information, which is an official ACIC form, not a drafted letter."
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/arkansas/index.ts",
+      "src/lib/rcap/state-packs/arkansas/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+    "profileSha256": "2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ar-act346]",
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2025-01-01"
+  }
+}

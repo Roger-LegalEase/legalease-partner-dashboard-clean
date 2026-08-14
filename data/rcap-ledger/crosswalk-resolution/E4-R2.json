@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "rcap-crosswalk-resolution/v1",
+  "laneId": "E4-R2",
+  "jurisdictions": ["CT", "MA", "TX", "UT"],
+  "baseCommit": "8744a701391e2d963c867c2a25f7af7869fe8611",
+  "crosswalkContentHash": "964a9ac4463c31df2298862c2dbd261bcddec6988155867eee0a2a9d6acfb4d1",
+  "jobGraphSha256": "e2832cb2757f5b3327ebdb3bc9624f1bda305918f7852ea4e0924a8342156611",
+  "webAccessAvailable": false,
+  "webAccessNote": "No network retrieval was performed. Every citation below is verified against primary-authority text already committed to this repository — the registry track records embedded in data/rcap-ledger/track-pathway-crosswalk.json and data/rcap-ledger/registry-crosswalk-projection.json, the compiled runtime profiles under src/lib/rcap-engine/compiled/profiles/, and the coded state packs under src/lib/rcap/state-packs/. The registry source files themselves (data/record-clearing/legal-design-track-registry.json) and the private/Nationwide Record Clearing/ inventory are not present at this commit, so no statutory subsection was pinned beyond the granularity those committed artifacts already carry; where the repository stops short of paragraph granularity, the operativeAuthority.subsection field says so rather than supplying a pin cite from memory.",
+  "resolutions": [
+    {
+      "jobId": "compiled_pathway:CT:cannabis-conviction-erasure",
+      "subject": "Connecticut — Cannabis-conviction erasure (compiled pathway cannabis-conviction-erasure)",
+      "outcome": "resolved",
+      "counterpart": "registry_track:CT:ct-cannabis-auto",
+      "operativeAuthority": {
+        "citation": "Conn. Gen. Stat. § 54-142u (Automatic Erasure of Certain Cannabis Possession Convictions)",
+        "subsection": "§ 54-142u as a whole for the erasure grant, which this repository does not pin at paragraph granularity; the committed authority set pins § 54-142u(b) (multi-count bar), (f) (no partial redaction required), (g) (no DMV erasure required) and (h) (legal effect)."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B1.json",
+        "data/rcap-ledger/e2-evidence/E2-A1.json"
+      ],
+      "license": "Connecticut splits cannabis erasure into an automatic branch (§ 54-142u, track ct-cannabis-auto) and a petition branch (§ 54-142v, track ct-cannabis-petition); the registry legalNames state that split expressly. The compiled pathway is automatic:true, filingRequired:false, routeType:\"automatic\", suggestedResultCode:\"guidance_only\", and its pathway-defining clause is \"Cannabis erasure Auto-erasure of § 21a-279(c) possession convictions (1/1/2000-9/30/2015); took effect Jan 2023\" — the offense statute, window and effective date of the automatic branch. The projection's own scope note confirms the window belongs to § 54-142u and routes out-of-window convictions elsewhere: \"The conviction falls outside the § 54-142u window, which routes to the cannabis erasure petition track.\" Re-checkable rule: a CT cannabis pathway whose route is automatic and whose window is 1/1/2000-9/30/2015 is § 54-142u / ct-cannabis-auto; a CT cannabis pathway requiring a filing, or reaching convictions outside that window, is § 54-142v / ct-cannabis-petition. This pathway carries no filing branch, so ct-cannabis-petition is NOT co-mapped — resolving the conflict between E2-B1 (which proposed it as a co-track) and E2-A1 (which found ct-cannabis-petition terminal / missing_from_compiled_runtime) in favour of E2-A1, which is what the committed crosswalk already records.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+      "subject": "Massachusetts — Non-time-based expungement for false identity, error, fraud, or decriminalized conduct (§ 100K)",
+      "outcome": "resolved",
+      "counterpart": "registry_track:MA:ma-expunge-k",
+      "operativeAuthority": {
+        "citation": "Mass. Gen. Laws c. 276, § 100K (Petition for Expungement, non-time-based)",
+        "subsection": "§ 100K, the enumerated-grounds provision. The compiled profile reproduces all seven grounds — false identification; unauthorized use or theft of identity; offense no longer a crime; law-enforcement error; civilian or expert-witness error; court-employee error; fraud on the court — together with the clear-and-convincing standard and the written-findings requirement, but neither the profile nor the registry pins them at paragraph granularity, so no paragraph pin is asserted."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "src/lib/rcap/state-packs/massachusetts/pathways.ts",
+        "src/lib/rcap/state-packs/massachusetts/official-forms.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/e2-evidence/E2-B1.json"
+      ],
+      "license": "Two independent identities, either of which reproduces the mapping. (1) Statutory identity: the compiled profile states \"Non-time-based expungement is governed by M.G.L. c. 276, 100K.\" and the registry legalName for ma-expunge-k is \"Petition for Expungement under G.L. c. 276, § 100K\" — same section, same remedy. (2) Official-form identity: src/lib/rcap/state-packs/massachusetts/official-forms.ts carries officialName \"Petition for Expungement (non-time-based)\", role \"non_time_based_expungement\", citation \"M.G.L. c. 276, § 100K\", blankPdfInSource true — the same official petition the registry track is named for. Re-checkable rule: an MA expungement pathway grounded in § 100K and served by the \"Petition for Expungement\" form is ma-expunge-k; an MA expungement pathway grounded in § 100K-1/4 and served by the \"Petition for Expungement of Marijuana Offenses\" form is ma-expunge-mj (already mapped to marijuana-only-expungement); an MA expungement pathway grounded in §§ 100F-100J is ma-expunge-time. Note for QA: official-forms.ts records the marijuana form's citation as \"M.G.L. c. 276, § 100K\" where the registry has § 100K-1/4 — a state-pack citation slip that does not disturb this mapping, because the official-form names still discriminate the two tracks cleanly.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+      "subject": "Texas — Expunction after acquittal / not-guilty disposition (Chapter 55A)",
+      "outcome": "resolved",
+      "counterpart": "registry_track:TX:tx_exp_acquittal",
+      "operativeAuthority": {
+        "citation": "Tex. Code Crim. Proc. arts. 55A.002 and 55A.201 (expunction after trial court acquittal)",
+        "subsection": "art. 55A.201(b)-(d) — the streamlined acquittal procedure: entry of the expunction order on request and after notice to the State, available as early as the 30th day after acquittal. Subsections (b), (c) and (d) are pinned in the committed authority set for tx_exp_acquittal."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json"
+      ],
+      "license": "All five Texas expunction pathways in the compiled profile share one summary and one ruleClauses block — the profile's \"Eligible categories\" list — so the shared corpus does not discriminate and only the pathway-defining label may be used, exactly as the Alabama precedent in E2-A1 requires. Each label selects one row of that shared list. This label selects: \"Acquittal (found not guilty) — Ch. 55A provides a streamlined procedure; on request and after notice to the State, the court may enter an expunction order as early as the 30th day after acquittal.\" That is the art. 55A.201 mechanism, and tx_exp_acquittal is the track the registry names for it (\"Expunction after trial court acquittal, Tex. Code Crim. Proc. arts. 55A.002 and 55A.201\"). Re-checkable rule and discriminator: the acquittal row's operative marker is the 30-day-after-acquittal order on request — trial-court acquittal, art. 55A.201. It is therefore not tx_exp_discretionary (art. 55A.101), which the registry reserves for appellate acquittal or prosecutor recommendation; neither trigger appears in this pathway's label or in the acquittal row.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:TX:expunction-after-pardon-or-actual-innocence-relief",
+      "subject": "Texas — Expunction after pardon or actual-innocence relief",
+      "outcome": "resolved",
+      "counterpart": "registry_track:TX:tx_exp_pardon_innocence",
+      "operativeAuthority": {
+        "citation": "Tex. Code Crim. Proc. arts. 55A.003 and 55A.202 (expunction after a pardon or other relief on the basis of actual innocence)",
+        "subsection": "art. 55A.202(b), pinned in the committed authority set for tx_exp_pardon_innocence alongside arts. 55A.204, 55A.205, 55A.252 and 55A.253."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json"
+      ],
+      "license": "Name identity on the pathway-defining label, which is the only discriminating text in the Texas profile (all five expunction pathways share one ruleClauses block). The compiled label \"Expunction after pardon or actual-innocence relief\" reproduces the registry legalName \"Expunction after a pardon or other relief on the basis of actual innocence\" — same remedy, same disjunction, modulo hyphenation and the dropped word \"other\". The corresponding row of the shared eligible-categories list is \"Pardon — a full pardon by the Governor of Texas or the President, including a pardon based on actual innocence (and certain other pardons).\" Re-checkable rule: a Texas pardon-expunction pathway whose label carries the actual-innocence ground is arts. 55A.003/55A.202 (tx_exp_pardon_innocence); art. 55A.004 (tx_exp_pardon_other, pardon granted for a reason other than actual innocence) is a separate track. Scope limit deliberately not overreached: the parenthetical \"(and certain other pardons)\" is the only text touching art. 55A.004, and a parenthetical is not a pathway-defining label, so tx_exp_pardon_other is NOT claimed here and remains missing_from_compiled_runtime for the registry-owner-action lane. This narrows E2-B3, which proposed both tracks.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:TX:expunction-after-qualifying-class-c-deferred-disposition",
+      "subject": "Texas — Expunction after qualifying Class C deferred disposition",
+      "outcome": "resolved",
+      "counterpart": "registry_track:TX:tx_exp_dismissed",
+      "operativeAuthority": {
+        "citation": "Tex. Code Crim. Proc. arts. 55A.051 and 55A.053 (expunction where the charge was dismissed or quashed)",
+        "subsection": "art. 55A.051(3), the court-ordered-community-supervision carve-out. The registry's own scope statement places the Class C question in exactly that carve-out: \"Whether a Class C deferred disposition counts as court-ordered community supervision for the art. 55A.051(3) carve-out.\""
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json"
+      ],
+      "license": "A Class C deferred disposition is not a separate Texas relief mechanism; it is the express exception written into the dismissal mechanism's community-supervision bar. The row of the shared eligible-categories list this label selects reads: \"Dismissal — the charge was dismissed and the person was never placed on court-ordered community supervision for that offense (limited exceptions for certain Class C deferred dispositions).\" The registry locates that same exception at art. 55A.051(3), which is tx_exp_dismissed's own authority. Re-checkable rule: a Texas pathway whose operative trigger is a clause of art. 55A.051/55A.053 rather than an independent article maps to tx_exp_dismissed as a compiled variant — the containment test used in E2-A1 for Alabama, applied in the direction of pathway-clause-inside-track-span. This pathway and compiled_pathway:TX:expunction-after-qualifying-dismissal-or-quash are therefore two compiled variants of one registry track, the same represented_by_compiled_variants shape the crosswalk already records for ma-seal-admin. Confidence is medium, not high, because the registry records the carve-out's application as an open scope question rather than a settled criterion; the mapping does not depend on how that question resolves, but the runtime eligibility rule does.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "medium",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:TX:expunction-after-qualifying-dismissal-or-quash",
+      "subject": "Texas — Expunction after qualifying dismissal or quash",
+      "outcome": "resolved",
+      "counterpart": "registry_track:TX:tx_exp_dismissed",
+      "operativeAuthority": {
+        "citation": "Tex. Code Crim. Proc. arts. 55A.051 and 55A.053 (expunction where the charge was dismissed or quashed)",
+        "subsection": "art. 55A.053(a)(2), the dismissal-reason provision, together with the further subsections pinned in the committed authority set — art. 55A.053(b), (c) and (d)."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json"
+      ],
+      "license": "Name identity on the pathway-defining label. \"Expunction after qualifying dismissal or quash\" reproduces the registry legalName \"Expunction where the charge was dismissed or quashed\" — both disjuncts, same order. The two rows of the shared eligible-categories list it selects are \"Dismissal — the charge was dismissed and the person was never placed on court-ordered community supervision for that offense\" and \"Statute of limitations expired with no charge, or a void/quashed charging instrument\", which are the dismissal and quash branches of arts. 55A.051/55A.053. Re-checkable rule: a Texas expunction pathway naming dismissal or quash maps to tx_exp_dismissed. Discriminator against the neighbouring track: the limitations-with-no-charge branch alone belongs to tx_exp_limitations (art. 55A.054), already exactly mapped to expunction-for-arrest-with-no-charge-filed-after-the-limitations-period; the quash branch is what makes this pathway tx_exp_dismissed rather than that one.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:UT:path-a-automatic-clean-slate-expungement",
+      "subject": "Utah — Path A, Automatic Clean Slate expungement",
+      "outcome": "resolved",
+      "counterpart": "registry_track:UT:ut_auto_clean_slate",
+      "operativeAuthority": {
+        "citation": "Utah Code §§ 77-40a-202, 77-40a-205 and 77-40a-206, administered under § 77-40a-204",
+        "subsection": "§ 77-40a-205 for the Clean Slate conviction branch the pathway is named for; § 77-40a-206 supplies the acquittal and dismissal-with-prejudice rows; § 77-40a-202 supplies the automatic traffic-deletion row; § 77-40a-204, including § 77-40a-204(3), is the shared automatic-process authority the committed authority set cites inside all three tracks."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "src/lib/rcap/state-packs/utah/pathways.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json"
+      ],
+      "license": "Path A is the umbrella node over Utah's whole automatic-expungement scheme, and the registry represents that scheme as three tracks rather than one. The pathway's defining summary carries the four-row automatic case-type table: acquittal on all charges (goal 60 days), dismissal with prejudice (goal 180 days, excluding plea-in-abeyance dismissals), Clean Slate eligible conviction or dismissal after the statutory waiting period, and certain traffic cases by automatic deletion. Those rows are § 77-40a-206, § 77-40a-206, § 77-40a-205 and § 77-40a-202 respectively — the authorities of ut_auto_nonconviction, ut_auto_clean_slate and ut_auto_traffic. The state pack states the same union in one sentence: \"Automatic Clean Slate expungement — the court identifies and clears eligible cases without a petition: acquittals (goal 60 days), dismissals with prejudice excluding plea-in-abeyance dismissals (goal 180 days), and eligible lower-level convictions/charges after the Clean Slate waiting period\". Re-checkable rule, and the reason this is a resolution rather than a routing terminalization: the crosswalk already treats the parallel petition-side umbrella, path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility, as a direct_runtime_representation of all seven petition tracks at once; Path A gets the identical treatment on the automatic side. Primary counterpart is ut_auto_clean_slate because the pathway is named for Clean Slate; the co-mapped set is ut_auto_clean_slate, ut_auto_nonconviction and ut_auto_traffic. No double-count arises: paths B, C and I carry the branch-specific one-to-one mappings and Path A carries the umbrella, the same one-track-to-several-pathways shape the crosswalk records for ma-seal-admin.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:UT:path-e-petition-based-non-conviction-expungement",
+      "subject": "Utah — Path E, Petition-based non-conviction expungement",
+      "outcome": "resolved",
+      "counterpart": "registry_track:UT:ut_pet_acquittal",
+      "operativeAuthority": {
+        "citation": "Utah Code § 77-40a-302(1) (certificate of eligibility for expungement of a non-conviction record)",
+        "subsection": "§ 77-40a-302(1) and its outcome paragraphs; the committed authority set pins § 77-40a-302(1)(b)(v) for the limitations branch (ut_pet_limitations) and § 77-40a-306(2) for the dismissed-without-prejudice branch (ut_pet_dismissed_without_prejudice)."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "src/lib/rcap/state-packs/utah/pathways.ts",
+        "src/lib/rcap/state-packs/utah/eligibility-rules.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json"
+      ],
+      "license": "The pathway's defining summary enumerates the § 77-40a-302(1) non-conviction certificate outcomes verbatim and exhaustively: \"A BCI certificate can be issued if at least 30 days have passed after arrest or charge and one of the statutory outcomes applies: no charges will be filed, all charges were dismissed with prejudice, charges dismissed without prejudice or condition with prosecutor consent or 180 days passed, acquittal on all charges, or statute of limitations expired.\" The state pack repeats the same enumeration and the same disqualifier list. The registry decomposes § 77-40a-302(1) into exactly five outcome-specific tracks, and every one of them carries \"Utah Code 77-40a-302(1)\" in its authority set: ut_pet_acquittal, ut_pet_dismissed_with_prejudice, ut_pet_dismissed_without_prejudice, ut_pet_no_charges and ut_pet_limitations. Re-checkable rule: a Utah petition pathway whose eligibility set is the § 77-40a-302(1) outcome list maps to precisely those UT registry tracks whose mechanismAuthority contains \"Utah Code 77-40a-302(1)\" — a mechanical set membership test over the committed crosswalk. Primary counterpart is ut_pet_acquittal as the first-listed 302(1) track; the five-track set is the substantive result. The discriminator against Path F is conviction status: § 77-40a-302 governs non-conviction records, § 77-40a-303 governs convictions.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    },
+    {
+      "jobId": "compiled_pathway:UT:path-f-petition-based-conviction-expungement",
+      "subject": "Utah — Path F, Petition-based conviction expungement",
+      "outcome": "resolved",
+      "counterpart": "registry_track:UT:ut_pet_conviction",
+      "operativeAuthority": {
+        "citation": "Utah Code § 77-40a-303 (eligibility for expungement of a conviction on a certificate of eligibility)",
+        "subsection": "§ 77-40a-303 and its certificate-bar paragraphs; the committed authority set pins § 77-40a-303(1), (4), (5), (6) and (7)."
+      },
+      "repositoryEvidence": [
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json",
+        "src/lib/rcap/state-packs/utah/pathways.ts",
+        "src/lib/rcap/state-packs/utah/eligibility-rules.ts",
+        "data/rcap-ledger/track-pathway-crosswalk.json",
+        "data/rcap-ledger/registry-crosswalk-projection.json",
+        "data/rcap-ledger/e2-evidence/E2-B3.json"
+      ],
+      "license": "The compiled Path F record's own body is the shared Utah petition boilerplate, so the discriminating authority is taken from the coded state pack, which names the identical pathway taxonomy the profile uses and attaches the statute. src/lib/rcap/state-packs/utah/eligibility-rules.ts enumerates the same nine Utah pathways as the profile — \"automatic Clean Slate expungement, petition-based expungement with a BCI Certificate of Eligibility, petition-based non-conviction expungement, petition-based conviction expungement, traffic offense deletion/petition, cannabis-possession petition without a BCI certificate, pardon-based expungement, juvenile expungement, or vacatur/human-trafficking expungement\" — and assigns the conviction branch its statute: \"Certificate eligibility bars (§ 77-40a-303): Utah bars ordinary certificate eligibility for a capital felony, first-degree felony, violent felony, felony DUI under § 41-6a-501(2), and sex/kidnap/child-abuse registry offenses...\". src/lib/rcap/state-packs/utah/pathways.ts states the same link as a data field: pathway \"petition_certificate_conviction_expungement\", citation \"Utah Code Title 77, Chapter 40a; § 77-40a-303\". The registry names § 77-40a-303 for exactly one track: ut_pet_conviction, \"Expungement of a conviction on a certificate of eligibility, Utah Code 77-40a-303\". Re-checkable rule: the conviction branch of the Utah petition scheme is § 77-40a-303 and maps to ut_pet_conviction; the non-conviction branch is § 77-40a-302(1) and maps to the five 302(1) tracks (Path E). This upgrades E2-B3's medium confidence, which rested on the boilerplate profile text alone and did not reach the state pack's explicit § 77-40a-303 assignment.",
+      "terminalizationBasis": null,
+      "retrievalPacket": null,
+      "confidence": "high",
+      "reviewStatus": "qa_review_pending"
+    }
+  ]
+}

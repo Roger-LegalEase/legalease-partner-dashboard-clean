@@ -1,0 +1,68 @@
+{
+  "fixtureId": "vt_exp_deferred_sentence-handoff-instructions-3-negative",
+  "trackId": "vt_exp_deferred_sentence",
+  "componentId": "vt_exp_deferred_sentence-handoff-instructions-3",
+  "unitId": "vt-deferred-handoff-instructions",
+  "routePath": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, VT 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "court": "VERMONT SUPERIOR COURT, CHITTENDEN UNIT",
+    "countyName": "CHITTENDEN",
+    "docketNumber": "000-0-00 Cncr",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "CHITTENDEN COUNTY STATE'S ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseGrade": "",
+    "disposition": "",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "deferredSentenceEntered": "yes",
+      "probationDischarged": "not sure",
+      "dischargeDate": "03/01/2024",
+      "restitutionPaidInFull": "no — a balance remains outstanding",
+      "orderIssued": "no",
+      "registrableSexOffence": "yes — the offence requires sex offender registration",
+      "countyOfCase": "CHITTENDEN",
+      "docketNumber": "000-0-00 Cncr"
+    },
+    "eligibilityBasisLabel": "Eligible — the record will be expunged, sealed and destroyed",
+    "eligibilityBasisNote": "No eligibility conclusion is asserted; this component states none.",
+    "additionalFacts": [
+      "File a petition to expunge under chapter 230 to get this done.",
+      "Wait thirty days and then the order is late.",
+      "The clerk confirmed the order was overlooked.",
+      "The Vermont Crime Information Center has already updated its records.",
+      "Your record has been sealed and the file destroyed, and background checks will come back clean.",
+      "The Petitioner does not need to worry about the outstanding restitution balance."
+    ],
+    "documentsObtained": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "07/04/1994",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "VT0000000",
+    "driversLicenseNumber": "V00000000",
+    "fbiNumber": "000000AA0",
+    "fingerprintIdentifier": "FP-000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config ('Requester'), not by the fixture key name.",
+  "expectFailure": "Must fail pleading QA. (a) It tells the participant to file a petition to expunge, which is the single error this component exists to prevent: the relief is court-driven on discharge, no petition is required, and anyone who completed a deferred sentence must not be sold a petition packet. (b) It states a waiting interval — 'wait thirty days and then the order is late' — when how long after discharge a Vermont court in practice enters the order is an open release blocker and no interval appears in any source. (c) It proceeds while restitution is outstanding, when the statute bars expungement until restitution is paid in full and a participant asking whether the record can be cleared anyway is a self-help stop condition. (d) It proceeds on a registrable sex offence, which § 7041(h) subjects to a confidential VCIC special index that survives the expungement and which is a self-help stop condition. (e) It promises a result — that the record is gone and background checks will come back clean — when expunged Vermont records may still appear in a federal criminal background check and no outcome may be promised. (f) It uses 'sealed' and 'destroyed' for a chapter 221 expungement and calls the participant the Petitioner. (g) It asserts outside-party acts no source states: that the clerk confirmed the order was overlooked and that VCIC has already updated its records. (h) It fills court, docket, judge and prosecutor identity and populates protected fields that must stay blank."
+}

@@ -1,0 +1,303 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "ct-nolle-auto",
+  "jurisdiction": {
+    "code": "CT",
+    "name": "Connecticut",
+    "slug": "connecticut"
+  },
+  "jobId": "T-C-CT-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "legalName": "Erasure After a Nolle, and Motion to Nolle a Continued Charge, C.G.S. § 54-142a(c)",
+  "publicName": "Records erased after a case was nolled",
+  "mechanism": "Where a charge has been nolled, records shall be erased once thirteen months have elapsed since the nolle. Separately, where a charge was continued at the prosecutor's request and thirteen months have passed with no prosecution or other disposition, the charge shall be nolled on motion of the arrested person, and erasure then follows the nolle rules. The second is an affirmative motion the participant can make; it is the one part of this track that is not passive.",
+  "compositionMode": "alternative",
+  "outputStrategyDeclared": "composed",
+  "routeDecision": {
+    "decision": "composed_route_one_branch_deliverable_two_branches_blocked",
+    "rationale": [
+      "The registry declares outputStrategyDeclared 'composed' with compositionMode 'alternative' and two branches, of which only the automatic-erasure branch is available:true.",
+      "The automatic branch requires no filing at all, so its required output is a participant instruction, not a document.",
+      "The § 54-142a(c)(2) motion branch is recorded as potentially custom_pleading and expressly not inherently guidance-only, but held: no form was located and the current caption, venue, service and clerk practice must be approved first. It is therefore a pleading_document unit with a blocked implementation, and nothing is drafted.",
+      "A third filing possibility — the pre-1 April 1972 petition — appears in the registry only as a packet instruction with no vehicle stated. It is carried as a third unit with a blocked implementation so that it is not silently omitted."
+    ],
+    "pleadingDocumentUnits": 2,
+    "pleadingDocumentUnitsDrafted": 0,
+    "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].outputStrategyDeclared; registry@3b6f4c1:tracks[ct-nolle-auto].compositionMode; registry@3b6f4c1:tracks[ct-nolle-auto].units; registry@3b6f4c1:tracks[ct-nolle-auto].packetInstructions[0]"
+  },
+  "authoritySpine": [
+    {
+      "citation": "C.G.S. § 54-142a(c)",
+      "description": "Erasure thirteen months after a nolle. Police and court records and records of any state's attorney pertaining to a nolled charge.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].authority[0]; registry@3b6f4c1:tracks[ct-nolle-auto].recordTypes[0]; registry@3b6f4c1:tracks[ct-nolle-auto].officialSources[0]"
+    },
+    {
+      "citation": "C.G.S. § 54-142a(c)(2)",
+      "description": "Where a charge was continued at the prosecutor's request and thirteen months have passed with no prosecution or other disposition, the charge shall be nolled on motion of the arrested person.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].authority[1]; registry@3b6f4c1:tracks[ct-nolle-auto].waitingPeriods[1]"
+    },
+    {
+      "citation": "C.G.S. § 54-142a(g)(2)",
+      "description": "Legal effect of erasure.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].authority[2]"
+    },
+    {
+      "citation": "C.G.S. § 54-142a(k)",
+      "description": "No court fee is charged in any court with respect to any petition under § 54-142a.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].rules.fees"
+    },
+    {
+      "citation": "Clean Slate Connecticut (portal.ct.gov/cleanslate)",
+      "description": "Official source recorded on the track, retrieved 2026-07-30.",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].officialSources[1]"
+    },
+    {
+      "citation": "Automatic non-conviction erasure under Conn. Gen. Stat. § 54-142a (compiled profile pathway)",
+      "description": "The broadest and fastest relief, by operation of law with no filing: a case dismissed or nolled is erased thirteen months after the nolle if not re-filed.",
+      "sourceRef": "profile:pathways[id=automatic-non-conviction-erasure-under-conn-gen-stat-54-142a]"
+    },
+    {
+      "citation": "Clean Slate rollout caution (compiled profile, 'Court-specific quirks')",
+      "description": "Automatic erasure stalled on data and IT problems and only resumed at scale in late 2025. Never assume a record was auto-erased — verify.",
+      "sourceRef": "profile:sourceSections[9] 'Court-specific quirks'"
+    }
+  ],
+  "units": [
+    {
+      "unitId": "ct-nolle-auto-unit-1-automatic-erasure-branch",
+      "legalUnit": "Automatic erasure thirteen months after a nolle — no participant filing",
+      "authority": {
+        "citation": "C.G.S. § 54-142a(c); C.G.S. § 54-142a(g)(2)",
+        "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].units[0]; registry@3b6f4c1:tracks[ct-nolle-auto].authority[0]; registry@3b6f4c1:tracks[ct-nolle-auto].authority[2]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "ct-nolle-auto-process-guidance-1",
+      "componentIdSynthesized": false,
+      "applicability": {
+        "includedWhen": "Screening answers \"Was the charge nolled, or is it still being continued at the prosecutor's request?\" with nolled, and supplies the nolle date confirmed against the participant's own Judicial Branch case look-up.",
+        "excludedWhen": "Screening reports the charge is still being continued at the prosecutor's request — that is the motion branch — or reports that the record was not erased when it should have been, which is the missed-erasure route."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/components/ct-nolle-auto-process-guidance-1/process-guidance.md"
+      },
+      "notes": "The one deliverable unit. Corresponds to registry packetSet component ct-nolle-auto-process-guidance-1 (role process_guidance, required). No filing, so no court document."
+    },
+    {
+      "unitId": "ct-nolle-auto-unit-2-motion-to-nolle",
+      "legalUnit": "Motion of the arrested person to nolle a charge continued at the prosecutor's request for thirteen months without prosecution or other disposition",
+      "authority": {
+        "citation": "C.G.S. § 54-142a(c)(2)",
+        "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].units[1]; registry@3b6f4c1:tracks[ct-nolle-auto].authority[1]"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "ct-nolle-auto-motion-to-nolle-2",
+      "componentIdSynthesized": true,
+      "componentIdSynthesizedNote": "Corresponds to registry units[1] (ct-nolle-auto-branch-motion-to-nolle), whose packetIdentity is 'unresolved' and which therefore has no packetSet component.",
+      "applicability": {
+        "includedWhen": "Screening reports the charge was continued at the prosecutor's request, supplies the continuance date, and answers that there has been no prosecution or other disposition since — with thirteen months elapsed.",
+        "excludedWhen": "The charge has already been nolled (that is the automatic branch), thirteen months have not yet elapsed, or there has been a prosecution or other disposition since the continuance."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "Approved filing vehicle for a § 54-142a(c)(2) motion — the current caption, venue, service and clerk practice, none of which is approved, and no form was located. Registry buildBlockers[0]; owning lane: lane-D/E legal-design resolution and official-source acquisition (registry implementationQueue: D_composed_or_process_guidance)."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/components/ct-nolle-auto-motion-to-nolle-2/dependency.json",
+      "notes": "Blocked, not declined. The registry records this motion as potentially custom_pleading and expressly not inherently guidance-only; it may open once caption, venue, service and clerk practice are approved."
+    },
+    {
+      "unitId": "ct-nolle-auto-unit-3-pre-1972-petition",
+      "legalUnit": "Petition by the arrested person or an heir where the nolle was entered before 1 April 1972 in one of the listed older courts, in which case the records shall be erased",
+      "authority": {
+        "citation": "C.G.S. § 54-142a(c)",
+        "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].packetInstructions[0]; registry@3b6f4c1:tracks[ct-nolle-auto].legalDesignLimitations[classification=packet_instruction]; registry@3b6f4c1:tracks[ct-nolle-auto].effectiveFrom"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "ct-nolle-auto-pre-1972-petition-3",
+      "componentIdSynthesized": true,
+      "componentIdSynthesizedNote": "This filing possibility appears in the registry only as a packetInstruction. It is in no units[] entry and no packetSet component; the componentId and the unit are synthesized by this route so the possibility is recorded rather than dropped.",
+      "applicability": {
+        "includedWhen": "Screening reports a nolle entered before 1 April 1972 in one of the older courts the statute lists, and the participant is the arrested person or an heir.",
+        "excludedWhen": "The nolle was entered on or after 1 April 1972, or the participant is neither the arrested person nor an heir."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "Everything about this petition beyond its existence: the vehicle, the caption, the venue, the content, and the list of older courts the statute names — none of which is stated in any source read for this track. Owning lane: lane-D/E legal-design resolution."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/components/ct-nolle-auto-pre-1972-petition-3/dependency.json",
+      "notes": "Recorded, not drafted. The records are already deemed erased by operation of law; the petition is what makes that effective where it has not been honoured."
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "Motion to nolle a charge continued at the prosecutor's request, C.G.S. § 54-142a(c)(2)",
+        "componentId": "ct-nolle-auto-motion-to-nolle-2",
+        "drafted": false,
+        "reason": "Filing vehicle, caption, venue, service and clerk practice unapproved; no form located."
+      },
+      {
+        "item": "Petition where the nolle was entered before 1 April 1972",
+        "componentId": "ct-nolle-auto-pre-1972-petition-3",
+        "drafted": false,
+        "reason": "No vehicle, caption, venue or content is stated in any source; the registry records only that the petition may be made."
+      }
+    ],
+    "participantOnly": [
+      {
+        "item": "What happens after a nolle, and how to check it happened",
+        "componentId": "ct-nolle-auto-process-guidance-1",
+        "note": "process-guidance.md. Never filed with the court."
+      },
+      {
+        "item": "Participant filing instructions",
+        "componentId": null,
+        "note": "participant-instructions.md. Never filed with the court."
+      },
+      {
+        "item": "Judicial Branch case look-up printout",
+        "componentId": null,
+        "note": "Participant obtains it to confirm the nolle date or the continuance. An erased case will not appear. LegalEase does not obtain, receive or inspect it."
+      }
+    ]
+  },
+  "counselFlags": [
+    {
+      "id": "ct-nolle-auto-motion-vehicle-blocker",
+      "statement": "The § 54-142a(c)(2) motion branch has no settled filing vehicle. No form was located, and the current caption, venue, service and clerk practice must be approved before a statewide custom pleading can be enabled. The motion is potentially a custom pleading and is not inherently guidance-only, so this is a hold, not a permanent classification.",
+      "mustConfirm": "The current filing vehicle, caption, venue, service and clerk practice for a § 54-142a(c)(2) motion.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].buildBlockers[0]; registry@3b6f4c1:tracks[ct-nolle-auto].legalDesignLimitations[classification=legal_design_blocker]"
+    },
+    {
+      "id": "ct-nolle-auto-pre-1972-petition-not-unitized-as-a-drafted-document",
+      "statement": "The registry records, as a packet instruction, that nolles entered before 1 April 1972 in the listed older courts are deemed erased by operation of law and that the arrested person or an heir may petition, in which case the records shall be erased. That is a third filing possibility. It appears in no units[] entry and no packetSet component, and no vehicle, caption, venue or content is stated for it anywhere. It is carried in this route as a unit with a blocked implementation rather than silently dropped, and no petition is drafted.",
+      "mustConfirm": "Whether the pre-1 April 1972 petition is a distinct product unit, and if so what vehicle it uses. Also which older courts the statute lists — the source read here does not enumerate them.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].packetInstructions[0]; registry@3b6f4c1:tracks[ct-nolle-auto].legalDesignLimitations[classification=packet_instruction]"
+    },
+    {
+      "id": "ct-nolle-auto-branch-selection-is-the-participant-s",
+      "statement": "The answer to \"Was the charge nolled, or is it still being continued at the prosecutor's request?\" selects the branch. LegalEase does not choose one for the participant.",
+      "mustConfirm": "That screening presents both branches and never infers the branch from other answers.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].generationRequirements[key=chargeStatus]"
+    },
+    {
+      "id": "ct-nolle-auto-service-unresolved-on-motion-branch",
+      "statement": "Service is unresolved on the motion branch and no service requirement was established. No service is asserted, and nothing is drafted that would require one.",
+      "mustConfirm": "Whether a § 54-142a(c)(2) motion must be served on the state's attorney.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].rules.service"
+    },
+    {
+      "id": "ct-nolle-auto-notice-and-notarization-unstated",
+      "statement": "The source review states no notice rule for the § 54-142a(c)(2) motion and no notarization requirement. Neither is asserted.",
+      "mustConfirm": "Notice and notarization requirements for the motion, once the vehicle is settled.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].rules.notice; registry@3b6f4c1:tracks[ct-nolle-auto].rules.notarization"
+    },
+    {
+      "id": "ct-nolle-auto-no-fee",
+      "statement": "No court fee is charged in any court with respect to any petition under § 54-142a. § 54-142a(k). This is the one fee statement on this track that is squarely sourced, and it is stated to the participant.",
+      "mustConfirm": "That the § 54-142a(k) fee bar is quoted only for § 54-142a filings and is never carried across to § 54-142d, where the question is open.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].rules.fees"
+    },
+    {
+      "id": "ct-nolle-auto-thirteen-month-clock-not-computed",
+      "statement": "Records shall be erased once thirteen months have elapsed since the nolle; on the motion branch, thirteen months must have passed with no prosecution or other disposition. This route states the rule and never computes the date, because the nolle date and the continuance date are participant answers confirmed against their own case look-up.",
+      "mustConfirm": "That no waiting-period arithmetic is performed on the participant's behalf in any downstream surface.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].waitingPeriods; registry@3b6f4c1:tracks[ct-nolle-auto].selfHelpStopConditions[1]"
+    },
+    {
+      "id": "ct-nolle-auto-never-assume-auto-erasure",
+      "statement": "The automatic Clean Slate rollout stalled for years on data and IT problems and resumed at scale only in late 2025. Never assume a record was auto-erased — verify. A record that was not erased when it should have been is the missed-erasure route (ct-missed-erasure), not this one.",
+      "mustConfirm": "That screening hands a participant whose record was not erased to the missed-erasure route.",
+      "impact": "packet_instruction",
+      "sourceRef": "profile:sourceSections[9] 'Court-specific quirks'; registry@3b6f4c1:tracks[ct-nolle-auto].selfHelpStopConditions[3]"
+    },
+    {
+      "id": "ct-nolle-auto-terminology",
+      "statement": "Connecticut says erasure. Not expungement, not sealing. The compiled profile's terminology block nevertheless carries primaryConsumerTerm 'expungement' with avoidUniversalExpungementLabel true.",
+      "mustConfirm": "That participant copy for this track uses 'erasure' only.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].scopeRestrictions[0]; profile:terminology"
+    },
+    {
+      "id": "ct-nolle-auto-immigration-stop",
+      "statement": "Any participant with an immigration matter goes to counsel.",
+      "mustConfirm": "That screening stops on an immigration matter on both branches.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].legalDesignLimitations[classification=self_help_boundary]"
+    },
+    {
+      "id": "ct-nolle-auto-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: output review, visual review and technical proof are all outstanding.",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].legalStatus / .runtimeDisabledReason"
+    },
+    {
+      "id": "ct-nolle-auto-source-freshness-gate",
+      "statement": "Both official sources on this track (§ 54-142a and the Clean Slate Connecticut portal) carry sha256 null, so staleness cannot be detected.",
+      "mustConfirm": "Capture hashes for § 54-142a and the Clean Slate portal page.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ct-nolle-auto].blockers[kind=source_gate]; registry@3b6f4c1:tracks[ct-nolle-auto].officialSources"
+    }
+  ],
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit the pinned registry entry and the compiled CT profile record for this track. The registry records two alternative branches in units[] — automatic erasure after a nolle, and the § 54-142a(c)(2) motion — and one packetSet component (process_guidance). It records one further filing possibility, the pre-1 April 1972 petition, in packetInstructions only; that is carried here as a third unit with a blocked implementation rather than omitted. Nothing else in either source describes a document, form, letter or cover sheet for this track.",
+    "unitCount": 3,
+    "registryPassagesEnumerated": [
+      "registry@3b6f4c1:tracks[ct-nolle-auto].units[] (2 entries: ct-nolle-auto-branch-automatic-erasure, ct-nolle-auto-branch-motion-to-nolle)",
+      "registry@3b6f4c1:tracks[ct-nolle-auto].packetSet.components[] (1 entry: ct-nolle-auto-process-guidance-1)",
+      "registry@3b6f4c1:tracks[ct-nolle-auto].packetInstructions[] (1 entry: the pre-1 April 1972 petition — the only filing possibility recorded outside units[])",
+      "registry@3b6f4c1:tracks[ct-nolle-auto].participantFilingRequirements[] (1 entry: Judicial Branch case look-up printout — a participant reference, not a document this route produces)",
+      "registry@3b6f4c1:tracks[ct-nolle-auto].packetSet.participantActionRequired[] (8 entries, all mapped below or to unit applicability)"
+    ],
+    "profilePassageReferenced": {
+      "ref": "profile:pathways[id=automatic-non-conviction-erasure-under-conn-gen-stat-54-142a]",
+      "passage": "Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed) ...",
+      "reading": "The profile records the nolle path as producing no filing at all, and names no document for it. It does not mention § 54-142a(c)(2) or the motion branch anywhere, and it names no pre-1972 petition. The profile therefore adds no unit beyond the guidance component, and corroborates that unit 1 requires no court document."
+    },
+    "nonUnitParticipantActions": [
+      "Obtain the Judicial Branch case look-up printout to confirm the nolle date or the continuance — a participant reference document, not one this route produces. An erased case will not appear.",
+      "Check your answer to \"On what date was the charge nolled?\" against that printout — a confirmation step folded into unit applicability.",
+      "Signature: none on the automatic branch; unresolved on the motion branch, pending the vehicle.",
+      "Notarization: the source review states no requirement.",
+      "Fee: no court fee is charged in any court with respect to any petition under § 54-142a — § 54-142a(k). Fee waiver: not applicable.",
+      "Service: unresolved on the motion branch; no requirement was established."
+    ],
+    "coverSheetAbsent": "No participant-only cover sheet unit is included: neither the registry entry nor the profile records a cover sheet for this track.",
+    "agencyRequestLetterAbsent": "No agency_request_letter unit is included. The destination record notes the State Police Bureau of Identification holds the state record, but no source describes any letter, request or submission to SPBI on this track — the erasure is by operation of law. Drafting one would be invention, and a participant who finds the record was not erased belongs on the missed-erasure route.",
+    "officialFormDependencyAbsent": "No official_form_dependency unit is included: no official form exists for either branch. The motion branch's blocker is an unapproved vehicle, not an unacquired form."
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/connecticut/index.ts",
+      "src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "profileSha256": "f6fd7cc7636fe2804c490dafd6d0164ed86a283a7b365d64276f94bdfc9aa874",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ct-nolle-auto]",
+    "statePackNote": "The committed Connecticut state pack carries build metadata and the Nationwide inventory only; it records no nolle-specific text.",
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "1972-04-01"
+  }
+}

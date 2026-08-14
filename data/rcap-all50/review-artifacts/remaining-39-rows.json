@@ -1,0 +1,1177 @@
+{
+  "schemaVersion": "rcap-remaining-39-rows/v1",
+  "rows": [
+    {
+      "trackKey": "AK:ak-nonconviction-confidential",
+      "jurisdiction": "AK",
+      "trackId": "ak-nonconviction-confidential",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/ak.json",
+        "differingFields": [
+          "gather",
+          "mechanism",
+          "nextSteps"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "AR:ar-misdemeanor-dwi-seal",
+      "jurisdiction": "AR",
+      "trackId": "ar-misdemeanor-dwi-seal",
+      "codexPrimaryClass": "already_resolved_but_ledger_stale",
+      "codexProposedOwner": "Terminal A shared-ledger owner with Terminal B evidence owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "decision_conditioned_component"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "exact_current_pathway",
+        "mappedCompiledPathwayIds": [
+          "situation-b-misdemeanor-convictions"
+        ]
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "terminal evidence and every review gate checked against current canonical bytes, then traced through the generator that produces the ledger",
+        "terminalEvidenceExists": true,
+        "terminalEvidencePath": "data/rcap-all50/guidance-packets/ar.json",
+        "evidenceShape": "a committed lane-B packet whose treatment is exact_supported_deferral, with paymentAllowed=false and sellable=false",
+        "reviewGate": "an F2 technical_approved closure exists in data/rcap-all50/review-artifacts/f2-dispositions.json and is not superseded",
+        "whyTheLedgerIsStale": "scripts/generate-rcap-track-terminalization.mjs recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json (deliveredDeferrals), and recognises lane-B guidance packets only when treatment === 'complete_guidance' (deliveredGuidance). A lane-B packet whose treatment is exact_supported_deferral is therefore seen by neither loader, so candidateTreatment stays null, approvedByReview stays false, and the F2 approval cannot promote the track.",
+        "verdict": "verified_stale_ledger_recognition"
+      }
+    },
+    {
+      "trackKey": "CA:ca-1203-41",
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-41",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal E (terminal-e-hard-forms)",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "the two CR-180 patch-spec defects checked directly against current canonical bytes",
+        "findings": [
+          {
+            "defect": "the truncate_with_addendum fabrication branch and the non-failing report.overflowed path",
+            "canonicalEvidence": "scripts/rcap-hard-form-xfa-shadow-fill.mjs:137-138 still collects report.overflowed without failing and still rewrites an over-length value to '\u2026 \u2014 see Attachment A'; data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json:263 declares that an over-length value must fail the render instead. The engine and its own profile contradict each other.",
+            "verdict": "still_live"
+          },
+          {
+            "defect": "the 15-day prosecutor-notice period is not participant-facing, and no verifier requires the petition family to ship or declare a service component",
+            "canonicalEvidence": "the 15-day notice appears only inside CA-california.json sourceStatements (internal source text), not as EN/ES participant copy; neither verify-rcap-hard-form-outputs.mjs nor verify-rcap-hard-form-rendered-assertions.mjs asserts a service component or service instruction; CR-106 remains held_on_source_or_design.",
+            "verdict": "still_live"
+          }
+        ],
+        "notReopened": "Findings already closed by the rendered-assertion verifier were not reopened; both findings above are absent from that verifier entirely.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "CA:ca-1203-42",
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-42",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal E (terminal-e-hard-forms)",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "the two CR-180 patch-spec defects checked directly against current canonical bytes",
+        "findings": [
+          {
+            "defect": "the truncate_with_addendum fabrication branch and the non-failing report.overflowed path",
+            "canonicalEvidence": "scripts/rcap-hard-form-xfa-shadow-fill.mjs:137-138 still collects report.overflowed without failing and still rewrites an over-length value to '\u2026 \u2014 see Attachment A'; data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json:263 declares that an over-length value must fail the render instead. The engine and its own profile contradict each other.",
+            "verdict": "still_live"
+          },
+          {
+            "defect": "the 15-day prosecutor-notice period is not participant-facing, and no verifier requires the petition family to ship or declare a service component",
+            "canonicalEvidence": "the 15-day notice appears only inside CA-california.json sourceStatements (internal source text), not as EN/ES participant copy; neither verify-rcap-hard-form-outputs.mjs nor verify-rcap-hard-form-rendered-assertions.mjs asserts a service component or service instruction; CR-106 remains held_on_source_or_design.",
+            "verdict": "still_live"
+          }
+        ],
+        "notReopened": "Findings already closed by the rendered-assertion verifier were not reopened; both findings above are absent from that verifier entirely.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "CA:ca-1203-43",
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-43",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal E (terminal-e-hard-forms)",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "the two CR-180 patch-spec defects checked directly against current canonical bytes",
+        "findings": [
+          {
+            "defect": "the truncate_with_addendum fabrication branch and the non-failing report.overflowed path",
+            "canonicalEvidence": "scripts/rcap-hard-form-xfa-shadow-fill.mjs:137-138 still collects report.overflowed without failing and still rewrites an over-length value to '\u2026 \u2014 see Attachment A'; data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json:263 declares that an over-length value must fail the render instead. The engine and its own profile contradict each other.",
+            "verdict": "still_live"
+          },
+          {
+            "defect": "the 15-day prosecutor-notice period is not participant-facing, and no verifier requires the petition family to ship or declare a service component",
+            "canonicalEvidence": "the 15-day notice appears only inside CA-california.json sourceStatements (internal source text), not as EN/ES participant copy; neither verify-rcap-hard-form-outputs.mjs nor verify-rcap-hard-form-rendered-assertions.mjs asserts a service component or service instruction; CR-106 remains held_on_source_or_design.",
+            "verdict": "still_live"
+          }
+        ],
+        "notReopened": "Findings already closed by the rendered-assertion verifier were not reopened; both findings above are absent from that verifier entirely.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "CA:ca-1203-4a",
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-4a",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal E (terminal-e-hard-forms)",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "the two CR-180 patch-spec defects checked directly against current canonical bytes",
+        "findings": [
+          {
+            "defect": "the truncate_with_addendum fabrication branch and the non-failing report.overflowed path",
+            "canonicalEvidence": "scripts/rcap-hard-form-xfa-shadow-fill.mjs:137-138 still collects report.overflowed without failing and still rewrites an over-length value to '\u2026 \u2014 see Attachment A'; data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json:263 declares that an over-length value must fail the render instead. The engine and its own profile contradict each other.",
+            "verdict": "still_live"
+          },
+          {
+            "defect": "the 15-day prosecutor-notice period is not participant-facing, and no verifier requires the petition family to ship or declare a service component",
+            "canonicalEvidence": "the 15-day notice appears only inside CA-california.json sourceStatements (internal source text), not as EN/ES participant copy; neither verify-rcap-hard-form-outputs.mjs nor verify-rcap-hard-form-rendered-assertions.mjs asserts a service component or service instruction; CR-106 remains held_on_source_or_design.",
+            "verdict": "still_live"
+          }
+        ],
+        "notReopened": "Findings already closed by the rendered-assertion verifier were not reopened; both findings above are absent from that verifier entirely.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "CA:ca-17b-reduction",
+      "jurisdiction": "CA",
+      "trackId": "ca-17b-reduction",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal E (terminal-e-hard-forms)",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "the two CR-180 patch-spec defects checked directly against current canonical bytes",
+        "findings": [
+          {
+            "defect": "the truncate_with_addendum fabrication branch and the non-failing report.overflowed path",
+            "canonicalEvidence": "scripts/rcap-hard-form-xfa-shadow-fill.mjs:137-138 still collects report.overflowed without failing and still rewrites an over-length value to '\u2026 \u2014 see Attachment A'; data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json:263 declares that an over-length value must fail the render instead. The engine and its own profile contradict each other.",
+            "verdict": "still_live"
+          },
+          {
+            "defect": "the 15-day prosecutor-notice period is not participant-facing, and no verifier requires the petition family to ship or declare a service component",
+            "canonicalEvidence": "the 15-day notice appears only inside CA-california.json sourceStatements (internal source text), not as EN/ES participant copy; neither verify-rcap-hard-form-outputs.mjs nor verify-rcap-hard-form-rendered-assertions.mjs asserts a service component or service instruction; CR-106 remains held_on_source_or_design.",
+            "verdict": "still_live"
+          }
+        ],
+        "notReopened": "Findings already closed by the rendered-assertion verifier were not reopened; both findings above are absent from that verifier entirely.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "CA:ca-851-91",
+      "jurisdiction": "CA",
+      "trackId": "ca-851-91",
+      "codexPrimaryClass": "runtime_wiring_missing",
+      "codexProposedOwner": "Terminal A runtime owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "the runtime specification deduplicated against the current canonical runtime",
+        "currentCoverage": "missing_from_compiled_runtime",
+        "captainFinding": "The required work is a compiled pathway for the track \u2014 profile authoring in src/lib/rcap-engine/compiled/profiles/CA-california.json \u2014 not a change to a shared runtime system. No captain-owned shared-runtime change is applicable today.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "CT:ct-provisional-pardon",
+      "jurisdiction": "CT",
+      "trackId": "ct-provisional-pardon",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/ct.json",
+        "differingFields": [
+          "afterNextStep",
+          "authority",
+          "destination",
+          "gather",
+          "nextSteps",
+          "stopReason",
+          "timing"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "DC:dc_yra_set_aside",
+      "jurisdiction": "DC",
+      "trackId": "dc_yra_set_aside",
+      "codexPrimaryClass": "legal_design_or_counsel",
+      "codexProposedOwner": "Roger/counsel with Terminal C",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the counsel hold re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "captainRule": "A legal-design question is not closed by research. The hold stays until counsel answers it; Codex's packet is input to that question, not an answer to it.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "ID:id_felony_reduction",
+      "jurisdiction": "ID",
+      "trackId": "id_felony_reduction",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "ID:id_set_aside_dismissal",
+      "jurisdiction": "ID",
+      "trackId": "id_set_aside_dismissal",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "KY:ky_felony_expungement_after_pardon",
+      "jurisdiction": "KY",
+      "trackId": "ky_felony_expungement_after_pardon",
+      "codexPrimaryClass": "already_resolved_but_ledger_stale",
+      "codexProposedOwner": "Terminal A shared-ledger owner with Terminal B evidence owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "counsel_review_requirement"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "exact_current_pathway",
+        "mappedCompiledPathwayIds": [
+          "felony-conviction-431073"
+        ]
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "terminal evidence and every review gate checked against current canonical bytes, then traced through the generator that produces the ledger",
+        "terminalEvidenceExists": true,
+        "terminalEvidencePath": "data/rcap-all50/guidance-packets/ky.json",
+        "evidenceShape": "a committed lane-B packet whose treatment is exact_supported_deferral, with paymentAllowed=false and sellable=false",
+        "reviewGate": "an F2 technical_approved closure exists in data/rcap-all50/review-artifacts/f2-dispositions.json and is not superseded",
+        "whyTheLedgerIsStale": "scripts/generate-rcap-track-terminalization.mjs recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json (deliveredDeferrals), and recognises lane-B guidance packets only when treatment === 'complete_guidance' (deliveredGuidance). A lane-B packet whose treatment is exact_supported_deferral is therefore seen by neither loader, so candidateTreatment stays null, approvedByReview stays false, and the F2 approval cannot promote the track.",
+        "verdict": "verified_stale_ledger_recognition"
+      }
+    },
+    {
+      "trackKey": "KY:ky_felony_vacatur_expungement",
+      "jurisdiction": "KY",
+      "trackId": "ky_felony_vacatur_expungement",
+      "codexPrimaryClass": "already_resolved_but_ledger_stale",
+      "codexProposedOwner": "Terminal A shared-ledger owner with Terminal B evidence owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "counsel_review_requirement"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "exact_current_pathway",
+        "mappedCompiledPathwayIds": [
+          "felony-conviction-431073"
+        ]
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "terminal evidence and every review gate checked against current canonical bytes, then traced through the generator that produces the ledger",
+        "terminalEvidenceExists": true,
+        "terminalEvidencePath": "data/rcap-all50/guidance-packets/ky.json",
+        "evidenceShape": "a committed lane-B packet whose treatment is exact_supported_deferral, with paymentAllowed=false and sellable=false",
+        "reviewGate": "an F2 technical_approved closure exists in data/rcap-all50/review-artifacts/f2-dispositions.json and is not superseded",
+        "whyTheLedgerIsStale": "scripts/generate-rcap-track-terminalization.mjs recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json (deliveredDeferrals), and recognises lane-B guidance packets only when treatment === 'complete_guidance' (deliveredGuidance). A lane-B packet whose treatment is exact_supported_deferral is therefore seen by neither loader, so candidateTreatment stays null, approvedByReview stays false, and the F2 approval cannot promote the track.",
+        "verdict": "verified_stale_ledger_recognition"
+      }
+    },
+    {
+      "trackKey": "MI:mi_arrest_acquittal_dismissal",
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/mi.json",
+        "differingFields": [
+          "afterNextStep",
+          "gather"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "MI:mi_auto_misd92",
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd92",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/mi.json",
+        "differingFields": [
+          "afterNextStep",
+          "destination",
+          "nextStep",
+          "timing"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "MI:mi_setaside_csc4_pre2015",
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_csc4_pre2015",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/mi.json",
+        "differingFields": [
+          "nextSteps"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "MN:mn_ceb_felony_cannabis",
+      "jurisdiction": "MN",
+      "trackId": "mn_ceb_felony_cannabis",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/mn.json",
+        "differingFields": [
+          "afterNextStep",
+          "authority",
+          "gather",
+          "timing"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "ND:nd-dna-profile-removal-routing",
+      "jurisdiction": "ND",
+      "trackId": "nd-dna-profile-removal-routing",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/nd.json",
+        "differingFields": [
+          "timing"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "ND:nd-trafficking-vacatur-routing",
+      "jurisdiction": "ND",
+      "trackId": "nd-trafficking-vacatur-routing",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/nd.json",
+        "differingFields": [
+          "authority",
+          "timing"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "ND:nd-unconstitutional-arrest-expungement-routing",
+      "jurisdiction": "ND",
+      "trackId": "nd-unconstitutional-arrest-expungement-routing",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/nd.json",
+        "differingFields": [
+          "timing"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "NE:ne-immigration-routing",
+      "jurisdiction": "NE",
+      "trackId": "ne-immigration-routing",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/ne.json",
+        "differingFields": [
+          "destination",
+          "handoff",
+          "nextSteps",
+          "timing"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "NJ:nj_automated_clean_slate",
+      "jurisdiction": "NJ",
+      "trackId": "nj_automated_clean_slate",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/nj.json",
+        "differingFields": [
+          "afterNextStep",
+          "authority",
+          "handoff",
+          "nextSteps",
+          "stopReason",
+          "timing"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "NV:nv_repository_removal",
+      "jurisdiction": "NV",
+      "trackId": "nv_repository_removal",
+      "codexPrimaryClass": "participant_treatment_missing",
+      "codexProposedOwner": "Terminal B participant-treatment owner with Terminal A route owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the Codex candidate participant treatment checked for payment and credit posture and for evidence",
+        "candidatePath": "data/rcap-codex/remaining-tracks/candidate-treatments/participant-treatments.json",
+        "candidateDeclares": {
+          "paymentAllowed": false,
+          "sellable": false
+        },
+        "captainRule": "Imported as a review candidate only. It is not written into any canonical guidance packet and confers no terminal status; EN/ES parity, evidence and payment suppression are the reviewer's questions to answer, not the author's.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "NV:nv_seal_decrim",
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_decrim",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "NV:nv_seal_pardon",
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_pardon",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "OK:ok_clean_slate",
+      "jurisdiction": "OK",
+      "trackId": "ok_clean_slate",
+      "codexPrimaryClass": "already_resolved_but_ledger_stale",
+      "codexProposedOwner": "Terminal A shared-ledger owner with Terminal B evidence owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "superseded_runtime_text"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "represented_with_superseded_runtime_text",
+        "mappedCompiledPathwayIds": [
+          "clean-slate-automatic-expungement"
+        ]
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "terminal evidence and every review gate checked against current canonical bytes, then traced through the generator that produces the ledger",
+        "terminalEvidenceExists": true,
+        "terminalEvidencePath": "data/rcap-all50/guidance-packets/ok.json",
+        "evidenceShape": "a committed lane-B packet whose treatment is exact_supported_deferral, with paymentAllowed=false and sellable=false",
+        "reviewGate": "an F2 technical_approved closure exists in data/rcap-all50/review-artifacts/f2-dispositions.json and is not superseded",
+        "whyTheLedgerIsStale": "scripts/generate-rcap-track-terminalization.mjs recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json (deliveredDeferrals), and recognises lane-B guidance packets only when treatment === 'complete_guidance' (deliveredGuidance). A lane-B packet whose treatment is exact_supported_deferral is therefore seen by neither loader, so candidateTreatment stays null, approvedByReview stays false, and the F2 approval cannot promote the track.",
+        "verdict": "verified_stale_ledger_recognition"
+      }
+    },
+    {
+      "trackKey": "OK:ok_osbi_portal",
+      "jurisdiction": "OK",
+      "trackId": "ok_osbi_portal",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "complete_guidance",
+        "candidateTreatment": "complete_guidance",
+        "candidateStatus": "correction_required",
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/ok.json",
+        "differingFields": [
+          "authority",
+          "handoff",
+          "nextSteps"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "SC:sc_aep",
+      "jurisdiction": "SC",
+      "trackId": "sc_aep",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "SC:sc_conditional_discharge_44_53_450",
+      "jurisdiction": "SC",
+      "trackId": "sc_conditional_discharge_44_53_450",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "SC:sc_tep",
+      "jurisdiction": "SC",
+      "trackId": "sc_tep",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "TX:tx_exp_acquittal",
+      "jurisdiction": "TX",
+      "trackId": "tx_exp_acquittal",
+      "codexPrimaryClass": "correction_required",
+      "codexProposedOwner": "Terminal B",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "decision_conditioned_component"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "exact_current_pathway",
+        "mappedCompiledPathwayIds": [
+          "expunction-after-acquittal-not-guilty-disposition-chapter-55a"
+        ]
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "field-by-field comparison of the Codex candidate packet against the current canonical guidance packet bytes",
+        "canonicalPath": "data/rcap-all50/guidance-packets/tx.json",
+        "differingFields": [
+          "handoff",
+          "stopReason"
+        ],
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "TX:tx_exp_dismissed",
+      "jurisdiction": "TX",
+      "trackId": "tx_exp_dismissed",
+      "codexPrimaryClass": "already_resolved_but_ledger_stale",
+      "codexProposedOwner": "Terminal A shared-ledger owner with Terminal B evidence owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "counsel_review_requirement"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "represented_by_compiled_variants",
+        "mappedCompiledPathwayIds": [
+          "expunction-after-qualifying-class-c-deferred-disposition",
+          "expunction-after-qualifying-dismissal-or-quash"
+        ]
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "terminal evidence and every review gate checked against current canonical bytes, then traced through the generator that produces the ledger",
+        "terminalEvidenceExists": true,
+        "terminalEvidencePath": "data/rcap-all50/guidance-packets/tx.json",
+        "evidenceShape": "a committed lane-B packet whose treatment is exact_supported_deferral, with paymentAllowed=false and sellable=false",
+        "reviewGate": "an F2 technical_approved closure exists in data/rcap-all50/review-artifacts/f2-dispositions.json and is not superseded",
+        "whyTheLedgerIsStale": "scripts/generate-rcap-track-terminalization.mjs recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json (deliveredDeferrals), and recognises lane-B guidance packets only when treatment === 'complete_guidance' (deliveredGuidance). A lane-B packet whose treatment is exact_supported_deferral is therefore seen by neither loader, so candidateTreatment stays null, approvedByReview stays false, and the F2 approval cannot promote the track.",
+        "verdict": "verified_stale_ledger_recognition"
+      }
+    },
+    {
+      "trackKey": "VA:va_exp_identity_used_by_another",
+      "jurisdiction": "VA",
+      "trackId": "va_exp_identity_used_by_another",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "WA:wa_crop_certificate_of_restoration",
+      "jurisdiction": "WA",
+      "trackId": "wa_crop_certificate_of_restoration",
+      "codexPrimaryClass": "source_or_currentness",
+      "codexProposedOwner": "Terminal C source/design owner or assigned official-form owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the ledger hold and the official-source requirement re-read against current canonical bytes",
+        "holdPreserved": [
+          "missing_from_compiled_runtime"
+        ],
+        "officialSourceRequirementUnchanged": true,
+        "codexContribution": "saved, hash-pinned official source bytes under data/rcap-codex/remaining-tracks/source-receipts/ and a per-track source matrix separating source text from inference",
+        "captainRule": "A saved receipt is research, not adoption. Secondary authority is never substituted for an operative legal claim, and the supported fallback terminal disposition already recorded for the track is preserved unchanged.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "WI:wi_exp_certificate_of_discharge_followup",
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "codexPrimaryClass": "participant_treatment_missing",
+      "codexProposedOwner": "Terminal B participant-treatment owner with Terminal A route owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "missing_from_compiled_runtime"
+        ],
+        "requiredTreatment": "production_packet",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "missing_from_compiled_runtime",
+        "mappedCompiledPathwayIds": []
+      },
+      "f2TechnicalApproved": false,
+      "captainRecomputation": {
+        "method": "the Codex candidate participant treatment checked for payment and credit posture and for evidence",
+        "candidatePath": "data/rcap-codex/remaining-tracks/candidate-treatments/participant-treatments.json",
+        "candidateDeclares": {
+          "paymentAllowed": false,
+          "sellable": false
+        },
+        "captainRule": "Imported as a review candidate only. It is not written into any canonical guidance packet and confers no terminal status; EN/ES parity, evidence and payment suppression are the reviewer's questions to answer, not the author's.",
+        "verdict": "still_live"
+      }
+    },
+    {
+      "trackKey": "WV:wv_conv_multiple_misdemeanors",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_multiple_misdemeanors",
+      "codexPrimaryClass": "already_resolved_but_ledger_stale",
+      "codexProposedOwner": "Terminal A shared-ledger owner with Terminal B evidence owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "counsel_review_requirement"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "exact_current_pathway",
+        "mappedCompiledPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ]
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "terminal evidence and every review gate checked against current canonical bytes, then traced through the generator that produces the ledger",
+        "terminalEvidenceExists": true,
+        "terminalEvidencePath": "data/rcap-all50/guidance-packets/wv.json",
+        "evidenceShape": "a committed lane-B packet whose treatment is exact_supported_deferral, with paymentAllowed=false and sellable=false",
+        "reviewGate": "an F2 technical_approved closure exists in data/rcap-all50/review-artifacts/f2-dispositions.json and is not superseded",
+        "whyTheLedgerIsStale": "scripts/generate-rcap-track-terminalization.mjs recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json (deliveredDeferrals), and recognises lane-B guidance packets only when treatment === 'complete_guidance' (deliveredGuidance). A lane-B packet whose treatment is exact_supported_deferral is therefore seen by neither loader, so candidateTreatment stays null, approvedByReview stays false, and the F2 approval cannot promote the track.",
+        "verdict": "verified_stale_ledger_recognition"
+      }
+    },
+    {
+      "trackKey": "WV:wv_conv_nonviolent_felony",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_nonviolent_felony",
+      "codexPrimaryClass": "already_resolved_but_ledger_stale",
+      "codexProposedOwner": "Terminal A shared-ledger owner with Terminal B evidence owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "counsel_review_requirement"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "exact_current_pathway",
+        "mappedCompiledPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ]
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "terminal evidence and every review gate checked against current canonical bytes, then traced through the generator that produces the ledger",
+        "terminalEvidenceExists": true,
+        "terminalEvidencePath": "data/rcap-all50/guidance-packets/wv.json",
+        "evidenceShape": "a committed lane-B packet whose treatment is exact_supported_deferral, with paymentAllowed=false and sellable=false",
+        "reviewGate": "an F2 technical_approved closure exists in data/rcap-all50/review-artifacts/f2-dispositions.json and is not superseded",
+        "whyTheLedgerIsStale": "scripts/generate-rcap-track-terminalization.mjs recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json (deliveredDeferrals), and recognises lane-B guidance packets only when treatment === 'complete_guidance' (deliveredGuidance). A lane-B packet whose treatment is exact_supported_deferral is therefore seen by neither loader, so candidateTreatment stays null, approvedByReview stays false, and the F2 approval cannot promote the track.",
+        "verdict": "verified_stale_ledger_recognition"
+      }
+    },
+    {
+      "trackKey": "WV:wv_conv_single_misdemeanor",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_single_misdemeanor",
+      "codexPrimaryClass": "already_resolved_but_ledger_stale",
+      "codexProposedOwner": "Terminal A shared-ledger owner with Terminal B evidence owner",
+      "canonicalLedger": {
+        "terminal": false,
+        "holds": [
+          "counsel_review_requirement"
+        ],
+        "requiredTreatment": "exact_supported_deferral",
+        "candidateTreatment": null,
+        "candidateStatus": null,
+        "coverageDisposition": "exact_current_pathway",
+        "mappedCompiledPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ]
+      },
+      "f2TechnicalApproved": true,
+      "captainRecomputation": {
+        "method": "terminal evidence and every review gate checked against current canonical bytes, then traced through the generator that produces the ledger",
+        "terminalEvidenceExists": true,
+        "terminalEvidencePath": "data/rcap-all50/guidance-packets/wv.json",
+        "evidenceShape": "a committed lane-B packet whose treatment is exact_supported_deferral, with paymentAllowed=false and sellable=false",
+        "reviewGate": "an F2 technical_approved closure exists in data/rcap-all50/review-artifacts/f2-dispositions.json and is not superseded",
+        "whyTheLedgerIsStale": "scripts/generate-rcap-track-terminalization.mjs recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json (deliveredDeferrals), and recognises lane-B guidance packets only when treatment === 'complete_guidance' (deliveredGuidance). A lane-B packet whose treatment is exact_supported_deferral is therefore seen by neither loader, so candidateTreatment stays null, approvedByReview stays false, and the F2 approval cannot promote the track.",
+        "verdict": "verified_stale_ledger_recognition"
+      }
+    }
+  ]
+}

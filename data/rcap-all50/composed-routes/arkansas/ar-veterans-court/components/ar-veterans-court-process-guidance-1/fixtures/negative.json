@@ -1,0 +1,47 @@
+{
+  "fixtureId": "ar-veterans-court-guidance-negative",
+  "trackId": "ar-veterans-court",
+  "componentId": "ar-veterans-court-process-guidance-1",
+  "description": "Must fail QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, AR 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "courtName": "CIRCUIT COURT OF EXAMPLE COUNTY",
+    "countyName": "EXAMPLE",
+    "docketNumber": "00CR-00-0000",
+    "otn": "",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE PROSECUTING ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseLevel": "",
+    "disposition": "Sealed at hearing",
+    "dispositionDate": "01/01/2020",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "additionalFacts": [
+      "The prosecuting attorney was served and did not object within the objection window.",
+      "The court granted the petition on the papers."
+    ],
+    "eligibilityBasisLabel": "Eligible — confirmed"
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "fbiNumber": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. It populates court name, county, docket number, judge and prosecutor position that no source supplies; it asserts the prosecutor's position and completed service, which are outside-party acts; and it asserts a hearing outcome (“Sealed at hearing”, “the court granted the petition”). Each of these is prohibited invention, and it also states an eligibility conclusion this route never asserts."
+}

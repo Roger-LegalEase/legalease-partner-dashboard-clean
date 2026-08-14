@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { applyExactPathAuthorizations } from "./source-engine-change-scope.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const failures = [];
@@ -117,7 +118,8 @@ function assertNoRestrictedChanges() {
     "src/components/expungement/"
   ];
   const forbidden = changedFiles.filter((file) => forbiddenPrefixes.some((prefix) => file.startsWith(prefix)));
-  if (forbidden.length > 0) failures.push(`Restricted files changed: ${forbidden.join(", ")}`);
+  const stillForbidden = applyExactPathAuthorizations({ rootDir, candidates: forbidden, failures });
+  if (stillForbidden.length > 0) failures.push(`Restricted files changed: ${stillForbidden.join(", ")}`);
 }
 
 function assertFile(relativePath) {

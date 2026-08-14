@@ -1,0 +1,131 @@
+{
+  "reviewId": "wave1-shard-2",
+  "reviewer": "independent read-only reviewer, terminalization wave 1",
+  "reviewedBaseSha": "2eb5736c3eb6a109ff57b0c980e99c3b29764e06",
+  "reviewedBaseShaAtStart": "63fa4a433ca5abc634a9d62ff30316a7dd817a3e",
+  "reviewedArtifactState": "Working tree, which is ahead of HEAD for the in-scope treatment files. HEAD advanced from 63fa4a4 to 2eb5736 mid-review because of concurrent authoring in this worktree. co.json and id.json changed on disk during the review window; the change was verified to be pure whitespace reformatting of the authority and evidenceRefs arrays, with identical track sets, identical treatment classifications, identical entry keys and identical citation and sourceRef strings, and no change to any participant-facing string. The runtime probe and the prohibited-phrase scan were both re-run against the final on-disk state and returned zero violations, so every disposition below reflects the current working-tree content.",
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "jurisdictions": ["CO", "CT", "DC", "FL", "IA", "ID"],
+  "tracksReviewed": 15,
+  "runtimeProbeNotes": "Two probes were run from the repo root with the ts-esm-loader. Probe 1 covered all 15 tracks in scope through terminalTreatmentForTrack, resolvePacketRoute, terminalTreatmentBundle (en and es), buildRenderJobSpec, createBriefcaseItem and getBriefcaseItem. Every track returned classification terminal_treatment_candidate with invalidReason null, sellable false, creditConsumable false, rendererKind none, spec null (no render job), and the Briefcase item was coerced from the hostile inputs paymentAllowed:true / status:packet_ready / resultCode:packet_ready / packetType:custom_pleading down to paymentAllowed false, status guidance_saved, resultCode guidance_only, packetStatus not_started, amountCents null. Reopening each saved item returned the same treatment (artifactRefs.terminalTreatment.trackId matched on all 15). es and en stopReason were non-empty and never equal on any track. Probe 2 additionally exercised payment-adapter assertCheckoutAllowed and createConsumerPacketCheckout on one representative track per jurisdiction (co_municipal_conviction_seal, ct-missed-erasure, dc_yra_set_aside, fl-expunction, ia-dci77, id_set_aside_dismissal); checkout was refused in every case with 'Consumer checkout is not allowed for terminal_treatment_candidate' (component_deferral for ct-missed-erasure), paymentStatus not_applicable, amountCents null, packetCreditConsumption none, partnerCreditConsumption none, checkoutSuppressed true.",
+  "dispositions": [
+    {
+      "trackId": "co_decriminalized_conduct_seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and rests on the brief's own legal_design_blocker: the qualifying offense-category list under C.R.S. 24-72-711 is unconfirmed and moves with the criminal code. Mechanism, statute, effective date and HB24-1133 origin all appear in the brief. Destination is the specific Colorado court holding the conviction records in the existing criminal case, with the Judicial Branch JDF 2371 URL. Next step (read the issuer's own JDF 2370 guide against the offense on the judgment) is executable. Gather list is track-specific and correctly marks the CBI criminal-history report as conditional, matching the brief. doNot warns against filing JDF 2370, against assuming psilocybin-only reach, and against signing an unverified eligibility assertion. Spanish is a genuine translation with idiomatic legal vocabulary (moción, sellado, fiscal de distrito, bloque de firma), not a gloss. Briefcase preserved/outstanding/return are complete."
+    },
+    {
+      "trackId": "co_motion_seal_nonconviction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies the C.R.S. 24-72-705(2) and (3) simplified backstop family and does not conflate it with the conviction sections. Stop reason is the unfinished output and technical proof behind the imported route, which the brief carries, and it explicitly tells the participant this reflects nothing about their case. Destination is the Colorado court that handled the underlying case, with the Seal My Case page. The brief's required_before_filing limitation is honoured: anything JDF 477 requires as an attachment is stated as needed before filing, never optional. Spanish is substantive and distinct from every other CO track. No packet promise anywhere."
+    },
+    {
+      "trackId": "co_multiple_conviction_seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is the strongest part of this entry: the brief records that 24-72-709 was not read in full, so the multi-conviction eligibility formula and the cross-case waiting-period calculation are unconfirmed, and the treatment refuses to state any number rather than borrowing one from a single-case route. The same-judicial-district scope restriction is carried into destination, doNot and Briefcase. Next step (list every case with county and case number and work out the judicial district for each) is exact and is the fact that actually decides venue and reach. Spanish is a real translation and the cautions are track-specific."
+    },
+    {
+      "trackId": "co_municipal_conviction_seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Names the correct mechanism (C.R.S. 24-72-708, the municipal section) and the correct affected family, and states plainly that municipal courts sit outside the state e-filing system so intake is local. Destination is the municipal court that heard the case. The next step is three concrete questions to put to that court's clerk, which is exactly the information the brief says is unresolved. Waiting period and exclusion set are withheld with the reason given, matching the brief's unconfirmed waitingPeriods and exclusions. Spanish is idiomatic and specific. Checkout refused at runtime."
+    },
+    {
+      "trackId": "co_pardoned_conviction_seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly separates the pardon (granting authority) from the sealing (court) and names C.R.S. 24-72-710 in the existing criminal case in the court holding the records. The brief's required participantFilingRequirement, pardon documentation from the granting authority, is treated as required in participantFiles, gather, doNot, Briefcase outstanding and nextSteps, with the explicit statement that LegalEase does not verify it; nothing required is downgraded to optional. Waiting period and exclusions are withheld with the reason stated, matching the brief. Spanish translation is genuine."
+    },
+    {
+      "trackId": "ct-missed-erasure",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "The reason is exact and matches the brief's legal_design_blocker verbatim in substance: C.G.S. 54-142t(g) leaves the form and manner of the submission to DESPP, and the treatment states outright that it will not invent a department form. Destination is fully specific down to the payee and street address (DESPP-SPBI, 1111 Country Club Road, Middletown, CT 06457-2389, check or money order to Treasurer-State of CT) and the required form DPS-0846-C, all carried by the brief. The statutorily required criminal history record search is stated as required, not optional. Participant is warned off the contested hearing without counsel and off the wrong vocabulary. Spanish is a real translation, not English with Spanish punctuation. The declared treatment complete_guidance follows the brief's own proposedTreatment and the DESPP end-to-end control described in the brief; the delivered product also satisfies the deferral standard, so the classification creates no participant-facing gap. Runtime resolves this track as component_deferral, which is still sellable false, creditConsumable false, rendererKind none, and checkout is refused."
+    },
+    {
+      "trackId": "ct-nolle-auto",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Handles the two branches of C.G.S. 54-142a(c) without blurring them: the passive thirteen-month erasure with nothing to file, and the 54-142a(c)(2) motion to nolle a charge left on a prosecutor's continuance, whose filing vehicle the brief records as unsettled. The pre-1 April 1972 provision is carried. Destination is the Connecticut Judicial Branch online case look-up, with Superior Court and SPBI named behind it, and the treatment explains that an erased case's absence from the look-up is itself the confirmation. Cross-route handoff to the missed-erasure request for review at DESPP is correct. Spanish glosses 'nolle' for a Spanish-speaking reader rather than leaving it bare, which is the mark of a real translation. Zero shared strings with any other CT track."
+    },
+    {
+      "trackId": "ct-provisional-pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Names the mechanism correctly and leads with the distinction the brief calls the most common Connecticut misunderstanding: a provisional pardon and a certificate of employability lift employment and licensing barriers and erase nothing, and are not an absolute pardon. Because the brief records that eligibility rules were not verified and no waiting period is established, the treatment states no eligibility rule and no waiting period and says why, which is the correct evidence-discipline outcome rather than a gap. Destination is the Connecticut Board of Pardons and Paroles, an exact named body, and the next step is a specific request to that Board for its current application requirements. Spanish is substantive throughout."
+    },
+    {
+      "trackId": "ct-under18-misdemeanor",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly frames this as an adult record rather than juvenile delinquency relief, splits the branches on the offense date exactly as the brief does (on or after 1 January 2000 and before 1 July 2012 automatic under (f)(1); before 1 January 2000 the (f)(2) petition branch in the Superior Court at the location where the conviction was effected), carries the (f)(3) same-information limitation and the automatic-branch exclusions, and states the no-fee rule at (k) together with a caution against paying anyone a filing fee. The refusal to draft the (f)(2) petition is tied to the brief's unresolved historical classification rule. Spanish is a genuine translation with correct statutory-subdivision vocabulary."
+    },
+    {
+      "trackId": "dc_yra_set_aside",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and supported: no D.C. form exists for a 24-906(e-1) motion, and the brief leaves service and response mechanics and the set-aside/sealing sequencing unresolved. Destination is the Criminal Division of the Superior Court of the District of Columbia with the court's own sealing page. The two safety points that matter most are both present and both in the brief: a set-aside is not sealing and a separate 16-806 motion is needed, and the automatic set-asides at 24-906(a) and 24-906(c) should be checked before filing anything. One motion per case number is stated. Spanish correctly distinguishes probación, libertad supervisada and libertad condicional. Briefcase preservation and the escalation path are complete."
+    },
+    {
+      "trackId": "fl-expunction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The strongest participant-safety entry in this shard. The once-per-lifetime irreversibility is made the hard gate the brief asks for, and it is the first next step rather than a footnote. Both stages are named exactly (FDLE Certificate of Eligibility, then the circuit or county court in the circuit of arrest under Rule 3.692 with the Rule 3.989 forms), the four required items are each stated as required, the notarised agency signature and the sworn court statement are both flagged, and the participant is told not to file stage two before the certificate is in hand and not to build from a county packet found online. Discretionary denial and the nine exceptions at 943.0585(6)(b) are stated so no outcome is promised. Every fact traces to the brief, including the twenty circuits and sixty-seven counties and the Chapter 2026-114 amendment effective 1 July 2026. Spanish is a full, fluent translation."
+    },
+    {
+      "trackId": "ia-9079",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly says the participant files nothing and that the court performs the expungement under Iowa Code 907.9(4) on discharge from probation. It obeys the brief's vocabulary instruction, refusing to say erased or destroyed and explaining the record becomes confidential and off public access under 22.7, and it states that the deferred judgment itself stays on the state court administrator's docket feeding the 901C.3 two-deferred-judgment limit. Court debt is stated as the precondition and the destination is the clerk of the Iowa District Court for the specific county, which is exactly where the balance question is answered. The pre-July-2013 branch is named as unresolved rather than papered over, and the revoked-deferred-judgment exclusion is carried. Explicitly tells the participant not to pay anyone for this. Spanish is a real translation."
+    },
+    {
+      "trackId": "ia-dci77",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies this as a supporting records step and not relief, and says so to the participant in both languages together with a warning that nobody should charge them for it as record clearing, which matches the brief's scope restriction that it must never be counted as a paid packet mechanism. Destination is the Iowa Department of Public Safety, Division of Criminal Investigation through the state portal. All the operative details trace to the brief: DCI-77 with DCI-76 billing form, the $15 fee and accepted payment methods, one form and one fee per last name, the release authorization signature and Iowa Code chapter 692.2, the 30-day currency window tied to the 901C.3 filing, and notarisation only where another country demands it. Sequencing advice (work backwards from the filing date) is genuinely useful rather than a restatement. Spanish is substantive."
+    },
+    {
+      "trackId": "id_felony_reduction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and matches the brief's output-strategy blocker: Idaho publishes no statewide form for a 19-2604 application and the accepted vehicle and complete pleading requirements are unresolved, with county practice unverified. Destination is the specific sentencing court that entered the judgment of conviction. Next step is a concrete set of questions for that court's clerk (local form or pleading, hearing practice, service on the prosecuting attorney). The participant is told plainly that a 19-2604(2) reduction does not hide the record and is not an expungement, that a 18-8304 registration offense is outside the section, that conviction includes a withheld judgment, and that the sequencing against any 19-2604 dismissal must be checked first. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "id_set_aside_dismissal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The permanent trade-off the brief flags is placed where the participant cannot miss it: a dismissal granted under 19-2604(1) permanently disqualifies the record from the 67-3004(10) Idaho State Police expungement, while leaving Clean Slate shielding intact, and the treatment makes deciding between the two the first next step rather than an afterthought. Destination is the court that imposed or withheld sentence. Eligibility is correctly bounded in both languages to sentences imposed and suspended or withheld, with the showing being probation compliance or drug court / mental health court graduation. Firearm and civil rights restoration is routed to 18-310 and 18-3316. Spanish renders 'probation' as 'libertad condicional' rather than 'probación'; this is loose against the shard's own DC usage but is not misleading here, because the Spanish independently and correctly bounds the section to a sentence 'impuesta pero suspendida, o retenida', so eligibility does not turn on the noun. Noted, not a defect."
+    }
+  ],
+  "summary": {
+    "approved": 15,
+    "correctionRequired": 0,
+    "held": 0,
+    "defectsFound": "none",
+    "observationsNotRaisedAsDefects": [
+      "ct-missed-erasure is declared complete_guidance while participantFiles.filesSomething is true and the actual blocker is DESPP's unpublished submission form and manner, which reads closer to the schema's exact_supported_deferral definition. The brief's own proposedTreatment for this track is complete_guidance, the treatmentBasis rests on DESPP controlling the remedy end to end, and the delivered product carries the exact reason, destination, next action, gathering list, cautions, escalation and saved handoff regardless. No participant-facing gap results, so this is recorded as a classification observation rather than a correction.",
+      "id_set_aside_dismissal renders 'probation' in Spanish as 'libertad condicional' where DC in this same shard uses 'probación' for probation and reserves 'libertad condicional' for parole. The Spanish text independently bounds the mechanism to a sentence imposed and suspended or withheld, so a reader on parole is not led to believe they qualify. Terminology observation, not a defect.",
+      "Shared strings across tracks within a jurisdiction were measured. The maximum overlap is 5 strings out of roughly 70 per track, and every shared string is either an official URL, a per-track evidence-supported safety caution drawn from that track's own selfHelpStopConditions, or the venue sentence for the two CO tracks that genuinely share the same venue. No track's mechanism, stopReason, nextStep, gather, timing, afterNextStep, escalation, briefcase or nextSteps copy is reused. CT's four tracks share zero strings.",
+      "A scan of all 15 treatments in both languages found none of the schema's prohibited participant phrases and no generic referral used as a destination. Attorneys appear only in escalation, never as the destination."
+    ]
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "reviewId": "w6-shard-al",
+  "reviewer": "independent read-only reviewer, Alabama confirmation review",
+  "reviewedBaseSha": "283982fdc751a0568b384ad2433a5aee7f7878fa",
+  "reviewedFileSha256": {
+    "AL": "c2492bf32b1de8cc9e86d020ecb0e07ecac134309b508df6cca5a4137b3c69b7"
+  },
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "runtimeProbe": {
+    "probePath": "/tmp/probe-w6.mjs",
+    "cwd": "/home/user/legalease-partner-dashboard-clean",
+    "loadedThrough": "scripts/lib/ts-esm-loader.mjs",
+    "modules": [
+      "src/lib/rcap/documents/guidance-packet-registry.ts",
+      "src/lib/rcap/documents/packet-route-resolver.ts",
+      "src/lib/rcap/render/job-contract.ts",
+      "src/lib/expungement-ai/payment-adapter.ts",
+      "src/lib/expungement-ai/briefcase.ts"
+    ],
+    "assertionsRun": 465,
+    "assertionsFailed": 0,
+    "perTrackResult": "classification=terminal_treatment_candidate (invalidReason null); resolver routeKind=exact_supported_deferral naming the track through pathway '', 'al-expungement' and 'felony-dwop', sellable=false, creditConsumable=false, rendererKind='none', packetRouteCanRender=false, treatmentReviewState='pending_independent_review'; buildRenderJobSpec returned spec=null; createConsumerPaymentPlaceholder returned enabled=false with no amountCents even when called with resultCode='packet_ready' and paymentAllowed=true; assertCheckoutAllowed threw ConsumerCheckoutNotAllowedError on a corrupted item claiming packet_ready with payment open; a Briefcase item saved with paymentAllowed=true, resultCode='packet_ready', packetType='custom_pleading', status='packet_ready' came back status='guidance_saved', resultCode='guidance_only', packetType='guidance_packet', packetStatus='not_started', paymentStatus='not_applicable', paymentAllowed=false, amountCents=null, artifactRefs.treatmentReviewState='pending_independent_review'; reopening through getBriefcaseItem returned the same track's treatment payload byte-identical to the saved one."
+  },
+  "staticAudit": {
+    "schemaContract": "data/rcap-all50/terminalization-treatments/_schema.json",
+    "evidenceSource": "data/rcap-all50/review-artifacts/terminalization-evidence-briefs.json, keys AL:al-felony-dwop, AL:al-felony-nonconviction-90, AL:al-misd-dwop, AL:al-misd-nonconviction-90, AL:al-pardon",
+    "tracksInFile": 5,
+    "eachTrackAppearsOnce": true,
+    "runtimeContractMatchesSchemaExactly": "all 5 tracks, zero field diffs, no extra keys",
+    "prohibitedParticipantPhraseHits": 0,
+    "packetPromiseHits": 0,
+    "genericReferralDestinations": 0,
+    "enEsArrayLengthMismatches": 0,
+    "enEsIdenticalStringPairs": 0,
+    "feeAmountsAsserted": 0,
+    "waitingPeriodYearFiguresAsserted": 0,
+    "authoritySourceRefsNamingAnotherTrack": 0,
+    "evidenceRefsPointingAtAnotherALBriefKey": 0
+  },
+  "changeUnderReview": {
+    "track": "al-misd-dwop",
+    "verified": "landed",
+    "detail": "controllingActor.en now reads 'A circuit court judge decides. The district attorney for the circuit and any victim have an objection window before that decision.' and controllingActor.es the matching Spanish. The subordinate clause 'even though the underlying charge may have been handled in a municipal or district court' / 'aunque el cargo original se haya tramitado en un tribunal municipal o de distrito' is gone from both languages. A semantic (parsed-JSON, key-by-key) diff of the working tree against HEAD:data/rcap-all50/terminalization-treatments/al.json confirms the clause deletion is the only edit to controllingActor and that no other field of al-misd-dwop moved in that edit.",
+    "noEquivalentVenueClaimSurvives": "Confirmed across all five AL tracks and both languages, at the JSON level and again through the rendered terminalTreatmentBundle for en and es. No occurrence of 'municipal court', 'district court', 'tribunal municipal', 'tribunal de distrito' or 'corte municipal' anywhere in the AL entry. The one earlier venue-adjacent sentence in al-misd-dwop destination.en ('Even a municipal or traffic matter is expunged by petitioning...') is also gone, replaced with a subsection-neutral statement. Every filing and record instruction in all five court tracks now names one and only one place: the criminal division of the circuit court for the county where the charge was filed, and the clerk of that court."
+  },
+  "priorCorrectionsConfirmedNotRegressed": [
+    "al-misd-dwop: the offence-category enumeration ('misdemeanours, violations, traffic violations and municipal ordinance violations') is absent; mechanism now states the limitation openly — the brief names § 15-27-1(a)(7) only as the misdemeanour-level subsection and does not list which offence categories it reaches — and sends the participant to the certified disposition and the circuit clerk to settle it.",
+    "al-felony-nonconviction-90: no 'Section I' and no 'first five checkboxes' mapping; mechanism now expressly disclaims the mapping and routes the question to the clerk. Confirmed 'Section I / first five checkboxes' appears only in al-misd-nonconviction-90, whose own brief mechanism carries it verbatim.",
+    "al-felony-nonconviction-90: no conviction-free-interim clause; timing now reads '90 days from the disposition. That is the only waiting period our materials carry for these five grounds, so we do not tell you whether any other condition runs alongside it.' The affirmative 'none of these bases carries a conviction-free interim requirement' survives only in al-misd-nonconviction-90, where its own brief waitingPeriods[0].condition states exactly that.",
+    "al-felony-nonconviction-90: no § 15-27-2(a)(7) citation; gather[3] now reads 'sends the case to a different subsection' without naming the sibling track's subsection. § 15-27-2(a)(7) appears only in al-felony-dwop and § 15-27-1(a)(7) only in al-misd-dwop, each in its own brief's authority."
+  ],
+  "crossTrackContaminationScan": {
+    "method": "Every statutory citation, form id, waiting-period clause, venue statement, offence-category claim and procedural rule in each track was regex-matched against that track's own brief and, where absent, against the four sibling AL briefs.",
+    "tokensCheckedPerTrack": [
+      "§ 15-27-1(a)(7)", "§ 15-27-2(a)(7)", "§ 15-27-1(a)(1)-(a)(5)", "§ 15-27-2(a)(1)-(a)(5)", "§ 15-27-3", "§ 15-27-5(b)", "§ 15-27-2.1(a)(1)", "§§ 15-22-20 to 15-22-40", "640-X-6 / 640-X-7", "CR-65", "C-10-CRIMINAL", "ABPP-3", "90 days", "Section I", "first five checkboxes", "single fee", "one petition per offence", "conviction-free interim", "minor traffic violations", "non-violent framing", "nolle prosse", "quashed indictment", "local probation office", "June 2025 revision", "ALEA", "two clocks", "municipal", "district court"
+    ],
+    "unsourcedTokensFound": 0,
+    "falsePositivesResolved": [
+      "al-misd-nonconviction-90 'conviction-free ... in the meantime': the literal phrase is not in the brief, but the brief's own waitingPeriods[0].condition reads 'From the disposition. None of these bases carries a conviction-free interim requirement.' Same fact, own brief. Cleared.",
+      "al-pardon 'ALEA': a substring hit inside the word 'LegalEase' in stopReason. al-pardon contains no reference to the Alabama Law Enforcement Agency, which is correct — its brief has an empty participantFilingRequirements and no ALEA record. Cleared."
+    ],
+    "reviewedAndCleared": [
+      "al-misd-dwop gather[3] 'Every conviction of any kind entered against you since that date, including traffic and municipal matters, so you can measure the backward clock honestly' (es: 'incluidas las de tránsito y las municipales'). This is the only surviving 'municipal' token in the AL entry. It is not a venue claim: it describes the participant's own conviction history to compile, not a court to approach, and every destination, next-step and escalation string in the track names the circuit court clerk exclusively. The brief's own waitingPeriods carry 'Backward from filing: conviction-free period, excluding minor traffic violations' with no limitation on which court entered a conviction, so an exhaustive list is squarely supported and errs toward the participant gathering more rather than less. It is paired with doNot[1], which refuses to say whether a traffic conviction counts. Not a defect; recorded so the next reviewer does not have to re-derive it.",
+      "All four court tracks render the brief's 'prosecutor' as 'the district attorney for that circuit' / 'el fiscal de distrito'. No AL brief uses the phrase 'district attorney'. This is a naming gloss for the same actor the brief names, it changes no destination (the participant is sent to the circuit court clerk in every instance), and 'the prosecutor' is used interchangeably in the same passages. Not a defect.",
+      "al-pardon timing is a non-null statement where the brief's waitingPeriods is empty, against the schema gloss 'null when the brief carries no timing rule'. The text does not assert a timing rule: it says our materials carry none, that this is a gap rather than a finding that no rule exists, and that the probation office taking the application is the place to ask. That is what the schema's evidenceRule requires of an absent fact, the registry accepts it (timing is not a required element and classification came back terminal_treatment_candidate), and rendering nothing would leave the participant with no warning at all. Not a defect."
+    ]
+  },
+  "dispositions": [
+    {
+      "trackId": "al-felony-dwop",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Supported reason: the route is not bound into the filing-assembly system (brief exactUnavailabilityEvidence coverageDisposition 'missing_from_compiled_runtime') and the backward-looking clock turns on the unresolved 'minor traffic violations' definition (brief legalDesignLimitations legal_design_blocker, exclusions[0]). Mechanism correct: CR-65 under § 15-27-2(a)(7), two clocks, prosecutor and victim objection window, judge decides — all from its own brief's authority, waitingPeriods and destination.detail. Exact destination: criminal division of the circuit court for the county where the felony charge was filed, kind=court, url from officialSources[0]. Exact next action: ask that clerk for the certified disposition and read it for the without-prejudice wording, matching participantFilingRequirements[0].howToObtain. Gather 5/5 en/es covers both certified records, the dismissal date and wording, the post-dismissal conviction list and both forms. doNot 5/5 covers signing before the certified disposition confirms it, assuming a traffic ticket is excluded, treating an objection or hearing as routine, immigration/licensing/firearm consequences, and writing a year figure the sources do not carry. No required component is treated as optional: CR-65 and its certificate of service are stated as required, C-10-CRIMINAL is conditional exactly as the brief marks it. No waiting-period figure is asserted anywhere, correctly, since both durations read 'As set by § 15-27-2(a)(7)' in the brief. Spanish is genuine and idiomatic throughout, with the legal nouns actually translated ('resumen de actuaciones', 'sin perjuicio', 'exoneración de costos', 'secretario'); ALEA is kept in its legal name because that is what the participant must ask for. Briefcase preserved 3/3, outstanding 3/3, return present in both languages and explicitly disclaims holding a petition. No packet promise and no prohibited phrase. Zero cross-track leakage: no § 15-27-3, § 15-27-5(b), § 15-27-2.1, 90-day rule, Section I mapping, single-fee rule or one-petition-per-offence rule appears here, and none of those is in this track's brief."
+    },
+    {
+      "trackId": "al-felony-nonconviction-90",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "All three prior corrections confirmed holding. The Section I / five-checkbox mapping is gone and replaced with an honest disclosure — 'our sources do not map those grounds onto particular boxes on the form, so check the CR-65 disposition choices against your record and let the clerk confirm which one fits' — which is the required behaviour, not a weakness: the destination and next action stay exact. The conviction-free-interim clause is gone; timing now states only the 90 days the brief carries and expressly declines to say whether anything else runs alongside it. The § 15-27-2(a)(7) citation is gone from gather[3], which now says 'a different subsection' without naming the sibling's statute. Everything asserted is in its own brief: § 15-27-2(a)(1) through (a)(5), §§ 15-27-3 and 15-27-5(b) (authority[1]-[2]), 90 days from the disposition (waitingPeriods[0]), one petition per offence and unverified local circuit practice (venue), records required before filing rather than before starting (required_before_filing limitation), and the open question about which felony offences the current § 15-27-2(a) reaches given the older non-violent framing in the archive and internal reference (legal_design_blocker) — which is exactly what stopReason and doNot[3] tell the participant. It correctly does NOT import the sibling's 'directed to grant if unopposed' gloss on § 15-27-5(b) or the single-fee rule, neither of which is in this brief. Exact destination and clerk, gather 5/5, doNot 5/5, nextSteps 8/8, briefcase complete, Spanish substantive and genuinely translated. No packet promise, no prohibited phrase, runtimeContract matches the schema exactly."
+    },
+    {
+      "trackId": "al-misd-dwop",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The change landed and is correct. controllingActor now reads 'A circuit court judge decides. The district attorney for the circuit and any victim have an objection window before that decision.' in English and the matching Spanish; the municipal/district-court subordinate clause is absent from both. The related venue-adjacent sentence formerly in destination.en ('Even a municipal or traffic matter is expunged by petitioning...') is likewise gone. The entry now names exactly one court and one clerk everywhere it matters — mechanism, destination, nextStep, all seven nextSteps, escalation and briefcase.preserved all say the criminal division of the circuit court for the county where the charge was filed and the clerk of that court — so the certified disposition the filing depends on can only be sought in one place. The offence-category enumeration remains removed, and mechanism handles the resulting gap the required way: it says the materials name § 15-27-1(a)(7) only as the misdemeanour-level subsection, that it will not tell the participant the charge is covered, and that the certified disposition read with the circuit clerk is what settles it — while still giving the exact court, exact form and exact next action. Everything else is in its own brief: § 15-27-1(a)(7) (authority[0]), the two differently-measured clocks (mechanism, waitingPeriods, packetInstructions[0]), the unresolved minor-traffic-violation carve-out (exclusions[0], legal_design_blocker), CR-65 with its certificate of service required and C-10-CRIMINAL conditional (packetSetComponents), the prosecutor and victim objection window (destination.detail), and both certified records (participantFilingRequirements). No 90-day rule, no Section I mapping, no § 15-27-3, § 15-27-5(b) or § 15-27-2.1, no one-petition-per-offence and no single-fee rule leak in from the siblings, and none of those is in this brief. The comparison 'it works like the felony route' carries no imported fact — CR-65, the venue and the two clocks are each independently in this track's own brief — so it is a stylistic parallel, not contamination. The single remaining 'municipal' token, in gather[3], is a record-gathering instruction about the participant's own convictions, not a venue claim, and is supported by the brief's unqualified 'conviction-free period'; see reviewedAndCleared. No waiting-period figures asserted, gather 5/5, doNot 5/5, nextSteps 7/7, briefcase complete, Spanish genuine."
+    },
+    {
+      "trackId": "al-misd-nonconviction-90",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The 'Section I, first five checkboxes' mapping is legitimate here and only here: this track's own brief mechanism carries 'CR-65 Section I, first five checkboxes' verbatim, and the treatment uses it in mechanism and nextSteps[5] without extending it to any sibling. Likewise the affirmative 'none of these five grounds requires you to stay conviction-free in the meantime' is its own brief's waitingPeriods[0].condition word for word. Every other operative fact is sourced to this brief: § 15-27-1(a)(1)-(a)(5), §§ 15-27-3 and 15-27-5(b) with the discretionary-on-the-merits-but-directed-to-grant-if-unopposed gloss taken from the brief's own mechanism, the uncapped case count at § 15-27-2.1(a)(1) (packetInstructions[2]), one petition per offence with a single fee for petitions filed together (packetInstructions[0], venue, destination.detail), the fail-closed rule where the participant cannot identify the disposition (scopeRestrictions[0]), and the four factual unknowns the brief lists as self-help stop conditions — conditional nolle prosse, with-prejudice dismissal, limitations period on a quashed indictment, prosecuting-agency confirmation of non-refiling — which drive gather 5-7 and doNot 1-3. The conditional continuation page and C-10-CRIMINAL are stated conditionally, matching packetSetComponents requirement flags, while CR-65 and the certificate of service are stated as required; nothing required is softened. The ALEA fee and request instructions are correctly presented as unknown ('ask ALEA directly what they charge and how they want the request made'), matching participantFilingRequirements[1].howToObtain, and carried into briefcase.outstanding. doNot[4] correctly refuses to let the participant read an unopposed petition as automatic. No two-clock rule, no minor-traffic-violation carve-out and no § 15-27-2 subsection leaks in from the felony or dismissed-without-prejudice siblings. Exact destination and clerk, gather 7/7, doNot 5/5, nextSteps 8/8, preserved 3/3, outstanding 4/4, Spanish substantive and genuinely translated ('sobreseimiento (nolle prosse)' glossed rather than left in English)."
+    },
+    {
+      "trackId": "al-pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Treatment kind is right and matches the brief's explicit direction: the applicant files ABPP-3, and the brief's post_generation_handoff says the Board's later investigation and decision do not turn the application into guidance-only, so deferral rather than complete_guidance is correct. Supported reason: the route is not bound into the filing-assembly system, and the archived ABPP-3 is the obsolete October 2020 revision while the operative one is the June 2025 revision — brief packetInstructions[0] and authority[2] carry both facts, and stopReason, doNot[0], briefcase.preserved[2] and nextSteps[1] all carry the version warning through to the participant. Exact destination: the Alabama Board of Pardons and Paroles, kind=agency, url from officialSources[0], with the intake point named as the local probation office exactly as the brief's venue and destination.detail state — that is a brief-sourced intake route, not a generic referral. Authorities are the brief's own: §§ 15-22-20 to 15-22-40 and Ala. Admin. Code ch. 640-X-6 and 640-X-7. Absences are handled correctly rather than papered over: the brief's participantFilingRequirements is empty, so gather[3] says the materials list no required attachment set and directs the question to the probation office; waitingPeriods is empty, so timing says our materials carry no waiting period, states that this is a gap and not a finding that none exists, and names the office to ask — see reviewedAndCleared for why the non-null timing is the required behaviour here rather than a schema breach. doNot[3] correctly bounds the relief ('our materials for this route do not say it removes or seals anything') instead of claiming record-clearing effect the brief does not support. No cross-track leakage at all: no CR-65, no C-10-CRIMINAL, no circuit court, no ALEA, no 90-day rule, no § 15-27 citation. Gather 4/4, doNot 5/5, nextSteps 7/7, preserved 3/3, outstanding 3/3, Spanish genuine throughout, Briefcase return disclaims saving an application."
+    }
+  ],
+  "summary": {
+    "tracksReviewed": 5,
+    "technical_approved_as_terminal_treatment": 5,
+    "correction_required": 0,
+    "held_on_source_or_design": 0,
+    "defectsFound": 0
+  }
+}

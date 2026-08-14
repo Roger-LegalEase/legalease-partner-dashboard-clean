@@ -1,0 +1,58 @@
+{
+  "fixtureId": "ct-nolle-auto-guidance-negative",
+  "trackId": "ct-nolle-auto",
+  "componentId": "ct-nolle-auto-process-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE TOWN, CT 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "SUPERIOR COURT, JUDICIAL DISTRICT OF HARTFORD",
+    "judicialDistrictOrGaLocation": "HARTFORD",
+    "countyName": "HARTFORD COUNTY",
+    "docketNumber": "H14M-CR00-0000000",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE STATE'S ATTORNEY",
+    "prosecutorPosition": "does not object to the motion",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "Breach of peace in the second degree",
+    "offenseLevel": "class B misdemeanor",
+    "disposition": "nolle prosequi",
+    "dispositionDate": "01/01/2024",
+    "arrestDate": "06/01/2023",
+    "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "chargeStatus": ""
+    },
+    "branchSelected": "motion_to_nolle",
+    "branchSelectedBy": "legalease",
+    "thirteenMonthsElapsedComputedByLegalEase": true,
+    "eligibilityBasisLabel": "Eligible — records already expunged",
+    "additionalFacts": [
+      "Thirteen months have elapsed since the nolle, so your records were erased on 02/01/2025.",
+      "Attached is your Motion to Nolle a Continued Charge for filing in the Superior Court, Judicial District of Hartford.",
+      "The State's Attorney was served with the motion and does not object.",
+      "The court granted the motion and the charge has been nolled.",
+      "A filing fee of $75.00 is payable to the clerk."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "03/05/1976",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "CT0000000",
+    "sbiNumber": "00000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA for these reasons: (1) it attaches a drafted § 54-142a(c)(2) motion, the exact document held back because its caption, venue, service and clerk practice are unapproved and no form was located; (2) it selects the branch on the participant's behalf — the answer to \"was the charge nolled, or is it still being continued\" selects the branch and LegalEase does not choose one; (3) it computes the thirteen-month clock and asserts a specific erasure date, which is arithmetic on participant-supplied dates that this route never performs; (4) it fills court name, judicial district, county, docket number, OTN, judge, prosecutor and prosecutor position on a branch that has no filing at all; (5) it asserts an outside-party act and service completion (the State's Attorney was served and does not object) where service is expressly unresolved; (6) it asserts a hearing outcome (the court granted the motion and the charge has been nolled); (7) it states a filing fee when § 54-142a(k) says no court fee is charged in any court for a petition under this section; (8) it uses the prohibited term 'expunged' — Connecticut says erasure; and (9) it populates protected fields that must stay blank."
+}

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "rcap-delivery-gate-evidence/v1",
+  "generatedOn": "2026-08-10",
+  "branch": "claude/rcap-delivery-unification",
+  "purpose": "Canonical machine-readable evidence for Milestone 1 item 1 (deployed packet serving path) produced by the delivery-gate lane, reconciled onto the phase-49 base (PR #91) by the unification captain. The completion ledger's canonical inputs are owned by the reconciliation lane; this artifact is the delivery lane's item-1 source, and the queued instruction below tells the ledger owner exactly how to consume it without touching item-2 state.",
+  "ledgerDisposition": {
+    "sharedLedgerTouched": false,
+    "note": "Neither data/rcap-ledger/* (reconciliation lane) nor data/rcap-all50/completion-ledger.json (earlier captain branch) exists on or was modified by this branch.",
+    "queuedLedgerUpdateInstruction": "On next integration of the reconciliation lane's authority ledger: set item 'milestone1.item1.deployedServingPath' to status 'proven_locally_pending_deployment', citing this file's evidence array and the verifier names herein. Do not modify any item-2 (crosswalk/denominator) state. The deployment-level HTTP proof remains open and is listed under remainingOpen."
+  },
+  "provenBehaviors": [
+    {
+      "claim": "A render job is claimable by exactly one active fencing token; every worker-owned mutation (render start, validation start, failure, finalization with hash writes and storage attachment) requires the current token; a stale or superseded worker can perform none of them",
+      "verifier": "scripts/verify-rcap-packet-delivery-db.mjs cases 1-2; scripts/verify-rcap-render-worker-delivery.mjs crash injection"
+    },
+    {
+      "claim": "Delivery transitions and delivery events are not worker-owned: record_packet_delivery_event takes no fencing token, is callable only for accounting-eligible jobs, and the delivered status is writable only through it",
+      "verifier": "verify-rcap-packet-delivery-db case 13; verify-rcap-packet-render-jobs section 8"
+    },
+    {
+      "claim": "Repeated failure reaches a terminal visible state (failed/terminal) that is never auto-requeued and not claimable; recovery requires a manual requeue with a named authorizer",
+      "verifier": "verify-rcap-packet-delivery-db case 3"
+    },
+    {
+      "claim": "Valid bytes are stored privately at a path binding immutable IDs, job id and output SHA-256; overwrites of validated objects are refused; the raw path never reaches a browser",
+      "verifier": "verify-rcap-render-worker-delivery storage matrix; artifact-storage.ts upsert:false; packet-delivery.ts response surface"
+    },
+    {
+      "claim": "Stored bytes are re-read and hash-verified inside the canonical finalization transaction; a raw or normalized hash mismatch fails the job closed with checksum_mismatch and no credit movement",
+      "verifier": "verify-rcap-packet-delivery-db case 6; verify-rcap-render-worker-delivery happy path"
+    },
+    {
+      "claim": "A missing, corrupted, replaced (including another job's valid PDF), or unparseable stored object fails delivery closed with a recorded transmission_failed event",
+      "verifier": "verify-rcap-render-worker-delivery storage failure matrix"
+    },
+    {
+      "claim": "Every delivery-eligible distinct supported matter consumes exactly one unit keyed on immutable IDs (partner_id, entitlement scope, person_id, matter_id), or carries the explicit zero_charge disposition; a technically valid artifact that loses a hard-cap race is visibly accounting_blocked, evidence-preserved, and refused by the download path",
+      "verifier": "verify-rcap-packet-delivery-db cases 5, 7, 8, 11, 16"
+    },
+    {
+      "claim": "Retries, re-renders, worker crashes at every boundary, and repeat downloads consume zero additional units",
+      "verifier": "verify-rcap-packet-delivery-db cases 5, 9, 13, 15; verify-rcap-render-worker-delivery crash injection; verify-rcap-packet-delivery-e2e repeat download"
+    },
+    {
+      "claim": "Hard-cap and overage races behave deterministically under true concurrency (parallel database sessions): final unit resolves to exactly one consumed, the loser to cap_reached; same-matter concurrency resolves to consumed + already_consumed",
+      "verifier": "verify-rcap-packet-delivery-db cases 8, 9"
+    },
+    {
+      "claim": "A mobile-viewport Chromium received the exact validated artifact bytes over real HTTP through the identical authorization and streaming core the production route uses, with delivery_authorized + transmission_started and transmission_completed recorded at the defined boundaries and an unauthenticated browser denied",
+      "verifier": "verify-rcap-packet-delivery-e2e"
+    },
+    {
+      "claim": "transmission_completed is recorded only when the response stream closes cleanly; a client abort mid-stream records delivery_aborted; headersSent alone is never evidence",
+      "verifier": "verify-rcap-render-worker-delivery streaming semantics; packet-delivery.ts"
+    },
+    {
+      "claim": "anon and authenticated roles hold no table privileges and no function execution on any phase-48 object; the credit ledger and delivery events are append-only at the trigger level; consumed entries are undeletable and irreversible",
+      "verifier": "verify-rcap-packet-delivery-db cases 4, 12, 13"
+    },
+    {
+      "claim": "SQL, the shared state-machine fixture, and the TypeScript contract agree exactly (statuses, transitions, creditable statuses)",
+      "verifier": "verify-rcap-render-job-contract"
+    },
+    {
+      "claim": "The phase-50 migration file is covered by an exact-path, SHA-256-pinned authorization record whose negative regressions prove drift, renames, siblings, malformed records, widened paths, and a red contract verifier all void or withhold the grant",
+      "verifier": "verify-exact-path-authorization-phase50; data/rcap-authorization-queue.json entry auth-2026-08-10-phase-50-packet-delivery-hardening"
+    },
+    {
+      "claim": "The mutation boundary is grants plus definer functions, proven by forgery: every protected operation denied for service_role (BYPASSRLS, Supabase-default privileges), worker, delivery, anon and authenticated roles with the authority GUC set via SET and SET LOCAL; the GUC is coordination only",
+      "verifier": "scripts/verify-rcap-mutation-authority.mjs"
+    },
+    {
+      "claim": "The consumption unit embeds the entitlement id: two programs or two entitlement periods under one partner never cross-consume, and one active entitlement per (partner, program) is enforced by a partial unique index",
+      "verifier": "verify-rcap-packet-delivery-db cases 18-19"
+    }
+  ],
+  "remainingOpen": [
+    {
+      "gate": "Deployment-level HTTP proof",
+      "detail": "The browser E2E exercises the production route's complete decision and streaming core behind a local HTTP wrapper with a session-cookie test identity. The Next.js route shell plus real Supabase JWT verification requires a running Supabase auth service, which this build environment does not have and must not fake. Close by running the same verifier flow against staging once the phase-48 migration is applied there under queue authorization."
+    },
+    {
+      "gate": "Production storage bucket behavior",
+      "detail": "Write-once semantics are enforced by the adapter (upsert:false) and proven against the filesystem stub honoring the same contract; the Supabase bucket's own rejection of overwrites should be confirmed on staging."
+    }
+  ],
+  "migrationDisposition": "Canonical sequence: phase-49 (PR #91, unaltered, owner-authorized) then phase-50-rcap-packet-delivery-hardening.sql. Applied only to ephemeral local clusters inside verifier runs. Staging and production remain queued; the prepared A1 staging action names both files.",
+  "storageGuarantee": "Content-addressed and tamper-evident, not immutable: the adapter refuses overwrites, every delivery re-reads and hash-verifies the stored object before serving, altered bytes fail closed. The service-role credential bypasses Storage RLS; the least-privilege worker credential is specified for staging (deployment doc) and the real-credential storage authority test is step 12 of the rehearsal plan."
+}

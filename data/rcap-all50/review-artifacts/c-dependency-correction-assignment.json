@@ -1,0 +1,1366 @@
+{
+  "schemaVersion": "rcap-c-dependency-correction-assignment/v1",
+  "windowId": "2026-08-12-w3",
+  "frozenBy": "Terminal A (captain)",
+  "reviewBase": "a20987d1e55fc759960b05d4991b8263a63656c1",
+  "canonicalTip": "766421f46c8cdf66cdc8ab9cde6b6f18882dfe83",
+  "assignee": "Codex",
+  "scopeReconciliation": {
+    "escalatedRoutes": 16,
+    "dependencyBearingRoutes": 10,
+    "dependencyComponents": 31,
+    "dependencyFreeRoutes": 6,
+    "reportedClaimVerified": true,
+    "note": "Repository-derived. The 31 components belong to 10 of the 16 escalated routes, not to all 16; the earlier captain phrasing ('31 components across these 16 routes') was imprecise and is corrected here. Counts come from route.json units[] with requiredOutput=official_form_dependency, each component then opened individually."
+  },
+  "sharedRuntimeOwnership": {
+    "rule": "Codex may not create a second payment, credit, Briefcase, or route-state system. Where a behaviour is controlled by captain-owned shared runtime, Codex delivers an exact runtime patch SPECIFICATION and Terminal A applies it.",
+    "controls": {
+      "paymentAllowed": {
+        "authority": "src/lib/rcap-engine/evaluator.ts (computes paymentAllowed; automatic/no-filing clamp) and src/lib/expungement-ai/eligibility-adapter.ts (isConsumerPaymentAllowed)",
+        "owner": "Terminal A"
+      },
+      "checkoutVisibility": {
+        "authority": "src/app/api/expungement-ai/checkout/route.ts and src/lib/expungement-ai/payment-adapter.ts (ConsumerCheckoutNotAllowedError)",
+        "owner": "Terminal A"
+      },
+      "packetCreditConsumption": {
+        "authority": "src/lib/rcap/documents/packet-route-resolver.ts (creditConsumable/sellable) with supabase/phase-49 and phase-50 accounting tables",
+        "owner": "Terminal A"
+      },
+      "briefcaseGuidanceAndHandoff": {
+        "authority": "src/lib/expungement-ai/briefcase.ts and src/lib/rcap/documents/guidance-packet-registry.ts",
+        "owner": "Terminal A"
+      },
+      "composedRouteRuntimeClassification": {
+        "authority": "src/lib/rcap/documents/packet-route-resolver.ts (routeKind) and src/lib/rcap-engine/evaluator.ts",
+        "owner": "Terminal A"
+      }
+    }
+  },
+  "codexOwnedPaths": [
+    "data/rcap-all50/composed-routes/<state>/<track>/components/<componentId>/ (participant treatment, bilingual copy, fixtures, route-specific data)",
+    "data/rcap-all50/composed-routes/<state>/<track>/participant-instructions.md",
+    "data/rcap-all50/composed-routes/<state>/<track>/handoff.md",
+    "docs/record-clearing/terminalize-c/ (lane notes and exact runtime patch specifications)"
+  ],
+  "captainOwnedPathsCodexMustNotModify": [
+    "src/** (all runtime, including evaluator, resolver, payment adapter, checkout route, briefcase, guidance registry)",
+    "supabase/**",
+    "package.json",
+    "data/rcap-ledger/**",
+    "data/rcap-all50/review-artifacts/**",
+    "data/rcap-verifier-dispositions.json",
+    "data/rcap-staging-action.json",
+    "scripts/** (verifiers, generators)",
+    "data/rcap-all50/composed-routes/*/*/route.json (unit set and omissionProof are the lane's frozen structure for this job; changes route through the captain)"
+  ],
+  "requiredAcceptanceTests": [
+    "node scripts/verify-rcap-terminalize-c1.mjs",
+    "node scripts/verify-rcap-terminalize-c2.mjs",
+    "node scripts/verify-rcap-terminalize-c3.mjs",
+    "node scripts/verify-rcap-no-null-presentation.mjs",
+    "node scripts/generate-rcap-track-terminalization.mjs --check",
+    "npm test (full chain, captain-run before any promotion)"
+  ],
+  "perComponentFailureVocabulary": {
+    "destination": "the component names no official destination: no officialSourceIndex, no officialSourceUrlForForm and no issuingAuthority",
+    "packet_absence_disclosure": "the route's participant instructions do not state plainly that the packet does not include this official form",
+    "gathering_instructions": "no gathering/before-you-file section tells the participant what to collect for this component",
+    "what_not_to_file_or_assume": "no statement of what is left blank, what must not be assumed, or what the packet does not decide",
+    "briefcase_handoff": "no Briefcase handoff: nothing states what is saved and how the participant returns to it",
+    "payment_suppression": "the component does not state that nothing is charged for it",
+    "credit_suppression": "the component does not state that no packet credit is consumed for it"
+  },
+  "routes": [
+    {
+      "trackId": "ar-act346",
+      "jurisdiction": "AR",
+      "routeDir": "data/rcap-all50/composed-routes/arkansas/ar-act346",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/arkansas/ar-act346/route.json",
+        "sha256": "44cd775b4ca5ad1ec068795e0c5710959a1e3030f108d898bf78a9d165e2151c"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/arkansas/ar-act346/participant-instructions.md",
+        "sha256": "06beab1c515feca4ce0830dcbe4139e076a828b10fdd7d5aa8466c2ad0198b8b"
+      },
+      "treatment": "complete_composed_route",
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b First terminalization integration window: B, C, E, D1 by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "ar-act346-primary-filing-2",
+          "role": "primary_filing",
+          "unitId": "ar-act346-stage-2",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-primary-filing-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "43815b5b40863e16bceb018fa07dfe11ea9e7531fda56b94c5a2563a2b4bfebf",
+          "supportingAuthority": {
+            "citation": "A.C.A. §§ 16-93-303, 16-93-314 (Act 346 of 1975)",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-act346].authority[0]; registry@3b6f4c1:tracks[ar-act346].packetSet.components[1]"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "officialFormName": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation",
+            "exactMissingSource": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ar-act346-proposed-order-3",
+          "role": "proposed_order",
+          "unitId": "ar-act346-stage-2-proposed-order",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-proposed-order-3/dependency.json"
+          ],
+          "dependencyRecordSha256": "7fd427589d1895eb1daec8410b2048254690da36bbd4f823fd9a707d6aa7eb0e",
+          "supportingAuthority": {
+            "citation": "A.C.A. §§ 16-93-303, 16-93-314 (Act 346 of 1975)",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-act346].packetSet.components[2]; profile:sourceSections[5] 'Required forms' lines 220-262"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+            "officialFormName": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation",
+            "exactMissingSource": "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ar-act346-records-authorization-0",
+          "role": "records_request",
+          "unitId": "ar-act346-records-authorization",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-act346/components/ar-act346-records-authorization-0/dependency.json"
+          ],
+          "dependencyRecordSha256": "5d3f5a920f15f2733067df96185d8dbb81aaef9e050aeb7d61be863dd6257538",
+          "supportingAuthority": {
+            "citation": "ACIC Authorization for Review of Criminal History Information",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-act346].participantFilingRequirements[name='Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information']; profile:sourceSections[9] 'Criminal history (ACIC) request process' lines 333-338"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-AUTHORIZATION-REVIEW-CRIMINAL-HISTORY",
+            "officialFormName": "ACIC Authorization for Review of Criminal History Information",
+            "exactMissingSource": "ACIC Authorization for Review of Criminal History Information — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "ar-drug-court",
+      "jurisdiction": "AR",
+      "routeDir": "data/rcap-all50/composed-routes/arkansas/ar-drug-court",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/arkansas/ar-drug-court/route.json",
+        "sha256": "18d5c8616c1a4f28da62d4bf21053bbaae1a9538f5e587ee36ac453ed0f5487d"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/arkansas/ar-drug-court/participant-instructions.md",
+        "sha256": "ec6a0b21afd4d8b3046980e1d2fd5e340058f030478d7cf2f572237cfedb8748"
+      },
+      "treatment": "complete_composed_route",
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b First terminalization integration window: B, C, E, D1 by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "ar-drug-court-primary-filing-2",
+          "role": "primary_filing",
+          "unitId": "ar-drug-court-stage-2",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-drug-court/components/ar-drug-court-primary-filing-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "ab9f1ece0effc54d3ffd74d053935b351964c2e901a74d19484e3f903f4cf22c",
+          "supportingAuthority": {
+            "citation": "A.C.A. § 16-98-303",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-drug-court].authority[0]; registry@3b6f4c1:tracks[ar-drug-court].packetSet.components[1]"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-PETITION-DRUG-COURT",
+            "officialFormName": "ACIC drug court pre-adjudication and post-adjudication petition and order pairs",
+            "exactMissingSource": "ACIC drug court pre-adjudication and post-adjudication petition and order pairs — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ar-drug-court-proposed-order-3",
+          "role": "proposed_order",
+          "unitId": "ar-drug-court-stage-2-proposed-order",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-drug-court/components/ar-drug-court-proposed-order-3/dependency.json"
+          ],
+          "dependencyRecordSha256": "74248f1d0cb4f017d1626228d76def78a535e3abf005f3eda67cc4cba0a736eb",
+          "supportingAuthority": {
+            "citation": "A.C.A. § 16-98-303",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-drug-court].packetSet.components[2]; profile:sourceSections[5] 'Required forms' lines 220-262"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-ORDER-DRUG-COURT",
+            "officialFormName": "ACIC drug court pre-adjudication and post-adjudication petition and order pairs",
+            "exactMissingSource": "ACIC drug court pre-adjudication and post-adjudication petition and order pairs — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ar-drug-court-records-authorization-0",
+          "role": "records_request",
+          "unitId": "ar-drug-court-records-authorization",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-drug-court/components/ar-drug-court-records-authorization-0/dependency.json"
+          ],
+          "dependencyRecordSha256": "d28428665b9f93ff0464d720cfe2e1fa4ce4bc3215f39fc73a80a6fcee488d6a",
+          "supportingAuthority": {
+            "citation": "ACIC Authorization for Review of Criminal History Information",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-drug-court].participantFilingRequirements[name='Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information']; profile:sourceSections[9] 'Criminal history (ACIC) request process' lines 333-338"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-AUTHORIZATION-REVIEW-CRIMINAL-HISTORY",
+            "officialFormName": "ACIC Authorization for Review of Criminal History Information",
+            "exactMissingSource": "ACIC Authorization for Review of Criminal History Information — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "ar-pardon-seal",
+      "jurisdiction": "AR",
+      "routeDir": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/route.json",
+        "sha256": "db95b194ac5dbc2acf74eb964b934894a5ed4ae1c48686df5510885aff899348"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/participant-instructions.md",
+        "sha256": "0e552cf5052e58b1208ecd35394943841bf6883fa8997d3ebb93ee3167e16078"
+      },
+      "treatment": "complete_composed_route",
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b First terminalization integration window: B, C, E, D1 by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "ar-pardon-seal-primary-filing-2",
+          "role": "primary_filing",
+          "unitId": "ar-pardon-seal-stage-2",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-primary-filing-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "cbd578bce589f7219ed5dd5c5f6695e2923e06e2a4e6377217162f85087ca197",
+          "supportingAuthority": {
+            "citation": "A.C.A. § 16-90-1411",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].authority[0]; registry@3b6f4c1:tracks[ar-pardon-seal].packetSet.components[1]"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+            "officialFormName": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+            "exactMissingSource": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ar-pardon-seal-proposed-order-3",
+          "role": "proposed_order",
+          "unitId": "ar-pardon-seal-stage-2-proposed-order",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-proposed-order-3/dependency.json"
+          ],
+          "dependencyRecordSha256": "9e4f881a89458a5f093da47fb1e92b031b09d5898a763acb51ce915a26435c08",
+          "supportingAuthority": {
+            "citation": "A.C.A. § 16-90-1411",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].packetSet.components[2]; profile:sourceSections[5] 'Required forms' lines 220-262"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+            "officialFormName": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+            "exactMissingSource": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ar-pardon-seal-records-authorization-0",
+          "role": "records_request",
+          "unitId": "ar-pardon-seal-records-authorization",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-records-authorization-0/dependency.json"
+          ],
+          "dependencyRecordSha256": "cb1cab30453d42a60fe3501c6b2d7a2ec68c6b77258e9995d8cd9b724ce99de4",
+          "supportingAuthority": {
+            "citation": "ACIC Authorization for Review of Criminal History Information",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].participantFilingRequirements[name='Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information']; profile:sourceSections[9] 'Criminal history (ACIC) request process' lines 333-338"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-AUTHORIZATION-REVIEW-CRIMINAL-HISTORY",
+            "officialFormName": "ACIC Authorization for Review of Criminal History Information",
+            "exactMissingSource": "ACIC Authorization for Review of Criminal History Information — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "ar-veterans-court",
+      "jurisdiction": "AR",
+      "routeDir": "data/rcap-all50/composed-routes/arkansas/ar-veterans-court",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/route.json",
+        "sha256": "ee6dcbfbcd02b3197b18a18e8b8f5598eefab35cf0a10d4624baf08dd60a8350"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/participant-instructions.md",
+        "sha256": "490b3027ed3661311beb40ca72779c377bafe04e378a608dabb6bf586b43b2c4"
+      },
+      "treatment": "complete_composed_route",
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b First terminalization integration window: B, C, E, D1 by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "ar-veterans-court-primary-filing-2",
+          "role": "primary_filing",
+          "unitId": "ar-veterans-court-stage-2",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/components/ar-veterans-court-primary-filing-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "3391c609ab0ebfe3af88277db16a77d8ccf2dc87d4fb965987c5b18957d02a15",
+          "supportingAuthority": {
+            "citation": "A.C.A. § 16-101-101 et seq.",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-veterans-court].authority[0]; registry@3b6f4c1:tracks[ar-veterans-court].packetSet.components[1]"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-PETITION-VETERANS-COURT",
+            "officialFormName": "ACIC veterans treatment court petition and order pair",
+            "exactMissingSource": "ACIC veterans treatment court petition and order pair — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ar-veterans-court-proposed-order-3",
+          "role": "proposed_order",
+          "unitId": "ar-veterans-court-stage-2-proposed-order",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/components/ar-veterans-court-proposed-order-3/dependency.json"
+          ],
+          "dependencyRecordSha256": "a53eca79c535172bdf87ec94cc3b66fa7aa2e1dfe01cca2c71893a181619896c",
+          "supportingAuthority": {
+            "citation": "A.C.A. § 16-101-101 et seq.",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-veterans-court].packetSet.components[2]; profile:sourceSections[5] 'Required forms' lines 220-262"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-ORDER-VETERANS-COURT",
+            "officialFormName": "ACIC veterans treatment court petition and order pair",
+            "exactMissingSource": "ACIC veterans treatment court petition and order pair — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ar-veterans-court-records-authorization-0",
+          "role": "records_request",
+          "unitId": "ar-veterans-court-records-authorization",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/arkansas/ar-veterans-court/components/ar-veterans-court-records-authorization-0/dependency.json"
+          ],
+          "dependencyRecordSha256": "3ac123f38760e997c1229d5572babbef8f26425bf6a379fdc2b08d9cc4bdc7ee",
+          "supportingAuthority": {
+            "citation": "ACIC Authorization for Review of Criminal History Information",
+            "sourceRef": "registry@3b6f4c1:tracks[ar-veterans-court].participantFilingRequirements[name='Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information']; profile:sourceSections[9] 'Criminal history (ACIC) request process' lines 333-338"
+          },
+          "exactMissingForm": {
+            "officialFormId": "ACIC-AUTHORIZATION-REVIEW-CRIMINAL-HISTORY",
+            "officialFormName": "ACIC Authorization for Review of Criminal History Information",
+            "exactMissingSource": "ACIC Authorization for Review of Criminal History Information — current official PDF, from the ACIC criminal-history forms index at https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Arkansas Crime Information Center (ACIC) / Arkansas Department of Public Safety",
+            "officialSourceIndex": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "ca-diversion-seal",
+      "jurisdiction": "CA",
+      "routeDir": "data/rcap-all50/composed-routes/california/ca-diversion-seal",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/california/ca-diversion-seal/route.json",
+        "sha256": "de5b0389612c5a38abc0d4b4085d7742d36a888aa5124bbfc9f9a694d0638a9b"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/california/ca-diversion-seal/participant-instructions.md",
+        "sha256": "300b954798f1d0c62c71cf365687e1ad014d7f924535c7da7dca3e2e60e1bc40"
+      },
+      "treatment": null,
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "8c9e83b8962d13de45c2bbb5aca29a67c700759f Refresh terminalization integration: current B/C/E/F1/D0 inputs by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "ca-diversion-seal-primary-filing-2",
+          "role": "primary_filing",
+          "unitId": "ca-diversion-seal-stage-2",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-primary-filing-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "10f6c8af4d10c9f438f8652845e153e77fcd15af38aa43b8949cdeb149aeea86",
+          "supportingAuthority": {
+            "citation": "Cal. Penal Code § 851.90",
+            "sourceRef": "registry tracks[47].units[1]; packetSet.components[1]; venue; rules.filing"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": null,
+            "exactMissingSource": null
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": null,
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": null,
+          "drafted": false,
+          "draftingProhibitedBecause": null,
+          "owningLaneForSourceAcquisition": {
+            "lane": "D",
+            "scope": "Official-form acquisition and approval: collect the current local petition and order set for each supported county, record a SHA-256, and route it through form approval.",
+            "handoffLane": "E",
+            "handoffScope": "Local-form survey across the remaining California target counties. The registry records that no survey of local forms in the target counties has been done."
+          },
+          "currentFailures": [
+            "destination",
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ca-diversion-seal-fee-waiver-3",
+          "role": "conditional_official_form",
+          "unitId": "ca-diversion-seal-stage-3-fee-waiver",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/california/ca-diversion-seal/components/ca-diversion-seal-fee-waiver-3/dependency.json"
+          ],
+          "dependencyRecordSha256": "c62c9f6a751cc70c869472a2627dc9cd2feed9af650326fb85c604f20e4a1021",
+          "supportingAuthority": {
+            "citation": null,
+            "citationNote": "The registry names form FW-001 but states no statute or rule for the waiver, and states no filing fee for this route. Left null rather than supplied.",
+            "counselFlagRef": "cf-04",
+            "sourceRef": "registry tracks[47].rules.feeWaiver (\"FW-001 is the general California fee waiver form.\"), rules.fees (\"The source review does not state a filing fee for this route.\"), packetSet.participantActionRequired[7]"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": null,
+            "exactMissingSource": null
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": null,
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": null,
+          "drafted": false,
+          "draftingProhibitedBecause": null,
+          "owningLaneForSourceAcquisition": {
+            "lane": "D",
+            "scope": "Official-form acquisition and approval: obtain the current FW-001 (and any companion FW-003 order, if the approved packet requires one — the registry does not name one), record a SHA-256, and route it through form approval."
+          },
+          "currentFailures": [
+            "destination",
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "ct-missed-erasure",
+      "jurisdiction": "CT",
+      "routeDir": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/route.json",
+        "sha256": "c313b178dc869d46d26a2e51e78527ffd9f89dd3643ebefdae7719535bcd43ae"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/participant-instructions.md",
+        "sha256": "2ad2f3eec42352620a08dfcee063ac753cf4c0da80f7f95ecfc6798c047355d8"
+      },
+      "treatment": "complete_composed_route",
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b First terminalization integration window: B, C, E, D1 by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "ct-missed-erasure-spbi-record-request-0",
+          "role": "records_request",
+          "unitId": "ct-missed-erasure-unit-1-spbi-record-request",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/components/ct-missed-erasure-spbi-record-request-0/dependency.json"
+          ],
+          "dependencyRecordSha256": "9c989bd20ddb0ab338c30ae4a27573dc968860b6466a56aa0b9b247f202a0b7a",
+          "supportingAuthority": {
+            "citation": "C.G.S. § 54-142t(g); DESPP form DPS-0846-C",
+            "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].authority[0]; registry@3b6f4c1:tracks[ct-missed-erasure].authority[3]; registry@3b6f4c1:tracks[ct-missed-erasure].participantFilingRequirements[0]"
+          },
+          "exactMissingForm": {
+            "officialFormId": "DPS-0846-C",
+            "officialFormName": "State of Connecticut Criminal History Record Request Form, DPS-0846-C, Rev. 12/01/17",
+            "exactMissingSource": "The current revision of DESPP form DPS-0846-C at its official URL, and the current SPBI fee schedule and request process. Only a 12/01/17 revision is on file and only the DESPP portal root (https://portal.ct.gov/despp) is recorded as its source."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Department of Emergency Services and Public Protection, Division of State Police, State Police Bureau of Identification (DESPP-SPBI)",
+            "officialSourceIndex": "https://portal.ct.gov/despp",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "copy_on_file_revision_12_01_17",
+          "drafted": false,
+          "draftingProhibitedBecause": "It is an official DESPP form. Lane C drafts no official forms; overlay and field-map ownership sits with the official-PDF overlay lane.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-PDF overlay and official-source acquisition",
+          "currentFailures": [
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "what_not_to_file_or_assume",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "ct-missed-erasure-despp-submission-2",
+          "role": "agency_submission",
+          "unitId": "ct-missed-erasure-unit-3-despp-submission",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/connecticut/ct-missed-erasure/components/ct-missed-erasure-despp-submission-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "5e4fa2d259c2a5f094fb18802198de0e490859ba4b9371f66d0ad263a795de29",
+          "supportingAuthority": {
+            "citation": "C.G.S. § 54-142t(g); Uniform Administrative Procedure Act, chapter 54",
+            "sourceRef": "registry@3b6f4c1:tracks[ct-missed-erasure].units[1]; registry@3b6f4c1:tracks[ct-missed-erasure].authority[0]; registry@3b6f4c1:tracks[ct-missed-erasure].authority[2]"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": "The form and manner DESPP determines for a submission under C.G.S. § 54-142t(g)",
+            "exactMissingSource": "DESPP's current form and manner for a submission under C.G.S. § 54-142t(g) — the department-determined submission vehicle, its URL, and whether it is a form, a portal or a written request. Not in the statute; not located."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Department of Emergency Services and Public Protection",
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_located",
+          "drafted": false,
+          "draftingProhibitedBecause": "The statute requires the submission to be made to DESPP in a form and manner the department determines. That form and manner is not in the statute and has not been located. The legal-design blocker states in terms: do not invent a DESPP filing form. Drafting an agency request letter instead would be the same invention under a different name.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition — registry implementationQueue: D_composed_or_process_guidance",
+          "currentFailures": [
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "what_not_to_file_or_assume",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "il-prb-cert",
+      "jurisdiction": "IL",
+      "routeDir": "data/rcap-all50/composed-routes/illinois/il-prb-cert",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/illinois/il-prb-cert/route.json",
+        "sha256": "02b7b09146e0d951dd2b7bb4d98c46f3f7ce40312fcfcdf447db2844e1597305"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/illinois/il-prb-cert/participant-instructions.md",
+        "sha256": "832b8917dc07e0238da0667022b27cc59bf23856f16564c2a1d300ca19850fe7"
+      },
+      "treatment": null,
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "8c9e83b8962d13de45c2bbb5aca29a67c700759f Refresh terminalization integration: current B/C/E/F1/D0 inputs by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "il-prb-cert-primary-filing-1",
+          "role": "primary_filing",
+          "unitId": "il-prb-cert-sealing-branch",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-1/dependency.json"
+          ],
+          "dependencyRecordSha256": "e58969b8576030ca35a965c83fcefd7238fb46fb711aba94d17e1ece4c1ebbac",
+          "supportingAuthority": {
+            "citation": "20 ILCS 2630/5.2(e-5)",
+            "sourceRef": "registry@3b6f4c1:tracks[142].units[1] (outputStrategy official_pdf_fill, outputStrategyStatus resolved, available true); .authority[0]; .packetSet.components[0] and [1]; .legalDesignLimitations[0] and [1]"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": null,
+            "exactMissingSource": "PRB Certificate of Sealing Application — current official form from Illinois Prisoner Review Board; not acquired in this repository."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": null,
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": null,
+          "drafted": false,
+          "draftingProhibitedBecause": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map. No caption, title, allegation, prayer, verification, signature block or attachment is drafted here.",
+          "owningLaneForSourceAcquisition": {
+            "lane": "D",
+            "scope": "Official PDF acquisition, field mapping and overlay for the Board's Certificate of Sealing Application. Lane D owns retrieving the AcroForm, enumerating its fields, mapping them to the eleven screening keys and the three participant-authored narratives, and producing the overlay sample. Lane C owns none of it."
+          },
+          "currentFailures": [
+            "destination",
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "il-prb-cert-primary-filing-3",
+          "role": "primary_filing",
+          "unitId": "il-prb-cert-military-branch",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-3/dependency.json"
+          ],
+          "dependencyRecordSha256": "2c83a0876fb278170a04d085a5f704292918228bd5366d2a09119c68cdb0fb2b",
+          "supportingAuthority": {
+            "citation": "20 ILCS 2630/5.2(e-6)",
+            "citationNote": "Recorded as the expungement-certificate subsection. The registry does not cite a separate military-specific statutory provision; the military character of this branch comes from the Board's own form, which is expressly military-specific.",
+            "sourceRef": "registry@3b6f4c1:tracks[142].units[2] (outputStrategy official_pdf_fill, outputStrategyStatus resolved, available true); .packetSet.components[2] and [3]; .scopeRestrictions[1]; .legalDesignLimitations[7]"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": null,
+            "exactMissingSource": "PRB Certificate of Expungement for Military Application — current official form from Illinois Prisoner Review Board; not acquired in this repository."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": null,
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": null,
+          "drafted": false,
+          "draftingProhibitedBecause": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map.",
+          "owningLaneForSourceAcquisition": {
+            "lane": "D",
+            "scope": "Official PDF acquisition, field mapping and overlay for the Board's military Certificate of Expungement Application."
+          },
+          "currentFailures": [
+            "destination",
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "il-prb-cert-nonmilitary-expungement-6",
+          "role": "primary_filing",
+          "unitId": "il-prb-cert-nonmilitary-expungement-branch",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-nonmilitary-expungement-6/dependency.json"
+          ],
+          "dependencyRecordSha256": "6613e09e3a0e45c1f27ab3a0cd10e9ea03341ddb1312710a619c4ba5cc6f6f00",
+          "supportingAuthority": {
+            "citation": "20 ILCS 2630/5.2(e-6)",
+            "citationNote": "The substantive subsection is recorded. What is missing is the vehicle: the application form by which a non-military participant asks the Board for a § 5.2(e-6) certificate. No procedural citation is supplied because none is recorded.",
+            "sourceRef": "registry@3b6f4c1:tracks[142].units[3] (outputStrategyStatus unresolved, available false, unavailableReason); .releaseBlockers[2]; .authority[1]"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": null,
+            "exactMissingSource": "Section 5.2(e-6) refers to a certificate of eligibility for expungement, but no general non-military expungement-certificate application has been located on the Prisoner Review Board's site. The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted. Nothing is drafted: no caption, no title, no narrative prompts, no declaration, no signature block, no field map and no substitute application."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": null,
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": null,
+          "drafted": false,
+          "draftingProhibitedBecause": "Section 5.2(e-6) refers to a certificate of eligibility for expungement, but no general non-military expungement-certificate application has been located on the Prisoner Review Board's site. The filing vehicle for this branch is unverified, so no packet is generated and no form mapping is asserted. Nothing is drafted: no caption, no title, no narrative prompts, no declaration, no signature block, no field map and no substitute application.",
+          "owningLaneForSourceAcquisition": {
+            "lane": "D",
+            "laneNote": "Lane D owns the acquisition IF a form exists. It cannot act until lane F establishes whether one does — the track's implementationQueue is F_source_problem.",
+            "scope": "Lane F source resolution first: search the Illinois Prisoner Review Board's published materials, its Guidelines series, and any Board rule under 730 ILCS 5/3-3-2(a)(10) or 730 ILCS 5/5-5.5 for an application by which a non-military petitioner requests a certificate of eligibility for expungement under 20 ILCS 2630/5.2(e-6). If such a form exists, lane D acquires it, hashes it, maps its fields and builds the overlay. If no such form exists, the branch is a legal-design question for lane E — what does the Board actually accept from a non-military petitioner seeking an expungement certificate, and is there a vehicle at all — and lane C still drafts nothing, because the Board publishes its own forms for both sibling branches and a bespoke application would invent a vehicle."
+          },
+          "currentFailures": [
+            "destination",
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "il-prb-cert-primary-filing-5",
+          "role": "primary_filing",
+          "unitId": "il-prb-cert-court-petition",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-5/dependency.json"
+          ],
+          "dependencyRecordSha256": "6c6f4ecabff466e9ea334dead8746bbe4f55cbcf4aab384f3eced01b0674eb9e",
+          "supportingAuthority": {
+            "citation": "20 ILCS 2630/5.2(d)(2)",
+            "sourceRef": "registry@3b6f4c1:tracks[142].units[4] (outputStrategy official_pdf_fill, outputStrategyStatus resolved, available true); .authority[2]; .mechanism; .venue; .packetSet.components[4]"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": null,
+            "exactMissingSource": "EXP-AD Request — current official form from Illinois Supreme Court Commission on Access to Justice / Illinois Courts; not acquired in this repository."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": null,
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": null,
+          "drafted": false,
+          "draftingProhibitedBecause": "The Illinois statewide adult expungement and sealing suite is mandatory. The Illinois Supreme Court Commission on Access to Justice approved these forms and all Illinois circuit courts are required to accept them. Drafting a bespoke pleading for stage 2 would be affirmatively wrong, not merely unnecessary. Lane C drafts no substitute, no replica and no field map.",
+          "owningLaneForSourceAcquisition": {
+            "lane": "D",
+            "scope": "Official PDF acquisition, field mapping and overlay for the statewide adult Request suite as applied to this track, including how the Prisoner Review Board certificate is attached under § 5.2(d)(2) and how the per-case expunge-versus-seal election column is left for manual completion."
+          },
+          "currentFailures": [
+            "destination",
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "il-prb-cert-attachment-2",
+          "role": "attachment",
+          "unitId": "il-prb-cert-attachment-2-unit",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-attachment-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "d64aefd8024620705f7cd8ae526aaac76d4ce520e042b6303344bdb073f9e1fb",
+          "supportingAuthority": {
+            "citation": null,
+            "citationNote": "Recorded as an attachment requirement of the certificate application; the component's dependency record carries its source reference.",
+            "sourceRef": "registry@3b6f4c1:tracks[142].legalDesignLimitations[1]; .packetInstructions[0]"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": null,
+            "exactMissingSource": "PRB Certificate of Sealing Eligibility Acknowledgement — current official form from Illinois Prisoner Review Board; not acquired in this repository."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": null,
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": null,
+          "drafted": false,
+          "draftingProhibitedBecause": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map.",
+          "owningLaneForSourceAcquisition": {
+            "lane": "D",
+            "scope": "Official PDF acquisition, field mapping and overlay for the Board's Certificate of Sealing Acknowledgement. Lane D also owns resolving the undated-revision question (cf-04) as part of source capture."
+          },
+          "currentFailures": [
+            "destination",
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "il-prb-cert-attachment-4",
+          "role": "attachment",
+          "unitId": "il-prb-cert-attachment-4-unit",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-attachment-4/dependency.json"
+          ],
+          "dependencyRecordSha256": "8f15ff0016aef55111836d45c040a5381fc297e095797225e31365cb1afc21f6",
+          "supportingAuthority": {
+            "citation": null,
+            "citationNote": "Recorded as an attachment requirement of the certificate application; the component's dependency record carries its source reference.",
+            "sourceRef": "registry@3b6f4c1:tracks[il-prb-cert].packetSet.components"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": null,
+            "exactMissingSource": "PRB Certificate of Expungement for Military Eligibility Acknowledgement — current official form from Illinois Prisoner Review Board; not acquired in this repository."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": null,
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": null,
+          "drafted": false,
+          "draftingProhibitedBecause": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map.",
+          "owningLaneForSourceAcquisition": {
+            "lane": "D",
+            "scope": "Official PDF acquisition, field mapping and overlay for the Board's military Eligibility Acknowledgement. Lane D also owns resolving the undated-revision question (cf-04) as part of source capture."
+          },
+          "currentFailures": [
+            "destination",
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "mt_mmrta_serving",
+      "jurisdiction": "MT",
+      "routeDir": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/route.json",
+        "sha256": "3680859a113a2e62d46f19a15436c58741bbd311389b084e8de966c17eea0a03"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/participant-instructions.md",
+        "sha256": "78e871ce304ec6b07038cd28372d953fdabe53fe6ed0b69872c6c726c69e99d1"
+      },
+      "treatment": "complete_composed_route",
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b First terminalization integration window: B, C, E, D1 by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "mt_mmrta_serving-primary-filing-1",
+          "role": "primary_filing",
+          "unitId": "mt-mmrta-serving-form-a",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-1/dependency.json"
+          ],
+          "dependencyRecordSha256": "e972ada1b96aef87443c94afc104efd23307c33718610498fd82efa771d0c4b6",
+          "supportingAuthority": {
+            "citation": "Mont. Code Ann. § 16-12-113(1)-(2)",
+            "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].units[0]; registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[0] (role primary_filing, officialFormId MT-FORM-A)"
+          },
+          "exactMissingForm": {
+            "officialFormId": "MT-FORM-A",
+            "officialFormName": "MMRTA Form A — Petition for Expungement, Resentencing, or Redesignation (currently serving)",
+            "exactMissingSource": "MMRTA Form A field map and overlay — a field-by-field map of the current Office of the Court Administrator Form A (form-a.docx, sha256 968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d) published at https://courts.mt.gov/Forms/mmrta. Also required: the AF 22-0129 Temporary Rules text, which may impose filing or service requirements not reflected on the form."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+            "officialSourceIndex": "https://courts.mt.gov/Forms/mmrta",
+            "officialSourceUrlForForm": "https://courts.mt.gov/Forms/mmrta"
+          },
+          "acquisitionStatus": "binary_retained_no_field_map",
+          "drafted": false,
+          "draftingProhibitedBecause": "Adopted packet instruction on this track: “YES — STAGED OFFICIAL-FORM PACKET. OCA MMRTA Form A is expressly designed for the currently-serving posture. That posture is a scope restriction and a substantive-choice warning, not a reason to downgrade the mechanism to guidance.” The Montana state pack records the same: Montana provides official self-represented packets, so these map to official forms rather than a custom pleading.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-form field-map and overlay acquisition — registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "mt_mmrta_serving-certificate-of-service-2",
+          "role": "certificate_of_service",
+          "unitId": "mt-mmrta-serving-certificate-of-service",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "3da40069c673521096eb4d0f2b86a2866b771c38180d9db63efe5ddffe2ec960",
+          "supportingAuthority": {
+            "citation": "Mont. Code Ann. § 16-12-113(2) (county-attorney reasonable-basis rebuttal); Mont. Sup. Ct. AF 22-0129 Temporary Rules",
+            "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[1] (role certificate_of_service, officialFormId MT-OCA-MMRTA); registry@3b6f4c1:tracks[mt_mmrta_serving].rules.notice / .service"
+          },
+          "exactMissingForm": {
+            "officialFormId": "MT-OCA-MMRTA",
+            "officialFormName": "Certificate of Service — MMRTA Petition",
+            "exactMissingSource": "Certificate of Service — MMRTA Petition, Montana Office of the Court Administrator, https://courts.mt.gov/Forms/mmrta (sha256 d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9): a distinct Master Library document ID separating it from the Proposed Order, plus a field map for the binary."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+            "officialSourceIndex": "https://courts.mt.gov/Forms/mmrta",
+            "officialSourceUrlForForm": "https://courts.mt.gov/Forms/mmrta"
+          },
+          "acquisitionStatus": "binary_retained_document_id_conflict",
+          "drafted": false,
+          "draftingProhibitedBecause": "Official Office of the Court Administrator form published as part of the MMRTA form set. The adopted packet instruction directs that the official form set is the product; a drafted substitute would displace a controlling official form.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source identity and field-map acquisition — Master Library successor edition must assign this form its own document ID; registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "mt_mmrta_serving-proposed-order-3",
+          "role": "proposed_order",
+          "unitId": "mt-mmrta-serving-proposed-order",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json"
+          ],
+          "dependencyRecordSha256": "808f8dac20b6fdc8084e3e331444ce6afa2a8eb19ca4fc22fdb5f6db0e420a20",
+          "supportingAuthority": {
+            "citation": "Mont. Code Ann. § 16-12-113(2)",
+            "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[2] (role proposed_order, officialFormId MT-OCA-MMRTA)"
+          },
+          "exactMissingForm": {
+            "officialFormId": "MT-OCA-MMRTA",
+            "officialFormName": "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA",
+            "exactMissingSource": "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA, Montana Office of the Court Administrator, https://courts.mt.gov/Forms/mmrta (sha256 2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e): a distinct Master Library document ID separating it from the Certificate of Service, plus a field map for the binary."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+            "officialSourceIndex": "https://courts.mt.gov/Forms/mmrta",
+            "officialSourceUrlForForm": "https://courts.mt.gov/Forms/mmrta"
+          },
+          "acquisitionStatus": "binary_retained_document_id_conflict",
+          "drafted": false,
+          "draftingProhibitedBecause": "Official Office of the Court Administrator form published as part of the MMRTA form set. The order is the court's; the adopted packet instruction directs that the official form set is the product.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source identity and field-map acquisition — Master Library successor edition must assign this form its own document ID; registry implementationQueue: F_source_problem",
+          "currentFailures": [
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "mt_mmrta_serving-fee-waiver-0",
+          "role": "fee_waiver_application",
+          "unitId": "mt-mmrta-serving-fee-waiver",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-fee-waiver-0/dependency.json"
+          ],
+          "dependencyRecordSha256": "bff20f8a3bde65d09e327efe0540506015bd316eeb04a340e6d0916b100b54c2",
+          "supportingAuthority": {
+            "citation": "Montana Office of the Court Administrator MMRTA instructions (fee-waiver routing); Montana Legal Services Association, Statement of Inability to Pay Court Costs and Fees",
+            "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].participantFilingRequirements[3]; registry@3b6f4c1:tracks[mt_mmrta_serving].rules.feeWaiver; registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.participantActionRequired[kind=apply_fee_waiver]"
+          },
+          "exactMissingForm": {
+            "officialFormId": null,
+            "officialFormName": "Statement of Inability to Pay Court Costs and Fees",
+            "exactMissingSource": "A licence from Montana Legal Services Association / Montana Supreme Court Access to Justice Commission permitting commercial reproduction of the Statement of Inability to Pay Court Costs and Fees, or an unrestricted equivalent official form. Absent either, the form stays a link-out to montanalawhelp.org."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Montana Legal Services Association (published on montanalawhelp.org); the packet carrying this form is stamped as a Montana Legal Services Association and Montana Supreme Court Access to Justice Commission product",
+            "officialSourceIndex": "https://www.montanalawhelp.org",
+            "officialSourceUrlForForm": null
+          },
+          "acquisitionStatus": "not_reproducible_license_restricted",
+          "drafted": false,
+          "draftingProhibitedBecause": "The Montana Legal Services Association / Montana Supreme Court Access to Justice Commission packets are stamped “© 2025 Montana Legal Services Association and Montana Supreme Court Access to Justice Commission. This form may be used for non-commercial purposes only.” Expungement.ai is a paid product, so reproducing or distributing the form inside a packet is a commercial use. The form is a drafting reference only: never generated, never relabelled, never converted, never lightly rewritten, never runtime-selectable and never generation_allowed.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition and licensing — a link-out is the only permitted treatment unless a licence to reproduce is obtained from Montana Legal Services Association.",
+          "currentFailures": [
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "mt_mmrta_serving-primary-filing-5",
+          "role": "primary_filing",
+          "unitId": "mt-mmrta-serving-criss-request",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-5/dependency.json"
+          ],
+          "dependencyRecordSha256": "a3ed58f978fec63b2b71fac7f890ee3f2ae795662e9fd7551934638a72a9a6aa",
+          "supportingAuthority": {
+            "citation": "Mont. Code Ann. § 46-18-1110(2)(b); Montana DOJ Conviction Expungement Process",
+            "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].units[1]; registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[4] (role primary_filing, requirement conditional, officialFormId EXPUNGEMENTREMOVALREQUESTFORM.DOCX)"
+          },
+          "exactMissingForm": {
+            "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+            "officialFormName": "Expungement/Removal Request Form — Montana Department of Justice, Criminal Records Information Services Section (CRISS), updated 29 April 2024",
+            "exactMissingSource": "Two things: (1) reclassification of EXPUNGEMENTREMOVALREQUESTFORM.DOCX from SUPPORTING_PROCESS / SUPPORTING_FORM to a packet form in a successor Master Library edition, so it can back an official_pdf_fill component; and (2) confirmation from the Montana Department of Justice of which CRISS Expungement/Removal Request Form version is enforced in practice and what the current required attachment set is (the 2023 PDF requires valid photo identification for two request types and the “Original Court Order” for misdemeanour expungement; the 2024 DOCX at https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx drops the photo-ID requirement, requires the “Original Court Judgement” instead, and adds “Deferred Prosecution” to the fourth request type)."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation, Criminal Records Information Services Section (CRISS)",
+            "officialSourceIndex": "https://dojmt.gov/dci-home/conviction-expungement-process/",
+            "officialSourceUrlForForm": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx"
+          },
+          "acquisitionStatus": "binary_retained_asset_class_mismatch",
+          "drafted": false,
+          "draftingProhibitedBecause": "This is a genuine Department of Justice agency form and the required and only vehicle for the DOJ stage. Sections 46-18-1110(2)(b) and 46-18-204(2) both refer to a form prepared by the department of justice. A drafted letter or substitute would displace it.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition and Master Library reclassification (proposed Edition 1.2) — registry implementationQueue: F_source_problem. Edition 1.1 is not modified.",
+          "currentFailures": [
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "tx_nd_veterans_reemployment",
+      "jurisdiction": "TX",
+      "routeDir": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/route.json",
+        "sha256": "ceed08661c492b0b890edc242f08c91d6bbbf52a992bf022046968c7b7eebcc0"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/participant-instructions.md",
+        "sha256": "f75147d48acde1fa0350c112bbefc54ece5ffb5f007cc3326e6f1426cc3d6d61"
+      },
+      "treatment": "complete_composed_route",
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "f20971ddc5aacc3bbf3f9e86c9996cef603bec0b First terminalization integration window: B, C, E, D1 by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "tx_nd_veterans_reemployment-petition-2",
+          "role": "petition",
+          "unitId": "tx-nd0729-oca-petition",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-petition-2/dependency.json"
+          ],
+          "dependencyRecordSha256": "414d477da19aea526615a1ebd2a5954f16074d1505bc2108fea44c0203d9e6ef",
+          "supportingAuthority": {
+            "citation": "Tex. Gov't Code 411.0745, read with 411.0729",
+            "sourceRef": "registry@3b6f4c1:tracks[422].units[1] (outputStrategy official_pdf_fill, outputStrategyStatus resolved, packetIdentity identified, available true); registry@3b6f4c1:tracks[422].authority[3]; registry@3b6f4c1:tracks[422].rules.filing"
+          },
+          "exactMissingForm": {
+            "officialFormId": "OCA Model Petition for an Order of Nondisclosure under Section 411.0729",
+            "officialFormName": "Petition for an Order of Nondisclosure under Section 411.0729, Texas Office of Court Administration model form (located copy carries a February 2022 footer)",
+            "exactMissingSource": "OCA Model Petition for an Order of Nondisclosure under Section 411.0729 — the PDF itself at https://www.txcourts.gov/media/1454256/petition-for-nondisclosure-under-section-411-0729.pdf, at its CURRENT revision (the located copy footers read February 2022), plus a captured sha256 and a field map; and the OCA instructions for completing it at https://www.txcourts.gov/media/1463066/instructions-for-completing-petition-for-nondisclosure-under-section-4110729.pdf, likewise at current revision with a hash. Both are recorded with sha256 null, and no copy of either is in the Texas Nationwide inventory."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Texas Office of Court Administration",
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": "https://www.txcourts.gov/media/1454256/petition-for-nondisclosure-under-section-411-0729.pdf"
+          },
+          "acquisitionStatus": "url_recorded_no_copy_on_file_no_hash_revision_stale",
+          "drafted": false,
+          "draftingProhibitedBecause": "It is an official OCA statewide model form with a recorded officialFormId and officialSourceUrl, and the registry classifies the unit official_pdf_fill with packetIdentity 'identified'. Lane C drafts no official forms. The OCA nondisclosure documents are statewide MODEL forms — not mandatory and not promulgated. Gov't Code 411.0745(c) and (d) direct OCA to prescribe and publish a form for petitions filed electronically or by mail and require every county and district clerk website to link to it, so they sit closer to a statutorily authorised statewide model than to a sample, and county clerks across Texas republish them and refer filers to the OCA site. Nothing in Subchapter E-1 makes the form mandatory or forbids a differently drafted petition, and this artifact does not assert that it is mandatory. The registry nevertheless classifies this unit official_pdf_fill with packetIdentity 'identified', so the route uses the OCA form rather than a drafted substitute, and lane C drafts no official forms.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-PDF overlay and official-source acquisition",
+          "currentFailures": [
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "what_not_to_file_or_assume",
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "tx_nd_veterans_reemployment-proposed-order-3",
+          "role": "proposed_order",
+          "unitId": "tx-nd0729-oca-order",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-proposed-order-3/dependency.json"
+          ],
+          "dependencyRecordSha256": "e354b6584d06d6684ac74e83d989d9ba0659596f046ba64053cf79d6b8ce4305",
+          "supportingAuthority": {
+            "citation": "Tex. Gov't Code 411.0729 and 411.0745",
+            "sourceRef": "registry@3b6f4c1:tracks[422].packetSet.components[2] (role proposed_order, requirement conditional 'Filed with the petition on the petition route.', outputStrategy official_pdf_fill, order 3); registry@3b6f4c1:tracks[422].units[1]"
+          },
+          "exactMissingForm": {
+            "officialFormId": "OCA Model Order of Nondisclosure under Section 411.0729",
+            "officialFormName": "Order of Nondisclosure under Section 411.0729, Texas Office of Court Administration model form (located copy carries a February 2022 footer)",
+            "exactMissingSource": "OCA Model Order of Nondisclosure under Section 411.0729 — the PDF itself at https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf, at its CURRENT revision (the located copy footers read February 2022), plus a captured sha256 and a field map. Recorded with sha256 null and no copy in the Texas Nationwide inventory."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Texas Office of Court Administration",
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": "https://www.txcourts.gov/media/1454257/order-of-nondisclosure-sec-411-0729.pdf"
+          },
+          "acquisitionStatus": "url_recorded_no_copy_on_file_no_hash_revision_stale",
+          "drafted": false,
+          "draftingProhibitedBecause": "It is an official OCA statewide model form AND it is a court order. Lane C drafts no official forms and drafts no order text. Drafting a substitute would invent the operative terms of a nondisclosure order, including which agencies the Department of Public Safety must notify. The OCA nondisclosure documents are statewide MODEL forms — not mandatory and not promulgated. Gov't Code 411.0745(c) and (d) direct OCA to prescribe and publish a form for petitions filed electronically or by mail and require every county and district clerk website to link to it, so they sit closer to a statutorily authorised statewide model than to a sample, and county clerks across Texas republish them and refer filers to the OCA site. Nothing in Subchapter E-1 makes the form mandatory or forbids a differently drafted petition, and this artifact does not assert that it is mandatory. The registry nevertheless classifies this unit official_pdf_fill with packetIdentity 'identified', so the route uses the OCA form rather than a drafted substitute, and lane C drafts no official forms.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-PDF overlay and official-source acquisition",
+          "currentFailures": [
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "what_not_to_file_or_assume",
+            "briefcase_handoff",
+            "payment_suppression",
+            "credit_suppression"
+          ]
+        },
+        {
+          "componentId": "tx_nd_veterans_reemployment-fee-waiver-statement-4",
+          "role": "fee_waiver_statement",
+          "unitId": "tx-nd0729-fee-waiver",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-fee-waiver-statement-4/dependency.json"
+          ],
+          "dependencyRecordSha256": "55a0fdd1cc26ffca37ae71d1c0ea17d70a7a3a34bfc1506b6693e7b2c2769051",
+          "supportingAuthority": {
+            "citation": "Tex. R. Civ. P. 145, read with Tex. Gov't Code 411.0745(b)",
+            "sourceRef": "registry@3b6f4c1:tracks[422].rules.feeWaiver; registry@3b6f4c1:tracks[422].rules.fees; registry@3b6f4c1:tracks[422].packetSet.components[3]"
+          },
+          "exactMissingForm": {
+            "officialFormId": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "officialFormName": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), approved by the Supreme Court of Texas in Misc. Docket No. 22-9090 under Tex. R. Civ. P. 145",
+            "exactMissingSource": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090 — the PDF itself at https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf, plus a captured sha256, its current revision date and a field map. Recorded with sha256 null and no copy in the Texas Nationwide inventory."
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Supreme Court of Texas",
+            "officialSourceIndex": null,
+            "officialSourceUrlForForm": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf"
+          },
+          "acquisitionStatus": "url_recorded_no_copy_on_file_no_hash_revision_stale",
+          "drafted": false,
+          "draftingProhibitedBecause": "It is an official promulgated statewide form — the only genuinely statewide promulgated form in the entire Texas record-clearing workflow — and Rule 145 requires the clerk to make it available without charge or request. Lane C drafts no official forms. Drafting a substitute would invent the sworn financial disclosures on which the waiver turns.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-PDF overlay and official-source acquisition",
+          "currentFailures": [
+            "packet_absence_disclosure",
+            "gathering_instructions",
+            "what_not_to_file_or_assume",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "vt_exp_deferred_sentence",
+      "jurisdiction": "VT",
+      "routeDir": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence",
+      "routeJson": {
+        "path": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/route.json",
+        "sha256": "256334e09bbd4db532b71c9968b627aed365602fcc3d3e5cdc08ec354bf927f1"
+      },
+      "participantInstructions": {
+        "path": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/participant-instructions.md",
+        "sha256": "2a34dc2cf33a493a6e3be3b0c4dc5daa7d6d3a3e7850b6751438677be9992be4"
+      },
+      "treatment": "complete_composed_route",
+      "implementationBranch": "claude/rcap-terminalize-c-pleadings / -c2- / -c3- (lane C)",
+      "implementationSourceCommit": "8c9e83b8962d13de45c2bbb5aca29a67c700759f Refresh terminalization integration: current B/C/E/F1/D0 inputs by owned path",
+      "priorReviewDisposition": {
+        "reviewer": "F2 wave-2 lane C (claude/rcap-review-f2-wave2-c @ 0216a407)",
+        "outcome": "technical_approved",
+        "captainAction": "not accepted; escalated for owner standard determination",
+        "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear — that is why this is escalated for an owner standard determination rather than returned as a defect."
+      },
+      "components": [
+        {
+          "componentId": "vt_exp_deferred_sentence-record-check-0",
+          "role": "record_check_request",
+          "unitId": "vt-deferred-record-check",
+          "existingFiles": [
+            "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/components/vt_exp_deferred_sentence-record-check-0/dependency.json"
+          ],
+          "dependencyRecordSha256": "b925fa3b53b25e7339fb3ffdb87232d960ebb8674f5e3bacd7ae166f3003ece0",
+          "supportingAuthority": {
+            "citation": "Form 200-00331, Request for Criminal Record Search (rev. 05/2026)",
+            "sourceRef": "registry@3b6f4c1:tracks[vt_exp_deferred_sentence].packetSet.participantFilingRequirements[2]; .officialSources[2]; .generationRequirements[key=orderIssued]"
+          },
+          "exactMissingForm": {
+            "officialFormId": "200-00331",
+            "officialFormName": "Request for Criminal Record Search (rev. 05/2026)",
+            "exactMissingSource": "Form 200-00331, Request for Criminal Record Search (rev. 05/2026) — current official Vermont Judiciary PDF at https://www.vtcourts.gov/sites/default/files/documents/200-00331%20%E2%80%93%20Request%20for%20Criminal%20Record%20Search.pdf"
+          },
+          "issuingAuthorityOrDestination": {
+            "issuingAuthority": "Vermont Judiciary",
+            "officialSourceIndex": "https://www.vtcourts.gov/criminal/expungement",
+            "officialSourceUrlForForm": "https://www.vtcourts.gov/sites/default/files/documents/200-00331%20%E2%80%93%20Request%20for%20Criminal%20Record%20Search.pdf"
+          },
+          "acquisitionStatus": "not_acquired",
+          "drafted": false,
+          "draftingProhibitedBecause": "This is an official Vermont Judiciary form. The registry names it by number and instructs the participant to complete it and submit it to the court in the county. No custom substitute may be drafted for an official form.",
+          "owningLaneForSourceAcquisition": "lane-D/E official-source acquisition",
+          "currentFailures": [
+            "gathering_instructions",
+            "briefcase_handoff",
+            "credit_suppression"
+          ]
+        }
+      ]
+    }
+  ]
+}

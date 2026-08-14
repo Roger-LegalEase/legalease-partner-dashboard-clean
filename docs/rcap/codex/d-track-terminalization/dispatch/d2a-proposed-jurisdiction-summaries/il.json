@@ -1,0 +1,423 @@
+{
+  "schemaVersion": "rcap-codex-proposed-jurisdiction-summary/v1",
+  "proposalOnly": true,
+  "canonicalArtifactOverwritten": false,
+  "lane": "D2A",
+  "jurisdiction": "IL",
+  "canonicalJobId": "T-D-IL-production-packet",
+  "implementationBranch": "claude/rcap-d2a-corrections-v2",
+  "implementationCommit": "bc139e24c987728dda585a58e0736ec14b6a996a",
+  "persistenceFailure": {
+    "canonicalJurisdictionSummaryPresentAtImplementationTip": false,
+    "exactFailure": "The D2A regeneration driver writes state-index.json only and never imports the canonical job/relationship graph or writes jurisdiction-summary.json. The correction tip changes Illinois proof artifacts but does not persist track relationships.",
+    "evidence": [
+      "bc139e24c987728dda585a58e0736ec14b6a996a:scripts/rcap-official-forms/lanes/d2a-regenerate.mjs:1-17,1393-1456",
+      "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+      "d324b897a8342d81f1a73d62cd529c87b8408feb:scripts/rcap-official-forms/build-d-captain-handoff.mjs:159-176"
+    ]
+  },
+  "terminal": false,
+  "families": {
+    "IL:exp-ad-order-granting-form-en": {
+      "documentId": "EXP-AD-ORDER-GRANTING",
+      "revision": "REV-2026-06",
+      "sourceSha256": "52e06b58008d797aa861902bf6b85e281804af8b4a397c591fc1c270b0151305",
+      "finalTechnicalDisposition": "technical_approved",
+      "currentness": "none_recorded_source_reports_current",
+      "legalDesign": "legal_review_mapping_status_see_state_legal_review",
+      "evidence": [
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-order-granting-form-en]",
+        "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-order-granting-form-en]"
+      ]
+    },
+    "IL:exp-ad-request-form-en": {
+      "documentId": "EXP-AD-REQUEST",
+      "revision": "REV-2026-06",
+      "sourceSha256": "44792beaede1d03f5ea65e61dba00cdf5cb9b7c617f7ff265e55e92576cd7853",
+      "finalTechnicalDisposition": "technical_approved",
+      "currentness": "none_recorded_source_reports_current",
+      "legalDesign": "legal_review_mapping_status_see_state_legal_review",
+      "evidence": [
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-request-form-en]",
+        "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-request-form-en]"
+      ]
+    },
+    "IL:fw-civ-application-form-en": {
+      "documentId": "FW-CIV-APPLICATION",
+      "revision": "REV-2025-08",
+      "sourceSha256": "b2da395f5ba53eb3cec6bbd39a746f2152bf7f84987ea5f4b5c511ada17337f5",
+      "finalTechnicalDisposition": "technical_approved",
+      "currentness": "none_recorded_source_reports_current",
+      "legalDesign": "legal_review_mapping_status_see_state_legal_review",
+      "evidence": [
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:fw-civ-application-form-en]",
+        "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+        "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:fw-civ-application-form-en]"
+      ]
+    }
+  },
+  "tracks": [
+    {
+      "trackId": "il-exp-pardon",
+      "requiredFamilyIds": [
+        "IL:fw-civ-application-form-en"
+      ],
+      "familyEdges": [
+        {
+          "familyId": "IL:fw-civ-application-form-en",
+          "componentIds": [
+            "il-exp-pardon-fee-waiver-4"
+          ],
+          "roles": [
+            "fee-waiver"
+          ],
+          "relationshipMethod": "exact_same_jurisdiction_and_document_id",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-pardon][officialFormId=FW-CIV-APPLICATION]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:fw-civ-application-form-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:fw-civ-application-form-en]"
+          ]
+        }
+      ],
+      "candidateFamilyEdges": [
+        {
+          "familyIds": [
+            "IL:exp-ad-request-form-en",
+            "IL:exp-ad-order-granting-form-en"
+          ],
+          "status": "blocked_not_a_family_edge",
+          "reason": "The relationship IDs use spaced issuer labels while the family document IDs use normalized hyphens; no committed identity crosswalk joins them.",
+          "evidence": [
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:data/rcap-ledger/registry-crosswalk-projection.json#/tracks[trackId=il-exp-pardon]/officialFormRefs",
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-pardon]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-request-form-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-request-form-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-order-granting-form-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-order-granting-form-en]"
+          ]
+        }
+      ],
+      "unresolvedFormRelationships": [
+        {
+          "componentId": "il-exp-pardon-primary-filing-1",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-pardon][officialFormId=EXP-AD Request]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        },
+        {
+          "componentId": "il-exp-pardon-attachment-2",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-pardon][officialFormId=EXP-AD Case List]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        },
+        {
+          "componentId": "il-exp-pardon-proposed-order-3",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-pardon][officialFormId=EXP-AD Order Granting]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        }
+      ],
+      "terminal": false,
+      "proposedTerminalProductTreatment": "held_on_source_or_design",
+      "exactBlocker": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+    },
+    {
+      "trackId": "il-exp-precompletion",
+      "requiredFamilyIds": [
+        "IL:fw-civ-application-form-en"
+      ],
+      "familyEdges": [
+        {
+          "familyId": "IL:fw-civ-application-form-en",
+          "componentIds": [
+            "il-exp-precompletion-fee-waiver-4"
+          ],
+          "roles": [
+            "fee-waiver"
+          ],
+          "relationshipMethod": "exact_same_jurisdiction_and_document_id",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-precompletion][officialFormId=FW-CIV-APPLICATION]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:fw-civ-application-form-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:fw-civ-application-form-en]"
+          ]
+        }
+      ],
+      "candidateFamilyEdges": [
+        {
+          "familyIds": [
+            "IL:exp-ad-request-form-en",
+            "IL:exp-ad-order-granting-form-en"
+          ],
+          "status": "blocked_not_a_family_edge",
+          "reason": "The relationship IDs use spaced issuer labels while the family document IDs use normalized hyphens; no committed identity crosswalk joins them.",
+          "evidence": [
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:data/rcap-ledger/registry-crosswalk-projection.json#/tracks[trackId=il-exp-precompletion]/officialFormRefs",
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-precompletion]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-request-form-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-request-form-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-order-granting-form-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-order-granting-form-en]"
+          ]
+        }
+      ],
+      "unresolvedFormRelationships": [
+        {
+          "componentId": "il-exp-precompletion-primary-filing-1",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-precompletion][officialFormId=EXP-AD Request]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        },
+        {
+          "componentId": "il-exp-precompletion-attachment-2",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-precompletion][officialFormId=EXP-AD Case List]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        },
+        {
+          "componentId": "il-exp-precompletion-proposed-order-3",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-exp-precompletion][officialFormId=EXP-AD Order Granting]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        }
+      ],
+      "terminal": false,
+      "proposedTerminalProductTreatment": "held_on_source_or_design",
+      "exactBlocker": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+    },
+    {
+      "trackId": "il-seal-edu",
+      "requiredFamilyIds": [
+        "IL:fw-civ-application-form-en"
+      ],
+      "familyEdges": [
+        {
+          "familyId": "IL:fw-civ-application-form-en",
+          "componentIds": [
+            "il-seal-edu-fee-waiver-4"
+          ],
+          "roles": [
+            "fee-waiver"
+          ],
+          "relationshipMethod": "exact_same_jurisdiction_and_document_id",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-edu][officialFormId=FW-CIV-APPLICATION]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:fw-civ-application-form-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:fw-civ-application-form-en]"
+          ]
+        }
+      ],
+      "candidateFamilyEdges": [
+        {
+          "familyIds": [
+            "IL:exp-ad-request-form-en",
+            "IL:exp-ad-order-granting-form-en"
+          ],
+          "status": "blocked_not_a_family_edge",
+          "reason": "The relationship IDs use spaced issuer labels while the family document IDs use normalized hyphens; no committed identity crosswalk joins them.",
+          "evidence": [
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:data/rcap-ledger/registry-crosswalk-projection.json#/tracks[trackId=il-seal-edu]/officialFormRefs",
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-edu]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-request-form-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-request-form-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-order-granting-form-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-order-granting-form-en]"
+          ]
+        }
+      ],
+      "unresolvedFormRelationships": [
+        {
+          "componentId": "il-seal-edu-primary-filing-1",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-edu][officialFormId=EXP-AD Request]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        },
+        {
+          "componentId": "il-seal-edu-attachment-2",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-edu][officialFormId=EXP-AD Case List]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        },
+        {
+          "componentId": "il-seal-edu-proposed-order-3",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-edu][officialFormId=EXP-AD Order Granting]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        }
+      ],
+      "terminal": false,
+      "proposedTerminalProductTreatment": "held_on_source_or_design",
+      "exactBlocker": "Whether the educational-credential waiver at § 5.2(c)(3)(E) reaches the two-year categories. The enrolled text lists (c)(2)(C), (D), (E) and (F) and omits (c)(2)(C-5); Illinois Legal Aid says the two-year period cannot be waived."
+    },
+    {
+      "trackId": "il-seal-nonconv",
+      "requiredFamilyIds": [
+        "IL:fw-civ-application-form-en"
+      ],
+      "familyEdges": [
+        {
+          "familyId": "IL:fw-civ-application-form-en",
+          "componentIds": [
+            "il-seal-nonconv-fee-waiver-4"
+          ],
+          "roles": [
+            "fee-waiver"
+          ],
+          "relationshipMethod": "exact_same_jurisdiction_and_document_id",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-nonconv][officialFormId=FW-CIV-APPLICATION]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:fw-civ-application-form-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:fw-civ-application-form-en]"
+          ]
+        }
+      ],
+      "candidateFamilyEdges": [
+        {
+          "familyIds": [
+            "IL:exp-ad-request-form-en",
+            "IL:exp-ad-order-granting-form-en"
+          ],
+          "status": "blocked_not_a_family_edge",
+          "reason": "The relationship IDs use spaced issuer labels while the family document IDs use normalized hyphens; no committed identity crosswalk joins them.",
+          "evidence": [
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:data/rcap-ledger/registry-crosswalk-projection.json#/tracks[trackId=il-seal-nonconv]/officialFormRefs",
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-nonconv]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-request-form-en]",
+            "bc139e24c987728dda585a58e0736ec14b6a996a:data/rcap-all50/overlays/production/illinois/state-index.json",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-request-form-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[familyId=IL:exp-ad-order-granting-form-en]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrections-v2/captain-handoff.json#/gate1|gate2|gate3/families[familyId=IL:exp-ad-order-granting-form-en]"
+          ]
+        }
+      ],
+      "unresolvedFormRelationships": [
+        {
+          "componentId": "il-seal-nonconv-primary-filing-1",
+          "officialFormId": "EXP-AD Request",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62dae17d-e95a-4185-9242-a8cce2bcffde/EXP-AD Request.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-nonconv][officialFormId=EXP-AD Request]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        },
+        {
+          "componentId": "il-seal-nonconv-attachment-2",
+          "officialFormId": "EXP-AD Case List",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD Case List Request to Expunge Seal Records.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-nonconv][officialFormId=EXP-AD Case List]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        },
+        {
+          "componentId": "il-seal-nonconv-proposed-order-3",
+          "officialFormId": "EXP-AD Order Granting",
+          "officialSourceUrl": "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/b66093d0-5c81-4d08-9d14-f8fd8f911c21/EXP-AD Order Granting.pdf",
+          "relationshipSourceSha256": null,
+          "corpusState": "unchecked",
+          "status": "unresolved",
+          "reasonCode": "no_exact_family_document_id_match",
+          "exactReason": "No corrected D family in the same jurisdiction has a documentId exactly equal to this pinned officialFormId; no alias, title, prefix, or revision substitution was inferred.",
+          "evidence": [
+            "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5:data/record-clearing/legal-design-track-source-relationships.json#/relationships[trackId=il-seal-nonconv][officialFormId=EXP-AD Order Granting]",
+            "d324b897a8342d81f1a73d62cd529c87b8408feb:docs/record-clearing/d-wave/corrected-review-manifest.json#/families[jurisdiction=IL]"
+          ]
+        }
+      ],
+      "terminal": false,
+      "proposedTerminalProductTreatment": "held_on_source_or_design",
+      "exactBlocker": "County filing fees statewide. Published examples run from roughly $60 to $235 and there is no statewide schedule, so a county fee table must be built before a fee figure is shown to a participant."
+    }
+  ]
+}

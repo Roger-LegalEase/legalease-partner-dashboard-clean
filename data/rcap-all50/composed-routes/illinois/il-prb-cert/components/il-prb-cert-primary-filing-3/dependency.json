@@ -1,0 +1,82 @@
+{
+ "schemaVersion": "rcap-composed-route/v1",
+ "componentId": "il-prb-cert-primary-filing-3",
+ "componentIdSource": "registry@3b6f4c1:tracks[142].packetSet.components[2].componentId",
+ "unitId": "il-prb-cert-military-branch",
+ "trackId": "il-prb-cert",
+ "jurisdictionCode": "IL",
+ "stage": "1 — Prisoner Review Board (agency)",
+ "role": "primary_filing",
+ "requiredOutput": "official_form_dependency",
+ "outputStrategy": "official_pdf_fill",
+ "outputStrategyStatus": "resolved",
+ "requirement": "conditional",
+ "conditionDescription": "Military branch only, where eligibility rests on military service.",
+ "available": true,
+ "drafted": false,
+ "draftingProhibited": {
+  "prohibited": true,
+  "reason": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map.",
+  "sourceStatements": [
+   "registry@3b6f4c1:tracks[142].packetSet.components[2]: outputStrategy \"official_pdf_fill\", officialFormId \"PRB Certificate of Expungement for Military Application\", role primary_filing, requirement conditional, order 3.",
+   "registry@3b6f4c1:tracks[142].units[2].description: \"Generate the Board's Certificate of Expungement for Military Eligibility Acknowledgement and application, v9.18.24. This branch is military-specific and is offered only where the participant's eligibility rests on military service. It is not a general certificate-of-expungement application.\""
+  ]
+ },
+ "officialForms": [
+  {
+   "officialFormId": "PRB Certificate of Expungement for Military Application",
+   "publisher": "Illinois Prisoner Review Board",
+   "revision": "v9.18.24",
+   "formType": "fillable AcroForm",
+   "corpusPath": "private/Nationwide Record Clearing/LegalEase Illinois/forms/PRB-Certificate-of-Expungement-for-Military-Application__military-certificate-of-expungement-application__rev-2024-09-18.pdf",
+   "corpusPathSource": "registry@3b6f4c1:tracks[142].packetSet.components[2].officialSourceUrl",
+   "publicUrl": null,
+   "sha256": null,
+   "sha256Note": "No hash is recorded for this form anywhere in the pinned registry entry. See counsel flag cf-15."
+  }
+ ],
+ "owningLane": {
+  "lane": "D",
+  "scope": "Official PDF acquisition, field mapping and overlay for the Board's military Certificate of Expungement Application."
+ },
+ "mandatoryOfficialFormHandoff": true,
+ "hardRoutingConstraint": {
+  "constraint": "This form must NEVER be offered to a participant whose eligibility does not rest on military service. It is military-specific and is not a general certificate-of-expungement application. A § 5.2(e-5) sealing certificate and a § 5.2(e-6) expungement certificate remain legally distinct.",
+  "failureMode": "The non-military § 5.2(e-6) branch (unit il-prb-cert-nonmilitary-expungement-branch) is blocked because no non-military expungement-certificate application has been located. The predictable error is routing that participant here because this is the only expungement-certificate form that exists. Routing logic must hard-block that fall-through.",
+  "sourceRef": "registry@3b6f4c1:tracks[142].scopeRestrictions[1]; .legalDesignLimitations[7]; .units[3].unavailableReason; counsel flag cf-02"
+ },
+ "participantTreatment": {
+  "prefill": "screening",
+  "protectedBlank": true,
+  "outsidePartyBlank": true,
+  "prefillFields": [
+   "countyOfConviction",
+   "caseNumber",
+   "eligibilityRestsOnMilitaryService",
+   "priorPrbPetition",
+   "priorClemencyPetition"
+  ],
+  "confirmFields": [
+   "eligibilityRestsOnMilitaryService against the DD-214 or similar proof of military service, requested from the National Personnel Records Center or the service branch"
+  ],
+  "authoredByParticipant": [
+   "offenseFactsStatement",
+   "personalLifeHistory, including whether the participant served in the military",
+   "reasonsForSeekingCertificate"
+  ],
+  "manualCompletion": [
+   "Notarised perjury declaration — 'Signed and sworn before me' block.",
+   "Petitioner's signature — Signature of Petitioner."
+  ],
+  "protectedBlankNote": "Board hearing date, Board decision and any prediction of Board discretion are left blank. No characterisation of the participant's military service or discharge is generated; it comes from their own DD-214.",
+  "outsidePartyBlankNote": "The notary's jurat and the National Personnel Records Center's response are left blank. LegalEase does not obtain, receive or inspect the DD-214."
+ },
+ "unresolvedForThisComponent": [
+  "No public URL and no SHA-256 is recorded; staleness cannot be detected (counsel flag cf-15).",
+  "Whether the military Eligibility Acknowledgement (component il-prb-cert-attachment-4) carries the same acknowledgement-first rejection rule as the Certificate of Sealing Acknowledgement. The rejection rule is recorded only on the Certificate of Sealing Guidelines (counsel flag cf-04).",
+  "Whether the Board's Guidelines for the military certificate differ from the Certificate of Sealing Guidelines on the 75-day deadline, the four-year bar, the supporting-documentation list or the proof-of-delivery requirement. The registry records those rules once, against the Certificate of Sealing Guidelines."
+ ],
+ "producesNoPacket": false,
+ "exactMissingSource": "PRB Certificate of Expungement for Military Application — current official form from Illinois Prisoner Review Board; not acquired in this repository.",
+ "draftingProhibitedBecause": "This is a mandatory official form published by the Illinois Prisoner Review Board. The registry records outputStrategy official_pdf_fill with outputStrategyStatus resolved, names the form, and points at the retrieved PDF in the Nationwide corpus. Lane C drafts no substitute, no replica and no field map."
+}

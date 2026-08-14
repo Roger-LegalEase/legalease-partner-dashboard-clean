@@ -1,0 +1,41 @@
+{
+  "fixtureId": "dc_seal_fugitive-negative",
+  "description": "Negative fixture. Every clause below is content the source does not supply: a finding this Court has not made, the prosecutor's position, a fee where the court's own instruction sheet states none, service already completed, a fabricated Code section, and populated docket, tracking-number and judge fields that belong to the court. runPleadingQa passes this motion — it checks relief vocabulary, template grade and the footer, and cannot see invented content (lane C1 finding 1). The invention and protected-field detectors are what must catch it.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:prosecutor_position",
+    "invention:fee_amount",
+    "invention:service_completed",
+    "invention:unsourced_citation",
+    "protected_field:populated"
+  ],
+  "partyData": {
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "1000 Sample Street NW, Washington, DC 20001"
+  },
+  "caseData": {
+    "countyName": "the District of Columbia",
+    "docketNumber": "2019-CMD-000042",
+    "otn": "DC0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "500 Indiana Avenue NW, Washington, DC 20001"
+  },
+  "chargeData": {
+    "chargeDescription": "Charge stated in the participant's record (synthetic)",
+    "disposition": "Resolved (synthetic)",
+    "arrestDate": "06/02/2019",
+    "arrestingAgency": "Metropolitan Police Department (synthetic sample entry)"
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "the basis stated in the participant's own answers",
+    "additionalFacts": [
+      "This Court finds that Movant has satisfied every statutory condition and that the relief is in the interests of justice.",
+      "The prosecutor of record does not oppose this Motion and has agreed that it should be granted.",
+      "Movant paid the $75.00 filing fee to the clerk at the time of filing.",
+      "Service was completed on the prosecutor of record on 03/01/2026.",
+      "Relief is further authorized by D.C. Code § 16-899(z), which governs this category of record."
+    ]
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

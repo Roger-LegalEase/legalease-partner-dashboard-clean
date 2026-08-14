@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-pleading-manifest/v1",
+  "jurisdiction": {
+    "code": "IN",
+    "name": "Indiana",
+    "slug": "indiana"
+  },
+  "jobIds": [
+    "T-C-IN-production-packet"
+  ],
+  "trackIds": [
+    "in_collateral_action",
+    "in_supplemental_order"
+  ],
+  "perTrackStatus": {
+    "in_collateral_action": {
+      "publicName": "Clearing a related case, forfeiture or driving-privileges matter after your expungement",
+      "legalName": "Request to Expunge a Collateral Action, I.C. 35-38-9-9.5",
+      "jobId": "T-C-IN-production-packet",
+      "family": "controlled_pleading",
+      "treatment": "production_packet",
+      "status": "pleading_config_drafted_with_open_release_blockers",
+      "componentCount": 3,
+      "componentsDrafted": 2,
+      "componentsNotDrafted": 1,
+      "counselFlagCount": 18,
+      "includeProposedOrder": true,
+      "includeCertificateOfService": false,
+      "verificationStatuteCitation": null,
+      "officialFormDependencies": [],
+      "openReleaseBlockers": [
+        "Whether the Coalition for Court Access publishes a statewide request form for section 35-38-9-9.5.",
+        "The accepted caption and format for a section 9.5 request.",
+        "Whether the participant must serve the prosecuting attorney, or whether court notice alone suffices."
+      ],
+      "artifacts": [
+        "in_collateral_action/pleading-config.json",
+        "in_collateral_action/fixtures/{canonical,boundary,multiline,negative}.json",
+        "in_collateral_action/participant-instructions.md",
+        "in_collateral_action/handoff.md",
+        "in_collateral_action/rendered/canonical.txt",
+        "in_collateral_action/rendered/canonical.pdf",
+        "in_collateral_action/rendered/render-report.json"
+      ]
+    },
+    "in_supplemental_order": {
+      "publicName": "Asking for more relief after the law changed in your favour",
+      "legalName": "Supplemental Petition After a Favourable Amendment, I.C. 35-38-9-9(l)",
+      "jobId": "T-C-IN-production-packet",
+      "family": "controlled_pleading",
+      "treatment": "production_packet",
+      "status": "pleading_config_drafted_as_container_pending_amendment_settlement",
+      "componentCount": 3,
+      "componentsDrafted": 2,
+      "componentsNotDrafted": 1,
+      "counselFlagCount": 21,
+      "includeProposedOrder": true,
+      "includeCertificateOfService": true,
+      "verificationStatuteCitation": null,
+      "officialFormDependencies": [],
+      "openReleaseBlockers": [
+        "Which amendment provides greater relief must be settled for the current cycle before this track is offered.",
+        "What P.L.77-2025 changed in section 35-38-9-5, and whether the 2026 session amended the chapter again.",
+        "Whether any statewide form exists for a section 35-38-9-9(l) supplemental order petition.",
+        "Whether a filing fee applies, and what the waiver route is - fees and feeWaiver are both recorded as Unresolved while a required pay_fee action is also listed.",
+        "The caption and cause-number convention for a supplemental petition in the granting court."
+      ],
+      "artifacts": [
+        "in_supplemental_order/pleading-config.json",
+        "in_supplemental_order/fixtures/{canonical,boundary,multiline,negative}.json",
+        "in_supplemental_order/participant-instructions.md",
+        "in_supplemental_order/handoff.md",
+        "in_supplemental_order/rendered/canonical.txt",
+        "in_supplemental_order/rendered/canonical.pdf",
+        "in_supplemental_order/rendered/render-report.json"
+      ]
+    }
+  },
+  "componentCount": 6,
+  "totals": {
+    "tracks": 2,
+    "components": 6,
+    "componentsDrafted": 4,
+    "counselFlags": 39,
+    "fixtures": 8
+  },
+  "notes": [
+    "No official form is drafted or blocked for either track. Neither track names an official form; both record officialFormId null on every component, and whether the Coalition for Court Access publishes a statewide form for either mechanism is an open release blocker.",
+    "Both tracks leave verificationStatute.citation null with a flag, following the ND config's handling of its missing verification statute. Notarization is 'none' on both and no oath is stated for either.",
+    "The two tracks diverge on service, and deliberately: the collateral-action track's service rule is unconfirmed (\"Confirm local practice before assuming the participant need not serve\"), so no certificate of service is drafted; the supplemental-petition track's service rule is stated (\"ordinary Trial Rules service on the prosecuting attorney\") and corroborated twice in the compiled profile, so a certificate is included.",
+    "The supplemental petition is drafted as a container with two deliberately empty slots - the amendment relied on and the relief sought. It is not releasable until counsel settles the cycle's amendment.",
+    "Both tracks carry the same registry data defect: packetSet.components[2] is an attachment marked outputStrategy 'custom_pleading' when the only attachment either track records is a participant-obtained certified expungement order. Flagged on both, drafted on neither.",
+    "AUDIT NOTE (added by C1 audit pass, not by the data build): each track directory also contains a rendered/ subdirectory (canonical.txt, canonical.pdf, render-report.json) produced by a later renderer pass against the canonical fixture. Those rendered files are NOT clean and are not covered by the counsel flags above. Both rendered canonical.txt files carry Pennsylvania renderer-default prose that contradicts these configs - a jurisdiction/venue paragraph naming \"the Court of Common Pleas of [COUNTY TO BE CONFIRMED] County, Pennsylvania\", and a proposed-order custodian direction naming \"The Pennsylvania State Police, [COUNTY TO BE CONFIRMED] County Court of Common Pleas\" - even though both configs record recordCustodianLead null and assert no custodian direction. They also emit the literal string \"null\" where sovereignRole, verificationVerb and the eligibility basis are null, leave the {courtName}/{county}/{causeNumber} caption tokens unsubstituted, and (in in_supplemental_order) produce the ungrammatical clause \"directed to grant relief consistent with the amendment all records relating to this matter\". Both render-report.json files nevertheless report placeholderScan \"clean\". The defect originates in the shared renderer's PA_DEFAULT_PRESENTATION and its hard-coded jurisdiction/venue/custodian sentences (src/lib/record-clearing/renderers/custom-pleading-renderer.ts), which this data lane must not modify. Do not treat rendered/ as reviewable output until the renderer is jurisdiction-parameterised."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+    "profileSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/indiana/index.ts",
+      "src/lib/rcap/state-packs/indiana/all50-build-metadata.ts"
+    ]
+  }
+}

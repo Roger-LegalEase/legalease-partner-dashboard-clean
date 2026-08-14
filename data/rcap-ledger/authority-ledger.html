@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RCAP Authority Ledger v1</title>
+<style>
+  :root { color-scheme: light dark; --fg:#111; --bg:#fff; --mut:#666; --line:#ddd; --bad:#b00020; }
+  @media (prefers-color-scheme: dark) { :root { --fg:#eee; --bg:#111; --mut:#aaa; --line:#333; --bad:#ff6b6b; } }
+  body { margin:0; padding:2rem; font:14px/1.5 ui-sans-serif,system-ui,sans-serif; color:var(--fg); background:var(--bg); }
+  h1 { font-size:1.4rem; margin:0 0 .25rem; } h2 { font-size:1rem; margin:2rem 0 .5rem; }
+  .sub { color:var(--mut); margin-bottom:1.5rem; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:.75rem; }
+  .card { border:1px solid var(--line); border-radius:8px; padding:.75rem 1rem; }
+  .card .k { color:var(--mut); font-size:.75rem; text-transform:uppercase; letter-spacing:.04em; }
+  .card .v { font-size:1.5rem; font-variant-numeric:tabular-nums; }
+  .red { color:var(--bad); }
+  table { border-collapse:collapse; width:100%; }
+  th,td { text-align:left; padding:.4rem .6rem; border-bottom:1px solid var(--line); }
+  th { font-size:.75rem; text-transform:uppercase; letter-spacing:.04em; color:var(--mut); }
+  td.n { text-align:right; font-variant-numeric:tabular-nums; }
+  .wrap { overflow-x:auto; }
+  code { background:color-mix(in srgb, var(--fg) 8%, transparent); padding:.1em .35em; border-radius:3px; }
+</style></head><body>
+<h1>RCAP Authority Ledger</h1>
+<div class="sub">Version 1 &middot; authority <code>origin/feat/record-clearing-production-integration</code> @ <code>3b6f4c103d</code> &middot; edition 1.2 &middot; launch gate <strong class="red">red</strong></div>
+
+<div class="grid">
+  <div class="card"><div class="k">Tracks terminal</div><div class="v red">0 / 497</div></div>
+  <div class="card"><div class="k">Level 3 remaining</div><div class="v red">497</div></div>
+  <div class="card"><div class="k">Implementation complete</div><div class="v">173</div></div>
+  <div class="card"><div class="k">Technical proof passed</div><div class="v">173</div></div>
+  <div class="card"><div class="k">Visual proof passed</div><div class="v">17</div></div>
+  <div class="card"><div class="k">Counsel adopted</div><div class="v">15</div></div>
+  <div class="card"><div class="k">Source pinned</div><div class="v">75</div></div>
+  <div class="card"><div class="k">Packet ready</div><div class="v">0</div></div>
+</div>
+
+<h2>Top root blockers</h2>
+<div class="wrap"><table>
+<thead><tr><th>Stage</th><th class="n">Tracks</th><th>Owner</th></tr></thead>
+<tbody><tr><td>authority_clearance</td><td class="n">355</td><td>source_acquisition</td></tr>
+<tr><td>source_pinning</td><td class="n">83</td><td>source_materialization</td></tr>
+<tr><td>implementation</td><td class="n">22</td><td>implementation_lane</td></tr>
+<tr><td>visual_proof</td><td class="n">21</td><td>independent_review</td></tr>
+<tr><td>staging_acceptance</td><td class="n">14</td><td>captain</td></tr></tbody></table></div>
+
+<h2>By jurisdiction</h2>
+<div class="wrap"><table>
+<thead><tr><th>Code</th><th class="n">Terminal / tracks</th><th class="n">Impl complete</th><th class="n">Level 3</th></tr></thead>
+<tbody><tr><td>AK</td><td class="n">0 / 8</td><td class="n">3</td><td class="n">8</td></tr>
+<tr><td>AL</td><td class="n">0 / 9</td><td class="n">0</td><td class="n">9</td></tr>
+<tr><td>AR</td><td class="n">0 / 12</td><td class="n">1</td><td class="n">12</td></tr>
+<tr><td>AZ</td><td class="n">0 / 9</td><td class="n">0</td><td class="n">9</td></tr>
+<tr><td>CA</td><td class="n">0 / 12</td><td class="n">0</td><td class="n">12</td></tr>
+<tr><td>CO</td><td class="n">0 / 10</td><td class="n">0</td><td class="n">10</td></tr>
+<tr><td>CT</td><td class="n">0 / 14</td><td class="n">1</td><td class="n">14</td></tr>
+<tr><td>DC</td><td class="n">0 / 8</td><td class="n">2</td><td class="n">8</td></tr>
+<tr><td>DE</td><td class="n">0 / 6</td><td class="n">0</td><td class="n">6</td></tr>
+<tr><td>FL</td><td class="n">0 / 9</td><td class="n">1</td><td class="n">9</td></tr>
+<tr><td>GA</td><td class="n">0 / 15</td><td class="n">10</td><td class="n">15</td></tr>
+<tr><td>HI</td><td class="n">0 / 9</td><td class="n">6</td><td class="n">9</td></tr>
+<tr><td>IA</td><td class="n">0 / 7</td><td class="n">0</td><td class="n">7</td></tr>
+<tr><td>ID</td><td class="n">0 / 4</td><td class="n">0</td><td class="n">4</td></tr>
+<tr><td>IL</td><td class="n">0 / 17</td><td class="n">2</td><td class="n">17</td></tr>
+<tr><td>IN</td><td class="n">0 / 10</td><td class="n">4</td><td class="n">10</td></tr>
+<tr><td>KS</td><td class="n">0 / 8</td><td class="n">2</td><td class="n">8</td></tr>
+<tr><td>KY</td><td class="n">0 / 12</td><td class="n">3</td><td class="n">12</td></tr>
+<tr><td>LA</td><td class="n">0 / 10</td><td class="n">0</td><td class="n">10</td></tr>
+<tr><td>MA</td><td class="n">0 / 8</td><td class="n">1</td><td class="n">8</td></tr>
+<tr><td>MD</td><td class="n">0 / 11</td><td class="n">1</td><td class="n">11</td></tr>
+<tr><td>ME</td><td class="n">0 / 6</td><td class="n">1</td><td class="n">6</td></tr>
+<tr><td>MI</td><td class="n">0 / 11</td><td class="n">0</td><td class="n">11</td></tr>
+<tr><td>MN</td><td class="n">0 / 12</td><td class="n">1</td><td class="n">12</td></tr>
+<tr><td>MO</td><td class="n">0 / 10</td><td class="n">4</td><td class="n">10</td></tr>
+<tr><td>MS</td><td class="n">0 / 9</td><td class="n">8</td><td class="n">9</td></tr>
+<tr><td>MT</td><td class="n">0 / 6</td><td class="n">1</td><td class="n">6</td></tr>
+<tr><td>NC</td><td class="n">0 / 7</td><td class="n">1</td><td class="n">7</td></tr>
+<tr><td>ND</td><td class="n">0 / 15</td><td class="n">10</td><td class="n">15</td></tr>
+<tr><td>NE</td><td class="n">0 / 14</td><td class="n">7</td><td class="n">14</td></tr>
+<tr><td>NH</td><td class="n">0 / 8</td><td class="n">3</td><td class="n">8</td></tr>
+<tr><td>NJ</td><td class="n">0 / 6</td><td class="n">6</td><td class="n">6</td></tr>
+<tr><td>NM</td><td class="n">0 / 5</td><td class="n">2</td><td class="n">5</td></tr>
+<tr><td>NV</td><td class="n">0 / 9</td><td class="n">7</td><td class="n">9</td></tr>
+<tr><td>NY</td><td class="n">0 / 6</td><td class="n">4</td><td class="n">6</td></tr>
+<tr><td>OH</td><td class="n">0 / 8</td><td class="n">7</td><td class="n">8</td></tr>
+<tr><td>OK</td><td class="n">0 / 10</td><td class="n">10</td><td class="n">10</td></tr>
+<tr><td>OR</td><td class="n">0 / 5</td><td class="n">0</td><td class="n">5</td></tr>
+<tr><td>PA</td><td class="n">0 / 10</td><td class="n">0</td><td class="n">10</td></tr>
+<tr><td>RI</td><td class="n">0 / 9</td><td class="n">2</td><td class="n">9</td></tr>
+<tr><td>SC</td><td class="n">0 / 12</td><td class="n">11</td><td class="n">12</td></tr>
+<tr><td>SD</td><td class="n">0 / 5</td><td class="n">4</td><td class="n">5</td></tr>
+<tr><td>TN</td><td class="n">0 / 13</td><td class="n">13</td><td class="n">13</td></tr>
+<tr><td>TX</td><td class="n">0 / 19</td><td class="n">9</td><td class="n">19</td></tr>
+<tr><td>UT</td><td class="n">0 / 15</td><td class="n">5</td><td class="n">15</td></tr>
+<tr><td>VA</td><td class="n">0 / 12</td><td class="n">5</td><td class="n">12</td></tr>
+<tr><td>VT</td><td class="n">0 / 11</td><td class="n">2</td><td class="n">11</td></tr>
+<tr><td>WA</td><td class="n">0 / 13</td><td class="n">2</td><td class="n">13</td></tr>
+<tr><td>WI</td><td class="n">0 / 8</td><td class="n">5</td><td class="n">8</td></tr>
+<tr><td>WV</td><td class="n">0 / 12</td><td class="n">5</td><td class="n">12</td></tr>
+<tr><td>WY</td><td class="n">0 / 3</td><td class="n">1</td><td class="n">3</td></tr></tbody></table></div>
+
+<p class="sub">Computed by <code>scripts/rcap-factory-status.mjs</code> on the integration branch; recorded by <code>scripts/generate-rcap-authority-ledger.mjs</code>. Status only.</p>
+</body></html>

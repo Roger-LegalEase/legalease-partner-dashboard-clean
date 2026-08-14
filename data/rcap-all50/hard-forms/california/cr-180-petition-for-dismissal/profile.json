@@ -1,0 +1,343 @@
+{
+  "profileId": "ca-cr-180-petition-for-dismissal",
+  "profileVersion": "1.0.0",
+  "schemaVersion": "rcap-hard-form-profile/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California"
+  },
+  "form": {
+    "formId": "CR-180",
+    "revision": "Rev. January 1, 2024",
+    "officialName": "Petition for Dismissal",
+    "componentRole": "PETITION",
+    "issuingBody": "Judicial Council of California"
+  },
+  "tracksServed": [
+    "ca-1203-41",
+    "ca-1203-42",
+    "ca-1203-43",
+    "ca-1203-4a",
+    "ca-17b-reduction"
+  ],
+  "ledgerJob": "T-E-CA-production-packet",
+  "strategy": {
+    "tier": "tier_1_hybrid_widget_shadow",
+    "rationale": "Official source is a LiveCycle Designer XFA document carrying a complete AcroForm widget shadow; the shadow is filled and the XFA package is deleted so no viewer can select an XFA view and Adobe Reader is never required."
+  },
+  "engine": {
+    "name": "rcap-hard-form-xfa-shadow-fill",
+    "version": "1.0.0",
+    "library": "pdf-lib",
+    "libraryVersion": "1.17.1"
+  },
+  "officialSource": {
+    "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
+    "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe",
+    "bytes": 110684,
+    "encrypted": true,
+    "xfa": true,
+    "creator": "Designer 6.5",
+    "pages": 3,
+    "geometry": "612x792",
+    "bundleManifest": "RCAP_SOURCE_BUNDLE_MANIFEST.json (operator-supplied Master Library Edition 1)",
+    "presentInClone": false
+  },
+  "derivedSource": {
+    "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr180-rescued.pdf",
+    "sha256": "a2399fc3ccbe520d20547dff43014b597c09c7cce422a9b21a68229f7e800fb5",
+    "derivation": "qpdf --decrypt of the pinned official source (encrypted-pdf-rescue-report.json, 2026-06-17); no content edit",
+    "sourceFaithful": true,
+    "faithfulnessProof": "terminal AcroForm field set of the derivative is identical to the official source (81/81 names, verified this session with pypdf against the canonical bundle bytes and pdf-lib against the derivative)"
+  },
+  "variants": [
+    {
+      "key": "single",
+      "description": "One static layout; no finite-variant expansion is required because the widget shadow is filled directly."
+    }
+  ],
+  "expectedPageGeometry": {
+    "pages": 3,
+    "size": "612x792"
+  },
+  "requiredTextAnchors": [
+    "PETITION FOR DISMISSAL",
+    "CR-180"
+  ],
+  "protectedFields": [
+    "CR-180[0].#pageSet[0].MP1[0].Footer[0].CourtLink[0]",
+    "CR-180[0].#pageSet[0].MPLast[0].Footer[0].Print[0]",
+    "CR-180[0].#pageSet[0].MPLast[0].Footer[0].Save[0]",
+    "CR-180[0].#pageSet[0].MPLast[0].Footer[0].Reset[0]",
+    "CR-180[0].#pageSet[0].MPLast[0].Footer[0].Warning[0]",
+    "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].CrtUse[0].DateField2[0]",
+    "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].CrtUse[0].TextField[0]",
+    "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].CrtUse[0].TextField[1]",
+    "CR-180[0].Page3[0].SigDate[0]",
+    "CR-180[0].Page3[0].SigName[0]"
+  ],
+  "viewerMatrix": [
+    {
+      "viewer": "pdf-lib parse",
+      "status": "verified"
+    },
+    {
+      "viewer": "Adobe Reader",
+      "status": "not_required_by_design"
+    }
+  ],
+  "legalIntegrityDisposition": "Official layout, labels and instructions are the official bytes; only participant and deterministic values are added. Court-use, signature and footer control fields are never populated. Counsel review of field fidelity remains an open launch gate (F-visual-and-field-fidelity).",
+  "bindings": [
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Name[0]",
+      "factKey": "participantFullLegalName",
+      "kind": "text",
+      "maxLen": 80
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Street[0]",
+      "factKey": "participantStreet",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].City[0]",
+      "factKey": "participantCity",
+      "kind": "text",
+      "maxLen": 40
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].State[0]",
+      "factKey": "participantState",
+      "kind": "text",
+      "maxLen": 2
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Zip[0]",
+      "factKey": "participantZip",
+      "kind": "text",
+      "maxLen": 10
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Phone[0]",
+      "factKey": "participantPhone",
+      "kind": "text",
+      "maxLen": 20
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].Email[0]",
+      "factKey": "participantEmail",
+      "kind": "text",
+      "maxLen": 60
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].AttyPartyInfo[0].AttyFor[0]",
+      "factKey": "appearingAs",
+      "kind": "text"
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCounty[0]",
+      "factKey": "courtCounty",
+      "kind": "text",
+      "maxLen": 40
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtStreet[0]",
+      "factKey": "courtStreet",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtMailingAdd[0]",
+      "factKey": "courtMailingAddress",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].CourtInfo[0].CrtCityZip[0]",
+      "factKey": "courtCityZip",
+      "kind": "text",
+      "maxLen": 60
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].TitlePartyName[0].Defendant[0]",
+      "factKey": "participantFullLegalName",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-180[0].Page1[0].P1Caption[0].HeaderSub[0].Stmp[0].CaseNumber[0].CaseNumber1[0]",
+      "factKey": "caseNumber",
+      "kind": "text",
+      "maxLen": 40
+    },
+    {
+      "field": "CR-180[0].Page2[0].pXCaption[0].CaseNumber1[0]",
+      "factKey": "caseNumber",
+      "kind": "text",
+      "maxLen": 40
+    },
+    {
+      "field": "CR-180[0].Page2[0].pXCaption[0].Defendant[0]",
+      "factKey": "participantFullLegalName",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-180[0].Page3[0].pXCaption[0].CaseNumber1[0]",
+      "factKey": "caseNumber",
+      "kind": "text",
+      "maxLen": 40
+    },
+    {
+      "field": "CR-180[0].Page3[0].pXCaption[0].Defendant[0]",
+      "factKey": "participantFullLegalName",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvictionDate[0]",
+      "factKey": "convictionDate",
+      "kind": "text",
+      "maxLen": 20
+    },
+    {
+      "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Code1[0]",
+      "factKey": "offense1Code",
+      "kind": "text",
+      "maxLen": 14,
+      "columnCheck": {
+        "header": "Code (Penal, Vehicle, etc.)",
+        "x": 53.95
+      }
+    },
+    {
+      "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Section1[0]",
+      "factKey": "offense1Section",
+      "kind": "text",
+      "maxLen": 14,
+      "columnCheck": {
+        "header": "Section",
+        "x": 119.85
+      }
+    },
+    {
+      "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].TypeOff1[0]",
+      "factKey": "offense1Type",
+      "kind": "text",
+      "maxLen": 30,
+      "columnCheck": {
+        "header": "Type of offense (felony, misdemeanor, or infraction)",
+        "x": 182.96
+      }
+    },
+    {
+      "field": "CR-180[0].Page3[0].LI7[0].DateField1[0]",
+      "factKey": "deferredEntryDismissalDate",
+      "kind": "text",
+      "maxLen": 20,
+      "routeGate": {
+        "onlyWhenTrackIn": [
+          "ca-1203-43"
+        ],
+        "note": "Item 7 is Deferred entry of judgment (Pen. Code, s 1203.43). Any other route must leave it blank; the petition is signed under penalty of perjury."
+      }
+    }
+  ],
+  "unboundByDecision": [
+    {
+      "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Reduce1[0]",
+      "printedHeader": "Eligible for reduction to misdemeanor under Penal Code, s 17(b) (yes or no)",
+      "reason": "A reduction-eligibility answer is a legal determination about the offense, not a participant-reported fact. Lane E does not assert it; the 17(b)/17(d)(2) columns stay blank until CA legal design supplies the determination rule."
+    },
+    {
+      "field": "CR-180[0].Page1[0].LI1[0].li1[0].ConvTable[0].Row1[0].Offense1[0]",
+      "printedHeader": "Eligible for reduction to infraction under Penal Code, s 17(d)(2) (yes or no)",
+      "reason": "Same. This is the column F2-12b found an offense description bound into: the LiveCycle name Offense1 describes neither its printed header nor its column position."
+    }
+  ],
+  "overflowPolicy": {
+    "instrumentNamedByTheForm": "MC-025",
+    "printedInstruction": "If additional space is needed for listing offenses, use Attachment to Judicial Council Form (form MC-025).",
+    "note": "The earlier truncate_with_addendum token referenced a nonexistent \"Attachment A\". The form names MC-025, which this family does not yet emit, so no binding may overflow: bounds are enforced and an over-length value fails the render instead of inventing an attachment."
+  },
+  "checkoutProhibited": true,
+  "participantFacingStrings": {
+    "en": {
+      "formPurpose": "CR-180 is the petition that asks the court to dismiss and set aside your conviction.",
+      "whatYouDo": "Review every entry, sign and date the petition yourself, and file it with the court that handled your case.",
+      "whatWeDoNotDo": "LegalEase does not sign for you, does not decide whether your offense can be reduced, and does not fill in anything the court or clerk must complete.",
+      "noCheckout": "This form is not available for purchase. It is prepared for review only."
+    },
+    "es": {
+      "formPurpose": "El CR-180 es la peticion que solicita al tribunal que desestime y anule su condena.",
+      "whatYouDo": "Revise cada dato, firme y feche usted mismo la peticion, y presentela ante el tribunal que atendio su caso.",
+      "whatWeDoNotDo": "LegalEase no firma por usted, no decide si su delito puede reducirse, y no completa nada que deba llenar el tribunal o el secretario.",
+      "noCheckout": "Este formulario no esta disponible para la compra. Se prepara unicamente para revision."
+    }
+  },
+  "convictionTableColumns": [
+    {
+      "x": 53.95,
+      "header": "Code (Penal, Vehicle, etc.)"
+    },
+    {
+      "x": 119.85,
+      "header": "Section"
+    },
+    {
+      "x": 182.96,
+      "header": "Type of offense (felony, misdemeanor, or infraction)"
+    },
+    {
+      "x": 331.63,
+      "header": "Eligible for reduction to misdemeanor under Penal Code, s 17(b) (yes or no)"
+    },
+    {
+      "x": 453.6,
+      "header": "Eligible for reduction to infraction under Penal Code, s 17(d)(2) (yes or no)"
+    }
+  ],
+  "convictionTableNote": "Column headers read first-hand from the page-1 content stream. The LiveCycle names Reduce1 and Offense1 name neither their header nor their position: Offense1 is the fifth column, the 17(d)(2) yes/no answer. Every table binding declares its column and is checked against the census rect.",
+  "renderedAssertions": {
+    "all": {
+      "mustNotContain": [
+        "see Attachment A"
+      ],
+      "lineMustNotMatch": []
+    },
+    "canonical": {
+      "mustContain": [
+        "Jordan Alexis Rivera",
+        "CR-2019-0114872",
+        "484(a)"
+      ],
+      "lineMustNotMatch": [
+        "former Penal Code section 1000\\.3 on \\(date\\):\\s*\\d"
+      ],
+      "mustNotContain": [
+        "Petty theft"
+      ]
+    },
+    "boundary": {
+      "lineMustNotMatch": [
+        "former Penal Code section 1000\\.3 on \\(date\\):\\s*\\d"
+      ],
+      "mustNotContain": [
+        "Shoplifting with intent to commit larceny during business hours"
+      ]
+    },
+    "negative": {
+      "lineMustNotMatch": [
+        "former Penal Code section 1000\\.3 on \\(date\\):\\s*\\d"
+      ]
+    },
+    "route-1203-43": {
+      "mustContain": [
+        "11/18/2019",
+        "Samira Nakamura-Ortiz"
+      ]
+    }
+  }
+}

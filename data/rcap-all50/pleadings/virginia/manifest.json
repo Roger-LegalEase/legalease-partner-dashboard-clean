@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-c3-jurisdiction-manifest/v1",
+  "jobId": "T-C-VA-production-packet",
+  "jurisdiction": "VA",
+  "jurisdictionSlug": "virginia",
+  "windowId": "2026-08-12-w1",
+  "lane": "C",
+  "implementationFamily": "controlled_pleading",
+  "outputStrategy": "custom_pleading",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "file": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+  },
+  "trackIds": [
+    "va_exp_identity_used_by_another"
+  ],
+  "partitionNote": "The single Virginia track is blocked. Virginia circuit-court expungement runs on Supreme Court of Virginia forms and one demonstrably exists for the adjacent subsection, so drafting a custom subsection (B) petition would either replicate an unretrieved official form or invent an instrument for a route the state may already have formalised.",
+  "tracks": [
+    {
+      "trackId": "va_exp_identity_used_by_another",
+      "legalName": "Petition for Expungement Where Another Person Used the Petitioner's Identity, Va. Code § 19.2-392.2(B)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Blocked on an unresolved official-form question. The only Virginia expungement form obtained, CC-1473, is captioned to § 19.2-392.2(A) alone and does not cover this subsection; other circuit-court expungement forms returned HTTP 404 from the official library on 2026-08-06. Whether a subsection (B) form exists, and whether the subsection (H) misidentification motion has its own instrument, are both unknown."
+    }
+  ],
+  "summary": {
+    "tracksTotal": 1,
+    "drafted": 0,
+    "blocked": 1
+  }
+}

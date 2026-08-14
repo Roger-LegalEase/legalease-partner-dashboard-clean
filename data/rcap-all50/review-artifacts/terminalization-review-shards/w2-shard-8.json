@@ -1,0 +1,116 @@
+{
+  "reviewId": "w2-shard-8",
+  "reviewer": "independent read-only reviewer, terminalization definitive wave",
+  "reviewedBaseSha": "e025ced8d6c3fd6c3c74f4bd56b746c4225b5855",
+  "reviewedFileSha256": {
+    "AK": "6ac79872dd307e0b48839d05e5a08e0a96193b6c8822f277bcae30eb5c1f2735",
+    "IL": "0a3feb80bd7ee0534ce3d5f26cc911f9384e41aa3e9e2c6c229325ca0f5e7359",
+    "NC": "d80006d112c66923a62d0f1b5fc29c0e39748a6d67aa575f6cb6b5f195ddc781",
+    "NJ": "3beb984d95a8d8a6ccfee17289d05be5885255d56e63b4a16a359be4cfdfb613",
+    "OK": "fe60fe005f1dc7b1b95f6bd59bbe2f8bf20183b1d9907a634b4997670a712ddb"
+  },
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "runtimeProbeNote": "Probe at /tmp/probe-w2-shard-8.mjs, run with cwd=/home/user/legalease-partner-dashboard-clean, covering all 14 tracks in AK, IL, NC, NJ and OK (not a sample). Every track returned classification=terminal_treatment_candidate, sellable=false, creditConsumable=false, rendererKind=none, buildRenderJobSpec spec=null, assertCheckoutAllowed threw (checkout refused), and the saved Briefcase item came back paymentAllowed=false, status=guidance_saved, resultCode=guidance_only, packetStatus=not_started, amountCents=null. Reopening via getBriefcaseItem returned artifactRefs.terminalTreatment.trackId identical to the requested track on all 14. Locale probe confirmed the es bundle differs from the en bundle on all 14 stopReasons.",
+  "mechanicalChecksRun": "Full-tree string scan of all five jurisdiction files for the schema's prohibitedParticipantPhrases plus generic-referral strings ('contact a lawyer', 'your local court', 'see your state', packet-promise phrasings): zero hits. Full-tree en/es identity scan across every bilingual node: zero cases of es equal to en. runtimeContract compared field-by-field against the schema's frozen block on all 14 entries: no deviation. All eleven participant-facing elements plus briefcase preserved/outstanding/return present on all 14.",
+  "dispositions": [
+    {
+      "trackId": "ak-nonconviction-confidential",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly typed as complete_guidance: the brief records filingComponentCount 0 and participantFiles false, and the treatment says plainly that nothing here is the participant's to file. Destination is exact and dual — the Alaska Department of Public Safety plus the specific arresting agency named on the participant's own report — with the method for identifying that second agency spelled out rather than assumed. AS 12.62.160(b)(8) and 13 AAC 68.310 both trace to brief authority[0..1]. doNot correctly separates confidentiality from deletion and from court records, and warns against paying anyone to file a request on a route with no filing, which is the real consumer risk here. The immigration stop condition from selfHelpStopConditions[0] is carried in both doNot and escalation. timing null is correct: the brief carries no waiting period. Spanish is idiomatic throughout ('expediente', 'anotación', 'resolución', 'agencia que lo arrestó'), glossing the agency name once on first use rather than leaving legal nouns in English."
+    },
+    {
+      "trackId": "ak-tf800",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Form identity pinned to TF-800 (5/25) with the Alaska Court System URL from officialSources[0], and the Administrative Rule 37.6 public-access standard traced to authority[1]. The stop reason is exact, names the limitation as LegalEase's own rather than the participant's, and does not obscure that the form remains published and available. Gathering list is track-specific — the precise scope of what is being asked to be sealed, and the participant's own weighing narrative, which legalDesignLimitations[1] expressly bars from being written for them. doNot correctly forbids signing before the case number, court and record list are right, and rejects the assumption that sealing follows from asking. Opposition and contested hearing are surfaced as the two stop points from selfHelpStopConditions, with the clerk of the specific trial court named as where to get the opposing papers. Spanish is a genuine translation, not a gloss ('se pondera frente al criterio de acceso público', 'un TF-800 impugnado se argumenta, no se rellena')."
+    },
+    {
+      "trackId": "ak-tf805",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies the three-component structure from packetSetComponents[0..2] — request, certificate of service, proposed order — and states all three as required, so no required component is described as optional. The sworn verification from manualCompletionItems[0] drives the strongest caution: do not swear until every identifier is right, with the identifier list (case number, arrest tracking number, agency identifiers, report numbers, dates, disposition facts) taken verbatim in substance from legalDesignLimitations[0]. Correctly distinguishes name-only removal from sealing the case, which is the substantive confusion this form invites. Denial and contested proceeding handoff traced to postGenerationHandoffs[0]. Spanish handles the oath vocabulary correctly ('la verificación es bajo juramento', 'jure y firme') rather than transliterating."
+    },
+    {
+      "trackId": "il-exp-pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The two features that make this route unusual are both stated and both supported: no objection may be filed under § 5.2(d)(5)(A), and the hybrid record effect — expunged from the arresting authority, sealed with the circuit clerk and ISP until further order — from packetInstructions[3..4]. The non-standard venue formula (Chief Judge of the circuit of conviction, a designated judge, or the presiding trial judge in counties under 3,000,000) is carried exactly from brief venue. Critically, doNot forbids the participant serving the State's Attorney, ISP, the arresting agency or the chief legal officer, matching packetInstructions[0], which protects against a common and harmful error. The pardon-language dependency is named as the thing the whole route rests on, with the Prisoner Review Board or Office of the Governor as the exact source, per participantFilingRequirements[3]. Access and Review is correctly described as free per the ISP fee schedule. Spanish is substantive and legally precise ('petición verificada', 'una declaración falsa constituye perjurio')."
+    },
+    {
+      "trackId": "il-exp-precompletion",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The 61-day pre-dismissal filing window and its open-ended tail are stated exactly as the brief mechanism and waitingPeriods[0] carry them, and the doNot correctly renders the window as one that does not open earlier rather than one that closes. The ripening condition — the petition does not mature unless the program is completed successfully and the case dismissed — is stated three separate times, matching packetInstructions[3] and exclusions[0], and is never softened into a promise. The partner-channel scope restriction from scopeRestrictions[0] is handled well: rather than hiding it, the treatment turns it into the participant's most useful move, directing them to their own problem-solving court or diversion program and to counsel already assigned in that case. Per-county venue under § 5.2(d)(1) with the Cook County district rule is exact. The 1 June 2026 effective date traces to brief mechanism. Spanish translates the program vocabulary properly ('tribunal especializado', 'programa de desvío previo a la declaración') instead of leaving it in English."
+    },
+    {
+      "trackId": "il-prb-cert",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The two-stage structure across two different bodies is correctly identified as the affected mechanism, and both stages are stopped rather than one. Every hard fact traces: the Board's street address at 1001 North Walnut Street, Springfield, Illinois 62702, the 75-days-before-first-hearing filing rule, the four-year bar after a denial with the Chairman's compelling-reasons exception, and perjury as a Class 3 felony punishable by up to ten years, all from packetInstructions[1][3][4]. The Acknowledgement-first sequencing is stated with its consequence (rejected and returned), matching packetInstructions[0]. The § 5.2(e-5) sealing certificate and § 5.2(e-6) expungement certificate are held legally distinct and the military application is confined to military-specific cases, per scopeRestrictions[1] — this is the trap on this route and it is handled correctly. The witness/attorney line on the Acknowledgement is correctly marked as third-party and to be left blank. The Office of the State Appellate Defender Expungement Unit at 866-787-1776 is a real, named, statewide escalation from selfHelpStopConditions[2], not a generic referral. Spanish is a real translation including the notarial and evidentiary vocabulary ('jurarse ante notario público', 'demostración de rehabilitación')."
+    },
+    {
+      "trackId": "il-seal-edu",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "This is the correct handling of an unresolved scope question rather than a defect. scopeRestrictions[2] directs that the waiver not be offered as a route to shorten a two-year-category wait; the treatment says exactly that, names the open question in participant language, and still supplies an exact destination (the circuit clerk of the county of arrest or charge under § 5.2(d)(1), with the Cook County district rule) and an exact next action (fix the credential award date against the sentence and MSR period, and the end date of the last sentence anywhere under § 5.2(a)(1)(F)). The consequence of filing early and losing is stated honestly and without overstatement, matching packetInstructions[5]. The § 5.2(d)(6)(C) point that unpaid fines and fees do not delay sealing is a materially helpful inclusion and is exactly supported, including the court-ordered-restitution carve-out. The sealing clock is correctly kept distinct from the expungement clock per scopeRestrictions[0], and the § 5.2(a)(3) petition-sealing exclusions are enumerated from brief exclusions rather than paraphrased loosely. Spanish carries the conditional legal reasoning intact and reads as written for a Spanish speaker."
+    },
+    {
+      "trackId": "il-seal-nonconv",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly leads with the participant-protective point from scopeRestrictions[0]: for a record that never became a conviction, expungement is the stronger default and sealing is the fallback, so the first instruction is to test expungement before electing sealing. That is substantive guidance, not a restatement of the mechanism. The § 5.2(c)(3)(A) no-waiting-period rule and the § 5.2(c)(2)(A)/(B) disposition categories trace exactly. The mixed-case referral from legalDesignLimitations[5] is carried into both doNot and escalation, which is the right placement since it is both a caution and a stop point. The 'seal is not gone' explanation includes the §§ 12 and 13 exceptions and the surviving law-enforcement, court and licensing access, per packetInstructions[3]. Clerk service under § 5.2(d)(4) and the § 5.2(d)(2) perjury verification are both stated. Not boilerplate against the other IL sealing track: this one is organised around the expungement-first election, il-seal-edu around the credential-timing waiver, and the doNot lists differ accordingly. Spanish is genuine and keeps the eliminación/sellado distinction the English insists on."
+    },
+    {
+      "trackId": "nc_145_5_misdemeanor",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is the strongest in this shard and is exactly supported: legalDesignLimitations[0] records the full G.S. 15A-145.5(a) nonviolent exclusion list as unobtained and unencoded, and the petition requires the participant to certify both the offence classification and the absence of any other non-traffic conviction. The treatment names that, and directs the certification to be screened against the SBI right-to-review record rather than recall, matching scopeRestrictions[0]. The AOC-CR-297 (Rev. 6/25, nonviolent felony) versus AOC-CR-298 (Rev. 7/25, nonviolent misdemeanor) distinction is pinned exactly as packetInstructions[0] pins it, including the transposition rejection risk. Waiting periods — three years for one conviction for petitions filed on or after 9 July 2025, seven years for more than one, each from the later of conviction and sentence completion — trace to waitingPeriods verbatim in substance. Good-character affidavits are correctly held as third-party documents nobody preparing the paperwork may author or supply, per legalDesignLimitations[2], and the order section is reserved to the judge. Restitution, pending charges, the one-per-lifetime prior expunction, DWI and Class A1 are all carried from brief exclusions. Spanish is substantive and handles the NC-specific vocabulary correctly ('secretario del tribunal superior', 'supervisión posterior a la excarcelación')."
+    },
+    {
+      "trackId": "nc_146_dismissal_petition",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The open question is stated precisely and matches brief exclusions[1]: the incapable-to-proceed exclusion is effective for dismissals on or after 1 December 2025, while AOC-CR-287 (Dec. 2025) states the exclusion without a date limit, leaving earlier dismissals unresolved. The treatment names that gap, does not guess at it, and still gives an exact destination and next step — which is the correct outcome, not a defect. The single most protective instruction on this route is placed first: obtain and keep permanent copies of the charging documents, dismissal orders and judgments before filing, because access is restricted afterwards and the participant may need them to prove what happened, most acutely in immigration proceedings (participantFilingRequirements[2]). The record-destruction claim is correctly refused per legalDesignLimitations[4] — expunction restricts access rather than destroys. The automatic-expunction pre-check and the G.S. 15A-145.4 / 15A-145.6 sequencing check both trace to packetInstructions[0..1]. Form pinned to AOC-CR-287 Rev. 12/25 with AOC-CR-295 correctly described as the district attorney's alternative rather than the participant's. Spanish is a real translation and preserves the sequencing logic."
+    },
+    {
+      "trackId": "nj_automated_clean_slate",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly typed complete_guidance on a brief with filingComponentCount 0, and the honest product here is refusing to let the participant wait. It states flatly that as of 6 August 2026 the N.J.S.A. 2C:52-5.4 automated process is not operational, resting on Assembly Bill A5095 introduced 14 May 2026 (officialSources[0]) and on brief exclusions[1], and then redirects to the relief that is actually open. Destination is exact and doubled: the New Jersey State Police Expungement Status Portal at expungement.njsp.gov for status, and the Judiciary's eCourts Expungement System for the petition route, which the Judiciary states is free. The restoration risk under § 2C:52-5.4 is disclosed per scopeRestrictions, as is the Title 39/DWI exclusion under § 2C:52-28 and the § 2C:52-1 isolation-not-destruction point with the § 2C:52-27 surviving uses. The four ten-year clock anchors in the gather list are carried by data/rcap-all50/guidance-packets/nj.json, which this entry cites in evidenceRefs, so they are supported rather than fabricated. Contains no 'coming soon' framing in either language despite being about a future system — checked explicitly. Spanish is substantive and idiomatic."
+    },
+    {
+      "trackId": "nj_indictable_conviction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is exact and rests on legalDesignLimitations[8]: the N.J.S.A. 2C:52-2(b) and (c) non-expungeable lists have not been read line by line, and a single conviction on them defeats both this petition and Clean Slate. The offence categories the treatment enumerates are taken from brief exclusions[0] rather than invented. Venue is stated as the real choice it is — the Superior Court, Criminal Division, in the county of residence or a county where a conviction was adjudged, per brief venue read from A5826 — and the choice is explicitly assigned to the participant. The four routes under § 2C:52-2, including the single-judgment and closely-related routes that carry no numeric cap, are stated accurately, along with the five-year clock and both early pathways under § 2C:52-2(a)(2), each correctly flagged as turning on a compelling-circumstances finding that is the court's to make and not a form field. The post-order service warning is the standout: serving a certified copy on every record-holding agency is identified as the single most common way a granted expungement fails to take effect, per manualCompletionItems[4]. § 2C:52-14(e), § 2C:52-23.1 and § 2C:52-28 all trace. Spanish is a genuine translation with correct NJ terminology ('delito procesable', 'conducta desordenada', 'circunstancias imperiosas')."
+    },
+    {
+      "trackId": "nj_ordinance",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly separates what is known from what is not: the two-year waiting period is given, sourced to the New Jersey Courts self-help page as confirmed on 6 August 2026 per waitingPeriods[0], while the treatment states that the full text of N.J.S.A. 2C:52-4 was not read at an official channel and that whether ordinance convictions count toward the offence caps on the other tracks is open — both exactly as brief mechanism records. It then converts that open question into a concrete instruction: if the participant has other New Jersey convictions, get that specific question answered before filing, because it can change which petition they should be filing. The first next step is the right one and is track-specific — confirm with the Municipal Court that the matter is genuinely an ordinance violation and not a disorderly persons offence or a Title 39 matter, matching selfHelpStopConditions[0]. Judiciary kit set, no filing fee, residence-or-conviction-county venue, the blank judge signature line and monies-owed section, and the agency service requirement all trace. Not boilerplate against nj_indictable_conviction: the stop reason, the open question and the leading action differ because the mechanisms differ. Spanish is substantive throughout."
+    },
+    {
+      "trackId": "ok_osbi_portal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly typed complete_guidance on a brief with filingComponentCount 0. Every statutory fact traces to brief mechanism and waitingPeriods: SB 2030 approved 11 May 2026, codified as Laws 2026 c. 282, effective 1 July 2026; the § 19d(A) portal duty by 1 November 2026; the § 19d(B) limits on what the request may ask; the § 19d(C) review sequence ending in a written or electronic notice of rejection stating reasons; the § 19d(D) dates of 1 November 2027 and 1 November 2029; and § 18b(B) conditioning eligibility on availability of funds with no appropriation determination made. The OSBI page last updated 23 July 2026 describing no portal is carried exactly. Two participant-safety instructions stand out and are both supported: do not enter personal information into any site presenting itself as the portal, since none is published, and do not delay a § 19 district court petition to wait for it, since the statute provides no remedy if the deadline passes. The § 19d(G) preservation of the petition right is the load-bearing redirect and is exact. Partial sealing under § 18b(D)/(E) and the § 19(L) ten-year obliteration rule are both explained rather than flattened into 'expungement'. Tribal records post-McGirt are routed to tribal counsel or counsel in the convicting jurisdiction. The briefcase return text explicitly disclaims any promise that a submission route will open. Spanish is a full, idiomatic translation including the statutory reasoning."
+    }
+  ]
+}

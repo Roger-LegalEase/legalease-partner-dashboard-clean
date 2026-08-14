@@ -1,0 +1,506 @@
+{
+  "schemaVersion": "rcap-c-component-deferral-runtime-patch-spec/v1",
+  "status": "captain_applied",
+  "authoringBase": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+  "assignment": {
+    "path": "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json",
+    "sha256": "d78251fd9f0741f0f080dcebb73f229f3fc8b259568ae422d11db0ffbc9a141a"
+  },
+  "owner": "Terminal A",
+  "purpose": "Integrate the 31 component-level deferral treatments into the existing route, payment, checkout, credit, and Briefcase authorities without introducing another shared system.",
+  "affectedRouteIds": [
+    "ar-act346",
+    "ar-drug-court",
+    "ar-pardon-seal",
+    "ar-veterans-court",
+    "ca-diversion-seal",
+    "ct-missed-erasure",
+    "il-prb-cert",
+    "mt_mmrta_serving",
+    "tx_nd_veterans_reemployment",
+    "vt_exp_deferred_sentence"
+  ],
+  "componentCount": 31,
+  "precondition": {
+    "exactTrackIdentityRequired": true,
+    "currentGap": "All ten registry tracks have compiledCoverageDisposition=missing_from_compiled_runtime in data/rcap-ledger/track-pathway-crosswalk.json. The current screening and Briefcase contracts carry a compiled pathway label but no authoritative registry track id.",
+    "requiredResolution": "The authoritative composed-route selector must pass one exact affected trackId server-side. Do not infer a track from jurisdiction, a participant label, a URL, or a client-supplied pathway label. If no authoritative trackId exists, keep the route unavailable and paymentAllowed=false.",
+    "prohibitedResolution": "Do not add any affected route to a jurisdiction-wide legacy allowlist and do not map it to a sibling compiled pathway merely to make it reachable."
+  },
+  "inputContract": {
+    "trackId": "One exact affectedRouteIds value, selected by server-owned legal routing; required for this treatment.",
+    "jurisdiction": "The two-letter jurisdiction that must match the treatment and composed route.",
+    "locale": "en or es; determines which committed participant strings are rendered.",
+    "treatmentSource": "data/rcap-all50/composed-routes/<state>/<trackId>/components/<componentId>/deferral-treatment.json",
+    "identityInvariant": "The set of componentId values must equal the route.json units whose requiredOutput is official_form_dependency; zero omissions and zero extras."
+  },
+  "outputContract": {
+    "classification": "component_deferral",
+    "resultCode": "guidance_only",
+    "packetType": "guidance_packet",
+    "briefcaseStatus": "guidance_saved",
+    "paymentAllowed": false,
+    "checkoutSuppressed": true,
+    "sellable": false,
+    "creditConsumable": false,
+    "packetCreditConsumption": "none",
+    "partnerCreditConsumed": false,
+    "rendererKind": "none",
+    "generatedPacket": "No paid or downloadable packet is generated while any assigned official-form component is represented by a deferral treatment.",
+    "briefcasePayload": "Preserve exact trackId, all componentId values, locale-selected reason/destination/nextAction/gather/doNot/packetAbsenceDisclosure/Briefcase/escalation copy, and a return link to the saved item."
+  },
+  "patches": [
+    {
+      "id": "c-deferral-registry",
+      "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+      "baseSha256": "06e79b6a6b2ff41df08b167aaf1477dbf7118b6d942ada25a5895f4225c8aa53",
+      "symbols": [
+        "loadAll",
+        "guidanceTracksForJurisdiction",
+        "guidanceTracksForPathway"
+      ],
+      "currentBehavior": "The registry loads only data/rcap-all50/guidance-packets/*.json entries whose treatment is complete_guidance. It cannot load a composed route or component treatment and cannot validate the 31-component closed set.",
+      "requiredBehavior": "Extend this existing non-sellable guidance authority with a component-deferral loader. Add componentDeferralForTrack(trackId, locale) and hasComponentDeferral(trackId). Resolve the exact composed route by the frozen route id, read route.json, derive every official_form_dependency component id, and require one valid deferral-treatment.json for every derived id. Reject duplicate, missing, extra, identity-mismatched, payment-enabled, checkout-enabled, credit-enabled, untranslated, or evidence-unresolved entries. Return either a complete localized treatment bundle or a fail-closed invalid result; never silently skip one component.",
+      "input": {
+        "trackId": "exact registry track id",
+        "locale": "en | es"
+      },
+      "output": {
+        "kind": "component_deferral | invalid_component_deferral | not_found",
+        "trackId": "string",
+        "componentIds": "string[]",
+        "nextSteps": "localized string[]",
+        "paymentAllowed": false,
+        "sellable": false,
+        "creditConsumable": false
+      },
+      "appliedSha256": "9fe8b8654c068d3d2a6ecdafdd403b58cd28f7239b53e5987c00c4124d494c1f",
+      "priorAppliedSha256": [
+        "5bd1ed3acb4b6765e029ac55915e8783bfa1a8ff0de3f8027209ca41f1c08bcd",
+        "57b7ec6dc8d2d43dcb07f34fd1e4090cfc4d318a4d298cbe3e62c961dff7dc8c",
+        "4e78cdee1449ba03831757c89c9299bc910712beb19b98ff125a2407106dc69d"
+      ]
+    },
+    {
+      "id": "c-deferral-engine-identity-and-clamp",
+      "file": "src/lib/rcap-engine/contracts.ts",
+      "baseSha256": "5cbb41327a7d9f247ac123574eba7f5ef6735d667ab8ba796cf92fc945cb42fa",
+      "symbols": [
+        "ScreeningEvaluationRequest",
+        "ScreeningEvaluation"
+      ],
+      "currentBehavior": "Neither request nor evaluation carries a composed route track id or component-deferral classification.",
+      "requiredBehavior": "Add an optional server-only selectedTrackId to ScreeningEvaluationRequest and an optional treatmentClassification plus selectedTrackId and deferralComponentIds to ScreeningEvaluation. The request field must not be populated directly from an unverified client body.",
+      "input": {
+        "selectedTrackId": "server-selected exact track id or absent"
+      },
+      "output": {
+        "selectedTrackId": "same exact id when accepted",
+        "treatmentClassification": "component_deferral when the registry reports any dependency treatment",
+        "deferralComponentIds": "all component ids in route.json order"
+      },
+      "appliedSha256": "45384b04b9013cbc94f54858d3e5ea3b87f0d47fc339cc0d1b729b0b34d7bd9e",
+      "priorAppliedSha256": [
+        "e8307638c10eaa245a83b8f601824b6862d7a7a2e4a77ea6d2dc273c9af9a5a5"
+      ]
+    },
+    {
+      "id": "c-deferral-evaluate-route-authoritative-track",
+      "file": "src/app/api/expungement-ai/evaluate/route.ts",
+      "baseSha256": "69c7c66065a54b1c3b701d4e27709d99b3e040e259b705f7ed410846a59ff7d3",
+      "symbols": [
+        "POST"
+      ],
+      "currentBehavior": "POST casts request.json() directly to ScreeningEvaluationRequest and passes that object to evaluateExpungementAiMatter. There is no authoritative composed-route selector at this boundary, no persisted server-selected track id, and no rejection of client-supplied track or treatment metadata.",
+      "requiredBehavior": "Treat jurisdiction, profileVersion, matterId, and answers as the only client inputs. Explicitly reject selectedTrackId, treatmentClassification, deferralComponentIds, or treatment copy in the request body. After ordinary screening evaluation, obtain selectedTrackId only from a Terminal A-owned, evidence-backed composed-route selector invoked server-side; never derive it from jurisdiction alone, a display label, a URL, or an unverified client value. Pass the exact server-selected id into the evaluator's component-deferral clamp and persist the same id with the server-authored evaluation/session used by save-result. If the selector has no authoritative mapping for a potentially composed route, or if jurisdiction, route, component set, or saved-session identity disagree, return a fail-closed guidance result with paymentAllowed=false and no packet plan; do not fall through to a sibling compiled or legacy route. Until Terminal A supplies that selector authority for these ten currently missing-from-compiled-runtime tracks, they remain unavailable rather than client-selectable.",
+      "input": {
+        "clientBody": "Only jurisdiction, profileVersion, matterId, and answers; route/treatment identity is forbidden client input.",
+        "authoritativeSelection": "Exact trackId produced by a server-owned legal route selector, or identity_unavailable."
+      },
+      "output": {
+        "selectedTrackId": "Exact server-selected affected route id when authoritative; never echoed from client input.",
+        "resultCode": "guidance_only for component_deferral or identity_unavailable.",
+        "paymentAllowed": false,
+        "packetPlan": null,
+        "persistence": "The exact selectedTrackId and evaluation identity are stored for save-result to re-resolve rather than trusting its client body."
+      },
+      "appliedSha256": "d5a092914db54f5db96b95a570371d920405a14efc8470eef36086acb42d58a7"
+    },
+    {
+      "id": "c-deferral-engine-clamp",
+      "file": "src/lib/rcap-engine/evaluator.ts",
+      "baseSha256": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e",
+      "symbols": [
+        "evaluateAgainstProfile",
+        "result"
+      ],
+      "currentBehavior": "A deterministic, ratified, fulfillment-ready packet plan can return packet_ready or packet_ready_with_caution with paymentAllowed=true. The evaluator has no component-deferral check.",
+      "requiredBehavior": "After server-owned route selection and before any packet-ready result, call the existing guidance registry's component-deferral lookup with selectedTrackId. For component_deferral or invalid_component_deferral, return guidance_only, paymentAllowed=false, no paid packet plan, exact selectedTrackId, every deferral component id, and localized component next steps. invalid_component_deferral must remain a no-payment fail-closed result and must never fall through to a sibling packet route.",
+      "input": {
+        "request.selectedTrackId": "one affected route id",
+        "locale": "resolved request locale"
+      },
+      "output": {
+        "resultCode": "guidance_only",
+        "paymentAllowed": false,
+        "treatmentClassification": "component_deferral",
+        "packetPlan": null
+      },
+      "appliedSha256": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e"
+    },
+    {
+      "id": "c-deferral-consumer-shape",
+      "file": "src/lib/expungement-ai/eligibility-adapter.ts",
+      "baseSha256": "1897562c3ebb4c47e857f6e1255f406c3e7198bef3b6b764b7f1219b285a6f46",
+      "symbols": [
+        "legacyShapeFromEvaluation",
+        "isConsumerPaymentAllowed",
+        "packetTypeForResult"
+      ],
+      "currentBehavior": "The adapter derives payment only from resultCode and enginePaymentAllowed, and a guidance_only result becomes a guidance_packet. It does not carry component-deferral identity or copy.",
+      "requiredBehavior": "Carry selectedTrackId, treatmentClassification, deferralComponentIds, and localized component copy to the consumer result. Clamp component_deferral to paymentAllowed=false and omit priceCents even if an upstream boolean is mutated true. Keep packetType=guidance_packet.",
+      "input": {
+        "engineEvaluation": "evaluation carrying component_deferral metadata"
+      },
+      "output": {
+        "resultCode": "guidance_only",
+        "packetType": "guidance_packet",
+        "paymentAllowed": false,
+        "priceCents": "absent"
+      },
+      "appliedSha256": "21eff51db08792dc3fc2a45931bbdab4113cfc09af1af9759aef02a857741886",
+      "priorAppliedSha256": [
+        "5f423f7802221a305222dae9b815c4fb965c81797aa670e4c88110c801b77987"
+      ]
+    },
+    {
+      "id": "c-deferral-consumer-types-and-save-policy",
+      "file": "src/lib/expungement-ai/types.ts",
+      "baseSha256": "f585d0cdb22c51223eab6866ed518d7bbf5734edc0fcc74f8f41d7f4c5cf0cc4",
+      "symbols": [
+        "ExpungementAiEligibilityResult",
+        "ConsumerBriefcaseItem",
+        "CreateConsumerBriefcaseItemInput"
+      ],
+      "currentBehavior": "The consumer and Briefcase types contain a pathway label but no exact composed track identity or component-deferral metadata.",
+      "requiredBehavior": "Add selectedTrackId, treatmentClassification='component_deferral', deferralComponentIds, and the localized treatment bundle. Persist the identity in artifactRefs or an equivalently server-controlled existing JSON column; do not add a migration solely for this metadata.",
+      "input": {
+        "metadata": "server-authored component-deferral bundle"
+      },
+      "output": {
+        "artifactRefs.rcapTrackId": "exact track id",
+        "artifactRefs.treatmentClassification": "component_deferral",
+        "artifactRefs.deferralComponentIds": "31-subset for the exact route"
+      },
+      "appliedSha256": "ee50dd8d11abf6ff562b9ca015307432f816756fd10ddcf4c98086abf7572339",
+      "priorAppliedSha256": [
+        "054a517138801e85c21321f622d81d1a0f93aeaea8a032f9a7e6b92727cade1d"
+      ]
+    },
+    {
+      "id": "c-deferral-save-policy",
+      "file": "src/lib/expungement-ai/save-result-policy.ts",
+      "baseSha256": "47cbd7b00af0ce3265a9721689287bd12b509cfd7816d16ec2ff8e679fcd2721",
+      "symbols": [
+        "SaveScreeningResultPayload",
+        "buildSaveInput",
+        "resolveSavePaymentAllowed"
+      ],
+      "currentBehavior": "The save policy accepts evaluationPaymentAllowed and only forces it false for partner sessions. It carries no exact track id or component-deferral metadata into the Briefcase create input.",
+      "requiredBehavior": "Accept only server-authored selectedTrackId/treatment metadata. If treatmentClassification is component_deferral, force paymentAllowed=false for both direct-to-consumer and partner sessions, status=guidance_saved, packetType=guidance_packet, paymentStatus=not_applicable, and copy exact track/component metadata into artifactRefs. A client payment boolean cannot override this clamp.",
+      "input": {
+        "payload": "verified evaluation plus server-owned deferral bundle"
+      },
+      "output": {
+        "CreateConsumerBriefcaseItemInput": "non-payable guidance item with exact deferral metadata"
+      },
+      "appliedSha256": "f95a78d5feb1c4942d9ac2243c4c8ad4092b41d28b840d27fba81fe87facca15",
+      "priorAppliedSha256": [
+        "d4c303ba75b5089f6c4670db6c2abf8d285bbd89636f4702025639d6d7429ff0"
+      ]
+    },
+    {
+      "id": "c-deferral-briefcase-save",
+      "file": "src/lib/expungement-ai/briefcase.ts",
+      "baseSha256": "522d686f1e2d66b07dd544a0c61179dd9ca44c9f1deb66443d680e9f9baf7124",
+      "symbols": [
+        "saveScreeningResultToBriefcase",
+        "createBriefcaseItem",
+        "fallbackItemFromCreateInput",
+        "rowToBriefcaseItem",
+        "statusForResult"
+      ],
+      "currentBehavior": "A guidance result is saved as guidance_saved and paymentAllowed can be false, but the item does not preserve component identity, outstanding components, exact return instructions, or the treatment evidence carrier.",
+      "requiredBehavior": "For component_deferral, save status=guidance_saved, payment_allowed=false, payment_status=not_applicable, amount_cents=null, packet_status=not_started, no checkout id, and the exact treatment metadata in the existing artifact_refs_json. summary and next_steps_json must use the requested locale and include what is preserved, every outstanding component, exact destination/next action/gather/do-not language, escalation, and how to return to the saved Briefcase item.",
+      "input": {
+        "CreateConsumerBriefcaseItemInput": "server-authored component-deferral result"
+      },
+      "output": {
+        "status": "guidance_saved",
+        "paymentAllowed": false,
+        "packetReady": false,
+        "paymentStatus": "not_applicable",
+        "amountCents": null
+      },
+      "appliedSha256": "be76ec2b334873684abbdd801178079ba7545f9c5951f16580caf8194f9f3a0f",
+      "priorAppliedSha256": [
+        "aced1f2841956c7c1645424c2efbc216b11d1ac0f6642b029a69cc4f5fdd8908"
+      ]
+    },
+    {
+      "id": "c-deferral-save-endpoint-authority",
+      "file": "src/app/api/expungement-ai/screening/save-result/route.ts",
+      "baseSha256": "8dddf146d7f226ea632179b13d5e2711bf1f3119a97d8a164969e441601bc234",
+      "symbols": [
+        "POST",
+        "SaveBody"
+      ],
+      "currentBehavior": "The endpoint accepts resultCode, pathwayLabel, packetType, paymentAllowed, summary, and nextSteps from the request and does not carry an authoritative track id. A client can submit paymentAllowed=true, subject only to later checkout checks.",
+      "requiredBehavior": "Do not trust a client-supplied selectedTrackId or component treatment. Resolve the saved screening session's server-authored evaluation/track identity; when it is an affected track, replace client payment, packet type, summary, and next steps with the registry bundle and store component_deferral metadata. Reject a route-id mismatch.",
+      "input": {
+        "sourceSessionId": "authenticated user's screening session id",
+        "clientBody": "display data only; not authority for route/payment/treatment"
+      },
+      "output": {
+        "Briefcase item": "server-authored component_deferral guidance item"
+      },
+      "appliedSha256": "d0258eaeddcc747e09770f46b7feca4c68739261077d75bfb5a12d85f8680f9f"
+    },
+    {
+      "id": "c-deferral-route-priority",
+      "file": "src/lib/rcap/documents/packet-route-resolver.ts",
+      "baseSha256": "c42afb0e46b2a756c0e65171499dec19c0769f95dd53de14aebc52bf860358ca",
+      "symbols": [
+        "PacketRouteKind",
+        "PacketRouteInput",
+        "resolvePacketRoute",
+        "packetRouteCanRender"
+      ],
+      "currentBehavior": "Route resolution accepts state and compiled pathway only. IL and TX are classified legacy_verified by jurisdiction before any route-specific check, making them sellable and creditConsumable. Other affected jurisdictions fall to guidance_only but without exact component identity.",
+      "requiredBehavior": "Add trackId to PacketRouteInput and component_deferral to PacketRouteKind. Before the LEGACY_VERIFIED jurisdiction check, look up the exact trackId; every affected route must return rendererKind=none, sellable=false, creditConsumable=false and all deferralComponentIds. This priority is mandatory for il-prb-cert and tx_nd_veterans_reemployment so the IL/TX legacy fallback cannot make an incomplete composed route sellable. packetRouteCanRender must remain false.",
+      "input": {
+        "state": "jurisdiction",
+        "pathway": "compiled pathway when any",
+        "trackId": "authoritative exact composed track id"
+      },
+      "output": {
+        "routeKind": "component_deferral",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false
+      },
+      "appliedSha256": "6fd85d63c65540ae8a3569ef8393cff6e0eb509afe3f2bc6baa2c5b9c10b7065",
+      "priorAppliedSha256": [
+        "b70589747d19949ae928ffb2e4ad62a3e8a35c1f43feca683b7c83efc0cbf898",
+        "d20939ef63c8541cf0ec5e72845db4fc60c8a2165d6731421aaba279164a6aad"
+      ]
+    },
+    {
+      "id": "c-deferral-checkout-defense",
+      "file": "src/lib/expungement-ai/payment-adapter.ts",
+      "baseSha256": "ed48b543e03804f39d6220062cebc2197ecfef39aa7a3a208308fe109c338070",
+      "symbols": [
+        "createConsumerPaymentPlaceholder",
+        "createConsumerPacketCheckout",
+        "assertCheckoutAllowed",
+        "ConsumerCheckoutNotAllowedError"
+      ],
+      "currentBehavior": "Checkout is denied when item.paymentAllowed is false or its result code is not packet ready, but no independent route/treatment check exists. A corrupted item with packet-ready plus paymentAllowed=true can reach Stripe.",
+      "requiredBehavior": "In both payment-placeholder and assertCheckoutAllowed, independently deny an item whose server-owned metadata says component_deferral or whose exact trackId resolves to one. Do this before already-paid handling and before Stripe or dry-run session creation. A mutated paymentAllowed=true or packet-ready result must still throw ConsumerCheckoutNotAllowedError and create no checkout metadata.",
+      "input": {
+        "item": "owned Briefcase item with exact track metadata"
+      },
+      "output": {
+        "enabled": false,
+        "exception": "ConsumerCheckoutNotAllowedError for any direct checkout call"
+      },
+      "appliedSha256": "c293b29a2067143316a083b4270e0966ba43252cec11bd68dd6dd19613503b5a",
+      "priorAppliedSha256": [
+        "8450a4a0db6decee1158992828aa48e1e98005786523c45a93e4438e94c6cb4f"
+      ]
+    },
+    {
+      "id": "c-deferral-checkout-route-defense",
+      "file": "src/app/api/expungement-ai/checkout/route.ts",
+      "baseSha256": "9e0766966ca6d03297d94eb8eb73564b86c2cf1d1be8b0f4cacb2fb2deb67b7b",
+      "symbols": [
+        "POST"
+      ],
+      "currentBehavior": "The route loads an owned Briefcase item and delegates to createConsumerPacketCheckout. It has no explicit component-deferral response.",
+      "requiredBehavior": "After item ownership resolution and before sponsored/payment handling, resolve the item's exact track metadata. Return 403 with no checkout URL/session/amount for component_deferral. Keep the payment-adapter denial as a second independent guard.",
+      "input": {
+        "briefcaseItemId": "authenticated user's item id"
+      },
+      "output": {
+        "status": 403,
+        "body": "non-purchasable result without checkout fields"
+      },
+      "appliedSha256": "deeb970ad65c17c65162172c01aebc5ec6252d91751c7ce82d254b981eedcf9f",
+      "priorAppliedSha256": [
+        "4d3bcc5d15d1595f2f1d2524c3e1bd322138bfebaaed1804821133bc4057f15f"
+      ]
+    },
+    {
+      "id": "c-deferral-render-and-credit-defense",
+      "file": "src/lib/rcap/render/job-contract.ts",
+      "baseSha256": "122b71aa8d2e4d967c599679237cf59c25c0bbfa98ffa3cde77adcdd3c96b209",
+      "symbols": [
+        "buildRenderJobSpec"
+      ],
+      "currentBehavior": "The job builder passes state/pathway to resolvePacketRoute. IL/TX can become renderable through their jurisdiction-wide legacy classification because exact track identity is absent.",
+      "requiredBehavior": "Accept authoritative trackId, pass it to resolvePacketRoute, and return spec=null for component_deferral before a render job can be queued. No job means no artifact-finalization call and no path to partner-credit accounting. A direct partner request for an affected track must fail before enqueue.",
+      "input": {
+        "trackId": "exact server-owned track id"
+      },
+      "output": {
+        "spec": null,
+        "route.routeKind": "component_deferral",
+        "route.creditConsumable": false
+      },
+      "appliedSha256": "9478e0a1140bfbf9c30a734d9f1e5390f4b1089eb5700c0bd4d7d23e8b47d3a9"
+    },
+    {
+      "id": "c-deferral-consumer-render-defense",
+      "file": "src/lib/expungement-ai/consumer-render-request.ts",
+      "baseSha256": "ed83a4475885f03bca3b8680e59a79b1171d8baa98213d3ffbeede6d8aed9653",
+      "symbols": [
+        "requestConsumerPacketRender",
+        "resolveConsumerPacketId"
+      ],
+      "currentBehavior": "The consumer render request builds a job from item.state and item.pathwayLabel before checking payment; it does not pass exact track identity.",
+      "requiredBehavior": "Read exact trackId from server-owned Briefcase metadata, pass it to buildRenderJobSpec, and return route_not_renderable for component_deferral before creating rcap_document_packets, checking payment, resolving a person, or enqueueing. Do not manufacture a packet row for a deferral.",
+      "input": {
+        "briefcaseItem": "owned item carrying server-authored trackId"
+      },
+      "output": {
+        "status": "route_not_renderable",
+        "sideEffects": "none"
+      },
+      "appliedSha256": "a632170ddf24573ec16027675215599d0ece8d7f9178b9970424e0b2e41a5149"
+    }
+  ],
+  "acceptanceTests": [
+    {
+      "id": "all-components-loaded",
+      "assertion": "For each affectedRouteIds value, the registry-derived component ids equal the route.json official_form_dependency unit ids and the total is 31. Omitting one treatment makes the registry fail closed."
+    },
+    {
+      "id": "localized-participant-copy",
+      "assertion": "Both en and es return every required component element; deleting Spanish or copying English into Spanish is rejected."
+    },
+    {
+      "id": "briefcase-handoff",
+      "assertion": "Each affected route saves one guidance_saved item that preserves the exact route/component identities, what is saved, what remains outstanding, and how to return. Removing the handoff is rejected."
+    },
+    {
+      "id": "payment-false",
+      "assertion": "Every affected route yields paymentAllowed=false, payment_status=not_applicable, amount_cents=null and no priceCents. Mutating any treatment or saved item payment flag to true does not enable payment."
+    },
+    {
+      "id": "checkout-suppressed",
+      "assertion": "The payment placeholder is disabled and POST /api/expungement-ai/checkout returns 403 with no Stripe/dry-run call or checkout metadata for every affected route, including IL and TX."
+    },
+    {
+      "id": "zero-credit",
+      "assertion": "resolvePacketRoute returns creditConsumable=false; buildRenderJobSpec returns spec=null; no job, packet row, delivery, packet_credit_ledger row, rcap_packet_credit_consumptions row, or partner overage event is created. Mutating creditConsumable to true at a caller does not bypass the resolver's exact-track check."
+    },
+    {
+      "id": "legacy-priority",
+      "assertion": "IL+il-prb-cert and TX+tx_nd_veterans_reemployment return component_deferral, never legacy_verified, sellable, creditConsumable, or renderable. Existing unrelated IL/TX legacy routes retain their prior classification."
+    },
+    {
+      "id": "identity-fail-closed",
+      "assertion": "A client-supplied track id, route-id mismatch, missing server identity, extra component, missing component, broken evidence carrier, or invalid treatment produces no payment, checkout, render job, packet row, or credit side effect."
+    },
+    {
+      "id": "authoritative-track-selection",
+      "assertion": "POST /api/expungement-ai/evaluate rejects every client-supplied track/treatment field. Each affected track is selectable in tests only through the server-owned composed-route selector, and the selected id is persisted with the evaluation used by save-result. Missing or mismatched selector identity returns guidance_only with paymentAllowed=false and packetPlan=null; it never resolves by jurisdiction, label, URL, sibling pathway, or client input."
+    },
+    {
+      "id": "existing-regressions",
+      "commands": [
+        "node docs/record-clearing/terminalize-c/verify-c-dependency-deferrals.mjs",
+        "node scripts/verify-rcap-terminalize-c1.mjs",
+        "node scripts/verify-rcap-terminalize-c2.mjs",
+        "node scripts/verify-rcap-terminalize-c3.mjs",
+        "node scripts/verify-rcap-no-null-presentation.mjs",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "npm test"
+      ]
+    }
+  ],
+  "nonGoals": [
+    "No route promotion, technical approval, terminal disposition, or launch flag change.",
+    "No canonical ledger or job-graph regeneration in the Codex correction branch.",
+    "No Supabase migration is required for the treatment metadata; use the existing artifact_refs_json carrier.",
+    "No new payment, checkout, credit, Briefcase, or route-resolution subsystem."
+  ],
+  "captainApplication": {
+    "appliedBy": "Terminal A (captain)",
+    "appliedAtWindow": "2026-08-12-w3",
+    "note": "Every target below was patched by the captain. baseSha256 is preserved as the authoring-base fingerprint; appliedSha256 records the bytes after the most recent application and priorAppliedSha256 keeps every earlier applied state. The dedicated verifier accepts only a recorded state, so the shared runtime still cannot drift to a shape nobody wrote down.",
+    "captainOwnedModulesAdded": [
+      "src/lib/rcap-engine/composed-route-selector.ts",
+      "src/lib/expungement-ai/screening-session-route-identity.ts"
+    ],
+    "runtimeVerifier": "scripts/verify-rcap-component-deferral-runtime.mjs",
+    "deviations": [
+      {
+        "patchId": "c-deferral-engine-clamp",
+        "specifiedFile": "src/lib/rcap-engine/evaluator.ts",
+        "appliedInstead": [
+          "src/lib/rcap-engine/component-deferral-clamp.ts (new)",
+          "src/lib/rcap-engine/expungement-ai-adapter.ts",
+          "src/lib/rcap-engine/rcap-adapter.ts"
+        ],
+        "reason": "src/lib/rcap-engine/evaluator.ts is byte-pinned by the reviewed screening parity approval (data/expungement-ai/screening-parity-approved-deltas.json, delta md-pardon-signed-date-2026-08-11, authorizedSha256 54cea35b...). Editing it would silently re-authorize bytes Roger approved at an exact hash, which is the widening that mechanism exists to prevent. The required behaviour is applied at the two server adapters instead, which together are every server-side path into the engine, and evaluator.ts is left byte-identical to the approved hash.",
+        "behaviourPreserved": "The clamp still runs after route selection and before any packet-ready result leaves the engine boundary. scripts/verify-rcap-component-deferral-runtime.mjs proves the clamp on both adapters and asserts that the pinned evaluator itself remains deferral-unaware; two mutations prove each adapter's clamp is load-bearing.",
+        "requiresRogerDecision": "Only if Terminal A is later directed to place the clamp inside evaluator.ts, which would require a fresh parity re-authorization."
+      }
+    ],
+    "subsequentCaptainChanges": [
+      {
+        "window": "2026-08-12-w3",
+        "change": "the Texas exact-supported-deferral runtime correction",
+        "why": "Several targets in this specification are shared runtime files. Closing the TX:tx_exp_dismissed contradiction touched the route resolver, guidance registry, engine clamp, eligibility adapter, Briefcase, payment adapter, checkout route and render-job contract. The component-deferral behaviour this specification requires is unchanged and is still proven by scripts/verify-rcap-component-deferral-runtime.mjs and its ten mutations, which are green on these bytes.",
+        "appliedSha256Refreshed": true
+      }
+    ],
+    "applications": [
+      {
+        "window": "2026-08-12-w3",
+        "reason": "Original integration of the 31 component-level deferral treatments."
+      },
+      {
+        "window": "2026-08-13-emergency-497",
+        "reason": "Roger's emergency terminalization authorization extended the same shared runtime \u2014 one registry, one authoritative resolver, one Briefcase write path \u2014 to carry terminal treatments for every remaining nonterminal track, and added a track-scoped complete-guidance binding above the legacy-verified check. The C component deferrals are unchanged in behaviour and still take priority over every later treatment; only the surrounding bytes moved.",
+        "movedTargets": [
+          "src/app/api/expungement-ai/checkout/route.ts",
+          "src/lib/expungement-ai/briefcase.ts",
+          "src/lib/expungement-ai/eligibility-adapter.ts",
+          "src/lib/expungement-ai/payment-adapter.ts",
+          "src/lib/expungement-ai/save-result-policy.ts",
+          "src/lib/expungement-ai/types.ts",
+          "src/lib/rcap-engine/contracts.ts",
+          "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "src/lib/rcap/documents/packet-route-resolver.ts"
+        ]
+      },
+      {
+        "window": "2026-08-13-emergency-497-final",
+        "reason": "Closing 497/497 added a track-scoped complete-guidance lookup and bilingual timing validation to the shared guidance registry. The C component deferrals are unchanged in behaviour and still take priority over every later treatment; only the surrounding bytes moved.",
+        "movedTargets": [
+          "src/lib/rcap/documents/guidance-packet-registry.ts"
+        ]
+      },
+      {
+        "window": "2026-08-13-emergency-497-precedence",
+        "reason": "A deferral whose independent review returned correction_required is no longer treated as an accepted decision, so an approved terminalization treatment for the same track takes precedence over it. The C component deferrals are unchanged in behaviour and still outrank every later treatment.",
+        "movedTargets": [
+          "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "src/lib/rcap/documents/packet-route-resolver.ts"
+        ]
+      }
+    ]
+  }
+}

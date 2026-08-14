@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-official-form-dependency/v1",
+  "trackId": "mt_mmrta_serving",
+  "jurisdiction": {
+    "code": "MT",
+    "slug": "montana"
+  },
+  "componentId": "mt_mmrta_serving-certificate-of-service-2",
+  "componentIdSynthesized": false,
+  "unitId": "mt-mmrta-serving-certificate-of-service",
+  "role": "certificate_of_service",
+  "requiredOutput": "official_form_dependency",
+  "officialFormId": "MT-OCA-MMRTA",
+  "officialFormDocumentRole": "SERVICE",
+  "officialFormName": "Certificate of Service — MMRTA Petition",
+  "issuingAuthority": "Montana Office of the Court Administrator (Montana Judicial Branch)",
+  "officialSourceIndex": "https://courts.mt.gov/Forms/mmrta",
+  "officialSourceUrlForForm": "https://courts.mt.gov/Forms/mmrta",
+  "sourceBinary": {
+    "fileName": null,
+    "sha256": "d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9",
+    "recordedIn": "registry@3b6f4c1:tracks[mt_mmrta_serving].officialSources[4]; STATES/MT/STATE_MANIFEST.csv row 'MT-OCA-MMRTA | SERVICE'"
+  },
+  "acquisitionStatus": "binary_retained_document_id_conflict",
+  "drafted": false,
+  "draftingProhibitedBecause": "Official Office of the Court Administrator form published as part of the MMRTA form set. The adopted packet instruction directs that the official form set is the product; a drafted substitute would displace a controlling official form.",
+  "blockingStatement": "Master Library Edition 1.1 gives the OCA MMRTA Proposed Order and the OCA MMRTA Certificate of Service the same document ID, MT-OCA-MMRTA, distinguished only by document role, ORDER against SERVICE. They are two different binaries with two different SHA-256 values, so a component naming MT-OCA-MMRTA matches two retained assets carrying conflicting hashes and the authority gate records an authority hash conflict. No field map exists either.",
+  "owningLane": "lane-D/E official-source identity and field-map acquisition — Master Library successor edition must assign this form its own document ID; registry implementationQueue: F_source_problem",
+  "exactMissingSource": "Certificate of Service — MMRTA Petition, Montana Office of the Court Administrator, https://courts.mt.gov/Forms/mmrta (sha256 d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9): a distinct Master Library document ID separating it from the Proposed Order, plus a field map for the binary.",
+  "order": 2,
+  "requirement": "required",
+  "conditionDescription": null,
+  "profileCorroboration": "profile:pathways[id=marijuana-related-redesignation-expungement-under-mmrta].ruleClauses — “Certificate of Service Shows service on county attorney”; “The petition must be served on the county attorney for the county where the petition is filed. Under the Judicial Branch instructions, the county attorney has 21 days to oppose the petition.”",
+  "serviceRecipientRecorded": "The county attorney for the county in which the petition is filed. The county in question comes from the participant's answer to “Which county will you file in? The county attorney for that county must be served.” No county attorney office, address or name is asserted anywhere in this route.",
+  "fieldsLegalEaseWouldNotFill": [
+    "Whether service was completed, when, and by what method — a participant act performed after the packet is produced.",
+    "The county attorney's name, office address and position.",
+    "The participant's signature and date on the certificate.",
+    "Any statement about what the county attorney will do or has done."
+  ],
+  "unresolvedProcedureNote": "Whether the 21-day county attorney response window is stated in the AF 22-0129 Temporary Rules or is Office of the Court Administrator guidance only is unresolved; it is currently sourced to the OCA instructions.",
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[1]; registry@3b6f4c1:tracks[mt_mmrta_serving].rules.notice / .service; registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[5]",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+    "profileSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/montana/filing-instructions.ts",
+      "src/lib/rcap/state-packs/montana/document-types.ts"
+    ]
+  }
+}

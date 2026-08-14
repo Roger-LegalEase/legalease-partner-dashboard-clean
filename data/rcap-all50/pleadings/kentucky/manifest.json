@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "rcap-pleading-manifest/v1",
+  "jurisdiction": {
+    "code": "KY",
+    "name": "Kentucky",
+    "slug": "kentucky"
+  },
+  "jobIds": [
+    "T-C-KY-production-packet"
+  ],
+  "trackIds": [
+    "ky_void_seal_controlled_substance",
+    "ky_void_seal_marijuana_synthetic_salvia"
+  ],
+  "perTrackStatus": {
+    "ky_void_seal_controlled_substance": {
+      "publicName": "Void and seal a first Kentucky drug possession conviction",
+      "legalName": "Motion to Void a First Controlled-Substance Possession Conviction and Seal the Records (KRS 218A.275)",
+      "status": "controlled_pleading_drafted_with_official_form_dependency_and_open_build_blocker",
+      "primaryReliefTerm": "sealing",
+      "componentCount": 3,
+      "draftedComponentCount": 2,
+      "draftedCourtDocuments": [
+        "ky_void_seal_controlled_substance-primary-filing-1 (motion)",
+        "ky_void_seal_controlled_substance-certificate-of-service-3 (certificate of service)"
+      ],
+      "officialFormDependencies": [
+        "AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22 (component ky_void_seal_controlled_substance-proposed-order-2, required, tendered with the motion)"
+      ],
+      "counselFlagCount": 16,
+      "openBuildBlockers": [
+        "KRS 218A.275(12) bars this relief to anyone who previously had a possession charge dismissed after a KRS 218A.14151 deferred prosecution. The controlling review does not record the bar; it changes who receives a packet at all and must be encoded and confirmed before the route is built (eligibility_branch)."
+      ],
+      "openReleaseBlockers": [
+        "The static legal propositions the motion asserts about the effect of voiding and sealing under KRS 218A.275(9) and (10) are unratified."
+      ],
+      "openCounselClassifications": [
+        "Whether KRS 218A.14151 deferred prosecution (AOC-331 application, AOC-333 sealing order) should be added to the Kentucky mechanism denominator."
+      ],
+      "fixtures": [
+        "canonical",
+        "boundary",
+        "multiline",
+        "negative"
+      ],
+      "artifacts": [
+        "ky_void_seal_controlled_substance/pleading-config.json",
+        "ky_void_seal_controlled_substance/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ky_void_seal_controlled_substance/participant-instructions.md",
+        "ky_void_seal_controlled_substance/handoff.md",
+        "ky_void_seal_controlled_substance/components/ky_void_seal_controlled_substance-proposed-order-2/dependency.json"
+      ]
+    },
+    "ky_void_seal_marijuana_synthetic_salvia": {
+      "publicName": "Void and seal a first Kentucky marijuana or synthetic drug possession conviction",
+      "legalName": "Motion to Void a First Marijuana, Synthetic Drug or Salvia Possession Conviction and Seal the Records (KRS 218A.276)",
+      "status": "controlled_pleading_drafted_with_official_form_dependency",
+      "primaryReliefTerm": "sealing",
+      "componentCount": 3,
+      "draftedComponentCount": 2,
+      "draftedCourtDocuments": [
+        "ky_void_seal_marijuana_synthetic_salvia-primary-filing-1 (motion)",
+        "ky_void_seal_marijuana_synthetic_salvia-certificate-of-service-3 (certificate of service)"
+      ],
+      "officialFormDependencies": [
+        "AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22 (component ky_void_seal_marijuana_synthetic_salvia-proposed-order-2, required, tendered with the motion — same form as the KRS 218A.275 track)"
+      ],
+      "counselFlagCount": 16,
+      "openBuildBlockers": [],
+      "openReleaseBlockers": [
+        "The static legal propositions the motion asserts about the effect of voiding and sealing under KRS 218A.276(9) and (10) are unratified."
+      ],
+      "fixtures": [
+        "canonical",
+        "boundary",
+        "multiline",
+        "negative"
+      ],
+      "artifacts": [
+        "ky_void_seal_marijuana_synthetic_salvia/pleading-config.json",
+        "ky_void_seal_marijuana_synthetic_salvia/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ky_void_seal_marijuana_synthetic_salvia/participant-instructions.md",
+        "ky_void_seal_marijuana_synthetic_salvia/handoff.md",
+        "ky_void_seal_marijuana_synthetic_salvia/components/ky_void_seal_marijuana_synthetic_salvia-proposed-order-2/dependency.json"
+      ]
+    }
+  },
+  "componentCount": 6,
+  "totals": {
+    "tracks": 2,
+    "components": 6,
+    "draftedPleadingComponents": 4,
+    "officialFormDependencies": 2,
+    "distinctOfficialFormsBlocked": 1,
+    "counselFlags": 32,
+    "fixtures": 8
+  },
+  "notes": [
+    "Both Kentucky controlled-pleading tracks are genuine custom pleadings for the motion itself — the registry records no official form for either motion — but both tender the SAME official proposed order, AOC-334 Rev. 1-22. That is one distinct mandatory official-form handoff covering two tracks. No order text is drafted on either track.",
+    "Verification is affirmatively absent on both tracks rather than unknown: the registry states 'none required. The motion is not verified.' verificationStatute.citation is null on both, and no verification block is rendered. This is a deliberate contrast with the ND config's handling of a genuinely missing verification statute, where the source was silent and the requirement was flagged as unconfirmed.",
+    "ky_void_seal_controlled_substance carries an open legal-design build blocker: the KRS 218A.275(12) deferred-prosecution bar is not recorded by the controlling review and changes who receives a packet at all. The container is drafted and the blocker is flagged; the screening question exists on the track but the gate is not ratified. ky_void_seal_marijuana_synthetic_salvia has no build blocker.",
+    "No fee figure is quoted to a participant on either track. The recorded rule is that there is no filing fee for this proceeding, and a clerk who demands one is a self-help stop condition.",
+    "Neither track's mechanism appears anywhere in the compiled KY profile. The profile's five pathways are KRS 431.078, KRS 431.073, KRS 431.076 and two juvenile routes; the strings '218A.275', '218A.276', '27A.099' and 'AOC-334' appear nowhere in it, and the Kentucky Nationwide source corpus behind it is six expungement-side AOC PDFs, one PDF reference file and two HTML reference files. Both tracks therefore rest on the pinned registry entries. Regenerating the KY profile against a corpus that includes Chapter 218A would repair all three Kentucky lane-C1 tracks at once.",
+    "profile:terminology.allowedStateTerms for Kentucky is ['expungement', 'vacatur/vacation', 'pardon']. Neither 'voiding' nor 'sealing' is on that list, yet both are the remedy on these tracks. Recorded as a terminology conflict for F-review.",
+    "RENDERER COMPATIBILITY: a rendered sample of the canonical fixtures was produced in this worktree against src/lib/record-clearing/renderers/custom-pleading-renderer.ts and exposed three adapter defects, each recorded in the affected config's rendererCompatibility block. (a) usesCounty:true is a Pennsylvania-specific branch that emits 'the Court of Common Pleas of {county} County, Pennsylvania' and 'The Pennsylvania State Police' into any track that sets it; every Kentucky config here therefore sets usesCounty:false and carries the county through the {county} token in courtName/venueDescriptor, as the ND config does. (b) Fields deliberately left null under the sourced-content-only rule are stringified into the output as the literal word 'null' — in the caption party role, the parties block and the verification clause; the adapter must omit the line, not stringify. (c) A verification section is emitted even where the source affirmatively states the filing is not verified. No source-faithful field was altered to work around any of these.",
+    "FIXTURE SHAPE: fixture partyData uses the renderer's own PleadingRenderInput field names (petitionerName, petitionerAddress, otherNamesUsed). The movant/applicant role label comes from presentation.movantRole in the config, not from the fixture key."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+    "profileSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/kentucky/index.ts",
+      "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
+    ]
+  }
+}

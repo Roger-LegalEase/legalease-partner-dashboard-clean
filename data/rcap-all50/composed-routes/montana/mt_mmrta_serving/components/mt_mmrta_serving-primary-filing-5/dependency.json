@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-official-form-dependency/v1",
+  "trackId": "mt_mmrta_serving",
+  "jurisdiction": {
+    "code": "MT",
+    "slug": "montana"
+  },
+  "componentId": "mt_mmrta_serving-primary-filing-5",
+  "componentIdSynthesized": false,
+  "unitId": "mt-mmrta-serving-criss-request",
+  "role": "primary_filing",
+  "stage": "Unit 2 — conditional Department of Justice stage",
+  "requiredOutput": "official_form_dependency",
+  "officialFormId": "EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+  "officialFormName": "Expungement/Removal Request Form — Montana Department of Justice, Criminal Records Information Services Section (CRISS), updated 29 April 2024",
+  "issuingAuthority": "Montana Department of Justice, Division of Criminal Investigation, Criminal Records Information Services Section (CRISS)",
+  "officialSourceIndex": "https://dojmt.gov/dci-home/conviction-expungement-process/",
+  "officialSourceUrlForForm": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+  "sourceBinary": {
+    "fileName": "20240429-Updated-ExpungementRemovalRequestForm.docx",
+    "sha256": "4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+    "recordedIn": "registry@3b6f4c1:tracks[mt_mmrta_serving].officialSources[6]; statePack:official-forms.ts mtOfficialForms[3]"
+  },
+  "acquisitionStatus": "binary_retained_asset_class_mismatch",
+  "drafted": false,
+  "draftingProhibitedBecause": "This is a genuine Department of Justice agency form and the required and only vehicle for the DOJ stage. Sections 46-18-1110(2)(b) and 46-18-204(2) both refer to a form prepared by the department of justice. A drafted letter or substitute would displace it.",
+  "blockingStatement": "Master Library Edition 1.1 retains this asset as SUPPORTING_PROCESS with document role SUPPORTING_FORM, not as a packet form. The authority gate treats a supporting-process asset as one that cannot back an official_pdf_fill component, so this component is recorded as an authority role mismatch. Separately, the 2023 PDF and the 29 April 2024 DOCX disagree on the required attachment set, and which set CRISS enforces in practice is unresolved.",
+  "owningLane": "lane-D/E official-source acquisition and Master Library reclassification (proposed Edition 1.2) — registry implementationQueue: F_source_problem. Edition 1.1 is not modified.",
+  "exactMissingSource": "Two things: (1) reclassification of EXPUNGEMENTREMOVALREQUESTFORM.DOCX from SUPPORTING_PROCESS / SUPPORTING_FORM to a packet form in a successor Master Library edition, so it can back an official_pdf_fill component; and (2) confirmation from the Montana Department of Justice of which CRISS Expungement/Removal Request Form version is enforced in practice and what the current required attachment set is (the 2023 PDF requires valid photo identification for two request types and the “Original Court Order” for misdemeanour expungement; the 2024 DOCX at https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx drops the photo-ID requirement, requires the “Original Court Judgement” instead, and adds “Deferred Prosecution” to the fourth request type).",
+  "order": 5,
+  "requirement": "conditional",
+  "conditionDescription": "Unit 2. Applies only where the court grants EXPUNGEMENT. Not applicable where the outcome is resentencing — the conviction stands with a modified sentence, there is nothing for the Department of Justice to delete, and the packet says so plainly rather than sending a request that will be refused.",
+  "profileCorroboration": "profile:pathways[id=marijuana-related-redesignation-expungement-under-mmrta].ruleClauses — “If the court grants marijuana-related expungement, the petitioner must file the DOJ Expungement/Removal Request Form with the Montana Department of Justice along with the court order.” State pack filing sequence: “after a granted order, file the DOJ Expungement/Removal Request with the order.”",
+  "submissionDestination": {
+    "recipient": "Montana Department of Justice, Division of Criminal Investigation, CRISS Expungement",
+    "address": "2225 11th Ave., P.O. Box 201403, Helena, MT 59620",
+    "phone": "(406) 444-3625",
+    "email": "dojcriss@mt.gov",
+    "fee": "No fee is charged for the CRISS request.",
+    "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].destination.detail; registry rules.fees"
+  },
+  "interimAttachmentPosture": "Fail-closed pending confirmation: photo identification is included by default and a certified copy of the judgment is requested, alongside the certified copy of the court order of expungement.",
+  "fieldsLegalEaseWouldNotFill": [
+    "The participant's signature and date on the CRISS form.",
+    "Any assertion that the Department of Justice has acted, will act, or has removed anything.",
+    "Fingerprints — the participant supplies them; § 46-18-1110(2)(b) requires the order to be sent with fingerprints and the DOJ form.",
+    "Date of birth and identifying numbers (protected fields)."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].units[1]; registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[4]; registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[1] and [4]",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+    "profileSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/montana/official-forms.ts",
+      "src/lib/rcap/state-packs/montana/filing-instructions.ts",
+      "src/lib/rcap/state-packs/montana/fee-notes.ts"
+    ]
+  }
+}

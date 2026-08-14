@@ -34,6 +34,10 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "IL:juvenile-automatic-or-petition-expungement",
   "KS:specialty-court-accelerated",
   "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
+  // MD pardoned-conviction expungement (Crim. Proc. § 10-105(a)(8)/(c)(4)): counsel approved
+  // 2026-08-11; both-direction proof lives in scripts/verify-rcap-md-pardon-pathway.mjs (qualifying
+  // in-deadline case opens payment, passed-deadline and missing-date cases stay shut).
+  "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
   "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
   "ND:first-offense-possession-sealing",
   "ND:marijuana-specific-summary-pardon-or-sealing-relief",
@@ -427,6 +431,18 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  // Backstop for the same structural fact when the product-guidance checks
+  // above stop firing (e.g. a later ratification flips the court-filed
+  // classification): a selected automatic/no-filing pathway resolves to
+  // guidance before any compiled rule can route it toward a packet.
+  if (preselectedPathway && routeIsAutomaticOrNoFiling(profile, preselectedPathway)) {
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    return result(profile, request, "guidance_only", [reason(jurisdiction, "automatic_or_no_filing_route", guidanceTextForPathway(profile, preselectedPathway), preselectedPathway.sourceRef)], {
+      pathwayId: preselectedPathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      paymentAllowed: false
+    });
+  }
 
   const route = matchCompiledRuleRoute(profile, publicProfile, answers);
   if (!route.ok) {
@@ -463,10 +479,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
   const plan = packetPlanForPathway(profile, pathway.id);
-  if (plan?.mode === "automatic_relief_verification_and_guidance") {
+  // Structural, not plan-driven: an automatic/no-filing route resolves to
+  // guidance even if its packet plan is missing or mislabeled. A matched
+  // packet-ready rule (MI rule-11 before its correction) must not be able to
+  // steer such a route toward checkout.
+  if (plan?.mode === "automatic_relief_verification_and_guidance" || routeIsAutomaticOrNoFiling(profile, pathway)) {
     return result(profile, request, "guidance_only", [reason(jurisdiction, "automatic_or_no_filing_route", guidanceTextForPathway(profile, pathway), route.rule.sourceRef ?? pathway.sourceRef)], {
       pathwayId: pathway.id,
-      packetPlan: plan,
+      ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
     });
   }
@@ -510,6 +530,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     : sourceCaution(profile, answers, pathway.id) ? "packet_ready_with_caution" : "packet_ready";
   const paymentAllowed = route.deterministic === true
     && Boolean(plan)
+    && !routeIsAutomaticOrNoFiling(profile, pathway)
     && routeIsRatifiedDeployable(profile, pathway)
     && (isCourtFiledPetitionRoute(profile, pathway) || routeIsAdministrativeApplicationPacket(profile, pathway))
     && isPacketPlanFulfillmentReady(plan);
@@ -599,6 +620,14 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   const juvenile = profile.pathways.find((pathway) => /juvenile|minor/i.test(`${pathway.label} ${pathway.summary}`));
   if (/juvenile|minor/.test(outcome) && juvenile) return juvenile;
 
+  // A pardoned conviction is still a conviction by token, so the pardon branch
+  // must run before the generic conviction branch or MD pardon participants
+  // land on the first "non-conviction"-labeled pathway (label token overlap).
+  if (profile.jurisdiction.code === "MD" && /pardon/.test(outcome)) {
+    const pardoned = profile.pathways.find((pathway) => /pardon/i.test(pathway.label));
+    if (pardoned) return pardoned;
+  }
+
   const conviction = profile.pathways.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`));
   if (/conviction|misdemeanor|felony/.test(outcome) && conviction) return conviction;
 
@@ -659,6 +688,22 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   if (deGate) return deGate;
   const akGate = akCourtViewExclusionSafetyGate(profile, answers, pathway);
   if (akGate) return akGate;
+  const mdPardonGate = mdPardonDeadlineSafetyGate(profile, answers, pathway);
+  if (mdPardonGate) return mdPardonGate;
+  return undefined;
+}
+
+// Maryland pardoned-conviction deadline bar (counsel approved 2026-08-11): Md. Crim. Proc.
+// § 10-105(c)(4) bars the pardon-based petition more than 10 years after the Governor signed the
+// pardon. A missing date is not a bar — the timing carve-out asks for it instead.
+function mdPardonDeadlineSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (routeKey(profile, pathway) !== "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8") return undefined;
+  const pardonDate = parseDateAnswer(answers.pardon_signed_date);
+  if (!pardonDate) return undefined;
+  const deadline = addDuration(pardonDate, 10, "years");
+  if (deadline && deadline < evaluationToday()) {
+    return reason(profile.jurisdiction.code, "md_pardon_deadline_not_eligible", "Md. Crim. Proc. \u00a7 10-105(c)(4) bars filing the pardon-based expungement petition more than 10 years after the Governor signed the pardon.", pathway.sourceRef);
+  }
   return undefined;
 }
 
@@ -866,6 +911,22 @@ function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway
 
 function specialRouteTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult | undefined {
   const key = routeKey(profile, pathway);
+  if (key === "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8") {
+    // Crim. Proc. § 10-105(a)(8) carries no minimum wait; § 10-105(c)(4) is the
+    // opposite constraint — filing is barred more than 10 years AFTER the
+    // Governor signed the pardon. The generic engine parses waiting rules as
+    // minimum waits, so this route asks for the pardon date instead; the
+    // passed-deadline bar is enforced by mdPardonDeadlineSafetyGate.
+    const pardonDate = parseDateAnswer(answers.pardon_signed_date);
+    if (!pardonDate) {
+      return {
+        status: "missing_anchor",
+        reason: reason(profile.jurisdiction.code, "md_pardon_date_needed", "The date the Governor signed the pardon is needed to confirm the \u00a7 10-105(c)(4) ten-year filing deadline.", rule.sourceRef ?? pathway.sourceRef),
+        missingQuestionIds: ["pardon_signed_date"]
+      };
+    }
+    return { status: "satisfied" };
+  }
   if (key === "CA:tool-1-dismissal-set-aside" || key === "CA:tool-4-arrest-record-sealing") return { status: "satisfied" };
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
   if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied" };
@@ -1578,10 +1639,30 @@ function packetLikePathway(profile: EngineProfile, pathway: CompiledPathway) {
   return isCourtFiledPetitionRoute(profile, pathway);
 }
 
+/**
+ * A route on which relief happens without the participant filing anything can
+ * never be a paid packet: there is nothing to sell. This is a structural fact
+ * of the pathway — routeType, filingRequired, or a verification-and-guidance
+ * packet plan — and deliberately does NOT consult ratification: ratifying a
+ * jurisdiction for deployment must never convert an automatic route into a
+ * sellable one (lane-B report: MI rule-11 steered the automatic 92-day
+ * misdemeanor set-aside toward checkout).
+ */
+function routeIsAutomaticOrNoFiling(profile: EngineProfile, pathway: CompiledPathway): boolean {
+  const routeType = (pathway as { routeType?: string }).routeType;
+  if (routeType === "automatic") return true;
+  if ((pathway as { filingRequired?: boolean }).filingRequired === false) return true;
+  const plan = packetPlanForPathway(profile, pathway.id);
+  return plan?.mode === "automatic_relief_verification_and_guidance";
+}
+
 function isCourtFiledPetitionRoute(profile: EngineProfile, pathway: CompiledPathway) {
   const code = profile.jurisdiction.code;
   const text = `${pathway.id} ${pathway.label} ${pathway.summary}`.toLowerCase();
   const plan = packetPlanForPathway(profile, pathway.id);
+  // Structural veto before any ratification shortcut: an automatic/no-filing
+  // route is not a court-filed petition, whatever else is true of its state.
+  if (routeIsAutomaticOrNoFiling(profile, pathway)) return false;
 
   // Alaska: the ONLY user-filed court route is the TF-810 CourtView exclusion request (AS 22.35.030 /
   // Admin. R. 40), filed at the local trial court. Every other Alaska route (mistaken-identity DPS

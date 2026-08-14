@@ -1,0 +1,109 @@
+{
+  "reviewId": "wave1-shard-4",
+  "reviewer": "independent read-only reviewer, terminalization wave 1",
+  "reviewedBaseSha": "2eb5736c3eb6a109ff57b0c980e99c3b29764e06",
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "scope": {
+    "jurisdictions": ["MI", "MN", "MO", "MT", "NC"],
+    "tracksReviewed": 11,
+    "probeScript": "/tmp/probe-wave1-shard-4.mjs",
+    "probeCoverage": "all 11 tracks probed, not a representative sample; registry load, packet-route resolution, render-job spec build, checkout gate (assertCheckoutAllowed), Briefcase create + reopen in both locales"
+  },
+  "runtimeFindings": {
+    "allTracksClassification": "terminal_treatment_candidate with invalidReason null",
+    "sellable": "false on every track",
+    "creditConsumable": "false on every track; registry record reports packetCreditConsumption=none, partnerCreditConsumption=none, partnerCreditConsumed=false",
+    "paymentAllowed": "false on every saved Briefcase item even though the probe requested paymentAllowed=true, packetType=custom_pleading, resultCode=packet_ready and status=packet_ready; the runtime overrode all four to guidance_only / guidance_saved / packetStatus not_started / amountCents null",
+    "checkoutSuppressed": "true on every track; pay.assertCheckoutAllowed threw ConsumerCheckoutNotAllowedError for all 11",
+    "renderJob": "buildRenderJobSpec returned spec === null on every track; rendererKind none",
+    "reopen": "getBriefcaseItem returned artifactRefs.terminalTreatment.trackId === the requested track on all 11, with the requested locale honoured and briefcasePreserved / briefcaseOutstanding / briefcaseReturn all populated",
+    "bilingual": "stopReason es !== en on every track; registry en/es equality and prohibited-copy guards passed for all 11",
+    "note": "packet-route resolver routeKind is a route-side classification (exact_supported_deferral / component_deferral) independent of the treatment taxonomy field, and both values resolve non-sellable and non-credit-consumable, so the MI complete_guidance and MT component_deferral values are not treatment defects"
+  },
+  "dispositions": [
+    {
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies that no participant filing exists — MC 262 is a court order, not an application — and names two exact destinations in order: the clerk of the court that entered the order, then the Michigan State Police criminal history service. Every stated fact (MCL 28.243(8)(b), the sixty-day window, MCL 769.16a clerk notice, the MCL 28.243(14) prior-conviction and child-offence exclusions, the ICHAT-proves-nothing point, corrections raised with the reporting agency) is carried by the brief. doNot flags the exclusion that catches most of this population and forbids the wrong-body correction. Spanish is a genuine translation with correct legal register (anulación, ficha de arresto, secretaría del tribunal), not a gloss. Briefcase preservation complete; reopen returned the same treatment."
+    },
+    {
+      "trackId": "mi_auto_misd92",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Names the correct split mechanism — MSP under MCL 780.621g(3) where fingerprints were submitted, the convicting court under MCL 780.621g(1) where the record lives only in the court's case management system — and makes the where-to-check decision the participant's first step, which is exactly the brief's warning that a blanket MSP/ICHAT instruction is wrong for this population. States the seven-year clock, the absence of a numerical limit, the MCL 780.621g(5) monthly notification, and MCL 780.621h reversibility for ineligibility or unpaid restitution. Honestly states that no participant-facing mechanism to compel automatic relief has been identified and routes to the application-based set-aside rather than inventing a demand. Spanish substantive and independent. Runtime suppression and reopen verified."
+    },
+    {
+      "trackId": "mi_setaside_csc4_pre2015",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "deliberate_scope_exclusion",
+      "runtimeBehaviorInspected": true,
+      "note": "Departure from the brief's generic proposedTreatment (complete_guidance) to deliberate_scope_exclusion is correct and documented in treatmentBasis: the brief's own scopeRestrictions say the route is affirmatively outside self-help scope, counsel in every case, packet not to be built. The destination is not a generic referral — it is the convicting court, because the offence date on that court's record is the decisive fact under MCL 780.621c(c), and the next step (ask the clerk for the record showing the offence date, not the conviction date) is exact and executable before any lawyer is involved. The bespoke prior-record test is reproduced precisely including the ninety-day / $1,000 / age-21 elements, and the SORA-continues warning is carried in both mechanism and doNot. Stop reason explicitly attributes the boundary to the product rather than the participant. Spanish is a real translation."
+    },
+    {
+      "trackId": "mn_ceb_felony_cannabis",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly states that the Cannabis Expungement Board acts on its own initiative with no application, and turns that into a real monitoring product: dated BCA history plus MCRO case list as a baseline, re-check, compare. Carries the brief's two boundary facts (non-felony cannabis is automatic without Board review; automatic relief does not reach specially protected agencies or out-of-state records) and the consumer-protection instruction not to pay for a petition where an automatic route already covers the record. Refuses to date the Board's action because the brief carries no timing, and says so plainly instead of guessing. Spanish independent and natural. Runtime suppression, checkout block and same-treatment reopen verified."
+    },
+    {
+      "trackId": "mn_petition_15218",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact court (district court administrator in the county where the case was decided), exact free form set (EXP102, EXP104, EXP106, FEE102 where needed) with the published Judicial Branch forms page, and the service duty and its sequencing spelled out. Handles the components correctly: FEE102 is conditional and presented as conditional, the three others required and presented as required; EXP103 is correctly excluded as a prosecutor/court-side form. The hearing-block and proof-of-service cautions match the brief's manual-completion items. Refuses to state a waiting-period figure the brief does not carry and says why. Predatory-offender bar and the wrong-disposition warning are both present. Spanish is a genuine translation using correct terms (sobreseimiento, administrador del tribunal de distrito), not English with Spanish punctuation."
+    },
+    {
+      "trackId": "mn_petition_juvenile_as_adult",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Leads with the distinction the brief makes a scope restriction — this is an adult conviction following § 260B.125 certification and must not be collapsed into juvenile delinquency relief — and carries it into stopReason, doNot, nextSteps and Briefcase preservation. Same court and form suite as the § 152.18 track, correctly stated, with the § 609A.02 subd. 3 waiting-period clause cited rather than a fabricated number and the subd. 4 predatory-offender bar flagged. Shared strings with mn_petition_15218 are limited to identical facts (the same court, the same forms page URL, the same BCA/MCRO record source); mechanism, stopReason, doNot and afterNextStep are distinct copy, so criterion 14 holds. Runtime verified."
+    },
+    {
+      "trackId": "mo-575-120-identity-theft-correction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Strongest possible participant-safety handling of this route. The stop reason is exact and honest: the CR300 recital is a sworn assertion about another person's criminal conduct, the substantial-number-of-identifying-factors finding is the court's, and the published Case Types List names no FI-05 code. Venue is stated correctly and repeatedly as the civil division of the circuit court for the county of arrest, with the explicit warning that the court of charge is the wrong place, and the § 610.145 / CR301 route is kept separate exactly as the brief requires. The fingerprint-card requirement under § 610.123.1(7) is treated as mandatory (three cards, how to obtain, where each goes), the full-SSN mandatory content under § 610.123.1(1)(f) is carried with the corresponding confidentiality caution, and the packet says plainly that winning corrects the record rather than making the case disappear, and does not reach credit files or private databases. No waiting period is correctly stated as none. Spanish is substantive and idiomatic throughout."
+    },
+    {
+      "trackId": "mo-610-140-arrest",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Publishes the eighteen-month period read from § 610.140.7 and explicitly rejects the superseded three-year figure, in both languages. Venue is correctly the county of arrest with the divergence from the court-of-charge rule called out. Relief is correctly described as closure under § 610.120 and never as destruction, with § 610.122 identified as the better remedy the participant must rule out before filing — a material participant-safety point the treatment refuses to decide for them. The defendant-agency list is treated as outcome-determinative under § 610.140.8 with the arresting agency and the central repository named as the two easiest to omit. Sworn paragraphs 5, 6 and 7 and the no-charge-ever assertion are correctly left to the participant. Case.net and MACHS destinations are exact and URL-bearing. Spanish independent and complete."
+    },
+    {
+      "trackId": "mt_mmrta_serving",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly isolates what makes the currently-serving posture different: the § 16-12-113(2) public-safety override, which the treatment refuses to argue and forbids anyone else from arguing for the participant, plus custody status as an attorney trigger and the refusal to compute a resentencing under subsections (3) and (4). Both units are given exactly — the sentencing court with its local filing rules and the Court Locator for unit one, and the full DOJ CRISS Expungement postal address, phone and email for unit two — and the treatment states the § 46-18-1110(2)(b) point that the participant, not the court, carries the order onward, which is the single most consequential omission in Montana practice. One form set per conviction, the expungement/sealing/removal/redesignation vocabulary distinction, and the refusal to say a cleared record may be denied are all carried. The unresolved question about a designated expungement judge is stated as unresolved rather than guessed. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "nc_145_5_misdemeanor",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is exact and supported by the brief's own legal_design_blocker: the full G.S. 15A-145.5(a) nonviolent exclusion list is not encoded, and the petition asks the participant to certify both the offence classification and the absence of any other non-traffic conviction, which must be screened against the SBI record rather than recall. Destination is the clerk of superior court in the county where the charge was brought, on AOC-CR-298 Rev. 7/25, with the AOC-CR-297 transposition risk called out in both languages — a real rejection risk the brief pins. Waiting periods (three years for one, seven for more than one, each from the later of conviction and sentence completion, for petitions filed on or after 9 July 2025) match the brief exactly. Good-character affidavits are correctly held as third-party documents that neither LegalEase nor the participant may author. DWI and Class A1 are stated as categorically out. Spanish substantive and correctly registered."
+    },
+    {
+      "trackId": "nc_146_dismissal_petition",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Carries the brief's live conflict accurately: the incapable-to-proceed exclusion is effective for dismissals on or after 1 December 2025 while AOC-CR-287 (Rev. 12/25) states it without a date limit, leaving earlier dismissals unresolved — stated as unresolved and routed to a North Carolina attorney rather than guessed. The record-retention warning is placed as the next step rather than buried, which is correct given that access is restricted after expunction and the immigration consequence is the most severe. The record-destruction claim the brief ordered removed is absent; the treatment says an expunction restricts access. Automatic-expunction and 15A-145.4 / 15A-145.6 sequencing checks are both required before filing. Destination exact (clerk of superior court, county of the charge, AOC-CR-287 Rev. 12/25 with URL). Observation, not a defect: the participant-facing stopReason foregrounds the incapable-to-proceed question, which will not apply to every participant on this track, while the fuller non-production reason sits in treatmentBasis; the treatment is nonetheless complete, safe, accurate and non-promissory, so it is approved."
+    }
+  ],
+  "summary": {
+    "technical_approved_as_terminal_treatment": 11,
+    "correction_required": 0,
+    "held_on_source_or_design": 0,
+    "defectsFound": "none"
+  }
+}

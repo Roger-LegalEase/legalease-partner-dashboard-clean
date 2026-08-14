@@ -1,0 +1,1400 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E2-A3",
+  "group": "E2-A",
+  "baseCommit": "c7225bcf8f2fb2ab0deb5c333d2278937b257694",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "webAccessAvailable": false,
+  "findings": [
+    {
+      "jobId": "E2-A-NY-ny_clean_slate_convictions",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ny_clean_slate_convictions",
+        "compiledPathwayIds": [
+          "automatic-clean-slate-sealing-under-cpl-160-57"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.Y. Crim. Proc. Law § 160.57",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "Automatic Clean Slate sealing under CPL 160.57"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "CPL § 160.57(1)(b) eligible-conviction timing rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "An eligible misdemeanor conviction seals automatically 3 years after sentencing/release (8 years for an eligible felony), with no pending charges."
+        }
+      ],
+      "reasoning": "The track's operative statute is CPL § 160.57(1)(b) (Clean Slate automatic sealing of convictions). Exactly one NY compiled pathway carries CPL 160.57 in its label, and its summary states the 160.57(1)(b) operative rule (3-year misdemeanor / 8-year felony automatic sealing). The other four NY pathways implement CPL 160.50/160.55, 160.58, 160.59 and the MRTA respectively.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NY-ny_clean_slate_dwai",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ny_clean_slate_dwai",
+        "compiledPathwayIds": [
+          "automatic-clean-slate-sealing-under-cpl-160-57"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.Y. Crim. Proc. Law § 160.57",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "Automatic Clean Slate sealing under CPL 160.57"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "VTL § 1192(1) / DWAI never appears in the compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "Automatic non-conviction sealing under CPL 160.50 / 160.55"
+        }
+      ],
+      "reasoning": "The track's operative provision is CPL § 160.57(1)(a) (Clean Slate sealing of a VTL 1192(1) DWAI conviction). Of the two candidates, only the clean-slate pathway implements § 160.57; the other candidate's label shows it implements CPL 160.50/160.55 non-conviction sealing, which is not the track's operative mechanism (160.55 appears in the registry authority only as background). The strings '1192' and 'DWAI' appear nowhere in NY-new-york.json, so the DWAI variant is represented only at the section level of § 160.57 — hence medium confidence rather than high.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NY-ny_clean_slate_manual_review",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ny_clean_slate_manual_review",
+        "compiledPathwayIds": [
+          "automatic-clean-slate-sealing-under-cpl-160-57"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.Y. Crim. Proc. Law § 160.57",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "Automatic Clean Slate sealing under CPL 160.57"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "overdue Clean Slate review handling inside the same pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "OCA/DCJS process the back-catalog through 11/16/2027; verify status via a DCJS Record Review. If overdue,"
+        }
+      ],
+      "reasoning": "The track is the court-review step for an overdue Clean Slate sealing under CPL § 160.57. The single candidate is the only pathway implementing § 160.57, and its summary carries the overdue-review handling ('verify status via a DCJS Record Review. If overdue, ...'), so the manual-review track is represented inside this pathway rather than as a separate runtime pathway.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NY-ny_mrta_marijuana",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ny_mrta_marijuana",
+        "compiledPathwayIds": [
+          "marijuana-record-destruction-under-the-mrta"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Marihuana Regulation and Taxation Act",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "Marijuana-record destruction under the MRTA"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "MRTA automatic expungement/destruction with optional OCA destruction request (CPL § 160.50(5))",
+          "source": "src/lib/rcap-engine/compiled/profiles/NY-new-york.json",
+          "quote": "Convictions for unlawful possession and 5th-degree possession of marijuana are expunged/destroyed automatically. An optional request to OCA can confirm destruction. These do NOT count toward the 160.59 two-conviction limit."
+        }
+      ],
+      "reasoning": "Neither frozen candidate (CPL 160.50/160.55 non-conviction sealing; CPL 160.59 petition sealing) is the track's operative mechanism. The profile contains a dedicated MRTA pathway whose label names the MRTA and whose summary states the automatic marijuana expungement/destruction rule and the optional OCA destruction request that matches the registry's MRTA-DESTRUCTION-REQUEST form reference. This is the only pathway implementing the MRTA; proposing it over the frozen candidates on cited operative authority.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-OH-oh_2953_32_expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "oh_2953_32_expungement",
+        "compiledPathwayIds": [
+          "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ohio Rev. Code § 2953.32",
+          "source": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+          "quote": "Adult conviction sealing or expungement under Ohio Rev. Code"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 2953.32(B) expungement timing rules",
+          "source": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+          "quote": "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony"
+        }
+      ],
+      "reasoning": "The single candidate is the only pathway implementing ORC 2953.32 as its operative statute; its ruleClauses carry the 2953.32(B) expungement timing table ('Expungement - misdemeanor 1 year after final discharge', 'Expungement - felony 10 years...'), which is this track's operative content. The registry splits sealing and expungement into two tracks; the runtime implements both inside this one pathway, so this track and oh_2953_32_sealing co-map to the same pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-OH-oh_2953_32_sealing",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "oh_2953_32_sealing",
+        "compiledPathwayIds": [
+          "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ohio Rev. Code § 2953.32",
+          "source": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+          "quote": "Adult conviction sealing or expungement under Ohio Rev. Code"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 2953.32 sealing and bail-forfeiture timing rules",
+          "source": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+          "quote": "Misdemeanor bail forfeiture - sealing Any time after bail forfeiture entry"
+        }
+      ],
+      "reasoning": "The track covers sealing of conviction and bail-forfeiture records under ORC 2953.32. The single candidate's ruleClauses carry the sealing timing tiers ('Sealing - F4, F5, or misdemeanor 1 year after final discharge') and the bail-forfeiture sealing rule quoted, which is the distinctive element of this track's legal name. Co-maps with oh_2953_32_expungement to the same single pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-OH-oh_2953_39_prosecutor",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "oh_2953_39_prosecutor",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "no compiled pathway implements ORC 2953.39; no pathway id or label cites it; searched all 7 pathway ids/labels in the OH profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+          "quote": "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "the only § 2953.39 text in the runtime sits stranded inside the § 2953.35 firearm pathway's ruleClauses, not as an operative pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+          "quote": "Prosecutor application for low-level controlled substance offenses - 2953.39 For a low-level controlled substance offense, the prosecutor may apply to the sentencing court to seal or expunge the record."
+        }
+      ],
+      "reasoning": "The track's operative mechanism is prosecutor-initiated sealing/expungement under ORC 2953.39. The candidate pathway (2953.32) is applicant-initiated ('An eligible offender may apply to the sentencing court'), not prosecutor-initiated. No OH pathway id or label cites 2953.39; the only 2953.39 text in the profile is a source-text spillover inside the ruleClauses of the § 2953.35 firearm pathway. The mechanism exists in the source corpus but has no runtime pathway of its own — a missing-from-compiled-runtime gap, not a mapping ambiguity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-OR-or_acquittal",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "or_acquittal",
+        "compiledPathwayIds": [
+          "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "non-conviction set-aside scope covering acquittals",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Acquittal (found not guilty) — may be set aside at any time."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "ORS 137.225(1)(c)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)"
+        }
+      ],
+      "reasoning": "The track is acquittal set-aside, cited by the registry to the post-HB 2492 numbering ORS 137.225(1)(d). The compiled profile predates that renumbering: '(1)(d)' appears nowhere in OR-oregon.json. Of the two candidates, the non-conviction pathway's own summary section ('Arrests and charges without conviction (137.225(1)(c))') expressly covers acquittals with no waiting period, while the conviction pathway's operative scope is 'a person convicted of an eligible offense'. Disposition scope, not name similarity, isolates the non-conviction pathway; the subsection drift is a state-pack fidelity note for E3.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-OR-or_arrest_no_charges",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "or_arrest_no_charges",
+        "compiledPathwayIds": [
+          "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "ORS 137.225(1)(c)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "uncharged-arrest 60-day rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued"
+        }
+      ],
+      "reasoning": "The track's operative provision, ORS 137.225(1)(c) (arrest/citation/charge with no accusatory instrument filed), is carried verbatim in exactly one candidate's label, and that pathway's summary states the (1)(c) 60-day rule. The other candidate implements (1)(a) conviction set-aside.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-OR-or_contempt_setaside",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "or_contempt_setaside",
+        "compiledPathwayIds": [
+          "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "ORS 137.225(1)(a)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Set-aside of eligible convictions under ORS 137.225(1)(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "contempt findings run on the conviction-side waiting tiers",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "1 yr (Class B/C misdemeanor, violation, contempt)"
+        }
+      ],
+      "reasoning": "The track's first operative citation, ORS 137.225(1)(a), is the labeled statute of exactly one candidate (the conviction set-aside pathway); the other candidate implements (1)(c) non-conviction relief. The profile's waiting-period rules place a contempt finding in the conviction-side timing tiers ('Class B or C misdemeanor, violation, contempt finding' at 1 year, measured from 'Conviction/finding or release'), which is the conviction pathway's timing table. The contempt-specific subsections (1)(b)(B)/(1)(b)(D) are not textually present, so confidence is medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-OR-or_conviction_setaside",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "or_conviction_setaside",
+        "compiledPathwayIds": [
+          "set-aside-of-eligible-convictions-under-ors-137-225-1-a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "ORS 137.225(1)(a)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Set-aside of eligible convictions under ORS 137.225(1)(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "conviction set-aside operative rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "A person convicted of an eligible offense who has FULLY completed the sentence"
+        }
+      ],
+      "reasoning": "The track is conviction set-aside under ORS 137.225(1)(a)/(1)(b). Exactly one candidate carries (1)(a) in its label and states the conviction-side operative rule (full sentence completion, class-based waiting period). The other candidate is the (1)(c) non-conviction pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-OR-or_dismissed_charge",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "or_dismissed_charge",
+        "compiledPathwayIds": [
+          "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "non-conviction set-aside scope covering dismissed charges",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Dismissed charge — may be set aside, generally with little or no waiting period"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "ORS 137.225(1)(c)",
+          "source": "src/lib/rcap-engine/compiled/profiles/OR-oregon.json",
+          "quote": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)"
+        }
+      ],
+      "reasoning": "Same situation as or_acquittal: the registry cites the post-HB 2492 ORS 137.225(1)(d) for dismissed charges, a subsection absent from the compiled profile ('(1)(d)' appears nowhere in OR-oregon.json). The non-conviction candidate's summary expressly covers dismissed charges with little/no wait; the conviction candidate covers convictions only. Scope isolates the non-conviction pathway; subsection drift noted for E3.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-RI-ri_commercial_sexual_activity",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ri_commercial_sexual_activity",
+        "compiledPathwayIds": [
+          "path-h-commercial-sexual-activity-related-expungement"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "R.I. Gen. Laws § 11-34.1-5 operative rule (violations of 11-34.1-2 / 11-34.1-4, one year after completion, first-offender status irrelevant)",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "Records of a person convicted, placed on probation, or whose case was filed under 12-10-12 for violations of 11-34.1-2 or 11-34.1-4 may be expunged one year after completion of sentence"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "official statute source URL for § 11-34.1-5 cited inside the pathway summary",
+          "source": "src/lib/rcap-engine/compiled/profiles/RI-rhode-island.json",
+          "quote": "https://webserver.rilegislature.gov/Statutes/TITLE11/11-34.1/11-34.1-5.htm"
+        }
+      ],
+      "reasoning": "The track's operative statute is § 11-34.1-5. Path H's summary states the § 11-34.1-5 rule verbatim (11-34.1-2/11-34.1-4 offenses, one-year wait, relief regardless of first-offender status) and cites the official statute URL. The frozen candidate, path E, is deferred-sentence relief under §§ 12-10-12/12-19-19 and does not implement § 11-34.1-5 (the 12-10-12 element of the track is only the filed-case posture the § 11-34.1-5 rule itself references). Proposing path H over the frozen candidate on cited operative authority.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-SD-sd_arrest_expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "sd_arrest_expungement",
+        "compiledPathwayIds": [
+          "adult-arrest-record-expungement-under-sdcl-23a-3-27"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "SDCL § 23A-3-27",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "Adult arrest-record expungement under SDCL § 23A-3-27"
+        },
+        {
+          "kind": "official_form",
+          "value": "UJS expungement form set named by the registry (UJS-232, UJS-391 through UJS-395)",
+          "source": "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+          "quote": "3 Prepare UJS-391 Motion for Expungement and Statement of Mailing."
+        }
+      ],
+      "reasoning": "The track is the SDCL §§ 23A-3-26 to 23A-3-32 arrest-record expungement motion. The single candidate carries the operative section in its label and its ruleClauses walk the same official UJS form set the registry names (UJS-232 case filing statement, UJS-391 motion, UJS-392 waiver, UJS-393 notice, UJS-394 order). Shared statute plus shared official forms isolate this pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-TN-tn_acquittal_immediate",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "tn_acquittal_immediate",
+        "compiledPathwayIds": [
+          "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "T.C.A. § 40-32-106 (dual-cited with the pre-2025 § 40-32-101(a))",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "immediate acquittal expunction mechanism (§ 40-32-106(e)(2) content)",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders"
+        }
+      ],
+      "reasoning": "The track is immediate expunction on acquittal in open court under § 40-32-106. Pathway 1 is the only TN pathway that carries § 40-32-106 in its label, and the profile's rule text states the in-court not-guilty-verdict destruction mechanism. Pathways 2-4 are labeled to §§ 40-15-105/40-35-313, 40-32-107 and 40-32-101(k) respectively.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-TN-tn_eligible_conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "tn_eligible_conviction",
+        "compiledPathwayIds": [
+          "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "T.C.A. § 40-32-107 (dual-cited with the pre-2025 § 40-32-101(g))",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 3 — Eligible-conviction expunction under §§ 40-32-101(g) / 40-32-107"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "eligible-conviction scope and rebuttable presumption",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "there is a rebuttable presumption that the petition should be granted"
+        }
+      ],
+      "reasoning": "The track is eligible-conviction expunction under § 40-32-107(a). Pathway 3 is the only pathway carrying § 40-32-107 in its label, and its summary states the § 40-32-107(a) operative content (eligible non-violent convictions after sentence completion and waiting period, rebuttable presumption, filing fee).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-TN-tn_illegal_voting",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "tn_illegal_voting",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "the strings 'voting' and '2-19-107' appear zero times in TN-tennessee.json; no pathway, rule clause or decision rule addresses illegal registration or voting",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 3 — Eligible-conviction expunction under §§ 40-32-101(g) / 40-32-107"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "the only § 40-32-107 pathway restricts itself to the general eligible-conviction class",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "non-sexual convictions — most misdemeanors and a defined set of Class E felonies"
+        }
+      ],
+      "reasoning": "The track is the illegal-registration-or-voting expunction under § 40-32-107(c) (offense defined at § 2-19-107). Neither the offense nor the subsection appears anywhere in the compiled profile, and the only § 40-32-107 pathway states a scope limited to the general eligible-conviction class. The special voting ground has no runtime representation; recording the gap rather than stretching Pathway 3's section-level citation over content it demonstrably does not carry.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-TN-tn_judicial_diversion",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "tn_judicial_diversion",
+        "compiledPathwayIds": [
+          "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "T.C.A. § 40-35-313",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 2 — Diversion expunction under §§ 40-15-105 / 40-35-313"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "Pathway 1 expressly excludes diversion-completion dismissals from its scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Charge dismissed (for a reason other than successful diversion completion)."
+        }
+      ],
+      "reasoning": "The track is judicial-diversion expunction (§ 40-32-106(d) with § 40-35-313). Of the two candidates, Pathway 2 carries the operative diversion statute § 40-35-313 in its label and describes judicial diversion ('a conditional guilty plea with NO judgment of conviction entered'); Pathway 1's own scope line excludes dismissals that result from successful diversion completion. Both a shared citation and an explicit scope restriction isolate Pathway 2.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-TN-tn_mistaken_identity",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "tn_mistaken_identity",
+        "compiledPathwayIds": [
+          "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "T.C.A. § 40-32-106 — the track's operative section, carried by exactly one candidate",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "'mistaken' appears zero times in TN-tennessee.json; the (a)(1)(H) ground is represented only at section level",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106"
+        }
+      ],
+      "reasoning": "The track's operative provision § 40-32-106(a)(1)(H) (mistaken identity) is a subsection of § 40-32-106, which among the three candidates only Pathway 1 carries (Pathway 3 is § 40-32-107, Pathway 4 is § 40-32-101(k) — both conviction routes, while mistaken identity is a non-conviction ground). Pathway 1's generic non-conviction grounds (dismissal, no charge filed, release without charge) encompass the mistaken-identity scenario, but the specific clause is not textually present, hence medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-TN-tn_nonconviction_petition",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "tn_nonconviction_petition",
+        "compiledPathwayIds": [
+          "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "T.C.A. § 40-32-106",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "free non-conviction expunction operative rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Available at NO cost where the case did not result in a conviction"
+        }
+      ],
+      "reasoning": "The track is the free non-conviction expunction petition under § 40-32-106(a). Pathway 1 is the only pathway carrying § 40-32-106 in its label and its summary states the operative rule (no cost, non-conviction dispositions: dismissal, nolle prosequi, etc.).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-TN-tn_post_pardon",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "tn_post_pardon",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "the string 'pardon' appears zero times in TN-tennessee.json; no pathway or rule addresses expunction of a pardoned conviction; the track also rests on Public Chapter 719 (2026), which postdates the compiled source text",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 3 — Eligible-conviction expunction under §§ 40-32-101(g) / 40-32-107"
+        }
+      ],
+      "reasoning": "The track is expunction of a pardoned conviction under § 40-32-107(d) as amended by Public Chapter 719 (2026). The compiled runtime contains no pardon-related text at all, and the sole § 40-32-107 pathway is scoped to the general eligible-conviction class ('most misdemeanors and a defined set of Class E felonies'). The pardon ground has no runtime representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-TN-tn_pretrial_diversion",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "tn_pretrial_diversion",
+        "compiledPathwayIds": [
+          "pathway-2-diversion-expunction-under-40-15-105-40-35-313"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "T.C.A. § 40-15-105",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 2 — Diversion expunction under §§ 40-15-105 / 40-35-313"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "pretrial-diversion operative description",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pretrial diversion suspends prosecution under a Memorandum of Understanding with the DA"
+        }
+      ],
+      "reasoning": "The track is pretrial-diversion expunction (§ 40-32-106(d) with §§ 40-15-102 through 40-15-107). Pathway 2 carries the operative diversion statute § 40-15-105 in its label and describes the pretrial-diversion mechanism; Pathway 1's scope line excludes diversion-completion dismissals ('for a reason other than successful diversion completion').",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-TN-tn_recovery_court",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "tn_recovery_court",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "every TN conviction pathway categorically excludes DUI from expunction, contradicting the § 40-32-107(e) recovery-court DUI relief",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "DUI convictions (T.C.A. § 55-10-401) and related serious traffic offenses."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "'recovery court' and '107(e)' appear zero times in TN-tennessee.json; Public Chapter 1061 (2026) postdates the compiled source",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 3 — Eligible-conviction expunction under §§ 40-32-101(g) / 40-32-107"
+        }
+      ],
+      "reasoning": "The track is DUI expunction after completing a certified recovery court program, § 40-32-107(e) (Public Chapter 1061 (2026)). The compiled runtime not only lacks any recovery-court text — its exclusionRules on every conviction pathway state that DUI convictions under § 55-10-401 are categorically NOT eligible for conviction expunction. The candidate pathway therefore affirmatively contradicts the track's mechanism; this is a post-enactment gap in the compiled runtime, not an ambiguity.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-TN-tn_redaction",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "tn_redaction",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "'redact', 'partial' and 'mixed' appear zero times in TN-tennessee.json; the registry's REMOVAL_FORM_fillable050925.pdf has no counterpart in the profile; Pathway 1 implements whole-case non-conviction expunction only",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Available at NO cost where the case did not result in a conviction"
+        }
+      ],
+      "reasoning": "The track is partial removal of non-conviction charges within a mixed-disposition case under § 40-32-106(c)(2) — a distinct mechanism with its own official form (REMOVAL_FORM). The compiled runtime has no partial/mixed-case redaction representation anywhere; the single candidate handles only whole-case non-conviction expunction. Recording the runtime gap.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-TN-tn_trafficking_40_32_105",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "tn_trafficking_40_32_105",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "'40-32-105' and 'trafficking' appear zero times in TN-tennessee.json; no pathway, decision rule or clause implements the human-trafficking-victim expunction",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106"
+        }
+      ],
+      "reasoning": "The track is human-trafficking-victim expunction relief under § 40-32-105. Neither the section number nor the word 'trafficking' occurs anywhere in the compiled TN profile, so no pathway implements or references the mechanism. The single frozen candidate (Pathway 1) is the general non-conviction route and carries none of the § 40-32-105 content.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-TN-tn_two_offense",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "tn_two_offense",
+        "compiledPathwayIds": [
+          "pathway-4-two-offense-expunction-under-40-32-101-k"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "two-offense expunction mechanism, dual-referenced to the 2025 reorganization at § 40-32-107",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "may expunge up to TWO offenses — either two misdemeanors, or one felony and one misdemeanor — in a single lifetime use"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "express reference to the 2025 reorganization section that now houses the mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json",
+          "quote": "The 2025 reorganization (§ 40-32-107) broadened this"
+        }
+      ],
+      "reasoning": "The track is the two-offense expunction, § 40-32-107(b) post-reorganization. The frozen candidate list held only Pathway 3, but Pathway 4 is the runtime's two-offense pathway: its summary states the exact two-offense/lifetime-once mechanism and expressly ties it to § 40-32-107 via the 2025 reorganization note (its label keeps the pre-2025 § 40-32-101(k) home). Proposing Pathway 4 over the frozen candidate on cited operative content.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-VA-va_auto_seal_convictions",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_auto_seal_convictions",
+        "compiledPathwayIds": [
+          "automatic-sealing-no-filing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Va. Code § 19.2-392.7 (named in the track's authority list)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Automatic sealing (§ 19.2-392.7) — no filing"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "enumerated-misdemeanor-conviction automatic sealing rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "NINE enumerated misdemeanor CONVICTION types, sealed automatically 7 years after conviction with no new convictions"
+        }
+      ],
+      "reasoning": "The track is automatic sealing of enumerated misdemeanor convictions under §§ 19.2-392.6/19.2-392.7; § 19.2-392.7 is in the track's authority list and is the labeled statute of exactly one pathway, whose summary states the enumerated-conviction 7-year automatic rule. The other two VA pathways are the § 19.2-392.2 expungement petition and the § 19.2-392.12 sealing petition.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-VA-va_auto_seal_nonconvictions",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_auto_seal_nonconvictions",
+        "compiledPathwayIds": [
+          "automatic-sealing-no-filing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "automatic (no-filing) sealing of misdemeanor non-convictions",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Misdemeanor NON-convictions; all marijuana-possession records (non-convictions, deferred dismissals, and convictions under former"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "§§ 19.2-392.8/.10/.11 appear nowhere in VA-virginia.json; the automatic-sealing pathway is the only no-filing pathway and expressly covers non-convictions",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Automatic sealing (§ 19.2-392.7) — no filing"
+        }
+      ],
+      "reasoning": "The track is automatic sealing of non-convictions under §§ 19.2-392.8/19.2-392.10. The frozen candidate (regime-1) is the petition-based § 19.2-392.2 expungement — a different mechanism family. The automatic-sealing pathway is the runtime's only automatic/no-filing route and its summary expressly covers misdemeanor non-convictions; the specific non-conviction subsections are not cited in the profile (it labels the whole automatic regime § 19.2-392.7), so confidence is medium. Proposing the automatic pathway over the frozen candidate.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-VA-va_exp_absolute_pardon",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_exp_absolute_pardon",
+        "compiledPathwayIds": [
+          "regime-1-expungement-available-now"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Va. Code § 19.2-392.2(I)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Absolute pardon for innocence (§ 19.2-392.2(I))."
+        }
+      ],
+      "reasoning": "The track's operative subsection § 19.2-392.2(I) is quoted verbatim as an eligibility ground of exactly one pathway (regime-1 expungement). No other VA pathway cites § 19.2-392.2.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-VA-va_exp_actual_innocence",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_exp_actual_innocence",
+        "compiledPathwayIds": [
+          "regime-1-expungement-available-now"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Va. Code § 19.2-392.2(J)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Writ of actual innocence — a vacated conviction (§ 19.2-392.2(J))."
+        }
+      ],
+      "reasoning": "The track's operative subsection § 19.2-392.2(J) is quoted verbatim as an eligibility ground of exactly one pathway (regime-1 expungement).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-VA-va_exp_identity_used_by_another",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_exp_identity_used_by_another",
+        "compiledPathwayIds": [
+          "regime-1-expungement-available-now"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "§ 19.2-392.2(B) identity-theft ground stated as a regime-1 eligibility ground",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "identity was used by another"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Va. Code § 19.2-392.2 (the pathway's labeled statute)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Regime 1 — Expungement (§ 19.2-392.2), available now"
+        }
+      ],
+      "reasoning": "The track is the § 19.2-392.2(B) petition where another person used the petitioner's identity. Regime-1 is the only pathway implementing § 19.2-392.2, and its eligibility list carries the identity-used-by-another ground in terms. The subsection letter (B) is not printed, but the ground is unambiguous.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-VA-va_exp_nonconviction",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_exp_nonconviction",
+        "compiledPathwayIds": [
+          "regime-1-expungement-available-now"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "§ 19.2-392.2(A) non-conviction grounds (acquittal / nolle prosequi / otherwise dismissed)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Nolle prosequi (Commonwealth dropped the charge)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "the narrow 'otherwise dismissed' construction the registry also cites (Commonwealth v. Dotson)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Commonwealth v. Dotson"
+        }
+      ],
+      "reasoning": "The track is the § 19.2-392.2(A) non-conviction expungement petition. Regime-1's eligibility grounds are exactly the (A) dispositions — acquittal, nolle prosequi, otherwise dismissed — and its rule text applies the same Commonwealth v. Dotson narrow construction the registry's authority list names. The registry's form CC-1473 is not named in the profile, but the shared operative subsection content and shared case authority isolate regime-1.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-VA-va_seal_ancillary_matter_only",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_seal_ancillary_matter_only",
+        "compiledPathwayIds": [
+          "petition-based-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Va. Code § 19.2-392.12:1",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Petition-based sealing (§ 19.2-392.12 / .12:1)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "ancillary-matter sealing rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "An ancillary matter (probation/parole violation, contempt, failure to appear, bail appeal) tied to the charge may be sealed with it"
+        }
+      ],
+      "reasoning": "The track is the § 19.2-392.12:1 petition to seal an ancillary matter left behind by automatic sealing. The frozen candidate was the automatic-sealing pathway, but the petition-based-sealing pathway is the only one citing § 19.2-392.12:1 (in its label) and its summary states the ancillary-matter rule. Proposing petition-based-sealing over the frozen candidate on the shared operative citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-VA-va_seal_petition_felony",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_seal_petition_felony",
+        "compiledPathwayIds": [
+          "petition-based-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Va. Code § 19.2-392.12",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Petition-based sealing (§ 19.2-392.12 / .12:1)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "felony sealing scope (Class 5/6 felony and § 18.2-95 larceny)",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "a misdemeanor, a Class 5 or 6 felony, or a larceny felony under § 18.2-95 may petition the circuit court to seal it"
+        }
+      ],
+      "reasoning": "The track is the § 19.2-392.12 petition to seal a Class 5/6 felony or § 18.2-95 larceny felony. The single candidate carries § 19.2-392.12 in its label and its summary states exactly that offense scope. Co-maps with va_seal_petition_misdemeanor to the same pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-VA-va_seal_petition_misdemeanor",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "va_seal_petition_misdemeanor",
+        "compiledPathwayIds": [
+          "petition-based-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Va. Code § 19.2-392.12",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "Petition-based sealing (§ 19.2-392.12 / .12:1)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "misdemeanor / deferred-dismissal sealing scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+          "quote": "A person convicted of, or who had deferred-and-dismissed, a misdemeanor"
+        }
+      ],
+      "reasoning": "The track is the § 19.2-392.12 petition to seal a misdemeanor conviction or deferred dismissal. The single candidate carries § 19.2-392.12 in its label and its summary opens with exactly that scope. Co-maps with va_seal_petition_felony to the same pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_cannabis",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_cannabis",
+        "compiledPathwayIds": [
+          "misdemeanor-cannabis-conviction-vacation"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.060(5) content: age-21 cannabis vacation with mandatory grant, offenses including RCW 69.50.4014",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "A person convicted of a misdemeanor cannabis offense who was 21 or older at the time of the offense may apply to the sentencing court for vacation. RCW 9.96.060 says misdemeanor cannabis offenses include RCW 69.50.4014 from July 1, 2004 onward"
+        }
+      ],
+      "reasoning": "The track is the RCW 9.96.060(5) misdemeanor-cannabis vacation. The frozen candidate was the general 9.96.060 pathway, but the runtime has a dedicated cannabis pathway whose summary states the (5) mechanism verbatim — age 21+ at offense, offense list anchored on RCW 69.50.4014 (also in the track's authority), and the mandatory 'shall vacate' standard. Proposing the cannabis pathway over the frozen candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_domestic_violence",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_domestic_violence",
+        "compiledPathwayIds": [
+          "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.060 (pathway's labeled statute; track operative RCW 9.96.060(2)(f))",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Adult misdemeanor / gross-misdemeanor vacation under RCW 9.96.060"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "DV-specific stricter requirements matching RCW 9.96.060(2)(f)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Domestic violence misdemeanors are not automatically barred, but they have stricter rules"
+        }
+      ],
+      "reasoning": "The track is DV misdemeanor/gross-misdemeanor vacation under RCW 9.96.060(2)(f). The general 9.96.060 pathway carries a dedicated 'Domestic violence misdemeanor/gross misdemeanor route' rule clause and the (2)(f)-content requirements (written notice to the prosecutor, multiple-DV-conviction bar), and it is the only candidate implementing RCW 9.96.060.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_homicide_victim_prostitution",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_homicide_victim_prostitution",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "'9.96.060(7)', '9A.88.030' and 'homicide' appear zero times in WA-washington.json; no pathway or rule implements a family-member application for a deceased victim's prostitution conviction",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Adult misdemeanor / gross-misdemeanor vacation under RCW 9.96.060"
+        }
+      ],
+      "reasoning": "The track is the RCW 9.96.060(7) application by a family member to vacate a homicide victim's prostitution conviction. The subsection, the prostitution statute (RCW 9A.88.030) and any deceased-victim/family-member mechanism are entirely absent from the compiled profile; the victim/survivor route in the runtime is the living-applicant RCW 9.96.080 / 9.94A.648 mechanism, not this one. Recording the runtime gap.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_misdemeanor_ordinary",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_misdemeanor_ordinary",
+        "compiledPathwayIds": [
+          "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.060",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Adult misdemeanor / gross-misdemeanor vacation under RCW 9.96.060"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "general misdemeanor vacation operative rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "A person convicted of a misdemeanor or gross misdemeanor may apply to the sentencing court for vacation."
+        }
+      ],
+      "reasoning": "The track is the ordinary RCW 9.96.060(2) misdemeanor/gross-misdemeanor vacation petition. The single candidate carries RCW 9.96.060 in its label and states the general discretionary vacation rule with the standard requirements (sentence completion, no pending charges).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_post_probation_9_95_240",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_post_probation_9_95_240",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "'9.95.240' appears zero times in WA-washington.json; the frozen candidate implements RCW 9.94A.640 only",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Adult felony vacation under RCW 9.94A.640"
+        }
+      ],
+      "reasoning": "The track is dismissal after probation and vacation of a pre-1984 conviction under RCW 9.95.240. That section never appears in the compiled profile; the candidate felony pathway is the RCW 9.94A.640 discharge-based vacation, a different statute the registry lists only as a cross-reference. No runtime pathway implements RCW 9.95.240.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_substance_use_disorder",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_substance_use_disorder",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "'9.96.060(6)', 'substance use' and '69.50.4011' appear zero times in WA-washington.json; the cannabis and Blake pathways cite 69.50.4013/69.50.4014 for different mechanisms",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Blake order forms state that convictions based on RCW 69.50.4013 or RCW 69.50.4014, predecessor statutes, similar local ordinances, and certain inchoate offenses are unconstitutionally void and must be vacated"
+        }
+      ],
+      "reasoning": "The track is the RCW 9.96.060(6) vacation of drug convictions after completing a substance use disorder program. Neither the subsection nor any SUD-program text appears in the compiled profile. The drug-adjacent pathways that do exist (Blake voidness vacatur; age-21 cannabis vacation) implement different mechanisms. No runtime representation exists.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_survivor_felony",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_survivor_felony",
+        "compiledPathwayIds": [
+          "victim-survivor-conviction-vacation-route"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.94A.648",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "For Class B or Class C felony convictions, RCW 9.94A.648 allows a similar victim route."
+        }
+      ],
+      "reasoning": "The track is victim/survivor vacation of a Class B or C felony under RCW 9.94A.648. The frozen candidate was the general felony pathway (RCW 9.94A.640), but the victim/survivor route's rule clauses cite RCW 9.94A.648 by section with its operative content (victimization nexus by a preponderance, pending-charge limits). Proposing the victim/survivor route over the frozen candidate on the shared operative citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_survivor_misdemeanor",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_survivor_misdemeanor",
+        "compiledPathwayIds": [
+          "victim-survivor-conviction-vacation-route"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.080",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "For misdemeanor/gross misdemeanor convictions, RCW 9.96.080 allows the victim or prosecutor to apply to the sentencing court."
+        }
+      ],
+      "reasoning": "The track is victim/survivor vacation of a misdemeanor under RCW 9.96.080. The frozen candidate was the general 9.96.060 pathway, but the victim/survivor route's summary cites RCW 9.96.080 by section as its operative statute. Proposing the victim/survivor route over the frozen candidate on the shared operative citation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WA-wa_vac_treaty_fishing",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wa_vac_treaty_fishing",
+        "compiledPathwayIds": [
+          "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RCW 9.96.060 — the track's operative section (subsection (4)), carried by exactly one candidate",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "Adult misdemeanor / gross-misdemeanor vacation under RCW 9.96.060"
+        },
+        {
+          "kind": "official_form",
+          "value": "dedicated treaty-fishing vacation form present in the profile's source folder and routing rules",
+          "source": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+          "quote": "CrRLJ CR 09_0500 Motion and Decl Vacate Conv Treaty Indian Fishing rights.doc"
+        }
+      ],
+      "reasoning": "The track is the RCW 9.96.060(4) application to vacate a pre-1975 treaty Indian fishing-rights conviction. RCW 9.96.060 is the labeled statute of exactly one pathway, and the runtime carries the treaty-fishing mechanism as a routing rule ('Treaty Indian fishing-rights conviction Special vacation route') plus the dedicated official form in the profile's source folder. The subsection itself is not printed in the pathway fields and the routing rule lists several candidate pathways, so confidence is medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-WI-wi_exp_942_08_mandatory",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wi_exp_942_08_mandatory",
+        "compiledPathwayIds": [
+          "adult-conviction-expungement-under-wis-stat-973-015"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Wis. Stat. § 942.08(2)(b),(c),(d),(3) mandatory expungement rule (§ 973.015(1m)(a)2 content)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "If the offense was certain invasion-of-privacy conduct under Wis. Stat. 942.08(2)(b), (c), (d), or (3) and the person was under 18 when it was committed, the court shall order expungement at sentencing upon successful completion."
+        }
+      ],
+      "reasoning": "The track is the mandatory youthful invasion-of-privacy expungement, § 973.015(1m)(a)2 referencing § 942.08. Of the two candidates, only the adult § 973.015 pathway carries the operative rule — quoting the exact 942.08 subsections and the mandatory 'shall order' standard. The trafficking candidate implements § 973.015(2m).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WI-wi_exp_certificate_of_discharge",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wi_exp_certificate_of_discharge",
+        "compiledPathwayIds": [
+          "adult-conviction-expungement-under-wis-stat-973-015"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "certificate-of-discharge execution step of § 973.015(1m)(b) in the runtime's routing layer",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "Adult conviction with probation/incarceration Certificate of discharge triggers court expungement after successful completion"
+        },
+        {
+          "kind": "official_form",
+          "value": "packet routing distinguishes the discharge process from the CR-266 petition route",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "DOC/detaining authority certificate of discharge process, not CR-266 as first step"
+        }
+      ],
+      "reasoning": "The track is execution of an ordered expungement via certificate of discharge, § 973.015(1m)(b). The runtime represents it inside the adult § 973.015 expungement flow: a routing rule and the packet generator both describe the probation/incarceration discharge-certificate process as the trigger for court expungement. The adult pathway is the only § 973.015(1m) pathway. Caution for E3: the matching orderedDecisionRules entry ('rule-12-adult-conviction-with-probation-incarceration-certifica') lists the juvenile § 938.355(4m) pathway as its candidatePathwayIds — a mis-generated pointer worth correcting.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-WI-wi_exp_certificate_of_discharge_followup",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wi_exp_certificate_of_discharge_followup",
+        "compiledPathwayIds": [
+          "adult-conviction-expungement-under-wis-stat-973-015"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "the DOC/detaining-authority certificate process is the runtime's representation of the participant follow-up step",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "DOC/detaining authority certificate of discharge process, not CR-266 as first step"
+        }
+      ],
+      "reasoning": "The track is the participant's request that the supervising or detaining authority issue and forward the § 973.015(1m)(b) certificate of discharge. The runtime carries this only as the packet-generator description of the DOC/detaining-authority certificate process within the adult § 973.015 expungement flow; there is no separate pathway, and none is needed — it is a procedural sub-step of the same compiled pathway.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-WI-wi_exp_cr266",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wi_exp_cr266",
+        "compiledPathwayIds": [
+          "adult-conviction-expungement-under-wis-stat-973-015"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "Form CR-266 scope statement inside the adult § 973.015 pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "CR-266 is only for adult conviction cases where expungement was already ordered and there was no probation/incarceration."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Wis. Stat. § 973.015",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "Adult conviction expungement under Wis. Stat. § 973.015"
+        }
+      ],
+      "reasoning": "The track is the CR-266 petition (non-probation/non-incarceration execution of an ordered § 973.015(1m) expungement). The adult pathway's rule clauses state the CR-266 form's exact scope, and the adult pathway is the § 973.015 pathway; the trafficking candidate implements § 973.015(2m) and does not carry the form.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WI-wi_exp_trafficking_2m",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wi_exp_trafficking_2m",
+        "compiledPathwayIds": [
+          "human-trafficking-prostitution-relief-under-973-015-2m"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Wis. Stat. § 973.015(2m)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "Human-trafficking / prostitution relief under § 973.015(2m)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 944.30 prostitution offense scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "quote": "prostitution under 944.30"
+        }
+      ],
+      "reasoning": "The track is trafficking-survivor vacatur/expungement under § 973.015(2m). Exactly one candidate carries § 973.015(2m) in its label and cites the § 944.30 prostitution offense (also in the track's authority list) in its operative text.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WV-wv_common_conv_procedure",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "wv_common_conv_procedure",
+        "compiledPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26",
+          "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 61-11-26",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "Eligible conviction expungement under W. Va. Code § 61-11-26"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 61-11-26a accelerated route defined as a variant of the § 61-11-26 procedure",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "an accelerated route for a person otherwise eligible under 61-11-26"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 61-11-26b limitation carried in the runtime's conviction routing text",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "Motor-vehicle/CDL limitation 61-11-26b Blocks certain traffic/CDL/DUI expungements"
+        }
+      ],
+      "reasoning": "The track is the shared conviction-expungement procedure/exclusion/bundling node spanning §§ 61-11-26, 61-11-26a and 61-11-26b. It is not one pathway: the runtime implements the § 61-11-26 procedure in the eligible-conviction pathway, the § 61-11-26a acceleration as a separate pathway that expressly defines itself as a variant of § 61-11-26 eligibility, and the § 61-11-26b limitation in the shared conviction routing text. The two candidate pathways jointly represent the node — represented_by_compiled_variants.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-WV-wv_conv_multiple_misdemeanors",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wv_conv_multiple_misdemeanors",
+        "compiledPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 61-11-26 misdemeanor-conviction scope ('offense or offenses')",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "West Virginia allows a person convicted of a misdemeanor offense or offenses to petition in the circuit court where the conviction occurred"
+        },
+        {
+          "kind": "official_form",
+          "value": "SCA-C906 (the registry's form for this track) named in the runtime's conviction packet text",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "1 SCA-C906 - Petition for Expungement of Misdemeanor Violations and Traffic Citations."
+        }
+      ],
+      "reasoning": "The track is the § 61-11-26(a)(1)/(b)(2) multiple-misdemeanor petition. Of the two candidates, the eligible-conviction pathway is the § 61-11-26 pathway and its operative text covers a 'misdemeanor offense or offenses'; the other candidate is first-offense drug-possession conditional-discharge relief under § 60A-4-407, a different statute. The SCA-C906 form the registry names is present in the profile's packet text, though it sits (as source-text spillover) in the first-offense pathway's ruleClauses — a compilation artifact worth an E3 note, not evidence for that pathway, whose operative statute does not match.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WV-wv_conv_nonviolent_felony",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wv_conv_nonviolent_felony",
+        "compiledPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 61-11-26(a)(2) nonviolent-felony scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "nonviolent felony offense or offenses arising from the same transaction"
+        },
+        {
+          "kind": "official_form",
+          "value": "SCA-C907 (the registry's felony form) named in the runtime's conviction packet text",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "1 SCA-C907 - Petition for Expungement of Felony Violations."
+        }
+      ],
+      "reasoning": "The track is the § 61-11-26(a)(2)/(b)(3) nonviolent-felony petition. The eligible-conviction pathway's operative text states exactly this scope (nonviolent felony or felonies from the same transaction or series); the other candidate implements § 60A-4-407 conditional discharge. The SCA-C907 form appears in the profile's packet text (spilled into the first-offense pathway's ruleClauses — same compilation artifact as the misdemeanor packets).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WV-wv_conv_single_misdemeanor",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wv_conv_single_misdemeanor",
+        "compiledPathwayIds": [
+          "eligible-conviction-expungement-under-w-va-code-61-11-26"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 61-11-26 misdemeanor-conviction scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "West Virginia allows a person convicted of a misdemeanor offense or offenses to petition in the circuit court where the conviction occurred"
+        },
+        {
+          "kind": "official_form",
+          "value": "SCA-C906 covers single and multiple misdemeanor petitions in the runtime packet text",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "1 SCA-C906 - Petition for Expungement of Misdemeanor Violations and Traffic Citations."
+        }
+      ],
+      "reasoning": "The track is the § 61-11-26(a)(1)/(b)(1) single-misdemeanor petition. Same discrimination as wv_conv_multiple_misdemeanors: the eligible-conviction pathway is the § 61-11-26 pathway with the matching operative scope; the alternative candidate implements a different statute (§ 60A-4-407). Co-maps with the multiple-misdemeanor track to the same pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WV-wv_nc_acquittal_dismissal",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wv_nc_acquittal_dismissal",
+        "compiledPathwayIds": [
+          "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "W. Va. Code § 61-11-25(a) operative rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "found not guilty or whose charges were dismissed, and not dismissed in exchange for a guilty plea to another offense resulting in conviction, may file a civil petition"
+        },
+        {
+          "kind": "official_form",
+          "value": "SCA-C903 (the registry's form) named in the runtime's acquittal/dismissal packet text",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "1 SCA-C903 - Motion for Expungement of Criminal Records Due to Acquittal or Dismissal for Reasons Other than Entry of a Plea."
+        }
+      ],
+      "reasoning": "The track is the § 61-11-25(a) civil petition to expunge an acquittal or dismissal. The frozen candidate (first-offense drug-possession conditional discharge, § 60A-4-407) implements a different statute. The no-conviction pathway's summary states the § 61-11-25(a) rule verbatim, including the not-in-exchange-for-a-plea proviso, and the SCA-C903 packet text is present in the profile (spilled into the first-offense pathway's fields — a compilation artifact for E3). Proposing the no-conviction pathway over the frozen candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-WV-wv_nc_diversion_deferred",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "wv_nc_diversion_deferred",
+        "compiledPathwayIds": [
+          "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "§ 61-11-25(a) petition after pretrial diversion (§ 61-11-22) or deferred adjudication (§ 61-11-22a)",
+          "source": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+          "quote": "dismissed after successful completion of pretrial diversion under 61-11-22 or deferred adjudication under 61-11-22a may also petition for expungement"
+        }
+      ],
+      "reasoning": "The track is the § 61-11-25(a) petition following completed pretrial diversion or deferred adjudication (§§ 61-11-22/61-11-22a). The no-conviction pathway's rule clauses state exactly this mechanism with the operative citations; the frozen candidate implements § 60A-4-407 conditional discharge, a different statute. Proposing the no-conviction pathway over the frozen candidate.",
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "reviewId": "w2-shard-2",
+  "reviewer": "independent read-only reviewer, terminalization definitive wave",
+  "reviewedBaseSha": "e025ced8d6c3fd6c3c74f4bd56b746c4225b5855",
+  "reviewedFileSha256": {
+    "CA": "f152479099db043105d36a38dc73dbfcfe3a53ac1d27fc755cffbecc157395e1",
+    "IA": "1e53171bf7144c06cc6838892b486bf626a6f91fc3d0f13cc981a30f95b3a140",
+    "MN": "7ad234e5c29cb139fa389bd2e4d80cf41f53922a9af15042e0557e1801625046",
+    "NE": "aabd5b6b3286efa351619012c8b260ea0007790f87305e3e96c9cef7e76e4d66",
+    "WV": "14b431adbb35c6aa63ea38fd835af80ac22a410bb922a224981cec724a8dba5c"
+  },
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "runtimeProbeNote": "Probe written outside the repo at /tmp/probe-w2-shard-2.mjs and run with cwd=/home/user/legalease-partner-dashboard-clean against all 15 tracks in scope, not a sample. Every track returned classification=terminal_treatment_candidate, sellable=false, creditConsumable=false, rendererKind=none, specBuilt=false, checkoutRefused=true, and a saved Briefcase item forced to paymentAllowed=false, status=guidance_saved, resultCode=guidance_only, packetStatus=not_started, amountCents=null; reopening returned the same terminal treatment for the same trackId in every case, and the es stopReason differed from the en stopReason in every case. ca-diversion-seal resolves through routeKind=component_deferral rather than exact_supported_deferral because a pre-existing component-deferral record for that composed route has resolver priority; the resulting participant-facing and commercial behaviour is identical and equally closed (sellable=false, creditConsumable=false, rendererKind=none, no render spec, checkout refused), and the terminalization treatment is still what the Briefcase preserves and returns, so this is a routing-precedence detail and not a defect.",
+  "reviewNote": "HEAD advanced from 2eb5736c to e025ced8 during this review. The working-tree bytes I read were re-hashed after reading and match HEAD exactly for all five jurisdictions, and distinctive passages from every CA and MN track were re-confirmed present in the current bytes, so the dispositions below are pinned to the bytes recorded in reviewedFileSha256.",
+  "dispositions": [
+    {
+      "trackId": "ca-1203-41",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and evidence-backed (missing_from_compiled_runtime, stated in participant language as unfinished output and technical checks, with an explicit disclaimer that it says nothing about eligibility). Destination is exact: Superior Court of the county of conviction, one petition per case, with the Judicial Council forms page. All three waiting periods map one-to-one onto the brief's waitingPeriods with their correct 1170(h)(5)(A)/(B) and state-prison conditions. Required components are stated as required (CR-180, CR-181, CR-106) and MC-031 correctly as conditional, matching packetSetComponents. Correctly refuses to call the relief sealing or expungement and correctly rebuts the PC 1203.49 four-year felony-sealing myth exactly as the brief's scopeRestrictions require. The interests-of-justice showing is preserved as the participant's own work, not generated. Spanish is a genuine, idiomatic translation throughout, not a gloss: 'reorganización penal' for realignment, 'variantes' for sub-routes, 'registro como ofensor sexual' for PC 290, and the doNot list argues in Spanish rather than transliterating. No fabricated fact found."
+    },
+    {
+      "trackId": "ca-1203-42",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct mechanism and family: a pre-realignment prison sentence dismissed and set aside at CR-180 box 6, expressly not a sealing. The stop reason gives both the runtime limitation and the substantive one the brief records — the realignment eligibility question is a legal judgment LegalEase does not make — and the treatment then does the right thing with it, routing the participant to the abstract of judgment as the document that answers it. Destination exact (Superior Court of the county of conviction). Two-year wait and the four disqualifiers (under supervision, serving a sentence, on probation, charged with any crime) both trace to waitingPeriods and exclusions. The doNot list warns against the specific failure mode the brief identifies, a bare box-6 assertion. Spanish is substantive and reads naturally for a Spanish speaker. No fabricated fact found."
+    },
+    {
+      "trackId": "ca-1203-43",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The safety-critical element on this track is handled correctly: the brief's self_help_boundary that any non-citizen goes to an attorney rather than through self-help is carried as the first next step, the first doNot and the first escalation, in both languages. The perjury exposure on the declaration route is stated plainly and used as the reason LegalEase will not supply the facts ('it will not put words under your oath'). Both evidence routes from packetInstructions are given, with the optional state summary criminal history correctly described as optional and the court records route correctly described as conditional. Destination exact (Superior Court of the county of conviction, CR-180 box 7). Correctly states no statutory waiting period, matching waitingPeriods. Spanish is a real translation and preserves the perjury and immigration warnings at full strength. No fabricated fact found."
+    },
+    {
+      "trackId": "ca-1203-4a",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The hard probation fork the brief demands is the spine of the treatment: it is the next step, the first doNot, the escalation and a preserved Briefcase item, and the documented rejection reason for filing under 1203.4 instead is stated explicitly. The 1203.4a(e) reimbursement rule is stated accurately and, critically, with the participant-protective half intact — sixty dollars to the county plus sixty to the city, tied to ability to pay, with inability to pay not defeating eligibility — exactly as packetInstructions requires. The 1203.4a(f) written-declaration rule for infractions is carried with its compelling-need exception. CR-106 and MC-031 are described as conditional, which matches this track's packetSetComponents and is not a required component silently softened. One-year wait and the serving-a-sentence/charged exclusions trace to the brief. Spanish is genuine and idiomatic ('necesidad imperiosa', 'vida honesta y recta'). No fabricated fact found."
+    },
+    {
+      "trackId": "ca-17b-reduction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies the distinct mechanism rather than folding it into the dismissal petitions: a reclassification requested at CR-180 item 8 and ruled on at CR-181 items 1 and 2, which can be granted while the dismissal is denied and is worth requesting even where automatic relief applied — both carried from packetInstructions. Honours the brief's instruction not to classify wobblers automatically, and turns that into an exact next step (get the docket showing the offense code section as charged and as convicted). Destination exact. Correctly warns the reduction does not remove the conviction. No waiting period claimed beyond the bundled petition's, matching waitingPeriods. Spanish is substantive and carries the 19.8(a) and 17(b) distinctions accurately. No fabricated fact found."
+    },
+    {
+      "trackId": "ca-851-91",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The venue trap is handled better than the standard requires: the destination is the court where the accusatory pleading was filed, or a court with criminal jurisdiction in the city or county of arrest, with an explicit warning not to carry over the county-of-conviction habit from the dismissal routes. Both fifteen-day clocks (filing and service on the prosecuting attorney and the arresting agency) are stated in mechanism, timing, doNot, nextSteps and the Briefcase, matching the brief's 'calendar product, not a mail-and-forget product' instruction. The pattern-offense boundary (domestic violence, child abuse, elder abuse) routes to an attorney in three places. The arresting agency and report number are correctly presented as a participant filing requirement and the unblocking first step. All four CR-410 carve-outs are reproduced accurately, including the Lottery-contract disclosure and PC 29800. The Notice of Court Hearing block is correctly reserved for the clerk. Spanish is a real translation and keeps every carve-out and both clocks intact. No fabricated fact found."
+    },
+    {
+      "trackId": "ca-diversion-seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "This is the pattern the standard says to approve: it states openly the limitation the brief does not resolve — there is no statewide Judicial Council form for a section 851.90 sealing and no county's approved local set has been sourced — and still gives an exact destination (the superior court that handled the diversion or deferred entry of judgment, through that county's clerk or self-help centre) and an exact, executable next action (ask which local petition and proposed order apply to a section 851.90 sealing, and whether the motion is taken in writing or at a hearing). The section 851.92 aftermath is carried precisely: copies to the participant and the prosecuting attorney, forwarding within thirty days, local records marked arrest sealed and state records marked arrest relief granted. Correctly refuses to call it a dismissal, set-aside or expungement. SDSC CRM-307 is presented as San Diego's example and is accompanied, in both languages, by an explicit warning against using another county's form — which neutralises the only risk in citing that county-specific URL. Runtime resolves this through the pre-existing component_deferral record rather than exact_supported_deferral; the closure is identical and the treatment is still what is preserved and returned, so it is not a defect. Spanish is genuine throughout. No fabricated fact found."
+    },
+    {
+      "trackId": "ia-9079",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Treatment class is right: filingComponentCount is 0 and the expungement is performed by the court under § 907.9(4), so monitoring plus exact next steps is the correct product and the treatment says plainly there is nothing to file and nothing to buy. Every one of the brief's packet instructions is honoured — it never says erased or destroyed, it says the record becomes confidential and comes off public access under § 22.7, it states Iowa has no felony expungement, it explains that the deferred judgment stays on the state court administrator's docket and feeds the § 901C.3 two-deferred-judgment limit, and it identifies court debt in that specific case as the precondition. Destination is exact: the clerk of the Iowa District Court for the county of the case, with the balance question as the executable next action. The pre-July-2013 branch is disclosed honestly as unresolved in the sources rather than papered over, and the revoked-deferred-judgment exclusion routes correctly to § 901C.3. Spanish is a genuine translation and keeps the confidential-not-destroyed distinction and the 'do not pay anyone to file this' warning intact. No fabricated fact found."
+    },
+    {
+      "trackId": "ia-dci77",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies this as a supporting records step and not relief, and says so to the participant in the strongest useful form: the check retrieves and verifies and changes nothing, and nobody should be charging for it as record clearing — which is the brief's scopeRestriction turned into consumer protection. Destination exact: Iowa Department of Public Safety, Division of Criminal Investigation. Every stated fact traces to the brief — Rule 2.81(2), the DCI-77 with release authorization signature, the DCI-76 billing form going in with the request and fee, the $15 fee and the accepted payment methods, one form and one fee per last name, chapter 692.2 on releasability, the notarisation box for another country's requirements, and the 30-day currency window. The sequencing advice (work backwards from the filing date so the check does not go stale) is exactly the brief's instruction and is genuinely useful rather than a restatement. The brief carries no URL for the state portal and the treatment does not invent one. Spanish is substantive and correctly renders the agency and form vocabulary. No fabricated fact found."
+    },
+    {
+      "trackId": "mn_ceb_felony_cannabis",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct class and correct mechanism: the Cannabis Expungement Board acts on its own initiative on felony cannabis records, there is no application, and non-felony cannabis offences are expunged automatically without Board review. The treatment converts that into a real monitoring product — a dated BCA criminal history and an MCRO case list as a baseline, then a later re-check — rather than restating the mechanism. Destination names the Board and, usefully, the two places that actually show the participant the result (BCA and Minnesota Court Records Online). Consumer protection is strong and evidence-backed: do not pay anyone to file a non-existent application, and do not buy a petition for a record already covered by Board action, automatic cannabis expungement or Clean Slate. Correctly discloses that automatic relief does not reach specially protected agencies or out-of-state records. Correctly declines to state when the Board will reach a record, because the brief carries no such timing. Spanish is a genuine translation with natural phrasing ('La Junta llega al expediente; el expediente no tiene que llegar a la Junta'). No fabricated fact found."
+    },
+    {
+      "trackId": "mn_petition_15218",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Destination exact: the district court administrator in the county where the case was decided. The four-form set (EXP102, EXP104, EXP106 and FEE102 where needed) matches packetSetComponents, with FEE102 correctly conditional and the others required. The brief's negative instructions are all carried: do not generate or file EXP103 because it is a prosecutor and court-side victim-notice form; hearing date, time, courtroom and Zoom credentials are supplied by the court after filing and left blank; agency service addresses are the participant's to look up; and proof-of-service dates are completed after service. The order of operations is the substantive contribution — run the automatic routes before spending a filing fee, then serve, then complete EXP104, then file — and it is the brief's packetInstructions[0] made actionable. The predatory-offender registration bar under § 609A.02 subd. 4 is carried as a bar, not a caveat. Timing is handled honestly: the brief carries no single figure, and the treatment says so and points to the statutory clause rather than inventing a number. Spanish is a real translation throughout. No fabricated fact found."
+    },
+    {
+      "trackId": "mn_petition_juvenile_as_adult",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The scope restriction that matters most on this track is handled as the headline rather than a footnote: this is an adult conviction arising from certification for adult prosecution under § 260B.125, it is not juvenile delinquency relief, and the treatment says so in the mechanism, the stop reason, the first doNot and the preserved Briefcase items. Destination exact, and usefully specific — the county where the adult prosecution ran after certification, not any juvenile court. Form set and the manual-completion items match the brief. The § 609A.02 subd. 3 waiting clause is cited without inventing a number of years, and the subd. 4 predatory-offender bar is carried. Shares the EXP-suite mechanics with mn_petition_15218, which is correct rather than boilerplate because the two tracks genuinely run on the same statewide form suite; the parts that differ — the certification order, the juvenile-relief warning, the § 260B.125 gather item — are track-specific. Spanish is genuine and renders certification as 'trasladado a jurisdicción de adultos' rather than leaving the legal noun in English. No fabricated fact found."
+    },
+    {
+      "trackId": "ne-immigration-routing",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct class and, more importantly, correct safety posture: the mechanism is that no Nebraska route reaches immigration consequences, and the treatment's whole product is the sequencing rule from the brief's self_help_boundary — immigration counsel before any Nebraska filing, not after, because a filing can surface a record. That is stated in the mechanism, the next step, the timing, the doNot list and the Briefcase return, in both languages. The § 29-2264(6) preservation of the conviction for numerous purposes is stated accurately and never overstated. Destination is a named published resource with the Nebraska Legislature's URL from the brief's officialSources, which the genericReferralRule permits. The treatment openly states the limitation the brief does not resolve — the material names no particular immigration legal-services provider, so it cannot name one — and still gives an executable next action and a concrete escalation (ask the immigration court or the agency handling the matter which accredited representatives or non-profit services are recognised in the case, and ask the Nebraska court holding the conviction about a self-help or referral desk). Under the standard, an openly stated unresolved limitation accompanied by an exact destination and next step is correct, not a defect. Spanish is genuine. No fabricated fact found."
+    },
+    {
+      "trackId": "ne-seal-pre2017",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Excellent handling of the screen the brief calls for: the disposition date is the next step, the first doNot, a Briefcase item and an escalation, and the treatment routes anything dismissed on or after 1 January 2017 away to the automatic free sealing rather than to this motion. It also tells the participant something genuinely load-bearing that the brief supports — on § 29-3523(6) the court shall grant the motion, so this is the rare Nebraska route with no judicial discretion — and uses it to reassure them that the missing packet says nothing about entitlement. Destination exact: the clerk of the court holding the case, filed in the existing case rather than as a new action. Forms and their revision dates (CC 6:12 Rev. 04/2024, CC 6:12a Rev. 06/2024, CC 6:15.1 New 05/2021) match officialSources exactly. Two participant-safety items are carried precisely: no certificate of service applies because the court notifies the county or city attorney, and the signed order must be obtained before leaving the courthouse because a sealed record cannot be retrieved without a separate release request. The retroactivity rule at § 29-3523(10) and the five qualifying categories at § 29-3523(3)(c) are stated as the brief carries them, including the want-of-prosecution example. Spanish is a genuine translation and keeps every one of these intact. No fabricated fact found."
+    },
+    {
+      "trackId": "wv_dui_deferral_expungement",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The most complex track in this shard and the treatment separates its two stop reasons correctly. The hard boundary comes first and is unmistakable in both languages — a live DUI charge with the thirty-day deferral notification not yet made is charge-stage criminal defence, is expressly outside scope, closes fast, and needs a lawyer today, not a document — which is the brief's scopeRestriction turned into the participant's first instruction rather than a disclaimer. The second reason (no statewide form, no fixed caption, the affidavit sworn by the participant, unfinished output and technical checks) is stated separately and accurately. Destination exact: the clerk of the court that deferred proceedings and imposed probation, expressly not a court where the participant lives now. Both units, all three clocks and every exclusion trace to the brief — the DMV certification required to support the § 17C-5-2b(c) motion, the prosecuting attorney's two thirty-day objection windows, the one-year expungement clock running from expiration of probation and not from dismissal, the felony-conviction bar on the subsection (g) motion, the single discharge and dismissal available under § 17C-5-2b(e), the § 17C-5-2b(f) exclusions, and the § 61-11-25(a) rule that no DMV record is reached. The disclosure protection is stated with its single exception rather than as an unqualified promise. Spanish is a genuine, fluent translation of a long and technical text, with correct legal register throughout and no untranslated legal nouns. No fabricated fact found."
+    }
+  ]
+}

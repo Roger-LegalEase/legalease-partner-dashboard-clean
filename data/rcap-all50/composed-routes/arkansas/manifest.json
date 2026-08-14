@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "AR",
+    "name": "Arkansas",
+    "slug": "arkansas"
+  },
+  "jobIds": [
+    "T-C-AR-complete-composed-route"
+  ],
+  "trackIds": [
+    "ar-act346",
+    "ar-drug-court",
+    "ar-pardon-seal",
+    "ar-veterans-court"
+  ],
+  "perTrackStatus": {
+    "ar-act346": {
+      "publicName": "Act 346 First Offender Dismiss And Seal",
+      "status": "composed_route_complete_with_official_form_dependencies",
+      "unitCount": 4,
+      "componentCount": 4,
+      "pleadingDocumentUnits": 0,
+      "officialFormDependencyUnits": 3,
+      "participantInstructionUnits": 1,
+      "counselFlagCount": 8,
+      "blockedOfficialForms": [
+        "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation (petition)",
+        "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation (proposed order)",
+        "ACIC Authorization for Review of Criminal History Information"
+      ],
+      "artifacts": [
+        "ar-act346/route.json",
+        "ar-act346/participant-instructions.md",
+        "ar-act346/handoff.md",
+        "ar-act346/components/ar-act346-process-guidance-1/process-guidance.md",
+        "ar-act346/components/ar-act346-process-guidance-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ar-act346/components/ar-act346-primary-filing-2/dependency.json",
+        "ar-act346/components/ar-act346-proposed-order-3/dependency.json",
+        "ar-act346/components/ar-act346-records-authorization-0/dependency.json"
+      ]
+    },
+    "ar-drug-court": {
+      "publicName": "Drug Court",
+      "status": "composed_route_complete_with_official_form_dependencies",
+      "unitCount": 4,
+      "componentCount": 4,
+      "pleadingDocumentUnits": 0,
+      "officialFormDependencyUnits": 3,
+      "participantInstructionUnits": 1,
+      "counselFlagCount": 8,
+      "blockedOfficialForms": [
+        "ACIC drug court pre-adjudication and post-adjudication petition and order pairs (petition)",
+        "ACIC drug court pre-adjudication and post-adjudication petition and order pairs (proposed order)",
+        "ACIC Authorization for Review of Criminal History Information"
+      ],
+      "artifacts": [
+        "ar-drug-court/route.json",
+        "ar-drug-court/participant-instructions.md",
+        "ar-drug-court/handoff.md",
+        "ar-drug-court/components/ar-drug-court-process-guidance-1/process-guidance.md",
+        "ar-drug-court/components/ar-drug-court-process-guidance-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ar-drug-court/components/ar-drug-court-primary-filing-2/dependency.json",
+        "ar-drug-court/components/ar-drug-court-proposed-order-3/dependency.json",
+        "ar-drug-court/components/ar-drug-court-records-authorization-0/dependency.json"
+      ]
+    },
+    "ar-pardon-seal": {
+      "publicName": "Sealing After A Pardon",
+      "status": "composed_route_complete_with_official_form_dependencies",
+      "unitCount": 4,
+      "componentCount": 4,
+      "pleadingDocumentUnits": 0,
+      "officialFormDependencyUnits": 3,
+      "participantInstructionUnits": 1,
+      "counselFlagCount": 8,
+      "blockedOfficialForms": [
+        "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender (petition)",
+        "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender (proposed order)",
+        "ACIC Authorization for Review of Criminal History Information"
+      ],
+      "artifacts": [
+        "ar-pardon-seal/route.json",
+        "ar-pardon-seal/participant-instructions.md",
+        "ar-pardon-seal/handoff.md",
+        "ar-pardon-seal/components/ar-pardon-seal-process-guidance-1/process-guidance.md",
+        "ar-pardon-seal/components/ar-pardon-seal-process-guidance-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ar-pardon-seal/components/ar-pardon-seal-primary-filing-2/dependency.json",
+        "ar-pardon-seal/components/ar-pardon-seal-proposed-order-3/dependency.json",
+        "ar-pardon-seal/components/ar-pardon-seal-records-authorization-0/dependency.json"
+      ]
+    },
+    "ar-veterans-court": {
+      "publicName": "Veterans Treatment Court",
+      "status": "composed_route_complete_with_official_form_dependencies",
+      "unitCount": 4,
+      "componentCount": 4,
+      "pleadingDocumentUnits": 0,
+      "officialFormDependencyUnits": 3,
+      "participantInstructionUnits": 1,
+      "counselFlagCount": 9,
+      "blockedOfficialForms": [
+        "ACIC veterans treatment court petition and order pair (petition)",
+        "ACIC veterans treatment court petition and order pair (proposed order)",
+        "ACIC Authorization for Review of Criminal History Information"
+      ],
+      "artifacts": [
+        "ar-veterans-court/route.json",
+        "ar-veterans-court/participant-instructions.md",
+        "ar-veterans-court/handoff.md",
+        "ar-veterans-court/components/ar-veterans-court-process-guidance-1/process-guidance.md",
+        "ar-veterans-court/components/ar-veterans-court-process-guidance-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ar-veterans-court/components/ar-veterans-court-primary-filing-2/dependency.json",
+        "ar-veterans-court/components/ar-veterans-court-proposed-order-3/dependency.json",
+        "ar-veterans-court/components/ar-veterans-court-records-authorization-0/dependency.json"
+      ]
+    }
+  },
+  "componentCount": 16,
+  "totals": {
+    "tracks": 4,
+    "units": 16,
+    "components": 16,
+    "pleadingDocumentComponents": 0,
+    "counselFlags": 33
+  },
+  "notes": [
+    "No custom pleading is drafted for any AR track in this job. Every AR track in scope carries the scope restriction: “The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.”",
+    "All three official-form units per track are unacquired and recorded as dependencies for lane D/E."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+    "profileSha256": "2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/arkansas/index.ts",
+      "src/lib/rcap/state-packs/arkansas/all50-build-metadata.ts"
+    ]
+  }
+}

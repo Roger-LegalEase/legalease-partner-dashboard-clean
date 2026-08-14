@@ -1,0 +1,225 @@
+name: RCAP F1 ephemeral staging
+
+# Captain-owned, manual only. This workflow REHEARSES STAGING ON A DISPOSABLE
+# STACK AND NOTHING ELSE. The entire environment — Postgres, Auth, PostgREST,
+# Storage, Kong, Mailpit, the application, the worker container — lives and
+# dies inside this runner. It touches no hosted project, no persistent
+# environment, no production surface, and it deploys nothing that outlives
+# the run.
+#
+# Every input is pinned: the run refuses any application SHA, worker source
+# SHA or digest other than the authorized values, so this cannot be repointed
+# at other bytes without editing the workflow on the default branch.
+
+#
+# This workflow is also the DISPATCH ENTRY POINT for the persistent hosted
+# acceptance environment. GitHub lists workflow_dispatch only for files that
+# exist on the default branch, and pushing to main is Roger's decision, so the
+# hosted workflow is reached through `mode` here and runs as a reusable
+# workflow resolved from this run's own commit. `mode: ephemeral` — the
+# default — behaves exactly as it always has.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_accept | hosted_payment | hosted_full"
+        required: false
+        type: choice
+        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_accept, hosted_payment, hosted_full]
+        default: ephemeral
+      supabase_project_ref:
+        description: "Acceptance Supabase project ref (hosted modes only)"
+        required: false
+        type: string
+        default: ""
+      application_sha:
+        description: "Pinned application SHA (must equal the authorized value)"
+        required: true
+        type: string
+      worker_source_sha:
+        description: "Pinned worker source freeze SHA (must equal the authorized value)"
+        required: true
+        type: string
+      worker_digest:
+        description: "Pinned immutable worker digest (must equal the authorized value)"
+        required: true
+        type: string
+      tools_sha:
+        description: "Integration-branch commit carrying the F1 orchestration scripts (must be image-input-equivalent to the freeze)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: rcap-f1-ephemeral-staging
+  cancel-in-progress: false
+
+env:
+  AUTHORIZED_APPLICATION_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
+  AUTHORIZED_WORKER_SOURCE_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
+  AUTHORIZED_WORKER_DIGEST: sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101
+  IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+  CANONICAL_INTEGRATION_BRANCH: main
+  STAGING_ENVIRONMENT_NAME: rcap-acceptance
+
+jobs:
+  hosted:
+    name: Persistent hosted acceptance staging
+    if: startsWith(inputs.mode, 'hosted_')
+    uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
+    with:
+      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight')))) }}
+      application_sha: ${{ inputs.application_sha }}
+      worker_source_sha: ${{ inputs.worker_source_sha }}
+      worker_digest: ${{ inputs.worker_digest }}
+      tools_sha: ${{ inputs.tools_sha }}
+      supabase_project_ref: ${{ inputs.supabase_project_ref }}
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      # Optional. Absent until Roger adds them; the hosted workflow declares
+      # them non-required so every phase still runs without Stripe configured,
+      # and the deployment simply keeps the control's disabled default.
+      HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+      HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+
+  f1:
+    name: Ephemeral F1 staging rehearsal (rcap-ci-staging)
+    if: inputs.mode == 'ephemeral' || inputs.mode == ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Refuse any input that is not the authorized pinned value
+        run: |
+          set -euo pipefail
+          [ "${{ inputs.application_sha }}" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          [ "${{ inputs.worker_source_sha }}" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "${{ inputs.worker_digest }}" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          printf '%s' "${{ inputs.tools_sha }}" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry and image-input equivalence of every pinned SHA
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          # The tools commit must carry the exact application and worker bytes:
+          # if this diff is empty, building once at tools_sha builds the pinned
+          # application SHA's bytes, and the worker fingerprint is unchanged.
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public \
+            || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
+          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Authenticate to GHCR and pull the worker by immutable digest
+        run: |
+          set -euo pipefail
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin \
+            || { echo "::error::GHCR authentication failed"; exit 1; }
+          REF="$IMAGE_REPOSITORY@$AUTHORIZED_WORKER_DIGEST"
+          docker pull "$REF" || { echo "::error::pull by immutable digest failed"; exit 1; }
+          ACTUAL="$(docker inspect --format='{{index .RepoDigests 0}}' "$REF" | sed 's/.*@//')"
+          [ "$ACTUAL" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::pulled digest $ACTUAL differs from authorized digest"; exit 1; }
+          echo "Pulled $REF (digest verified; the mutable tag was never used)"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
+      - name: Start the disposable Supabase stack (runner-local only)
+        run: |
+          set -euo pipefail
+          npm install -g supabase@2
+          supabase init --force >/dev/null
+          # Only the required services: Postgres, Auth, PostgREST, Storage,
+          # Kong, and the mail catcher. Everything binds to the runner's
+          # loopback; no port is exposed beyond this machine.
+          supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,realtime,postgres-meta
+          supabase status -o env > /tmp/supabase.env
+          cat /tmp/supabase.env | sed 's/KEY=.*/KEY=***REDACTED***/' || true
+
+      - name: Apply the six-migration sequence and run the stack-integration matrix
+        run: |
+          set -euo pipefail
+          set -a; source /tmp/supabase.env; set +a
+          export F1_SUPABASE_URL="${API_URL:-http://127.0.0.1:54321}"
+          export F1_DB_URL="${DB_URL:-postgresql://postgres:postgres@127.0.0.1:54322/postgres}"
+          export F1_ANON_KEY="${ANON_KEY}"
+          export F1_SERVICE_ROLE_KEY="${SERVICE_ROLE_KEY}"
+          export F1_MAILPIT_API="${INBUCKET_URL:-http://127.0.0.1:54324}/api/v1"
+          export F1_WORKER_DIGEST_REF="$IMAGE_REPOSITORY@$AUTHORIZED_WORKER_DIGEST"
+
+          # The application at the pinned SHA, delivery route disabled.
+          export NEXT_PUBLIC_SUPABASE_URL="$F1_SUPABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY="$F1_ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$F1_SERVICE_ROLE_KEY"
+          export SUPABASE_URL="$F1_SUPABASE_URL"
+          export STRIPE_SECRET_KEY="sk_test_f1_ephemeral_dummy"
+          export STRIPE_WEBHOOK_SECRET="whsec_f1_ephemeral_dummy"
+          npm run build
+          unset RCAP_CONSUMER_DELIVERY_ROUTE_STATE || true
+          nohup npx next start -p 3000 > /tmp/app-disabled.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf -o /dev/null http://127.0.0.1:3000/ && break; sleep 2; done
+
+          export F1_APP_URL="http://127.0.0.1:3000"
+          export F1_FLIP_CMD='pkill -f "next start" || true; sleep 2; RCAP_CONSUMER_DELIVERY_ROUTE_STATE=staging_scoped RCAP_CONSUMER_DELIVERY_STAGING_SCOPE=f1-scope-1,f1-scope-2 nohup npx next start -p 3000 > /tmp/app-scoped.log 2>&1 & for i in $(seq 1 60); do curl -sf -o /dev/null http://127.0.0.1:3000/ && break; sleep 2; done'
+          export F1_ROLLBACK_CMD='pkill -f "next start" || true; sleep 2; nohup npx next start -p 3000 > /tmp/app-rolledback.log 2>&1 & for i in $(seq 1 60); do curl -sf -o /dev/null http://127.0.0.1:3000/ && break; sleep 2; done'
+
+          node scripts/f1-ephemeral-staging-stack.mjs
+
+      - name: Run the deep behavioural matrix (repository battery on the runner)
+        run: |
+          set -euo pipefail
+          node scripts/verify-rcap-phase52-consumer-payment-authority.mjs
+          node scripts/verify-rcap-phase53-consumer-job-binding.mjs
+          node scripts/verify-rcap-phase51-consumer-payment-security.mjs
+          node scripts/verify-expungement-consumer-payment-http.mjs
+          node scripts/verify-rcap-consumer-person-namespace.mjs
+          node scripts/verify-rcap-packet-delivery-db.mjs
+          node scripts/verify-rcap-render-worker-delivery.mjs
+          node scripts/verify-rcap-packet-delivery-e2e.mjs
+
+      - name: Collect sanitized evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p f1-evidence
+          for f in /tmp/app-disabled.log /tmp/app-scoped.log /tmp/app-rolledback.log; do
+            [ -f "$f" ] && sed -E 's/(key|token|secret|password)[^ ]*/\1=***REDACTED***/Ig' "$f" > "f1-evidence/$(basename "$f")" || true
+          done
+          echo "{\"stagingEnvironmentName\":\"$STAGING_ENVIRONMENT_NAME\",\"applicationSha\":\"${{ inputs.application_sha }}\",\"workerSourceSha\":\"${{ inputs.worker_source_sha }}\",\"workerDigest\":\"$AUTHORIZED_WORKER_DIGEST\",\"toolsSha\":\"${{ inputs.tools_sha }}\",\"runId\":\"${{ github.run_id }}\"}" > f1-evidence/f1-run-identity.json
+
+      - name: Upload the F1 evidence bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-f1-evidence-${{ github.run_id }}
+          path: f1-evidence/
+          if-no-files-found: error
+
+      - name: Destroy the disposable stack
+        if: always()
+        run: |
+          pkill -f "next start" || true
+          docker rm -f f1-worker 2>/dev/null || true
+          supabase stop --no-backup || true

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-hard-form-source-record/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California"
+  },
+  "ledgerJob": "T-E-CA-production-packet",
+  "tracksServed": [
+    "ca-851-91"
+  ],
+  "form": {
+    "formId": "CR-410",
+    "revision": "Rev. January 1, 2019",
+    "officialName": "Order to Seal Arrest and Related Records",
+    "componentRole": "PROPOSED_ORDER",
+    "issuingBody": "Judicial Council of California"
+  },
+  "officialSource": {
+    "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-410__order-to-seal-arrest-and-related-records__REV-2019-01-01__EN.pdf",
+    "sha256": "d94bd94bad3da9d05d71b1b154a440db1864b9441e2972c84b7854e1538604f9",
+    "bytes": 52034,
+    "encrypted": true,
+    "xfa": true,
+    "creator": "Designer 6.3",
+    "pages": 1,
+    "geometry": "612x792",
+    "bundleManifest": "RCAP_SOURCE_BUNDLE_MANIFEST.json (operator-supplied Master Library Edition 1)",
+    "presentInClone": false,
+    "verifiedThisSession": {
+      "method": "sha256 match against RCAP_SOURCE_BUNDLE_MANIFEST.json",
+      "xfaConfirmed": true,
+      "encryptionConfirmed": true,
+      "tool": "pypdf 6.15.0 + cryptography 50.0.0"
+    }
+  },
+  "derivedSource": {
+    "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr410-rescued.pdf",
+    "sha256": "8ebb91910e001293a3ca4c1800b37b72ff783a42de4fc9fd0b6032c83d18aa9a",
+    "derivation": "pypdf 6.15.0 decrypt with empty owner password then clone_from re-save; no content edit. qpdf is unavailable in this environment and no CR-410 derivative existed.",
+    "sourceFaithful": true,
+    "faithfulnessProof": "source and derivative agree on /XFA presence, 1 page at 612x792 and the same field tree; only the encryption dictionary is dropped"
+  },
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+  },
+  "status": {
+    "state": "ready_except_runtime_wiring",
+    "reason": "Renders and passes output acceptance; compiled-pathway routing is Terminal A src/ work."
+  }
+}

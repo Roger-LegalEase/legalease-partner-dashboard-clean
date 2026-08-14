@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "rcap-overflow-report/v2",
+  "boundaryFixtureApplied": true,
+  "findings": [
+    {
+      "fixture": "canonical",
+      "field": "Case.County",
+      "check": "option_not_in_list",
+      "value": "Example County",
+      "optionCount": 121,
+      "handling": "left_blank_for_participant_selection"
+    },
+    {
+      "fixture": "canonical",
+      "field": "Def.Address.State",
+      "check": "option_not_in_list",
+      "value": "118 Maple Street",
+      "optionCount": 60,
+      "handling": "left_blank_for_participant_selection"
+    },
+    {
+      "fixture": "canonical",
+      "field": "Def.Address.Zip",
+      "check": "overflow",
+      "maxLength": 5,
+      "valueLength": 16,
+      "handling": "truncated_by_form_maxlength"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Case.County",
+      "check": "option_not_in_list",
+      "value": "Saint Bartholomew and the Northern Reaches County",
+      "optionCount": 121,
+      "handling": "left_blank_for_participant_selection"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Case.CaseNum",
+      "check": "clipping",
+      "widgetWidth": 111,
+      "textWidthAt": 196.8,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Def.Name.Company",
+      "check": "clipping",
+      "widgetWidth": 267,
+      "textWidthAt": 326.1,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Def.Address.Line1",
+      "check": "clipping",
+      "widgetWidth": 267,
+      "textWidthAt": 357.8,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Def.Address.City",
+      "check": "overflow",
+      "maxLength": 20,
+      "valueLength": 75,
+      "handling": "truncated_by_form_maxlength"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Def.Address.State",
+      "check": "option_not_in_list",
+      "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+      "optionCount": 60,
+      "handling": "left_blank_for_participant_selection"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Def.Address.Zip",
+      "check": "overflow",
+      "maxLength": 5,
+      "valueLength": 75,
+      "handling": "truncated_by_form_maxlength"
+    },
+    {
+      "fixture": "boundary",
+      "field": "Charge1",
+      "check": "clipping",
+      "widgetWidth": 201,
+      "textWidthAt": 613,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    }
+  ]
+}

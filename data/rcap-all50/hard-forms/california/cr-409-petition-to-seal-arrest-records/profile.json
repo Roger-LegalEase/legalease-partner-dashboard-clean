@@ -1,0 +1,192 @@
+{
+  "profileId": "ca-cr-409-petition-to-seal-arrest-records",
+  "profileVersion": "1.0.0",
+  "schemaVersion": "rcap-hard-form-profile/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "deterministicTimestamp": "2026-01-01T00:00:00Z",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California"
+  },
+  "form": {
+    "formId": "CR-409",
+    "revision": "Rev. January 1, 2024",
+    "officialName": "Petition to Seal Arrest and Related Records",
+    "componentRole": "PETITION",
+    "issuingBody": "Judicial Council of California"
+  },
+  "tracksServed": [
+    "ca-851-91"
+  ],
+  "ledgerJob": "T-E-CA-production-packet",
+  "strategy": {
+    "tier": "tier_1_hybrid_widget_shadow",
+    "rationale": "XFA source with a complete AcroForm widget shadow; shadow is filled and the XFA package deleted."
+  },
+  "engine": {
+    "name": "rcap-hard-form-xfa-shadow-fill",
+    "version": "1.0.0",
+    "library": "pdf-lib",
+    "libraryVersion": "1.17.1"
+  },
+  "officialSource": {
+    "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-409__petition-to-seal-arrest-and-related-records__REV-2024-01-01__EN.pdf",
+    "sha256": "59fa8a041633feb8351715938d7b66fda0d879e502f1fb5dd3764939efcc1088",
+    "bytes": 106622,
+    "encrypted": true,
+    "xfa": true,
+    "creator": "Designer 6.5",
+    "pages": 2,
+    "geometry": "612x792",
+    "bundleManifest": "RCAP_SOURCE_BUNDLE_MANIFEST.json (operator-supplied Master Library Edition 1)",
+    "presentInClone": false
+  },
+  "derivedSource": {
+    "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr409-rescued.pdf",
+    "sha256": "d2674e035ea4bcf00fdca7c39f567c23d897f186c096b0f9014eb8fa21a75e42",
+    "derivation": "pypdf 6.15.0 decrypt with empty owner password, then clone_from re-save; no content edit. Produced this session because qpdf is unavailable in this environment and no CR-409 derivative existed.",
+    "sourceFaithful": true,
+    "faithfulnessProof": "source and derivative both report /XFA present, 2 pages at 612x792 and the same AcroForm field tree; only the encryption dictionary is dropped"
+  },
+  "variants": [
+    {
+      "key": "single",
+      "description": "One static layout."
+    }
+  ],
+  "expectedPageGeometry": {
+    "pages": 2,
+    "size": "612x792"
+  },
+  "requiredTextAnchors": [
+    "PETITION TO SEAL",
+    "CR-409"
+  ],
+  "protectedFields": [
+    "CR-409[0].Page1[0].item2[0].li2[0].HearingInfo[0].T159[0]",
+    "CR-409[0].Page1[0].item2[0].li2[0].HearingInfo[0].T160[0]",
+    "CR-409[0].Page1[0].item2[0].li2[0].HearingInfo[0].T162[0]",
+    "CR-409[0].Page1[0].item2[0].li2[0].HearingInfo[0].T161[0]",
+    "CR-409[0].Page1[0].item2[0].li2[0].HearingInfo[0].T158[0]",
+    "CR-409[0].#pageSet[0].MPLast[0].FooterButtons[0].Print[0]",
+    "CR-409[0].#pageSet[0].MPLast[0].FooterButtons[0].Save[0]",
+    "CR-409[0].#pageSet[0].MPLast[0].FooterButtons[0].Reset[0]",
+    "CR-409[0].#pageSet[0].MPLast[0].FooterButtons[0].Warning[0]",
+    "CR-409[0].Page2[0].POPSig[0].SigDate[0]",
+    "CR-409[0].Page2[0].POPSig[0].SigName[0]"
+  ],
+  "viewerMatrix": [
+    {
+      "viewer": "pdf-lib parse",
+      "status": "verified"
+    },
+    {
+      "viewer": "Adobe Reader",
+      "status": "not_required_by_design"
+    }
+  ],
+  "legalIntegrityDisposition": "Official layout and labels are the official bytes. Only participant and deterministic values are added. Court-assigned hearing details, signatures and court-use blocks are never populated. The form field names prefixed Protected are California confidential-contact-information fields supplied by the participant, not court-use fields.",
+  "bindings": [
+    {
+      "field": "CR-409[0].Page1[0].rightCaption[0].CourtInfo[0]",
+      "factKey": "courtCountyAndAddress",
+      "kind": "text",
+      "maxLen": 90,
+      "multiline": true,
+      "note": "The form pre-prints \"Superior Court of California, County of\" above this block; binding a full court name duplicated it. This widget is an 89-point multi-line block for the county plus the court street address."
+    },
+    {
+      "field": "CR-409[0].Page1[0].rightCaption[0].CaseNumber[0]",
+      "factKey": "caseNumber",
+      "kind": "text",
+      "maxLen": 40
+    },
+    {
+      "field": "CR-409[0].Page1[0].rightCaption[0].TCCaseName[0]",
+      "factKey": "defendantName",
+      "kind": "text",
+      "maxLen": 60,
+      "note": "The form pre-prints \"People of the State of California v.\"; only the defendant name belongs here."
+    },
+    {
+      "field": "CR-409[0].Page1[0].LI1[0].li1a[0].TextField[0]",
+      "factKey": "participantFullLegalName",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedStreet[0]",
+      "factKey": "participantStreet",
+      "kind": "text",
+      "maxLen": 70
+    },
+    {
+      "field": "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedCity[0]",
+      "factKey": "participantCity",
+      "kind": "text",
+      "maxLen": 40
+    },
+    {
+      "field": "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedState[0]",
+      "factKey": "participantState",
+      "kind": "text",
+      "maxLen": 2
+    },
+    {
+      "field": "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedZip[0]",
+      "factKey": "participantZip",
+      "kind": "text",
+      "maxLen": 10
+    },
+    {
+      "field": "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedPhone[0]",
+      "factKey": "participantPhone",
+      "kind": "text",
+      "maxLen": 20
+    },
+    {
+      "field": "CR-409[0].Page1[0].LI1[0].li1b[0].ProtectedEmail[0]",
+      "factKey": "participantEmail",
+      "kind": "text",
+      "maxLen": 60
+    }
+  ],
+  "checkoutProhibited": true,
+  "participantFacingStrings": {
+    "en": {
+      "formPurpose": "CR-409 is the petition asking the court to seal your arrest record because the arrest did not lead to a conviction.",
+      "whatYouDo": "Check your details, sign and date the petition, and file it in the county where the arrest happened.",
+      "whatWeDoNotDo": "LegalEase does not set your hearing date, does not sign for you, and does not complete anything reserved to the court or clerk.",
+      "noCheckout": "This form is not available for purchase. It is prepared for review only."
+    },
+    "es": {
+      "formPurpose": "El CR-409 es la peticion que solicita al tribunal sellar su registro de arresto porque el arresto no resulto en una condena.",
+      "whatYouDo": "Verifique sus datos, firme y feche la peticion, y presentela en el condado donde ocurrio el arresto.",
+      "whatWeDoNotDo": "LegalEase no fija la fecha de su audiencia, no firma por usted, y no completa nada reservado al tribunal o al secretario.",
+      "noCheckout": "Este formulario no esta disponible para la compra. Se prepara unicamente para revision."
+    }
+  },
+  "renderedAssertions": {
+    "all": {
+      "mustNotContain": [
+        "People v."
+      ]
+    },
+    "canonical": {
+      "mustContain": [
+        "Jordan Alexis Rivera",
+        "Los Angeles"
+      ],
+      "lineMustNotMatch": [
+        "Superior Court of California, County of\\s+Superior Court of California"
+      ]
+    },
+    "boundary": {
+      "mustContain": [
+        "Featherstonehaugh-Wetherby",
+        "San Bernardino"
+      ]
+    },
+    "negative": {}
+  }
+}

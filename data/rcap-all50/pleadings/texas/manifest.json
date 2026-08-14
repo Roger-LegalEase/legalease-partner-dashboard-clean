@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "rcap-pleading-manifest/v1",
+  "jurisdiction": {
+    "code": "TX",
+    "name": "Texas",
+    "slug": "texas"
+  },
+  "jobIds": [
+    "T-C-TX-production-packet"
+  ],
+  "trackIds": [
+    "tx_exp_mistaken_identity",
+    "tx_exp_pardon_other",
+    "tx_exp_specialty_court",
+    "tx_exp_unlawful_carry"
+  ],
+  "perTrackStatus": {
+    "tx_exp_pardon_other": {
+      "registryIndex": 409,
+      "publicName": "Clear a conviction after a pardon",
+      "legalName": "Expunction after a pardon granted for a reason other than actual innocence, Tex. Code Crim. Proc. art. 55A.004",
+      "status": "controlled_pleading_drafted_with_conditional_official_form_dependency",
+      "primaryReliefTerm": "expunction",
+      "componentCount": 4,
+      "draftedComponentCount": 2,
+      "participantOnlyComponentCount": 1,
+      "draftedCourtDocuments": [
+        "tx_exp_pardon_other-petition-1 (petition)",
+        "tx_exp_pardon_other-proposed-order-2 (proposed Order of Expunction)"
+      ],
+      "officialFormDependencies": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145 (component tx_exp_pardon_other-fee-waiver-statement-3, conditional)"
+      ],
+      "counselFlagCount": 21,
+      "openBuildBlockers": [],
+      "openReleaseBlockers": [
+        "County-by-county district-court filing fee after the art. 102.006 repeal, and whether the $25 per-non-electronic-entity charge applies twice for the same agency (art. 55A.254(f) and art. 55A.351(b-3)).",
+        "Sensitive-data handling in Harris, Dallas, Bexar, Tarrant and Travis, given that art. 55A.253 requires SSN and date of birth in a filing that is public until the order issues."
+      ],
+      "fixtures": [
+        "canonical",
+        "boundary",
+        "multiline",
+        "negative"
+      ],
+      "artifacts": [
+        "tx_exp_pardon_other/pleading-config.json",
+        "tx_exp_pardon_other/fixtures/{canonical,boundary,multiline,negative}.json",
+        "tx_exp_pardon_other/participant-instructions.md",
+        "tx_exp_pardon_other/handoff.md",
+        "tx_exp_pardon_other/components/tx_exp_pardon_other-fee-waiver-statement-3/dependency.json"
+      ]
+    },
+    "tx_exp_unlawful_carry": {
+      "registryIndex": 410,
+      "publicName": "Clear an old unlawful-carry conviction",
+      "legalName": "Expunction of a pre-2021 unlawful carrying of a handgun conviction, Tex. Code Crim. Proc. art. 55A.005",
+      "status": "controlled_pleading_drafted_with_conditional_official_form_dependency_and_a_profile_contradiction",
+      "primaryReliefTerm": "expunction",
+      "componentCount": 4,
+      "draftedComponentCount": 2,
+      "participantOnlyComponentCount": 1,
+      "draftedCourtDocuments": [
+        "tx_exp_unlawful_carry-petition-1 (petition)",
+        "tx_exp_unlawful_carry-proposed-order-2 (proposed Order of Expunction)"
+      ],
+      "officialFormDependencies": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145 (component tx_exp_unlawful_carry-fee-waiver-statement-3, conditional)"
+      ],
+      "counselFlagCount": 20,
+      "openBuildBlockers": [],
+      "openReleaseBlockers": [
+        "County-by-county district-court filing fee, and the double-$25 question.",
+        "Sensitive-data handling in the five largest counties."
+      ],
+      "openSourceConflicts": [
+        "The compiled TX profile states that 'final conviction for the offence (other than a later pardon) — convictions are generally not expungeable' and routes 'final conviction (most)' to 'no relief except pardon'. Article 55A.005 is a mandatory expunction of a conviction with no pardon involved. Screening built from the profile alone would refuse a statutorily entitled participant."
+      ],
+      "fixtures": [
+        "canonical",
+        "boundary",
+        "multiline",
+        "negative"
+      ],
+      "artifacts": [
+        "tx_exp_unlawful_carry/pleading-config.json",
+        "tx_exp_unlawful_carry/fixtures/{canonical,boundary,multiline,negative}.json",
+        "tx_exp_unlawful_carry/participant-instructions.md",
+        "tx_exp_unlawful_carry/handoff.md",
+        "tx_exp_unlawful_carry/components/tx_exp_unlawful_carry-fee-waiver-statement-3/dependency.json"
+      ]
+    },
+    "tx_exp_mistaken_identity": {
+      "registryIndex": 411,
+      "publicName": "Clear an arrest that was not yours",
+      "legalName": "Expunction on mistaken identity or identity theft, Tex. Code Crim. Proc. arts. 55A.006 and 55A.256",
+      "status": "controlled_pleading_drafted_with_conditional_official_form_dependency_and_two_open_build_blockers",
+      "primaryReliefTerm": "expunction",
+      "componentCount": 5,
+      "draftedComponentCount": 3,
+      "participantOnlyComponentCount": 1,
+      "draftedCourtDocuments": [
+        "tx_exp_mistaken_identity-verified-application-to-prosecutor-3 (verified application; primary participant filing, delivered to the felony prosecutor rather than a court)",
+        "tx_exp_mistaken_identity-petition-1 (forwarded-stage petition container)",
+        "tx_exp_mistaken_identity-proposed-order-2 (proposed order, art. 55A.354 obliterate-and-substitute language)"
+      ],
+      "officialFormDependencies": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145 (component tx_exp_mistaken_identity-fee-waiver-statement-4, conditional)"
+      ],
+      "counselFlagCount": 23,
+      "openBuildBlockers": [
+        "packetSet.components carries a required petition and a required proposed order, while the mechanism states in terms 'This is not a petition' and art. 55A.256(d) has the court enter a final order without a hearing on the prosecutor's request. Either those components are what the prosecutor forwards under art. 55A.256(c), or they are inherited from the sibling art. 55A.251 tracks.",
+        "The track's venue and destination fields carry the generic art. 55A.251 district-court-of-the-county-of-arrest text verbatim, while the mechanism sends the application to the felony prosecutor in the county of RESIDENCE. The track's own generationRequirements add residenceCounty for that purpose."
+      ],
+      "openReleaseBlockers": [
+        "County-by-county district-court filing fee, and the double-$25 question.",
+        "Sensitive-data handling in the five largest counties."
+      ],
+      "postGenerationHandoffs": [
+        "The prosecutor verifies the allegations, supplements arrest information the applicant did not know, attaches the agency list, forwards the application to the district court and requests the order. LegalEase cannot complete that stage. If the prosecutor does not verify and forward, nothing reaches the court."
+      ],
+      "fixtures": [
+        "canonical",
+        "boundary",
+        "multiline",
+        "negative"
+      ],
+      "artifacts": [
+        "tx_exp_mistaken_identity/pleading-config.json",
+        "tx_exp_mistaken_identity/fixtures/{canonical,boundary,multiline,negative}.json",
+        "tx_exp_mistaken_identity/participant-instructions.md",
+        "tx_exp_mistaken_identity/handoff.md",
+        "tx_exp_mistaken_identity/components/tx_exp_mistaken_identity-fee-waiver-statement-4/dependency.json"
+      ]
+    },
+    "tx_exp_specialty_court": {
+      "registryIndex": 412,
+      "publicName": "Clear a case dismissed after a veterans or mental health court programme",
+      "legalName": "Streamlined expunction order after a specialty court dismissal, Tex. Code Crim. Proc. art. 55A.203",
+      "status": "controlled_pleading_drafted_four_documents_with_conditional_official_form_dependency_and_one_open_build_blocker",
+      "primaryReliefTerm": "expunction",
+      "componentCount": 6,
+      "draftedComponentCount": 4,
+      "participantOnlyComponentCount": 1,
+      "draftedCourtDocuments": [
+        "tx_exp_specialty_court-petition-1 (petition)",
+        "tx_exp_specialty_court-proposed-order-2 (proposed Order of Expunction)",
+        "tx_exp_specialty_court-information-package-3 (art. 55A.203(d) information package)",
+        "tx_exp_specialty_court-one-time-use-affidavit-4 (art. 55A.053(c) affidavit)"
+      ],
+      "officialFormDependencies": [
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145 (component tx_exp_specialty_court-fee-waiver-statement-5, conditional — and itself contested)"
+      ],
+      "counselFlagCount": 23,
+      "openBuildBlockers": [
+        "A conditional Rule 145 fee-waiver component sits on a route that two statutes make free: art. 55A.203(c) forbids the court charging any fee or assessing any cost for an order entered under the article, and art. 102.0061(d) separately requires waiver of the district-court fee on this entitlement."
+      ],
+      "openReleaseBlockers": [
+        "Whether the art. 55A.203(c) no-fee prohibition reaches the clerk's art. 55A.254(f) and art. 55A.351(b-3) $25-per-paper-entity transmission charges. On a route presented to the participant as free, this is the difference between $0 and $25 x agencies x 2.",
+        "Sensitive-data handling in the five largest counties."
+      ],
+      "postGenerationHandoffs": [
+        "The attorney representing the state must consent. LegalEase does not seek, negotiate or obtain that consent and never asserts it has been given. Where consent is withheld or the 30-day window closes, the ordinary art. 55A.053 petition route remains open because the entitlement is in art. 55A.053, not in art. 55A.203."
+      ],
+      "fixtures": [
+        "canonical",
+        "boundary",
+        "multiline",
+        "negative"
+      ],
+      "artifacts": [
+        "tx_exp_specialty_court/pleading-config.json",
+        "tx_exp_specialty_court/fixtures/{canonical,boundary,multiline,negative}.json",
+        "tx_exp_specialty_court/participant-instructions.md",
+        "tx_exp_specialty_court/handoff.md",
+        "tx_exp_specialty_court/components/tx_exp_specialty_court-fee-waiver-statement-5/dependency.json"
+      ]
+    }
+  },
+  "componentCount": 19,
+  "totals": {
+    "tracks": 4,
+    "components": 19,
+    "draftedPleadingComponents": 11,
+    "participantOnlyComponents": 4,
+    "officialFormDependencies": 4,
+    "distinctOfficialFormsBlocked": 1,
+    "counselFlags": 87,
+    "fixtures": 16
+  },
+  "notes": [
+    "All four Texas controlled-pleading tracks are genuine custom pleadings, and the reason is the same on each: NO STATEWIDE EXPUNCTION FORM EXISTS at any level of Texas state government. The Texas Judicial Branch forms index was confirmed on 2026-08-06 to contain none. Article 55A.253(a) prescribes the contents of the petition instead, and that specification is what makes a controlled pleading supportable.",
+    "All four tender the SAME conditional official form — the Rule 145 Statement of Inability to Afford Payment of Court Costs, the only genuinely statewide promulgated form in the entire Texas record-clearing workflow. That is four dependency records covering ONE distinct mandatory official-form handoff.",
+    "Verification is handled the ND way on all four. Article 55A.253 supplies the verification requirement and is cited. The statute authorising the UNSWORN DECLARATION that ships alongside the notarial block is named by no source read, so unswornDeclarationAuthority.citation is null on all four with a counsel flag — the same treatment the ND config gives its missing verification statute.",
+    "No certificate of service is drafted on any track. The clerk serves under art. 55A.254; the registry admits a certificate 'only where local practice requires the filer to serve the prosecutor directly' and names no such county. includeCertificateOfService is false on all four.",
+    "No fee figure is quoted anywhere on any track. The compiled profile's '$250-$500 in many counties' is expressly disavowed by the registry as no longer reliable after the art. 102.006 repeal, and is not reproduced.",
+    "Three tracks carry open BUILD blockers, all of them internal contradictions inside the registry entries rather than missing law: tx_exp_mistaken_identity has two (petition-versus-application, and venue), tx_exp_specialty_court has one (a fee waiver on a fee-free route). All three look like inheritance from the shared art. 55A.251 template — the four tracks share venue, destination, rules and most of generationRequirements verbatim. None is resolved here.",
+    "The single highest-value F-review item across the jurisdiction is on tx_exp_unlawful_carry: the compiled TX profile says convictions are generally not expungeable, and art. 55A.005 is a mandatory expunction of a conviction. The profile is not merely thin there; it would refuse an entitled participant.",
+    "The compiled TX profile is a conversion of ONE source document — the 33,207-character Agent Training Reference PDF — and it names none of the four articles (55A.004, 55A.005, 55A.006, 55A.203). It is used here for exactly four things, all of which it supports well: the caption form and ex parte style, the art. 55A.251 venue rule, the art. 55A.253 required-contents summary and the proposed-order rule, and the seven-step statewide filing sequence.",
+    "Every official source on all four tracks carries sha256 null — nine each. Chapter 55A moved three times in eighteen months: recodified effective 2025-01-01 by H.B. 4504, amended by S.B. 1667 effective 2025-09-01, and its fee article replaced by art. 102.0061 effective 2026-01-01 after an H.B. 16 stopgap. Staleness cannot be detected today.",
+    "Article 55A.253(a) requires sex, race, date of birth, driver's licence number, social security number and the address at time of arrest. Every fixture leaves all of them blank. That is a deliberate conflict with the statute, recorded rather than resolved, pending the open release blocker on county sensitive-data practice.",
+    "The relief term differs on one track. tx_exp_mistaken_identity adds destroy/destroyed/destruction/erase/erased/erasure to qaProhibitedTerms, because under art. 55A.354 agencies obliterate the applicant's identifying information and substitute the arrested person's — they do not return or destroy the file and index references are not deleted. Destruction vocabulary is correct on the other three tracks and is a misstatement of the remedy there."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/texas/index.ts",
+      "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ]
+  }
+}

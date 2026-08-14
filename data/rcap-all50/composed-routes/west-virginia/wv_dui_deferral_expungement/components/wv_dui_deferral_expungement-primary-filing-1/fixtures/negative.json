@@ -1,0 +1,86 @@
+{
+  "fixtureId": "wv_dui_deferral_expungement-primary-filing-1-negative",
+  "trackId": "wv_dui_deferral_expungement",
+  "componentId": "wv_dui_deferral_expungement-primary-filing-1",
+  "unitId": "wv-dui-deferral-unit-1-motion-to-dismiss",
+  "configPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json",
+  "routePath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, WV 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "court": "CIRCUIT COURT OF KANAWHA COUNTY",
+    "countyName": "KANAWHA",
+    "docketNumber": "00-M-0000",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "KANAWHA COUNTY PROSECUTING ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "first-offense DUI",
+    "offenseGrade": "misdemeanor",
+    "disposition": "deferred adjudication completed",
+    "dispositionDate": "10/01/2023",
+    "arrestDate": "03/15/2022",
+    "arrestingAgency": "CHARLESTON POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "stageNeeded": "not sure",
+      "chargeCourtAndCounty": "CIRCUIT COURT OF KANAWHA COUNTY, KANAWHA COUNTY",
+      "caseNumber": "00-M-0000",
+      "deferralOrderDate": "09/09/2022",
+      "probationTerm": "12 months",
+      "programCompletionDate": "03/01/2023",
+      "probationExpiryDate": "09/09/2023",
+      "dismissalDate": "10/01/2023",
+      "priorFelonyConviction": "yes — one prior felony conviction in another state",
+      "commercialLicence": "yes — held a commercial driver's licence at the time of the offence",
+      "secondaryTestRefusal": "yes — a court entered an order finding refusal of the secondary chemical test",
+      "priorLicenceRevocation": "yes — an earlier revocation in another state for a same-elements offence",
+      "otherArticleCharges": "yes — another offence under the serious traffic offences article was charged in the same prosecution",
+      "probationViolations": "yes — the probation office alleged repeated violations",
+      "priorDeferral": "yes — an earlier discharge and dismissal under this section"
+    },
+    "eligibilityBasisLabel": "Eligible — the charges will be dismissed and the record expunged",
+    "eligibilityBasisNote": "No eligibility conclusion is asserted. Whether the programme was satisfactorily completed, whether the conditions of probation were complied with, and whether any subsection (f) bar applies are the participant's own statements of fact, each checked by the participant against a document they obtain. Whether the prosecuting attorney objects, and how the court finds on any alleged probation violation, are never predicted.",
+    "documentsInHand": {
+      "dmvProgramCompletionCertification": false,
+      "orderDeferringProceedings": false,
+      "orderOfDismissalAndDischarge": false,
+      "writtenConfirmationOfProbationExpiry": false
+    },
+    "supportingDocumentNote": "Every document named here is participant-obtained. LegalEase does not obtain, receive or inspect any of them, and no drafted document characterises what any of them says.",
+    "additionalFacts": [
+      "This petition is filed by the Petitioner under W. Va. Code § 17C-5-2b(c).",
+      "The Court will dismiss the charges and expunge the record at the same time.",
+      "The Division of Motor Vehicles confirmed to LegalEase that the test and lock program was completed.",
+      "The Prosecuting Attorney was served on 01/01/2026 and does not object.",
+      "The thirty-day objection period has expired and the Court granted this motion at a hearing on 02/01/2026.",
+      "The record has been sealed and the file destroyed, and the driving record has been cleared.",
+      "This is the same relief as a dismissal after pretrial diversion, and the Petitioner was acquitted.",
+      "The $100 State Police processing fee was waived on application.",
+      "Background checks will now come back clean and the Petitioner never has to disclose this anywhere."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "07/04/1994",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "WV0000000",
+    "driversLicenseNumber": "W000000",
+    "fbiNumber": "000000AA0",
+    "fingerprintIdentifier": "FP-000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label is set by presentation.movantRole in the config, not by the fixture key name; the word petitioner is prohibited in rendered output.",
+  "identityFieldNote": "caseData.docketNumber holds the participant's own case number and caseData.countyName their own county; both are required screening answers and are deliberately left blank in the fixtures under the artifact convention. The rendered document cannot go out without them; they are supplied by the participant, never by LegalEase. caseData.court is left blank because no source read for this track states the court level — the compiled profile records West Virginia courts as circuit, magistrate or municipal.",
+  "expectFailure": "Must fail pleading QA. (1) Prohibited terms for this component: the fixture uses 'petition', 'Petitioner', 'expunge', 'expunged', 'sealed', 'destroyed', 'acquitted', 'pretrial diversion' and 'deferred adjudication'. The expungement vocabulary is prohibited on stage one because subsection (c) produces dismissal and discharge and expungement is a separate submission under subsection (g) that cannot even be made until a further year has run from the expiration of probation; 'petition'/'Petitioner' would style this as the § 61-11-26 packet, where § 61-11-26b expressly bars expunging DUI convictions; 'sealed' is the § 61-11-26 remedy; nothing in any source says this destroys a file; and acquittal, pretrial diversion and deferred adjudication each name a different West Virginia route — DUI is expressly excluded from § 61-11-22 pretrial diversion. (2) It proceeds while every subsection (f) bar is answered yes — another article 17C-5 charge in the same prosecution, a commercial driver's licence, a prior same-elements revocation and a court order finding refusal of the secondary chemical test — and while priorDeferral reports an earlier discharge and dismissal, when subsection (e) allows only one. Each is a hard exclusion and an express self-help stop condition. (3) It proceeds while probationViolations reports alleged repeated violations, which is a stop condition. (4) It claims the driving record has been cleared, when no Division of Motor Vehicles record may be expunged by virtue of any order under this section. (5) It promises a clean background check and says the participant never has to disclose the record anywhere — both on the committed state pack's own never-say list, and the disclosure protection has an express exception for inquiries made in connection with a subsequent offence under § 17C-5-2. (a) It fills court identity no source supplies: a circuit-court name, a county, a case number, an OTN, a judge, a prosecutor and a filing date, none of which LegalEase may prefill — the compiled profile records West Virginia courts as circuit, magistrate or municipal and no source read for this track says which hears a § 17C-5-2b matter. (b) It populates protected fields — date of birth, SSN last four, state ID, driver's licence number, FBI number and a fingerprint identifier — which must stay blank. (c) It asserts outside-party acts no source states: that the Division of Motor Vehicles confirmed completion directly to LegalEase, and that the prosecuting attorney was served and does not object. Service is the participant's own act, attested by the participant, and no prosecutor position is ever stated. (d) It asserts a hearing outcome and predicts that the court will grant. (e) It states an eligibilityBasisLabel asserting confirmed eligibility when no eligibility conclusion may be asserted on this track. (f) It states a fee amount and a waiver: § 17C-5-2b charges no fee for either motion, subsection (h) court costs are stated nowhere as an amount, the registry records the fee waiver as 'none stated in § 17C-5-2b', and the $100 State Police processing fee belongs to the § 61-11-26 conviction route."
+}

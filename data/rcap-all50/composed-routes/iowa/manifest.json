@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "IA",
+    "name": "Iowa",
+    "slug": "iowa"
+  },
+  "lane": "C1",
+  "jobIds": ["T-C-IA-complete-composed-route"],
+  "trackIds": ["ia-9079"],
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "registryPath": "data/record-clearing/legal-design-track-registry.json",
+  "registryEntryPointer": "tracks[126] (trackId ia-9079)",
+  "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/IA-iowa.json",
+  "profileSha256": "1af0ae279f51dffbd7e620bf0fecdd38cdb98633343f82a8b4970f6e5a7042bc",
+  "statePackFiles": [
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/iowa/all50-build-metadata.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/iowa/index.ts"
+  ],
+  "perTrackStatus": {
+    "ia-9079": {
+      "jobId": "T-C-IA-complete-composed-route",
+      "family": "composed_route",
+      "treatment": "complete_composed_route",
+      "status": "composed_route_complete_with_blocked_unresolved_vehicle_unit",
+      "buildStatus": "guidance_packet_rendered",
+      "buildStatusNote": "Not promoted to pleading_packet_rendered: no pleading packet exists or may exist on either branch. The post-2013 branch has no participant filing at all; the pre-2013 branch's filing vehicle is legally unresolved.",
+      "legalName": "Expungement of a Deferred Judgment Record on Discharge from Probation",
+      "publicName": "Clearing a deferred judgment after probation",
+      "compositionMode": "alternative",
+      "unitCount": 2,
+      "componentCount": 2,
+      "componentsBuilt": ["ia-9079-process-guidance-1"],
+      "componentsBlocked": ["ia-9079-pre-2013-application-2"],
+      "pleadingDocumentsDrafted": 0,
+      "pleadingDocumentsDraftedNote": "Zero on both branches, deliberately. Post-July-2013: the registry states there is no participant filing; the expungement is expected to occur on discharge. Pre-July-2013: an application is required but no statewide form exists, no rule governs it, and the registry states a custom pleading would be speculative.",
+      "fixtureFiles": [
+        "ia-9079/components/ia-9079-process-guidance-1/fixtures/canonical.json",
+        "ia-9079/components/ia-9079-process-guidance-1/fixtures/boundary.json",
+        "ia-9079/components/ia-9079-process-guidance-1/fixtures/negative.json",
+        "ia-9079/components/ia-9079-process-guidance-1/fixtures/multiline.json"
+      ],
+      "counselFlagCount": 11,
+      "mandatoryOfficialFormHandoffs": [],
+      "mandatoryOfficialFormHandoffsNote": "None. This mechanism sits outside Iowa R. Crim. P. 2.80 through 2.86 and has no Rule 2.86 form, and the registry states expressly that no statewide form exists for the pre-2013 branch. The blocked unit is a lane-E legal-design gap (unresolved filing vehicle), not a lane-D official-form acquisition — acquiring a form cannot unblock it.",
+      "blockedUnits": [
+        {
+          "unitId": "ia-9079-pre-2013-application",
+          "componentId": "ia-9079-pre-2013-application-2",
+          "owningLane": "E",
+          "exactMissingSource": "registry tracks[126].buildBlockers[0] / unresolvedQuestions[1] (LegalEase-Iowa-Legal-Review-2026-07-30.md, OPEN QUESTIONS): \"The correct mechanism for a pre-July-1-2013 deferred judgment expungement request. No form, no rule. Unresolved.\""
+        }
+      ],
+      "reviewStatuses": {
+        "qa": "pending",
+        "output": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "technicalProof": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalStatus": "legal_review_pending",
+      "implementationQueue": "D_composed_or_process_guidance",
+      "reviewedAsOf": "2026-07-30",
+      "approvedForLive": false,
+      "live": false
+    }
+  },
+  "componentCount": 2,
+  "counselFlagCount": 11,
+  "filesWritten": [
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/manifest.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/route.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/participant-instructions.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/handoff.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/components/ia-9079-process-guidance-1/process-guidance.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/components/ia-9079-process-guidance-1/fixtures/canonical.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/components/ia-9079-process-guidance-1/fixtures/boundary.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/components/ia-9079-process-guidance-1/fixtures/negative.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/components/ia-9079-process-guidance-1/fixtures/multiline.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/components/ia-9079-pre-2013-application-2/dependency.json"
+  ],
+  "pleadingsDirectoryWritten": false,
+  "pleadingsDirectoryNote": "No /data/rcap-all50/pleadings/iowa/ directory is created. The single IA job in this lane is a composed_route job and no controlled-pleading track was assigned; no pleading document exists or may be drafted for ia-9079.",
+  "notApprovedForLive": true,
+  "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass."
+}

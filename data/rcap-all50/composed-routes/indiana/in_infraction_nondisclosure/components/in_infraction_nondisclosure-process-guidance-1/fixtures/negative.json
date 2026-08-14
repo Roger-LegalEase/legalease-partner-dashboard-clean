@@ -1,0 +1,63 @@
+{
+  "fixtureId": "in_infraction_nondisclosure-guidance-negative",
+  "trackId": "in_infraction_nondisclosure",
+  "componentId": "in_infraction_nondisclosure-process-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/route.json",
+  "description": "Must fail QA. Every value below is exactly what this route forbids.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IN 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "courtName": "EXAMPLE COUNTY SUPERIOR COURT",
+    "countyName": "EXAMPLE",
+    "causeNumber": "00D00-0000-IF-000000",
+    "mcCaseType": "MC",
+    "docketNumber": "00D00-0000-IF-000000",
+    "otn": "000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE COUNTY PROSECUTING ATTORNEY",
+    "prosecutorPosition": "does not oppose",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "infractionDescription": "Speeding",
+    "infractionClass": "Class C infraction",
+    "disposition": "Order entered; records withheld from all requesters",
+    "dispositionDate": "01/15/2026",
+    "citationDate": "06/01/2023",
+    "citingAgency": "EXAMPLE CITY POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "countyOfInfraction": "EXAMPLE",
+      "causeNumber": "00D00-0000-IF-000000",
+      "infractionOutcome": "dismissed",
+      "outcomeDate": "06/15/2023",
+      "wasDeferred": "yes",
+      "courtAlreadyOrdered": "no"
+    },
+    "clerkConfirmationObtained": false,
+    "eligibilityBasisLabel": "Eligible - automatic branch, confirmed",
+    "earliestFilingDate": "07/15/2023",
+    "additionalFacts": [
+      "The petition was served on the prosecuting attorney and the thirty-day opposition window expired without a notice in opposition.",
+      "The court summarily granted the petition and the record has been destroyed.",
+      "The MC case type is assigned by the clerk in every Indiana county as a matter of course."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "01/01/1990",
+    "ssnLastFour": "0000",
+    "driverLicenseNumber": "0000-00-0000",
+    "stateIdNumber": "IN0000000"
+  },
+  "attachments": [
+    "Verified petition under I.C. 34-28-5-15 (drafted)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. (1) It fills in court name, county, cause number, MC case type, docket, OTN, judge and prosecuting attorney, none of which any source supplies and all of which this route holds blank. (2) It asserts the prosecutor's position (\"does not oppose\") and completed service - both outside-party acts. (3) It asserts a hearing/court outcome (\"The court summarily granted the petition\"). (4) It states records were destroyed, which the track's packet instruction forbids outright: Indiana records are sealed or restricted, never deleted or destroyed. (5) It states an eligibility conclusion and computes an earliest filing date, neither of which this component ever asserts. (6) It routes a deferred prosecution (wasDeferred yes) down the automatic branch, which the registry excludes. (7) It populates protected fields - date of birth, SSN, licence and state ID - which are held blank in every fixture. (8) It attaches a drafted stage-2 petition, which is blocked pending the statewide-form and MC case-type questions. (9) It asserts a statewide MC case-type convention that is the very open question blocking the track."
+}

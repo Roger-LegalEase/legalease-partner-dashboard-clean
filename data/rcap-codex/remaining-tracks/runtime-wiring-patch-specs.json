@@ -1,0 +1,2053 @@
+{
+  "schemaVersion": "rcap-codex-runtime-wiring-patch-specs/v2",
+  "baseCommit": "c1f0741a6bf027d52cb74a26b67a811cb9194065",
+  "status": "specification_only_src_not_modified",
+  "tracks": [
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-nonconviction-confidential",
+      "trackKey": "AK:ak-nonconviction-confidential",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:AK:ak-nonconviction-confidential",
+      "e3Label": "Agency Confidentiality of Non-Conviction Records, AS 12.62.160(b)(8); 13 AAC 68.310",
+      "mechanismAuthority": [
+        "AS 12.62.160(b)(8)",
+        "13 AAC 68.310"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/ak.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only AK:ak-nonconviction-confidential; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/AK-alaska.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only AK:ak-nonconviction-confidential; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-41",
+      "trackKey": "CA:ca-1203-41",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:CA:ca-1203-41",
+      "e3Label": "Petition for Dismissal and Set-Aside of a Felony, Cal. Penal Code § 1203.41",
+      "mechanismAuthority": [
+        "Cal. Penal Code § 1203.41, amended by SB 731 (Stats. 2022, ch. 814)",
+        "Cal. Penal Code § 1170(h)(5)(A) and (h)(5)(B), mandatory supervision",
+        "Judicial Council forms CR-180 box 5, CR-181, CR-106"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only CA:ca-1203-41; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/CA-california.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only CA:ca-1203-41; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-42",
+      "trackKey": "CA:ca-1203-42",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:CA:ca-1203-42",
+      "e3Label": "Petition for Dismissal and Set-Aside of a Pre-Realignment Prison Sentence, Cal. Penal Code § 1203.42",
+      "mechanismAuthority": [
+        "Cal. Penal Code § 1203.42",
+        "2011 realignment legislation",
+        "Judicial Council forms CR-180 box 6, CR-181, CR-106"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only CA:ca-1203-42; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/CA-california.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only CA:ca-1203-42; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-43",
+      "trackKey": "CA:ca-1203-43",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:CA:ca-1203-43",
+      "e3Label": "Petition for Dismissal and Set-Aside After Deferred Entry of Judgment, Cal. Penal Code § 1203.43",
+      "mechanismAuthority": [
+        "Cal. Penal Code § 1203.43",
+        "Former Cal. Penal Code § 1000.4, the invalid plea advisement",
+        "Former Cal. Penal Code § 1000.3, dismissal after completion",
+        "Judicial Council forms CR-180 box 7, CR-181, CR-106"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only CA:ca-1203-43; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/CA-california.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only CA:ca-1203-43; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-4a",
+      "trackKey": "CA:ca-1203-4a",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:CA:ca-1203-4a",
+      "e3Label": "Petition for Dismissal and Set-Aside Without Probation, Misdemeanor or Infraction, Cal. Penal Code § 1203.4a",
+      "mechanismAuthority": [
+        "Cal. Penal Code § 1203.4a, as amended by SB 1106 (2022), operative 1 January 2023",
+        "Cal. Penal Code § 1203.4a(e), reimbursement cap and ability to pay",
+        "Cal. Penal Code § 1203.4a(f), infraction notice and written declaration",
+        "Judicial Council forms CR-180 box 3, CR-181, CR-106"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only CA:ca-1203-4a; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/CA-california.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only CA:ca-1203-4a; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-17b-reduction",
+      "trackKey": "CA:ca-17b-reduction",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:CA:ca-17b-reduction",
+      "e3Label": "Application to Reduce a Felony to a Misdemeanor or a Misdemeanor to an Infraction, Cal. Penal Code §§ 17(b) and 17(d)(2)",
+      "mechanismAuthority": [
+        "Cal. Penal Code § 17(b), felony to misdemeanor",
+        "Cal. Penal Code § 17(d)(2), misdemeanor to infraction",
+        "Cal. Penal Code § 19.8(a), the offenses eligible for 17(d)(2)",
+        "Judicial Council forms CR-180 item 8, CR-181 items 1 and 2"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/source-record.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only CA:ca-17b-reduction; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/CA-california.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only CA:ca-17b-reduction; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-851-91",
+      "trackKey": "CA:ca-851-91",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:CA:ca-851-91",
+      "e3Label": "Petition to Seal Arrest and Related Records, Cal. Penal Code § 851.91",
+      "mechanismAuthority": [
+        "Cal. Penal Code § 851.91, added by SB 393 (2017), effective 1 January 2018, as since amended",
+        "Cal. Penal Code § 851.92, sealing mechanics",
+        "Cal. Penal Code § 851.91(a)(1), what \"did not result in a conviction\" means",
+        "Cal. Penal Code § 851.91(a)(2), the four ineligibility bars",
+        "Cal. Penal Code § 851.91(c)(2), the interests-of-justice showing where a pattern applies",
+        "Judicial Council forms CR-409, CR-409-INFO, CR-410"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "runtime_wiring_missing",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-181-order-for-dismissal/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records",
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records/handoff.md",
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-409-petition-to-seal-arrest-records/source-record.json",
+        "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records",
+        "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records/profile.json",
+        "data/rcap-all50/hard-forms/california/cr-410-order-to-seal-arrest-records/source-record.json",
+        "data/rcap-all50/hard-forms/california/tier-0-reclassification-and-components.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/E-REVIEW-REPORT.md",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only CA:ca-851-91; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/CA-california.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only CA:ca-851-91; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "trackId": "ct-provisional-pardon",
+      "trackKey": "CT:ct-provisional-pardon",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:CT:ct-provisional-pardon",
+      "e3Label": "Provisional Pardon and Certificate of Employability, Board of Pardons and Paroles",
+      "mechanismAuthority": [
+        "Connecticut Board of Pardons and Paroles"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/ct.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only CT:ct-provisional-pardon; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/CT-connecticut.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only CT:ct-provisional-pardon; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "DC",
+      "trackId": "dc_yra_set_aside",
+      "trackKey": "DC:dc_yra_set_aside",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:DC:dc_yra_set_aside",
+      "e3Label": "Motion to Set Aside a Conviction under the Youth Rehabilitation Act, D.C. Code § 24-906(e-1)",
+      "mechanismAuthority": [
+        "D.C. Code § 24-906(e-1)",
+        "D.C. Code § 24-903(c)(2)",
+        "D.C. Code § 24-906(e-2)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "legal_design_or_counsel",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/dc/dc_yra_set_aside/blocked-pleading.md",
+        "data/rcap-all50/pleadings/dc/dc_yra_set_aside/handoff.md",
+        "data/rcap-all50/pleadings/dc/dc_yra_set_aside/pleading-config.json",
+        "data/rcap-all50/pleadings/dc/manifest.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only DC:dc_yra_set_aside; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only DC:dc_yra_set_aside; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "ID",
+      "trackId": "id_felony_reduction",
+      "trackKey": "ID:id_felony_reduction",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:ID:id_felony_reduction",
+      "e3Label": "Application to Amend Judgment to a Misdemeanor, I.C. § 19-2604(2)",
+      "mechanismAuthority": [
+        "I.C. § 19-2604(2)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/idaho/id_felony_reduction/handoff.md",
+        "data/rcap-all50/pleadings/idaho/id_felony_reduction/pleading-config.json",
+        "data/rcap-all50/pleadings/idaho/manifest.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/id-19-2604.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/id-67-3004.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only ID:id_felony_reduction; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/ID-idaho.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only ID:id_felony_reduction; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "ID",
+      "trackId": "id_set_aside_dismissal",
+      "trackKey": "ID:id_set_aside_dismissal",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:ID:id_set_aside_dismissal",
+      "e3Label": "Application for Set-Aside, Dismissal and Discharge, I.C. § 19-2604(1)",
+      "mechanismAuthority": [
+        "I.C. § 19-2604(1)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/idaho/id_felony_reduction/handoff.md",
+        "data/rcap-all50/pleadings/idaho/id_set_aside_dismissal/handoff.md",
+        "data/rcap-all50/pleadings/idaho/id_set_aside_dismissal/pleading-config.json",
+        "data/rcap-all50/pleadings/idaho/manifest.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/id-19-2604.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/id-67-3004.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only ID:id_set_aside_dismissal; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/ID-idaho.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only ID:id_set_aside_dismissal; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "trackKey": "MI:mi_arrest_acquittal_dismissal",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:MI:mi_arrest_acquittal_dismissal",
+      "e3Label": "Destruction of Biometric Data and Arrest Card After Acquittal or Dismissal under MCL 28.243",
+      "mechanismAuthority": [
+        "MCL 28.243(8)",
+        "MCL 28.243(9)",
+        "MCL 28.243(10)",
+        "MCL 28.243(14)",
+        "MCL 769.16a"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/mi.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only MI:mi_arrest_acquittal_dismissal; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/MI-michigan.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only MI:mi_arrest_acquittal_dismissal; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_auto_misd92",
+      "trackKey": "MI:mi_auto_misd92",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:MI:mi_auto_misd92",
+      "e3Label": "Automatic Set-Aside of Misdemeanours Punishable by 92 Days or Less under MCL 780.621g(1) and (3)",
+      "mechanismAuthority": [
+        "MCL 780.621g(1)",
+        "MCL 780.621g(3)",
+        "MCL 780.621g(5)",
+        "MCL 780.621h"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/mi.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-f2-corrections.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only MI:mi_auto_misd92; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/MI-michigan.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only MI:mi_auto_misd92; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "MI",
+      "trackId": "mi_setaside_csc4_pre2015",
+      "trackKey": "MI:mi_setaside_csc4_pre2015",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:MI:mi_setaside_csc4_pre2015",
+      "e3Label": "Set-Aside of a Pre-2015 Fourth-Degree Criminal Sexual Conduct Conviction",
+      "mechanismAuthority": [
+        "MCL 780.621(1)(d)",
+        "MCL 780.621c(c)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/mi.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only MI:mi_setaside_csc4_pre2015; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/MI-michigan.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only MI:mi_setaside_csc4_pre2015; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "MN",
+      "trackId": "mn_ceb_felony_cannabis",
+      "trackKey": "MN:mn_ceb_felony_cannabis",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:MN:mn_ceb_felony_cannabis",
+      "e3Label": "Cannabis Expungement Board Review and Resentencing",
+      "mechanismAuthority": [
+        "Minn. Stat. ch. 609A",
+        "Laws 2023, ch. 63"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/mn.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only MN:mn_ceb_felony_cannabis; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/MN-minnesota.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only MN:mn_ceb_felony_cannabis; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "ND",
+      "trackId": "nd-dna-profile-removal-routing",
+      "trackKey": "ND:nd-dna-profile-removal-routing",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:ND:nd-dna-profile-removal-routing",
+      "e3Label": "Routing of DNA Profile Removal (N.D.C.C. § 31-13-07)",
+      "mechanismAuthority": [
+        "N.D.C.C. § 31-13-07(1)",
+        "N.D.C.C. § 31-13-07(2)",
+        "N.D.C.C. § 31-13-07(3)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/nd.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/rcap/review/f2/F2-DISPOSITIONS.json",
+        "docs/rcap/review/f2/F2-REVIEW-REPORT.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only ND:nd-dna-profile-removal-routing; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only ND:nd-dna-profile-removal-routing; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "ND",
+      "trackId": "nd-trafficking-vacatur-routing",
+      "trackKey": "ND:nd-trafficking-vacatur-routing",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:ND:nd-trafficking-vacatur-routing",
+      "e3Label": "Routing of Human-Trafficking-Victim Vacatur and Sealing (N.D.C.C. § 12.1-41-14)",
+      "mechanismAuthority": [
+        "N.D.C.C. § 12.1-41-14(1)",
+        "N.D.C.C. § 12.1-41-14(2)",
+        "N.D.C.C. § 12.1-41-14(3)",
+        "N.D.C.C. § 12.1-41-12(1)",
+        "N.D.C.C. ch. 29-32.1"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/nd.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only ND:nd-trafficking-vacatur-routing; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only ND:nd-trafficking-vacatur-routing; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "ND",
+      "trackId": "nd-unconstitutional-arrest-expungement-routing",
+      "trackKey": "ND:nd-unconstitutional-arrest-expungement-routing",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:ND:nd-unconstitutional-arrest-expungement-routing",
+      "e3Label": "Routing of Expungement of Records of an Unconstitutional Arrest (State v. Howe, 308 N.W.2d 743 (N.D. 1981))",
+      "mechanismAuthority": [
+        "State v. Howe, 308 N.W.2d 743 (N.D. 1981)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/nd.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only ND:nd-unconstitutional-arrest-expungement-routing; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only ND:nd-unconstitutional-arrest-expungement-routing; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "NE",
+      "trackId": "ne-immigration-routing",
+      "trackKey": "NE:ne-immigration-routing",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:NE:ne-immigration-routing",
+      "e3Label": "Routing of Immigration Consequences",
+      "mechanismAuthority": [
+        "Neb. Rev. Stat. § 29-2264(6)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/ne.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only NE:ne-immigration-routing; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/NE-nebraska.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only NE:ne-immigration-routing; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "NJ",
+      "trackId": "nj_automated_clean_slate",
+      "trackKey": "NJ:nj_automated_clean_slate",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:NJ:nj_automated_clean_slate",
+      "e3Label": "Automated \"Clean Slate\" Process (N.J.S.A. 2C:52-5.4)",
+      "mechanismAuthority": [
+        "N.J.S.A. 2C:52-5.4",
+        "N.J.S.A. 2C:52-5.3",
+        "N.J.S.A. 2C:52-2(b)",
+        "N.J.S.A. 2C:52-2(c)",
+        "P.L.2019, c.269"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/nj.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only NJ:nj_automated_clean_slate; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only NJ:nj_automated_clean_slate; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_repository_removal",
+      "trackKey": "NV:nv_repository_removal",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:NV:nv_repository_removal",
+      "e3Label": "Removal of a Record from the Central Repository After a Favourable Disposition (NRS 179A.160)",
+      "mechanismAuthority": [
+        "NRS 179A.160",
+        "NRS 179.245",
+        "NRS 179.255",
+        "NRS 179.275"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "participant_treatment_missing",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/nevada/manifest.json",
+        "data/rcap-all50/pleadings/nevada/nv_repository_removal/handoff.md",
+        "data/rcap-all50/pleadings/nevada/nv_repository_removal/pleading-config.json",
+        "data/rcap-all50/pleadings/wisconsin/wi_exp_certificate_of_discharge_followup/handoff.md",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/participant-treatments.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179a.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only NV:nv_repository_removal; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/NV-nevada.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only NV:nv_repository_removal; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_decrim",
+      "trackKey": "NV:nv_seal_decrim",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:NV:nv_seal_decrim",
+      "e3Label": "Sealing of Records After Decriminalization of an Offence (NRS 179.271)",
+      "mechanismAuthority": [
+        "NRS 179.271",
+        "NRS 179.285"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/nevada/manifest.json",
+        "data/rcap-all50/pleadings/nevada/nv_seal_decrim/handoff.md",
+        "data/rcap-all50/pleadings/nevada/nv_seal_decrim/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179a.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only NV:nv_seal_decrim; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/NV-nevada.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only NV:nv_seal_decrim; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "NV",
+      "trackId": "nv_seal_pardon",
+      "trackKey": "NV:nv_seal_pardon",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:NV:nv_seal_pardon",
+      "e3Label": "Sealing of Records After an Unconditional Pardon (NRS 179.273)",
+      "mechanismAuthority": [
+        "NRS 179.273",
+        "NRS 213",
+        "NRS 179.285"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/nevada/manifest.json",
+        "data/rcap-all50/pleadings/nevada/nv_seal_pardon/handoff.md",
+        "data/rcap-all50/pleadings/nevada/nv_seal_pardon/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/nv-nrs-179a.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only NV:nv_seal_pardon; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/NV-nevada.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only NV:nv_seal_pardon; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "OK",
+      "trackId": "ok_clean_slate",
+      "trackKey": "OK:ok_clean_slate",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:OK:ok_clean_slate",
+      "e3Label": "Clean Slate Sealing Without Petition (22 O.S. §§ 18b and 19d, as enacted by Senate Bill 2030, Laws 2026, c. 282)",
+      "mechanismAuthority": [
+        "22 O.S. § 18",
+        "22 O.S. § 18b",
+        "22 O.S. § 19",
+        "22 O.S. § 19d",
+        "Senate Bill 2030 (2026), Laws 2026, c. 282"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "already_resolved_but_ledger_stale",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_currentness"
+      ],
+      "currentCoverageDisposition": "represented_with_superseded_runtime_text",
+      "mappedCompiledPathwayIds": [
+        "clean-slate-automatic-expungement"
+      ],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/ok.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-recognition-patch-spec.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/lane-b-source-evidence-gaps.md",
+        "docs/record-clearing/deferrals/ok-deferrals.md"
+      ],
+      "exactPatch": [
+        "Correct only the existing mapped pathway `clean-slate-automatic-expungement` in src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json; do not create a duplicate pathway identifier.",
+        "Replace its superseded mechanism/authority presentation with the adopted current treatment for OK:ok_clean_slate, while retaining this exact registry-track mapping.",
+        "Update only the applicable exact JSON surfaces listed above; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the runtime renders current authority. Until then this track contributes no current coverage and must not be sold or presented as available relief"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "The existing pathway clean-slate-automatic-expungement remains the exact mapping for OK:ok_clean_slate; no duplicate pathway is added.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "OK",
+      "trackId": "ok_osbi_portal",
+      "trackKey": "OK:ok_osbi_portal",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:OK:ok_osbi_portal",
+      "e3Label": "OSBI Expedited Expungement Request Portal (22 O.S. § 19d, as enacted by Senate Bill 2030, Laws 2026, c. 282)",
+      "mechanismAuthority": [
+        "22 O.S. § 18",
+        "22 O.S. § 18b",
+        "22 O.S. § 19",
+        "22 O.S. § 19d",
+        "Senate Bill 2030 (2026), Laws 2026, c. 282"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "correction_required",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/ok.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json",
+        "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+        "docs/rcap/review/f2-wave2/B-REVIEW-REPORT.md",
+        "docs/record-clearing/deferrals/ok-deferrals.md"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only OK:ok_osbi_portal; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only OK:ok_osbi_portal; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "SC",
+      "trackId": "sc_aep",
+      "trackKey": "SC:sc_aep",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:SC:sc_aep",
+      "e3Label": "Solicitor Application to Destroy Arrest Records After Successful Alcohol Education Program Completion, S.C. Code § 17-22-530(A)",
+      "mechanismAuthority": [
+        "S.C. Code § 17-22-510",
+        "S.C. Code § 17-22-520",
+        "S.C. Code § 17-22-530(A)",
+        "S.C. Code § 17-22-530(B)",
+        "S.C. Code § 17-22-550",
+        "S.C. Code § 17-22-940(D)",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/south-carolina/manifest.json",
+        "data/rcap-all50/pleadings/south-carolina/sc_aep/handoff.md",
+        "data/rcap-all50/pleadings/south-carolina/sc_aep/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-code-title17-ch22.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223b1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223d1.pdf",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only SC:sc_aep; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only SC:sc_aep; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "SC",
+      "trackId": "sc_conditional_discharge_44_53_450",
+      "trackKey": "SC:sc_conditional_discharge_44_53_450",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:SC:sc_conditional_discharge_44_53_450",
+      "e3Label": "Solicitor Application to Expunge Records After a First-Offence Drug Conditional Discharge, S.C. Code § 44-53-450(b)",
+      "mechanismAuthority": [
+        "S.C. Code § 44-53-450(A)",
+        "S.C. Code § 44-53-450(B)",
+        "S.C. Code § 44-53-450(C)",
+        "S.C. Code § 44-53-370(c)",
+        "S.C. Code § 44-53-370(d)",
+        "S.C. Code § 44-53-375(A)",
+        "S.C. Code § 17-22-940(D)",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/south-carolina/manifest.json",
+        "data/rcap-all50/pleadings/south-carolina/sc_conditional_discharge_44_53_450/handoff.md",
+        "data/rcap-all50/pleadings/south-carolina/sc_conditional_discharge_44_53_450/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-code-title17-ch22.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223b1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223d1.pdf",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only SC:sc_conditional_discharge_44_53_450; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only SC:sc_conditional_discharge_44_53_450; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "SC",
+      "trackId": "sc_tep",
+      "trackKey": "SC:sc_tep",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:SC:sc_tep",
+      "e3Label": "Solicitor Application to Destroy Arrest Records After Successful Traffic Education Program Completion, S.C. Code § 17-22-330(A)",
+      "mechanismAuthority": [
+        "S.C. Code § 17-22-310",
+        "S.C. Code § 17-22-320",
+        "S.C. Code § 17-22-330(A)",
+        "S.C. Code § 17-22-330(C)",
+        "S.C. Code § 17-22-330(D)",
+        "S.C. Code § 17-22-350",
+        "S.C. Code § 17-22-940(D)",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/south-carolina/manifest.json",
+        "data/rcap-all50/pleadings/south-carolina/sc_tep/handoff.md",
+        "data/rcap-all50/pleadings/south-carolina/sc_tep/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-code-title17-ch22.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223b1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223c1a.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223d1.pdf",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only SC:sc_tep; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only SC:sc_tep; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "VA",
+      "trackId": "va_exp_identity_used_by_another",
+      "trackKey": "VA:va_exp_identity_used_by_another",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:VA:va_exp_identity_used_by_another",
+      "e3Label": "Petition for Expungement Where Another Person Used the Petitioner's Identity, Va. Code § 19.2-392.2(B)",
+      "mechanismAuthority": [
+        "Va. Code § 19.2-392.2(B)",
+        "Va. Code § 19.2-392.2(C)",
+        "Va. Code § 19.2-392.2(D)",
+        "Va. Code § 19.2-392.2(E)",
+        "Va. Code § 19.2-392.2(F)",
+        "Va. Code § 19.2-392.2(H)",
+        "Va. Code § 19.2-392.2(L)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/VA-virginia.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/virginia/manifest.json",
+        "data/rcap-all50/pleadings/virginia/va_exp_identity_used_by_another/handoff.md",
+        "data/rcap-all50/pleadings/virginia/va_exp_identity_used_by_another/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/va-code-19-2-392-2.html",
+        "data/rcap-codex/remaining-tracks/source-receipts/va-dc-363-instructions.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/va-dc-363.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/va-district-forms-list.pdf",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only VA:va_exp_identity_used_by_another; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/VA-virginia.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only VA:va_exp_identity_used_by_another; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "WA",
+      "trackId": "wa_crop_certificate_of_restoration",
+      "trackKey": "WA:wa_crop_certificate_of_restoration",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:WA:wa_crop_certificate_of_restoration",
+      "e3Label": "Application for a Certificate of Restoration of Opportunity, RCW 9.97.020",
+      "mechanismAuthority": [
+        "RCW 9.97.010(1)",
+        "RCW 9.97.010(2)",
+        "RCW 9.97.020(1)",
+        "RCW 9.97.020(1)(a)",
+        "RCW 9.97.020(2)",
+        "RCW 9.97.020(2)(a)",
+        "RCW 9.97.020(4)",
+        "RCW 9.97.020(6)",
+        "RCW 9.97.020(7)",
+        "RCW 9.97.020(8)",
+        "RCW 9.97.020(9)",
+        "RCW 9.97.020(11)",
+        "RCW 9.94A.030(11)",
+        "RCW 9.94A.030",
+        "RCW 9.41.110"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "source_or_currentness",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/WA-washington.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/pleadings/washington/manifest.json",
+        "data/rcap-all50/pleadings/washington/wa_crop_certificate_of_restoration/handoff.md",
+        "data/rcap-all50/pleadings/washington/wa_crop_certificate_of_restoration/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0100.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0200.doc",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0300.doc",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0600.doc",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-cro-01-0700.doc",
+        "data/rcap-codex/remaining-tracks/source-receipts/wa-rcw-9-97-020.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only WA:wa_crop_certificate_of_restoration; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/WA-washington.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only WA:wa_crop_certificate_of_restoration; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "trackKey": "WI:wi_exp_certificate_of_discharge_followup",
+      "owner": "Terminal A runtime owner",
+      "status": "specification_only_src_not_modified",
+      "e3JobId": "registry_track:WI:wi_exp_certificate_of_discharge_followup",
+      "e3Label": "Participant Request that the Supervising or Detaining Authority Issue and Forward the Certificate of Discharge (Wis. Stat. § 973.015(1m)(b))",
+      "mechanismAuthority": [
+        "Wis. Stat. § 973.015(1m)",
+        "Wis. Stat. § 973.015(1m)(b)"
+      ],
+      "e3ReviewRequirement": [
+        "counsel_review + visual_review"
+      ],
+      "primaryBlockerMustCloseFirst": "participant_treatment_missing",
+      "exactCanonicalProfilePath": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+      "exactJsonSurfaces": [
+        "pathways",
+        "orderedDecisionRules",
+        "questions",
+        "waitingPeriodRules",
+        "exclusionRules",
+        "frontendContract",
+        "resultPresentationContract"
+      ],
+      "resolverPathIfRequired": "src/lib/rcap-engine/profile-registry.ts",
+      "implementationFamily": [
+        "runtime_implementation"
+      ],
+      "currentCoverageDisposition": "missing_from_compiled_runtime",
+      "mappedCompiledPathwayIds": [],
+      "candidateAndAdoptionEvidence": [
+        "data/rcap-all50/guidance-packets/wi.json",
+        "data/rcap-all50/pleadings/wisconsin/manifest.json",
+        "data/rcap-all50/pleadings/wisconsin/wi_exp_certificate_of_discharge_followup/handoff.md",
+        "data/rcap-all50/pleadings/wisconsin/wi_exp_certificate_of_discharge_followup/pleading-config.json",
+        "data/rcap-all50/review-artifacts/f2-dispositions.json",
+        "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+        "data/rcap-all50/review-artifacts/f3-visual-review.json",
+        "data/rcap-codex/remaining-tracks/candidate-treatments/participant-treatments.json",
+        "data/rcap-codex/remaining-tracks/legal-adoption-continuity.json",
+        "data/rcap-codex/remaining-tracks/research-records.json",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json",
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf",
+        "data/rcap-codex/remaining-tracks/source-receipts/wi-statute-973-015.html",
+        "data/rcap-ledger/e3-job-graph.json",
+        "data/rcap-ledger/track-terminalization.json"
+      ],
+      "exactPatch": [
+        "After canonical treatment and legal adoption, add a new pathway identifier selected by Terminal A; this specification intentionally does not invent that identifier.",
+        "Map the new pathway to only WI:wi_exp_certificate_of_discharge_followup; do not widen a sibling pathway by label, authority similarity, or jurisdiction.",
+        "Update only the applicable exact JSON surfaces listed above in src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json; do not infer absent eligibility, timing, exclusion, actor, destination, or payment terms.",
+        "Preserve sellable=false, checkout prohibited, payment disabled, and no credit event until exact review, adoption, and PREP_ONLY staging acceptance."
+      ],
+      "stopCondition": [
+        "the track has a compiled pathway, or a recorded decision that it is intentionally unimplemented. Until then a participant eligible under this track receives nothing for it"
+      ],
+      "acceptanceTests": [
+        "node scripts/generate-rcap-e3-job-graph.mjs --check",
+        "node scripts/generate-rcap-track-terminalization.mjs --check",
+        "A newly chosen pathway ID maps only WI:wi_exp_certificate_of_discharge_followup; no sibling-label widening is accepted.",
+        "Resolver tests prove no unsupported route is sellable, checkout remains unavailable, and no credit is consumed."
+      ]
+    }
+  ]
+}

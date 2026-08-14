@@ -1,0 +1,120 @@
+{
+  "reviewId": "w2-shard-4",
+  "reviewer": "independent read-only reviewer, terminalization definitive wave",
+  "reviewedBaseSha": "e025ced8d6c3fd6c3c74f4bd56b746c4225b5855",
+  "reviewedFileSha256": {
+    "MI": "c35e04572f0cbddd3f28f1a251db4f12c27f3dad64816299eddf3a53a1a5db5b",
+    "SC": "f77ec8696f1ed8022bc32bb54d52b9c5d3e68b9b3c8b12648ca1f8f868a61942",
+    "TX": "4ae23bfb7c48ed6da214e9dc08948275bca19f269df9fcf77232b9de621e240f",
+    "VT": "97a916caa336b716123f4fac36a625f8a1e08b90e2a9486c993a7346c57ca867"
+  },
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "runtimeProbe": {
+    "path": "/tmp/probe-w2-shard-4.mjs",
+    "cwd": "/home/user/legalease-partner-dashboard-clean",
+    "tracksProbed": 14,
+    "observed": "Every track: sellable=false, creditConsumable=false, rendererKind=none, buildRenderJobSpec returned no spec, assertCheckoutAllowed threw, the saved Briefcase item came back paymentAllowed=false, status=guidance_saved, resultCode=guidance_only, packetStatus=not_started, amountCents=null, no packet or partner credit field set, and reopening returned artifactRefs.terminalTreatment.trackId equal to the track. Spanish stopReason differed from English on all 14.",
+    "resolverNote": "packet-route-resolver labels routeKind exact_supported_deferral for any loaded terminal treatment regardless of the treatment field, and returned component_deferral for tx_nd_veterans_reemployment and vt_exp_deferred_sentence from the earlier accepted-deferral branch. Both branches return sellable=false, creditConsumable=false, rendererKind=none, so this is frozen-runtime labelling and not a treatment defect."
+  },
+  "dispositions": [
+    {
+      "trackId": "mi_arrest_acquittal_dismissal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct family: MC 262 is a court order and the participant files nothing, so monitoring is the product. Destination is exact in two stages (clerk of the court that entered the order, then Michigan State Police with its own published criminal-history page). Every fact is in the brief: the 60-day MSP window, MCL 28.243(8)(b) prosecutor agreement or no objection, the MCL 28.243(14) prior-conviction and enumerated-offence exclusions, the ICHAT-proves-nothing rule for a 92-day misdemeanour never fingerprinted, MCL 769.16a clerk notification, and corrections going to the agency that reported. Honours the packet instruction that Michigan says set aside, not expunge, in both languages ('anulación'). Spanish is a genuine translation, not a gloss."
+    },
+    {
+      "trackId": "mi_auto_misd92",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "complete_guidance",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct family and correct actor split: MSP under MCL 780.621g(3) where fingerprints went to the state database, the convicting court under 780.621g(1) where the record lives only in the court system, with the 780.621g(5) monthly notification. States plainly that no participant-facing mechanism to compel automatic relief has been identified and routes to the application-based set-aside instead of inventing one — that is the brief's own instruction, not a defect. Seven years, no numerical limit, the 780.621h reinstatement risk for ineligibility or unpaid restitution, and the full exclusion list all trace to the brief. Spanish substantive and idiomatic."
+    },
+    {
+      "trackId": "mi_setaside_csc4_pre2015",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "deliberate_scope_exclusion",
+      "runtimeBehaviorInspected": true,
+      "note": "Departure from the brief's proposed complete_guidance is justified and stated: the brief's own scopeRestriction is 'affirmatively outside current LegalEase self-help scope, route to counsel and do not build the packet', which is a product boundary rather than a monitoring situation. Not a generic referral: the destination is the convicting court and the executable first step is obtaining the offence date from that clerk, with the MCL 780.621c(c) January 12 2015 cut-off explained as decisive. The bespoke prior-record test (not more than two minor offences, 90 days, $1,000, person not more than 21) and the SORA-continues warning are carried exactly. Stop reason avoids blaming the participant. Spanish genuine."
+    },
+    {
+      "trackId": "sc_aep",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Exact destination (Solicitor's Office in the circuit where the offence was committed) plus the SCCA 223A1 GS order form URL. The stop reason is legally grounded rather than generic: § 17-22-940(E)(3) keeps the application at the counter, so no product could be handed over. Signature order (SLED verification, AEP director attestation under § 17-22-940(D), solicitor, circuit judge), the $150 single-incident fee, one charge per order, certified checks only, the § 17-22-520 age and once-only limits, the §§ 56-5-2930/2933 DUI exclusion and the § 17-22-940(I) escalation all appear in the brief. Nothing described as optional that is required. Minor, non-blocking: the brief's fee-waiver fact ($250 programme fee, inability to pay cannot bar participation, solicitor may waive or reduce) appears only in the authority list and not in participant-facing text; that is an omission of a helpful fact, not a fabrication or a safety defect, and the programme fee is spent before this stage. Spanish is a real translation; 'solicitor' and 'General Sessions' are kept as the office and court names, which is correct wayfinding rather than an untranslated legal noun."
+    },
+    {
+      "trackId": "sc_conditional_discharge_44_53_450",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies that § 44-53-450(B) turns entirely on the court's determination of discharge and dismissal, and makes the discharge order the object of the next step. Facts supported: the § 44-53-450(C) fee of $350 general sessions / $150 summary court payable before discharge and waivable only for indigency, the once-only limit, the surviving nonpublic Department of Narcotic and Dangerous Drugs record, the summary court judge's § 17-22-940(D) attestation, § 17-22-940(E)(3), and the § 17-22-940(I) escalation. Minor, non-blocking: the destination text says no SLED verification is required on this route while the doNot list warns against accepting eligibility before SLED verifies — both sentences come straight from this track's brief (destination.detail versus scopeRestrictions[0]), so the tension is in the source and the treatment carries it in the conservative direction. Not a correction: the caution cannot harm the participant and the treatment never asserts eligibility. Spanish substantive ('sobreseimiento condicional', 'desestimación')."
+    },
+    {
+      "trackId": "sc_tep",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Genuinely differentiated from the other two SC tracks rather than boilerplate: it leads on the administering-agency problem (the solicitor may have contracted the programme to a county or municipality, so the office holding the completion record may not be the solicitor's) and on the § 17-22-330(D) six-month subsequent-violation termination, which the brief flags as the practical killer. Death-or-serious-bodily-injury bar, four-points-or-less scope, once-only participation, traffic education program director attestation, $150 fee and certified instruments, and the § 17-22-940(I) escalation all trace to the brief. Spanish is a real translation."
+    },
+    {
+      "trackId": "tx_exp_acquittal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is tailored to this track's actual hold (decision_conditioned_component) rather than recycled: art. 55A.201 gives the order to the acquitted person's attorney or to the attorney representing the state, and the art. 55A.151 criminal-episode analysis is not automatable. Destination is exact and split correctly in-window versus out-of-window, and the next step — asking the district clerk for the art. 55A.253(c) published agency and e-mail list — is executable and specific. The art. 102.0061(c) fee waiver, the 30-day clock, the $10 + $15 DPS CR-63 costs, the $25-per-stage saving per e-mail address, the art. 55A.253(b) no-duplicate rule, the separate private-compiler list, and the TexasLawHelp / Justice Court Training Center caution are all in the brief. Minor, non-blocking: the sentence 'expunction destroys the records rather than sealing them' is a characterisation of the remedy that this brief does not state in those words (it carries the chapter title and the art. 55A.302 retention right); it is accurate, is immediately qualified by the state-retention warning, and drives no participant action, so it is flagged rather than treated as fabrication. Spanish genuine."
+    },
+    {
+      "trackId": "tx_nd_dwi_conviction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correct mechanism and correct venue warning (sentencing court, not county of arrest). The stop reason is specific to 411.0736: the petition must itself carry evidence of entitlement under (c), the three-versus-five-year wait turns on a six-month-or-longer interlock condition that must be read off the judgment and written conditions, and 411.0731 must be ruled out first. The 411.0736(e) collision bar including a passenger and regardless of injury, the 45-day state hearing window, the 411.074 complete-prior-record requirement, the 411.0765 agencies that keep access, one order per offence, and the OCA model petition being a model rather than a mandatory form are all supported. Points the participant at the published OCA forms instead of leaving them with nothing. Spanish substantive."
+    },
+    {
+      "trackId": "tx_nd_dwi_deferred",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Distinct from the 411.0736 track: it leads on the first-time-offender gate and the second-anniversary clock from discharge and dismissal, and on the deferred-adjudication versus post-conviction-probation distinction that decides the section. Commercial licence / commercial learner's permit, 0.15 alcohol concentration, Penal Code 49.09 enhancement, the art. 42A.105(f) affirmative finding, and the 411.0726(e) collision bar all appear in the brief. Destination exact, gathering list complete and track-specific, cautions cover what not to file and what not to assume. Spanish is a real translation."
+    },
+    {
+      "trackId": "tx_nd_probation_misdemeanor",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Highest-volume track and correctly treated: the stop reason is the straight-probation versus deferred-adjudication fork, including the brief's warning that misrouting sends a probated misdemeanour to 411.0735 where the person is expressly ineligible if 411.073 fits. Immediate-on-completion versus second-anniversary for Penal Code Chapters 20, 21, 22, 25, 42, 43 and 46, the completion definition covering confinement and all fines, costs and restitution, the revocation bar, the ABC 106.041 / Penal Code 49.04-49.065 / Chapter 71 exclusions, the 411.074 screen and the 45-day hearing rule are all supported. Spanish substantive."
+    },
+    {
+      "trackId": "tx_nd_veterans_court",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is the brief's own mandatory routing rule and it works in the participant's favour: a veterans treatment court dismissal may support expunction under art. 55A.053(a)(2)(A) with the streamlined art. 55A.203 30-day order and no fee, which is the stronger remedy, so no nondisclosure petition is handed over before that is tested. The lawyer step is not a generic referral — it names the exact statutory question, and the ordered nextSteps open with obtaining written programme-completion confirmation, with the sentencing court and the OCA published forms as the exact destination. Second-anniversary wait, the no-felony-in-two-years condition, the 411.0727(e) intoxicated-driving entry bar and the section's prior-conviction exclusion list are all in the brief. Spanish genuine."
+    },
+    {
+      "trackId": "tx_nd_veterans_reemployment",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly leads with the no-filing route the brief demands: 411.0729 names no filing party and imposes no petition requirement, so the first step is asking the clerk whether that court sets the hearing itself, and the treatment explains that handing over a petition would imply a requirement the statute does not impose. Carries the 411.0729(b) point that the 411.074 basic conditions do not gate this section — a genuinely protective fact for people barred everywhere else — and tells the participant not to let anyone screen them out on it. No waiting period, misdemeanour-only scope, Subchapter H-1 court-approved programme completed after the offence, and veteran status including reserves, national guard and state guard are all supported. Spanish substantive."
+    },
+    {
+      "trackId": "vt_exp_deferred_sentence",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Honours the brief's instruction that nobody who completed a deferred sentence should be sold a petition packet: § 7041(e) puts the duty on the court at discharge. Identifies the real reason an order goes missing — restitution not paid in full — and sends the participant to the Restitution Unit of the Vermont Center for Crime Victim Services first, with Form 200-00331 for the record search and the exact Criminal Division that entered the deferred sentence as the destination. Carries the § 7041(h) confidential VCIC index surviving the relief, the post-Act-60 sealing-versus-expungement terminology rule in both languages, and the federal-background-check limitation. Where a written request is the step, it says plainly that no statute or form prescribes its contents and then tells the participant exactly what to put in it — an openly stated limitation with an exact next step, which is correct. Spanish genuine."
+    },
+    {
+      "trackId": "vt_seal_pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is an unresolved question of law stated exactly as the brief carries it — whether a pardoned misdemeanour runs on the § 7602(c) three-year clock or the § 7602(d) seven-year clock — and the treatment refuses to assume a filing date rather than inventing one, while still giving the exact court, the exact forms (200-00130, 200-00132, 200-00331) and the live Vermont Judiciary page, plus the instruction to check the revision date because superseded 200-00130A guides describe pre-Act-60 categories. Gets the burden right in the participant's favour: the court shall grant unless the respondent shows sealing would be contrary to the interests of justice. Carries the breadth of the money condition (restitution and surcharges on any conviction, § 7282 waiver aside), the § 7604 pending-charge freeze, the § 7605 two-year refiling bar, the § 7602(a)(5) commercial-licence bar reaching all motor-vehicle offences, the § 7608 victim notice, that a pardon is not itself record relief, and that a stipulation is a request rather than an entitlement. Spanish substantive."
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "md-pardon-evaluation-fixtures/v1",
+  "purpose": "Canonical routing fixtures for the MD pardoned-conviction pathway under Crim. Proc. § 10-105(a)(8)/(c)(4), counsel-approved 2026-08-11. Consumed by scripts/verify-rcap-md-pardon-pathway.mjs against the real evaluator with RCAP_EVALUATOR_TODAY=2026-08-11.",
+  "jurisdiction": "MD",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "pathwayId": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+  "cases": [
+    {
+      "id": "within-deadline-opens-caution-packet-and-payment",
+      "answers": {
+        "case_outcome": "Pardoned conviction",
+        "pardon_status": "yes",
+        "ownership_scope": "yes",
+        "jurisdiction_scope": "yes",
+        "offense_level": "Misdemeanor",
+        "age_at_offense": "adult",
+        "prior_relief": "no",
+        "sentence_completion_date": "years_3_to_5",
+        "financial_obligations": "yes",
+        "pending_cases": "no",
+        "state_exclusion_categories": "None of these",
+        "pardon_signed_date": "2020-06-01"
+      },
+      "expect": {
+        "resultCode": "packet_ready_with_caution",
+        "reasonCode": "md.compiled_rule_match.rule-11-full-and-unconditional-governor-pardon-10-105-route-onl",
+        "paymentAllowed": true,
+        "pathwayId": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8"
+      },
+      "why": "Counsel-approved qualifying direction: pardon signed within 10 years routes to the pardon pathway, reaches packet_ready_with_caution, and opens payment under the ratified-deployable grant."
+    },
+    {
+      "id": "deadline-passed-is-barred-with-the-c4-citation",
+      "answers": {
+        "case_outcome": "Pardoned conviction",
+        "pardon_status": "yes",
+        "ownership_scope": "yes",
+        "jurisdiction_scope": "yes",
+        "offense_level": "Misdemeanor",
+        "age_at_offense": "adult",
+        "prior_relief": "no",
+        "sentence_completion_date": "years_3_to_5",
+        "financial_obligations": "yes",
+        "pending_cases": "no",
+        "state_exclusion_categories": "None of these",
+        "pardon_signed_date": "2010-01-01"
+      },
+      "expect": {
+        "resultCode": "likely_not_eligible",
+        "reasonCode": "md.md_pardon_deadline_not_eligible",
+        "paymentAllowed": false,
+        "pathwayId": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8"
+      },
+      "why": "Disqualifying direction: § 10-105(c)(4) bars filing more than 10 years after the pardon was signed; payment stays shut."
+    },
+    {
+      "id": "pardon-date-missing-asks-for-exactly-that-fact",
+      "answers": {
+        "case_outcome": "Pardoned conviction",
+        "pardon_status": "yes",
+        "ownership_scope": "yes",
+        "jurisdiction_scope": "yes",
+        "offense_level": "Misdemeanor",
+        "age_at_offense": "adult",
+        "prior_relief": "no",
+        "sentence_completion_date": "years_3_to_5",
+        "financial_obligations": "yes",
+        "pending_cases": "no",
+        "state_exclusion_categories": "None of these"
+      },
+      "expect": {
+        "resultCode": "needs_more_info",
+        "reasonCode": "md.md_pardon_date_needed",
+        "paymentAllowed": false,
+        "missingQuestionId": "pardon_signed_date"
+      },
+      "why": "The deadline is verified from the participant's pardon date, never assumed; until supplied, payment stays shut."
+    },
+    {
+      "id": "pardoned-conviction-with-missing-facts-asks-for-facts",
+      "answers": {
+        "case_outcome": "Pardoned conviction",
+        "pardon_status": "yes"
+      },
+      "expect": {
+        "resultCode": "needs_more_info",
+        "reasonCode": "md.missing_required_facts",
+        "paymentAllowed": false
+      },
+      "why": "Routing never invents participant facts: an incomplete pardon screening asks for the standard required facts."
+    },
+    {
+      "id": "control-plain-misdemeanor-conviction-routing-unchanged",
+      "answers": {
+        "case_outcome": "Misdemeanor conviction",
+        "pardon_status": "no",
+        "ownership_scope": "yes",
+        "jurisdiction_scope": "yes",
+        "offense_level": "Misdemeanor",
+        "age_at_offense": "adult",
+        "prior_relief": "no",
+        "sentence_completion_date": "years_3_to_5",
+        "financial_obligations": "yes",
+        "pending_cases": "no",
+        "state_exclusion_categories": "None of these"
+      },
+      "expect": {
+        "resultCode": "needs_more_info",
+        "reasonCode": "md.waiting_anchor_missing",
+        "paymentAllowed": false
+      },
+      "why": "Regression control captured byte-identical at base a29c22c and after this lane's change: a non-pardon conviction still follows the pre-existing § 10-110 route behavior."
+    }
+  ],
+  "evaluatorToday": "2026-08-11"
+}

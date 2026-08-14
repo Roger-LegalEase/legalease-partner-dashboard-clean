@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-c3-jurisdiction-manifest/v1",
+  "jobId": "T-C-KS-production-packet",
+  "jurisdiction": "KS",
+  "jurisdictionSlug": "kansas",
+  "windowId": "2026-08-12-w1",
+  "lane": "C",
+  "implementationFamily": "controlled_pleading",
+  "outputStrategy": "custom_pleading",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "file": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+  },
+  "trackIds": [
+    "ks-12-4516-municipal",
+    "ks-12-4516a-municipal-arrest"
+  ],
+  "partitionNote": "Both Kansas tracks are drafted. Kansas has hundreds of municipal courts and no unified municipal forms regime, so there is no mandatory statewide form to replicate and the custom pleading is the correct vehicle. The statutory mechanism for both sections was read at source. The city is left as a confirm-with-the-court value rather than wired from caseData.countyName, because Kansas municipal courts are city courts and a county name would designate a court that does not exist.",
+  "tracks": [
+    {
+      "trackId": "ks-12-4516-municipal",
+      "legalName": "Petition for Expungement of a Kansas Municipal Court Conviction or Diversion under K.S.A. 12-4516",
+      "status": "pleading_packet_rendered",
+      "disposition": "drafted",
+      "componentCount": 11,
+      "blockedComponents": [],
+      "note": "Conviction and diversion paths. Waiting periods are offence-dependent (3 years general, none for pre-1-July-2014 ordinances, 1 year coercion-proved prostitution-equivalent, 5 years for the (d) list, 5/10 years for DUI-equivalents). The three statutory findings are requested of the court, never asserted. No firearms finding applies. Filing fee is a recorded source silence."
+    },
+    {
+      "trackId": "ks-12-4516a-municipal-arrest",
+      "legalName": "Petition for Expungement of a City Ordinance Arrest Record under K.S.A. 12-4516a",
+      "status": "pleading_packet_rendered",
+      "disposition": "drafted",
+      "componentCount": 11,
+      "blockedComponents": [],
+      "note": "Arrest records only; no waiting period. Relief turns on one of the (c) grounds, each requested of the court rather than asserted. The fee mechanism is established by (f) but the amount is a recorded source silence; the identity-theft-victim fee exemption is surfaced. Expungement separates the court file rather than destroying it."
+    }
+  ],
+  "summary": {
+    "tracksTotal": 2,
+    "drafted": 2,
+    "blocked": 0
+  }
+}

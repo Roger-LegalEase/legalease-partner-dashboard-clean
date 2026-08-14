@@ -1,0 +1,36 @@
+{
+  "fixtureId": "canonical",
+  "description": "Obviously synthetic canonical participant. Protected/outside-party fields (docket number, OTN, judge, prosecutor position) stay blank and render as confirm-with-clerk placeholders.",
+  "expectations": {
+    "qaPassed": true
+  },
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Morgan Sample",
+      "petitionerAddress": "1234 Example Street, Columbus, OH 43215",
+      "otherNamesUsed": "Morgan Q. Sample"
+    },
+    "caseData": {
+      "countyName": "Franklin"
+    },
+    "chargeData": {
+      "chargeDescription": "Theft",
+      "offenseGrade": "Felony of the fifth degree",
+      "disposition": "Convicted (guilty plea)",
+      "dispositionDate": "03/01/2023",
+      "arrestDate": "11/15/2022",
+      "arrestingAgency": "Columbus Division of Police"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Sealing of a felony of the fourth or fifth degree conviction under Ohio Rev. Code § 2953.32 — 1 year after final discharge",
+      "waitingPeriodText": "Sealing (§ 2953.32): F4 or F5 — 1 year after final discharge.",
+      "additionalFacts": [
+        "Final discharge is complete: the sentence, parole, all fines and all restitution are complete.",
+        "No criminal proceedings are pending against Applicant.",
+        "No charge from the same act has a different final disposition that remains uncleared (Ohio Rev. Code § 2953.61)."
+      ]
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

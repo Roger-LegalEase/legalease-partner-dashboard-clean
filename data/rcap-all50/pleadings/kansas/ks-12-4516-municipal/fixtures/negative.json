@@ -1,0 +1,102 @@
+{
+  "fixtureId": "negative",
+  "description": "Rejection fixture reproducing the lane C1 failure mode: content the source does not supply, which runPleadingQa passes because QA reads relief vocabulary, template grade, the footer and seal markers rather than truth. The invention/protected-field scanner must reject it.",
+  "statedFailureReason": "The fixture converts the three K.S.A. 12-4516 findings — which are the court's to make — into findings already made, reports a hearing and a granted petition when the court sets the hearing date, asserts that the prosecuting attorney has no objection and the arresting agency consents, states a filing fee the source does not establish and names it in words as an established amount, asserts that notice was served when notice is the court's act, and populates the protected docket number, OTN and judge fields. None of this is supported by the committed Kansas evidence.",
+  "expectations": {
+    "qaPassed": true,
+    "expectedSignalClass": "invention",
+    "expectedSignal": "court_finding_asserted",
+    "expectedSignals": [
+      {
+        "signal": "court_finding_asserted",
+        "class": "invention",
+        "violation": "Converts the three K.S.A. 12-4516 findings — no felony conviction in the past two years, that the petitioner's circumstances and behaviour warrant expungement, and that expungement is consistent with the public welfare — into findings the court has already made.",
+        "rule": "The three statutory findings are the court's to make, never the petitioner's to assert. This pleading asks the court to make them; it never states that they have been made."
+      },
+      {
+        "signal": "hearing_outcome_asserted",
+        "class": "invention",
+        "violation": "Reports that a hearing was held and that the petition was granted. The court sets the hearing date; the outcome does not exist when the petition is generated.",
+        "rule": "Notice is the court's act: the court sets the hearing and causes notice to be given to the prosecuting attorney and the arresting law enforcement agency. The participant does not serve anyone, and the prosecuting attorney's position is never asserted."
+      },
+      {
+        "signal": "prosecutor_position_asserted",
+        "class": "invention",
+        "violation": "States that the prosecuting attorney has no objection and that the arresting agency consents. Both positions belong to the agencies the court notifies.",
+        "rule": "Notice is the court's act: the court sets the hearing and causes notice to be given to the prosecuting attorney and the arresting law enforcement agency. The participant does not serve anyone, and the prosecuting attorney's position is never asserted."
+      },
+      {
+        "signal": "monetary_amount_asserted",
+        "class": "invention",
+        "violation": "States a dollar amount for the filing fee and asserts it was paid on a date. No committed Kansas evidence establishes any fee for a K.S.A. 12-4516 petition.",
+        "rule": "Filing fee: the source does not establish a filing fee for a K.S.A. 12-4516 conviction or diversion petition. No amount may be stated to a participant; ask the convicting municipal court what it charges."
+      },
+      {
+        "signal": "fee_amount_asserted",
+        "class": "invention",
+        "violation": "Names the fee in words as an established amount ('filing fee of 195 dollars') when the section as described prescribes no fee mechanism at all.",
+        "rule": "Filing fee: the source does not establish a filing fee for a K.S.A. 12-4516 conviction or diversion petition. No amount may be stated to a participant; ask the convicting municipal court what it charges."
+      },
+      {
+        "signal": "service_completion_asserted",
+        "class": "invention",
+        "violation": "Asserts that notice was served on the prosecuting attorney and the arresting agency on a stated date. Notice is the court's act under K.S.A. 12-4516; the participant serves no one.",
+        "rule": "Notice is the court's act: the court sets the hearing and causes notice to be given to the prosecuting attorney and the arresting law enforcement agency. The participant does not serve anyone, and the prosecuting attorney's position is never asserted."
+      },
+      {
+        "signal": "protected_case_field_populated",
+        "class": "protected_field",
+        "violation": "Populates caseData.docketNumber, caseData.otn and caseData.judgeName, which the protected-field policy requires to stay blank in every fixture.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "docket_number_asserted",
+        "class": "protected_field",
+        "violation": "The populated docket number reaches the caption in place of the blank-docket placeholder.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "otn_rendered",
+        "class": "protected_field",
+        "violation": "The populated OTN reaches the rendered text.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "judge_rendered",
+        "class": "protected_field",
+        "violation": "The populated judge name reaches the rendered text.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      }
+    ]
+  },
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Negative Sample"
+    },
+    "caseData": {
+      "countyName": "Shawnee",
+      "docketNumber": "MC-2019-114233",
+      "otn": "KS0099213447",
+      "judgeName": "the Honourable Pat Example"
+    },
+    "chargeData": {
+      "chargeDescription": "Violation of a city ordinance prohibiting theft of property",
+      "disposition": "Convicted of the ordinance violation",
+      "dispositionDate": "04/12/2019",
+      "arrestDate": "01/15/2019",
+      "arrestingAgency": "City of Example Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Expungement of a city ordinance conviction under K.S.A. 12-4516(a)(1)",
+      "additionalFacts": [
+        "The Court finds that Petitioner has not been convicted of a felony in the past two years, that Petitioner's circumstances and behaviour warrant expungement, and that expungement is consistent with the public welfare.",
+        "The prosecuting attorney has no objection to this Petition and the arresting agency consents to the relief requested.",
+        "A hearing was held on 03/20/2026 and the petition was granted.",
+        "Petitioner paid the filing fee of 195 dollars ($195) to the clerk of the municipal court on 02/14/2026.",
+        "Notice of this Petition was duly served on the prosecuting attorney and the arresting law enforcement agency on 03/01/2026."
+      ]
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "IL",
+    "name": "Illinois",
+    "slug": "illinois"
+  },
+  "lane": "C1",
+  "jobIds": [
+    "T-C-IL-complete-composed-route"
+  ],
+  "trackIds": [
+    "il-prb-cert"
+  ],
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "registryPath": "data/record-clearing/legal-design-track-registry.json",
+  "registryEntryPointer": "tracks[142] (trackId il-prb-cert)",
+  "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+  "profileSha256": "83705171c77c6a7324a171fba819e4ccb061c8eeb0e92ab4c982ed7d38a1d221",
+  "statePackFiles": [
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/index.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/all50-build-metadata.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/court-routing.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/filing-instructions.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/eligibility-rules.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/fee-notes.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/safety-language.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/disqualifying-offenses.ts",
+    "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/clean-slate-transition.ts"
+  ],
+  "perTrackStatus": {
+    "il-prb-cert": {
+      "jobId": "T-C-IL-complete-composed-route",
+      "family": "composed_route",
+      "treatment": "complete_composed_route",
+      "status": "composed_route_complete_with_one_blocked_unit",
+      "buildStatus": "guidance_packet_rendered",
+      "buildStatusNote": "Not promoted to pleading_packet_rendered: no pleading document exists or may exist anywhere on this route. Every available unit is official_pdf_fill, and the stage-2 statewide suite is mandatory — drafting a bespoke pleading would be affirmatively wrong. What lane C produced is the route enumeration, five dependency records, the stage-1 orientation document and the participant checklist.",
+      "legalName": "Expungement or Sealing Following a Prisoner Review Board Certificate of Eligibility",
+      "publicName": "Using a Prisoner Review Board certificate to clear a record that is otherwise excluded",
+      "compositionMode": "mixed",
+      "compositionModeNote": "Sequential across two stages before two different bodies; alternative within stage 1 across three mutually exclusive certificate branches, one of which is unavailable.",
+      "unitCount": 5,
+      "unitIds": [
+        "il-prb-cert-certificate-application",
+        "il-prb-cert-sealing-branch",
+        "il-prb-cert-military-branch",
+        "il-prb-cert-nonmilitary-expungement-branch",
+        "il-prb-cert-court-petition"
+      ],
+      "componentCount": 7,
+      "componentsBuilt": [
+        "il-prb-cert-stage1-orientation-0"
+      ],
+      "componentsRecordedAsOfficialFormDependency": [
+        "il-prb-cert-primary-filing-1",
+        "il-prb-cert-attachment-2",
+        "il-prb-cert-primary-filing-3",
+        "il-prb-cert-attachment-4",
+        "il-prb-cert-primary-filing-5"
+      ],
+      "componentsBlocked": [
+        "il-prb-cert-nonmilitary-expungement-6"
+      ],
+      "componentIdsConstructed": [
+        "il-prb-cert-stage1-orientation-0 — parent unit 1 has no registry component; the registry treats it as framing plus branch selection.",
+        "il-prb-cert-nonmilitary-expungement-6 — unit 4 has no registry component because the registry generates no packet for it."
+      ],
+      "pleadingDocumentsDrafted": 0,
+      "pleadingDocumentsDraftedNote": "Zero, deliberately and on every branch. All five named forms are official: four Prisoner Review Board AcroForms at stage 1 and the mandatory statewide EXP-AD Request at stage 2. The sixth would-be form, a non-military § 5.2(e-6) application, has not been located and nothing is drafted in its place.",
+      "requiredOutputBreakdown": {
+        "participant_instruction": 1,
+        "official_form_dependency": 4,
+        "pleading_document": 0,
+        "agency_request_letter": 0,
+        "cover_sheet": 0
+      },
+      "fixtureFiles": [
+        "il-prb-cert/components/il-prb-cert-stage1-orientation-0/fixtures/canonical.json",
+        "il-prb-cert/components/il-prb-cert-stage1-orientation-0/fixtures/boundary.json",
+        "il-prb-cert/components/il-prb-cert-stage1-orientation-0/fixtures/negative.json",
+        "il-prb-cert/components/il-prb-cert-stage1-orientation-0/fixtures/multiline.json"
+      ],
+      "fixtureNote": "Fixtures exist only for the one component that is a drafted document. official_form_dependency components hold dependency.json and no fixtures, per the artifact convention: no drafted form means no render input to fixture.",
+      "counselFlagCount": 17,
+      "mandatoryOfficialFormHandoffs": [
+        "PRB Certificate of Sealing Application (Illinois Prisoner Review Board, rev. 09/18/2024, fillable AcroForm) — component il-prb-cert-primary-filing-1, unit il-prb-cert-sealing-branch, lane D",
+        "PRB Certificate of Sealing Eligibility Acknowledgement (Illinois Prisoner Review Board, undated) — component il-prb-cert-attachment-2, unit il-prb-cert-sealing-branch, lane D",
+        "PRB Certificate of Expungement for Military Application (Illinois Prisoner Review Board, v9.18.24) — component il-prb-cert-primary-filing-3, unit il-prb-cert-military-branch, lane D",
+        "PRB Certificate of Expungement for Military Eligibility Acknowledgement (Illinois Prisoner Review Board, undated) — component il-prb-cert-attachment-4, unit il-prb-cert-military-branch, lane D",
+        "EXP-AD Request, Request to Expunge and/or Seal Criminal Records (Illinois Supreme Court Commission on Access to Justice, mandatory statewide adult suite) — component il-prb-cert-primary-filing-5, unit il-prb-cert-court-petition, lane D"
+      ],
+      "blockedUnits": [
+        {
+          "unitId": "il-prb-cert-nonmilitary-expungement-branch",
+          "componentId": "il-prb-cert-nonmilitary-expungement-6",
+          "owningLane": "D",
+          "owningLaneNote": "Contingent on lane F source resolution first; the track's implementationQueue is F_source_problem. If no form exists, the branch becomes a lane-E legal-design question. Lane C drafts nothing either way.",
+          "exactMissingSource": "registry@3b6f4c1:tracks[142].releaseBlockers[2] / unresolvedQuestions[2] / units[3].unavailableReason (LegalEase-Illinois-Legal-Review-2026-07-30.md, TRACK K, affectedElement correct_form): \"Whether any official non-military certificate of eligibility for expungement application exists under § 5.2(e-6). The Prisoner Review Board publishes a Certificate of Sealing and a military-specific Certificate of Expungement; no general non-military expungement-certificate application was located on the Board's site. That branch alone is held.\"",
+          "notCountedAsFormHandoff": "No official form has been identified, so this is a source gap first and an acquisition task only if the gap resolves in favour of a form existing.",
+          "hardRoutingConstraint": "A participant on this branch must NOT be routed onto the military Certificate of Expungement application, which is expressly military-specific, nor onto the § 5.2(e-5) Certificate of Sealing application, which does not cover § 5.2(e-6). Exercised as the primary defect in the negative fixture."
+        }
+      ],
+      "openReleaseBlockers": [
+        "No official non-military § 5.2(e-6) certificate-of-eligibility-for-expungement application located.",
+        "County filing fees statewide; no statewide schedule, published examples roughly $60 to $235, a county fee table must be built.",
+        "Whether e-filing is available for expungement and sealing petitions in every county, and how counties handle self-represented e-filing exemptions."
+      ],
+      "sourceGapsRecorded": [
+        "The compiled IL profile records zero pathways, questions, decision rules, waiting-period rules, exclusion rules or packet-generator entries for this track; zero hits for 5.2(e-5), 5.2(e-6), 5.2(d)(2), 'certificate of eligibility' or 'Certificate of Sealing'. Its four Prisoner Review Board mentions are cannabis-pardon context belonging to a different track.",
+        "The Board's Guidelines for Certificate of Sealing (rev. 09/18/2024) and all four Board AcroForms are cited throughout the registry entry but do not appear in officialSources at all — no URL and no hash for any of them.",
+        "All five recorded officialSources carry sha256 null."
+      ],
+      "reviewStatuses": {
+        "qa": "pending",
+        "output": "pending",
+        "visual": "pending",
+        "counsel": "pending",
+        "technicalProof": "pending",
+        "sourceFreshness": "pending"
+      },
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "legalStatus": "legal_review_pending",
+      "implementationQueue": "F_source_problem",
+      "implementationQueueNote": "Queued as a source problem, not a drafting task. Lane C cannot clear this track alone.",
+      "reviewedAsOf": "2026-07-30",
+      "effectiveFrom": "2026-06-01",
+      "approvedForLive": false,
+      "live": false
+    }
+  },
+  "componentCount": 7,
+  "counselFlagCount": 17,
+  "filesWritten": [
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/manifest.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/route.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/participant-instructions.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/handoff.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-stage1-orientation-0/stage-1-orientation.md",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-stage1-orientation-0/fixtures/canonical.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-stage1-orientation-0/fixtures/boundary.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-stage1-orientation-0/fixtures/negative.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-stage1-orientation-0/fixtures/multiline.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-1/dependency.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-attachment-2/dependency.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-3/dependency.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-attachment-4/dependency.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-nonmilitary-expungement-6/dependency.json",
+    "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/illinois/il-prb-cert/components/il-prb-cert-primary-filing-5/dependency.json"
+  ],
+  "pleadingsDirectoryWritten": true,
+  "pleadingsDirectoryNote": "The other IL job in this lane, T-C-IL-production-packet (track il-immediate-seal), is recorded separately at /home/user/wt-c1-pleadings/data/rcap-all50/pleadings/illinois/manifest.json.",
+  "legacyGeneratorNote": "The live legacy Illinois generator is untouched. Nothing under src/**, scripts/** or any ledger was modified by this job; all output is data under data/rcap-all50/.",
+  "notApprovedForLive": true,
+  "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass."
+}

@@ -1,0 +1,41 @@
+{
+  "fixtureId": "tn_pretrial_diversion-negative",
+  "description": "Negative fixture. Every clause below is content the source does not supply: a finding this Court has not made, the district attorney general's position, the circulating fee figure the source expressly refuses to quote, service already completed, a fabricated Code section, and populated docket, tracking-number and judge fields that belong to the court. runPleadingQa passes this petition — it checks relief vocabulary, template grade and the footer, and cannot see invented content (lane C1 finding 1). The verifier's invention and protected-field detectors are what must catch it.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:prosecutor_position",
+    "invention:fee_amount",
+    "invention:service_completed",
+    "invention:unsourced_citation",
+    "protected_field:populated"
+  ],
+  "partyData": {
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "1000 Sample Street, Nashville, TN 37203"
+  },
+  "caseData": {
+    "countyName": "Sample County (synthetic sample venue)",
+    "docketNumber": "2023-CR-00042",
+    "otn": "TN0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "100 Sample Courthouse Square, Nashville, TN 37203"
+  },
+  "chargeData": {
+    "chargeDescription": "Charge stated in the participant's record (synthetic)",
+    "disposition": "Resolved (synthetic)",
+    "arrestDate": "11/08/2023",
+    "arrestingAgency": "Sample City Police Department (synthetic)"
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "the basis stated in the participant's own answers",
+    "additionalFacts": [
+      "This Court finds that every statutory condition for relief is satisfied on the face of this Petition.",
+      "The district attorney general does not oppose this Petition and has agreed that the relief should be granted.",
+      "Petitioner paid the $180.00 clerk's fee at the time of filing.",
+      "Service was completed on the district attorney general on 03/01/2026.",
+      "Relief is further authorized by T.C.A. § 40-32-999(z), which governs this category of record."
+    ]
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

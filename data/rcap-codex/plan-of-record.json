@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-plan-of-record/v1",
+  "adoptedBy": "Terminal A (captain)",
+  "adoptedAtWindow": "2026-08-12-w3",
+  "statement": "The Codex final release-readiness audit is the CURRENT RELEASE PLAN OF RECORD. Its blocker ids, owners, dependencies and exact next actions are authoritative for release sequencing and are preserved verbatim in data/rcap-codex/release-readiness.json. This adoption is a planning record only.",
+  "source": {
+    "branch": "codex/rcap-final-release-readiness-audit",
+    "commit": "6be92b1dce178c829967e9169ff57f7dbdf000ab",
+    "auditedCanonicalSha": "3d8695cf8e5e9fe4464b559c97e04a526a462ade",
+    "importedPaths": [
+      "data/rcap-codex/release-readiness.json",
+      "docs/rcap/codex/release-readiness.md"
+    ],
+    "importMethod": "owned-path import only; the branch was not merged wholesale"
+  },
+  "captainVerification": {
+    "branchTipMatchesReportedCommit": true,
+    "auditedShaInBranchAncestry": true,
+    "branchTouchesOnlyTheTwoImportedPaths": true,
+    "auditedShaIsTheCanonicalTipAtAuditTime": true,
+    "headlineFiguresCrossCheckedAgainstLiveLedger": {
+      "tracksTerminal": 375,
+      "tracksNonterminal": 122,
+      "jobsRemaining": 60,
+      "agreesWithDataRcapLedgerTrackTerminalization": true
+    },
+    "blockerRecordsComplete": "all 11 carry blockerId, owner, currentStatus, evidence, exactNextAction and dependencyIds",
+    "blockerGateCounts": { "blocksFreeze": 4, "blocksStaging": 8, "blocksLaunch": 11 }
+  },
+  "whatThisAdoptionIsNot": [
+    "not staging authorization",
+    "not deployment authorization",
+    "not production authorization",
+    "not launch authorization",
+    "not a reason to regenerate the completion ledger — the ledger is regenerated only when reviewed implementation outputs are integrated"
+  ],
+  "confirmedPosture": {
+    "tracksTerminal": "375 / 497",
+    "tracksNonterminal": 122,
+    "jobsRemaining": 60,
+    "blockerRecords": 11,
+    "existingWorkerDigest": "sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d is HISTORICAL EVIDENCE ONLY — it was built from freeze 5987870c and the tree has since drifted",
+    "finalWorkerRepublicationRequired": true,
+    "hostedStagingOnFinalSourceAndDigest": "not completed",
+    "launchSafeToAuthorize": false
+  },
+  "standingCaptainConstraints": {
+    "finalSourceFreeze": "Do not declare the final source freeze until every expected image-input change has landed.",
+    "workerPublication": "Do not publish another worker image until the final freeze SHA is declared.",
+    "ledgerRegeneration": "Regenerate the completion ledger exactly once per integration window, and only when reviewed implementation outputs are being integrated.",
+    "promotion": "Promote only treatments carrying an accepted independent-review approval."
+  },
+  "nextIntegrationWindowProcedure": [
+    "1. Import independently reviewed implementation outputs by owned path.",
+    "2. Promote only approved treatments.",
+    "3. Regenerate the ledger exactly once.",
+    "4. Update blocker statuses from repository evidence, not from lane claims.",
+    "5. Run the full chain.",
+    "6. Push one stable canonical tip."
+  ],
+  "nationwideLaunchAuthorizationPreconditions": [
+    "497 / 497 terminal",
+    "final worker digest published",
+    "final app and worker deployed to named staging",
+    "phases 49 through 54 applied to staging",
+    "production-shaped golden journeys passed",
+    "operations and rollback evidence passed",
+    "human acceptance completed",
+    "production authorization granted"
+  ],
+  "openCaptainItemsCarriedForward": {
+    "composedRouteStandardDetermination": "16 escalated composed routes remain unpromoted pending Roger's standard determination (data/rcap-all50/review-artifacts/f2-dispositions.json compositeRouteStandardEscalation). Ten are dependency-bearing (31 components); the six dependency-free routes were separately found ineligible on repository evidence (data/rcap-all50/review-artifacts/c-dependency-free-resolution.json).",
+    "codexCorrectionAssignment": "data/rcap-all50/review-artifacts/c-dependency-correction-assignment.json is frozen and unstarted.",
+    "laneCorrections": "12 tracks carry correction_required from the wave-2 review and are back with lanes B and E."
+  }
+}

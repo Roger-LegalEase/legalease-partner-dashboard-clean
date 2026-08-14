@@ -1,0 +1,98 @@
+{
+ "fixtureId": "tx_exp_mistaken_identity-negative",
+ "trackId": "tx_exp_mistaken_identity",
+ "configPath": "data/rcap-all50/pleadings/texas/tx_exp_mistaken_identity/pleading-config.json",
+ "description": "Must fail pleading QA.",
+ "synthetic": true,
+ "syntheticDataNote": "All values are obviously synthetic and are never drawn from any evidence file. Names are SAMPLE/EXAMPLE strings, the county is EXAMPLE, addresses are 000-prefixed, and every date is a round synthetic value. Dates here are participant screening answers, not sourced facts; no date in this fixture is asserted by any source.",
+ "partyData": {
+  "applicantName": "JAMIE Q. SAMPLE",
+  "applicantAddress": "000 EXAMPLE STREET, EXAMPLE CITY, TX 00000",
+  "otherNamesUsed": ""
+ },
+ "caseData": {
+  "countyName": "BEXAR",
+  "countyOfArrest": "BEXAR",
+  "countyOfAllegedOffence": "BEXAR",
+  "countyOfResidence": "TRAVIS",
+  "courtLevel": "district court",
+  "caseNumberOfUnderlyingCharge": "0000000",
+  "courtOfUnderlyingCharge": "Example County Court at Law No. 0",
+  "causeNumber": "2026-00000",
+  "courtIdentity": "000th Judicial District Court",
+  "judgeName": "HON. EXAMPLE JUDGE",
+  "addresseeRole": "the attorney representing the state in the prosecution of felonies in TRAVIS County",
+  "addresseeName": "EXAMPLE CRIMINAL DISTRICT ATTORNEY",
+  "addresseeAddress": "000 COURTHOUSE SQUARE, EXAMPLE CITY, TX 00000",
+  "prosecutorVerified": "verified on 01/05/2026",
+  "prosecutorForwardedToCourt": "forwarded on 01/06/2026",
+  "prosecutorRequestedOrder": "requested",
+  "attorneyForTheStatePosition": "verified and consents",
+  "filingDate": "01/01/2026",
+  "hearingDate": "02/15/2026",
+  "serviceCompleted": "served on 01/02/2026",
+  "hearingOutcome": "granted"
+ },
+ "chargeData": {
+  "chargeDescription": "example offence",
+  "offenseGrade": "Class B misdemeanour",
+  "disposition": "Convicted",
+  "arrestDate": "01/01/2020",
+  "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+  "dateOffenceAllegedlyCommitted": "01/01/2000",
+  "municipalityOfArrest": "EXAMPLE CITY",
+  "statuteSection": ""
+ },
+ "eligibilityData": {
+  "screeningAnswers": {
+   "residenceCounty": "TRAVIS",
+   "arrestCounty": "BEXAR",
+   "arrestDate": "01/01/2020",
+   "arrestingAgency": "EXAMPLE CITY POLICE DEPARTMENT",
+   "offenceCharged": "example offence, Class B misdemeanour",
+   "caseNumberAndCourt": "[PARTICIPANT'S OWN ANSWER — CONFIRMED AGAINST THE CLERK'S FILE BEFORE FILING]",
+   "mistakenIdentityBasis": "the applicant was arrested but believes the charge was unfair",
+   "consentGiven": "yes",
+   "fingerprintsBooked": "no",
+   "felonyFromSameTransaction": "no",
+   "communitySupervision": "no",
+   "probationViolationArrest": "no",
+   "abscondedAfterRelease": "no",
+   "agencyList": "[PARTICIPANT'S OWN LIST — BUILT FROM THE DISTRICT CLERK'S ART. 55A.253(c) PUBLISHED LIST]",
+   "privateEntities": "[PARTICIPANT'S OWN LIST — LISTED SEPARATELY, NEVER MERGED INTO THE AGENCY LIST]",
+   "trn": "TRN0000000",
+   "feeWaiverRequested": "no"
+  },
+  "eligibilityBasisLabel": "Eligible — the arrest record will be destroyed and the applicant may deny the arrest ever happened",
+  "waitingPeriodText": "The 1-year waiting period has run since the arrest.",
+  "additionalFacts": [
+   "All records of the arrest will be destroyed and erased and the index references deleted.",
+   "The attorney representing the State has verified the application, forwarded it to the district court and requested the order.",
+   "The Court held a hearing on 02/15/2026 and granted the application.",
+   "The filing fee of $300.00 was paid to the Bexar County District Clerk.",
+   "Service on all listed agencies was completed by the Applicant on 01/02/2026."
+  ]
+ },
+ "protectedFields": {
+  "dateOfBirth": "03/05/1986",
+  "sex": "F",
+  "race": "H",
+  "socialSecurityNumber": "000-00-0000",
+  "driversLicenseNumber": "00000000",
+  "addressAtTimeOfArrest": "000 OLD EXAMPLE ROAD, SAN ANTONIO, TX 00000",
+  "trn": "TRN0000000"
+ },
+ "protectedFieldsNote": "Article 55A.253(a) requires the petition to carry sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest, and the TRN must appear on the order under art. 55A.301. All of them are blank here and are never prefilled by any pipeline stage. How the largest counties handle sensitive data in a public civil expunction filing is a recorded release blocker; the participant supplies these by hand.",
+ "outsidePartyFields": null,
+ "outsidePartyFieldsNote": "Blank and never prefilled. The matter is a new civil action and receives a NEW cause number on filing, so no cause number can exist beforehand. The court sets the hearing not earlier than the 30th day after filing and the clerk serves under art. 55A.254; the participant does not serve. No position of the attorney representing the state, no service completion and no hearing outcome is ever stated.",
+ "attachments": [],
+ "productName": "LegalEase RCAP",
+ "shadowMode": true,
+ "expectFailure": "Must fail pleading QA. Each ground is either a prohibited term for this track or prohibited invention. (1) Prohibited terms specific to this track: the output says records 'will be destroyed', 'erased' and that 'index references [are] deleted', and that the applicant 'may deny the arrest ever happened'. Under art. 55A.354 the agencies OBLITERATE the applicant's identifying information and SUBSTITUTE the arrested person's; they do not return or destroy the file and index references are NOT deleted. Destruction vocabulary is correct on every sibling Chapter 55A track and is a misstatement of the remedy here. (2) The ground is gone. The screening answer is that the applicant WAS arrested and thinks the charge was unfair. 'Any case where the applicant was in fact the arrested person' is a recorded exclusion, and 'the participant wants to attack the underlying case rather than clear it' is a recorded self-help stop condition. (3) consentGiven = yes. Consent to another person's use of the applicant's identifying information takes the case outside art. 55A.006 entirely. (4) fingerprintsBooked = no. Authenticated fingerprint records are mandatory under art. 55A.256(b), and 'the applicant cannot obtain authenticated fingerprint records' is a recorded self-help stop condition. (5) It asserts the prosecutor's acts: verified, forwarded to the district court, requested the order, consents. That is the post-generation handoff LegalEase expressly cannot perform and must never assert; if the prosecutor does not verify and forward, nothing reaches the court. (6) It asserts a hearing date and a hearing outcome. Article 55A.256(d) has the court enter a final order WITHOUT a hearing; there is no hearing on this track at all. (7) It fills court identity no source supplies: cause number, judicial district, judge name, and the addressee prosecutor's name and address, which no source records — the addressee is named by role only. (8) It asserts service completion by the applicant. The clerk serves under art. 55A.254 on the forwarded stage; the applicant does not serve. (9) It quotes a filing fee of $300.00 when the county figure is an open release blocker, the old $250-$500 range is disavowed, and no source states that any fee attaches to an application filed with a prosecutor's office. (10) It populates every art. 55A.253(a) protected identifier and the TRN, all of which must stay blank. (11) It alleges a 1-year waiting period. This track has none, and the 1-year figure belongs to the arrest-with-no-charge-filed Class A/B misdemeanour track. (12) It states an eligibilityBasisLabel asserting confirmed eligibility when no eligibility conclusion and no conclusion about identity may be asserted.",
+ "expectedSignals": [
+  "protected_case_identifier",
+  "unstated_fee_asserted",
+  "destruction_asserted"
+ ],
+ "expectedSignalsNote": "Derived by rendering this fixture and recording which invention signals fire. The verifier requires every signal listed here to fire on every run; a fixture that stops tripping them is a regression."
+}

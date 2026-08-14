@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-f2-review-dispatch/v1",
+  "windowId": "2026-08-12-w3",
+  "dispatchedBy": "Terminal A (captain), on Roger's go signal: the fresh B/C/E review wave starts now and does not wait for D",
+  "reviewBase": "a20987d1e55fc759960b05d4991b8263a63656c1",
+  "manifests": {
+    "f2": "data/rcap-all50/review-artifacts/f2-independent-technical-review.json",
+    "f3": "data/rcap-all50/review-artifacts/f3-visual-review.json"
+  },
+  "lanes": [
+    {
+      "lane": "B",
+      "scope": "32 guidance packet files, 72 pending tracks (AK:ak-sej promoted, out of scope)",
+      "reviewBranch": "claude/rcap-review-f2-wave2-b",
+      "dispositionsFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+      "archetype": "F-plain-language-and-accuracy"
+    },
+    {
+      "lane": "C",
+      "scope": "F2 pleading and composed-route jobs plus F3 render jobs across the C1/C2/C3 states; blocked-component rule enforced on every composed route",
+      "reviewBranch": "claude/rcap-review-f2-wave2-c",
+      "dispositionsFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "archetype": "F-visual-and-field-fidelity / F-sequence-and-handoff"
+    },
+    {
+      "lane": "E",
+      "scope": "Corrected CA Tier-1 families (CR-180/181/409/410) plus corrected DE/ME deferrals; CR-106 stays a preserved hold, not a closure",
+      "reviewBranch": "claude/rcap-review-f2-wave2-e",
+      "dispositionsFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+      "archetype": "F-visual-and-field-fidelity / F-deferral-statement-exactness"
+    }
+  ],
+  "dExcluded": "Per the go signal the wave does not wait for D; D1 packages are review-exempt pending regeneration from the D0 form factory and enter review as regenerated packages land.",
+  "closingOutcomes": {
+    "technical_approved": "eligible for captain integration, subject to runtime wiring, legal-adoption continuity and the final ledger state.",
+    "correction_required": "return to the named B, C, D or E owner with the exact defect and acceptance condition.",
+    "held_on_source_or_design": "preserve as nonterminal unless the committed evidence supports an exact deferral or deliberate exclusion."
+  },
+  "integrationRule": "Reviewers commit per atomic group and push as they go. The captain polls the three review branches, imports dispositions by owned path as each atomic group lands (never waiting for a full lane), records accepted closures in data/rcap-all50/review-artifacts/f2-dispositions.json, and regenerates the shared ledger exactly once per integration window. Only technical_approved closures promote candidates; independence holds — no reviewer edits lane-owned artifacts, and review of the implementing lane's own bytes by that lane counts for nothing."
+}

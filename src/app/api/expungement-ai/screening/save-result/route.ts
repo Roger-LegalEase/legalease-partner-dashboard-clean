@@ -5,6 +5,9 @@ import { isRcapPartnerScreeningSession, saveScreeningResultToBriefcase } from "@
 import { recordScreeningEligibilityResult } from "@/lib/expungement-ai/rcap-screening-analytics";
 import { attachMississippiPacketInformationRequest } from "@/lib/expungement-ai/packet-generation";
 import { buildSaveInput, isStorableResultCode, normalizePacketType } from "@/lib/expungement-ai/save-result-policy";
+import { resolveSessionRouteIdentity } from "@/lib/expungement-ai/screening-session-route-identity";
+import { forbiddenRouteIdentityFields } from "@/lib/rcap-engine/composed-route-selector";
+import { componentDeferralBundle, normalizeDeferralLocale } from "@/lib/rcap/documents/guidance-packet-registry";
 import { getSafeRequestId, logSecurityWarn } from "@/lib/observability/logger";
 
 export const runtime = "nodejs";
@@ -35,20 +38,55 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_request" }, { status: 400 });
   }
 
+  // Route and treatment identity are server-owned. A body that asserts them is
+  // rejected outright: a participant does not get to declare which legal route
+  // — and therefore which payment posture — their saved matter carries.
+  const asserted = forbiddenRouteIdentityFields(body);
+  if (asserted.length > 0) {
+    logSecurityWarn({ event: "briefcase_save_client_route_identity", route: "/api/expungement-ai/screening/save-result", outcome: asserted.join(","), requestId });
+    return NextResponse.json({ ok: false, error: "route_identity_is_server_owned", fields: asserted }, { status: 400 });
+  }
+
   const sourceSessionId = typeof body.sourceSessionId === "string" && uuidPattern.test(body.sourceSessionId) ? body.sourceSessionId : undefined;
   const isPartnerSession = sourceSessionId ? await isRcapPartnerScreeningSession(sourceSessionId) : false;
+
+  const jurisdiction = body.jurisdiction.trim().slice(0, 120);
+
+  // Re-derive route identity from the saved session's own stored answers. A
+  // body claiming a different jurisdiction than the session it names is a
+  // mismatch, not a save.
+  const identity = await resolveSessionRouteIdentity(sourceSessionId, jurisdiction);
+  if (identity.status === "jurisdiction_mismatch") {
+    logSecurityWarn({ event: "briefcase_save_route_mismatch", route: "/api/expungement-ai/screening/save-result", outcome: "jurisdiction_mismatch", requestId });
+    return NextResponse.json({ ok: false, error: "route_identity_mismatch" }, { status: 409 });
+  }
+
+  const locale = normalizeDeferralLocale(request.headers.get("accept-language"));
+  const deferral = identity.status === "resolved" ? componentDeferralBundle(identity.trackId, locale) : null;
 
   const input = buildSaveInput(
     {
       userId: auth.userId,
-      jurisdiction: body.jurisdiction.trim().slice(0, 120),
+      jurisdiction,
       resultCode: body.resultCode,
       pathwayLabel: typeof body.pathwayLabel === "string" ? body.pathwayLabel.slice(0, 200) : undefined,
       packetType: normalizePacketType(body.packetType),
       paymentAllowed: body.paymentAllowed === true,
       summary: typeof body.summary === "string" ? body.summary.slice(0, 500) : "Saved from your screening.",
       nextSteps: Array.isArray(body.nextSteps) ? body.nextSteps.filter((s): s is string => typeof s === "string").slice(0, 40) : [],
-      sourceSessionId
+      sourceSessionId,
+      // On an affected route the client's payment flag, packet type, summary
+      // and next steps are all replaced by the registry bundle.
+      ...(deferral
+        ? {
+          summary: deferral.summary,
+          nextSteps: deferral.nextSteps,
+          selectedTrackId: deferral.trackId,
+          treatmentClassification: "component_deferral" as const,
+          deferralComponentIds: deferral.componentIds,
+          componentDeferralTreatment: deferral as unknown as Record<string, unknown>
+        }
+        : {})
     },
     { isPartnerSession }
   );
@@ -61,7 +99,7 @@ export async function POST(request: Request) {
     await recordScreeningEligibilityResult(sourceSessionId, body.resultCode);
   }
 
-  if (isPartnerSession && isPacketReadyResult(body.resultCode) && isMississippiJurisdiction(body.jurisdiction)) {
+  if (!deferral && isPartnerSession && isPacketReadyResult(body.resultCode) && isMississippiJurisdiction(body.jurisdiction)) {
     const packet = await attachMississippiPacketInformationRequest({
       userId: auth.userId,
       briefcaseItemId: item.id

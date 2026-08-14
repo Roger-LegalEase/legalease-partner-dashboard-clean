@@ -1,0 +1,269 @@
+name: RCAP hosted acceptance staging
+
+# Captain-owned, manual only. This workflow operates the PERSISTENT hosted
+# acceptance environment: the Vercel Preview deployment of the frozen
+# application and the named acceptance Supabase project. It is the successor
+# step to rcap-f1-ephemeral-staging, which proves the same sequence on a
+# disposable runner-local stack and outlives nothing.
+#
+# Guard rails, all enforced rather than documented:
+#   * Every pinned input is refused unless it equals the authorized value, so
+#     this cannot be repointed at other bytes without editing this file.
+#   * The Supabase project ref is pinned the same way. A mistyped ref does not
+#     reach a migration; it fails the first step.
+#   * The preflight proves the acceptance project is not production three
+#     independent ways before anything writes. `full` cannot run without it.
+#   * Deployment is Preview only. No step passes --prod, sets a production
+#     alias, or writes a project-level environment variable, so production
+#     domains and production environment stay exactly as they were.
+
+# Reached as a reusable workflow rather than a dispatch of its own. GitHub only
+# offers workflow_dispatch for files that exist on the DEFAULT branch, and
+# pushing to main is Roger's decision, not this terminal's. A local-path
+# `uses:` resolves from the CALLER'S commit, so dispatching the already-listed
+# F1 workflow at the integration branch runs this file from the integration
+# branch — no main push, and no weakening of any pin.
+on:
+  workflow_call:
+    inputs:
+      phase:
+        description: "preflight (read-only proof) or full (deploy, migrate, accept)"
+        required: true
+        type: string
+      application_sha:
+        description: "Pinned application SHA (must equal the authorized value)"
+        required: true
+        type: string
+      worker_source_sha:
+        description: "Pinned worker source freeze SHA (must equal the authorized value)"
+        required: true
+        type: string
+      worker_digest:
+        description: "Pinned immutable worker digest (must equal the authorized value)"
+        required: true
+        type: string
+      tools_sha:
+        description: "Integration-branch commit carrying the hosted orchestration scripts (must be image-input-equivalent to the freeze)"
+        required: true
+        type: string
+      supabase_project_ref:
+        description: "Acceptance Supabase project ref (must equal the authorized value)"
+        required: true
+        type: string
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+      VERCEL_ORG_ID:
+        required: true
+      VERCEL_PROJECT_ID:
+        required: true
+      SUPABASE_ACCESS_TOKEN:
+        required: true
+      # Not required: the acceptance environment must remain runnable before
+      # Stripe exists. Without them the deployment carries no usable Stripe
+      # configuration and the payment matrix reports that plainly rather than
+      # pretending a placeholder transacted.
+      HOSTED_STRIPE_TEST_SECRET:
+        required: false
+      HOSTED_STRIPE_TEST_WEBHOOK_SECRET:
+        required: false
+      # Preview deployments protected by Vercel Authentication answer every
+      # unauthenticated probe with Vercel's own wall. Without this, a probe
+      # cannot tell "the application's gate withheld this" from "Vercel never
+      # let me reach the application".
+      VERCEL_AUTOMATION_BYPASS_SECRET:
+        required: false
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  AUTHORIZED_APPLICATION_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
+  AUTHORIZED_WORKER_SOURCE_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
+  AUTHORIZED_WORKER_DIGEST: sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101
+  AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
+  IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+  CANONICAL_INTEGRATION_BRANCH: main
+  STAGING_ENVIRONMENT_NAME: rcap-acceptance
+  ROLLBACK_OWNER: Roger Roman
+  # The host the Stripe sandbox webhook destination currently points at. Recorded
+  # so the deploy can DERIVE whether that destination still reaches the bytes it
+  # is about to serve, instead of assuming it does. A stale destination does not
+  # fail loudly: the old deployment stays READY and keeps answering 200, so real
+  # completion events would be delivered to replaced bytes and nothing would look
+  # wrong. Update this whenever the destination is repointed.
+  PREVIOUS_STRIPE_WEBHOOK_HOST: legalease-partner-dashboard-clean-qfqpixip0-roger947s-projects.vercel.app
+
+jobs:
+  preflight:
+    name: Preflight — credentials usable, acceptance project demonstrably not production
+    runs-on: ubuntu-latest
+    # 60, not 15. The Preview deploy of the freeze publishes 97 serverless
+    # functions, one of which carries the whole RCAP corpus; on the Pro plan it
+    # reached 14m21s of upload before the 15-minute job timer killed
+    # `npm exec vercel` mid-flight — twice, at the same point, deterministically
+    # (runs 31755348356 and 31756386367). Nothing about the deployment was
+    # failing; the harness simply ran out of clock. This is a runner budget, not
+    # an application change: the file lives outside BOTH image-input path sets
+    # the equivalence gate above checks, so raising it cannot alter the frozen
+    # application bytes or the worker image.
+    timeout-minutes: 60
+    steps:
+      - name: Refuse any input that is not the authorized pinned value
+        run: |
+          set -euo pipefail
+          [ "${{ inputs.application_sha }}" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          [ "${{ inputs.worker_source_sha }}" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "${{ inputs.worker_digest }}" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          [ "${{ inputs.supabase_project_ref }}" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
+          printf '%s' "${{ inputs.tools_sha }}" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry and image-input equivalence of every pinned SHA
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public \
+            || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
+          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prove the credentials and the acceptance project
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          # `migrate` requires only the Supabase gate, because writing to the
+          # acceptance project and deploying the application are different
+          # actions guarded by different proofs. The scope is recorded in the
+          # evidence, so a Supabase-only pass can never read as a full one.
+          PREFLIGHT_SCOPE: ${{ inputs.phase == 'migrate' && 'supabase_only' || 'full' }}
+        run: node scripts/rcap-hosted-acceptance-preflight.mjs
+
+      # Guarded by the preflight above: this step is not reached unless the
+      # acceptance project has been proven empty of production data in this
+      # same job, moments earlier and against the same project ref.
+      - name: Apply the authorized sequence to the acceptance project
+        if: inputs.phase == 'migrate' || inputs.phase == 'full'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-hosted-acceptance-migrate.mjs
+
+      # Deploys the FROZEN application bytes. The equivalence check above has
+      # already proven this checkout is byte-identical to application_sha on
+      # src, package.json, package-lock.json, tsconfig.json, next.config.ts and
+      # public — so deploying this tree deploys the freeze, and the tools commit
+      # carrying this step is not a new application freeze.
+      - name: Deploy the frozen application SHA to Vercel Preview
+        if: inputs.phase == 'deploy' || inputs.phase == 'full' || inputs.phase == 'payment'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          # Only the payment phase opens the delivery route, and only to the one
+          # named synthetic identity the deploy resolves. Every other phase
+          # leaves the flag unset so the control's disabled default applies.
+          HOSTED_ROUTE_STATE: ${{ inputs.phase == 'payment' && 'staging_scoped' || '' }}
+          HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
+        run: node scripts/rcap-hosted-acceptance-deploy.mjs
+
+      # Points the ACCEPTANCE project's GoTrue at the discovered Preview
+      # deployment and creates the named synthetic participants. Writes only
+      # site_url and uri_allow_list, and only on the acceptance project.
+      - name: Configure acceptance Auth and create the synthetic identities
+        if: inputs.phase == 'accept' || inputs.phase == 'payment'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: node scripts/rcap-hosted-acceptance-auth-config.mjs
+
+      # The golden-journey matrix needs a built application to serve the
+      # runtime-classification cases, and the pinned worker image by digest.
+      - name: Build the frozen application for the matrix runtimes
+        if: inputs.phase == 'accept' || inputs.phase == 'payment'
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run build
+
+      - name: Log in to the container registry for the pinned worker image
+        if: inputs.phase == 'accept' || inputs.phase == 'payment'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run the hosted golden-journey matrix
+        if: inputs.phase == 'accept'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+        run: node scripts/rcap-hosted-acceptance-matrix.mjs
+
+      # Runs even when the matrix fails: the gallery URLs are what Roger opens
+      # on a phone, and they are worth having in the evidence either way.
+      - name: Run the hosted Stripe payment and packet-delivery journey
+        if: inputs.phase == 'payment'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+        run: node scripts/rcap-hosted-acceptance-payment.mjs
+
+      - name: Prove the Pennsylvania, Mississippi and Illinois galleries render
+        if: (inputs.phase == 'accept' || inputs.phase == 'payment') && always()
+        env:
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node scripts/rcap-hosted-acceptance-gallery.mjs
+
+      - name: Upload the hosted acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-hosted-${{ inputs.phase }}-${{ github.run_id }}
+          path: hosted-acceptance-evidence/
+          if-no-files-found: error

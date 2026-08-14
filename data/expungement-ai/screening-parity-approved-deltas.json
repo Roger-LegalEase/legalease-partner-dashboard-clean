@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "note": "The single reviewed exception mechanism for verify-expungement-plain-language-values. It does not excuse a parity failure. Each record is APPLIED to the origin/main baseline to produce the exact expected shape, and the verifier's existing strict comparison then runs unchanged against that. Anything outside the recorded delta is still a failure, because the expected result is fully specified rather than partially waived. Unknown keys are rejected and no field accepts a wildcard, a prefix or a glob, so widening scope requires changing the schema and its tests, not editing a list.",
+  "deltas": [
+    {
+      "id": "md-pardon-signed-date-2026-08-11",
+      "jurisdiction": "MD",
+      "questionId": "pardon_signed_date",
+      "questionType": "date_or_unknown",
+      "pathwayId": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+      "flowStageId": "timing_and_completion",
+      "insertion": "append_without_reordering",
+      "beforeQuestionCount": 35,
+      "afterQuestionCount": 36,
+      "statutoryAuthority": "Maryland Criminal Procedure § 10-105(a)(8) and § 10-105(c)(4)",
+      "purpose": "Determine the ten-year maximum filing period under Maryland Criminal Procedure § 10-105(c)(4), measured from the date the pardon was signed.",
+      "routeBehavior": [
+        "A participant not on the pardon pathway is unaffected.",
+        "A pardon-route participant with no date receives the existing missing-anchor / needs-more-information treatment.",
+        "A pardon within the statutory period may proceed.",
+        "A pardon outside the ten-year period receives the statute-specific ineligibility treatment."
+      ],
+      "authorization": {
+        "authorizedBy": "Roger",
+        "authorizedOn": "2026-08-11",
+        "statement": "Approved the Maryland screening-flow change for the counsel-approved pardon expungement pathway, limited to this jurisdiction, this question id, this type, this placement and this pathway. No existing screening question may be removed, renamed, reordered or substantively changed. No other jurisdiction, pathway, flow stage or screening value is authorized. This is not a generic parity bypass or a wildcard allowlist, and it authorizes no migration application, deployment, worker publication, staging change, production change or nationwide launch.",
+        "doesNotAuthorize": [
+          "a generic parity bypass",
+          "a wildcard allowlist",
+          "future screening changes",
+          "migration application",
+          "deployment",
+          "worker publication",
+          "staging changes",
+          "production changes",
+          "the nationwide launch"
+        ]
+      },
+      "authorizedPaths": [
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "src/lib/rcap-engine/compiled/all51.json",
+        "data/expungement-ai/fixtures/public-profiles-all51.json",
+        "src/lib/rcap-engine/evaluator.ts"
+      ],
+      "authorizedSha256": {
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
+        "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
+        "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
+        "src/lib/rcap-engine/evaluator.ts": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e"
+      },
+      "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",
+      "projections": [
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "jurisdictionKey": null,
+          "beforeQuestionCount": 35,
+          "afterQuestionCount": 36,
+          "flowStageChange": "append_question_id",
+          "pathwayChange": "add_one",
+          "beforePathwayCount": 7,
+          "afterPathwayCount": 8,
+          "addedQuestionSha256": "d123cd0bb6abd57f4fde72846cc5dcb7600ba83abf0cf3c6671a3838c8314b50"
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/all51.json",
+          "jurisdictionKey": "MD",
+          "beforeQuestionCount": 17,
+          "afterQuestionCount": 18,
+          "flowStageChange": "none",
+          "pathwayChange": "none",
+          "beforePathwayCount": null,
+          "afterPathwayCount": null,
+          "addedQuestionSha256": "fc06a15578ec42aabc87569f5f8123913f46eb9baeb6b6865d7f15d1f26c42d0"
+        }
+      ]
+    }
+  ]
+}

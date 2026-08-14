@@ -1,0 +1,2486 @@
+{
+  "schemaVersion": "rcap-f2-dispositions-acceptance/v2",
+  "windowId": "2026-08-12-w3",
+  "acceptedBy": "Terminal A (captain), integrating the wave-2 review closures as the three lanes completed",
+  "reviewBase": "a20987d1e55fc759960b05d4991b8263a63656c1",
+  "reviewRecords": [
+    {
+      "lane": "B",
+      "branch": "claude/rcap-review-f2-wave2-b",
+      "commit": "dfbc63db4f22a33c18323da2f6f7095b27733fc3",
+      "file": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json",
+      "totals": {
+        "tracksReviewed": 72,
+        "technical_approved": 59,
+        "correction_required": 13,
+        "held_on_source_or_design": 0
+      },
+      "captainVerification": "reviewBase matches; all 72 evidenceSha values equal the manifest packetSha256 for their state; two packets recomputed from disk independently."
+    },
+    {
+      "lane": "C",
+      "branch": "claude/rcap-review-f2-wave2-c",
+      "commit": "0216a407ed901f88dde353879c9db6177c443caa",
+      "file": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "totals": {
+        "f2Jobs": 60,
+        "f2_technical_approved": 60,
+        "f3Jobs": 44,
+        "f3_technical_approved": 44
+      },
+      "captainVerification": "reviewBase matches; all 60 F2 markerSha256 and all 44 F3 renderedArtifactsSha256 equal the manifest values; four markers recomputed from disk independently. PARTIAL ACCEPTANCE \u2014 see compositeRouteStandardEscalation."
+    },
+    {
+      "lane": "E",
+      "branch": "claude/rcap-review-f2-wave2-e",
+      "commit": "5d8fe17004ab45061ce804d804e1f73055fa9a78",
+      "file": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json",
+      "totals": {
+        "f2JobsReviewed": 6,
+        "f2_technical_approved": 5,
+        "f2_correction_required": 1,
+        "f3JobsReviewed": 4,
+        "f3_technical_approved": 4
+      },
+      "captainVerification": "reviewBase matches; all 6 evidenceSha values equal the manifest profileSha256; CR-106 confirmed still held and non-sellable."
+    }
+  ],
+  "closingOutcomeSemantics": {
+    "technical_approved": "eligible for captain integration, subject to runtime wiring, legal-adoption continuity and the final ledger state.",
+    "correction_required": "return to the named B, C, D or E owner with the exact defect and acceptance condition.",
+    "held_on_source_or_design": "preserve as nonterminal unless the committed evidence supports an exact deferral or deliberate exclusion."
+  },
+  "closures": [
+    {
+      "reviewId": 2,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AK:ak-sej"
+      ],
+      "note": "AK suspended-entry-of-judgment guidance packet approved by F2; promoted to terminal. Runtime representation is the guidance registry (jurisdiction-level; no compiled pathway exists for this track)."
+    },
+    {
+      "lane": "B",
+      "reviewId": 1,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "AK:ak-nonconviction-confidential"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the 'all charges dismissed' eligibility ground is stated without the Criminal Rule 11 carve-out that both committed sources attach to it (AK-alaska.json pathway ruleClauses / wait-01: 'all charges were dismissed (not as part of a Rule 11 plea in another case)'; AK.memo.json eligibleDispositions carries the same qualifier). mechanism.en/es, gather and nextSteps state the ground unqualified, so a participant whose dismissal was part of a Rule 11 plea in another case is told the case comes off CourtView automatically when the committed rule says it does not. Same defect class as first-pass F2-02 (limiting conditions dropped from a stated rule). Acceptance: add the Rule 11 qualifier to the dismissal ground in mechanism (and gather) in both languages, e.g. 'every charge was dismissed (and not as part of a plea agreement in another criminal case under Criminal Rule 11)'. VERIFIED AS APPLIED: the wave-2 required correction \u2014 honest automatic-with-TF-810-fallback mechanism description \u2014 is in the committed bytes (mechanism/participantFiles/stopReason/afterNextStep all describe automatic non-publication at 60 days with TF-810 only as the fallback correction request), carried by AK-alaska.json wait-08 and ruleClauses[5]; the F2-08b bad exclusionRules[8] pointer is gone. Residual out-of-lane item, not charged to this track: the compiled pathway's metadata (automatic=false, filingRequired=true, routeType=court_filing) still contradicts the treatment; recorded with its owner in docs/record-clearing/deferrals/lane-b-f2-corrections.md as a state-pack fidelity item for the profile owner with Terminal A.",
+      "evidenceSha": "3eecd4e130e8e74755595168da20d0eaa83aeab7c527c2841fd251c2503e5c09",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 2,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-preadjudication-probation"
+      ],
+      "owner": "Terminal B",
+      "note": "All authority claims traced to AR.memo.json (\u00a7 16-93-303 mechanism, 3-day prosecutor service, 30-day objection window, venue, no-fee posture); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "bd27200ff27f152a1b2d2647386e5db87ff3aa3e65eb300274b1c7fb5057b061",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 3,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-misdemeanor-dwi-seal"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ar-deferrals.md names the track and states the exact supported condition (the \u00a7 16-90-1405(b)(2) / \u00a7 5-65-111 lookback with two live readings after the 2026 Coleman appellate decision), carried verbatim by AR.memo.json unresolvedQuestions/legalDesignDecision; participant copy still delivers mechanism, destination, settled timing, gather, next step and handoff and does not read as 'coming soon'.",
+      "evidenceSha": "bd27200ff27f152a1b2d2647386e5db87ff3aa3e65eb300274b1c7fb5057b061",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 4,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-auto-conviction"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass corrections verified in committed bytes: gather.en/es[4] and nextSteps.en/es[0] name all four exclusion categories (PC 1192.7(c) serious felonies, PC 667.5(c) violent felonies, PC 290 registration, offenses punishable by life or death), carried by CA-california.json sourceSections[3] 'Disqualifying / ineligible offenses' (F2-03 cured); zero occurrences of 'you qualify'/'usted califica' (F2-16 cured) and the shared verifier passes lane-wide. Authority, parity, payment suppression and all eleven elements verified with no defect.",
+      "evidenceSha": "de9f26ed5fcb6e406eea0985a036948d31f06c5eb73cce2212c7aa79da4725a4",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 5,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CO:co_auto_seal_arrest"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CO.memo.json including the JDF 417 petition backstop (DA objection / contested hearing stops carried by tracks[co_petition_seal_arrest].selfHelpStopConditions); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8ab949ce86183d4f98c45a9d5673897b3a0319d6e5165337b7a043360b7c2f80",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 6,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CO:co_auto_seal_nonconviction"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CO.memo.json (automatic sealing of non-convictions, 1 July 2025 effective date, JDF motion backstop via tracks[co_motion_seal_nonconviction]); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8ab949ce86183d4f98c45a9d5673897b3a0319d6e5165337b7a043360b7c2f80",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 7,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-destruction-request"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CT.memo.json (\u00a7 54-142 destruction request, 3-year waiting period from final disposition, mental-disease exclusion under \u00a7 54-142a(a), DPS-0846-C record check); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 8,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-nonconviction-auto"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CT.memo.json (\u00a7 54-142a automatic erasure grounds and the missed-erasure fallback via tracks[ct-missed-erasure]); parity, payment suppression and elements verified with no defect; 'erasure' terminology limitation respected.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 9,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "CT:ct-provisional-pardon"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: destination.en/es asserts affirmatively that 'The Board publishes the application and the instructions'. No committed source carries that claim: CT.memo.json tracks[ct-provisional-pardon].rules.filing says only 'Application is made to the Board of Pardons and Paroles. LegalEase does not generate or submit it.', and the same track's unresolvedQuestions[0] \u2014 impact release_blocker \u2014 expressly records as UNRESOLVED 'Whether the Board exposes a stable participant application document... An intake worksheet is not the legal filing packet.' The packet states as fact precisely what the committed record marks open, and the participant is sent to obtain a published application that the committed bytes do not establish exists. Acceptance: soften the destination sentence to the carried facts (application is made to the Board; obtain the Board's current application requirements from the Board directly), in both languages, matching the packet's own correctly-hedged gather/timing copy.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 10,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "DE:de_attorney_general_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to DE.memo.json (AG mandatory-expungement route, eligible record types/dispositions, venue and no-participant-court-filing posture, cross-track pointers to de_mandatory_expungement and de_discretionary_superior_court resolve); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "e4c10d8bca7b5c039ccc6f26032fa72d1967d26ddf5b5c86e3e43df71e0e0ff3",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 11,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fo-sentencing-post2026"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority claims (First Offender Act sentencing-stage relief post-2026, restriction-vs-sealing effect) traced to GA.memo.json; parity, payment suppression and elements verified. Minor: the terminology framing (Georgia statutes have not used 'expungement' since 1 July 2013; neither restriction nor sealing destroys the record) is carried by GA.memo.json tracks[ga-time-expired].legalDesignDecision.limitations but has no authority[] pointer in this entry \u2014 add one.",
+      "evidenceSha": "6f1a3cea14f23f3d1add5b67e80b4ab2f17b61e85a7b84c8b881915db4e0b51c",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 12,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-time-expired"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to GA.memo.json (time-expired restriction route, 60-day clerk seal, 30-day agency compliance, record-report practice); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "6f1a3cea14f23f3d1add5b67e80b4ab2f17b61e85a7b84c8b881915db4e0b51c",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 13,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "HI:hi_state_initiated_marijuana_pilot"
+      ],
+      "owner": "Terminal B",
+      "note": "State-initiated pilot honestly framed on committed bytes: the open-status caveats (2025 Act 62 continuation and AG report to the 2026 Legislature not acquired; pilot's current reach unresolved) mirror HI.memo.json unresolvedQuestions, and the packet deliberately names HCJDC only as the place to verify a record, not to apply \u2014 matching the lane evidence record. Minor: authority[6].sourceRef uses an empty track selector ('tracks[]...across the Hawaii expungement routes') for the HCJDC characterization; the claim is carried (HCJDC-159B component notes; hi_nonconviction_expungement) \u2014 point the ref at those tracks.",
+      "evidenceSha": "a2797ad30b74cdfbbd234d16cf2ce4715e773d426b557023963c7b289fa0c1a6",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 14,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IL:il-auto-seal-2028"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass correction F2-04 verified in committed bytes: timing, nextSteps[4] and afterNextStep run the 60-day objection window from service of the Notice of Filing ('not 60 days after the petition itself is filed') and name all four objecting entities (State's Attorney/prosecutor, Illinois State Police, arresting agency, chief legal officer of the local government that made the arrest) in both languages, carried by IL-illinois.json serviceAndNoticeRules. Minor (non-blocking, fix at will): duplicated conjunction 'and and' / 'y y' in afterNextStep.en/es; meaning intact.",
+      "evidenceSha": "040539f0a6fa7b20b63b84f62c6968d8617ca32eb71b7913d7c87baa99e8e4ba",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 15,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IN:in_auto_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority fully memo-grounded (IN.memo.json in_auto_expungement: 1(b) own-motion/no petition, 1(a) pretrial-diversion bar, post-30-June-2022 cutoff, immediate vs 60-day effectiveness, prosecutor delay up to one year, 1(k) sealed-not-destroyed, ISP certified limited criminal history, Section 1 fallback); parity, payment suppression and all eleven elements verified with no defect.",
+      "evidenceSha": "55a9edc23824815737cea6cfef859761fc0d169811859bf76d4cd65b80f6491f",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 16,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_automatic_nonconviction_expungement_verification"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to KY.memo.json (KRS 431.076(6) automatic expungement of acquittals/dismissals after 30/60-day windows, AOC verification); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 17,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_diversion_disposition_routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to KY.memo.json (KRS 533.258 dismissed-diverted status and non-disclosure). Minor: the packet enumerates 'employment, credit or licensure' for KRS 533.258(2) where the memo summary reads 'employment, licensure or otherwise'; the enumeration is subsumed by the carried 'or otherwise' (and 'credit' appears in the compiled profile's 431.076/431.078 order text), so no condition is dropped or changed \u2014 conform the wording to the memo at will.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 18,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_felony_expungement_after_pardon"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ky-deferrals.md names the track and states the exact supported condition (eligibility turns on characterising a full pardon under KRS 431.073(1)(c), a document LegalEase never sees or authenticates), carried by KY.memo.json unresolvedQuestions; participant copy still delivers the settled elements. Minor: the thirty-day certification-filing window is cited to the pardon track's locations, which do not carry it \u2014 the claim is carried by tracks[ky_expungement_certification].waitingPeriods and the vacatur track's required_before_filing limitation; extend the sourceRef.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 19,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_felony_vacatur_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the two concurrently published versions of the KRS 431.073(1)(a) eligibility list with the 30 April 2027 changeover (adding KRS 286.13-150) and the $300-at-filing conflict are stated exactly and carried verbatim by KY.memo.json; participant copy still delivers the settled elements and does not read as 'coming soon'.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 20,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "LA:la-999-expedited-expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to LA.memo.json (art. 999 expedited no-fee expungement, no-wait/no-objection-window posture, art. 976 fallback in handoff); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "295bd6fca9503a0941df22e33d6159dd0d785af7839684c6ce72be210e1d1e16",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 21,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10103_1_automatic"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json including the honest treatment of the unidentified step after a law-enforcement unit's failure (per the lane evidence record, no filing invented); cross-track pointer to md_10103_legacy_police resolves; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 22,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10104_pre_service"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json (\u00a7 10-104 District Court action on nolle prosequi, State objection/show-cause); cross-track pointers resolve; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 23,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10112_dpscs_cannabis"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json (\u00a7 10-112 DPSCS cannabis expungement; the 2026 bill gloss 'change which charges it reaches' is a fair meaning-equivalent of the memo's change-'issued'-to-'disposed of', with the precise language in authority[5]); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 24,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ME:me-deferred"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to ME.memo.json; the 'finished its sentence in full, including any fine or restitution' phrase is carried by me-seal-gen waitingPeriods/participantInputs in the same committed memo; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "5c66774afbec264afe1a798252767d9fc2d54bf966e3dd0ca40af8b83740be7d",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 25,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_auto_misd92"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the packet gives the blanket lead-with-ICHAT instruction that the committed memo's binding packet_instruction for this exact track forbids. MI.memo.json tracks[mi_auto_misd92].legalDesignDecision.limitations: 'Where the participant's only record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, checking ICHAT proves nothing. Tell them to check with the convicting court. A blanket instruction to lead with the MSP Clean Slate check is wrong for this population.' The committed nextStep.en/es and destination.en/es lead with ICHAT unconditionally ('ICHAT is where you confirm the set-aside actually happened') and no element tells a never-fingerprinted participant that an ICHAT result proves nothing for them; lane B's own evidence record states memo limitations are binding on participant copy and 'followed rather than summarised away'. Acceptance: add the never-fingerprinted caveat and the convicting-court verification path to nextStep/destination/afterNextStep in both languages. VERIFIED AS APPLIED: the wave-2 required correction (F2-01) is in the committed bytes \u2014 gather.en/es[3-6] and nextSteps.en/es[0] run both screens (MCL 780.621c never-eligible list AND the five-category automatic-track exclusion list), carry the more-than-one-assaultive bar and the two-felony cap, byte-consistent with mi_auto_misd93.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 26,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_auto_misd93"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass corrections F2-02 and F2-02b verified in committed bytes: gather and nextSteps carry the MCL 780.621c screen, the five-category automatic-track exclusion list, the more-than-one-assaultive bar and the two-felony/four-misdemeanor caps, identically to mi_auto_misd92, in both languages; handoff states MCL 780.621b grouping with the 24-hour same-transaction requirement and all three grouping-breakers (assaultive, weapon-involved, punishable by more than ten years) in both languages, carried by MI-michigan.json 'Waiting periods'. The compiled rule-11 outlier from first-pass F2-09 is fixed in the committed profile (then = guidance_only / save_state_guidance_no_checkout, matching rule-10/27/41/56). Minor: nextSteps.en/es[2] duplicates the exclusion screen already run in step 1 (redundant, not misleading).",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 27,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_arrest_no_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority (MCL 28.243(7)-(8) destruction on no-charge arrests), parity, payment suppression and all eleven elements verified against MI.memo.json with no defect.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 28,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_arrest_acquittal_dismissal"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: afterNextStep.en/es presents an exhaustive stopper list \u2014 'Three things can stop it' (prior conviction under MCL 28.243(14); objection on a dismissal; records lag) \u2014 that omits the other committed exclusion prong of MCL 28.243(14): 'a person arraigned for enumerated offences, including the commission or attempted commission of a crime with or against a child under 16' (MI.memo.json tracks[mi_arrest_acquittal_dismissal].exclusions[0]; the memo also asks participantInput arraignedEnumeratedOffence). gather never asks about it either, so a participant arraigned for an enumerated offence is affirmatively told automatic destruction has only three stoppers and would wrongly expect relief. Same defect class as first-pass F2-01 (committed screen not reaching the participant). Acceptance: add the arraigned-for-enumerated-offence prong to gather and afterNextStep in both languages (and drop or widen the 'three things' count).",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 29,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_deferral_status"
+      ],
+      "owner": "Terminal B",
+      "note": "Non-relief disposition-routing node verified: ten-citation authority set carried by MI.memo.json (MCL 333.7411, 762.11-762.15, 769.4a, 436.1703, 600.1070, 600.1209, 750.350a, 750.430, 780.621(2), 780.621d(7)(d)); parity, payment suppression and elements verified. timing is an explicit null backed by the memo's own 'Not applicable. This is a disposition-status routing node.' \u2014 a considered no-timing-rule-applies under the lane contract, with stopReason/mechanism already telling the participant nothing is pending. Minor: populating timing with that statement in EN/ES would still be an improvement.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 30,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_setaside_csc4_pre2015"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: nextSteps.en[2] misstates the age element of the minor-offence definition as 'committed under age 21' (es[2] 'cometidos antes de los 21 a\u00f1os'). The only committed source carrying the test \u2014 MI.memo.json controllingAuthority.summary \u2014 says 'committed by a person not more than 21 years old', which includes 21-year-olds; the packet's own mechanism.en/es states it correctly ('not more than 21 years old' / 'no m\u00e1s de 21 a\u00f1os'), so the entry contradicts itself and no committed source carries the under-21 formulation. A 21-year-old participant screening with nextSteps would wrongly exclude a qualifying minor offence. Acceptance: change nextSteps item 3 in both languages to 'committed by a person not more than 21 years old' / 'cometidos por una persona de no m\u00e1s de 21 a\u00f1os', matching the memo, the mechanism and authority[2].",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 31,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MN:mn_ceb_felony_cannabis"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: gather.en[2]/es[2] asserts Minnesota Court Records Online is 'the free public case-lookup service run by the Minnesota Judicial Branch' ('el servicio p\u00fablico y gratuito...'). No committed source carries the no-fee claim: MN.memo.json says only 'look your cases up on Minnesota Court Records Online' and MN-minnesota.json carries no cost statement for MCRO (contrast MD, whose memo expressly carries 'Free.' for Maryland Judiciary Case Search). A cost expectation stated to the participant must be carried. Acceptance: drop 'free'/'gratuito' from the MCRO descriptor in both languages, or have the owning source amended to carry the no-fee claim first.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 32,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_inherent_authority"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (inherent-authority expungement; hearing statement carried via mn_petition_609a02_subd3.rules.notice plus the track's same-as-main-petition rules); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 33,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_mistaken_identity_iddata"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (mistaken-identity relief; correctly framed as not something one buys or applies for); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 34,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_pardon_auto_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (automatic expungement following pardon; MCRO attribution carried by the compiled profile's record-source pairing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 35,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MO:mo-610-141-automatic-drug"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MO.memo.json (\u00a7 610.141 automatic drug expungement; MACHS carried by officialSources, MULES an acronym gloss on the memo-carried full name); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d498bad4614dc2731889d186635c635489f209151ab866cab2462e85784f4f21",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 36,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MT:mt_auto_nonconviction"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MT.memo.json (automatic non-conviction removal; CRISS address/phone/email and CHOPRS $10-$30 official fees carried; the removal/expungement/sealing three-way distinction respected per the memo limitation); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "277a7f892ac594da330179a15df07eca00a6527e9b4a5f5c2251396092f11724",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 37,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NC:nc_auto_146_a4"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NC.memo.json (\u00a7 15A-146(a4) automatic expungement; petition-route fallback details carried by nc_146_dismissal_petition / nc_146_acquittal_petition including the $175 petition-route fee); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "201ea84de8368320457684cfcd9715d9ae56f71aff7b394cc33bca00a3d47316",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 38,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-dna-profile-removal-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null \u2014 one of the eleven required participant elements is not delivered, and unlike MI:mi_deferral_status there is no committed 'not applicable' statement backing a considered null: ND.memo.json tracks[nd-dna-profile-removal-routing] carries writable timing facts (waitingPeriods = [] i.e. no waiting period recorded; effectiveFrom 2019-08-01), and the sibling nd-juvenile-records-routing entry in the same packet file populates timing. The participant gets no answer on whether any clock attaches to a \u00a7 31-13-07 petition. Acceptance: add an EN/ES timing element grounded in committed bytes (no waiting period recorded; any deadline is a first question for the lawyer taking the case, mirroring the NE routing pattern).",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 39,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-juvenile-records-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to ND.memo.json (juvenile-records routing with populated timing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 40,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-trafficking-vacatur-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null \u2014 required participant element not delivered. ND.memo.json tracks[nd-trafficking-vacatur-routing] carries committed material for an honest timing statement (waitingPeriods = []; unresolvedQuestions on the ch. 29-32.1 procedural overlay), and a trafficking survivor is left with no answer on whether any deadline attaches to a \u00a7 12.1-41-14(1) motion. Acceptance: add an EN/ES timing element stating per committed bytes that no waiting period is recorded, the ch. 29-32.1 overlay is unmapped, and time limits are a first question for the lawyer or survivor clinic.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 41,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-unconstitutional-arrest-expungement-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null \u2014 required participant element not delivered; the participant is told nothing about time pressure on a State v. Howe petition. ND.memo.json carries waitingPeriods = [] and the packet honestly refuses to supply the unpublished Howe standard, so an honest timing statement was writable (no waiting period recorded; the standard and any timing rules come from Howe, which the lawyer must obtain and read). The sibling juvenile entry populates timing, so null here is an omission, not a convention. Acceptance: add that EN/ES timing element.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 42,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-firearm-restoration-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (firearm-rights routing; set-aside does not restore firearm rights; pardon waiting periods carried cross-track); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 43,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "NE:ne-immigration-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: destination.en/es, handoff.en/es and nextSteps.en[2]/es[2] assert as a who-acts fact that the route's counsel may be 'an immigration attorney or an accredited representative' ('un representante acreditado para ejercer en materia migratoria'). No committed source carries the accredited-representative claim: NE.memo.json tracks[ne-immigration-routing] says only 'immigration counsel' (destination.detail, self_help_boundary limitation) and NE-nebraska.json contains no immigration-counsel language at all; the packet's own destination copy concedes the design 'does not name a particular organization', then names a category of practitioner anyway. On a track whose entire treatment IS the referral, who the participant may consult is the load-bearing claim. Acceptance: restrict the copy to 'immigration counsel / an immigration attorney' in destination, handoff and nextSteps, EN and ES, or add committed-source support for accredited representatives.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 44,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-out-of-jurisdiction-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (out-of-jurisdiction routing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 45,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-pardon-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (Board of Pardons routing, executive body, no court venue). Minor: afterNextStep's 'this route carries no appeal to a court' can be read as a claim that no judicial review of a Board denial exists, which the memo does not carry; rephrase to the design-scoped statement ('nothing in this route goes to a court') in both languages.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 46,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-postconviction-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (postconviction routing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 47,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NH:nh_supreme_court_record"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NH.memo.json (RSA 651:5 annulment reach and the Supreme Court record question, 'annulment' terminology respected); parity verified (the Spanish afterNextStep adds a Spanish rendering alongside the required English RSA 651:5, X(f) inquiry \u2014 accuracy-preserving); payment suppression and elements verified with no defect.",
+      "evidenceSha": "485a9bf617caddf26393aeb72f67b68036d9f49366d3b8ebf97f786c05a92297",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 48,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "NJ:nj_automated_clean_slate"
+      ],
+      "owner": "Terminal B",
+      "note": "Two uncarried participant-facing claims in handoff.en/es. (1) The referral 'the county bar association's lawyer referral service and Legal Services of New Jersey are the usual starting points': no committed source mentions a bar association or lawyer referral service (zero hits in NJ.memo.json and NJ-new-jersey.json); the committed resource is Legal Services of New Jersey and its free online expungement navigator. (2) The legal-effect rationale 'losing easy access to your own records can hurt an immigration case': the committed record carries only 'Immigration exposure. New Jersey expungement has no federal immigration effect.' (selfHelpStopConditions) \u2014 the records-access-harm theory is carried nowhere and could deter a participant from pursuing relief on an uncarried legal claim. Acceptance: restate the low-cost-help referral on the carried resource only, and either delete the records-access rationale or limit the immigration warning to the carried statement (no federal immigration effect; get immigration advice first), in both languages.",
+      "evidenceSha": "c3ca532f14228b67a28602971c6d5aac987b5f180dcaf516d307c83342be8325",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 49,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NY:ny_clean_slate_dwai"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NY.memo.json (Clean Slate CPL 160.57 DWAI treatment; the sealed-record background-check sentence is carried by tracks[ny_clean_slate_convictions].controllingAuthority.summary in the same committed file); parity, payment suppression (DCJS Record Review fee is an official fee) and elements verified with no defect.",
+      "evidenceSha": "bc824b400e484d497245aaa51c4986b9d50a00c08820f75cec6edd994137bb26",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 50,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NY:ny_clean_slate_manual_review"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NY.memo.json (manual-review pathway; same carried background-check sentence); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "bc824b400e484d497245aaa51c4986b9d50a00c08820f75cec6edd994137bb26",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 51,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OH:oh_2953_39_prosecutor"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to OH.memo.json; the packet honestly carries the lane-recorded limits (ORC 2953.39 full text not read at source; whether a person can prompt the prosecutor unknown) and deliberately does not end the route at the prosecutor's door; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "4984a2121fce67e1907dc543dff4e356f0fd3bd4633a48ff0e004d8118481b24",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 52,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "OK:ok_osbi_portal"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: handoff.en/es and nextSteps.en[4]/es[4] state the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. No committed source carries it: OK.memo.json's immigration statements are limited to escalation ('an immigration attorney before any Oklahoma route is used'), scope ('immigration is federal and out of scope') and the no-representation rule ('LegalEase never represents Oklahoma sealing as producing an immigration outcome'); zero hits for the evidence-destruction theory in OK.memo.json or OK-oklahoma.json. The uncarried theory could deter a participant from pursuing relief. Acceptance: delete the rationale in both elements and both languages, or replace it with the carried formulation (immigration is federal and out of scope; see an immigration attorney before using any Oklahoma route). The $150 OSBI processing fee copy is an official government fee and is fine.",
+      "evidenceSha": "1c288106cc1af5918447ecc93c4a1abfd6fa6ca7ec0d67adc38c0afafdd50f50",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 53,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OK:ok_clean_slate"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ok-deferrals.md names the track and job and states both exact supported conditions (22 O.S. \u00a7 18b(B) funds-availability with no traceable appropriation; \u00a7 19d administration/portal not operating against the 1 Nov 2026/2027/2029 statutory dates), each carried verbatim by OK.memo.json legal_design_blocker limitations and release_blocker unresolvedQuestions; the participant copy delivers the elements, routes to the open \u00a7 19 petition preserved by \u00a7 19d(G), honours the \u00a7 19(L) re-lettering caution, and does not read as 'coming soon'.",
+      "evidenceSha": "1c288106cc1af5918447ecc93c4a1abfd6fa6ca7ec0d67adc38c0afafdd50f50",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 54,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_trafficking_40_32_105"
+      ],
+      "owner": "Terminal B",
+      "note": "Honesty of the thin-authority route verified: mechanism, timing, stopReason, briefcaseSaved, handoff and authority[] consistently state that the current text of T.C.A. \u00a7 40-32-105 could not be retrieved from any official source on 2026-08-06, that the route's existence rests on the official cross-references in Public Chapter 268 (\u00a7 40-32-102(c)(2), \u00a7 40-32-106(c)(1)), and no eligibility condition, waiting period, fee, form, court or venue is invented \u2014 all carried by TN.memo.json (controllingAuthority.summary, unresolvedQuestions[0], waitingPeriods, rules, geography.venue, legalDesignDecision); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "35c777dff3114c771e9b71ff5b029074830ef074be90618e606127f1cb2ecff1",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 55,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_discretionary"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to TX.memo.json (art. 55A discretionary expunction; Rule 145 'remains available' claim correctly scoped to its own track's rules.feeWaiver); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "a0c2f7167d42704044e7a2399a5d1925e31e3c4e93ac8fed205574db170dfaa8",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 56,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "TX:tx_exp_acquittal"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: handoff.en/es states the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. No committed source carries it: TX.memo.json tracks[tx_exp_acquittal].selfHelpStopConditions carries only 'Immigration consequences.' as a referral-out stop and TX-texas.json contains no immigration text; the operative carried instruction is to take any immigration matter to an immigration attorney before using a Texas route. The uncarried theory could deter a participant from pursuing relief. Acceptance: trim the sentence to the carried instruction in both languages, or have the memo amended to carry the rationale first. The exact_supported_deferral itself is verified: docs/record-clearing/deferrals/tx-deferrals.md names the track and states the exact carried conditions (art. 102.0061(a) county fee figure unresolved; the doubled $25 charge under arts. 55A.254(f)/55A.351(b-3) unconfirmed), and the Rule 145 no-charge claim is carried by rules.feeWaiver/components[fee_waiver_statement].",
+      "evidenceSha": "a0c2f7167d42704044e7a2399a5d1925e31e3c4e93ac8fed205574db170dfaa8",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 57,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_dismissed"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the deferral doc states the exact carried conditions (county fee figure; doubled $25 charge; the five-county sensitive-data handling question), each carried by TX.memo.json release_blocker unresolvedQuestions; the stopReason count of three open questions is substantively accurate (the memo's first entry contains two distinct questions); the 'public until the order issues' claim is carried at tracks[tx_exp_dismissed].unresolvedQuestions[1]; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "a0c2f7167d42704044e7a2399a5d1925e31e3c4e93ac8fed205574db170dfaa8",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 58,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "UT:ut_adj_reduction_402"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to UT.memo.json (\u00a7 76-3-402 reduction; cross-track ut_auto_clean_slate pointers resolve); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "eae0b26ec2a05e9d899aca2653953476b440c5416194884511dee39f49836ae6",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 59,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "UT:ut_pet_appellate"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to UT.memo.json (appellate-court expungement petition posture; stopReason's guidance-not-packet framing is anti-sale copy, not sale copy); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "eae0b26ec2a05e9d899aca2653953476b440c5416194884511dee39f49836ae6",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 60,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VA:va_auto_seal_clean_record"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VA.memo.json; both VA release blockers (no automatic-timing promise; the 1 Dec 2026 / 1 Jul 2027 dual-version cutover) carried as stated uncertainty rather than invented dates; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 61,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VA:va_auto_seal_nonconvictions"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VA.memo.json (automatic sealing of non-convictions, va_exp_nonconviction cross-track pointers resolve); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 62,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VA:va_auto_seal_without_order"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VA.memo.json; the do-not-pay-anyone copy is payment-suppressing, not payment-suggesting; parity and elements verified with no defect.",
+      "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 63,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VA:va_exp_actual_innocence"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VA.memo.json (actual-innocence expungement; ancillary-matter pointer va_seal_ancillary_matter_only resolves); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 64,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VT:vt_diversion_post_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VT.memo.json (post-charge diversion sealing, 2-year/30-day/10-day clocks, VCIC official record fee); parity, payment suppression (do-not-buy copy is anti-sale) and elements verified with no defect.",
+      "evidenceSha": "8297578721398e098cb281a42d7242998b59a4d4c700df7c320fcb1a209fe298",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 65,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VT:vt_diversion_pre_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VT.memo.json (pre-charge diversion, 1 July 2025 applicability, Valcour exemption); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8297578721398e098cb281a42d7242998b59a4d4c700df7c320fcb1a209fe298",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 66,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WI:wi_def_961_47"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WI.memo.json (\u00a7 961.47 conditional discharge; DOJ fingerprint-removal cross-track pointer resolves; DJ-LE-250B and DOJ background-check official fee carried); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fb9d86ca81b9d9470280a539fc52bea572f0dd15c1e9fe97cdf6f28098b0c833",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 67,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WI:wi_exp_certificate_of_discharge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WI.memo.json (\u00a7 973.015 certificate-of-discharge route, 20-day clerk notice, once-per-person limit, Matasek/Arberry/Braunschweig/Leitner line, DOT carve-out; follow-up cross-track pointer resolves); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fb9d86ca81b9d9470280a539fc52bea572f0dd15c1e9fe97cdf6f28098b0c833",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 68,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_common_nc_procedure"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WV.memo.json (common non-conviction procedure, 60-day/30-day clocks, $200/$100 official fees); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 69,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_dui_test_and_lock_dismissal"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WV.memo.json (test-and-lock DUI dismissal expungement); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 70,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_multiple_misdemeanors"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the deferral doc names the track and states the two exact carried release blockers (multi-county forum under \u00a7 61-11-26(a)(1) vs the (d) grouping proviso; severance of an excluded conviction vs \u00a7 61-11-26(i)(4) summary denial), each carried by WV.memo.json release_blocker unresolvedQuestions; participant copy delivers the elements. Two minors, action-neutral: timing.en/es imports the single-misdemeanor entry's sentence calling the SCA-C900 ten-day/30-day reply-window discrepancy 'one of the two reasons this route is on hold', contradicting the entry's own stopReason (which correctly names forum and severance) \u2014 the discrepancy is a shared additional hold recorded on wv_conv_single_misdemeanor as applying here too, so reword the count; and authority[9] states the severance point as settled where the release blocker treats it as open \u2014 qualify it.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 71,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_nonviolent_felony"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: \u00a7 61-11-26(p)(5)'s two court-found limbs are stated as findings for the circuit court, not statements a self-help service makes, exactly as the memo carries; participant copy delivers the elements with settled timing and exact destinations.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "B",
+      "reviewId": 72,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_single_misdemeanor"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the operative-form question across the five published Judiciary forms and the SCA-C900 staleness/reply-window discrepancy are stated exactly and carried by WV.memo.json; participant copy delivers the elements and does not read as 'coming soon'.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2",
+      "sourceFile": "docs/rcap/review/f2-wave2/B-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-arizona-az_wrongful_arrest_clearance",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AZ:az_wrongful_arrest_clearance"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "6d7cd72a5bc921bc79862b5fdd2063ff38fc4a2f0f0b9092a692fa0fae764f68",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-connecticut-ct-cannabis-petition",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-cannabis-petition"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "eb20c7bbe9924462bb07b118d04797a10c8dac668537d348597034038aa614d1",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-connecticut-ct-decriminalized",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-decriminalized"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "2053e64a102ea305284f82859edf0c6b391945061e600913ef5f783cc247c9db",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-dc-dc_correct_misattributed_arrest",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "DC:dc_correct_misattributed_arrest"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "31ce3baefea26dcf4d56cbc49f7a1e2fbeb92cdef08f1d3560b504145222eec1",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-dc-dc_seal_fugitive",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "DC:dc_seal_fugitive"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "1c654c86599d4f26d584d908116145b0f24df332ff62408eafd8602c0ca85dda",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-georgia-ga-deaddocket-j3",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-deaddocket-j3"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "9960eae15de3af2df93ddd3888a528d3c3d8593b5052047b90fa06bf6f27170b",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-georgia-ga-felony-j1",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-felony-j1"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "1809d96e302819653e787858cf084b8f6b9e0f3b79a11757d9661f49a2dab801",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-georgia-ga-fo-active-pre2026",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fo-active-pre2026"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "b04df2a8b1153b72502ddbcfc8f9cf68cc036ac63be49d3d9abc4180fb42c43e",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-georgia-ga-fo-discharged-pre2026",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fo-discharged-pre2026"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "e76f9afdd42361fd649a562ebc2ba2861ebc0fc0c98f8f12580ebc77deb1d379",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-georgia-ga-fugitive-j5",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fugitive-j5"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "c8250c9fa87c982488c934de806dbad30bf0a4042d2826a9e8cbdfcd899703b9",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-georgia-ga-jail-k2",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-jail-k2"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "1880db4bd06db96f617bb4949afd4a649821f8facefac34c5d46fafd7e2ee76a",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-georgia-ga-vacated-j2",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-vacated-j2"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "d3403afe4c786b532b92d3990e84fbdaadc9a7053d65e149ad320e42bcdae7eb",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-hawaii-hi_first_time_property_offender_expungement",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "HI:hi_first_time_property_offender_expungement"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "f290cc7ba82300f960806f8a1289738a6b6cfcee1e2460507ff1c258b781d973",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-hawaii-hi_marijuana_three_grams_expungement",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "HI:hi_marijuana_three_grams_expungement"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "b493aefa26df5e2bb8fdb55acb328acd93f025a99bc62a32028489bdcddf0d39",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-illinois-il-immediate-seal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IL:il-immediate-seal"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "8bf8f6d137759042aec406aa2c63d3904dad4da72a8417c6973fb71bcb763593",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-indiana-in_collateral_action",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IN:in_collateral_action"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "4959ecac2a007bdf570f979604f01ab244baa06564b79c94153d049a9a16c571",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-indiana-in_supplemental_order",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IN:in_supplemental_order"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "0f9c5f798fa7af8a1c4419b7a283dc597f78793003edc39be64c4764812a3c53",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-kansas-ks-12-4516-municipal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KS:ks-12-4516-municipal"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "b8e0c53d629d1492d5741139ccae373c5f559a25d145589792613e41dfad0f2f",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-kansas-ks-12-4516a-municipal-arrest",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KS:ks-12-4516a-municipal-arrest"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "30311577f88b085e31b24837ccd8ef0eee94933cd46f3e2676662dd7e70c1a27",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-kentucky-ky_void_seal_controlled_substance",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_void_seal_controlled_substance"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "36bf9dcc495f8281711e4c577241ba9b7e3e99135ef35006152698a1f1555015",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-kentucky-ky_void_seal_marijuana_synthetic_salvia",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_void_seal_marijuana_synthetic_salvia"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "cc3500bb7cce8a2237f78d8e959f3fbab69d763543f423650f41568736509217",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-maine-me-screening",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ME:me-screening"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "d224f2ad42d0a33363e1d2336116fc1886d3cceae0704d0e444b18aab5a45244",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-massachusetts-ma-bmc-multi",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MA:ma-bmc-multi"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "9c2cd7d05b5cbae276ca47c0ea6b31a67f71db3d70ce835212a647cdade98938",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-nebraska-ne-seal-enforcement",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-seal-enforcement"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "d66a88624115c5e0c39c3fcb39939525f5c2f766cd1bed2ac866956977528220",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-nevada-nv_seal_multi",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NV:nv_seal_multi"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "264f5bd3b24db360e3f9330e8059e2d1ac1beffd5c97f8b49683f47e4c92c91d",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-north-carolina-nc_auto_146_a4_agency_followup",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NC:nc_auto_146_a4_agency_followup"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "846fccac368fd89424f1dbc1a93c99ca29cdbf2090b7e0e9ce719fed3720fe86",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-north-dakota-nd-seal-felony-conviction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-seal-felony-conviction"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "0f0e138f54773833afea4559d84d3dff735eac3cc812f261e3e5353a84d32ab6",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-north-dakota-nd-seal-misdemeanor-conviction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-seal-misdemeanor-conviction"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "44bbd0817e2ef010d2efe42d611baa7185c0316ca17c5eabaf56f2cdd6109c5f",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-north-dakota-nd-seal-pardoned-conviction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-seal-pardoned-conviction"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "a437907ff1947a1960d359270a9a2d3ca8668fe0388c493dd044fd7c05a3f0ca",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-ohio-oh_2953_32_sealing",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OH:oh_2953_32_sealing"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "08a8751220b3215cd9174a092afda14b29a987b3d306a1fc2a15989adbd66f52",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-oklahoma-ok_identity_theft",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OK:ok_identity_theft"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "75687f212a72dc77af03034dd54552f178f1f48e5eb24bb273d1bd1e3490a2d1",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-tennessee-tn_arrest_no_court_record",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_arrest_no_court_record"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "13b3cc213ef50c11c442b219e1f5de219ccb466cd6776804fa34503e681005ce",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-tennessee-tn_illegal_voting",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_illegal_voting"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "d275cdea2a4407c720b10d1c929af56b60b3887397de32d6b3c597958bcbad46",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-tennessee-tn_mistaken_identity",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_mistaken_identity"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "88e9295bdb94a3d31ed5664806201e1abe68b3552f50f2b2dd80a1eb56b26372",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-tennessee-tn_nonconviction_petition",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_nonconviction_petition"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "31ea115bbe2213bb2d947ae7cb1033cfb4291ade9bc80e35d0053411ea490662",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-tennessee-tn_post_pardon",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_post_pardon"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "522db219e2765286e38515f8e93ab54c9fed2e010fb96175ed9b06b810e4029c",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-tennessee-tn_pretrial_diversion",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_pretrial_diversion"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "58c65f195b595f622c59b2f2e82c978d1560ce53eb768057c69ca9616cc1d3c8",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-tennessee-tn_recovery_court",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_recovery_court"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "cec99c8bd0ce21fdc10118a5bffe45d7bc3d1e11d6714d219b08f4b5f27ea6be",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-tennessee-tn_redaction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_redaction"
+      ],
+      "owner": "C2",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "a768deb1258d186a850a2f75dbcad1e243675aa204be5676b7a6931978f449f3",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-texas-tx_exp_mistaken_identity",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_mistaken_identity"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "aa42b781fda0f2bdea1f0963ee0e120d969010b729e7c205d7f2d277cf702420",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-texas-tx_exp_pardon_other",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_pardon_other"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "bdf78777f7559eae9a556235365070c67694f539261ce669e121556692e5f72e",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-texas-tx_exp_specialty_court",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_specialty_court"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "d100436aec38c4274e550bffd0be5efb5a66f163f54c368ffe7c6b823de7bb4d",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-texas-tx_exp_unlawful_carry",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_unlawful_carry"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "4c8920d4dcc2617e07237c29c016153f77a4bf9513935df3bd776346896b7b2e",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-washington-wa_vac_post_probation_9_95_240",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WA:wa_vac_post_probation_9_95_240"
+      ],
+      "owner": "C3",
+      "note": "Independent F2 pass at reviewBase: marker hash matches committed bytes; C-lane verifier suite green with the pinned registry (3b6f4c1) reachable, so the authority cross-check ran; root operative authority cited in the rendered pleading; canonical fixture passes pleading QA and the negative fixture trips every declared signal; no protected-field value, literal null, placeholder or internal vocabulary in the canonical render; payment opens nowhere; participant copy is English-only so the EN/ES parity gate does not bind.",
+      "evidenceSha": "c057d7ddf0c4c2a6060b75b197d6169bd1a2a2e08d4d4525b9cf38342138f659",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-arizona-az_wrongful_arrest_clearance",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AZ:az_wrongful_arrest_clearance"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "c7fd571d1dbfc7e0fdd1b83bcd16aa5f57173832b53c06a57b99a21e017eb07b",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-connecticut-ct-cannabis-petition",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-cannabis-petition"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "0d34ada0e441f9e48fb575d85219970b1bce195997f08038301acf6751951ab5",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-connecticut-ct-decriminalized",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-decriminalized"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "bd47305548ed4489fdba978cc4d66d4b3ff6e647d92c87e6b2375a465f846005",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-dc-dc_correct_misattributed_arrest",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "DC:dc_correct_misattributed_arrest"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "9462ff92d30f98c72c9256ca472c55224b103620510014f63097072e5e55d71a",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-dc-dc_seal_fugitive",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "DC:dc_seal_fugitive"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "282ee21d20ca95439db6a2059f2713b3fc1146d6f5f9eda04db045582afeb71e",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-georgia-ga-deaddocket-j3",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-deaddocket-j3"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "15332bc2e4c44754ec893998d233a758e5511223af2157e99a7f5ab25cadb431",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-georgia-ga-felony-j1",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-felony-j1"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "f66982c09e8b3112955abc7c4665272ce2d987506526de8bfc7210884afff017",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-georgia-ga-fo-active-pre2026",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fo-active-pre2026"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "b3295688a571e5fe59c1bf2154033337494a53e7c9b6035f49d0d431abdae68f",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-georgia-ga-fo-discharged-pre2026",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fo-discharged-pre2026"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "69298973f1e620f24fbc47493865968106c023032fd8a08a73f65ab9a83b4699",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-georgia-ga-fugitive-j5",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fugitive-j5"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "073c07c9c15faaa0321c0fa3d8a2881b18bf2506b5fdb899eef4c8bcdb80ade6",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-georgia-ga-jail-k2",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-jail-k2"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "a7e1e6094de0a08e752d05f950385d29a1cff0fd30b5cf9b28726c1983876482",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-georgia-ga-vacated-j2",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-vacated-j2"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "f12d25088d10d550b6b0f64abd878bc2f52d122ae959af9390452ccf61c88699",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-hawaii-hi_first_time_property_offender_expungement",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "HI:hi_first_time_property_offender_expungement"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "32e6fadd168055eeba83bd76f7ffe99b7edb265830831c0a8162cee2e8389bed",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-hawaii-hi_marijuana_three_grams_expungement",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "HI:hi_marijuana_three_grams_expungement"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "dd96a959392e17028ad3dd44052370b4e86e5cf8022d16e489bfd33ed4ce4939",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-illinois-il-immediate-seal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IL:il-immediate-seal"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "7f784dad8654758fc95eec0d879a25d4c756093e0d9d397fecd04150e1ceda8c",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-indiana-in_collateral_action",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IN:in_collateral_action"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "41b2140c0b71d9907436e607134e6571d755ffd01f4690a205ecf394c93bf0f7",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-indiana-in_supplemental_order",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IN:in_supplemental_order"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "f06af7edf49f276ca6a1b128e75dbffc1574c1dae662cc0b0ef4639934fa0c6b",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-kansas-ks-12-4516-municipal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KS:ks-12-4516-municipal"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "20d605f80840898670cabf324f0d5d238ecae044fd29c2b7de0d53f2bb6a45c7",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-kansas-ks-12-4516a-municipal-arrest",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KS:ks-12-4516a-municipal-arrest"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "760d05d3cf449ac5212b5d730180db0c603936d37d0e152d327678227d2f7149",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-kentucky-ky_void_seal_controlled_substance",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_void_seal_controlled_substance"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "88b654d00341dc9bb5fdf113baa863e4ce8c51147ff385d22bf5c699b1f94f91",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-kentucky-ky_void_seal_marijuana_synthetic_salvia",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_void_seal_marijuana_synthetic_salvia"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "65f12032988d80e4db2d0c4fbeae6898c2e652a0d58933075ed8026736f830f7",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-maine-me-screening",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ME:me-screening"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "78240d76ec0758d8d71c22753e4fd7ac32c57d53031bfd1916e411dd157d4d46",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-massachusetts-ma-bmc-multi",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MA:ma-bmc-multi"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "640fa7e41e65c5f354831a2d5a3cee4e702efff4526a9d9203f645cdfb804c02",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-nebraska-ne-seal-enforcement",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-seal-enforcement"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "ec70ced5494d9ec6338f327667bd0dd5622cc474ca045e1ea158c27284fecbc7",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-nevada-nv_seal_multi",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NV:nv_seal_multi"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "fb7cec1c990f6ccef4fec409709d8a15f246555ad3cedc97ec51bee544fdac16",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-north-carolina-nc_auto_146_a4_agency_followup",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NC:nc_auto_146_a4_agency_followup"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "f47134413387b71e601ba7b450db539f2c5d7f63bb87c7552f8d1a4a4c71ebf7",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-north-dakota-nd-seal-felony-conviction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-seal-felony-conviction"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "4199d7c97c64e0bf5eb42b07cdc1ace083e9fdb9dbcfdb666f37c015ae3b99f0",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-north-dakota-nd-seal-misdemeanor-conviction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-seal-misdemeanor-conviction"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "8ac6dae6c7b05dbd57f2d54385ba191e264881bd7b31e3391f92adfe85ee6ec7",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-north-dakota-nd-seal-pardoned-conviction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-seal-pardoned-conviction"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "63e70692a878382b78dac9b35b1076a5da21daa22ad963207a97f81f91f2f11f",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-ohio-oh_2953_32_sealing",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OH:oh_2953_32_sealing"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "4573320691a1451617452dda1ac99690b99ab5afc333cbffce3c2bbcb885b876",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-oklahoma-ok_identity_theft",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OK:ok_identity_theft"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "2f0e99306df3f84decce9c31c9f7110dd96cf10db28b993f8f2c11f6d5fca600",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-tennessee-tn_arrest_no_court_record",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_arrest_no_court_record"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "e1421cf242f3da8bd8fd4e8ef05d408acbaab1406dfb981b33d559482fca22a7",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-tennessee-tn_illegal_voting",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_illegal_voting"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "e620ef19b93d145ac69c022a3eadcd0380ded60a81cf78d7ac36531b310460e6",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-tennessee-tn_mistaken_identity",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_mistaken_identity"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "0108851f7b9e8ef70c392b3f7c259fee853c4d3447e3c76f5663a6d2c0a0f45a",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-tennessee-tn_nonconviction_petition",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_nonconviction_petition"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "781362d4cffad6afe7847862f1ecf20badbcce8eabdaf71aabf0222107b6b226",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-tennessee-tn_post_pardon",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_post_pardon"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "275012649dc90e6f6a1ef9ff84f53cafc24d4923579c9a57ddee44ed0666d133",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-tennessee-tn_pretrial_diversion",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_pretrial_diversion"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "07c0cd438e9cf66335656c771d4bf44e72a8f8eb0d18d6961bcfece196a34545",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-tennessee-tn_recovery_court",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_recovery_court"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "9af87950aea983205704d3528b92606caf99dacecff976ffcd25d8904c974b27",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-tennessee-tn_redaction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_redaction"
+      ],
+      "owner": "C2",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "7d4c475083057e53699fb3f6cd4a71bf2eb894e2a9623c600cfaa863ff39c6dd",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-texas-tx_exp_mistaken_identity",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_mistaken_identity"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "71d8e355a61a04d3be75ccdcbab3758611f4e15cd8d4a688d88af61ffa901524",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-texas-tx_exp_pardon_other",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_pardon_other"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "11b6d23eab76032cc95453b870becb67d21771de6cb33c967a376676e56900ad",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-texas-tx_exp_specialty_court",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_specialty_court"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "fd3aa97efe9e2480743e05d7c2af6c9ed43d3234228c0b2e86c064ab0f6ee0a9",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-texas-tx_exp_unlawful_carry",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_unlawful_carry"
+      ],
+      "owner": "C1",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "31da796141e4085a99f13bc6dc02313772ade2f022a24f03cc78f41e2616668b",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "C",
+      "kind": "f3",
+      "reviewId": "F3-C-washington-wa_vac_post_probation_9_95_240",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WA:wa_vac_post_probation_9_95_240"
+      ],
+      "owner": "C3",
+      "note": "Independent F3 pass at reviewBase: rendered-artifacts hash recomputed over the committed rendered/ directory and matches; PDF text extracted from the content streams is byte-parity with canonical.txt; every text line fits the page at print size under real Courier/Times metrics; caption/title and closing blocks complete for pleadings, sender/signature blocks complete for letters; no placeholder, internal vocabulary, literal null or protected-field value in the rendered document; render-report pdf/text hashes match the bytes.",
+      "evidenceSha": "b915f5d6aa18ba027b042cbf7c1178f4196208f702e847afb36f399ce0884696",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "reviewId": "F2-E-california-cr-180-petition-for-dismissal",
+      "outcome": "correction_required",
+      "trackKeys": [
+        "CA:ca-1203-41",
+        "CA:ca-1203-42",
+        "CA:ca-1203-43",
+        "CA:ca-1203-4a",
+        "CA:ca-17b-reduction"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "Everything on the job's mustVerify list passes: the XFA package is observed in the input and deleted before getForm() with raw-byte re-scan of the output; all four fixtures re-render to their recorded fingerprints; protected fields are never bound (engine throws, verifier re-asserts); both required text anchors survive; tracksServed names only the five dismissal/reduction tracks. F2-12a is corrected (petitionDate rebound to deferredEntryDismissalDate, supplied only by the route-1203-43 fixture, with lineMustNotMatch proving the item-7 \u00a7 1000.3 line stays blank on canonical/boundary/negative \u2014 note routeGate is declarative only, no script enforces it; the enforcement is fact-supply discipline plus the rendered assertions). F2-12b is corrected (Offense1/Reduce1 moved to unboundByDecision; every conviction-table binding carries a census-checked columnCheck). F2-07 is corrected (participantFacingStrings en/es key-for-key, machine-checked for parity and untranslated strings). F2-19 is corrected structurally (profile carries checkoutProhibited:true which verify-rcap-hard-form-outputs fails without, and LEGACY_VERIFIED_JURISDICTIONS in src/lib/rcap/documents/packet-route-resolver.ts is exactly [MS, IL, DC, PA, TX] \u2014 a CA route resolves guidance_only with sellable:false fail-closed). TWO DEFECTS REMAIN. Defect 1 \u2014 F2-10 residual: the participant-facing service surface (CR-106 profile, which now covers all six CA tracks and passes the dispositions verifier) nowhere states the 15-day prosecutor-notice period that CA-california.json carries verbatim for the 1203.4 routes ('For 1203.4, the prosecutor must receive at least 15 days notice before relief is granted'), and the wave-1 acceptance condition's second conjunct \u2014 a verifier assertion that a CA petition family declares its service component or an explicit service instruction \u2014 exists in no verifier: deleting cr-106-proof-of-service/profile.json would fail nothing for this family. Acceptance: state the 15-day notice on the participant-facing service surface in en and es with CA-california.json as the carrier, and add a machine check (outputs or dispositions verifier) that fails any CA petition-family profile that neither ships a service component nor declares a participant-facing service instruction. Defect 2 \u2014 the profile's overflowPolicy.note asserts 'bounds are enforced and an over-length value fails the render instead of inventing an attachment', which is false of the committed engine: renderHardFormPacket records report.overflowed and returns success (verified empirically at the review base \u2014 a 100-character value bound into the 14-char Code1 field renders cleanly, exit 0), no verifier reads report.overflowed, and scripts/rcap-hard-form-xfa-shadow-fill.mjs line 138 still carries the truncate_with_addendum branch that fabricates 'see Attachment A' (dead for committed profiles, live code). Acceptance: make the claim true \u2014 fail the render or turn the outputs verifier red when report.overflowed is non-empty, and remove or fail-closed the truncate_with_addendum fabrication branch \u2014 or restate the note to exactly what the bytes do; both verifiers stay green and fingerprints stay unchanged unless rendered bytes genuinely change.",
+      "evidenceSha": "a87b9c950ba20d3c7a70a3168d4b5c1cf2b3f2cc48069eaae639bc8f5e2b19f2",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "reviewId": "F2-E-california-cr-181-order-for-dismissal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-1203-41",
+        "CA:ca-1203-42",
+        "CA:ca-1203-43",
+        "CA:ca-1203-4a",
+        "CA:ca-17b-reduction"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "F2-13 is corrected: the page-1 caption (AttyPartyInfo block, TitlePartyName Party1, HeaderSub CaseNumber2) and both page-2 header fields are bound to participant facts, rendered assertions prove the defendant name and case number appear in every fixture's flattened bytes, and every grant/deny disposition box plus the judicial signature/date stay protected and unbound. F2-07 corrected (en/es key-for-key, machine-checked); F2-19 corrected structurally (checkoutProhibited:true machine-checked; CA excluded from LEGACY_VERIFIED_JURISDICTIONS, route resolves sellable:false). All three fixtures re-render to their recorded fingerprints; XFA removed and re-scanned at the byte level; anchors hold; tracksServed matches CR-180's five dismissal/reduction tracks, which the order genuinely serves as the petition's companion instrument. PROMOTION RULES: this approval makes the family eligible for captain integration only \u2014 the six CA packet routes additionally require F3 approval, runtime wiring, legal-adoption continuity and staging acceptance before any terminal promotion.",
+      "evidenceSha": "091b032fbebb8b83b80c4ec5f8b327a6ff1f1ad932cdda68ee053c6f72ecd6cc",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "reviewId": "F2-E-california-cr-409-petition-to-seal-arrest-records",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-851-91"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "F2-14 is corrected: CourtInfo now binds courtCountyAndAddress and TCCaseName binds defendantName only, each with a binding note naming the pre-printed text; rendered assertions prove 'People v.' never appears and the 'Superior Court of California, County of' line is never doubled. F2-07 corrected (en/es); F2-19 corrected structurally. All three fixtures re-render to recorded fingerprints; XFA removed; anchors hold; tracksServed is exactly ca-851-91. F2-10 as it applies to this family: the service-component dependency is stated, not hidden \u2014 CR-106's held profile names ca-851-91 in tracksServed, tells the participant they may also have to serve the arresting law-enforcement agency, and passes the dispositions verifier; the 1203.4-specific 15-day notice does not attach to this track. The missing family-side verifier assertion (a CA petition family must declare its service component or instruction) is returned on the CR-180 closure and, when it lands, covers this family too. PROMOTION RULES: eligible for captain integration only \u2014 the six CA packet routes additionally require F3 approval, runtime wiring, legal-adoption continuity and staging acceptance before any terminal promotion.",
+      "evidenceSha": "633065744f811cc34992fea515968a3698e996949231b10d115cadb6fc6b3f65",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "reviewId": "F2-E-california-cr-410-order-to-seal-arrest-records",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-851-91"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "F2-15 is corrected and the fill is no longer inverted: all three Stamp_court_case clerk fields (CourtInfo_ft, CaseNumber, TCCaseName_ft) are protectedFields, the petitioner's item-1 identity (T186 Last/First/Middle) and mailing address (FillText38/37) are bound to participant facts, and every one of those bindings carries a printedLabelMustContain assertion checked against the source page's own content-stream geometry. Rendered assertions prove the petitioner's name and address appear, the case number does NOT appear (the clerk fills it \u2014 canonical asserts its absence), and neither pre-printed caption is duplicated. F2-07 corrected (en/es); F2-19 corrected structurally. All three fixtures re-render to recorded fingerprints; tracksServed is exactly ca-851-91. PROMOTION RULES: eligible for captain integration only \u2014 the six CA packet routes additionally require F3 approval, runtime wiring, legal-adoption continuity and staging acceptance before any terminal promotion.",
+      "evidenceSha": "c1c68e7b42d04f78467594d2acdfb2878a8c29bb89568b5db7b35b7a40577330",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "reviewId": "F2-E-delaware-family-court-form-281",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "DE:de_discretionary_family_court"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "F2-05 is corrected at its root. The Family-Court venue premise that previously had no committed source is now grounded in a pinned committed carrier: Form 1021IP (630,042 bytes, sha256 f2c8a0b1b8a4\u2026) and the Form 281E charge sheet (26,118 bytes, sha256 aaca121e3bb4\u2026) are committed under the family's evidence/ directory with extracted-text companions, and this review independently re-hashed both files, re-hashed both extracted texts, and re-verified all eight quotesRelieduponVerbatim against the committed extracted bytes \u2014 every quote is present. The corrected participant statement restates only what the carrier says: the every-charge-disposed-in-Family-Court condition and the outside-Family-Court \u2192 Superior Court rule are 1021IP's own words; the county rule ('file in Family Court in the county where your most recent case was terminated') and the notarization step were additionally verified present in the pinned carrier text by this review; the uncarried \u00a7 4374(c) subsection claim is dropped and the citation now reads '10 Del. C. \u00a7 1025 and 11 Del. C. \u00a7 4374' exactly as the petition language printed in 1021IP; and the rejection of the committed Superior Court petition candidate is re-grounded on the carrier rather than the former assumption. The participant treatment is complete and states the deferral condition exactly (Form 281 + Form 283 absent from every committed source; instruction packet and continuation sheet are not substitutes, with all three rejected candidates carrying full sha256, what-it-actually-is and why). No payment surface exists on the deferred route: checkoutProhibited and paymentProhibited at both levels enforced by verify-rcap-hard-form-dispositions (pass), and structurally DE is absent from LEGACY_VERIFIED_JURISDICTIONS so resolvePacketRoute returns guidance_only with sellable:false. F2-07 corrected (en/es key-for-key across all seven participant strings); F2-18 reconciled (the profile's ledgerReconciliation records the production_packet \u2192 exact_supported_deferral downgrade with the reason and names the ledger owner, and the ledger itself now carries candidateTreatment exact_supported_deferral with candidateEvidence pointing at this profile). Two exactness notes for the owner, non-blocking: (1) the 45-day criminal-history expiry in whatToGather is supported by committed bytes (DE-delaware.json states it repeatedly) but is not among the pinned quotes, so legalIntegrityDisposition's 'every claim traces to a verbatim quote in a pinned carrier' slightly overstates \u2014 pin the quote or cite DE-delaware.json for it; (2) 'Photo identification' over-specifies the carrier, which says only 'along with your identification' \u2014 match the carrier's word.",
+      "evidenceSha": "c8047b559324ff00bbdf2a51f25117cf8f51dfff955af956facbbcbc82b8f947",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "reviewId": "F2-E-maine-cr-289-motion-to-seal-prostitution-conviction",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ME:me-seal-prost"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "F2-06 is corrected at its root. The adopted Maine legal design the adjudication cites \u2014 previously absent from the repository \u2014 is now pinned into the family (93,459 bytes, sha256 fe11e0a4fb17\u2026) alongside the CR-289 Rev. 10/24 binary itself (166,837 bytes, sha256 bbf89387690d\u2026, matching the formCandidate pin in ME-maine.json), and this review independently re-hashed both files, re-hashed the CR-289 extracted text, and re-verified all seven quotesRelieduponVerbatim against the committed bytes \u2014 every quote is present. The three previously-uncarried claims are now carrier-backed verbatim: the deferral premise ('c. 513 repealed the eligible-criminal-conviction prerequisite in \u00a7 2262-A(1)' plus 'Release blocker for participant-facing accuracy: confirm whether the Judicial Branch has issued a revised CR-289'); the no-self-reporting claim ('A later conviction does not unseal a \u00a7 2262-A record and there is no self-reporting duty', grounded in the quoted \u00a7 2264(7) carve-out); and the CR-307 next-step claim, which the pinned review states in the profile's exact words ('reaches any conviction and has no waiting period'). This review additionally located in the pinned carrier: the CR-218 contrast the participant is warned about (the general track's four-year clock and lifetime self-reporting obligation), the \u00a7 2262-A one-year route, \u00a7 2264(5) 'shall grant the motion' on a preponderance \u2014 the participant text's 'greater weight of the evidence' is the plain-language equivalent \u2014 and the blocker's harmless-in-most-cases reasoning for former \u00a7 853-A convictions, verbatim. The participant treatment is complete and states the deferral condition exactly (form stale against PL 2025 c. 513; paragraph 1 recites a repealed prerequisite; signing would assert a condition the law no longer imposes), with both unblock branches spelled out. No payment surface exists on the deferred route: checkoutProhibited and paymentProhibited at both levels enforced by verify-rcap-hard-form-dispositions (pass), and structurally ME is absent from LEGACY_VERIFIED_JURISDICTIONS so resolvePacketRoute returns guidance_only with sellable:false. F2-07 corrected (en/es key-for-key across all seven participant strings); F2-18 reconciled (profile ledgerReconciliation with reason and ledger owner; the ledger carries candidateTreatment exact_supported_deferral with candidateEvidence pointing at this profile).",
+      "evidenceSha": "02d156de696810604a9b08dfae9d5514813b36402a17c1a47adcd975fcde02ba",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "kind": "f3",
+      "reviewId": "F3-E-california-cr-180-petition-for-dismissal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-1203-41",
+        "CA:ca-1203-42",
+        "CA:ca-1203-43",
+        "CA:ca-1203-4a",
+        "CA:ca-17b-reduction"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "Rendered bytes match the recorded fingerprints: verify-rcap-hard-form-outputs re-renders all four fixtures from the pinned derivative (sha-checked before render) and byte-compares the serialized fingerprints document \u2014 pass. Containment verified geometrically by this review: every drawn text run in every populated widget's normal-appearance stream measured with the embedded font's width tables sits inside its BBox at print size (family contributes to the 149-field/156-run sweep, zero exceptions; multiline runs measured per line). Viewer matrix as recorded: pdf-lib parse verified; Adobe Reader not_required_by_design (XFA deleted, output flattened, rebuilt from pages so no orphaned XFA/JS objects survive in the raw bytes). This F3 approval covers the rendered bytes at the review base; the F2 correction returned on this family is profile-prose and verifier-scope and must not change rendered bytes \u2014 if any correction changes them, the fingerprints refresh and this F3 closure re-opens.",
+      "evidenceSha": "ef65bc5e2757456066a339bc949762e72c056616a6b142c1151d22136fc5e172",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "kind": "f3",
+      "reviewId": "F3-E-california-cr-181-order-for-dismissal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-1203-41",
+        "CA:ca-1203-42",
+        "CA:ca-1203-43",
+        "CA:ca-1203-4a",
+        "CA:ca-17b-reduction"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "Rendered bytes match the recorded fingerprints (re-render + byte-compare, pass). Geometric containment verified \u2014 all populated caption/header runs inside their widget boxes at print size, including the boundary fixture's 50-character full name. Viewer matrix as recorded (pdf-lib parse verified; Adobe not required by design).",
+      "evidenceSha": "9a9103cbf0c21fdef4c3e7caddd109db91eeae8bd291736687cbb6632738b0fb",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "kind": "f3",
+      "reviewId": "F3-E-california-cr-409-petition-to-seal-arrest-records",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-851-91"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "Rendered bytes match the recorded fingerprints (re-render + byte-compare, pass). Geometric containment verified, including the 89-point multiline CourtInfo block whose wrapped lines were measured per run. Viewer matrix as recorded.",
+      "evidenceSha": "9a5e6a0c108f9964d2ae9630507034a87ae2fca5e5809ae9c20aa265bc92da88",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    },
+    {
+      "lane": "E",
+      "kind": "f3",
+      "reviewId": "F3-E-california-cr-410-order-to-seal-arrest-records",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-851-91"
+      ],
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "note": "Rendered bytes match the recorded fingerprints (re-render + byte-compare, pass). Geometric containment verified for the petitioner identity and address runs. Viewer matrix as recorded.",
+      "evidenceSha": "bd6313fb7f46692d1e32fa1c77884ae055ef792f49b486c0abdd09940aa99409",
+      "sourceFile": "docs/rcap/review/f2-wave2/E-DISPOSITIONS.json"
+    }
+  ],
+  "notAcceptedPendingOwnerDetermination": [
+    {
+      "lane": "C",
+      "reviewId": "F2-C-arkansas-ar-act346",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-act346"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "44cd775b4ca5ad1ec068795e0c5710959a1e3030f108d898bf78a9d165e2151c",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-arkansas-ar-drug-court",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-drug-court"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "18d5c8616c1a4f28da62d4bf21053bbaae1a9538f5e587ee36ac453ed0f5487d",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-arkansas-ar-pardon-seal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-pardon-seal"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "db95b194ac5dbc2acf74eb964b934894a5ed4ae1c48686df5510885aff899348",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-arkansas-ar-veterans-court",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-veterans-court"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "ee6dcbfbcd02b3197b18a18e8b8f5598eefab35cf0a10d4624baf08dd60a8350",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-california-ca-diversion-seal",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-diversion-seal"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "de5b0389612c5a38abc0d4b4085d7742d36a888aa5124bbfc9f9a694d0638a9b",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-connecticut-ct-missed-erasure",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-missed-erasure"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "c313b178dc869d46d26a2e51e78527ffd9f89dd3643ebefdae7719535bcd43ae",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-connecticut-ct-nolle-auto",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-nolle-auto"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "ba1f7c02c04cd4d299389a68cc57a41e574c2d1ab1119e694b08947785612f2d",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-connecticut-ct-under18-misdemeanor",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-under18-misdemeanor"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "239a847002bb411a2c642055cd48b792b565329790154d73040c18d79ba60d64",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-illinois-il-prb-cert",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IL:il-prb-cert"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "02b7b09146e0d951dd2b7bb4d98c46f3f7ce40312fcfcdf447db2844e1597305",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-indiana-in_infraction_nondisclosure",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IN:in_infraction_nondisclosure"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "f5f47b7f7076a66c18932d92114dba6f58d4225e5d7ee1bca2ad7a9b47bf6110",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-iowa-ia-9079",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IA:ia-9079"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "38793c3ae5b907279815ea7dda18b31ec7bb9c27e3821bbef76d19a6f52bd52f",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-kentucky-ky_criminal_record_segregation",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_criminal_record_segregation"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "419988dcc836b81d92b2e64d8c9f093d62c3713fdecaa18457c030bbf237ac22",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-montana-mt_mmrta_serving",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MT:mt_mmrta_serving"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "3680859a113a2e62d46f19a15436c58741bbd311389b084e8de966c17eea0a03",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-texas-tx_nd_veterans_reemployment",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_nd_veterans_reemployment"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "ceed08661c492b0b890edc242f08c91d6bbbf52a992bf022046968c7b7eebcc0",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-vermont-vt_exp_deferred_sentence",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VT:vt_exp_deferred_sentence"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "256334e09bbd4db532b71c9968b627aed365602fcc3d3e5cdc08ec354bf927f1",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    },
+    {
+      "lane": "C",
+      "reviewId": "F2-C-west-virginia-wv_dui_deferral_expungement",
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_dui_deferral_expungement"
+      ],
+      "owner": "C1",
+      "note": "Independent F2 pass at reviewBase: route marker hash matches committed bytes; every unit resolves to its component by componentId; each official_form_dependency unit is either supplied or carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane \u2014 no blocked component disappears; filingSeparation partitions the unit set exactly; participant documents carry no internal implementation language, and the only merge fields are fixture-backed.",
+      "evidenceSha": "a26f13695f5c2a6046175738949a54a80f99af48053c48f1de8d566564186f5f",
+      "sourceFile": "docs/rcap/review/f2-wave2/C-DISPOSITIONS.json",
+      "captainHold": "Not accepted this window. The blocked-component rule requires each official_form_dependency unit to be SUPPLIED or to carry its own complete supported terminal treatment. Every one of the 31 dependency components across these 16 routes is acquisitionStatus 'not_acquired', drafted:false. The reviewer approved on a substituted standard ('carries dependency.json naming the official form or a drafting bar with the exact missing source and an owning lane'), which records the blocker rather than satisfying the rule. The participant instructions do disclose the missing form and its acquisition path honestly, so the component does not silently disappear \u2014 that is why this is escalated for an owner standard determination rather than returned as a defect."
+    }
+  ],
+  "supersededClosures": [
+    {
+      "reviewId": 1,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "AK:ak-nonconviction-confidential"
+      ],
+      "owner": "Terminal B",
+      "note": "F2-08: shipped complete_guidance, but the committed AK pathway is a court filing (filingRequired=true, routeType court_filing); the treatment classification must be reconciled with the compiled pathway before acceptance."
+    },
+    {
+      "reviewId": 3,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "CA:ca-auto-conviction"
+      ],
+      "owner": "Terminal B",
+      "note": "See F2 findings for treatment 3."
+    },
+    {
+      "reviewId": 4,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "IL:il-auto-seal-2028"
+      ],
+      "owner": "Terminal B",
+      "note": "See F2 findings for treatment 4."
+    },
+    {
+      "reviewId": 5,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_auto_misd92"
+      ],
+      "owner": "Terminal B",
+      "note": "F2-01: the packet screens only the MCL 780.621c never-eligible list; the source also excludes assaultive-crime histories from automatic set-aside \u2014 the second track-wide screen must reach the participant."
+    },
+    {
+      "reviewId": 6,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_auto_misd93"
+      ],
+      "owner": "Terminal B",
+      "note": "Same class as treatment 5 for the 93-day-or-more track."
+    },
+    {
+      "reviewId": 7,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "CA:ca-1203-41",
+        "CA:ca-1203-42",
+        "CA:ca-1203-43",
+        "CA:ca-1203-4a",
+        "CA:ca-17b-reduction"
+      ],
+      "owner": "Terminal E (with Terminal A for wiring)",
+      "note": "F2-07 (no Spanish participant surface), F2-10 (service component absent), F2-19 (checkout prohibition is prose-only at lane level; structurally the route resolver does not sell CA, which the captain records as the load-bearing control)."
+    },
+    {
+      "reviewId": 9,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "CA:ca-851-91"
+      ],
+      "owner": "Terminal E (with Terminal A for wiring)",
+      "note": "Same cross-cutting findings as treatment 7, plus the CR-106 proof-of-service dependency."
+    },
+    {
+      "reviewId": 11,
+      "outcome": "held_on_source_or_design",
+      "trackKeys": [],
+      "owner": "counsel / CA state-pack legal design with Terminal E",
+      "note": "Family-level hold: the CA petition routes ship without their service component (CR-106 per-county service-recipient design). Held; not a track closure."
+    },
+    {
+      "reviewId": 12,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "DE:de_discretionary_family_court"
+      ],
+      "owner": "Terminal E",
+      "note": "F2-05: the every-charge-disposed-in-Family-Court eligibility premise is not carried by any committed source; the deferral statement must cite committed authority or restate the condition it can support."
+    },
+    {
+      "reviewId": 13,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ME:me-seal-prost"
+      ],
+      "owner": "Terminal E",
+      "note": "See F2 findings for treatment 13."
+    }
+  ],
+  "supersededNote": "These closures reviewed the stale lane snapshots (B @ a26eda05, E @ fab28612). The complete B branch (a79eb0a7, all 73 tracks with the F2 corrections applied) and the corrected E branches (rcap-e-ca-corrections @ 78c77afd, rcap-e-de-me-deferral-corrections @ 92dc2abf) superseded the reviewed bytes in window 2026-08-12-w3. Per the refresh directive they do NOT count as review of the current branches; the affected candidates return to pending fresh independent review. The AK:ak-sej technical_approved promotion is expressly preserved.",
+  "compositeRouteStandardEscalation": {
+    "question": "Does a composed route's official_form_dependency component satisfy the blocked-component rule when the official form is not acquired and not drafted, but the dependency is recorded exactly (form id, issuing authority, official source index, drafting prohibition, owning lane) AND the participant instructions state plainly that the packet does not include the official form and name where to obtain it?",
+    "owner": "Roger",
+    "affectedRoutes": 16,
+    "affectedDependencyComponents": 31,
+    "captainPosition": "Defensible but not established. The rule as written offers two satisfying conditions \u2014 supplied, or the component carries its own complete supported terminal treatment \u2014 and a recorded blocker is neither in the ledger's treatment vocabulary. If you rule that an exactly-recorded, participant-disclosed dependency IS an exact supported deferral for that component, all 16 routes promote on the existing evidence with no lane work. If not, they stay nonterminal until lane D/E acquires the official forms.",
+    "notBlocking": "The 44 C pleading tracks, all 44 C F3 closures, the 59 B approvals and the 5 E approvals are accepted and promoted independently of this question.",
+    "status": "resolved_by_owner_standard",
+    "resolvedBy": "Roger",
+    "resolvedOn": "2026-08-13",
+    "standard": "A composed route is terminal only when every legally distinct component has a terminal treatment. An absent official-form component counts as terminal through an exact_supported_deferral only when all thirteen conditions hold, including an independent technical approval for that component. A dependency record or internal blocker description alone does not satisfy it.",
+    "appliedResult": "Adjudicated in data/rcap-all50/review-artifacts/c-composed-route-standard-adjudication.json. Zero of the ten dependency-bearing routes qualify. The escalation is closed; the routes stay nonterminal on criterion 11 rather than on an unresolved standard.",
+    "priorTrackLevelApprovalDisposition": "The wave-2 lane-C approval of these ten routes remains not accepted. It approved on a substituted standard and predates the deferral treatments it would need to have examined."
+  }
+}

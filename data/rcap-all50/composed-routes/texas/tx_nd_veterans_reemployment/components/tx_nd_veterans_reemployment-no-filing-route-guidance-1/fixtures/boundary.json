@@ -1,0 +1,102 @@
+{
+  "fixtureId": "tx_nd_veterans_reemployment-no-filing-route-guidance-1-boundary",
+  "trackId": "tx_nd_veterans_reemployment",
+  "unitId": "tx-nd0729-no-filing-route",
+  "componentId": "tx_nd_veterans_reemployment-no-filing-route-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/route.json",
+  "documentPath": "data/rcap-all50/composed-routes/texas/tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-no-filing-route-guidance-1/no-filing-route-guidance.md",
+  "description": "Statutory edges: post-conviction community supervision rather than deferred adjudication, which routes most participants to a different nondisclosure section but not this one; a prior conviction on the record, which 411.0729(b) does NOT allow to be used as a bar because the section applies regardless of the subchapter's other eligibility criteria; and courtRequiresPetition = yes, which hands the participant to unit 2 and its official-form dependencies. Nothing is filed on this unit either way.",
+  "synthetic": true,
+  "syntheticDataNote": "All values are obviously synthetic and are never drawn from any evidence file. Names are SAMPLE/EXAMPLE strings, the court is an EXAMPLE court, and every date is a round synthetic value. Dates here are participant screening answers, not sourced facts.",
+  "partyData": {
+    "participantName": "JAMIE Q. SAMPLE",
+    "participantAddress": "000 EXAMPLE STREET, EXAMPLE CITY, TX 00000",
+    "otherNamesUsed": "J. Q. SAMPLE"
+  },
+  "caseData": {
+    "sentencingCourt": "EXAMPLE County Court at Law No. 0, EXAMPLE County, Texas",
+    "sentencingCourtNote": "The participant's own screening answer. Venue is the SENTENCING court, not the county of arrest.",
+    "causeNumber": "",
+    "causeNumberNote": "The participant's own screening answer, read off the discharge and dismissal order or the judgment. Blank here; never prefilled.",
+    "countyOfArrest": "[NOT RELEVANT TO VENUE ON THIS TRACK]"
+  },
+  "chargeData": {
+    "offenceAndLevel": "example offence, Class A misdemeanour",
+    "supervisionType": "convicted and placed on community supervision (post-conviction probation)",
+    "completionDate": "01/01/2024"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "sentencingCourt": "EXAMPLE County Court at Law No. 0, EXAMPLE County, Texas",
+      "causeNumber": "",
+      "offenceAndLevel": "example offence, Class B misdemeanour",
+      "supervisionType": "convicted and placed on community supervision (post-conviction probation)",
+      "completionDate": "01/01/2024",
+      "familyViolenceFinding": "no",
+      "priorOrSubsequentOffences": "one prior Class C fine-only traffic offence, and one prior Class B misdemeanour deferred adjudication — [PARTICIPANT'S OWN LIST, CONFIRMED AGAINST THE DPS CRIMINAL HISTORY]",
+      "feeWaiverRequested": "not applicable — nothing is filed on this route",
+      "veteranStatus": "yes — Texas State Guard",
+      "reemploymentProgramme": "yes — court-approved veterans reemployment programme completed after the offence",
+      "courtRequiresPetition": "yes — the clerk said the court wants a petition"
+    },
+    "confirmAgainstDocuments": [
+      {
+        "screeningKey": "priorOrSubsequentOffences",
+        "document": "Texas DPS criminal history record",
+        "obtainedFrom": "Texas Department of Public Safety Crime Records Service",
+        "howToObtain": "DPS form CR-63, an instruction sheet rather than a form to complete.",
+        "handledByLegalEase": false
+      },
+      {
+        "screeningKey": "supervisionType",
+        "document": "The discharge and dismissal order, or the judgment and order of community supervision",
+        "obtainedFrom": "The clerk of the court that sentenced the person or placed the person on community supervision",
+        "howToObtain": "Ask the clerk for the order.",
+        "handledByLegalEase": false
+      },
+      {
+        "screeningKey": "reemploymentProgramme",
+        "document": "Record of successful completion of the veterans reemployment programme",
+        "obtainedFrom": "The court-approved programme, or the court that approved it",
+        "howToObtain": "Ask the programme or the court for confirmation of successful completion.",
+        "handledByLegalEase": false
+      }
+    ],
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted. The court decides whether issuance is in the best interest of justice.",
+    "waitingPeriodText": null,
+    "waitingPeriodNote": "None. The trigger is successful completion of the programme and of all community-supervision conditions.",
+    "feeNote": "No fee arises on the no-filing route. Nothing is filed."
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "driversLicenseNumber": "",
+    "socialSecurityNumber": "",
+    "sid": ""
+  },
+  "protectedFieldsNote": "Blank and never prefilled. No document is drafted on this unit, and the OCA forms the petition route uses are not drafted or filled by this lane at all.",
+  "outsidePartyFields": {
+    "hearingHeld": "",
+    "hearingDate": "",
+    "bestInterestFinding": "",
+    "judgeName": "",
+    "judgeSignature": "",
+    "stateRequestedHearing": "",
+    "prosecutorPosition": "",
+    "orderEntered": "",
+    "orderDate": "",
+    "dpsSealedRecord": "",
+    "dpsNotifiedAgencies": ""
+  },
+  "outsidePartyFieldsNote": "The hearing, the best-interest-of-justice finding, the judge's signature, the state's decision whether to request a hearing within 45 days, the prosecutor's position, entry of the order, and DPS's sealing and notification acts are all court, state or agency acts. Every one is blank and none is asserted, predicted or implied.",
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "boundaryUnderTest": [
+    "Supervision-type edge: 411.0729 reaches a misdemeanour for which the person was placed on community supervision INCLUDING deferred adjudication. This fixture takes the post-conviction branch. The registry records that deferred adjudication and post-conviction community supervision route to different sections generally — this section covers both.",
+    "411.0729(b) edge, and the most important one on this track: a prior conviction and a prior deferred adjudication are present. The Gov't Code 411.074 basic conditions DO NOT apply here, so they are not a bar. Any screening that imports the 411.074 bars would wrongly refuse this participant.",
+    "Veteran-definition edge: state guard rather than regular forces. The statute reaches the reserves, the national guard and the state guard.",
+    "Route edge: courtRequiresPetition = yes moves the participant from this unit to unit 2, which is entirely official-form dependencies. The no-filing route is still presented first.",
+    "Felony edge is NOT tested here because it is an exclusion, not a boundary: the section reaches a misdemeanour only.",
+    "First-time-offender tension: the track records a self-help stop condition about prior convictions 'where the target section carries a first-time-offender condition', while 411.0729(b) disapplies the subchapter's other criteria. No source resolves it; this fixture sits on that unresolved edge deliberately and asserts no conclusion."
+  ]
+}

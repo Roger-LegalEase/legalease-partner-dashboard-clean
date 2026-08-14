@@ -1,0 +1,156 @@
+name: Publish RCAP render worker
+
+# Captain-owned, manual only. This workflow PUBLISHES AN IMAGE AND NOTHING ELSE.
+# It does not deploy the worker, does not start claiming, and touches neither
+# staging nor production.
+#
+# The tag is the full commit SHA, and only that. There is deliberately no
+# mutable `latest`: the staging action requires an immutable registry digest,
+# and a moving tag would let the thing that was verified stop being the thing
+# that runs.
+
+on:
+  workflow_dispatch:
+    inputs:
+      integration_sha:
+        description: "Exact FULL 40-character integration commit SHA to build. Abbreviated SHAs are rejected."
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  # One publication at a time; a second run for the same SHA would race on the
+  # same immutable tag.
+  group: publish-rcap-render-worker-${{ inputs.integration_sha }}
+  cancel-in-progress: false
+
+env:
+  IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+  DOCKERFILE_PATH: deploy/rcap-render-worker/Dockerfile
+  CANONICAL_INTEGRATION_BRANCH: claude/rcap-final-sprint-integration
+
+jobs:
+  publish:
+    name: Publish rcap-render-worker by immutable digest
+    runs-on: ubuntu-latest
+    steps:
+      # A publication is only meaningful if the bytes are the bytes someone
+      # accepted, so the SHA is validated before anything is fetched or built.
+      - name: Reject a missing or abbreviated SHA
+        run: |
+          set -euo pipefail
+          SHA="${{ inputs.integration_sha }}"
+          if [ -z "$SHA" ]; then
+            echo "::error::integration_sha is required."
+            exit 1
+          fi
+          if ! printf '%s' "$SHA" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "::error::integration_sha must be a full 40-character lowercase hex commit SHA. Got: '$SHA'"
+            exit 1
+          fi
+
+      - name: Check out the repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify the SHA resolves and belongs to the canonical integration history
+        run: |
+          set -euo pipefail
+          SHA="${{ inputs.integration_sha }}"
+          if ! git cat-file -e "${SHA}^{commit}" 2>/dev/null; then
+            echo "::error::${SHA} does not resolve to a commit in this repository."
+            exit 1
+          fi
+          git fetch --no-tags origin "${CANONICAL_INTEGRATION_BRANCH}"
+          if ! git merge-base --is-ancestor "$SHA" "origin/${CANONICAL_INTEGRATION_BRANCH}"; then
+            echo "::error::${SHA} is not contained in origin/${CANONICAL_INTEGRATION_BRANCH}. Refusing to publish an image from outside the canonical integration history."
+            exit 1
+          fi
+          echo "Verified ${SHA} is contained in origin/${CANONICAL_INTEGRATION_BRANCH}."
+
+      # Build from the exact accepted commit, not from the branch tip, which may
+      # have moved since the SHA was cleared.
+      - name: Check out the exact supplied SHA
+        run: git checkout --detach "${{ inputs.integration_sha }}"
+
+      - name: Record the build inputs
+        id: inputs
+        run: |
+          set -euo pipefail
+          DOCKERFILE_SHA256="$(sha256sum "${DOCKERFILE_PATH}" | cut -d' ' -f1)"
+          LOCKFILE_SHA256="$(sha256sum package-lock.json | cut -d' ' -f1)"
+          {
+            echo "dockerfile_sha256=${DOCKERFILE_SHA256}"
+            echo "lockfile_sha256=${LOCKFILE_SHA256}"
+            echo "image_reference=${IMAGE_REPOSITORY}:${{ inputs.integration_sha }}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push by full-SHA tag only
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ env.DOCKERFILE_PATH }}
+          push: true
+          # Exactly one tag. No `latest`, no branch tag, no moving alias.
+          tags: ${{ env.IMAGE_REPOSITORY }}:${{ inputs.integration_sha }}
+          provenance: false
+          sbom: false
+
+      - name: Emit the machine-readable publication artifact
+        run: |
+          set -euo pipefail
+          mkdir -p publication
+          cat > publication/rcap-render-worker-publication.json <<JSON
+          {
+            "schemaVersion": "rcap-worker-publication/v1",
+            "sourceSha": "${{ inputs.integration_sha }}",
+            "canonicalIntegrationBranch": "${CANONICAL_INTEGRATION_BRANCH}",
+            "dockerfilePath": "${DOCKERFILE_PATH}",
+            "dockerfileSha256": "${{ steps.inputs.outputs.dockerfile_sha256 }}",
+            "lockfileSha256": "${{ steps.inputs.outputs.lockfile_sha256 }}",
+            "imageRepository": "${IMAGE_REPOSITORY}",
+            "imageTag": "${{ inputs.integration_sha }}",
+            "imageReference": "${{ steps.inputs.outputs.image_reference }}",
+            "immutableRegistryDigest": "${{ steps.build.outputs.digest }}",
+            "digestPinnedReference": "${IMAGE_REPOSITORY}@${{ steps.build.outputs.digest }}",
+            "workflowRunId": "${{ github.run_id }}",
+            "workflowRunUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "mutableLatestTagCreated": false,
+            "publishOnlyNoDeploy": true,
+            "workerClaimingStarted": false,
+            "stagingAndProductionUnchanged": true
+          }
+          JSON
+          cat publication/rcap-render-worker-publication.json
+
+      - name: Fail if the registry returned no digest
+        run: |
+          set -euo pipefail
+          DIGEST="${{ steps.build.outputs.digest }}"
+          if ! printf '%s' "$DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
+            echo "::error::No immutable registry digest was returned. A local image ID is not acceptable evidence."
+            exit 1
+          fi
+          echo "Published ${IMAGE_REPOSITORY}@${DIGEST}"
+
+      - name: Upload the publication artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-render-worker-publication-${{ inputs.integration_sha }}
+          path: publication/rcap-render-worker-publication.json
+          if-no-files-found: error

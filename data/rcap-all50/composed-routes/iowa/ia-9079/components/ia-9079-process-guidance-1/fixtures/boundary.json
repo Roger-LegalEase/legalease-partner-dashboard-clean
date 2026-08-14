@@ -1,0 +1,69 @@
+{
+  "fixtureId": "ia-9079-process-guidance-1-boundary",
+  "description": "Boundary fill. The case is still on the public docket, the participant does not know whether every financial obligation in that case is paid and has not yet obtained the clerk's balance confirmation, the discharge date is not recalled, and the participant is unsure whether the discharge predates July 1, 2013 — the answer that selects between the two mutually exclusive units. Exercises the paths where the guidance must state an absence rather than a value, and the branch boundary where unit ia-9079-pre-2013-application would be reached but is unavailable.",
+  "trackId": "ia-9079",
+  "componentId": "ia-9079-process-guidance-1",
+  "unitId": "ia-9079-post-2013-verification",
+  "jurisdictionCode": "IA",
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "screeningData": {
+    "countyOfCase": "Sample",
+    "caseNumber": "",
+    "wasDeferredJudgment": "Yes — deferred judgment",
+    "dischargedFromProbation": "Yes — discharge date not recalled",
+    "deferredJudgmentRevoked": "No",
+    "financialObligationsPaid": "Unknown — participant has not obtained the clerk's balance for that case",
+    "stillOnPublicDocket": "Yes — the case still appears",
+    "dischargeBeforeJuly2013": "Unknown — participant is not sure whether the discharge was before July 1, 2013"
+  },
+  "partyData": {
+    "petitionerName": "SAM SAMPLE",
+    "petitionerAddress": "",
+    "otherNamesUsed": "",
+    "petitionerPhone": "",
+    "petitionerEmail": ""
+  },
+  "caseData": {
+    "countyName": "Sample",
+    "courtName": "",
+    "courtAddress": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "judgeAddress": "",
+    "countyAttorneyName": "",
+    "countyAttorneyPosition": ""
+  },
+  "chargeData": {
+    "chargeDescription": "Court record with reference to the deferred judgment in the case named above",
+    "offenseGrade": "",
+    "disposition": "Deferred judgment under Iowa Code § 907.3, discharged from probation",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": "",
+    "statuteTitle": "Iowa Code",
+    "statuteSection": "907.9(4)",
+    "relatedDismissedCounts": ""
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "Expungement of the court record with reference to a deferred judgment on discharge from probation, Iowa Code § 907.9(4)",
+    "waitingPeriodText": "Discharge from probation, with all financial obligations in that case paid — duration: none beyond discharge and payment",
+    "reliefFraming": "The court record becomes confidential and comes off public access under Iowa Code § 22.7. It is not accessible except by court order.",
+    "additionalFacts": [
+      "The case still appears on the public online docket. The registry records that the usual blocker is an unpaid balance in that case, which is actionable.",
+      "The participant must ask the clerk of the Iowa District Court for the county of the case for the balance in that case number, and then correct the packet if the clerk's answer disagrees with the screening answer.",
+      "The discharge date is not supplied and is not inferred.",
+      "Whether the discharge predates July 1, 2013 is unresolved on the participant's answers, so the branch is not yet selected."
+    ]
+  },
+  "boundaryConditions": [
+    "stillOnPublicDocket = yes with financialObligationsPaid = unknown: the guidance must send the participant to the clerk for the balance and must not assert either that the expungement happened or that it failed.",
+    "dischargeBeforeJuly2013 = unknown: the two units are mutually exclusive (compositionMode alternative) and the selecting answer is missing. The guidance must state both branch outcomes and must not pick one.",
+    "If the answer resolves to before July 1, 2013, unit ia-9079-pre-2013-application is reached and is unavailable — no packet is produced and no application is drafted (counsel flag cf-02).",
+    "dispositionDate and discharge date are empty; the guidance must not supply or estimate either.",
+    "petitionerAddress, phone and email are empty; the guidance must not supply them.",
+    "relatedDismissedCounts is empty; the guidance must not assert that any related count was dismissed."
+  ],
+  "expectFailure": null
+}

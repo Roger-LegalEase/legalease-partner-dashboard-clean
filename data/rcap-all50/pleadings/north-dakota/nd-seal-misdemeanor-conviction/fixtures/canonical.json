@@ -1,0 +1,40 @@
+{
+  "fixtureId": "canonical",
+  "description": "Obviously synthetic canonical participant. Protected/outside-party fields (docket number, OTN, judge, prosecutor position) stay blank and render as confirm-with-clerk placeholders.",
+  "expectations": {
+    "qaPassed": true
+  },
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Taylor Sample",
+      "petitionerAddress": "1234 Example Street, Bismarck, ND 58501",
+      "otherNamesUsed": "Taylor Q. Sample"
+    },
+    "caseData": {
+      "countyName": "Cass",
+      "judicialDistrict": "East Central Judicial District"
+    },
+    "chargeData": {
+      "chargeDescription": "Theft of property",
+      "offenseGrade": "Class A misdemeanor",
+      "disposition": "Convicted (guilty plea)",
+      "dispositionDate": "06/01/2021",
+      "arrestDate": "02/01/2021",
+      "arrestingAgency": "Fargo Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Misdemeanor conviction sealing under N.D.C.C. Chapter 12-60.1 — no new conviction for at least 3 years before filing",
+      "waitingPeriodText": "Misdemeanor conviction sealing under Chapter 12-60.1: no new conviction for at least 3 years before filing.",
+      "additionalFacts": [
+        "All terms of imprisonment and probation are complete and all restitution has been paid.",
+        "Petitioner must prove the sealing factors by clear and convincing evidence."
+      ]
+    },
+    "attachments": [
+      "Proposed Order to Seal Criminal Records",
+      "Proof of Service on the prosecuting attorney"
+    ],
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "fixtureId": "boundary",
+  "description": "Sparse-input boundary on the subsection (1) limb: no address, no arrest date, no disposition, no arresting agency. Unsupplied values must fall through to the renderer's own confirm-later tokens.",
+  "expectations": { "qaPassed": true },
+  "protectedProbes": [ "the Court finds", "does not object", "filing fee" ],
+  "renderInput": {
+    "partyData": { "petitionerName": "Jordan Boundary-Sample" },
+    "caseData": { "countyName": "Spokane" },
+    "chargeData": {},
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Withdrawal of a plea of guilty and dismissal of the information under RCW 9.95.240(1), the conditions of probation having been fulfilled for the entire period"
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

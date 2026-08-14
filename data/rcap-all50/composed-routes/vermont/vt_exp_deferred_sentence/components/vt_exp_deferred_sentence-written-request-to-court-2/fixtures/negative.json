@@ -1,0 +1,75 @@
+{
+  "fixtureId": "vt_exp_deferred_sentence-written-request-negative",
+  "trackId": "vt_exp_deferred_sentence",
+  "componentId": "vt_exp_deferred_sentence-written-request-to-court-2",
+  "unitId": "vt-deferred-written-request",
+  "configPath": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/components/vt_exp_deferred_sentence-written-request-to-court-2/pleading-config.json",
+  "routePath": "data/rcap-all50/composed-routes/vermont/vt_exp_deferred_sentence/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, VT 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "court": "VERMONT SUPERIOR COURT, CHITTENDEN UNIT",
+    "countyName": "CHITTENDEN",
+    "docketNumber": "000-0-00 Cncr",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "CHITTENDEN COUNTY STATE'S ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "retail theft",
+    "offenseGrade": "misdemeanor",
+    "disposition": "deferred sentence; probation ongoing",
+    "dispositionDate": "09/09/2022",
+    "arrestDate": "03/15/2022",
+    "arrestingAgency": "EXAMPLE CITY POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "deferredSentenceEntered": "yes",
+      "probationDischarged": "not sure — probation may still be running",
+      "dischargeDate": "03/01/2024",
+      "restitutionPaidInFull": "no — a balance remains outstanding",
+      "orderIssued": "no",
+      "registrableSexOffence": "yes — the offence requires sex offender registration",
+      "countyOfCase": "CHITTENDEN",
+      "docketNumber": "000-0-00 Cncr"
+    },
+    "eligibilityBasisLabel": "Eligible — the deferred sentence is complete and the record will be expunged, sealed and destroyed",
+    "dischargeOrderInHand": false,
+    "restitutionStatementInHand": false,
+    "recordSearchResultInHand": false,
+    "additionalFacts": [
+      "This petition is filed by the Petitioner under 13 V.S.A. § 7041(e).",
+      "The Court has made no finding of good cause and will grant this request.",
+      "The Restitution Unit confirmed to LegalEase that the balance is zero.",
+      "The clerk agreed that the expungement order was overlooked and will enter it.",
+      "The Vermont Crime Information Center has already updated its records and the FBI has been notified.",
+      "The State's Attorney was served with this request on 01/01/2026 and does not object.",
+      "The Court granted this request at a hearing on 02/01/2026 and background checks will now come back clean.",
+      "The statutory thirty-day deadline for the order has passed.",
+      "The $90 filing fee was waived on application.",
+      "The record has been sealed and the file destroyed."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "07/04/1994",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "VT0000000",
+    "driversLicenseNumber": "V00000000",
+    "fbiNumber": "000000AA0",
+    "fingerprintIdentifier": "FP-000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config ('Requester'), not by the fixture key name.",
+  "identityFieldNote": "caseData.docketNumber and caseData.countyName are the participant's own required screening answers and are deliberately left blank in the fixtures under the artifact convention. The rendered request cannot go out without them; they are supplied by the participant, never by LegalEase.",
+  "expectFailure": "Must fail pleading QA. Every ground below is either a prohibited term for this component or prohibited invention. (1) Prohibited terms: the fixture uses 'petition', 'Petitioner', 'sealed' and 'destroyed'. The controlling scope restriction is that this relief is court-driven, requires no petition, and that anyone who completed a deferred sentence must not be sold a petition packet; 'sealed' is the chapter 230 remedy and § 7041 is chapter 221 expungement, which Act 60 did not amend; and no source says a § 7041(e) expungement destroys the file — chapter 230 file destruction is a different chapter. (2) It proceeds while restitution is outstanding. The statute provides that the record is not expunged until restitution has been paid in full; that is a statutory bar on the relief, not a document to be gathered, and a participant asking whether the record can be cleared anyway is an express self-help stop condition. (3) It proceeds on a registrable sex offence, which § 7041(h) subjects to a confidential VCIC special index that survives the expungement and which is an express self-help stop condition. (4) It asserts that no finding of good cause exists and predicts that the court will grant. Section 7041(e) makes the relief mandatory only absent a finding of good cause by the court; a good-cause signal is a self-help stop condition, and no court outcome may be predicted. (5) It asserts outside-party acts no source states: that the Restitution Unit confirmed a zero balance to LegalEase, that the clerk agreed the order was overlooked, and that VCIC has already updated its records. (6) It asserts service on the State's Attorney and a prosecutor position ('does not object') when the registry records service as none by the participant, no notice to a prosecutor, and § 7608 victim notice as not attaching to this chapter 221 relief. (7) It asserts a hearing outcome and a date, and promises the participant a clean background check — when expunged Vermont records may still appear in a federal criminal background check and Vermont relief does not reach federal records. (8) It states a filing fee and a fee waiver, when the registry records the fee as none and the fee waiver as not applicable because no fee is charged; stating either is an unsourced assertion about money. (9) It states an interval — 'the statutory thirty-day deadline for the order has passed' — when how long after discharge a Vermont court in practice enters the order is an open release blocker and no such deadline appears in any source. (10) It fills court identity no source supplies: court name, county, docket number, OTN, judge, prosecutor and filing date, none of which LegalEase may prefill. (11) It populates protected fields — date of birth, SSN last four, state ID, driver's licence, FBI number and a fingerprint identifier — which must stay blank; date of birth and docket number are themselves among the items § 7041(h) records in the confidential special index. (12) It states an eligibilityBasisLabel asserting confirmed eligibility when no eligibility conclusion may be asserted on this track."
+}

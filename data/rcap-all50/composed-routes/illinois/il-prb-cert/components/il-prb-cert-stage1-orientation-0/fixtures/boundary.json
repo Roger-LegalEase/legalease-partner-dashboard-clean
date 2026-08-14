@@ -1,0 +1,107 @@
+{
+  "fixtureId": "il-prb-cert-stage1-orientation-0-boundary",
+  "trackId": "il-prb-cert",
+  "componentId": "il-prb-cert-stage1-orientation-0",
+  "unitId": "il-prb-cert-certificate-application",
+  "jurisdictionCode": "IL",
+  "description": "Branch and rule edges, all at once. The participant seeks a NON-MILITARY certificate of eligibility for EXPUNGEMENT under § 5.2(e-6) — the branch with no located form — and has been denied by the Board before, at the exact four-year boundary. This fixture exercises the blocked branch, the four-year bar, the prior-clemency question and the 75-day deadline. Synthetic dates are test inputs at the boundary, not asserted facts.",
+  "synthetic": true,
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "branchSelected": "il-prb-cert-nonmilitary-expungement-branch",
+  "branchSelectedNote": "Blocked branch. No packet is produced and no form mapping is asserted. The participant must NOT be routed onto the military application.",
+  "screeningData": {
+    "countyOfConviction": "Sample",
+    "caseNumber": "00-SAMPLE-000001",
+    "hasPrbCertificate": "No",
+    "certificateType": "",
+    "certificateTypeNote": "Not asked — no certificate has been issued. The branch answer here is that the participant seeks expungement rather than sealing.",
+    "offenseExcludedFromSealing": "Yes",
+    "eligibilityRestsOnMilitaryService": "No — the participant never served",
+    "priorPrbPetition": "Yes — a prior petition for a certificate of sealing was denied on 08/12/2022 (synthetic boundary test value, exactly four years before the fixture reference date)",
+    "priorClemencyPetition": "Yes — an executive clemency petition was considered in March 2019 (synthetic)",
+    "personalLifeHistory": "[PARTICIPANT-AUTHORED — SYNTHETIC PLACEHOLDER.]",
+    "reasonsForSeekingCertificate": "[PARTICIPANT-AUTHORED — SYNTHETIC PLACEHOLDER.]",
+    "offenseFactsStatement": "[PARTICIPANT-AUTHORED — SYNTHETIC PLACEHOLDER.]"
+  },
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IL 00000",
+    "otherNamesUsed": "",
+    "petitionerPhone": "(555) 010-0101",
+    "petitionerEmail": "alex.boundary@sample-invalid.test"
+  },
+  "caseData": {
+    "countyName": "Sample",
+    "caseNumber": "00-SAMPLE-000001",
+    "courtName": "",
+    "courtAddress": "",
+    "circuitOrDistrict": "",
+    "docketNumber": "",
+    "otn": "",
+    "sentencingJudgeName": "",
+    "chiefJudgeName": "",
+    "statesAttorneyName": "",
+    "statesAttorneyPosition": ""
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseGrade": "",
+    "statuteTitle": "",
+    "statuteSection": "",
+    "disposition": "Conviction",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "boundaryUnderTest": [
+    "Branch edge — the § 5.2(e-6) non-military expungement-certificate branch. available = false. No packet, no form mapping, no substitute. Expected behaviour: the orientation document names the gap plainly and refers to the Office of the State Appellate Defender, Expungement Unit, 866-787-1776.",
+    "Anti-fall-through edge — the participant must NOT be offered the military Certificate of Expungement application. It is military-specific and eligibilityRestsOnMilitaryService is no.",
+    "Anti-substitution edge — the participant must NOT be silently moved onto the § 5.2(e-5) Certificate of Sealing application. A sealing certificate and an expungement certificate are legally distinct.",
+    "Four-year bar edge — no petition is accepted within four years of the denial of a prior petition for the same individual, unless the Chairman permits an exception for compelling reasons. The synthetic denial date sits exactly on that line.",
+    "Prior-clemency edge — priorClemencyPetition is a required screening key and is answered yes, exercising the month-and-year form of the answer.",
+    "75-day edge — the completed petition must be received at least 75 days before the first date of the hearing schedule. No hearing schedule date is supplied here, because none is sourced and none may be invented.",
+    "Exclusion edge, exercised — offenseExcludedFromSealing = yes is what puts the participant on this track at all. The registry's sole recorded exclusion for the track is the other direction: stage 2 cannot proceed without the certificate issued at stage 1."
+  ],
+  "supportingDocuments": {
+    "ispStatewideTranscript": "obtained (participant reports)",
+    "chicagoRapSheet": "obtained (participant reports Chicago arrests)",
+    "certifiedDispositions": "obtained (participant reports)",
+    "prbCertificate": "not issued",
+    "educationalDocumentation": "obtained (participant reports)",
+    "employmentDocumentationFiveYears": "partially obtained (participant reports a gap)",
+    "counsellingProof": "obtained (participant reports substance-abuse counselling completed)",
+    "dd214": "not applicable",
+    "fingerprintBasedCriminalHistory": "obtained (participant reports)",
+    "note": "LegalEase does not obtain, receive or inspect any of these. Status values are the participant's own report."
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted, and on this branch no packet is produced at all.",
+    "waitingPeriodText": "None stated for the court stage. The Board controls its own timing.",
+    "additionalFacts": [
+      "No official non-military certificate-of-eligibility-for-expungement application has been located on the Prisoner Review Board site.",
+      "The Certificate of Sealing application does not cover § 5.2(e-6) and the military application is expressly military-specific.",
+      "No petition will be accepted for review within four years of the denial of a prior petition for the same individual, unless the Chairman permits an exception for compelling reasons."
+    ]
+  },
+  "blankFieldLedger": {
+    "boardHearingScheduleDate": "Blank. No hearing schedule date is sourced; the 75-day count cannot be computed for the participant.",
+    "boardDecision": "Blank.",
+    "chairmanException": "Blank. Whether the Chairman would permit an exception for compelling reasons is an outside-party discretionary act and is never asserted or predicted.",
+    "sentencingJudgeName": "Blank.",
+    "statesAttorneyName": "Blank.",
+    "statesAttorneyPosition": "Blank.",
+    "courtName": "Blank.",
+    "courtAddress": "Blank.",
+    "filingFee": "Blank.",
+    "notaryBlock": "Blank.",
+    "witnessOrAttorneySignature": "Blank.",
+    "petitionerSignature": "Blank.",
+    "dateOfBirth": "Blank. Protected field.",
+    "ssnLastFour": "Blank. Protected field.",
+    "stateIdNumber": "Blank. Protected field.",
+    "iuclidOrIrNumber": "Blank. Protected field."
+  },
+  "expectFailure": null
+}
