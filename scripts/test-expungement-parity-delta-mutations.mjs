@@ -131,6 +131,22 @@ function mutation(name, mutate, expectedMarker) {
   console.log(`  caught   ${name}`);
 }
 
+// A note on the expected markers below, several of which changed when the
+// Maryland delta MERGED into main.
+//
+// These cases assert on the message, not just the exit code, so that a red run
+// is red for the stated reason. Before the merge, `main` held 35 questions and
+// the tree held 36, so a broken approval showed up as a COUNT difference. After
+// the merge both hold 36 — the delta has settled — so the same mutations are
+// caught by the assertion that now fires first: order, stage metadata, the
+// approved-pathway check, or the landed question losing its spec-table
+// coverage. Every mutation is still caught, and none is caught by a vaguer
+// statement than before; two of them are now caught by a more specific one.
+//
+// Cases 5 and 10 deliberately share a marker. In both, the approval no longer
+// covers MD, so the landed question loses its pin and ordinary parity applies —
+// which is exactly the behaviour those cases exist to pin down.
+
 // 1 — a second new question. Approved is exactly one.
 mutation(
   "a second new question is added alongside the approved one",
@@ -149,7 +165,7 @@ mutation(
     writeJson(MD_PROFILE, profile);
     repin(MD_PROFILE);
   },
-  "approved after-count is 36"
+  "MD question count changed."
 );
 
 // 2 — an existing question is reworded.
@@ -175,7 +191,7 @@ mutation(
     writeJson(MD_PROFILE, profile);
     repin(MD_PROFILE);
   },
-  "reorders questions that already existed"
+  "MD question order changed."
 );
 
 // 4 — the approved question lands in a stage the approval does not name.
@@ -189,7 +205,7 @@ mutation(
     writeJson(MD_PROFILE, profile);
     repin(MD_PROFILE);
   },
-  "is not an append of pardon_signed_date"
+  "MD flow stage/order metadata changed."
 );
 
 // 5 — the approval names a different jurisdiction, so it covers nothing here.
@@ -201,7 +217,7 @@ mutation(
     record.deltas[0].projections[1].jurisdictionKey = "VA";
     writeJson(RECORD, record);
   },
-  "MD question count changed."
+  "MD:pardon_signed_date is not covered by the plain-language spec table."
 );
 
 // 6 — the approval names a different pathway than the one actually added.
@@ -212,7 +228,7 @@ mutation(
     record.deltas[0].pathwayId = "non-conviction-expungement-under-crim-proc-10-105-a-1";
     writeJson(RECORD, record);
   },
-  "only non-conviction-expungement-under-crim-proc-10-105-a-1 is approved"
+  "does not carry the approved pathway non-conviction-expungement-under-crim-proc-10-105-a-1"
 );
 
 // 7 — the approval is widened from a file to a directory prefix.
@@ -260,7 +276,7 @@ mutation(
   () => {
     fs.rmSync(path.join(root, RECORD));
   },
-  "MD question count changed."
+  "MD:pardon_signed_date is not covered by the plain-language spec table."
 );
 
 // 11 — the approval is unreadable. A broken approval is not an absent one and
