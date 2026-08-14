@@ -790,7 +790,7 @@ async function verifyPublicRegressions() {
     failures.push(`/p/we-must-vote regression failed with status ${landing.status}.`);
   } else {
     const landingHtml = await landing.text();
-    if (!landingHtml.includes("We Must Vote Record-Clearing Access Pilot")) {
+    if (!landingHtml.includes("We Must Vote Record Clearing Access Program")) {
       failures.push("/p/we-must-vote regression did not include the expected We Must Vote static landing marker.");
     }
   }
