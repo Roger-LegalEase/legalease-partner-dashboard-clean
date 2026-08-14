@@ -361,13 +361,63 @@ async function hasInternalAdminSession(request: NextRequest) {
 }
 
 function unauthorized() {
-  return new NextResponse("Internal admin access token required.", {
+  return new NextResponse(ACCESS_RECOVERY_HTML, {
     status: 401,
     headers: {
-      "Content-Type": "text/plain"
+      "Cache-Control": "no-store",
+      "Content-Language": "en",
+      "Content-Type": "text/html; charset=utf-8",
+      "Referrer-Policy": "no-referrer",
+      "X-Content-Type-Options": "nosniff",
+      "X-Robots-Tag": "noindex, nofollow"
     }
   });
 }
+
+const ACCESS_RECOVERY_HTML = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Workspace access | LegalEase</title>
+    <style>
+      :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #f7f4ee; color: #071b33; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #f7f4ee; color: #071b33; }
+      main { min-height: 100vh; display: grid; place-items: center; padding: 2rem 1rem; }
+      section { width: min(100%, 42rem); border: 1px solid #cbd3db; background: #fff; padding: clamp(1.5rem, 5vw, 3rem); }
+      .label { margin: 0; color: #0a8e9a; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+      h1 { margin: .75rem 0 0; font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.05; letter-spacing: -.035em; }
+      .explanation { margin: 1.25rem 0 0; max-width: 37rem; color: #475a6e; font-size: 1rem; line-height: 1.65; }
+      nav { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+      a { min-height: 2.75rem; display: inline-flex; align-items: center; justify-content: center; padding: .7rem 1rem; border: 2px solid transparent; color: #071b33; font-weight: 750; text-underline-offset: .2em; }
+      a.primary { background: #ff3b00; color: #fff; text-decoration: none; }
+      a.secondary { border-color: #071b33; text-decoration: none; }
+      a.support { width: 100%; justify-content: flex-start; padding-inline: 0; color: #475a6e; }
+      a:hover { text-decoration-thickness: .14em; }
+      a:focus-visible { outline: 3px solid #0a8e9a; outline-offset: 3px; }
+      @media (max-width: 32rem) { nav { flex-direction: column; } a.primary, a.secondary { width: 100%; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section aria-labelledby="access-recovery-heading" data-access-recovery="generic">
+        <p class="label">Workspace access</p>
+        <h1 id="access-recovery-heading">You do not have access to this workspace</h1>
+        <p class="explanation">
+          The signed-in account is not authorized for the requested workspace. No information was changed.
+          This response does not confirm whether another organization or workspace exists.
+        </p>
+        <nav aria-label="Access recovery actions">
+          <a class="primary" href="/partner/dashboard">Return to your dashboard</a>
+          <a class="secondary" href="/sign-in">Sign in with another account</a>
+          <a class="support" href="mailto:partners@legalease.com">Email partners@legalease.com</a>
+        </nav>
+      </section>
+    </main>
+  </body>
+</html>`;
 
 function isAuthSessionPath(pathname: string) {
   if (

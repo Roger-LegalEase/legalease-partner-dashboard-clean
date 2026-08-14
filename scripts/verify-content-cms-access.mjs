@@ -43,8 +43,8 @@ for (const pathname of ["/internal/content", "/internal/content/articles"]) {
     `${pathname} must return the session-refresh passthrough response.`
   );
   assert(
-    body !== "Internal admin access token required.",
-    `${pathname} must not be rejected by the legacy internal-admin token gate.`
+    !body.includes("You do not have access to this workspace"),
+    `${pathname} must not be rejected by the internal workspace gate.`
   );
 }
 
@@ -59,9 +59,13 @@ const protectedLegacyPaths = [
 for (const pathname of protectedLegacyPaths) {
   const denied = await callProxy(pathname, "legaleasepartner.com");
   assert(denied.status === 401, `${pathname} must still require the legacy token.`);
+  const deniedBody = await denied.text();
   assert(
-    (await denied.text()) === "Internal admin access token required.",
-    `${pathname} must keep the legacy token-gate response.`
+    deniedBody.includes("You do not have access to this workspace") &&
+      deniedBody.includes("Return to your dashboard") &&
+      deniedBody.includes("partners@legalease.com") &&
+      !deniedBody.includes("Internal admin access"),
+    `${pathname} must return the designed generic workspace recovery response.`
   );
 
   const allowed = await callProxy(pathname, "legaleasepartner.com", "content-cms-access-verifier-token");
