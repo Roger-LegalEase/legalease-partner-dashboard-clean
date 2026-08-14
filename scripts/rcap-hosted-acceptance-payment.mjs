@@ -63,6 +63,7 @@ function record(caseId, passed, observed) {
 
 const REQUIRED_CASES = [
   "payment_preview_deployment_discovered",
+  "bypass_reaches_the_application_not_the_protection_layer",
   "renderable_route_selected_from_the_registry",
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
@@ -206,6 +207,58 @@ function finish() {
   );
   if (!PREVIEW) finish();
   evidence.previewUrl = PREVIEW;
+}
+
+// --- 1b. The bypass MUST reach the application -------------------------------
+//
+// A must-succeed probe, deliberately, and deliberately first. Every refusal
+// this journey later relies on — 401, 402, 403, 503 — is also what Vercel's
+// protection layer returns when it never let the request through at all, so a
+// must-refuse route can never evidence that the bypass worked. /api/health is
+// the only route here that must answer 200 with application JSON, which makes
+// it the one probe that can tell the two apart.
+{
+  const joiner = "?";
+  const suffix = BYPASS ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}&x-vercel-set-bypass-cookie=true` : "";
+  let status = null;
+  let headers = {};
+  let bodyText = "";
+  try {
+    const res = await fetch(`${PREVIEW}/api/health${suffix}`, { headers: bypassHeaders, redirect: "manual" });
+    status = res.status;
+    headers = Object.fromEntries([...res.headers.entries()]);
+    bodyText = await res.text();
+  } catch (error) {
+    status = `unreachable: ${error.message}`;
+  }
+
+  let json = null;
+  try { json = JSON.parse(bodyText); } catch { /* HTML means the wall answered */ }
+
+  // The application's health route returns JSON carrying `checks`. Vercel's
+  // authentication wall returns an HTML document and sets an SSO nonce cookie.
+  // Either signal alone could be argued with; together they are decisive.
+  const setCookie = String(headers["set-cookie"] ?? "");
+  const looksLikeProtectionLayer =
+    status === 401 ||
+    setCookie.includes("_vercel_sso_nonce") ||
+    /^text\/html/i.test(String(headers["content-type"] ?? ""));
+  const looksLikeApplication = status === 200 && json !== null && typeof json === "object" && "checks" in json;
+
+  record(
+    "bypass_reaches_the_application_not_the_protection_layer",
+    looksLikeApplication && !looksLikeProtectionLayer,
+    `GET ${PREVIEW}/api/health with the bypass secret as BOTH header and query parameter → status ${status}; ` +
+    `content-type=${headers["content-type"] ?? "(none)"}; x-vercel-id=${headers["x-vercel-id"] ?? "(none)"}; ` +
+    `x-vercel-cache=${headers["x-vercel-cache"] ?? "(none)"}; server=${headers["server"] ?? "(none)"}; ` +
+    `sets _vercel_sso_nonce=${setCookie.includes("_vercel_sso_nonce")}; ` +
+    `answered by=${looksLikeApplication ? "THE APPLICATION (JSON carrying `checks`)" : looksLikeProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "something neither shape matches"}; ` +
+    `body head=${JSON.stringify(bodyText.slice(0, 140))}`
+  );
+  evidence.bypassProbe = { url: `${PREVIEW}/api/health`, status, headers, answeredByApplication: looksLikeApplication, bypassSupplied: Boolean(BYPASS) };
+  // Everything downstream is a statement about the application. If the wall is
+  // answering, none of it would mean what it claims to mean.
+  if (!(looksLikeApplication && !looksLikeProtectionLayer)) finish();
 }
 
 ANON_KEY = await supabaseKeys();
