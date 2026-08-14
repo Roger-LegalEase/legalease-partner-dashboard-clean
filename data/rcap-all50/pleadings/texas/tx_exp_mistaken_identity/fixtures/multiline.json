@@ -1,0 +1,100 @@
+{
+  "fixtureId": "tx_exp_mistaken_identity-multiline",
+  "trackId": "tx_exp_mistaken_identity",
+  "configPath": "data/rcap-all50/pleadings/texas/tx_exp_mistaken_identity/pleading-config.json",
+  "description": "Long applicant name, long alias list, a long account of the deception and a long agency list, to exercise multi-line wrapping in the addressee block, the account paragraphs and the agency list in the proposed order. Court identity and protected fields stay blank.",
+  "synthetic": true,
+  "syntheticDataNote": "All values are obviously synthetic and are never drawn from any evidence file. Names are SAMPLE/EXAMPLE strings, the county is EXAMPLE, addresses are 000-prefixed, and every date is a round synthetic value. Dates here are participant screening answers, not sourced facts; no date in this fixture is asserted by any source.",
+  "partyData": {
+    "applicantName": "MARIA-ANTONIETTA SAMPLE-EXAMPLE DE LA SYNTHETIC-TESTCASE, JR.",
+    "applicantAddress": "0000 EXAMPLE BOULEVARD, APARTMENT 000, EXAMPLE CITY, TEXAS 00000",
+    "otherNamesUsed": "MARIA A. SAMPLE; MARIA SAMPLE-EXAMPLE; M. A. DE LA SYNTHETIC-TESTCASE; MARIA ANTONIETTA SAMPLE EXAMPLE DE LA SYNTHETIC TESTCASE"
+  },
+  "caseData": {
+    "countyName": "EXAMPLE-SYNTHETIC-LONGNAME",
+    "countyOfArrest": "EXAMPLE-SYNTHETIC-LONGNAME",
+    "countyOfAllegedOffence": "EXAMPLE",
+    "courtLevel": "district court",
+    "caseNumberOfUnderlyingCharge": "",
+    "courtOfUnderlyingCharge": "",
+    "causeNumber": "",
+    "courtIdentity": "",
+    "judgeName": "",
+    "attorneyForTheStateName": "",
+    "attorneyForTheStatePosition": "",
+    "attorneyForTheStateAddress": "",
+    "filingDate": "",
+    "hearingDate": "",
+    "serviceCompleted": "",
+    "hearingOutcome": "",
+    "countyOfResidence": "EXAMPLE-SYNTHETIC-LONGNAME",
+    "addresseeRole": "the attorney representing the state in the prosecution of felonies in EXAMPLE-SYNTHETIC-LONGNAME County",
+    "addresseeName": "",
+    "addresseeAddress": "",
+    "prosecutorVerified": "",
+    "prosecutorForwardedToCourt": "",
+    "prosecutorRequestedOrder": ""
+  },
+  "chargeData": {
+    "chargeDescription": "example offence, with the applicant's own account of how another arrested person came to give their name and identifying information written out at length in their own words, so that the account paragraph wraps across several rendered lines and pushes the verification blocks onto a following page",
+    "offenseGrade": "Class B misdemeanour",
+    "disposition": "[NOT THE APPLICANT'S CASE]",
+    "arrestDate": "01/01/2020",
+    "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+    "dateOffenceAllegedlyCommitted": "01/01/2000",
+    "municipalityOfArrest": "EXAMPLE CITY",
+    "statuteSection": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "residenceCounty": "EXAMPLE",
+      "arrestCounty": "EXAMPLE",
+      "arrestDate": "01/01/2020",
+      "arrestingAgency": "EXAMPLE CITY POLICE DEPARTMENT",
+      "offenceCharged": "example offence, Class B misdemeanour",
+      "caseNumberAndCourt": "[PARTICIPANT'S OWN ANSWER — CONFIRMED AGAINST THE CLERK'S FILE BEFORE FILING]",
+      "mistakenIdentityBasis": "another arrested person gave the applicant's name and identifying information",
+      "consentGiven": "no",
+      "fingerprintsBooked": "yes — DPS FAST appointment booked; records will be submitted with the application",
+      "felonyFromSameTransaction": "no",
+      "communitySupervision": "no",
+      "probationViolationArrest": "no",
+      "abscondedAfterRelease": "no",
+      "agencyList": "[PARTICIPANT'S OWN LIST — e.g. the arresting agency, the county sheriff's office, the district attorney's office, the district clerk, the county jail and the Texas Department of Public Safety Crime Records Service, each listed ONCE and never split by division, per art. 55A.256(c-1)]",
+      "privateEntities": "[PARTICIPANT'S OWN LIST — LISTED SEPARATELY, NEVER MERGED INTO THE AGENCY LIST]",
+      "trn": "",
+      "feeWaiverRequested": "no"
+    },
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "sex": "",
+    "race": "",
+    "socialSecurityNumber": "",
+    "driversLicenseNumber": "",
+    "addressAtTimeOfArrest": "",
+    "trn": ""
+  },
+  "protectedFieldsNote": "Article 55A.253(a) requires the petition to carry sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest, and the TRN must appear on the order under art. 55A.301. All of them are blank here and are never prefilled by any pipeline stage. How the largest counties handle sensitive data in a public civil expunction filing is a recorded release blocker; the participant supplies these by hand.",
+  "outsidePartyFields": {
+    "causeNumber": "",
+    "courtIdentity": "",
+    "judgeName": "",
+    "attorneyForTheStateName": "",
+    "attorneyForTheStatePosition": "",
+    "attorneyForTheStateAddress": "",
+    "filingDate": "",
+    "hearingDate": "",
+    "serviceCompleted": "",
+    "hearingOutcome": ""
+  },
+  "outsidePartyFieldsNote": "Blank and never prefilled. The matter is a new civil action and receives a NEW cause number on filing, so no cause number can exist beforehand. The court sets the hearing not earlier than the 30th day after filing and the clerk serves under art. 55A.254; the participant does not serve. No position of the attorney representing the state, no service completion and no hearing outcome is ever stated.",
+  "attachments": [
+    "Authenticated fingerprint records from a DPS FAST location (participant obtains and submits)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

@@ -6,6 +6,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { inspectLocalRecordClearingPdfs, inspectPdfBytes, mapSourceFolder } from "./inspect-local-record-clearing-pdfs.mjs";
+import { applyExactPathAuthorizations } from "./source-engine-change-scope.mjs";
 import { REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES } from "./rcap-scope-allowlist.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -257,7 +258,20 @@ function assertNoLiveRoutesModified() {
     .filter((line) => !line.includes("supabase/phase-31-legalease-os-support-queue.sql"))
     .filter((line) => !isReviewedExpungementScopeLine(line))
     .join("\n");
-  assert.equal(liveRouteStatus.trim(), "");
+
+  // supabase/ is globally forbidden here, and a literal allowlist is the wrong
+  // way to make room for a new migration: it would permit that path at ANY
+  // bytes, forever. The authorization queue already expresses the narrow form —
+  // these exact paths at these exact hashes, voided by any edit — so this guard
+  // consults it rather than growing a permanent hole.
+  const authFailures = [];
+  const remaining = applyExactPathAuthorizations({
+    rootDir,
+    candidates: liveRouteStatus.split("\n").filter(Boolean).map((line) => line.slice(3).trim()),
+    failures: authFailures,
+  });
+  assert.deepEqual(authFailures, [], authFailures.join("; "));
+  assert.equal(remaining.join("\n").trim(), "");
 }
 
 function isReviewedExpungementScopeLine(line) {

@@ -3,7 +3,8 @@ import "server-only";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
-import { updateBriefcasePaymentMetadata } from "@/lib/expungement-ai/briefcase";
+import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { getBriefcaseItem, updateBriefcaseCheckoutSessionMetadata } from "@/lib/expungement-ai/briefcase";
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
 export const consumerPacketPriceCents = 5000;
@@ -37,7 +38,16 @@ export type ConsumerCheckoutStatus = {
 };
 
 export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilityResult): ConsumerPaymentIntent {
-  const enabled = isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
+  // The placeholder is the first surface a participant sees. A component
+  // deferral shows no amount at all, independently of the result booleans.
+  const deferred = result.treatmentClassification === "component_deferral"
+    || result.treatmentClassification === "exact_supported_deferral"
+    || result.treatmentClassification === "terminal_treatment_candidate"
+    || Boolean(componentDeferralForTrack(result.selectedTrackId ?? null))
+    || Boolean(exactDeferralForTrack(result.selectedTrackId ?? null))
+    || Boolean(terminalTreatmentForTrack(result.selectedTrackId ?? null))
+    || Boolean(exactDeferralForPathway(result.state, result.pathwayLabel ?? null));
+  const enabled = !deferred && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
     enabled,
@@ -106,7 +116,7 @@ export async function createConsumerPacketCheckout({
       ]
     });
 
-    await updateBriefcasePaymentMetadata(userId, item.id, {
+    await updateBriefcaseCheckoutSessionMetadata(userId, item.id, {
       paymentStatus: "unpaid",
       paymentProvider: "stripe",
       checkoutSessionId: session.id,
@@ -128,7 +138,7 @@ export async function createConsumerPacketCheckout({
     }
 
     const dryRunSessionId = dryRunCheckoutSessionId(item.id);
-    await updateBriefcasePaymentMetadata(userId, item.id, {
+    await updateBriefcaseCheckoutSessionMetadata(userId, item.id, {
       paymentStatus: "unpaid",
       paymentProvider: "dry_run",
       checkoutSessionId: dryRunSessionId,
@@ -198,6 +208,24 @@ export async function getConsumerCheckoutStatus({
   };
 }
 
+/**
+ * Reports the server-recorded payment state when the user returns from Stripe.
+ *
+ * This used to write `payment_status = 'paid'` itself, through the participant's
+ * own Supabase client. That made it a second payment writer, and the weaker of
+ * the two: it ran on a browser-initiated return, whereas the webhook runs on a
+ * signature-verified event. Two writers also meant two provider identities for
+ * one payment — the session/intent id here, the event id there — which can flip
+ * `provider_event_id` on a row that the receipt uniqueness index depends on.
+ *
+ * So it now reads rather than writes. The signature-verified webhook is the only
+ * thing that records a payment, and this reports what it recorded.
+ *
+ * The consequence worth naming: a user who returns before the webhook lands sees
+ * an unpaid item for those seconds. That is the honest answer — the payment is
+ * not yet server-recorded — and the webhook's own recovery path already handles
+ * finishing a packet whose first delivery attempt failed.
+ */
 export async function recordConsumerPaymentConfirmation({
   userId,
   item,
@@ -209,18 +237,61 @@ export async function recordConsumerPaymentConfirmation({
 }): Promise<ConsumerBriefcaseItem | null> {
   if (!status.paid) return item;
 
-  return updateBriefcasePaymentMetadata(userId, item.id, {
-    paymentStatus: "paid",
-    paymentProvider: status.mode,
-    checkoutSessionId: status.checkoutSessionId,
-    paymentIntentId: status.paymentIntentId,
-    amountCents: status.amountCents,
-    receiptUrl: status.receiptUrl,
-    packetStatus: item.packetStatus === "ready" ? "ready" : "pending"
-  });
+  // Re-read rather than trust the caller's copy: the webhook may have recorded
+  // the payment between the page load and this call.
+  const current = await getBriefcaseItem(userId, item.id);
+  return current ?? item;
+}
+
+/**
+ * A composed route whose official-form component is deferred can never be
+ * checked out, whatever the item's stored booleans say. This reads the
+ * server-owned track identity and denies BEFORE already-paid handling and
+ * before any Stripe or dry-run session is created, so a mutated
+ * paymentAllowed=true cannot buy an incomplete packet.
+ */
+/**
+ * An exact supported deferral is refused independently of the item's own
+ * booleans, matched by track id or by the pathway the item was saved under. A
+ * corrupted item claiming packet_ready with paymentAllowed=true on a deferred
+ * route still gets nothing.
+ */
+function assertNotExactDeferral(item: ConsumerBriefcaseItem) {
+  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
+  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
+  const deferred = classification === "exact_supported_deferral"
+    || Boolean(exactDeferralForTrack(trackId))
+    || Boolean(exactDeferralForPathway(item.state, item.pathwayLabel ?? null));
+  if (deferred) {
+    throw new ConsumerCheckoutNotAllowedError("exact_supported_deferral");
+  }
+}
+
+function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
+  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
+  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
+  if (classification === "component_deferral" || componentDeferralForTrack(trackId)) {
+    throw new ConsumerCheckoutNotAllowedError("component_deferral");
+  }
+}
+
+/**
+ * A pending terminal treatment refuses checkout on the same independent terms.
+ * A candidate is not a weaker suppression than an accepted deferral — it is the
+ * same suppression, with the review still open.
+ */
+function assertNotTerminalTreatment(item: ConsumerBriefcaseItem) {
+  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
+  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
+  if (classification === "terminal_treatment_candidate" || terminalTreatmentForTrack(trackId)) {
+    throw new ConsumerCheckoutNotAllowedError("terminal_treatment_candidate");
+  }
 }
 
 export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
+  assertNotExactDeferral(item);
+  assertNotComponentDeferral(item);
+  assertNotTerminalTreatment(item);
   if (!item.paymentAllowed || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
     throw new ConsumerCheckoutNotAllowedError(item.resultCode ?? "missing_result_code");
   }

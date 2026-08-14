@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-official-form-dependency/v1",
+  "trackId": "tx_exp_unlawful_carry",
+  "jurisdiction": {
+    "code": "TX",
+    "slug": "texas"
+  },
+  "componentId": "tx_exp_unlawful_carry-fee-waiver-statement-3",
+  "componentIdSynthesized": false,
+  "role": "fee_waiver_statement",
+  "requirement": "conditional",
+  "conditionDescription": "Where the participant cannot afford the filing costs.",
+  "order": 3,
+  "requiredOutput": "official_form_dependency",
+  "officialFormId": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+  "officialFormName": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), approved by the Supreme Court of Texas in Misc. Docket No. 22-9090 under Tex. R. Civ. P. 145",
+  "issuingAuthority": "Supreme Court of Texas",
+  "officialSourceUrlForForm": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+  "officialSourceSha256": null,
+  "officialSourceRetrievedOn": "2026-08-06",
+  "acquisitionStatus": "url_recorded_no_copy_on_file_no_hash",
+  "acquisitionNote": "The registry records the form title, the approving Misc. Docket number and a direct txcourts.gov URL retrieved 2026-08-06, with sha256 null. No copy is in the Texas Nationwide inventory: the committed state pack's officialFormInventory holds only petition_charges_dismissed_or_quashed_revision_06112026.pdf and the Agent Training Reference PDF, plus one HTML reference file. The compiled TX profile names the Statement of Inability in its fees and filing sections but records no URL, revision or field map for it.",
+  "drafted": false,
+  "draftingProhibitedBecause": "It is an official promulgated statewide form — the only one in the entire Texas record-clearing workflow — and Rule 145 requires the clerk to make it available without charge or request. Lane C drafts no official forms. Drafting a substitute would invent the sworn financial disclosures on which the fee waiver turns.",
+  "blockingStatement": "The packet is not filing-complete for a participant who cannot pay until the Rule 145 Statement is acquired at its current revision, hashed and field-mapped. This blocks only the fee-waiver branch; a participant who pays the fee is unaffected.",
+  "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
+  "exactMissingSource": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090 — the PDF itself at https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf, plus a captured sha256, its current revision date and a field map. No copy is on file in the Texas Nationwide inventory and no hash is recorded.",
+  "filingRule": "Filed with the petition, in the same court.",
+  "filingRuleSourceRef": "registry@3b6f4c1:tracks[tx_exp_unlawful_carry].rules.feeWaiver",
+  "statutoryWaiverNote": "Article 102.0061(c) separately requires the fee to be waived where the expunction relates to an acquittal other than one described by art. 55A.151 and the petition is filed not later than the 30th day after the acquittal, and (d) requires waiver of the district-court fee where entitlement arises under art. 55A.053(a)(2)(A) or (B). Those are statutory waivers, not Rule 145 waivers, and they do not use this form.",
+  "statutoryWaiverNoteSourceRef": "registry@3b6f4c1:tracks[tx_exp_unlawful_carry].rules.feeWaiver",
+  "participantObtains": true,
+  "participantTenders": true,
+  "legalEaseHandlesRecord": false,
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryRef": "registry@3b6f4c1:tracks[tx_exp_unlawful_carry].packetSet.components[role=fee_waiver_statement]; registry@3b6f4c1:tracks[tx_exp_unlawful_carry].officialSources[title~Statement of Inability]",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/texas/index.ts",
+      "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ]
+  }
+}

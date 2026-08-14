@@ -1,0 +1,416 @@
+{
+ "schemaVersion": "rcap-pleading-track-config/v1",
+ "jurisdictionCode": "KY",
+ "jurisdiction": {
+  "code": "KY",
+  "name": "Kentucky",
+  "slug": "kentucky"
+ },
+ "trackId": "ky_criminal_record_segregation",
+ "componentId": "ky_criminal_record_segregation-primary-filing-1",
+ "unitId": "ky_seg_court_application",
+ "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+ "jobId": "T-C-KY-complete-composed-route",
+ "family": "composed_route",
+ "treatment": "complete_composed_route",
+ "requiredOutput": "pleading_document",
+ "legalName": "Application to the Court for an Order of Segregation of Records (KRS 17.142(2))",
+ "publicName": "Ask the court for one order covering every agency",
+ "templateGrade": "legal_ops_custom_pleading",
+ "templateLifecycle": "replacement_candidate",
+ "primaryReliefTerm": "segregation",
+ "primaryReliefTermSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].mechanism; .legalName; Clerks' Manual glossary segregation code SG",
+ "documentTitleFull": "APPLICATION FOR ORDER OF SEGREGATION OF RECORDS PURSUANT TO KRS 17.142",
+ "documentTitleFullSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[0] (\"An application under KRS 17.142(2) to the court\"); .legalName",
+ "courtCaption": "{court} — {county} COUNTY, COMMONWEALTH OF KENTUCKY{caseNumberLine}",
+ "courtCaptionNote": "Token pattern. {caseNumberLine} is rendered only where charges were filed and the participant supplied a case number; the registry makes segCaseNumber conditional precisely because charges may never have been filed. No source read for this track states an accepted caption, a party-role line or a court-name format for a KRS 17.142(2) application, and no official form exists. Every token is filled only from the participant's own screening answers (segCounty, segCaseNumber, segChargesFiled).",
+ "courtCaptionSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].venue; .rules.filing; .generationRequirements[key=segCounty,segCaseNumber,segChargesFiled]",
+ "routeDecision": {
+  "decision": "custom_pleading_drafted_no_official_form_exists",
+  "rationale": [
+   "The registry unit ky_seg_court_application declares outputStrategy 'custom_pleading', outputStrategyStatus 'resolved', packetIdentity 'identified' and available true.",
+   "The unit description states in terms: \"No official form exists, so the application is drafted.\"",
+   "The corresponding packetSet component carries no officialFormId and no officialSourceUrl, and neither of the track's two officialSources is a form.",
+   "Relief on receipt is mandatory — the court shall forthwith issue an order to all law enforcement agencies — so the application is a short request, not an argument."
+  ],
+  "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[0]; .packetSet.components[0]; .authority[1]"
+ },
+ "primaryStatutoryAuthority": [
+  {
+   "citation": "KRS 17.142(2)",
+   "description": "The person may apply to the court, upon receipt of which the court shall forthwith issue an order to all law enforcement agencies.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[1]; .units[0].description; .buildBlockers[0].provenance.sourceStatement"
+  },
+  {
+   "citation": "KRS 17.142(1)",
+   "description": "The substantive condition the application rests on: the person was found innocent, or all charges relating to the offence were dismissed or withdrawn.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[0]; .dispositions; .exclusions[2]"
+  },
+  {
+   "citation": "KRS 17.142(3)",
+   "description": "What the order reaches: each agency segregates the records into a file separate and apart from those of convicted persons, must notify every agency it shared the records with, and the segregated record must show the disposition of the case.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[2]; .legalDesignLimitations[classification=packet_instruction]"
+  },
+  {
+   "citation": "KRS 17.142(4)",
+   "description": "The limit on scope: records subject to KRS 431.076 or KRS 431.078 are sealed under those statutes instead. Carried so the application does not reach records that belong elsewhere.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[3]; .scopeRestrictions[1]"
+  }
+ ],
+ "verificationStatute": {
+  "citation": null,
+  "description": "No verification statute is cited. The registry states notarization: \"none required.\" That is an affirmative statement that no notarization is needed; it is not a statement that the application is or is not verified, and no source read for this track addresses verification at all. No verification block is rendered, and this gap is carried as a counsel flag in the same way the ND config carries its missing verification statute.",
+  "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.notarization; .packetSet.participantActionRequired[kind=notarize]"
+ },
+ "includeProposedOrder": false,
+ "includeProposedOrderReason": "KRS 17.142(2) provides that on receipt of the application the court shall FORTHWITH issue an order to all law enforcement agencies. The order is the court's own act; no official form for it is recorded and no source states that a proposed order is tendered with the application. Drafting one would invent the operative terms of an order binding every law enforcement agency in the Commonwealth, including which agencies it names and what each must do. Not drafted.",
+ "includeCertificateOfService": false,
+ "includeCertificateOfServiceReason": "KRS 17.142 provides for no notice to a prosecutor or any other party, and the registry records service as \"None on the court route.\" No certificate of service is drafted and no prosecutor is named on the application.",
+ "serviceNote": null,
+ "serviceNoteReason": "No service is required on the court route. The registry records notice as \"None required. KRS 17.142 provides for no notice to a prosecutor or any other party.\"",
+ "qaProhibitedTerms": [
+  "expungement",
+  "expunge",
+  "expunged",
+  "sealing",
+  "sealed",
+  "destroy",
+  "destruction",
+  "erase"
+ ],
+ "qaProhibitedTermsSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].packetInstructions[0] (\"Segregation is not expungement. The records continue to exist and remain accessible\"); .scopeRestrictions[1]; .authority[3]; profile:copyGuardrails[0] and [2]",
+ "qaProhibitedTermsNote": "'sealing' and 'sealed' are prohibited here even though they are the correct Kentucky term on the void-and-seal tracks: on THIS track KRS 17.142(4) makes sealing the thing that happens under KRS 431.076 or KRS 431.078 INSTEAD of segregation, so using the word in a segregation application would misdescribe the relief and blur the routing rule. The application asks for segregation and nothing else. The words appear in participant-facing routing copy only, where they are used to send the participant elsewhere.",
+ "presentation": {
+  "sovereignPartyName": null,
+  "sovereignPartyNameNullReason": "No source read for this track supplies a party structure for a KRS 17.142(2) application. The application is not necessarily made in an existing criminal case — the registry venue expressly contemplates the court \"in which it would have been tried had charges been filed\" — so there may be no existing caption and no opposing party at all. Not invented.",
+  "sovereignPartyProper": null,
+  "sovereignRole": null,
+  "sovereignRoleNullReason": "KRS 17.142 provides for no notice to a prosecutor or any other party. Nothing in the sources makes the Commonwealth a party to this application. Not invented.",
+  "movantRole": "Applicant",
+  "movantRoleSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[0] (\"Apply to the court for an order of segregation\"); .authority[1] (\"The person may apply to the court\"); .mechanism (\"The person may instead apply to the court\")",
+  "filingNoun": "Application",
+  "filingNounSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[0].description (\"An application under KRS 17.142(2)\")",
+  "divisionLine": "",
+  "divisionLineNote": "No source records a division line. Left empty rather than invented.",
+  "usesCounty": false,
+  "usesCountyNote": "Set false deliberately, and NOT because venue here is county-independent — the application is filed in the county where the case was or would have been tried. In this renderer usesCounty:true is a Pennsylvania-specific branch that emits \"the Court of Common Pleas of {county} County, Pennsylvania\" into the jurisdiction and venue paragraphs. Setting it true on a Kentucky track puts Pennsylvania into a Kentucky application. The county is instead carried through the {county} token in courtName and venueDescriptor.",
+  "usesCountySourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.filing (\"in the county where the case was or would have been tried\"); .generationRequirements[key=segCounty]; renderer PA_DEFAULT_PRESENTATION branch at renderers/custom-pleading-renderer.ts",
+  "courtName": "{county} County, Kentucky court in which the case was or would have been tried",
+  "courtNameNote": "The court level is unresolved by design. The registry's venue is functional, not nominal: \"the court in which the case was tried, or in which it would have been tried had charges been filed\". It never names a court level. The filing destination is the circuit court clerk in that county, which in Kentucky is the clerk for both District and Circuit Court and so does not resolve the court level either. No court level is inferred; where no charges were filed the participant is told in the routing guidance to ask the clerk which court would have heard it.",
+  "venueDescriptor": "{county} County, Kentucky",
+  "venueDescriptorNote": "Noun phrase, because the renderer inserts venueDescriptor into the sentence \"Venue is proper in this Court because the criminal proceedings ... occurred in {venueDescriptor}.\" The full recorded venue rule is preserved verbatim in venueDescriptorFull below. Note also that the renderer's fixed clause \"where the proceedings occurred\" does not fit the no-charges-filed branch of this track, where there were no proceedings; that is recorded as a renderer-compatibility defect, not worked around by altering the sourced venue rule.",
+  "venueDescriptorFull": "The court in which the case was tried, or in which it would have been tried had charges been filed.",
+  "venueDescriptorSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].venue (verbatim in venueDescriptorFull)",
+  "recordCustodianLead": null,
+  "recordCustodianLeadNullReason": "The KRS 17.142(2) order runs to ALL law enforcement agencies by operation of the statute; the applicant does not have to enumerate them, and no source read for this track names a single Kentucky agency. The participant's own segAgencies answer is carried as the applicant's own statement of which agencies are believed to hold records, never as a custodian list the order must bind. Not invented.",
+  "verificationVerb": null,
+  "verificationVerbNullReason": "No source addresses verification of this application; no verification clause is rendered. See counselFlag ky-seg-application-verification-unaddressed.",
+  "verificationPenaltyLabel": null,
+  "serviceRecipientLabel": null,
+  "serviceRecipientLabelNullReason": "No service and no notice on this route; there is no service recipient.",
+  "serviceRecipientAddressLabel": null,
+  "reliefActionVerb": "segregate",
+  "orderActionVerb": "segregate",
+  "recordsScopePhrase": "the arrest records, fingerprints, photographs and other data relating to the arrest identified in this application, held by law enforcement and other public agencies",
+  "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].mechanism (\"arrest records, fingerprints, photographs or other data\"); .legalDesignLimitations[classification=scope_restriction][0] (court records excluded)",
+  "movantFirstInCaption": null,
+  "movantFirstInCaptionNullReason": "No party structure is stated for this application. Not set."
+ },
+ "counselFlags": [
+  {
+   "id": "ky-seg-application-is-this-a-product-track",
+   "statement": "This component inherits the route's build blocker: the controlling review classifies KRS 17.142 as an agency-level mechanism expressly NOT a product track, while the statute itself provides a court application on which relief is mandatory. Drafting this application is the departure that must be ratified. Nothing about the instrument is unknown; the question is whether it should exist as a product at all.",
+   "mustConfirm": "Should KRS 17.142 segregation be built as a participant-facing relief track, given that the statute contains two participant-initiated routes?",
+   "impact": "build_blocker",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].buildBlockers[0]"
+  },
+  {
+   "id": "ky-seg-application-legal-effect-unratified",
+   "statement": "The static legal propositions this application would assert about the effect of segregation — the KRS 17.142(3) segregation duty, the downstream agency-notification duty, and the requirement that the segregated record show the disposition — are unratified.",
+   "mustConfirm": "Ratify the fixed statements of legal effect the segregation application may make.",
+   "impact": "release_blocker",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].releaseBlockers[0]"
+  },
+  {
+   "id": "ky-seg-application-fee-unknown",
+   "statement": "Whether any court filing fee attaches to a KRS 17.142(2) application is unresolved; none was identified and the subsection provides for an application without stating a fee. No fee figure and no no-fee promise appears in this component or in participant copy.",
+   "mustConfirm": "Whether a filing fee attaches, before any fee statement of either kind reaches a participant.",
+   "impact": "release_blocker",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].releaseBlockers[1]; .rules.fees"
+  },
+  {
+   "id": "ky-seg-application-court-level-unresolved",
+   "statement": "The recorded venue is functional — the court in which the case was tried, or in which it would have been tried had charges been filed — and never names a court level. The filing destination, the circuit court clerk, does not resolve it either, since that clerk serves both District and Circuit Court. presentation.courtName is left as a single unresolved token and no court level is inferred anywhere.",
+   "mustConfirm": "Which court a KRS 17.142(2) application is captioned to where no charges were ever filed, and what the clerk expects in that situation.",
+   "impact": "counsel_confirmation",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].venue; .rules.filing; .destination"
+  },
+  {
+   "id": "ky-seg-application-verification-unaddressed",
+   "statement": "No source read for this track states whether a KRS 17.142(2) application must be verified or sworn. The registry states only that notarization is \"none required\" and that the participant signs. verificationStatute.citation is left null and no verification block is rendered, rather than a verification form being invented. This is the same handling the ND config applies to its missing verification statute.",
+   "mustConfirm": "Whether the application must be verified or sworn, and in what form, before shipping.",
+   "impact": "counsel_confirmation",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.notarization; .rules.participantSignature"
+  },
+  {
+   "id": "ky-seg-application-no-proposed-order",
+   "statement": "No proposed order is drafted. KRS 17.142(2) makes the order the court's own forthwith act, no form for it is recorded, and no source says an order is tendered. Drafting one would invent the operative terms of an order binding every law enforcement agency in the Commonwealth.",
+   "mustConfirm": "Whether Kentucky clerks expect a tendered order with a KRS 17.142(2) application, and if so what it says.",
+   "impact": "counsel_confirmation",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[1]; .packetSet.components"
+  },
+  {
+   "id": "ky-seg-application-all-charges-is-participant-fact",
+   "statement": "Whether all charges relating to the offence were dismissed or withdrawn is the statutory gate and is the applicant's own statement of fact. Any dispute ends automated assistance. The application states the applicant's own answer as their own averment and asserts no favourable-disposition conclusion.",
+   "mustConfirm": "That no pipeline stage derives or asserts that all charges ended favourably.",
+   "impact": "self_help_boundary",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].legalDesignLimitations[classification=self_help_boundary]; .exclusions[2]"
+  },
+  {
+   "id": "ky-seg-application-court-records-not-reached",
+   "statement": "Court records cannot be segregated. The application must not request segregation of the court's own record, and recordsScopePhrase is limited to law enforcement and other public agency holdings.",
+   "mustConfirm": "That the rendered application never asks the court to segregate its own file.",
+   "impact": "scope_restriction",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].legalDesignLimitations[classification=scope_restriction][0]; .exclusions[1]"
+  },
+  {
+   "id": "ky-seg-application-route-elsewhere-first",
+   "statement": "KRS 17.142(4) sends records subject to KRS 431.076 or KRS 431.078 to those statutes instead, and expungement is materially stronger. The application must never be produced for a record eligible under those statutes; that is a self-help stop condition and unit 3 exists to catch it first.",
+   "mustConfirm": "That segAlreadyExpunged gates production of this component.",
+   "impact": "scope_restriction",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].scopeRestrictions[1]; .selfHelpStopConditions[0]"
+  },
+  {
+   "id": "ky-seg-application-identity-blank",
+   "statement": "Court, county, case number, judge, prosecutor identity, prosecutor position, filing date and any court or agency response are blank in every fixture and never prefilled. Case number is conditional and the application must render correctly without one.",
+   "mustConfirm": "That the application renders correctly on the no-charges-filed branch, where there is no case number and no existing case.",
+   "impact": "counsel_confirmation",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].generationRequirements[key=segCaseNumber,segChargesFiled]"
+  }
+ ],
+ "componentInventory": [
+  {
+   "component": "caption",
+   "status": "present",
+   "note": "Token caption: {court} — {county} COUNTY, COMMONWEALTH OF KENTUCKY, with a conditional case-number line. Court level deliberately unresolved. Accepted caption is an open counsel flag.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].venue; .rules.filing"
+  },
+  {
+   "component": "court_and_party_identity",
+   "status": "present_partial",
+   "note": "Applicant name and address from screening. No opposing party is named, because KRS 17.142 provides for no notice to a prosecutor or any other party and there may be no existing case. Court, county and case number are the participant's own screening answers; judge, prosecutor and filing date are blank and never prefilled.",
+   "reason": "Partial rather than fully present: the applicant-identity half is present, and the opposing-party half is absent because KRS 17.142 provides for no notice to a prosecutor or any other party and there may be no existing case, so no opposing party is named. Judge, prosecutor and filing date are absent because they are outside-party or court identity that no source supplies and that is never prefilled.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.notice; .generationRequirements"
+  },
+  {
+   "component": "title",
+   "status": "present",
+   "note": "APPLICATION FOR ORDER OF SEGREGATION OF RECORDS PURSUANT TO KRS 17.142.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[0].description"
+  },
+  {
+   "component": "allegations",
+   "status": "present",
+   "note": "Container only, and only for the facts the registry's own generationRequirements collect: the county of arrest, the arrest date, what the arrest was for, whether charges were ever filed, the case number where they were, how the matter ended and when, and the agencies the applicant believes hold records. Each is rendered as the applicant's own averment. No allegation is generated, inferred or supplemented.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].generationRequirements; .legalDesignLimitations[classification=self_help_boundary]"
+  },
+  {
+   "component": "statutory_basis",
+   "status": "present",
+   "note": "Four citations, all subsections of KRS 17.142, all from the track authority list.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority"
+  },
+  {
+   "component": "requested_relief",
+   "status": "present",
+   "note": "That the court issue an order to all law enforcement agencies to segregate the arrest records, fingerprints, photographs and other data relating to the arrest identified in the application into a file separate and apart from those of convicted persons. Court records are expressly not requested.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[1]; .authority[2]; .legalDesignLimitations[classification=scope_restriction][0]"
+  },
+  {
+   "component": "verification",
+   "status": "absent",
+   "reason": "No source read for this track addresses verification of the application; the registry states only that notarization is none required. verificationStatute.citation is null and no block is rendered. Flagged rather than invented — the ND handling.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.notarization"
+  },
+  {
+   "component": "signatures",
+   "status": "present",
+   "note": "One block, the applicant's. The registry states: \"The participant signs the application and each written request.\" No LegalEase signature block.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.participantSignature; .manualCompletionItems[0]"
+  },
+  {
+   "component": "proposed_order",
+   "status": "absent",
+   "reason": "The order is the court's own forthwith act under KRS 17.142(2); no form is recorded and no source states one is tendered. Drafting it would invent the terms of an order binding every law enforcement agency in the Commonwealth.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[1]; .packetSet.components"
+  },
+  {
+   "component": "certificate_of_service",
+   "status": "absent",
+   "reason": "No service is required on the court route and KRS 17.142 provides for no notice to a prosecutor or any other party.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.service; .rules.notice"
+  },
+  {
+   "component": "notice",
+   "status": "absent",
+   "reason": "\"None required. KRS 17.142 provides for no notice to a prosecutor or any other party.\"",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.notice"
+  },
+  {
+   "component": "affidavit",
+   "status": "absent",
+   "reason": "No source records an affidavit. Documentation of the disposition is a conditional participant-obtained document, named in participant copy and never drafted, obtained or inspected by LegalEase.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].participantFilingRequirements[0]"
+  },
+  {
+   "component": "participant_only_cover_sheet",
+   "status": "absent",
+   "reason": "No cover sheet is recorded anywhere on this track. The registry packet set has exactly three components and none is a cover sheet.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].packetSet.components"
+  },
+  {
+   "component": "filing_instructions",
+   "status": "present",
+   "note": "Participant-only, at the route level: participant-instructions.md and routing-guidance.md. Never filed.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.filing; .packetSet.participantActionRequired"
+  }
+ ],
+ "rendererCompatibility": {
+  "note": "This config is data. It is written against the PleadingTrackConfig shape consumed by src/lib/record-clearing/renderers/custom-pleading-renderer.ts, but that renderer cannot yet consume it faithfully. The defects below were observed in a rendered sample of fixtures/canonical.json produced in this worktree. They are renderer/adapter defects, not data defects, and no source-faithful field has been altered to work around them.",
+  "adapterDefects": [
+   {
+    "id": "null-fields-stringified",
+    "observed": "Fields deliberately set to null under the sourced-content-only rule are printed literally as the text 'null' — the caption rendered \"COMMONWEALTH OF KENTUCKY,\\n    null,\", the parties block rendered \"null is the Commonwealth of Kentucky.\", and the verification clause rendered \"I, [NAME], null that the statements ...\".",
+    "affectedFields": [
+     "presentation.sovereignRole",
+     "presentation.verificationVerb",
+     "presentation.verificationPenaltyLabel",
+     "eligibilityData.eligibilityBasisLabel"
+    ],
+    "requiredAdapterBehavior": "A null role, verb or label means the source does not state one. The adapter must omit the line or clause entirely, never stringify null. Null is the convention this artifact set is required to use for unsourced values; supplying a value instead would be invention."
+   },
+   {
+    "id": "verification-section-rendered-though-absent",
+    "observed": "A 'VI. VERIFICATION' section was emitted with a truth-of-statements clause, although this track's registry entry states \"none required. The motion is not verified.\" and componentInventory marks verification absent.",
+    "requiredAdapterBehavior": "The renderer needs a way to suppress the verification section when verificationStatute.citation is null AND the source affirmatively states the filing is not verified. Rendering an unsourced verification clause into a Kentucky motion is exactly the invention this artifact set exists to prevent."
+   },
+   {
+    "id": "county-mode-is-pennsylvania-mode",
+    "observed": "With usesCounty:true the renderer emitted \"the Court of Common Pleas of EXAMPLE County, Pennsylvania\" into a Kentucky motion.",
+    "resolvedInThisConfig": true,
+    "requiredAdapterBehavior": "usesCounty is documented as a county-line flag but its true branch is hardcoded Pennsylvania text. This config sets usesCounty:false and carries the county through the {county} token instead. The renderer should separate 'this jurisdiction uses a county line' from 'this jurisdiction is Pennsylvania'."
+   },
+   {
+    "id": "fixed-clause-assumes-proceedings-occurred",
+    "observed": "The renderer's jurisdiction paragraph ends with the fixed clause 'where the proceedings occurred', and the venue paragraph with 'the criminal proceedings that are the subject of this application'.",
+    "requiredAdapterBehavior": "On this track the registry venue expressly contemplates the court 'in which it would have been tried had charges been filed'. On that branch there were no proceedings and no criminal case at all, so both fixed clauses are false. The adapter needs a no-proceedings variant; the sourced venue rule has not been bent to fit the renderer's sentence."
+   },
+   {
+    "id": "verification-section-rendered-though-unaddressed",
+    "observed": "Same verification-section defect as the void-and-seal tracks, but for a different reason on this track.",
+    "requiredAdapterBehavior": "Here no source addresses verification at all — this is the unknown case, handled the way the ND config handles its missing verification statute. The adapter must not emit a verification clause built from a null verb; it must omit the section and leave the gap visible."
+   }
+  ],
+  "fixtureShapeNote": "Fixture partyData uses the renderer's own field names (petitionerName, petitionerAddress, otherNamesUsed) so that fixtures are valid PleadingRenderInput. The movant/applicant role label comes from presentation.movantRole, not from the fixture key."
+ },
+ "provenance": {
+  "statePackFiles": [
+   "src/lib/rcap/state-packs/kentucky/index.ts",
+   "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
+  ],
+  "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "profileSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+  "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ky_criminal_record_segregation].units[0] / .packetSet.components[0]",
+  "statePackNote": "The committed Kentucky state pack carries build metadata and the Nationwide inventory only. The compiled KY profile does not mention KRS 17.142 anywhere. This component rests on the pinned registry entry.",
+  "reviewedAsOf": "2026-08-06",
+  "effectiveFrom": "1996-07-15"
+ },
+ "sourceSilences": [
+  {
+   "field": "verificationStatute",
+   "nullKeys": [
+    "citation"
+   ],
+   "sourceIsSilentBecause": "No verification statute is cited. The registry states notarization: \"none required.\" That is an affirmative statement that no notarization is needed; it is not a statement that the application is or is not verified, and no source read for this track addresses verification at all. No verification block is rendered, and this gap is carried as a counsel flag in the same way the ND config carries its missing verification statute.",
+   "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.notarization; .packetSet.participantActionRequired[kind=notarize]"
+  },
+  {
+   "field": "presentation.sovereignPartyName",
+   "nullKeys": [
+    "sovereignPartyName"
+   ],
+   "sourceIsSilentBecause": "No source read for this track supplies a party structure for a KRS 17.142(2) application. The application is not necessarily made in an existing criminal case — the registry venue expressly contemplates the court \"in which it would have been tried had charges been filed\" — so there may be no existing caption and no opposing party at all. Not invented.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.sovereignPartyProper",
+   "nullKeys": [
+    "sovereignPartyProper"
+   ],
+   "sourceIsSilentBecause": "No source read for this track supplies a party structure for a KRS 17.142(2) application. The application is not necessarily made in an existing criminal case — the registry venue expressly contemplates the court \"in which it would have been tried had charges been filed\" — so there may be no existing caption and no opposing party at all. Not invented.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.sovereignRole",
+   "nullKeys": [
+    "sovereignRole"
+   ],
+   "sourceIsSilentBecause": "KRS 17.142 provides for no notice to a prosecutor or any other party. Nothing in the sources makes the Commonwealth a party to this application. Not invented.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.recordCustodianLead",
+   "nullKeys": [
+    "recordCustodianLead"
+   ],
+   "sourceIsSilentBecause": "The KRS 17.142(2) order runs to ALL law enforcement agencies by operation of the statute; the applicant does not have to enumerate them, and no source read for this track names a single Kentucky agency. The participant's own segAgencies answer is carried as the applicant's own statement of which agencies are believed to hold records, never as a custodian list the order must bind. Not invented.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.verificationVerb",
+   "nullKeys": [
+    "verificationVerb"
+   ],
+   "sourceIsSilentBecause": "No source addresses verification of this application; no verification clause is rendered. See counselFlag ky-seg-application-verification-unaddressed.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.verificationPenaltyLabel",
+   "nullKeys": [
+    "verificationPenaltyLabel"
+   ],
+   "sourceIsSilentBecause": "No source read for this track supplies a party structure for a KRS 17.142(2) application. The application is not necessarily made in an existing criminal case — the registry venue expressly contemplates the court \"in which it would have been tried had charges been filed\" — so there may be no existing caption and no opposing party at all. Not invented.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.serviceRecipientLabel",
+   "nullKeys": [
+    "serviceRecipientLabel"
+   ],
+   "sourceIsSilentBecause": "No service and no notice on this route; there is no service recipient.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.serviceRecipientAddressLabel",
+   "nullKeys": [
+    "serviceRecipientAddressLabel"
+   ],
+   "sourceIsSilentBecause": "No source read for this track supplies a party structure for a KRS 17.142(2) application. The application is not necessarily made in an existing criminal case — the registry venue expressly contemplates the court \"in which it would have been tried had charges been filed\" — so there may be no existing caption and no opposing party at all. Not invented.",
+   "sourceRef": null
+  },
+  {
+   "field": "presentation.movantFirstInCaption",
+   "nullKeys": [
+    "movantFirstInCaption"
+   ],
+   "sourceIsSilentBecause": "No party structure is stated for this application. Not set.",
+   "sourceRef": null
+  }
+ ],
+ "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
+ "runtimeDefects": [
+  "renderer-null-presentation"
+ ],
+ "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
+}

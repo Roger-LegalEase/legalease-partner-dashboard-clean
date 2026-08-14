@@ -1,0 +1,73 @@
+{
+  "fixtureId": "ky_criminal_record_segregation-routing-guidance-boundary",
+  "trackId": "ky_criminal_record_segregation",
+  "componentId": "ky_criminal_record_segregation-routing-guidance-3",
+  "unitId": "ky_seg_routing_guidance",
+  "componentPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-routing-guidance-3/routing-guidance.md",
+  "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+  "description": "The routing edge this component exists for: an acquittal, which KRS 17.142(4) most often sends to KRS 431.076 instead — so the correct outcome of this component is to route the participant AWAY from this track and produce neither instrument. Also exercises the no-charges-filed branch and an empty agency list.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "EXAMPLE",
+    "chargesFiled": "no",
+    "caseNumber": "",
+    "court": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "[PARTICIPANT'S OWN DESCRIPTION OF WHAT THEY WERE ARRESTED FOR]",
+    "arrestOffenceDescription": "[PARTICIPANT'S OWN DESCRIPTION OF WHAT THEY WERE ARRESTED FOR]",
+    "arrestDate": "",
+    "dispositionType": "found innocent",
+    "dispositionDate": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "segCounty": "EXAMPLE",
+      "segArrestDate": "",
+      "segOffence": "[PARTICIPANT'S OWN DESCRIPTION — NOT SUPPLIED BY LEGALEASE]",
+      "segChargesFiled": "no",
+      "segCaseNumber": "",
+      "segDispositionType": "[PARTICIPANT'S OWN STATEMENT OF FACT — found innocent — NOT SUPPLIED, DERIVED OR INFERRED BY LEGALEASE]",
+      "segDispositionDate": "",
+      "segAlreadyExpunged": "participant states they may be eligible under KRS 431.076",
+      "segAgencies": "",
+      "segRoute": ""
+    },
+    "routeChosen": null,
+    "expungementRoutingResolved": false,
+    "expectedRoutingOutcome": "route_away_from_this_track",
+    "expectedRoutingOutcomeNote": "The correct outcome here is that neither instrument is produced. KRS 17.142(4) sends records subject to KRS 431.076 to that statute instead, expungement is materially stronger, and a participant who may be eligible under KRS 431.076 or KRS 431.078 is a self-help stop condition. This component's job on this fixture is to stop the route, not to advance it.",
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted in either direction: the component does not conclude that KRS 431.076 applies, only that the participant's own answer requires that question to be resolved before anything is produced.",
+    "dispositionProofInHand": false,
+    "boundaryUnderTest": [
+      "KRS 17.142(4) routing edge: an acquittal, the disposition most likely to belong under KRS 431.076 instead.",
+      "segAlreadyExpunged reports possible eligibility elsewhere — the gate that must suppress both instrument components.",
+      "segChargesFiled = no: no case number, and the court-route venue would be the court where the matter would have been tried.",
+      "segAgencies empty: the agency-letter component cannot be produced at all, since it exists only per identified agency.",
+      "segRoute unanswered: no instrument may be selected before the routing question is resolved."
+    ],
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "driversLicenseNumber": "",
+    "fbiNumber": "",
+    "fingerprintIdentifier": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

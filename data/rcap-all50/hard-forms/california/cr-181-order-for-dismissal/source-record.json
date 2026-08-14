@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-hard-form-source-record/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California"
+  },
+  "ledgerJob": "T-E-CA-production-packet",
+  "tracksServed": [
+    "ca-1203-41",
+    "ca-1203-42",
+    "ca-1203-43",
+    "ca-1203-4a",
+    "ca-17b-reduction"
+  ],
+  "form": {
+    "formId": "CR-181",
+    "revision": "Rev. January 1, 2024",
+    "officialName": "Order for Dismissal",
+    "componentRole": "PROPOSED_ORDER",
+    "issuingBody": "Judicial Council of California"
+  },
+  "officialSource": {
+    "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
+    "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+    "bytes": 110123,
+    "encrypted": true,
+    "xfa": true,
+    "creator": "Designer 6.5",
+    "pages": 2,
+    "geometry": "612x792",
+    "bundleManifest": "RCAP_SOURCE_BUNDLE_MANIFEST.json (operator-supplied Master Library Edition 1)",
+    "presentInClone": false,
+    "verifiedThisSession": {
+      "method": "sha256 match against RCAP_SOURCE_BUNDLE_MANIFEST.json",
+      "xfaConfirmed": true,
+      "encryptionConfirmed": true,
+      "tool": "pypdf 6.15.0 + cryptography 50.0.0"
+    }
+  },
+  "derivedSource": {
+    "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr181-rescued.pdf",
+    "sha256": "202c33849bf930b02f1c886773da26722f9d86290cfa12d0b48b6d297b4ed1d3",
+    "derivation": "qpdf --decrypt of the pinned official source (encrypted-pdf-rescue-report.json, 2026-06-17); no content edit",
+    "sourceFaithful": true,
+    "faithfulnessProof": "terminal AcroForm field set identical to the official source, 58/58 names, verified this session"
+  },
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+  },
+  "status": {
+    "state": "ready_except_runtime_wiring",
+    "reason": "Renders and passes output acceptance; compiled-pathway routing is Terminal A src/ work."
+  }
+}

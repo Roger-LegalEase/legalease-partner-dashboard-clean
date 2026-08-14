@@ -56,8 +56,21 @@ export function statusForResultCode(resultCode: ExpungementAiResultCode): Consum
   return "hard_stop";
 }
 
-/** RCAP partner sessions are sponsored: the consumer is never asked to pay here. */
-export function resolveSavePaymentAllowed(isPartnerSession: boolean, evaluationPaymentAllowed: boolean): boolean {
+/**
+ * RCAP partner sessions are sponsored: the consumer is never asked to pay here.
+ *
+ * A component deferral closes payment ahead of that distinction, for sponsored
+ * and direct-to-consumer sessions alike. An incomplete packet is not billable to
+ * anyone, and the caller's boolean does not get a vote.
+ */
+export function resolveSavePaymentAllowed(
+  isPartnerSession: boolean,
+  evaluationPaymentAllowed: boolean,
+  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | "terminal_treatment_candidate" | null
+): boolean {
+  if (treatmentClassification === "component_deferral") return false;
+  if (treatmentClassification === "exact_supported_deferral") return false;
+  if (treatmentClassification === "terminal_treatment_candidate") return false;
   return isPartnerSession ? false : evaluationPaymentAllowed;
 }
 
@@ -71,6 +84,14 @@ export type SaveScreeningResultPayload = {
   summary: string;
   nextSteps: string[];
   sourceSessionId?: string;
+  /**
+   * Server-authored only. The save endpoint re-resolves these from the saved
+   * screening session; a client body that carries them is rejected upstream.
+   */
+  selectedTrackId?: string | null;
+  treatmentClassification?: "component_deferral" | "exact_supported_deferral" | "terminal_treatment_candidate" | null;
+  deferralComponentIds?: string[];
+  componentDeferralTreatment?: Record<string, unknown>;
 };
 
 /**
@@ -81,20 +102,36 @@ export function buildSaveInput(
   payload: SaveScreeningResultPayload,
   context: { isPartnerSession: boolean }
 ): CreateConsumerBriefcaseItemInput {
-  const paymentAllowed = resolveSavePaymentAllowed(context.isPartnerSession, payload.paymentAllowed);
+  const deferred = payload.treatmentClassification === "component_deferral";
+  const paymentAllowed = resolveSavePaymentAllowed(context.isPartnerSession, payload.paymentAllowed, payload.treatmentClassification);
+  const resultCode = deferred ? "guidance_only" : payload.resultCode;
   return {
     userId: payload.userId,
     itemType: "result",
     jurisdiction: payload.jurisdiction,
     pathwayLabel: payload.pathwayLabel,
-    resultCode: payload.resultCode,
-    packetType: payload.packetType,
+    resultCode,
+    packetType: deferred ? "guidance_packet" : payload.packetType,
     paymentAllowed,
-    status: statusForResultCode(payload.resultCode),
+    status: deferred ? "guidance_saved" : statusForResultCode(resultCode),
     summary: payload.summary,
     nextSteps: payload.nextSteps,
     paymentStatus: paymentAllowed ? "unpaid" : "not_applicable",
-    sourceSessionId: payload.sourceSessionId
+    sourceSessionId: payload.sourceSessionId,
+    ...(deferred
+      ? {
+        packetStatus: "not_started" as const,
+        selectedTrackId: payload.selectedTrackId ?? null,
+        treatmentClassification: "component_deferral" as const,
+        deferralComponentIds: payload.deferralComponentIds ?? [],
+        artifactRefs: {
+          ...(payload.componentDeferralTreatment ? { componentDeferralTreatment: payload.componentDeferralTreatment } : {}),
+          selectedTrackId: payload.selectedTrackId ?? null,
+          treatmentClassification: "component_deferral",
+          deferralComponentIds: payload.deferralComponentIds ?? []
+        }
+      }
+      : {})
   };
 }
 

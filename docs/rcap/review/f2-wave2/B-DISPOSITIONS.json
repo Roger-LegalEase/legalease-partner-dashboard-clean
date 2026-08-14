@@ -1,0 +1,760 @@
+{
+  "schemaVersion": "rcap-f2-wave2-dispositions/v1",
+  "lane": "B",
+  "windowId": "2026-08-12-w3",
+  "kind": "f2-independent-technical-review",
+  "reviewBase": "a20987d1e55fc759960b05d4991b8263a63656c1",
+  "reviewBranch": "claude/rcap-review-f2-wave2-b",
+  "reviewDate": "2026-08-12",
+  "reviewerIndependence": "Independent F2 reviewer for lane B, wave 2. Not the implementing lane; no lane-owned artifact was edited. Review evidence only.",
+  "scope": "All 33 lane-B jobs in data/rcap-all50/review-artifacts/f2-independent-technical-review.json — 72 pending tracks (AK:ak-sej is promoted and out of scope). Nothing from the superseded first F2 pass carries over; every track was re-reviewed against the bytes at the review base.",
+  "atomicGroupsClosedSoFar": [
+    "AK/CA/IL/IN/MI (prior-correction states)",
+    "AR/CO/CT/DE",
+    "GA/HI/KY/LA",
+    "MD/ME/MN/MO",
+    "MT/NC/ND/NE",
+    "NH/NJ/NY/OH/OK",
+    "TN/TX/UT/VA",
+    "VT/WI/WV"
+  ],
+  "evidenceRule": "Every closure's evidenceSha is the manifest's packetSha256, recomputed by this reviewer from `git show a20987d1:<packet path>` and matched before review. The tip at branch point differs from the review base only by data/rcap-all50/review-artifacts/f2-wave2-dispatch.json, so reviewed working-tree bytes are the review-base bytes.",
+  "committedAuthorityUniverse": [
+    "src/lib/rcap-engine/compiled/profiles/<ST>-<state>.json at the review base",
+    "data/record-clearing/legal-design-intake/<ST>.memo.json at the pinned tip 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5 of feat/record-clearing-production-integration (the tip every lane-B packet names in sourceDependency)",
+    "docs/record-clearing/deferrals/*.md at the review base (deferral statements and the lane's F2 correction record)"
+  ],
+  "closingOutcomes": {
+    "technical_approved": "eligible for captain integration, subject to runtime wiring, legal-adoption continuity and the final ledger state.",
+    "correction_required": "return to the named B owner with the exact defect and acceptance condition.",
+    "held_on_source_or_design": "preserve as nonterminal unless the committed evidence supports an exact deferral or deliberate exclusion."
+  },
+  "closures": [
+    {
+      "reviewId": 1,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "AK:ak-nonconviction-confidential"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the 'all charges dismissed' eligibility ground is stated without the Criminal Rule 11 carve-out that both committed sources attach to it (AK-alaska.json pathway ruleClauses / wait-01: 'all charges were dismissed (not as part of a Rule 11 plea in another case)'; AK.memo.json eligibleDispositions carries the same qualifier). mechanism.en/es, gather and nextSteps state the ground unqualified, so a participant whose dismissal was part of a Rule 11 plea in another case is told the case comes off CourtView automatically when the committed rule says it does not. Same defect class as first-pass F2-02 (limiting conditions dropped from a stated rule). Acceptance: add the Rule 11 qualifier to the dismissal ground in mechanism (and gather) in both languages, e.g. 'every charge was dismissed (and not as part of a plea agreement in another criminal case under Criminal Rule 11)'. VERIFIED AS APPLIED: the wave-2 required correction — honest automatic-with-TF-810-fallback mechanism description — is in the committed bytes (mechanism/participantFiles/stopReason/afterNextStep all describe automatic non-publication at 60 days with TF-810 only as the fallback correction request), carried by AK-alaska.json wait-08 and ruleClauses[5]; the F2-08b bad exclusionRules[8] pointer is gone. Residual out-of-lane item, not charged to this track: the compiled pathway's metadata (automatic=false, filingRequired=true, routeType=court_filing) still contradicts the treatment; recorded with its owner in docs/record-clearing/deferrals/lane-b-f2-corrections.md as a state-pack fidelity item for the profile owner with Terminal A.",
+      "evidenceSha": "3eecd4e130e8e74755595168da20d0eaa83aeab7c527c2841fd251c2503e5c09"
+    },
+    {
+      "reviewId": 2,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-preadjudication-probation"
+      ],
+      "owner": "Terminal B",
+      "note": "All authority claims traced to AR.memo.json (§ 16-93-303 mechanism, 3-day prosecutor service, 30-day objection window, venue, no-fee posture); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "bd27200ff27f152a1b2d2647386e5db87ff3aa3e65eb300274b1c7fb5057b061"
+    },
+    {
+      "reviewId": 3,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "AR:ar-misdemeanor-dwi-seal"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ar-deferrals.md names the track and states the exact supported condition (the § 16-90-1405(b)(2) / § 5-65-111 lookback with two live readings after the 2026 Coleman appellate decision), carried verbatim by AR.memo.json unresolvedQuestions/legalDesignDecision; participant copy still delivers mechanism, destination, settled timing, gather, next step and handoff and does not read as 'coming soon'.",
+      "evidenceSha": "bd27200ff27f152a1b2d2647386e5db87ff3aa3e65eb300274b1c7fb5057b061"
+    },
+    {
+      "reviewId": 4,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CA:ca-auto-conviction"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass corrections verified in committed bytes: gather.en/es[4] and nextSteps.en/es[0] name all four exclusion categories (PC 1192.7(c) serious felonies, PC 667.5(c) violent felonies, PC 290 registration, offenses punishable by life or death), carried by CA-california.json sourceSections[3] 'Disqualifying / ineligible offenses' (F2-03 cured); zero occurrences of 'you qualify'/'usted califica' (F2-16 cured) and the shared verifier passes lane-wide. Authority, parity, payment suppression and all eleven elements verified with no defect.",
+      "evidenceSha": "de9f26ed5fcb6e406eea0985a036948d31f06c5eb73cce2212c7aa79da4725a4"
+    },
+    {
+      "reviewId": 5,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CO:co_auto_seal_arrest"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CO.memo.json including the JDF 417 petition backstop (DA objection / contested hearing stops carried by tracks[co_petition_seal_arrest].selfHelpStopConditions); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8ab949ce86183d4f98c45a9d5673897b3a0319d6e5165337b7a043360b7c2f80"
+    },
+    {
+      "reviewId": 6,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CO:co_auto_seal_nonconviction"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CO.memo.json (automatic sealing of non-convictions, 1 July 2025 effective date, JDF motion backstop via tracks[co_motion_seal_nonconviction]); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8ab949ce86183d4f98c45a9d5673897b3a0319d6e5165337b7a043360b7c2f80"
+    },
+    {
+      "reviewId": 7,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-destruction-request"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CT.memo.json (§ 54-142 destruction request, 3-year waiting period from final disposition, mental-disease exclusion under § 54-142a(a), DPS-0846-C record check); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023"
+    },
+    {
+      "reviewId": 8,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "CT:ct-nonconviction-auto"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to CT.memo.json (§ 54-142a automatic erasure grounds and the missed-erasure fallback via tracks[ct-missed-erasure]); parity, payment suppression and elements verified with no defect; 'erasure' terminology limitation respected.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023"
+    },
+    {
+      "reviewId": 9,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "CT:ct-provisional-pardon"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: destination.en/es asserts affirmatively that 'The Board publishes the application and the instructions'. No committed source carries that claim: CT.memo.json tracks[ct-provisional-pardon].rules.filing says only 'Application is made to the Board of Pardons and Paroles. LegalEase does not generate or submit it.', and the same track's unresolvedQuestions[0] — impact release_blocker — expressly records as UNRESOLVED 'Whether the Board exposes a stable participant application document... An intake worksheet is not the legal filing packet.' The packet states as fact precisely what the committed record marks open, and the participant is sent to obtain a published application that the committed bytes do not establish exists. Acceptance: soften the destination sentence to the carried facts (application is made to the Board; obtain the Board's current application requirements from the Board directly), in both languages, matching the packet's own correctly-hedged gather/timing copy.",
+      "evidenceSha": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023"
+    },
+    {
+      "reviewId": 10,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "DE:de_attorney_general_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to DE.memo.json (AG mandatory-expungement route, eligible record types/dispositions, venue and no-participant-court-filing posture, cross-track pointers to de_mandatory_expungement and de_discretionary_superior_court resolve); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "e4c10d8bca7b5c039ccc6f26032fa72d1967d26ddf5b5c86e3e43df71e0e0ff3"
+    },
+    {
+      "reviewId": 11,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-fo-sentencing-post2026"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority claims (First Offender Act sentencing-stage relief post-2026, restriction-vs-sealing effect) traced to GA.memo.json; parity, payment suppression and elements verified. Minor: the terminology framing (Georgia statutes have not used 'expungement' since 1 July 2013; neither restriction nor sealing destroys the record) is carried by GA.memo.json tracks[ga-time-expired].legalDesignDecision.limitations but has no authority[] pointer in this entry — add one.",
+      "evidenceSha": "6f1a3cea14f23f3d1add5b67e80b4ab2f17b61e85a7b84c8b881915db4e0b51c"
+    },
+    {
+      "reviewId": 12,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "GA:ga-time-expired"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to GA.memo.json (time-expired restriction route, 60-day clerk seal, 30-day agency compliance, record-report practice); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "6f1a3cea14f23f3d1add5b67e80b4ab2f17b61e85a7b84c8b881915db4e0b51c"
+    },
+    {
+      "reviewId": 13,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "HI:hi_state_initiated_marijuana_pilot"
+      ],
+      "owner": "Terminal B",
+      "note": "State-initiated pilot honestly framed on committed bytes: the open-status caveats (2025 Act 62 continuation and AG report to the 2026 Legislature not acquired; pilot's current reach unresolved) mirror HI.memo.json unresolvedQuestions, and the packet deliberately names HCJDC only as the place to verify a record, not to apply — matching the lane evidence record. Minor: authority[6].sourceRef uses an empty track selector ('tracks[]...across the Hawaii expungement routes') for the HCJDC characterization; the claim is carried (HCJDC-159B component notes; hi_nonconviction_expungement) — point the ref at those tracks.",
+      "evidenceSha": "a2797ad30b74cdfbbd234d16cf2ce4715e773d426b557023963c7b289fa0c1a6"
+    },
+    {
+      "reviewId": 14,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IL:il-auto-seal-2028"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass correction F2-04 verified in committed bytes: timing, nextSteps[4] and afterNextStep run the 60-day objection window from service of the Notice of Filing ('not 60 days after the petition itself is filed') and name all four objecting entities (State's Attorney/prosecutor, Illinois State Police, arresting agency, chief legal officer of the local government that made the arrest) in both languages, carried by IL-illinois.json serviceAndNoticeRules. Minor (non-blocking, fix at will): duplicated conjunction 'and and' / 'y y' in afterNextStep.en/es; meaning intact.",
+      "evidenceSha": "040539f0a6fa7b20b63b84f62c6968d8617ca32eb71b7913d7c87baa99e8e4ba"
+    },
+    {
+      "reviewId": 15,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "IN:in_auto_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority fully memo-grounded (IN.memo.json in_auto_expungement: 1(b) own-motion/no petition, 1(a) pretrial-diversion bar, post-30-June-2022 cutoff, immediate vs 60-day effectiveness, prosecutor delay up to one year, 1(k) sealed-not-destroyed, ISP certified limited criminal history, Section 1 fallback); parity, payment suppression and all eleven elements verified with no defect.",
+      "evidenceSha": "55a9edc23824815737cea6cfef859761fc0d169811859bf76d4cd65b80f6491f"
+    },
+    {
+      "reviewId": 16,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_automatic_nonconviction_expungement_verification"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to KY.memo.json (KRS 431.076(6) automatic expungement of acquittals/dismissals after 30/60-day windows, AOC verification); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad"
+    },
+    {
+      "reviewId": 17,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_diversion_disposition_routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to KY.memo.json (KRS 533.258 dismissed-diverted status and non-disclosure). Minor: the packet enumerates 'employment, credit or licensure' for KRS 533.258(2) where the memo summary reads 'employment, licensure or otherwise'; the enumeration is subsumed by the carried 'or otherwise' (and 'credit' appears in the compiled profile's 431.076/431.078 order text), so no condition is dropped or changed — conform the wording to the memo at will.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad"
+    },
+    {
+      "reviewId": 18,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_felony_expungement_after_pardon"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ky-deferrals.md names the track and states the exact supported condition (eligibility turns on characterising a full pardon under KRS 431.073(1)(c), a document LegalEase never sees or authenticates), carried by KY.memo.json unresolvedQuestions; participant copy still delivers the settled elements. Minor: the thirty-day certification-filing window is cited to the pardon track's locations, which do not carry it — the claim is carried by tracks[ky_expungement_certification].waitingPeriods and the vacatur track's required_before_filing limitation; extend the sourceRef.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad"
+    },
+    {
+      "reviewId": 19,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "KY:ky_felony_vacatur_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the two concurrently published versions of the KRS 431.073(1)(a) eligibility list with the 30 April 2027 changeover (adding KRS 286.13-150) and the $300-at-filing conflict are stated exactly and carried verbatim by KY.memo.json; participant copy still delivers the settled elements and does not read as 'coming soon'.",
+      "evidenceSha": "9656b86b6d8554ca2eade96b88ab7f9cbbc3e94bc94509f8d66d637bab5b19ad"
+    },
+    {
+      "reviewId": 20,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "LA:la-999-expedited-expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to LA.memo.json (art. 999 expedited no-fee expungement, no-wait/no-objection-window posture, art. 976 fallback in handoff); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "295bd6fca9503a0941df22e33d6159dd0d785af7839684c6ce72be210e1d1e16"
+    },
+    {
+      "reviewId": 21,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10103_1_automatic"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json including the honest treatment of the unidentified step after a law-enforcement unit's failure (per the lane evidence record, no filing invented); cross-track pointer to md_10103_legacy_police resolves; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d"
+    },
+    {
+      "reviewId": 22,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10104_pre_service"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json (§ 10-104 District Court action on nolle prosequi, State objection/show-cause); cross-track pointers resolve; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d"
+    },
+    {
+      "reviewId": 23,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MD:md_10112_dpscs_cannabis"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MD.memo.json (§ 10-112 DPSCS cannabis expungement; the 2026 bill gloss 'change which charges it reaches' is a fair meaning-equivalent of the memo's change-'issued'-to-'disposed of', with the precise language in authority[5]); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "338683fdb6eeca0eb2f6184caa891dbc745b3bd806320b07f82c604286e7989d"
+    },
+    {
+      "reviewId": 24,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ME:me-deferred"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to ME.memo.json; the 'finished its sentence in full, including any fine or restitution' phrase is carried by me-seal-gen waitingPeriods/participantInputs in the same committed memo; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "5c66774afbec264afe1a798252767d9fc2d54bf966e3dd0ca40af8b83740be7d"
+    },
+    {
+      "reviewId": 25,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_auto_misd92"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the packet gives the blanket lead-with-ICHAT instruction that the committed memo's binding packet_instruction for this exact track forbids. MI.memo.json tracks[mi_auto_misd92].legalDesignDecision.limitations: 'Where the participant's only record is a 92-day-or-less misdemeanour that was never fingerprinted to MSP, checking ICHAT proves nothing. Tell them to check with the convicting court. A blanket instruction to lead with the MSP Clean Slate check is wrong for this population.' The committed nextStep.en/es and destination.en/es lead with ICHAT unconditionally ('ICHAT is where you confirm the set-aside actually happened') and no element tells a never-fingerprinted participant that an ICHAT result proves nothing for them; lane B's own evidence record states memo limitations are binding on participant copy and 'followed rather than summarised away'. Acceptance: add the never-fingerprinted caveat and the convicting-court verification path to nextStep/destination/afterNextStep in both languages. VERIFIED AS APPLIED: the wave-2 required correction (F2-01) is in the committed bytes — gather.en/es[3-6] and nextSteps.en/es[0] run both screens (MCL 780.621c never-eligible list AND the five-category automatic-track exclusion list), carry the more-than-one-assaultive bar and the two-felony cap, byte-consistent with mi_auto_misd93.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 26,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_auto_misd93"
+      ],
+      "owner": "Terminal B",
+      "note": "First-pass corrections F2-02 and F2-02b verified in committed bytes: gather and nextSteps carry the MCL 780.621c screen, the five-category automatic-track exclusion list, the more-than-one-assaultive bar and the two-felony/four-misdemeanor caps, identically to mi_auto_misd92, in both languages; handoff states MCL 780.621b grouping with the 24-hour same-transaction requirement and all three grouping-breakers (assaultive, weapon-involved, punishable by more than ten years) in both languages, carried by MI-michigan.json 'Waiting periods'. The compiled rule-11 outlier from first-pass F2-09 is fixed in the committed profile (then = guidance_only / save_state_guidance_no_checkout, matching rule-10/27/41/56). Minor: nextSteps.en/es[2] duplicates the exclusion screen already run in step 1 (redundant, not misleading).",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 27,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_arrest_no_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority (MCL 28.243(7)-(8) destruction on no-charge arrests), parity, payment suppression and all eleven elements verified against MI.memo.json with no defect.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 28,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_arrest_acquittal_dismissal"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: afterNextStep.en/es presents an exhaustive stopper list — 'Three things can stop it' (prior conviction under MCL 28.243(14); objection on a dismissal; records lag) — that omits the other committed exclusion prong of MCL 28.243(14): 'a person arraigned for enumerated offences, including the commission or attempted commission of a crime with or against a child under 16' (MI.memo.json tracks[mi_arrest_acquittal_dismissal].exclusions[0]; the memo also asks participantInput arraignedEnumeratedOffence). gather never asks about it either, so a participant arraigned for an enumerated offence is affirmatively told automatic destruction has only three stoppers and would wrongly expect relief. Same defect class as first-pass F2-01 (committed screen not reaching the participant). Acceptance: add the arraigned-for-enumerated-offence prong to gather and afterNextStep in both languages (and drop or widen the 'three things' count).",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 29,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MI:mi_deferral_status"
+      ],
+      "owner": "Terminal B",
+      "note": "Non-relief disposition-routing node verified: ten-citation authority set carried by MI.memo.json (MCL 333.7411, 762.11-762.15, 769.4a, 436.1703, 600.1070, 600.1209, 750.350a, 750.430, 780.621(2), 780.621d(7)(d)); parity, payment suppression and elements verified. timing is an explicit null backed by the memo's own 'Not applicable. This is a disposition-status routing node.' — a considered no-timing-rule-applies under the lane contract, with stopReason/mechanism already telling the participant nothing is pending. Minor: populating timing with that statement in EN/ES would still be an improvement.",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 30,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MI:mi_setaside_csc4_pre2015"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: nextSteps.en[2] misstates the age element of the minor-offence definition as 'committed under age 21' (es[2] 'cometidos antes de los 21 años'). The only committed source carrying the test — MI.memo.json controllingAuthority.summary — says 'committed by a person not more than 21 years old', which includes 21-year-olds; the packet's own mechanism.en/es states it correctly ('not more than 21 years old' / 'no más de 21 años'), so the entry contradicts itself and no committed source carries the under-21 formulation. A 21-year-old participant screening with nextSteps would wrongly exclude a qualifying minor offence. Acceptance: change nextSteps item 3 in both languages to 'committed by a person not more than 21 years old' / 'cometidos por una persona de no más de 21 años', matching the memo, the mechanism and authority[2].",
+      "evidenceSha": "21d63e72e4915252506c976db87eba391741ea4ade90ba0e33932586b02e7462"
+    },
+    {
+      "reviewId": 31,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "MN:mn_ceb_felony_cannabis"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: gather.en[2]/es[2] asserts Minnesota Court Records Online is 'the free public case-lookup service run by the Minnesota Judicial Branch' ('el servicio público y gratuito...'). No committed source carries the no-fee claim: MN.memo.json says only 'look your cases up on Minnesota Court Records Online' and MN-minnesota.json carries no cost statement for MCRO (contrast MD, whose memo expressly carries 'Free.' for Maryland Judiciary Case Search). A cost expectation stated to the participant must be carried. Acceptance: drop 'free'/'gratuito' from the MCRO descriptor in both languages, or have the owning source amended to carry the no-fee claim first.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93"
+    },
+    {
+      "reviewId": 32,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_inherent_authority"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (inherent-authority expungement; hearing statement carried via mn_petition_609a02_subd3.rules.notice plus the track's same-as-main-petition rules); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93"
+    },
+    {
+      "reviewId": 33,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_mistaken_identity_iddata"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (mistaken-identity relief; correctly framed as not something one buys or applies for); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93"
+    },
+    {
+      "reviewId": 34,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MN:mn_pardon_auto_expungement"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MN.memo.json (automatic expungement following pardon; MCRO attribution carried by the compiled profile's record-source pairing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d4a0cea61e9285b78b0680795c2af9058f646e27472ba3b1d976f177abd41c93"
+    },
+    {
+      "reviewId": 35,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MO:mo-610-141-automatic-drug"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MO.memo.json (§ 610.141 automatic drug expungement; MACHS carried by officialSources, MULES an acronym gloss on the memo-carried full name); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "d498bad4614dc2731889d186635c635489f209151ab866cab2462e85784f4f21"
+    },
+    {
+      "reviewId": 36,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "MT:mt_auto_nonconviction"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to MT.memo.json (automatic non-conviction removal; CRISS address/phone/email and CHOPRS $10-$30 official fees carried; the removal/expungement/sealing three-way distinction respected per the memo limitation); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "277a7f892ac594da330179a15df07eca00a6527e9b4a5f5c2251396092f11724"
+    },
+    {
+      "reviewId": 37,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NC:nc_auto_146_a4"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NC.memo.json (§ 15A-146(a4) automatic expungement; petition-route fallback details carried by nc_146_dismissal_petition / nc_146_acquittal_petition including the $175 petition-route fee); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "201ea84de8368320457684cfcd9715d9ae56f71aff7b394cc33bca00a3d47316"
+    },
+    {
+      "reviewId": 38,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-dna-profile-removal-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null — one of the eleven required participant elements is not delivered, and unlike MI:mi_deferral_status there is no committed 'not applicable' statement backing a considered null: ND.memo.json tracks[nd-dna-profile-removal-routing] carries writable timing facts (waitingPeriods = [] i.e. no waiting period recorded; effectiveFrom 2019-08-01), and the sibling nd-juvenile-records-routing entry in the same packet file populates timing. The participant gets no answer on whether any clock attaches to a § 31-13-07 petition. Acceptance: add an EN/ES timing element grounded in committed bytes (no waiting period recorded; any deadline is a first question for the lawyer taking the case, mirroring the NE routing pattern).",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520"
+    },
+    {
+      "reviewId": 39,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "ND:nd-juvenile-records-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to ND.memo.json (juvenile-records routing with populated timing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520"
+    },
+    {
+      "reviewId": 40,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-trafficking-vacatur-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null — required participant element not delivered. ND.memo.json tracks[nd-trafficking-vacatur-routing] carries committed material for an honest timing statement (waitingPeriods = []; unresolvedQuestions on the ch. 29-32.1 procedural overlay), and a trafficking survivor is left with no answer on whether any deadline attaches to a § 12.1-41-14(1) motion. Acceptance: add an EN/ES timing element stating per committed bytes that no waiting period is recorded, the ch. 29-32.1 overlay is unmapped, and time limits are a first question for the lawyer or survivor clinic.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520"
+    },
+    {
+      "reviewId": 41,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "ND:nd-unconstitutional-arrest-expungement-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: the timing element is null — required participant element not delivered; the participant is told nothing about time pressure on a State v. Howe petition. ND.memo.json carries waitingPeriods = [] and the packet honestly refuses to supply the unpublished Howe standard, so an honest timing statement was writable (no waiting period recorded; the standard and any timing rules come from Howe, which the lawyer must obtain and read). The sibling juvenile entry populates timing, so null here is an omission, not a convention. Acceptance: add that EN/ES timing element.",
+      "evidenceSha": "ef35a01f6b492e1906d1948e78d1285995c86b6bb64ef509bf45f3a488559520"
+    },
+    {
+      "reviewId": 42,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-firearm-restoration-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (firearm-rights routing; set-aside does not restore firearm rights; pardon waiting periods carried cross-track); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 43,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "NE:ne-immigration-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: destination.en/es, handoff.en/es and nextSteps.en[2]/es[2] assert as a who-acts fact that the route's counsel may be 'an immigration attorney or an accredited representative' ('un representante acreditado para ejercer en materia migratoria'). No committed source carries the accredited-representative claim: NE.memo.json tracks[ne-immigration-routing] says only 'immigration counsel' (destination.detail, self_help_boundary limitation) and NE-nebraska.json contains no immigration-counsel language at all; the packet's own destination copy concedes the design 'does not name a particular organization', then names a category of practitioner anyway. On a track whose entire treatment IS the referral, who the participant may consult is the load-bearing claim. Acceptance: restrict the copy to 'immigration counsel / an immigration attorney' in destination, handoff and nextSteps, EN and ES, or add committed-source support for accredited representatives.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 44,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-out-of-jurisdiction-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (out-of-jurisdiction routing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 45,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-pardon-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (Board of Pardons routing, executive body, no court venue). Minor: afterNextStep's 'this route carries no appeal to a court' can be read as a claim that no judicial review of a Board denial exists, which the memo does not carry; rephrase to the design-scoped statement ('nothing in this route goes to a court') in both languages.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 46,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NE:ne-postconviction-routing"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NE.memo.json (postconviction routing); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "27b9774b1a8e750e17314f42f43456ccdd2c9179fdcba788948f130649e91905"
+    },
+    {
+      "reviewId": 47,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NH:nh_supreme_court_record"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NH.memo.json (RSA 651:5 annulment reach and the Supreme Court record question, 'annulment' terminology respected); parity verified (the Spanish afterNextStep adds a Spanish rendering alongside the required English RSA 651:5, X(f) inquiry — accuracy-preserving); payment suppression and elements verified with no defect.",
+      "evidenceSha": "485a9bf617caddf26393aeb72f67b68036d9f49366d3b8ebf97f786c05a92297"
+    },
+    {
+      "reviewId": 48,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "NJ:nj_automated_clean_slate"
+      ],
+      "owner": "Terminal B",
+      "note": "Two uncarried participant-facing claims in handoff.en/es. (1) The referral 'the county bar association's lawyer referral service and Legal Services of New Jersey are the usual starting points': no committed source mentions a bar association or lawyer referral service (zero hits in NJ.memo.json and NJ-new-jersey.json); the committed resource is Legal Services of New Jersey and its free online expungement navigator. (2) The legal-effect rationale 'losing easy access to your own records can hurt an immigration case': the committed record carries only 'Immigration exposure. New Jersey expungement has no federal immigration effect.' (selfHelpStopConditions) — the records-access-harm theory is carried nowhere and could deter a participant from pursuing relief on an uncarried legal claim. Acceptance: restate the low-cost-help referral on the carried resource only, and either delete the records-access rationale or limit the immigration warning to the carried statement (no federal immigration effect; get immigration advice first), in both languages.",
+      "evidenceSha": "c3ca532f14228b67a28602971c6d5aac987b5f180dcaf516d307c83342be8325"
+    },
+    {
+      "reviewId": 49,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NY:ny_clean_slate_dwai"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NY.memo.json (Clean Slate CPL 160.57 DWAI treatment; the sealed-record background-check sentence is carried by tracks[ny_clean_slate_convictions].controllingAuthority.summary in the same committed file); parity, payment suppression (DCJS Record Review fee is an official fee) and elements verified with no defect.",
+      "evidenceSha": "bc824b400e484d497245aaa51c4986b9d50a00c08820f75cec6edd994137bb26"
+    },
+    {
+      "reviewId": 50,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "NY:ny_clean_slate_manual_review"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to NY.memo.json (manual-review pathway; same carried background-check sentence); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "bc824b400e484d497245aaa51c4986b9d50a00c08820f75cec6edd994137bb26"
+    },
+    {
+      "reviewId": 51,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OH:oh_2953_39_prosecutor"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to OH.memo.json; the packet honestly carries the lane-recorded limits (ORC 2953.39 full text not read at source; whether a person can prompt the prosecutor unknown) and deliberately does not end the route at the prosecutor's door; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "4984a2121fce67e1907dc543dff4e356f0fd3bd4633a48ff0e004d8118481b24"
+    },
+    {
+      "reviewId": 52,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "OK:ok_osbi_portal"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: handoff.en/es and nextSteps.en[4]/es[4] state the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. No committed source carries it: OK.memo.json's immigration statements are limited to escalation ('an immigration attorney before any Oklahoma route is used'), scope ('immigration is federal and out of scope') and the no-representation rule ('LegalEase never represents Oklahoma sealing as producing an immigration outcome'); zero hits for the evidence-destruction theory in OK.memo.json or OK-oklahoma.json. The uncarried theory could deter a participant from pursuing relief. Acceptance: delete the rationale in both elements and both languages, or replace it with the carried formulation (immigration is federal and out of scope; see an immigration attorney before using any Oklahoma route). The $150 OSBI processing fee copy is an official government fee and is fine.",
+      "evidenceSha": "1c288106cc1af5918447ecc93c4a1abfd6fa6ca7ec0d67adc38c0afafdd50f50"
+    },
+    {
+      "reviewId": 53,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "OK:ok_clean_slate"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: docs/record-clearing/deferrals/ok-deferrals.md names the track and job and states both exact supported conditions (22 O.S. § 18b(B) funds-availability with no traceable appropriation; § 19d administration/portal not operating against the 1 Nov 2026/2027/2029 statutory dates), each carried verbatim by OK.memo.json legal_design_blocker limitations and release_blocker unresolvedQuestions; the participant copy delivers the elements, routes to the open § 19 petition preserved by § 19d(G), honours the § 19(L) re-lettering caution, and does not read as 'coming soon'.",
+      "evidenceSha": "1c288106cc1af5918447ecc93c4a1abfd6fa6ca7ec0d67adc38c0afafdd50f50"
+    },
+    {
+      "reviewId": 54,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TN:tn_trafficking_40_32_105"
+      ],
+      "owner": "Terminal B",
+      "note": "Honesty of the thin-authority route verified: mechanism, timing, stopReason, briefcaseSaved, handoff and authority[] consistently state that the current text of T.C.A. § 40-32-105 could not be retrieved from any official source on 2026-08-06, that the route's existence rests on the official cross-references in Public Chapter 268 (§ 40-32-102(c)(2), § 40-32-106(c)(1)), and no eligibility condition, waiting period, fee, form, court or venue is invented — all carried by TN.memo.json (controllingAuthority.summary, unresolvedQuestions[0], waitingPeriods, rules, geography.venue, legalDesignDecision); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "35c777dff3114c771e9b71ff5b029074830ef074be90618e606127f1cb2ecff1"
+    },
+    {
+      "reviewId": 55,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_discretionary"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to TX.memo.json (art. 55A discretionary expunction; Rule 145 'remains available' claim correctly scoped to its own track's rules.feeWaiver); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "a0c2f7167d42704044e7a2399a5d1925e31e3c4e93ac8fed205574db170dfaa8"
+    },
+    {
+      "reviewId": 56,
+      "outcome": "correction_required",
+      "trackKeys": [
+        "TX:tx_exp_acquittal"
+      ],
+      "owner": "Terminal B",
+      "note": "Defect: handoff.en/es states the legal-effect rationale 'clearing a record can take away the proof an immigration case needs'. No committed source carries it: TX.memo.json tracks[tx_exp_acquittal].selfHelpStopConditions carries only 'Immigration consequences.' as a referral-out stop and TX-texas.json contains no immigration text; the operative carried instruction is to take any immigration matter to an immigration attorney before using a Texas route. The uncarried theory could deter a participant from pursuing relief. Acceptance: trim the sentence to the carried instruction in both languages, or have the memo amended to carry the rationale first. The exact_supported_deferral itself is verified: docs/record-clearing/deferrals/tx-deferrals.md names the track and states the exact carried conditions (art. 102.0061(a) county fee figure unresolved; the doubled $25 charge under arts. 55A.254(f)/55A.351(b-3) unconfirmed), and the Rule 145 no-charge claim is carried by rules.feeWaiver/components[fee_waiver_statement].",
+      "evidenceSha": "a0c2f7167d42704044e7a2399a5d1925e31e3c4e93ac8fed205574db170dfaa8"
+    },
+    {
+      "reviewId": 57,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "TX:tx_exp_dismissed"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the deferral doc states the exact carried conditions (county fee figure; doubled $25 charge; the five-county sensitive-data handling question), each carried by TX.memo.json release_blocker unresolvedQuestions; the stopReason count of three open questions is substantively accurate (the memo's first entry contains two distinct questions); the 'public until the order issues' claim is carried at tracks[tx_exp_dismissed].unresolvedQuestions[1]; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "a0c2f7167d42704044e7a2399a5d1925e31e3c4e93ac8fed205574db170dfaa8"
+    },
+    {
+      "reviewId": 58,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "UT:ut_adj_reduction_402"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to UT.memo.json (§ 76-3-402 reduction; cross-track ut_auto_clean_slate pointers resolve); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "eae0b26ec2a05e9d899aca2653953476b440c5416194884511dee39f49836ae6"
+    },
+    {
+      "reviewId": 59,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "UT:ut_pet_appellate"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to UT.memo.json (appellate-court expungement petition posture; stopReason's guidance-not-packet framing is anti-sale copy, not sale copy); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "eae0b26ec2a05e9d899aca2653953476b440c5416194884511dee39f49836ae6"
+    },
+    {
+      "reviewId": 60,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VA:va_auto_seal_clean_record"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VA.memo.json; both VA release blockers (no automatic-timing promise; the 1 Dec 2026 / 1 Jul 2027 dual-version cutover) carried as stated uncertainty rather than invented dates; parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570"
+    },
+    {
+      "reviewId": 61,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VA:va_auto_seal_nonconvictions"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VA.memo.json (automatic sealing of non-convictions, va_exp_nonconviction cross-track pointers resolve); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570"
+    },
+    {
+      "reviewId": 62,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VA:va_auto_seal_without_order"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VA.memo.json; the do-not-pay-anyone copy is payment-suppressing, not payment-suggesting; parity and elements verified with no defect.",
+      "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570"
+    },
+    {
+      "reviewId": 63,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VA:va_exp_actual_innocence"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VA.memo.json (actual-innocence expungement; ancillary-matter pointer va_seal_ancillary_matter_only resolves); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "f7c563da506c5af1877dbe0d746f083b66358dc504953a407bb0e47cc037c570"
+    },
+    {
+      "reviewId": 64,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VT:vt_diversion_post_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VT.memo.json (post-charge diversion sealing, 2-year/30-day/10-day clocks, VCIC official record fee); parity, payment suppression (do-not-buy copy is anti-sale) and elements verified with no defect.",
+      "evidenceSha": "8297578721398e098cb281a42d7242998b59a4d4c700df7c320fcb1a209fe298"
+    },
+    {
+      "reviewId": 65,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "VT:vt_diversion_pre_charge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to VT.memo.json (pre-charge diversion, 1 July 2025 applicability, Valcour exemption); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "8297578721398e098cb281a42d7242998b59a4d4c700df7c320fcb1a209fe298"
+    },
+    {
+      "reviewId": 66,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WI:wi_def_961_47"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WI.memo.json (§ 961.47 conditional discharge; DOJ fingerprint-removal cross-track pointer resolves; DJ-LE-250B and DOJ background-check official fee carried); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fb9d86ca81b9d9470280a539fc52bea572f0dd15c1e9fe97cdf6f28098b0c833"
+    },
+    {
+      "reviewId": 67,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WI:wi_exp_certificate_of_discharge"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WI.memo.json (§ 973.015 certificate-of-discharge route, 20-day clerk notice, once-per-person limit, Matasek/Arberry/Braunschweig/Leitner line, DOT carve-out; follow-up cross-track pointer resolves); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fb9d86ca81b9d9470280a539fc52bea572f0dd15c1e9fe97cdf6f28098b0c833"
+    },
+    {
+      "reviewId": 68,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_common_nc_procedure"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WV.memo.json (common non-conviction procedure, 60-day/30-day clocks, $200/$100 official fees); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    },
+    {
+      "reviewId": 69,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_dui_test_and_lock_dismissal"
+      ],
+      "owner": "Terminal B",
+      "note": "Authority traced to WV.memo.json (test-and-lock DUI dismissal expungement); parity, payment suppression and elements verified with no defect.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    },
+    {
+      "reviewId": 70,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_multiple_misdemeanors"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the deferral doc names the track and states the two exact carried release blockers (multi-county forum under § 61-11-26(a)(1) vs the (d) grouping proviso; severance of an excluded conviction vs § 61-11-26(i)(4) summary denial), each carried by WV.memo.json release_blocker unresolvedQuestions; participant copy delivers the elements. Two minors, action-neutral: timing.en/es imports the single-misdemeanor entry's sentence calling the SCA-C900 ten-day/30-day reply-window discrepancy 'one of the two reasons this route is on hold', contradicting the entry's own stopReason (which correctly names forum and severance) — the discrepancy is a shared additional hold recorded on wv_conv_single_misdemeanor as applying here too, so reword the count; and authority[9] states the severance point as settled where the release blocker treats it as open — qualify it.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    },
+    {
+      "reviewId": 71,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_nonviolent_felony"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: § 61-11-26(p)(5)'s two court-found limbs are stated as findings for the circuit court, not statements a self-help service makes, exactly as the memo carries; participant copy delivers the elements with settled timing and exact destinations.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    },
+    {
+      "reviewId": 72,
+      "outcome": "technical_approved",
+      "trackKeys": [
+        "WV:wv_conv_single_misdemeanor"
+      ],
+      "owner": "Terminal B",
+      "note": "exact_supported_deferral verified: the operative-form question across the five published Judiciary forms and the SCA-C900 staleness/reply-window discrepancy are stated exactly and carried by WV.memo.json; participant copy delivers the elements and does not read as 'coming soon'.",
+      "evidenceSha": "fe55129bdc8158839d12001245b863bb2aa7210d48f04045deb6f1ea34d05fb2"
+    }
+  ],
+  "totals": {
+    "tracksReviewed": 72,
+    "technical_approved": 59,
+    "correction_required": 13,
+    "held_on_source_or_design": 0
+  }
+}

@@ -1,0 +1,1753 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E2-A1",
+  "group": "E2-A",
+  "baseCommit": "c7225bcf8f2fb2ab0deb5c333d2278937b257694",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "webAccessAvailable": false,
+  "findings": [
+    {
+      "jobId": "E2-A-AL-al-diversion",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "al-diversion",
+        "compiledPathwayIds": [
+          "non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(a)(6); Ala. Code § 15-27-2(a)(6); Ala. Code § 15-27-2.1(a)(3)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[al-diversion].mechanismAuthority)",
+          "quote": "Petition to Expunge After Diversion or Accountability Court Completion, Ala. Code § 15-27-1(a)(6) and § 15-27-2(a)(6)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code §§ 15-27-1(a) and 15-27-2(a) (contains paragraphs (a)(6))",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].label)",
+          "quote": "Non-conviction expungement under Ala. Code §§ 15-27-1(a) and 15-27-2(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative (a)(6) trigger implemented",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].ruleClauses)",
+          "quote": "Successful completion of a court program — drug court, mental-health court, veterans court, or a court-approved deferred-prosecution / diversion program (petition generally 1 year after completion)."
+        }
+      ],
+      "reasoning": "The track cites Ala. Code § 15-27-1(a)(6) and § 15-27-2(a)(6). Paragraph (a)(6) is contained in the subsection span of the non-conviction pathway label (§§ 15-27-1(a) and 15-27-2(a)) and its court-program/diversion trigger clause is that paragraph's operative rule. The other candidate's label cites § 15-27-2(c) (pardoned felony), which does not contain (a)(6). The Alabama profile appends a shared agent-training corpus to every pathway, so raw citation presence does not discriminate; only the pathway-defining label/summary/leading clauses are used as evidence.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AL-al-felony-dwop",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "al-felony-dwop",
+        "compiledPathwayIds": [
+          "non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-2(a)(7)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[al-felony-dwop].mechanismAuthority)",
+          "quote": "Petition to Expunge Felony Charges Dismissed Without Prejudice, Ala. Code § 15-27-2(a)(7)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-2(a) contains paragraph (a)(7)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].label)",
+          "quote": "Non-conviction expungement under Ala. Code §§ 15-27-1(a) and 15-27-2(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative (a)(7) felony 5-year rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].ruleClauses)",
+          "quote": "Nolle prossed / dismissed WITHOUT prejudice and not refiled — after more than 1 year (misdemeanor) or 5 years (felony), with no disqualifying conviction in the interim."
+        }
+      ],
+      "reasoning": "The track is the § 15-27-2(a)(7) felony dismissed-without-prejudice route. The non-conviction pathway label spans § 15-27-2(a) and its clause states the exact (a)(7) rule (without-prejudice dismissal, not refiled, 5 years for a felony). The pardoned-felony candidate is scoped to § 15-27-2(c) and is excluded. The Alabama profile appends a shared agent-training corpus to every pathway, so raw citation presence does not discriminate; only the pathway-defining label/summary/leading clauses are used as evidence.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AL-al-felony-nonconviction-90",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "al-felony-nonconviction-90",
+        "compiledPathwayIds": [
+          "non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-2(a)(1) through (a)(5); Ala. Code § 15-27-3; Ala. Code § 15-27-5(b)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[al-felony-nonconviction-90].mechanismAuthority)",
+          "quote": "Petition to Expunge Felony Non-Conviction Records, Ala. Code § 15-27-2(a)(1)-(a)(5)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-2(a) contains paragraphs (a)(1)-(a)(5)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].label)",
+          "quote": "Non-conviction expungement under Ala. Code §§ 15-27-1(a) and 15-27-2(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative 90-day non-conviction triggers",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].ruleClauses)",
+          "quote": "Dismissed WITH prejudice — eligible after more than 90 days."
+        }
+      ],
+      "reasoning": "The track covers § 15-27-2(a)(1)-(a)(5) felony non-conviction records. The non-conviction pathway label spans § 15-27-2(a) and its clauses state the (a)(1)-(a)(5) triggers (dismissed with prejudice, no-billed, not guilty — 90 days). The pardoned-felony candidate (§ 15-27-2(c)) does not contain those paragraphs. The Alabama profile appends a shared agent-training corpus to every pathway, so raw citation presence does not discriminate; only the pathway-defining label/summary/leading clauses are used as evidence.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AL-al-misd-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "al-misd-conviction",
+        "compiledPathwayIds": [
+          "eligible-conviction-expungement-under-the-redeemer-act"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(b), as amended by Act 2024-407 (SB 153), effective 1 October 2024",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[al-misd-conviction].mechanismAuthority)",
+          "quote": "Petition to Expunge a Misdemeanor-Level Conviction or Youthful Offender Adjudication, Ala. Code § 15-27-1(b)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(b) pin cite in the REDEEMER pathway summary",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[eligible-conviction-expungement-under-the-redeemer-act].ruleClauses)",
+          "quote": "Nonviolent MISDEMEANOR / violation / traffic / ordinance conviction (§ 15-27-1(b)): eligible 3 years after the date of conviction, with all probation/parole, fines, costs, and restitution completed, and the offense not excluded (not violent, sex, moral-turpitude, or serious-traffic)."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "sole listed candidate does not implement § 15-27-1(b)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].label)",
+          "quote": "Non-conviction expungement under Ala. Code §§ 15-27-1(a) and 15-27-2(a)  [label spans §§ 15-27-1(a)/15-27-2(a) only; subsection (b) is outside it]"
+        }
+      ],
+      "reasoning": "The track is the § 15-27-1(b) misdemeanor-conviction expungement. The only listed candidate is the non-conviction pathway, whose label is limited to §§ 15-27-1(a)/15-27-2(a); subsection (b) is outside that span, refuting the candidate. The compiled REDEEMER Act pathway (not in the candidate pool) carries the exact pin cite \"(§ 15-27-1(b)): eligible 3 years after the date of conviction\" as its first operative clause; the track maps there. The compiled 3-year text predates the Act 2024-407 amendment named by the registry, which is a freshness issue, not a mapping issue. The Alabama profile appends a shared agent-training corpus to every pathway, so raw citation presence does not discriminate; only the pathway-defining label/summary/leading clauses are used as evidence.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AL-al-misd-dwop",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "al-misd-dwop",
+        "compiledPathwayIds": [
+          "non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(a)(7)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[al-misd-dwop].mechanismAuthority)",
+          "quote": "Petition to Expunge Misdemeanor-Level Charges Dismissed Without Prejudice, Ala. Code § 15-27-1(a)(7)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(a) contains paragraph (a)(7)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].label)",
+          "quote": "Non-conviction expungement under Ala. Code §§ 15-27-1(a) and 15-27-2(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative (a)(7) misdemeanor 1-year rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].ruleClauses)",
+          "quote": "Nolle prossed / dismissed WITHOUT prejudice and not refiled — after more than 1 year (misdemeanor) or 5 years (felony), with no disqualifying conviction in the interim."
+        }
+      ],
+      "reasoning": "The track is § 15-27-1(a)(7) (misdemeanor charges dismissed without prejudice). The non-conviction pathway label spans § 15-27-1(a) and its clause states the exact rule (without-prejudice dismissal not refiled — 1 year for a misdemeanor). The Alabama profile appends a shared agent-training corpus to every pathway, so raw citation presence does not discriminate; only the pathway-defining label/summary/leading clauses are used as evidence.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AL-al-misd-nonconviction-90",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "al-misd-nonconviction-90",
+        "compiledPathwayIds": [
+          "non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(a)(1) through (a)(5); Ala. Code § 15-27-3; Ala. Code § 15-27-5(b)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[al-misd-nonconviction-90].mechanismAuthority)",
+          "quote": "Petition to Expunge Misdemeanor-Level Non-Conviction Records, Ala. Code § 15-27-1(a)(1)-(a)(5)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(a) contains paragraphs (a)(1)-(a)(5)",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].label)",
+          "quote": "Non-conviction expungement under Ala. Code §§ 15-27-1(a) and 15-27-2(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative 90-day non-conviction triggers",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].ruleClauses)",
+          "quote": "Found not guilty at trial — eligible after more than 90 days."
+        }
+      ],
+      "reasoning": "The track covers § 15-27-1(a)(1)-(a)(5) misdemeanor non-conviction records; the non-conviction pathway label spans § 15-27-1(a) and its clauses state those 90-day triggers. The Alabama profile appends a shared agent-training corpus to every pathway, so raw citation presence does not discriminate; only the pathway-defining label/summary/leading clauses are used as evidence.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AL-al-pardoned-felony",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "al-pardoned-felony",
+        "compiledPathwayIds": [
+          "pardoned-felony-expungement-under-ala-code-15-27-2-c"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-2(c)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[al-pardoned-felony].mechanismAuthority)",
+          "quote": "Petition to Expunge a Pardoned Felony Conviction, Ala. Code § 15-27-2(c)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-2(c) exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[pardoned-felony-expungement-under-ala-code-15-27-2-c].label)",
+          "quote": "Pardoned felony expungement under Ala. Code § 15-27-2(c)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative 180-day-after-pardon rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[pardoned-felony-expungement-under-ala-code-15-27-2-c].ruleClauses)",
+          "quote": "A felony conviction may be expunged 180 days after the"
+        }
+      ],
+      "reasoning": "The track and the pardoned-felony pathway carry the same operative citation, Ala. Code § 15-27-2(c), and the same operative rule (expungement 180 days after the certificate of pardon issues). The other candidate is scoped to §§ 15-27-1(a)/15-27-2(a) non-convictions and is excluded. The Alabama profile appends a shared agent-training corpus to every pathway, so raw citation presence does not discriminate; only the pathway-defining label/summary/leading clauses are used as evidence.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AL-al-trafficking",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "al-trafficking",
+        "compiledPathwayIds": [
+          "human-trafficking-victim-expungement"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Ala. Code § 15-27-1(a)(8); Ala. Code § 15-27-2(a)(8); Ala. Code § 15-27-2(b)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[al-trafficking].mechanismAuthority)",
+          "quote": "Petition to Expunge Records of a Human Trafficking Survivor, Ala. Code § 15-27-1(a)(8), § 15-27-2(a)(8), § 15-27-2(b)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 15-27-1/2(a)(8) pin cite in the trafficking pathway clause",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[human-trafficking-victim-expungement].ruleClauses)",
+          "quote": "D. HUMAN-TRAFFICKING VICTIM (§ 15-27-1/2(a)(8)): On proof by a preponderance that petitioner was trafficked, committed the offense during that period, and would not have but for being trafficked, even some otherwise-excluded offenses may be expunged; not subject to the usual caps."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "both listed candidates are scoped to other subsections",
+          "source": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a].label) and src/lib/rcap-engine/compiled/profiles/AL-alabama.json (pathways[pardoned-felony-expungement-under-ala-code-15-27-2-c].label)",
+          "quote": "Non-conviction expungement under Ala. Code §§ 15-27-1(a) and 15-27-2(a) / Pardoned felony expungement under Ala. Code § 15-27-2(c)"
+        }
+      ],
+      "reasoning": "The track cites § 15-27-1(a)(8), § 15-27-2(a)(8) and § 15-27-2(b). The human-trafficking pathway (not in the candidate pool) carries the pin cite \"(§ 15-27-1/2(a)(8))\" with the § 15-27-2(b) operative test (preponderance, trafficked, but-for) as its defining clause. Neither listed candidate implements (a)(8) or (b): their labels cite §§ 15-27-1(a)/15-27-2(a) generally and § 15-27-2(c). The Alabama profile appends a shared agent-training corpus to every pathway, so raw citation presence does not discriminate; only the pathway-defining label/summary/leading clauses are used as evidence.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AR-ar-misdemeanor-dwi-seal",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ar-misdemeanor-dwi-seal",
+        "compiledPathwayIds": [
+          "situation-b-misdemeanor-convictions"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.C.A. § 16-90-1405, with § 16-90-1405(b)(2) referring out to the lookback periods in § 5-65-111; Offense: A.C.A. § 5-65-103; ACIC Petition and Order to Seal Misdemeanor DWI/BWI",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ar-misdemeanor-dwi-seal].mechanismAuthority)",
+          "quote": "Petition to Seal a Misdemeanor DWI or BWI Conviction, A.C.A. § 16-90-1405"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "DWI/BWI 10-year branch inside § 16-90-1405 pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json (pathways[situation-b-misdemeanor-convictions].ruleClauses)",
+          "quote": "Certain listed misdemeanors carry a 5-year wait; DWI/BWI carries a 10-year wait (Section 2)."
+        },
+        {
+          "kind": "official_form",
+          "value": "disposition-specific ACIC petition-and-order pair incl. DWI/BWI",
+          "source": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json (corpus)",
+          "quote": "Pick the petition-and-order pair by disposition: felony, misdemeanor, DWI/BWI, drug possession, non-conviction, arrest,"
+        }
+      ],
+      "reasoning": "The track is the misdemeanor DWI/BWI seal under A.C.A. § 16-90-1405 with the § 5-65-111 lookbacks. Situation B carries the operative § 16-90-1405 citation and its own clause states the discriminating DWI/BWI 10-year wait branch; the profile also directs picking the DWI/BWI-specific ACIC petition-and-order pair, matching the registry-named form. The DWI track is a timing branch of Situation B rather than a separate runtime pathway. The § 5-65-111 cross-reference itself does not appear in the profile (0 hits), so the branch is evidenced by the 10-year rule and form pair, not a pin cite.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AR-ar-misdemeanor-seal",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ar-misdemeanor-seal",
+        "compiledPathwayIds": [
+          "situation-b-misdemeanor-convictions"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.C.A. § 16-90-1405; Procedure: A.C.A. §§ 16-90-1413, 16-90-1414; Standard: § 16-90-1415(a); Effect: § 16-90-1417; ACIC uniform petition and order",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ar-misdemeanor-seal].mechanismAuthority)",
+          "quote": "Petition to Seal a Misdemeanor or Violation Conviction, A.C.A. § 16-90-1405"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "A.C.A. § 16-90-1405 exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json (pathways[situation-b-misdemeanor-convictions].label)",
+          "quote": "Situation B — Misdemeanor convictions (§ 16-90-1405)"
+        },
+        {
+          "kind": "official_form",
+          "value": "ACIC/AOC uniform petition-and-order forms",
+          "source": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json (corpus)",
+          "quote": "Arkansas uses standardized AOC / ACIC uniform petition-and-order to seal forms, posted on the Department"
+        }
+      ],
+      "reasoning": "The track (Petition to Seal a Misdemeanor or Violation Conviction, A.C.A. § 16-90-1405) and the Situation B pathway carry the same operative citation § 16-90-1405 in the pathway label, and the profile documents the ACIC uniform petition-and-order forms the registry names. Sole candidate; citation confirms it.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AZ-az_certificate_second_chance",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "az_certificate_second_chance",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-905(K), (L), (N); A.R.S. § 13-905(M); A.R.S. § 12-558.03",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[az_certificate_second_chance].mechanismAuthority)",
+          "quote": "Application for Certificate of Second Chance, standalone, A.R.S. § 13-905(N)"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "runtime treats CSC as set-aside-incident only",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (corpus)",
+          "quote": "Certificate of Second Chance Included w/ set-aside No separate petition needed"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"13-905(N)\", \"905(N)\" in AZ-arizona.json: 0 hits each; every Certificate of Second Chance reference is tied to the set-aside application",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+          "quote": "no occurrence of the standalone-application subsection A.R.S. § 13-905(N) anywhere in the compiled profile"
+        }
+      ],
+      "reasoning": "The track is the standalone Certificate of Second Chance application under A.R.S. § 13-905(N). The compiled runtime handles a CSC only as a request made on the § 13-905 set-aside application (\"Included w/ set-aside — No separate petition needed\"); no pathway implements a standalone CSC application and § 13-905(N) appears nowhere in the profile. The sole candidate (Remedy 2 set-aside) is therefore the incident vehicle, not this track; the standalone track has no runtime representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-AZ-az_marijuana_expungement_arrest_no_charges",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "az_marijuana_expungement_arrest_no_charges",
+        "compiledPathwayIds": [
+          "remedy-3-marijuana-expungement"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 36-2862 (Proposition 207); Ariz. R. Crim. P. 36",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[az_marijuana_expungement_arrest_no_charges].mechanismAuthority)",
+          "quote": "Petition to Expunge Marijuana Records, arrest with no charges filed, A.R.S. § 36-2862"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 36-2862 (Prop 207) exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-3-marijuana-expungement].label)",
+          "quote": "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative scope covers all record postures",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-3-marijuana-expungement].ruleClauses)",
+          "quote": "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions."
+        }
+      ],
+      "reasoning": "The three registry marijuana-expungement tracks are venue/posture splits of one statute, A.R.S. § 36-2862. Remedy 3 is the only compiled pathway carrying that operative citation, and its clause reaches arrests, charges, adjudications, and convictions. The arrest-with-no-charges posture is inside the pathway clause \"applies to arrests, charges, adjudications, and convictions\".",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AZ-az_marijuana_expungement_limited_jurisdiction",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "az_marijuana_expungement_limited_jurisdiction",
+        "compiledPathwayIds": [
+          "remedy-3-marijuana-expungement"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 36-2862 (Proposition 207); Ariz. R. Crim. P. 36; AOC form instructions AOC CREM1I-071221",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[az_marijuana_expungement_limited_jurisdiction].mechanismAuthority)",
+          "quote": "Petition to Expunge Marijuana Records, limited jurisdiction court, A.R.S. § 36-2862"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 36-2862 (Prop 207) exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-3-marijuana-expungement].label)",
+          "quote": "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative scope covers all record postures",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-3-marijuana-expungement].ruleClauses)",
+          "quote": "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions."
+        },
+        {
+          "kind": "official_form",
+          "value": "AOCCREM1I-071221.pdf in profile form inventory",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (formInventory)",
+          "quote": "AOCCREM1I-071221.pdf"
+        }
+      ],
+      "reasoning": "The three registry marijuana-expungement tracks are venue/posture splits of one statute, A.R.S. § 36-2862. Remedy 3 is the only compiled pathway carrying that operative citation, and its clause reaches arrests, charges, adjudications, and convictions. The registry-named AOC form instructions CREM1I-071221 are present in the profile form inventory as AOCCREM1I-071221.pdf, an official-form match for this track.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AZ-az_marijuana_expungement_superior_court",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "az_marijuana_expungement_superior_court",
+        "compiledPathwayIds": [
+          "remedy-3-marijuana-expungement"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 36-2862 (Proposition 207); Ariz. R. Crim. P. 36",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[az_marijuana_expungement_superior_court].mechanismAuthority)",
+          "quote": "Petition to Expunge Marijuana Records, superior court, A.R.S. § 36-2862"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 36-2862 (Prop 207) exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-3-marijuana-expungement].label)",
+          "quote": "Remedy 3 — Marijuana expungement (A.R.S. § 36-2862, Prop 207)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative scope covers all record postures",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-3-marijuana-expungement].ruleClauses)",
+          "quote": "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions."
+        }
+      ],
+      "reasoning": "The three registry marijuana-expungement tracks are venue/posture splits of one statute, A.R.S. § 36-2862. Remedy 3 is the only compiled pathway carrying that operative citation, and its clause reaches arrests, charges, adjudications, and convictions. The superior-court venue split is a filing-venue variant; the profile files \"in the court that handled the case\" under one pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AZ-az_record_sealing_arrest_no_charges",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "az_record_sealing_arrest_no_charges",
+        "compiledPathwayIds": [
+          "remedy-1-record-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-911; Ariz. R. Crim. P. 36.1",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[az_record_sealing_arrest_no_charges].mechanismAuthority)",
+          "quote": "Petition to Seal Criminal Case Records, arrest with no charges filed, A.R.S. § 13-911"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-911 exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-1-record-sealing].label)",
+          "quote": "Remedy 1 — Record sealing (A.R.S. § 13-911)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"no charges\", \"not charged\", \"never filed\", \"declined\" in AZ-arizona.json: 0 hits each",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+          "quote": "the arrest-with-no-charges-filed branch of § 13-911 is not stated as an explicit compiled clause"
+        }
+      ],
+      "reasoning": "The track is the arrest-with-no-charges branch of A.R.S. § 13-911. Remedy 1 is the only compiled pathway implementing § 13-911, so the mapping is isolated by the operative statute; however the compiled clauses only spell out the conviction and dismissal/acquittal branches, and no uncharged-arrest language exists in the profile. Mapped as a variant of Remedy 1 with the gap flagged for E3.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-AZ-az_record_sealing_conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "az_record_sealing_conviction",
+        "compiledPathwayIds": [
+          "remedy-1-record-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-911, created by SB 1294 (2021), effective January 1, 2023, amended by SB 1639 (2024); Ariz. R. Crim. P. 36.1, as amended by order R-24-0049, permanent amendments effective January 1, 2025",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[az_record_sealing_conviction].mechanismAuthority)",
+          "quote": "Petition to Seal Criminal Case Records, conviction, A.R.S. § 13-911"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-911 exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-1-record-sealing].label)",
+          "quote": "Remedy 1 — Record sealing (A.R.S. § 13-911)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative conviction-sealing branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-1-record-sealing].ruleClauses)",
+          "quote": "Convictions — a person convicted of an eligible offense may seal the arrest, conviction, and sentencing records after completing all NONMONETARY terms of the sentence and the applicable waiting period (by offense class)."
+        }
+      ],
+      "reasoning": "The track is the conviction branch of A.R.S. § 13-911 sealing. Remedy 1 is the only pathway carrying § 13-911 and its clause implements the conviction branch (seal after nonmonetary sentence terms plus class-based waiting period).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AZ-az_record_sealing_dismissal_not_guilty",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "az_record_sealing_dismissal_not_guilty",
+        "compiledPathwayIds": [
+          "remedy-1-record-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-911; Ariz. R. Crim. P. 36.1",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[az_record_sealing_dismissal_not_guilty].mechanismAuthority)",
+          "quote": "Petition to Seal Criminal Case Records, dismissal or not guilty verdict, A.R.S. § 13-911"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-911 exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-1-record-sealing].label)",
+          "quote": "Remedy 1 — Record sealing (A.R.S. § 13-911)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative dismissal/acquittal branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-1-record-sealing].ruleClauses)",
+          "quote": "Dismissals / acquittals — a person whose charges were dismissed, who was acquitted, or whose charge was reduced to a lesser eligible offense may petition to seal, generally right away."
+        }
+      ],
+      "reasoning": "The track is the dismissal/not-guilty branch of A.R.S. § 13-911. Remedy 1 is the only pathway carrying § 13-911 and its clause implements that branch (petition to seal generally right away).",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-AZ-az_set_aside",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "az_set_aside",
+        "compiledPathwayIds": [
+          "remedy-2-set-aside-of-a-conviction"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-905; Ariz. R. Crim. P. 41, Forms 31(a) and 31(b), as amended by order R-24-0049, effective January 1, 2025",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[az_set_aside].mechanismAuthority)",
+          "quote": "Application to Set Aside Judgment of Guilt, A.R.S. § 13-905"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "A.R.S. § 13-905 exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (pathways[remedy-2-set-aside-of-a-conviction].label)",
+          "quote": "Remedy 2 — Set-aside of a conviction (A.R.S. § 13-905)"
+        },
+        {
+          "kind": "official_form",
+          "value": "AOC CR41FORM31A/31B (Ariz. R. Crim. P. 41 Forms 31(a)/31(b))",
+          "source": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json (corpus)",
+          "quote": "AOC CR41FORM31A-0 Application to Set Aside Vacates the judgment of guilt; may request a Certificate of"
+        }
+      ],
+      "reasoning": "The track (Application to Set Aside Judgment of Guilt, A.R.S. § 13-905, Rule 41 Forms 31(a)/(b)) matches the Remedy 2 pathway on both the operative statute in the label and the official AOC CR41FORM31A/31B application/order forms in the profile corpus. Sole candidate; both discriminator types confirm it.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CA-ca-851-8",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ca-851-8",
+        "compiledPathwayIds": [
+          "tool-4-arrest-record-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Cal. Penal Code § 851.8; Cal. Penal Code § 849.5, deeming an arrest a detention; Judicial Council form CR-409, which must carry notice of these other means",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ca-851-8].mechanismAuthority)",
+          "quote": "Petition for a Finding of Factual Innocence, Cal. Penal Code § 851.8"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "PC 851.8 in the pathway label",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-4-arrest-record-sealing].label)",
+          "quote": "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative factual-innocence rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-4-arrest-record-sealing].ruleClauses)",
+          "quote": "prosecutor in contested cases. A stronger remedy, PC 851.8, seals AND destroys the records on a finding of"
+        }
+      ],
+      "reasoning": "The track (factual innocence, Cal. Penal Code § 851.8) is one of the two operative branches of Tool 4, whose label and clause carry the exact PC 851.8 citation and its seal-and-destroy rule. Sole candidate; citation confirms.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CA-ca-851-91",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ca-851-91",
+        "compiledPathwayIds": [
+          "tool-4-arrest-record-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Cal. Penal Code § 851.91, added by SB 393 (2017), effective 1 January 2018, as since amended; Cal. Penal Code § 851.92, sealing mechanics; Cal. Penal Code § 851.91(a)(1), what \"did not result in a conviction\" means; Cal. Penal Code § 851.91(a)(2), the four ineligibility bars; Cal. Penal Code § 851.91(c)(2), the interests-of-justice showing where a pattern applies; Judicial Council forms CR-409, CR-409-INFO, CR-410",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ca-851-91].mechanismAuthority)",
+          "quote": "Petition to Seal Arrest and Related Records, Cal. Penal Code § 851.91"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "PC 851.91 in the pathway label",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-4-arrest-record-sealing].label)",
+          "quote": "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative matter-of-right sealing rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-4-arrest-record-sealing].ruleClauses)",
+          "quote": "A person arrested but not convicted may seal the arrest record under PC 851.91 — generally as a matter of right"
+        }
+      ],
+      "reasoning": "The track (arrest sealing, Cal. Penal Code § 851.91) is the other operative branch of Tool 4; the pathway clause carries the exact PC 851.91 citation with its matter-of-right standard and pattern exception. Sole candidate; citation confirms.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CA-ca-auto-arrest",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ca-auto-arrest",
+        "compiledPathwayIds": [
+          "tool-2-automatic-relief"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Cal. Penal Code § 851.93; Cal. Penal Code § 851.93(e), the saving clause preserving the petition routes; SB 393 (Lara, 2017)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ca-auto-arrest].mechanismAuthority)",
+          "quote": "Automatic Arrest Record Relief, Cal. Penal Code § 851.93"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "PC 851.93 in the pathway label",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-2-automatic-relief].label)",
+          "quote": "Tool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative automatic-relief mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-2-automatic-relief].ruleClauses)",
+          "quote": "monthly and grants “relief” to eligible records without any petition: arrests not leading to conviction, and most"
+        }
+      ],
+      "reasoning": "The track (automatic arrest relief, Cal. Penal Code § 851.93) maps to Tool 2, whose label carries the exact PC 851.93 citation for the arrest branch of DOJ automatic relief. Sole candidate; citation confirms; the track is the arrest branch of the combined automatic-relief pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CA-ca-auto-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ca-auto-conviction",
+        "compiledPathwayIds": [
+          "tool-2-automatic-relief"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Cal. Penal Code § 1203.425; AB 1076 (2019), effective 1 July 2022, records back to 1 January 2021; AB 145 (2021), effective 1 July 2022, records back to 1 January 1973; SB 731 (2022) and AB 567 (2023), made effective 1 October 2024 by AB 168 (2024); Cal. Penal Code § 1203.425(b), the prosecutor block",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ca-auto-conviction].mechanismAuthority)",
+          "quote": "Automatic Conviction Record Relief, Cal. Penal Code § 1203.425"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "PC 1203.425 in the pathway label",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-2-automatic-relief].label)",
+          "quote": "Tool 2 — Automatic relief (PC 851.93 arrests / 1203.425 convictions)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "AB 1076 / SB 731 session-law match",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-2-automatic-relief].ruleClauses)",
+          "quote": "Under AB 1076 (2019) and SB 731 (eff. July 1, 2023), the California DOJ reviews the statewide database"
+        }
+      ],
+      "reasoning": "The track (automatic conviction relief, Cal. Penal Code § 1203.425, AB 1076/SB 731) maps to Tool 2, whose label carries the exact 1203.425 citation and whose clauses name the same session laws the registry cites. Sole candidate; the track is the conviction branch of the combined automatic-relief pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CA-ca-prop64",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ca-prop64",
+        "compiledPathwayIds": [
+          "tool-5-proposition-64-marijuana-relief",
+          "prop-64-currently-serving-petition-11361-8",
+          "prop-64-completed-sentence-application-11361-8"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Cal. Health & Safety Code § 11361.8; Cal. Health & Safety Code § 11361.9, automatic processing; AB 1793 (2018); Judicial Council forms CR-400, CR-401, CR-402, CR-403",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ca-prop64].mechanismAuthority)",
+          "quote": "Petition or Application for Proposition 64 Cannabis Relief, Cal. Health and Safety Code § 11361.8"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "H&S 11361.8 / 11361.9 in the umbrella pathway label",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[tool-5-proposition-64-marijuana-relief].label)",
+          "quote": "Tool 5 — Proposition 64 marijuana relief (H&S 11361.8 / 11361.9)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "currently-serving § 11361.8 petition branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[prop-64-currently-serving-petition-11361-8].label)",
+          "quote": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "completed-sentence § 11361.8 application branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/CA-california.json (pathways[prop-64-completed-sentence-application-11361-8].label)",
+          "quote": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application"
+        }
+      ],
+      "reasoning": "The track is the umbrella \"Petition or Application for Proposition 64 Cannabis Relief, § 11361.8\" with § 11361.9 automatic processing. All three candidates carry the operative § 11361.8 citation in their labels: the two branch pathways implement the statute's petition (currently serving) and application (completed sentence) branches — the exact two vehicles the track name enumerates — and Tool 5 is the umbrella including § 11361.9 automatic processing. No discriminator isolates one because the track is genuinely represented across these compiled variants.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CO-co_auto_seal_arrest",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "co_auto_seal_arrest",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.R.S. § 24-72-704(1.5) and (2)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[co_auto_seal_arrest].mechanismAuthority)",
+          "quote": "Automatic Sealing, Arrest With No Charges Filed, C.R.S. § 24-72-704(1.5) and (2)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"704(1.5)\" and \"(1.5)\" in CO-colorado.json: 0 hits each",
+          "source": "src/lib/rcap-engine/compiled/profiles/CO-colorado.json",
+          "quote": "the automatic-sealing subsection C.R.S. § 24-72-704(1.5) appears nowhere in the compiled profile"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "sole candidate is a petition route, not an automatic one",
+          "source": "src/lib/rcap-engine/compiled/profiles/CO-colorado.json (pathways[petition-based-non-conviction-sealing-jdf-417-24-72-704].ruleClauses)",
+          "quote": "Petition-based sealing (HB19-1275). The faster route. The person files JDF 417 (non-convictions)"
+        }
+      ],
+      "reasoning": "The track is automatic sealing of uncharged arrests under C.R.S. § 24-72-704(1.5) and (2). The sole candidate is the petition-based JDF 417 pathway, refuted for an automatic track by its own filing requirement; the only automatic compiled pathway is Clean Slate under § 13-3-117, a different statute. No compiled pathway carries § 24-72-704(1.5), so the automatic branch has no runtime representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-CO-co_petition_seal_arrest",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "co_petition_seal_arrest",
+        "compiledPathwayIds": [
+          "petition-based-non-conviction-sealing-jdf-417-24-72-704"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.R.S. § 24-72-704(1)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[co_petition_seal_arrest].mechanismAuthority)",
+          "quote": "Petition to Seal Arrest Records, No Charges Filed, C.R.S. § 24-72-704(1)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "C.R.S. § 24-72-704 and form JDF 417 in the label",
+          "source": "src/lib/rcap-engine/compiled/profiles/CO-colorado.json (pathways[petition-based-non-conviction-sealing-jdf-417-24-72-704].label)",
+          "quote": "Petition-based non-conviction sealing (JDF 417 / § 24-72-704)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative arrest-with-no-charges branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/CO-colorado.json (pathways[petition-based-non-conviction-sealing-jdf-417-24-72-704].ruleClauses)",
+          "quote": "An arrest with no charges, a dismissal, an acquittal, or a"
+        }
+      ],
+      "reasoning": "The track is the § 24-72-704(1) petition to seal an uncharged arrest. The candidate pathway carries the operative § 24-72-704 citation and form JDF 417 in its label, and its own clause names the arrest-with-no-charges disposition on the non-conviction track. The track is the uncharged-arrest branch of that pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CT-ct-cannabis-petition",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ct-cannabis-petition",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142v; C.G.S. § 54-142v(a)(1), the three eligible conviction categories; C.G.S. § 54-142v(a)(2), required content: a copy of the arrest record or a supporting affidavit; C.G.S. § 54-142v(a)(3), the court shall direct erasure if the petition is in order; C.G.S. § 54-142v(a)(4), no fee; C.G.S. § 54-142v(b), the multi-count bar; C.G.S. § 54-142a, erasure mechanics",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-cannabis-petition].mechanismAuthority)",
+          "quote": "Petition for Erasure of Cannabis Conviction Records, C.G.S. § 54-142v"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"54-142v\" in CT-connecticut.json: 0 hits",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "the petition statute C.G.S. § 54-142v appears nowhere in the compiled profile"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the only cannabis pathway is automatic-mode with no form",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (packetGenerator[cannabis-conviction-erasure])",
+          "quote": "\"pathwayId\": \"cannabis-conviction-erasure\" ... \"mode\": \"automatic_relief_verification_and_guidance\", \"formCandidates\": [], \"formMappingStatus\": \"not_required\""
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "corpus states cannabis erasure requires nothing from the person",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (corpus)",
+          "quote": "Clean Slate and Cannabis erasure are designed to require nothing from the person. The petition (JD-CR-202)"
+        }
+      ],
+      "reasoning": "The track is the § 54-142v cannabis-erasure petition. The listed candidate (automatic non-conviction erasure) is disposition-scoped and carries no cannabis or § 54-142v content. The profile does contain a cannabis pathway, but it is compiled as automatic verification-and-guidance with no form (\"not_required\"; \"designed to require nothing from the person\"), i.e. the § 54-142u-style automatic posture, and § 54-142v appears nowhere in the profile even though the official petition page (petition-for-cannabis-erasure.html) was ingested as a source. The petition track therefore has no runtime representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-CT-ct-cleanslate-auto",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ct-cleanslate-auto",
+        "compiledPathwayIds": [
+          "automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(e)(1)(A)(i)(I) and (ii)(I); C.G.S. § 54-142t(a), the automation duty; C.G.S. § 54-142a(e)(1)(B), classification under the law in effect when the offense was committed; C.G.S. § 54-142a(e)(2), exclusions; C.G.S. § 54-142a(e)(3), completion requirements; C.G.S. § 54-142a(e)(4), cannabis carve-out from the clock; C.G.S. § 54-142a(i)(1), the multi-count and multi-defendant bar; Public Act 21-42, amended by P.A. 23-134",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-cleanslate-auto].mechanismAuthority)",
+          "quote": "Clean Slate Automatic Erasure, C.G.S. § 54-142a(e)(1)(A)(i)(I) and (ii)(I)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "PA 21-42 Clean Slate rule with post-1/1/2000 scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (pathways[automatic-clean-slate-erasure-for-eligible-post-2000-convictions].ruleClauses)",
+          "quote": "Clean Slate erasure of convictions (PA 21-42). Most misdemeanors and certain lower-level felonies"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "label scope: automatic, post-2000 convictions",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (pathways[automatic-clean-slate-erasure-for-eligible-post-2000-convictions].label)",
+          "quote": "Automatic Clean Slate erasure for eligible post-2000 convictions"
+        }
+      ],
+      "reasoning": "The track is Clean Slate automatic erasure under § 54-142a(e)(1)(A)(i)(I)/(ii)(I) (Public Act 21-42, as amended), the branch for convictions entered on or after January 1, 2000 that erases without a petition. The automatic Clean Slate pathway (not in the candidate pool) matches on the session law PA 21-42 and on the discriminating scope restriction (automatic, post-2000). The listed candidate is the non-conviction pathway, refuted because the track concerns convictions. Subsection-level pin cites below § 54-142a(e)(2)(C) do not exist in the profile; the session law and scope carry the identification.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CT-ct-cleanslate-petition",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ct-cleanslate-petition",
+        "compiledPathwayIds": [
+          "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(e)(1)(A)(i)(II) and (ii)(II); C.G.S. § 54-142a(e)(1)(A), petition on a form prescribed by the Office of the Chief Court Administrator; C.G.S. § 54-142a(e)(1)(B), classification under the law in effect when the offense was committed; C.G.S. § 54-142a(k), no fee; P.A. 23-134 § 1; Judicial Branch form JD-CR-202, Rev. 11-23",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-cleanslate-petition].mechanismAuthority)",
+          "quote": "Petition for Clean Slate Erasure, Convictions Before 1/1/2000, C.G.S. § 54-142a(e)(1)(A)(i)(II) and (ii)(II)"
+        },
+        {
+          "kind": "official_form",
+          "value": "Judicial Branch form JD-CR-202 named by both registry and pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (pathways[petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202].label)",
+          "quote": "Petitioned Clean Slate erasure for eligible pre-2000 convictions (JD-CR-202)"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "petition route reserved for pre-2000 convictions",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (corpus)",
+          "quote": "Default to ‘no form needed’ for non-convictions and post-2000 eligible convictions; reach for JD-CR-202 only for pre-2000"
+        }
+      ],
+      "reasoning": "The track is the Clean Slate petition for pre-1/1/2000 convictions under § 54-142a(e)(1)(A)(i)(II)/(ii)(II) on Judicial Branch form JD-CR-202. The petitioned Clean Slate pathway (not in the candidate pool) carries the identical official form JD-CR-202 in its label and the same pre-2000 scope restriction. An official-form match plus scope restriction isolates exactly one pathway; the listed non-conviction candidate is refuted by the conviction scope.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CT-ct-destruction-request",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ct-destruction-request",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(g)(1)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-destruction-request].mechanismAuthority)",
+          "quote": "Request for Physical Destruction of Erased Records, C.G.S. § 54-142a(g)(1)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"destruction\", \"destroy\", \"142a(g)\" in CT-connecticut.json: 0 hits each",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "no physical-destruction request content exists anywhere in the compiled profile"
+        }
+      ],
+      "reasoning": "The track is the § 54-142a(g)(1) request for physical destruction of erased records. The profile contains no destruction concept at all and no § 54-142a(g) pin cite; the sole candidate (automatic non-conviction erasure) implements erasure status, not the separate destruction request. No runtime representation exists.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-CT-ct-diversion",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ct-diversion",
+        "compiledPathwayIds": [
+          "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(a), erasure following the dismissal; C.G.S. § 54-56e, Accelerated Rehabilitation; C.G.S. § 46b-38c, Family Violence Education Program; C.G.S. § 54-56g, Impaired Driver Intervention Program; C.G.S. § 54-56l, supervised diversionary program",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-diversion].mechanismAuthority)",
+          "quote": "Erasure After Diversionary Program Completion, C.G.S. § 54-142a(a)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "named diversionary programs matching the cited program statutes",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (pathways[automatic-non-conviction-erasure-under-conn-gen-stat-54-142a].ruleClauses)",
+          "quote": "and charges resolved through a completed diversionary program (Accelerated Rehabilitation, the Family"
+        }
+      ],
+      "reasoning": "The track is § 54-142a(a) erasure after diversionary-program completion, citing Accelerated Rehabilitation (§ 54-56e), the Family Violence Education Program (§ 46b-38c) and the Impaired Driver Intervention Program (§ 54-56g). The automatic non-conviction pathway names those same programs by name in its operative clause, isolating it as the runtime representation of this track.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CT-ct-missed-erasure",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ct-missed-erasure",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142t(g), available on and after 1 January 2024; C.G.S. § 54-142a(e), the erasure the record should have received; Uniform Administrative Procedure Act, chapter 54; DESPP form DPS-0846-C for the required criminal history record search",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-missed-erasure].mechanismAuthority)",
+          "quote": "Request for Review of a Missed Automatic Erasure, C.G.S. § 54-142t(g)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"54-142t\" and \"DPS-0846\" in CT-connecticut.json: 0 hits each",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "neither the § 54-142t(g) review mechanism nor DESPP form DPS-0846-C appears anywhere in the compiled profile"
+        }
+      ],
+      "reasoning": "The track is the § 54-142t(g) request for review of a missed automatic erasure, using DESPP form DPS-0846-C. Neither the statute nor the form appears anywhere in the profile, and the sole candidate implements the underlying automatic erasure, not the administrative review of its failure. No runtime representation exists.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-CT-ct-nolle-auto",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ct-nolle-auto",
+        "compiledPathwayIds": [
+          "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(c), erasure thirteen months after a nolle; C.G.S. § 54-142a(c)(2), motion to nolle a charge continued at the prosecutor's request; C.G.S. § 54-142a(g)(2), legal effect of erasure",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-nolle-auto].mechanismAuthority)",
+          "quote": "Erasure After a Nolle, and Motion to Nolle a Continued Charge, C.G.S. § 54-142a(c)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "thirteen-month nolle rule of § 54-142a(c)",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (pathways[automatic-non-conviction-erasure-under-conn-gen-stat-54-142a].ruleClauses)",
+          "quote": "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,"
+        }
+      ],
+      "reasoning": "The track is § 54-142a(c) nolle erasure thirteen months after the nolle. The automatic non-conviction pathway states exactly that operative rule (\"nolled (erased 13 months after the nolle if not re-filed)\"). The § 54-142a(c)(2) motion to nolle a continued charge is not evidenced anywhere in the profile and remains an uncovered sub-branch for E3.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CT-ct-nonconviction-auto",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ct-nonconviction-auto",
+        "compiledPathwayIds": [
+          "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(a), cases on or after 1 October 1969; C.G.S. § 54-142a(b), cases before 1 October 1969; C.G.S. § 54-142a(g)(2), legal effect of erasure",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-nonconviction-auto].mechanismAuthority)",
+          "quote": "Erasure of Records After Dismissal or Acquittal, C.G.S. § 54-142a(a) and (b)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a dismissal/acquittal operative rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (pathways[automatic-non-conviction-erasure-under-conn-gen-stat-54-142a].ruleClauses)",
+          "quote": "with no filing: a case dismissed, nolled (erased 13 months after the nolle if not re-filed), or ended in acquittal,"
+        }
+      ],
+      "reasoning": "The track is erasure after dismissal or acquittal under § 54-142a(a)/(b). The automatic non-conviction pathway carries the operative § 54-142a citation in its label and states the dismissal/acquittal operation-of-law rule. The pre-October-1969 (b) branch is not separately stated in the compiled clauses but is subsumed in the same disposition rule.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-CT-ct-pardon-erasure",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ct-pardon-erasure",
+        "compiledPathwayIds": [
+          "absolute-pardon-resulting-in-erasure"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(d); C.G.S. § 54-142a(k), no fee",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-pardon-erasure].mechanismAuthority)",
+          "quote": "Erasure After an Absolute Pardon, C.G.S. § 54-142a(d)"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "absolute-pardon scope with full-erasure effect",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json (pathways[absolute-pardon-resulting-in-erasure].ruleClauses)",
+          "quote": "or 5 years (felony) after disposition. An Absolute Pardon fully erases; a Provisional Pardon / Certificate of Employability gives employment relief only."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"142a(d)\" in CT-connecticut.json: 0 hits; the profile has no subsection-level pardon pin cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "no occurrence of § 54-142a(d) as a pin cite anywhere in the compiled profile"
+        }
+      ],
+      "reasoning": "The track is erasure following an absolute pardon, § 54-142a(d). The absolute-pardon pathway (not in the candidate pool) is scoped precisely to that mechanism — an absolute pardon resulting in complete erasure — while the listed candidate (automatic non-conviction erasure) is scoped to dispositions, not pardons. No subsection pin cite exists in the profile, so the identification rests on the operative mechanism scope rather than a printed § 54-142a(d).",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-CT-ct-under18-misdemeanor",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ct-under18-misdemeanor",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "C.G.S. § 54-142a(f)(1), the automatic branch; C.G.S. § 54-142a(f)(2), the petition branch; C.G.S. § 54-142a(f)(3), the same-information limitation; C.G.S. § 54-142a(k), no fee",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ct-under18-misdemeanor].mechanismAuthority)",
+          "quote": "Erasure of an Adult Misdemeanor Conviction for Conduct Before Age 18, C.G.S. § 54-142a(f)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"142a(f)\", \"under 18\", \"age 18\", \"eighteen\" in CT-connecticut.json: 0 hits each",
+          "source": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+          "quote": "no under-18 misdemeanor erasure content exists anywhere in the compiled profile"
+        }
+      ],
+      "reasoning": "The track is § 54-142a(f) erasure of an adult misdemeanor conviction for conduct before age 18 (automatic and petition branches). The profile contains no age-based erasure content and no § 54-142a(f) pin cite; the sole candidate is non-conviction-scoped while this track concerns convictions. No runtime representation exists.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-DC-dc_correct_misattributed_arrest",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "dc_correct_misattributed_arrest",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "D.C. Code § 16-806(g)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[dc_correct_misattributed_arrest].mechanismAuthority)",
+          "quote": "Motion to Correct a Misattributed Arrest Record, D.C. Code § 16-806(g)"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "profile acknowledges mistaken/incorrect-identity records under § 16-806 without a pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json (corpus)",
+          "quote": "Sealing by motion D.C. Code 16-806 Non-convictions, eligible convictions, fugitive-from-justice records, mistaken/incorrect identity records"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"misattribut\" and \"806(g)\" in DC profile: 0 hits each; no identity-correction pathway exists among the seven compiled pathways",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+          "quote": "no compiled pathway implements the § 16-806(g) misattributed-arrest correction"
+        }
+      ],
+      "reasoning": "The track is the § 16-806(g) motion to correct a misattributed arrest record. The corpus lists mistaken/incorrect identity records as § 16-806 subject matter and intake carries a possible_incorrect_identity_record_correction result code, but none of the three candidates (non-conviction, misdemeanor-conviction, felony-conviction motions) implements a correction remedy, and no other pathway does. No runtime representation exists.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-DC-dc_seal_conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "dc_seal_conviction",
+        "compiledPathwayIds": [
+          "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+          "dc_motion_seal_felony_conviction_8yr_16_806"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "D.C. Code § 16-806(a)(3)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[dc_seal_conviction].mechanismAuthority)",
+          "quote": "Motion to Seal a Conviction Record, D.C. Code § 16-806(a)(3)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative conviction waiting-period rules",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json (pathways[dc_motion_seal_misdemeanor_conviction_5yr_16_806].ruleClauses)",
+          "quote": "For a misdemeanor, at least 5 years have passed since completion of sentence."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "8-year felony conviction motion with severity gate",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json (pathways[dc_motion_seal_felony_conviction_8yr_16_806].label)",
+          "quote": "Motion to seal felony conviction after 8 years under D.C. Code § 16-806"
+        }
+      ],
+      "reasoning": "The track is the § 16-806(a)(3) motion to seal a conviction record. The runtime splits that relief into two variants by offense level — the 5-year misdemeanor motion and the 8-year felony motion (with the Offense Severity Group gate) — and both carry the operative \"For conviction records, 16-806 allows sealing by motion\" rule. The non-conviction candidate is removed by scope; the track is represented across the two conviction variants.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-DC-dc_seal_fugitive",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "dc_seal_fugitive",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "D.C. Code § 16-806(a)(2)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[dc_seal_fugitive].mechanismAuthority)",
+          "quote": "Motion to Seal a Fugitive-from-Justice Arrest Record, D.C. Code § 16-806(a)(2)"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "profile acknowledges the fugitive basis of § 16-806 without a pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json (corpus)",
+          "quote": "Sealing by motion D.C. Code 16-806 Non-convictions, eligible convictions, fugitive-from-justice records, mistaken/incorrect identity records"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "the seven compiled DC pathways are auto-expungement 16-802, innocence 16-803, auto-sealing 16-805, three 16-806 motions scoped to non-conviction / 5-yr misdemeanor / 8-yr felony, and juvenile 16-2335; none is fugitive-scoped, and \"(a)(2)\" and \"misattribut\" have 0 hits",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json (pathways)",
+          "quote": "no compiled pathway implements the fugitive-from-justice sealing basis"
+        }
+      ],
+      "reasoning": "The track is the § 16-806(a)(2) motion to seal a fugitive-from-justice arrest record. The profile corpus lists fugitive records as § 16-806 subject matter and intake carries a possible_fugitive_from_justice_sealing result code, but every compiled § 16-806 pathway is scoped to non-conviction or conviction records, none to the fugitive basis, so all three candidates are removed and no pathway remains. The basis is recognized in intake but unimplemented as a pathway.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-DC-dc_seal_nonconviction",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "dc_seal_nonconviction",
+        "compiledPathwayIds": [
+          "dc_motion_seal_nonconviction_16_806"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "D.C. Code § 16-806(a)(1), as amended by D.C. Law 24-284 (applicable March 1, 2025), D.C. Law 26-52 (October 28, 2025), and D.C. Law 26-81 (temporary, January 29, 2026)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[dc_seal_nonconviction].mechanismAuthority)",
+          "quote": "Motion to Seal a Non-Conviction Record, D.C. Code § 16-806(a)(1)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "D.C. Code § 16-806 non-conviction motion",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json (pathways[dc_motion_seal_nonconviction_16_806].label)",
+          "quote": "Motion to seal non-conviction record under D.C. Code § 16-806"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative non-conviction interests-of-justice standard",
+          "source": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json (pathways[dc_motion_seal_nonconviction_16_806].ruleClauses)",
+          "quote": "The court shall order sealing of citations, arrests, and charges when the case ended without conviction or acquittal, if the motion demonstrates by a preponderance of the evidence that sealing is in the interests of justice. Some temporary-version rules apply through September 11, 2026, so Wilma should verify the current text before filing later in 2026. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-806\")"
+        }
+      ],
+      "reasoning": "The track is the § 16-806(a)(1) motion to seal a non-conviction record. Of the three candidates, only this pathway is non-conviction-scoped; the other two are labeled as 5-year misdemeanor and 8-year felony conviction motions. The profile has no (a)(1)/(a)(2)/(a)(3) pin cites, so the disposition scope in the labels is the discriminator; it removes both conviction candidates.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-FL-fl-10yr-bridge",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "fl-10yr-bridge",
+        "compiledPathwayIds": [
+          "court-ordered-expunction-943-0585"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "§ 943.0585, Fla. Stat.",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[fl-10yr-bridge].mechanismAuthority)",
+          "quote": "The Ten-Year Seal-Then-Expunge Bridge, § 943.0585"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "the 10-year seal-then-expunge bridge as a compiled timing rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/FL-florida.json (orderedDecisionRules[rule-52])",
+          "quote": "The signature waiting period is the 10-year bridge: a record initially ineligible for expunction (because adjudication was withheld) may become expungeable after it has been SEALED for 10 years. The FDLE Certificate of Eligibility, once issued, is valid for 12 months."
+        }
+      ],
+      "reasoning": "The track is the § 943.0585 ten-year seal-then-expunge bridge. The compiled runtime carries the bridge inside the court-ordered-expunction pathway as a timing/eligibility decision rule (a record initially ineligible because adjudication was withheld becomes expungeable after being sealed for 10 years) rather than as a separate pathway. The track is a timing variant of the expunction pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-FL-fl-expunction",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "fl-expunction",
+        "compiledPathwayIds": [
+          "court-ordered-expunction-943-0585"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "§ 943.0585, Fla. Stat.; disqualifiers at § 943.0584; Fla. R. Crim. P. 3.692, with forms at Rule 3.989; as amended by Chapter 2026-114, effective 1 July 2026",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[fl-expunction].mechanismAuthority)",
+          "quote": "Court-Ordered Expunction, § 943.0585, Fla. Stat."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "§ 943.0585 in the pathway label with § 943.0584 bar",
+          "source": "src/lib/rcap-engine/compiled/profiles/FL-florida.json (pathways[court-ordered-expunction-943-0585].ruleClauses)",
+          "quote": "Barred offense check Must not be ineligible under 943.0584"
+        },
+        {
+          "kind": "official_form",
+          "value": "Fla. R. Crim. P. 3.692 petition and 3.989 order in profile corpus",
+          "source": "src/lib/rcap-engine/compiled/profiles/FL-florida.json (corpus)",
+          "quote": "Petition to Seal / Expunge Court pleading under Fla. R. Crim. P. 3.692 and § 943.059 / § 943.0585,"
+        }
+      ],
+      "reasoning": "The track (Court-Ordered Expunction, § 943.0585, disqualifiers at § 943.0584, forms under Rules 3.692/3.989) matches the court-ordered-expunction pathway on the operative statute in the label, the § 943.0584 bar clause, and the Rule 3.692/3.989 pleading-and-order pair in the corpus. Sole candidate; every registry authority is present. The Chapter 2026-114 amendment (eff. 1 July 2026) named by the registry is a freshness item for review, not a mapping issue.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-HI-hi_dag_danc_expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "hi_dag_danc_expungement",
+        "compiledPathwayIds": [
+          "deferred-acceptance-one-year"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "HRS ch. 853; HRS § 831-3.2(a)(5)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[hi_dag_danc_expungement].mechanismAuthority)",
+          "quote": "Expungement after Deferred Plea Discharge, Ch. 853 and HRS § 831-3.2(a)(5)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "HRS chapter 853 with the one-year post-discharge rule of § 831-3.2(a)(5)",
+          "source": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json (pathways[deferred-acceptance-one-year].ruleClauses)",
+          "quote": "For a deferred acceptance of guilty or nolo contendere plea under Chapter 853, the source imposes one year after discharge and dismissal before expungement."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "the listed candidate is the general § 831-3.2 non-conviction arrest route and contains no Chapter 853 content; \"853\" appears in the profile only in the deferred-acceptance pathway and its labels",
+          "source": "src/lib/rcap-engine/compiled/profiles/HI-hawaii.json (pathways[nonconviction-arrest-expungement].label)",
+          "quote": "Non-conviction arrest-information expungement under HRS § 831-3.2"
+        }
+      ],
+      "reasoning": "The track is expungement after a deferred-acceptance (DAG/DANC) discharge under HRS ch. 853 and § 831-3.2(a)(5). The deferred-acceptance pathway (not in the candidate pool) carries the exact operative citation — a deferred acceptance of guilty or nolo contendere plea under Chapter 853 with the one-year-after-discharge-and-dismissal wait, which is the § 831-3.2(a)(5) rule. The listed candidate is the general non-conviction arrest route and carries no Chapter 853 content, so the discriminator moves the track to the deferred-acceptance pathway.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-ID-id_clean_slate_shield",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "id_clean_slate_shield",
+        "compiledPathwayIds": [
+          "clean-slate-shielding-under-idaho-code-67-3004-11"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 67-3004(11), added by 2023 chapter 108, effective January 1, 2024; Idaho Supreme Court, Petition to Shield Records from Public Disclosure, 01/01/2024",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[id_clean_slate_shield].mechanismAuthority)",
+          "quote": "Petition to Shield Records from Public Disclosure, I.C. § 67-3004(11)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 67-3004(11) exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json (pathways[clean-slate-shielding-under-idaho-code-67-3004-11].label)",
+          "quote": "Clean Slate shielding under Idaho Code § 67-3004(11)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative (11)(a)-(c) offense scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json (pathways[clean-slate-shielding-under-idaho-code-67-3004-11].ruleClauses)",
+          "quote": "Only nonviolent, non-assaultive offenses covered by Idaho Code § 67-3004(11)(a)-(c) may qualify."
+        }
+      ],
+      "reasoning": "The track and the Clean Slate shielding pathway carry the same operative citation, I.C. § 67-3004(11), down to the (11)(a)-(c) offense-scope pin cite. The other candidate is labeled § 67-3004(10), a different subsection, which removes it. Subsection-level citation isolates exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-ID-id_felony_reduction",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "id_felony_reduction",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 19-2604(2)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[id_felony_reduction].mechanismAuthority)",
+          "quote": "Application to Amend Judgment to a Misdemeanor, I.C. § 19-2604(2)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"19-2604(2)\", \"2604(2)\", \"amend\" in ID-idaho.json: 0 hits each; every § 19-2604 reference pins subsection (1)",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+          "quote": "the felony-reduction subsection I.C. § 19-2604(2) appears nowhere in the compiled profile"
+        }
+      ],
+      "reasoning": "The track is the § 19-2604(2) application to amend a felony judgment to a misdemeanor. The sole candidate is the withheld-judgment review branch, but every one of its § 19-2604 references pins subsection (1) (set-aside/dismissal); subsection (2) appears nowhere in the profile. The reduction remedy has no runtime representation, not even as a review hand-off scoped to it.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-ID-id_isp_expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "id_isp_expungement",
+        "compiledPathwayIds": [
+          "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 67-3004(10)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[id_isp_expungement].mechanismAuthority)",
+          "quote": "Application for Expungement of a Non-Conviction Record, I.C. § 67-3004(10)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 67-3004(10) exact label cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json (pathways[non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10].label)",
+          "quote": "Non-conviction fingerprint and criminal-history expungement under Idaho Code § 67-3004(10)"
+        }
+      ],
+      "reasoning": "The track is the § 67-3004(10) non-conviction expungement application to Idaho State Police; the pathway label carries the exact subsection. The other candidate is labeled § 67-3004(11), which removes it. Subsection-level citation isolates exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-ID-id_set_aside_dismissal",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "id_set_aside_dismissal",
+        "compiledPathwayIds": [
+          "withheld-judgment-idaho-code-19-2604-review-branch"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 19-2604(1)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[id_set_aside_dismissal].mechanismAuthority)",
+          "quote": "Application for Set-Aside, Dismissal and Discharge, I.C. § 19-2604(1)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "I.C. § 19-2604(1) as the defining scope of the review branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json (pathways[withheld-judgment-idaho-code-19-2604-review-branch].ruleClauses)",
+          "quote": "The Idaho State Police expungement application expressly says the non-conviction expungement process does not apply when a conviction was followed by a withheld judgment under § 19-2604(1)."
+        }
+      ],
+      "reasoning": "The track is the § 19-2604(1) set-aside/dismissal application. The sole candidate — the withheld-judgment review branch — is defined by § 19-2604(1): its clauses pin that subsection repeatedly. The mapping is isolated; note for E3 that this pathway is a routeType \"review\" hand-off (\"route this answer to state-specific review or a separate remedy profile\"), not a petition generator, so the track resolves to a review-only runtime representation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-KS-ks-21-6614-conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ks-21-6614-conviction",
+        "compiledPathwayIds": [
+          "conviction-or-diversion-216614"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614(a)(1); K.S.A. 21-6614(c); K.S.A. 21-6614(d); K.S.A. 21-6614(e); K.S.A. 21-6614(f); K.S.A. 21-6614(g); K.S.A. 21-6614(h); K.S.A. 21-6614(i); K.S.A. 21-6614(k); K.S.A. 21-6614(l); K.S.A. 21-6614(m); 2026 Kansas Senate Bill 430, § 2; State v. Anderson, 12 Kan. App. 2d 342, 744 P.2d 143 (1987)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ks-21-6614-conviction].mechanismAuthority)",
+          "quote": "Petition for Expungement of a Kansas District Court Conviction under K.S.A. 21-6614"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614 label cite with (e) exclusion list",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json (pathways[conviction-or-diversion-216614].ruleClauses)",
+          "quote": "The offense cannot be one of the no-expungement offenses listed in K.S.A. 21-6614(e)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "petition covers the conviction branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json (pathways[conviction-or-diversion-216614].ruleClauses)",
+          "quote": "The petition identifies whether relief is requested for a conviction or diversion and includes arrest, charge, court, disposition, and final-discharge facts."
+        }
+      ],
+      "reasoning": "The track is the K.S.A. 21-6614(a)(1) district-court conviction expungement. The conviction-or-diversion pathway carries the operative K.S.A. 21-6614 citation (label) and the § 21-6614(e) exclusion list the registry also cites, and its petition explicitly covers the conviction branch. The pathway represents both (a)(1) and (a)(2); this track is the conviction variant.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-KS-ks-21-6614-diversion",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ks-21-6614-diversion",
+        "compiledPathwayIds": [
+          "conviction-or-diversion-216614"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614(a)(2); K.S.A. 21-6614(c); K.S.A. 21-6614(d)(1); K.S.A. 21-6614(e); K.S.A. 21-6614(f); K.S.A. 21-6614(g); K.S.A. 21-6614(h); K.S.A. 21-6614(i); K.S.A. 21-6614(k); K.S.A. 21-6614(l); K.S.A. 21-6614(m); 2026 Kansas Senate Bill 430, § 2; State v. Anderson, 12 Kan. App. 2d 342, 744 P.2d 143 (1987)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ks-21-6614-diversion].mechanismAuthority)",
+          "quote": "Petition for Expungement of a Fulfilled Kansas Diversion Agreement under K.S.A. 21-6614"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "petition covers the diversion branch with diversion-completion timing",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json (pathways[conviction-or-diversion-216614].ruleClauses)",
+          "quote": "The form provides offense-dependent one-, three-, five-, or ten-year periods after diversion completion, sentence satisfaction, or discharge from supervision."
+        }
+      ],
+      "reasoning": "The track is the K.S.A. 21-6614(a)(2) fulfilled-diversion expungement. The conviction-or-diversion pathway explicitly covers the diversion branch (relief for a diversion; offense-dependent periods after diversion completion). The pathway represents both (a)(1) and (a)(2); this track is the diversion variant.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-KS-ks-21-6614-prostitution-coercion",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ks-21-6614-prostitution-coercion",
+        "compiledPathwayIds": [
+          "prostitution-coercion"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614(b); K.S.A. 21-6419; former K.S.A. 21-3512; K.S.A. 21-6614(e); K.S.A. 21-6614(f); K.S.A. 21-6614(g); K.S.A. 21-6614(h); 2026 Kansas Senate Bill 430, § 2",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ks-21-6614-prostitution-coercion].mechanismAuthority)",
+          "quote": "Petition for Expungement of a Prostitution Conviction or Diversion Where the Petitioner Was Acting Under Coercion, K.S.A. 21-6614(b)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "prostitution one-year row pinned to 21-6614(b) in the source timing table",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json (corpus timing table)",
+          "quote": "ails\nOr Or community\ncorrectional services,\nparole, postrelease\nsupervision,\nconditional release or\nsuspended sentence\nprostitution Not relevant 1 year 1 year 1 year Yes 21-6614(b)\n+ Not relevant 3 years 3 years 3 years Yes 21-6614(a)\ntraffic infraction\nvehicular homicide Not relevant 5 years 5 years 5 years Yes 21-6614(c)\nclass A, B, or C felony N"
+        },
+        {
+          "kind": "official_form",
+          "value": "petition carries a specific coercion checkbox",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json (pathways[prostitution-coercion].ruleClauses)",
+          "quote": "The petition includes a specific coercion checkbox for a prostitution conviction or diversion."
+        }
+      ],
+      "reasoning": "The track is the K.S.A. 21-6614(b) prostitution-under-coercion expungement. The prostitution-coercion pathway (not in the candidate pool) matches on the operative citation — the profile timing table pins the prostitution one-year row to 21-6614(b) — and on the official petition's dedicated coercion checkbox, whose coercion definition tracks the statutory test. The listed generic conviction-or-diversion candidate lacks the (b) acceleration and coercion element.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-KS-ks-21-6614-specialty-court",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ks-21-6614-specialty-court",
+        "compiledPathwayIds": [
+          "specialty-court-accelerated"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 21-6614(a)(3); K.S.A. 20-173; K.S.A. 21-6614(b); K.S.A. 21-6614(c); K.S.A. 21-6614(d); K.S.A. 21-6614(e); K.S.A. 21-6614(f); K.S.A. 21-6614(g); K.S.A. 21-6614(h)(1)(B); 2026 Kansas Senate Bill 430, § 2",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ks-21-6614-specialty-court].mechanismAuthority)",
+          "quote": "Petition for Immediate Expungement After Completing a Specialty Court Programme, K.S.A. 21-6614(a)(3)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative specialty-court acceleration trigger of 21-6614(a)(3)",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json (pathways[specialty-court-accelerated].ruleClauses)",
+          "quote": "The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"(a)(3)\" and \"20-173\" in KS-kansas.json: 0 hits each; the identification rests on the operative trigger text, not a pin cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+          "quote": "no subsection pin cite for K.S.A. 21-6614(a)(3) exists in the compiled profile"
+        }
+      ],
+      "reasoning": "The track is the K.S.A. 21-6614(a)(3) immediate expungement after specialty-court completion. The specialty-court pathway (not in the candidate pool) implements exactly that operative trigger — completion of a specialty court program accelerating a conviction that would ordinarily wait three years — which is the statutory content of (a)(3). The listed generic candidate applies the ordinary waiting periods and lacks the acceleration. No pin cite exists in the profile, so confidence is moderated.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-KS-ks-22-4908-registration-relief",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ks-22-4908-registration-relief",
+        "compiledPathwayIds": [
+          "drug-registration-relief-coordination"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "K.S.A. 22-4908(a); K.S.A. 22-4908(b); K.S.A. 22-4908(c); K.S.A. 22-4908(d); K.S.A. 22-4908(e); K.S.A. 22-4908(f); K.S.A. 22-4908(g); K.S.A. 22-4908(h); K.S.A. 22-4908(i); K.S.A. 21-6614(f); K.S.A. 22-4901 et seq.; K.S.A. 60-2001",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ks-22-4908-registration-relief].mechanismAuthority)",
+          "quote": "Petition for Relief from Drug Offender Registration under K.S.A. 22-4908, Combined with Expungement under K.S.A. 21-6614"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "operative coordinated registration-relief-plus-expungement mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json (pathways[drug-registration-relief-coordination].ruleClauses)",
+          "quote": "The source says a person registered as a drug offender may be able to seek registration relief and expungement together if all requirements are met."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"22-4908\" in KS-kansas.json: 0 hits; the identification rests on the operative mechanism and the drug-offender exception to the registration bar",
+          "source": "src/lib/rcap-engine/compiled/profiles/KS-kansas.json",
+          "quote": "no K.S.A. 22-4908 pin cite exists in the compiled profile"
+        }
+      ],
+      "reasoning": "The track combines K.S.A. 22-4908 relief from drug-offender registration with 21-6614 expungement. The drug-registration-relief-coordination pathway (not in the candidate pool) implements exactly that combined mechanism (\"seek registration relief and expungement together\") and instructs not to apply the sex/violent-offender registration bar — the bar stated in the generic candidate — to drug offenders. The listed generic candidate enforces the registration bar and cannot be this track. No 22-4908 pin cite exists in the profile, so confidence is moderated.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-KY-ky_automatic_nonconviction_expungement_verification",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ky_automatic_nonconviction_expungement_verification",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 431.076(1)(a); KRS 431.076(4); KRS 431.076(5)(a); KRS 431.076(6); KRS 431.076(8)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ky_automatic_nonconviction_expungement_verification].mechanismAuthority)",
+          "quote": "Automatic Expungement of Acquittals and Dismissals With Prejudice (KRS 431.076(1)(a))"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "the compiled petition expressly excludes records already expunged under KRS 431.076(1)(a)",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json (embedded official petition text)",
+          "quote": "ws: (check all that apply)\n At least sixty (60) days prior to filing this Petition, the Defendant was acquitted of the above-listed charge(s) and the\ncharge(s) was/were not expunged pursuant to KRS 431.076(1)(a);\n\n At least sixty (60) days prior to filing this Petition, the above-listed charge(s) was/were dismissed with prejudice\nand said dismissal was NOT in exchange for a gui"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "the five compiled KY pathways are three court_filing petitions and two juvenile pathways; no adult automatic-expungement verification pathway exists",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json (pathways)",
+          "quote": "no compiled pathway operates in automatic/verification mode for adult non-convictions"
+        }
+      ],
+      "reasoning": "The track is verification of automatic expungement of acquittals and dismissals with prejudice under KRS 431.076(1)(a). The sole candidate is the § 431.076 petition pathway, and the official petition text embedded in the profile expressly conditions filing on the charges NOT having been expunged under KRS 431.076(1)(a) — the compiled route is the petition for records the automatic branch did not reach, which is the opposite scope of this track. No adult automatic pathway exists in the profile, so the automatic-verification track has no runtime representation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-KY-ky_diversion_disposition_routing",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ky_diversion_disposition_routing",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 533.258(1); KRS 533.258(2); KRS 533.258(3); KRS 533.250(1)(f); KRS 431.076",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ky_diversion_disposition_routing].mechanismAuthority)",
+          "quote": "Routing of a Pretrial Diversion Disposition (KRS 533.258)"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"533.258\" in KY-kentucky.json: 0 hits; searched \"diver\": 5 hits, all inside the juvenile mandatory-diversion order form (KRS 635.010(4), JCRPP)",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "no adult pretrial-diversion (KRS 533.258) content exists anywhere in the compiled profile"
+        }
+      ],
+      "reasoning": "The track routes a completed adult pretrial diversion (KRS 533.258, dismissed-diverted) into § 431.076 expungement. The profile contains no KRS 533.258 content; every diversion reference is juvenile (KRS 635.010(4)/JCRPP form text), and the sole candidate's operative clauses cover acquittal, dismissal, and failure to indict without a diversion disposition. The routing track has no runtime representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-KY-ky_expungement_certification",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ky_expungement_certification",
+        "compiledPathwayIds": [
+          "misdemeanor-violation-traffic-conviction",
+          "felony-conviction-431073"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 431.079; KRS 431.079(1); KRS 431.078(3); KRS 431.073(2)(a)",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ky_expungement_certification].mechanismAuthority)",
+          "quote": "Expungement Certification Request to the Administrative Office of the Courts (KRS 431.079)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "certification required by the misdemeanor petition",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json (pathways[misdemeanor-violation-traffic-conviction].ruleClauses)",
+          "quote": "The source requires an eligibility certification, a separate petition for each case, notarized or clerk-witnessed signature, victim/other-person notice, and a hearing."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "certification required by the felony application",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json (pathways[felony-conviction-431073].ruleClauses)",
+          "quote": "The source requires eligibility certification, prosecutor response within 60 days, hearing no later than 120 days, victim notice, and final payment before completion."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "searched \"431.079\" in KY-kentucky.json: 0 hits; the certification exists only as an embedded prerequisite step, never as a standalone pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "no standalone KRS 431.079 certification pathway exists in the compiled profile"
+        }
+      ],
+      "reasoning": "The track is the KRS 431.079 expungement-certification request to the AOC, which KRS 431.073(2)(a) and 431.078(3) make a prerequisite to the conviction petitions. Both candidates carry the certification as a required step in their own clauses, and no discriminator isolates one because the certification genuinely serves both conviction pathways. The track is represented across the two conviction variants as their embedded certification step rather than as a standalone runtime pathway; no § 431.079 pin cite exists in the profile.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-KY-ky_felony_expungement_after_pardon",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ky_felony_expungement_after_pardon",
+        "compiledPathwayIds": [
+          "felony-conviction-431073"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 431.073(1)(c); KRS 431.073(2)(a); KRS 431.073(5); KRS 431.073(7); KRS 431.079",
+          "source": "data/rcap-ledger/track-pathway-crosswalk.json (registryTracks[ky_felony_expungement_after_pardon].mechanismAuthority)",
+          "quote": "Application to Vacate and Expunge a Felony Conviction After a Full Pardon (KRS 431.073(1)(c))"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "full-pardon eligibility branch inside the § 431.073 application",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json (pathways[felony-conviction-431073].ruleClauses)",
+          "quote": "The offense must be on an eligible statutory list, be an eligible series from one incident, qualify under the additional subsection stated in the form, or have a full gubernatorial pardon attached."
+        }
+      ],
+      "reasoning": "The track is the KRS 431.073(1)(c) application to vacate and expunge a felony conviction after a full pardon. The sole candidate — the § 431.073 felony pathway — carries the pardon branch in its own operative clause (\"...or have a full gubernatorial pardon attached\"), which is the (1)(c) eligibility basis; the profile also collects pardon_status in its special-pathways stage. The track is the pardon variant of the felony-conviction pathway.",
+      "confidence": "high"
+    }
+  ]
+}

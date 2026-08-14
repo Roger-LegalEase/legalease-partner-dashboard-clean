@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "rcap-c3-jurisdiction-manifest/v1",
+  "jobId": "T-C-ID-production-packet",
+  "jurisdiction": "ID",
+  "jurisdictionSlug": "idaho",
+  "windowId": "2026-08-12-w1",
+  "lane": "C",
+  "implementationFamily": "controlled_pleading",
+  "outputStrategy": "custom_pleading",
+  "registryPin": {
+    "ref": "origin/feat/record-clearing-production-integration",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "file": "data/record-clearing/legal-design-track-registry.json",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+  },
+  "trackIds": [
+    "id_felony_reduction",
+    "id_set_aside_dismissal"
+  ],
+  "partitionNote": "Both Idaho tracks are blocked. The registry records an output-strategy blocker for I.C. § 19-2604: whether any statewide form or approved template exists is unknown, and the statutory elements, caption, venue, required attachments, service and proposed-order practice for a § 19-2604 custom pleading are all open questions. Drafting would invent the entire structure of the instrument.",
+  "tracks": [
+    {
+      "trackId": "id_set_aside_dismissal",
+      "legalName": "Application for Set-Aside, Dismissal and Discharge, I.C. § 19-2604(1)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Filing vehicle and complete pleading requirements unresolved for I.C. § 19-2604; recorded in the registry as a true output-strategy blocker. Idaho commits no pathways, filing-instructions or official-forms state-pack file."
+    },
+    {
+      "trackId": "id_felony_reduction",
+      "legalName": "Application to Amend Judgment to a Misdemeanor, I.C. § 19-2604(2)",
+      "status": "blocked_pleading",
+      "disposition": "blocked_pleading",
+      "componentCount": 0,
+      "blockedComponents": [
+        "caption",
+        "court_party_identity",
+        "title",
+        "allegations",
+        "statutory_basis",
+        "requested_relief",
+        "verification",
+        "signatures",
+        "proposed_order",
+        "certificate_of_service",
+        "notice_affidavit",
+        "filing_instructions"
+      ],
+      "note": "Same § 19-2604 output-strategy blocker as the set-aside track. Reduction leaves a conviction in place and is not a record-clearing remedy."
+    }
+  ],
+  "summary": {
+    "tracksTotal": 2,
+    "drafted": 0,
+    "blocked": 2
+  }
+}

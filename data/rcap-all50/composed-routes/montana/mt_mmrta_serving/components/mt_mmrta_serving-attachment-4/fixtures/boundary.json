@@ -1,0 +1,71 @@
+{
+  "fixtureId": "mt_mmrta_serving-attachment-boundary",
+  "trackId": "mt_mmrta_serving",
+  "componentId": "mt_mmrta_serving-attachment-4",
+  "description": "Boundary case: the participant has one of the two required records but not the other, and reports a custody status that is itself an attorney-handoff trigger. The conditional certified-copy item is still not applicable because no order exists.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, MT 00000",
+    "otherNamesUsed": "J. Q. SAMPLE",
+    "phoneAndEmail": "(000) 000-0000; sample@example.invalid"
+  },
+  "caseData": {
+    "sentencingCourtLevel": "reported by participant, unverified",
+    "courtName": "",
+    "countyName": "",
+    "caseNumber": "reported by participant, unverified",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "countyAttorneyName": "",
+    "countyAttorneyPosition": "",
+    "countyAttorneyCounty": "reported by participant, unverified",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "offenseSelection": "criminal possession of drug paraphernalia (marijuana)",
+    "offenseOther": "",
+    "chargeDescription": "",
+    "offenseLevel": "",
+    "convictionDate": "reported by participant, unverified",
+    "disposition": "",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "currentlyServing": "yes",
+      "custodyStatus": "in custody",
+      "outcomeElection": "",
+      "eligibilityNarrative": "",
+      "hearingRequested": "",
+      "advocateEngaged": "no"
+    },
+    "attachmentStatus": {
+      "dojCriminalRecordObtained": true,
+      "courtDocumentsObtained": false,
+      "caseNumberCheckedAgainstDojRecord": true,
+      "convictionDateCheckedAgainstCourtDocuments": false,
+      "certifiedExpungementOrderObtained": false
+    },
+    "certifiedExpungementOrderApplicable": null,
+    "eligibilityBasisLabel": null,
+    "additionalFacts": [
+      "Participant has the Montana Department of Justice criminal record but has not yet obtained the judgment and sentencing order from the clerk of the sentencing court.",
+      "Custody status alone is an attorney-handoff trigger on this track; this fixture exercises the handoff path, not a completion path."
+    ],
+    "handoffTriggered": true,
+    "handoffReason": "Participant reports being in custody."
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "stateIdNumber": "",
+    "fbiNumber": ""
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

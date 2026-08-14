@@ -167,8 +167,37 @@ const report = {
     rules: profile.orderedDecisionRules.length
   })))).digest("hex")
 };
-fs.mkdirSync(path.join(root, "data/expungement-ai/reports"), { recursive: true });
-fs.writeFileSync(path.join(root, "data/expungement-ai/reports/all51-source-engine-coverage.json"), `${JSON.stringify(report, null, 2)}\n`);
+// Verification must not mutate what it verifies. This script previously
+// rewrote its coverage report on every run, so merely checking the build
+// dirtied a tracked file — including the recorded generation timestamp and
+// absolute paths, which differ per machine. Writing is now opt-in via --write;
+// the default run compares and reports drift instead.
+const reportPath = path.join(root, "data/expungement-ai/reports/all51-source-engine-coverage.json");
+const reportBody = `${JSON.stringify(report, null, 2)}\n`;
+
+if (process.argv.includes("--write")) {
+  fs.mkdirSync(path.dirname(reportPath), { recursive: true });
+  fs.writeFileSync(reportPath, reportBody);
+  console.log(`Coverage report written: ${path.relative(root, reportPath)}`);
+} else if (!fs.existsSync(reportPath)) {
+  failures.push(
+    "Coverage report is missing. Regenerate it with: node scripts/verify-all51-source-engine.mjs --write"
+  );
+} else {
+  // Compare only the substantive fields. generatedAt and any absolute path are
+  // environment noise and would make every run on a different machine look
+  // like a real change.
+  const strip = (value) => {
+    const { generatedAt, sourceFiles, ...rest } = JSON.parse(JSON.stringify(value));
+    return rest;
+  };
+  const committed = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  if (JSON.stringify(strip(committed)) !== JSON.stringify(strip(report))) {
+    failures.push(
+      "Coverage report is stale. Regenerate it with: node scripts/verify-all51-source-engine.mjs --write"
+    );
+  }
+}
 
 if (failures.length > 0) {
   console.error("RCAP all-51 source-engine verification failed:");

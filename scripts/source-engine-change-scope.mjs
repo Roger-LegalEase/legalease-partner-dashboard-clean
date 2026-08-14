@@ -1,4 +1,205 @@
 import { spawnSync } from "node:child_process";
+import crypto from "node:crypto";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { assertTreeNotMidMutation } from "./lib/tracked-mutation-guard.mjs";
+
+// A guard that reads the working tree mid-mutation reports fiction. This
+// refuses while a mutator holds the lock, and restores anything a killed run
+// stranded before reading a single byte.
+assertTreeNotMidMutation(import.meta.url.split("/").pop());
+
+
+// Exact-path production authorization.
+//
+// `supabase/` stays globally forbidden below. This does not widen the prefix:
+// it lets the guard tell an unauthorized production change apart from one the
+// owner approved by exact path and exact bytes. A file is permitted only when
+// every condition holds, and any drift in path or content voids it.
+//
+// Deliberately excluded: wildcards, prefixes, directories, renames, and any
+// file not named in the authorization record.
+const AUTHORIZATION_QUEUE = "data/rcap-authorization-queue.json";
+
+function loadExactPathAuthorizations(rootDir, failures) {
+  const queuePath = path.join(rootDir, AUTHORIZATION_QUEUE);
+  if (!fs.existsSync(queuePath)) return new Map();
+
+  let queue;
+  try {
+    queue = JSON.parse(fs.readFileSync(queuePath, "utf8"));
+  } catch (error) {
+    failures.push(`Authorization queue is unreadable: ${error.message}`);
+    return new Map();
+  }
+
+  const authorized = new Map();
+  for (const entry of queue.entries || []) {
+    // An entry only grants anything when it names paths AND hashes.
+    if (!Array.isArray(entry.authorizedPaths) || entry.authorizedPaths.length === 0) continue;
+
+    const id = entry.id || "(unnamed authorization)";
+    const problems = [];
+    if (entry.decision !== "approved") problems.push("decision is not 'approved'");
+    if (!Number.isInteger(entry.phase)) problems.push("no integer phase");
+    if (!entry.authorizedBy) problems.push("no authorizedBy");
+    if (!entry.authorizedAt) problems.push("no authorizedAt");
+    if (!entry.authorizationScope) problems.push("no authorizationScope");
+    if (!Array.isArray(entry.authorizedSha256)) {
+      problems.push("no authorizedSha256 array");
+    } else if (entry.authorizedSha256.length !== entry.authorizedPaths.length) {
+      problems.push("authorizedSha256 length does not match authorizedPaths");
+    } else if (!entry.authorizedSha256.every((h) => /^[0-9a-f]{64}$/.test(String(h)))) {
+      problems.push("authorizedSha256 contains a value that is not a sha256");
+    }
+
+    if (problems.length > 0) {
+      // A malformed authorization grants nothing and is itself a failure, so a
+      // broken record cannot quietly degrade into "no exception".
+      failures.push(`Authorization ${id} is malformed and grants nothing: ${problems.join("; ")}`);
+      continue;
+    }
+
+    entry.authorizedPaths.forEach((p, i) => {
+      authorized.set(p, { sha256: entry.authorizedSha256[i], phase: entry.phase, id });
+    });
+  }
+  return authorized;
+}
+
+function fileSha256(rootDir, relPath) {
+  const abs = path.join(rootDir, relPath);
+  if (!fs.existsSync(abs)) return null;
+  return crypto.createHash("sha256").update(fs.readFileSync(abs)).digest("hex");
+}
+
+/**
+ * Filters an already-computed forbidden list through the exact-path
+ * authorizations, for verifiers that carry their own inline restricted-path
+ * check rather than calling assertSourceEngineChangeScope.
+ *
+ * Semantics are identical to the main guard and deliberately all-or-nothing:
+ * a path is removed only when it is exactly authorized at exactly the
+ * recorded bytes, AND no unauthorized path remains in the list, AND the
+ * SQL/TypeScript contract verifier passes. If any condition fails, the list
+ * is returned with the authorized paths still in it, so nothing sails through
+ * alongside an unauthorized change.
+ *
+ * The caller's own prefixes and allowlists are untouched: this only ever
+ * REMOVES entries the owner specifically approved, never adds tolerance for
+ * anything else.
+ */
+export function applyExactPathAuthorizations({ rootDir, candidates, failures }) {
+  if (!Array.isArray(candidates) || candidates.length === 0) return candidates ?? [];
+
+  const exactAuthorized = loadExactPathAuthorizations(rootDir, failures);
+  if (exactAuthorized.size === 0) return candidates;
+
+  const remaining = [];
+  const authorizedHits = [];
+  for (const candidate of candidates) {
+    const grant = exactAuthorized.get(candidate);
+    if (!grant) {
+      remaining.push(candidate);
+      continue;
+    }
+    const actual = fileSha256(rootDir, candidate);
+    if (actual !== grant.sha256) {
+      remaining.push(
+        `${candidate} (authorized by ${grant.id} but content hash ${actual ? actual.slice(0, 12) : "missing"}… does not match authorized ${grant.sha256.slice(0, 12)}…; authorization is void)`
+      );
+      continue;
+    }
+    authorizedHits.push(candidate);
+  }
+
+  if (authorizedHits.length === 0) return remaining;
+
+  if (remaining.length > 0) {
+    // Unauthorized paths present: the grant does not cover the set.
+    return candidates;
+  }
+
+  const contract = contractVerifierPasses(rootDir);
+  if (!contract.ok) {
+    failures.push(
+      `Authorized supabase change present but the render-job contract verifier fails (${contract.reason}); authorization requires it green`
+    );
+    return candidates;
+  }
+
+  return remaining;
+}
+
+// Condition: the SQL/TypeScript contract must hold before any authorized
+// migration change is let through. An approved migration that has drifted from
+// the contract is not the thing that was approved.
+/**
+ * Every migration the contract verifier itself reads.
+ *
+ * The cache key must cover all of the verifier's inputs, not just the three
+ * this function used to hash. The verifier now checks the state machine in two
+ * migrations as well as the fixture and the TypeScript contract, so hashing
+ * only the fixture and contract would let an edited migration reuse a cached
+ * pass — a stale green on the exact gate the authorization depends on. The
+ * paths are read out of the verifier source rather than hardcoded, so adding a
+ * migration to the verifier automatically widens the key.
+ */
+function contractVerifierMigrationInputs(rootDir) {
+  const script = path.join(rootDir, "scripts/verify-rcap-render-job-contract.mjs");
+  if (!fs.existsSync(script)) return [];
+  const source = fs.readFileSync(script, "utf8");
+  const found = new Set();
+  for (const match of source.matchAll(/["'`](supabase\/[A-Za-z0-9._/-]+\.sql)["'`]/g)) {
+    found.add(path.join(rootDir, match[1]));
+  }
+  return [...found].sort();
+}
+
+function contractVerifierPasses(rootDir) {
+  const script = path.join(rootDir, "scripts/verify-rcap-render-job-contract.mjs");
+  const fixture = path.join(rootDir, "data/rcap-render/state-machine.json");
+  const contract = path.join(rootDir, "src/lib/rcap/render/job-contract.ts");
+  if (!fs.existsSync(script)) return { ok: false, reason: "contract verifier is missing" };
+
+  // Content-addressed pass cache. Several verifiers chain-invoke each other
+  // through npm scripts, and each process re-running the contract verifier
+  // added ~4s per hop. The verifier's verdict depends only on the bytes of the
+  // fixture, the TypeScript contract and the verifier itself, so a pass is
+  // cached under the digest of exactly those bytes: any drift in any input
+  // changes the key and forces a real run. Failures are never cached.
+  let cacheKey = null;
+  try {
+    const h = crypto.createHash("sha256");
+    for (const f of [script, fixture, contract, ...contractVerifierMigrationInputs(rootDir)]) {
+      h.update(f);
+      h.update(fs.existsSync(f) ? fs.readFileSync(f) : "missing");
+    }
+    cacheKey = h.digest("hex");
+    const cachePath = path.join(os.tmpdir(), `rcap-contract-pass-${cacheKey}`);
+    if (fs.existsSync(cachePath)) return { ok: true };
+  } catch {
+    // Cache trouble is never a reason to skip the real check.
+    cacheKey = null;
+  }
+
+  const result = spawnSync("node", [script], { cwd: rootDir, encoding: "utf8", timeout: 60000 });
+  if (result.status === 0) {
+    if (cacheKey) {
+      try {
+        fs.writeFileSync(path.join(os.tmpdir(), `rcap-contract-pass-${cacheKey}`), "");
+      } catch {
+        // Failing to cache costs time, not correctness.
+      }
+    }
+    return { ok: true };
+  }
+  return {
+    ok: false,
+    reason: (result.stderr || result.stdout || "").trim().split("\n").slice(-1)[0] || "non-zero exit"
+  };
+}
 
 const sourceEngineAllowedFiles = new Set([
   "src/app/api/expungement-ai/evaluate/route.ts",
@@ -59,7 +260,9 @@ export function assertSourceEngineChangeScope({
   const changedEntries = changedEntriesAgainstMain(rootDir, failures);
   const forbiddenPrefixes = [...productionForbiddenPrefixes, ...extraForbiddenPrefixes];
   const allowedFiles = new Set(extraAllowedFiles);
+  const exactAuthorized = loadExactPathAuthorizations(rootDir, failures);
   const forbidden = [];
+  const authorizedHits = [];
 
   for (const entry of changedEntries) {
     if (sourceEngineAllowedFiles.has(entry.path)) continue;
@@ -71,7 +274,45 @@ export function assertSourceEngineChangeScope({
       continue;
     }
 
-    if (forbiddenPrefixes.some((prefix) => entry.path.startsWith(prefix))) forbidden.push(entry.path);
+    if (!forbiddenPrefixes.some((prefix) => entry.path.startsWith(prefix))) continue;
+
+    // Forbidden by prefix. The only escape is an owner authorization naming
+    // this exact path, whose current bytes hash to the authorized digest.
+    const grant = exactAuthorized.get(entry.path);
+    if (!grant) {
+      forbidden.push(entry.path);
+      continue;
+    }
+    const actual = fileSha256(rootDir, entry.path);
+    if (actual !== grant.sha256) {
+      forbidden.push(
+        `${entry.path} (authorized by ${grant.id} but content hash ${actual ? actual.slice(0, 12) : "missing"}… does not match authorized ${grant.sha256.slice(0, 12)}…; authorization is void)`
+      );
+      continue;
+    }
+    authorizedHits.push({ path: entry.path, grant });
+  }
+
+  // The authorization travels with its conditions. If any forbidden-prefix path
+  // in the diff is unauthorized, the specifically approved ones do not sail
+  // through alongside it — the whole set fails until the diff is clean.
+  if (authorizedHits.length > 0 && forbidden.length > 0) {
+    failures.push(
+      `Restricted files changed alongside authorized ones; the authorization does not cover the extra paths: ${forbidden.join(", ")}`
+    );
+    return;
+  }
+
+  // And the SQL/TypeScript contract must hold: bytes that pass the hash check
+  // but fail the contract are not the change that was approved.
+  if (authorizedHits.length > 0) {
+    const contract = contractVerifierPasses(rootDir);
+    if (!contract.ok) {
+      failures.push(
+        `Authorized supabase change present but the render-job contract verifier fails (${contract.reason}); authorization requires it green`
+      );
+      return;
+    }
   }
 
   if (forbidden.length > 0) failures.push(`Restricted files changed: ${forbidden.join(", ")}`);

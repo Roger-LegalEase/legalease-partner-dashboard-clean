@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "rcap-f1-confirmatory-acceptance/v1",
+  "declaredBy": "Terminal A (captain)",
+  "classificationBefore": "materially_green_pending_evidence_hardening",
+  "classificationAfter": "accepted_green",
+  "confirmatoryRun": {
+    "workflowRunId": 31593385551,
+    "conclusion": "success",
+    "allWorkflowStepsPassed": true,
+    "requiredStackCases": 16,
+    "skippedRequiredCases": 0,
+    "toolsSha": "e5f497aaa1e0d231f1b842ab5764fd5b9c47954f",
+    "applicationSha": "df3d8607e8a0c723e23c346f1cd725c17a2c22b0",
+    "workerSourceSha": "5987870ca0d70ea4437d0711c430b9eda299a0ef",
+    "workerDigest": "sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d",
+    "evidenceArtifact": {
+      "name": "rcap-f1-evidence-31593385551",
+      "artifactId": 9140202905,
+      "zipSha256": "ca9826cd51e36eb2294907fafe0e9376aa09a7788f505a5e021cb0919007e770",
+      "files": 19
+    }
+  },
+  "evidenceHardeningDelivered": [
+    "baseline_schema_complete required case: 5 baseline tables, 11 consumer payment/ownership columns, partner_slug unique boundary, auth.users FK, auth.uid(), pgcrypto asserted BEFORE phase 49 applies; no phase 49-54 object present early",
+    "sanitized evidence JSON printed between stable log markers, cross-checked by scripts/verify-f1-evidence-markers.mjs (self-test 12/12)",
+    "epilogue TDZ defect found by the first confirmatory attempt (run 31592551645: 16/16 cases green, then SECRET_PATTERN hit the temporal dead zone) fixed in e5f497aa on the pre-drift tree"
+  ],
+  "operatingRule": "Until the final republish mints a new freeze SHA, F1 tools_sha must be a pre-drift, image-input-equivalent commit in canonical ancestry (e.g. e5f497aa); post-drift integration tips are refused by the workflow's equivalence gates by design.",
+  "notedPriorRuns": {
+    "31577743260": "first fully green run (15/15, zero skips) — the withdrawn missing-table premise misattributed an auxiliary PGlite verifier NOTICE to the F1 stack; the stack applies phases 26/27/28 before 49-54 and consumer_briefcase_items existed",
+    "31592551645": "16/16 required cases green; red only in the evidence epilogue (TDZ), which the confirmatory requirement exists to catch"
+  }
+}

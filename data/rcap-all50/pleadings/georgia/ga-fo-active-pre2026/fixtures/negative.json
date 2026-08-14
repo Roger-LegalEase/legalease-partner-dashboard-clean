@@ -1,0 +1,41 @@
+{
+  "fixtureId": "ga-fo-active-pre2026-negative",
+  "description": "Negative fixture. Every clause below is content the source does not supply: a finding this Court has not made, the prosecutor's position, a filing fee the source records as unquotable, service already completed, a fabricated Code section, and populated docket, tracking-number and judge fields that belong to the court. runPleadingQa passes this document — it checks relief vocabulary, template grade and the footer, and cannot see invented content (lane C1 finding 1). The verifier's invention and protected-field detectors are what must catch it.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:prosecutor_position",
+    "invention:fee_amount",
+    "invention:service_completed",
+    "invention:unsourced_citation",
+    "protected_field:populated"
+  ],
+  "partyData": {
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "1000 Sample Street, Atlanta, GA 30303"
+  },
+  "caseData": {
+    "countyName": "Sample County (synthetic sample venue)",
+    "docketNumber": "2019-CR-00042",
+    "otn": "GA0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "100 Sample Courthouse Square, Atlanta, GA 30303"
+  },
+  "chargeData": {
+    "chargeDescription": "Charge stated in the participant's record (synthetic)",
+    "disposition": "Resolved (synthetic)",
+    "arrestDate": "02/03/2023",
+    "arrestingAgency": "Sample County Sheriff's Office (synthetic)"
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "the basis stated in the participant's own answers",
+    "additionalFacts": [
+      "This Court finds that the statutory conditions for relief are satisfied and that the harm to Defendant clearly outweighs the public interest.",
+      "The prosecuting attorney does not oppose this Petition and has agreed that the relief should be granted.",
+      "Defendant paid the $75.00 filing fee to the clerk at the time of filing.",
+      "Service was completed on the arresting law enforcement agency and the prosecuting attorney on 03/01/2026.",
+      "Relief is further authorized by O.C.G.A. § 35-3-99(z), which governs restriction of this category of record."
+    ]
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

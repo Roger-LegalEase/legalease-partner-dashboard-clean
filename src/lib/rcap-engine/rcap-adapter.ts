@@ -1,10 +1,11 @@
 import "server-only";
 
 import { evaluateScreening } from "@/lib/rcap-engine/evaluator";
+import { applyComponentDeferralClamp } from "@/lib/rcap-engine/component-deferral-clamp";
 import type { RcapCaseTransition, RcapMatterEvaluationInput } from "@/lib/rcap-engine/contracts";
 
 export function evaluateRcapMatter(input: RcapMatterEvaluationInput) {
-  const evaluation = evaluateScreening(input);
+  const evaluation = applyComponentDeferralClamp(input, evaluateScreening(input));
   const transition: RcapCaseTransition = {
     caseId: input.caseId,
     targetStatus: statusForEvaluation(evaluation.resultCode, evaluation.missingQuestionIds),

@@ -1,0 +1,118 @@
+{
+  "config": {
+    "jurisdictionCode": "AZ",
+    "trackId": "az_wrongful_arrest_clearance",
+    "templateGrade": "legal_ops_custom_pleading",
+    "templateLifecycle": "replacement_candidate",
+    "primaryReliefTerm": "notation of clearance",
+    "documentTitleFull": "PETITION FOR NOTATION OF CLEARANCE AFTER A WRONGFUL ARREST OR CHARGE PURSUANT TO A.R.S. § 13-4051",
+    "courtCaption": "IN THE SUPERIOR COURT OF THE STATE OF ARIZONA",
+    "primaryStatutoryAuthority": [
+      {
+        "citation": "A.R.S. § 13-4051",
+        "description": "Any person wrongfully arrested, indicted, or otherwise charged may petition the superior court for an order entering a notation on all court, police and agency records that the person has been cleared, with accompanying justification, plus an order that agencies not release copies except on court order."
+      }
+    ],
+    "verificationStatute": {
+      "citation": null,
+      "description": "The source review does not state a verification or notarization requirement for this petition ('The source review does not state a notarization requirement.'); confirm the required verification form with counsel or the clerk of the superior court before filing."
+    },
+    "includeProposedOrder": false,
+    "includeCertificateOfService": false,
+    "serviceNote": null,
+    "counselFlags": [
+      "Product-scope decision open: counsel must decide whether LegalEase enables the § 13-4051 wrongful-arrest petition as a self-help track or restricts it out of product scope; the pinned registry records this as counsel_classification_required on output_strategy.",
+      "This remedy is different from sealing. A person with notice of the order who fails to comply is liable in damages.",
+      "The source review does not state a filing fee for this petition; confirm the current fee and any fee-waiver option with the clerk of the superior court.",
+      "The source review does not address a fee waiver; a fee-waiver application applies only when the participant cannot pay the filing fee.",
+      "The source review does not state a service requirement for this petition; no certificate of service is included. Confirm any service obligation with the clerk before filing.",
+      "The source review does not state a notarization requirement; confirm with the clerk whether the petition must be notarized.",
+      "A hearing is contemplated by the statute, and the judge issues the order if the judge believes justice will be served. The merits burden about wrongfulness is on the petitioner and is not a checklist.",
+      "The statute names the superior court but the source does not state a county venue rule; confirm the proper county superior court (ordinarily where the arrest, indictment or charge occurred) with the clerk before filing.",
+      "The source does not prescribe a caption format or party designations for this special petition; confirm the caption and party alignment with the clerk before filing.",
+      "No proposed order is included: the registry packet set for this track defines a single primary-filing component and the judge issues the order under the statute.",
+      "Self-help stop conditions: any evidentiary dispute or contested hearing, a denial the person wants to challenge, or immigration consequences in play trigger handoff to an attorney or legal aid."
+    ],
+    "presentation": {
+      "sovereignPartyName": "THE STATE OF ARIZONA",
+      "sovereignPartyProper": "the State of Arizona",
+      "sovereignRole": "Respondent",
+      "movantRole": "Petitioner",
+      "filingNoun": "Petition",
+      "divisionLine": "",
+      "usesCounty": false,
+      "courtName": "Superior Court of the State of Arizona, {county} County",
+      "venueDescriptor": "{county} County, Arizona",
+      "recordCustodianLead": "All courts, police departments and other agencies holding records of the wrongful arrest, indictment or charge",
+      "verificationVerb": "declare",
+      "verificationPenaltyLabel": "the penalties for a false statement",
+      "serviceRecipientLabel": "the prosecuting agency (the source review does not state a service requirement for this petition)",
+      "serviceRecipientAddressLabel": "[SERVICE ADDRESS — CONFIRM WITH THE CLERK OF THE SUPERIOR COURT]",
+      "movantFirstInCaption": true,
+      "reliefActionVerb": "enter a notation of clearance on",
+      "orderActionVerb": "enter a notation of clearance on",
+      "recordsScopePhrase": "all court, police and agency records of the wrongful arrest, indictment or charge, with a notation that Petitioner has been cleared and an order that such agencies not release copies of the records except on court order"
+    }
+  },
+  "qaProhibitedTerms": ["expungement", "expunge", "sealing", "set aside", "set-aside", "annulment", "vacatur"],
+  "sourceSilences": [
+    {
+      "field": "verificationStatute.citation",
+      "sourceStatement": "The source review does not state a notarization requirement.",
+      "note": "No verification or notarization statute is recorded for the § 13-4051 petition, so config.verificationStatute.citation stays null and the petition carries an ordinary declaration and signature block. The field is not filled from another state's practice.",
+      "counselFlag": "The source review does not state a notarization requirement; confirm with the clerk whether the petition must be notarized."
+    },
+    {
+      "field": "filingFee",
+      "sourceStatement": "Rules: fees, fee waiver, service and notarization are each recorded as not stated in the source review.",
+      "note": "The source records the filing fee as not stated and quotes no figure. No monetary figure appears in the pleading, the participant instructions or the handoff, and the fee field stays null.",
+      "counselFlag": "The source review does not state a filing fee for this petition; confirm the current fee and any fee-waiver option with the clerk of the superior court."
+    },
+    {
+      "field": "feeWaiver",
+      "sourceStatement": "Rules: fees, fee waiver, service and notarization are each recorded as not stated in the source review.",
+      "note": "No fee waiver route is recorded, and none is asserted; the field stays null.",
+      "counselFlag": "The source review does not address a fee waiver; a fee-waiver application applies only when the participant cannot pay the filing fee."
+    },
+    {
+      "field": "serviceNote",
+      "sourceStatement": "Rules: fees, fee waiver, service and notarization are each recorded as not stated in the source review.",
+      "note": "No service requirement is recorded for the § 13-4051 petition, so config.serviceNote stays null, includeCertificateOfService is false and the certificate_of_service component is recorded absent rather than drafted from an unsourced rule.",
+      "counselFlag": "The source review does not state a service requirement for this petition; no certificate of service is included. Confirm any service obligation with the clerk before filing."
+    },
+    {
+      "field": "venue",
+      "sourceStatement": "Venue: Statewide Arizona law; petition in superior court.",
+      "note": "The statute names the superior court but the source states no county venue rule, so no county is asserted as a track constant; the county remains a participant input carried through the caption.",
+      "counselFlag": "The statute names the superior court but the source does not state a county venue rule; confirm the proper county superior court (ordinarily where the arrest, indictment or charge occurred) with the clerk before filing."
+    }
+  ],
+  "componentInventory": [
+    { "component": "caption", "status": "present", "sectionId": "court_caption", "notes": "Movant-first caption; format not prescribed by the source and flagged for clerk confirmation." },
+    { "component": "case_number_block", "status": "present", "sectionId": "case_number_block", "notes": "Docket left as a confirm bracket; participant supplies the case identifiers from the underlying arrest or charge." },
+    { "component": "court_party_identity", "status": "present", "sectionId": "parties" },
+    { "component": "title", "status": "present", "sectionId": "document_title" },
+    { "component": "allegations", "status": "present", "sectionId": "facts_case_history", "notes": "Wrongfulness facts are participant-supplied in the participant's own words per the registry generation requirements." },
+    { "component": "statutory_basis", "status": "present", "sectionId": "statutory_authority" },
+    { "component": "eligibility_allegations", "status": "present", "sectionId": "eligibility_allegations" },
+    { "component": "requested_relief", "status": "present", "sectionId": "requested_relief" },
+    { "component": "verification", "status": "present", "sectionId": "verification_signature", "notes": "No verification statute stated in the source; declaration form flagged for counsel." },
+    { "component": "signatures", "status": "present", "sectionId": "verification_signature", "notes": "The petitioner signs their own petition (registry participantActionRequired)." },
+    { "component": "proposed_order", "status": "absent", "reason": "The registry packet set defines a single primary-filing component; under A.R.S. § 13-4051 the judge issues the order after the contemplated hearing. No proposed-order component is recorded in the source." },
+    { "component": "certificate_of_service", "status": "absent", "reason": "The source review does not state a service requirement for this petition; flagged for clerk confirmation instead of drafting an unsourced certificate." },
+    { "component": "notice_or_affidavit", "status": "absent", "reason": "No notice or affidavit component is recorded in the source for this track." },
+    { "component": "participant_cover_sheet", "status": "present", "location": "participant-instructions.md" },
+    { "component": "filing_instructions", "status": "present", "location": "participant-instructions.md" }
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/arizona/index.ts",
+      "src/lib/rcap/state-packs/arizona/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "fingerprint": "311ad605d45145fc15725f007938ac9823bbbe54b243e433dfae2e4451934290",
+    "registryAuthority": ["A.R.S. § 13-4051"],
+    "registryExcerpt": "Any person wrongfully arrested, indicted, or otherwise charged may petition the superior court for an order entering a notation on all court, police and agency records that the person has been cleared, with accompanying justification, plus an order that agencies not release copies except on court order. The statute creates a participant-initiated petition in superior court. Venue: Statewide Arizona law; petition in superior court. Destination: Superior court — a hearing is contemplated by the statute, and the judge issues the order if the judge believes justice will be served. Rules: fees, fee waiver, service and notarization are each recorded as not stated in the source review. Packet instruction: Explain that this remedy is different from sealing. A person with notice of the order who fails to comply is liable in damages."
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-official-form-dependency/v1",
+  "trackId": "tx_nd_veterans_reemployment",
+  "jurisdiction": {
+    "code": "TX",
+    "slug": "texas"
+  },
+  "componentId": "tx_nd_veterans_reemployment-fee-waiver-statement-4",
+  "componentIdSynthesized": false,
+  "role": "fee_waiver_statement",
+  "requirement": "conditional",
+  "conditionDescription": "Where the participant cannot afford the filing costs, on the petition route only.",
+  "order": 4,
+  "requiredOutput": "official_form_dependency",
+  "officialFormId": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+  "officialFormName": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), approved by the Supreme Court of Texas in Misc. Docket No. 22-9090 under Tex. R. Civ. P. 145",
+  "issuingAuthority": "Supreme Court of Texas",
+  "officialSourceUrlForForm": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+  "officialSourceSha256": null,
+  "officialSourceRetrievedOn": "2026-08-06",
+  "acquisitionStatus": "url_recorded_no_copy_on_file_no_hash_revision_stale",
+  "acquisitionNote": "The registry records the form title, the approving Misc. Docket number and a direct txcourts.gov URL retrieved 2026-08-06, with sha256 null. No copy is in the Texas Nationwide inventory. The compiled TX profile names the Statement of Inability in its fees and filing sections but records no URL, revision or field map for it. Unlike the two OCA forms on this track, no staleness finding is recorded against this one — but it is equally unhashed.",
+  "drafted": false,
+  "draftingProhibitedBecause": "It is an official promulgated statewide form — the only genuinely statewide promulgated form in the entire Texas record-clearing workflow — and Rule 145 requires the clerk to make it available without charge or request. Lane C drafts no official forms. Drafting a substitute would invent the sworn financial disclosures on which the waiver turns.",
+  "blockingStatement": "Blocks only the fee-waiver branch of the petition route. A participant who takes the no-filing route pays nothing and is unaffected; a participant who pays the civil filing fee is unaffected.",
+  "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
+  "exactMissingSource": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090 — the PDF itself at https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf, plus a captured sha256, its current revision date and a field map. Recorded with sha256 null and no copy in the Texas Nationwide inventory.",
+  "filingRule": "Filed with the petition. No fee arises on the no-filing route; on the petition route Gov't Code 411.0745(b) requires the fee that generally applies to filing a civil case, which is county-specific. No figure is quoted anywhere in this artifact.",
+  "filingRuleSourceRef": "registry@3b6f4c1:tracks[422].rules.feeWaiver; registry@3b6f4c1:tracks[422].rules.fees",
+  "submissionDestination": "The clerk of the court that sentenced the person or placed the person on community supervision, including deferred adjudication community supervision — NOT the county of arrest.",
+  "submissionDestinationSourceRef": "registry@3b6f4c1:tracks[422].venue; registry@3b6f4c1:tracks[422].destination",
+  "participantObtains": true,
+  "participantTenders": true,
+  "legalEaseHandlesRecord": false,
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/texas/index.ts",
+      "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ],
+    "profileCorroboration": null,
+    "profileCorroborationNote": "None available. The compiled TX profile enumerates four Gov't Code ch. 411 nondisclosure subtypes — 411.072, 411.0725, 411.0735 and the first-offence DWI provisions — and does not mention 411.0729, veterans reemployment programmes, Code of Criminal Procedure ch. 42A subch. H-1 or any OCA model form URL anywhere. The committed Texas state pack's officialFormInventory contains neither OCA nondisclosure form.",
+    "registryRef": "registry@3b6f4c1:tracks[422].packetSet.components[3]"
+  },
+  "financialDataNote": "The form calls for detailed financial disclosures made under oath. None is collected, prefilled, stored or inspected by this lane; the participant completes the official form."
+}

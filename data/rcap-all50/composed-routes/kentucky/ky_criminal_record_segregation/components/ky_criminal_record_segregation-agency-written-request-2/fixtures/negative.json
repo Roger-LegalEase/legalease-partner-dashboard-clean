@@ -1,0 +1,79 @@
+{
+  "fixtureId": "ky_criminal_record_segregation-agency-letter-negative",
+  "trackId": "ky_criminal_record_segregation",
+  "componentId": "ky_criminal_record_segregation-agency-written-request-2",
+  "unitId": "ky_seg_agency_written_request",
+  "componentPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-agency-written-request-2/agency-request-letter.md",
+  "routePath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, KY 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "countyName": "JEFFERSON",
+    "chargesFiled": "yes",
+    "caseNumber": "00-M-00000",
+    "letterDate": "01/01/2026",
+    "court": "JEFFERSON DISTRICT COURT",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE COUNTY ATTORNEY",
+    "prosecutorPosition": "consents"
+  },
+  "chargeData": {
+    "chargeDescription": "criminal trespass",
+    "arrestOffenceDescription": "criminal trespass",
+    "arrestDate": "05/05/2021",
+    "dispositionType": "one charge dismissed, one amended",
+    "dispositionDate": "11/11/2021"
+  },
+  "recipients": [
+    {
+      "agencyName": "KENTUCKY STATE POLICE, RECORDS BRANCH",
+      "agencyAddress": "1266 LOUISVILLE ROAD, FRANKFORT, KY 40601"
+    },
+    {
+      "agencyName": "ADMINISTRATIVE OFFICE OF THE COURTS, RECORDS DIVISION",
+      "agencyAddress": "1001 VANDALAY DRIVE, FRANKFORT, KY 40601"
+    }
+  ],
+  "eligibilityData": {
+    "screeningAnswers": {
+      "segCounty": "JEFFERSON",
+      "segChargesFiled": "yes",
+      "segCaseNumber": "00-M-00000",
+      "segDispositionType": "one charge was dismissed and the other was amended to a lesser offence",
+      "segDispositionDate": "11/11/2021",
+      "segAlreadyExpunged": "eligible under KRS 431.078",
+      "segAgencies": "",
+      "segRoute": "written requests to each agency"
+    },
+    "eligibilityBasisLabel": "Eligible — record will be expunged and destroyed",
+    "lettersToGenerate": 2,
+    "dispositionProofInHand": false,
+    "additionalFacts": [
+      "All charges relating to the offence were dismissed.",
+      "Your agency must expunge, seal and destroy these records within thirty days of receiving this letter.",
+      "Failure to comply within thirty days will result in penalties under Kentucky law.",
+      "The court record of this case must also be segregated.",
+      "The county attorney consents to this request.",
+      "The Kentucky State Police have already segregated their file.",
+      "After you act, my background check will come back clean."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "02/02/1988",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "KY0000000",
+    "driversLicenseNumber": "K00000000",
+    "fbiNumber": "000000AA0",
+    "fingerprintIdentifier": "FP-000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA. (1) Prohibited terms: the letter demands the agency 'expunge, seal and destroy' the records. Segregation is none of those — the records continue to exist and remain accessible and the segregated record must show the disposition — and on this track sealing is what happens under KRS 431.076 or KRS 431.078 instead of segregation. (2) It asserts that all charges relating to the offence were dismissed when the participant's own answer is that one was dismissed and one was amended to a lesser offence; KRS 17.142(1) requires that ALL charges relating to the offence were dismissed or withdrawn, and cases where fewer than all were are an express exclusion. (3) It proceeds despite segAlreadyExpunged reporting eligibility under KRS 431.078, which KRS 17.142(4) sends to that statute instead and which is a self-help stop condition. (4) It invents a thirty-day deadline and a penalty for non-compliance. No source read for this track states any deadline, penalty or consequence for an agency. (5) It asks that the court record be segregated, when the Clerks' Manual records that court records are not records which may be segregated — and it addresses one of the two letters to the Administrative Office of the Courts, a court-records body, at a fabricated address. (6) It prefills agency names and addresses. No source read for this track names a single Kentucky agency or supplies any address; agencies come only from the participant's segAgencies answer, which here is empty. (7) It asserts outside-party acts and positions: that the county attorney consents, and that the Kentucky State Police have already segregated their file. KRS 17.142 provides for no notice to a prosecutor or any other party, and no packet may state what an agency has done. (8) It promises a result — a clean background check — when a participant who expects that is itself a self-help stop condition, because segregation deletes nothing. (9) It carries court identity (court name, case number, judge) onto a document that is not a court document at all. (10) It populates protected fields — date of birth, SSN last four, state ID, driver's licence, FBI number and a fingerprint identifier — that must stay blank; fingerprints are among the very records this letter asks to have segregated. (11) It states an eligibilityBasisLabel asserting confirmed eligibility and a promised outcome, when no eligibility conclusion may be asserted.",
+  "partyDataFieldNote": "partyData uses the PleadingRenderInput field names petitionerName / petitionerAddress / otherNamesUsed. The role label for this track is set by presentation.movantRole in the config (Movant on the void-and-seal tracks, Applicant on the KRS 17.142(2) application), not by the fixture key name."
+}

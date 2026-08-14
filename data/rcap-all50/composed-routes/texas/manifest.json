@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "TX",
+    "name": "Texas",
+    "slug": "texas"
+  },
+  "jobIds": [
+    "T-C-TX-complete-composed-route"
+  ],
+  "trackIds": [
+    "tx_nd_veterans_reemployment"
+  ],
+  "perTrackStatus": {
+    "tx_nd_veterans_reemployment": {
+      "registryIndex": 422,
+      "publicName": "Seal a record after completing a veterans reemployment programme",
+      "legalName": "Order of nondisclosure after a court-approved veterans reemployment programme, Tex. Gov't Code 411.0729",
+      "status": "composed_route_complete_zero_documents_drafted_three_official_form_dependencies_blocked",
+      "primaryReliefTerm": "nondisclosure",
+      "compositionMode": "alternative",
+      "unitCount": 5,
+      "registryUnitCount": 2,
+      "componentCount": 5,
+      "draftedPleadingComponents": 0,
+      "participantInstructionComponents": 2,
+      "officialFormDependencyComponents": 3,
+      "units": [
+        "tx-nd0729-no-filing-route (order 1, participant_instruction, component …-no-filing-route-guidance-1) — WRITTEN, 3 fixtures",
+        "tx-nd0729-oca-petition (order 2, official_form_dependency, component …-petition-2) — BLOCKED",
+        "tx-nd0729-oca-order (order 3, official_form_dependency, component …-proposed-order-3) — BLOCKED",
+        "tx-nd0729-fee-waiver (order 4, official_form_dependency, component …-fee-waiver-statement-4) — BLOCKED",
+        "tx-nd0729-after-order (order 5, participant_instruction, component …-after-order-instructions-5) — WRITTEN, invariant, no fixtures"
+      ],
+      "officialFormDependencies": [
+        "OCA Model Petition for an Order of Nondisclosure under Section 411.0729 (component tx_nd_veterans_reemployment-petition-2, conditional; located copy carries a February 2022 footer; sha256 null)",
+        "OCA Model Order of Nondisclosure under Section 411.0729 (component tx_nd_veterans_reemployment-proposed-order-3, conditional; February 2022 footer; sha256 null)",
+        "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145 (component tx_nd_veterans_reemployment-fee-waiver-statement-4, conditional; sha256 null)"
+      ],
+      "counselFlagCount": 17,
+      "openBuildBlockers": [],
+      "openReleaseBlockers": [
+        "The OCA model petitions and orders carry a February 2022 revision and the Overview a February 2024 revision, confirmed from the document footers on 2026-08-06. Neither has been revised for the 2023 recodification of expunction into Chapter 55A or for the 2025 amendment to Gov't Code 411.0728. Each section form must be pulled at its current revision before release."
+      ],
+      "openCounselQuestions": [
+        "Whether the recorded first-time-offender and family-violence self-help stop conditions are legal bars on a section that expressly disapplies the subchapter's other eligibility criteria under 411.0729(b), or prudential stops. This changes who receives a packet.",
+        "Whether the agency list the order must reach is Gov't Code 411.0765 (registry) or 411.075(b) (compiled profile). No source read reconciles them.",
+        "Whether the OCA instructions still direct the petitioner to show proof that the district attorney received a copy, and in which counties the filer must deliver a copy, given that rules.service says the court notifies the state."
+      ],
+      "postGenerationHandoffs": [],
+      "fixtures": [
+        "components/…-no-filing-route-guidance-1/fixtures/{canonical,boundary,negative}.json"
+      ],
+      "artifacts": [
+        "tx_nd_veterans_reemployment/route.json",
+        "tx_nd_veterans_reemployment/participant-instructions.md",
+        "tx_nd_veterans_reemployment/handoff.md",
+        "tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-no-filing-route-guidance-1/no-filing-route-guidance.md",
+        "tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-no-filing-route-guidance-1/fixtures/{canonical,boundary,negative}.json",
+        "tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-petition-2/dependency.json",
+        "tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-proposed-order-3/dependency.json",
+        "tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-fee-waiver-statement-4/dependency.json",
+        "tx_nd_veterans_reemployment/components/tx_nd_veterans_reemployment-after-order-instructions-5/after-order-instructions.md"
+      ]
+    }
+  },
+  "componentCount": 5,
+  "totals": {
+    "tracks": 1,
+    "units": 5,
+    "components": 5,
+    "draftedPleadingComponents": 0,
+    "participantInstructionComponents": 2,
+    "officialFormDependencies": 3,
+    "distinctOfficialFormsBlocked": 3,
+    "counselFlags": 17,
+    "fixtures": 3
+  },
+  "notes": [
+    "This route drafts NO pleading document. Both of its available legal units produce either nothing (the no-filing route) or an official form (the OCA petition and order). Lane C's entire output is two participant-instruction documents, three dependency records, participant-instructions.md and route.json.",
+    "The registry's controlling packet instruction is to LEAD WITH THE NO-FILING ROUTE. Section 411.0729 names no filing party and imposes no petition requirement: the court holds a hearing and, unless it finds issuance is not in the best interest of justice, enters the order. A packet that opened with the OCA petition would sell a participant a filing and a county filing fee the statute does not require.",
+    "The most consequential screening instruction on this track points the opposite way from every sibling nondisclosure track: under 411.0729(b) the Gov't Code 411.074 basic conditions DO NOT apply, so a person barred from every other nondisclosure section may still qualify here. The boundary fixture deliberately carries a prior conviction and a prior deferred adjudication for that reason.",
+    "Venue is the SENTENCING court, not the county of arrest. The registry calls this the single biggest venue difference from expunction and notes that a participant with both an expunction and a nondisclosure may be filing in two different courts.",
+    "route.json units[] carries five entries against the registry's two units[] and five packetSet.components. Three units have no registry units[] parent and each records registryUnitId null with an explicit registryUnitNote: the OCA order is split out because it is a distinct official form with a distinct URL and acquisition state; the fee waiver is conditional inside the petition alternative by its own conditionDescription; the after-order instructions are marked required with no condition and therefore apply on both alternatives, so they cannot attach to either.",
+    "All three official forms carry sha256 null and two carry February 2022 footers. Acquiring, hashing and field-mapping them is the only work that moves this track, and the ORDER is the most exposed document because its recitals would carry a stale statutory cross-reference verbatim into a signed court order.",
+    "The compiled TX profile does not record this section. Its enumeration of Gov't Code ch. 411 subtypes names four — 411.072, 411.0725, 411.0735 and first-offence DWI — and full-value scans return zero hits for 411.0729, 'veterans reemployment' and Subchapter H-1. The profile supplies the two-tool framing, the sealed-versus-erased effect, the sentencing-court contrast and the county-specific fee statement, and nothing else.",
+    "Nondisclosure seals rather than destroys, and the participant may NOT deny the matter to the agencies on the statutory list — school districts, charter and private schools, education service centres, commercial transportation companies. Expunction vocabulary is prohibited on this track, and so is any statement that the participant may deny the matter.",
+    "An order applies to ONE offence. Multiple offences require multiple orders, and the registry requires the participant to be told that cost multiplier BEFORE PAYING."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "profileSha256": "2820312fd974151afe465d6f04d0454b4a5c3cc991982142bd0e3ab9c3a297df",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/texas/index.ts",
+      "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ]
+  }
+}

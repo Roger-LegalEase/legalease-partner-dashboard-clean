@@ -1,0 +1,81 @@
+{
+  "fixtureId": "ia-9079-process-guidance-1-canonical",
+  "description": "Canonical fill of the participant diagnostic document. Post-July-2013 discharge, deferred judgment never revoked, participant believes every financial obligation is paid, case no longer on the public docket. Every value is obviously synthetic. Docket/case number, OTN, judge, judge address, county attorney position, and all protected and outside-party fields stay blank.",
+  "trackId": "ia-9079",
+  "componentId": "ia-9079-process-guidance-1",
+  "unitId": "ia-9079-post-2013-verification",
+  "jurisdictionCode": "IA",
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "screeningData": {
+    "countyOfCase": "Sample",
+    "caseNumber": "",
+    "wasDeferredJudgment": "Yes — deferred judgment, not a conviction and not a dismissal",
+    "dischargedFromProbation": "Yes — discharged 06/15/2019",
+    "deferredJudgmentRevoked": "No",
+    "financialObligationsPaid": "Yes — participant states everything in that case is paid",
+    "stillOnPublicDocket": "No — the case no longer appears",
+    "dischargeBeforeJuly2013": "No — discharge was after July 1, 2013"
+  },
+  "partyData": {
+    "petitionerName": "JANE DOE",
+    "petitionerAddress": "123 Sample Street, Apt 4, Sample City, IA 50000",
+    "otherNamesUsed": "Jane Q. Doe",
+    "petitionerPhone": "(555) 010-0100",
+    "petitionerEmail": "jane.doe@sample-invalid.test"
+  },
+  "caseData": {
+    "countyName": "Sample",
+    "courtName": "",
+    "courtAddress": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "judgeAddress": "",
+    "countyAttorneyName": "",
+    "countyAttorneyPosition": ""
+  },
+  "chargeData": {
+    "chargeDescription": "Court record with reference to the deferred judgment in the case named above",
+    "offenseGrade": "",
+    "disposition": "Deferred judgment under Iowa Code § 907.3, discharged from probation",
+    "dispositionDate": "06/15/2019",
+    "arrestDate": "",
+    "arrestingAgency": "",
+    "statuteTitle": "Iowa Code",
+    "statuteSection": "907.9(4)",
+    "relatedDismissedCounts": "Dismissed counts in the same charging instrument, and other related dismissed charges arising from the same transaction or occurrence or a common scheme or plan"
+  },
+  "eligibilityData": {
+    "eligibilityBasisLabel": "Expungement of the court record with reference to a deferred judgment on discharge from probation, Iowa Code § 907.9(4)",
+    "waitingPeriodText": "Discharge from probation, with all financial obligations in that case paid — duration: none beyond discharge and payment",
+    "reliefFraming": "The court record becomes confidential and comes off public access under Iowa Code § 22.7. It is not accessible except by court order.",
+    "additionalFacts": [
+      "There is no participant filing on this branch. The expungement is expected to occur on discharge without an application.",
+      "This mechanism sits outside Iowa R. Crim. P. 2.80 through 2.86 and has no Rule 2.86 form.",
+      "The deferred judgment itself remains on the state court administrator's deferred judgment docket and is not expunged.",
+      "Iowa has no felony expungement.",
+      "The record is not expunged until restitution, civil penalties, court costs, fees and other obligations in the case containing the deferred judgment are paid.",
+      "The participant obtains the clerk's confirmation of the balance in that case. LegalEase does not obtain, receive or inspect it."
+    ]
+  },
+  "blankFieldLedger": {
+    "caseNumber": "Blank by convention. Case number is a required screening answer supplied by the participant at fill time.",
+    "docketNumber": "Blank by convention, as above.",
+    "otn": "Blank. No OTN field is recorded for this route by any source.",
+    "judgeName": "Blank. Protected — no source names a judge.",
+    "judgeAddress": "Blank. Protected — no court or clerk address is sourced (counsel flag cf-05).",
+    "courtName": "Blank. Venue is described only as \"Iowa District Court for the county of the case\"; no named court is sourced (counsel flag cf-05).",
+    "countyAttorneyPosition": "Blank. Protected — there is no filing and no adverse party appearance on this branch; no position is ever prefilled.",
+    "arrestDate": "Blank. No arrest date is recorded or required by any source for this route.",
+    "arrestingAgency": "Blank. Outside party — no source names one.",
+    "offenseGrade": "Blank. The registry records the record type as deferred_judgment_court_record and states no offense grade.",
+    "filingFee": "Blank. There is no filing on this branch; the registry states no fee is identified and the diagnostic route is free (counsel flag cf-04).",
+    "signature": "Blank. Registry rules.participantSignature: no participant signature on the diagnostic branch.",
+    "serviceCompletion": "Blank. No service exists on this branch and none is asserted.",
+    "expungementCompletion": "Blank. No document asserts that the record has in fact been expunged; whether the mechanism is genuinely self-executing is an open release blocker (counsel flag cf-01).",
+    "processingTimeframe": "Blank. No source states how long the court takes.",
+    "hearingDateAndOutcome": "Blank. No hearing exists on this branch and none is asserted."
+  },
+  "expectFailure": null
+}

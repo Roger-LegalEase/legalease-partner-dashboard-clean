@@ -1,0 +1,94 @@
+{
+ "fixtureId": "tx_exp_specialty_court-negative",
+ "trackId": "tx_exp_specialty_court",
+ "configPath": "data/rcap-all50/pleadings/texas/tx_exp_specialty_court/pleading-config.json",
+ "description": "Must fail pleading QA.",
+ "synthetic": true,
+ "syntheticDataNote": "All values are obviously synthetic and are never drawn from any evidence file. Names are SAMPLE/EXAMPLE strings, the county is EXAMPLE, addresses are 000-prefixed, and every date is a round synthetic value. Dates here are participant screening answers, not sourced facts; no date in this fixture is asserted by any source.",
+ "partyData": {
+  "petitionerName": "JAMIE Q. SAMPLE",
+  "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, TX 00000",
+  "otherNamesUsed": ""
+ },
+ "caseData": {
+  "countyName": "TRAVIS",
+  "countyOfArrest": "TRAVIS",
+  "countyOfAllegedOffence": "TRAVIS",
+  "courtLevel": "county court at law",
+  "caseNumberOfUnderlyingCharge": "0000000",
+  "courtOfUnderlyingCharge": "Example County Court at Law No. 0",
+  "causeNumber": "2026-00000",
+  "courtIdentity": "000th Judicial District Court",
+  "judgeName": "HON. EXAMPLE JUDGE",
+  "attorneyForTheStateName": "EXAMPLE COUNTY ATTORNEY",
+  "attorneyForTheStatePosition": "consents to the expunction",
+  "attorneyForTheStateAddress": "000 COURTHOUSE SQUARE, EXAMPLE CITY, TX 00000",
+  "prosecutorConsentGiven": "consent obtained on 01/05/2026",
+  "dismissalEntered": "entered 06/01/2025",
+  "filingDate": "01/01/2026",
+  "hearingDate": "02/15/2026",
+  "serviceCompleted": "served on 01/02/2026",
+  "hearingOutcome": "granted"
+ },
+ "chargeData": {
+  "chargeDescription": "example offence",
+  "offenseGrade": "Class C misdemeanour, fine-only",
+  "disposition": "Dismissed after a drug court programme",
+  "arrestDate": "01/01/2024",
+  "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+  "dateOffenceAllegedlyCommitted": "01/01/2000",
+  "municipalityOfArrest": "EXAMPLE CITY",
+  "statuteSection": ""
+ },
+ "eligibilityData": {
+  "screeningAnswers": {
+   "arrestCounty": "EXAMPLE",
+   "arrestDate": "01/01/2024",
+   "arrestingAgency": "EXAMPLE COUNTY SHERIFF'S OFFICE",
+   "offenceCharged": "example offence, Class A misdemeanour",
+   "caseNumberAndCourt": "[PARTICIPANT'S OWN ANSWER — CONFIRMED AGAINST THE CLERK'S FILE]",
+   "felonyFromSameTransaction": "no",
+   "communitySupervision": "no",
+   "probationViolationArrest": "no",
+   "abscondedAfterRelease": "no",
+   "agencyList": "[PARTICIPANT'S OWN LIST — BUILT FROM THE DISTRICT CLERK'S ART. 55A.253(c) PUBLISHED LIST]",
+   "privateEntities": "[PARTICIPANT'S OWN LIST — LISTED SEPARATELY, NEVER MERGED INTO THE AGENCY LIST]",
+   "trn": "TRN0000000",
+   "feeWaiverRequested": "no",
+   "specialtyProgramType": "drug court programme",
+   "dismissalDate": "06/01/2025",
+   "priorSpecialtyExpunction": "yes — on this same ground",
+   "prosecutorConsentSought": "LegalEase obtained the prosecutor's consent"
+  },
+  "eligibilityBasisLabel": "Eligible — the State consents and the record will be sealed",
+  "waitingPeriodText": "The 30-day waiting period has run since the dismissal.",
+  "additionalFacts": [
+   "The attorney representing the State consents to this expunction and has agreed to the order.",
+   "The record will be sealed under the nondisclosure statute once the order is signed.",
+   "The filing fee of $275.00 was paid to the Travis County District Clerk.",
+   "Service on all listed agencies was completed by the Petitioner on 01/02/2026.",
+   "The Court held a hearing on 02/15/2026 and granted the petition."
+  ]
+ },
+ "protectedFields": {
+  "dateOfBirth": "03/05/1986",
+  "sex": "M",
+  "race": "W",
+  "socialSecurityNumber": "000-00-0000",
+  "driversLicenseNumber": "00000000",
+  "addressAtTimeOfArrest": "000 OLD EXAMPLE ROAD, AUSTIN, TX 00000",
+  "trn": "TRN0000000"
+ },
+ "protectedFieldsNote": "Article 55A.253(a) requires the petition to carry sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest, and the TRN must appear on the order under art. 55A.301. All of them are blank here and are never prefilled by any pipeline stage. How the largest counties handle sensitive data in a public civil expunction filing is a recorded release blocker; the participant supplies these by hand.",
+ "outsidePartyFields": null,
+ "outsidePartyFieldsNote": "Blank and never prefilled. The matter is a new civil action and receives a NEW cause number on filing, so no cause number can exist beforehand. The court sets the hearing not earlier than the 30th day after filing and the clerk serves under art. 55A.254; the participant does not serve. No position of the attorney representing the state, no service completion and no hearing outcome is ever stated.",
+ "attachments": [],
+ "productName": "LegalEase RCAP",
+ "shadowMode": true,
+ "expectFailure": "Must fail pleading QA. Each ground is either a prohibited term for this track or prohibited invention. (1) Prohibited terms: the output says the record 'will be sealed' under 'the nondisclosure statute'. Nondisclosure is Gov't Code ch. 411 relief in a different code with a different venue; a Chapter 55A pleading that uses sealing or nondisclosure vocabulary is the wrong remedy on its face. (2) It asserts the consent of the attorney representing the state, and says LegalEase obtained it. The registry states in terms that LegalEase does not seek, negotiate or obtain that consent and NEVER asserts it has been given, and 'the attorney representing the state does not consent' is a recorded self-help stop condition. (3) The programme is a drug court programme. The route reaches exactly two programme types — veterans treatment court under Gov't Code ch. 124 and mental health court under ch. 125 — and any other programme is a recorded exclusion. (4) priorSpecialtyExpunction = yes on this same ground. A second expunction on the same specialty-court ground is a recorded exclusion and the affidavit attests to the opposite. (5) The court is a county court at law. Article 55A.203 is limited to DISTRICT COURTS, unlike art. 55A.201, and a court other than a district court is a recorded exclusion. (6) The window has closed: the dismissal was 06/01/2025 and the filing is 01/01/2026, far beyond the 30th day. 'The 30-day window has closed' is a recorded self-help stop condition. (7) It calls the 30 days a 'waiting period'. It is a deadline running the other way — waiting defeats the route. (8) It quotes a filing fee of $275.00 on a route where art. 55A.203(c) forbids the court charging ANY fee or assessing any cost, and art. 102.0061(d) separately requires waiver of the district-court fee. (9) It fills court identity no source supplies: cause number, judicial district and judge name. (10) It asserts service completion by the petitioner, a hearing date and a hearing outcome — none of which exists on a streamlined order route, and all of which are outside-party or court acts. (11) It populates every art. 55A.253(a) protected identifier and the TRN, all of which must stay blank. (12) It states an eligibilityBasisLabel asserting confirmed eligibility resting on the State's consent, when no eligibility conclusion may be asserted and consent may never be asserted at all.",
+ "expectedSignals": [
+  "protected_case_identifier",
+  "unstated_fee_asserted"
+ ],
+ "expectedSignalsNote": "Derived by rendering this fixture and recording which invention signals fire. The verifier requires every signal listed here to fire on every run; a fixture that stops tripping them is a regression."
+}

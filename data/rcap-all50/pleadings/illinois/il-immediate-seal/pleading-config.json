@@ -1,0 +1,499 @@
+{
+  "schemaVersion": "rcap-pleading-track-config/v1",
+  "jurisdictionCode": "IL",
+  "jurisdiction": {
+    "code": "IL",
+    "name": "Illinois",
+    "slug": "illinois"
+  },
+  "trackId": "il-immediate-seal",
+  "jobId": "T-C-IL-production-packet",
+  "family": "controlled_pleading",
+  "treatment": "production_packet",
+  "legalName": "Immediate Sealing at Disposition",
+  "publicName": "Asking for immediate sealing on the day your case is dismissed or you are acquitted",
+  "templateGrade": "legal_ops_custom_pleading",
+  "templateLifecycle": "replacement_candidate",
+  "primaryReliefTerm": "sealing",
+  "primaryReliefTermBasis": "registry@3b6f4c1:tracks[140].legalName (\"Immediate Sealing at Disposition\") and .mechanism (\"may be sealed immediately\"). The compiled IL profile records terminology.primaryConsumerTerm = \"expungement\" with avoidUniversalExpungementLabel = true and allowedStateTerms including \"sealing\"; the track term governs here. See counselFlag il-immediate-seal-vocabulary-sealing-not-expungement.",
+  "documentTitleFull": "PETITION FOR IMMEDIATE SEALING PURSUANT TO 20 ILCS 2630/5.2(g)",
+  "documentTitleFullBasis": "Constructed from registry@3b6f4c1:tracks[140].legalName plus .authority[0]. No source read for this track states a title for the § 5.2(g) petition, because no statewide or local form for it has been located. The title is a legal-ops construction, not a form title, and is covered by counselFlag il-immediate-seal-no-verified-form.",
+  "courtCaption": "IN THE CIRCUIT COURT OF {county} COUNTY, ILLINOIS",
+  "courtCaptionNote": "Token pattern. `{county}` is never prefilled. The court identity comes from the IL state pack (illinoisCourtRouting.court = \"Illinois Circuit Court\") and from the compiled profile's illustrative statewide-suite caption \"IN THE CIRCUIT COURT OF COOK COUNTY, ILLINOIS\" (profile sourceSections[25]) — which is an EXP-AD Request example, not a § 5.2(g) example. Neither source states an accepted caption for a § 5.2(g) same-day petition, and no Illinois court is known to publish a local form for it. Accepted caption is an open release blocker. No party-versus-party line is asserted; see presentation.sovereignPartyName.",
+  "routeDecision": {
+    "decision": "custom_pleading_drafted",
+    "rationale": [
+      "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading' for this track, with compositionMode null and units[] empty. It is a single-unit controlled pleading, not a composed route.",
+      "packetSet.components lists three required custom_pleading components and no officialFormId on any of them: il-immediate-seal-primary-filing-1 (the petition), il-immediate-seal-proposed-order-2 (the proposed order), il-immediate-seal-instructions-3 (the filing instruction sheet).",
+      "The reclassification is explicit: \"Reclassified from process_guidance to custom_pleading on packet-only re-review. A participant-facing petition and proposed order exist under § 5.2(g); the prior classification conflated LegalEase's inability to appear in court with an absence of a packet.\"",
+      "No official form is drafted or blocked for this track. The statewide adult suite expressly does not govern it: \"Relief tracks governed: A, B, C, D, E, F, G, H, J, and stage 2 of K.\"",
+      "Delivery is attorney-mediated. The packet is prepared for retained counsel, appointed counsel or the public defender to file during the disposition hearing. This config produces the document; it does not assert that LegalEase files, appears, or serves."
+    ],
+    "sourceRef": "registry@3b6f4c1:tracks[140].outputStrategy; .outputStrategyDeclared; .compositionMode; .units; .packetSet.components; .scopeRestrictions[0]; .scopeRestrictions[1]; .scopeRestrictions[2]"
+  },
+  "mechanism": "Arrests or charges not initiated by arrest resulting in acquittal or dismissal with prejudice on or after January 1, 2018 may be sealed immediately. The petition must be filed with the circuit clerk on the same day and during the same hearing in which the case is disposed, and the presiding trial judge rules during that hearing. Section 5.2(g)(5)(A) frames the filing as made by the defendant's attorney on the defendant's behalf.",
+  "mechanismSourceRef": "registry@3b6f4c1:tracks[140].mechanism",
+  "venue": {
+    "statement": "The courtroom in which the case is disposed. The petition is filed with the circuit clerk during that hearing.",
+    "namedCourt": null,
+    "namedCounty": null,
+    "clerkAddress": null,
+    "sourceRef": "registry@3b6f4c1:tracks[140].venue; .destination.name (\"Presiding trial judge at the disposition hearing\")",
+    "note": "No county, no circuit, no courtroom, no clerk address and no judge name is prefilled. The track's generationRequirements do not even collect a county — see counselFlag il-immediate-seal-county-not-collected. IL state pack all50-build-metadata.filingDestinationGuidance[2]: \"Do not invent clerk addresses, agency addresses, local fees, or service rules.\""
+  },
+  "primaryStatutoryAuthority": [
+    {
+      "citation": "20 ILCS 2630/5.2(g)",
+      "description": "Immediate sealing. Arrests or charges not initiated by arrest resulting in acquittal or dismissal with prejudice on or after January 1, 2018 may be sealed immediately, on a petition filed with the circuit clerk on the same day and during the same hearing in which the case is disposed.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].authority[0]; .mechanism; .officialSources[0] (Criminal Identification Act, 20 ILCS 2630/5.2)"
+    },
+    {
+      "citation": "20 ILCS 2630/5.2(g)(5)(A)",
+      "description": "Frames the filing as made by the defendant's attorney on the defendant's behalf: \"the defendant's attorney may immediately petition the court, on behalf of the defendant.\" This is the provision that makes the route attorney-mediated.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].authority[1]; .mechanism; .legalDesignLimitations[1].provenance.sourceStatement"
+    },
+    {
+      "citation": "20 ILCS 2630/5.2(a)(3)(B)",
+      "description": "Minor traffic offenses. Recorded on this track as an exclusion from the subsection.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].authority[2]; .exclusions[1]"
+    },
+    {
+      "citation": "20 ILCS 2630/5.2(c)(3)(A)",
+      "description": "Ordinary sealing of non-convictions, available at any time. Not the authority for this petition. Recorded as the fallback that remains open if the immediate-sealing window is missed, and routed through track il-seal-nonconv.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].authority[3]; .packetInstructions[0]; .legalDesignLimitations[3]"
+    }
+  ],
+  "verificationStatute": {
+    "citation": null,
+    "description": "The source review states that the participant verifies the petition and that notarization is \"none\", but states no verification statute and no prescribed verification form. Left null and flagged rather than invented, in the same posture the ND config uses for its missing verification statute.",
+    "sourceRef": "registry@3b6f4c1:tracks[140].rules.participantSignature; .rules.notarization; .manualCompletionItems[2] (\"Verification — Petition, verification block — The petition is verified. The participant signs their own verification.\")"
+  },
+  "includeProposedOrder": true,
+  "includeProposedOrderReason": "packetSet.components[1] il-immediate-seal-proposed-order-2, role proposed_order, requirement required, outputStrategy custom_pleading, officialFormId null. The presiding trial judge enters an order granting or denying during the same hearing, so an order must be in front of the judge at the hearing. The order is drafted as an empty-outcome instrument: no grant, no denial, no judge name, no date, no signature is asserted.",
+  "includeCertificateOfService": false,
+  "includeCertificateOfServiceReason": "No certificate-of-service component exists in this track's packetSet, and the recorded service is oral and in-person: \"A copy is served on the State's Attorney in open court and on no one else.\" Service is performed by counsel during the hearing. The statewide suite's Certificate of Service by Circuit Clerk (inventoried in the IL state pack as \"EXP Certificate of Service Circuit Clerk.pdf\") belongs to the § 5.2(d) suite, which the review states expressly does not govern this track. Drafting a certificate would assert a service mechanic no source records for § 5.2(g).",
+  "serviceNote": "A copy is served on the State's Attorney in open court and on no one else.",
+  "serviceNoteSourceRef": "registry@3b6f4c1:tracks[140].rules.service; .destination.detail",
+  "qaProhibitedTerms": [
+    "expungement",
+    "expunge",
+    "vacatur",
+    "set aside",
+    "set-aside",
+    "annulment"
+  ],
+  "qaProhibitedTermsSourceRef": "IL state pack illinoisEligibilityRules[0]–[2] (\"Illinois is fundamentally expungement vs. sealing\"; expungement is for non-convictions, sealing for eligible convictions that cannot be expunged) read with registry@3b6f4c1:tracks[140].legalName / .mechanism, which describe sealing only. The two remedies are not interchangeable and this petition asks for one of them.",
+  "qaProhibitedTermsNegatedUseException": "participant-instructions.md and handoff.md name the fallback route il-seal-nonconv under § 5.2(c)(3)(A), which is also sealing, so no negated expungement use is expected in participant copy. A bare scan of pleading-config.json itself will hit the prohibited terms inside sourceRefs, basis notes and counsel flags; those are metadata, not rendered pleading text. Scan the rendered output, not this config.",
+  "presentation": {
+    "sovereignPartyName": null,
+    "sovereignPartyNameNullReason": "No source read for this track names the sovereign party or supplies a party-versus-party caption line. The compiled profile's only illustrative Illinois caption (sourceSections[25], an EXP-AD Request example) reads \"IN THE CIRCUIT COURT OF COOK COUNTY, ILLINOIS\" followed directly by the form title and \"Petitioner:\", with no plaintiff/defendant line at all. A full-value scan of the compiled profile for \"People of the State\" and \"PEOPLE\" returns zero hits. Not invented.",
+    "sovereignPartyProper": null,
+    "sovereignPartyProperNullReason": "As above.",
+    "sovereignRole": null,
+    "sovereignRoleNullReason": "As above. § 5.2(g)(5)(A) frames the movant as \"the defendant\" in an existing criminal case, which implies an existing criminal caption, but no source read supplies that caption's text.",
+    "movantRole": "Petitioner",
+    "movantRoleSourceRef": "Compiled profile sourceSections[25] (\"Petitioner:\" field label on the Illinois statewide Request) and sourceSections[13] (\"Petitioner must reach 25\"). The registry additionally records the movant as \"the defendant\" for this track (§ 5.2(g)(5)(A)); both labels are recorded and the choice between them at render time is an open counsel question — see counselFlag il-immediate-seal-movant-label.",
+    "movantRoleAlternate": "Defendant",
+    "filingNoun": "Petition",
+    "filingNounSourceRef": "registry@3b6f4c1:tracks[140].mechanism (\"the defendant's attorney may immediately petition the court\"); .packetSet.components[0].role = primary_filing; .manualCompletionItems[0] and [2] both refer to \"Petition\".",
+    "divisionLine": "",
+    "divisionLineNote": "Empty. No source read states a division for a § 5.2(g) petition. The compiled profile records that larger counties route expungement and sealing to judges in special expungement/sealing divisions (sourceSections[22]), but that is § 5.2(d) practice and is not asserted here; under § 5.2(g) the presiding trial judge at the disposition hearing rules.",
+    "usesCounty": true,
+    "usesCountyReason": "The IL state pack records the court as \"Illinois Circuit Court\" with the general rule \"File in the Circuit Court county where the arrest or charge occurred\", and the profile's illustrative caption is county-based. The county token stays unfilled — see counselFlag il-immediate-seal-county-not-collected.",
+    "courtName": "Illinois Circuit Court",
+    "courtNameSourceRef": "IL state pack src/lib/rcap/state-packs/illinois/court-routing.ts illinoisCourtRouting.court",
+    "venueDescriptor": "The courtroom in which the case is disposed. The petition is filed with the circuit clerk during that hearing.",
+    "venueDescriptorSourceRef": "registry@3b6f4c1:tracks[140].venue",
+    "recordCustodianLead": null,
+    "recordCustodianLeadNullReason": "The sources read for this track do not enumerate record custodians for a § 5.2(g) immediate sealing. The § 5.2(d) custodian and notice list (State's Attorney, arresting agency, chief legal officer of the arresting unit of local government, Illinois State Police) appears in the IL state pack filing instructions and in profile sourceSections[10] and [21], but those describe the statewide-suite route that the review says expressly does not govern this track. Not carried across.",
+    "verificationVerb": "verify",
+    "verificationVerbSourceRef": "registry@3b6f4c1:tracks[140].manualCompletionItems[2] (\"Verification — Petition, verification block\"); .rules.participantSignature (\"The participant verifies the petition\").",
+    "verificationPenaltyLabel": null,
+    "verificationPenaltyLabelNullReason": "No penalty language is stated for this verification, and notarization is recorded as \"none\". Not invented.",
+    "serviceRecipientLabel": "the State's Attorney",
+    "serviceRecipientLabelSourceRef": "registry@3b6f4c1:tracks[140].rules.service",
+    "serviceRecipientAddressLabel": null,
+    "serviceRecipientAddressLabelNullReason": "No address placeholder is rendered. Service is oral and in-person — a copy handed to the State's Attorney in open court — so no mailing address exists to place. No source supplies one.",
+    "reliefActionVerb": "seal",
+    "orderActionVerb": "seal",
+    "recordsScopePhrase": "the records of the arrest or charge identified in this petition",
+    "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[140].recordTypes ([\"arrest\", \"charge_not_initiated_by_arrest\"]) read with .mechanism. No broader scope is asserted: no source read for this track states which agencies the sealing reaches or what happens to Illinois State Police criminal-history data under § 5.2(g)."
+  },
+  "counselFlags": [
+    {
+      "id": "il-immediate-seal-no-verified-form",
+      "statement": "No verified statewide form covers the § 5.2(g) same-day, same-hearing mechanism. The statewide adult suite governs Tracks A, B, C, D, E, F, G, H, J and stage 2 of K, and expressly not this track, so the route stays custom_pleading with a local-form override — and whether any Illinois court publishes a local form for a § 5.2(g) petition is unknown. The document title, caption and structure in this config are legal-ops constructions, not a form.",
+      "mustConfirm": "Whether any Illinois circuit court publishes a local form for the § 5.2(g) same-day immediate-sealing petition, and if not, what caption, title and structure the presiding trial judges actually accept in that posture.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[140].releaseBlockers[0]; .scopeRestrictions[2]; .legalDesignLimitations[2].provenance.sourceStatement (LegalEase-Illinois-Legal-Review-2026-07-30.md, PART 2: SOURCE FORM AND DOCUMENT REVIEW / 2.1 Adult suite)"
+    },
+    {
+      "id": "il-immediate-seal-attorney-handoff-delivery-model",
+      "statement": "Delivery is attorney-mediated end to end. § 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf, and the packet is prepared for retained counsel, appointed counsel or the public defender to file during the disposition hearing. LegalEase cannot appear in the courtroom and cannot file during a hearing. Whether an attorney-handoff packet is the accepted delivery model at all is unconfirmed.",
+      "mustConfirm": "That an attorney-handoff packet is the accepted delivery model for this route, and the participant-facing framing that goes with it. Confirm before release.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[140].releaseBlockers[1]; .scopeRestrictions[1]; .selfHelpBoundaries[0] and [1]; .packetSet.participantActionRequired[kind=file]"
+    },
+    {
+      "id": "il-immediate-seal-registry-internal-conflict",
+      "statement": "The registry entry contradicts itself on whether a document exists. scopeRestrictions[3] says \"LegalEase does not generate a filing for this route. The product is telling the participant the right exists and to ask counsel to file it that day,\" sourced to the memo line \"Output strategy: process_guidance.\" scopeRestrictions[0] says the opposite and is the later statement: \"Reclassified from process_guidance to custom_pleading on packet-only re-review. A participant-facing petition and proposed order exist under § 5.2(g); the prior classification conflated LegalEase's inability to appear in court with an absence of a packet.\" outputStrategy and outputStrategyDeclared are both custom_pleading and packetSet lists three required custom_pleading components. This config follows the reclassification and drafts the petition and the proposed order; scopeRestrictions[3] is read as retained prose from the superseded classification.",
+      "mustConfirm": "That the packet-only re-review supersedes scopeRestrictions[3], and strike or rewrite that restriction in the registry so the entry stops asserting both positions.",
+      "impact": "source_conflict",
+      "sourceRef": "registry@3b6f4c1:tracks[140].scopeRestrictions[0] vs .scopeRestrictions[3]; .outputStrategy; .packetSet.components"
+    },
+    {
+      "id": "il-immediate-seal-profile-conflict-mandatory-statewide-forms",
+      "statement": "The compiled IL profile instructs the opposite of this track's route decision. sourceSections[20]: \"The agent should always steer users to these official forms rather than drafting a bespoke pleading\" and \"Because the forms are mandatory statewide, never tell a user a county requires a different bespoke petition.\" The registry's track-level finding is that the mandatory suite does not reach § 5.2(g) at all. The registry governs for this track, but the conflict is real and the profile passage will mislead any downstream consumer that reads the profile alone.",
+      "mustConfirm": "Whether the statewide-suite mandate in the profile has a § 5.2(g) carve-out, and record that carve-out in the profile so the two sources stop disagreeing.",
+      "impact": "source_conflict",
+      "sourceRef": "profile:sourceSections[20] and sourceSections[2] vs registry@3b6f4c1:tracks[140].scopeRestrictions[2]"
+    },
+    {
+      "id": "il-immediate-seal-verification-statute-null",
+      "statement": "The petition is verified and the participant signs their own verification, but no verification statute, no penalty language and no prescribed verification form is stated anywhere in the sources read; notarization is recorded as \"none\". verificationStatute.citation is null and presentation.verificationPenaltyLabel is null rather than invented.",
+      "mustConfirm": "The required verification form for a § 5.2(g) petition, any applicable statute or Supreme Court rule, and whether the certification-under-penalties language used in Illinois civil practice applies.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.participantSignature; .rules.notarization; .manualCompletionItems[2]"
+    },
+    {
+      "id": "il-immediate-seal-caption-and-party-line-unconfirmed",
+      "statement": "No source read supplies a caption for a § 5.2(g) petition. courtCaption is a token pattern built from the IL state pack court name plus the profile's illustrative statewide-suite caption, which is an example of a different form. No sovereign party name, no sovereign role and no party-versus-party line is asserted: a full-value scan of the compiled profile for \"People of the State\" and \"PEOPLE\" returns zero hits, so nothing is available to place there.",
+      "mustConfirm": "The caption an Illinois circuit court accepts for a petition filed inside an existing criminal case under § 5.2(g), including whether the existing criminal caption is reused and how the parties are styled.",
+      "impact": "release_blocker",
+      "sourceRef": "profile:sourceSections[25]; IL state pack court-routing.ts; registry@3b6f4c1:tracks[140].venue"
+    },
+    {
+      "id": "il-immediate-seal-movant-label",
+      "statement": "The movant label is ambiguous across sources. The registry describes the filer as \"the defendant\" and the filing as made by the defendant's attorney on the defendant's behalf; the compiled profile's Illinois example labels the filer \"Petitioner\". presentation.movantRole is set to Petitioner with movantRoleAlternate Defendant, and both are recorded rather than one being silently chosen.",
+      "mustConfirm": "Whether a § 5.2(g) petition styles the moving party as the Defendant in the existing criminal case or as the Petitioner, and align the caption, the body and the verification block to that choice.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[140].mechanism; .authority[1]; profile:sourceSections[25]"
+    },
+    {
+      "id": "il-immediate-seal-county-not-collected",
+      "statement": "This track's generationRequirements collect only hasUpcomingDisposition, isRepresented, offenseDateOnOrAfter2018 and dismissalWithPrejudice. No county, no case number, no court, no charge and no arrest data is collected, yet a caption needs a county and a case number at minimum. Every fixture therefore leaves the caption county, case number, courtroom, judge, State's Attorney identity, State's Attorney position and disposition date blank.",
+      "mustConfirm": "Which additional screening fields this track must collect before a petition can be captioned, and whether they are read across from the existing criminal case the participant is already appearing in rather than asked again.",
+      "impact": "build_gap",
+      "sourceRef": "registry@3b6f4c1:tracks[140].generationRequirements (four keys, none identifying the case or the court)"
+    },
+    {
+      "id": "il-immediate-seal-fee-posture-inconsistent",
+      "statement": "The fee posture is internally inconsistent. rules.fees says \"The source review states no fee for this route,\" but packetSet.participantActionRequired records a pay_fee action with requirement \"required\", and an apply_fee_waiver action conditioned on \"where a county fee applies\" pointing at Supreme Court Rule 298. Separately, no statewide fee schedule exists for Illinois. No fee figure of any kind is stated in this config or in participant-instructions.md.",
+      "mustConfirm": "Whether any county charges a fee for a § 5.2(g) same-day petition, and if so how the Rule 298 waiver is obtained inside a single hearing.",
+      "impact": "unstated_field",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.fees vs .packetSet.participantActionRequired[kind=pay_fee] and [kind=apply_fee_waiver]; .rules.feeWaiver; IL state pack fee-notes.ts illinoisFeeNotes.variable"
+    },
+    {
+      "id": "il-immediate-seal-service-is-oral-and-by-counsel",
+      "statement": "Service is a copy handed to the State's Attorney in open court and to no one else. It is performed by counsel during the hearing, it produces no certificate, and this track has no certificate-of-service component. No document in this packet asserts that service happened, states a service date, names the State's Attorney, or states the State's Attorney's position on the petition.",
+      "mustConfirm": "That no certificate of service, proof of service or service recital is introduced anywhere in this packet at render time, and that the § 5.2(d) four-recipient notice list is never carried across to this track.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.service; .destination.detail; .packetSet.components (no certificate_of_service role)"
+    },
+    {
+      "id": "il-immediate-seal-timing-window-and-fallback",
+      "statement": "The window is the hearing itself: the petition must be filed with the circuit clerk on the same day and during the same hearing in which the case is disposed. Missing it costs nothing permanent, because ordinary sealing under § 5.2(c)(3)(A) remains available at any time through track il-seal-nonconv. Participant copy must state the fallback plainly rather than presenting the window as a last chance.",
+      "mustConfirm": "That the fallback to il-seal-nonconv is stated in every participant-facing surface for this track, and that the handoff between the two tracks is wired.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[140].packetInstructions[0] and [1]; .legalDesignLimitations[3] and [5]; .waitingPeriods[0]"
+    },
+    {
+      "id": "il-immediate-seal-vocabulary-sealing-not-expungement",
+      "statement": "This is a sealing petition. The compiled profile records terminology.primaryConsumerTerm = \"expungement\" with avoidUniversalExpungementLabel = true; the IL state pack states that Illinois is fundamentally expungement versus sealing, that the two are not interchangeable, and that sealing hides records from most public view but does not erase all government or law-enforcement access. Rendered output must say sealing only.",
+      "mustConfirm": "That rendered pleading text and participant copy use sealing only, and that no claim of erasure or of removal from law-enforcement access is made.",
+      "impact": "scope_restriction",
+      "sourceRef": "profile:terminology; profile:copyGuardrails[5] and [7]; IL state pack eligibility-rules.ts illinoisEligibilityRules[0] and [3]; safety-language.ts illinoisPlainLanguage.expungementVsSealing"
+    },
+    {
+      "id": "il-immediate-seal-self-help-boundary",
+      "statement": "The whole track is attorney-mediated and the default disposition is referral. The participant must ask their attorney or public defender to file during the hearing. The Office of the State Appellate Defender, Expungement Unit, 866-787-1776, is the statewide referral destination for every stop condition. A participant with no lawyer has no route here.",
+      "mustConfirm": "What an unrepresented participant is told, given that isRepresented is a required screening key and the route depends on counsel being present at the disposition hearing.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[140].selfHelpBoundaries[0]–[3]; .selfHelpStopConditions; .generationRequirements[key=isRepresented]"
+    },
+    {
+      "id": "il-immediate-seal-legal-status-gate",
+      "statement": "legalStatus is legal_review_pending and legalDesignStatus is legal_design_approved_with_limitations. Runtime is disabled: counsel approved the design, not the produced document. Output review, visual review and technical proof are all outstanding, and two release blockers are open.",
+      "mustConfirm": "Output review, visual review and technical proof, plus both release blockers, before this pleading leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[140].legalStatus; .legalDesignStatus; .runtimeDisabledReason; .blockers"
+    },
+    {
+      "id": "il-immediate-seal-source-freshness-gate",
+      "statement": "All five official sources recorded on this track carry sha256 null, so staleness cannot be detected: 20 ILCS 2630/5.2, Public Act 104-0459 (Clean Slate Act, enrolled HB 1836), the Approved Statewide Forms page, the EXP-AD Request PDF, and the ISP Bureau of Identification fee schedule. All were retrieved 2026-07-30. The Clean Slate Act matters here: the profile records that most of its provisions take effect June 1 / June 30, 2026 and that automatic sealing does not begin until January 1, 2029.",
+      "mustConfirm": "Re-retrieve each source, record a SHA-256, and confirm the § 5.2(g) text is current after the 2026 Clean Slate effective dates.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[140].officialSources[0]–[4] (sha256 null on all five); .blockers[kind=source_gate]; profile:copyGuardrails[2] and [4]"
+    }
+  ],
+  "componentInventory": [
+    {
+      "component": "caption",
+      "status": "present_as_token_pattern",
+      "note": "IN THE CIRCUIT COURT OF {county} COUNTY, ILLINOIS. County never prefilled. No party-versus-party line.",
+      "sourceRef": "IL state pack court-routing.ts; profile:sourceSections[25]; registry@3b6f4c1:tracks[140].venue"
+    },
+    {
+      "component": "court_and_party_identity",
+      "status": "present_minimal",
+      "note": "Petitioner name and any other names used only. County, case number, courtroom, judge, State's Attorney name and State's Attorney position are rendered blank and never prefilled. This track collects no case-identifying screening field at all — see counselFlag il-immediate-seal-county-not-collected.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].generationRequirements; .venue; .destination"
+    },
+    {
+      "component": "title",
+      "status": "present_as_construction",
+      "note": "PETITION FOR IMMEDIATE SEALING PURSUANT TO 20 ILCS 2630/5.2(g), constructed from legalName plus authority[0]. Not a form title; no form for this mechanism has been located.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].legalName; .authority[0]; .releaseBlockers[0]"
+    },
+    {
+      "component": "allegations",
+      "status": "present_as_container",
+      "note": "Container only, framed to the four screening answers the track actually collects: that a disposition hearing is upcoming, that the participant is represented, that the arrest or charge occurred on or after January 1, 2018, and that the case is dismissed with prejudice or the participant is acquitted. The disposition itself is an event at the hearing; no fixture asserts it has occurred. No factual narrative of the offense is generated.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].generationRequirements; .recordTypes; .dispositions; .exclusions"
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "note": "Four citations, all from the track authority list. § 5.2(c)(3)(A) is carried as the recorded fallback, not as authority for the relief requested.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].authority"
+    },
+    {
+      "component": "requested_relief",
+      "status": "present",
+      "note": "That the court immediately seal the records of the arrest or charge identified in the petition under § 5.2(g). No agency list and no scope beyond that is asserted, because none is stated for § 5.2(g) in any source read.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].mechanism; .recordTypes"
+    },
+    {
+      "component": "verification",
+      "status": "present_with_null_statute",
+      "note": "Verification block rendered; the participant signs their own verification. No statute is cited because none is stated, and no penalty label is rendered. Notarization is \"none\". Mirrors the ND config's handling of its missing verification statute.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.participantSignature; .rules.notarization; .manualCompletionItems[2]"
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "note": "Two blocks, both left unsigned. (1) The participant's verification signature. (2) Counsel's signature block — counsel's review, adoption and signature is a required manual completion item, because § 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney. LegalEase drafts it; counsel decides whether to file it. No attorney name, ARDC number, firm or address is prefilled; no source supplies any.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].manualCompletionItems[0]; .authority[1]"
+    },
+    {
+      "component": "proposed_order",
+      "status": "present",
+      "note": "Required component il-immediate-seal-proposed-order-2. Drafted as an empty-outcome instrument: the presiding trial judge enters an order granting or denying during the same hearing, so the order must be in front of the judge, but no grant, no denial, no judge name, no signature and no date is asserted anywhere in it.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].packetSet.components[1]; .destination.detail"
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "absent",
+      "reason": "No certificate-of-service component exists on this track. Service is a copy handed to the State's Attorney in open court and to no one else, performed by counsel during the hearing. The statewide suite's Certificate of Service by Circuit Clerk belongs to the § 5.2(d) route, which does not govern this track.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.service; .packetSet.components; .scopeRestrictions[2]"
+    },
+    {
+      "component": "notice",
+      "status": "absent",
+      "reason": "The only notice rule recorded is a duty on the court, not a document the participant produces: \"The court is required to inform the defendant of the right to immediate sealing and of the procedure.\" The § 5.2(d) Notice of Filing served on the State's Attorney, arresting agency, chief legal officer and Illinois State Police belongs to the statewide-suite route and is not carried across.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.notice; profile:sourceSections[20] item 2"
+    },
+    {
+      "component": "affidavit",
+      "status": "absent",
+      "reason": "No affidavit is recorded for this track. Notarization is \"none\" and the only sworn element is the participant's own verification of the petition.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.notarization; .manualCompletionItems"
+    },
+    {
+      "component": "participant_only_cover_sheet",
+      "status": "absent",
+      "reason": "Neither the registry entry nor the IL state pack nor the compiled profile records a cover sheet for this track. The profile notes that copy counts, e-filing rules and mailing procedures differ by county and that petitioners should call the clerk first (sourceSections[22]), but records no cover-sheet requirement; drafting one would invent a local rule.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].packetSet.components; profile:sourceSections[22]"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "note": "Participant-only, required component il-immediate-seal-instructions-3. Delivered as participant-instructions.md. Never filed with the court. Carries the same-day/same-hearing timing, the attorney-handoff model, the in-open-court service, the verification and counsel-signature manual completion items, and the § 5.2(c)(3)(A) fallback.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].packetSet.components[2]; .rules.filing; .packetInstructions; .manualCompletionItems"
+    }
+  ],
+  "participantOnlyDocuments": [
+    "participant-instructions.md"
+  ],
+  "courtDocuments": [
+    {
+      "item": "Petition for Immediate Sealing under 20 ILCS 2630/5.2(g)",
+      "componentId": "il-immediate-seal-primary-filing-1",
+      "drafted": true,
+      "requirement": "required",
+      "filedBy": "The defendant's attorney, appointed counsel or the public defender, with the circuit clerk during the disposition hearing. Not by LegalEase and not by the participant after leaving court."
+    },
+    {
+      "item": "Proposed Order on Petition for Immediate Sealing",
+      "componentId": "il-immediate-seal-proposed-order-2",
+      "drafted": true,
+      "requirement": "required",
+      "filedBy": "Presented with the petition at the same hearing. The presiding trial judge enters an order granting or denying during that hearing; the drafted instrument asserts no outcome."
+    }
+  ],
+  "manualCompletionItems": [
+    {
+      "item": "Counsel's review, adoption and signature",
+      "whereInPacket": "Petition, signature block",
+      "why": "Section 5.2(g)(5)(A) frames the petition as filed by the defendant's attorney on the defendant's behalf. LegalEase drafts it; counsel decides whether to file it.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].manualCompletionItems[0]"
+    },
+    {
+      "item": "Filing during the disposition hearing",
+      "whereInPacket": "Filing instruction sheet",
+      "why": "The petition must be filed with the circuit clerk on the same day and during the same hearing in which the case is disposed. LegalEase cannot appear or file.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].manualCompletionItems[1]"
+    },
+    {
+      "item": "Verification",
+      "whereInPacket": "Petition, verification block",
+      "why": "The petition is verified. The participant signs their own verification.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].manualCompletionItems[2]"
+    }
+  ],
+  "eligibilityScope": {
+    "recordTypes": [
+      "arrest",
+      "charge_not_initiated_by_arrest"
+    ],
+    "dispositions": [
+      "acquitted",
+      "dismissed_with_prejudice"
+    ],
+    "effectiveFrom": "2018-01-01",
+    "effectiveTo": null,
+    "exclusions": [
+      "Records of offenses occurring before January 1, 2018.",
+      "Minor traffic offenses under § 5.2(a)(3)(B).",
+      "A dismissal without prejudice, which is not within the subsection."
+    ],
+    "waitingPeriod": {
+      "condition": "Acquittal or dismissal with prejudice",
+      "duration": "None, but the petition must be filed the same day, during the disposition hearing."
+    },
+    "sourceRef": "registry@3b6f4c1:tracks[140].recordTypes; .dispositions; .effectiveFrom; .exclusions; .waitingPeriods[0]",
+    "note": "No eligibility conclusion is asserted in any drafted document. The presiding trial judge rules at the hearing."
+  },
+  "reviewPosture": {
+    "legalDesignStatus": "legal_design_approved_with_limitations",
+    "legalStatus": "legal_review_pending",
+    "implementationQueue": "C_custom_pleading",
+    "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+    "counselConfirmationRequired": false,
+    "openBlockerKinds": [
+      "output_review_gate",
+      "visual_review_gate",
+      "technical_proof_gate",
+      "release_blocker",
+      "source_gate"
+    ],
+    "reviewedAsOf": "2026-07-30",
+    "approvedForLive": false,
+    "live": false
+  },
+  "provenance": {
+    "statePackFiles": [
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/index.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/all50-build-metadata.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/court-routing.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/filing-instructions.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/eligibility-rules.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/fee-notes.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/safety-language.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/required-fields.ts",
+      "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/illinois/document-types.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+    "profileSha256": "83705171c77c6a7324a171fba819e4ccb061c8eeb0e92ab4c982ed7d38a1d221",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[140] (trackId=il-immediate-seal)",
+    "statePackNote": "The committed Illinois state pack carries pathway, remedy, fee, safety, required-field, court-routing and filing-instruction data for the statewide § 5.2(d) expungement/sealing suite plus the Nationwide official-form inventory. It records nothing about § 5.2(g) immediate sealing specifically. Track prose, authority, rules, packet composition, exclusions and manual completion items come from the pinned registry entry. The state pack supplies the court name, the fee-variability posture, the sealing-versus-expungement vocabulary rule, the fee-waiver surfacing rule, the RAP-sheet step and the no-invented-addresses posture.",
+    "profileCoverageNote": "The compiled IL profile records no pathway, question, ordered decision rule, waiting-period rule, exclusion rule or packet-generator entry for il-immediate-seal. Its nine pathways are adult non-conviction expungement, expungement after supervision or qualified probation, adult conviction sealing, cannabis, human-trafficking survivor, felony prostitution, criminal identity theft, juvenile, and Clean Slate automatic sealing. A full-value scan for \"5.2(g)\", \"5.2(c)(3)(A)\" and \"certificate of eligibility\" returns zero hits; the eighteen hits for \"immediate seal\" all belong to the § 5.2(h) human-trafficking survivor route, which is a different track. The profile is used here only for the illustrative caption (sourceSections[25]), the terminology and copy guardrails, the fee and filing narrative, and the statewide-forms mandate recorded as a source conflict.",
+    "reviewedAsOf": "2026-07-30"
+  },
+  "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass. This Illinois draft packet is a preparation aid, not legal advice and not a final court filing (IL state pack illinoisSafetyDisclaimer).",
+  "sourceSilences": [
+    {
+      "field": "venue",
+      "nullKeys": [
+        "namedCourt",
+        "namedCounty",
+        "clerkAddress"
+      ],
+      "sourceIsSilentBecause": "No county, no circuit, no courtroom, no clerk address and no judge name is prefilled. The track's generationRequirements do not even collect a county — see counselFlag il-immediate-seal-county-not-collected. IL state pack all50-build-metadata.filingDestinationGuidance[2]: \"Do not invent clerk addresses, agency addresses, local fees, or service rules.\"",
+      "sourceRef": "registry@3b6f4c1:tracks[140].venue; .destination.name (\"Presiding trial judge at the disposition hearing\")"
+    },
+    {
+      "field": "verificationStatute",
+      "nullKeys": [
+        "citation"
+      ],
+      "sourceIsSilentBecause": "The source review states that the participant verifies the petition and that notarization is \"none\", but states no verification statute and no prescribed verification form. Left null and flagged rather than invented, in the same posture the ND config uses for its missing verification statute.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].rules.participantSignature; .rules.notarization; .manualCompletionItems[2] (\"Verification — Petition, verification block — The petition is verified. The participant signs their own verification.\")"
+    },
+    {
+      "field": "eligibilityScope",
+      "nullKeys": [
+        "effectiveTo"
+      ],
+      "sourceIsSilentBecause": "No eligibility conclusion is asserted in any drafted document. The presiding trial judge rules at the hearing.",
+      "sourceRef": "registry@3b6f4c1:tracks[140].recordTypes; .dispositions; .effectiveFrom; .exclusions; .waitingPeriods[0]"
+    },
+    {
+      "field": "presentation.sovereignPartyName",
+      "nullKeys": [
+        "sovereignPartyName"
+      ],
+      "sourceIsSilentBecause": "No source read for this track names the sovereign party or supplies a party-versus-party caption line. The compiled profile's only illustrative Illinois caption (sourceSections[25], an EXP-AD Request example) reads \"IN THE CIRCUIT COURT OF COOK COUNTY, ILLINOIS\" followed directly by the form title and \"Petitioner:\", with no plaintiff/defendant line at all. A full-value scan of the compiled profile for \"People of the State\" and \"PEOPLE\" returns zero hits. Not invented.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.sovereignPartyProper",
+      "nullKeys": [
+        "sovereignPartyProper"
+      ],
+      "sourceIsSilentBecause": "As above. No source read for this track names the sovereign party or supplies a party-versus-party caption line. The compiled profile's only illustrative Illinois caption (sourceSections[25], an EXP-AD Request example) reads \"IN THE CIRCUIT COURT OF COOK COUNTY, ILLINOIS\" followed directly by the form title and \"Petitioner:\", with no plaintiff/defendant line at all. A full-value scan of the compiled profile for \"People of the State\" and \"PEOPLE\" returns zero hits. Not invented.",
+      "sourceRef": null,
+      "resolvedFrom": "presentation.sovereignPartyName"
+    },
+    {
+      "field": "presentation.sovereignRole",
+      "nullKeys": [
+        "sovereignRole"
+      ],
+      "sourceIsSilentBecause": "As above. § 5.2(g)(5)(A) frames the movant as \"the defendant\" in an existing criminal case, which implies an existing criminal caption, but no source read supplies that caption's text.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.recordCustodianLead",
+      "nullKeys": [
+        "recordCustodianLead"
+      ],
+      "sourceIsSilentBecause": "The sources read for this track do not enumerate record custodians for a § 5.2(g) immediate sealing. The § 5.2(d) custodian and notice list (State's Attorney, arresting agency, chief legal officer of the arresting unit of local government, Illinois State Police) appears in the IL state pack filing instructions and in profile sourceSections[10] and [21], but those describe the statewide-suite route that the review says expressly does not govern this track. Not carried across.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.verificationPenaltyLabel",
+      "nullKeys": [
+        "verificationPenaltyLabel"
+      ],
+      "sourceIsSilentBecause": "No penalty language is stated for this verification, and notarization is recorded as \"none\". Not invented.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.serviceRecipientAddressLabel",
+      "nullKeys": [
+        "serviceRecipientAddressLabel"
+      ],
+      "sourceIsSilentBecause": "No address placeholder is rendered. Service is oral and in-person — a copy handed to the State's Attorney in open court — so no mailing address exists to place. No source supplies one.",
+      "sourceRef": null
+    }
+  ],
+  "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
+  "runtimeDefects": [
+    "renderer-null-presentation"
+  ],
+  "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
+}

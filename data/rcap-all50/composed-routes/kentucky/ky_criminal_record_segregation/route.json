@@ -1,0 +1,327 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "ky_criminal_record_segregation",
+  "jurisdiction": {
+    "code": "KY",
+    "name": "Kentucky",
+    "slug": "kentucky"
+  },
+  "jobId": "T-C-KY-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "legalName": "Segregation of Arrest Records After Acquittal, Dismissal or Withdrawal of Charges (KRS 17.142)",
+  "publicName": "Ask agencies to file away the record of an arrest that went nowhere",
+  "mechanism": "A law enforcement or other public agency holding arrest records, fingerprints, photographs or other data must, on the written request of the arrestee, segregate those records into a file separate from those of convicted persons where the person was found innocent or all charges relating to the offence were dismissed or withdrawn. The person may instead apply to the court, which shall forthwith issue an order to all law enforcement agencies. Each agency must notify every agency it shared the records with, and the segregated record must show the disposition. Records subject to KRS 431.076 or KRS 431.078 are sealed under those statutes instead.",
+  "compositionMode": "alternative",
+  "outputStrategyDeclared": "composed",
+  "routeDecision": {
+    "decision": "composed_route_with_two_alternative_drafted_instruments_and_no_official_form",
+    "rationale": [
+      "The registry declares outputStrategyDeclared 'composed' with compositionMode 'alternative' and lists two units[], both marked available:true, both outputStrategy 'custom_pleading', both outputStrategyStatus 'resolved' and packetIdentity 'identified'.",
+      "The two units are genuinely alternative, not sequential: the registry destination detail states \"The two routes are independent: either obtains segregation, and a participant may use both.\" The participant chooses via screening key segRoute.",
+      "No official form exists for either instrument. The registry records no officialFormId on any packetSet component and the unit description says in terms \"No official form exists, so the application is drafted.\" There is therefore no official_form_dependency unit on this route and no lane-D/E blocker.",
+      "A third component, routing_guidance, is required by the registry packet set. It is carried as a participant_instruction unit because on an alternative-composition route the choice between the two instruments is itself the thing the participant must be walked through, and KRS 17.142(4) makes routing away from this track the common correct answer.",
+      "The route is drafted with an open build blocker recorded, not withheld: the blocker asks whether this should be a participant-facing relief track at all, not what the instruments would say. Nothing about the two instruments' vehicle, venue or content is unknown."
+    ],
+    "pleadingDocumentUnits": 1,
+    "agencyRequestLetterUnits": 1,
+    "participantInstructionUnits": 1,
+    "officialFormDependencyUnits": 0,
+    "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].outputStrategyDeclared; .compositionMode; .units; .destination.detail; .packetSet.components; .buildBlockers[0]"
+  },
+  "authoritySpine": [
+    {
+      "citation": "KRS 17.142(1)",
+      "description": "A law enforcement or other public agency holding arrest records, fingerprints, photographs or other data must, on the written request of the arrestee, segregate those records into a file separate from those of convicted persons where the person was found innocent or all charges relating to the offence were dismissed or withdrawn.",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[0]; .mechanism; .buildBlockers[0].provenance.sourceStatement"
+    },
+    {
+      "citation": "KRS 17.142(2)",
+      "description": "The person may instead apply to the court, upon receipt of which the court shall forthwith issue an order to all law enforcement agencies. The subsection provides for an application to the court without stating a fee.",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[1]; .units[0].description; .releaseBlockers[1].provenance.sourceStatement"
+    },
+    {
+      "citation": "KRS 17.142(3)",
+      "description": "Each agency segregates the records into a file separate and apart from those of convicted persons, must notify every agency it shared the records with, and the segregated record must show the disposition of the case.",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[2]; .legalDesignLimitations[classification=packet_instruction]"
+    },
+    {
+      "citation": "KRS 17.142(4)",
+      "description": "Records subject to the provisions of KRS 431.076 or 431.078 shall be sealed as provided in those statutes. This sends most acquittals and dismissals elsewhere and leaves withdrawn charges as the clearest residual use of this route.",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[3]; .exclusions[0]; .scopeRestrictions[1]; .openLegalQuestions[0]"
+    },
+    {
+      "citation": "Kentucky Circuit Court Clerks' Manual, July 2026 — Glossary, segregation code SG",
+      "description": "Court records are not records which may be segregated. This route reaches law enforcement and other public agency records only.",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].legalDesignLimitations[classification=scope_restriction][0]; .officialSources[1]; .exclusions[1]"
+    }
+  ],
+  "units": [
+    {
+      "unitId": "ky_seg_court_application",
+      "order": 1,
+      "legalUnit": "Apply to the court under KRS 17.142(2) for an order of segregation binding all law enforcement agencies",
+      "legalUnitSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[0] (unitId ky_seg_court_application, verbatim label \"Apply to the court for an order of segregation\")",
+      "authority": {
+        "citation": "KRS 17.142(2); KRS 17.142(3)",
+        "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[1]; .authority[2]; .units[0].description"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "ky_criminal_record_segregation-primary-filing-1",
+      "componentIdSynthesized": false,
+      "applicability": {
+        "includedWhen": "Screening answers \"Do you want to apply to the court for one order covering every agency, or write directly to each agency, or both?\" (segRoute) with the court route or with both. The registry unit description gives the reason to prefer it: on receipt the court shall forthwith issue an order to all law enforcement agencies, so one filing reaches every agency at once and carries the KRS 17.142(3) duty on each agency to notify everyone it passed the records to.",
+        "excludedWhen": "segRoute answers agency-letters-only; or segAlreadyExpunged reports the records are already expunged or are eligible under KRS 431.076 or KRS 431.078, which KRS 17.142(4) sends to those statutes instead and which is a self-help stop condition; or the participant reports that fewer than all charges relating to the offence were dismissed or withdrawn."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/pleading-config.json"
+      },
+      "notes": "Corresponds to registry packetSet component ky_criminal_record_segregation-primary-filing-1 (role primary_filing, requirement conditional, conditionDescription \"Applies on the court application unit.\"). No official form exists, so the application is drafted. KRS 17.142 provides for no notice to a prosecutor or any other party, and no service is required on this route, so the application carries no certificate of service."
+    },
+    {
+      "unitId": "ky_seg_agency_written_request",
+      "order": 2,
+      "legalUnit": "Send a written request under KRS 17.142(1) to each law enforcement or other public agency holding the records",
+      "legalUnitSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[1] (unitId ky_seg_agency_written_request, verbatim label \"Send a written request to each agency holding the records\")",
+      "authority": {
+        "citation": "KRS 17.142(1); KRS 17.142(3)",
+        "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[0]; .authority[2]; .units[1].description"
+      },
+      "requiredOutput": "agency_request_letter",
+      "componentId": "ky_criminal_record_segregation-agency-written-request-2",
+      "componentIdSynthesized": false,
+      "applicability": {
+        "includedWhen": "Screening answers segRoute with the agency-letter route or with both. One letter is generated per agency the participant identifies in segAgencies. The statutory duty to segregate runs to the agency on the arrestee's written request without any court involvement.",
+        "excludedWhen": "segRoute answers court-application-only; or segAgencies is empty, since the letters exist only per identified agency; or segAlreadyExpunged reports records already expunged or eligible under KRS 431.076 or KRS 431.078."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-agency-written-request-2/agency-request-letter.md"
+      },
+      "notes": "Corresponds to registry packetSet component ky_criminal_record_segregation-agency-written-request-2 (role agency_written_request, requirement conditional, conditionDescription \"Applies on the written-request unit, one letter per agency identified.\"). This unit is not a court document and is not filed anywhere; the participant posts each letter. No agency address is prefilled: the registry names no agency and no address for this track."
+    },
+    {
+      "unitId": "ky_seg_routing_guidance",
+      "order": 3,
+      "legalUnit": "Decide, before either instrument is used, whether KRS 17.142(4) sends these records to KRS 431.076 or KRS 431.078 instead — and if not, which of the two segregation routes to use",
+      "legalUnitSourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].packetSet.components[2] (role routing_guidance, requirement required, outputStrategy process_guidance); .scopeRestrictions[1]; .generationRequirements[key=segRoute,segAlreadyExpunged]",
+      "authority": {
+        "citation": "KRS 17.142(4); KRS 17.142(3)",
+        "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].authority[3]; .authority[2]; .selfHelpBoundaries[0]; .legalDesignLimitations[classification=packet_instruction]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "ky_criminal_record_segregation-routing-guidance-3",
+      "componentIdSynthesized": false,
+      "registryUnitIndex": null,
+      "registryUnitIndexNote": "This is the one unit in units[] that is not one of the registry's own two units[] entries. It is a required packetSet component (routing_guidance) rather than a legal unit of the remedy, and it is carried in units[] because on an alternative-composition route the routing decision is the step that determines which instrument is produced at all. Recorded explicitly so the omission proof stays honest in both directions.",
+      "applicability": {
+        "includedWhen": "Always included whenever this route is selected. It is the only required (not conditional) component in the registry packet set, and both instrument units are conditional on the choice it explains.",
+        "excludedWhen": "Never excluded while this route is selected."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation/components/ky_criminal_record_segregation-routing-guidance-3/routing-guidance.md"
+      },
+      "notes": "Participant-only. Never filed with any court and never sent to any agency."
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "Application for Order of Segregation of Records",
+        "componentId": "ky_criminal_record_segregation-primary-filing-1",
+        "drafted": true,
+        "requirement": "conditional",
+        "note": "Filed with the circuit court clerk in the county where the case was or would have been tried. No certificate of service: KRS 17.142 provides for no notice to a prosecutor or any other party."
+      }
+    ],
+    "courtDocumentsNote": "Exactly one court document, and only on the court-application branch. The agency-letter branch produces no court document at all. Court records themselves cannot be segregated by either branch.",
+    "participantOnly": [
+      {
+        "item": "Written request for segregation of records, addressed to a record-holding agency",
+        "componentId": "ky_criminal_record_segregation-agency-written-request-2",
+        "note": "agency-request-letter.md. One per agency the participant identifies. Posted by the participant; never filed with any court and never sent by LegalEase."
+      },
+      {
+        "item": "Which route, and whether this route at all",
+        "componentId": "ky_criminal_record_segregation-routing-guidance-3",
+        "note": "routing-guidance.md. Participant-only."
+      },
+      {
+        "item": "Participant filing instructions",
+        "componentId": null,
+        "note": "participant-instructions.md. Participant-only."
+      },
+      {
+        "item": "Documentation of the disposition",
+        "componentId": null,
+        "note": "Conditional participant-obtained document, from the court clerk or the arresting agency where no charges were filed. Not drafted, and LegalEase does not obtain, receive or inspect it."
+      }
+    ]
+  },
+  "counselFlags": [
+    {
+      "id": "ky-seg-is-this-a-product-track-at-all",
+      "statement": "The controlling review classifies this slot as an agency-level mechanism retained for completeness and expressly NOT a product track, and supplies no output strategy, filing actor or destination. The current official text of KRS 17.142 contains two participant-initiated routes, one of which is a court application on which relief is mandatory, so the product rule points the other way. Normalizing it as a buildable relief track is a departure from the review. This route is therefore drafted as a container and marked blocked at the product-classification level; nothing about the instruments themselves is unknown.",
+      "mustConfirm": "Should KRS 17.142 segregation be built as a participant-facing relief track, given that the statute contains two participant-initiated routes, notwithstanding the review's classification of it as not a product track?",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].buildBlockers[0]; .legalDesignBlockers[0]"
+    },
+    {
+      "id": "ky-seg-legal-effect-propositions-unratified",
+      "statement": "The static legal propositions BOTH generated instruments would assert about the effect of segregation — the KRS 17.142(3) segregation duty, the downstream duty on each agency to notify every agency it shared the records with, and the requirement that the segregated record show the disposition — have not been ratified.",
+      "mustConfirm": "Ratify the fixed statements of legal effect the segregation application and the agency letters may make.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].releaseBlockers[0]"
+    },
+    {
+      "id": "ky-seg-court-filing-fee-unknown",
+      "statement": "Whether any court filing fee attaches to a KRS 17.142(2) application is unresolved. None was identified: the subsection provides for an application to the court without stating a fee, and the registry records fees as \"none identified for either route\". That is an absence of evidence, not evidence of absence. No fee figure and no no-fee promise is stated to any participant anywhere in this route; the participant instructions tell the participant to ask the clerk.",
+      "mustConfirm": "Whether a filing fee attaches to a KRS 17.142(2) application, before any fee statement of either kind reaches a participant.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].releaseBlockers[1]; .rules.fees; .rules.feeWaiver"
+    },
+    {
+      "id": "ky-seg-route-to-expungement-first",
+      "statement": "KRS 17.142(4) sends records subject to KRS 431.076 or KRS 431.078 to those statutes instead. In practice that is most acquittals and dismissals, so segregation is a fallback. Records eligible under those statutes should be expunged rather than segregated because expungement is materially stronger, and that is a self-help stop condition. The clearest residual use of this route is charges withdrawn, which KRS 431.076 does not name.",
+      "mustConfirm": "That screening routes eligible records to the KRS 431.076 / KRS 431.078 expungement tracks before this route is ever offered, and that segAlreadyExpunged is a gate rather than a collected answer.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].scopeRestrictions[1]; .selfHelpStopConditions[0]; .exclusions[0]; .openLegalQuestions[0]"
+    },
+    {
+      "id": "ky-seg-court-records-cannot-be-segregated",
+      "statement": "Court records cannot be segregated. The Clerks' Manual glossary records that court records are not records which may be segregated. This route reaches law enforcement and other public agency records only, and neither instrument may ask a court to segregate its own record.",
+      "mustConfirm": "That the drafted application never requests segregation of court records, and that participant copy never implies the court file is reached.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].legalDesignLimitations[classification=scope_restriction][0]; .exclusions[1]"
+    },
+    {
+      "id": "ky-seg-segregation-is-not-expungement",
+      "statement": "Segregation is not expungement. The records continue to exist and remain accessible; they are merely filed separately from those of convicted persons, and the segregated record must show the disposition. A participant who expects background checks to come back clean is a self-help stop condition.",
+      "mustConfirm": "That no participant copy or rendered output promises erasure, sealing, destruction or a clean background check.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].packetInstructions[0]; .selfHelpStopConditions[2]; profile:copyGuardrails[2]"
+    },
+    {
+      "id": "ky-seg-all-charges-is-participant-fact",
+      "statement": "Whether ALL charges relating to the offence were dismissed or withdrawn is the statutory gate on KRS 17.142(1), and it is the participant's own statement of fact. Any dispute about it ends automated assistance. Neither instrument asserts a favourable-disposition conclusion of its own; both state the participant's own answer as the participant's own averment.",
+      "mustConfirm": "That no pipeline stage derives, infers or asserts that all charges relating to the offence ended favourably.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].legalDesignLimitations[classification=self_help_boundary]; .selfHelpStopConditions[3]; .exclusions[2]"
+    },
+    {
+      "id": "ky-seg-no-agency-identity-prefilled",
+      "statement": "No source read for this track names a single Kentucky record-holding agency or supplies any agency address. The agencies come only from the participant's own answer to segAgencies, and the letters name and address only what the participant supplies. No arresting agency, jail, state police division or records unit is prefilled anywhere on this route.",
+      "mustConfirm": "That agency identity and address reach the letters only through the participant's own screening answers.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].generationRequirements[key=segAgencies]; .destination"
+    },
+    {
+      "id": "ky-seg-court-identity-and-outside-parties-blank",
+      "statement": "County, case number, court name, judge, prosecutor identity, prosecutor position, filing date and any agency response are blank in every fixture and are never prefilled. Case number is conditional in the registry's own generation requirements, because charges may never have been filed; the court application must work with it absent.",
+      "mustConfirm": "That the application renders correctly with no case number, since the venue on the no-charges-filed branch is the court where the case WOULD have been tried.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].generationRequirements[key=segCaseNumber,segChargesFiled]; .venue"
+    },
+    {
+      "id": "ky-seg-no-notice-no-service-on-court-route",
+      "statement": "KRS 17.142 provides for no notice to a prosecutor or any other party, and no service is required on the court route. No certificate of service is drafted for the application and no prosecutor is named on it. On the agency route the participant posts the letters and no proof of posting is drafted either.",
+      "mustConfirm": "That no service or notice step is added to the court application by local practice; confirm with the clerk before shipping.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].rules.notice; .rules.service"
+    },
+    {
+      "id": "ky-seg-both-routes-may-be-used",
+      "statement": "The two routes are independent: either obtains segregation, and a participant may use both. compositionMode is 'alternative', not 'sequential' — neither unit is a precondition of the other, and nothing in this route sequences them.",
+      "mustConfirm": "That screening presents the choice as genuinely alternative and permits both, matching segRoute's three answers.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].destination.detail; .compositionMode; .generationRequirements[key=segRoute]"
+    },
+    {
+      "id": "ky-seg-no-official-form-exists",
+      "statement": "No official form exists for either instrument. The registry records no officialFormId on any of the three packetSet components and states in the unit description that \"No official form exists, so the application is drafted.\" There is no lane-D/E official-form dependency on this route and nothing here is blocked on form acquisition.",
+      "mustConfirm": "That no Kentucky AOC form for a KRS 17.142(2) application has since been published; the Clerks' Manual glossary records segregation code SG but no form.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[0].description; .packetSet.components; .officialSources"
+    },
+    {
+      "id": "ky-seg-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document; output review, visual review and technical proof are all outstanding. implementationQueue is D_composed_or_process_guidance.",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].legalStatus / .legalDesignStatus / .runtimeDisabledReason / .implementationQueue"
+    },
+    {
+      "id": "ky-seg-source-freshness-gate",
+      "statement": "Both official sources on this track carry sha256 null — KRS 17.142, and the Kentucky Circuit Court Clerks' Manual, July 2026, recorded only as the Circuit Court portal root rather than as the Manual itself. The Manual is the sole authority for the court-records-cannot-be-segregated scope restriction.",
+      "mustConfirm": "Capture hashes for KRS 17.142 and for the Clerks' Manual at a direct URL before release.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[ky_criminal_record_segregation].blockers[kind=source_gate]; .officialSources"
+    },
+    {
+      "id": "ky-seg-compiled-profile-silent-on-this-mechanism",
+      "statement": "The compiled KY profile does not record this mechanism at all. Its five pathways are KRS 431.078, KRS 431.073, KRS 431.076 and two juvenile routes; the strings '17.142' and 'segregat' appear nowhere in it. The committed Kentucky state pack carries build metadata and the Nationwide inventory only. This route rests entirely on the pinned registry entry.",
+      "mustConfirm": "Whether the KY compiled profile should be regenerated to include KRS 17.142 segregation, which the Nationwide source corpus for Kentucky does not contain.",
+      "impact": "source_gate",
+      "sourceRef": "profile:packetGenerator.pathways; profile:terminology.pathwayLabels; profile:source.allFolderFiles; statePack:all50-build-metadata"
+    }
+  ],
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit the pinned registry entry records for this track, plus one required packet-set component explicitly marked as not being a registry legal unit. The registry records exactly two entries in units[] — ky_seg_court_application (order 1) and ky_seg_agency_written_request (order 2), both available:true, both outputStrategy custom_pleading, both outputStrategyStatus resolved and packetIdentity identified — and they appear here as units 1 and 2 with their registry unitIds preserved unchanged. The registry packetSet records three components; the first two are those same two units and the third is routing_guidance, carried here as unit 3 with registryUnitIndex null and a note saying why. Nothing else in the registry entry describes a document, form, letter, order or cover sheet for this track. The compiled KY profile describes nothing for this track at all.",
+    "unitCount": 3,
+    "registryLegalUnitCount": 2,
+    "registryPassagesEnumerated": [
+      "registry@3b6f4c1:tracks[ky_criminal_record_segregation].units[] (2 entries: ky_seg_court_application, ky_seg_agency_written_request — both carried through with unitIds unchanged)",
+      "registry@3b6f4c1:tracks[ky_criminal_record_segregation].packetSet.components[] (3 entries: primary-filing-1, agency-written-request-2, routing-guidance-3 — all three implemented)",
+      "registry@3b6f4c1:tracks[ky_criminal_record_segregation].participantFilingRequirements[] (1 entry: Documentation of the disposition — a participant-obtained document, not an instrument this lane produces; mapped to unit applicability and to participant copy)",
+      "registry@3b6f4c1:tracks[ky_criminal_record_segregation].packetSet.participantActionRequired[] (10 entries, all mapped below or to unit applicability)",
+      "registry@3b6f4c1:tracks[ky_criminal_record_segregation].officialSources[] (2 entries: KRS 17.142, Clerks' Manual — neither is a form)",
+      "registry@3b6f4c1:tracks[ky_criminal_record_segregation].postGenerationHandoffs[] (empty)"
+    ],
+    "profilePassageReferenced": {
+      "ref": "profile:packetGenerator.pathways[] and profile:terminology.pathwayLabels",
+      "passage": "The compiled KY profile enumerates five and only five pathways: 'Misdemeanor, violation, or traffic-infraction conviction expungement under KRS 431.078'; 'Eligible felony conviction vacatur and expungement under KRS 431.073'; 'Acquittal, dismissal, or failure-to-indict expungement under KRS 431.076'; 'Juvenile automatic expungement on qualifying dismissal'; and 'Juvenile petition to vacate and expunge under KRS 610.330'.",
+      "reading": "The profile records NO unit, document, form or step for KRS 17.142 segregation — the strings '17.142' and 'segregat' do not occur anywhere in the 87 KB profile, and its source corpus (profile:source.allFolderFiles) is six expungement-side AOC PDFs, one PDF reference file and two HTML reference files. The profile therefore adds no unit to this route and omits none: it is silent on the mechanism. Its one relevant contribution is negative and is honoured here — KRS 431.076 and KRS 431.078 are live pathways in the profile, which is exactly where KRS 17.142(4) sends most of this route's candidate records, and unit 3 exists to make that routing happen before either instrument is produced."
+    },
+    "nonUnitParticipantActions": [
+      "Obtain documentation of the disposition (dismissal or acquittal order from the clerk; where charges were withdrawn before filing, ask the arresting agency or the prosecutor's office what record exists) — a conditional participant-obtained document, not an instrument. Named in participant copy; never obtained, received or inspected by LegalEase.",
+      "Check the answer to \"How did it end — were you found innocent, were all charges dismissed, or were all charges withdrawn?\" against that documentation — a confirmation step, folded into unit applicability, not a document.",
+      "Signature on the application and on each agency letter — a completion item on documents already enumerated, not a further unit.",
+      "Posting each agency letter, and addressing the envelopes — a completion item on unit 2, not a further unit.",
+      "Notarization: none required.",
+      "Fee: none identified for either route — an absence of evidence that is carried as an open release blocker, not as a no-fee statement.",
+      "Fee waiver: not applicable; no fee is identified.",
+      "Service: none on the court route; on the agency route the participant posts the requests. No service document is produced on either route."
+    ],
+    "coverSheetAbsent": "No participant-only cover sheet unit is included: neither the registry entry nor the profile records a cover sheet for this track. The registry packet set has exactly three components and none is a cover sheet.",
+    "officialFormDependencyAbsent": "No official_form_dependency unit is included. No packetSet component on this track carries an officialFormId or officialSourceUrl, and the registry states directly that no official form exists for the court application. Neither of the two officialSources is a form. Nothing on this route is blocked on lane D/E.",
+    "proposedOrderAbsent": "No proposed order is drafted for the court application. KRS 17.142(2) provides that on receipt of the application the court SHALL FORTHWITH issue an order to all law enforcement agencies — the order is the court's own act, no official form for it is recorded, and no source states that a proposed order is tendered. Drafting one would invent the operative terms of an order binding every law enforcement agency in the Commonwealth.",
+    "certificateOfServiceAbsent": "No certificate of service is drafted on either route. KRS 17.142 provides for no notice to a prosecutor or any other party, and the registry records service as \"None on the court route. On the agency route the participant posts the requests.\""
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/kentucky/index.ts",
+      "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+    "profileSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ky_criminal_record_segregation]",
+    "statePackNote": "The committed Kentucky state pack carries build metadata and the Nationwide official-form/resource inventory only; it records no track-level text for this mechanism, and its official-form inventory holds nothing relating to KRS 17.142. The compiled KY profile does not mention KRS 17.142 anywhere.",
+    "reviewedAsOf": "2026-08-06",
+    "effectiveFrom": "1996-07-15"
+  }
+}

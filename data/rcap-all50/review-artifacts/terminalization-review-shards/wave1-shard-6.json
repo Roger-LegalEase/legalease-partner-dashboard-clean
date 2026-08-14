@@ -1,0 +1,132 @@
+{
+  "reviewId": "wave1-shard-6",
+  "reviewer": "independent read-only reviewer, terminalization wave 1",
+  "reviewedBaseSha": "2eb5736c3eb6a109ff57b0c980e99c3b29764e06",
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "scope": {
+    "jurisdictions": ["OR", "SC", "TX", "VT"],
+    "tracksReviewed": 13,
+    "probeScript": "/tmp/probe-wave1-shard-6.mjs",
+    "probeCoverage": "all 13 tracks probed individually, not one representative per jurisdiction"
+  },
+  "runtimeFindings": {
+    "sellableFalseAllTracks": true,
+    "paymentAllowedFalseAllTracks": true,
+    "creditConsumableFalseAllTracks": true,
+    "rendererKindNoneAllTracks": true,
+    "renderJobSpecBuiltAllTracks": false,
+    "resultCodeGuidanceOnlyAllTracks": true,
+    "packetStatusNotStartedAllTracks": true,
+    "statusGuidanceSavedAllTracks": true,
+    "amountCentsNullAllTracks": true,
+    "reopenReturnsSameTreatmentAllTracks": true,
+    "spanishDistinctFromEnglishAllTracks": true,
+    "invalidReasonPresentOnAnyTrack": false,
+    "routeKindNote": "11 of 13 resolve as routeKind exact_supported_deferral. tx_nd_veterans_reemployment and vt_exp_deferred_sentence resolve as component_deferral because an already-accepted component-deferral record for those two track ids takes documented priority in resolvePacketRoute over a pending terminalization treatment. The safety outcome is identical on both (sellable false, creditConsumable false, rendererKind none, no render job, payment suppressed) and the Briefcase still preserves and reopens the terminalization treatment for the same track. Recorded as a resolver-precedence observation, not a treatment defect."
+  },
+  "dispositions": [
+    {
+      "trackId": "or_arrest_no_charges",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and brief-supported: the route is unbound from the filing-assembly system and the entire 60-day clock runs from a prosecutor declination date that is frequently absent from the docket. Destination is the specific ORS 137.225(1)(c) venue (circuit court of the county of arrest, citation or charge), with service on the prosecuting attorney's office and fingerprints to the Department of State Police. The treatment honestly discloses that no web address is carried for the OJD adult set-aside packet or the OSP set-aside criminal history request and gives an exact recovery step (ask that circuit court clerk) rather than a generic referral. All seven required packet-set components are represented in participant terms including the fingerprint step, service, LEDS record gathering, objection/hearing and post-order verification. doNot correctly carries the ORS 137.225(8)(a)/(8)(b) carve-outs, the 137.225(7)(a)(C) pending-charge bar, the one-filing-per-county rule, the 2024 OSP firearm-rights position, and the 137.225(11)(b) prosecutor unsealing warning that is specific to this paragraph. Spanish is a genuine, idiomatic translation (anulacion/set-aside glossed once, declinacion, huellas dactilares, causa justificada), not a copy and not a machine gloss. Briefcase preservation, outstanding and return are complete and promise no packet. Probe: sellable false, paymentAllowed false, credit false, renderer none, no render job spec, resultCode guidance_only, reopen returned the same treatment, es 494 chars vs en 454 and not equal."
+    },
+    {
+      "trackId": "or_dismissed_charge",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly distinguished from or_arrest_no_charges rather than templated from it: the stop reason turns on order of work (LEDS history first, then court record, then fingerprints) precisely because ORS 137.225(9) imposes no waiting period and no deadline, and the treatment says so plainly instead of manufacturing urgency. Destination, mechanism, doNot and Briefcase copy are all distinct from the sibling track; the only shared string in the jurisdiction is one gather/outstanding line about where to obtain the current adult set-aside packet, which is a shared fact rather than shared boilerplate. The two statutory carve-outs (ORS 813.200 diversion dismissal, traffic violation citation dismissal) are named as the decisive route-closers with the clerk-held judgment identified as the document that settles which applies. Spanish substantive and genuine throughout. Probe: sellable false, paymentAllowed false, credit false, renderer none, specBuilt false, resultCode guidance_only, packetStatus not_started, reopen returned the same treatment, es not equal to en."
+    },
+    {
+      "trackId": "sc_aep",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is unusually strong because it rests on law rather than on product state: S.C. Code section 17-22-940(E)(3) bars any official from letting the applicant take possession of the application during the process, so no preparable document exists to hand the participant, and the treatment says that in participant language without blaming them. Destination is the exact prosecutor office (Solicitor's Office in the judicial circuit where the offence was committed) with the SCCA 223A1 GS order form named and dated. Signature order (SLED verification, alcohol education program director attestation under 17-22-940(D), solicitor consent, circuit judge) is stated as fixed and none of it is treated as optional. Fee instruments are exact: separate certified checks or money orders, no personal cheque, $150 single-incident fee, one charge per order. Escalation correctly routes a refused solicitor consent to the 17-22-940(I) circuit court action rather than to a generic lawyer referral. Spanish is a real translation with institution names correctly retained and explained. Probe: sellable false, paymentAllowed false, credit false, renderer none, no render job, reopen returned the same treatment, es 657 vs en 602 and not equal."
+    },
+    {
+      "trackId": "sc_conditional_discharge_44_53_450",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Approved. The treatment correctly identifies that section 44-53-450(B) turns entirely on the court's determination that the person was dismissed and discharged, and therefore makes the order of discharge and dismissal — not a form — the object of the next step. The 44-53-450(C) fee-precedes-discharge rule, the once-in-a-lifetime limit, the prior-drug-conviction bar and the surviving SLED Department of Narcotic and Dangerous Drugs nonpublic index are all carried and all brief-supported. Summary-court judge attestation under 17-22-940(D) is presented as required where applicable, not optional. Observation recorded, not scored as a defect: the destination text states that no SLED verification is required on this route while a doNot line tells the participant not to accept any assurance of eligibility before SLED has verified and documented it. Both statements are carried verbatim by this track's own brief (destination.detail and scopeRestrictions[0] respectively), the tension is inherited rather than authored, and the caution errs in the protective direction. Spanish substantive and idiomatic (sobreseimiento condicional, desestimacion, atestacion, recargos). Probe: sellable false, paymentAllowed false, credit false, renderer none, specBuilt false, reopen returned the same treatment, es not equal to en."
+    },
+    {
+      "trackId": "sc_tep",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Distinct from the two sibling South Carolina tracks in substance, not just in citations. Its stop reason and next step are built around the fact this route's administering agency may be a county or municipality under contract with the circuit solicitor rather than the solicitor's own office, so the participant is told to identify who actually ran their programme before asking for anything. The section 17-22-330(D) six-month rule is surfaced as the practical route-closer it is, in mechanism, timing, doNot, Briefcase preserved and nextSteps. Death or serious bodily injury exclusion under 17-22-310, the four-points-or-less scope and the once-only limit are all carried. The only copy shared with the sibling tracks is a single Briefcase line naming the destination office, which is a shared fact. Spanish genuine throughout. Probe: sellable false, paymentAllowed false, credit false, renderer none, no render job spec, resultCode guidance_only, reopen returned the same treatment, es 628 vs en 574 and not equal."
+    },
+    {
+      "trackId": "tx_exp_acquittal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason names two real and brief-supported obstacles rather than a product excuse: on the in-window route article 55A.201 assigns preparation of the order to the acquitted person's trial attorney or to the attorney representing the state, so a LegalEase document would be the wrong document from the wrong hand; and the article 55A.151 criminal-episode bar decides the petition and is not automatable. Texas publishing no statewide expunction form is stated as a fact the brief carries, not as a promise of a future form. Destination is exact and correctly bifurcated between the in-window trial court and the out-of-window district court, and the next step is a specific, executable request for the district clerk's published article 55A.253(c) agency and e-mail list, with the clerk's absence of a completeness duty disclosed. The full article 55A.253(a) contents list, the no-duplicate rule at 55A.253(b) and the separate treatment of private compilers at 55A.253(a)(8)(C) are all carried. The doNot line refusing to treat TexasLawHelp or Texas Justice Court Training Center forms as state court forms is a real participant-safety instruction. Spanish is a genuine translation, including the statutory nouns. Probe: sellable false, paymentAllowed false, credit false, renderer none, specBuilt false, reopen returned the same treatment, es 833 vs en 743 and not equal."
+    },
+    {
+      "trackId": "tx_nd_dwi_conviction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is track-specific and supported: section 411.0736(c) makes the supporting court record the filing, the three-year versus five-year wait turns on whether an ignition interlock condition ran six months or longer which must be read off the judgment and written conditions rather than from memory, and Government Code 411.0731 must be ruled out first. Venue is correctly stated as the sentencing court and expressly contrasted with expunction venue, which is the difference most likely to send a participant to the wrong clerk. The 411.0736(e) collision bar is disclosed before filing rather than after, including that a passenger counts and injury is not required. The treatment does not oversell nondisclosure: it states it seals rather than destroys and that the Government Code 411.0765 agencies retain access and the matter may not be denied to them. Pointing the participant at the published OCA model petition is a destination for a third-party resource, not a packet promise. Spanish substantive. Probe: sellable false, paymentAllowed false, credit false, renderer none, no render job, resultCode guidance_only, reopen returned the same treatment, es 855 vs en 749 and not equal."
+    },
+    {
+      "trackId": "tx_nd_dwi_deferred",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The first-time-offender gate at section 411.0726 is stated as the whole gate rather than a technicality, and the stop reason correctly explains that this is a question about the participant's entire record, built from their own DPS history, where an omission defeats the petition under Government Code 411.074. Next step is exact and executable: obtain the discharge and dismissal order from the clerk of the court that placed the participant on deferred adjudication, which both proves the case was deferred adjudication rather than post-conviction probation and carries the completion date the two-year wait runs from. Commercial driver's licence or learner's permit, alcohol concentration of 0.15 or more, Penal Code 49.09 enhancement, and the article 42A.105(f) affirmative finding are all carried as route-closers. Shares standing nondisclosure cautions with sibling Texas tracks, but the mechanism, stop reason, next step, timing, escalation and Briefcase content are all track-specific, so this is repeated law rather than shared boilerplate participant copy. Spanish genuine. Probe: sellable false, paymentAllowed false, credit false, renderer none, specBuilt false, reopen returned the same treatment, es 909 vs en 799 and not equal."
+    },
+    {
+      "trackId": "tx_nd_probation_misdemeanor",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is the strongest participant-safety point available on this track and it is correctly chosen: straight probation under Chapter 42A versus deferred adjudication under Subchapter C decides which nondisclosure section applies, participants describe the two interchangeably, and getting it wrong routes a probated misdemeanour to 411.0735 where a person is expressly ineligible if 411.073 fits. Next step directs the participant to read that fork off the judgment and order of community supervision from the sentencing court clerk. The immediate-versus-two-year timing split for Penal Code Chapters 20, 21, 22, 25, 42, 43 and 46 is carried in mechanism, timing, gather, doNot, Briefcase and nextSteps, so it is not silently optional. Completion is correctly defined to include confinement and all fines, costs and restitution. Sixteen of eighty-eight participant strings coincide with tx_nd_veterans_court, all of them standing statutory cautions or shared procedural steps that apply identically to both sections (411.074 prior-record completeness, DPS CR-63, the 45th-day diary, the OCA fee-waiver form, the do-not-sign line); the distinguishing copy is entirely track-specific. Spanish substantive. Probe: sellable false, paymentAllowed false, credit false, renderer none, no render job, reopen returned the same treatment, es 1000 vs en 848 and not equal."
+    },
+    {
+      "trackId": "tx_nd_veterans_court",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Approved, and the treatment does the participant a positive service: it refuses to hand over the weaker remedy first. The stop reason and next step route the participant to test expunction under Code of Criminal Procedure article 55A.053(a)(2)(A), with the streamlined article 55A.203 thirty-day order and no fee, before using Government Code 411.0727 at all, and explains in one line why that matters (expunction destroys, nondisclosure only seals and the 411.0765 agencies retain access). That routing is brief-supported and is stated as mandatory rather than as an optimisation. The 411.0727(e) bar where programme entry arose from an intoxicated-driving offence, the two-year wait, the no-felony-conviction-in-those-two-years condition, and the full 411.0727 prior-conviction exclusion list are all carried. Destination is exact for both branches. Spanish is a genuine translation including the long exclusion list. Probe: sellable false, paymentAllowed false, credit false, renderer none, specBuilt false, resultCode guidance_only, reopen returned the same treatment, es 966 vs en 849 and not equal."
+    },
+    {
+      "trackId": "tx_nd_veterans_reemployment",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is structural and correct: Government Code 411.0729 names no filing party and imposes no petition requirement — the court is to give notice to the state, hold a best-interest-of-justice hearing and enter the order — so producing a completed petition would imply a requirement the statute does not impose and could cost the participant money and time on a filing their court may not need. The next step is exactly right and executable: ask that court's clerk whether it sets the hearing itself or wants a petition. The 411.0729(b) disapplication of the Government Code 411.074 basic conditions is surfaced as a doNot protecting the participant from being wrongly screened out, which is a genuinely protective use of the section. Veteran status, Subchapter H-1 court approval, completion after the offence and misdemeanour-only scope are all carried as conditions, none treated as optional. Probe: routeKind resolves as component_deferral because an already-accepted component-deferral record for this track id outranks a pending terminalization treatment in resolvePacketRoute; the safety outcome is unchanged — sellable false, paymentAllowed false, credit false, renderer none, no render job spec, resultCode guidance_only, packetStatus not_started, and reopen returned the same terminalization treatment. es 717 vs en 663 and not equal."
+    },
+    {
+      "trackId": "vt_exp_deferred_sentence",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly refuses to sell or produce a petition on a route where 13 V.S.A. section 7041(e) puts the duty on the court at discharge, and says so in the doNot list in terms that protect the participant from being sold one anywhere. Where the order did not issue, the treatment is honest that no statute or form prescribes the content of the written request, and then supplies the far more useful fact: the usual reason an order is missing is unpaid restitution, which is a bar on the relief itself. Next step is exact and executable — a current balance from the Restitution Unit of the Vermont Center for Crime Victim Services — and afterNextStep gives the participant a complete, specific letter to write to the named Criminal Division with docket number, discharge order and restitution statement attached. The section 7041(h) surviving Vermont Crime Information Center index for registrable sex offences and the post-Act-60 sealing-versus-expungement distinction are both carried. Spanish genuine. Probe: routeKind resolves as component_deferral by the same documented resolver precedence as tx_nd_veterans_reemployment; safety outcome unchanged — sellable false, paymentAllowed false, credit false, renderer none, specBuilt false, reopen returned the same terminalization treatment, es 606 vs en 591 and not equal."
+    },
+    {
+      "trackId": "vt_seal_pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason rests on a genuine unresolved statutory question rather than on a product gap and states it as such: because 13 V.S.A. section 7601(4)(B)(iv) places the pardon route inside the qualifying-felony subsection, the seven-year clock at section 7602(d) appears to apply even to a pardoned misdemeanour, and the text does not resolve whether the three-year clock at section 7602(c) applies instead. Since that question decides when the participant may file at all, declining to write a date that cannot be justified is the correct and safe outcome, and the treatment routes the question to a Vermont lawyer as a specific named question rather than as a generic referral. The second reason given — that at least four revisions of the 200-00130A instruction guide have been live on vtcourts.gov, including pre-Act-60 versions describing expungement categories that no longer exist — is brief-supported and materially protective. Destination and forms are exact (Criminal Division in the county that handled the case, Form 200-00130, Form 200-00132, Form 200-00331). The standard is stated the right way round, against the State, so no public-interest burden is wrongly placed on the participant. The breadth of the money condition (restitution and surcharges on every conviction, with the section 7282 waiver exception), the section 7604 pending-charge rule, the section 7605 two-year refiling bar and the section 7602(a)(5) commercial-licence disapplication are all carried. Minor observation only, not a defect: Form 600-00228 fee-waiver appears in the authority block but not in the participant gather list; the brief marks that component conditional rather than required. Spanish substantive and idiomatic. Probe: sellable false, paymentAllowed false, credit false, renderer none, no render job, resultCode guidance_only, reopen returned the same treatment, es 987 vs en 888 and not equal."
+    }
+  ],
+  "summary": {
+    "approved": 13,
+    "correctionRequired": 0,
+    "heldOnSourceOrDesign": 0,
+    "prohibitedParticipantPhrasesFound": 0,
+    "genericReferralsFound": 0,
+    "packetPromisesFound": 0,
+    "runtimeContractViolationsFound": 0,
+    "bilingualDefectsFound": 0,
+    "sharedBoilerplateBetweenTracksFound": 0
+  }
+}

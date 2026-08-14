@@ -1,0 +1,45 @@
+{
+  "fixtureId": "me-screening-negative",
+  "fixtureKind": "invented_content_negative",
+  "description": "NEGATIVE FIXTURE — THE CONTENT BELOW IS DELIBERATELY INVENTED AND MUST BE REJECTED. The letterData values carry content the Maine sources for this track forbid, and caseData supplies protected fields a dispute letter never carries. This packet neither pleads, demands, threatens nor calculates the 10 M.R.S. § 1500-EE(3) statutory remedy, yet the fixture demands $1,000; § 1500-CC gives the sender no power to state the vendor's position, yet the fixture recites that the vendor's office has no objection; nothing is filed and no service of process exists on this route, yet the fixture recites completed service; the sender signs and dates the letter personally and LegalEase never signs it, yet the fixture applies a signature; the letter states the sender's own account and lets the enclosed order speak for itself, yet the fixture recites a court finding; and chapter 239 ends at § 1500-EE, yet the fixture cites § 1500-FF. runPleadingQa PASSES content of this kind — it checks relief vocabulary, template grade/lifecycle and the footer, and cannot see invented content — so the verifier's invention and protected-field detectors are what must reject it. The Grade E templateGrade override is retained so the QA gate is exercised as well.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:fee_amount",
+    "invention:prosecutor_position",
+    "invention:service_completed",
+    "invention:signature_applied",
+    "invention:unsourced_citation",
+    "protected_field:populated",
+    "qa"
+  ],
+  "expectedQaFailureSubstring": "Grade E",
+  "configOverrides": {
+    "templateGrade": "html_replica_or_unverified"
+  },
+  "partyData": {
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "77 Sample Lane, Portland, ME 04101"
+  },
+  "caseData": {
+    "docketNumber": "CUMCD-CR-2019-01234",
+    "otn": "ME0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "205 Sample Courthouse Street, Portland, ME 04101"
+  },
+  "chargeData": {},
+  "eligibilityData": {
+    "eligibilityBasisLabel": "dispute under 10 M.R.S. § 1500-CC"
+  },
+  "letterData": {
+    "senderName": "JOHN DOE",
+    "vendorName": "Sample Screening Company, Inc. (synthetic vendor)",
+    "vendorDisputeAddress": "[VENDOR DISPUTE ADDRESS — SENDER OBTAINS FROM THE REPORT OR THE VENDOR'S WEBSITE; CONFIRM BEFORE SENDING]",
+    "reportDate": "January 15, 2027 (synthetic sample date)",
+    "reportReference": "INVENTED — a court finding the sender may not recite: The Court has found that this record was sealed in error by your company and ordered its deletion.",
+    "recordAsReported": "[SENDER COPIES THE ENTRY EXACTLY AS PRINTED] INVENTED — protected fields a dispute letter never carries: sender's DOB: 06/30/1979; sender's social security number: 123-45-6789.",
+    "correctStatus": "the record is sealed by a Maine court order. INVENTED — the vendor's position, which the sender cannot state: in our telephone call, your office confirmed that it has no objection to deleting the entry.",
+    "otherInaccuracy": "INVENTED — the § 1500-EE(3) statutory remedy this packet must never plead, demand, threaten or calculate: I demand payment of $1,000 in statutory damages, plus my costs and attorney's fees, if the entry is not deleted. INVENTED — service of process on a route where nothing is filed and no service exists: Service was completed on your registered agent on March 1, 2027. INVENTED — fabricated authority; chapter 239 ends at § 1500-EE: This demand is further authorized by 10 M.R.S. § 1500-FF. INVENTED — a signature applied for the sender, who must sign personally: /s/ John Doe, sender."
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

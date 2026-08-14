@@ -1,0 +1,230 @@
+{
+  "schemaVersion": "rcap-remaining-39-intake/v1",
+  "frozenBy": "Terminal A (captain)",
+  "window": "2026-08-12-w3",
+  "statement": "Intake of the Codex remaining-39 wave. Every row was recomputed against current canonical bytes before any owner work was assigned. Nothing here promotes a track, and the canonical completion ledger was NOT regenerated.",
+  "codexInput": {
+    "branch": "codex/rcap-remaining-tracks-wave",
+    "commit": "c570205f8b94ddadb744643a7b4a4940c913ffe3",
+    "reportedBase": "c1f0741a6bf027d52cb74a26b67a811cb9194065",
+    "baseIsAncestorOfBranch": true,
+    "changedPaths": 60,
+    "changedPathsOutsideCodexOwnedTrees": 0,
+    "importedTrees": [
+      "data/rcap-codex/remaining-tracks/**",
+      "docs/rcap/codex/remaining-tracks.md",
+      "docs/rcap/codex/remaining-tracks/**"
+    ],
+    "notImported": [
+      "the completion ledger",
+      "the job graph",
+      "review dispositions",
+      "canonical B/C/D/E implementation paths",
+      "src runtime",
+      "migrations",
+      "staging",
+      "worker",
+      "deployment files"
+    ],
+    "importMethod": "owned-path import only; the branch was not merged wholesale"
+  },
+  "liveSetRecomputation": {
+    "canonicalTip": "22f037f0be3b2a2a6a7d9b52296472b90e3e6438",
+    "ledgerUnchangedSinceCodexBase": true,
+    "ledgerNonterminal": 122,
+    "excludedComposedRoutes": 16,
+    "excludedDTracks": 67,
+    "remainder": 39,
+    "codexRowsMatchedByExactTrackId": 39,
+    "codexRowsNotPresentInTheCurrentNonterminalSet": [],
+    "remainderTracksNotCoveredByCodex": [],
+    "note": "The exclusion arithmetic is exact: 16 + 67 + 39 = 122. Eighteen of the 39 carry requiredTreatment=production_packet but are NOT in the D corrected-review manifest \u2014 they are the lane-E hard-form and source-blocked tracks (CA CR-180 family, ID, NV, SC, VA, WA, WI, DC). Excluding by the D manifest rather than by treatment family is what makes the totals reconcile."
+  },
+  "captainVerdicts": {
+    "rowsAcceptedAsLive": 31,
+    "rowsAlreadyResolved": 0,
+    "staleLedgerRowsVerified": 8,
+    "staleLedgerRowsRejected": 0,
+    "bCorrectionsStillLive": 13,
+    "bCorrectionsStale": 0,
+    "eCorrectionsStillLive": 5,
+    "eCorrectionsStale": 0,
+    "participantTreatmentCandidates": 2,
+    "runtimePatchesStillRequired": 30,
+    "runtimePatchesDeduplicated": 1,
+    "runtimePatchesApplicableAsCaptainSharedRuntimeWorkToday": 0,
+    "sourceOrCurrentnessJobs": 9,
+    "counselJobs": 1
+  },
+  "ownerQueues": [
+    {
+      "queueId": "B-guidance-corrections-2026-08-12-w3",
+      "owner": "Terminal B",
+      "trackKeys": [
+        "AK:ak-nonconviction-confidential",
+        "CT:ct-provisional-pardon",
+        "MI:mi_arrest_acquittal_dismissal",
+        "MI:mi_auto_misd92",
+        "MI:mi_setaside_csc4_pre2015",
+        "MN:mn_ceb_felony_cannabis",
+        "ND:nd-dna-profile-removal-routing",
+        "ND:nd-trafficking-vacatur-routing",
+        "ND:nd-unconstitutional-arrest-expungement-routing",
+        "NE:ne-immigration-routing",
+        "NJ:nj_automated_clean_slate",
+        "OK:ok_osbi_portal",
+        "TX:tx_exp_acquittal"
+      ],
+      "basis": "Each Codex candidate packet was compared field-by-field against the current canonical guidance packet. All thirteen still differ substantively, so none is closed as stale.",
+      "codexOwnedInput": "data/rcap-codex/remaining-tracks/candidate-treatments/guidance-corrections.json",
+      "ownedPathsBMayModify": [
+        "data/rcap-all50/guidance-packets/*.json"
+      ],
+      "sharedPathsBMustNotModify": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/**",
+        "src/**",
+        "package.json",
+        "supabase/**"
+      ],
+      "acceptanceConditions": [
+        "Substantive English and Spanish for every corrected field; Spanish that is byte-identical to English is not a Spanish surface.",
+        "paymentAllowed=false and sellable=false preserved on every packet.",
+        "No checkout is offered and no packet or partner credit is consumed.",
+        "Every corrected legal statement carries its authority; a Codex candidate is input, not authority.",
+        "Fresh independent review after the correction lands. The implementation author does not approve it."
+      ],
+      "promotion": "None of these promote on landing. Promotion requires an accepted independent-review closure and a ledger regeneration in a meaningful integration window."
+    },
+    {
+      "queueId": "E-ca-cr180-corrections-2026-08-12-w3",
+      "owner": "Terminal E (terminal-e-hard-forms)",
+      "trackKeys": [
+        "CA:ca-1203-41",
+        "CA:ca-1203-42",
+        "CA:ca-1203-43",
+        "CA:ca-1203-4a",
+        "CA:ca-17b-reduction"
+      ],
+      "basis": "Both CR-180 patch-spec defects were checked directly against canonical bytes and both are still live. Neither is covered by the rendered-assertion verifier, so nothing already closed by rendered assertions is being reopened.",
+      "codexOwnedInput": "data/rcap-codex/remaining-tracks/ca-cr180-patch-spec.json",
+      "ownedPathsEMayModify": [
+        "data/rcap-all50/hard-forms/california/cr-180-petition-for-dismissal/",
+        "data/rcap-all50/hard-forms/california/cr-106-proof-of-service/",
+        "scripts/verify-rcap-hard-form-outputs.mjs",
+        "scripts/rcap-hard-form-xfa-shadow-fill.mjs"
+      ],
+      "sharedPathsEMustNotModify": [
+        "data/rcap-ledger/**",
+        "data/rcap-all50/review-artifacts/**",
+        "src/**",
+        "supabase/**"
+      ],
+      "acceptanceConditions": [
+        "An over-length value bound into a shorter field fails the render nonzero; no artifact and no invented '\u2014 see Attachment A' addendum is accepted.",
+        "The truncate_with_addendum branch is removed or made fail-closed, so the engine cannot invent an attachment the family does not emit.",
+        "The 15-day prosecutor-notice period is stated in substantive EN and ES participant copy, not only inside internal source statements.",
+        "A verifier assertion fails any California petition-family profile that neither ships a service component nor declares the exact participant-facing service instruction; deleting cr-106-proof-of-service/profile.json turns it red.",
+        "Actual PDF and contact-sheet review, not a description of one.",
+        "Rendered fingerprints preserved unless bytes legitimately change; if they change, refresh the fingerprints and reopen F3."
+      ],
+      "preserved": "CR-106 remains held_on_source_or_design and non-sellable.",
+      "promotion": "None. Fresh independent review after the correction lands."
+    },
+    {
+      "queueId": "A-stale-ledger-recognition-2026-08-12-w3",
+      "owner": "Terminal A (captain)",
+      "trackKeys": [
+        "AR:ar-misdemeanor-dwi-seal",
+        "KY:ky_felony_expungement_after_pardon",
+        "KY:ky_felony_vacatur_expungement",
+        "OK:ok_clean_slate",
+        "TX:tx_exp_dismissed",
+        "WV:wv_conv_multiple_misdemeanors",
+        "WV:wv_conv_nonviolent_felony",
+        "WV:wv_conv_single_misdemeanor"
+      ],
+      "basis": "Verified, not assumed. Each of the eight has committed lane-B exact_supported_deferral evidence with paymentAllowed=false and sellable=false, and an unsuperseded F2 technical_approved closure. The ledger is stale because the terminalization generator recognises exact_supported_deferral candidates only from data/rcap-all50/hard-forms/*/*/profile.json, and lane-B packets only when treatment === 'complete_guidance'. A lane-B packet whose treatment is exact_supported_deferral is invisible to both loaders.",
+      "exactFix": "Extend scripts/generate-rcap-track-terminalization.mjs so deliveredDeferrals also loads lane-B guidance packets whose treatment is exact_supported_deferral, keyed by trackId, with the packet file as candidateEvidence.",
+      "safetyProof": "Nine lane-B exact_supported_deferral packets exist. Eight carry an F2 technical_approved closure and would promote; the ninth, TX:tx_exp_acquittal, does not and would become a candidate pending review rather than terminal. The fix therefore cannot over-promote.",
+      "expectedLedgerEffect": "375/497 -> 383/497 when executed. NOT executed in this window.",
+      "whyNotNow": "This is an intake window. The standing rule is that the canonical ledger is regenerated exactly once, in a meaningful integration window, when independently approved treatments are being promoted. These eight are ready for exactly that; they are recorded here rather than promoted here.",
+      "requiresRoger": false
+    },
+    {
+      "queueId": "REVIEW-participant-treatment-candidates-2026-08-12-w3",
+      "owner": "independent reviewer (not the author)",
+      "trackKeys": [
+        "NV:nv_repository_removal",
+        "WI:wi_exp_certificate_of_discharge_followup"
+      ],
+      "basis": "Two Codex candidate participant treatments, imported into the Codex-owned review-candidate path only. Neither is written into a canonical guidance packet and neither confers terminal status.",
+      "codexOwnedInput": "data/rcap-codex/remaining-tracks/candidate-treatments/participant-treatments.json",
+      "acceptanceConditions": [
+        "Exact evidence for every participant-facing claim.",
+        "English and Spanish parity, substantively translated.",
+        "Payment suppression and zero credit consumption where the route treatment requires it.",
+        "The reviewer is not the author."
+      ]
+    },
+    {
+      "queueId": "SOURCE-currentness-2026-08-12-w3",
+      "owner": "Terminal C source/design owner, or the assigned official-form owner",
+      "trackKeys": [
+        "ID:id_felony_reduction",
+        "ID:id_set_aside_dismissal",
+        "NV:nv_seal_decrim",
+        "NV:nv_seal_pardon",
+        "SC:sc_aep",
+        "SC:sc_conditional_discharge_44_53_450",
+        "SC:sc_tep",
+        "VA:va_exp_identity_used_by_another",
+        "WA:wa_crop_certificate_of_restoration"
+      ],
+      "basis": "Every ledger hold is preserved exactly as recorded. Codex saved hash-pinned official source bytes and separated source text from inference; that is research, and research is not adoption.",
+      "codexOwnedInput": [
+        "data/rcap-codex/remaining-tracks/source-matrix.json",
+        "data/rcap-codex/remaining-tracks/source-receipts/",
+        "data/rcap-codex/remaining-tracks/source-citation-verification.json"
+      ],
+      "acceptanceConditions": [
+        "The exact official-source requirement recorded on the track is met, not approximated.",
+        "Secondary authority is never substituted for an operative legal claim.",
+        "The supported fallback terminal disposition already recorded for the track is preserved until the source lands."
+      ]
+    },
+    {
+      "queueId": "COUNSEL-2026-08-12-w3",
+      "owner": "Roger / counsel, with Terminal C",
+      "trackKeys": [
+        "DC:dc_yra_set_aside"
+      ],
+      "basis": "A legal-design question. Research does not close it and the hold stays until counsel answers it.",
+      "codexOwnedInput": "docs/rcap/codex/remaining-tracks/dispatch/DC-yra-counsel.md"
+    },
+    {
+      "queueId": "A-runtime-implementation-2026-08-12-w3",
+      "owner": "Terminal A (captain), gated",
+      "trackKeys": [
+        "CA:ca-851-91"
+      ],
+      "basis": "Deduplicated against the current canonical runtime: of Codex's 31 runtime specifications, 30 target tracks with no compiled pathway and 1 (OK:ok_clean_slate) is already represented and drops out. Twenty-nine of the thirty are gated behind a non-runtime primary blocker that must close first.",
+      "captainFinding": "ZERO captain-owned shared-runtime changes are applicable today. Every remaining specification asks for a compiled pathway \u2014 profile authoring \u2014 not a change to a shared payment, credit, Briefcase or route-state system. No competing system is created and none is needed.",
+      "acceptanceConditions": [
+        "The track's primary blocker closes first.",
+        "A compiled pathway is authored with its own acceptance tests.",
+        "No second payment, credit, Briefcase or route-state system."
+      ]
+    }
+  ],
+  "reviewRouting": {
+    "principle": "No implementation author approves their own work.",
+    "manifest": "data/rcap-all50/review-artifacts/remaining-39-review-manifest.json",
+    "candidateTreatmentsRequiringFreshIndependentReview": 15
+  },
+  "ledger": {
+    "regeneratedThisWindow": false,
+    "reason": "Intake only. The canonical ledger is regenerated exactly once, in a meaningful integration window, when independently approved treatments are being promoted.",
+    "tracksTerminalUnchanged": "375 / 497"
+  }
+}

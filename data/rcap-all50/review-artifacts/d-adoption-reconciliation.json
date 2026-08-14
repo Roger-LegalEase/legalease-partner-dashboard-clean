@@ -1,0 +1,2218 @@
+{
+  "schemaVersion": "rcap-d-adoption-reconciliation/v1",
+  "window": "2026-08-12-w3",
+  "statement": "Codex's adoption continuity findings, reconciled against the final D family handoff. No track is promoted, no ledger is regenerated, and an unclassifiable adoption is not treated as a legal question when it is a missing component bridge.",
+  "inputs": {
+    "adoptionContinuity": {
+      "path": "data/rcap-codex/d-adoption-continuity/track-adoption.json",
+      "commit": "985cb0457b5b1c73f1a446bb1dfb0638c5e8b6c3",
+      "branch": "codex/rcap-d-adoption-continuity",
+      "base": "0a4eaff57ccdd68ac4e9eb03abe739aca0dab0ed"
+    },
+    "dTrackQueue": {
+      "path": "data/rcap-all50/review-artifacts/d-track-queue.json"
+    },
+    "familyHandoff": {
+      "path": "docs/record-clearing/d-wave/v3/family-handoff.json",
+      "commit": "4069948997e8ec8398cb0c7bd9b47ef93a6b299d"
+    }
+  },
+  "codexReported": {
+    "tracks": 67,
+    "standing_adoption_applies": 13,
+    "layout_only_continuity_applies": 5,
+    "new_substantive_review_required": 0,
+    "outside_standing_scope": 13,
+    "insufficient_evidence_to_classify": 36,
+    "counselJobs": 0,
+    "rogerDecisions": 13,
+    "technicalEvidenceReconciliationAssignments": 36,
+    "finalLegalApprovalsIssuedByCodex": 0,
+    "runtimeOrPaymentChanges": 0
+  },
+  "reconciledCounts": {
+    "current_standing_adoption_applies": 10,
+    "outside_standing_scope": 13,
+    "insufficient_component_bridge": 36,
+    "current_layout_only_continuity_applies": 5,
+    "stale_due_to_substantive_family_change": 3
+  },
+  "continuityPolicy": {
+    "notSubstantive": [
+      "a changed PDF hash on its own",
+      "a rendered-artifact manifest repair",
+      "a contact-sheet regeneration",
+      "a deterministic re-render",
+      "a layout-only change"
+    ],
+    "maySeverContinuity": [
+      "a changed legal statement",
+      "a changed route or eligibility predicate",
+      "a changed required component",
+      "a source with legal effect",
+      "a changed protected-field rule",
+      "a changed participant treatment",
+      "an artifact still under correction, because continuity cannot be confirmed against bytes that will still change"
+    ]
+  },
+  "counselJobs": [],
+  "rogerDecisionCount": 13,
+  "tracks": [
+    {
+      "trackId": "ak-tf800",
+      "jurisdiction": "AK",
+      "legalName": "Request to Seal a Case or Specified Records, TF-800",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "21b35a397c84f96cf6ea85b2eb70a494927c819e371db02d453804f935d82098"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "AK:tf-800-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "ak-tf805",
+      "jurisdiction": "AK",
+      "legalName": "Request for Name-Only Removal from the Public Index, TF-805",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "21b35a397c84f96cf6ea85b2eb70a494927c819e371db02d453804f935d82098"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "AK:tf-805-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "al-felony-dwop",
+      "jurisdiction": "AL",
+      "legalName": "Petition to Expunge Felony Charges Dismissed Without Prejudice, Ala. Code § 15-27-2(a)(7)",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "AL:c-10-criminal-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "al-felony-nonconviction-90",
+      "jurisdiction": "AL",
+      "legalName": "Petition to Expunge Felony Non-Conviction Records, Ala. Code § 15-27-2(a)(1)-(a)(5)",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "AL:c-10-criminal-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "al-misd-dwop",
+      "jurisdiction": "AL",
+      "legalName": "Petition to Expunge Misdemeanor-Level Charges Dismissed Without Prejudice, Ala. Code § 15-27-1(a)(7)",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "AL:c-10-criminal-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "al-misd-nonconviction-90",
+      "jurisdiction": "AL",
+      "legalName": "Petition to Expunge Misdemeanor-Level Non-Conviction Records, Ala. Code § 15-27-1(a)(1)-(a)(5)",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "AL:c-10-criminal-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "al-pardon",
+      "jurisdiction": "AL",
+      "legalName": "Application for Pardon, Alabama Board of Pardons and Paroles, Ala. Code §§ 15-22-20 to 15-22-40",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ar-act531",
+      "jurisdiction": "AR",
+      "legalName": "Sealing Pursuant to Act 531 and Act 1460, A.C.A. § 16-93-1201 et seq.",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ar-cs-possession-seal",
+      "jurisdiction": "AR",
+      "legalName": "Petition to Seal a Felony Controlled-Substance Possession Conviction, A.C.A. § 16-90-1407",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ar-misdemeanor-seal",
+      "jurisdiction": "AR",
+      "legalName": "Petition to Seal a Misdemeanor or Violation Conviction, A.C.A. § 16-90-1405",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ar-nonconviction-seal",
+      "jurisdiction": "AR",
+      "legalName": "Petition to Seal a Non-Conviction Record, A.C.A. § 16-90-1410",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "az_certificate_second_chance",
+      "jurisdiction": "AZ",
+      "legalName": "Application for Certificate of Second Chance, standalone, A.R.S. § 13-905(N)",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "az_marijuana_expungement_limited_jurisdiction",
+      "jurisdiction": "AZ",
+      "legalName": "Petition to Expunge Marijuana Records, limited jurisdiction court, A.R.S. § 36-2862",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "az_marijuana_expungement_superior_court",
+      "jurisdiction": "AZ",
+      "legalName": "Petition to Expunge Marijuana Records, superior court, A.R.S. § 36-2862",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "az_record_sealing_conviction",
+      "jurisdiction": "AZ",
+      "legalName": "Petition to Seal Criminal Case Records, conviction, A.R.S. § 13-911",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "AZ:aoccrsl1f-050825-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "AZ:aoccrsl2f-050825-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "az_record_sealing_dismissal_not_guilty",
+      "jurisdiction": "AZ",
+      "legalName": "Petition to Seal Criminal Case Records, dismissal or not guilty verdict, A.R.S. § 13-911",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "AZ:aoccrsl1f-050825-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "AZ:aoccrsl2f-050825-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "co_decriminalized_conduct_seal",
+      "jurisdiction": "CO",
+      "legalName": "Motion to Seal, Conduct No Longer Prohibited, C.R.S. § 24-72-711",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "40b2ce6bd30ae7b2b92c384761165716b84bfe470c22cd93e7b2ef9e3da56a50"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "CO:jdf-2371-form-motion-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "CO:jdf-2374-form-order-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: CO:jdf-2374-form-order-en"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "co_motion_seal_nonconviction",
+      "jurisdiction": "CO",
+      "legalName": "Motion to Seal Non-Conviction Records, Simplified Backstop, C.R.S. § 24-72-705(2) and (3)",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "40b2ce6bd30ae7b2b92c384761165716b84bfe470c22cd93e7b2ef9e3da56a50"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "CO:jdf-477-form-motion-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "CO:jdf-478-form-order-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "co_multiple_conviction_seal",
+      "jurisdiction": "CO",
+      "legalName": "Motion to Seal Multiple Conviction Records, C.R.S. § 24-72-709",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "40b2ce6bd30ae7b2b92c384761165716b84bfe470c22cd93e7b2ef9e3da56a50"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "CO:jdf-641-form-motion-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "CO:jdf-642-form-order-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "co_municipal_conviction_seal",
+      "jurisdiction": "CO",
+      "legalName": "Petition to Seal Municipal Conviction Records, C.R.S. § 24-72-708",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "1 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "40b2ce6bd30ae7b2b92c384761165716b84bfe470c22cd93e7b2ef9e3da56a50"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "CO:jdf-683-form-petition-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: CO:jdf-683-form-petition-en",
+        "1 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "co_pardoned_conviction_seal",
+      "jurisdiction": "CO",
+      "legalName": "Motion to Seal a Pardoned Conviction, C.R.S. § 24-72-710",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "40b2ce6bd30ae7b2b92c384761165716b84bfe470c22cd93e7b2ef9e3da56a50"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "CO:jdf-680-form-motion-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "CO:jdf-681-form-order-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: CO:jdf-680-form-motion-en"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "fl-expunction",
+      "jurisdiction": "FL",
+      "legalName": "Court-Ordered Expunction, § 943.0585, Fla. Stat.",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "4 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ia-dci77",
+      "jurisdiction": "IA",
+      "legalName": "Iowa Division of Criminal Investigation Criminal History Record Check on Form DCI-77",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "2 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "il-exp-pardon",
+      "jurisdiction": "IL",
+      "legalName": "Verified Petition to Expunge Following a Governor's Pardon Specifically Authorizing Expungement",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "3 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "IL:fw-civ-application-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "il-exp-precompletion",
+      "jurisdiction": "IL",
+      "legalName": "Request to Expunge Filed in Anticipation of Successful Completion of a Problem-Solving Court or Diversion Program",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "3 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "IL:fw-civ-application-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "il-seal-edu",
+      "jurisdiction": "IL",
+      "legalName": "Request to Seal Criminal Records Under the Educational-Credential Waiver",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "3 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "IL:fw-civ-application-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "il-seal-nonconv",
+      "jurisdiction": "IL",
+      "legalName": "Request to Seal Criminal Records of an Arrest or Charge Not Resulting in Conviction",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "3 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "IL:fw-civ-application-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ks-21-6614-diversion",
+      "jurisdiction": "KS",
+      "legalName": "Petition for Expungement of a Fulfilled Kansas Diversion Agreement under K.S.A. 21-6614",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "6 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ks-22-2410-arrest",
+      "jurisdiction": "KS",
+      "legalName": "Petition for Expungement of a Kansas Arrest Record under K.S.A. 22-2410",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "24d65a98fa7e59466b59642c8ec90e62398891fffa0efad8f0b21ba24db47db1"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ky_expungement_certification",
+      "jurisdiction": "KY",
+      "legalName": "Expungement Certification Request to the Administrative Office of the Courts (KRS 431.079)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ky_protective_order_record_expungement",
+      "jurisdiction": "KY",
+      "legalName": "Motion for Expungement of an Emergency Protective Order or Temporary Interpersonal Protective Order Record (KRS 403.745, KRS 456.070)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "la-987-set-aside-and-dismiss",
+      "jurisdiction": "LA",
+      "legalName": "Motion to Set Aside Conviction and Dismiss Prosecution; Rule to Show Cause; Order of Dismissal (La. C.Cr.P. art. 987)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ma-seal-decrim",
+      "jurisdiction": "MA",
+      "legalName": "Petition to Seal an Offence That Is No Longer a Crime under G.L. c. 276, § 100A",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "c4412f8a62a9d8dc24d7da6f01ce8ac4b530a5cfc2907d66224401d2097b110a"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "mn_petition_15218",
+      "jurisdiction": "MN",
+      "legalName": "Petition to Expunge a Controlled-Substance Discharge under Minn. Stat. § 152.18",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "3 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "de2c6bfe28f21ebf05dea318373f3e26dbf18027fe75a88e8f619d1a324baac2"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "MN:fee102-support-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: MN:fee102-support-en",
+        "3 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "mn_petition_juvenile_as_adult",
+      "jurisdiction": "MN",
+      "legalName": "Petition to Expunge a Conviction Following Certification for Adult Prosecution",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "3 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "de2c6bfe28f21ebf05dea318373f3e26dbf18027fe75a88e8f619d1a324baac2"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "MN:fee102-support-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: MN:fee102-support-en",
+        "3 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "mo-575-120-identity-theft-correction",
+      "jurisdiction": "MO",
+      "legalName": "Petition for Correction of Arrest/Court Records on False Impersonation (Mo. Rev. Stat. § 575.120.4, procedure under § 610.123)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "2 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "MO:cr300-source-gated-petition-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": true,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        },
+        {
+          "familyId": "MO:gn10-source-gated-motion-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [
+        {
+          "familyId": "MO:cr300-source-gated-petition-en",
+          "v3Action": "rerender_participant_artifact_and_evidence"
+        }
+      ],
+      "remainingNonAdoptionBlockers": [
+        "held family: MO:gn10-source-gated-motion-en",
+        "2 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "mo-610-140-arrest",
+      "jurisdiction": "MO",
+      "legalName": "Petition to Expunge Records Related to an Arrest for an Eligible Crime (Mo. Rev. Stat. § 610.140.7)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "2 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "MO:cr360-form-petition-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "MO:gn10-source-gated-motion-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: MO:gn10-source-gated-motion-en",
+        "2 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nc_145_5_misdemeanor",
+      "jurisdiction": "NC",
+      "legalName": "Petition and Order of Expunction of Nonviolent Misdemeanor Convictions under G.S. 15A-145.5",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "1 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "9d9ce9f4ac2b4483dfc33e640873059d9d79755597017e819aa24f64893053c7"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NC:aoc-cr-298-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cr-298-instructions-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-es",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-vi",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: NC:aoc-cr-298-instructions-en, NC:aoc-cv-226-support-es, NC:aoc-cv-226-support-vi",
+        "1 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nc_146_dismissal_petition",
+      "jurisdiction": "NC",
+      "legalName": "Petition and Order of Expunction of Dismissed Charges under G.S. 15A-146(a) and (a1)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "1 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "9d9ce9f4ac2b4483dfc33e640873059d9d79755597017e819aa24f64893053c7"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NC:aoc-cr-287-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-es",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-vi",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-instructions-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-instructions-es",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-instructions-vi",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-es",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-vi",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: NC:aoc-cr-287-form-es, NC:aoc-cr-287-form-vi, NC:aoc-cr-287-instructions-es, NC:aoc-cr-287-instructions-vi, NC:aoc-cv-226-support-es, NC:aoc-cv-226-support-vi",
+        "1 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nd-nonconviction-close-petition",
+      "jurisdiction": "ND",
+      "legalName": "Petition to Close Nonconviction Court Records Entered Before 1 August 2025 (N.D.C.C. § 12-60.1-05(2))",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nd-prohibit-remote-public-access",
+      "jurisdiction": "ND",
+      "legalName": "Motion to Prohibit Remote Public Access to a Criminal Case Record After Dismissal or Acquittal (N.D.Sup.Ct.Admin.R. 41 § 4(a)(7))",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "4 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nd-regular-pardon",
+      "jurisdiction": "ND",
+      "legalName": "North Dakota Pardon Advisory Board Application (N.D.C.C. ch. 12-55.1; SFN 14859)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ne-seal-pre2017",
+      "jurisdiction": "NE",
+      "legalName": "Motion to Seal a Pre-2017 Dismissal or Acquittal (Neb. Rev. Stat. § 29-3523(6))",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "1 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NE:cc-6-12-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NE:cc-6-12-instructions-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NE:cc-6-15-1-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "1 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nh_conviction_streamlined",
+      "jurisdiction": "NH",
+      "legalName": "Petition of Eligibility for Annulment of a Violation or Class B Misdemeanor Conviction, Streamlined Mandatory Route (RSA 651:5, III(a)(2) and III(b)(2))",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "1 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NH:nhjb-2311-support-fee-waiver-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NH:nhjb-2328-support-affidavit-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": true,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        },
+        {
+          "familyId": "NH:nhjb-2956-support-record-request-en",
+          "finalDisposition": "correction_required",
+          "changedByV3": false,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        }
+      ],
+      "substantiveDelta": [
+        "NH:nhjb-2956-support-record-request-en"
+      ],
+      "nonSubstantiveDelta": [
+        {
+          "familyId": "NH:nhjb-2328-support-affidavit-en",
+          "v3Action": "rerender_participant_artifact_and_evidence"
+        }
+      ],
+      "remainingNonAdoptionBlockers": [
+        "correction_required family: NH:nhjb-2956-support-record-request-en",
+        "1 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nh_petition_nonconviction_pre2019",
+      "jurisdiction": "NH",
+      "legalName": "Petition to Annul the Record of a Non-Conviction Disposed of Before January 1, 2019 (RSA 651:5, II)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "1 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NH:nhjb-2311-support-fee-waiver-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NH:nhjb-2328-support-affidavit-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": true,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        },
+        {
+          "familyId": "NH:nhjb-2956-support-record-request-en",
+          "finalDisposition": "correction_required",
+          "changedByV3": false,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        }
+      ],
+      "substantiveDelta": [
+        "NH:nhjb-2956-support-record-request-en"
+      ],
+      "nonSubstantiveDelta": [
+        {
+          "familyId": "NH:nhjb-2328-support-affidavit-en",
+          "v3Action": "rerender_participant_artifact_and_evidence"
+        }
+      ],
+      "remainingNonAdoptionBlockers": [
+        "correction_required family: NH:nhjb-2956-support-record-request-en",
+        "1 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nh_petition_vacated",
+      "jurisdiction": "NH",
+      "legalName": "Petition to Annul the Record of a Vacated Conviction Outside the Automatic Route (RSA 651:5, II, second sentence)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "1 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NH:nhjb-2311-support-fee-waiver-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "NH:nhjb-2328-support-affidavit-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": true,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        },
+        {
+          "familyId": "NH:nhjb-2956-support-record-request-en",
+          "finalDisposition": "correction_required",
+          "changedByV3": false,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        }
+      ],
+      "substantiveDelta": [
+        "NH:nhjb-2956-support-record-request-en"
+      ],
+      "nonSubstantiveDelta": [
+        {
+          "familyId": "NH:nhjb-2328-support-affidavit-en",
+          "v3Action": "rerender_participant_artifact_and_evidence"
+        }
+      ],
+      "remainingNonAdoptionBlockers": [
+        "correction_required family: NH:nhjb-2956-support-record-request-en",
+        "1 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "nj_indictable_conviction",
+      "jurisdiction": "NJ",
+      "legalName": "Expungement of an Indictable Conviction (N.J.S.A. 2C:52-2)",
+      "codexClassification": "layout_only_continuity_applies",
+      "reconciledStatus": "current_layout_only_continuity_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "a8bd80789f88f4e81853fdbf195e5538c2cc76ea71a4838fe84bdb517c9e6d22"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NJ:cn-10557-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "nj_ordinance",
+      "jurisdiction": "NJ",
+      "legalName": "Expungement of Municipal Ordinance Offences (N.J.S.A. 2C:52-4)",
+      "codexClassification": "layout_only_continuity_applies",
+      "reconciledStatus": "current_layout_only_continuity_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "a8bd80789f88f4e81853fdbf195e5538c2cc76ea71a4838fe84bdb517c9e6d22"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NJ:cn-10557-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "nm_identity_theft",
+      "jurisdiction": "NM",
+      "legalName": "Petition to Expunge Arrest Records and Public Records upon Identity Theft (NMSA 1978, Section 29-3A-3)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "3 pinned component relationship(s) are unresolved, so the component set the adoption would cover is not yet known.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "NM:nm-local-identity-theft-order-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "or_arrest_no_charges",
+      "jurisdiction": "OR",
+      "legalName": "Motion to Set Aside the Record of an Arrest, Citation or Charge Where No Accusatory Instrument Was Filed (ORS 137.225(1)(c))",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "OR:or-ojd-adult-set-aside-packet-motion-and-declaration",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "OR:or-osp-set-aside-criminal-history-request-and-instructions",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "or_dismissed_charge",
+      "jurisdiction": "OR",
+      "legalName": "Motion to Set Aside the Record of a Dismissed Charge (ORS 137.225(1)(d))",
+      "codexClassification": "outside_standing_scope",
+      "reconciledStatus": "outside_standing_scope",
+      "rationale": "The standing adoption record does not reach this track; a product/adoption decision is required before any adoption gate can close.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [],
+        "exactTrackPresentInHashBoundMemo": false
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "OR:or-ojd-adult-set-aside-packet-motion-and-declaration",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "OR:or-osp-set-aside-criminal-history-request-and-instructions",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "tx_nd_dwi_conviction",
+      "jurisdiction": "TX",
+      "legalName": "Order of nondisclosure after a DWI conviction without qualifying community supervision, Tex. Gov't Code 411.0736",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "tx_nd_dwi_deferred",
+      "jurisdiction": "TX",
+      "legalName": "Order of nondisclosure after deferred adjudication for DWI or BWI, Tex. Gov't Code 411.0726",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "tx_nd_probation_misdemeanor",
+      "jurisdiction": "TX",
+      "legalName": "Order of nondisclosure after community supervision following a misdemeanour conviction, Tex. Gov't Code 411.073",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "tx_nd_veterans_court",
+      "jurisdiction": "TX",
+      "legalName": "Order of nondisclosure after successful completion of a veterans treatment court programme, Tex. Gov't Code 411.0727",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "3 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "ut_pet_remove_link",
+      "jurisdiction": "UT",
+      "legalName": "Motion to remove the link between personal identifying information and a dismissed criminal case, Utah Code 77-40a-105",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "cda96b6a4b448f51d03e29bbc32550ec6d9b9823d62383c9ef17802ebf08c52f"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "4 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "va_exp_nonconviction",
+      "jurisdiction": "VA",
+      "legalName": "Petition for Expungement of Police and Court Records of a Non-Conviction, Va. Code § 19.2-392.2(A)",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "Everything that landed since the Codex base on this track's families is inside continuity: VA:cc-1473-form-en (rerender_participant_artifact_and_evidence). A changed artifact hash is not a changed legal statement.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": true,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "v3Action": "rerender_participant_artifact_and_evidence"
+        }
+      ],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "va_seal_enumerated_seven_year",
+      "jurisdiction": "VA",
+      "legalName": "Petition to Seal an Enumerated Offence After Seven Clean Years, Va. Code § 19.2-392.12:1(A)",
+      "codexClassification": "layout_only_continuity_applies",
+      "reconciledStatus": "current_layout_only_continuity_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "va_seal_petition_felony",
+      "jurisdiction": "VA",
+      "legalName": "Petition to Seal a Class 5 or 6 Felony or an 18.2-95 Larceny Felony, Va. Code § 19.2-392.12",
+      "codexClassification": "layout_only_continuity_applies",
+      "reconciledStatus": "current_layout_only_continuity_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "va_seal_petition_misdemeanor",
+      "jurisdiction": "VA",
+      "legalName": "Petition to Seal a Misdemeanour Conviction or Deferred Dismissal, Va. Code § 19.2-392.12",
+      "codexClassification": "layout_only_continuity_applies",
+      "reconciledStatus": "current_layout_only_continuity_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "vt_seal_pardon",
+      "jurisdiction": "VT",
+      "legalName": "Sealing after an unconditional pardon, 13 V.S.A. § 7601(4)(B)(iv) and § 7602(d)",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "Everything that landed since the Codex base on this track's families is inside continuity: VT:200-00132-form-en (already_corrected_needs_independent_review_only). A changed artifact hash is not a changed legal statement.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "VT:200-00130-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "VT:200-00132-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": true,
+          "v3Action": "already_corrected_needs_independent_review_only",
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "VT:600-00228-support-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [
+        {
+          "familyId": "VT:200-00132-form-en",
+          "v3Action": "already_corrected_needs_independent_review_only"
+        }
+      ],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "wa_vac_homicide_victim_prostitution",
+      "jurisdiction": "WA",
+      "legalName": "Family Member Application to Vacate a Homicide Victim's Prostitution Conviction, RCW 9.96.060(7)",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "stale_due_to_substantive_family_change",
+      "rationale": "A required family is still under correction (WA:crrlj-09-0100-form-en), and its participant artifact was re-rendered in v3. Continuity cannot be confirmed against an artifact that is still going to change; it is re-checked once the correction lands, not withdrawn.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "WA:crrlj-09-0100-form-en",
+          "finalDisposition": "correction_required",
+          "changedByV3": true,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        },
+        {
+          "familyId": "WA:crrlj-09-0200-form-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [
+        "WA:crrlj-09-0100-form-en"
+      ],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: WA:crrlj-09-0200-form-en",
+        "correction_required family: WA:crrlj-09-0100-form-en"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "wa_vac_misdemeanor_ordinary",
+      "jurisdiction": "WA",
+      "legalName": "Petition to Vacate a Misdemeanour or Gross Misdemeanour Conviction, RCW 9.96.060(2)",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "stale_due_to_substantive_family_change",
+      "rationale": "A required family is still under correction (WA:crrlj-09-0100-form-en), and its participant artifact was re-rendered in v3. Continuity cannot be confirmed against an artifact that is still going to change; it is re-checked once the correction lands, not withdrawn.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "WA:crrlj-09-0100-form-en",
+          "finalDisposition": "correction_required",
+          "changedByV3": true,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        },
+        {
+          "familyId": "WA:crrlj-09-0200-form-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [
+        "WA:crrlj-09-0100-form-en"
+      ],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: WA:crrlj-09-0200-form-en",
+        "correction_required family: WA:crrlj-09-0100-form-en"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "wa_vac_substance_use_disorder",
+      "jurisdiction": "WA",
+      "legalName": "Petition to Vacate a Drug Conviction After a Substance Use Disorder Programme, RCW 9.96.060(6)",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "stale_due_to_substantive_family_change",
+      "rationale": "A required family is still under correction (WA:crrlj-09-0100-form-en), and its participant artifact was re-rendered in v3. Continuity cannot be confirmed against an artifact that is still going to change; it is re-checked once the correction lands, not withdrawn.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "WA:crrlj-09-0100-form-en",
+          "finalDisposition": "correction_required",
+          "changedByV3": true,
+          "v3Action": "rerender_participant_artifact_and_evidence",
+          "participantArtifactRerenderedInV3": true
+        },
+        {
+          "familyId": "WA:crrlj-09-0200-form-en",
+          "finalDisposition": "held_on_source_or_design",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [
+        "WA:crrlj-09-0100-form-en"
+      ],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "held family: WA:crrlj-09-0200-form-en",
+        "correction_required family: WA:crrlj-09-0100-form-en"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "wa_vac_treaty_fishing",
+      "jurisdiction": "WA",
+      "legalName": "Application to Vacate a Pre-1975 Treaty Indian Fishing Rights Conviction, RCW 9.96.060(4)",
+      "codexClassification": "insufficient_evidence_to_classify",
+      "reconciledStatus": "insufficient_component_bridge",
+      "rationale": "No exact family relationship resolves for this track, so there is nothing for an adoption record to attach to. This is a relationship-metadata gap, not a legal question.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [
+        "5 unresolved component relationship(s)",
+        "no exact family relationship resolves"
+      ],
+      "terminal": false
+    },
+    {
+      "trackId": "wi_exp_cr266",
+      "jurisdiction": "WI",
+      "legalName": "Petition to Expunge Criminal Court Record of Conviction, Non-Probation/Non-Incarceration (Wis. Stat. § 973.015(1m); form CR-266)",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "Everything that landed since the Codex base on this track's families is inside continuity: WI:cr-267-form-en (already_corrected_needs_independent_review_only). A changed artifact hash is not a changed legal statement.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "028ac578608bf73db912e355a18824d2100a2e3e8052d9ef3040d437dbf08c28"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "WI:cr-266-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": "rendered_artifact_manifest_repair_only",
+          "participantArtifactRerenderedInV3": false
+        },
+        {
+          "familyId": "WI:cr-267-form-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": true,
+          "v3Action": "already_corrected_needs_independent_review_only",
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [
+        {
+          "familyId": "WI:cr-267-form-en",
+          "v3Action": "already_corrected_needs_independent_review_only"
+        }
+      ],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    },
+    {
+      "trackId": "wi_nc_doj_challenge",
+      "jurisdiction": "WI",
+      "legalName": "Wisconsin Criminal History Record Challenge or Correction (form DJ-LE-247)",
+      "codexClassification": "standing_adoption_applies",
+      "reconciledStatus": "current_standing_adoption_applies",
+      "rationale": "No required family changed since the Codex base, so the determination stands unchanged.",
+      "supportingAdoptionRecord": {
+        "recordStatus": "adopted",
+        "adoptedOn": "2026-08-08",
+        "boundLegalDesignMemoSha256": [
+          "028ac578608bf73db912e355a18824d2100a2e3e8052d9ef3040d437dbf08c28"
+        ],
+        "exactTrackPresentInHashBoundMemo": true
+      },
+      "familyFingerprintsCompared": [
+        {
+          "familyId": "WI:dj-le-247-support-en",
+          "finalDisposition": "technical_approved",
+          "changedByV3": false,
+          "v3Action": null,
+          "participantArtifactRerenderedInV3": false
+        }
+      ],
+      "substantiveDelta": [],
+      "nonSubstantiveDelta": [],
+      "remainingNonAdoptionBlockers": [],
+      "terminal": false
+    }
+  ]
+}

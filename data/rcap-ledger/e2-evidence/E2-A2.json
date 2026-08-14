@@ -1,0 +1,1492 @@
+{
+  "schemaVersion": "rcap-e2-evidence/v1",
+  "laneId": "E2-A2",
+  "group": "E2-A",
+  "baseCommit": "c7225bcf8f2fb2ab0deb5c333d2278937b257694",
+  "queueSha256": "ca7758efa6e64f39c52c51038c3c3b455e6848d64ab031a3068b437ffb86754f",
+  "webAccessAvailable": false,
+  "findings": [
+    {
+      "jobId": "E2-A-KY-ky_felony_vacatur_expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ky_felony_vacatur_expungement",
+        "compiledPathwayIds": [
+          "felony-conviction-431073"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 431.073(1)(a)",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "q the offense is one of the eligible offenses listed in KRS 431.073(1)(a). ... This Application is filed no sooner than five years after completion of the Defendant's sentence or successful completion of the Defendant's probation or parole, whichever occurs later. AOC-496.3 Rev. 6-23"
+        },
+        {
+          "kind": "official_form",
+          "value": "AOC-496.3",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs: 'AOC-496.3, Application to Vacate and Expunge Felony Conviction, Rev. 6-23' on registry track ky_felony_vacatur_expungement"
+        }
+      ],
+      "reasoning": "The registry track's operative statute KRS 431.073 and its named official form AOC-496.3 both appear inside the sole candidate: the compiled pathway is labelled 'Eligible felony conviction vacatur and expungement under KRS 431.073' and the profile embeds the AOC-496.3 form text citing KRS 431.073(1)(a). The other KY pathways implement KRS 431.078 and KRS 431.076, so the shared operative citation isolates exactly this candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-KY-ky_nonconviction_expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ky_nonconviction_expungement",
+        "compiledPathwayIds": [
+          "nonconviction-431076"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "AOC-497.2",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "AOC-497.2 Doc. Code: PEXA ... PETITION FOR EXPUNGEMENT (FOR ACQUITTAL, DISMISSAL, OR FAILURE TO INDICT) ... KRS 431.076"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 431.076",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "label: 'Acquittal, dismissal, or failure-to-indict expungement under KRS 431.076'"
+        }
+      ],
+      "reasoning": "The registry track names form AOC-497.2 (Petition for Expungement for Acquittal, Dismissal, or Failure to Indict) and statute KRS 431.076; the compiled profile embeds the AOC-497.2 form text with its KRS 431.076 caption inside the sole candidate pathway. Shared operative citation plus shared official form isolate exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-KY-ky_void_seal_controlled_substance",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ky_void_seal_controlled_substance",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "KRS 218A.275, KRS 27A.099 and form AOC-334 have zero occurrences in the KY compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "grep of the full profile JSON: '218A.275' 0 hits, '218A.276' 0 hits, '27A.099' 0 hits, 'AOC-334' 0 hits"
+        },
+        {
+          "kind": "official_form",
+          "value": "AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs on registry track ky_void_seal_controlled_substance name 'AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 431.078 (the sole candidate's operative statute)",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "The petition is filed no sooner than five years after sentence completion or successful completion of probation, whichever is later, except the named voided first-possession routes."
+        }
+      ],
+      "reasoning": "The registry track is a motion to void a first-possession conviction and seal the record under KRS 218A.275, using order form AOC-334. Neither KRS 218A.275, KRS 27A.099, nor AOC-334 appears anywhere in the KY compiled profile. The sole candidate implements the KRS 431.078 misdemeanor expungement petition (form AOC-497.2 family) and refers to the voided first-possession routes only as an exception to its own five-year waiting rule -- it does not implement the void-and-seal motion. The mechanism is absent from the compiled runtime; a custom pleading pathway would need to be built.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-KY-ky_void_seal_marijuana_synthetic_salvia",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ky_void_seal_marijuana_synthetic_salvia",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "KRS 218A.276, KRS 27A.099 and form AOC-334 have zero occurrences in the KY compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "grep of the full profile JSON: '218A.275' 0 hits, '218A.276' 0 hits, '27A.099' 0 hits, 'AOC-334' 0 hits"
+        },
+        {
+          "kind": "official_form",
+          "value": "AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs on registry track ky_void_seal_marijuana_synthetic_salvia name 'AOC-334, Order Voiding Conviction and Sealing Records, Rev. 1-22'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "KRS 431.078 (the sole candidate's operative statute)",
+          "source": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "quote": "The petition is filed no sooner than five years after sentence completion or successful completion of probation, whichever is later, except the named voided first-possession routes."
+        }
+      ],
+      "reasoning": "The registry track is a motion to void a first-possession conviction and seal the record under KRS 218A.276, using order form AOC-334. Neither KRS 218A.276, KRS 27A.099, nor AOC-334 appears anywhere in the KY compiled profile. The sole candidate implements the KRS 431.078 misdemeanor expungement petition (form AOC-497.2 family) and refers to the voided first-possession routes only as an exception to its own five-year waiting rule -- it does not implement the void-and-seal motion. The mechanism is absent from the compiled runtime; a custom pleading pathway would need to be built.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MD-md_10105_early",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "md_10105_early",
+        "compiledPathwayIds": [
+          "adult-non-conviction-expungement-under-crim-proc-10-105"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "CC-DC-CR-072C and CC-DC-CR-078",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "Early filing for all acquittal/dismissal/not guilty/nolle, less than 3 years CC-DC-CR-072C ... Early filing release CC-DC-CR-078 - General Waiver and Release"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Md. Code, Crim. Proc. \u00a7 10-105 (early filing with tort waiver)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "Acquittal, nolle prosequi, or dismissal -- expungeable (note the 3-year rule below unless a tort waiver is filed)."
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "juvenile-expungement pathway is governed by Md. Cts. & Jud. Proc. \u00a7 3-8A-27.1 and Md. Rule 11-506, not Crim. Proc. \u00a7 10-105",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "identifies the governing law as Courts & Judicial Proceedings 3-8A-27.1 and Maryland Rule 11-506"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "second-chance-act-shielding pathway is governed by Md. Pub. Safety \u00a7 4-503, not Crim. Proc. \u00a7 10-105",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "Path 3 -- Shielding (Pub. Safety \u00a7 4-503) A lesser remedy that makes the record inaccessible to the public"
+        }
+      ],
+      "reasoning": "The registry track is the early \u00a7 10-105(c)(1) petition with General Waiver and Release, naming forms CC-DC-CR-072C and CC-DC-CR-078. The profile's forms table assigns both forms to the early-filing branch of the adult non-conviction route, and the adult \u00a7 10-105 pathway's own rule text carries the tort-waiver early-filing rule. The other candidates are scoped to different operative statutes (CJP \u00a7 3-8A-27.1 juvenile; Pub. Safety \u00a7 4-503 shielding), so the waiver/early-filing evidence isolates exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MD-md_10105_favorable",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "md_10105_favorable",
+        "compiledPathwayIds": [
+          "adult-non-conviction-expungement-under-crim-proc-10-105"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "CC-DC-CR-072A",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "Acquittal, dismissal, PBJ, nolle prosequi, stet, not criminally responsible, juvenile transfer CC-DC-CR-072A - Petition for Expungement of Records"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Md. Code, Crim. Proc. \u00a7 10-105",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "label: 'Adult non-conviction expungement under Crim. Proc. \u00a7 10-105'"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "juvenile-expungement pathway is governed by Md. Cts. & Jud. Proc. \u00a7 3-8A-27.1 and Md. Rule 11-506, not Crim. Proc. \u00a7 10-105",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "identifies the governing law as Courts & Judicial Proceedings 3-8A-27.1 and Maryland Rule 11-506"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "second-chance-act-shielding pathway is governed by Md. Pub. Safety \u00a7 4-503, not Crim. Proc. \u00a7 10-105",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "Path 3 -- Shielding (Pub. Safety \u00a7 4-503) A lesser remedy that makes the record inaccessible to the public"
+        }
+      ],
+      "reasoning": "The registry track is the general \u00a7 10-105 favorable-disposition petition and names form CC-DC-CR-072A. The profile's forms table maps CC-DC-CR-072A to the acquittal/dismissal/PBJ/nolle/stet route, which is the adult non-conviction \u00a7 10-105 pathway; that pathway's label carries the operative citation. The juvenile and shielding candidates run on different statutes, so exactly one candidate carries \u00a7 10-105 and the named form.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MD-md_cannabis_petition",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "md_cannabis_petition",
+        "compiledPathwayIds": [
+          "cannabis-specific-expungement"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "CC-DC-CR-072D",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "Cannabis possession under Criminal Law 5-601 Form CC-DC-CR-072D; petition after sentence completion Possession with intent to distribute cannabis Form CC-DC-CR-072D; 3 years after sentence completion"
+        },
+        {
+          "kind": "official_form",
+          "value": "CC-DC-CR-072D named by the registry track",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs on md_cannabis_petition include 'CC-DC-CR-072D' and 'ccdccr072d.pdf'"
+        }
+      ],
+      "reasoning": "The registry track (cannabis charges and convictions, spanning \u00a7 10-105(a)(12) possession and \u00a7 10-110 PWID-cannabis grounds) names form CC-DC-CR-072D. Of the five candidates, only the cannabis-specific-expungement pathway carries CC-DC-CR-072D in its own rule text, and it carries it for both the possession route and the 3-year PWID route -- matching the track's dual statutory basis. The official form number the registry names is carried by exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MD-md_pardon_expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "md_pardon_expungement",
+        "compiledPathwayIds": [
+          "adult-non-conviction-expungement-under-crim-proc-10-105"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Md. Code, Crim. Proc. \u00a7 10-105 (pardon ground routed to the 10-105 route)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "Full and unconditional governor pardon 10-105 route Only if one criminal act and not crime of violence; timing constraints apply"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "juvenile-expungement pathway is governed by Md. Cts. & Jud. Proc. \u00a7 3-8A-27.1 and Md. Rule 11-506, not Crim. Proc. \u00a7 10-105",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "identifies the governing law as Courts & Judicial Proceedings 3-8A-27.1 and Maryland Rule 11-506"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "second-chance-act-shielding pathway is governed by Md. Pub. Safety \u00a7 4-503, not Crim. Proc. \u00a7 10-105",
+          "source": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "quote": "Path 3 -- Shielding (Pub. Safety \u00a7 4-503) A lesser remedy that makes the record inaccessible to the public"
+        }
+      ],
+      "reasoning": "The registry track is the \u00a7 10-105(a)(8)/(c)(4) petition after a full and unconditional pardon. The profile's routing table sends the 'Full and unconditional governor pardon' to the '10-105 route', and among the candidates only the adult \u00a7 10-105 pathway implements Crim. Proc. \u00a7 10-105 (juvenile = CJP \u00a7 3-8A-27.1; shielding = Pub. Safety \u00a7 4-503). Caveats recorded for E3: the (a)(8) subsection is not quoted anywhere in the profile, and the registry names form CC-DC-CR-072B, which the profile's forms table associates with the guilty-disposition route -- a fidelity gap in the compiled pathway's pardon coverage, but not a mapping ambiguity among these candidates.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-MI-mi_auto_felony",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mi_auto_felony",
+        "compiledPathwayIds": [
+          "automatic-clean-slate-set-aside-under-mcl-780-621g"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621g",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "label: 'Automatic Clean Slate set-aside under MCL 780.621g' (automatic: true, routeType: automatic)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621g(2) felony branch content",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "An eligible felony is set aside automatically 10 years after sentencing/release; ... No application -- the MSP and courts process it."
+        }
+      ],
+      "reasoning": "The registry track is the automatic felony set-aside under MCL 780.621g(2). The sole candidate is the profile's only automatic pathway, its label carries the operative section MCL 780.621g, and its rule text states the felony branch (automatic set-aside 10 years after sentencing/release, no application). The shared operative citation plus the matching automatic-route content isolate the candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MI-mi_auto_misd92",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mi_auto_misd92",
+        "compiledPathwayIds": [
+          "automatic-clean-slate-set-aside-under-mcl-780-621g"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621g",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "label: 'Automatic Clean Slate set-aside under MCL 780.621g'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621g misdemeanor branches incl. <=92-day offenses",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "Automatic -- misdemeanor (>= 93 days 7 years Imposition of sentence or <= 92 days)"
+        }
+      ],
+      "reasoning": "The registry track covers automatic set-aside of misdemeanors punishable by 92 days or less under MCL 780.621g(1) and (3). The sole candidate carries the operative section in its label, and the profile's waiting-period table shows the <=92-day misdemeanor branch inside this same automatic track (7 years from imposition of sentence). The subsection split (1)/(3) versus (4) lives inside one compiled automatic unit, so the track resolves to that unit.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MI-mi_auto_misd93",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mi_auto_misd93",
+        "compiledPathwayIds": [
+          "automatic-clean-slate-set-aside-under-mcl-780-621g"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621g",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "label: 'Automatic Clean Slate set-aside under MCL 780.621g'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621g(4) 93-day-plus misdemeanor branch content",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "up to FOUR eligible (>=93-day) misdemeanors 7 years after sentencing"
+        }
+      ],
+      "reasoning": "The registry track covers automatic set-aside of misdemeanors punishable by 93 days or more under MCL 780.621g(4). The sole candidate carries the operative section in its label and its summary states the exact (4)-branch rule: up to four eligible >=93-day misdemeanors, seven years after sentencing.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MI-mi_deferral_status",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "mi_deferral_status",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "None of the track's deferral statutes appears in the MI compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "grep of the full profile JSON: 'MCL 333.7411' 0 hits, '762.11' 0 hits, '762.15' 0 hits, '769.4a' 0 hits, '436.1703' 0 hits, '600.1070' 0 hits, '600.1209' 0 hits, '750.350a' 0 hits, '750.430' 0 hits"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621 (the sole candidate's operative statute)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "label: 'Set-aside by application under MCL 780.621'"
+        }
+      ],
+      "reasoning": "The registry track catalogs completed deferrals (MCL 333.7411, HYTA 762.11-762.15, 769.4a, specialty-court deferrals, etc.) and their record consequences. Not one of those operative statutes appears anywhere in the MI compiled profile; the sole candidate implements the MCL 780.621 set-aside application, a different mechanism that the track cites only for how deferrals interact with set-aside counting. The deferral-status mechanism has no runtime representation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MI-mi_setaside_application",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mi_setaside_application",
+        "compiledPathwayIds": [
+          "set-aside-by-application-under-mcl-780-621"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "label: 'Set-aside by application under MCL 780.621'"
+        },
+        {
+          "kind": "official_form",
+          "value": "MC 227",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "MC 227 -- Application to Set Aside Conviction(s): the main form for non-marijuana convictions, with checkboxes for the 3-year (misdemeanors), 5-year (one serious misdemeanor / one OWI / one felony), and 7-year (multiple felonies) paths."
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the marijuana candidate is scoped to MCL 780.621e / form MC 227a, which this track does not cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "MARIHUANA (MCL 780.621e, form MC 227a): A misdemeanor marihuana conviction may be set aside by application"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the trafficking candidate is scoped to MCL 780.621(3) / form MC 227b, carried by the separate registry track mi_setaside_trafficking",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "Human trafficking (MCL 780.621(3)): a victim may apply at any time to set aside an offense that was a direct result of being trafficked (form MC 227b)."
+        }
+      ],
+      "reasoning": "The registry track is the general MCL 780.621 application, naming SCAO form MC 227. Among the three candidates, the general set-aside pathway carries the operative citation in its label and MC 227 is the profile's main application form; the marijuana candidate is scoped to MCL 780.621e/MC 227a (not cited by this track, and already exact-mapped to registry track mi_setaside_marihuana in the crosswalk), and the trafficking candidate is scoped to MCL 780.621(3)/MC 227b (the separate mi_setaside_trafficking track). Scope restrictions remove all but one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MI-mi_setaside_csc4_pre2015",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mi_setaside_csc4_pre2015",
+        "compiledPathwayIds": [
+          "set-aside-by-application-under-mcl-780-621"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621 and MCL 780.621c (parent sections of the track's 780.621(1)(d) / 780.621c(c) citations)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "label: 'Set-aside by application under MCL 780.621'; profile also carries MCL 780.621c exclusion-list content ('Some offenses cannot be set aside at all (MCL 780.621c)')"
+        }
+      ],
+      "reasoning": "The registry track is the application to set aside a pre-2015 CSC-IV conviction, a conditioned branch of the MCL 780.621 application (cited at 780.621(1)(d) with the 780.621c(c) exclusion carve-out). The sole candidate implements the MCL 780.621 application and carries the 780.621c exclusion framework. The specific subsections (1)(d) and c(c) are not quoted in the profile -- recorded as a fidelity gap -- but both operative parent sections live only in this candidate, and no other pathway addresses CSC-IV.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-MI-mi_setaside_first_owi",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mi_setaside_first_owi",
+        "compiledPathwayIds": [
+          "first-offense-owi-set-aside-by-application"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "MC 227 (5-year one-OWI branch; registry names 'MC 227 item 2.c')",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "One serious misd. / one OWI / Application Petition (MC 227) 5 yrs"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "registry track scope confirms MC 227 item 2.c is the OWI-specific affirmation",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Once only. MC 227 item 2.c requires an affirmation that the applicant has not previously applied for and received a first-violation OWI set-aside."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "first-violation OWI set-aside mechanism documented in the profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "OWI carve-in (Feb 2022). A first-offense OWI became set-aside-eligible by application 5 years after probation ends -- a recent and frequently unknown change."
+        }
+      ],
+      "reasoning": "The registry track is the first-violation OWI set-aside application. The compiled profile contains a dedicated pathway 'first-offense-owi-set-aside-by-application' -- not in the frozen candidate list -- and documents the exact mechanism (application-only, 5 years after probation, form MC 227's one-OWI 5-year branch, matching the registry's MC 227 item 2.c form reference). The three listed candidates are the general, marijuana, and trafficking applications, none of which is the OWI unit; the dedicated OWI pathway is the single runtime representation. Fidelity gap for E3: the operative subsections MCL 780.621(4)(d) and 780.621d(2) are absent from the profile text.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-MI-mi_setaside_trafficking",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mi_setaside_trafficking",
+        "compiledPathwayIds": [
+          "human-trafficking-related-set-aside-application"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "MCL 780.621(3)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MI-michigan.json",
+          "quote": "Human trafficking (MCL 780.621(3)): a victim may apply at any time to set aside an offense that was a direct result of being trafficked (form MC 227b)."
+        },
+        {
+          "kind": "official_form",
+          "value": "MC 227b",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs on mi_setaside_trafficking include 'MC 227b' and 'MC-227b__application-by-human-trafficking-victim-to-set-aside-convictions__rev-2024-07.pdf'"
+        }
+      ],
+      "reasoning": "The registry track cites MCL 780.621(3) and form MC 227b. The compiled pathway 'human-trafficking-related-set-aside-application' -- which the frozen candidate list omits in favor of the general 780.621 pathway -- carries the exact operative citation MCL 780.621(3) and the exact form MC 227b in its own rule text. Statutory citation and official form both isolate the trafficking pathway, not the listed general candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MN-mn_299c11_arrest_demand",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mn_299c11_arrest_demand",
+        "compiledPathwayIds": [
+          "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. \u00a7 299C.11",
+          "source": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+          "quote": "label: 'Arrest-identification-data destruction when no charges were filed (Minn. Stat. \u00a7 299C.11)'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. \u00a7 299C.11, subd. 1(b) demand mechanism content",
+          "source": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+          "quote": "If the person was arrested but no charges were filed, there may be no court case to expunge. The person may instead request destruction of arrest identification data"
+        }
+      ],
+      "reasoning": "The registry track is the written demand for destruction of arrest identification data under Minn. Stat. \u00a7 299C.11, subd. 1(b). The sole candidate carries \u00a7 299C.11 in its label and its summary describes the same mechanism (no charges filed; request destruction of arrest identification data). No other MN pathway cites \u00a7 299C.11 in its label.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MN-mn_mistaken_identity_iddata",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mn_mistaken_identity_iddata",
+        "compiledPathwayIds": [
+          "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Minn. Stat. \u00a7 299C.11 (the track's sole cited authority)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+          "quote": "label: 'Arrest-identification-data destruction when no charges were filed (Minn. Stat. \u00a7 299C.11)'"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the profile's mistaken-identity pathway runs on \u00a7 609A.017, an authority this track does not cite",
+          "source": "src/lib/rcap-engine/compiled/profiles/MN-minnesota.json",
+          "quote": "label: 'Automatic mistaken-identity expungement under \u00a7 609A.017'"
+        }
+      ],
+      "reasoning": "The registry track ('Mistaken Identity; Destruction of Identification Data') cites only Minn. Stat. \u00a7 299C.11. Among compiled pathways the only \u00a7 299C.11 unit is the arrest-identification-data destruction pathway, which is the sole candidate. The profile's automatic mistaken-identity pathway shares the phrase 'mistaken identity' but runs on \u00a7 609A.017, a statute the track does not cite -- name similarity is not evidence, and the cited authority isolates the 299C.11 candidate. Subdivision-level text for the mistaken-identity scenario is not quoted in the profile, so confidence is medium.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-MO-mo-610-141-automatic-drug",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "mo-610-141-automatic-drug",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "Mo. Rev. Stat. \u00a7\u00a7 610.141, 610.143, 610.144 (2026 automatic-expungement provisions) have zero occurrences in the MO compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+          "quote": "grep of the full profile JSON: '610.141' 0 hits, '610.143' 0 hits, '610.144' 0 hits, 'SB 1421' 0 hits"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "RSMo \u00a7 610.140 (the sole candidate's operative statute, a petition mechanism)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+          "quote": "label: 'General arrest, charge, plea, trial, or conviction expungement under RSMo \u00a7 610.140' -- 'Section 610.140 allows a person to apply in the Missouri court where they were charged or found guilty for expungement'"
+        }
+      ],
+      "reasoning": "The registry track is the state-initiated automatic expungement of eligible drug offenses under \u00a7 610.141 (enacted 2026 by CCS SS SB 1421), with \u00a7\u00a7 610.143-.144 companions. None of those sections appears anywhere in the MO compiled profile. The sole candidate implements the \u00a7 610.140 petition route -- an application by the person, not a state-initiated automatic process -- so it is a different mechanism, not this track's representation. The automatic-drug mechanism is missing from the compiled runtime.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MS-ms-diversion",
+      "outcome": "resolved",
+      "proposedDisposition": "represented_by_compiled_variants",
+      "proposedMapping": {
+        "registryTrackId": "ms-diversion",
+        "compiledPathwayIds": [
+          "pretrial-intervention-or-diversion-expungement",
+          "intervention-court-completion-expungement"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. \u00a7 99-15-123",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Under Mississippi's pretrial intervention statutes, successful completion results in a noncriminal disposition of the pending charge or charges. If the person violates the agreement, prosecution resumes. (law.justia.com .../section-99-15-123/)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. \u00a7 9-23-23",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Mississippi intervention court completion can result in expungement. Under 9-23-23, if the participant completes all intervention court requirements, including fines and fees not waived by the court, the charge and prosecution are dismissed"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the registry's own scope note splits the track into the two mechanisms these pathways carry",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Diversion produces a disposition; the \u00a7 99-15-123(3) petition or the \u00a7 9-23-23 result is what clears a record."
+        }
+      ],
+      "reasoning": "The registry track combines expungement after pretrial intervention (\u00a7 99-15-123) and after intervention-court completion (\u00a7 9-23-23). Neither frozen candidate (the felony and first-offender-misdemeanor conviction routes under \u00a7 99-19-71) carries those citations, but two other compiled pathways do: 'pretrial-intervention-or-diversion-expungement' carries the \u00a7 99-15-123 mechanism and 'intervention-court-completion-expungement' carries the \u00a7 9-23-23 mechanism. The track is represented by those two compiled variants together, matching the registry's own statement of the track's dual mechanism.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MS-ms-fel",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ms-fel",
+        "compiledPathwayIds": [
+          "eligible-felony-conviction-expungement-99-19-71"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. \u00a7 99-19-71(2) one-felony mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 years after successful completion"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the other candidate is scoped to \u00a7 99-19-71(1) first-offender misdemeanors",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "label: 'First-offender nontraffic misdemeanor conviction expungement (\u00a7 99-19-71(1))'"
+        }
+      ],
+      "reasoning": "The registry track is the one-felony expungement petition under \u00a7 99-19-71(2). Of the two candidates, the felony pathway states the exact (2)-subsection mechanism (one felony conviction, fines and costs paid, five-year wait), while the other candidate's label and summary confine it to \u00a7 99-19-71(1) first-offender non-traffic misdemeanors. The subsection scope removes all but one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MS-ms-misd-1st",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ms-misd-1st",
+        "compiledPathwayIds": [
+          "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. \u00a7 99-19-71(1)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "Under 99-19-71(1), a person convicted of a misdemeanor that is not a traffic violation, and who is a first offender, may petition the justice, county, circuit, or municipal court where the conviction occurred for expungement from all public records."
+        }
+      ],
+      "reasoning": "The registry track is the first-offender misdemeanor expungement under \u00a7 99-19-71(1). One candidate's label and opening summary carry the exact operative subsection and its elements (non-traffic misdemeanor, first offender, convicting court); the other candidate is the felony route under \u00a7 99-19-71(2). The subsection citation isolates exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MS-ms-nonconv",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ms-nonconv",
+        "compiledPathwayIds": [
+          "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Miss. Code Ann. \u00a7 99-19-71(4)",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "the case was dismissed, the charges were dropped, there was no disposition, or the person was found not guilty at trial. This appears in both 99-15-26(5) and 99-19-71(4)."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "\u00a7 99-19-71(4) routing in the profile's decision tree",
+          "source": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+          "quote": "If dismissed, dropped, no disposition, or not guilty Route: Potential mandatory non-conviction expungement under 99-15-26(5) and/or 99-19-71(4). Get disposition proof and file in the originating court."
+        }
+      ],
+      "reasoning": "The registry track is the non-conviction expungement petition under \u00a7 99-19-71(4). Neither frozen candidate fits: both are conviction routes under \u00a7 99-19-71(1) and (2). The compiled pathway 'non-conviction-expungement-for-dismissal-no-disposition-or-acquittal' -- omitted from the candidate list -- carries the \u00a7 99-19-71(4) citation and the profile's decision tree routes dismissed/dropped/no-disposition/not-guilty cases to it. The operative subsection isolates that pathway as the runtime representation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-MT-mt_misdemeanor_expungement",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "mt_misdemeanor_expungement",
+        "compiledPathwayIds": [
+          "misdemeanor-conviction-expungement-under-mont-code-46-18-1104"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Mont. Code Ann. \u00a7 46-18-1104",
+          "source": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+          "quote": "label: 'Misdemeanor-conviction expungement under Mont. Code \u00a7 46-18-1104'"
+        }
+      ],
+      "reasoning": "The registry track is the petition for expungement of misdemeanor records under Title 46, ch. 18, part 11, whose operative petition provision is \u00a7 46-18-1104. The sole candidate carries that operative citation in its label and is the profile's only part-11 unit. The remaining part-11 sections the track cites (46-18-1102 through 46-18-1111 apart from 1104) do not appear in the profile -- recorded as a fidelity note -- but the operative petition section isolates the candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NC-nc_145_5_felony",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nc_145_5_felony",
+        "compiledPathwayIds": [
+          "nonviolent-conviction-expunction-under-g-s-15a-145-5"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.C. Gen. Stat. \u00a7 15A-145.5",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "label: 'Nonviolent conviction expunction under G.S. 15A-145.5'"
+        },
+        {
+          "kind": "official_form",
+          "value": "AOC-CR-297",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "AOC-CR-297 Expunge nonviolent FELONY conviction(s) (15A-145.5)"
+        }
+      ],
+      "reasoning": "The registry track is the nonviolent-felony expunction petition under G.S. 15A-145.5 on form AOC-CR-297. The sole candidate carries the operative statute in its label, and the profile's forms table ties AOC-CR-297 (the form the registry names) to the felony branch of this same pathway. Statute and form both land on exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NC-nc_145_5_misdemeanor",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nc_145_5_misdemeanor",
+        "compiledPathwayIds": [
+          "nonviolent-conviction-expunction-under-g-s-15a-145-5"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.C. Gen. Stat. \u00a7 15A-145.5",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "One nonviolent misdemeanor -- after 3 years (reduced from 5 by the 2025 law, for petitions filed on/after 7/9/2025). More than one nonviolent misdemeanor -- after 7 years from the last co[nviction]"
+        },
+        {
+          "kind": "official_form",
+          "value": "AOC-CR-298",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "AOC-CR-298 Expunge ONE or MORE nonviolent MISDEMEANOR convictions (15A-145.5)"
+        }
+      ],
+      "reasoning": "The registry track is the nonviolent-misdemeanor expunction under G.S. 15A-145.5 on form AOC-CR-298. The sole candidate carries the statute in its label, states the misdemeanor waiting tiers in its own summary, and the profile's forms table ties AOC-CR-298 (the registry's named form) to the misdemeanor branch.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NC-nc_146_acquittal_petition",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nc_146_acquittal_petition",
+        "compiledPathwayIds": [
+          "dismissal-and-not-guilty-expunction-under-g-s-15a-146"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "AOC-CR-288",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "AOC-CR-288 Petition & order to expunge an ACQUITTAL / not-guilty (15A-146(a2))"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "N.C. Gen. Stat. \u00a7 15A-146(a2)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs: 'AOC-CR-288, Petition And Order Of Expunction Under G.S. 15A-146(a2) (Not Guilty Or Not Responsible), Rev. 3/25'"
+        }
+      ],
+      "reasoning": "The registry track is the not-guilty/not-responsible expunction petition under G.S. 15A-146(a2) on form AOC-CR-288. The profile's forms table carries AOC-CR-288 with the exact subsection (a2), inside the sole candidate's statute family; the registry names the same form. Subsection-level citation plus shared official form isolate the candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NC-nc_146_dismissal_petition",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nc_146_dismissal_petition",
+        "compiledPathwayIds": [
+          "dismissal-and-not-guilty-expunction-under-g-s-15a-146"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "official_form",
+          "value": "AOC-CR-287",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "AOC-CR-287 Petition & order to expunge a DISMISSAL (G.S. 15A-146(a)/(a1))"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "N.C. Gen. Stat. \u00a7 15A-146(a)/(a1)",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs: 'AOC-CR-287, Petition And Order Of Expunction Under G.S. 15A-146(a) Or G.S. 15A-146(a1) (Charge(s) Dismissed), Rev. 12/25'"
+        }
+      ],
+      "reasoning": "The registry track is the dismissed-charge expunction petition under G.S. 15A-146(a)/(a1) on form AOC-CR-287. The profile's forms table carries AOC-CR-287 with the exact subsections (a)/(a1), and the registry names the same form. The sole candidate is the profile's 15A-146 unit.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NC-nc_auto_146_a4",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nc_auto_146_a4",
+        "compiledPathwayIds": [
+          "dismissal-and-not-guilty-expunction-under-g-s-15a-146"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "G.S. 15A-146 automatic expunction branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "All charges dismissed/NG 15A-146 Automatic, 180-210 days No filing (on/after 12/1/2021)"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "G.S. 15A-146 (automatic relief documented within the same compiled unit)",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "G.S. 15A-146 Expunction of DISMISSALS and NOT-GUILTY findings (incl. automatic relief)"
+        }
+      ],
+      "reasoning": "The registry track is the automatic expunction of dismissals and not-guilty findings under G.S. 15A-146(a4). The sole candidate is the profile's 15A-146 unit, and the profile documents the automatic branch inside it: all-charges-dismissed/not-guilty cases on or after 12/1/2021 are expunged automatically in 180-210 days with no filing. The literal '(a4)' subsection does not appear in the profile -- a fidelity note for E3 -- but the automatic mechanism is documented within the only 15A-146 pathway, so the track resolves to it.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NC-nc_auto_146_a4_agency_followup",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "nc_auto_146_a4_agency_followup",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "No agency-conformance mechanism, G.S. 15A-150/15A-151 citation, or form AOC-G-260 exists in the NC compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json",
+          "quote": "grep of the full profile JSON: '15A-150' 0 hits, '15A-151' 0 hits, 'AOC-G-260' 0 hits, 'conform' 0 hits, 'record holder' 0 hits"
+        },
+        {
+          "kind": "official_form",
+          "value": "AOC-G-260 named by the registry track",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs: 'AOC-G-260, Application For Certificate Of Verification Of Prior Expunction Or Discharge'"
+        }
+      ],
+      "reasoning": "The registry track is a written request asking a non-court record holder to conform its records to an automatic G.S. 15A-146(a4) expunction, supported by G.S. 15A-150/15A-151 notification provisions and form AOC-G-260. None of those authorities or the form appears in the NC compiled profile, and the sole candidate implements the court expunction itself, not the downstream agency follow-up. The follow-up artifact has no runtime representation.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-ND-nd-nonconviction-auto-close-verify",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nd-nonconviction-auto-close-verify",
+        "compiledPathwayIds": [
+          "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. \u00a7 12-60.1-05(1) automatic-closing branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "If the nonconviction order was entered on or after August 1, 2025 The court must close the court record 61 days after the order of nonconviction."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. \u00a7 12-60.1-05",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "label: 'Non-conviction court-record closing under N.D.C.C. \u00a7 12-60.1-05'"
+        }
+      ],
+      "reasoning": "The registry track is the automatic closing (and verification) of nonconviction court records entered on or after 1 August 2025 under \u00a7 12-60.1-05(1). The sole candidate carries the operative section in its label, and the profile states the exact (1)-branch rule: for orders on or after August 1, 2025, the court must close the record 61 days after the order. The automatic branch lives inside this single compiled unit.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-ND-nd-nonconviction-close-petition",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nd-nonconviction-close-petition",
+        "compiledPathwayIds": [
+          "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. \u00a7 12-60.1-05(2) petition branch",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "Use the Petition to Close Nonconviction Records if the case was fully dismissed or fully acquitted before August 1, 2025 and no statutory exception applies. The petition is filed with the clerk of court where the criminal case is filed, there is no filing fee"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "N.D.C.C. \u00a7 12-60.1-05",
+          "source": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
+          "quote": "If order was on or after August 1, 2025, court should close after 61 days. If before August 1, 2025, use Petition to Close Nonconviction Records if no exception applies."
+        }
+      ],
+      "reasoning": "The registry track is the petition to close nonconviction records entered before 1 August 2025 under \u00a7 12-60.1-05(2). The sole candidate carries the operative section in its label and the profile states the exact (2)-branch rule: pre-August-2025 nonconvictions use the Petition to Close Nonconviction Records, filed with the clerk, no fee. Both statutory branches of \u00a7 12-60.1-05 are documented inside this one compiled unit.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NE-ne-expunge-le-error",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ne-expunge-le-error",
+        "compiledPathwayIds": [
+          "law-enforcement-error-expungement"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Neb. Rev. Stat. \u00a7 29-3523 arrest-in-error expungement mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "The only true expungement in Nebraska. A person arrested due to the error of a law enforcement agency may petition the district court to expunge the criminal history record information related to the error. The county attorney is named as respondent and served."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "clear-and-convincing standard matching the track mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "The petition is filed in district court, the county attorney is respondent and must be served, and clear and convincing evidence must show arresting-agency error."
+        }
+      ],
+      "reasoning": "The registry track is the petition to expunge criminal history record information after an arrest made in error, which the registry cites as \u00a7 29-3523(9). One candidate implements exactly that mechanism -- district-court petition, county attorney as respondent, clear-and-convincing proof of arresting-agency error -- and no other candidate has any error-expungement content. Numbering caveat for E3: the compiled profile labels the provision \u00a7 29-3523(6) while the registry cites \u00a7 29-3523(9); web access to the current statute was blocked in this environment, so the subsection renumbering could not be independently confirmed. Under the source hierarchy the registry's newer citation controls and the profile label is a state-pack fidelity issue; the mechanism match itself is unambiguous.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NE-ne-firearm-restoration-routing",
+      "outcome": "terminal",
+      "proposedDisposition": "no_single_runtime_representation",
+      "proposedMapping": {
+        "registryTrackId": "ne-firearm-restoration-routing",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the \u00a7 29-2264(5) firearm caveat is shared guidance across both set-aside candidates, not a pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "The order must notify the person to consult an attorney about the effect, if any, on their ability to possess a firearm under state or federal law (\u00a7 29-2264(5)(b), (c))."
+        },
+        {
+          "kind": "absence_proof",
+          "value": "Neb. Rev. Stat. \u00a7 83-1,130(2) (Pardon Board firearm-restoration power) does not appear in the NE compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "grep of the full profile JSON: '83-1,130(2)' 0 hits; the only \u00a7 83-1,130 reference is '(\u00a7 83-1,130(1))' concerning the reapplication waiting period after a pardon denial"
+        }
+      ],
+      "reasoning": "The registry track routes firearm-rights restoration: a set-aside does not restore firearm rights (\u00a7 29-2264(5)(c)) and restoration runs through the Pardon Board (\u00a7 83-1,130(2)). In the compiled runtime the \u00a7 29-2264(5) caveat is shared source text applying equally to both set-aside candidates, and the \u00a7 83-1,130(2) restoration power appears nowhere. No discriminator can isolate one candidate because the track's content is a cross-cutting advisory over both set-aside variants plus an unimplemented pardon-board power -- there is no single runtime representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NE-ne-immigration-routing",
+      "outcome": "terminal",
+      "proposedDisposition": "no_single_runtime_representation",
+      "proposedMapping": {
+        "registryTrackId": "ne-immigration-routing",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "the word 'immigration' does not appear anywhere in the NE compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "grep of the full profile JSON: 'immigration' 0 hits"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the \u00a7 29-2264(6) surviving-consequences caveat is shared source text across both set-aside candidates",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "Under \u00a7\u00a7 29-2264(6)(b) through (n), a set-aside conviction can still be used as a predicate offense, to enhance a subsequent sentence, to impeach the person as a witness, to deny or revoke ..."
+        }
+      ],
+      "reasoning": "The registry track routes immigration consequences under \u00a7 29-2264(6). The compiled profile never mentions immigration, and its \u00a7 29-2264(6) surviving-consequences discussion is shared source text that applies identically to both set-aside candidates. Nothing isolates one candidate, and no immigration-consequences advisory exists as a runtime unit -- the track has no single runtime representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NE-ne-nonconviction-auto",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ne-nonconviction-auto",
+        "compiledPathwayIds": [
+          "automatic-nonconviction-sealing"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Neb. Rev. Stat. \u00a7 29-3523(3) time triggers",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "No charges filed after prosecutor decline: public access ends one year after arrest. No charges filed after completed diversion: public access ends two years after arrest. Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court ..."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "\u00a7 29-3523(3) named in the profile's source sections",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "The time triggers (\u00a7 29-3523(3)) :: - No charges filed because the prosecutor declined: not part of the public record after one year from the date of arrest."
+        }
+      ],
+      "reasoning": "The registry track is the automatic removal of non-conviction records from the public record under \u00a7 29-3523(3). One candidate -- the profile's only automatic sealing unit -- states the exact (3)-subsection time triggers (one year after declined prosecution, two years after diversion, immediate on acquittal/dismissal categories), and the profile's source section names \u00a7 29-3523(3) for those triggers. The other candidates implement the error-expungement and pardon-seal mechanisms.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NE-ne-out-of-jurisdiction-routing",
+      "outcome": "terminal",
+      "proposedDisposition": "no_single_runtime_representation",
+      "proposedMapping": {
+        "registryTrackId": "ne-out-of-jurisdiction-routing",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "no tribal-records content exists in the NE compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "grep of the full profile JSON: 'tribal' 0 hits"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "federal and out-of-state records appear only as eligibility exclusions inside other pathways",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "Out-of-state and federal convictions are ineligible for a Nebraska pardon."
+        }
+      ],
+      "reasoning": "The registry track routes federal, out-of-state and tribal records away from Nebraska remedies. The compiled runtime has no routing unit for them: tribal records are never mentioned, and federal/out-of-state records appear only as exclusion clauses inside the pardon route. The track's content is scattered exclusion text across candidates rather than any single pathway, so there is no single runtime representation to map.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NE-ne-seal-enforcement",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ne-seal-enforcement",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "Neb. Rev. Stat. \u00a7 29-3528 (action to compel compliance) has zero occurrences in the NE compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "grep of the full profile JSON: '29-3528' 0 hits"
+        }
+      ],
+      "reasoning": "The registry track is the civil action to compel compliance with the Criminal History Record Information Act under \u00a7 29-3528. That section appears nowhere in the NE compiled profile, and each candidate implements a different \u00a7 29-3523 relief mechanism (automatic sealing, error expungement, pardon-then-seal) rather than an enforcement action. The enforcement mechanism is missing from the compiled runtime.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NE-ne-seal-pardoned",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ne-seal-pardoned",
+        "compiledPathwayIds": [
+          "pardon-then-seal"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Neb. Rev. Stat. \u00a7 29-3523(5)",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "label: 'Pardon followed by motion to seal under \u00a7 29-3523(5)'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "\u00a7 29-3523(5) mandatory-grant mechanism",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "the person may move ... in the sentencing court to seal the records. On a finding that the person received a pardon, the court shall grant the motion and issue an order under \u00a7 29-3523(7) (\u00a7 29-3523(5))."
+        }
+      ],
+      "reasoning": "The registry track is the motion to seal a pardoned conviction under \u00a7 29-3523(5). One candidate carries the exact subsection in its label and the profile quotes the operative mandatory-grant rule with the same subsection. The shared subsection-level citation isolates exactly one of the four candidates.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NE-ne-seal-pre2017",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "ne-seal-pre2017",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "the pre-2017 seal motion's official forms are absent from the NE compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "grep of the full profile JSON: 'CC 6:15' 0 hits ('CC 6:15.1, Motion to Seal Records due to Acquittal or Dismissal' is the registry-named form); the only CC 6:12 references sit inside the trafficking-survivor pathway's post-set-aside seal step"
+        },
+        {
+          "kind": "official_form",
+          "value": "CC 6:12 / CC 6:15.1 named by the registry track",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs: 'CC 6:12, Motion to Seal an Adult Criminal Record, Rev. 04/2024' and 'CC 6:15.1, Motion to Seal Records due to Acquittal or Dismissal, New 05/2021'; scope: 'Anything dismissed on or after 1 January 2017 is sealed automatically and free, and must be routed there rather than to this motion.'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "the profile folds pre-2017 cases into the automatic provisions instead of a motion route",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "Retroactivity: LB 1132 (2018) clarified the sealing provisions apply to pre-2017 cases (\u00a7 29-3523(6)), overriding earlier court readings that limited sealing to arrests on or after January 1, 2017."
+        }
+      ],
+      "reasoning": "The registry track is a motion to seal a pre-2017 dismissal or acquittal under \u00a7 29-3523(6), on court forms CC 6:12 / CC 6:15.1, explicitly distinct from the automatic post-2016 route. No candidate implements that motion: the automatic pathway is filing-free, the error and pardon pathways are different mechanisms, and the trafficking pathway uses CC 6:12 only for its own post-set-aside seal step. The profile's only pre-2017 statement treats LB 1132 retroactivity as part of the automatic provisions and cites \u00a7 29-3523(6) there, while its error-expungement pathway label also claims \u00a7 29-3523(6) -- an internal numbering conflict (the registry cites the error route at (9)) that web access, blocked in this environment, could not resolve. What is provable from the repository: the pre-2017 motion procedure and its named forms are absent from the compiled runtime.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NE-ne-setaside-custodial",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ne-setaside-custodial",
+        "compiledPathwayIds": [
+          "set-aside-incarceration-one-year-or-less"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Neb. Rev. Stat. \u00a7 29-2264(3)",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "label: 'Conviction set-aside after incarceration of one year or less under \u00a7 29-2264(3)'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "\u00a7 29-2264(3) elements in the pathway's own summary",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years."
+        }
+      ],
+      "reasoning": "The registry track is the set-aside petition for convictions sentenced to one year or less of incarceration under \u00a7 29-2264(3). One candidate carries the exact subsection in its label and states the (3)-branch elements (no pending charge, no SORA, not vehicular homicide, no denial in prior two years); the other candidate is scoped by its label to \u00a7 29-2264(2). The subsection citation isolates exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NE-ne-setaside-noncustodial",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "ne-setaside-noncustodial",
+        "compiledPathwayIds": [
+          "set-aside-probation-fine-community-service"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "Neb. Rev. Stat. \u00a7 29-2264(2)",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "label: 'Conviction set-aside after probation, fine-only sentence, or community service under \u00a7 29-2264(2)'"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "\u00a7 29-2264(2) elements in the pathway's own summary",
+          "source": "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json",
+          "quote": "The sentence conditions must be satisfactorily completed and any fine paid/community service completed. The petition is filed in the sentencing court and the decision is discretionary"
+        }
+      ],
+      "reasoning": "The registry track is the set-aside petition for convictions sentenced to probation, fine or community service under \u00a7 29-2264(2). One candidate carries the exact subsection in its label and states the (2)-branch elements; the other candidate is scoped to \u00a7 29-2264(3) custodial sentences. The subsection citation isolates exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NH-nh_auto_nonconviction",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nh_auto_nonconviction",
+        "compiledPathwayIds": [
+          "annulment-after-dismissal-acquittal-or-nonprosecution"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5, II-a(a) automatic-annulment rule carried in the pathway's own record",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "Favorable outcome post-2019 Generally annulled after 30 days if no appeal"
+        },
+        {
+          "kind": "official_form",
+          "value": "NHJB-2317-DSe (the annulment petition form, for the verification/petition fallback)",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "Topic Rule Legal term Annulment Main statute RSA 651:5 Main form Petition to Annul Record, NHJB-2317-DSe"
+        }
+      ],
+      "reasoning": "The registry track is the automatic annulment of post-1/1/2019 non-convictions under RSA 651:5, II-a(a). The frozen candidates (the conviction-annulment and marijuana pathways) do not carry that mechanism, but the compiled pathway 'annulment-after-dismissal-acquittal-or-nonprosecution' -- omitted from the candidate list -- carries the exact rule in its own record: favorable outcomes disposed of post-2019 are generally annulled after 30 days if no appeal. The literal 'II-a' paragraph number is absent from the profile (fidelity note), but the operative automatic rule isolates this pathway.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NH-nh_auto_vacated",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nh_auto_vacated",
+        "compiledPathwayIds": [
+          "annulment-of-a-vacated-conviction"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5, II-a(b) mandatory annulment of post-2019 vacated convictions",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "For qualifying post-2019 vacated convictions, the statute says the arrest and court record shall be annulled."
+        }
+      ],
+      "reasoning": "The registry track is the automatic annulment of a vacated conviction disposed of on or after 1/1/2019 under RSA 651:5, II-a(b). The compiled pathway 'annulment-of-a-vacated-conviction' -- omitted from the frozen candidate list -- states the exact mandatory rule for post-2019 vacated convictions ('shall be annulled'). Neither listed candidate carries vacated-conviction content, so the vacated-conviction pathway is the single runtime representation. 'II-a' is not literally cited in the profile (fidelity note).",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NH-nh_conviction_standard",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nh_conviction_standard",
+        "compiledPathwayIds": [
+          "conviction-annulment-under-rsa-651-5"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "label: 'Conviction annulment under RSA 651:5' -- 'For convictions, the person generally must: 1 Complete all terms and conditions of the sentence'"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the marijuana candidate is confined to RSA 651:5-b's own scope",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "New Hampshire has a special marijuana possession annulment statute, RSA 651:5-b. A person arrested or convicted before September 16, 2017 for knowingly or purposely possessing ... 3/4 of an ounce of marijuana or less"
+        }
+      ],
+      "reasoning": "The registry track is the standard petition to annul a conviction under RSA 651:5, III with its waiting-period ladder. Between the two candidates, the conviction-annulment pathway carries the operative statute in its label and its summary describes the conviction petition route; the marijuana candidate is restricted by RSA 651:5-b to pre-9/16/2017 possession of 3/4 ounce or less. The scope restriction removes all but one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NH-nh_conviction_streamlined",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "nh_conviction_streamlined",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "the streamlined mandatory route and its forms are absent from the NH compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "grep of the full profile JSON: 'streamlined' 0 hits, 'III(a)(2)' 0 hits, 'NHJB-2956' 0 hits, 'NHJB-3057' 0 hits, 'Petition of Eligibility' 0 hits; the only annulment form present is NHJB-2317"
+        },
+        {
+          "kind": "official_form",
+          "value": "NHJB-2956 named by the registry track",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "officialFormRefs on nh_conviction_streamlined include 'NHJB-2311', 'NHJB-2328', 'NHJB-2956'"
+        }
+      ],
+      "reasoning": "The registry track is the streamlined mandatory annulment route for violations and class B misdemeanors under RSA 651:5, III(a)(2)/(b)(2), filed as a petition of eligibility on its own forms. The compiled profile contains only the standard petition process on NHJB-2317: no streamlined route, no III(a)(2)/(b)(2) branch, and none of the registry-named streamlined forms appear anywhere. The mechanism is missing from the compiled runtime, so neither candidate can be isolated as its representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NH-nh_marijuana_annulment",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nh_marijuana_annulment",
+        "compiledPathwayIds": [
+          "marijuana-possession-annulment-under-rsa-651-5-b"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5-b",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "New Hampshire has a special marijuana possession annulment statute, RSA 651:5-b. A person arrested or convicted before September 16, 2017 for knowingly or purposely possessing, obtaining, purchasing, or transporting 3/4 of an ounce of marijuana or less may pet[ition]"
+        }
+      ],
+      "reasoning": "The registry track is the marijuana-possession annulment petition under RSA 651:5-b. One candidate carries the exact operative statute in its label and states its scope elements (pre-9/16/2017, 3/4 ounce or less); the other candidate implements the general RSA 651:5 conviction petition. The statute-specific citation isolates exactly one candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NH-nh_petition_nonconviction_pre2019",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nh_petition_nonconviction_pre2019",
+        "compiledPathwayIds": [
+          "annulment-after-dismissal-acquittal-or-nonprosecution"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5, II pre-2019 petition rule carried in the pathway's own record",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "Favorable outcome pre-2019 Petition at any time"
+        },
+        {
+          "kind": "official_form",
+          "value": "NHJB-2317-DSe",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "Main form Petition to Annul Record, NHJB-2317-DSe"
+        }
+      ],
+      "reasoning": "The registry track is the petition to annul a non-conviction disposed of before 1/1/2019 under RSA 651:5, II. The compiled pathway 'annulment-after-dismissal-acquittal-or-nonprosecution' -- omitted from the frozen candidate list -- carries the exact rule in its own record ('Favorable outcome pre-2019 Petition at any time') together with the NHJB-2317 petition form the mechanism uses. Neither frozen candidate is a non-conviction unit, so this pathway is the single runtime representation.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NH-nh_petition_vacated",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nh_petition_vacated",
+        "compiledPathwayIds": [
+          "annulment-of-a-vacated-conviction"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "RSA 651:5 vacated-conviction petition rule",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "If a conviction was later vacated by a court, RSA 651:5 allows annulment of the arrest record, court record, or both."
+        }
+      ],
+      "reasoning": "The registry track is the petition to annul a vacated conviction outside the automatic route (RSA 651:5, II, second sentence). The compiled pathway 'annulment-of-a-vacated-conviction' -- omitted from the frozen candidate list -- is the profile's vacated-conviction unit and states the petition-based annulment of vacated convictions under RSA 651:5, distinguishing the post-2019 mandatory branch. Neither frozen candidate carries vacated-conviction content.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NH-nh_supreme_court_record",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "nh_supreme_court_record",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "absence_proof",
+          "value": "RSA 651:5, XV and any supreme-court-record annulment mechanism are absent from the NH compiled profile",
+          "source": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+          "quote": "grep of the full profile JSON: '651:5, XV' 0 hits, 'XV' not present as a paragraph citation, 'streamlined'/'supreme' content limited to an intake question option 'source_question_05_supreme-court'"
+        }
+      ],
+      "reasoning": "The registry track is the annulment of a New Hampshire Supreme Court record under RSA 651:5, XV. The compiled profile never cites paragraph XV and contains no supreme-court-record mechanism -- the only 'supreme court' string is a court-location intake option. Neither candidate carries the mechanism, so it is missing from the compiled runtime.",
+      "confidence": "medium"
+    },
+    {
+      "jobId": "E2-A-NJ-nj_automated_clean_slate",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "nj_automated_clean_slate",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.J.S.A. 2C:52-5.4 appears only as source commentary, never as a pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+          "quote": "Under 2C:52-5.4, all eligible convictions are to be rendered inaccessible to the public through sealing/expungement (or an equivalent process) unless the person has a non-expungeable crime."
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "the profile treats the automated process as not yet established",
+          "source": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+          "quote": "No applications may be filed under this section after the automated clean-slate process is established."
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the registry's own source records that the automated process does not yet exist",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "Assembly Bill A5095, 222nd Legislature, introduced May 14, 2026 -- 'Implements procedures for automated Clean Slate expungements', stating that the automated process still does not yet exist"
+        }
+      ],
+      "reasoning": "The registry track is the automated clean-slate process under N.J.S.A. 2C:52-5.4. Both candidates are petition routes: the clean-slate petition pathway implements 2C:52-5.3 (and is already exact-mapped to the separate registry track nj_clean_slate in the crosswalk), and the regular pathway implements 2C:52-2/-3. Section 2C:52-5.4 appears in the profile only as commentary on the future automated mandate, phrased as contingent ('after the automated clean-slate process is established'), and the registry's own source (A5095, 2026) records that the automated process does not yet exist. There is no compiled pathway for the automated mechanism to map to.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NJ-nj_disorderly_persons",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nj_disorderly_persons",
+        "compiledPathwayIds": [
+          "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.J.S.A. 2C:52-3",
+          "source": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+          "quote": "label: 'Regular expungement under N.J.S.A. 2C:52-2 / 2C:52-3' -- 'Up to four disorderly persons offenses (if no indictable conviction)'"
+        }
+      ],
+      "reasoning": "The registry track is the expungement of disorderly-persons and petty-disorderly-persons offenses under N.J.S.A. 2C:52-3. The sole candidate carries the operative statute in its label and its summary states the 2C:52-3 count rules (up to four disorderly-persons offenses). The shared operative citation isolates the candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NJ-nj_indictable_conviction",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nj_indictable_conviction",
+        "compiledPathwayIds": [
+          "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "N.J.S.A. 2C:52-2",
+          "source": "src/lib/rcap-engine/compiled/profiles/NJ-new-jersey.json",
+          "quote": "label: 'Regular expungement under N.J.S.A. 2C:52-2 / 2C:52-3' -- 'One indictable (felony) conviction PLUS up to three disorderly persons / petty disorderly persons offenses, with no other disqualifying convictions -- expunge all of them.'"
+        }
+      ],
+      "reasoning": "The registry track is the expungement of an indictable conviction under N.J.S.A. 2C:52-2. The sole candidate carries the operative statute in its label and its summary states the 2C:52-2 mechanism (one indictable conviction plus up to three disorderly-persons offenses). The shared operative citation isolates the candidate.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NV-nv_repository_removal",
+      "outcome": "terminal",
+      "proposedDisposition": "missing_from_compiled_runtime",
+      "proposedMapping": {
+        "registryTrackId": "nv_repository_removal",
+        "compiledPathwayIds": []
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 179A.160 appears only as source commentary, never as a pathway",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "Favorable-disposition repository removal: NRS 179A.160 If a person was arrested, cited, or subject to a warrant and later acquitted or received a favorable disposition, they may apply in writing to the Central Repository"
+        },
+        {
+          "kind": "absence_proof",
+          "value": "no compiled NV pathway carries NRS 179A.160 as its operative authority",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "pathway label scan: general-conviction-record-sealing-under-nrs-179-245, deferred-judgment-dismissal-and-sealing-under-nrs-176-211, probation-or-specialty-court-dismissal-set-aside-sealing, reentry-program-sealing-under-nrs-179-259, trafficking-victim-vacatur-and-sealing-under-nrs-179-247, controlled-substance-possession-sealing-under-nrs-453-3365, non-conviction-record-sealing -- none cites NRS 179A.160"
+        },
+        {
+          "kind": "registry_scope_restriction",
+          "value": "the registry's own source notes no official form exists for the NRS 179A.160 request",
+          "source": "data/rcap-ledger/registry-crosswalk-projection.json",
+          "quote": "It publishes no form for a removal request under NRS 179A.160 and no form for a petition under NRS 176A.245, 176A.265 or 176A.295."
+        }
+      ],
+      "reasoning": "The registry track is the administrative removal of records from the Central Repository after a favorable disposition under NRS 179A.160 -- a written application to the repository, not a court sealing petition. The sole candidate implements court sealing of convictions under NRS 179.245. NRS 179A.160 appears in the profile only inside overview commentary and remedy tables; no compiled pathway carries it as operative authority. The administrative mechanism is missing from the compiled runtime.",
+      "confidence": "high"
+    },
+    {
+      "jobId": "E2-A-NV-nv_seal_multi",
+      "outcome": "resolved",
+      "proposedDisposition": "exact_current_pathway",
+      "proposedMapping": {
+        "registryTrackId": "nv_seal_multi",
+        "compiledPathwayIds": [
+          "general-conviction-record-sealing-under-nrs-179-245"
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 179.2595 carried in the candidate's own record",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "Multiple records in multiple courts NRS 179.2595 One district-court petition for records that would otherwise need multiple courts"
+        },
+        {
+          "kind": "statutory_citation",
+          "value": "NRS 179.2595 consolidation mechanism in the profile's filing process",
+          "source": "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+          "quote": "Multiple records / multiple courts: NRS 179.2595 If a person wants to seal more than one record and would otherwise need to file in more than one court, they may file in district court for sealing of all such records."
+        }
+      ],
+      "reasoning": "The registry track is the consolidated district-court petition to seal more than one record under NRS 179.2595, a procedural vehicle layered on the NRS 179.245/179.255 sealing petitions the track also cites. The sole candidate carries NRS 179.2595 in its own record and the profile's filing-process section documents the consolidation mechanism as part of the sealing petition practice this pathway implements. Note for E3: the NRS 179.2595 consolidation text also appears in shared remedy tables reproduced in other pathway records, so the mechanism is implemented as a feature of the sealing petitions rather than a standalone unit; among the frozen candidates it lands on this pathway.",
+      "confidence": "medium"
+    }
+  ]
+}

@@ -1,0 +1,368 @@
+{
+  "schemaVersion": "rcap-c-dependency-free-resolution/v1",
+  "windowId": "2026-08-12-w3",
+  "reviewBase": "a20987d1e55fc759960b05d4991b8263a63656c1",
+  "rule": "A route is eligible only when it was independently reviewed, every legal unit is implemented or otherwise terminal, no dependency/hold/correction/currentness/adoption/staging issue remains, and payment and credit behaviour match the treatment. Absence of an official_form_dependency is never sufficient.",
+  "routes": [
+    {
+      "trackId": "ct-nolle-auto",
+      "jurisdiction": "CT",
+      "routeDir": "data/rcap-all50/composed-routes/connecticut/ct-nolle-auto",
+      "independentlyReviewed": true,
+      "reviewOutcome": "technical_approved (F2 wave-2 lane C @ 0216a407), escalated by the captain and not yet accepted",
+      "units": [
+        {
+          "unitId": "ct-nolle-auto-unit-1-automatic-erasure-branch",
+          "requiredOutput": "participant_instruction",
+          "componentId": "ct-nolle-auto-process-guidance-1",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "process-guidance.md"
+          ]
+        },
+        {
+          "unitId": "ct-nolle-auto-unit-2-motion-to-nolle",
+          "requiredOutput": "pleading_document",
+          "componentId": "ct-nolle-auto-motion-to-nolle-2",
+          "implemented": false,
+          "files": [
+            "dependency.json"
+          ]
+        },
+        {
+          "unitId": "ct-nolle-auto-unit-3-pre-1972-petition",
+          "requiredOutput": "pleading_document",
+          "componentId": "ct-nolle-auto-pre-1972-petition-3",
+          "implemented": false,
+          "files": [
+            "dependency.json"
+          ]
+        }
+      ],
+      "unimplementedLegalUnits": [
+        {
+          "componentId": "ct-nolle-auto-motion-to-nolle-2",
+          "requiredOutput": "pleading_document",
+          "drafted": false,
+          "blockingStatement": "The current filing vehicle and clerk practice for the § 54-142a(c)(2) motion must be resolved before a statewide custom pleading can be enabled. No form was located.",
+          "owningLane": "lane-D/E legal-design resolution and official-source acquisition — registry implementationQueue: D_composed_or_process_guidance"
+        },
+        {
+          "componentId": "ct-nolle-auto-pre-1972-petition-3",
+          "requiredOutput": "pleading_document",
+          "drafted": false,
+          "blockingStatement": "Everything about this petition beyond its existence is unstated, including which older courts the statute lists.",
+          "owningLane": "lane-D/E legal-design resolution"
+        }
+      ],
+      "staleCorrections": [],
+      "eligibleForPromotion": false,
+      "determination": "NOT eligible: 2 legal unit(s) are not implemented and carry a blocker record instead (undrafted pleading_document — a legal-design blocker, not an official-form dependency)"
+    },
+    {
+      "trackId": "ct-under18-misdemeanor",
+      "jurisdiction": "CT",
+      "routeDir": "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor",
+      "independentlyReviewed": true,
+      "reviewOutcome": "technical_approved (F2 wave-2 lane C @ 0216a407), escalated by the captain and not yet accepted",
+      "units": [
+        {
+          "unitId": "ct-under18-misdemeanor-unit-1-automatic-branch",
+          "requiredOutput": "participant_instruction",
+          "componentId": "ct-under18-misdemeanor-process-guidance-1",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "process-guidance.md"
+          ]
+        },
+        {
+          "unitId": "ct-under18-misdemeanor-unit-2-petition-branch",
+          "requiredOutput": "pleading_document",
+          "componentId": "ct-under18-misdemeanor-petition-branch-2",
+          "implemented": false,
+          "files": [
+            "dependency.json"
+          ]
+        }
+      ],
+      "unimplementedLegalUnits": [
+        {
+          "componentId": "ct-under18-misdemeanor-petition-branch-2",
+          "requiredOutput": "pleading_document",
+          "drafted": false,
+          "blockingStatement": "The current form or accepted custom pleading for the petition branch, and the historical offense-date and classification rule, must be resolved before anything is produced.",
+          "owningLane": "lane-D/E official-source acquisition and legal-design resolution — registry implementationQueue: D_composed_or_process_guidance"
+        }
+      ],
+      "staleCorrections": [],
+      "eligibleForPromotion": false,
+      "determination": "NOT eligible: 1 legal unit(s) are not implemented and carry a blocker record instead (undrafted pleading_document — a legal-design blocker, not an official-form dependency)"
+    },
+    {
+      "trackId": "in_infraction_nondisclosure",
+      "jurisdiction": "IN",
+      "routeDir": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure",
+      "independentlyReviewed": true,
+      "reviewOutcome": "technical_approved (F2 wave-2 lane C @ 0216a407), escalated by the captain and not yet accepted",
+      "units": [
+        {
+          "unitId": "in_infraction_nondisclosure-stage-1",
+          "requiredOutput": "participant_instruction",
+          "componentId": "in_infraction_nondisclosure-process-guidance-1",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "process-guidance.md"
+          ]
+        },
+        {
+          "unitId": "in_infraction_nondisclosure-stage-2",
+          "requiredOutput": "pleading_document",
+          "componentId": "in_infraction_nondisclosure-primary-filing-2",
+          "implemented": false,
+          "files": [
+            "dependency.json"
+          ]
+        }
+      ],
+      "unimplementedLegalUnits": [
+        {
+          "componentId": "in_infraction_nondisclosure-primary-filing-2",
+          "requiredOutput": "pleading_document",
+          "drafted": false,
+          "blockingStatement": "Whether a statewide form exists for an I.C. 34-28-5-15 infraction petition, and how counties handle the MC case-type assignment where no cause number was assigned.",
+          "owningLane": "lane-D/E official-source acquisition and source-question closure. Registry implementationQueue for this track: D_composed_or_process_guidance."
+        }
+      ],
+      "staleCorrections": [],
+      "eligibleForPromotion": false,
+      "determination": "NOT eligible: 1 legal unit(s) are not implemented and carry a blocker record instead (undrafted pleading_document — a legal-design blocker, not an official-form dependency)"
+    },
+    {
+      "trackId": "ia-9079",
+      "jurisdiction": "IA",
+      "routeDir": "data/rcap-all50/composed-routes/iowa/ia-9079",
+      "independentlyReviewed": true,
+      "reviewOutcome": "technical_approved (F2 wave-2 lane C @ 0216a407), escalated by the captain and not yet accepted",
+      "units": [
+        {
+          "unitId": "ia-9079-post-2013-verification",
+          "requiredOutput": "participant_instruction",
+          "componentId": "ia-9079-process-guidance-1",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "process-guidance.md"
+          ]
+        },
+        {
+          "unitId": "ia-9079-pre-2013-application",
+          "requiredOutput": "pleading_document",
+          "componentId": "ia-9079-pre-2013-application-2",
+          "implemented": false,
+          "files": [
+            "dependency.json"
+          ]
+        }
+      ],
+      "unimplementedLegalUnits": [
+        {
+          "componentId": "ia-9079-pre-2013-application-2",
+          "requiredOutput": "pleading_document",
+          "drafted": false,
+          "blockingStatement": null,
+          "owningLane": {
+            "lane": "E",
+            "scope": "Legal-design resolution of the filing vehicle. Counsel must identify what document is filed for a pre-July-1-2013 deferred judgment expungement request under Iowa Code § 907.9(4), what rule or statute authorises it, what caption and court it takes, what must be alleged, whether verification or service on the county attorney is required, and where it is filed. Only after that can any drafting lane act."
+          }
+        }
+      ],
+      "staleCorrections": [],
+      "eligibleForPromotion": false,
+      "determination": "NOT eligible: 1 legal unit(s) are not implemented and carry a blocker record instead (undrafted pleading_document — a legal-design blocker, not an official-form dependency)"
+    },
+    {
+      "trackId": "ky_criminal_record_segregation",
+      "jurisdiction": "KY",
+      "routeDir": "data/rcap-all50/composed-routes/kentucky/ky_criminal_record_segregation",
+      "independentlyReviewed": true,
+      "reviewOutcome": "technical_approved (F2 wave-2 lane C @ 0216a407), escalated by the captain and not yet accepted",
+      "units": [
+        {
+          "unitId": "ky_seg_court_application",
+          "requiredOutput": "pleading_document",
+          "componentId": "ky_criminal_record_segregation-primary-filing-1",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "pleading-config.json",
+            "rendered"
+          ]
+        },
+        {
+          "unitId": "ky_seg_agency_written_request",
+          "requiredOutput": "agency_request_letter",
+          "componentId": "ky_criminal_record_segregation-agency-written-request-2",
+          "implemented": true,
+          "files": [
+            "agency-request-letter.md",
+            "fixtures",
+            "provenance.md"
+          ]
+        },
+        {
+          "unitId": "ky_seg_routing_guidance",
+          "requiredOutput": "participant_instruction",
+          "componentId": "ky_criminal_record_segregation-routing-guidance-3",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "routing-guidance.md"
+          ]
+        }
+      ],
+      "unimplementedLegalUnits": [],
+      "staleCorrections": [
+        {
+          "componentId": "ky_criminal_record_segregation-primary-filing-1",
+          "runtimeDefects": [
+            "renderer-null-presentation"
+          ]
+        }
+      ],
+      "eligibleForPromotion": false,
+      "determination": "NOT eligible: 1 component(s) still declare runtimeDefects ['renderer-null-presentation'], now stale — the captain landed the renderer fix and re-rendered the artifacts, so the declaration must be cleared and re-verified before the route is clean"
+    },
+    {
+      "trackId": "wv_dui_deferral_expungement",
+      "jurisdiction": "WV",
+      "routeDir": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement",
+      "independentlyReviewed": true,
+      "reviewOutcome": "technical_approved (F2 wave-2 lane C @ 0216a407), escalated by the captain and not yet accepted",
+      "units": [
+        {
+          "unitId": "wv-dui-deferral-unit-1-motion-to-dismiss",
+          "requiredOutput": "pleading_document",
+          "componentId": "wv_dui_deferral_expungement-primary-filing-1",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "handoff.md",
+            "participant-instructions.md",
+            "pleading-config.json",
+            "rendered"
+          ]
+        },
+        {
+          "unitId": "wv-dui-deferral-unit-1-supporting-affidavit",
+          "requiredOutput": "pleading_document",
+          "componentId": "wv_dui_deferral_expungement-supporting-affidavit-2",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "handoff.md",
+            "participant-instructions.md",
+            "pleading-config.json",
+            "rendered"
+          ]
+        },
+        {
+          "unitId": "wv-dui-deferral-unit-2-application-to-expunge",
+          "requiredOutput": "pleading_document",
+          "componentId": "wv_dui_deferral_expungement-secondary-filing-3",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "handoff.md",
+            "participant-instructions.md",
+            "pleading-config.json",
+            "rendered"
+          ]
+        },
+        {
+          "unitId": "wv-dui-deferral-unit-2-supporting-timeline",
+          "requiredOutput": "pleading_document",
+          "componentId": "wv_dui_deferral_expungement-supporting-timeline-4",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "handoff.md",
+            "participant-instructions.md",
+            "pleading-config.json",
+            "rendered"
+          ]
+        },
+        {
+          "unitId": "wv-dui-deferral-certificate-of-service",
+          "requiredOutput": "pleading_document",
+          "componentId": "wv_dui_deferral_expungement-certificate-of-service-5",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "handoff.md",
+            "participant-instructions.md",
+            "pleading-config.json",
+            "rendered"
+          ]
+        },
+        {
+          "unitId": "wv-dui-deferral-records-checklist",
+          "requiredOutput": "participant_instruction",
+          "componentId": "wv_dui_deferral_expungement-records-checklist-6",
+          "implemented": true,
+          "files": [
+            "fixtures",
+            "records-checklist.md"
+          ]
+        },
+        {
+          "unitId": "wv-dui-deferral-filing-instructions",
+          "requiredOutput": "participant_instruction",
+          "componentId": "wv_dui_deferral_expungement-filing-instructions-7",
+          "implemented": true,
+          "files": [
+            "filing-instructions.md",
+            "fixtures"
+          ]
+        }
+      ],
+      "unimplementedLegalUnits": [],
+      "staleCorrections": [
+        {
+          "componentId": "wv_dui_deferral_expungement-primary-filing-1",
+          "runtimeDefects": [
+            "renderer-null-presentation"
+          ]
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-supporting-affidavit-2",
+          "runtimeDefects": [
+            "renderer-null-presentation"
+          ]
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-secondary-filing-3",
+          "runtimeDefects": [
+            "renderer-null-presentation"
+          ]
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-supporting-timeline-4",
+          "runtimeDefects": [
+            "renderer-null-presentation"
+          ]
+        },
+        {
+          "componentId": "wv_dui_deferral_expungement-certificate-of-service-5",
+          "runtimeDefects": [
+            "renderer-null-presentation"
+          ]
+        }
+      ],
+      "eligibleForPromotion": false,
+      "determination": "NOT eligible: 5 component(s) still declare runtimeDefects ['renderer-null-presentation'], now stale — the captain landed the renderer fix and re-rendered the artifacts, so the declaration must be cleared and re-verified before the route is clean"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "profileId": "ca-cr-106-proof-of-service",
+  "profileVersion": "1.0.0",
+  "schemaVersion": "rcap-hard-form-profile/v1",
+  "generatedBy": "terminal-e-hard-forms",
+  "jurisdiction": {
+    "code": "CA",
+    "name": "California"
+  },
+  "ledgerJob": "T-E-CA-production-packet",
+  "tracksServed": [
+    "ca-1203-41",
+    "ca-1203-42",
+    "ca-1203-43",
+    "ca-1203-4a",
+    "ca-17b-reduction",
+    "ca-851-91"
+  ],
+  "form": {
+    "formId": "CR-106",
+    "revision": "Rev. January 1, 2020",
+    "officialName": "Proof of Service (Criminal Record Clearing)",
+    "componentRole": "PROOF_OF_SERVICE",
+    "issuingBody": "Judicial Council of California"
+  },
+  "strategy": {
+    "tier": "held_on_source_or_design",
+    "rationale": "The binary is in hand and technically fillable — XFA source with a widget shadow, decrypted derivative committed and pinned. It is held because a proof of service asserts, under signature, who was served and at what address, and the committed California design fixes only the recipient CLASS, not the identity or address of the agency for any given case."
+  },
+  "officialSource": {
+    "bundlePath": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+    "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+    "bytes": 104278,
+    "encrypted": true,
+    "xfa": true,
+    "creator": "Designer 6.3",
+    "pages": 2,
+    "geometry": "612x792",
+    "bundleManifest": "RCAP_SOURCE_BUNDLE_MANIFEST.json (operator-supplied Master Library Edition 1)",
+    "presentInClone": false
+  },
+  "derivedSource": {
+    "path": "data/rcap-all50/overlays/rescued-encrypted-pdfs/california-cr106-rescued.pdf",
+    "sha256": "b20f56ea218afc4ca83aebc8f2537ab461785689164b536326acf18308743868",
+    "derivation": "pypdf 6.15.0 decrypt with empty owner password then clone_from re-save; no content edit",
+    "sourceFaithful": true,
+    "faithfulnessProof": "source and derivative agree on /XFA presence, 2 pages at 612x792 and the same AcroForm field tree; only the encryption dictionary is dropped"
+  },
+  "designSearch": {
+    "performed": "2026-08-12, first-hand over committed CA legal design and the operator source pack",
+    "whatIsEstablished": [
+      {
+        "fact": "The recipient class for the dismissal routes is the prosecuting attorney.",
+        "carrier": "src/lib/rcap-engine/compiled/profiles/CA-california.json",
+        "quote": "Serve the prosecuting attorney (District Attorney or city attorney). For 1203.4, the prosecutor must receive at least 15 days notice before relief is granted."
+      },
+      {
+        "fact": "Service on the prosecuting agency is the norm, and other parties are sometimes required.",
+        "carrier": "STATES/CA/03_INSTRUCTIONS/CA__INSTRUCTIONS__CR-106-INFO__…__REV-2020-01-01__EN.pdf (sha256 427936ac8024…)",
+        "quote": "Most record clearing laws say you have to let the prosecuting agency (usually the district attorney) know about the record clearing request. Sometimes you also have to let law enforcement (like the police or sheriff) or other parties know about your request. Read the record clearing law you are basing your request on carefully to see who needs to know."
+      },
+      {
+        "fact": "The § 851.91 route contemplates both a prosecuting agency and a law enforcement agency.",
+        "carrier": "CR-409 and CR-410 printed text",
+        "quote": "Law enforcement agency report number: / Prosecuting agency report number:"
+      }
+    ],
+    "whatIsMissing": [
+      "A per-county mapping from filing county to the prosecuting agency that must be served, with a service address. No such table exists in any committed artifact or in the source pack; CA-california.json names no county-specific recipient anywhere.",
+      "The rule that decides District Attorney versus city attorney. Which office prosecuted is a fact about the case, not about the county, and no committed artifact supplies the determination rule.",
+      "For ca-851-91, whether the arresting law enforcement agency must also be served, and how its identity and address are obtained."
+    ],
+    "conclusion": "The design is incomplete. Guessing a recipient or an address would put a false service declaration under a participant signature, and a proof of service is the one document whose entire content is that assertion. CR-106 is therefore held rather than authored, and the petitions ship without their service component - which F2 records as cross-cutting finding F2-10."
+  },
+  "legalIntegrityDisposition": "Held on design. No field map is authored, no fixture is rendered and nothing is sellable. This is a deliberate non-implementation with an exact unblock, not an unfinished one.",
+  "checkoutProhibited": true,
+  "participantTreatment": {
+    "routeStatus": "complete_guidance_no_packet",
+    "checkoutProhibited": true,
+    "whatTheParticipantIsTold": "LegalEase does not prepare your proof of service. California requires you to serve the prosecuting attorney — the District Attorney, or the city attorney if a city attorney prosecuted your case — and for an arrest-sealing petition you may also have to serve the law enforcement agency that arrested you. Because the correct office and its address depend on your case and county, you complete form CR-106 yourself after you serve.",
+    "receivingAuthority": "The prosecuting attorney for the county where the case was filed (District Attorney, or the city attorney if that office prosecuted); for a Penal Code § 851.91 arrest-sealing petition, also the law enforcement agency that made the arrest.",
+    "nextStep": "Read the record-clearing law your request is based on to confirm who must be served, obtain the correct office address, have someone over 18 who is not you deliver or mail the papers, then complete and file form CR-106. Judicial Council form CR-106-INFO explains the process step by step.",
+    "whatToGather": [
+      "A copy of every document you filed with the court",
+      "The name and service address of the prosecuting office",
+      "For § 851.91, the arresting agency name and address",
+      "The name and address of the adult who served the papers"
+    ],
+    "whatNotToDo": [
+      "Do not serve the papers yourself — the server must be someone else over 18",
+      "Do not sign a proof of service before the papers have actually been served",
+      "Do not guess an agency address; confirm it with the court or the agency"
+    ],
+    "neverDeliverRawXfa": true,
+    "adobeReaderNotRequired": true
+  },
+  "participantFacingStrings": {
+    "en": {
+      "formPurpose": "CR-106 proves to the court that the other side received your record-clearing papers.",
+      "whatYouDo": "Serve the prosecuting attorney first, then fill out and file CR-106 yourself.",
+      "whatWeDoNotDo": "LegalEase does not name the office to serve, does not supply an address, and does not prepare or sign this form.",
+      "noCheckout": "This form is not available for purchase and is not included in any packet."
+    },
+    "es": {
+      "formPurpose": "El CR-106 demuestra al tribunal que la otra parte recibio sus documentos de limpieza de antecedentes.",
+      "whatYouDo": "Primero notifique al fiscal, y luego complete y presente usted mismo el CR-106.",
+      "whatWeDoNotDo": "LegalEase no indica cual oficina debe ser notificada, no proporciona una direccion, y no prepara ni firma este formulario.",
+      "noCheckout": "Este formulario no esta disponible para la compra y no se incluye en ningun paquete."
+    }
+  },
+  "blocker": {
+    "exactMissingEvidence": "A California service-recipient design: for each filing county, the prosecuting office that must be served and its service address; the rule that selects District Attorney versus city attorney; and for ca-851-91, whether and how the arresting law enforcement agency is served.",
+    "owner": "counsel / CA state-pack legal design with Terminal E",
+    "nextAction": "Supply the recipient design as a committed artifact. Lane E then authors the CR-106 field map as a fail-closed county-aware recipient contract — no recipient resolved, no render — and adds canonical, boundary and negative fixtures.",
+    "unblockChangesTierTo": [
+      "tier_1_hybrid_widget_shadow"
+    ]
+  }
+}

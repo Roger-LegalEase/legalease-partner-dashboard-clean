@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "rcap-staging-apply-evidence/v1",
+  "generatedBy": "scripts/verify-rcap-migration-apply-evidence.mjs",
+  "mode": "ephemeral_self_test",
+  "targetProject": null,
+  "behaviouralChecksRun": true,
+  "migrationsInApplyOrder": [
+    {
+      "phase": 49,
+      "path": "supabase/phase-49-rcap-packet-render-jobs.sql",
+      "sha256": "2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6"
+    },
+    {
+      "phase": 50,
+      "path": "supabase/phase-50-rcap-packet-delivery-hardening.sql",
+      "sha256": "84facd03b1362679898ba599db4247c2bafe6e675ee1691c37181adbde9e9057"
+    },
+    {
+      "phase": 51,
+      "path": "supabase/phase-51-rcap-consumer-payment-gate.sql",
+      "sha256": "3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba"
+    },
+    {
+      "phase": 52,
+      "path": "supabase/phase-52-rcap-consumer-payment-authority.sql",
+      "sha256": "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3"
+    },
+    {
+      "phase": 53,
+      "path": "supabase/phase-53-rcap-consumer-job-binding.sql",
+      "sha256": "469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f"
+    },
+    {
+      "phase": 54,
+      "path": "supabase/phase-54-rcap-person-namespace-hardening.sql",
+      "sha256": "3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac"
+    }
+  ],
+  "totals": {
+    "checks": 33,
+    "passed": 33,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "id": "A49",
+      "title": "phase 49 authorization path and bytes still match",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "A50",
+      "title": "phase 50 authorization path and bytes still match",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "A51",
+      "title": "phase 51 authorization path and bytes still match",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "A52",
+      "title": "phase 52 authorization path and bytes still match",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "A53",
+      "title": "phase 53 authorization path and bytes still match",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "A54",
+      "title": "phase 54 authorization path and bytes still match",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "A-order",
+      "title": "the apply order is exactly 49 -> 50 -> 51 -> 52 -> 53",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "M49",
+      "title": "phase 49 is present in the database",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "M50",
+      "title": "phase 50 is present in the database",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "M51",
+      "title": "phase 51 is present in the database",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "M52",
+      "title": "phase 52 is present in the database",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "M53",
+      "title": "phase 53 is present in the database",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "F-52",
+      "title": "finalize_packet_render_job is the Phase 52 definition",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "F-51-gone",
+      "title": "the Phase 51 job-keyed consumption unit is gone",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "P-exists",
+      "title": "record_consumer_packet_payment exists",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "P-searchpath",
+      "title": "its search_path is pinned",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "P-secdef",
+      "title": "it is SECURITY DEFINER",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "P-deny-public",
+      "title": "public cannot execute the payment writer",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "P-deny-anon",
+      "title": "anon cannot execute the payment writer",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "P-deny-authenticated",
+      "title": "authenticated cannot execute the payment writer",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "P-allow-service",
+      "title": "service_role holds the intended execution authority",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "C-deny-anon",
+      "title": "anon cannot write any payment column",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "C-deny-authenticated",
+      "title": "authenticated cannot write any payment column",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "C-safe-open",
+      "title": "safe nonpayment Briefcase operations remain available",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "B-consumer_briefcase_item_id",
+      "title": "packet_render_jobs carries consumer_briefcase_item_id",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "B-consumer_auth_user_id",
+      "title": "packet_render_jobs carries consumer_auth_user_id",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "B-person_id",
+      "title": "packet_render_jobs carries person_id",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "B-matter_id",
+      "title": "packet_render_jobs carries matter_id",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "U-item",
+      "title": "consumer payment uniqueness covers the item",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "U-receipt",
+      "title": "consumer payment uniqueness covers the receipt",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "BE-refund",
+      "title": "a pre-finalization refunded payment is ineligible",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "BE-conflict",
+      "title": "a uniqueness conflict is typed and never strands a job in validating",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "BE-sponsored",
+      "title": "sponsored accounting remains separate from consumer payment",
+      "passed": true,
+      "observed": null
+    }
+  ]
+}

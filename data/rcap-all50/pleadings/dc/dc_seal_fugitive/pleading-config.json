@@ -1,0 +1,242 @@
+{
+  "config": {
+    "jurisdictionCode": "DC",
+    "trackId": "dc_seal_fugitive",
+    "templateGrade": "legal_ops_custom_pleading",
+    "templateLifecycle": "replacement_candidate",
+    "primaryReliefTerm": "sealing",
+    "documentTitleFull": "MOTION TO SEAL A FUGITIVE-FROM-JUSTICE ARREST RECORD PURSUANT TO D.C. CODE § 16-806(a)(2)",
+    "courtCaption": "SUPERIOR COURT OF THE DISTRICT OF COLUMBIA",
+    "primaryStatutoryAuthority": [
+      {
+        "citation": "D.C. Code § 16-806(a)(2)",
+        "description": "Reaches a person arrested in the District as a fugitive who waived extradition and was released or detained under the extradition statute, whose fugitive case reached final disposition, and who has appeared before the proper official in the other jurisdiction. The Court shall grant if sealing is in the interests of justice."
+      }
+    ],
+    "verificationStatute": {
+      "citation": null,
+      "description": "DC motion verification is a declaration under penalty of perjury; confirm the exact declaration/notarization form with counsel and current Superior Court practice."
+    },
+    "includeProposedOrder": false,
+    "includeCertificateOfService": true,
+    "serviceNote": "Serve the correct prosecutor: the U.S. Attorney's Office for DC or the DC Office of the Attorney General, depending on the case.",
+    "counselFlags": [
+      "Automatic relief caution: DC has automatic record relief for some records, but processing is phased in and may not be complete until October 1, 2027. This workflow should not treat automatic relief as completed record clearing.",
+      "Prosecutor identity: Serve the correct prosecutor: the U.S. Attorney's Office for DC or the DC Office of the Attorney General, depending on the case.",
+      "Eligibility exclusions: Master Grid Group 1-3 felony convictions are not eligible for by-motion sealing.",
+      "Records scope: DC record relief reaches DC records, not federal records or records from other jurisdictions.",
+      "DC motion verification is a declaration under penalty of perjury; confirm the exact declaration/notarization form with counsel and current Superior Court practice.",
+      "BUILD BLOCKER carried from the pin: what expires on September 11, 2026, and which subsections of the sealing statute revert, is unresolved. The pin classifies this as a build blocker against the eligibility branch, on the basis that any temporary-law provision whose current applicability changes which motion route, waiting period or deadline applies is a true blocker. This packet is drafted to the subsection the pin names as this track's authority and must not be promoted past pleading_packet_rendered until that question is answered.",
+      "The movant must establish appearance before the proper official in the originating jurisdiction. That is the movant's own showing; the packet does not supply or argue it.",
+      "Sealed-record access nuance carried from the pin: records sealed as fugitive-from-justice arrests are not available to the licensing, school and childcare, and senior government employer entities the statute enumerates.",
+      "The court decides whether a hearing is required and may order a response; initial review may dismiss or deny. The prosecutor need not respond unless ordered. None of that is asserted in the motion.",
+      "A prior motion denied inside the one-year window is a self-help stop condition.",
+      "The pinned entry records no waiting period for this route, so none is pleaded and the waiting-period field is left null. A prior motion denied inside the one-year window is handled as a self-help stop condition, not as a waiting period.",
+      "Which office prosecutes a given case — the United States Attorney's Office for the District of Columbia or the District of Columbia Office of the Attorney General — and the correct service address for each are recorded in the pin as an unresolved release blocker. The certificate of service carries a confirm bracket rather than an address.",
+      "Current Criminal Division standing orders and post-March 2025 filing practice must be confirmed before filing; the pin records this as an unresolved release blocker. Clerk intake runs through the Criminal Division's sealing intake team.",
+      "The pinned packetSet for this track lists a single required component, the primary filing, and no proposed order. None is generated: the order is the court's own instrument and the pin does not place one in the participant's packet.",
+      "The court's instruction sheet states no fee for this motion and no statutory or fee-schedule source was located, so no figure is quoted and the fee field is left null. The source review does not address a fee waiver.",
+      "Self-help stop conditions: The prosecutor files an opposition or the court orders a response. The court sets a hearing. A victim submits a statement. The record is federal, military, tribal, or from another jurisdiction. Immigration, firearm, licensing, security clearance, childcare, healthcare, or law enforcement employment consequences are in play. A prior motion was denied inside the one-year window.",
+      "legalStatus is legal_review_pending and the pinned registry records output review, visual review and technical proof as outstanding. This packet is build output for review, not live routing."
+    ],
+    "presentation": {
+      "sovereignPartyName": "DISTRICT OF COLUMBIA",
+      "sovereignPartyProper": "the District of Columbia",
+      "sovereignRole": "Respondent",
+      "movantRole": "Movant",
+      "filingNoun": "Motion",
+      "divisionLine": "CRIMINAL DIVISION",
+      "usesCounty": false,
+      "courtName": "Superior Court of the District of Columbia",
+      "venueDescriptor": "the District of Columbia",
+      "recordCustodianLead": "The Metropolitan Police Department and the Superior Court of the District of Columbia",
+      "verificationVerb": "declare under penalty of perjury",
+      "verificationPenaltyLabel": "the penalties for making a false statement",
+      "serviceRecipientLabel": "the prosecutor of record (the United States Attorney's Office for the District of Columbia or the District of Columbia Office of the Attorney General)",
+      "serviceRecipientAddressLabel": "[PROSECUTOR ADDRESS — CONFIRM USAO-DC OR DC OAG FOR THIS CASE]",
+      "reliefActionVerb": "seal",
+      "orderActionVerb": "seal",
+      "recordsScopePhrase": "the records of the fugitive-from-justice arrest identified above"
+    }
+  },
+  "qaProhibitedTerms": [
+    "expungement",
+    "expunge",
+    "expunged",
+    "destroy",
+    "destroyed",
+    "erase",
+    "erased"
+  ],
+  "sourceSilences": [
+    {
+      "field": "verificationStatute.citation",
+      "sourceStatement": "The movant signs their own motion. Notarization: The source review does not state a notarization requirement for this motion.",
+      "note": "No verification statute is named by the source and no notarization requirement is stated; the citation stays null.",
+      "counselFlag": "DC motion verification is a declaration under penalty of perjury; confirm the exact declaration/notarization form with counsel and current Superior Court practice."
+    },
+    {
+      "field": "filingFee",
+      "sourceStatement": "The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review.",
+      "note": "No figure is recorded and none is quoted in the motion or the participant instructions; the field stays null.",
+      "counselFlag": "The court's instruction sheet states no fee for this motion and no statutory or fee-schedule source was located, so no figure is quoted and the fee field is left null. The source review does not address a fee waiver."
+    },
+    {
+      "field": "feeWaiver",
+      "sourceStatement": "The source review does not address a fee waiver.",
+      "note": "The source review does not address a fee waiver, so none is asserted and the field stays null.",
+      "counselFlag": "The court's instruction sheet states no fee for this motion and no statutory or fee-schedule source was located, so no figure is quoted and the fee field is left null. The source review does not address a fee waiver."
+    },
+    {
+      "field": "waitingPeriod",
+      "sourceStatement": "waitingPeriods: [] — the pinned entry records no waiting period for this route.",
+      "note": "No waiting period is recorded, so none is pleaded and the field stays null. The one-year bar on refiling after a denial is a separate stop condition, not a waiting period for a first motion.",
+      "counselFlag": "The pinned entry records no waiting period for this route, so none is pleaded and the waiting-period field is left null. A prior motion denied inside the one-year window is handled as a self-help stop condition, not as a waiting period."
+    }
+  ],
+  "componentInventory": [
+    {
+      "component": "caption",
+      "status": "present",
+      "sectionId": "court_caption",
+      "notes": "Caption reused verbatim from the coded DC pleading config."
+    },
+    {
+      "component": "case_number_block",
+      "status": "present",
+      "sectionId": "case_number_block",
+      "notes": "One motion per case number; the case number stays a confirm bracket in canonical output."
+    },
+    {
+      "component": "court_party_identity",
+      "status": "present",
+      "sectionId": "parties"
+    },
+    {
+      "component": "title",
+      "status": "present",
+      "sectionId": "document_title"
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "sectionId": "statutory_authority"
+    },
+    {
+      "component": "jurisdiction_and_venue",
+      "status": "present",
+      "sectionId": "jurisdiction_venue"
+    },
+    {
+      "component": "allegations",
+      "status": "present",
+      "sectionId": "facts_case_history"
+    },
+    {
+      "component": "eligibility_allegations",
+      "status": "present",
+      "sectionId": "eligibility_allegations",
+      "notes": "Every clause is a participant-supplied answer to a registry generation requirement."
+    },
+    {
+      "component": "primary_filing",
+      "status": "present",
+      "sectionId": "document_title",
+      "notes": "The single required component in the pinned packetSet for this track."
+    },
+    {
+      "component": "requested_relief",
+      "status": "present",
+      "sectionId": "requested_relief"
+    },
+    {
+      "component": "verification",
+      "status": "present",
+      "sectionId": "verification_signature",
+      "notes": "Declaration under penalty of perjury, reused from the coded DC config; the citation is null and the silence is recorded."
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "sectionId": "verification_signature"
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "present",
+      "sectionId": "certificate_of_service",
+      "notes": "The motion is served on the prosecutor, who need not respond unless the court orders it. The prosecutor's identity and address are a confirm bracket because the pin records both as unresolved."
+    },
+    {
+      "component": "attachment_list",
+      "status": "present",
+      "sectionId": "attachment_list"
+    },
+    {
+      "component": "participant_cover_sheet",
+      "status": "present",
+      "location": "participant-instructions.md"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "location": "participant-instructions.md"
+    },
+    {
+      "component": "proposed_order",
+      "status": "absent",
+      "reason": "The pinned packetSet for this track lists a single required component, the primary filing, and no proposed order. The order is the court's own instrument and none is generated."
+    },
+    {
+      "component": "appearance_showing",
+      "status": "present",
+      "sectionId": "eligibility_allegations",
+      "notes": "The movant's own statement that they appeared before the proper official in the originating jurisdiction, which the source makes the movant's showing."
+    },
+    {
+      "component": "full_known_history_statement",
+      "status": "present",
+      "sectionId": "eligibility_allegations",
+      "notes": "Registry generation requirement: the movant's own statement of their known history."
+    },
+    {
+      "component": "eligibility_branch_confirmation",
+      "status": "blocked_dependency",
+      "reason": "The pin records a build blocker against this track's eligibility branch: what expires on September 11, 2026, and which subsections of the sealing statute revert, is unresolved, on the stated basis that any temporary-law provision whose current applicability changes which motion route, waiting period or deadline applies is a true blocker. Exact missing source: the current applicability of the temporary-law provision and the reverted text of the affected subsections. Issuing body: the Council of the District of Columbia. Where published: the District of Columbia Official Code as amended. Lane C2 does not resolve it and does not guess which subsection governs after that date; the motion is drafted to the subsection the pin names as this track's authority.",
+      "notes": "This is a build blocker on which subsection applies, not on the filing vehicle, which the pin settles. Promotion past pleading_packet_rendered is withheld until it is answered."
+    }
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/dc/all50-build-metadata.ts",
+      "src/lib/rcap/state-packs/dc/disqualifying-offenses.ts",
+      "src/lib/rcap/state-packs/dc/document-types.ts",
+      "src/lib/rcap/state-packs/dc/eligibility-rules.ts",
+      "src/lib/rcap/state-packs/dc/filing-instructions.ts",
+      "src/lib/rcap/state-packs/dc/index.ts",
+      "src/lib/rcap/state-packs/dc/pathways.ts",
+      "src/lib/rcap/state-packs/dc/required-fields.ts",
+      "src/lib/rcap/state-packs/dc/safety-language.ts",
+      "src/lib/rcap/state-packs/dc/sample-data.ts",
+      "src/lib/rcap/state-packs/dc/waiting-periods.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "fingerprint": "426fed6ae99ae6b045eb09e56d4ec92d51569228877fe688a3db2f88bfd07211",
+    "registryAuthority": [
+      "D.C. Code § 16-806(a)(2)"
+    ],
+    "registryExcerpt": "Arrested in DC as a fugitive, waived extradition under § 23-702(f)(1) and released or detained under (f)(2) or (f)(3), the fugitive case reached final disposition, and the person has appeared before the proper official in the other jurisdiction. The Court shall grant if sealing is in the interests of justice. Venue: District of Columbia Superior Court, Criminal Division; one motion per case number in the case being addressed. Destination: Superior Court of the District of Columbia, Criminal Division — Court-controlled, with a clerk intake step through the Criminal Division Seal Team. filing: File with the Criminal Division; clerk intake through the Seal Team. fees: The court's instruction sheet states no fee. No statutory or fee-schedule source was located in this review. feeWaiver: The source review does not address a fee waiver. notice: Initial review may dismiss or deny; otherwise the court decides whether a hearing is required and may order a response. service: Served on the prosecutor; the prosecutor need not respond unless ordered. participantSignature: The movant signs their own motion. notarization: The source review does not state a notarization requirement for this motion. Sealed-record access nuance: records sealed as fugitive-from-justice arrests are not available to the § 16-801(5)(D), (E), (F) licensing, school and childcare, and senior government employer entities. The movant must establish appearance before the proper official in the originating jurisdiction. Manual completion: Signature and date Unresolved (eligibility_branch, build_blocker): What expires on September 11, 2026, and which subsections of § 16-806 revert. Unresolved (notice_or_service, release_blocker): The rule for determining whether the U.S. Attorney's Office or the Office of the Attorney General is the prosecuting agency for a given case, and the correct service address for each. Unresolved (filing_process, release_blocker): Current Chapter 8 standing orders and post-March 1, 2025 filing practice must be confirmed.",
+    "reusedCodedConfig": {
+      "path": "src/lib/record-clearing/dc-config.ts",
+      "sha256": "4ff46ce79396af1addd2ae98781e564eb0a28f580a1489f2f781e88518089c17",
+      "reusedFields": [
+        "presentation (all fields except the per-track relief and order verbs)",
+        "verificationStatute",
+        "serviceNote",
+        "courtCaption",
+        "the counsel flags shared by both coded DC motion configs"
+      ],
+      "note": "Read out of the coded config at build time rather than retyped, so these artifacts and the coded DC pleading config cannot drift apart."
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "fixtureId": "in_supplemental_order-boundary",
+  "trackId": "in_supplemental_order",
+  "configPath": "data/rcap-all50/pleadings/indiana/in_supplemental_order/pleading-config.json",
+  "description": "Timing and exclusion edges: the original expungement order issued the day before the amendment took effect (the earliest case the statute reaches, since it requires the chapter to be amended AFTER the grant), the track records no waiting period, and the participant has previously filed a Sections 2 through 5 petition, which is a recorded self-help stop condition and raises the unresolved section 9(i) one-petition question. Dates are synthetic test inputs, not asserted facts.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "ALEX SAMPLE-BOUNDARY",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, IN 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "",
+    "originalExpungementCounty": "",
+    "originalExpungementCauseNumber": "",
+    "countyName": "",
+    "docketNumber": "",
+    "otn": "",
+    "judgeName": "",
+    "prosecutorName": "",
+    "prosecutorPosition": "",
+    "filingDate": ""
+  },
+  "chargeData": {
+    "chargeDescription": "",
+    "offenseLevel": "",
+    "disposition": "",
+    "dispositionDate": "",
+    "arrestDate": "",
+    "arrestingAgency": ""
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "originalExpungementCourt": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: the granting court, order dated one day before the amendment's effective date]",
+      "originalExpungementSection": "[PARTICIPANT ANSWER - SYNTHETIC TEST VALUE: Section 5]",
+      "amendmentRelieadOn": "[COUNSEL-SETTLED FOR THE CYCLE - SYNTHETIC PLACEHOLDER; NO AMENDMENT IS NAMED IN THIS ARTIFACT]",
+      "reliefSought": "[PARTICIPANT-AUTHORED - NOT SUPPLIED, EXPANDED OR ARGUED BY LEGALEASE]"
+    },
+    "certifiedOriginalOrderObtained": true,
+    "grantedBeforeAmendment": "yes - by one day",
+    "priorSections2To5PetitionFiled": true,
+    "eligibilityBasisLabel": null,
+    "eligibilityBasisNote": "No eligibility conclusion is asserted.",
+    "boundaryUnderTest": [
+      "Timing edge: the statute reaches amendments made AFTER the grant. An order issued the day before the amendment's effective date is the earliest qualifying case.",
+      "Waiting period edge: the track records \"None\" once a qualifying amendment exists, so the petition may follow immediately.",
+      "Stop-condition edge: the participant has already filed a Sections 2 through 5 petition, which is a recorded self-help stop condition on this track.",
+      "Open question edge: whether a section 9(l) supplemental petition counts against the one-petition limitation in section 9(i) is unresolved, and this is the fixture that exposes it."
+    ],
+    "additionalFacts": []
+  },
+  "protectedFields": {
+    "dateOfBirth": "",
+    "ssnLastFour": "",
+    "driverLicenseNumber": "",
+    "stateIdNumber": ""
+  },
+  "attachments": [
+    "Certified copy of the original expungement order (participant obtains from the clerk of the granting court)"
+  ],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectedBehaviour": "The prior Sections 2 through 5 petition must trip the self-help stop condition and route to counsel rather than producing a packet."
+}

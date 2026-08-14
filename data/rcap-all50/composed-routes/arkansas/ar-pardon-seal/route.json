@@ -1,0 +1,282 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "ar-pardon-seal",
+  "jurisdiction": {
+    "code": "AR",
+    "name": "Arkansas",
+    "slug": "arkansas"
+  },
+  "jobId": "T-C-AR-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "legalName": "Sealing After a Pardon, A.C.A. § 16-90-1411",
+  "publicName": "Sealing After A Pardon",
+  "mechanism": "The existence of an official ACIC pardoned-offender petition and order pair means the sealing stage is not guidance-only. Obtaining the pardon remains guidance.",
+  "compositionMode": "sequential",
+  "outputStrategyDeclared": "composed",
+  "routeDecision": {
+    "decision": "composed_route_with_official_form_dependencies",
+    "rationale": [
+      "The registry declares outputStrategyDeclared 'composed' with compositionMode 'sequential' for this track.",
+      "Scope restriction on this track: “The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.” No pleading_document unit is drafted for this route.",
+      "Scope restriction on this track: “The prerequisite event may remain guidance, while the later participant filing is a packet product.” Stage 1 is therefore a participant instruction, not a court document."
+    ],
+    "pleadingDocumentUnits": 0,
+    "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].outputStrategyDeclared; registry@3b6f4c1:tracks[ar-pardon-seal].scopeRestrictions"
+  },
+  "authoritySpine": [
+    {
+      "citation": "A.C.A. § 16-90-1411",
+      "description": "Sealing After a Pardon, A.C.A. § 16-90-1411",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].authority[0]"
+    },
+    {
+      "citation": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "description": "Official form authority named by the registry for this track.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].authority[1]"
+    },
+    {
+      "citation": "Petition and Order to Seal Pardoned / Youthful Felony Offender — Records of a pardoned person under § 16-90-1411.",
+      "description": "Arkansas uses standardized AOC / ACIC uniform petition-and-order to seal forms, posted on the Department of Public Safety / ACIC site, filed in the court that handled the case. Each disposition has its own petition-and-order pair.",
+      "sourceRef": "profile:sourceSections[5] 'Required forms' lines 220-262"
+    },
+    {
+      "citation": "Arkansas filing and service sequence (compiled profile)",
+      "description": "Sealing is filed in the court that handled the case; a person with cases in several courts files in each. Venue is the court that handled the case — file separately in each county where the person has records.",
+      "sourceRef": "profile:sourceSections[6] 'Filing instructions' lines 263-285"
+    },
+    {
+      "citation": "ACIC forms index, criminal history",
+      "description": "Official source retrieved 2026-07-30. URL: https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].officialSources"
+    },
+    {
+      "citation": "A.C.A. § 16-90-1411",
+      "description": "Official source retrieved 2026-07-30. URL: https://arkleg.state.ar.us/",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].officialSources"
+    }
+  ],
+  "units": [
+    {
+      "unitId": "ar-pardon-seal-stage-1",
+      "legalUnit": "Obtaining the pardon",
+      "authority": {
+        "citation": "A.C.A. § 16-90-1411",
+        "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].authority[0]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "ar-pardon-seal-process-guidance-1",
+      "applicability": {
+        "includedWhen": "Screening selects this route and has not yet confirmed the prerequisite event described by \"Has a pardon been granted, and on what date?\", \"What was the conviction — which court, county, offence and statute section?\", \"Was this a youthful felony offender adjudication?\".",
+        "excludedWhen": "Screening confirms the prerequisite event is complete and the participant is proceeding directly to the filing stage."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-process-guidance-1/process-guidance.md"
+      },
+      "notes": "Explain how to seek a pardon. LegalEase does not generate the pardon application on this track."
+    },
+    {
+      "unitId": "ar-pardon-seal-stage-2",
+      "legalUnit": "ACIC pardoned-offender petition and order — petition",
+      "authority": {
+        "citation": "A.C.A. § 16-90-1411",
+        "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].authority[0]; registry@3b6f4c1:tracks[ar-pardon-seal].packetSet.components[1]"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ar-pardon-seal-primary-filing-2",
+      "applicability": {
+        "includedWhen": "Screening confirms \"Has a pardon been granted, and on what date?\" and \"What was the conviction — which court, county, offence and statute section?\" and \"Was this a youthful felony offender adjudication?\"",
+        "excludedWhen": "Screening reports any of: The prosecuting attorney objects within the 30-day window.; The court sets a contested hearing.; Immigration, licensing or firearm consequences are in play.; The participant has not yet obtained a pardon."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender — current official PDF from the ACIC criminal-history forms index (https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Not acquired. Registry implementationQueue: F_source_problem."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-primary-filing-2/dependency.json",
+      "notes": "Generate the ACIC pardoned-offender petition and order pair where a participant filing is accepted."
+    },
+    {
+      "unitId": "ar-pardon-seal-stage-2-proposed-order",
+      "legalUnit": "ACIC pardoned-offender petition and order — proposed uniform order for the judge",
+      "authority": {
+        "citation": "A.C.A. § 16-90-1411",
+        "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].packetSet.components[2]; profile:sourceSections[5] 'Required forms' lines 220-262"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ar-pardon-seal-proposed-order-3",
+      "applicability": {
+        "includedWhen": "Always paired with the petition unit. The profile states each filing “pairs the petition with a proposed uniform order for the judge”.",
+        "excludedWhen": "Never excluded while the petition unit is included."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender — current official PDF from the ACIC criminal-history forms index (https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Not acquired. Registry implementationQueue: F_source_problem."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-proposed-order-3/dependency.json",
+      "notes": "Proposed order half of the ACIC uniform pair. Not drafted: the ACIC pair governs."
+    },
+    {
+      "unitId": "ar-pardon-seal-records-authorization",
+      "legalUnit": "Arkansas criminal history request, via the ACIC Authorization for Review of Criminal History Information",
+      "authority": {
+        "citation": "ACIC Authorization for Review of Criminal History Information",
+        "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].participantFilingRequirements[name='Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information']; profile:sourceSections[9] 'Criminal history (ACIC) request process' lines 333-338"
+      },
+      "requiredOutput": "official_form_dependency",
+      "componentId": "ar-pardon-seal-records-authorization-0",
+      "applicability": {
+        "includedWhen": "The records step preceding the petition — screening has not produced a current ACIC criminal history confirming the court, county, offense and disposition.",
+        "excludedWhen": "Screening shows a current ACIC criminal history is already in the participant's hands and agrees with their answers."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "ACIC Authorization for Review of Criminal History Information — current official form from the ACIC criminal-history forms index (https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/). Not acquired."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/arkansas/ar-pardon-seal/components/ar-pardon-seal-records-authorization-0/dependency.json",
+      "notes": "Conditional pre-filing requirement recorded in the registry, not a packetSet component. componentId is synthesized by this route; it does not appear in the registry packetSet."
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender — petition half of the ACIC uniform pair",
+        "componentId": "ar-pardon-seal-primary-filing-2",
+        "drafted": false,
+        "reason": "Official ACIC form; not acquired and not drafted."
+      },
+      {
+        "item": "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender — proposed uniform order for the judge",
+        "componentId": "ar-pardon-seal-proposed-order-3",
+        "drafted": false,
+        "reason": "Official ACIC form; not acquired and not drafted."
+      },
+      {
+        "item": "Fingerprint card, submitted with the petition",
+        "componentId": null,
+        "drafted": false,
+        "reason": "Participant obtains from a law enforcement agency or authorised fingerprint vendor; LegalEase does not collect them."
+      }
+    ],
+    "participantOnly": [
+      {
+        "item": "Stage-one process guidance",
+        "componentId": "ar-pardon-seal-process-guidance-1",
+        "note": "Explains the prerequisite event. Never filed with the court."
+      },
+      {
+        "item": "Participant filing instructions",
+        "componentId": null,
+        "note": "participant-instructions.md. Never filed with the court."
+      },
+      {
+        "item": "ACIC Authorization for Review of Criminal History Information",
+        "componentId": "ar-pardon-seal-records-authorization-0",
+        "note": "Submitted to the Arkansas Crime Information Center, not to the court."
+      }
+    ]
+  },
+  "counselFlags": [
+    {
+      "id": "ar-pardon-seal-official-form-not-acquired",
+      "statement": "The ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+      "mustConfirm": "Acquire the current official ACIC petition-and-order pair named in the track authority before any document is produced for this route.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].releaseBlockers[0]"
+    },
+    {
+      "id": "ar-pardon-seal-objection-window",
+      "statement": "Registry rules.notice for this track states a single 30-day prosecutor objection window; the profile filing instructions state 30 days for a misdemeanor and 90 days for a felony. This track covers conviction records, including youthful felony offender adjudications, so the applicable window must be confirmed before any participant-facing deadline is published.",
+      "mustConfirm": "Which prosecutor objection window applies to this track's record types.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].rules.notice; profile:sourceSections[6] 'Filing instructions' lines 263-285"
+    },
+    {
+      "id": "ar-pardon-seal-filing-fee-conflict",
+      "statement": "The track rules state: “The source review does not state a filing fee for this petition.” The compiled profile states that Act 1460 eliminated sealing filing fees and lists the sealing petition filing fee as $0. No fee amount is asserted anywhere in this route; the conflict must be resolved before any fee statement is shown to a participant.",
+      "mustConfirm": "Whether a filing fee exists for this specific petition, and whether the Act 1460 fee elimination reaches this route.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].rules.fees; profile:packetGenerator.feeRules"
+    },
+    {
+      "id": "ar-pardon-seal-fee-waiver-unstated",
+      "statement": "The track rules state: “The source review does not address a fee waiver.” No fee-waiver procedure is asserted in this route.",
+      "mustConfirm": "Whether a fee waiver exists and what it requires, if a fee exists at all.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].rules.feeWaiver"
+    },
+    {
+      "id": "ar-pardon-seal-notarization-conflict",
+      "statement": "The track rules state: “The source review does not state a notarization requirement.” The same registry entry nevertheless lists a participant action of kind ‘notarize’ marked required before filing. No notarization instruction is asserted in this route until the conflict is resolved.",
+      "mustConfirm": "Whether the ACIC petition for this route must be notarized.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].rules.notarization; registry@3b6f4c1:tracks[ar-pardon-seal].packetSet.participantActionRequired[kind=notarize]"
+    },
+    {
+      "id": "ar-pardon-seal-venue-and-court-identity",
+      "statement": "Court name, county, division, docket number, judge and prosecuting attorney are left null in this route. The only sourced venue rule is: “Sealing is filed in the court that handled the case; a person with cases in several courts files in each. Venue is the court that handled the case — file separately in each county where the person has records.” The destination recorded for this track is “The court handling the sealing after the pardon”.",
+      "mustConfirm": "That the participant's screening answers supply the court that handled the case, and that no court identity is prefilled from any other source.",
+      "sourceRef": "profile:sourceSections[6] 'Filing instructions' lines 263-285; registry@3b6f4c1:tracks[ar-pardon-seal].destination"
+    },
+    {
+      "id": "ar-pardon-seal-legal-status",
+      "statement": "Track legalStatus is ‘legal_review_pending’ and legalDesignStatus is ‘legal_design_approved_with_limitations’. Runtime is disabled: “Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.”",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].legalStatus / .legalDesignStatus / .runtimeDisabledReason"
+    },
+    {
+      "id": "ar-pardon-seal-pardon-prerequisite",
+      "statement": "Self-help boundary on this track: “The participant has not yet obtained a pardon.” The route asserts nothing about how a pardon is obtained and prepares no pardon application.",
+      "mustConfirm": "That screening confirms a granted pardon and its date before the sealing filing is offered.",
+      "sourceRef": "registry@3b6f4c1:tracks[ar-pardon-seal].selfHelpBoundaries"
+    }
+  ],
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit the pinned registry entry and the compiled AR profile record for this track: the two ordered stages in registry units[] (stage 1 process guidance, stage 2 official petition-and-order filing), split into the three packetSet components the registry lists (process_guidance, primary_filing, proposed_order), plus the one conditional pre-filing legal unit the registry records outside packetSet (the ACIC criminal-history authorization). Nothing else in either source describes a document, form, letter or cover sheet for this track.",
+    "unitCount": 4,
+    "registryPassagesEnumerated": [
+      "registry@3b6f4c1:tracks[ar-pardon-seal].units[] (2 entries: ar-pardon-seal-stage-1, ar-pardon-seal-stage-2)",
+      "registry@3b6f4c1:tracks[ar-pardon-seal].packetSet.components[] (3 entries: ar-pardon-seal-process-guidance-1, ar-pardon-seal-primary-filing-2, ar-pardon-seal-proposed-order-3)",
+      "registry@3b6f4c1:tracks[ar-pardon-seal].participantFilingRequirements[] (3 entries)"
+    ],
+    "profilePassageReferenced": {
+      "ref": "profile:sourceSections[5] 'Required forms' lines 220-262",
+      "passage": "Each filing identifies the petitioner, the case and court, the offense and class, the disposition, and the statutory basis, and pairs the petition with a proposed uniform order for the judge. The petition is filed with the circuit or district court that handled the case, and a copy goes to the prosecuting attorney.",
+      "reading": "The profile records exactly two court documents per Arkansas sealing filing — a petition and a paired proposed uniform order. This route contains exactly those two court-document units plus the participant-only units above."
+    },
+    "nonUnitParticipantActions": [
+      "Obtain Fingerprint card. Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them.",
+      "Obtain Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information. Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+      "Check your answer to \"What was the conviction — which court, county, offence and statute section?\" against Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information, and correct the packet if they disagree.",
+      "Obtain Pardon documentation. Attach the pardon documentation to the petition. LegalEase does not review it.",
+      "Check your answer to \"Has a pardon been granted, and on what date?\" against Pardon documentation, and correct the packet if they disagree.",
+      "Signature and date — ACIC petition, signature block.",
+      "The petitioner signs their own petition."
+    ],
+    "coverSheetAbsent": "No participant-only cover sheet unit is included: neither the registry entry nor the profile records a cover sheet for this track.",
+    "agencyRequestLetterAbsent": "No agency_request_letter unit is included: the only agency step recorded is submission of the ACIC Authorization for Review of Criminal History Information, which is an official ACIC form, not a drafted letter."
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/arkansas/index.ts",
+      "src/lib/rcap/state-packs/arkansas/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+    "profileSha256": "2472302ba06713eab793ae06fc9fd9af8627993ce1b10bfba57a6e3894b9c9d3",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=ar-pardon-seal]",
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2025-01-01"
+  }
+}

@@ -1,0 +1,267 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "in_infraction_nondisclosure",
+  "jurisdiction": {
+    "code": "IN",
+    "name": "Indiana",
+    "slug": "indiana"
+  },
+  "jobId": "T-C-IN-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "legalName": "Infraction Non-Disclosure under I.C. 34-28-5-15",
+  "publicName": "Keeping an infraction off background checks",
+  "mechanism": "The court must order the clerk and any case management system operator not to disclose infraction information to a non-criminal-justice organisation or individual where the person is not prosecuted, the charge is dismissed, the person is adjudged not to have committed the infraction, or an adjudication is later vacated. This does not apply where prosecution was deferred. Where the court failed to act, a petition branch applies with earliest filing dates. A deferral or satisfied judgment supports a verified petition no earlier than five years after satisfying the conditions.",
+  "compositionMode": "sequential",
+  "outputStrategyDeclared": "composed",
+  "primaryReliefTerm": "non-disclosure",
+  "primaryReliefTermNote": "The registry names this remedy non-disclosure of infraction information, not expungement. The compiled IN profile's terminology block carries primaryConsumerTerm 'expungement' with avoidUniversalExpungementLabel true; the profile records nothing at all about I.C. 34-28-5-15, so the track's own remedy name governs this route.",
+  "routeDecision": {
+    "decision": "composed_route_with_one_blocked_pleading_unit",
+    "rationale": [
+      "The registry declares outputStrategyDeclared 'composed' with compositionMode 'sequential' and enumerates two ordered units for this track.",
+      "Unit 1 is declared outputStrategy 'process_guidance' and is marked available:true. It is implemented here as a participant_instruction component. The registry states plainly: \"This stage generates no packet.\"",
+      "Unit 2 is declared outputStrategy 'custom_pleading' but is marked available:false with unavailableReason \"No statewide form has been identified and county handling of the MC case-type assignment is unconfirmed, so the unit stays unavailable pending those release gates.\" No petition is drafted for it. The unit is carried in units[] with a blockedDependency naming the exact missing source.",
+      "The scope restriction on this track is explicit: \"Stage 2 stays unavailable until the form and MC case-type questions close. No statewide form has been identified, so no form mapping is asserted.\" Drafting a petition body, or asserting an MC case-type filing convention, would be invention against that restriction."
+    ],
+    "pleadingDocumentUnits": 1,
+    "pleadingDocumentUnitsDrafted": 0,
+    "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].outputStrategyDeclared; .compositionMode; .units[]; .scopeRestrictions[0]"
+  },
+  "authoritySpine": [
+    {
+      "citation": "I.C. 34-28-5-15",
+      "description": "Infraction non-disclosure. The court must order the clerk and any case management system operator not to disclose infraction information to a non-criminal-justice organisation or individual in the four listed situations; where the court did not act, and after a deferral or satisfied judgment, a verified petition branch applies.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].authority[0]; .mechanism"
+    },
+    {
+      "citation": "Indiana Code 34-28-5-15, infraction non-disclosure (https://iga.in.gov/laws/2026/ic/titles/34#34-28-5-15)",
+      "description": "Official source recorded on the track, retrieved 2026-07-30. sha256 is null, so staleness cannot be detected.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].officialSources[1]"
+    },
+    {
+      "citation": "Coalition for Court Access expungement forms (https://www.in.gov/courts/iocs/self-service/expungement/)",
+      "description": "Official source recorded on the track. It is the index that must be checked to answer whether a statewide form exists for an I.C. 34-28-5-15 petition. sha256 is null.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].officialSources[2]"
+    },
+    {
+      "citation": "Indiana Office of Judicial Administration, Expungement - Detailed Information on Criminal Case Expungement (https://www.in.gov/courts/iocs/)",
+      "description": "Official source recorded on the track. Cited on this track only for the record-treatment statement that court records are not deleted or destroyed. sha256 is null.",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].officialSources[3]; .packetInstructions[0]"
+    },
+    {
+      "citation": "Indiana Rules of Trial Procedure (service on the Prosecuting Attorney)",
+      "description": "The compiled IN profile records the Indiana service convention for expungement filings: \"Petitioner has served a copy of this petition upon the Prosecuting Attorney in accordance with the Indiana Rules of Trial Procedure.\" Recorded here as background only. The profile passage comes from a Coalition for Court Access conviction-expungement form (CCA-XP-0220-7007), not from any I.C. 34-28-5-15 material, and is not asserted as the service rule for this route.",
+      "sourceRef": "profile:sourceSections[0] 'pathway_detail' lines 145-423"
+    }
+  ],
+  "units": [
+    {
+      "unitId": "in_infraction_nondisclosure-stage-1",
+      "order": 1,
+      "legalUnit": "Confirming whether the court already entered the non-disclosure order on its own",
+      "authority": {
+        "citation": "I.C. 34-28-5-15",
+        "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].authority[0]; .units[0].description (\"The statute requires the court to act on its own in the non-prosecution, dismissal, not-committed and vacatur situations.\")"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "in_infraction_nondisclosure-process-guidance-1",
+      "componentRole": "process_guidance",
+      "componentRequirement": "required",
+      "applicability": {
+        "includedWhen": "Screening reaches this route. The registry marks this component required with no condition, and the statute puts the duty on the court in the non-prosecution, dismissal, not-committed and vacatur situations, so the check runs before anything else.",
+        "excludedWhen": "Never excluded. The registry records no condition on this component."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-process-guidance-1/process-guidance.md"
+      },
+      "notes": "The registry states: \"Confirm first whether the order was already entered, because where it was there is nothing to file. This stage generates no packet.\" The clerk confirmation the participant obtains is recorded on the track as a participant filing requirement, not as a component, and is covered by this instruction rather than by a separate drafted document."
+    },
+    {
+      "unitId": "in_infraction_nondisclosure-stage-2",
+      "order": 2,
+      "legalUnit": "Verified petition under I.C. 34-28-5-15 where the court did not act, or after a deferral programme or satisfied judgment",
+      "authority": {
+        "citation": "I.C. 34-28-5-15",
+        "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].authority[0]; .units[1].description; .packetSet.components[1]"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "in_infraction_nondisclosure-primary-filing-2",
+      "componentRole": "primary_filing",
+      "componentRequirement": "conditional",
+      "applicability": {
+        "includedWhen": "Screening confirms, from the clerk, that the court did not enter a non-disclosure order, and the participant's answers to \"How did it end - never prosecuted, dismissed, found not to have committed it, an adjudication later vacated, a deferral programme completed, or a judgment satisfied?\" and \"On what date did that happen?\" place the matter past the earliest filing date the statute allows for that situation; or the participant satisfied the conditions of a deferral programme or the judgment imposed and the five-year period has run.",
+        "excludedWhen": "The clerk confirms the court already entered the order (there is nothing to file); or the participant answers yes to \"Was prosecution deferred?\" and relies on the automatic branch, which the registry states does not apply to deferred prosecutions; or the five-year deferral period has not run; or any self-help stop condition is present - the prosecuting attorney files a notice in opposition, the court sets a hearing, or the county's MC case-type handling is unclear."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "blockedDependency": "Determination, from the Coalition for Court Access expungement forms index at https://www.in.gov/courts/iocs/self-service/expungement/ (official source recorded on this track, retrieved 2026-07-30, sha256 null), of (a) whether a statewide form exists for an I.C. 34-28-5-15 infraction non-disclosure petition and, if one does, acquisition of that current official form, and (b) how Indiana counties handle the MC case-type assignment where no cause number was assigned. Owning lane: lane-D/E official-source acquisition and source-question closure. Registry implementationQueue for this track: D_composed_or_process_guidance."
+      },
+      "dependencyManifestPath": "data/rcap-all50/composed-routes/indiana/in_infraction_nondisclosure/components/in_infraction_nondisclosure-primary-filing-2/dependency.json",
+      "notes": "No petition body, caption, allegation, verification block or filing convention is drafted for this unit. The registry marks the unit available:false and carries the scope restriction \"No statewide form has been identified, so no form mapping is asserted.\" What the registry does state about this filing, and which is recorded here without being rendered into a document: filed under the original cause number, or as an MC case type where none was assigned, in the court where the charges were brought or the trial was held, or the court with jurisdiction over the violation for a deferral participant; no fee; verified and signed by the petitioner; served on the prosecuting attorney, who has thirty days to file a notice in opposition."
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "Verified petition under I.C. 34-28-5-15",
+        "componentId": "in_infraction_nondisclosure-primary-filing-2",
+        "drafted": false,
+        "reason": "Registry marks the unit available:false pending the statewide-form question and the county MC case-type question. No statewide form has been identified, so no form mapping and no pleading body is asserted."
+      }
+    ],
+    "participantOnly": [
+      {
+        "item": "Stage-one process guidance",
+        "componentId": "in_infraction_nondisclosure-process-guidance-1",
+        "note": "Explains the court's own duty and the clerk check. Never filed with the court."
+      },
+      {
+        "item": "Participant filing instructions",
+        "componentId": null,
+        "note": "participant-instructions.md. Never filed with the court."
+      },
+      {
+        "item": "Confirmation from the clerk of whether a non-disclosure order was entered",
+        "componentId": null,
+        "note": "Participant obtains it by asking the clerk of the court where the infraction was handled whether the court entered an order under I.C. 34-28-5-15 in the cause. LegalEase does not obtain, receive or inspect it, and no request letter is drafted: the registry records the step as an oral clerk enquiry, not as a written request."
+      }
+    ]
+  },
+  "counselFlags": [
+    {
+      "id": "in-infraction-statewide-form-and-mc-case-type",
+      "statement": "Whether a statewide form exists for an I.C. 34-28-5-15 infraction petition, and how counties handle the MC case-type assignment where no cause number was assigned, are both open. The registry records this as a release blocker against affectedElement 'correct_form', sourced to LegalEase-Indiana-Legal-Review.md, heading TRACK 10 - INFRACTION NON-DISCLOSURE: \"Decision: Additional research required. Confirm whether a statewide form exists and how counties handle the MC assignment before building.\"",
+      "mustConfirm": "Whether a statewide form exists, and the county MC case-type convention, before stage 2 produces anything.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].releaseBlockers[0]; .units[1].unavailableReason"
+    },
+    {
+      "id": "in-infraction-deferral-branch-split",
+      "statement": "The automatic branch does not apply where prosecution was deferred. Those participants use the five-year deferral branch instead, and the earliest filing date is five years after satisfying the conditions of the deferral programme or the judgment imposed.",
+      "mustConfirm": "That screening asks \"Was prosecution deferred?\" and routes deferred matters to the five-year branch, never to the automatic branch.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].exclusions[0]; .packetInstructions[2]; .waitingPeriods[4]"
+    },
+    {
+      "id": "in-infraction-earliest-filing-dates",
+      "statement": "Five distinct earliest-filing conditions are recorded on this track: 30 days after judgment where the person was found not to have committed the infraction; 365 days where an order or decision vacating an adjudication becomes final or is certified; 2 years after the conduct where the conduct was not prosecuted; 30 days after dismissal where no new action was filed; 5 years after satisfying the conditions of a deferral programme or the judgment imposed. No route output computes or displays any of these dates.",
+      "mustConfirm": "Which condition applies to the participant's answer, and that the engine, not the document, holds the date arithmetic.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].waitingPeriods[]"
+    },
+    {
+      "id": "in-infraction-records-not-destroyed",
+      "statement": "Never say records are destroyed. In Indiana expungement means records are sealed or restricted under section 35-38-9-1(k); the Office of Judicial Administration states plainly that court records are not deleted or destroyed under I.C. 35-38-9. On this track the remedy is narrower still: the court orders the clerk and any case management system operator not to disclose infraction information to a non-criminal-justice organisation or individual.",
+      "mustConfirm": "That participant copy for this route describes non-disclosure to non-criminal-justice requesters, and never destruction, deletion or a clean record.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].packetInstructions[0]; .mechanism"
+    },
+    {
+      "id": "in-infraction-case-file-public",
+      "statement": "Disclose that the expungement case file is public until the order is granted.",
+      "mustConfirm": "That the disclosure appears in participant copy before any filing is prepared.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].packetInstructions[1]"
+    },
+    {
+      "id": "in-infraction-court-identity-blank",
+      "statement": "Court, county, cause number, MC case type, judge, prosecuting attorney and the prosecutor's position are left blank everywhere in this route and are never prefilled. The only sourced venue rule is: \"The court where the charges were brought or the trial was held, or the court with jurisdiction over the violation for a deferral participant. Filed under the original cause number, or as an MC case type if no cause number was assigned.\"",
+      "mustConfirm": "That court identity reaches any future document only through the participant's own screening answers and the clerk confirmation they obtain.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].venue; .destination"
+    },
+    {
+      "id": "in-infraction-opposition-and-hearing-outside-party",
+      "statement": "The prosecuting attorney has thirty days to file a notice in opposition, and the court may summarily grant, set a hearing, or summarily deny; a hearing is required if opposition is filed and the court does not rule summarily. Those are outside-party acts and court acts. Nothing in this route asserts that service was completed, that the prosecutor did or did not oppose, or how the court ruled.",
+      "mustConfirm": "That opposition and hearing are handled as self-help stop conditions and never as facts stated in any document.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].destination.detail; .rules.notice; .selfHelpStopConditions"
+    },
+    {
+      "id": "in-infraction-verification-officer-unstated",
+      "statement": "The registry states the petition is verified and signed by the petitioner and records notarization 'none'. It states no verification statute and no officer who must take a verification. The compiled IN profile carries an affirmation formula - \"I AFFIRM, UNDER THE PENALTIES OF PERJURY, THAT THE FOREGOING REPRESENTATIONS ARE TRUE AND ACCURATE\" - but that text is from a Coalition for Court Access conviction-expungement form, not from any I.C. 34-28-5-15 material. It is not carried across.",
+      "mustConfirm": "The verification wording and any officer requirement for an I.C. 34-28-5-15 petition, before stage 2 is drafted.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].rules.participantSignature; .rules.notarization; profile:sourceSections[0]"
+    },
+    {
+      "id": "in-infraction-profile-silent",
+      "statement": "The compiled IN profile records nothing about this track. A full-text search of src/lib/rcap-engine/compiled/profiles/IN-indiana.json returns zero occurrences of \"34-28-5-15\" and zero of \"infraction\". The profile's four pathways are all I.C. 35-38-9 expungement routes. The pinned registry entry is the sole enumerating source for this route.",
+      "mustConfirm": "That the IN profile is extended to carry this track, or that the registry is accepted as the sole source of record for it.",
+      "impact": "source_gate",
+      "sourceRef": "profile:pathways[]; profile:terminology; registry@3b6f4c1:tracks[in_infraction_nondisclosure]"
+    },
+    {
+      "id": "in-infraction-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: \"Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.\" The registry also records the build-order instruction \"Build this track last, per the review's build order.\"",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].legalStatus; .legalDesignStatus; .runtimeDisabledReason; .packetInstructions[3]"
+    },
+    {
+      "id": "in-infraction-source-freshness-gate",
+      "statement": "All four official sources recorded on this track carry sha256 null, so staleness cannot be detected for I.C. 34-28-5-15, I.C. 35-38-9, the Coalition for Court Access forms index, or the Office of Judicial Administration expungement page.",
+      "mustConfirm": "Capture hashes for the four official sources before release.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].blockers[kind=source_gate]; .officialSources[]"
+    },
+    {
+      "id": "in-infraction-no-fee",
+      "statement": "The registry states fees 'None.' for this track and records the fee-waiver step as \"Not applicable. There is no fee.\" No fee amount, and no fee-waiver procedure, is asserted anywhere in this route beyond that statement.",
+      "mustConfirm": "That the no-fee statement still holds when the statewide-form question closes.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[in_infraction_nondisclosure].rules.fees; .rules.feeWaiver"
+    }
+  ],
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit the pinned registry entry and the compiled IN profile record for this track. The registry records exactly two ordered units - in_infraction_nondisclosure-stage-1 (process_guidance) and in_infraction_nondisclosure-stage-2 (custom_pleading) - and exactly two packetSet components, one per unit, in the same order and with the same output strategies. Both appear here. The registry records one participant filing requirement outside packetSet (the clerk confirmation of whether a non-disclosure order was entered) and one manual completion item (verification and signature); neither is a separate legal unit and neither yields a drafted document, so neither becomes a unit. No cover sheet, agency request letter, notice, proposed order or attachment appears anywhere in the registry entry for this track. The compiled IN profile records no unit, pathway, form, question or passage for this track at all.",
+    "unitCount": 2,
+    "registryPassagesEnumerated": [
+      "registry@3b6f4c1:tracks[in_infraction_nondisclosure].units[] (2 entries: in_infraction_nondisclosure-stage-1 order 1, in_infraction_nondisclosure-stage-2 order 2)",
+      "registry@3b6f4c1:tracks[in_infraction_nondisclosure].packetSet.components[] (2 entries: in_infraction_nondisclosure-process-guidance-1 role process_guidance order 1, in_infraction_nondisclosure-primary-filing-2 role primary_filing order 2)",
+      "registry@3b6f4c1:tracks[in_infraction_nondisclosure].packetSet.participantActionRequired[] (7 entries, all participant acts: obtain_document, confirm_answer, complete_field, sign, apply_fee_waiver, serve_party, file)",
+      "registry@3b6f4c1:tracks[in_infraction_nondisclosure].participantFilingRequirements[] (1 entry: clerk confirmation)",
+      "registry@3b6f4c1:tracks[in_infraction_nondisclosure].manualCompletionItems[] (1 entry: verification and signature)"
+    ],
+    "profilePassageReferenced": {
+      "ref": "profile:pathways[] and profile:terminology, src/lib/rcap-engine/compiled/profiles/IN-indiana.json (sha256 0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982)",
+      "passage": "The compiled profile's four pathways[] are labelled: \"Non-conviction arrest or criminal-charge expungement\", \"Juvenile-allegation expungement\", \"Conviction expungement with sealed/confidential access\" and \"Conviction expungement with records marked expunged\". terminology.pathwayLabels is a separate four-entry list that merges the first two and adds a coordination label: \"Arrest, criminal-charge, or juvenile-allegation expungement matter\", \"Conviction expungement with sealed/confidential access under IC 35-38-9-6\", \"Conviction expungement with records marked expunged under IC 35-38-9-7\", \"Multi-county and one-petition coordination\".",
+      "reading": "The profile enumerates only I.C. 35-38-9 expungement routes. It contains zero occurrences of \"34-28-5-15\" and zero of \"infraction\", so it adds no legal unit to this track and omits none. Every unit for this route therefore comes from the registry entry, and units[] reproduces that enumeration exactly."
+    },
+    "nonUnitParticipantActions": [
+      "Obtain Confirmation from the clerk of whether a non-disclosure order was entered. Ask the clerk whether the court entered an order under I.C. 34-28-5-15 in the cause.",
+      "Check your answer to \"Has the court already ordered the clerk not to disclose the infraction?\" against Confirmation from the clerk of whether a non-disclosure order was entered, and correct the packet if they disagree.",
+      "Verification and signature - Petition, verification block.",
+      "The petition is verified and signed by the petitioner.",
+      "Not applicable. There is no fee.",
+      "Service on the prosecuting attorney. Confirm local practice on the MC case-type assignment.",
+      "Stage 1 has no filing. Stage 2 is filed under the original cause number, or as an MC case type where none was assigned, in the court where the charges were brought or the trial was held."
+    ],
+    "coverSheetAbsent": "No participant-only cover sheet unit is included: neither the registry entry nor the compiled profile records a cover sheet for this track.",
+    "agencyRequestLetterAbsent": "No agency_request_letter unit is included: the only agency-facing step recorded is an oral enquiry to the clerk of the court where the infraction was handled, and no written request, letter or form is recorded for it.",
+    "officialFormDependencyAbsent": "No official_form_dependency unit is included: the registry records officialFormId null and officialSourceUrl null on both components, and states that no statewide form has been identified. What is blocked is the prior question of whether such a form exists at all, which is recorded on the stage-2 unit as a blockedDependency rather than as a named form."
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/indiana/index.ts",
+      "src/lib/rcap/state-packs/indiana/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/IN-indiana.json",
+    "profileSha256": "0202d536113b16be9e02f1ea2bbd925c60d0b8a94d57cb972bf50831a0e22982",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=in_infraction_nondisclosure]",
+    "statePackNote": "The committed Indiana state pack carries build metadata and the Nationwide official-form/resource inventory only (two official PDFs and six resource files, all I.C. 35-38-9 expungement material). It records no track-level pleading text and nothing about I.C. 34-28-5-15. Track prose, authority, rules and packet composition come from the pinned registry entry.",
+    "reviewedAsOf": "2026-07-30",
+    "effectiveFrom": "2013-07-01"
+  }
+}

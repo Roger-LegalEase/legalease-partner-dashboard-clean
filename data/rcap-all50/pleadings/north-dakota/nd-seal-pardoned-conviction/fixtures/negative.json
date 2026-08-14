@@ -1,0 +1,104 @@
+{
+  "fixtureId": "negative",
+  "description": "Rejection fixture. It keeps the original prohibited-vocabulary violation (so relief-term QA still rejects the render) and adds the class of defect runPleadingQa is structurally blind to: content the committed North Dakota evidence does not supply. Each fabricated fact below violates a rule this track's own packet states, and each is named in expectedSignals with the signal it trips.",
+  "statedFailureReason": "The fixture converts the Chapter 12-60.1 sealing factors — which the petitioner must prove by clear and convincing evidence and which the court alone finds — into findings already made, and additionally asserts that the unconditional pardon entitles Petitioner to sealing when the pardon supports the petition rather than deciding it. It reports a hearing and a granted petition when the court may not hold a hearing earlier than 45 days after filing, states the prosecuting attorney's position for the prosecutor, states a filing fee the packet's own counsel note records as not established, asserts that service on the prosecuting attorney was completed when the certificate of service is a blank form the participant completes after filing, and populates the protected docket number, OTN and judge fields. It also uses the prohibited term 'expungement' on a sealing-only track.",
+  "expectations": {
+    "qaPassed": false,
+    "expectedFailureSnippet": "expungement",
+    "expectedSignalClass": "invention",
+    "expectedSignal": "court_finding_asserted",
+    "expectedSignals": [
+      {
+        "signal": "court_finding_asserted",
+        "class": "invention",
+        "violation": "Asserts that the court has already found the Chapter 12-60.1 sealing factors proved and that the unconditional gubernatorial pardon entitles Petitioner to sealing. The pardon can support a sealing petition; it does not make the finding, which remains the court's.",
+        "rule": "Burden and timing: The court may hold a hearing no earlier than 45 days after filing; the petitioner must prove the sealing factors by clear and convincing evidence. If denied, the court may prohibit refiling for up to one year for good cause."
+      },
+      {
+        "signal": "hearing_outcome_asserted",
+        "class": "invention",
+        "violation": "Reports that a hearing was held and that the petition was granted. The hearing is the court's to schedule and the outcome does not exist when the petition is generated.",
+        "rule": "Burden and timing: The court may hold a hearing no earlier than 45 days after filing; the petitioner must prove the sealing factors by clear and convincing evidence. If denied, the court may prohibit refiling for up to one year for good cause."
+      },
+      {
+        "signal": "prosecutor_position_asserted",
+        "class": "invention",
+        "violation": "States that the prosecuting attorney does not object and consents to sealing. The prosecutor's position is the prosecutor's to take and is never supplied by the petition.",
+        "rule": "Serve the petition and proposed order on the prosecuting attorney; the prosecutor is expected, to the extent practicable, to notify and seek input from law enforcement, witnesses, victims, and correctional authorities."
+      },
+      {
+        "signal": "monetary_amount_asserted",
+        "class": "invention",
+        "violation": "States a dollar amount for the Chapter 12-60.1 filing fee. The packet's own counsel note records the fee as not established, so no amount may be stated to a participant.",
+        "rule": "Registry release blocker: the filing fee for a Chapter 12-60.1 petition is not established; the participant must confirm with the clerk before paying anything."
+      },
+      {
+        "signal": "fee_amount_asserted",
+        "class": "invention",
+        "violation": "Names the fee in words as an established amount ('filing fee of 120 dollars'), compounding the invented amount with an assertion that it was paid on a date.",
+        "rule": "Registry release blocker: the filing fee for a Chapter 12-60.1 petition is not established; the participant must confirm with the clerk before paying anything."
+      },
+      {
+        "signal": "service_completion_asserted",
+        "class": "invention",
+        "violation": "Asserts that the petition and proposed order were duly served on the prosecuting attorney on a stated date and that service was completed. The track's certificate of service is a blank form the participant completes after filing; nothing has been served when the document is generated.",
+        "rule": "Serve the petition and proposed order on the prosecuting attorney; the prosecutor is expected, to the extent practicable, to notify and seek input from law enforcement, witnesses, victims, and correctional authorities."
+      },
+      {
+        "signal": "protected_case_field_populated",
+        "class": "protected_field",
+        "violation": "Populates caseData.docketNumber, caseData.otn and caseData.judgeName, which the protected-field policy requires to stay blank in every fixture.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "docket_number_asserted",
+        "class": "protected_field",
+        "violation": "The populated docket number reaches the caption in place of the blank-docket placeholder.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "otn_rendered",
+        "class": "protected_field",
+        "violation": "The populated OTN reaches the rendered text.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      },
+      {
+        "signal": "judge_rendered",
+        "class": "protected_field",
+        "violation": "The populated judge name reaches the rendered text.",
+        "rule": "Protected fields (docket number, OTN, judge name, judge address) are never collected or rendered; the docket line renders the blank-docket placeholder instead."
+      }
+    ]
+  },
+  "renderInput": {
+    "partyData": {
+      "petitionerName": "Negative Sample"
+    },
+    "caseData": {
+      "countyName": "Ward",
+      "docketNumber": "51-2015-CR-00902",
+      "otn": "ND0038150771",
+      "judgeName": "the Honourable Pat Example"
+    },
+    "chargeData": {
+      "chargeDescription": "Criminal mischief",
+      "offenseGrade": "Class A misdemeanor",
+      "disposition": "Convicted; subsequently granted an unconditional pardon",
+      "dispositionDate": "06/01/2015",
+      "arrestDate": "02/01/2015",
+      "arrestingAgency": "Minot Police Department"
+    },
+    "eligibilityData": {
+      "eligibilityBasisLabel": "Expungement of the record under N.D.C.C. Chapter 12-60.1",
+      "additionalFacts": [
+        "The Court finds that Petitioner has proved by clear and convincing evidence that the conviction is eligible for sealing under Chapter 12-60.1 and that the unconditional gubernatorial pardon entitles Petitioner to the sealing requested.",
+        "A hearing was held on 03/15/2026 and the petition was granted.",
+        "The prosecuting attorney does not object to this Petition and consents to the sealing requested.",
+        "Petitioner paid the filing fee of 120 dollars ($120) to the clerk of the district court on 02/14/2026.",
+        "A copy of this Petition and the proposed order was duly served on the prosecuting attorney on 03/01/2026, and service was completed that day."
+      ]
+    },
+    "productName": "LegalEase RCAP",
+    "shadowMode": true
+  }
+}

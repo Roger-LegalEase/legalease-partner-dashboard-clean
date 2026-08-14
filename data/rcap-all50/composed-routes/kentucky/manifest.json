@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "KY",
+    "name": "Kentucky",
+    "slug": "kentucky"
+  },
+  "jobIds": [
+    "T-C-KY-complete-composed-route"
+  ],
+  "trackIds": [
+    "ky_criminal_record_segregation"
+  ],
+  "perTrackStatus": {
+    "ky_criminal_record_segregation": {
+      "publicName": "Ask agencies to file away the record of an arrest that went nowhere",
+      "legalName": "Segregation of Arrest Records After Acquittal, Dismissal or Withdrawal of Charges (KRS 17.142)",
+      "status": "composed_route_complete_with_open_product_classification_build_blocker",
+      "compositionMode": "alternative",
+      "unitCount": 3,
+      "registryLegalUnitCount": 2,
+      "componentCount": 3,
+      "pleadingDocumentUnits": 1,
+      "pleadingDocumentUnitsDrafted": 1,
+      "agencyRequestLetterUnits": 1,
+      "agencyRequestLetterUnitsDrafted": 1,
+      "participantInstructionUnits": 1,
+      "participantInstructionUnitsDrafted": 1,
+      "officialFormDependencyUnits": 0,
+      "deliverableUnits": 3,
+      "blockedUnits": 0,
+      "counselFlagCount": 15,
+      "componentCounselFlagCount": 10,
+      "blockedOfficialForms": [],
+      "openBuildBlockers": [
+        "Whether KRS 17.142 segregation should be built as a participant-facing relief track at all. The controlling review classifies it as an agency-level mechanism expressly not a product track and supplies no output strategy, filing actor or destination; the current statutory text contains two participant-initiated routes, one with mandatory relief. Normalizing it as a buildable relief track is a departure from the review (output_strategy)."
+      ],
+      "openReleaseBlockers": [
+        "The static legal propositions both instruments assert about the effect of segregation under KRS 17.142(3) are unratified (legal_effect_or_warning).",
+        "Whether any court filing fee attaches to a KRS 17.142(2) application. None was identified (filing_process)."
+      ],
+      "fixtures": [
+        "primary-filing: canonical, boundary, multiline, negative",
+        "agency-written-request: canonical, boundary, multiline, negative",
+        "routing-guidance: canonical, boundary, multiline, negative"
+      ],
+      "artifacts": [
+        "ky_criminal_record_segregation/route.json",
+        "ky_criminal_record_segregation/participant-instructions.md",
+        "ky_criminal_record_segregation/handoff.md",
+        "ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/pleading-config.json",
+        "ky_criminal_record_segregation/components/ky_criminal_record_segregation-primary-filing-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ky_criminal_record_segregation/components/ky_criminal_record_segregation-agency-written-request-2/agency-request-letter.md",
+        "ky_criminal_record_segregation/components/ky_criminal_record_segregation-agency-written-request-2/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ky_criminal_record_segregation/components/ky_criminal_record_segregation-routing-guidance-3/routing-guidance.md",
+        "ky_criminal_record_segregation/components/ky_criminal_record_segregation-routing-guidance-3/fixtures/{canonical,boundary,multiline,negative}.json"
+      ]
+    }
+  },
+  "componentCount": 3,
+  "totals": {
+    "tracks": 1,
+    "units": 3,
+    "components": 3,
+    "pleadingDocumentsDrafted": 1,
+    "agencyRequestLettersDrafted": 1,
+    "participantInstructionComponents": 1,
+    "officialFormDependencyComponents": 0,
+    "blockedComponents": 0,
+    "counselFlags": 25,
+    "fixtures": 12
+  },
+  "notes": [
+    "This is the only Kentucky lane-C1 route with no official-form dependency at all. No packetSet component carries an officialFormId, neither official source is a form, and the registry states directly that no official form exists for the court application. Nothing on this route is blocked on lane D/E.",
+    "Every unit is drafted. The route's build blocker is about product classification, not about a missing vehicle: it asks whether KRS 17.142 should be a participant-facing track at all, given that the controlling review says it is not a product track while the statute provides two participant-initiated routes, one with mandatory relief. Because the instruments' vehicle, venue and content are all known, drafting the containers is not invention; withholding them would have answered the classification question by default.",
+    "units[] carries three entries against the registry's two. Units 1 and 2 are the registry's own units[] entries with unitIds unchanged. Unit 3 is the registry's third packetSet component (routing_guidance — the only required component on the track) rather than a legal unit of the remedy; it is marked registryUnitIndex null in route.json and justified in the omission proof. It exists because on an alternative-composition route the routing decision determines which instrument is produced at all, and because KRS 17.142(4) makes 'route away from this track' the common correct answer.",
+    "No fee statement appears anywhere in this route, in either direction. Whether a fee attaches to a KRS 17.142(2) application is an open release blocker: none was identified, which is an absence of evidence rather than evidence of absence. The participant is told to ask the clerk. This is deliberately different from the two Kentucky void-and-seal pleading tracks, where the Clerks' Manual affirmatively records that there is no filing fee.",
+    "'sealing' and 'sealed' are prohibited terms on the segregation application even though they are the correct Kentucky term on the void-and-seal tracks in the same jurisdiction. On this track KRS 17.142(4) makes sealing what happens under KRS 431.076 or KRS 431.078 INSTEAD of segregation, so the word would misdescribe the relief and blur the routing rule.",
+    "No Kentucky agency is named or addressed anywhere on this route. No source read for this track names a single agency or supplies any address; everything comes from the participant's segAgencies answer.",
+    "The compiled KY profile does not mention KRS 17.142 anywhere — the strings '17.142' and 'segregat' do not occur in it — and the Kentucky Nationwide source corpus behind it is six expungement-side AOC PDFs plus one PDF and two HTML reference files. The profile's only relevant contribution is negative and is honoured: KRS 431.076 and KRS 431.078 are live pathways in it, which is exactly where KRS 17.142(4) sends most of this route's candidate records.",
+    "RENDERER COMPATIBILITY: a rendered sample of the canonical fixtures was produced in this worktree against src/lib/record-clearing/renderers/custom-pleading-renderer.ts and exposed three adapter defects, each recorded in the affected config's rendererCompatibility block. (a) usesCounty:true is a Pennsylvania-specific branch that emits 'the Court of Common Pleas of {county} County, Pennsylvania' and 'The Pennsylvania State Police' into any track that sets it; every Kentucky config here therefore sets usesCounty:false and carries the county through the {county} token in courtName/venueDescriptor, as the ND config does. (b) Fields deliberately left null under the sourced-content-only rule are stringified into the output as the literal word 'null' — in the caption party role, the parties block and the verification clause; the adapter must omit the line, not stringify. (c) A verification section is emitted even where the source affirmatively states the filing is not verified. No source-faithful field was altered to work around any of these.",
+    "FIXTURE SHAPE: fixture partyData uses the renderer's own PleadingRenderInput field names (petitionerName, petitionerAddress, otherNamesUsed). The movant/applicant role label comes from presentation.movantRole in the config, not from the fixture key."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+    "profileSha256": "6af5fcab97b496d3535a3f05174bc730706da90a18996f72f9a7c17935e4e36e",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/kentucky/index.ts",
+      "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts"
+    ]
+  }
+}

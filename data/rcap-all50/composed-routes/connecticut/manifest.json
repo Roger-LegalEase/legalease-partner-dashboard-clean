@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "rcap-composed-route-manifest/v1",
+  "jurisdiction": {
+    "code": "CT",
+    "name": "Connecticut",
+    "slug": "connecticut"
+  },
+  "jobIds": [
+    "T-C-CT-complete-composed-route"
+  ],
+  "trackIds": [
+    "ct-missed-erasure",
+    "ct-nolle-auto",
+    "ct-under18-misdemeanor"
+  ],
+  "perTrackStatus": {
+    "ct-missed-erasure": {
+      "publicName": "Ask the state to fix a record that should have been erased",
+      "legalName": "Request for Review of a Missed Automatic Erasure, C.G.S. § 54-142t(g)",
+      "status": "composed_route_complete_with_blocked_agency_submission",
+      "compositionMode": "sequential",
+      "unitCount": 3,
+      "componentCount": 3,
+      "pleadingDocumentUnits": 0,
+      "officialFormDependencyUnits": 2,
+      "participantInstructionUnits": 1,
+      "deliverableUnits": 1,
+      "blockedUnits": 2,
+      "counselFlagCount": 11,
+      "blockedOfficialForms": [
+        "DPS-0846-C, State of Connecticut Criminal History Record Request Form — current revision and official URL, plus the current SPBI fee schedule (a Rev. 12/01/17 copy is on file)",
+        "DESPP's form and manner for a C.G.S. § 54-142t(g) submission — not in the statute, not located"
+      ],
+      "artifacts": [
+        "ct-missed-erasure/route.json",
+        "ct-missed-erasure/participant-instructions.md",
+        "ct-missed-erasure/handoff.md",
+        "ct-missed-erasure/components/ct-missed-erasure-process-guidance-1/process-guidance.md",
+        "ct-missed-erasure/components/ct-missed-erasure-process-guidance-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ct-missed-erasure/components/ct-missed-erasure-spbi-record-request-0/dependency.json",
+        "ct-missed-erasure/components/ct-missed-erasure-despp-submission-2/dependency.json"
+      ]
+    },
+    "ct-nolle-auto": {
+      "publicName": "Records erased after a case was nolled",
+      "legalName": "Erasure After a Nolle, and Motion to Nolle a Continued Charge, C.G.S. § 54-142a(c)",
+      "status": "composed_route_complete_with_blocked_pleading_branches",
+      "compositionMode": "alternative",
+      "unitCount": 3,
+      "componentCount": 3,
+      "pleadingDocumentUnits": 2,
+      "pleadingDocumentUnitsDrafted": 0,
+      "officialFormDependencyUnits": 0,
+      "participantInstructionUnits": 1,
+      "deliverableUnits": 1,
+      "blockedUnits": 2,
+      "counselFlagCount": 12,
+      "blockedOfficialForms": [],
+      "blockedPleadings": [
+        "C.G.S. § 54-142a(c)(2) motion to nolle a continued charge — filing vehicle, caption, venue, service and clerk practice unapproved; no form located",
+        "Pre-1 April 1972 nolle petition — recorded in the registry only as a packet instruction; vehicle, caption, venue, content and the list of older courts all unstated"
+      ],
+      "artifacts": [
+        "ct-nolle-auto/route.json",
+        "ct-nolle-auto/participant-instructions.md",
+        "ct-nolle-auto/handoff.md",
+        "ct-nolle-auto/components/ct-nolle-auto-process-guidance-1/process-guidance.md",
+        "ct-nolle-auto/components/ct-nolle-auto-process-guidance-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ct-nolle-auto/components/ct-nolle-auto-motion-to-nolle-2/dependency.json",
+        "ct-nolle-auto/components/ct-nolle-auto-pre-1972-petition-3/dependency.json"
+      ]
+    },
+    "ct-under18-misdemeanor": {
+      "publicName": "Erase a misdemeanor from something that happened before you turned 18",
+      "legalName": "Erasure of an Adult Misdemeanor Conviction for Conduct Before Age 18, C.G.S. § 54-142a(f)",
+      "status": "composed_route_complete_with_blocked_petition_branch",
+      "compositionMode": "alternative",
+      "unitCount": 2,
+      "componentCount": 2,
+      "pleadingDocumentUnits": 1,
+      "pleadingDocumentUnitsDrafted": 0,
+      "officialFormDependencyUnits": 0,
+      "participantInstructionUnits": 1,
+      "deliverableUnits": 1,
+      "blockedUnits": 1,
+      "counselFlagCount": 14,
+      "blockedOfficialForms": [
+        "An official Judicial Branch form for a C.G.S. § 54-142a(f)(2) petition, if one exists — identity, revision and URL unknown. JD-CR-202 is recorded as a considered-and-rejected candidate, not as the dependency."
+      ],
+      "artifacts": [
+        "ct-under18-misdemeanor/route.json",
+        "ct-under18-misdemeanor/participant-instructions.md",
+        "ct-under18-misdemeanor/handoff.md",
+        "ct-under18-misdemeanor/components/ct-under18-misdemeanor-process-guidance-1/process-guidance.md",
+        "ct-under18-misdemeanor/components/ct-under18-misdemeanor-process-guidance-1/fixtures/{canonical,boundary,multiline,negative}.json",
+        "ct-under18-misdemeanor/components/ct-under18-misdemeanor-petition-branch-2/dependency.json"
+      ]
+    }
+  },
+  "componentCount": 8,
+  "totals": {
+    "tracks": 3,
+    "units": 8,
+    "components": 8,
+    "participantInstructionComponents": 3,
+    "officialFormDependencyComponents": 2,
+    "blockedPleadingComponents": 3,
+    "pleadingDocumentsDrafted": 0,
+    "counselFlags": 37,
+    "fixtures": 12
+  },
+  "notes": [
+    "No custom pleading is drafted on any CT composed route in this job. Every unit that would produce a court document is blocked on an unapproved filing vehicle or an unidentified official form, and each blocker is recorded in a dependency manifest naming the exact missing source.",
+    "ct-missed-erasure produces no court document at all: there is no court venue on that track — the destination is DESPP. No agency_request_letter is drafted either, because the § 54-142t(g) submission vehicle is precisely what is missing, and a letter would be the same invention under another name.",
+    "Two units are synthesized beyond the registry's own units[]: ct-missed-erasure unit 1 (the DPS-0846-C record request, recorded in the registry as a participantFilingRequirement) and ct-nolle-auto unit 3 (the pre-1 April 1972 petition, recorded only as a packetInstruction). Both are marked componentIdSynthesized and are justified in each route's omissionProof.",
+    "The JD-CR-202 conflict is the single highest-value item for review across this jurisdiction: the compiled profile treats JD-CR-202 as the vehicle for pre-2000 conviction petitions, the pinned registry says it is a Clean Slate form and not a § 54-142a(f)(2) form. The registry reading governs here and the conflict is recorded rather than resolved.",
+    "The compiled profile's 'SPBI check dated on/after 1/1/2024' rule conflicts with the registry, which records that reading as a probable misreading. No report-date rule is stated to any participant.",
+    "No fee figure is quoted to a participant anywhere in this job except the § 54-142a(k) no-fee rule, which is squarely sourced for § 54-142a filings and is never carried across to § 54-142d."
+  ],
+  "provenance": {
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+    "profileSha256": "f6fd7cc7636fe2804c490dafd6d0164ed86a283a7b365d64276f94bdfc9aa874",
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/connecticut/index.ts",
+      "src/lib/rcap/state-packs/connecticut/all50-build-metadata.ts"
+    ]
+  }
+}

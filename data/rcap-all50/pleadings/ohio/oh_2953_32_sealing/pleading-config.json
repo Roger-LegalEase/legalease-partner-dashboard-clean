@@ -1,0 +1,274 @@
+{
+  "schemaVersion": "rcap-c3-pleading-config/v1",
+  "jobId": "T-C-OH-production-packet",
+  "windowId": "2026-08-12-w1",
+  "ledgerTrackId": "oh_2953_32_sealing",
+  "registryLegalName": "Sealing of Conviction and Bail-Forfeiture Records (ORC 2953.32)",
+  "config": {
+    "jurisdictionCode": "OH",
+    "trackId": "oh_2953_32_sealing",
+    "templateGrade": "legal_ops_custom_pleading",
+    "templateLifecycle": "replacement_candidate",
+    "primaryReliefTerm": "sealing",
+    "documentTitleFull": "APPLICATION FOR SEALING OF A CONVICTION OR BAIL-FORFEITURE RECORD PURSUANT TO OHIO REV. CODE § 2953.32",
+    "courtCaption": "IN THE [NAME OF SENTENCING COURT — CONFIRM WITH THE CLERK OF THE SENTENCING COURT], STATE OF OHIO",
+    "primaryStatutoryAuthority": [
+      {
+        "citation": "Ohio Rev. Code § 2953.32",
+        "description": "Adult conviction sealing/expungement (§ 2953.32): an eligible offender applies to the sentencing court (or a court of common pleas for an out-of-state/federal conviction) unless excluded by § 2953.32(A); the court checks timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person's interest outweighs legitimate government needs."
+      },
+      {
+        "citation": "Ohio Rev. Code § 2953.61",
+        "description": "Multiple charges from the same act (§ 2953.61): if a person was charged with two or more offenses from the same act and at least one charge has a different final disposition, they generally cannot seal/expunge only part of the record until they can seal/expunge all related charges (limited traffic exception). Ask for every charge and disposition before routing."
+      }
+    ],
+    "verificationStatute": {
+      "citation": null,
+      "description": "The applicant signs the application; notarization is not identified by the source and local practice may require it. Confirm any verification requirement with the clerk of the sentencing court."
+    },
+    "includeProposedOrder": false,
+    "includeCertificateOfService": false,
+    "serviceNote": null,
+    "presentation": {
+      "sovereignPartyName": "STATE OF OHIO",
+      "sovereignPartyProper": "the State of Ohio",
+      "sovereignRole": "Plaintiff",
+      "movantRole": "Applicant",
+      "filingNoun": "Application",
+      "divisionLine": "",
+      "usesCounty": false,
+      "courtName": "sentencing court for {county} County, Ohio",
+      "venueDescriptor": "{county} County, Ohio",
+      "recordCustodianLead": "",
+      "verificationVerb": "verify",
+      "verificationPenaltyLabel": "the penalties for a false statement",
+      "serviceRecipientLabel": "the prosecutor (notified by the court at least 60 days before the hearing under Ohio Rev. Code § 2953.32)",
+      "serviceRecipientAddressLabel": "[PROSECUTOR ADDRESS — THE COURT GIVES NOTICE; NOT SERVED BY THE APPLICANT]",
+      "reliefActionVerb": "seal",
+      "orderActionVerb": "seal",
+      "recordsScopePhrase": "all records of the case sought to be sealed under Ohio Rev. Code § 2953.32 (the Bureau of Criminal Identification and Investigation retains a limited record where the statute requires)"
+    },
+    "counselFlags": [
+      "Sealing is not erasure: Ohio has BOTH sealing and expungement, and they are not the same. Sealing makes the record private from most employers, landlords, schools, and the general public but does not erase it (certain employers, licensing boards, prosecutors, judges, and police may still see it). Do not say 'completely gone from everywhere.'",
+      "The single most important Ohio disclosure: on § 2953.32 relief, BCI keeps a limited record for law-enforcement employment qualification and disqualification while other entities receiving notice must destroy, delete and erase; never describe the record as completely gone from everywhere.",
+      "Registry build blocker: the full text of ORC 2953.32 was not read at source by the controlling review; the waiting periods and exclusions are the review's, corroborated by the Franklin County Law Library guides, and the section must be read before any tier ships.",
+      "Registry build blocker: Ohio publishes no statewide mandatory form and each court maintains its own application; whether any county's local application deviates from the statutory content requirements is unresolved. The drafted content is transcribed onto the sentencing court's own application.",
+      "Registry release blocker: the exact terms of the third-degree-felony counting rule (whether a person with more than one third-degree felony is barred) are unresolved.",
+      "Relief is discretionary: the court checks timing and pending cases, considers rehabilitation and prosecutor and victim objections, and weighs the applicant's interest against legitimate governmental needs; the prosecutor is notified at least 60 days before the hearing and may object at least 30 days before it.",
+      "'Sentence' does not include payment of court costs, so unpaid court costs do not delay eligibility — a common and expensive misunderstanding worth telling participants explicitly.",
+      "Companion-charge trap (ORC 2953.61): an incident whose companion charge has a different final disposition cannot be partially sealed until all related charges can be cleared together.",
+      "SB 288 removed the 'eligible offender' definition and the numeric cap from ORC 2953.31; any counting-caps logic inherited from pre-2023 Ohio is wrong.",
+      "Excluded categories include traffic-chapter offenses (Chapters 4506/4507/4510/4511/4549), felony offenses of violence that are not sexually oriented offenses, sexually oriented offenses committed while subject to Chapter 2950 registration, victim-under-13 offenses (except nonsupport), theft in office, F1/F2 felonies, and M1/M2 domestic violence.",
+      "The applicant signs the application; notarization is not identified by the source and local practice may require it. Confirm any verification requirement with the clerk of the sentencing court.",
+      "Fees: fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars; indigency excuses the application fee.",
+      "Notice is the court's act: on a § 2953.32 application the court sets the hearing and the prosecutor is notified at least 60 days before it and may object at least 30 days before it. The applicant does not serve anyone, and the prosecutor's position is never asserted in the application."
+    ]
+  },
+  "runtimePreexisting": null,
+  "eligibilityPath": {
+    "id": "sealing_2953_32_conviction",
+    "label": "Sealing of a conviction or misdemeanor bail forfeiture under Ohio Rev. Code § 2953.32",
+    "statute": {
+      "citation": "Ohio Rev. Code § 2953.32",
+      "description": "Adult conviction sealing/expungement (§ 2953.32): an eligible offender applies to the sentencing court (or a court of common pleas for an out-of-state/federal conviction) unless excluded by § 2953.32(A); the court checks timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person's interest outweighs legitimate government needs."
+    }
+  },
+  "qa": {
+    "prohibitedTerms": [
+      "vacatur",
+      "annulment",
+      "set aside",
+      "set-aside",
+      "limited access"
+    ]
+  },
+  "registryExcerpt": {
+    "legalName": "Sealing of Conviction and Bail-Forfeiture Records (ORC 2953.32)",
+    "publicName": "Seal an Ohio conviction",
+    "authority": [
+      "Ohio Rev. Code § 2953.32",
+      "Ohio Rev. Code § 2953.31",
+      "Ohio Rev. Code § 2953.61",
+      "Ohio Rev. Code § 2919.25",
+      "Ohio Rev. Code § 2919.27",
+      "Ohio Rev. Code § 2921.41",
+      "Ohio Rev. Code § 2921.43",
+      "Am. Sub. S.B. 288, 134th Gen. Assemb."
+    ],
+    "venue": "The sentencing court for an Ohio conviction; a court of common pleas for an out-of-state or federal conviction.",
+    "destinationName": "The Ohio sentencing court, or a court of common pleas for an out-of-state or federal conviction",
+    "waitingPeriods": [
+      {
+        "condition": "Minor misdemeanour, measured from final discharge",
+        "duration": "6 months"
+      },
+      {
+        "condition": "Misdemeanour, measured from final discharge",
+        "duration": "1 year"
+      },
+      {
+        "condition": "Felony of the fourth or fifth degree, measured from final discharge",
+        "duration": "1 year"
+      },
+      {
+        "condition": "One or two felonies of the third degree, measured from final discharge",
+        "duration": "3 years"
+      },
+      {
+        "condition": "Soliciting improper compensation under ORC 2921.43, measured from final discharge",
+        "duration": "7 years"
+      },
+      {
+        "condition": "A person formerly subject to Chapter 2950 registration",
+        "duration": "5 years after the registration requirements end or terminate"
+      },
+      {
+        "condition": "Misdemeanour bail forfeiture",
+        "duration": "none. Any time after the forfeiture entry"
+      }
+    ],
+    "exclusions": [
+      "Offences under the traffic and motor vehicle chapters, being Chapters 4506, 4507, 4510, 4511 and 4549, or substantially similar municipal ordinances, which puts OVI outside the scheme.",
+      "A felony offence of violence that is not a sexually oriented offence.",
+      "A sexually oriented offence committed while subject to Chapter 2950 registration.",
+      "An offence where the victim was under 13, except nonsupport under ORC 2919.21.",
+      "Theft in office under ORC 2921.41.",
+      "Any felony of the first or second degree.",
+      "Domestic violence under ORC 2919.25 as a misdemeanour of the first or second degree, or a substantially similar municipal ordinance.",
+      "A felony of the third degree where the person has too many other convictions under the statute's third-degree-felony counting rule.",
+      "Any incident where a companion charge from the same act has a different final disposition, until all related charges can be cleared together. ORC 2953.61."
+    ]
+  },
+  "componentInventory": {
+    "caption": {
+      "status": "present",
+      "detail": "Caption of the underlying criminal case in the sentencing court (State of Ohio, Plaintiff, v. applicant). The sentencing court's exact name is a confirm-with-clerk field because the sentencing court may be a court of common pleas, municipal or county court, and each court maintains its own application."
+    },
+    "court_party_identity": {
+      "status": "present",
+      "detail": "Sovereign is the State of Ohio (Plaintiff); movant is the Applicant. No prosecutor position or judge is asserted."
+    },
+    "title": {
+      "status": "present",
+      "detail": "APPLICATION FOR SEALING OF A CONVICTION OR BAIL-FORFEITURE RECORD PURSUANT TO OHIO REV. CODE § 2953.32."
+    },
+    "allegations": {
+      "status": "present",
+      "detail": "Case-history allegations from participant-supplied record data plus eligibility allegations keyed to final discharge (completion of sentence, parole, all fines and all restitution) and the applicable § 2953.32(B) waiting period from the state pack."
+    },
+    "statutory_basis": {
+      "status": "present",
+      "detail": "Ohio Rev. Code §§ 2953.32 and 2953.61, with descriptions verbatim from the Ohio state pack."
+    },
+    "requested_relief": {
+      "status": "present",
+      "detail": "Seal all records of the case under § 2953.32, with the BCI limited-record disclosure carried in the scope phrase."
+    },
+    "verification": {
+      "status": "present",
+      "detail": "Applicant signature; notarization is not identified by the source and local practice may require it (citation null + counsel flag)."
+    },
+    "signatures": {
+      "status": "present",
+      "detail": "Applicant signature and date blocks."
+    },
+    "proposed_order": {
+      "status": "absent",
+      "detail": "Absent by design: the source's packet set includes no proposed-order component; the court enters its own order and forwards the order and fingerprint record to BCI."
+    },
+    "certificate_of_service": {
+      "status": "absent",
+      "detail": "Absent by design: no service by the participant — the court gives the prosecutor notice at least 60 days before the hearing."
+    },
+    "notice_affidavit": {
+      "status": "absent",
+      "detail": "Absent by design: prosecutor notice and victim participation are the court's process, not a participant document."
+    },
+    "participant_cover_sheet": {
+      "status": "present",
+      "detail": "participant-instructions.md — record gathering, local-form transcription, fee/indigency, hearing and BCI follow-through guidance."
+    },
+    "filing_instructions": {
+      "status": "present",
+      "detail": "File with the clerk of the sentencing court on that court's application once the applicable period has run from final discharge; $50 fee unless indigent plus possible local fee up to $50; hearing 45-90 days after filing."
+    },
+    "bci_transmission": {
+      "status": "blocked",
+      "detail": "BLOCKED — lane D/E dependency: the post-order transmission to BCI uses the Ohio Attorney General's 'Sealings and Expungements Request' official form (registry component role bci_transmission, outputStrategy official_pdf_fill). A mandatory official form is not drafted in this lane; the participant instructions describe the step and the official form is lane D/E scope."
+    }
+  },
+  "dependencies": [
+    {
+      "component": "bci_transmission",
+      "kind": "official_form_dependency",
+      "form": "Sealings and Expungements Request (Ohio Attorney General), registry component role bci_transmission, outputStrategy official_pdf_fill",
+      "issuingBody": "Ohio Attorney General, Bureau of Criminal Investigation",
+      "publishedWhere": "Published by the Ohio Attorney General as the official post-order transmission request form; no copy is committed to this lane and no field map exists in lane C3.",
+      "exactMissingSource": "A verified field map / overlay for the Ohio Attorney General's 'Sealings and Expungements Request' form. Lane C3 holds no committed copy of the form and no field map to fill.",
+      "barsDraftingBecause": "Drafting this component would replicate a mandatory official Ohio Attorney General form. Official-PDF overlay work belongs to lane D/E, and a replica is prohibited outright.",
+      "routeTo": "lane D/E official-PDF overlay, then counsel review",
+      "statement": "Blocked as a custom pleading component: the post-order transmission to BCI uses the Ohio Attorney General's official 'Sealings and Expungements Request' form rather than drafted content. The participant instructions describe the step; the form itself is lane D/E scope."
+    }
+  ],
+  "sourceSilences": [
+    {
+      "field": "config.verificationStatute.citation",
+      "statement": "The source records that the applicant signs the § 2953.32 application but identifies no notarization requirement and no verification statute. The citation is held null rather than filled with a general Ohio oath statute that no committed source ties to this application.",
+      "counselFlag": "The applicant signs the application; notarization is not identified by the source and local practice may require it. Confirm any verification requirement with the clerk of the sentencing court.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "config.serviceNote",
+      "statement": "Null because notice under § 2953.32 is the court's act: the court sets the hearing and the prosecutor is notified at least 60 days before it. No committed Ohio source prescribes any service by the applicant, so no service note is stated.",
+      "counselFlag": "Notice is the court's act: on a § 2953.32 application the court sets the hearing and the prosecutor is notified at least 60 days before it and may object at least 30 days before it. The applicant does not serve anyone, and the prosecutor's position is never asserted in the application.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "localCourtFeeAmount",
+      "statement": "The source establishes a fifty dollar application fee and a cap of not more than fifty dollars on a possible local court fee. It never states what any particular court charges, and it records that indigency excuses the application fee, so no local amount is stated to a participant.",
+      "counselFlag": "Fees: fifty dollars unless indigent, plus a possible local court fee of not more than fifty dollars; indigency excuses the application fee.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "localApplicationDeviation",
+      "statement": "Ohio publishes no statewide mandatory form and each court maintains its own application. Whether any county's local application deviates from the statutory content requirements is unresolved in the committed evidence, so no local form is named and the drafted content is transcribed onto the sentencing court's own application.",
+      "counselFlag": "Registry build blocker: Ohio publishes no statewide mandatory form and each court maintains its own application; whether any county's local application deviates from the statutory content requirements is unresolved. The drafted content is transcribed onto the sentencing court's own application.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "thirdDegreeFelonyCountingRule",
+      "statement": "The exact terms of the third-degree-felony counting rule -- whether a person with more than one third-degree felony is barred -- are not established by any committed source. The rule is left unresolved rather than stated in either direction.",
+      "counselFlag": "Registry release blocker: the exact terms of the third-degree-felony counting rule (whether a person with more than one third-degree felony is barred) are unresolved.",
+      "counselFlagChannel": "counselFlags"
+    },
+    {
+      "field": "waitingPeriodsAndExclusionsBasis",
+      "statement": "The full text of ORC 2953.32 was not read at source by the controlling review. The waiting periods and exclusions carried here are the review's, corroborated by the Franklin County Law Library guides; the statutory text behind them is unread rather than quoted.",
+      "counselFlag": "Registry build blocker: the full text of ORC 2953.32 was not read at source by the controlling review; the waiting periods and exclusions are the review's, corroborated by the Franklin County Law Library guides, and the section must be read before any tier ships.",
+      "counselFlagChannel": "counselFlags"
+    }
+  ],
+  "counselNotes": [
+    "BCI transmission form is a lane D/E dependency (official_pdf_fill).",
+    "No statewide form; drafted content is transcribed onto the local court's application."
+  ],
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/ohio/index.ts",
+      "src/lib/rcap/state-packs/ohio/eligibility-rules.ts",
+      "src/lib/rcap/state-packs/ohio/waiting-periods.ts",
+      "src/lib/rcap/state-packs/ohio/filing-instructions.ts",
+      "src/lib/rcap/state-packs/ohio/disqualifying-offenses.ts",
+      "src/lib/rcap/state-packs/ohio/safety-language.ts",
+      "src/lib/rcap/state-packs/ohio/fee-notes.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/OH-ohio.json",
+    "registryPin": {
+      "ref": "origin/feat/record-clearing-production-integration",
+      "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+      "file": "data/record-clearing/legal-design-track-registry.json",
+      "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9"
+    },
+    "fingerprint": "619b81642a3740b8110faefc3ba0ce45f107a8964ce03b2cc5d8054a507c087f"
+  }
+}

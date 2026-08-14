@@ -11,9 +11,28 @@ name: RCAP F1 ephemeral staging
 # SHA or digest other than the authorized values, so this cannot be repointed
 # at other bytes without editing the workflow on the default branch.
 
+#
+# This workflow is also the DISPATCH ENTRY POINT for the persistent hosted
+# acceptance environment. GitHub lists workflow_dispatch only for files that
+# exist on the default branch, and pushing to main is Roger's decision, so the
+# hosted workflow is reached through `mode` here and runs as a reusable
+# workflow resolved from this run's own commit. `mode: ephemeral` — the
+# default — behaves exactly as it always has.
+
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_accept | hosted_payment | hosted_full"
+        required: false
+        type: choice
+        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_accept, hosted_payment, hosted_full]
+        default: ephemeral
+      supabase_project_ref:
+        description: "Acceptance Supabase project ref (hosted modes only)"
+        required: false
+        type: string
+        default: ""
       application_sha:
         description: "Pinned application SHA (must equal the authorized value)"
         required: true
@@ -40,16 +59,40 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTHORIZED_APPLICATION_SHA: df3d8607e8a0c723e23c346f1cd725c17a2c22b0
-  AUTHORIZED_WORKER_SOURCE_SHA: 5987870ca0d70ea4437d0711c430b9eda299a0ef
-  AUTHORIZED_WORKER_DIGEST: sha256:337083a25988b10a677813c3c8034461bfe18ffe1d2dd6a942a4d97235c3b64d
+  AUTHORIZED_APPLICATION_SHA: f2ab56cc31c16d973ef755abb651872e3738e538
+  AUTHORIZED_WORKER_SOURCE_SHA: f2ab56cc31c16d973ef755abb651872e3738e538
+  AUTHORIZED_WORKER_DIGEST: sha256:57d08bd3ea228575c778a4ea299222b2bc5b7f85c19e35985f594744f7ed2b30
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: claude/rcap-final-sprint-integration
-  STAGING_ENVIRONMENT_NAME: rcap-ci-staging
+  STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
+  hosted:
+    name: Persistent hosted acceptance staging
+    if: startsWith(inputs.mode, 'hosted_')
+    uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
+    with:
+      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight')))) }}
+      application_sha: ${{ inputs.application_sha }}
+      worker_source_sha: ${{ inputs.worker_source_sha }}
+      worker_digest: ${{ inputs.worker_digest }}
+      tools_sha: ${{ inputs.tools_sha }}
+      supabase_project_ref: ${{ inputs.supabase_project_ref }}
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      # Optional. Absent until Roger adds them; the hosted workflow declares
+      # them non-required so every phase still runs without Stripe configured,
+      # and the deployment simply keeps the control's disabled default.
+      HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+      HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+
   f1:
     name: Ephemeral F1 staging rehearsal (rcap-ci-staging)
+    if: inputs.mode == 'ephemeral' || inputs.mode == ''
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:

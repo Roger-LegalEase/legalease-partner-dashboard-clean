@@ -1,0 +1,354 @@
+{
+ "schemaVersion": "rcap-composed-route/v1",
+ "trackId": "ia-9079",
+ "jobId": "T-C-IA-complete-composed-route",
+ "jurisdiction": {
+  "code": "IA",
+  "name": "Iowa",
+  "slug": "iowa"
+ },
+ "trackIdentity": {
+  "legalName": "Expungement of a Deferred Judgment Record on Discharge from Probation",
+  "publicName": "Clearing a deferred judgment after probation",
+  "compositionMode": "alternative",
+  "compositionModeNote": "The registry records compositionMode \"alternative\": the two units are mutually exclusive branches selected by one screening answer (dischargeBeforeJuly2013). Exactly one unit applies to any participant; they are never both produced.",
+  "outputStrategyDeclared": "composed",
+  "geographicScope": "statewide",
+  "geographyKeys": [],
+  "reliefVocabulary": {
+   "primaryReliefTerm": "expungement",
+   "primaryReliefTermBasis": "Compiled profile terminology.primaryConsumerTerm = \"expungement\"; allowedStateTerms = [\"expungement\"].",
+   "prohibitedTerms": [
+    "erased",
+    "destroyed",
+    "removed from your record",
+    "felony expungement"
+   ],
+   "prohibitedTermsBasis": "Registry packetInstructions[0] / legalDesignLimitations[0]: \"Never say erased, destroyed or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.\" (LegalEase-Iowa-Legal-Review-2026-07-30.md, Required limitations, corrections, and additional research / 6)",
+   "requiredFraming": "The court record becomes confidential and comes off public access under Iowa Code § 22.7.",
+   "negatedUseException": "The participant-facing documents state, once each, that Iowa has no felony expungement and that the deferred judgment itself is not expunged from the state court administrator's deferred judgment docket, and each states once that the record is not erased, not destroyed and not removed from the participant's record. Those are the required limitations from registry packetInstructions[0] and [3], not descriptions of the relief. A bare term scan will hit \"felony expungement\" and the erasure triple in those negated lines; confirm at output review that each hit is negated before treating it as a vocabulary failure. Every negated occurrence in every artifact is enumerated in negatedUseSites below; any hit not on that list is a genuine vocabulary failure.",
+   "negatedUseSites": [
+    "components/ia-9079-process-guidance-1/process-guidance.md — \"Iowa has no felony expungement.\"",
+    "components/ia-9079-process-guidance-1/process-guidance.md — \"It is not erased, it is not destroyed, and it is not removed from your record.\" (negated use of all three prohibited erasure terms, immediately after the required § 22.7 confidentiality framing)",
+    "participant-instructions.md — \"Iowa has no felony expungement.\"",
+    "participant-instructions.md — \"It is not erased, it is not destroyed, and it is not removed from your record.\" (negated use of all three prohibited erasure terms, immediately after the required § 22.7 confidentiality framing)",
+    "components/ia-9079-process-guidance-1/fixtures/multiline.json — eligibilityData.reliefFraming: \"It is not erased, it is not destroyed, and it is not removed from the participant's record.\" (negated use inside a synthetic fixture value)"
+   ],
+   "negatedUseSitesNote": "Enumeration completed at audit. The prohibited-term scan surface is exactly: process-guidance.md lines carrying the erasure triple and the felony-expungement limitation; the same two lines in participant-instructions.md; and multiline.json reliefFraming. fixtures/negative.json uses the prohibited vocabulary AFFIRMATIVELY and is the intended QA failure case — it is not a negated-use site and must not be excused by this list.",
+   "avoidUniversalExpungementLabel": true,
+   "avoidUniversalExpungementLabelBasis": "Compiled profile terminology.avoidUniversalExpungementLabel = true; copyGuardrails[0] \"Use Iowa-specific remedy terminology returned by the profile; do not relabel every remedy as expungement.\""
+  }
+ },
+ "provenance": {
+  "statePackFiles": [
+   "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/iowa/all50-build-metadata.ts",
+   "/home/user/wt-c1-pleadings/src/lib/rcap/state-packs/iowa/index.ts"
+  ],
+  "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/IA-iowa.json",
+  "profileSha256": "1af0ae279f51dffbd7e620bf0fecdd38cdb98633343f82a8b4970f6e5a7042bc",
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "registryPath": "data/record-clearing/legal-design-track-registry.json",
+  "registryEntryPointer": "tracks[126] (trackId ia-9079)",
+  "profileCoverageNote": "The compiled IA profile records no pathway, question, ordered decision rule, waiting-period rule, exclusion rule, or packet-generator entry for this track. Its five pathways are § 901C.2, § 901C.3, § 123.46, § 123.47 and § 725.1. The only passages anywhere in the compiled profile that touch this track's authority spine are pathways[0].ruleClauses[4] / pathways[0].exclusionRules[1] / exclusionRules[1].ruleText / orderedDecisionRules[6].when.sourceConditionText, all carrying the same sentence: \"The source says § 901C.2 does not apply to a dismissal related to deferred judgment under § 907.9.\" That is an exclusion carved out of a different pathway, not an enumeration of this track's units. Unit enumeration therefore comes from the pinned registry entry; the state pack supplies the destination and no-invention posture."
+ },
+ "authoritySpine": [
+  {
+   "citation": "Iowa Code § 907.9(4)",
+   "description": "On discharge from probation where judgment was deferred, the court's criminal record with reference to the deferred judgment is expunged, together with dismissed counts in the same charging instrument and other related dismissed charges arising from the same transaction or occurrence or a common scheme or plan. The record is not expunged until the financial obligations in that case are paid.",
+   "sourceRef": "registry tracks[126].authority[0]; mechanism; legalDesignLimitations[5] (sourceStatement quotes the restitution / civil penalties / court costs / fees precondition)"
+  },
+  {
+   "citation": "Iowa Code § 907.4(2)",
+   "description": "Recorded in the track authority. Read by the source review as the provision under which the deferred judgment itself remains on the state court administrator's deferred judgment docket and is not expunged.",
+   "sourceRef": "registry tracks[126].authority[1]; mechanism; legalDesignLimitations[4]"
+  },
+  {
+   "citation": "Iowa Code § 907.3",
+   "description": "The provision under which judgment is deferred. Revocation of the deferred judgment makes the case ineligible under chapter 907.",
+   "sourceRef": "registry tracks[126].authority[2]; mechanism; exclusions[0]"
+  },
+  {
+   "citation": "Iowa Code § 22.7",
+   "description": "Confidentiality provision. An expunged criminal court record is confidential and exempt from public access under § 22.7 and is not accessible except by court order. This is the required framing for what the relief does.",
+   "sourceRef": "registry tracks[126].authority[3]; packetInstructions[0]; compiled profile sourceSections text of the Rule 2.86 forms (\"the records in a criminal case expunged under this section are confidential and exempt from public access under Iowa Code section 22.7\")"
+  },
+  {
+   "citation": "Iowa Code § 901C.3",
+   "description": "Not authority for this track. Recorded as the downstream route for a revoked deferred judgment, which becomes a conviction that may be eligible under § 901C.3 if it is a misdemeanour, and as the provision the deferred judgment docket feeds through the two-deferred-judgment limitation.",
+   "sourceRef": "registry tracks[126].exclusions[0]; legalDesignLimitations[4] and [6]; compiled profile pathways[1]"
+  },
+  {
+   "citation": "Iowa R. Crim. P. 2.80 through 2.86",
+   "description": "Expressly outside this track. The registry states this mechanism sits outside Rules 2.80 through 2.86 and has no Rule 2.86 form.",
+   "sourceRef": "registry tracks[126].mechanism; officialSources[1]"
+  }
+ ],
+ "mechanism": "On discharge from probation where judgment was deferred under § 907.3, the court's criminal record with reference to the deferred judgment shall be expunged, together with dismissed counts in the same charging instrument and other related dismissed charges arising from the same transaction or occurrence or a common scheme or plan. The record is not expunged until financial obligations in that case are paid. The deferred judgment itself remains on the state court administrator's deferred judgment docket and is not expunged. This mechanism sits outside Rules 2.80 through 2.86 and has no Rule 2.86 form.",
+ "venue": {
+  "statement": "Iowa District Court for the county of the case containing the deferred judgment.",
+  "namedCourt": null,
+  "namedCounty": null,
+  "clerkAddress": null,
+  "counselFlagRef": "cf-05",
+  "note": "The county is a required screening answer (countyOfCase). No court address, clerk address, or department is sourced and none is printed. State pack filingDestinationGuidance[2]: \"Do not invent clerk addresses, agency addresses, local fees, or service rules.\""
+ },
+ "screeningKeys": [
+  {
+   "key": "countyOfCase",
+   "question": "In which Iowa county was the case?",
+   "requirement": "required"
+  },
+  {
+   "key": "caseNumber",
+   "question": "What is the case number?",
+   "requirement": "required"
+  },
+  {
+   "key": "wasDeferredJudgment",
+   "question": "Was the outcome a deferred judgment, rather than a conviction or a dismissal?",
+   "requirement": "required"
+  },
+  {
+   "key": "dischargedFromProbation",
+   "question": "Have you been discharged from probation, and on what date?",
+   "requirement": "required"
+  },
+  {
+   "key": "deferredJudgmentRevoked",
+   "question": "Was the deferred judgment ever revoked?",
+   "requirement": "required"
+  },
+  {
+   "key": "financialObligationsPaid",
+   "question": "Have you paid every financial obligation in the case that contains the deferred judgment?",
+   "requirement": "required"
+  },
+  {
+   "key": "stillOnPublicDocket",
+   "question": "Does the case still appear on the Iowa public online docket?",
+   "requirement": "required"
+  },
+  {
+   "key": "dischargeBeforeJuly2013",
+   "question": "Was your discharge from probation before July 1, 2013?",
+   "requirement": "required"
+  }
+ ],
+ "units": [
+  {
+   "unitId": "ia-9079-post-2013-verification",
+   "order": 1,
+   "legalUnit": "Verify that the automatic expungement happened, and diagnose it if it did not. For a discharge after July 1, 2013 there is no participant filing: the expungement is expected to occur without an application. The product is diagnostic — confirm the disposition was a deferred judgment rather than a conviction or a dismissal, confirm discharge and its date, confirm every financial obligation in that case is paid, check whether the case still appears on the public online docket, and if it does, contact the clerk of the district court for that county.",
+   "authority": {
+    "citation": "Iowa Code § 907.9(4), read with §§ 907.3, 907.4(2) and 22.7",
+    "sourceRef": "registry tracks[126].units[0] (label, description, outputStrategy process_guidance, outputStrategyStatus resolved, available true); packetSet.components[0]; rules.filing"
+   },
+   "requiredOutput": "participant_instruction",
+   "componentId": "ia-9079-process-guidance-1",
+   "componentIdSource": "registry tracks[126].packetSet.components[0].componentId",
+   "applicability": {
+    "includedWhen": "The participant answers that the outcome in the case was a deferred judgment rather than a conviction or a dismissal (screening key wasDeferredJudgment), that they have been discharged from probation (dischargedFromProbation), that the deferred judgment was never revoked (deferredJudgmentRevoked = no), and that the discharge was on or after July 1, 2013 (dischargeBeforeJuly2013 = no). The participant names the Iowa county of the case (countyOfCase) and the case number (caseNumber).",
+    "excludedWhen": "The participant answers that the discharge from probation was before July 1, 2013 (dischargeBeforeJuly2013 = yes), which routes to unit ia-9079-pre-2013-application instead; or that the deferred judgment was revoked, which the registry records as an exclusion putting the case outside chapter 907 entirely; or that the outcome was a conviction or a dismissal rather than a deferred judgment, which is a self-help stop condition."
+   },
+   "participantTreatment": {
+    "prefill": "screening",
+    "protectedBlank": true,
+    "outsidePartyBlank": true,
+    "prefillFields": [
+     "countyOfCase",
+     "caseNumber",
+     "wasDeferredJudgment",
+     "dischargedFromProbation",
+     "deferredJudgmentRevoked",
+     "financialObligationsPaid",
+     "stillOnPublicDocket",
+     "dischargeBeforeJuly2013"
+    ],
+    "confirmFields": [
+     "financialObligationsPaid against Confirmation from the clerk of the balance in the case containing the deferred judgment (registry participantFilingRequirements[0], confirms financialObligationsPaid)"
+    ],
+    "protectedBlankNote": "Judge name, prosecutor identity and prosecutor position, hearing date, court address, filing fee amount, and any statement that a record has in fact been expunged are left blank. The registry records that whether a post-July-2013 discharge is genuinely self-executing is an unresolved release blocker, so no document may assert that the expungement has occurred.",
+    "outsidePartyBlankNote": "Acts of the court, the clerk, the county attorney, the state court administrator, and the probation authority are left blank. LegalEase does not obtain, receive or inspect the clerk's balance confirmation and does not contact the clerk on the participant's behalf.",
+    "signature": "None. Registry rules.participantSignature: \"No participant signature on the diagnostic branch.\"",
+    "notarization": "none (registry rules.notarization)"
+   },
+   "implementation": {
+    "componentPath": "/home/user/wt-c1-pleadings/data/rcap-all50/composed-routes/iowa/ia-9079/components/ia-9079-process-guidance-1"
+   }
+  },
+  {
+   "unitId": "ia-9079-pre-2013-application",
+   "order": 2,
+   "legalUnit": "Application for a discharge predating July 1, 2013. For a discharge before July 1, 2013 an application is required, but no statewide form exists, no rule governs it, and the statutory mechanics are thin. The filing vehicle is legally unresolved.",
+   "authority": {
+    "citation": null,
+    "citationNote": "No citation is supplied. The registry states that no rule governs the application and that the statutory mechanics are thin. Iowa Code § 907.9(4) supplies the substantive right but the registry does not identify a procedural vehicle, and none is invented here.",
+    "sourceRef": "registry tracks[126].units[1] (outputStrategyStatus unresolved, available false, unavailableReason); buildBlockers[0]; scopeRestrictions[0]; legalDesignLimitations[2]"
+   },
+   "requiredOutput": "pleading_document",
+   "requiredOutputNote": "Classified pleading_document because the registry records that an application is required, i.e. a participant-initiated court document. It is NOT classified official_form_dependency: the registry states expressly that no statewide form exists for this branch, so there is no official form to depend on. The unit is blocked and no document is drafted.",
+   "componentId": "ia-9079-pre-2013-application-2",
+   "componentIdSource": "Constructed for this artifact. The registry packetSet.components array contains only ia-9079-process-guidance-1, because the registry generates no packet for this branch.",
+   "applicability": {
+    "includedWhen": "The participant answers that the discharge from probation was before July 1, 2013 (screening key dischargeBeforeJuly2013 = yes), the outcome was a deferred judgment (wasDeferredJudgment), and the deferred judgment was never revoked (deferredJudgmentRevoked = no).",
+    "excludedWhen": "Presently excluded for every participant. The registry marks the unit available = false and records the reason: \"The correct mechanism for a pre-July-1-2013 deferred judgment expungement request is unresolved: no form, no rule. A custom pleading would be speculative.\" A participant whose discharge predates July 1, 2013 receives no packet on this branch."
+   },
+   "participantTreatment": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true,
+    "prefillFields": [],
+    "confirmFields": [
+     "Whether the discharge from probation was before or on/after July 1, 2013"
+    ],
+    "protectedBlankNote": "No field of any application may be prefilled while the vehicle itself is unresolved. No caption, no court, no title, no prayer for relief, and no verification is drafted.",
+    "outsidePartyBlankNote": "Whether the clerk will act on an informal request, and what the county attorney's position would be, are outside-party matters and are never asserted. The registry records \"Pre-2013 discharges where the clerk declines to act\" as a self-help stop condition."
+   },
+   "implementation": {
+    "blockedDependency": "Lane E legal-design resolution of the filing vehicle for a pre-July-1-2013 deferred judgment expungement request under Iowa Code § 907.9(4). Registry buildBlockers[0], affectedElement output_strategy, provenance LegalEase-Iowa-Legal-Review-2026-07-30.md, heading OPEN QUESTIONS: \"The correct mechanism for a pre-July-1-2013 deferred judgment expungement request. No form, no rule. Unresolved.\" This is not a lane-D official-form acquisition: no official form exists to acquire. Nothing may be drafted for this unit until counsel identifies the vehicle."
+   }
+  }
+ ],
+ "filingSeparation": {
+  "courtDocuments": [
+   {
+    "item": "Pre-July-1-2013 deferred-judgment expungement application — filing vehicle unresolved; not drafted.",
+    "componentId": "ia-9079-pre-2013-application-2",
+    "drafted": false,
+    "reason": "The registry states that an application is required for a pre-July-1-2013 discharge, but that no statewide form exists, no rule governs it, and the statutory mechanics are thin. The filing vehicle is legally unresolved. The registry's own words: \"A custom pleading would be speculative.\" No caption, court, title, allegation, statutory-basis paragraph, prayer for relief, verification, signature block, proposed order or certificate of service is drafted here."
+   }
+  ],
+  "courtDocumentsNote": "No court document is produced on either branch. On the post-July-2013 branch the registry states there is no participant filing at all: \"For a post-July-2013 discharge there is no participant filing; the expungement is expected to occur on discharge.\" On the pre-July-2013 branch an application is required but the vehicle is unresolved and nothing is drafted — see components/ia-9079-pre-2013-application-2/dependency.json.",
+  "participantOnly": [
+   "components/ia-9079-process-guidance-1/process-guidance.md — the diagnostic checklist and clerk-contact steps. Not filed with the court.",
+   "participant-instructions.md — the complete/confirm/contact checklist. Not filed with the court."
+  ],
+  "proposedOrder": null,
+  "proposedOrderNote": "No proposed order is produced. Registry legalDesignLimitations[1] / packetInstructions[1]: \"Do not add a proposed order to any Iowa Rule 2.86 packet. No proposed order is filed.\" This track sits outside Rules 2.80 through 2.86 altogether and has no filing at all on the available branch, so a fortiori no proposed order.",
+  "certificateOfService": null,
+  "certificateOfServiceNote": "None. Registry rules.service: \"No service on the diagnostic branch. There is no petition to serve.\"",
+  "coverSheet": null,
+  "coverSheetNote": "No participant-only cover sheet is drafted. Neither the registry entry nor the IA state pack records a cover sheet requirement for this route, and there is no filing to cover."
+ },
+ "omissionProof": {
+  "statement": "units[] enumerates every legal unit that the pinned registry entry and the IA state pack record for ia-9079, and adds no unit either source does not record. It is a one-to-one mapping of registry tracks[126].units[0..1]: ia-9079-post-2013-verification (order 1, outputStrategy process_guidance, resolved, available) and ia-9079-pre-2013-application (order 2, outputStrategyStatus unresolved, available false). No third unit exists. registry tracks[126].packetSet.components contains exactly one entry (ia-9079-process-guidance-1, role process_guidance, requirement required, officialFormId null), which is carried by unit 1. The remaining entries in packetSet.participantActionRequired are participant acts against unit 1 rather than separate legal units and are carried inside the guidance component and participant-instructions.md: obtain_document (ask the clerk for the balance in the case), confirm_answer (check the financial-obligations answer against the clerk's confirmation), sign (\"No participant signature on the diagnostic branch\"), pay_fee (\"No fee identified. The diagnostic route is free\"), apply_fee_waiver (\"Not applicable\"), serve_party (\"No service on the diagnostic branch. There is no petition to serve\"), and file (no participant filing on the available branch). registry manualCompletionItems and postGenerationHandoffs are both empty, so no unit is drawn from them. No agency_request_letter unit is created: the registry describes the clerk contact as contacting the clerk and asking for the balance, and records no written request document; drafting one would invent a mechanism the source does not state.",
+  "profilePassageReferenced": {
+   "profilePath": "/home/user/wt-c1-pleadings/src/lib/rcap-engine/compiled/profiles/IA-iowa.json",
+   "profileSha256": "1af0ae279f51dffbd7e620bf0fecdd38cdb98633343f82a8b4970f6e5a7042bc",
+   "profileVersion": "2026-06-19-source-conversion-1",
+   "pointer": "pathways[0].exclusionRules[1] (identically pathways[0].ruleClauses[4], exclusionRules[1].ruleText, and orderedDecisionRules[6].when.sourceConditionText)",
+   "passage": "The source says § 901C.2 does not apply to a dismissal related to deferred judgment under § 907.9.",
+   "interpretation": "This is the only passage anywhere in the compiled IA profile that mentions § 907.9, and it appears as an exclusion inside pathway nonconviction-901c2 — it tells the § 901C.2 route to stand down where the dismissal is deferred-judgment related, which is precisely the carve-out this track occupies. A full-value scan of the profile for \"907.9\", \"907.4\", \"907.3\" and \"deferred judgment\" returned no other hit bearing on this track's units, and the profile contains no pathway, question, caseOutcomeOption, ordered decision rule, waiting-period rule, exclusion rule, or packetGenerator pathway for ia-9079. The compiled profile therefore records zero legal units for this track, and the enumeration above cannot be a subset of it. It is a complete image of the registry's own units[]."
+  }
+ },
+ "counselFlags": [
+  {
+   "id": "cf-01",
+   "statement": "Whether a post-July-1-2013 deferred judgment discharge is genuinely self-executing, and what the participant does when it did not happen, is unresolved. The statute contains no self-executing date; the July 1, 2013 line is practice guidance from Iowa Legal Aid, not statutory text. The entire premise of unit 1 rests on it.",
+   "mustConfirm": "Confirm the source of the July 1, 2013 line and whether § 907.9(4) operates without an application after that date, and specify the participant's remedy when the record was not expunged.",
+   "sourceRef": "registry releaseBlockers[0] / unresolvedQuestions[0] (LegalEase-Iowa-Legal-Review-2026-07-30.md, OPEN QUESTIONS: \"Unresolved, and it gates Track F.\")",
+   "impact": "release_blocker"
+  },
+  {
+   "id": "cf-02",
+   "statement": "The correct mechanism for a pre-July-1-2013 deferred judgment expungement request is unresolved: no form, no rule. Unit 2 is blocked and nothing is drafted for it. A custom pleading would be speculative.",
+   "mustConfirm": "Identify the filing vehicle for a pre-July-1-2013 request — the document, the rule or statute authorising it, the caption, and where it is filed — before any application is drafted.",
+   "sourceRef": "registry buildBlockers[0] / unresolvedQuestions[1] / units[1].unavailableReason / scopeRestrictions[0] / legalDesignLimitations[2]",
+   "impact": "build_blocker"
+  },
+  {
+   "id": "cf-03",
+   "statement": "None of the four recorded official sources carries a SHA-256, so staleness of the Iowa Code, the Rule 2.80–2.86 chapter, the August 30, 2024 amendment order, and the Judicial Branch expungement forms page cannot be detected. All four were retrieved 2026-07-30.",
+   "mustConfirm": "Re-retrieve each source, record a SHA-256, and confirm the § 907.9(4), § 907.4(2) and § 907.3 text is current as of the review date.",
+   "sourceRef": "registry officialSources[0..3] (sha256 null on all four); blockers kind source_gate",
+   "impact": "source_gate"
+  },
+  {
+   "id": "cf-04",
+   "statement": "Fee posture is stated only for the diagnostic branch — \"No fee identified. The diagnostic route is free.\" No fee is stated for the pre-July-2013 branch because the vehicle is unresolved, and no fee waiver applies (\"Not applicable\"). Whether a clerk charges for a balance inquiry or a copy is not stated.",
+   "mustConfirm": "Confirm that no fee attaches to the diagnostic route in any county, and establish the fee and waiver posture for the pre-2013 branch once the vehicle is identified.",
+   "sourceRef": "registry rules.fees, rules.feeWaiver; packetSet.participantActionRequired[3] and [4]; IA state pack feesCopiesServiceNotes",
+   "impact": "unstated_field"
+  },
+  {
+   "id": "cf-05",
+   "statement": "Court name, clerk address, and department are null. Venue is described only as \"Iowa District Court for the county of the case containing the deferred judgment.\" No address is sourced and none is printed.",
+   "mustConfirm": "Confirm the clerk contact route per county, or confirm that the participant is to be sent to the county clerk generically without a printed address.",
+   "sourceRef": "registry venue and destination.name / destination.detail; IA state pack filingDestinationGuidance[0] and [2]",
+   "impact": "unstated_field"
+  },
+  {
+   "id": "cf-06",
+   "statement": "There is no notice mechanism: Iowa does not notify people that a deferred judgment record was expunged. Combined with cf-01, the participant has no confirmation channel other than checking the public docket and asking the clerk. What the participant does when the clerk declines to act is a self-help stop condition with no recorded handoff — registry postGenerationHandoffs is empty.",
+   "mustConfirm": "Specify the escalation path when the record still appears on the public docket, every financial obligation is paid, and the clerk declines to act.",
+   "sourceRef": "registry rules.notice; selfHelpBoundaries[2]; selfHelpStopConditions[2]; postGenerationHandoffs (empty)",
+   "impact": "unstated_field"
+  },
+  {
+   "id": "cf-07",
+   "statement": "Vocabulary restriction, hard. Never say erased, destroyed, or removed from your record. Say the court record becomes confidential and comes off public access under Iowa Code § 22.7. State plainly that Iowa has no felony expungement.",
+   "mustConfirm": "Confirm the participant-facing vocabulary at output review across process-guidance.md and participant-instructions.md.",
+   "sourceRef": "registry packetInstructions[0] / legalDesignLimitations[0]; compiled profile terminology and copyGuardrails[0] and [2]",
+   "impact": "output_review"
+  },
+  {
+   "id": "cf-08",
+   "statement": "No proposed order is produced and none may be added. The registry's Iowa-specific instruction forbids a proposed order in any Rule 2.86 packet, and this track sits outside Rules 2.80 through 2.86 with no filing at all on the available branch.",
+   "mustConfirm": "Confirm at output review that no proposed order, no certificate of service, and no verification block has been introduced anywhere in this route.",
+   "sourceRef": "registry packetInstructions[1] / legalDesignLimitations[1]; mechanism (\"sits outside Rules 2.80 through 2.86 and has no Rule 2.86 form\"); rules.service",
+   "impact": "output_review"
+  },
+  {
+   "id": "cf-09",
+   "statement": "The deferred judgment itself remains on the state court administrator's deferred judgment docket and is not expunged. That docket is how courts and prosecutors know a deferred judgment was used, and it feeds the § 901C.3 two-deferred-judgment limitation. The participant must be told this; describing the outcome as a clean slate would be wrong.",
+   "mustConfirm": "Confirm the participant-facing wording of the deferred judgment docket carve-out and its downstream effect on a later § 901C.3 application.",
+   "sourceRef": "registry packetInstructions[3] / legalDesignLimitations[4]; mechanism; authority[1] (§ 907.4(2))",
+   "impact": "output_review"
+  },
+  {
+   "id": "cf-10",
+   "statement": "A revoked deferred judgment is out of scope. Revocation makes the case ineligible under chapter 907; the resulting conviction may then be eligible under § 901C.3 if it is a misdemeanour. No handoff to the § 901C.3 route is recorded — registry postGenerationHandoffs is empty.",
+   "mustConfirm": "Specify the handoff from a revoked deferred judgment to the § 901C.3 misdemeanour route, including what the participant is told and at what point in screening.",
+   "sourceRef": "registry exclusions[0]; selfHelpBoundaries[0] and [4]; legalDesignLimitations[6]; postGenerationHandoffs (empty)",
+   "impact": "handoff_gap"
+  },
+  {
+   "id": "cf-11",
+   "statement": "Court debt is a precondition: the record is not expunged until restitution, civil penalties, court costs, fees and other obligations in the case containing the deferred judgment are paid. Which obligations count as being \"in that case\", and how a dispute about what is owed and in which case is resolved, is not stated. The registry records that dispute as a self-help boundary.",
+   "mustConfirm": "Confirm the scope of \"financial obligations in the case containing the deferred judgment\" — whether obligations in other cases, consolidated cases, or collections referrals count — and the escalation path when the participant disputes the balance.",
+   "sourceRef": "registry legalDesignLimitations[5] / packetInstructions[4]; waitingPeriods[0]; exclusions[1]; selfHelpBoundaries[1]; selfHelpStopConditions[1]",
+   "impact": "unstated_field"
+  }
+ ],
+ "screeningPriority": {
+  "statement": "Screen for a deferred judgment before the § 901C.2 and § 901C.3 routes. It is free, needs no form, and often only needs a balance paid.",
+  "sourceRef": "registry packetInstructions[2] / legalDesignLimitations[3] (LegalEase-Iowa-Legal-Review-2026-07-30.md, TRACK F)"
+ },
+ "selfHelpStopConditions": [
+  "A revoked deferred judgment.",
+  "Disputes about what is owed and in which case.",
+  "Pre-2013 discharges where the clerk declines to act.",
+  "Any indication the disposition was a conviction rather than a deferred judgment."
+ ],
+ "reviewPosture": {
+  "legalDesignStatus": "legal_design_approved_with_limitations",
+  "legalStatus": "legal_review_pending",
+  "implementationQueue": "D_composed_or_process_guidance",
+  "runtimeDisabledReason": "Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+  "counselConfirmationRequired": false,
+  "openBlockerKinds": [
+   "output_review_gate",
+   "visual_review_gate",
+   "technical_proof_gate",
+   "legal_design_blocker",
+   "release_blocker",
+   "source_gate"
+  ],
+  "reviewedAsOf": "2026-07-30",
+  "effectiveFrom": "2012-07-01",
+  "effectiveTo": null,
+  "approvedForLive": false,
+  "live": false
+ },
+ "disclaimer": "Build-first internal review material. Not legal advice, not approved for live use until QA, output review, visual review, and counsel review pass."
+}

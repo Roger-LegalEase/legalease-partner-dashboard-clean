@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-overflow-report/v2",
+  "boundaryFixtureApplied": true,
+  "findings": [
+    {
+      "fixture": "boundary",
+      "field": "User.CaseNumber",
+      "check": "overflow",
+      "maxLength": 30,
+      "valueLength": 37,
+      "handling": "truncated_by_form_maxlength"
+    },
+    {
+      "fixture": "boundary",
+      "field": "User.CaseNumber",
+      "check": "clipping",
+      "widgetWidth": 157,
+      "textWidthAt": 157.8,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    },
+    {
+      "fixture": "boundary",
+      "field": "User.PetitionerName",
+      "check": "clipping",
+      "widgetWidth": 312,
+      "textWidthAt": 326.1,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    },
+    {
+      "fixture": "boundary",
+      "field": "User.SpecificCharge",
+      "check": "clipping",
+      "widgetWidth": 342,
+      "textWidthAt": 613,
+      "fontSize": 10,
+      "handling": "shrink_to_fit_required_at_render"
+    },
+    {
+      "fixture": "boundary",
+      "field": "User.UnderlyingCaseNumbers",
+      "check": "overflow",
+      "maxLength": 15,
+      "valueLength": 37,
+      "handling": "truncated_by_form_maxlength"
+    }
+  ]
+}

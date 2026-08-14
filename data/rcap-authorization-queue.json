@@ -1,0 +1,527 @@
+{
+  "schemaVersion": "rcap-authorization-queue/v1",
+  "purpose": "Production-touching actions wait here. Nothing in this file executes itself; an agent may prepare an action and record it, but only Roger authorizes it, and execution happens afterwards in one of his two daily windows.",
+  "queueEnforcedFromPhase": 49,
+  "enforcementNote": "Migrations numbered at or above queueEnforcedFromPhase must have an entry here. Earlier phases predate the queue and are not retroactively enforced; their applied state must be proven by object presence, because the Supabase migration ledger holds only a baseline row. An entry whose artifacts have moved to another branch records that branch and PR rather than an in-tree path.",
+  "entries": [
+    {
+      "id": "auth-2026-08-10-phase-49-packet-render-jobs",
+      "kind": "migration",
+      "title": "Apply phase-49 durable packet render jobs and artifact-gated credit",
+      "artifacts": [
+        "supabase/phase-49-rcap-packet-render-jobs.sql",
+        "supabase/tests/phase-49-packet-render-jobs.test.sql"
+      ],
+      "status": "authorized",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-10",
+      "authorizedBy": "Roger Roman",
+      "authorizedAt": "2026-08-10",
+      "executedAt": null,
+      "why": "A sponsored packet credit is currently consumed with no validated artifact in existence. packet/generate/route.ts records a credit when packetStatus reaches 'ready', and 'ready' is produced by an in-memory text/plain string with no render, no storage write and no read-back. This migration makes credit movement impossible without stored, checksummed bytes. The migration stays in the canonical supabase/ directory: relocating it would create a fake distinction between the code and the schema it requires.",
+      "risk": "low",
+      "riskNote": "Additive and forward-only. Creates three new tables, one trigger and two functions. Alters no existing table, drops nothing, and backfills nothing. No application code reads these objects yet, so applying it changes no runtime behaviour on its own.",
+      "preconditions": [
+        "phase-48-rcap-document-artifact-storage.sql applied, or its absence accepted — phase 49 takes no foreign key on rcap_document_artifacts and applies independently",
+        "public.partner_records and public.rcap_document_packets present",
+        "service_role exists"
+      ],
+      "evidence": [
+        "Applies cleanly to a fresh PostgreSQL 16 cluster",
+        "Ten behavioural assertions pass in supabase/tests/phase-49-packet-render-jobs.test.sql",
+        "Mutation-tested: stripping the artifact_validated gate turns the suite red",
+        "SQL, shared fixture and TypeScript contract all agree; drift mutation-tested on both sides",
+        "npm run rcap:verify-packet-render-jobs"
+      ],
+      "rollback": "Documented at the foot of the migration: drop the two functions, the two credit tables, the trigger and its function, then packet_render_jobs. Additive, so no pre-existing row is affected.",
+      "blocks": [
+        "Wiring packet-generation.ts to the job queue. Application code must not reference these objects before the migration is applied to the target environment."
+      ],
+      "phase": 49,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-49-rcap-packet-render-jobs.sql",
+        "supabase/tests/phase-49-packet-render-jobs.test.sql"
+      ],
+      "authorizedSha256": [
+        "2ad3726d8c2c02058a0545b940d84865b30de95b8a367a081a08cf709a7bc2d6",
+        "ac3a29f6b0c49b0418376bf55c0c42d2d28b31971cc278889cd25f6ae9930c2e"
+      ],
+      "authorizationScope": "repository_integration_and_conditional_production_application",
+      "doesNotAuthorize": [
+        "any third file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any renamed or replacement migration",
+        "any unrelated policy, function, seed, config or schema change",
+        "bypassing the SQL-to-TypeScript contract",
+        "enabling credits on a successful SQL exit without post-apply read-back",
+        "later Supabase work of any kind"
+      ],
+      "voidsOn": "Any change to either authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "environmentConditions": {
+        "repositoryIntegration": "authorized",
+        "applyEphemeralLocal": "authorized",
+        "applyStaging": "authorized",
+        "applyProduction": "authorized conditionally — only after staging read-back and behaviour checks pass; no second business authorization required unless a path or its bytes change"
+      }
+    },
+    {
+      "id": "auth-2026-08-10-phase-48-packet-delivery-gate",
+      "kind": "migration",
+      "title": "Apply phase-48 packet render jobs, packet accounting and delivery events",
+      "artifacts": [],
+      "status": "declined",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-10",
+      "authorizedBy": "Roger Roman (RCAP Delivery Gate Prompt v3: the phase-48 Supabase authorization applies on the delivery branch only)",
+      "authorizedAt": "2026-08-10",
+      "executedAt": null,
+      "why": "The deployed packet path consumed sponsored credit on a status flip with no artifact behind it, and rendering happened inline in a request handler with no retry, no fencing, and no accounting. This migration adds durable render jobs with fencing tokens and retry exhaustion, an append-only packet credit ledger keyed on immutable IDs, atomic finalization that verifies re-read stored bytes before any credit moves, and delivery events written only by the authenticated download route.",
+      "risk": "low",
+      "riskNote": "Additive and forward-only. Creates four new tables, guard triggers, and eleven service functions. Alters no existing table; partner_entitlement and all screening behavior are untouched (EXTEND, not replace). No application code on main reads these objects.",
+      "preconditions": [
+        "public.partner_records and public.rcap_persons present",
+        "pgcrypto extension available (installed into the extensions schema by the migration if absent)",
+        "service_role exists (Supabase); bare test clusters skip the grant"
+      ],
+      "evidence": [
+        "Applies cleanly to a fresh PostgreSQL 16 cluster (verify-rcap-packet-delivery-db)",
+        "17 behavioral cases pass on a real cluster, including two true concurrency races run as parallel processes",
+        "Worker crash injection at every boundary converges with no duplicate consumption (verify-rcap-render-worker-delivery)",
+        "A mobile-viewport Chromium received the validated artifact over HTTP with delivery_started and delivery_completed recorded (verify-rcap-packet-delivery-e2e)",
+        "SQL, shared fixture and TypeScript contract agree (verify-rcap-render-job-contract)",
+        "Negative regressions prove the grant covers exactly one path at exact bytes (verify-exact-path-authorization-phase48)"
+      ],
+      "rollback": "Documented at the foot of the migration: drop the eleven functions, the guard/updated-at trigger functions, then packet_delivery_events, packet_credit_ledger, partner_packet_entitlement, packet_render_jobs. All objects are new in this phase; no pre-existing row is affected.",
+      "blocks": [
+        "Wiring the participant-facing generate flow to the job queue in production. Application code must not reference these objects in a deployed environment before the migration is applied there."
+      ],
+      "phase": 48,
+      "decision": "declined",
+      "authorizationScope": "repository_integration_delivery_branch_only",
+      "doesNotAuthorize": [
+        "application to staging or production (a separate queue authorization names the environment)",
+        "any second file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any renamed or replacement migration",
+        "any unrelated policy, function, seed, config or schema change",
+        "bypassing the SQL-to-TypeScript contract",
+        "any change to the phase-49 lane's files or authorization"
+      ],
+      "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "supersededBy": "auth-2026-08-10-phase-50-packet-delivery-hardening",
+      "supersededNote": "The phase-48 file (sha 06e6ca74...) was superseded during lane reconciliation: phase 49 (PR #91) is the canonical render-jobs base and the delivery hardening became the additive phase-50 follow-on. The prior hash grants nothing.",
+      "supersededSha256": "06e6ca745e0a04fac1ba6ab4370f4bdecfce61215cfc7b44b6fad0b768ffdd25",
+      "declinedReason": "Superseded during lane reconciliation: phase 49 (PR #91, owner-authorized) is the canonical render-jobs base and the delivery hardening became the additive phase-50 follow-on. The phase-48 file no longer exists in the tree and the prior digest grants nothing."
+    },
+    {
+      "id": "auth-2026-08-10-phase-50-packet-delivery-hardening",
+      "kind": "migration",
+      "title": "Apply phase-50 packet delivery hardening (after phase 49)",
+      "artifacts": [
+        "supabase/phase-50-rcap-packet-delivery-hardening.sql"
+      ],
+      "status": "authorized_scoped",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-10",
+      "authorizedBy": "Roger Roman (RCAP Unification Prompt v2: reconciled integration branch and canonical migration path; repository integration only)",
+      "authorizedAt": "2026-08-10",
+      "executedAt": null,
+      "why": "Reconciles the two packet-delivery lanes. Phase 49 (PR #91, authorized) stays the canonical base; this follow-on adds fencing tokens on every worker-owned mutation, retry exhaustion with terminal dispositions, the atomic finalization transaction with re-read hash verification, transmission-named delivery events written only by the authenticated route, and packet accounting keyed on immutable IDs (partner_id : entitlement_id : person_id : matter_id), superseding phase 49's slug-keyed allocation pair while both are provably unapplied. It also installs the real mutation boundary: runtime roles lose direct DML on the protected tables, so the authority GUC is coordination, not security.",
+      "risk": "low",
+      "riskNote": "Forward-only companion to phase 49; applies only after it in the same sequence. Drops two empty phase-49 accounting tables (documented supersession) and creates the canonical entitlement, ledger and delivery-event tables. Alters no pre-existing production table.",
+      "preconditions": [
+        "phase-49-rcap-packet-render-jobs.sql applied immediately before, in the same authorized window",
+        "public.partner_records, public.rcap_persons, public.rcap_document_packets present",
+        "pgcrypto available (installed into the extensions schema by the migration if absent)"
+      ],
+      "evidence": [
+        "Applies cleanly after phase 49 on a fresh PostgreSQL 16 cluster with production-equivalent service_role default privileges",
+        "19 behavioral cases pass including program and period separation and two true concurrency races (verify-rcap-packet-delivery-db)",
+        "Forgery battery: every protected mutation denied for service_role, worker, delivery, anon and authenticated roles with the authority GUC set via SET and SET LOCAL (verify-rcap-mutation-authority)",
+        "Worker crash injection at every boundary converges with no duplicate consumption (verify-rcap-render-worker-delivery)",
+        "Mobile-viewport Chromium received the validated artifact over HTTP with delivery_authorized / transmission_started / transmission_completed recorded (verify-rcap-packet-delivery-e2e)",
+        "Fixture, phase-49 SQL, phase-50 SQL and TypeScript state machines agree (verify-rcap-render-job-contract)",
+        "PR #91's own verifier passes unchanged on the unified branch (verify-rcap-packet-render-jobs)"
+      ],
+      "rollback": "Documented at the foot of the migration; all phase-50 objects are new or empty at apply time.",
+      "blocks": [
+        "The staging rehearsal (docs/RCAP_STAGING_REHEARSAL_PLAN.md) and Milestone 1 gate item 1 closure"
+      ],
+      "phase": 50,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-50-rcap-packet-delivery-hardening.sql"
+      ],
+      "authorizedSha256": [
+        "84facd03b1362679898ba599db4247c2bafe6e675ee1691c37181adbde9e9057"
+      ],
+      "authorizationScope": "repository_integration_only",
+      "doesNotAuthorize": [
+        "application to staging or production (the A1 staging action below is prepared, not granted)",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any renamed or replacement migration",
+        "any change to the phase-49 files, PR #91, or their authorization",
+        "bypassing the SQL-to-TypeScript contract",
+        "any new file under supabase/ beyond the phase-50 path named here; phase 51 carries its own authorization record"
+      ],
+      "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "preparedStagingAction": {
+        "id": "A1-staging",
+        "action": "psql <staging> -f supabase/phase-49-rcap-packet-render-jobs.sql && psql <staging> -f supabase/phase-50-rcap-packet-delivery-hardening.sql && psql <staging> -f supabase/phase-51-rcap-consumer-payment-gate.sql",
+        "environment": "staging",
+        "requires": "Roger's explicit staging authorization naming all three files and this environment",
+        "sequenceNote": "Phase 51 is not optional in this sequence. Applying 49 and 50 alone installs the consumer payment defect: every unsponsored job would be marked zero_charge AND delivery-eligible, so a packet would deliver without the consumer having paid. The two-file form of this action is superseded and must not be run.",
+        "evidenceOnApply": "object presence for every table, function, trigger, index and role named in all three files, plus finalize_packet_render_job resolving to the phase-51 definition (the consumer branch must call consumer_packet_payment_valid), captured to the compliance package"
+      },
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-10 — reconciled branch, hash-pinned",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name both migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      },
+      "phase50PortabilityRepin": "2026-08-12: bytes re-pinned from 15063ea91794... after the F1 ephemeral staging rehearsal caught a PG17 portability defect (DROP POLICY IF EXISTS on a relation phase 50 itself drops earlier in its transaction); the fix is a guarded do-block with identical semantics, caught and verified in F1 before any real staging apply."
+    },
+    {
+      "id": "auth-2026-08-10-phase-51-consumer-payment-gate",
+      "kind": "migration",
+      "title": "Apply phase-51 consumer payment gate (after phases 49 and 50)",
+      "artifacts": [
+        "supabase/phase-51-rcap-consumer-payment-gate.sql"
+      ],
+      "status": "authorized_scoped",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-10",
+      "authorizedBy": "Roger Roman (Terminal C integration directive item 8: unsponsored without a valid consumer payment entitlement is non-deliverable; zero_charge cannot bypass the $50 consumer payment gate) — repository integration only",
+      "authorizedAt": "2026-08-10",
+      "executedAt": null,
+      "why": "Phase 50 marked every unsponsored job zero_charge AND delivery-eligible. Those are two different facts and only the first was true: zero_charge means no partner credit moved, which says nothing about whether the consumer paid. The consumer product is paid — consumer_briefcase_items.amount_cents is constrained to 5000 by phase 27 — and the delivery core gates on authentication, briefcase ownership, delivery_eligibility and artifact hash, none of which is a payment check. Any job enqueued without partner sponsorship was therefore deliverable on the strength of having no sponsor. This migration makes the payment the authority for an unsponsored delivery.",
+      "risk": "low",
+      "riskNote": "Additive and forward-only. Extends one check constraint with a new typed result, adds one stable SECURITY DEFINER probe, and replaces finalize_packet_render_job with a copy identical to phase 50's apart from the consumer branch. No table is created, altered or dropped, and no row is backfilled. The change is restrictive: it can only move an unsponsored job from eligible to accounting_blocked, never the reverse.",
+      "preconditions": [
+        "phase-49-rcap-packet-render-jobs.sql and phase-50-rcap-packet-delivery-hardening.sql applied immediately before, in the same authorized window",
+        "public.consumer_briefcase_items present with payment_status and amount_cents (phases 26 and 27) — absent, the probe fails closed and every unsponsored packet is blocked"
+      ],
+      "evidence": [
+        "Applies cleanly after phases 49 and 50 on a fresh PostgreSQL 16 cluster",
+        "B3a-B3d in verify-rcap-screenings-allowed-audit prove: payment table absent -> blocked; no briefcase item -> blocked; unpaid, refunded and paid-at-2500-cents -> blocked; paid at 5000 cents -> zero_charge, eligible, and no partner credit consumed",
+        "Mutation-tested twice: making the absent-table probe return true turns B3a red, and widening the accepted payment_status set turns B3c red",
+        "verify-rcap-packet-delivery-db case 11 rebuilt on both sides of the gate and passing",
+        "The phase-50 constraint packet_render_jobs_eligible_requires_accounting_check makes it structurally impossible for consumer_payment_required to be marked eligible",
+        "Every delivery verifier now applies 49 -> 50 -> 51, so the tested state is the shipped state"
+      ],
+      "rollback": "Re-apply phase 50's finalize_packet_render_job to restore the ungated consumer branch, then drop public.consumer_packet_payment_valid(uuid) and narrow the accounting_result constraint back. No data is written by this migration, so nothing is lost; note that rolling back restores the defect.",
+      "blocks": [
+        "The staging rehearsal and any consumer packet delivery in a paid environment"
+      ],
+      "phase": 51,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-51-rcap-consumer-payment-gate.sql"
+      ],
+      "authorizedSha256": [
+        "3c3e971c1fdb3382f4caef3e14c683d237033dc3949518a144b01d23b908e1ba"
+      ],
+      "authorizationScope": "repository_integration_only",
+      "doesNotAuthorize": [
+        "application to staging or production",
+        "any further new file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any change to the phase-49 or phase-50 files or their authorizations",
+        "any change to consumer pricing; 5000 cents is read from the phase-27 constraint, not set here"
+      ],
+      "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-10 — hash-pinned to 3c3e971c1fdb3382",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all three migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      }
+    },
+    {
+      "id": "auth-2026-08-11-phase-52-consumer-payment-authority",
+      "kind": "migration",
+      "title": "Apply phase-52 consumer payment authority (after phases 49, 50 and 51)",
+      "artifacts": [
+        "supabase/phase-52-rcap-consumer-payment-authority.sql"
+      ],
+      "status": "authorized_scoped",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Roger Roman (Phase 52 directive: anon and authenticated cannot insert or update any payment fact; all legitimate payment writes move to a server-only admin/webhook path) — repository integration only",
+      "authorizedAt": "2026-08-11",
+      "executedAt": null,
+      "why": "Terminal B proved the phase-51 gate is bypassable by the payer it charges (audit commit f82f842, RCAP-SEC-001). Four failures: an authenticated participant wrote payment_status='paid' and amount_cents=5000 on their own row and opened delivery (G1/G1b), because the phase-26 RLS UPDATE policy scopes rows and not columns; one paid item authorized a second distinct matter (G11), because the consumption unit hashed the render job id and every new job is a new id; and participant B's paid item authorized a job for participant A (G12), because the probe took an item id and never asked who owned it. This migration makes payment facts unwritable by the payer, moves legitimate writes to a server-only path with unique provider evidence, rekeys consumption onto the Briefcase item and the provider receipt, and binds every consumer job to an immutable item, consumer, person and matter.",
+      "risk": "medium",
+      "riskNote": "Additive and forward-only: no table is dropped, no row is backfilled, and the partner branch of finalize_packet_render_job is unchanged, so sponsored accounting is untouched. The change is restrictive in two directions that matter operationally. First, anon and authenticated lose INSERT and UPDATE on the payment columns of consumer_briefcase_items; any application code that writes payment_status, amount_cents or the checkout metadata directly from a participant session will start failing with permission denied and must move to record_consumer_packet_payment. Second, an unsponsored job is now deliverable only when it carries the full four-tuple, so consumer jobs enqueued before this phase — which have no consumer_auth_user_id — fail closed rather than delivering. That is the intended direction, but it is a behaviour change on existing queued work and is why this is medium rather than low.",
+      "preconditions": [
+        "phases 49, 50 and 51 applied immediately before, in the same authorized window",
+        "public.consumer_briefcase_items present with payment_status and amount_cents (phases 26 and 27) — absent, every payment-fact statement is skipped and every unsponsored packet stays blocked",
+        "a service_role exists to receive execute on record_consumer_packet_payment; absent, the grant is skipped and no role can record a payment",
+        "the application's consumer checkout path is repointed at record_consumer_packet_payment BEFORE this is applied to any environment that takes live payments, or paid checkouts will succeed at the provider and fail to record"
+      ],
+      "evidence": [
+        "Applies cleanly after 49 -> 50 -> 51 on a fresh PostgreSQL 16 cluster, and on a partner-only schema where consumer_briefcase_items is absent",
+        "verify-rcap-phase52-consumer-payment-authority: 32/32 cases, including the four audit failures G1, G1b, G11 and G12 re-run and now closed, and the thirteen phase-51 passing cases still passing",
+        "test-rcap-phase52-mutations: 12/12 mutations red — reverting any single defence (column grants, server-evidence constraint, owner clause, item keying, either uniqueness key, the RPC grant, the RPC's amount and currency check, binding immutability, or the refund block) turns the verifier red",
+        "All six delivery verifiers rebuilt on 49 -> 50 -> 51 -> 52 and passing",
+        "The phase-50 constraint packet_render_jobs_eligible_requires_accounting_check makes every new typed result structurally incapable of being marked eligible"
+      ],
+      "rollback": "Re-apply phase 51's finalize_packet_render_job, then drop public.consumer_packet_payment_authority(uuid, uuid), public.record_consumer_packet_payment(...), the packet_render_jobs_consumer_binding_immutable_trg trigger and its function, and narrow the accounting_result constraint back. Restore the table-wide grants on consumer_briefcase_items. public.consumer_packet_payment_consumption may be left in place — it is additive and holds the record of what was already delivered; dropping it discards that evidence. Note that rolling back restores a payment gate the payer can bypass.",
+      "blocks": [
+        "The staging rehearsal and any consumer packet delivery in a paid environment"
+      ],
+      "phase": 52,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-52-rcap-consumer-payment-authority.sql"
+      ],
+      "authorizedSha256": [
+        "c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3"
+      ],
+      "authorizationScope": "repository_integration_only",
+      "doesNotAuthorize": [
+        "application to staging or production",
+        "any further new file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any change to the phase-49, phase-50 or phase-51 files or their authorizations",
+        "any change to consumer pricing; 5000 cents is read from the phase-27 constraint, not set here",
+        "publication of the worker image"
+      ],
+      "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-11 — hash-pinned to c906068f7800df7d",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all four migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      },
+      "closesFinding": {
+        "id": "RCAP-SEC-001",
+        "auditBranch": "origin/claude/rcap-phase51-payment-security-audit",
+        "auditCommit": "f82f842",
+        "gateCasesClosed": [
+          "G1",
+          "G1b",
+          "G11",
+          "G12"
+        ]
+      }
+    },
+    {
+      "id": "auth-2026-08-11-phase-53-consumer-job-binding",
+      "kind": "migration",
+      "title": "Apply phase-53 consumer job binding (after phases 49, 50, 51 and 52)",
+      "artifacts": [
+        "supabase/phase-53-rcap-consumer-job-binding.sql"
+      ],
+      "status": "authorized_scoped",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Roger Roman (Phase 53 directive: bind consumer identity in the original job INSERT; no post-insert binding RPC, no unbound consumer job, no restored UPDATE authority) — repository integration only",
+      "authorizedAt": "2026-08-11",
+      "executedAt": null,
+      "why": "Terminal B's re-audit at 25f6b09 found the Phase 52 payment gate correct (19 of 19 cases) but unreachable (0 of 3): enqueue_packet_render_job had no parameter for the consumer binding and service_role holds no UPDATE on packet_render_jobs, so the sanctioned path produced consumer_auth_user_id null and finalization correctly refused a legitimate paid consumer. This binds identity inside the creating INSERT. It widens no authority: the gate, the grants and the immutability trigger are untouched.",
+      "risk": "medium",
+      "riskNote": "Additive to the schema but BREAKING to the function signature. The 13-argument enqueue_packet_render_job is dropped and replaced by a 15-argument form whose two consumer parameters carry no defaults, so any deployed caller still using the old arity fails with 'function does not exist' rather than silently creating an unbound job. That is the intended direction and the reason the application must be deployed before this is applied. Sponsored accounting is unchanged; the partner branch of finalization is not touched.",
+      "preconditions": [
+        "phases 49, 50, 51 and 52 applied immediately before, in the same authorized window",
+        "the deployed application already calls the 15-argument signature and derives the consumer user id from a verified server session",
+        "public.consumer_briefcase_items present — absent, a consumer job cannot be bound and enqueue refuses it"
+      ],
+      "evidence": [
+        "Applies cleanly after 26,27,28,49,50,51,52 on a fresh PostgreSQL 16 cluster",
+        "verify-rcap-phase53-consumer-job-binding: 24/24 cases including R1-R13, using sanctioned functions only and no privileged fixture write on the paid path",
+        "R11/R11b: exactly one enqueue signature exists and the old 13-argument form no longer resolves",
+        "R10: participant, service_role, anon and even the table owner cannot mutate the binding after insert",
+        "Six delivery verifiers rebuilt on 49->50->51->52->53 and passing"
+      ],
+      "rollback": "Drop the 15-argument enqueue_packet_render_job and re-create the phase-50 13-argument form, then reapply the phase-50 grant block. No data is written by this migration. Note that rolling back restores an enqueue that cannot bind consumer identity, which makes every paid consumer packet non-deliverable again.",
+      "blocks": [
+        "The staging rehearsal and any consumer packet delivery in a paid environment"
+      ],
+      "phase": 53,
+      "decision": "approved",
+      "authorizedPaths": [
+        "supabase/phase-53-rcap-consumer-job-binding.sql"
+      ],
+      "authorizedSha256": [
+        "469ece83b54ef840f8571d90f0fbeed3ee16f246e906f0e44cc82ecac899b22f"
+      ],
+      "authorizationScope": "repository_integration_only",
+      "doesNotAuthorize": [
+        "application to staging or production",
+        "any further new file under supabase/",
+        "any wildcard, prefix, directory or future-migration exception",
+        "any change to the phase-49 through phase-52 files or their authorizations",
+        "publication or deployment of the worker image"
+      ],
+      "voidsOn": "Any change to the authorized path or its bytes voids this authorization and returns the item to the queue.",
+      "scopedAuthorization": {
+        "repository_integration": "authorized 2026-08-11 — hash-pinned to 469ece83b54ef840",
+        "local_ephemeral_test": "authorized — throwaway clusters created and destroyed inside verifier runs",
+        "staging": "queued — requires Roger to name all five migration files and the staging environment",
+        "production": "queued — not requested; follows a green staging rehearsal"
+      }
+    },
+    {
+      "id": "auth-2026-08-11-consumer-render-route",
+      "kind": "restricted_path_source_change",
+      "phase": 53,
+      "title": "Add the authenticated consumer render route that reaches the Phase 53 bound enqueue",
+      "artifacts": [
+        "src/app/api/expungement-ai/packet/render/route.ts"
+      ],
+      "status": "authorized_scoped",
+      "decision": "approved",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Roger Roman (Terminal A directive: 'Build or complete one authenticated server route or server action' reaching the Phase 53 enqueue) — repository integration only",
+      "authorizedAt": "2026-08-11",
+      "authorizationScope": "repository_integration_only",
+      "executedAt": null,
+      "why": "src/app/api/expungement-ai/ is a restricted prefix for this sprint because AGENTS.md fences the new Expungement.ai UI. This file is not UI: it is the server route that turns a server-recorded payment into a durable Phase 53 render job, and the directive that authorized it asked for exactly one such route. The guard is right to stop it by default, so it is named by exact path and pinned to exact bytes rather than the prefix being widened.",
+      "risk": "medium",
+      "riskNote": "A new authenticated payment-adjacent route. It creates no delivery and marks nothing delivered: it verifies the session server-side, resolves the Briefcase item scoped to that session, consults the Phase 52 payment authority, and calls the sanctioned enqueue. It never writes packet_render_jobs directly and never reads identity from the request body.",
+      "authorizedPaths": [
+        "src/app/api/expungement-ai/packet/render/route.ts"
+      ],
+      "authorizedSha256": [
+        "d6e00cf86d305c524a25fc8c1bbbd3408f12d53d449297c7415e71ce473fd986"
+      ],
+      "voidsOn": "Any byte change to the authorized path voids this authorization; the guard re-hashes the file on every run.",
+      "doesNotAuthorize": [
+        "any change to the Expungement.ai consumer UI",
+        "enabling the route in any environment — it is closed by default by RCAP_CONSUMER_DELIVERY_ROUTE_STATE",
+        "any migration application, deployment, image publication or flag change"
+      ],
+      "environmentConditions": {
+        "staging": "queued",
+        "production": "queued"
+      },
+      "rollback": "Delete src/app/api/expungement-ai/packet/render/route.ts and remove this entry. Nothing depends on the route existing: no client calls it, no migration references it, and the delivery control keeps it refusing in every environment regardless. Removal is a single-file revert with no data implications.",
+      "evidence": [
+        "scripts/verify-expungement-consumer-payment-http.mjs — P9, P10, P11, P12, P15, P16 drive this exact route handler; 18/18",
+        "scripts/test-rcap-consumer-payment-http-mutations.mjs — 7/7 mutations red, including two that target this route's payment and control checks",
+        "scripts/verify-all50-internal-preview.mjs — negative-tested: appending one byte to the authorized file voids the authorization and the guard refuses the diff"
+      ],
+      "scopedAuthorization": {
+        "repository": "authorized — the file may exist on the integration branch",
+        "staging": "queued — enabling the route in staging is a separate authorization",
+        "production": "queued — enabling the route in production is a separate authorization"
+      }
+    },
+    {
+      "id": "auth-2026-08-11-phase-54-person-namespace-hardening",
+      "kind": "migration",
+      "phase": 54,
+      "title": "Harden public.rcap_persons and enforce the reserved direct-to-consumer person namespace",
+      "artifacts": [
+        "supabase/phase-54-rcap-person-namespace-hardening.sql"
+      ],
+      "status": "authorized_scoped",
+      "decision": "approved",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Roger Roman — explicit bounded authorization for an additive Phase 54: inspect and record current privileges, enable RLS on public.rcap_persons, revoke direct anon and authenticated access, preserve narrowly required server-side access, add a database-enforced reserved-namespace collision guard, update legitimate callers, add executable role/tenant/reporting/entitlement/attribution/namespace-isolation tests, exact-path SHA-pinned repository authorization, ephemeral local application for testing only",
+      "authorizedAt": "2026-08-11",
+      "authorizationScope": "repository_integration_and_ephemeral_local_testing_only",
+      "executedAt": null,
+      "why": "rcap_persons carried no row-level security, no policies and no explicit grants anywhere in supabase/, so it inherited whatever default privileges hand anon and authenticated. That predates the consumer namespace and was already wrong for partner intake identities; Phase 53's consumer binding put direct-to-consumer person rows in the same table and made it urgent. Two further gaps had no database enforcement at all: partner_slug is free text, so a real partner could register the reserved slug and absorb every consumer person into their keyspace, and nothing constrained which identities may sit in the reserved namespace, leaving attribution ambiguous in both directions.",
+      "risk": "medium",
+      "riskNote": "Privilege-removing rather than additive in effect, which is the risk worth naming: if any caller read rcap_persons as anon or authenticated it would break. Every caller in src/ uses the service-role admin client (source-repository.ts, rcap-intake/repository.ts, consumer-identity.ts, and the partner outcome summary), and service_role is BYPASSRLS, so the revoke removes no access anything relies on. Verified by R6, a positive control proving the sanctioned server-side path still reads and writes after the lockdown.",
+      "rollback": "Apply the inverse in one transaction: disable row level security on public.rcap_persons, drop policy rcap_persons_service_role_all, drop trigger rcap_guard_reserved_partner_slug_trg on public.partner_records, drop constraint rcap_persons_reserved_namespace_shape, and re-grant whatever the pre-change privilege record in the apply log shows. Section 0 of the migration prints that pre-state precisely so the rollback does not have to guess. No data is written or rewritten, so nothing needs restoring.",
+      "evidence": [
+        "scripts/verify-rcap-consumer-person-namespace.mjs — 14/14: N1-N8 namespace properties plus R1 role, R2 tenant, R3 reporting, R4 entitlement, R5 attribution, R6 isolation positive control",
+        "scripts/test-rcap-phase54-mutations.mjs — 5/5 mutations red: phase omitted, RLS not enabled, revokes dropped, reserved slug claimable, shape constraint stops discriminating",
+        "scripts/verify-rcap-migration-apply-evidence.mjs — post-apply read-back extended to the 49-54 sequence"
+      ],
+      "authorizedPaths": [
+        "supabase/phase-54-rcap-person-namespace-hardening.sql"
+      ],
+      "authorizedSha256": [
+        "3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac"
+      ],
+      "voidsOn": "Any byte change to the authorized path voids this authorization; the scope guard re-hashes the file on every run.",
+      "doesNotAuthorize": [
+        "applying Phase 54 to staging or production — both remain queued pending the complete staging package, final CI, worker digest and explicit staging authorization",
+        "any change to Supabase auth or session logic beyond the named table",
+        "enabling row level security on any other table"
+      ],
+      "scopedAuthorization": {
+        "repository": "authorized — the migration may exist and be applied to ephemeral local databases for testing",
+        "staging": "queued — explicitly withheld by the authorizing instruction",
+        "production": "queued — explicitly withheld by the authorizing instruction"
+      },
+      "environmentConditions": {
+        "staging": "queued",
+        "production": "queued"
+      }
+    },
+    {
+      "id": "auth-2026-08-11-partner-onboarding-packet-entitlement-read",
+      "kind": "restricted_path_source_change",
+      "phase": 50,
+      "title": "Record the partner dashboard read that follows the phase 49/50 packet-entitlement split",
+      "artifacts": [
+        "src/lib/partners/partner-onboarding.ts"
+      ],
+      "status": "authorized_scoped",
+      "decision": "approved",
+      "requestedBy": "opus-5-captain",
+      "requestedAt": "2026-08-11",
+      "authorizedBy": "Roger Roman — explicitly confirmed 2026-08-11. The authorized change is limited to the already-integrated Phase 49/50 packet-accounting correction that reads packet capacity and usage from the canonical partner packet entitlement and packet credit ledger rather than the legacy screenings allowance. Substantively covered by auth-2026-08-10-phase-49-packet-render-jobs and auth-2026-08-10-phase-50-packet-delivery-hardening, which name only the supabase/ files; this record names the application read those phases required.",
+      "authorizedAt": "2026-08-11",
+      "authorizationScope": "repository_integration_only",
+      "executedAt": null,
+      "why": "Found by fixing a scope guard, not declared up front. verify-expungement-consumer-adapter derived its change set from `git status --short` — the working tree — so in CI it inspected nothing and this file reached the branch unpoliced across many commits. The change itself is the direct consequence of the phase 49/50 accounting split: the partner dashboard stopped reading packet capacity from partner_entitlement (the screening allowance) and now reads partner_packet_entitlement plus the append-only packet_credit_ledger, which is exactly the separation those phases exist to enforce. Before the accounting migration is applied it reads as unconfigured rather than blending the two products.",
+      "risk": "low",
+      "riskNote": "No privilege, RLS, auth or billing behaviour changes. It is a read repointed at the canonical packet-accounting tables, already covered by the delivery lane's own verifiers (verify-rcap-partner-entitlement, verify-rcap-slot-lifecycle, verify-rcap-partner-onboarding) which are all in the blocking chain and green.",
+      "rollback": "Revert the file to its pre-phase-49 form, which reads packet capacity from partner_entitlement. That reintroduces the blending of screening allowance and packet entitlement the delivery lane removed, so the revert is only correct alongside reverting phases 49 and 50.",
+      "evidence": [
+        "scripts/verify-expungement-consumer-adapter.mjs — the now-committed-diff scope guard admits it only by this authorization and only at these exact bytes; a byte change voids it",
+        "scripts/verify-rcap-partner-entitlement.mjs, verify-rcap-slot-lifecycle.mjs, verify-rcap-partner-onboarding.mjs — all in npm test and green"
+      ],
+      "authorizedPaths": [
+        "src/lib/partners/partner-onboarding.ts"
+      ],
+      "authorizedSha256": [
+        "5ce96d8167c9accb47ebd1c6ae5b9155e8e8c4b5f07c1b7c78dd772ee3808757"
+      ],
+      "voidsOn": "Any byte change to the authorized path voids this authorization; the guard re-hashes the file on every run.",
+      "doesNotAuthorize": [
+        "broader partner-portal changes",
+        "widened path prefixes",
+        "future byte drift on the authorized path",
+        "migration application",
+        "deployment",
+        "staging changes",
+        "production changes",
+        "any change to the legacy screenings allowance product"
+      ],
+      "scopedAuthorization": {
+        "repository": "authorized — the change may exist on the integration branch",
+        "staging": "queued — carried by the phase 49/50 staging authorizations, not separately granted here",
+        "production": "queued"
+      },
+      "environmentConditions": {
+        "staging": "queued",
+        "production": "queued"
+      },
+      "ownerConfirmation": {
+        "confirmedBy": "Roger Roman",
+        "confirmedAt": "2026-08-11",
+        "scope": "Exact-path and exact-bytes pinned. Limited to the Phase 49/50 packet-accounting correction described above.",
+        "pinnedSha256": "5ce96d8167c9accb47ebd1c6ae5b9155e8e8c4b5f07c1b7c78dd772ee3808757",
+        "supersedesCaptainFlag": "This record was previously marked FLAGGED FOR ROGER'S CONFIRMATION because it is partner code and was written as bookkeeping for an already-merged change. The flag is now resolved by explicit owner confirmation."
+      }
+    }
+  ],
+  "statusVocabulary": {
+    "pending_authorization": "awaiting Roger",
+    "authorized_scoped": "authorized for some environments and still queued for others; see scopedAuthorization",
+    "authorized": "authorized for all listed environments",
+    "executed": "applied",
+    "declined": "refused"
+  },
+  "exactPathAuthorizationNote": "supabase/ remains globally forbidden by assertSourceEngineChangeScope. An entry may name authorizedPaths with matching authorizedSha256, which permits those exact files at those exact bytes and nothing else. This distinguishes an unauthorized production change from a specifically approved one; it does not widen the prefix."
+}

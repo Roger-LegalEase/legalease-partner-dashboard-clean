@@ -1,0 +1,122 @@
+{
+  "reviewId": "w2-shard-1",
+  "reviewer": "independent read-only reviewer, terminalization definitive wave",
+  "reviewedBaseSha": "e025ced8d6c3fd6c3c74f4bd56b746c4225b5855",
+  "reviewedFileSha256": {
+    "AR": "8b98cc4005422e95cfc161d483153d61d157b00b784654b42cb19e5adb1836b8",
+    "LA": "f882c9de5e660085ae7cdea900939fd7ba5a2db188394331dd71e55e0f2ac2e7",
+    "MO": "ac0bab2de7baef9f2d5181021f2816dc95a5845d755813786bd8afb871ed15e3",
+    "NH": "fae3137a59cb5c7070f6327248863b96968883246ebdb3b2a5226cf8d7307c11",
+    "UT": "b98540d40b8a9eb8c403d29becd565a93e80f8ea6dfd1f25a4d48a449204cd02"
+  },
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "runtimeProbeNote": "Probe /tmp/probe-w2-shard-1.mjs run with cwd=/home/user/legalease-partner-dashboard-clean over all 15 tracks in scope. Every track returned sellable=false, creditConsumable=false, rendererKind=none, render spec not built, checkout refused, saved paymentAllowed=false, status=guidance_saved, resultCode=guidance_only, packetStatus=not_started, amountCents=null, reopened artifactRefs.terminalTreatment.trackId identical to the requested track, and a Spanish stopReason distinct from the English. resolvePacketRoute returned routeKind=component_deferral for ar-act346, ar-drug-court, ar-pardon-seal and ar-veterans-court rather than exact_supported_deferral; that is the resolver's composed-route precedence rule and it produces the same closed contract (sellable=false, creditConsumable=false, rendererKind=none), so it is not a defect.",
+  "dispositions": [
+    {
+      "trackId": "ar-act346",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly separates the Act 346 plea election (already happened or did not) from the post-completion dismiss-and-seal filing. Destination is the Arkansas criminal court that took the plea plus the named ACIC Petition and Order to Dismiss and Seal First Offenders on the ACIC criminal-history forms page, which the brief carries at officialSources[0]. Three-day service and the prosecutor's thirty-day objection window trace to packetInstructions[0]; the fingerprint card and the ACIC Authorization for Review of Criminal History Information trace to participantFilingRequirements. No waiting period is asserted, which is right because the brief carries none. Spanish is a genuine independent translation with correct legal register."
+    },
+    {
+      "trackId": "ar-act531",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "States the real limitation openly rather than hiding it: the forms are named exactly (ACIC Petition and Order to Seal Pursuant to Act 531 and Act 1460) while the historical population the route still reaches is not settled by the sources, matching scopeRestrictions[1] and destination.detail. The next step is exact and executable (get the court file from the clerk of the criminal court that handled the case and read which law resolved it) and the doNot expressly forbids assuming coverage from date proximity. Service and objection timing trace to packetInstructions[0]. Spanish is substantive and genuinely translated."
+    },
+    {
+      "trackId": "ar-cs-possession-seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Venue is exact and correctly warns against filing where the participant now lives: circuit court of the county where the offense was committed and the conviction entered, per brief venue and destination. The § 16-90-1415(c) standard, the dedicated ACIC form pair, the sentencing order from the clerk of the sentencing court and the service/objection clocks all trace to the brief. The brief carries the waiting period only as 'per the statutory schedule', and the treatment refuses to state a number of years and sends the participant to the sentencing court's clerk instead — that is the correct handling of an absent fact, not a defect. Spanish is a real translation."
+    },
+    {
+      "trackId": "ar-drug-court",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Identifies the true participant hazard on this route — two non-interchangeable ACIC pairs, pre-adjudication and post-adjudication — and makes choosing between them the participant's first task rather than guessing for them, which matches brief authority[1]. Correctly says admission to drug court is prosecutor negotiation and not self-help (selfHelpStopConditions[4]), and correctly stages the sealing filing after program completion. Destination is the underlying Arkansas criminal court, identifiable by the participant. Spanish is idiomatic and independently written."
+    },
+    {
+      "trackId": "ar-misdemeanor-seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Best-handled evidence gap in the shard: the brief carries the § 16-90-1405 waiting period only as 'per the statutory schedule', and the treatment says in both languages that the sources do not carry the number of years and therefore states none, then carries that same gap into briefcase.outstanding. The multi-county fan-out (one petition per county), the six listed offenses and the DWI/BWI route-out, and the refusal to auto-complete the CDL, registration and excused-obligation answers all trace to exclusions, scopeRestrictions[1] and packetInstructions. It does not enumerate the six offenses, which the brief does not carry — correctly restrained. Spanish is genuine."
+    },
+    {
+      "trackId": "ar-nonconviction-seal",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Gives the exact statutory venue for the two dispositions § 16-90-1410(b) covers (the court that entered the nolle prosequi or dismissal order) and openly tells the participant that the statute names no court for an acquittal or a never-filed charge, with an executable route to resolve it (ask that court's clerk, then an Arkansas attorney, before filing). That matches brief venue and scopeRestrictions[1] and is the correct treatment of an unresolved fact. The refiled-nolle-prosequi caution traces to selfHelpStopConditions. One note, not a defect: timing adds the gloss 'a non-conviction record does not have one to wait out' on top of the accurate statement that the sources set no waiting period; the brief carries an empty waitingPeriods rather than an affirmative no-wait rule, so the leading hedge is doing the work and the gloss is editorial. Spanish is a real translation, with nolle prosequi properly glossed."
+    },
+    {
+      "trackId": "ar-pardon-seal",
+      "outcome": "correction_required",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "DEFECT — circular destination, and an unstated limitation. destination.name is 'The court handling the sealing after the pardon', and destination.en, escalation.en ('the clerk of the court handling the sealing') and nextSteps all repeat the same circle. A participant who holds a pardon finishes this treatment without learning which courthouse takes the § 16-90-1411 sealing petition, and without being told that LegalEase does not know. The brief genuinely does not resolve it — venue reads only 'Statewide Arkansas consequence of a pardon; sealing follows through the court/ACIC process after the pardon is granted' — so the schema's evidenceRule and this window's standard require the treatment to state that participant-facing limitation plainly and still give an exact destination and next step. It does neither for the court: the limitation is never named, and the destination is defined by the relief being sought rather than by anything the participant can identify. This is precisely the move the same author made correctly on ar-nonconviction-seal, where the unresolved venue for acquittals and never-filed charges is stated openly and routed to a named clerk. Every other element of this treatment is sound (the two-stage pardon/sealing split, the named ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender with its forms-page URL, the granting authority as the source of the pardon documentation, the three-day service and thirty-day objection clocks, and genuine Spanish), so the correction is narrow: say in both languages that the sources do not identify the court that takes the sealing petition after a pardon, and route the participant to a named office — the clerk of the Arkansas court of conviction and/or the ACIC — to establish it before filing."
+    },
+    {
+      "trackId": "ar-veterans-court",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Obeys the brief's own instruction at packetInstructions[0] to verify the § 16-101-106 text before publishing any participant-facing description of it, and says so to the participant in both languages rather than paraphrasing an unverified statute. The doNot then tells the participant not to rely on a second-hand summary including LegalEase's own, and routes them to the citations printed on the current official ACIC form or to an Arkansas attorney. Destination is the underlying Arkansas criminal court plus the named ACIC veterans treatment court petition and order pair on the ACIC forms page. Refusing to describe the statute is the correct outcome here, not a thinness defect. Spanish is genuine."
+    },
+    {
+      "trackId": "la-987-set-aside-and-dismiss",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Strongest treatment in the shard. Names the exact destination (clerk of the court that imposed the deferred sentence, in the parish of conviction) with service on the district attorney and the contradictory hearing, all from brief venue and destination. The stop reason is precise and non-blaming: the return date belongs to the court and the clerk, the rule and the order of dismissal belong to the judge, and the one assertion at the centre of the motion — that the deferred period ran and probation was successfully completed — is one the district attorney can contest, so it is not put in the participant's mouth. Correctly and repeatedly states that this is not an expungement and that the signed order of dismissal is the doorway to art. 977 or art. 978, matching packetInstructions[1]. No required component is described as optional; the three-part instrument, the fingerprint-free document set, the discharge letter and the certified copy are all handled. Spanish is fully idiomatic legal Spanish (anotación de minutas, regla de comparecencia, audiencia contradictoria, libertad a prueba), not a gloss."
+    },
+    {
+      "trackId": "mo-575-120-identity-theft-correction",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Destination is exact and carries the trap the brief flags: the civil division of the circuit court in the county of arrest, expressly not the court where the case was heard, distinguishing this from the § 610.145 / CR301 mistaken-identity route in the court where the charge was last pending. Stop reason rests on two supported facts — the sworn false-impersonation recital is an assertion about another person's criminal conduct, and the published Case Types List names no code for a § 575.120 petition (manualCompletionItems[5]). The fingerprint-based versus name-based MACHS contrast, the § 610.123.1(7) card, the § 610.123.1(1)(f) full Social Security number whose absence requires dismissal, the thirty-day earliest hearing under § 610.123.3, the order reaching only named defendants and § 610.124's FBI request all trace to the brief. Tells the participant plainly the case does not disappear and that a Missouri order does not reach credit files or private databases. Spanish is a real translation throughout."
+    },
+    {
+      "trackId": "mo-610-140-arrest",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Publishes the eighteen-month § 610.140.7 wait and expressly warns off the superseded three-year figure, exactly as packetInstructions[0] and waitingPeriods require, and gets the venue rule right (county of arrest, not county of charge). Correctly refuses to complete sworn paragraphs 5 and 7, paragraph 6's lifetime-cap judgment, and the defendant agency list that decides who the order binds under § 610.140.8, and correctly says LegalEase cannot know that no charge was ever filed. Names closure under § 610.120 rather than destruction and stops the participant before filing where § 610.122 destruction may be the materially better remedy, per the brief's self-help boundary. Case.net and MACHS are given as exact published resources with URLs from officialSources. Spanish is substantive and independently written."
+    },
+    {
+      "trackId": "nh_conviction_streamlined",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Destination is the clerk of the disposing court, with the NHJB-3057-DSe petition and the Annulment of Criminal Records Checklist given as published resources from officialSources[1] and [2], qualified by clerk confirmation rather than asserted as current. The one-year and two-year clocks under III(a)(2) and III(b)(2), the prosecutor's twenty-day window and its two permitted grounds, the RSA 651:5, VI whole-record freeze, the paragraph IV three-year bar, the $125.00 per court location fee, and the X(f) permitted form of the record question all trace to the brief. The NHJB-2956 revision-not-confirmed claim and its court-hosted URL are not in the brief but are carried verbatim, in both languages, by the committed artifact the treatment names in evidenceRefs (data/rcap-codex/d-v5-fallback-treatments/fallback-treatments.json, participantTreatment.unavailableReason, with evidence carriers review-nhjb-2956 and source-nh-nhjb-2956) — verified, so not fabrication. Minor style note, not a defect: briefcase.preserved[0] and briefcase.return open with build-spec phrasing ('it must include the reason, destination, next action...') rather than participant voice. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "nh_petition_nonconviction_pre2019",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Does the single most valuable thing available on this route: puts the disposition date first and tells the participant that an offence disposed of on or after 1 January 2019 is annulled automatically under RSA 651:5, II-a(a) with no petition and no fee, so they are not sent to file something they do not need — matching exclusions[0] and packetInstructions[0]. Arms them with the RSA 651:5, IX and X(d) exemption from the $100 Department of Corrections and $100 Department of Safety and state police fees to invoke if charged. Destination is the clerk of the disposing Circuit Court District Division or Superior Court. No waiting period is asserted, correctly. Same verified fallback-treatments provenance for the NHJB-2956 claim. Spanish is real and substantive."
+    },
+    {
+      "trackId": "nh_petition_vacated",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly differentiated from the pre-2019 non-conviction branch rather than left as boilerplate: it states that obtaining the vacatur is post-conviction litigation outside the route and the order must already be in hand, that a reversal, set-aside, new-trial order or sentence modification is not a vacatur, and that the RSA 651:5, IX and X(d) fee exemptions are written around not-guilty, dismissed and not-prosecuted cases and on the face of the statute do not reach a vacated conviction — so the participant budgets for the agency fees. Destination is the clerk of the court whose conviction was vacated, and the next step is to show that clerk the order and ask which current process applies, which is exact and executable given that the correct current form is not confirmed. Same verified fallback-treatments provenance. Spanish is a genuine translation."
+    },
+    {
+      "trackId": "ut_pet_remove_link",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Honest about what the remedy is worth, which is the participant-safety issue on this track: it breaks the name-to-case search path in the state courts' public database and nothing else, because subsection (3) leaves agency records untouched and subsection (4) leaves the case history findable by case number. The three ministerial conditions (30 days since dismissal, no appeal in that period, no charge that was a domestic violence offence under § 77-36-1, an absolute bar under 77-40a-105(2)(b)(iii)), the 1501CR / 1501CR-C judge-versus-commissioner split, the 1502CR proposed order to be completed except the judge's signature, the 1110GE or 1111GE notice, the 30-days-versus-180-days comparison against automatic expungement under 77-40a-206, and the refusal to reproduce BCI's 'completely deletes' description all trace to the brief. Destination is the district or justice court that dismissed the case with the Utah Courts self-help URL from officialSources[6]. Spanish is a full, idiomatic translation."
+    }
+  ]
+}

@@ -1,0 +1,474 @@
+{
+ "schemaVersion": "rcap-composed-route/v1",
+ "trackId": "mt_mmrta_serving",
+ "jurisdiction": {
+  "code": "MT",
+  "name": "Montana",
+  "slug": "montana"
+ },
+ "jobId": "T-C-MT-complete-composed-route",
+ "family": "composed_route",
+ "treatment": "complete_composed_route",
+ "legalName": "Petition for Expungement or Resentencing of a Marijuana Conviction While Currently Serving (Mont. Code Ann. § 16-12-113(1)-(4), (8)-(12))",
+ "publicName": "Marijuana conviction expungement or resentencing while serving a sentence",
+ "mechanism": "Under § 16-12-113(1) a person currently serving a sentence for an act that is permitted under Title 16, chapter 12, or that is punishable by a lesser sentence under that chapter than the person was awarded, may petition for expungement or resentencing. Section 16-12-113(2) directs the court to presume the petitioner satisfies the criteria unless the county attorney provides a reasonable basis otherwise, and, where the criteria are satisfied, to grant the petition unless the court determines that granting it would pose an unreasonable risk of danger to public safety. Procedure is governed by the AF 22-0129 Temporary Rules, and the Office of the Court Administrator publishes Form A specifically for the currently-serving posture, with the same Certificate of Service and Proposed Order.",
+ "compositionMode": "sequential",
+ "outputStrategyDeclared": "composed",
+ "routeDecision": {
+  "decision": "composed_route_with_official_form_dependencies",
+  "rationale": [
+   "The registry declares outputStrategyDeclared 'composed' with compositionMode 'sequential' for this track, and both registry units carry outputStrategy 'official_pdf_fill'.",
+   "Adopted packet instruction on this track: “YES — STAGED OFFICIAL-FORM PACKET. OCA MMRTA Form A is expressly designed for the currently-serving posture. That posture is a scope restriction and a substantive-choice warning, not a reason to downgrade the mechanism to guidance.” The route therefore stays an official-form packet and no custom pleading is drafted in its place.",
+   "The Montana state pack records the same conclusion: “Montana provides official self-represented packets (misdemeanor; MMRTA marijuana) plus a DOJ removal request, so these map to official forms rather than a custom pleading.”",
+   "Every court document in this route is an Office of the Court Administrator or Department of Justice form. Drafting a substitute would displace a controlling official form."
+  ],
+  "pleadingDocumentUnits": 0,
+  "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].outputStrategyDeclared / .compositionMode / .legalDesignLimitations[classification=packet_instruction]; statePack:src/lib/rcap/state-packs/montana/document-types.ts header comment"
+ },
+ "authoritySpine": [
+  {
+   "citation": "Mont. Code Ann. § 16-12-113",
+   "description": "Decriminalized acts; petition for expungement, resentencing or redesignation. Subsection (1) is the currently-serving pathway; subsection (2) supplies the presumption, the county-attorney reasonable-basis rebuttal and the public-safety override; subsections (3)-(4) constrain any resentencing.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].authority[0]; registry@3b6f4c1:tracks[mt_mmrta_serving].officialSources[0]"
+  },
+  {
+   "citation": "Mont. Code Ann. § 16-12-114",
+   "description": "Defines an expungement or resentencing of marijuana conviction court.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].authority[1]"
+  },
+  {
+   "citation": "Mont. Code Ann. § 16-12-115",
+   "description": "Authorises appointment of a decriminalized marijuana conviction expungement judge with the authority and power of an elected district court judge.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].authority[2]"
+  },
+  {
+   "citation": "Mont. Code Ann. § 16-12-116",
+   "description": "Completes the expungement or resentencing of marijuana conviction court structure.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].authority[3]"
+  },
+  {
+   "citation": "Mont. Sup. Ct. AF 22-0129",
+   "description": "Order adopting Temporary Rules for Expungement, Resentencing, or Redesignation under the MMRTA, filed 15 March 2022. The order was retrieved; the attached rules were not. URL: https://courts.mt.gov/external/forms/mmrta/af22-0129order.pdf",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].authority[4]; registry@3b6f4c1:tracks[mt_mmrta_serving].officialSources[1]"
+  },
+  {
+   "citation": "I.M. No. 190 (2020); Ch. 576, L. 2021",
+   "description": "The Montana Marijuana Regulation and Taxation Act as enacted by initiative and amended by session law; the source of the decriminalization the petition relies on.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].authority[5]; registry@3b6f4c1:tracks[mt_mmrta_serving].authority[6]"
+  },
+  {
+   "citation": "Mont. Code Ann. § 46-18-1110(2)(b)",
+   "description": "The person whose records are being expunged, not the court and not the clerk, must send the order to the arresting agency, the prosecutor, the clerk and the Department of Justice, together with fingerprints and the DOJ form. This is why the route has a second, participant-initiated Department of Justice stage.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].legalDesignLimitations[classification=packet_instruction] 'The court order is not the end in Montana'"
+  },
+  {
+   "citation": "Mont. Code Ann. § 46-18-1103(1)",
+   "description": "Terminology control. Expungement means to permanently destroy, delete or erase a record from the criminal history record information system maintained by the Department of Justice. What happens at the courts, law-enforcement agencies and prosecutors' offices is sealing, not destruction (§ 46-18-1110(2)(a)). Removal is the DOJ term for deleting a non-conviction record. Redesignation and resentencing are MMRTA outcomes and are neither.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].legalDesignLimitations[classification=packet_instruction] 'Montana's three words are not interchangeable'"
+  },
+  {
+   "citation": "Montana Office of the Court Administrator — How to petition for expungement, resentencing, or redesignation of a marijuana-related conviction",
+   "description": "Publishes MMRTA Form A (currently serving), the Certificate of Service and the Proposed Order, and states that a separate form is required for each conviction. Retrieved 2026-08-03. URL: https://courts.mt.gov/Forms/mmrta",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].officialSources[2..5]; profile:pathways[id=marijuana-related-redesignation-expungement-under-mmrta].ruleClauses"
+  },
+  {
+   "citation": "Montana DOJ, Division of Criminal Investigation — Conviction Expungement Process; CRISS Expungement/Removal Request Form (updated 29 April 2024)",
+   "description": "The Department of Justice stage. Retrieved 2026-08-03. URLs: https://dojmt.gov/dci-home/conviction-expungement-process/ and https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].officialSources[6..7]; statePack:official-forms.ts mtOfficialForms[3]"
+  },
+  {
+   "citation": "Montana filing sequence for marijuana relief (state pack)",
+   "description": "“Marijuana relief (§ 16-12-113): use MMRTA Form A (currently serving — expungement/resentencing) or Form B (completed — expungement/redesignation); a separate form is required for each conviction. File in the court of conviction with a proposed order and certificate of service on the county attorney (21 days to oppose); after a granted order, file the DOJ Expungement/Removal Request with the order.”",
+   "sourceRef": "statePack:src/lib/rcap/state-packs/montana/filing-instructions.ts mtFilingInstructions[7]"
+  }
+ ],
+ "units": [
+  {
+   "unitId": "mt-mmrta-serving-form-a",
+   "registryStage": "mt-mmrta-serving-court-petition (registry units[0], order 1)",
+   "legalUnit": "The § 16-12-113(1) petition itself — MMRTA Form A, the currently-serving petition filed in the sentencing court",
+   "authority": {
+    "citation": "Mont. Code Ann. § 16-12-113(1)-(2)",
+    "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].units[0]; registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[0] (role primary_filing, officialFormId MT-FORM-A)"
+   },
+   "requiredOutput": "official_form_dependency",
+   "componentId": "mt_mmrta_serving-primary-filing-1",
+   "applicability": {
+    "includedWhen": "Screening reports a Montana marijuana-related conviction and answers “Are you currently serving the sentence for this conviction?” yes, and the participant selects an offence from the enumerated list on the form. One complete unit per conviction.",
+    "excludedWhen": "Screening reports the sentence is complete (that is the § 16-12-113(5) completed-sentence track, not this one); or the conviction is from an out-of-state, federal or Tribal court; or the conviction is not marijuana-related; or the act remains criminal at the same level under Title 16, chapter 12; or the participant answers the offence question with free text rather than selecting from the enumerated list, which is an attorney handoff."
+   },
+   "participantTreatment": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true
+   },
+   "implementation": {
+    "blockedDependency": "MMRTA Form A — Petition for Expungement, Resentencing, or Redesignation (currently serving), Montana Office of the Court Administrator, published at https://courts.mt.gov/Forms/mmrta (source binary form-a.docx, sha256 968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d). The binary is retained; no PDF/DOCX field map and no overlay exist. Owning lane: lane-D/E official-form field-map and overlay acquisition."
+   },
+   "dependencyManifestPath": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-1/dependency.json",
+   "notes": "The caption, the currently-serving recital and the outcome election are built into the official form. LegalEase does not choose between expungement and resentencing, does not calculate a resentencing result and does not author any public-safety argument."
+  },
+  {
+   "unitId": "mt-mmrta-serving-certificate-of-service",
+   "registryStage": "mt-mmrta-serving-court-petition (registry units[0], order 1)",
+   "legalUnit": "Service on the county attorney for the county in which the petition is filed, evidenced by the OCA Certificate of Service",
+   "authority": {
+    "citation": "Mont. Code Ann. § 16-12-113(2) (county-attorney reasonable-basis rebuttal); Mont. Sup. Ct. AF 22-0129 Temporary Rules",
+    "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[1] (role certificate_of_service, officialFormId MT-OCA-MMRTA); registry@3b6f4c1:tracks[mt_mmrta_serving].rules.notice / .service"
+   },
+   "requiredOutput": "official_form_dependency",
+   "componentId": "mt_mmrta_serving-certificate-of-service-2",
+   "applicability": {
+    "includedWhen": "Always included with the petition unit. Screening supplies the answer to “Which county will you file in? The county attorney for that county must be served.”",
+    "excludedWhen": "Never excluded while the petition unit is included."
+   },
+   "participantTreatment": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true
+   },
+   "implementation": {
+    "blockedDependency": "Certificate of Service — MMRTA Petition, Montana Office of the Court Administrator, published at https://courts.mt.gov/Forms/mmrta (sha256 d9096c176ca3ac4efb5de0dfd76f0b245ea1487fe1b1b76f265c8a9d6ce6aec9). Master Library Edition 1.1 gives this form and the Proposed Order the same document ID MT-OCA-MMRTA, distinguished only by document role SERVICE against ORDER, so the component matches two retained assets with conflicting hashes. Owning lane: lane-D/E official-source identity and field-map acquisition; a successor Master Library edition must give each form its own document ID before the component is resolver-selectable."
+   },
+   "dependencyManifestPath": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-certificate-of-service-2/dependency.json",
+   "notes": "Service completion is a participant act performed after the packet is produced. Nothing in this route asserts that service happened, when it happened, or what the county attorney did."
+  },
+  {
+   "unitId": "mt-mmrta-serving-proposed-order",
+   "registryStage": "mt-mmrta-serving-court-petition (registry units[0], order 1)",
+   "legalUnit": "The proposed order the court would sign — OCA Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA",
+   "authority": {
+    "citation": "Mont. Code Ann. § 16-12-113(2)",
+    "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[2] (role proposed_order, officialFormId MT-OCA-MMRTA)"
+   },
+   "requiredOutput": "official_form_dependency",
+   "componentId": "mt_mmrta_serving-proposed-order-3",
+   "applicability": {
+    "includedWhen": "Always included with the petition unit; the state pack filing sequence records that the petition is filed “with a proposed order and certificate of service on the county attorney”.",
+    "excludedWhen": "Never excluded while the petition unit is included."
+   },
+   "participantTreatment": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true
+   },
+   "implementation": {
+    "blockedDependency": "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA, Montana Office of the Court Administrator, published at https://courts.mt.gov/Forms/mmrta (sha256 2e38c3c680bc1c10932e017472a39e676ae4a7ad89621790b20a9803b548db7e). Same MT-OCA-MMRTA document-ID collision as the Certificate of Service. Owning lane: lane-D/E official-source identity and field-map acquisition."
+   },
+   "dependencyManifestPath": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-proposed-order-3/dependency.json",
+   "notes": "Every judicial finding, the date and the judge's signature stay blank. The order is the court's."
+  },
+  {
+   "unitId": "mt-mmrta-serving-attachments",
+   "registryStage": "mt-mmrta-serving-court-petition (registry units[0], order 1)",
+   "legalUnit": "The required attachment set the petition is filed with — the Montana DOJ criminal record and the court documents for the conviction and the current sentence",
+   "authority": {
+    "citation": "Montana Office of the Court Administrator MMRTA instructions (attachment requirement stated on Form A)",
+    "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[3] (role attachment, outputStrategy process_guidance); registry@3b6f4c1:tracks[mt_mmrta_serving].participantFilingRequirements[0..1]; profile:pathways[id=marijuana-related-redesignation-expungement-under-mmrta].ruleClauses 'must attach a copy of the criminal record from Montana DOJ'"
+   },
+   "requiredOutput": "participant_instruction",
+   "componentId": "mt_mmrta_serving-attachment-4",
+   "applicability": {
+    "includedWhen": "Always included. Both attachments are recorded as required before filing.",
+    "excludedWhen": "Never excluded. The conditional certified copy of an expungement order inside this component applies only after an expungement order is entered, and not on a resentencing outcome."
+   },
+   "participantTreatment": {
+    "prefill": "screening",
+    "protectedBlank": true,
+    "outsidePartyBlank": true
+   },
+   "implementation": {
+    "componentPath": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-attachment-4/attachment-checklist.md"
+   },
+   "notes": "Participant-only. Never filed as a document in its own right; it tells the participant which records to obtain and which screening answers to check against them."
+  },
+  {
+   "unitId": "mt-mmrta-serving-fee-waiver",
+   "registryStage": "mt-mmrta-serving-court-petition (registry units[0], order 1) — conditional pre-filing requirement recorded outside packetSet",
+   "legalUnit": "Payment of the sentencing court's filing fee, or in its place a statement of inability to pay court costs and fees",
+   "authority": {
+    "citation": "Montana Office of the Court Administrator MMRTA instructions (fee-waiver routing); Montana Legal Services Association, Statement of Inability to Pay Court Costs and Fees",
+    "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].participantFilingRequirements[3]; registry@3b6f4c1:tracks[mt_mmrta_serving].rules.feeWaiver; registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.participantActionRequired[kind=apply_fee_waiver]"
+   },
+   "requiredOutput": "official_form_dependency",
+   "componentId": "mt_mmrta_serving-fee-waiver-0",
+   "componentIdSynthesized": true,
+   "applicability": {
+    "includedWhen": "Screening reports the participant cannot pay the sentencing court's filing fee.",
+    "excludedWhen": "Screening reports the participant will pay the filing fee, or the clerk confirms no fee is charged at that court level."
+   },
+   "participantTreatment": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true
+   },
+   "implementation": {
+    "blockedDependency": "Statement of Inability to Pay Court Costs and Fees, published by Montana Legal Services Association on montanalawhelp.org. Not reproducible: the Montana Legal Services Association / Montana Supreme Court Access to Justice Commission packets are stamped “© 2025 … This form may be used for non-commercial purposes only.” Owning lane: lane-D/E official-source acquisition and licensing — a link-out is the only permitted treatment unless a licence is obtained."
+   },
+   "dependencyManifestPath": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-fee-waiver-0/dependency.json",
+   "notes": "componentId is synthesized by this route; it does not appear in the registry packetSet. The registry records the requirement as a participant filing requirement and a conditional participant action, and states that LegalEase links to the form and does not reproduce it."
+  },
+  {
+   "unitId": "mt-mmrta-serving-criss-request",
+   "registryStage": "mt-mmrta-serving-criss-submission (registry units[1], order 2)",
+   "legalUnit": "The conditional Department of Justice stage — CRISS Expungement/Removal Request Form submitted after an expungement order, because the court order does not itself clear the DOJ criminal history record",
+   "authority": {
+    "citation": "Mont. Code Ann. § 46-18-1110(2)(b); Montana DOJ Conviction Expungement Process",
+    "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].units[1]; registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[4] (role primary_filing, requirement conditional, officialFormId EXPUNGEMENTREMOVALREQUESTFORM.DOCX)"
+   },
+   "requiredOutput": "official_form_dependency",
+   "componentId": "mt_mmrta_serving-primary-filing-5",
+   "applicability": {
+    "includedWhen": "The court grants EXPUNGEMENT and screening records that outcome. Registry conditionDescription: “Unit 2. Applies only where the court grants EXPUNGEMENT.”",
+    "excludedWhen": "The outcome is RESENTENCING rather than expungement — the conviction stands with a modified sentence, there is nothing for the Department of Justice to delete, and the registry directs the packet to say so plainly rather than sending a request that will be refused. Also excluded while the petition is still pending, because no order exists yet."
+   },
+   "participantTreatment": {
+    "prefill": "confirm",
+    "protectedBlank": true,
+    "outsidePartyBlank": true
+   },
+   "implementation": {
+    "blockedDependency": "Expungement/Removal Request Form — Montana Department of Justice, Criminal Records Information Services Section (CRISS), updated 29 April 2024, https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx (sha256 4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7). Master Library Edition 1.1 classifies this asset as SUPPORTING_PROCESS / SUPPORTING_FORM, which cannot back an official_pdf_fill component, so the mapping is recorded as an authority role mismatch; and the 2023 PDF and the 2024 DOCX disagree on the required attachment set. Owning lane: lane-D/E official-source acquisition and Master Library reclassification (proposed Edition 1.2)."
+   },
+   "dependencyManifestPath": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-primary-filing-5/dependency.json",
+   "notes": "Mailed, not filed. Registry destination detail: Montana Department of Justice, Division of Criminal Investigation, CRISS Expungement, 2225 11th Ave., P.O. Box 201403, Helena, MT 59620. Phone (406) 444-3625. Email dojcriss@mt.gov. No fee is charged for the CRISS request."
+  },
+  {
+   "unitId": "mt-mmrta-serving-filing-instructions",
+   "registryStage": "spans both registry stages",
+   "legalUnit": "The filing and sequencing instructions that carry the participant from the court stage to the conditional Department of Justice stage, including the required local-rules lookup",
+   "authority": {
+    "citation": "Montana Office of the Court Administrator MMRTA instructions (local filing rules and Court Locator); Mont. Code Ann. § 46-18-1110(2)(b)",
+    "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[5] (role instructions, outputStrategy process_guidance); registry@3b6f4c1:tracks[mt_mmrta_serving].legalDesignLimitations[classification=packet_instruction] 'must follow all applicable filing rules, including local filing rules'; statePack:filing-instructions.ts mtFilingInstructions[7]"
+   },
+   "requiredOutput": "participant_instruction",
+   "componentId": "mt_mmrta_serving-instructions-6",
+   "applicability": {
+    "includedWhen": "Always included. The registry marks the instructions component required, and the local-rules lookup is built as a required step.",
+    "excludedWhen": "Never excluded."
+   },
+   "participantTreatment": {
+    "prefill": "screening",
+    "protectedBlank": true,
+    "outsidePartyBlank": true
+   },
+   "implementation": {
+    "componentPath": "data/rcap-all50/composed-routes/montana/mt_mmrta_serving/components/mt_mmrta_serving-instructions-6/filing-instructions.md"
+   },
+   "notes": "Participant-only. Never filed with the court."
+  }
+ ],
+ "filingSeparation": {
+  "courtDocuments": [
+   {
+    "item": "MMRTA Form A — Petition for Expungement, Resentencing, or Redesignation (currently serving)",
+    "componentId": "mt_mmrta_serving-primary-filing-1",
+    "drafted": false,
+    "reason": "Official Office of the Court Administrator form; the adopted packet instruction requires the official form and forbids downgrading the mechanism. No field map or overlay exists."
+   },
+   {
+    "item": "Certificate of Service — MMRTA Petition",
+    "componentId": "mt_mmrta_serving-certificate-of-service-2",
+    "drafted": false,
+    "reason": "Official Office of the Court Administrator form; blocked additionally by the MT-OCA-MMRTA document-ID collision."
+   },
+   {
+    "item": "Proposed Order Granting Expungement, Resentencing, or Redesignation Under MMRTA",
+    "componentId": "mt_mmrta_serving-proposed-order-3",
+    "drafted": false,
+    "reason": "Official Office of the Court Administrator form; blocked additionally by the MT-OCA-MMRTA document-ID collision."
+   },
+   {
+    "item": "Statement of Inability to Pay Court Costs and Fees (only if the participant cannot pay the filing fee)",
+    "componentId": "mt_mmrta_serving-fee-waiver-0",
+    "drafted": false,
+    "reason": "Montana Legal Services Association form carrying a non-commercial-use restriction. Link-out only; never generated, relabelled, converted or rewritten."
+   },
+   {
+    "item": "Copy of the participant's criminal record from the Montana Department of Justice, and the court documents for the conviction and the current sentence",
+    "componentId": "mt_mmrta_serving-attachment-4",
+    "drafted": false,
+    "reason": "Records the participant obtains. LegalEase does not produce or collect them; the component is the checklist that tells the participant to obtain them and check their answers against them."
+   }
+  ],
+  "participantOnly": [
+   {
+    "item": "Filing and sequencing instructions",
+    "componentId": "mt_mmrta_serving-instructions-6",
+    "note": "filing-instructions.md. Never filed with the court."
+   },
+   {
+    "item": "Participant filing instructions for the route as a whole",
+    "componentId": null,
+    "note": "participant-instructions.md. Never filed with the court."
+   },
+   {
+    "item": "CRISS Expungement/Removal Request Form and its enclosures",
+    "componentId": "mt_mmrta_serving-primary-filing-5",
+    "note": "Mailed to the Montana Department of Justice, Division of Criminal Investigation. Not a court filing and not part of the court packet."
+   }
+  ],
+  "coverSheet": null
+ },
+ "counselFlags": [
+  {
+   "id": "mt-mmrta-serving-af22-0129-temporary-rules-missing",
+   "statement": "The text of the Temporary Rules adopted by Montana Supreme Court order AF 22-0129 was not retrieved — only the order was. The rules govern procedure for this track and may contain filing, service or hearing requirements not reflected on the OCA forms. Relatedly, whether the 21-day county attorney response window is stated in the Temporary Rules or is OCA guidance only is unresolved; it is currently sourced to the OCA instructions.",
+   "mustConfirm": "Obtain the AF 22-0129 Temporary Rules text and reconcile every filing, service and hearing requirement in this route against it, including the source of the 21-day window.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[0] (affectedElement filing_process)"
+  },
+  {
+   "id": "mt-mmrta-serving-criss-form-version",
+   "statement": "Which CRISS Expungement/Removal Request Form version the Department of Justice enforces in practice, and what the current required attachment set is, is unresolved. The 2023 PDF requires valid photo identification for two request types and the “Original Court Order” for misdemeanour expungement; the 29 April 2024 DOCX drops the photo-ID requirement, requires the “Original Court Judgement” instead, and adds “Deferred Prosecution” to the fourth request type.",
+   "mustConfirm": "Which version and attachment set CRISS enforces. Until confirmed, the fail-closed reading is used: photo identification is included by default and a certified copy of the judgment is requested.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[1] (affectedElement packet_components)"
+  },
+  {
+   "id": "mt-mmrta-serving-local-court-variation",
+   "statement": "Whether any Montana district, justice, municipal or city court imposes a local form, local cover sheet or local addendum for this route is unresolved and material. Both the OCA MMRTA instructions and the deferred-dismissal guidance expressly warn of local variation, and the OCA instructions direct the participant to the Court Locator for local rules.",
+   "mustConfirm": "Whether a local form, cover sheet or addendum exists at the participant's sentencing court. This route asserts no cover sheet and builds the local-rules lookup as a required participant step.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[2] (affectedElement filing_process)"
+  },
+  {
+   "id": "mt-mmrta-serving-no-denial-statement",
+   "statement": "Whether an expunged Montana conviction may lawfully be denied in response to a general inquiry is unresolved. No Montana perjury shield or restoration-to-prior-status provision was located in Title 46 chapter 18 part 11, § 46-18-204 or § 44-5-202. Nothing in this route says anything about denial; the question is treated as a hard self-help stop.",
+   "mustConfirm": "Whether a Montana perjury shield or restoration provision exists before any participant-facing statement about denying a cleared record is written.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[3] (affectedElement legal_effect_or_warning); registry scopeRestrictions"
+  },
+  {
+   "id": "mt-mmrta-serving-criss-asset-class",
+   "statement": "Master Library Edition 1.1 retains the CRISS Expungement/Removal Request Form as a SUPPORTING_PROCESS asset with document role SUPPORTING_FORM, not as a packet form. The authority gate treats a supporting-process asset as one that cannot back an official_pdf_fill component, so this route's DOJ-stage component is recorded as an authority role mismatch. The classification is the issue, not the mechanism: the form is a genuine Department of Justice agency form, it carries no use restriction, and it is the required and only vehicle for the DOJ stage.",
+   "mustConfirm": "Reclassification of the CRISS form as a packet form in a successor Master Library edition. Edition 1.1 is not modified.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[4] (affectedElement correct_form)"
+  },
+  {
+   "id": "mt-mmrta-serving-oca-document-id-collision",
+   "statement": "Master Library Edition 1.1 gives the OCA MMRTA Proposed Order and the OCA MMRTA Certificate of Service the same document ID, MT-OCA-MMRTA, distinguished only by document role ORDER against SERVICE. They are two different binaries with two different SHA-256 values, so a component naming MT-OCA-MMRTA matches two retained assets carrying conflicting hashes and the authority gate records an authority hash conflict.",
+   "mustConfirm": "That each form receives its own document ID in a successor edition before either component becomes resolver-selectable. Both mappings are retained and the track stays authority-gated in the meantime.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[5] (affectedElement correct_form)"
+  },
+  {
+   "id": "mt-mmrta-serving-hearing-default-unresolved",
+   "statement": "Whether the § 16-12-113(7) no-hearing default applies to a petition under subsection (1) is unresolved. By its terms subsection (7) addresses applications under subsection (5), the completed-sentence pathway. Form A nonetheless includes the same hearing election. This route presents the election as the form does and does not assert that no hearing will be held.",
+   "mustConfirm": "Whether the no-hearing default reaches a subsection (1) petition, before any participant-facing statement about hearings is written.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[6] (affectedElement filing_process)"
+  },
+  {
+   "id": "mt-mmrta-serving-expungement-judge-venue",
+   "statement": "Whether any decriminalized marijuana conviction expungement judge has been appointed under § 16-12-115, and if so whether that changes the practical filing destination in any county, is unresolved. Sections 16-12-114 through 16-12-116 create the structure; whether it has been used is not established.",
+   "mustConfirm": "Whether such a judge has been appointed anywhere in Montana and what it does to the filing destination. This route names no court and asserts only that the filing goes to the court that sentenced the participant.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[7] (affectedElement venue)"
+  },
+  {
+   "id": "mt-mmrta-serving-incarcerated-participant",
+   "statement": "Custody status alone is an attorney-handoff trigger for this track, and LegalEase does not represent an incarcerated participant in court. The practical filing and service obstacles facing an incarcerated participant — how a person in custody obtains the DOJ criminal record and court documents, files in the sentencing court and serves the county attorney — were not resolved by the source review.",
+   "mustConfirm": "The delivery path for an incarcerated participant before this route is offered to one. This track's gating condition is that the participant is still serving, so the handoff trigger will fire often.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].releaseBlockers[8] (affectedElement participant_instructions); registry selfHelpBoundaries; registry legalDesignLimitations[classification=self_help_boundary]"
+  },
+  {
+   "id": "mt-mmrta-serving-public-safety-override",
+   "statement": "Section 16-12-113(2) lets the court refuse relief where granting the petition would pose an unreasonable risk of danger to public safety. That override is unique to this track and does not appear in the subsection (6) completed-sentence pathway. Any case where it is plausibly in play is a handoff. Nothing in this route authors a public-safety argument or any assertion that relief would not pose such a risk.",
+   "mustConfirm": "That screening detects when the override is plausibly in play and routes to an attorney rather than producing a packet.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].legalDesignLimitations[classification=scope_restriction]; registry manualCompletionItems[2]"
+  },
+  {
+   "id": "mt-mmrta-serving-outcome-election",
+   "statement": "LegalEase does not choose between expungement and resentencing. These are materially different outcomes with different consequences, the form requires the participant to choose, and the election is the participant's alone. Any analysis of which outcome is better is legal advice and triggers handoff. No resentencing computation appears anywhere in this route: § 16-12-113(3) and (4) require credit for time served, prohibit supervision after resentencing, prohibit a term longer than the original sentence and prohibit reinstatement of charges dismissed under a negotiated plea agreement, and computing the result is legal work.",
+   "mustConfirm": "That the outcome election is presented as the form presents it and never pre-selected, and that no resentencing arithmetic is generated.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].participantQuestions; registry manualCompletionItems[0..1]"
+  },
+  {
+   "id": "mt-mmrta-serving-offence-mapping-boundary",
+   "statement": "Whether the historical conduct is now permitted, or now punishable by a lesser sentence, under Title 16, chapter 12 requires mapping decades-old charging language and quantities against the current chapter, and it is the central legal question of the track. LegalEase presents the enumerated statutory list and the participant selects; the free-text specify-offence path is an attorney handoff, not a completion path.",
+   "mustConfirm": "That the free-text offence path routes to an attorney and never produces a packet.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].legalDesignLimitations[classification=self_help_boundary] (offence mapping); registry generationRequirements[key=offenseOther]"
+  },
+  {
+   "id": "mt-mmrta-serving-mlsa-noncommercial",
+   "statement": "The Montana Legal Services Association / Montana Supreme Court Access to Justice Commission forms, including the Statement of Inability to Pay Court Costs and Fees, are stamped “© 2025 … This form may be used for non-commercial purposes only.” Expungement.ai is a paid product, so reproducing or distributing them inside a packet is a commercial use. They are drafting references only: never generated, never relabelled, never converted, never lightly rewritten, never runtime-selectable and never generation_allowed.",
+   "mustConfirm": "That the fee-waiver unit remains a link-out unless a licence is obtained. The restriction changes source use, not the existence of the mechanism.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].scopeRestrictions; registry legalDesignLimitations[classification=scope_restriction]"
+  },
+  {
+   "id": "mt-mmrta-serving-filing-fee-unstated",
+   "statement": "No filing-fee amount is asserted anywhere in this route. The registry states only that the participant is responsible for filing fees and costs and that the fee depends on the court level. The Montana state pack records the same gap: “The reference does not state a fixed District Court filing-fee amount for the misdemeanor expungement or marijuana petitions; confirm the current fee with the filing court (source gap — no fee schedule provided in the Nationwide source).”",
+   "mustConfirm": "The current filing fee at each Montana court level before any fee figure is shown to a participant. No fee is charged for the CRISS request.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].rules.fees; statePack:src/lib/rcap/state-packs/montana/fee-notes.ts mtFeeNotes[0] and [2]"
+  },
+  {
+   "id": "mt-mmrta-serving-court-and-party-identity-blank",
+   "statement": "Court name, county, docket/case number, judge, county attorney and county attorney position are left blank throughout this route. The only sourced venue statement is that the filing goes to the court that sentenced the participant, on the three caption options the form offers (Montana district court, justice court, or municipal or city court), and that the county attorney for the county in which the petition is filed must be served. Whether a designated § 16-12-115 judge changes that destination is unresolved.",
+   "mustConfirm": "That every court and party identity comes from the participant's own screening answers and court paperwork and is prefilled from no other source.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].venue / .destination; registry generationRequirements[key=sentencingCourtLevel, sentencingCounty, countyAttorneyCounty]"
+  },
+  {
+   "id": "mt-mmrta-serving-terminology-control",
+   "statement": "Montana's words are not interchangeable and participant copy must keep them apart. Expungement under § 46-18-1103(1) means to permanently destroy, delete or erase a record from the criminal history record information system maintained by the Department of Justice. What happens at the courts, law-enforcement agencies and prosecutors' offices is sealing, not destruction (§ 46-18-1110(2)(a)). Removal is the DOJ term for deleting a non-conviction record. Redesignation and resentencing are MMRTA outcomes and are neither.",
+   "mustConfirm": "That every participant-facing string in this route is checked against the four-term distinction before release.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].legalDesignLimitations[classification=packet_instruction] 'Montana's three words are not interchangeable'; statePack:safety-language.ts mtSafetyDisclaimer"
+  },
+  {
+   "id": "mt-mmrta-serving-one-set-per-conviction",
+   "statement": "One complete form set per conviction, never a consolidated petition. The OCA instructions require a separate form for each conviction even where the convictions occurred at the same time. This is the opposite of the Montana misdemeanour expungement track, where one petition covers the whole record, and the rules engine must not generalise across the two.",
+   "mustConfirm": "That the generator emits one complete unit set per conviction and never merges convictions into a single petition.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].legalDesignLimitations[classification=packet_instruction] 'One complete form set per conviction'; profile:pathways[id=marijuana-related-redesignation-expungement-under-mmrta].ruleClauses 'a separate form must be completed for each conviction'"
+  },
+  {
+   "id": "mt-mmrta-serving-legal-status",
+   "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: “Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.” Registry implementationQueue is F_source_problem. One or more official sources have no recorded SHA-256, so staleness cannot be detected.",
+   "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review, plus SHA-256 capture for the sources that lack one.",
+   "sourceRef": "registry@3b6f4c1:tracks[mt_mmrta_serving].legalStatus / .legalDesignStatus / .runtimeDisabledReason / .implementationQueue / .blockers[kind=source_gate]"
+  }
+ ],
+ "omissionProof": {
+  "statement": "units[] enumerates every legal unit the pinned registry entry and the compiled MT profile record for this track. The registry records two ordered stages in units[] — the court petition stage and the conditional DOJ CRISS stage — and six packetSet components across them: primary_filing (MMRTA Form A), certificate_of_service, proposed_order, attachment, conditional primary_filing (CRISS form) and instructions. Each of those six is a distinct legal unit here, one per required output. A seventh unit is added for the one further legal unit the registry records outside packetSet: the filing fee, or in its place the statement of inability to pay court costs and fees, which the registry lists both as a participant filing requirement required before filing and as a conditional apply_fee_waiver participant action. Nothing else in the registry entry or the compiled profile describes a document, form, letter or cover sheet for this track. No pleading_document unit exists because every court document in the route is a controlling official Office of the Court Administrator or Department of Justice form; no agency_request_letter unit exists because the Department of Justice stage runs on the official CRISS form rather than a drafted letter; and no cover_sheet unit exists because neither source records one — whether any Montana court imposes a local cover sheet is an unresolved release blocker carried as a counsel flag, not a drafted component.",
+  "unitCount": 7,
+  "registryPassagesEnumerated": [
+   "registry@3b6f4c1:tracks[mt_mmrta_serving].units[] (2 entries: mt-mmrta-serving-court-petition, mt-mmrta-serving-criss-submission)",
+   "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.components[] (6 entries: mt_mmrta_serving-primary-filing-1, -certificate-of-service-2, -proposed-order-3, -attachment-4, -primary-filing-5, -instructions-6)",
+   "registry@3b6f4c1:tracks[mt_mmrta_serving].participantFilingRequirements[] (4 entries: DOJ criminal record, court documents, conditional certified copy of the expungement order, filing fee or statement of inability to pay)",
+   "registry@3b6f4c1:tracks[mt_mmrta_serving].packetSet.participantActionRequired[] (18 entries; every one is either an obtain/confirm/sign/pay/serve/file act by the participant or maps to a unit above — none names an additional document LegalEase would produce)"
+  ],
+  "profilePassageReferenced": {
+   "ref": "profile:pathways[id=marijuana-related-redesignation-expungement-under-mmrta].ruleClauses (sourceRef 'section:124-134; section:170-184; section:389-399; section:229-269; section:270-318; section:319-361; section:204-228; section:362-367')",
+   "passage": "For marijuana-related cases, the Montana Judicial Branch provides: MMRTA Form A Currently serving sentence; request expungement or resentencing / MMRTA Form B Sentence completed; request expungement or redesignation / Proposed Order Submitted with petition / Certificate of Service Shows service on county attorney. … The Judicial Branch says the person must know the date or approximate date of conviction, the Montana court where it occurred, and must attach a copy of the criminal record from Montana DOJ. … Montana Judicial Branch says a separate form must be completed for each conviction, even if the convictions happened at the same time. … The petition must be served on the county attorney for the county where the petition is filed. … If the court grants marijuana-related expungement, the petitioner must file the DOJ Expungement/Removal Request Form with the Montana Department of Justice along with the court order.",
+   "reading": "The compiled profile enumerates exactly the same document set this route contains for the currently-serving posture: Form A (Form B belongs to the separate completed-sentence track and is excluded here), the Proposed Order, the Certificate of Service, the DOJ criminal-record attachment, and the conditional DOJ Expungement/Removal Request Form after a grant. The profile records nothing further."
+  },
+  "nonUnitParticipantActions": [
+   "Obtain a copy of the criminal record from the Montana Department of Justice — covered by the attachment unit; LegalEase does not obtain it.",
+   "Obtain the court documents for the conviction and the current sentence from the clerk of the sentencing court — covered by the attachment unit.",
+   "Obtain a certified copy of the court order of expungement after a grant — covered by the attachment unit as a conditional item; the clerk issues it.",
+   "Check the case-number answer against the DOJ criminal record, and the conviction-date answer against the court documents — covered by the attachment unit.",
+   "The outcome election between expungement and resentencing — a field on the official form; the participant owns it and LegalEase never chooses.",
+   "Any resentencing computation — not present in the packet at all.",
+   "Any public-safety argument — not present in the packet at all.",
+   "The narrative explaining why the conviction is eligible — a free-text field on the official form, prompted and formatted from the participant's own words, never composed by LegalEase.",
+   "Every judicial finding, the date and the judge's signature on the Proposed Order — the court's.",
+   "The participant's signature and date on Form A and on the CRISS form — both left blank.",
+   "Notarization: none identified on the face of Form A; no notarization instruction is asserted.",
+   "Payment of filing fees and costs; service on the county attorney; filing in the sentencing court under that court's rules including local filing rules — participant acts, not documents."
+  ],
+  "coverSheetAbsent": "No participant-only cover sheet unit is included. Neither the registry entry nor the compiled profile records a cover sheet for this track. Whether any Montana district, justice, municipal or city court imposes a local cover sheet is recorded as an unresolved release blocker and carried as counsel flag mt-mmrta-serving-local-court-variation.",
+  "agencyRequestLetterAbsent": "No agency_request_letter unit is included. The Department of Justice stage runs on the official CRISS Expungement/Removal Request Form, which is an agency form, not a drafted letter; it is recorded as an official_form_dependency.",
+  "pleadingDocumentAbsent": "No pleading_document unit is included. Every court document in the route is a controlling official Office of the Court Administrator form, and the adopted packet instruction on this track directs that the official form set is the product."
+ },
+ "provenance": {
+  "statePackFiles": [
+   "src/lib/rcap/state-packs/montana/index.ts",
+   "src/lib/rcap/state-packs/montana/filing-instructions.ts",
+   "src/lib/rcap/state-packs/montana/official-forms.ts",
+   "src/lib/rcap/state-packs/montana/pathways.ts",
+   "src/lib/rcap/state-packs/montana/required-fields.ts",
+   "src/lib/rcap/state-packs/montana/fee-notes.ts",
+   "src/lib/rcap/state-packs/montana/document-types.ts",
+   "src/lib/rcap/state-packs/montana/safety-language.ts"
+  ],
+  "profilePath": "src/lib/rcap-engine/compiled/profiles/MT-montana.json",
+  "profileSha256": "2b9380c023275fce405992af514d59041ac077a164f4e48ff92bb0876f19fe96",
+  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+  "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=mt_mmrta_serving]",
+  "reviewedAsOf": "2026-08-03",
+  "effectiveFrom": "2021-01-01",
+  "effectiveTo": null
+ }
+}

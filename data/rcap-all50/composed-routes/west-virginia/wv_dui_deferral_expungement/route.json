@@ -1,0 +1,618 @@
+{
+  "schemaVersion": "rcap-composed-route/v1",
+  "trackId": "wv_dui_deferral_expungement",
+  "jurisdiction": {
+    "code": "WV",
+    "name": "West Virginia",
+    "slug": "west-virginia"
+  },
+  "jobId": "T-C-WV-complete-composed-route",
+  "family": "composed_route",
+  "treatment": "complete_composed_route",
+  "legalName": "Motion to Dismiss the Charges and Application to Expunge After a First-Offence DUI Deferral, W. Va. Code § 17C-5-2b(c) and (g)",
+  "publicName": "Clear a first DUI that was deferred and dismissed after the test and lock program",
+  "mechanism": "Read at source on 2026-08-06, § 17C-5-2b operates on a person who pleads to or is found guilty of the offence defined in § 17C-5-2(e), has no prior DUI-type conviction, and notifies the court within 30 days of arrest of the intention to participate in a deferral. On those conditions the court, without entering a judgment of guilt, shall defer further proceedings and place the person on probation conditioned on successful completion of the Motor Vehicle Alcohol Test and Lock Program under § 17C-5A-3a, for at least 165 days after a 15-day licence suspension and completed within one year thereafter. The section then creates two separate participant-facing submissions. First, under subsection (c), when the defendant has satisfactorily completed the programme and complied with its conditions, the defendant may move the court for an order dismissing the charges; that motion must be supported by the defendant's affidavit and by certification of the Division of Motor Vehicles that the programme was successfully completed, and the prosecuting attorney has 30 days after service to advise the judge of objections, in the absence of which the court shall dismiss. Second, under subsection (g), after a period of not less than one year beginning to run immediately on the expiration of the term of probation, the person may apply to the court for an order expunging all official records of the arrest, trial and conviction, except those maintained by the Division of Motor Vehicles, provided that a person previously convicted of a felony may not make that motion; objections are filed within 30 days of service, and if objections are filed the court holds a hearing and, if it determines there was no serious or repeated violation of the conditions of probation, it shall order the expungement. Only one discharge and dismissal is available under the section, and § 61-11-25(a) independently provides that no Division of Motor Vehicles record may be expunged by virtue of any order entered pursuant to § 17C-5-2b.",
+  "compositionMode": "sequential",
+  "outputStrategyDeclared": "composed",
+  "legalDesignStatus": "legal_design_approved_with_limitations",
+  "legalStatus": "legal_review_pending",
+  "routeDecision": {
+    "decision": "composed_route_with_five_custom_pleadings_two_participant_instructions_and_no_official_form_dependency",
+    "rationale": [
+      "The registry declares outputStrategyDeclared 'composed' with compositionMode 'sequential': unit 1 must have produced a dismissal and discharge before unit 2 becomes available at all, and a further year must run from the expiration of probation before unit 2 can be made.",
+      "Both registry units declare outputStrategy 'custom_pleading', outputStrategyStatus 'resolved', packetIdentity 'identified' and available true. The unit descriptions state in terms that no West Virginia Judiciary form exists for either: \"the Court Forms index was read at source on 2026-08-06 and publishes exactly five expungement forms, none for this section.\"",
+      "The registry packetSet lists seven required components. Five carry outputStrategy 'custom_pleading' (primary filing, supporting affidavit, secondary filing, supporting timeline, certificate of service) and are expressed as pleading_document units. Two carry outputStrategy 'process_guidance' (records checklist, filing instructions) and are expressed as participant_instruction units.",
+      "No official_form_dependency unit exists. Every West Virginia expungement form catalogued in the committed state pack and named in the compiled profile — SCA-C900, SCA-C903, SCA-C906, SCA-C907, SCA-C912 — is a § 61-11-25 or § 61-11-26 instrument. None has a § 17C-5-2b role.",
+      "No agency_request_letter unit exists. The Division of Motor Vehicles certification the subsection (c) motion must be supported by is recorded as obtained by asking, with no form number and no letter named.",
+      "No cover_sheet unit exists. The registry packetSet has seven components and none is a cover sheet."
+    ],
+    "pleadingDocumentUnits": 5,
+    "officialFormDependencyUnits": 0,
+    "participantInstructionUnits": 2,
+    "agencyRequestLetterUnits": 0,
+    "coverSheetUnits": 0,
+    "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].outputStrategyDeclared; .compositionMode; .units[]; .packetSet.components[]"
+  },
+  "authoritySpine": [
+    {
+      "citation": "W. Va. Code § 17C-5-2(e)",
+      "description": "The offence the deferral operates on. Section 17C-5-2b applies to a person who pleads to or is found guilty of the offence defined in § 17C-5-2(e) and has no prior DUI-type conviction.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[9]; .mechanism"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(a)",
+      "description": "The deferral itself: on notice to the court within 30 days of arrest of the intention to participate, the court, without entering a judgment of guilt, shall defer further proceedings and place the person on probation. The 30-day notice window is charge-stage criminal defence and is expressly outside the adopted product scope; this route serves only the person for whom a deferral was already granted.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[0]; .mechanism; .scopeRestrictions[1]"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(b)",
+      "description": "Probation conditioned on successful completion of the Motor Vehicle Alcohol Test and Lock Program, for at least 165 days after a 15-day licence suspension and completed within one year thereafter.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[1]; .mechanism; .waitingPeriods[0]"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5A-3a",
+      "description": "The Motor Vehicle Alcohol Test and Lock Program the probation is conditioned on. The Division of Motor Vehicles certifies successful completion, and that certification is what the subsection (c) motion must be supported by.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[10]; .mechanism; .participantFilingRequirements[0]"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(c)",
+      "description": "Unit 1. When the defendant has satisfactorily completed the programme and complied with its conditions, the defendant may move the court for an order dismissing the charges; the motion must be supported by the defendant's affidavit and by certification of the Division of Motor Vehicles that the programme was successfully completed; the prosecuting attorney has 30 days after service to advise the judge of objections, in the absence of which the court shall dismiss.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[2]; .units[0]; .mechanism"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(d)",
+      "description": "The legal effect of the unit 1 disposition: dismissal and discharge without adjudication of guilt, which is not a conviction for the purpose of disqualifications or disabilities.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[3]; .units[0].description"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(e)",
+      "description": "Only one discharge and dismissal is available under the section. A participant who has already had one is excluded.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[4]; .exclusions[5]"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(f)",
+      "description": "The four ineligibility categories: any prosecution in which any violation of any other provision of article 17C-5 has been charged (f)(1); a commercial driver's licence holder or operator of commercial motor vehicles (f)(2); a person previously having had a licence revoked for a same-elements offence under a municipal ordinance of this state or any other state or a statute of the United States or any other state (f)(3); and a person as to whom a court entered an order finding a refusal of the secondary chemical test under § 17C-5-7a (f)(4).",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[5]; .exclusions[0..3]; .selfHelpStopConditions[1..4]"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(g)",
+      "description": "Unit 2. After a period of not less than one year beginning to run immediately on the expiration of the term of probation, the person may apply to the court for an order expunging all official records of the arrest, trial and conviction, except those maintained by the Division of Motor Vehicles; a person previously convicted of a felony may not make that motion; objections are filed within 30 days of service, and if objections are filed the court holds a hearing and, if it determines there was no serious or repeated violation of the conditions of probation, it shall order the expungement.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[6]; .units[1]; .mechanism; .waitingPeriods[1]"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(h)",
+      "description": "A person whose case is disposed of under the section must pay the court costs that could be assessed against a person convicted of the offence; payment may have been made a condition of probation. No amount is stated in any source read for this track.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[7]; .rules.fees"
+    },
+    {
+      "citation": "W. Va. Code § 17C-5-2b(i)",
+      "description": "Carried in the track authority list. The disclosure protection the registry records for this section is that a person as to whom dismissal and discharge have been effected is not guilty of perjury, false swearing or otherwise giving a false statement by reason of failing to disclose the arrest or trial, except in response to an inquiry made in connection with a subsequent offence under § 17C-5-2.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[8]; .packetInstructions[2]"
+    },
+    {
+      "citation": "W. Va. Code § 61-11-25(a)",
+      "description": "The independent hard limit: no Division of Motor Vehicles record may be expunged by virtue of any order entered pursuant to § 17C-5-2b. The criminal record can be cleared; the driving record cannot.",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].authority[11]; .packetInstructions[0]; .exclusions[6]"
+    },
+    {
+      "citation": "West Virginia Judiciary — Court Forms index (contrast authority, not the basis of this relief)",
+      "description": "Read at source on 2026-08-06. Publishes exactly five expungement forms — SCA-C900, SCA-C903, SCA-C906, SCA-C907 and SCA-C912 — none of which is a § 17C-5-2b filing. Carried in the spine only as the boundary that makes every court document in this route a custom pleading. URL: https://www.courtswv.gov/public-resources/court-forms",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].officialSources[3]; .releaseBlockers[0]; statePack:official-forms.ts"
+    },
+    {
+      "citation": "W. Va. Code §§ 61-11-26, 61-11-26a, 61-11-26b (contrast authority, not the basis of this relief)",
+      "description": "The conviction-expungement route the committed state pack and the compiled profile do describe. Section 61-11-26b bars expunging DUI convictions; § 61-11-26(o) imposes a once-per-lifetime limit; the § 61-11-26 fee regime is a civil filing fee plus a $100 State Police processing fee. None of it applies here — § 17C-5-2b produces no judgment of guilt — and none of it is imported. Carried only as the routing boundary.",
+      "sourceRef": "statePack:disqualifying-offenses.ts[1]; statePack:eligibility-rules.ts[9]; statePack:fee-notes.ts[0]; registry@3b6f4c1:tracks[wv_dui_deferral_expungement].unresolvedQuestions[2]"
+    },
+    {
+      "citation": "West Virginia court identity (committed state pack and compiled profile)",
+      "description": "West Virginia criminal matters sit in circuit, magistrate or municipal court. Carried only to establish that the court level for a § 17C-5-2b filing is not fixed by any source read for this track, so no court name or level is prefilled anywhere in this route.",
+      "sourceRef": "profile:sourceSections[15] lines 197-261; statePack:required-fields.ts wvFieldLabels.court"
+    }
+  ],
+  "units": [
+    {
+      "unitId": "wv-dui-deferral-unit-1-motion-to-dismiss",
+      "order": 1,
+      "legalUnit": "Section 17C-5-2b(c) motion to dismiss the charges after satisfactory completion of the Motor Vehicle Alcohol Test and Lock Program",
+      "authority": {
+        "citation": "W. Va. Code § 17C-5-2b(c)",
+        "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].units[0]; .authority[2]; .packetSet.components[0]; .mechanism"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "wv_dui_deferral_expungement-primary-filing-1",
+      "componentRole": "primary_filing",
+      "componentRequirement": "required",
+      "applicability": {
+        "includedWhen": "Screening reports all of: the court deferred the proceedings and placed the participant on probation under § 17C-5-2b (deferralOrderDate answered); the participant successfully completed the Motor Vehicle Alcohol Test and Lock Program and complied with its conditions (programCompletionDate answered); and stageNeeded reports that the charges have NOT yet been dismissed.",
+        "excludedWhen": "Screening reports any of: stageNeeded reports the charges were already dismissed (that participant goes to unit 3, not here); the participant did not complete or was removed from the test and lock program; otherArticleCharges reports another offence under article 17C-5 was charged in the same prosecution; commercialLicence reports a commercial driver's licence or commercial vehicle operation at the time of the offence; priorLicenceRevocation reports an earlier revocation for a same-elements offence in any jurisdiction; secondaryTestRefusal reports a court order finding refusal of the secondary chemical test; priorDeferral reports an earlier discharge and dismissal under this section; or the charge is still live and no deferral has been granted."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json"
+      },
+      "notes": "Drafted as a controlled pleading because no West Virginia Judiciary form exists for a § 17C-5-2b filing and the subsection supplies the destination, the operative facts and the relief. The words expunge, expunged and expungement are prohibited in this component's document text: this stage produces dismissal and discharge, not expungement, and merging the two is the error the registry models the units apart to prevent. A prior felony conviction does NOT exclude this unit — the felony bar sits in subsection (g)."
+    },
+    {
+      "unitId": "wv-dui-deferral-unit-1-supporting-affidavit",
+      "unitIdSynthesized": true,
+      "order": 2,
+      "legalUnit": "The defendant's affidavit that § 17C-5-2b(c) requires the motion to dismiss to be supported by",
+      "authority": {
+        "citation": "W. Va. Code § 17C-5-2b(c)",
+        "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.components[1]; .authority[2]; .rules.notarization; .packetSet.manualCompletionItems[1]"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "wv_dui_deferral_expungement-supporting-affidavit-2",
+      "componentRole": "supporting_affidavit",
+      "componentRequirement": "required",
+      "applicability": {
+        "includedWhen": "Always with unit 1. Subsection (c) requires the motion to be supported by the defendant's affidavit, so the affidavit is produced whenever the motion is.",
+        "excludedWhen": "Whenever unit 1 is excluded. It is never produced on its own and never with the subsection (g) application, for which no source records an affidavit."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json"
+      },
+      "notes": "The one notarised document in the route. The registry records notarization as \"Required on the unit 1 supporting affidavit\" and lists the affidavit signature, date and jurat as a manual completion item. No source read for this track prescribes the jurat wording or the class of officer, so none is invented; the component renders a signature and jurat area and leaves the wording to be confirmed. Every averment is the participant's own statement of fact; none is generated or supplemented."
+    },
+    {
+      "unitId": "wv-dui-deferral-unit-2-application-to-expunge",
+      "order": 3,
+      "legalUnit": "Section 17C-5-2b(g) application to expunge all official records of the arrest, trial and conviction, except those maintained by the Division of Motor Vehicles",
+      "authority": {
+        "citation": "W. Va. Code § 17C-5-2b(g)",
+        "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].units[1]; .authority[6]; .packetSet.components[2]; .mechanism"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "wv_dui_deferral_expungement-secondary-filing-3",
+      "componentRole": "secondary_filing",
+      "componentRequirement": "required",
+      "applicability": {
+        "includedWhen": "Screening reports all of: the proceedings were deferred and probation imposed under § 17C-5-2b; the charges were dismissed and the participant discharged (stageNeeded reports the dismissal already happened, dismissalDate answered); the participant's answer to probationExpiryDate is at least one year in the past, measured from the expiration of probation and NOT from the dismissal; priorFelonyConviction reports no felony conviction anywhere; and probationViolations reports that nobody has alleged a breach of the conditions of probation.",
+        "excludedWhen": "Screening reports any of: no dismissal and discharge has been entered (stageNeeded reports the charges are not yet dismissed — that participant goes to unit 1); less than one year has run since probation expired; probationExpiryDate is unanswered or answered only from memory with no written confirmation; priorFelonyConviction reports any felony conviction in West Virginia or anywhere else, which bars this motion outright under (g)(1); probationViolations reports an allegation of a serious or repeated violation; any subsection (f) bar applies; or the participant's stated goal is the driving record, which this order never reaches."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json"
+      },
+      "notes": "Cannot be reached until unit 1 has produced a dismissal and discharge and a further year has run from the expiration of the probation term. The requested relief is stated in the subsection's own terms, including its own exception for Division of Motor Vehicles records, so the application can never be read as asking for the driving record. The notice line carries a hearing date that is left blank: a hearing happens only if objections are filed, and the court sets the date."
+    },
+    {
+      "unitId": "wv-dui-deferral-unit-2-supporting-timeline",
+      "unitIdSynthesized": true,
+      "order": 4,
+      "legalUnit": "Supporting timeline establishing the dates the subsection (g) one-year period is measured from",
+      "authority": {
+        "citation": "W. Va. Code § 17C-5-2b(g)(1)",
+        "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.components[3]; .waitingPeriods[1]; .packetInstructions[1]; .legalDesignLimitations[classification=required_before_filing] (\"What LegalEase can prepare: the application and the supporting timeline.\")"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "wv_dui_deferral_expungement-supporting-timeline-4",
+      "componentRole": "supporting_timeline",
+      "componentRequirement": "required",
+      "applicability": {
+        "includedWhen": "Always with unit 3. The subsection (g) one-year period runs from the expiration of the term of probation and not from the dismissal, so the application is filed with a timeline that sets the participant's own dates out side by side.",
+        "excludedWhen": "Whenever unit 3 is excluded. It is never produced with the subsection (c) motion, for which no waiting period exists beyond satisfactory completion of the programme."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json"
+      },
+      "notes": "The one component whose participant treatment is confirm rather than screening: every date on it is a participant answer the registry requires to be checked against a document the participant obtains — the deferral order, the Division of Motor Vehicles certification, the order of dismissal and discharge, and written confirmation of the probation-expiry date. The timeline states the dates and does not compute, conclude or assert that the one-year period has run."
+    },
+    {
+      "unitId": "wv-dui-deferral-certificate-of-service",
+      "unitIdSynthesized": true,
+      "order": 5,
+      "legalUnit": "Certificate of service on the prosecuting attorney — the act that starts the 30-day objection window on each submission",
+      "authority": {
+        "citation": "W. Va. Code § 17C-5-2b(c) and (g)",
+        "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.components[4]; .rules.service; .rules.notice; .packetSet.manualCompletionItems[2]"
+      },
+      "requiredOutput": "pleading_document",
+      "componentId": "wv_dui_deferral_expungement-certificate-of-service-5",
+      "componentRole": "certificate_of_service",
+      "componentRequirement": "required",
+      "applicability": {
+        "includedWhen": "Always, once per submission. The registry records: \"Serve a copy of each unit's motion and supporting papers on the prosecuting attorney, and file a certificate of service for each. The 30-day objection window runs from service.\" The component is stage-parameterised and is rendered once with the subsection (c) motion and again with the subsection (g) application.",
+        "excludedWhen": "Never excluded while either court document is produced. It is not produced on its own."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/pleading-config.json"
+      },
+      "notes": "Prosecuting attorney's street address, service date and signature are all manual completion items completed by the participant from the current published address, because the certificate attests to what the participant actually did. No service is ever asserted as completed, no prosecutor name or address is prefilled, and no prosecutor position is stated."
+    },
+    {
+      "unitId": "wv-dui-deferral-records-checklist",
+      "unitIdSynthesized": true,
+      "order": 6,
+      "legalUnit": "Records checklist — the four documents the participant must obtain, and the answers each one checks",
+      "authority": {
+        "citation": "W. Va. Code § 17C-5-2b(c) and (g)(1)",
+        "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.components[5]; .participantFilingRequirements[]; .packetSet.participantActionRequired[kind=obtain_document,confirm_answer]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "wv_dui_deferral_expungement-records-checklist-6",
+      "componentRole": "records_checklist",
+      "componentRequirement": "required",
+      "applicability": {
+        "includedWhen": "Always, at both stages, and before anything is signed or sent. Two items are required at both stages (the Division of Motor Vehicles certification of successful completion, and the order deferring proceedings and imposing probation) and two are conditional on the expungement stage (the order of dismissal and discharge, and written confirmation of the date the probation term expired).",
+        "excludedWhen": "Never excluded while this track is selected."
+      },
+      "participantTreatment": {
+        "prefill": "confirm",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-records-checklist-6/records-checklist.md"
+      },
+      "notes": "Participant-only, never filed. This is where the Division of Motor Vehicles certification is handled: it is an agency document the participant obtains by asking, no form number or request letter is recorded for it anywhere in the sources, and LegalEase does not obtain, receive or inspect it. That is why this route contains no agency_request_letter unit."
+    },
+    {
+      "unitId": "wv-dui-deferral-filing-instructions",
+      "unitIdSynthesized": true,
+      "order": 7,
+      "legalUnit": "Filing instructions — where each submission goes, in what order, what is served, and what the two orders do and do not reach",
+      "authority": {
+        "citation": "W. Va. Code § 17C-5-2b(c), (g) and (h)",
+        "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.components[6]; .rules.filing; .rules.service; .rules.notice; .rules.fees; .destination; .packetInstructions[]"
+      },
+      "requiredOutput": "participant_instruction",
+      "componentId": "wv_dui_deferral_expungement-filing-instructions-7",
+      "componentRole": "filing_instructions",
+      "componentRequirement": "required",
+      "applicability": {
+        "includedWhen": "Always, at both stages.",
+        "excludedWhen": "Never excluded while this track is selected."
+      },
+      "participantTreatment": {
+        "prefill": "screening",
+        "protectedBlank": true,
+        "outsidePartyBlank": true
+      },
+      "implementation": {
+        "componentPath": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-filing-instructions-7/filing-instructions.md"
+      },
+      "notes": "Participant-only, never filed. Carries the driving-record limit, the one-year clock measured from probation expiry rather than dismissal, the disclosure protection with its subsequent-offence exception, and the point at which automated assistance ends — the court's finding on probation violations if objections are filed."
+    }
+  ],
+  "filingSeparation": {
+    "courtDocuments": [
+      {
+        "item": "Motion to dismiss the charges, W. Va. Code § 17C-5-2b(c)",
+        "componentId": "wv_dui_deferral_expungement-primary-filing-1",
+        "drafted": true,
+        "note": "Stage one. Filed with the clerk of the court that deferred the proceedings, once the test and lock program is satisfactorily completed."
+      },
+      {
+        "item": "Defendant's affidavit in support of the motion to dismiss, W. Va. Code § 17C-5-2b(c)",
+        "componentId": "wv_dui_deferral_expungement-supporting-affidavit-2",
+        "drafted": true,
+        "note": "Filed with the motion. Sworn by the participant before a notary public or other official; the jurat wording and the class of officer are not prescribed by any source read for this track."
+      },
+      {
+        "item": "Application to expunge, W. Va. Code § 17C-5-2b(g)",
+        "componentId": "wv_dui_deferral_expungement-secondary-filing-3",
+        "drafted": true,
+        "note": "Stage two. Filed with the same clerk, no sooner than one year after the probation term expired."
+      },
+      {
+        "item": "Supporting timeline for the application to expunge",
+        "componentId": "wv_dui_deferral_expungement-supporting-timeline-4",
+        "drafted": true,
+        "note": "Filed with the application. The registry records it as a required custom-pleading component and the controlling review records that LegalEase can prepare \"the application and the supporting timeline.\""
+      },
+      {
+        "item": "Certificate of service on the prosecuting attorney",
+        "componentId": "wv_dui_deferral_expungement-certificate-of-service-5",
+        "drafted": true,
+        "note": "Filed once with each submission. The 30-day objection window runs from service."
+      },
+      {
+        "item": "Division of Motor Vehicles certification that the Motor Vehicle Alcohol Test and Lock Program was successfully completed",
+        "componentId": null,
+        "drafted": false,
+        "reason": "Required by § 17C-5-2b(c) to support the motion to dismiss, so it goes in with the motion — but it is an agency document the participant obtains by asking the Division of Motor Vehicles. No form number, URL, request letter or template is recorded for it in the registry entry, the compiled profile or the committed state pack, so nothing is drafted and no agency_request_letter unit exists. LegalEase does not obtain, receive or inspect it, and no drafted document characterises what it says."
+      },
+      {
+        "item": "Proposed order (either stage)",
+        "componentId": null,
+        "drafted": false,
+        "reason": "The registry packetSet enumerates seven components and none is a proposed order. Section 17C-5-2b makes both dispositions the court's own act and names no custodian the expungement order must direct; drafting one would invent whom it names and what each must do. The § 60A-4-407 proposed order the state pack records belongs to a different track and is not imported."
+      }
+    ],
+    "participantOnly": [
+      {
+        "item": "Records checklist",
+        "componentId": "wv_dui_deferral_expungement-records-checklist-6",
+        "note": "What to obtain and which answer each document checks. Never filed with the court."
+      },
+      {
+        "item": "Filing instructions",
+        "componentId": "wv_dui_deferral_expungement-filing-instructions-7",
+        "note": "Where each submission goes and in what order. Never filed with the court."
+      },
+      {
+        "item": "Participant filing instructions for the route as a whole",
+        "componentId": null,
+        "note": "participant-instructions.md. Never filed with the court."
+      },
+      {
+        "item": "Certified copy of the order deferring proceedings and imposing probation",
+        "componentId": null,
+        "note": "Obtained by the participant from the clerk of the court that entered it. It carries the probation term the one-year expungement clock is measured from. No source read for this track states that it is attached to either submission, so no drafted document says it is."
+      },
+      {
+        "item": "Certified copy of the order of dismissal and discharge",
+        "componentId": null,
+        "note": "Obtained by the participant from the clerk. Required at the expungement stage, where the dismissal has already been entered. No source states it is attached to the application."
+      },
+      {
+        "item": "Written confirmation of the date the probation term expired",
+        "componentId": null,
+        "note": "Obtained by the participant from the supervising probation office or the clerk. This date, not the dismissal date, starts the one-year period. No source states it is attached to the application."
+      }
+    ]
+  },
+  "counselFlags": [
+    {
+      "id": "wv-dui-deferral-no-judiciary-form",
+      "statement": "No West Virginia Judiciary form exists for either the § 17C-5-2b(c) motion to dismiss or the § 17C-5-2b(g) application to expunge. The Court Forms index was read at source on 2026-08-06 and publishes exactly five expungement forms — SCA-C900, SCA-C903, SCA-C906, SCA-C907 and SCA-C912 — none of which is a § 17C-5-2b filing; the committed state pack catalogues the same five and ties each to § 61-11-25 or § 61-11-26. On that basis the controlling review's build blocker is answered in the negative and every court document in this route is a custom pleading. Whether an unpublished local form is used in some courts was not tested.",
+      "mustConfirm": "Whether any court uses an unpublished local form for a § 17C-5-2b filing.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].releaseBlockers[0]; .unresolvedQuestions[0]; .units[].description; statePack:official-forms.ts (five forms, all § 61-11-25 / § 61-11-26); profile:packetGenerator.sourceFormStatements"
+    },
+    {
+      "id": "wv-dui-deferral-stale-file-vehicle",
+      "statement": "Whether unit 1 is reachable in practice by a self-represented participant whose deferral was granted years earlier and whose charges were never formally dismissed is not established. Section 17C-5-2b(c) was read in full at source on 2026-08-06 and places no time limit on the motion to dismiss, but the section assumes a live case file and a defendant still before the court. Where the file has been closed administratively, whether the motion is still the right vehicle is unknown. Nothing in this route asserts that it is.",
+      "mustConfirm": "Where a participant completed the test and lock program years ago but no order of dismissal was ever entered, is the § 17C-5-2b(c) motion to dismiss still the correct vehicle, and does LegalEase generate it, or does a stale file require counsel?",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].releaseBlockers[1]; .unresolvedQuestions[1]; .counselQuestions[1]"
+    },
+    {
+      "id": "wv-dui-deferral-lifetime-limit-interaction",
+      "statement": "Whether relief under § 17C-5-2b counts against the once-per-lifetime limit in § 61-11-26(o) is unsettled. Section 61-11-26(o) reaches only §§ 61-11-26 and 61-11-26a on its face, and § 17C-5-2b was read in full at source on 2026-08-06 and contains no cross-reference to it. The textual reading is that they are separate limits in separate statutes, but a participant deciding whether to spend their one lifetime conviction petition needs a settled answer. No participant copy in this route tells the participant either way.",
+      "mustConfirm": "Whether relief under § 17C-5-2b counts against the § 61-11-26(o) once-per-lifetime limit.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].releaseBlockers[2]; .unresolvedQuestions[2]; statePack:safety-language.ts wvPlainLanguage.oneTimeUse"
+    },
+    {
+      "id": "wv-dui-deferral-legal-status",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: \"Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.\" The state pack's own build metadata records qa, visual, counsel and sourceFreshness review all pending.",
+      "mustConfirm": "Output review, visual review and technical proof before this route leaves internal review.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].legalStatus / .legalDesignStatus / .runtimeDisabledReason / .blockers; statePack:all50-build-metadata.ts buildStatusMetadata.reviewStatuses"
+    },
+    {
+      "id": "wv-dui-deferral-felony-bar-not-in-controlling-review",
+      "statement": "Section 17C-5-2b(g)(1) contains a proviso, not recorded in the controlling legal review, that a person previously convicted of a felony may not make the expungement motion. The registry records it as a participant question added on this route as it is on § 61-11-25. This route treats the felony bar as excluding unit 2 (the application to expunge) only, and not unit 1 (the motion to dismiss), because the proviso sits in subsection (g).",
+      "mustConfirm": "Confirm the felony bar is screened as a threshold question on this route, and that it bars only the subsection (g) expungement and not the subsection (c) dismissal.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].counselQuestions[0]; .participantQuestions[0]; .exclusions[4]; .legalDesignLimitations[classification=participant_question]"
+    },
+    {
+      "id": "wv-dui-deferral-court-level-unstated",
+      "statement": "No source read for this track states whether the court that deferred proceedings under § 17C-5-2b is a circuit, magistrate or municipal court. The registry records the venue functionally — \"the court in which the § 17C-5-2(e) charge was brought and which deferred proceedings and imposed probation\" — and asks the participant \"Which court, and in which county, was the DUI charge in?\". The compiled profile's own intake checklist records West Virginia courts as \"circuit, magistrate, municipal\". The circuit-court destination the state pack states is for §§ 61-11-25 and 61-11-26 filings and is NOT imported here. Every court name in this route is a token filled only from the participant's own answer; no court name, court level or clerk address is prefilled.",
+      "mustConfirm": "The court level a § 17C-5-2b(c) motion and a § 17C-5-2b(g) application are filed in, and whether the caption differs by level.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].venue; .destination; .generationRequirements[key=chargeCourtAndCounty]; profile:sourceSections[15] 'Wilma intake checklist' lines 197-261 (\"Court: circuit, magistrate, municipal\"); statePack:required-fields.ts wvFieldLabels.court"
+    },
+    {
+      "id": "wv-dui-deferral-caption-and-party-structure-unstated",
+      "statement": "No source read for this track states an accepted caption or a party structure for either submission. presentation.sovereignPartyName, sovereignPartyProper, sovereignRole and movantFirstInCaption are all null rather than filled with an assumed \"State of West Virginia v. Defendant\" styling, which appears nowhere in the registry entry, the compiled profile or the committed state pack. The caption is a token pattern filled only from the participant's own chargeCourtAndCounty and caseNumber answers, and the registry lists \"Case number and caption styling\" as a manual completion item precisely because no statewide form fixes it.",
+      "mustConfirm": "The caption a West Virginia court accepts on a § 17C-5-2b(c) motion and a § 17C-5-2b(g) application, and how the parties are styled on each.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].venue; .packetSet.manualCompletionItems[3]; .generationRequirements[key=chargeCourtAndCounty,caseNumber]"
+    },
+    {
+      "id": "wv-dui-deferral-verification-form-unprescribed",
+      "statement": "Section 17C-5-2b(c) requires the motion to dismiss to be supported by the defendant's affidavit, and the registry records notarization as \"Required on the unit 1 supporting affidavit.\" No source read for this track prescribes the wording of the jurat, the class of officer before whom the affidavit is sworn, or any verification statute; and no source says anything at all about verification of the § 17C-5-2b(g) application. verificationStatute.citation is left null on every component except the affidavit, where it cites only the subsection that requires an affidavit to exist. No verification or jurat wording is invented. This is the handling the ND config applies to its own missing verification statute.",
+      "mustConfirm": "The jurat wording and the class of officer for the § 17C-5-2b(c) affidavit, and whether the § 17C-5-2b(g) application must be verified or sworn.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].rules.notarization; .rules.participantSignature; .packetSet.manualCompletionItems[1]; exemplar:src/lib/record-clearing/north-dakota-config.ts ndVerificationStatute"
+    },
+    {
+      "id": "wv-dui-deferral-no-proposed-order",
+      "statement": "No proposed order is drafted for either submission. The registry packetSet enumerates exactly seven components and none is a proposed order. Section 17C-5-2b makes both dispositions the court's own act — in the absence of objections \"the court shall dismiss\", and on the (g) application the court \"shall order the expungement\" — and the section names no agency the expungement order must direct. Drafting an order would invent whom it names and what each custodian must do. Note the contrast the state pack records for a DIFFERENT track: the § 60A-4-407 conditional-discharge packet does include a proposed order. That is not this track and is not imported.",
+      "mustConfirm": "Whether a West Virginia court expects a tendered order with a § 17C-5-2b(c) motion or a § 17C-5-2b(g) application, and if so what it says and whom it names.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.components[] (7 entries, none a proposed order); .mechanism; statePack:filing-instructions.ts[7] (§ 60A-4-407 proposed order — different track)"
+    },
+    {
+      "id": "wv-dui-deferral-costs-under-subsection-h",
+      "statement": "Section 17C-5-2b charges no fee for either motion, but subsection (h) provides that a person whose case is disposed of under the section must pay the court costs that could be assessed against a person convicted of the offence, and payment may already have been made a condition of probation. No source read for this track states an amount, and the fee figures the committed state pack does record — the § 61-11-26 civil-filing fee and the $100 State Police processing fee — belong to the conviction-expungement route and are NOT imported here. The registry records the fee waiver as \"none stated in § 17C-5-2b.\" No amount, no waiver and no fee promise appears anywhere in this route's participant copy.",
+      "mustConfirm": "What court costs subsection (h) produces in practice, whether any waiver exists, and whether the $100 State Police processing fee attaches to a § 17C-5-2b(g) order.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].rules.fees; .rules.feeWaiver; .packetSet.participantActionRequired[kind=pay_fee,apply_fee_waiver]; statePack:fee-notes.ts (§ 61-11-25 / § 61-11-26 / § 61-11-26a only)"
+    },
+    {
+      "id": "wv-dui-deferral-profile-silent-and-routing-hazard",
+      "statement": "The compiled WV profile never mentions § 17C-5-2b, the Motor Vehicle Alcohol Test and Lock Program or § 17C-5A-3a, and none of its seven pathways is this one. Worse for routing, the committed state pack states flatly that \"DUI convictions cannot be expunged\" and that DUI under § 17C-5-2 is excluded from pretrial diversion. Both statements are true of the routes they describe — § 61-11-26b bars expunging DUI convictions and § 61-11-22 excludes DUI from pretrial diversion — and both would turn away exactly the participant this track exists for, whose proceedings were deferred under § 17C-5-2b without any judgment of guilt being entered. Every legal proposition in this route comes from the pinned registry entry.",
+      "mustConfirm": "That the West Virginia routing table sends a completed-deferral participant to this track and not to the \"DUI cannot be expunged\" dead end the profile and state pack state for the conviction route.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "profile:src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json (no occurrence of '17C-5-2b'; pathways[] has 7 entries, none this track); statePack:safety-language.ts wvPlainLanguage.duiAndCdl; statePack:disqualifying-offenses.ts[1]; statePack:eligibility-rules.ts[9]; registry@3b6f4c1:tracks[wv_dui_deferral_expungement].scopeRestrictions[0]"
+    },
+    {
+      "id": "wv-dui-deferral-motion-and-application-not-petition",
+      "statement": "The instruments on this route are a motion (subsection (c): \"the defendant may move the court\") and an application (subsection (g): \"the person may apply to the court\"), and the registry names them exactly that. Every West Virginia Judiciary expungement form is a petition or motion under § 61-11-25 or § 61-11-26 — a different statute, with a different fee regime, a different service list, a once-per-lifetime limit, and an express bar on expunging DUI convictions. The words petition and petitioner are therefore prohibited in this route's rendered document text so the product can never read as a § 61-11-26 packet.",
+      "mustConfirm": "The label a West Virginia court expects on each submission, and whether 'Applicant' is acceptable on the subsection (g) application.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].legalName; .units[].label; .rules.participantSignature; .packetSet.manualCompletionItems[0]; statePack:official-forms.ts; statePack:safety-language.ts wvPlainLanguage.oneTimeUse"
+    },
+    {
+      "id": "wv-dui-deferral-service-is-a-participant-act",
+      "statement": "Service on the prosecuting attorney is what starts the 30-day objection window on both submissions, and it is the participant's own act. The registry lists the prosecuting attorney's street address and the certificate-of-service date and signature as manual completion items, to be completed by the participant from the current published address, because the certificate attests to what the participant actually did. No prosecutor name, no prosecutor address, no service date and no prosecutor position is ever prefilled, and no drafted document asserts that service was completed or that the prosecuting attorney did or did not object.",
+      "mustConfirm": "The manner of service a West Virginia court accepts for each submission, and the form of the certificate.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].rules.service; .rules.notice; .packetSet.manualCompletionItems[2]; .packetSet.participantActionRequired[kind=serve_party]"
+    },
+    {
+      "id": "wv-dui-deferral-hearing-date-left-blank",
+      "statement": "The notice line on the subsection (g) application carries a hearing date, and the registry lists it as a manual completion item because \"a hearing is held only if objections are filed, and the court sets the date.\" It is left blank. Nothing in this route asserts that a hearing will or will not be held, states a hearing date, or predicts an outcome.",
+      "mustConfirm": "Whether the application should carry a notice line at all where no objection has yet been filed, and what a West Virginia court expects on it.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.manualCompletionItems[4]; .rules.notice"
+    },
+    {
+      "id": "wv-dui-deferral-two-stage-separation",
+      "statement": "The two stages must never be merged into one filing. The registry models them as separate units because the required contents, the timing and the legal effect all differ: the subsection (c) motion needs the defendant's affidavit and the Division of Motor Vehicles certification and produces dismissal and discharge without adjudication of guilt; the subsection (g) application cannot be made until a further year has run from the expiration of probation, is barred outright by any prior felony conviction, and produces expungement of the criminal record. Unit 1 must have produced a dismissal before unit 2 becomes available at all. The words expunge, expunged and expungement are prohibited in the unit-1 document text for exactly this reason.",
+      "mustConfirm": "That the pipeline cannot emit the subsection (g) application at the same time as the subsection (c) motion, and that stageNeeded gates which components are produced.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].compositionMode ('sequential'); .units[0].description; .units[1].description; .generationRequirements[key=stageNeeded]"
+    },
+    {
+      "id": "wv-dui-deferral-stage-one-out-of-scope",
+      "statement": "Approved for implementation stage 2 only. Section 17C-5-2b requires notice to the court within 30 days of arrest of the intention to participate in a deferral; that window is charge-stage criminal defence, is expressly outside the adopted product scope, and closes quickly. Nothing in this route may be produced for a participant whose charge is live and who has not yet given that notice — that participant needs a lawyer immediately. The route serves only the person who already completed the test and lock program.",
+      "mustConfirm": "That screening routes a live, pre-notice DUI charge to counsel and never into this route.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].scopeRestrictions[]; .legalDesignLimitations[classification=scope_restriction]; .selfHelpBoundaries[0]; .exclusions[7]"
+    },
+    {
+      "id": "wv-dui-deferral-subsection-f-bars",
+      "statement": "Subsection (f) makes four categories ineligible for dismissal and discharge under the section: any prosecution in which any violation of any other provision of article 17C-5 has been charged; any person holding a commercial driver's licence or operating commercial motor vehicles; any person previously having had a licence revoked for an offence with the same elements under a municipal ordinance of this state or any other state or a statute of the United States or any other state; and any person as to whom a court entered an order finding a refusal of the secondary chemical test under § 17C-5-7a. Subsection (e) allows only one discharge and dismissal under the section. Each is screened as a hard exclusion and each is a self-help stop condition; none is asserted as satisfied in any drafted document.",
+      "mustConfirm": "That each subsection (f) bar and the one-discharge limit are screened before any document is produced.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].exclusions[0..5]; .selfHelpStopConditions[1..4]; .generationRequirements[key=commercialLicence,secondaryTestRefusal,priorLicenceRevocation,otherArticleCharges,priorDeferral]"
+    },
+    {
+      "id": "wv-dui-deferral-dmv-certification-participant-obtained",
+      "statement": "What LegalEase cannot complete: the Division of Motor Vehicles certification that the test and lock program was successfully completed. Section 17C-5-2b(c) requires the motion to dismiss to be supported by it, so the motion cannot go in without it, but it is an agency document the participant obtains by asking the Division of Motor Vehicles. No form number, no request letter and no template is recorded for it anywhere in the sources, so none is drafted and no agency_request_letter unit exists in this route. LegalEase does not obtain, receive or inspect it, and no drafted document characterises what it says.",
+      "mustConfirm": "That no pipeline stage produces or files the motion to dismiss without the participant holding the Division of Motor Vehicles certification.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].legalDesignLimitations[classification=required_before_filing]; .packetInstructions[3]; .participantFilingRequirements[0]; .packetSet.participantActionRequired[0]"
+    },
+    {
+      "id": "wv-dui-deferral-probation-violation-hearing",
+      "statement": "What LegalEase cannot complete: the court's finding on probation violations. If objections are filed within 30 days of service of the § 17C-5-2b(g) application, the court holds a hearing affording all parties an opportunity to be heard on whether there was any serious or repeated violation of the conditions of probation, and automated assistance ends there. Anyone alleging such a violation, and any objection that produces a hearing, is a self-help stop condition. Nothing in this route predicts an objection, a hearing, or how the court will find.",
+      "mustConfirm": "That an objection or an alleged probation violation ends automated assistance rather than producing further documents.",
+      "impact": "post_generation_handoff",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].postGenerationHandoffs[0]; .legalDesignLimitations[classification=post_generation_handoff]; .rules.notice; .selfHelpStopConditions[6]"
+    },
+    {
+      "id": "wv-dui-deferral-dmv-record-never-reached",
+      "statement": "Hard limit that must be disclosed: no Division of Motor Vehicles record may be expunged by virtue of an order entered pursuant to this section. Subsection (g)(1) itself excepts records maintained by the Division of Motor Vehicles, and § 61-11-25(a) says so independently. The criminal record can be cleared; the driving record cannot. A participant who is chiefly concerned about the driving record is a self-help stop condition, because this route never clears it.",
+      "mustConfirm": "That the driving-record limit is disclosed before any document is produced, and that a driving-record-motivated participant is routed out.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].legalDesignLimitations[classification=packet_instruction][0]; .packetInstructions[0]; .authority[11]; .exclusions[6]; .selfHelpStopConditions[8]"
+    },
+    {
+      "id": "wv-dui-deferral-probation-expiry-clock",
+      "statement": "The one-year window in § 17C-5-2b(g)(1) runs from the expiration of the term of probation, not from the dismissal. The two dates are usually different and the dismissal is the more visible one, so the wrong date is the obvious failure mode. The registry requires written confirmation of the probation-expiry date from the supervising probation office or the clerk, and requires the participant's own answer to be checked against it. This route computes nothing: it states the participant's two dates side by side and never asserts that the year has run.",
+      "mustConfirm": "That any waiting-period computation downstream measures from probation expiry, never from the dismissal date.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].legalDesignLimitations[classification=packet_instruction][1]; .packetInstructions[1]; .waitingPeriods[1]; .participantFilingRequirements[3]"
+    },
+    {
+      "id": "wv-dui-deferral-disclosure-protection-limits",
+      "statement": "A person as to whom dismissal and discharge have been effected is not guilty of perjury, false swearing or otherwise giving a false statement by reason of failing to disclose the arrest or trial, EXCEPT in response to an inquiry made in connection with a subsequent offence under § 17C-5-2. The exception has to travel with the protection wherever the protection is stated. Separately, the committed state pack's own never-say list forbids telling a participant that expungement destroys every record, that no one can ever see it again, or that they never have to disclose it anywhere; and the profile records that law-enforcement-type job applicants and legally required background checks may still reach expunged convictions.",
+      "mustConfirm": "That the subsequent-offence exception is carried in every participant statement of the disclosure protection.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetInstructions[2]; .legalDesignLimitations[classification=packet_instruction][2]; statePack:safety-language.ts wvPlainLanguage.neverSay / .disclosureExceptions; profile:postFilingRules"
+    },
+    {
+      "id": "wv-dui-deferral-source-sha-missing",
+      "statement": "Every official source recorded for this track has a null sha256, so staleness cannot be detected. The statutes and the Court Forms index were read at source on 2026-08-06 and the entry was reviewed as of 2026-08-01. The five official SCA-C PDFs in the committed state pack do carry sha256 values, but none of them is a form for this track.",
+      "mustConfirm": "Record source hashes for § 17C-5-2b, § 17C-5-2, § 61-11-25 and the Court Forms index before this route leaves internal review.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].officialSources[].sha256; .blockers[kind=source_gate]"
+    }
+  ],
+  "omissionProof": {
+    "statement": "units[] enumerates every legal unit the pinned registry entry, the compiled WV profile and the committed West Virginia state pack record for this track. The registry records exactly two ordered units — wv-dui-deferral-unit-1-motion-to-dismiss and wv-dui-deferral-unit-2-application-to-expunge, both outputStrategy custom_pleading, both outputStrategyStatus resolved, packetIdentity identified, available true — and exactly seven packetSet components: primary_filing, supporting_affidavit, secondary_filing, supporting_timeline, certificate_of_service, records_checklist and filing_instructions. Those seven components are the seven units here, in the registry's own order; the two registry units are units 1 and 3. Every other thing the registry records for this track is either a participant-obtained document (four, all in packetSet.participantFilingRequirements, each handled inside the records checklist and listed in filingSeparation.participantOnly), a manual completion item (five, all in packetSet.manualCompletionItems, each mapped to a field left blank on a drafted component), or a participant action (eighteen, all in packetSet.participantActionRequired, each mapped below). No document, form, letter, order or cover sheet appears anywhere in the registry entry, the compiled profile or the committed state pack for this track that is not enumerated in units[] or accounted for here.",
+    "unitCount": 7,
+    "componentCount": 7,
+    "registryPassagesEnumerated": [
+      "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].units[] (2 entries: wv-dui-deferral-unit-1-motion-to-dismiss, wv-dui-deferral-unit-2-application-to-expunge — units 1 and 3 here)",
+      "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.components[] (7 entries: wv_dui_deferral_expungement-primary-filing-1, wv_dui_deferral_expungement-supporting-affidavit-2, wv_dui_deferral_expungement-secondary-filing-3, wv_dui_deferral_expungement-supporting-timeline-4, wv_dui_deferral_expungement-certificate-of-service-5, wv_dui_deferral_expungement-records-checklist-6, wv_dui_deferral_expungement-filing-instructions-7 — all seven expressed as units 1-7)",
+      "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.participantFilingRequirements[] (4 entries: Division of Motor Vehicles certification of successful completion; order deferring proceedings and imposing probation; order of dismissal and discharge; written confirmation of the date the probation term expired — all four participant-obtained, all four handled in the records-checklist unit and listed in filingSeparation, none drafted)",
+      "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.manualCompletionItems[] (5 entries: applicant's signature on the motion and on the application; affidavit signature, date and jurat; prosecuting attorney's street address and the certificate-of-service date and signature; case number and caption styling; hearing date — each mapped to a field left blank on a drafted component)",
+      "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetSet.participantActionRequired[] (18 entries: 3 obtain_document, 4 confirm_answer, 5 complete_field, 1 sign, 1 notarize, 1 pay_fee, 1 apply_fee_waiver, 1 serve_party, 1 file — all mapped to a unit or to nonUnitParticipantActions below)",
+      "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].packetInstructions[] (4 entries: the driving-record hard limit; the one-year window measured from probation expiry; the disclosure protection and its subsequent-offence exception; the Division of Motor Vehicles certification LegalEase cannot complete — all four carried in participant copy, none producing a further document)",
+      "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].postGenerationHandoffs[] (1 entry: the court's finding on probation violations — a stop condition, not a document) and .participantQuestions[] (1 entry: the subsection (g)(1) felony bar — a screening question, not a document)",
+      "registry@3b6f4c1:tracks[wv_dui_deferral_expungement].buildBlockers[] (empty), .awaitingCounselClassification[] (empty), .openLegalQuestions[] (empty), .guidanceRationales[] (empty)"
+    ],
+    "profilePassageReferenced": {
+      "ref": "profile:sourceSections[1] 'Main West Virginia pathways' lines 11-24, read with profile:pathways[] (7 entries)",
+      "passage": "Pathway / Main authority / Best used for — Acquittal or dismissal, not in exchange for guilty plea (61-11-25); Successful pretrial diversion or deferred adjudication dismissal (61-11-25, plus 61-11-22 / 61-11-22a); Misdemeanor conviction expungement (61-11-26); Nonviolent felony conviction expungement (61-11-26); Accelerated treatment/job-readiness route (61-11-26a); First-offense controlled-substance possession conditional discharge (60A-4-407); Motor-vehicle/CDL limitation (61-11-26b) — Blocks certain traffic/CDL/DUI expungements; Full and unconditional pardon expungement (5-1-16a); Sex-trafficking [victim vacatur and expungement (61-14-9)]; [juvenile records (49-5-104)].",
+      "reading": "This is the profile's complete enumeration of West Virginia record-clearing pathways and § 17C-5-2b is not among them. The profile's only occurrences of '17C-5-2' say that DUI under 17C-5-2 is excluded from pretrial diversion under 61-11-22, and its Motor-vehicle/CDL row records 61-11-26b as blocking certain DUI expungements. Both statements are about other statutes. The profile therefore records NO legal unit for a § 17C-5-2b deferral to omit from units[]: its silence is an absence of any deferral pathway, not an omission from this route. The whole unit structure comes from the pinned registry entry. The profile is used in this route only for the West Virginia court-level fact at sourceSections[15] ('Court: circuit, magistrate, municipal'), the SCA-C form catalogue at packetGenerator.sourceFormStatements, and the copy guardrails."
+    },
+    "statePackPassageReferenced": {
+      "ref": "statePack:official-forms.ts, header comment and wvOfficialForms (5 entries)",
+      "passage": "Official West Virginia forms catalog ... All five listed forms (SCA-C900, SCA-C903, SCA-C906, SCA-C907, SCA-C912) are present locally as blank official PDFs. — with citation 'W. Va. Code § 61-11-26' on SCA-C900, SCA-C906, SCA-C907 and SCA-C912, and 'W. Va. Code § 61-11-25' on SCA-C903.",
+      "reading": "Every catalogued West Virginia expungement form belongs to § 61-11-25 or § 61-11-26. None has a § 17C-5-2b role. This corroborates the registry's own finding that no Judiciary form exists for either submission on this track, which is why every court document here is a custom pleading and why this route contains no official_form_dependency unit at all."
+    },
+    "nonUnitParticipantActions": [
+      "obtain_document — Division of Motor Vehicles certification of successful completion of the Motor Vehicle Alcohol Test and Lock Program, obtained by asking the Division of Motor Vehicles. No form number and no request letter is recorded, so none is drafted. Handled in the records-checklist unit.",
+      "obtain_document — certified copy of the order deferring proceedings and imposing probation, from the clerk of the court that entered it. Handled in the records-checklist unit.",
+      "obtain_document — certified copy of the order of dismissal and discharge, from the clerk (conditional: expungement stage). Handled in the records-checklist unit.",
+      "obtain_document — written confirmation of the date the probation term expired, from the supervising probation office or the clerk (conditional: expungement stage). Handled in the records-checklist unit.",
+      "confirm_answer — check the programCompletionDate answer against the Division of Motor Vehicles certification.",
+      "confirm_answer — check the deferralOrderDate answer against the order deferring proceedings.",
+      "confirm_answer — check the dismissalDate answer against the order of dismissal and discharge (conditional).",
+      "confirm_answer — check the probationExpiryDate answer against the written confirmation (conditional).",
+      "complete_field — applicant's signature on the motion and on the application, signature block of each unit's primary pleading. A manual completion item, not a separate legal unit.",
+      "complete_field — affidavit signature, date and jurat at the foot of the unit 1 supporting affidavit.",
+      "complete_field — prosecuting attorney's street address, and the certificate-of-service date and signature, on the certificate of service of each unit.",
+      "complete_field — case number and caption styling in the caption block of each unit's primary pleading, left blank where the participant is unsure how the clerk of that court styles the caption; no statewide form fixes it.",
+      "complete_field — hearing date on the unit 2 application notice line. A hearing is held only if objections are filed, and the court sets the date.",
+      "sign — the applicant signs the motion and the application, and swears the unit 1 affidavit.",
+      "notarize — required on the unit 1 supporting affidavit.",
+      "pay_fee — section 17C-5-2b charges no fee for either motion; under subsection (h) a person whose case is disposed of under the section must pay the court costs that could be assessed against a person convicted of the offence, and payment may have been made a condition of probation. No amount is stated in any source and none is asserted.",
+      "apply_fee_waiver — none stated in § 17C-5-2b. No waiver is described.",
+      "serve_party — serve a copy of each unit's motion and supporting papers on the prosecuting attorney and file a certificate of service for each. The drafted certificate is unit 5; the act of service is the participant's.",
+      "file — unit 1 with the clerk of the court that deferred the proceedings once the programme is satisfactorily completed; unit 2 with the same clerk no sooner than one year after the probation term expired."
+    ],
+    "officialFormDependencyAbsent": "No official_form_dependency unit exists in this route, and no dependency.json is written. This is a positive finding, not a gap: the West Virginia Judiciary Court Forms index was read at source on 2026-08-06 and publishes exactly five expungement forms, all of them § 61-11-25 or § 61-11-26 instruments, and the committed state pack catalogues the same five with the same citations. The registry answers the controlling review's build blocker in the negative on that basis and declares both units custom pleadings. Whether an unpublished local form is used in some courts was not tested and is carried as a release blocker.",
+    "agencyRequestLetterAbsent": "No agency_request_letter unit is included. The one agency contact on this route — the Division of Motor Vehicles, for certification that the test and lock program was successfully completed — is recorded as made by asking, with no letter, form number or template named. The probation office and the clerk are likewise recorded as asked, not written to. Drafting a letter would add a document the sources do not record.",
+    "coverSheetAbsent": "No participant-only cover sheet unit is included. The registry packetSet has exactly seven components and none is a cover sheet; the compiled profile and the committed state pack record none for this track either.",
+    "proposedOrderAbsent": "No proposed-order unit is included. See counselFlag wv-dui-deferral-no-proposed-order."
+  },
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/west-virginia/index.ts",
+      "src/lib/rcap/state-packs/west-virginia/all50-build-metadata.ts",
+      "src/lib/rcap/state-packs/west-virginia/filing-instructions.ts",
+      "src/lib/rcap/state-packs/west-virginia/official-forms.ts",
+      "src/lib/rcap/state-packs/west-virginia/fee-notes.ts",
+      "src/lib/rcap/state-packs/west-virginia/eligibility-rules.ts",
+      "src/lib/rcap/state-packs/west-virginia/disqualifying-offenses.ts",
+      "src/lib/rcap/state-packs/west-virginia/waiting-periods.ts",
+      "src/lib/rcap/state-packs/west-virginia/required-fields.ts",
+      "src/lib/rcap/state-packs/west-virginia/document-types.ts",
+      "src/lib/rcap/state-packs/west-virginia/pathways.ts",
+      "src/lib/rcap/state-packs/west-virginia/safety-language.ts",
+      "src/lib/rcap/state-packs/west-virginia/sample-data.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profileSha256": "26830a24672ee182c8e03922f1af1c11ae7d7a71daf759b8981e9c3f9d089aca",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[trackId=wv_dui_deferral_expungement]",
+    "profileSilenceNote": "The compiled WV profile contains no occurrence of '17C-5-2b', 'Test and Lock', '17C-5A-3a' or any DUI-deferral pathway. Its only occurrences of '17C-5-2' are the single repeated statement that DUI under 17C-5-2 is excluded from pretrial diversion under 61-11-22. The seven pathways it enumerates are the 61-11-25 no-conviction route, 61-11-26 conviction expungement, the 61-11-26a accelerated route, the 60A-4-407 conditional discharge, 5-1-16a pardon relief, 61-14-9 trafficking vacatur and juvenile relief. This route therefore rests on the pinned registry entry; the profile and the committed state pack are used only for the West Virginia court-level, form-catalogue, intake-field and terminology facts they do record.",
+    "reviewedAsOf": "2026-08-01",
+    "effectiveFrom": "2020-07-01",
+    "officialSourcesReadAt": "2026-08-06"
+  }
+}

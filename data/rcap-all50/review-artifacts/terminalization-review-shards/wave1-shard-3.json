@@ -1,0 +1,102 @@
+{
+  "reviewId": "wave1-shard-3",
+  "reviewer": "independent read-only reviewer, terminalization wave 1",
+  "reviewedBaseSha": "2eb5736c3eb6a109ff57b0c980e99c3b29764e06",
+  "authoredAnyTreatment": false,
+  "runtimeProbeRun": true,
+  "jurisdictions": ["IL", "IN", "KS", "KY", "LA", "MA"],
+  "runtimeProbeSummary": "Probed all 13 tracks via guidance-packet-registry, packet-route-resolver, job-contract and briefcase. Every track: classification terminal_treatment_candidate, invalidReason null, sellable=false, creditConsumable=false, rendererKind=none, buildRenderJobSpec produced no spec, saved Briefcase item coerced to paymentAllowed=false / status=guidance_saved / resultCode=guidance_only / packetStatus=not_started / amountCents null despite the probe passing paymentAllowed:true, packetType:custom_pleading, resultCode:packet_ready, status:packet_ready. Reopen returned the same terminal treatment for the same trackId on all 13. Spanish stopReason differed from English on all 13. routeKind was exact_supported_deferral on 12 and component_deferral on il-prb-cert; both resolver branches return sellable=false and creditConsumable=false, so the difference carries no payment, credit or rendering effect.",
+  "dispositions": [
+    {
+      "trackId": "il-exp-pardon",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and rests on the brief: everything turns on the pardon's own wording and the verified filing has not cleared output and technical proof. Destination is the unusual § 5.2(e) venue formula stated exactly (Chief Judge of the circuit of conviction, a designated judge of that circuit, or the presiding trial judge in counties under 3,000,000), matching brief venue. Names the hybrid record effect correctly (expunged at the arresting authority, sealed with the circuit clerk and ISP until further order) instead of calling it a full expungement, and carries the § 5.2(d)(5)(A) no-objection point. Cautions cover the § 5.2(d)(4) clerk-service rule, the verification/perjury warning, and the bar on proceeding on an ambiguous pardon. Spanish is a genuine translation with correct register ('indulto', 'Juez Presidente', 'foro poco habitual', 'jurará'), not a gloss."
+    },
+    {
+      "trackId": "il-exp-precompletion",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Correctly identifies the new § 5.2(b)(2)(A-5) Clean Slate mechanism effective 1 June 2026, the 61-day pre-dismissal filing window, and the fact that the filing does not ripen without successful completion and dismissal — all carried by the brief. Destination is exact and correctly routed inward to the participant's own problem-solving court or diversion program, consistent with the brief's partner-channel scope restriction, while still naming the § 5.2(d)(1) per-county circuit-clerk venue and the Cook County district rule. Escalation to the program or already-assigned public defender is the right and executable escalation for someone mid-case. Spanish is substantive and idiomatic ('tribunal especializado', 'no madura', 'la escalada más útil es hacia dentro')."
+    },
+    {
+      "trackId": "il-prb-cert",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Two-stage structure is named accurately and the stop reason is exact for each stage: stage one is a discretionary rehabilitation showing the participant must author (brief selfHelpStopConditions[0]), stage two has not cleared output and technical proof. Destination is a street address (Illinois Prisoner Review Board, 1001 North Walnut Street, Springfield 62702) plus the stage-two venue formula. Gathering list is complete and track-specific: both Board forms, the Guidelines paragraph B-5 fingerprint history, five years of employment records, DD-214, notary. Cautions carry the Acknowledgement-first rejection rule, the four-year bar after denial, the Class 3 felony perjury warning, the blank witness/attorney line and the proof-of-delivery requirement. Escalation is a named statewide destination with a phone number (OSAD Expungement Unit, 866-787-1776), not a generic referral. Spanish is a real translation ('Acuse de Recibo', 'razones imperiosas', 'notarizada')."
+    },
+    {
+      "trackId": "il-seal-edu",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "The stop reason is unusually honest and exactly supported: the § 5.2(c)(3)(E) scope question is named to the participant rather than hidden, and the waiver is expressly not offered as a way to shorten a two-year-category wait, tracking brief scopeRestrictions[2]. Correctly distinguishes the sealing clock under § 5.2(a)(1)(F) (last sentence terminating anywhere) from the expungement clock, states the credential must have been earned during the sentence or MSR, warns that a denial does not accelerate the ordinary two- or three-year period, and tells the participant unpaid fines and fees do not delay sealing under § 5.2(d)(6)(C). Carries the § 5.2(a)(3) petition-sealing exclusion list. Spanish is substantive and correctly rendered ('dispensa por credencial educativa', 'libertad supervisada obligatoria', 'cuestión abierta')."
+    },
+    {
+      "trackId": "il-seal-nonconv",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "States the § 5.2(c)(2)(A)-(B) and § 5.2(c)(3)(A) no-waiting-period mechanism accurately and leads with the brief's controlling scope restriction — expungement is the stronger default for a non-conviction record and sealing is the fallback — so the participant is not steered into the weaker remedy. Correctly explains that a sealed record is maintained and reachable subject to §§ 12 and 13 of the Act. Destination and per-county/Cook-district venue exact. The mixed-case caution (some counts expungeable, others only sealable) is a real and track-specific safety instruction from the brief. Spanish is genuine ('sellado' vs 'eliminación' kept distinct throughout, 'razón meditada', 'caso mixto')."
+    },
+    {
+      "trackId": "in_infraction_nondisclosure",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and states both grounds plainly, including the one that matters most to the participant: Indiana publishes no statewide I.C. 34-28-5-15 petition form and county MC case-type handling for an infraction with no cause number is unsettled. The product is genuinely useful rather than a restatement — the single clerk question ('did the court enter an order under I.C. 34-28-5-15 in this cause?') can end the matter with no filing at all, and all five statutory earliest-filing dates are given exactly as the brief carries them. Correctly warns that the automatic branch does not reach deferred prosecutions, that records are sealed or restricted rather than destroyed, and that the case file is public until the order is granted. Spanish is substantive ('vía automática', 'petición verificada', 'desenlace')."
+    },
+    {
+      "trackId": "ks-21-6614-diversion",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason states both supported grounds, including the Judicial Council non-commercial form licence, and then does the participant a service by pointing at the free official set. Names the controlling date rule exactly (the clock runs from fulfilment of the diversion terms, not from signing) and all three lanes including the fact that a second or subsequent DUI diversion has no lane. Enumerates the full filing set including the Notice of Hearing, the order cover sheet and both proposed orders. Cautions are precise and protective: do not sign the clerk's Certificate of Service and Mailing, do not write in a hearing date, do not file while KORA registration is required, and the twelve K.S.A. 21-6614(i)(2) disclosure carve-outs. Correctly tells the participant three of the four (h) findings are unpleaded and theirs to speak to. Spanish is a real translation ('desviación', 'Carátula Penal', 'de plano', 'cuadrícula')."
+    },
+    {
+      "trackId": "ks-22-2410-arrest",
+      "outcome": "correction_required",
+      "defect": "A required filing component is silently dropped from the participant's executable instructions. The brief (KS:ks-22-2410-arrest packetSetComponents, componentId ks-22-2410-arrest-cover-sheet-3) marks the Kansas Judicial Council Order of Expungement of Arrest Record Cover Sheet, KSJC 12/2016, requirement: \"required\". The treatment names it exactly once, in destination.en/destination.es, and only as something the Judicial Council publishes. It is absent from participantFiles, which enumerates the filing set as \"the Judicial Council's Petition for Expungement of Arrest Record with a Criminal Cover Sheet\"; absent from gather, which lists only \"The free Judicial Council petition for an arrest record only, plus the Criminal Cover Sheet revised 14 October 2025\"; absent from nextSteps step 5, which downloads only those two documents; and absent from nextSteps step 8, which files \"the petition and cover sheet\" (singular, the Criminal Cover Sheet). The Spanish mirrors the same omission. A participant who follows these steps arrives at the counter without a component the brief marks required — the same failure the brief's own packetInstructions[0] warns about (\"A packet that hands someone five documents without saying so fails at the counter\"). The sibling track ks-21-6614-diversion does enumerate its analogous Order of Expungement Cover Sheet in participantFiles and nextSteps, so the omission is specific to this track rather than a considered position. Fix by adding the Order of Expungement of Arrest Record Cover Sheet to participantFiles, gather and the download/file steps in both languages.",
+      "runtimeBehaviorInspected": true,
+      "note": "Everything else on this track is sound and this is a narrow, contained correction. Runtime is clean (sellable=false, paymentAllowed=false, credit=false, no render job, reopen returns the same treatment). The mechanism, the no-waiting-period rule, the four K.S.A. 22-2410(c) grounds, the § 22-2410(e) eight-purpose caveat on the best-interests ground, both off-ramps (K.S.A. 21-6614 after a conviction or completed diversion per State v. Yrigolla; K.S.A. 12-4516a for a city ordinance arrest) and the K.S.A. 22-2410(a)(2) mandatory category that belongs to the prosecutor rather than the participant are all exact and brief-supported. The fee-exemption guidance — do not pay the $176 docket fee before asking the clerk whether the statutory exemption covers you — is materially protective and correctly stated. Spanish is a genuine translation throughout ('causal', 'de plano', 'según su leal saber y entender'), so the defect is completeness only, not bilingual quality."
+    },
+    {
+      "trackId": "ky_criminal_record_segregation",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact: Kentucky publishes no form for either KRS 17.142 route, both must be drafted, and the drafts have not cleared output and technical proof. Crucially it leads with the stronger alternative the brief mandates — KRS 17.142(4) sends most acquittals and dismissals to KRS 431.076 or KRS 431.078 instead — so the participant is not parked on the weaker remedy, and it names withdrawn charges as the clearest residual use. Both destinations are exact (each record-holding agency the participant identifies, and the trial court where the case was tried or would have been tried). Correctly and repeatedly states that segregation is not expungement, that court records cannot be segregated, and that the segregated record must still show the disposition. Spanish is substantive and idiomatic ('separar', 'archivar aparte', 'recurso alternativo')."
+    },
+    {
+      "trackId": "ky_expungement_certification",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Destination is as exact as a destination gets: AOC Records Unit, 1001 Vandalay Drive, Frankfort, Kentucky 40601, plus the kcoj.kycourts.net/RecordRequest portal as the alternative channel, both carried by the brief. The timing guidance is the substantive product and is genuinely useful — request early because processing runs roughly four to five months while the certification must reach the circuit court clerk within 30 days of receipt, so the long wait is at the front and the short window at the back. Correctly states the $40 fee by check or money order payable to the Kentucky State Treasurer, that an adverse certification is advisory and the clerk must file the petition regardless, and the four petition types that need no certification at all (KRS 431.076, 218A.275/218A.276, 610.330, 403.745/456.070) — which can save the participant the fee and the wait entirely. Spanish is a real translation ('giro postal', 'desfavorable', 'Tesorero del Estado')."
+    },
+    {
+      "trackId": "ky_protective_order_record_expungement",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Names the correct form (AOC-275.18) and the correct destination (Office of the Circuit Court Clerk, filed in the protective-order case itself under the same case number). The two eligibility gates are put to the participant first and stated exactly as the brief carries them: no full domestic violence order or non-temporary interpersonal protective order ever issued, and no order of protection against them for the protection of any person in the preceding six months. Correctly states the six-month post-dismissal waiting period, the clerk's five specific actions on filing, that the movant may serve the notice by first class mail and the clerk serves only if they have not, and that this clears the civil protective-order record only and needs no expungement certification. Spanish is genuine and correctly registered ('causa justificada', 'parte demandada', 'anverso del formulario')."
+    },
+    {
+      "trackId": "la-987-set-aside-and-dismiss",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and well-reasoned: the court sets the return date, the judge signs the rule and every part of the order of dismissal, the district attorney answers, and the one assertion at the centre of the motion (that the deferred period ran and probation was successfully completed) is contestable at the contradictory hearing and will not be put in the participant's mouth. Destination exact (clerk of the court that imposed the deferred sentence, in the parish of conviction) with the Article 987 statutory text URL. The single most valuable instruction is the first next step — get the minute entry showing a deferred sentence under Article 893 or 894, because without one there is nothing to set aside and the participant goes straight to Article 977/978. Repeatedly and correctly states this is not an expungement but the predicate filing, and directs the participant to obtain a certified copy of the signed order to open Article 977 or 978. Spanish is excellent legal Spanish ('regla de comparecencia', 'audiencia contradictoria', 'anotación de minutas', 'párrafos resolutivos')."
+    },
+    {
+      "trackId": "ma-seal-decrim",
+      "outcome": "technical_approved_as_terminal_treatment",
+      "treatment": "exact_supported_deferral",
+      "runtimeBehaviorInspected": true,
+      "note": "Stop reason is exact and correctly located: the whole of box 4 is one legal question — whether the conduct is genuinely no longer a crime and whether its elements nonetheless continue to be a crime under a different designation — which is a statutory comparison across time plus an element-by-element analysis, not something to auto-complete on a petition signed under the penalties of perjury. Destination exact (Office of the Commissioner of Probation, an agency filing rather than a court case) with the Trial Court forms list. Leads with the brief's controlling scope restriction, routing the participant to check § 100K¼ marijuana expungement and § 100K expungement first because both produce expungement rather than sealing on the same facts and a participant routed to sealing who qualified for § 100K¼ has been under-served. Holds the sealing/expungement distinction rigorously in both languages, and correctly states box 4 carries no accompanying affidavit and no waiting period. Spanish is a genuine translation with correct legal register ('bajo las penas del perjurio', 'obligatorio y de trámite', 'supuesto de hecho', 'denominación distinta')."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "fixtureId": "nc-agency-followup-negative",
+  "fixtureKind": "invented_content_negative",
+  "description": "NEGATIVE FIXTURE — THE CONTENT BELOW IS DELIBERATELY INVENTED AND MUST BE REJECTED. The letterData values carry content the North Carolina sources for this track forbid, and caseData supplies protected fields this request never carries. The letter must not certify that the expunction occurred, yet the fixture recites that the Court has determined it; it must ask and not demand and must not assert that the agency has broken any duty, yet the fixture demands and alleges a violation; the source records no fee for the request and quotes no figure for a certificate of verification, yet the fixture encloses $25.00; no court, prosecutor or opposing party receives notice, yet the fixture states the District Attorney's position; no service rule applies, yet the fixture recites completed service on a registered agent; the sender signs and dates the request personally, yet the fixture applies a signature; the automatic-expunction subsection is § 15A-146(a4), yet the fixture cites § 15A-146(a9); and the county and file number, which canonical output leaves as a sender-completion bracket, are asserted alongside a DOB, an SSN and court-owned docket, OTN and judge fields. runPleadingQa PASSES content of this kind — it checks relief vocabulary, template grade/lifecycle and the footer, and cannot see invented content — so the verifier's invention and protected-field detectors are what must reject it. The Grade E templateGrade override is retained, and the prohibited term 'demand' rides on the same QA gate.",
+  "expectedSignals": [
+    "invention:court_finding",
+    "invention:fee_amount",
+    "invention:prosecutor_position",
+    "invention:service_completed",
+    "invention:signature_applied",
+    "invention:unsourced_citation",
+    "protected_field:populated",
+    "qa"
+  ],
+  "expectedQaFailureSubstring": "Grade E",
+  "configOverrides": {
+    "templateGrade": "html_replica_or_unverified"
+  },
+  "partyData": {
+    "petitionerName": "JOHN DOE",
+    "petitionerAddress": "12 Sample Road, Raleigh, NC 27601"
+  },
+  "caseData": {
+    "docketNumber": "21CR004512",
+    "otn": "NC0000000",
+    "judgeName": "Hon. Sample Judge",
+    "judgeAddress": "316 Sample Courthouse Street, Raleigh, NC 27601"
+  },
+  "chargeData": {},
+  "eligibilityData": {
+    "eligibilityBasisLabel": "expungement follow-up (wrong vocabulary for North Carolina)"
+  },
+  "letterData": {
+    "senderName": "JOHN DOE",
+    "recordHolder": "Sample State Licensing Agency (synthetic record holder)",
+    "chargesStillShowing": "misdemeanor larceny (synthetic). INVENTED — protected fields this request never carries: my DOB: 03/09/1990; my social security number: 123-45-6789",
+    "whereSeen": "on my own record check. INVENTED — certifying the expunction, which this letter must never do: the Court has determined that the charge was expunged by operation of law. INVENTED — the District Attorney's position, where no prosecutor receives notice of this request: the District Attorney has no objection to your agency removing the charge",
+    "countyAndFileNumber": "INVENTED — asserted where canonical output leaves a sender-completion bracket: Wake County, file number 21CR004512",
+    "finalDispositionDate": "June 1, 2024. INVENTED — a fee the source quotes no figure for: I enclose the $25.00 certificate-of-verification fee. INVENTED — service of process on a route where no service rule applies: Service was completed on your agency's registered agent on 01/05/2027. INVENTED — an asserted breach of duty and a demand, where the letter asks and does not demand: your agency has violated its statutory duty and I demand removal within ten days. INVENTED — fabricated authority; the automatic-expunction subsection is § 15A-146(a4): this request is further authorized by N.C. Gen. Stat. § 15A-146(a9). INVENTED — a signature applied for the sender, who must sign and date personally: /s/ John Doe, sender"
+  },
+  "productName": "LegalEase RCAP",
+  "shadowMode": true
+}

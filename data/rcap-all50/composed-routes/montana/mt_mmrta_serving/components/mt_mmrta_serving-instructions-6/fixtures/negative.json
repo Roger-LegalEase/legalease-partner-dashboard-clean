@@ -1,0 +1,80 @@
+{
+  "fixtureId": "mt_mmrta_serving-instructions-negative",
+  "trackId": "mt_mmrta_serving",
+  "componentId": "mt_mmrta_serving-instructions-6",
+  "description": "Must fail QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE CITY, MT 00000",
+    "otherNamesUsed": "J. Q. SAMPLE",
+    "phoneAndEmail": "(000) 000-0000; sample@example.invalid"
+  },
+  "caseData": {
+    "sentencingCourtLevel": "district court",
+    "courtName": "MONTANA EXAMPLE JUDICIAL DISTRICT COURT, EXAMPLE COUNTY",
+    "countyName": "EXAMPLE",
+    "caseNumber": "DC-00-0000",
+    "docketNumber": "DC-00-0000",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE DECRIMINALIZED MARIJUANA CONVICTION EXPUNGEMENT JUDGE",
+    "countyAttorneyName": "EXAMPLE COUNTY ATTORNEY",
+    "countyAttorneyPosition": "will not oppose",
+    "countyAttorneyCounty": "EXAMPLE",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "offenseSelection": "criminal distribution of dangerous drugs (marijuana)",
+    "offenseOther": "",
+    "chargeDescription": "Distribution — now punishable by a lesser sentence under Title 16, chapter 12",
+    "offenseLevel": "felony",
+    "convictionDate": "01/01/2014",
+    "disposition": "Resentenced and expunged",
+    "dispositionDate": "02/01/2026",
+    "arrestDate": "01/01/2014",
+    "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "currentlyServing": "yes",
+      "custodyStatus": "in custody",
+      "outcomeElection": "resentencing — recommended, because it produces the better result here",
+      "eligibilityNarrative": "",
+      "hearingRequested": "no — under § 16-12-113(7) no hearing will be held on this petition",
+      "advocateEngaged": "no"
+    },
+    "sequencingState": {
+      "convictionCount": 3,
+      "formSetsRequired": 1,
+      "consolidatedPetitionAttempted": true,
+      "localRulesLookupComplete": false,
+      "filed": true,
+      "servedOnCountyAttorney": true,
+      "courtOutcome": "granted",
+      "dojStageApplicable": true
+    },
+    "feeState": {
+      "filingFeeAmountKnown": true,
+      "filingFeeAmount": "$70.00",
+      "feeWaiverRequested": false,
+      "feeWaiverFormIncluded": true,
+      "feeWaiverFormSource": "Statement of Inability to Pay Court Costs and Fees, reproduced in this packet"
+    },
+    "eligibilityBasisLabel": "Eligible — confirmed under § 16-12-113(1)",
+    "additionalFacts": [
+      "New sentence computed as time served plus 90 days, with credit applied.",
+      "Service on the county attorney was completed on 01/05/2026 and the 21-day window has expired without opposition."
+    ],
+    "handoffTriggered": false
+  },
+  "protectedFields": {
+    "dateOfBirth": "01/01/1980",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "MT0000000",
+    "fbiNumber": "000000AA0"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA on every one of the following, each of which is prohibited invention or a prohibited assertion for this track: (1) it populates court name, county, case/docket number, OTN, judge, county attorney name and filing date that no source supplies, and names a decriminalized marijuana conviction expungement judge when whether any such judge has been appointed under § 16-12-115 is unresolved; (2) it asserts the county attorney's position and completed service, which are outside-party acts; (3) it asserts a court outcome — “Resentenced and expunged”, courtOutcome “granted” — and combines two mutually exclusive outcomes; (4) it recommends the outcome election, which the registry reserves to the participant alone; (5) it computes a resentencing result, which § 16-12-113(3)-(4) constrain and which the registry states is not present in the packet at all; (6) it asserts that no hearing will be held under § 16-12-113(7), when whether that default reaches a subsection (1) petition is unresolved; (7) it consolidates three convictions into one form set, when a separate complete set is required for each conviction; (8) it states a filing fee amount when no source states one, and reproduces the Montana Legal Services Association fee-waiver form, which carries a non-commercial-use restriction and may only be linked to; and (9) it fills protected fields — date of birth, SSN, state ID and FBI number — that must stay blank, while suppressing the custody handoff that “in custody” must trigger."
+}

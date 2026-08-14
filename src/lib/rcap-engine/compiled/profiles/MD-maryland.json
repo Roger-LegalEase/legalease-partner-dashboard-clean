@@ -171,7 +171,8 @@
       "questionIds": [
         "sentence_completion_date",
         "financial_obligations",
-        "pending_cases"
+        "pending_cases",
+        "pardon_signed_date"
       ],
       "screenType": "conditional_question_sequence"
     },
@@ -562,6 +563,15 @@
       "source": "derived_from_state_rule_fields"
     },
     {
+      "id": "pardon_signed_date",
+      "stage": "timing_and_completion",
+      "prompt": "When did the Governor sign your full and unconditional pardon?",
+      "type": "date_or_unknown",
+      "options": null,
+      "required": false,
+      "source": "derived_from_state_rule_fields"
+    },
+    {
       "id": "county",
       "stage": "case_details",
       "prompt": "Which county (or local area) handled the case?",
@@ -691,7 +701,7 @@
       "value": "pardon",
       "label": "Pardoned conviction",
       "candidatePathways": [
-        "cannabis-specific-maryland-routing"
+        "pardoned-conviction-expungement-under-crim-proc-10-105-a-8"
       ]
     }
   ],
@@ -1509,6 +1519,56 @@
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
       }
+    },
+    {
+      "id": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+      "label": "Pardoned-conviction expungement under Crim. Proc. § 10-105(a)(8)",
+      "summary": "Maryland allows expungement of a conviction after the Governor grants a full and unconditional pardon. The route applies only when the person was convicted of only one criminal act and that act is not a crime of violence as defined in Criminal Law § 14-101(a). The petition is filed under Crim. Proc. § 10-105(a)(8), and § 10-105(c)(4) bars filing later than 10 years after the Governor signed the pardon. The registry-designated official form is CC-DC-CR-072B (petition for expungement, guilty disposition).",
+      "sourceRef": "overview:9-28; case_outcomes:516-562",
+      "sourceEvidenceRefs": [
+        "overview:9-28",
+        "case_outcomes:516-562"
+      ],
+      "ruleClauses": [
+        "Full and unconditional governor pardon 10-105 route Only if one criminal act and not crime of violence; timing constraints apply",
+        "The person was convicted of only one criminal act.",
+        "The convicted act is not a crime of violence as defined in Criminal Law § 14-101(a).",
+        "The Governor granted a full and unconditional pardon (Crim. Proc. § 10-105(a)(8)).",
+        "The petition may not be filed later than 10 years after the Governor signed the pardon (Crim. Proc. § 10-105(c)(4))."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "pardon_status",
+        "pardon_signed_date"
+      ],
+      "caseOutcomes": [
+        "pardon"
+      ],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [],
+      "exclusionRules": [
+        "The person was convicted of more than one criminal act — the § 10-105(a)(8) pardoned-conviction route applies only to a single convicted criminal act.",
+        "The convicted act is a crime of violence as defined in Criminal Law § 14-101(a).",
+        "The 10-year filing deadline after the Governor signed the pardon is close or has passed — stop and refer out rather than filing late (registry self-help stop condition)."
+      ],
+      "frontendBranch": {
+        "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
+        "missingFactsResult": "needs_more_info",
+        "unmetTimingResult": "not_yet",
+        "exclusionOrAmbiguityResult": "likely_not_eligible",
+        "matchedResult": "packet_ready_with_caution",
+        "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Md. Code, Crim. Proc. § 10-105(a)(8), (c)(4) — counsel approved 2026-08-11",
+        "lawrence_review": "first_pass_ratified"
+      }
     }
   ],
   "orderedDecisionRules": [
@@ -2147,10 +2207,7 @@
       },
       "sourceRef": "overview:9-28",
       "candidatePathwayIds": [
-        "cannabis-specific-expungement",
-        "automatic-expungement-under-crim-proc-10-105-1",
-        "second-chance-act-shielding",
-        "juvenile-expungement"
+        "pardoned-conviction-expungement-under-crim-proc-10-105-a-8"
       ]
     },
     {
@@ -3531,8 +3588,8 @@
         "sourceConditionText": "and probation-violation fix are phasing in from October 1, 2025. The agent must map every"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "exclusions:470-515",
       "candidatePathwayIds": [
@@ -5141,6 +5198,42 @@
           "corpus-unit:53",
           "corpus-unit:68",
           "corpus-unit:95"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+        "pathwayLabel": "Pardoned-conviction expungement under Crim. Proc. § 10-105(a)(8)",
+        "mode": "official_form_overlay_or_source_form_set",
+        "formCandidates": [
+          {
+            "fileName": "ccdccr072B.pdf",
+            "relativePath": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
+            "extension": ".pdf",
+            "kind": "official_form_or_packet",
+            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
+            "sizeBytes": 764936
+          }
+        ],
+        "formMappingStatus": "source_candidate_identified",
+        "sourceRuleRefs": [
+          "overview:9-28",
+          "case_outcomes:516-562"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

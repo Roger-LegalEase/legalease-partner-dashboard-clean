@@ -1,0 +1,61 @@
+{
+  "fixtureId": "ct-under18-misdemeanor-guidance-negative",
+  "trackId": "ct-under18-misdemeanor",
+  "componentId": "ct-under18-misdemeanor-process-guidance-1",
+  "routePath": "data/rcap-all50/composed-routes/connecticut/ct-under18-misdemeanor/route.json",
+  "description": "Must fail pleading QA.",
+  "synthetic": true,
+  "partyData": {
+    "petitionerName": "JAMIE Q. SAMPLE",
+    "petitionerAddress": "000 EXAMPLE STREET, EXAMPLE TOWN, CT 00000",
+    "otherNamesUsed": ""
+  },
+  "caseData": {
+    "courtName": "SUPERIOR COURT, JUDICIAL DISTRICT OF HARTFORD",
+    "judicialDistrictOrGaLocation": "HARTFORD",
+    "countyName": "HARTFORD COUNTY",
+    "docketNumber": "H14M-CR98-0123456",
+    "otn": "0000000000",
+    "judgeName": "HON. EXAMPLE JUDGE",
+    "prosecutorName": "EXAMPLE STATE'S ATTORNEY",
+    "prosecutorPosition": "does not object",
+    "filingDate": "01/01/2026"
+  },
+  "chargeData": {
+    "chargeDescription": "Larceny in the sixth degree",
+    "offenseLevel": "class C misdemeanor",
+    "statuteSections": "§ 53a-125b",
+    "disposition": "Convicted",
+    "dispositionDate": "06/12/1998",
+    "offenseDate": "05/01/1998",
+    "arrestingAgency": "EXAMPLE POLICE DEPARTMENT"
+  },
+  "eligibilityData": {
+    "screeningAnswers": {
+      "ageAtOffense": "",
+      "sameInformationCharges": ""
+    },
+    "branchSelected": "petition",
+    "branchSelectedBy": "legalease",
+    "offenseClassifiedByLegalEase": true,
+    "offenseDateWindowComputedByLegalEase": true,
+    "eligibilityBasisLabel": "Eligible — juvenile record, expungement confirmed",
+    "additionalFacts": [
+      "This is a juvenile record and qualifies for juvenile expungement.",
+      "Your offense is a class C misdemeanor and is not a title 14 violation, so the automatic branch applies.",
+      "Attached is your completed JD-CR-202 Petition for Clean Slate Erasure for filing under section 54-142a(f)(2).",
+      "No other charge on the same information would be ineligible for erasure.",
+      "The State's Attorney was served and does not object, and the court granted the petition on 02/01/2026."
+    ]
+  },
+  "protectedFields": {
+    "dateOfBirth": "03/05/1980",
+    "ssnLastFour": "0000",
+    "stateIdNumber": "CT0000000",
+    "sbiNumber": "00000000"
+  },
+  "attachments": [],
+  "productName": "LegalEase RCAP",
+  "shadowMode": true,
+  "expectFailure": "Must fail pleading QA for these reasons: (1) it calls this a juvenile record and offers juvenile expungement — the scope restriction says in terms that this is an adult record and not juvenile delinquency relief, and it uses the prohibited term 'expungement'; (2) it attaches a completed JD-CR-202 as the (f)(2) petition, when JD-CR-202 on its face is a Clean Slate form and not an (f)(2) form, and no (f)(2) vehicle is approved; (3) it classifies the offense and computes the offense-date branch on the participant's behalf, when the statute sections and the offense date are participant answers copied from their own record; (4) it asserts that no other charge on the same information would be ineligible — a § 54-142a(f)(3) conclusion the participant alone can supply; (5) it fills court name, judicial district, county, docket number, OTN, judge, prosecutor and prosecutor position that no source supplies; (6) it asserts an outside-party act and service completion where the source states no service requirement; (7) it asserts a hearing outcome (the court granted the petition); and (8) it populates protected fields that must stay blank."
+}
