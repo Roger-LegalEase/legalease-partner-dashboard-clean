@@ -257,7 +257,10 @@ test("partner change-response completion returns action ownership to LegalEase",
         section_id: organizationSectionId,
         status: "open",
         partner_safe_instructions: "Confirm the organization details.",
-        requested_at: "2026-07-28T00:00:00.000Z"
+        requested_at: "2026-07-28T00:00:00.000Z",
+        partner_response: null,
+        responded_at: null,
+        resolved_at: null
       }
     ],
     workspace: {

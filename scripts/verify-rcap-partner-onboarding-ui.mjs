@@ -208,7 +208,13 @@ const reviewBase = {
     accessibleName: "Email LegalEase partner support at partners@legalease.com",
     configured: false
   },
-  supportHref: "mailto:partners@legalease.com"
+  supportHref: "mailto:partners@legalease.com",
+  statusPresentation: {
+    setupInformation: homePresentation.setupInformation,
+    legalEaseReview: homePresentation.legalEaseReview,
+    publication: homePresentation.publication,
+    programActivation: homePresentation.programActivation
+  }
 };
 const submittedReviewHtml = render(OnboardingReviewClient, {
   ...reviewBase,
@@ -219,7 +225,9 @@ const submittedReviewHtml = render(OnboardingReviewClient, {
   }
 });
 assert.match(submittedReviewHtml, /Submitted for LegalEase review/);
-assert.match(submittedReviewHtml, /Return to program setup/);
+assert.match(submittedReviewHtml, /Return to implementation center/);
+assert.match(submittedReviewHtml, /Decision summary/);
+assert.match(submittedReviewHtml, /View full details/);
 assert.doesNotMatch(submittedReviewHtml, />Submit for LegalEase review</);
 assert.doesNotMatch(
   submittedReviewHtml,
@@ -242,8 +250,8 @@ const staffReviewHtml = render(OnboardingReviewClient, {
   isPartnerStaff: true,
   initialSubmission: null
 });
-assert.match(staffReviewHtml, /View only/);
-assert.match(staffReviewHtml, /A partner administrator must submit this package/);
+assert.match(staffReviewHtml, /read-only summary/);
+assert.match(staffReviewHtml, /A partner administrator manages changes and submission/);
 assert.doesNotMatch(staffReviewHtml, />Submit for LegalEase review</);
 
 const editorBase = {
@@ -265,16 +273,26 @@ const editorBase = {
     "/partner/onboarding/geography_audience_language_accessibility",
   // Also required and also never supplied — the editor reads it while deciding which
   // fields still need partner confirmation.
-  pendingPrefillFieldKeys: []
+  pendingPrefillFieldKeys: [],
+  changeRequests: [],
+  initialStepId: "goal-and-success",
+  missingRequiredKeys: [],
+  completionHref: "/partner/onboarding#program-configuration",
+  sectionSummary: {
+    completedSections: 0,
+    totalSections: 8,
+    openPartnerChanges: 0,
+    waitingOnLegalEase: 0
+  }
 };
 const staffEditorHtml = render(OnboardingSectionEditor, {
   ...editorBase,
   canEdit: false,
   isPartnerStaff: true
 });
-assert.match(staffEditorHtml, /View only/);
-assert.match(staffEditorHtml, />Next section</);
-assert.doesNotMatch(staffEditorHtml, /Save and continue/);
+assert.match(staffEditorHtml, /Program goal and definition of success/);
+assert.match(staffEditorHtml, /Editing is currently locked/);
+assert.doesNotMatch(staffEditorHtml, />Save and Continue<\/button>/);
 
 const lockedAdminEditorHtml = render(OnboardingSectionEditor, {
   ...editorBase,
@@ -283,7 +301,7 @@ const lockedAdminEditorHtml = render(OnboardingSectionEditor, {
 });
 assert.match(lockedAdminEditorHtml, /Editing locked/);
 assert.doesNotMatch(lockedAdminEditorHtml, /View only/);
-assert.doesNotMatch(lockedAdminEditorHtml, /Save and continue/);
+assert.doesNotMatch(lockedAdminEditorHtml, />Save and Continue<\/button>/);
 
 const approvedAdminEditorHtml = render(OnboardingSectionEditor, {
   ...editorBase,

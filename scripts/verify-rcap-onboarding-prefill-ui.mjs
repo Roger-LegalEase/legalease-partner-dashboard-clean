@@ -12,6 +12,9 @@ const home = read("src/app/partner/onboarding/Phase1OnboardingHome.tsx");
 const section = read(
   "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx"
 );
+const staffSection = read(
+  "src/app/partner/onboarding/[sectionKey]/OnboardingStaffSectionSummary.tsx"
+);
 const review = read(
   "src/app/partner/onboarding/review/OnboardingReviewClient.tsx"
 );
@@ -43,11 +46,11 @@ const presentation = read(
   "src/lib/partners/onboarding/implementation-presentation.ts"
 );
 assert.match(presentation, /Pre-filled, review needed/);
-assert.match(section, /Pre-filled by LegalEase — please review/);
-assert.match(section, /Confirm and continue/);
-assert.match(section, /This is view only\. A partner administrator must confirm it/);
+assert.match(section, /Pre-filled by LegalEase\. Please review\./);
+assert.match(section, /Save and Continue/);
+assert.match(staffSection, /read the submitted or approved implementation record/);
 assert.match(review, /Pre-filled information needs review/);
-assert.match(review, /pendingPrefillSections\.length === 0/);
+assert.match(review, /pendingPrefillSections\.length > 0/);
 
 for (const forbidden of [
   "sourceReferenceId",
