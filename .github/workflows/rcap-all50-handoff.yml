@@ -76,6 +76,12 @@ jobs:
       - name: Verify all50 handoff
         if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         run: npm run rcap:verify-all50-handoff
+      # Unconditional on purpose. A stale or over-broad .vercelignore is not
+      # "RCAP-affected" in the scope detector's sense, and this is precisely the
+      # check that must not be skipped on the run where someone prunes a path
+      # the application reads.
+      - name: Verify the Vercel deployment source stays closed
+        run: node scripts/verify-rcap-deployment-closure.mjs
 
       # Deliberately invoked directly rather than wired into `npm test`.
       # package.json is one of the seven worker image inputs, so adding a script

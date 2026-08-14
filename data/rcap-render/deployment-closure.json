@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "rcap-deployment-closure/v1",
+  "applicationSha": "264d2a240e5c857f55ee645f2683830e94f67c19",
+  "exclusions": [
+    {
+      "path": "artifacts/",
+      "files": 8,
+      "bytes": 5392782
+    },
+    {
+      "path": "docs/expungement-ai/",
+      "files": 38,
+      "bytes": 2187111
+    },
+    {
+      "path": "docs/product-flows/",
+      "files": 6,
+      "bytes": 252237
+    },
+    {
+      "path": "docs/rcap-crosswalk-enrichment/",
+      "files": 2,
+      "bytes": 14156
+    },
+    {
+      "path": "docs/rcap-promotion/",
+      "files": 2,
+      "bytes": 16436
+    },
+    {
+      "path": "docs/rcap/",
+      "files": 68,
+      "bytes": 1035932
+    },
+    {
+      "path": "docs/state-packs/",
+      "files": 3,
+      "bytes": 5684
+    },
+    {
+      "path": "tmp/official-pdf-implementation-gate/",
+      "files": 1,
+      "bytes": 93377
+    },
+    {
+      "path": "tmp/official-pdf-shadow-batch/",
+      "files": 292,
+      "bytes": 116996600
+    },
+    {
+      "path": "tmp/record-clearing-shadow/",
+      "files": 31,
+      "bytes": 68336
+    }
+  ],
+  "totalExcludedFiles": 451,
+  "totalExcludedBytes": 126062651,
+  "prunedFiles": 6091,
+  "prunedBytes": 512415824,
+  "requiredRuntimePaths": [
+    {
+      "path": "src",
+      "readBy": "the application itself"
+    },
+    {
+      "path": "public",
+      "readBy": "Next.js static assets"
+    },
+    {
+      "path": "package.json",
+      "readBy": "build manifest"
+    },
+    {
+      "path": "package-lock.json",
+      "readBy": "build manifest"
+    },
+    {
+      "path": "tsconfig.json",
+      "readBy": "build configuration"
+    },
+    {
+      "path": "next.config.ts",
+      "readBy": "build configuration"
+    },
+    {
+      "path": "data/rcap-all50",
+      "readBy": "guidance-packet-registry.ts, composed routes, terminalization treatments"
+    },
+    {
+      "path": "data/rcap-ledger",
+      "readBy": "guidance-packet-registry.ts crosswalk"
+    },
+    {
+      "path": "design-handoff/expungement-ai-frontend",
+      "readBy": "ExpungementLandingHandoff.tsx"
+    },
+    {
+      "path": "design-handoff/legalease-suite-page",
+      "readBy": "HandoffHtml.tsx via path.join(process.cwd(), …)"
+    },
+    {
+      "path": "tmp/review-inbox",
+      "readBy": "all50-internal-preview.ts and the promotion page"
+    },
+    {
+      "path": "docs/record-clearing/field-map-drafts",
+      "readBy": "official-pdf-shadow-batch.ts readdirSync"
+    },
+    {
+      "path": "reference",
+      "readBy": "packet-pdf.ts source provenance"
+    }
+  ],
+  "scannedCodeFiles": 1004,
+  "secretPatternsChecked": 8,
+  "passed": true
+}
