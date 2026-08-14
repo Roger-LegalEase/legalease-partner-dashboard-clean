@@ -77,6 +77,37 @@ response or an authoritative field-level target.
   migration registration, and shared tenant-authorization checks are prohibited
   Task 2 paths.
 
+## Credential-free webpack route export gate
+
+- Exact deferred shared files:
+  `src/app/api/expungement-ai/screening/resume/confirm/route.ts`,
+  `src/lib/expungement-ai/screening-resume-security.ts`, and
+  `scripts/verify-expungement-screening-resume-links.mjs`
+- Exact symbols: `resumeConfirmFailureFloorMs` and
+  `waitForResumeConfirmFailureFloor`
+- Exact defect: the resume-confirm route exports the failure-floor constant and
+  helper alongside the supported `POST`, `runtime`, and `dynamic` exports.
+  Next.js route modules reject both extra exports. A credential-free webpack
+  build therefore compiles successfully and then fails route validation with
+  `waitForResumeConfirmFailureFloor is not a valid Route export field`.
+- User impact: the shared consumer resume route cannot complete the webpack
+  production-build gate even though Task 2 portal compilation, typecheck, and
+  browser acceptance pass. The file is unchanged from the accepted Task 1
+  baseline and is outside the portal-owned Task 2 surface.
+- Proposed minimal patch: move the constant and exported timing helper into
+  `screening-resume-security.ts`, import the helper into the route, and update
+  the focused resume-link verifier to assert the helper in its library module.
+  Leave only supported route configuration and HTTP method exports in
+  `route.ts`. Preserve the elapsed-time calculation and 100 millisecond floor.
+- Required acceptance test: the resume-link verifier passes; equalized generic
+  failure timing remains covered; `npx next typegen`, `npm run typecheck`,
+  credential-free `npm run build`, and credential-free
+  `npm run build -- --webpack` all exit with status 0.
+- Why this waits for Session A: the defect and its verifier are in the shared
+  Expungement.ai consumer resume flow, not the partner portal. Changing that
+  security-sensitive route during Task 2 would cross the Session A ownership
+  boundary.
+
 Until these changes are authorized, the portal deliberately says that the
 request applies to this part of the section, does not infer a field from prose,
 and explains that successful corrected-section submission records the current
