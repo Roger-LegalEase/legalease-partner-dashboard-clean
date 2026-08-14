@@ -71,7 +71,10 @@ const REQUIRED_CASES = [
   "payment_is_server_authoritative_in_the_database",
   "paid_render_is_queued",
   "worker_renders_and_stores_the_artifact",
-  "delivery_serves_the_owner_and_refuses_everyone_else"
+  "person_and_matter_are_bound_on_the_render_job",
+  "artifact_is_stored_privately_and_re_readable",
+  "delivery_serves_the_owner_and_refuses_everyone_else",
+  "event_replay_creates_no_second_entitlement_or_render_job"
 ];
 
 const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS, "x-vercel-set-bypass-cookie": "false" } : {};
@@ -220,8 +223,21 @@ let route = null;
   }
   const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
   const tried = [];
+  // Pennsylvania first, because PA is the first review priority and PA does in
+  // fact expose packet-capable routes — 11 of them. Mississippi and Illinois
+  // follow for the same reason. The rest of the corpus is the fallback, so the
+  // journey still runs if the priority states ever stop being renderable
+  // rather than silently testing nothing.
+  const PRIORITY_ORDER = ["PA", "MS", "IL"];
+  const profiles = [...getAllJurisdictionProfiles()].sort((a, b) => {
+    const rank = (p) => {
+      const index = PRIORITY_ORDER.indexOf(p.jurisdiction.code);
+      return index === -1 ? PRIORITY_ORDER.length : index;
+    };
+    return rank(a) - rank(b);
+  });
   outer:
-  for (const profile of getAllJurisdictionProfiles()) {
+  for (const profile of profiles) {
     for (const pathway of profile.pathways ?? []) {
       const label = pathway.label ?? pathway.id;
       const built = buildRenderJobSpec({
@@ -392,6 +408,65 @@ const completionEvent = {
   evidence.worker = { exitCode: run.status, jobStatus: job?.status ?? null };
 }
 
+// --- 8b. Identity: the job is bound to server-owned person and matter --------
+{
+  const rows = await sql(`
+    select j.person_id, j.matter_id, j.output_storage_path, j.output_sha256, j.status,
+           c.person_id as consumption_person_id, c.matter_id as consumption_matter_id,
+           c.first_render_job_id, c.provider_event_id
+      from public.packet_render_jobs j
+      left join public.consumer_packet_payment_consumption c
+        on c.consumer_briefcase_item_id = j.briefcase_item_id
+     where j.briefcase_item_id = '${itemId}'
+     order by j.created_at desc limit 1
+  `);
+  const row = Array.isArray(rows.json) ? rows.json[0] : null;
+  // Both must be present AND agree. A job carrying a person the entitlement
+  // does not name would mean the packet was rendered for one identity and paid
+  // for by another.
+  const bound = Boolean(row?.person_id) && Boolean(row?.matter_id)
+    && row.person_id === row.consumption_person_id
+    && String(row.matter_id) === String(row.consumption_matter_id);
+  record(
+    "person_and_matter_are_bound_on_the_render_job",
+    bound,
+    `render job person_id=${row?.person_id ?? "(null)"} matter_id=${row?.matter_id ?? "(null)"}; the payment consumption row names person_id=${row?.consumption_person_id ?? "(null)"} matter_id=${row?.consumption_matter_id ?? "(null)"} against Stripe event ${row?.provider_event_id ?? "(none)"} — these must agree, or the packet was rendered for one identity and paid for by another`
+  );
+  evidence.identityBinding = row ?? null;
+  evidence.artifactPath = row?.output_storage_path ?? null;
+}
+
+// --- 8c. The artifact is in PRIVATE storage ----------------------------------
+{
+  const artifactPath = evidence.artifactPath;
+  const service = await (async () => {
+    const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/api-keys?reveal=true`, {
+      headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}` }
+    });
+    const list = await res.json().catch(() => []);
+    return Array.isArray(list) ? list.find((k) => k.name === "service_role")?.api_key ?? "" : "";
+  })();
+
+  const bucket = "rcap-packet-artifacts-private";
+  // Anonymous, over the public object path. A 200 here would mean a paid
+  // participant's packet is readable by anyone who guesses the path.
+  const publicRead = artifactPath
+    ? await fetch(`${SUPABASE_URL}/storage/v1/object/public/${bucket}/${artifactPath}`).then((r) => r.status).catch(() => "unreachable")
+    : "no artifact path recorded";
+  const serviceRead = artifactPath
+    ? await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}/${artifactPath}`, {
+        headers: { apikey: service, Authorization: `Bearer ${service}` }
+      }).then(async (r) => ({ status: r.status, bytes: r.ok ? (await r.arrayBuffer()).byteLength : 0 })).catch(() => ({ status: "unreachable", bytes: 0 }))
+    : { status: "no artifact path recorded", bytes: 0 };
+
+  record(
+    "artifact_is_stored_privately_and_re_readable",
+    Boolean(artifactPath) && publicRead >= 400 && serviceRead.status === 200 && serviceRead.bytes > 0,
+    `anonymous read of the object path = ${publicRead} (must refuse); an authorized re-read returned ${serviceRead.status} with ${serviceRead.bytes} bytes — written once and readable back, but not by the public`
+  );
+  evidence.storage = { path: artifactPath, anonymous: publicRead, authorized: serviceRead };
+}
+
 // --- 9. Delivery: the owner, and nobody else ---------------------------------
 {
   const download = `/api/expungement-ai/packet/download?briefcaseItemId=${itemId}`;
@@ -408,7 +483,42 @@ const completionEvent = {
   evidence.delivery = { owner: owner.status, stranger: stranger.status, anonymous: anonymous.status };
 }
 
+// --- 10. Replay: Stripe retries, and must change nothing ---------------------
+{
+  const before = await sql(`
+    select
+      (select count(*) from public.packet_render_jobs where briefcase_item_id = '${itemId}') as jobs,
+      (select count(*) from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${itemId}') as entitlements
+  `);
+  const b = Array.isArray(before.json) ? before.json[0] : null;
+
+  // Byte-identical redelivery of the SAME event id, correctly signed with a
+  // fresh timestamp — exactly what Stripe does when it retries, and what
+  // happens when one event fans out to the canonical and legacy endpoints.
+  const timestamp = Math.floor(Date.now() / 1000);
+  const replay = signedBody(completionEvent, WEBHOOK_SECRET, timestamp);
+  const replayRes = await callApp("/api/stripe/webhook", {
+    method: "POST", body: replay.body, headers: { "stripe-signature": replay.header }
+  });
+
+  const after = await sql(`
+    select
+      (select count(*) from public.packet_render_jobs where briefcase_item_id = '${itemId}') as jobs,
+      (select count(*) from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${itemId}') as entitlements
+  `);
+  const a = Array.isArray(after.json) ? after.json[0] : null;
+
+  const unchanged = b && a && String(a.jobs) === String(b.jobs) && String(a.entitlements) === String(b.entitlements);
+  record(
+    "event_replay_creates_no_second_entitlement_or_render_job",
+    replayRes.status === 200 && unchanged && String(a?.entitlements) === "1",
+    `replaying the same signed event returned ${replayRes.status} (outcome=${replayRes.json?.outcome ?? "none"}); render jobs ${b?.jobs} → ${a?.jobs}, payment entitlements ${b?.entitlements} → ${a?.entitlements}. Exactly one entitlement must exist and no second job may appear — a retry that charged twice or rendered twice would be indistinguishable from success without this count.`
+  );
+  evidence.replay = { status: replayRes.status, outcome: replayRes.json?.outcome ?? null, before: b, after: a };
+}
+
 // Leave the acceptance database as it was found.
+await sql(`delete from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${itemId}'`);
 await sql(`delete from public.consumer_briefcase_items where id = '${itemId}'`);
 
 finish();
