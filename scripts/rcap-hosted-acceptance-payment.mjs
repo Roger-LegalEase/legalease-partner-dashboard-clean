@@ -428,12 +428,42 @@ let route = null;
 
 // --- 3. Seed the participant's item, unpaid ----------------------------------
 const itemId = crypto.randomUUID();
-await sql(`
+// Single-quoted SQL literal, doubling embedded quotes. Never JSON.stringify:
+// that produces double quotes, which Postgres reads as an identifier.
+const sqlText = (value) => String(value).split("'").join("''");
+const seedResult = await sql(`
   insert into public.consumer_briefcase_items
     (id, user_id, item_type, jurisdiction, pathway_label, status, summary_json, payment_status, payment_allowed)
-  values ('${itemId}', '${A.id}', 'result', '${route.state}', ${JSON.stringify(route.pathwayLabel).replace(/'/g, "''")},
-          'result_saved', '{"text":"hosted acceptance payment journey"}'::jsonb, 'unpaid', true)
+  values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
+          'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb, 'unpaid', true)
+  returning id, status, pathway_label
 `);
+
+// The seed is asserted, not assumed. Two defects hid behind an unchecked
+// insert and both surfaced as a 404 from the application, which read as an
+// application fault when it was this harness writing nothing:
+//
+//   * pathway_label was interpolated with JSON.stringify, which emits DOUBLE
+//     quotes — a Postgres IDENTIFIER, not a string literal. The statement
+//     referenced a column that does not exist.
+//   * status was 'result_saved', which is not in the phase-26 CHECK
+//     constraint ('check_saved', 'guidance_saved', 'packet_ready',
+//     'needs_info', 'needs_review', 'waiting', 'not_eligible', 'hard_stop').
+//
+// A silent write failure that later looks like a missing row is exactly the
+// shape of bug that wastes a full hosted cycle, so it fails here instead.
+{
+  const seeded = Array.isArray(seedResult.json) ? seedResult.json[0] : null;
+  if (!seeded || seeded.id !== itemId) {
+    record(
+      "unpaid_render_is_refused_for_payment",
+      false,
+      `the briefcase item could not be seeded, so nothing downstream could be tested: status ${seedResult.status}, response ${JSON.stringify(seedResult.json).slice(0, 300)}`
+    );
+    finish();
+  }
+  evidence.seededItem = { id: seeded.id, status: seeded.status, pathwayLabel: seeded.pathway_label, jurisdiction: route.state };
+}
 
 {
   const res = await callApp("/api/expungement-ai/packet/render", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });

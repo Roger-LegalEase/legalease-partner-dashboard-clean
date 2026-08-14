@@ -75,13 +75,25 @@ function withBypass(url) {
   return `${url}${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}`;
 }
 
+// Manual redirects, deliberately. Following blindly is what turned a perfectly
+// ordinary application redirect into a 401: the hop left the deployment, landed
+// on Vercel's SSO endpoint, and this file reported the result as though the
+// application had refused. Reading the FIRST response and identifying who sent
+// it is the only way these verdicts mean what they say.
 async function get(url) {
   try {
-    const res = await fetch(withBypass(url), { redirect: "follow", headers: bypassHeaders });
+    const res = await fetch(withBypass(url), { redirect: "manual", headers: bypassHeaders });
     const body = await res.text();
-    return { status: res.status, body };
+    const location = res.headers.get("location") ?? "";
+    let redirectHost = "";
+    try { redirectHost = location ? new URL(location, url).host : ""; } catch { redirectHost = "(unparseable)"; }
+    const cookieNames = (typeof res.headers.getSetCookie === "function" ? res.headers.getSetCookie() : [])
+      .map((line) => String(line).split("=")[0].trim());
+    const fromProtectionLayer =
+      /(^|\.)vercel\.com$/i.test(redirectHost) || cookieNames.includes("_vercel_sso_nonce");
+    return { status: res.status, body, location, redirectHost, cookieNames, fromProtectionLayer };
   } catch (error) {
-    return { status: `unreachable: ${error.message}`, body: "" };
+    return { status: `unreachable: ${error.message}`, body: "", location: "", redirectHost: "", cookieNames: [], fromProtectionLayer: false };
   }
 }
 
@@ -111,10 +123,19 @@ let previewUrl = null;
 // --- the index, then each priority state -------------------------------------
 {
   const index = await get(`${previewUrl}/internal/record-clearing/states`);
+  // These are internal-admin routes, so an anonymous caller legitimately gets a
+  // redirect to the application's own sign-in rather than a 200. What must be
+  // true is that THE APPLICATION answered — not Vercel's wall. /api/health in
+  // the payment journey is the must-succeed 200 proof; this case proves the
+  // request reached the same application.
+  const answeredByApplication = !index.fromProtectionLayer
+    && (index.status === 200 || (index.status >= 300 && index.status < 400 && !index.redirectHost.endsWith("vercel.com")));
   record(
-    "gallery_index_renders",
-    index.status === 200,
-    `GET /internal/record-clearing/states = ${index.status}`
+    "gallery_index_reached_the_application",
+    answeredByApplication,
+    `GET /internal/record-clearing/states = ${index.status}${index.location ? `, location=${index.location}` : ""}; ` +
+    `redirect host=${index.redirectHost || "(none)"}; cookies=${JSON.stringify(index.cookieNames)}; ` +
+    `answered by=${index.fromProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "the application"}`
   );
 }
 
@@ -128,14 +149,23 @@ for (const state of PRIORITY) {
   // anonymously would be asserting the gate is BROKEN. The correct anonymous
   // assertion is the opposite one: the route answers, and it does not disclose
   // the state's review content to a caller with no session.
-  const reachable = page.status === 200 || page.status === 307 || page.status === 401 || page.status === 403;
+  // Two things must hold together, and neither alone is worth anything. The
+  // APPLICATION must have answered — a wall 401 withholds the state name too,
+  // which is how the superseded evidence passed while proving nothing. And the
+  // content must be withheld from a caller with no session.
+  const answeredByApplication = !page.fromProtectionLayer && !page.redirectHost.endsWith("vercel.com");
   const withheld = !page.body.includes(state.name);
   record(
     `gallery_is_reachable_and_gated_${state.slug}`,
-    reachable && withheld,
-    `GET ${url.replace(previewUrl, "")} = ${page.status}; anonymous body withholds "${state.name}": ${withheld} — these are internal-admin routes, so content disclosure here would be the failure`
+    answeredByApplication && withheld,
+    `GET ${url.replace(previewUrl, "")} = ${page.status}${page.location ? `, location=${page.location}` : ""}; ` +
+    `answered by=${page.fromProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "the application"}; ` +
+    `anonymous body withholds "${state.name}": ${withheld}`
   );
-  evidence.states.push({ code: state.code, slug: state.slug, url, status: page.status, anonymousContentWithheld: withheld });
+  evidence.states.push({
+    code: state.code, slug: state.slug, url, status: page.status,
+    location: page.location, answeredByApplication, anonymousContentWithheld: withheld
+  });
 }
 
 // What an authenticated reviewer will actually see. Asserted against the data
@@ -167,9 +197,10 @@ for (const state of PRIORITY) {
 {
   const handoff = await get(`${previewUrl}/internal/record-clearing/handoff`);
   record(
-    "gallery_handoff_renders",
-    handoff.status === 200,
-    `GET /internal/record-clearing/handoff = ${handoff.status} — the QA and counsel handoff summary`
+    "gallery_handoff_reached_the_application",
+    !handoff.fromProtectionLayer && !String(handoff.redirectHost).endsWith("vercel.com"),
+    `GET /internal/record-clearing/handoff = ${handoff.status}${handoff.location ? `, location=${handoff.location}` : ""}; ` +
+    `answered by=${handoff.fromProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "the application"} — the QA and counsel handoff summary is internal-admin gated, so a sign-in redirect from the application is the correct anonymous answer`
   );
 }
 
