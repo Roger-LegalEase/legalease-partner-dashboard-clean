@@ -4,11 +4,10 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { confirmScreeningResume, SupabaseScreeningResumeStorage } from "@/lib/expungement-ai/screening-resume-service";
 import { genericResumeFailureResponse } from "@/lib/expungement-ai/screening-resume-security";
 import { checkResumeRateLimit, resumeClientIp, resumeRateLimitPolicies } from "@/lib/expungement-ai/screening-resume-rate-limit";
+import { waitForResumeConfirmFailureFloor } from "@/lib/expungement-ai/screening-resume-confirm-failure-floor";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-export const resumeConfirmFailureFloorMs = 100;
 
 export async function POST(request: Request) {
   const startedAt = Date.now();
@@ -44,13 +43,6 @@ export async function POST(request: Request) {
   } catch (error) {
     logSecurityError({ event: "screening_resume_confirm_failed", route: "/api/expungement-ai/screening/resume/confirm", outcome: "generic_failure", requestId, error });
     return resumeConfirmFailure(startedAt);
-  }
-}
-
-export async function waitForResumeConfirmFailureFloor(startedAt: number, now = Date.now) {
-  const remainingMs = resumeConfirmFailureFloorMs - (now() - startedAt);
-  if (remainingMs > 0) {
-    await new Promise((resolve) => setTimeout(resolve, remainingMs));
   }
 }
 

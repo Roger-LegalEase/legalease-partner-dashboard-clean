@@ -13,6 +13,10 @@ const failures = [];
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { hashAccessCode, normalizeAccessCode } = await import("../src/lib/partners/access-code-crypto.ts");
+const { PartnerAccessCodeError } = await import("../src/lib/partners/partner-access-codes.ts");
+const { accessCodeErrorResponse } = await import(
+  "../src/app/api/partners/access-codes/error-response.ts"
+);
 
 function read(rel) {
   return fs.readFileSync(path.join(rootDir, rel), "utf8");
@@ -37,6 +41,29 @@ async function record(db, sessionId, now) {
     [sessionId, now ?? "2026-07-09T00:00:00.000Z"]
   );
   return res.rows[0];
+}
+
+async function verifyRouteErrorResponses() {
+  const cases = [
+    ["unknown_partner", 404],
+    ["not_found", 404],
+    ["invalid_input", 400],
+    ["duplicate_code", 409],
+    ["supabase_unconfigured", 503],
+    ["read_failed", 500],
+    ["write_failed", 500]
+  ];
+
+  for (const [code, expectedStatus] of cases) {
+    const response = accessCodeErrorResponse(
+      new PartnerAccessCodeError(code, `safe ${code} message`),
+      "route-helper-verifier",
+      "read"
+    );
+    assert(response.status === expectedStatus, `${code} must map to HTTP ${expectedStatus}`);
+    const body = await response.json();
+    assert(body.success === false && body.code === code, `${code} response shape changed`);
+  }
 }
 
 async function seedPartner(db, slug, accessMode, { allowed = 10, used = 0, overageEnabled = false, pauseAtCap = false } = {}) {
@@ -74,6 +101,7 @@ async function insertCode(db, slug, rawCode, opts = {}) {
 
 try {
   verifySourceWiring();
+  await verifyRouteErrorResponses();
 
   const db = new PGlite();
   await db.exec("create role anon; create role authenticated; create role service_role;");
@@ -418,8 +446,13 @@ function verifySourceWiring() {
   const scopeAuth = read("src/lib/partners/partner-scope-auth.ts");
   assert(scopeAuth.includes("cannot manage another organization"), "Partner scope auth must reject cross-partner access.");
   const codesRoute = read("src/app/api/partners/access-codes/route.ts");
+  const codesErrorResponse = read("src/app/api/partners/access-codes/error-response.ts");
   const toggleRoute = read("src/app/api/partners/access-codes/toggle/route.ts");
   assert(codesRoute.includes("resolveAuthorizedPartnerSlug"), "Code management must resolve an authorized partner slug.");
+  assert(codesRoute.includes('from "./error-response"'), "Code management route must import its error mapper.");
+  assert(!codesRoute.includes("export function accessCodeErrorResponse"), "Route must not export a non-route helper.");
+  assert(codesErrorResponse.includes("export function accessCodeErrorResponse"), "Moved error mapper must remain directly covered.");
+  assert(codesErrorResponse.includes("instanceof PartnerAccessCodeError"), "Moved error mapper must preserve typed error handling.");
   assert(toggleRoute.includes("resolveAuthorizedPartnerSlug"), "Code toggle must resolve an authorized partner slug.");
   assert(lib.includes('.eq("partner_slug", slug) // never allow cross-partner mutation'), "Toggle must be scoped to the owning partner slug.");
 }
