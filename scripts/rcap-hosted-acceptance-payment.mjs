@@ -40,7 +40,7 @@ const WORKER_DIGEST_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
 const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
-const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
 
@@ -138,7 +138,11 @@ async function signIn(email, password) {
 let PREVIEW = "";
 async function callApp(pathname, { method = "GET", cookie = null, body = null, headers = {} } = {}) {
   try {
-    const res = await fetch(`${PREVIEW}${pathname}`, {
+    // Header AND query parameter — see the gallery script; the header alone
+    // was answered 401 by a protected Preview.
+    const joiner = pathname.includes("?") ? "&" : "?";
+    const suffix = BYPASS ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}&x-vercel-set-bypass-cookie=true` : "";
+    const res = await fetch(`${PREVIEW}${pathname}${suffix}`, {
       method,
       headers: {
         "Content-Type": "application/json",

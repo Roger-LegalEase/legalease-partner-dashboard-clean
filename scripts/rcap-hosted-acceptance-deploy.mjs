@@ -260,9 +260,17 @@ if (reusable) {
   const deploy = spawnSync("npx", args, {
     cwd: rootDir,
     encoding: "utf8",
-    maxBuffer: 64 * 1024 * 1024,
+    maxBuffer: 256 * 1024 * 1024,
+    // stdin explicitly closed rather than left as an open pipe nobody writes
+    // to. The previous run died with an uncaught EPIPE on write AFTER Vercel
+    // had already accepted the deployment, which is the worst shape of failure:
+    // the work succeeded and the harness reported failure.
+    stdio: ["ignore", "pipe", "pipe"],
     env: { ...process.env, VERCEL_ORG_ID, VERCEL_PROJECT_ID }
   });
+  if (deploy.error) {
+    console.error(`DEPLOY: the Vercel CLI could not be run to completion — ${deploy.error.code ?? ""} ${deploy.error.message ?? deploy.error}`);
+  }
 
   const combined = `${deploy.stdout ?? ""}\n${deploy.stderr ?? ""}`;
   const urlMatch = combined.match(/https:\/\/[a-z0-9-]+\.vercel\.app/gi) ?? [];
@@ -331,13 +339,18 @@ console.log(`  deployment URL: ${previewUrl}`);
   // See the gallery script: on a Preview protected by Vercel Authentication,
   // an unauthenticated probe is answered by Vercel, not by the application, so
   // a refusal here would prove nothing about the delivery control.
-  const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+  const bypass = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
   const bypassHeaders = bypass ? { "x-vercel-protection-bypass": bypass, "x-vercel-set-bypass-cookie": "false" } : {};
   evidence.protectionBypassSupplied = Boolean(bypass);
 
   const probe = async (pathname, init = {}) => {
     try {
-      const res = await fetch(`${previewUrl}${pathname}`, {
+      // Header AND query parameter: the header alone was answered 401 by a
+      // protected Preview, and the query form is the one Vercel's own
+      // documentation and Roger's Stripe destination rely on.
+      const joiner = pathname.includes("?") ? "&" : "?";
+      const suffix = bypass ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(bypass)}&x-vercel-set-bypass-cookie=true` : "";
+      const res = await fetch(`${previewUrl}${pathname}${suffix}`, {
         ...init,
         headers: { ...(init.headers ?? {}), ...bypassHeaders }
       });

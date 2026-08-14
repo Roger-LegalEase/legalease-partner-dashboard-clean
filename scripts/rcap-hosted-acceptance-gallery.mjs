@@ -59,12 +59,23 @@ async function vercelApi(pathname) {
 // application's internal-admin gate withheld this" from "Vercel never let me
 // reach the application" — and both look like a body that does not name the
 // state. The header is Vercel's documented automation bypass.
-const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
 const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS, "x-vercel-set-bypass-cookie": "false" } : {};
+
+// Vercel documents BOTH a header and a query parameter for the automation
+// bypass. The header alone returned 401 against a protected Preview even with
+// the secret supplied, and Roger's Stripe destination uses the query parameter,
+// so both are sent. Belt and braces is right here: a probe that cannot reach
+// the application proves nothing about the application.
+function withBypass(url) {
+  if (!BYPASS) return url;
+  const joiner = url.includes("?") ? "&" : "?";
+  return `${url}${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}&x-vercel-set-bypass-cookie=true`;
+}
 
 async function get(url) {
   try {
-    const res = await fetch(url, { redirect: "follow", headers: bypassHeaders });
+    const res = await fetch(withBypass(url), { redirect: "follow", headers: bypassHeaders });
     const body = await res.text();
     return { status: res.status, body };
   } catch (error) {
