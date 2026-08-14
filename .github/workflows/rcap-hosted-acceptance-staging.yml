@@ -27,9 +27,14 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight (read-only proof) or full (deploy, migrate, accept)"
+        description: "preflight, migrate, deploy, accept, checkout_gate, payment, or full"
         required: true
         type: string
+      preview_deployment_id:
+        description: "Exact existing Vercel Preview deployment id; required only by checkout_gate"
+        required: false
+        type: string
+        default: ""
       application_sha:
         description: "Pinned application SHA (must equal the authorized value)"
         required: true
@@ -111,13 +116,28 @@ jobs:
     timeout-minutes: 120
     steps:
       - name: Refuse any input that is not the authorized pinned value
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+          PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          SUPABASE_PROJECT_REF_INPUT: ${{ inputs.supabase_project_ref }}
         run: |
           set -euo pipefail
-          [ "${{ inputs.application_sha }}" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
-          [ "${{ inputs.worker_source_sha }}" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
-          [ "${{ inputs.worker_digest }}" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
-          [ "${{ inputs.supabase_project_ref }}" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
-          printf '%s' "${{ inputs.tools_sha }}" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          [ "$APPLICATION_SHA_INPUT" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          if [ "$PHASE_INPUT" = "checkout_gate" ]; then
+            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
+              || { echo "::error::checkout_gate requires one exact Vercel deployment id"; exit 1; }
+          elif [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
+            echo "::error::preview_deployment_id is accepted only by checkout_gate"
+            exit 1
+          fi
 
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -132,7 +152,7 @@ jobs:
             git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
             git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
           done
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public \
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
           git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
             || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
@@ -142,6 +162,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Verify the reuse-only human Checkout gate
+        if: inputs.phase == 'checkout_gate'
+        run: node scripts/verify-rcap-hosted-checkout-gate.mjs
 
       - name: Prove the credentials and the acceptance project
         env:
@@ -218,12 +242,36 @@ jobs:
           npm run build
 
       - name: Log in to the container registry for the pinned worker image
-        if: inputs.phase == 'accept' || inputs.phase == 'payment'
+        if: inputs.phase == 'accept' || inputs.phase == 'payment' || inputs.phase == 'checkout_gate'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Human-payment stop gate. This phase is deliberately reuse-only: it
+      # receives an exact deployment id, verifies that existing Preview, creates
+      # one real sandbox Checkout Session through the application, and stops
+      # while the item and Session are still unpaid. It never deploys, migrates,
+      # synthesizes a completion event, runs the worker, or cleans up the item.
+      - name: Install frozen application dependencies for the Checkout gate
+        if: inputs.phase == 'checkout_gate'
+        run: npm ci
+
+      - name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid
+        if: inputs.phase == 'checkout_gate'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+        run: node scripts/rcap-hosted-checkout-gate.mjs
 
       - name: Run the hosted golden-journey matrix
         if: inputs.phase == 'accept'

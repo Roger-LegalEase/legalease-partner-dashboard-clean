@@ -23,11 +23,16 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_accept | hosted_payment | hosted_full"
+        description: "ephemeral (disposable runner stack) | hosted_preflight | hosted_migrate | hosted_deploy | hosted_accept | hosted_checkout_gate | hosted_payment | hosted_full"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_accept, hosted_payment, hosted_full]
+        options: [ephemeral, hosted_preflight, hosted_migrate, hosted_deploy, hosted_accept, hosted_checkout_gate, hosted_payment, hosted_full]
         default: ephemeral
+      preview_deployment_id:
+        description: "Exact existing Vercel Preview deployment id (checkout gate only; the gate never deploys)"
+        required: false
+        type: string
+        default: ""
       supabase_project_ref:
         description: "Acceptance Supabase project ref (hosted modes only)"
         required: false
@@ -72,7 +77,8 @@ jobs:
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight')))) }}
+      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || 'preflight'))))) }}
+      preview_deployment_id: ${{ inputs.preview_deployment_id }}
       application_sha: ${{ inputs.application_sha }}
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}
@@ -97,12 +103,17 @@ jobs:
     timeout-minutes: 55
     steps:
       - name: Refuse any input that is not the authorized pinned value
+        env:
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
         run: |
           set -euo pipefail
-          [ "${{ inputs.application_sha }}" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
-          [ "${{ inputs.worker_source_sha }}" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
-          [ "${{ inputs.worker_digest }}" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
-          printf '%s' "${{ inputs.tools_sha }}" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          [ "$APPLICATION_SHA_INPUT" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
 
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -120,7 +131,7 @@ jobs:
           # The tools commit must carry the exact application and worker bytes:
           # if this diff is empty, building once at tools_sha builds the pinned
           # application SHA's bytes, and the worker fingerprint is unchanged.
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public \
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
           git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
             || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
