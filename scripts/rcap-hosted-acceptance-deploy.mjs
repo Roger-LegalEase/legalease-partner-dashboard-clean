@@ -40,7 +40,7 @@ const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
-const SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
+let SCOPE_IDS = (process.env.HOSTED_STAGING_SCOPE ?? "").trim();
 const ROUTE_STATE = (process.env.HOSTED_ROUTE_STATE ?? "").trim();
 
 if (!VERCEL_TOKEN || !VERCEL_ORG_ID || !VERCEL_PROJECT_ID || !SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF)) {
@@ -123,6 +123,15 @@ const envBefore = envShape(Array.isArray(beforeEnv.json?.envs) ? beforeEnv.json.
 // the SHA this run was told to deploy — the same metadata assertion the
 // freshly-created path is held to below. Anything that does not match all three
 // is ignored rather than reasoned about, and the deploy proceeds normally.
+// Same bytes is NOT the same deployment. Environment variables are baked into a
+// Vercel deployment at creation, so a deployment of this SHA built without
+// Stripe configuration cannot serve a payment journey no matter how many times
+// it is reused. The intended configuration is recorded as deployment metadata
+// and compared, which is what stops a redeploy-with-Stripe from silently
+// resolving to the earlier no-Stripe deployment and reporting success.
+const STRIPE_CONFIGURED = Boolean(process.env.HOSTED_STRIPE_TEST_SECRET && process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET);
+const ROUTE_STATE_TAG = ROUTE_STATE || "disabled";
+
 async function findReusableDeployment() {
   const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
   if (res.status !== 200 || !Array.isArray(res.json?.deployments)) return null;
@@ -130,12 +139,33 @@ async function findReusableDeployment() {
     (d) =>
       (d.readyState ?? d.state) === "READY" &&
       d.target !== "production" &&
-      d.meta?.rcapApplicationSha === APPLICATION_SHA
+      d.meta?.rcapApplicationSha === APPLICATION_SHA &&
+      d.meta?.rcapStripeConfigured === String(STRIPE_CONFIGURED) &&
+      d.meta?.rcapRouteState === ROUTE_STATE_TAG
   );
   return match ? { url: `https://${match.url}`, id: match.uid ?? match.id ?? null } : null;
 }
 
 const reusable = await findReusableDeployment();
+
+// The scoped state names UUIDs, and a deployment's environment is fixed at
+// creation, so the scope has to be resolved BEFORE the build rather than after.
+// Consumer A alone: B stays outside on purpose, so the hosted admission test can
+// tell "the scope admitted its named identity" from "everyone gets in".
+if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS) {
+  const lookup = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ query: "select id from auth.users where email = 'acceptance-consumer-a@rcap-acceptance.test' limit 1" })
+  });
+  const rows = await lookup.json().catch(() => null);
+  const id = Array.isArray(rows) ? rows[0]?.id : null;
+  if (!id) {
+    console.error("DEPLOY: staging_scoped was requested but the acceptance consumer identity does not exist yet; run the accept phase first so the scope names a real user");
+    process.exit(1);
+  }
+  SCOPE_IDS = id;
+}
 
 // --- 1. Deploy to Preview ----------------------------------------------------
 const keys = await supabaseKeys();
@@ -205,6 +235,12 @@ for (const [key, value] of Object.entries(runtimeEnv)) args.push("--env", `${key
 for (const [key, value] of Object.entries(buildEnv)) args.push("--build-env", `${key}=${value}`);
 args.push("--meta", `rcapApplicationSha=${APPLICATION_SHA}`);
 args.push("--meta", `rcapAcceptanceProjectRef=${PROJECT_REF}`);
+// Metadata, not secrets: whether a deployment was BUILT with Stripe
+// configuration and which delivery state it carries. These are what the reuse
+// predicate compares, so they must be recorded on every deployment this script
+// creates or the next run cannot tell two builds of the same SHA apart.
+args.push("--meta", `rcapStripeConfigured=${STRIPE_CONFIGURED}`);
+args.push("--meta", `rcapRouteState=${ROUTE_STATE_TAG}`);
 
 const redact = (text) => String(text ?? "")
   .replaceAll(VERCEL_TOKEN, "***")
