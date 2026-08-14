@@ -65,6 +65,7 @@ const REQUIRED_CASES = [
   "payment_preview_deployment_discovered",
   "bypass_reaches_the_application_not_the_protection_layer",
   "renderable_route_selected_from_the_registry",
+  "seeded_item_agrees_with_the_authoritative_resolver",
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
   "forged_webhook_signature_is_rejected",
@@ -417,6 +418,7 @@ let route = null;
   }
   record(
     "renderable_route_selected_from_the_registry",
+  "seeded_item_agrees_with_the_authoritative_resolver",
     Boolean(route),
     route
       ? `${route.state} / ${route.pathwayLabel} — buildRenderJobSpec produced a spec, so this route is genuinely renderable rather than assumed to be`
@@ -426,17 +428,68 @@ let route = null;
   evidence.route = route;
 }
 
-// --- 3. Seed the participant's item, unpaid ----------------------------------
+// The briefcase item id is minted here because the derivation below builds a
+// render spec against it, and a const referenced before its declaration is a
+// temporal dead zone error rather than a subtle one.
 const itemId = crypto.randomUUID();
 // Single-quoted SQL literal, doubling embedded quotes. Never JSON.stringify:
 // that produces double quotes, which Postgres reads as an identifier.
 const sqlText = (value) => String(value).split("'").join("''");
+
+// --- 2b. Derive every route-specific value from the authorities ---------------
+//
+// packet_type was previously hardcoded to 'official_pdf_overlay' because the
+// phase-26 CHECK constraint accepted it. That is not a derivation, it is a
+// value that happened to be legal, and it was WRONG: eligibility-adapter maps
+// result_code to packet_type, and packet_ready maps to 'custom_pleading'. The
+// resolver independently classifies PA / Path A as routeKind legacy_verified
+// with rendererKind packet_document_v1 — it is not an official-PDF overlay at
+// all. Deriving instead of guessing is what surfaced that.
+const derived = (() => {
+  const built = buildRenderJobSpec({
+    packetId: crypto.randomUUID(),
+    state: route.state,
+    pathway: route.pathwayLabel,
+    profileId: route.state,
+    // The same profileVersion consumer-render-request pins when it builds the
+    // real job, so the spec compared here is the spec that route will produce.
+    profileVersion: "1.3.0",
+    briefcaseItemId: itemId,
+    trackId: null,
+    packetFields: {}
+  });
+  // result_code must be one the payment policy admits: isConsumerPaymentAllowed
+  // permits packet_ready and packet_ready_with_caution and nothing else.
+  const resultCode = "packet_ready";
+  // eligibility-adapter's packetTypeForResult: guidance_only -> guidance_packet,
+  // packet_ready / packet_ready_with_caution -> custom_pleading.
+  const packetType = resultCode === "guidance_only" ? "guidance_packet" : "custom_pleading";
+  return {
+    resultCode,
+    packetType,
+    routeKind: built.route?.routeKind ?? null,
+    compiledPathwayId: built.route?.pathwayId ?? null,
+    jurisdiction: built.route?.jurisdiction ?? null,
+    sellable: built.route?.sellable ?? null,
+    creditConsumable: built.route?.creditConsumable ?? null,
+    trackId: built.route?.exactDeferralTrackId ?? null,
+    rendererKind: built.spec?.rendererKind ?? null,
+    rendererVersion: built.spec?.rendererVersion ?? null,
+    sourceSha256: built.spec?.sourceSha256 ?? null,
+    profileId: built.spec?.profileId ?? null,
+    profileVersion: built.spec?.profileVersion ?? null,
+    routeId: built.spec?.routeId ?? null
+  };
+})();
+evidence.derivedRouteIdentity = derived;
+
+// --- 3. Seed the participant's item, unpaid ----------------------------------
 const seedResult = await sql(`
   insert into public.consumer_briefcase_items
     (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
      status, summary_json, payment_status, payment_allowed)
   values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
-          'packet_ready', 'official_pdf_overlay',
+          '${derived.resultCode}', '${derived.packetType}',
           'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb, 'unpaid', true)
   returning id, status, result_code, pathway_label
 `);
@@ -468,6 +521,31 @@ const seedResult = await sql(`
     finish();
   }
   evidence.seededItem = { id: seeded.id, status: seeded.status, resultCode: seeded.result_code, pathwayLabel: seeded.pathway_label, jurisdiction: route.state };
+
+  // The stored row and the resolver must agree. A row that disagrees with the
+  // authority is a row that would render one thing and be sold as another.
+  const agrees =
+    seeded.result_code === derived.resultCode &&
+    seeded.pathway_label === derived.compiledPathwayId &&
+    derived.jurisdiction === route.state &&
+    derived.rendererKind === "packet_document_v1" &&
+    derived.sellable === true &&
+    derived.creditConsumable === true &&
+    derived.profileId === route.state &&
+    typeof derived.profileVersion === "string" && derived.profileVersion.length > 0 &&
+    derived.routeId === `${route.state}:${derived.compiledPathwayId}`;
+  record(
+    "seeded_item_agrees_with_the_authoritative_resolver",
+    agrees,
+    `routeKind=${derived.routeKind}; compiled pathway=${JSON.stringify(derived.compiledPathwayId)}; routeId=${JSON.stringify(derived.routeId)}; ` +
+    `renderer=${derived.rendererKind}@${derived.rendererVersion}; sourceSha256=${JSON.stringify(derived.sourceSha256)} ` +
+    `(null is correct — this route composes its own document and the worker's allowedSourceShas is empty); ` +
+    `profile=${derived.profileId}@${derived.profileVersion}; sellable=${derived.sellable}; creditConsumable=${derived.creditConsumable}; ` +
+    `stored result_code=${JSON.stringify(seeded.result_code)} vs derived ${JSON.stringify(derived.resultCode)}; ` +
+    `stored packet_type derived from result_code as ${JSON.stringify(derived.packetType)} per eligibility-adapter; ` +
+    `stored pathway_label=${JSON.stringify(seeded.pathway_label)}`
+  );
+  if (!agrees) finish();
 }
 
 {
@@ -493,13 +571,43 @@ let session = null;
     fetched = await stripeRes.json().catch(() => null);
   }
   session = fetched && fetched.id ? fetched : null;
+  // A generic 503 from the application says only "Stripe did not answer as
+  // expected". Asking Stripe DIRECTLY with the same key separates a key or
+  // account that cannot transact from an application that sent Stripe
+  // something it rejected — two faults with completely different owners.
+  let stripeDirect = "not attempted";
+  if (!session) {
+    const form = new URLSearchParams();
+    form.set("mode", "payment");
+    form.set("success_url", "https://example.com/success");
+    form.set("cancel_url", "https://example.com/cancel");
+    form.set("line_items[0][quantity]", "1");
+    form.set("line_items[0][price_data][currency]", "usd");
+    form.set("line_items[0][price_data][unit_amount]", String(consumerPacketPriceCents ?? 5000));
+    form.set("line_items[0][price_data][product_data][name]", "hosted acceptance direct control");
+    try {
+      const direct = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${STRIPE_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
+        body: form.toString()
+      });
+      const body = await direct.json().catch(() => null);
+      stripeDirect = direct.status === 200
+        ? `the SAME sk_test_ key created session ${body?.id} directly, so the key and account transact and the fault is in what the application sent`
+        : `Stripe refused the same key directly: ${direct.status} ${body?.error?.type ?? ""} ${body?.error?.message ?? ""}`;
+    } catch (error) {
+      stripeDirect = `direct Stripe call failed: ${error.message}`;
+    }
+  }
+
   record(
     "checkout_session_created_against_stripe_sandbox",
     Boolean(session),
     session
       ? `the deployed application created Stripe session ${session.id} (amount_total=${session.amount_total} ${session.currency}, channel=${session.metadata?.channel ?? "(none)"}), read back from Stripe rather than from the response body`
-      : `checkout returned ${res.status} and no retrievable Stripe session: ${String(res.text).slice(0, 200)}`
+      : `checkout returned ${res.status} and no retrievable Stripe session: ${String(res.text).slice(0, 200)} — DIRECT STRIPE CONTROL: ${stripeDirect}`
   );
+  evidence.stripeDirectControl = stripeDirect;
   if (!session) finish();
   evidence.checkout = { sessionId: session.id, amountTotal: session.amount_total, currency: session.currency, expectedCents: consumerPacketPriceCents ?? null };
 }
