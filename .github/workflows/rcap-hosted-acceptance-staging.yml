@@ -27,7 +27,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, migrate, deploy, accept, checkout_gate, payment, or full"
+        description: "preflight, vercel_audit (read-only post-failure proof), migrate, deploy, accept, checkout_gate, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -167,7 +167,12 @@ jobs:
         if: inputs.phase == 'checkout_gate'
         run: node scripts/verify-rcap-hosted-checkout-gate.mjs
 
+      - name: Verify the read-only post-failure Vercel audit
+        if: inputs.phase == 'vercel_audit'
+        run: node scripts/verify-rcap-vercel-failure-audit.mjs
+
       - name: Prove the credentials and the acceptance project
+        if: inputs.phase != 'vercel_audit'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -180,6 +185,19 @@ jobs:
           # evidence, so a Supabase-only pass can never read as a full one.
           PREFLIGHT_SCOPE: ${{ inputs.phase == 'migrate' && 'supabase_only' || 'full' }}
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
+
+      # This is the final read after a failed or timed-out CLI deployment. It
+      # neither creates nor changes a deployment: every Vercel call is GET, and
+      # an empty exact-match set is a successful, explicit audit outcome.
+      - name: Query Vercel for an exact READY Preview after CLI failure
+        if: inputs.phase == 'vercel_audit'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-vercel-failure-audit.mjs
 
       # Guarded by the preflight above: this step is not reached unless the
       # acceptance project has been proven empty of production data in this
