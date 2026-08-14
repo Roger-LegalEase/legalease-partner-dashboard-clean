@@ -211,54 +211,158 @@ function finish() {
 
 // --- 1b. The bypass MUST reach the application -------------------------------
 //
-// A must-succeed probe, deliberately, and deliberately first. Every refusal
-// this journey later relies on — 401, 402, 403, 503 — is also what Vercel's
-// protection layer returns when it never let the request through at all, so a
-// must-refuse route can never evidence that the bypass worked. /api/health is
-// the only route here that must answer 200 with application JSON, which makes
-// it the one probe that can tell the two apart.
+// Three probes, because they answer three different questions and only one of
+// them is the one Stripe depends on.
+//
+// A must-refuse route can never evidence that the bypass worked: 401, 402, 403
+// and 503 are all things Vercel's protection layer returns when it never let
+// the request through at all. /api/health is the only route here that must
+// answer 200 with application JSON, which is why all three probes use it.
+//
+// The previous single probe sent the header AND the cookie-bootstrap parameter
+// together and read the resulting 307 as failure. That was wrong twice over: it
+// conflated three mechanisms into one signal, and it never recorded `location`,
+// which is the only header that separates a Vercel SSO redirect from an
+// application redirect.
 {
-  const joiner = "?";
-  const suffix = BYPASS ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}&x-vercel-set-bypass-cookie=true` : "";
-  let status = null;
-  let headers = {};
-  let bodyText = "";
-  try {
-    const res = await fetch(`${PREVIEW}/api/health${suffix}`, { headers: bypassHeaders, redirect: "manual" });
-    status = res.status;
-    headers = Object.fromEntries([...res.headers.entries()]);
-    bodyText = await res.text();
-  } catch (error) {
-    status = `unreachable: ${error.message}`;
+  // Never let the secret or a cookie VALUE reach evidence or a log line.
+  const sanitize = (text) => String(text ?? "")
+    .split(BYPASS).join("***BYPASS***")
+    .replace(/(x-vercel-protection-bypass=)[^&\s"']+/gi, "$1***BYPASS***");
+
+  // Names and attributes only — never the value.
+  const cookieShapes = (res) => {
+    const raw = typeof res.headers.getSetCookie === "function" ? res.headers.getSetCookie() : [];
+    return raw.map((line) => {
+      const [pair, ...attrs] = String(line).split(";");
+      return {
+        name: pair.split("=")[0].trim(),
+        attributes: attrs.map((a) => a.trim().split("=")[0]).filter(Boolean)
+      };
+    });
+  };
+
+  const observe = async (label, url, headers, cookie = null) => {
+    try {
+      const res = await fetch(url, {
+        headers: { ...headers, ...(cookie ? { Cookie: cookie } : {}) },
+        redirect: "manual"
+      });
+      const body = await res.text();
+      let json = null;
+      try { json = JSON.parse(body); } catch { /* not JSON */ }
+      const cookies = cookieShapes(res);
+      return {
+        label,
+        url: sanitize(url),
+        status: res.status,
+        location: sanitize(res.headers.get("location") ?? "(none)"),
+        contentType: res.headers.get("content-type") ?? "(none)",
+        server: res.headers.get("server") ?? "(none)",
+        vercelId: res.headers.get("x-vercel-id") ?? "(none)",
+        vercelCache: res.headers.get("x-vercel-cache") ?? "(none)",
+        cookieNames: cookies.map((c) => c.name),
+        cookies,
+        bodyHead: sanitize(body).slice(0, 200),
+        isApplicationJson: res.status === 200 && json !== null && typeof json === "object" && "checks" in json
+      };
+    } catch (error) {
+      return {
+        label, url: sanitize(url), status: `unreachable: ${error.message}`,
+        location: "(none)", contentType: "(none)", server: "(none)",
+        vercelId: "(none)", vercelCache: "(none)",
+        cookieNames: [], cookies: [], bodyHead: "", isApplicationJson: false
+      };
+    }
+  };
+
+  const HEALTH = `${PREVIEW}/api/health`;
+  const encoded = encodeURIComponent(BYPASS);
+
+  // A: header only, no cookie bootstrap.
+  const probeA = await observe("A", HEALTH, { "x-vercel-protection-bypass": BYPASS });
+  // B: query only — the exact mechanism Stripe uses. Stripe cannot perform an
+  // interactive login or a cookie bootstrap, so this is the probe that decides
+  // whether the webhook can ever be delivered.
+  const probeB = await observe("B", `${HEALTH}?x-vercel-protection-bypass=${encoded}`, {});
+  // C: query plus the cookie bootstrap, which is ALLOWED to redirect once.
+  const probeC = await observe("C", `${HEALTH}?x-vercel-protection-bypass=${encoded}&x-vercel-set-bypass-cookie=true`, {});
+
+  let probeCFollowed = null;
+  const previewHost = new URL(PREVIEW).host;
+  if (probeC.status >= 300 && probeC.status < 400 && probeC.location !== "(none)") {
+    let target = null;
+    try { target = new URL(probeC.location, PREVIEW); } catch { target = null; }
+    // Followed exactly once, and only when it stays on this deployment. A
+    // redirect that leaves the deployment is not a cookie bootstrap, and
+    // following it would be following Vercel's login flow.
+    if (target && target.host === previewHost) {
+      target.searchParams.delete("x-vercel-set-bypass-cookie");
+      const jar = probeC.cookies.length > 0
+        ? probeC.cookies.map((c) => `${c.name}=1`).join("; ")
+        : null;
+      probeCFollowed = await observe("C-followed", target.toString(), {}, jar);
+    }
   }
 
-  let json = null;
-  try { json = JSON.parse(bodyText); } catch { /* HTML means the wall answered */ }
+  // Independent control: the Vercel CLI's own protected-deployment request.
+  // Diagnostic only. Stripe is proven by probe B, never by this.
+  let cliControl = "not attempted";
+  {
+    const run = spawnSync("npx", [
+      "vercel@latest", "curl", "/api/health",
+      "--deployment", PREVIEW,
+      "--token", process.env.VERCEL_TOKEN ?? "",
+      "--scope", VERCEL_ORG_ID
+    ], { encoding: "utf8", timeout: 120000, stdio: ["ignore", "pipe", "pipe"] });
+    const token = process.env.VERCEL_TOKEN ?? "";
+    let out = sanitize(`${run.stdout ?? ""}${run.stderr ?? ""}`);
+    if (token) out = out.split(token).join("***TOKEN***");
+    cliControl = run.error
+      ? `could not run: ${run.error.code ?? run.error.message}`
+      : `exit ${run.status}; reached application JSON: ${/"checks"/.test(out)}; output head: ${out.slice(0, 220)}`;
+  }
 
-  // The application's health route returns JSON carrying `checks`. Vercel's
-  // authentication wall returns an HTML document and sets an SSO nonce cookie.
-  // Either signal alone could be argued with; together they are decisive.
-  const setCookie = String(headers["set-cookie"] ?? "");
-  const looksLikeProtectionLayer =
-    status === 401 ||
-    setCookie.includes("_vercel_sso_nonce") ||
-    /^text\/html/i.test(String(headers["content-type"] ?? ""));
-  const looksLikeApplication = status === 200 && json !== null && typeof json === "object" && "checks" in json;
+  const locationIsVercelAuth = (loc) => {
+    if (!loc || loc === "(none)") return false;
+    try {
+      const u = new URL(loc, PREVIEW);
+      return /(^|\.)vercel\.com$/i.test(u.host) || /sso|login|access|authenticate/i.test(u.pathname);
+    } catch { return false; }
+  };
+
+  const bypassWorks = probeA.isApplicationJson || probeB.isApplicationJson || Boolean(probeCFollowed?.isApplicationJson);
+  const anyVercelAuthRedirect = [probeA, probeB, probeC].some((p) => locationIsVercelAuth(p.location));
+  const chain = [probeA, probeB, probeC, probeCFollowed].filter(Boolean)
+    .map((p) => `${p.label}:${p.status}->${p.location}`).join(" | ");
+
+  evidence.bypassProbes = {
+    A: probeA, B: probeB, C: probeC, CFollowed: probeCFollowed,
+    cliControl,
+    locationChain: chain,
+    stripeRelevantProbe: "B (query parameter, no cookie bootstrap)",
+    verdict: bypassWorks
+      ? "the bypass reaches the application"
+      : anyVercelAuthRedirect
+        ? "Vercel authentication rejected the bypass"
+        : "application-owned redirect, or a shape neither classification matches"
+  };
 
   record(
     "bypass_reaches_the_application_not_the_protection_layer",
-    looksLikeApplication && !looksLikeProtectionLayer,
-    `GET ${PREVIEW}/api/health with the bypass secret as BOTH header and query parameter → status ${status}; ` +
-    `content-type=${headers["content-type"] ?? "(none)"}; x-vercel-id=${headers["x-vercel-id"] ?? "(none)"}; ` +
-    `x-vercel-cache=${headers["x-vercel-cache"] ?? "(none)"}; server=${headers["server"] ?? "(none)"}; ` +
-    `sets _vercel_sso_nonce=${setCookie.includes("_vercel_sso_nonce")}; ` +
-    `answered by=${looksLikeApplication ? "THE APPLICATION (JSON carrying `checks`)" : looksLikeProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "something neither shape matches"}; ` +
-    `body head=${JSON.stringify(bodyText.slice(0, 140))}`
+    bypassWorks,
+    `A(header only)=${probeA.status} loc=${probeA.location} ct=${probeA.contentType} json=${probeA.isApplicationJson}; ` +
+    `B(query only, Stripe's method)=${probeB.status} loc=${probeB.location} ct=${probeB.contentType} json=${probeB.isApplicationJson}; ` +
+    `C(cookie bootstrap)=${probeC.status} loc=${probeC.location}; ` +
+    `C-followed=${probeCFollowed ? `${probeCFollowed.status} json=${probeCFollowed.isApplicationJson} loc=${probeCFollowed.location}` : "(not followed — redirect left the deployment or was absent)"}; ` +
+    `cookie names=${JSON.stringify([...new Set([...probeA.cookieNames, ...probeB.cookieNames, ...probeC.cookieNames])])}; ` +
+    `server=${probeB.server}; x-vercel-id=${probeB.vercelId}; ` +
+    `vercel-cli control: ${cliControl}`
   );
-  evidence.bypassProbe = { url: `${PREVIEW}/api/health`, status, headers, answeredByApplication: looksLikeApplication, bypassSupplied: Boolean(BYPASS) };
+
   // Everything downstream is a statement about the application. If the wall is
   // answering, none of it would mean what it claims to mean.
-  if (!(looksLikeApplication && !looksLikeProtectionLayer)) finish();
+  if (!bypassWorks) finish();
 }
 
 ANON_KEY = await supabaseKeys();
