@@ -78,7 +78,7 @@ const REQUIRED_CASES = [
   "event_replay_creates_no_second_entitlement_or_render_job"
 ];
 
-const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS, "x-vercel-set-bypass-cookie": "false" } : {};
+const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
 
 async function vercelApi(pathname) {
   const joiner = pathname.includes("?") ? "&" : "?";
@@ -142,7 +142,7 @@ async function callApp(pathname, { method = "GET", cookie = null, body = null, h
     // Header AND query parameter — see the gallery script; the header alone
     // was answered 401 by a protected Preview.
     const joiner = pathname.includes("?") ? "&" : "?";
-    const suffix = BYPASS ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}&x-vercel-set-bypass-cookie=true` : "";
+    const suffix = BYPASS ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}` : "";
     const res = await fetch(`${PREVIEW}${pathname}${suffix}`, {
       method,
       headers: {

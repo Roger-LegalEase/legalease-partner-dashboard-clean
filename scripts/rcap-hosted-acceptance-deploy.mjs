@@ -340,7 +340,7 @@ console.log(`  deployment URL: ${previewUrl}`);
   // an unauthenticated probe is answered by Vercel, not by the application, so
   // a refusal here would prove nothing about the delivery control.
   const bypass = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
-  const bypassHeaders = bypass ? { "x-vercel-protection-bypass": bypass, "x-vercel-set-bypass-cookie": "false" } : {};
+  const bypassHeaders = bypass ? { "x-vercel-protection-bypass": bypass } : {};
   evidence.protectionBypassSupplied = Boolean(bypass);
 
   const probe = async (pathname, init = {}) => {
@@ -349,7 +349,7 @@ console.log(`  deployment URL: ${previewUrl}`);
       // protected Preview, and the query form is the one Vercel's own
       // documentation and Roger's Stripe destination rely on.
       const joiner = pathname.includes("?") ? "&" : "?";
-      const suffix = bypass ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(bypass)}&x-vercel-set-bypass-cookie=true` : "";
+      const suffix = bypass ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(bypass)}` : "";
       const res = await fetch(`${previewUrl}${pathname}${suffix}`, {
         ...init,
         headers: { ...(init.headers ?? {}), ...bypassHeaders }

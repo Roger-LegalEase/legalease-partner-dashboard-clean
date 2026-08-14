@@ -60,17 +60,19 @@ async function vercelApi(pathname) {
 // reach the application" — and both look like a body that does not name the
 // state. The header is Vercel's documented automation bypass.
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
-const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS, "x-vercel-set-bypass-cookie": "false" } : {};
+const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
 
-// Vercel documents BOTH a header and a query parameter for the automation
-// bypass. The header alone returned 401 against a protected Preview even with
-// the secret supplied, and Roger's Stripe destination uses the query parameter,
-// so both are sent. Belt and braces is right here: a probe that cannot reach
-// the application proves nothing about the application.
+// Header AND query parameter, but deliberately WITHOUT
+// x-vercel-set-bypass-cookie. That parameter asks Vercel to issue a
+// cookie-setting 307, and this file used to send it on every request and then
+// follow the redirect — which walked straight into vercel.com/sso-api and came
+// back 401. The bypass was working the whole time; the request was asking for a
+// bootstrap it did not need. Probes A and B in the payment journey confirmed
+// that header-only and bare-query-only each reach the application with 200.
 function withBypass(url) {
   if (!BYPASS) return url;
   const joiner = url.includes("?") ? "&" : "?";
-  return `${url}${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}&x-vercel-set-bypass-cookie=true`;
+  return `${url}${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}`;
 }
 
 async function get(url) {
