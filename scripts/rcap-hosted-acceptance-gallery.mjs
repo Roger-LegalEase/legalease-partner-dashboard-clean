@@ -120,6 +120,26 @@ let previewUrl = null;
   evidence.previewUrl = previewUrl;
 }
 
+// --- the must-succeed anchor: the bypass reaches the application -------------
+//
+// Every other case on this page is a route that legitimately refuses an
+// anonymous caller, and a refusal cannot distinguish the application's gate
+// from Vercel's wall. This one route must answer 200 with application JSON, so
+// it is what gives the refusals below their meaning.
+{
+  const health = await get(`${previewUrl}/api/health`);
+  let json = null;
+  try { json = JSON.parse(health.body); } catch { /* HTML means the wall answered */ }
+  const reached = health.status === 200 && json !== null && typeof json === "object" && "checks" in json;
+  record(
+    "gallery_bypass_reaches_the_application",
+    reached,
+    `GET /api/health = ${health.status}; answered by=${reached ? "the application (JSON carrying `checks`)" : health.fromProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "neither shape"}`
+  );
+  evidence.bypassAnchor = { status: health.status, reachedApplication: reached };
+  if (!reached) finish();
+}
+
 // --- the index, then each priority state -------------------------------------
 {
   const index = await get(`${previewUrl}/internal/record-clearing/states`);
@@ -128,8 +148,13 @@ let previewUrl = null;
   // true is that THE APPLICATION answered — not Vercel's wall. /api/health in
   // the payment journey is the must-succeed 200 proof; this case proves the
   // request reached the same application.
+  // A 401 from the APPLICATION is reaching the application. The gate answering
+  // is the point; what must not happen is Vercel answering instead. The
+  // must-succeed 200 anchor is the /api/health probe below, which is what
+  // separates "the app refused me" from "I never got there".
   const answeredByApplication = !index.fromProtectionLayer
-    && (index.status === 200 || (index.status >= 300 && index.status < 400 && !index.redirectHost.endsWith("vercel.com")));
+    && !String(index.redirectHost).endsWith("vercel.com")
+    && typeof index.status === "number";
   record(
     "gallery_index_reached_the_application",
     answeredByApplication,

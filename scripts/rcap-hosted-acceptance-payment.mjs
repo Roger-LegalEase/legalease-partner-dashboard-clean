@@ -433,10 +433,12 @@ const itemId = crypto.randomUUID();
 const sqlText = (value) => String(value).split("'").join("''");
 const seedResult = await sql(`
   insert into public.consumer_briefcase_items
-    (id, user_id, item_type, jurisdiction, pathway_label, status, summary_json, payment_status, payment_allowed)
+    (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
+     status, summary_json, payment_status, payment_allowed)
   values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
+          'packet_ready', 'official_pdf_overlay',
           'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb, 'unpaid', true)
-  returning id, status, pathway_label
+  returning id, status, result_code, pathway_label
 `);
 
 // The seed is asserted, not assumed. Two defects hid behind an unchecked
@@ -446,6 +448,9 @@ const seedResult = await sql(`
 //   * pathway_label was interpolated with JSON.stringify, which emits DOUBLE
 //     quotes — a Postgres IDENTIFIER, not a string literal. The statement
 //     referenced a column that does not exist.
+//   * result_code was absent. assertCheckoutAllowed refuses a null one with
+//     "missing_result_code", so checkout returned 403 on an item that was
+//     otherwise fine — payment_allowed alone is not enough.
 //   * status was 'result_saved', which is not in the phase-26 CHECK
 //     constraint ('check_saved', 'guidance_saved', 'packet_ready',
 //     'needs_info', 'needs_review', 'waiting', 'not_eligible', 'hard_stop').
@@ -462,7 +467,7 @@ const seedResult = await sql(`
     );
     finish();
   }
-  evidence.seededItem = { id: seeded.id, status: seeded.status, pathwayLabel: seeded.pathway_label, jurisdiction: route.state };
+  evidence.seededItem = { id: seeded.id, status: seeded.status, resultCode: seeded.result_code, pathwayLabel: seeded.pathway_label, jurisdiction: route.state };
 }
 
 {
