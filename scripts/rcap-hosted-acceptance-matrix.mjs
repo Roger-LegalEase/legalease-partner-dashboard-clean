@@ -147,11 +147,35 @@ async function app(pathname, { method = "GET", body = null, headers = {} } = {})
 
 // --- application process control ---------------------------------------------
 let appProcess = null;
-function killApp() {
-  spawnSync("pkill", ["-f", "next (start|dev)"], { encoding: "utf8" });
-  spawnSync("bash", ["-c", "pkill -f 'next start' || true; pkill -f 'next dev' || true"], { encoding: "utf8" });
+
+/**
+ * Stop the previous server and PROVE the port is free before returning.
+ *
+ * The old implementation pattern-matched `next start` / `next dev`, but the
+ * process that actually serves is `next-server`, spawned as a child — the
+ * runner's own cleanup reported terminating an orphaned `next-server` after the
+ * whole matrix had finished. So a "dev-compiled" phase was still being answered
+ * by the surviving PRODUCTION server, which refuses the scoped state by design.
+ * That produced A=503, B=503, anon=401: a perfect production-runtime signature
+ * reported as a scoped-admission failure.
+ *
+ * Killing the process GROUP reaches next-server, and waiting for the port to
+ * stop accepting connections is what makes the next `startApp` an assertion
+ * about a server this function started rather than one it inherited.
+ */
+async function killApp() {
+  if (appProcess?.pid) {
+    try { process.kill(-appProcess.pid, "SIGKILL"); } catch { /* already gone */ }
+  }
+  spawnSync("bash", ["-c", "pkill -9 -f next-server || true; pkill -9 -f 'next start' || true; pkill -9 -f 'next dev' || true"], { encoding: "utf8" });
   appProcess = null;
-  return new Promise((resolve) => setTimeout(resolve, 2500));
+
+  for (let i = 0; i < 40; i += 1) {
+    const probe = await app("/api/health");
+    if (typeof probe.status !== "number") return true;
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  throw new Error(`MATRIX: a server is still answering on ${APP_URL} after the kill; every runtime case after this point would test the wrong process`);
 }
 
 async function startApp(extraEnv, logName, runtime = "start") {
@@ -159,7 +183,8 @@ async function startApp(extraEnv, logName, runtime = "start") {
   appProcess = spawn("npx", ["next", runtime, "-p", String(APP_PORT)], {
     cwd: rootDir,
     stdio: ["ignore", log, log],
-    detached: false,
+    // Its own process group, so killApp can signal next-server too.
+    detached: true,
     env: {
       ...process.env,
       NODE_ENV: runtime === "dev" ? "development" : "production",
@@ -432,9 +457,14 @@ async function evaluate(jurisdiction, answers, profileVersion) {
       "-e", `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}`,
       "-e", `SUPABASE_URL=${SUPABASE_URL}`,
       "-e", `SUPABASE_SERVICE_ROLE_KEY=${SERVICE_KEY}`,
-      "-e", "RCAP_WORKER_MAX_BATCHES=1",
-      "-e", "RCAP_WORKER_EXIT_WHEN_DRAINED=true",
-      WORKER_DIGEST_REF
+      WORKER_DIGEST_REF,
+      // The image's own CMD is `--loop`, and the loop only stops on SIGTERM —
+      // RCAP_WORKER_MAX_BATCHES and RCAP_WORKER_EXIT_WHEN_DRAINED are not
+      // variables this worker reads, so the previous run polled an empty queue
+      // until the harness timeout killed it and reported exit null. Overriding
+      // the command drops `--loop`, which is this worker's own single-cycle
+      // mode: claim once, or report idle, and exit.
+      "node", "scripts/rcap-render-worker.mjs"
     ], { encoding: "utf8", timeout: 240000 });
     const output = `${run.stdout ?? ""}${run.stderr ?? ""}`;
     // Draining an empty queue cleanly is the assertion: the image pulled by
@@ -452,7 +482,9 @@ async function evaluate(jurisdiction, answers, profileVersion) {
   }
 }
 
-await killApp();
+// Teardown, not an assertion. A stubborn process here must not turn a passing
+// matrix into a failing one — the verdict is already decided by the cases.
+await killApp().catch((error) => console.warn(`  note: ${error.message}`));
 finish();
 
 function finish() {
