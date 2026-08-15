@@ -107,7 +107,15 @@ assert(exists(legacyStripeWebhookRoute), "Legacy Expungement.ai Stripe webhook c
 assert(!legacyStripeWebhookSource.includes("@/app/api/stripe/webhook/route"), "Legacy Stripe webhook route must not delegate to the canonical route before verification.");
 assert(legacyStripeWebhookSource.includes("STRIPE_LEGACY_WEBHOOK_SECRET"), "Legacy Stripe webhook route must verify with STRIPE_LEGACY_WEBHOOK_SECRET.");
 assert(legacyStripeWebhookSource.includes('runtime = "nodejs"') && legacyStripeWebhookSource.includes('dynamic = "force-dynamic"'), "Legacy Stripe webhook route must declare static App Router route config locally.");
-for (const metadataKey of ["source_session_id", "jurisdiction", "packet_type", "pathway_label"]) {
+for (const metadataKey of [
+  "source_session_id",
+  "jurisdiction",
+  "packet_type",
+  "pathway_label",
+  "product_id",
+  "person_id",
+  "matter_id"
+]) {
   assert(paymentAdapter.includes(metadataKey), `Checkout metadata must include ${metadataKey}.`);
 }
 for (const eventType of ["checkout.session.completed", "checkout.session.async_payment_succeeded"]) {
@@ -126,7 +134,8 @@ assert(checkoutReconciliation.includes('authority: "server_webhook"'), "Consumer
 assert(!/\.from\("consumer_briefcase_items"\)[\s\S]{0,200}?\.update\(/.test(checkoutReconciliation), "Consumer Checkout webhook must not write payment columns directly.");
 assert(checkoutReconciliation.includes("session.amount_total !== consumerPacketPriceCents"), "Consumer Checkout webhook must verify the charged amount against the signed event.");
 assert(checkoutReconciliation.includes("CONSUMER_PACKET_CURRENCY"), "Consumer Checkout webhook must verify the currency against the signed event.");
-assert(checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must generate the paid packet.");
+assert(checkoutReconciliation.includes("requestConsumerPacketRenderForWebhook"), "Consumer Checkout webhook must enqueue the durable paid packet render.");
+assert(!checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must not synchronously generate a legacy artifact.");
 assert(checkoutReconciliation.includes("claimProcessedStripeEvent(event.id") && checkoutReconciliation.includes('return "duplicate"'), "Consumer Checkout webhook must be idempotent for duplicate deliveries.");
 assert(!checkoutReconciliation.includes("console.") && !checkoutReconciliation.includes("logSecurity"), "Consumer Checkout webhook must not log customer data, metadata values, payment IDs, or secrets.");
 

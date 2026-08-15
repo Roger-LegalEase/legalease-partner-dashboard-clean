@@ -9,6 +9,9 @@ assert(source.includes("function DateOrUnknownField"), "date_or_unknown must ren
 assert(source.includes("Month") && source.includes("Day") && source.includes("Year"), "Date field must expose month/day/year controls.");
 assert(source.includes("Array.from({ length: 90 }"), "Date field must expose an old-case year selector.");
 assert(source.includes("toIsoDate"), "Date field must map controls to ISO date.");
+assert(source.includes("const [draftParts, setDraftParts] = useState") && source.includes("draftParts[id]"), "Date field must retain partial month/day/year selections per question between controlled renders.");
+assert(source.includes("const nextParts = {") && source.includes("...parts"), "Each date selection must merge with the previously selected date parts.");
+assert(source.includes("value={parts.month}") && source.includes("value={parts.day}") && source.includes("value={parts.year}"), "Month/day/year controls must render the retained partial date.");
 assert(source.includes('return `${year}-${month}-${day}`'), "Date answer must remain YYYY-MM-DD.");
 assert(source.includes("Number.isNaN(date.getTime())"), "Invalid dates must be blocked.");
 

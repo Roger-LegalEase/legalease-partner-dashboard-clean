@@ -31,17 +31,30 @@ const requirePhrases = (file, phrases) => {
 };
 
 requirePhrases("docs/product-flows/expungement-ai-dtc-user-flow.md", [
-  "Check for free",
-  "No account required yet",
+  "Start a free record check",
+  "Start with a free record check. If a self-help packet is available for your matter, it costs $50 to generate.",
   "A path may be available",
-  "Generate my packet — $50",
-  "Create account",
-  "Verify email",
-  "Stripe payment",
+  "Save this matter and continue",
+  "Create an account or sign in",
+  "free Briefcase",
   "Briefcase",
-  "State-Specific Packet Builder",
-  "Generate my packet",
-  "Download my packet"
+  "Packet path available",
+  "Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet.",
+  "$50 one time when you are ready to generate this packet",
+  "Complete packet information",
+  "Complete packet information before payment",
+  "Review for accuracy",
+  "$50 one time for this matter.",
+  "Pay $50 and generate my packet.",
+  "Checkout is not created before this action.",
+  "expungement_packet",
+  "5000 cents in USD",
+  "signed Stripe event -> exact matter payment record -> exact matter entitlement -> durable render job",
+  "Payment confirmed",
+  "Preparing packet",
+  "Packet ready",
+  "A separate new matter requires a separate payment.",
+  "Sponsored RCAP authority never calls the consumer payment writer."
 ]);
 
 requirePhrases("docs/product-flows/rcap-partner-portal-user-flow.md", [
@@ -72,9 +85,39 @@ requirePhrases("docs/product-flows/README.md", [
   "source of truth",
   "no account wall before the free check",
   "no duplicate screening after signup",
-  "DTC requires Stripe",
+  "DTC keeps the Briefcase and packet-information builder free",
+  "Stripe appears only at the final accuracy review",
+  "one personalized packet set for one exact matter for $50",
   "partner-covered users bypass Stripe"
 ]);
+
+if (exists("docs/product-flows/expungement-ai-dtc-user-flow.md")) {
+  const dtc = read("docs/product-flows/expungement-ai-dtc-user-flow.md");
+  const orderedMarkers = [
+    "## Direct-to-consumer flow",
+    "**Start a free record check**",
+    "**Review the authoritative result**",
+    "**Create an account or sign in**",
+    "**Open the free Briefcase matter**",
+    "**Complete packet information before payment**",
+    "**Review for accuracy**",
+    "**Create a matter-bound Checkout Session**",
+    "**Confirm payment and generate**",
+    "**Download, reopen, and follow up**"
+  ];
+  let priorIndex = -1;
+  for (const marker of orderedMarkers) {
+    const markerIndex = dtc.indexOf(marker);
+    assert(markerIndex >= 0, `DTC flow is missing ordered stage: ${marker}`);
+    assert(markerIndex > priorIndex, `DTC flow stage is out of order: ${marker}`);
+    priorIndex = markerIndex;
+  }
+
+  assert(
+    !dtc.includes("Generate my packet — $50") && !dtc.includes("Generate my packet - $50"),
+    "The canonical DTC flow must use the approved final CTA without an em-dash or hyphen price construction."
+  );
+}
 
 if (failures.length) {
   console.error("Product flow docs verifier failed:");

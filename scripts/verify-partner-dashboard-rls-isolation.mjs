@@ -194,7 +194,7 @@ function verifySourceShape() {
     }
   }
 
-  if (!proxySource.includes('"/p/we-must-vote"') || !proxySource.includes('"/partner/dashboard"')) {
+  if (!proxySource.includes("shouldUseStaticWeMustVoteLanding") || !proxySource.includes('"/partner/dashboard"')) {
     failures.push("Proxy must preserve /p/we-must-vote and include /partner/dashboard session refresh.");
   }
 
@@ -790,8 +790,11 @@ async function verifyPublicRegressions() {
     failures.push(`/p/we-must-vote regression failed with status ${landing.status}.`);
   } else {
     const landingHtml = await landing.text();
-    if (!landingHtml.includes("We Must Vote Record-Clearing Access Pilot")) {
-      failures.push("/p/we-must-vote regression did not include the expected We Must Vote static landing marker.");
+    if (
+      !landingHtml.includes("We Must Vote Record-Clearing Access Pilot") &&
+      !landingHtml.includes("Clear your Mississippi record with We Must Vote")
+    ) {
+      failures.push("/p/we-must-vote regression did not include the expected static or same-origin dynamic We Must Vote landing marker.");
     }
   }
 

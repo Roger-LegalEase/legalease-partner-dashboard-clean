@@ -38,6 +38,14 @@ function quote(value) {
   if (value === null || value === undefined) return "null";
   if (typeof value === "number") return String(value);
   if (typeof value === "boolean") return value ? "true" : "false";
+  if (Array.isArray(value)) {
+    if (value.some((entry) => typeof entry !== "string")) {
+      throw new Error("this test double supports only string-array column values");
+    }
+    return value.length === 0
+      ? "array[]::text[]"
+      : `array[${value.map(quote).join(", ")}]::text[]`;
+  }
   if (typeof value === "object") return `'${JSON.stringify(value).replace(/'/g, "''")}'::jsonb`;
   return `'${String(value).replace(/'/g, "''")}'`;
 }
@@ -75,7 +83,16 @@ function rowsFromJson(text, { dml = false, role = null } = {}) {
  * passing one.
  */
 function table(name, role = null) {
-  const state = { name, role, filters: [], columns: "*", op: null, payload: null, order: null };
+  const state = {
+    name,
+    role,
+    filters: [],
+    columns: "*",
+    op: null,
+    payload: null,
+    order: null,
+    onConflict: null
+  };
 
   const api = {
     select(columns = "*") {
@@ -88,6 +105,13 @@ function table(name, role = null) {
       state.payload = payload;
       return api;
     },
+    upsert(payload, { onConflict } = {}) {
+      if (!onConflict) throw new Error("upsert() requires onConflict in this test double");
+      state.op = "upsert";
+      state.payload = payload;
+      state.onConflict = onConflict;
+      return api;
+    },
     update(payload) {
       state.op = "update";
       state.payload = payload;
@@ -95,6 +119,13 @@ function table(name, role = null) {
     },
     eq(column, value) {
       state.filters.push(`${column} = ${quote(value)}`);
+      return api;
+    },
+    in(column, values) {
+      if (!Array.isArray(values) || values.length === 0) {
+        throw new Error("in() requires at least one value in this test double");
+      }
+      state.filters.push(`${column} in (${values.map(quote).join(", ")})`);
       return api;
     },
     not(column, operator, value) {
@@ -135,6 +166,20 @@ async function run(state) {
       const vals = cols.map((c) => quote(state.payload[c]));
       return rowsFromJson(
         `insert into ${state.name} (${cols.join(", ")}) values (${vals.join(", ")}) returning *`,
+        { dml: true, role: state.role }
+      );
+    }
+    if (state.op === "upsert") {
+      const cols = Object.keys(state.payload);
+      const vals = cols.map((c) => quote(state.payload[c]));
+      const conflictCols = state.onConflict.split(",").map((column) => column.trim()).filter(Boolean);
+      const updates = cols
+        .filter((column) => !conflictCols.includes(column))
+        .map((column) => `${column} = excluded.${column}`)
+        .join(", ");
+      const conflictAction = updates ? `do update set ${updates}` : "do nothing";
+      return rowsFromJson(
+        `insert into ${state.name} (${cols.join(", ")}) values (${vals.join(", ")}) on conflict (${conflictCols.join(", ")}) ${conflictAction} returning *`,
         { dml: true, role: state.role }
       );
     }
