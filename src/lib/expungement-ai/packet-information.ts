@@ -1,5 +1,7 @@
 import "server-only";
 
+import { createHash } from "node:crypto";
+
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import type { AnswerValue, PacketPlan, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
@@ -19,7 +21,9 @@ export type PacketInformationModel = {
   pathwayLabel: string;
   packetPlan: PacketPlan | null;
   questions: ProfileQuestion[];
+  builderQuestions: ProfileQuestion[];
   initialAnswers: Record<string, AnswerValue>;
+  screeningAnswers: Record<string, AnswerValue>;
   requiredInputIds: string[];
   missingInputIds: string[];
   stage: PacketInformationStage;
@@ -78,15 +82,50 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     ...savedAnswers
   };
 
+  const mississippiNonConviction = profile.jurisdiction.code === "MS"
+    && pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+  if (mississippiNonConviction) {
+    for (const id of ["ownership_scope", "jurisdiction_scope", "resolved_timing_bucket", "court_requirements_completed"]) {
+      if (!(id in initialAnswers) && id in screeningAnswers) initialAnswers[id] = screeningAnswers[id];
+    }
+    if (!("offense_category" in initialAnswers) && "offense_level" in initialAnswers) initialAnswers.offense_category = initialAnswers.offense_level;
+    if (!("sentence_completion_date" in initialAnswers) && screeningAnswers.court_requirements_completed) {
+      initialAnswers.sentence_completion_date = answerTextRaw(screeningAnswers.court_requirements_completed) === "yes" ? "Yes" : "No";
+    }
+    if (!("court_requirements_completed" in initialAnswers) && screeningAnswers.court_requirements_completed) {
+      initialAnswers.court_requirements_completed = screeningAnswers.court_requirements_completed;
+    }
+  }
+
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(publicProfile)) {
     questionById.set(question.id, toProfileQuestion(question));
   }
 
-  const questions = requiredInputIds
+  let questions = requiredInputIds
     .filter((id) => !(id in serverFacts))
     .map((id) => questionById.get(id) ?? fallbackPacketQuestion(id))
     .map((question) => ({ ...question, required: true, contextOnly: false }));
+  if (mississippiNonConviction) {
+    const owner = answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes";
+    questions = questions.map((question) => question.id === "pending_cases"
+      ? { ...question, prompt: owner ? "Do you currently have any pending criminal charges?" : "Does this person currently have any pending criminal charges?" }
+      : question.id === "residency_or_location"
+        ? { ...question, prompt: "What city do you currently live in?", helperText: "This is used for the petitioner city in the packet." }
+        : question.id === "offense_category"
+          ? { ...question, prompt: "How is the offense classified on the court record?", helperText: "Use the classification printed on the record; for this route it is carried forward from the charge level when they match." }
+          : question);
+    const courtCompletion = questionById.get("court_requirements_completed")
+      ?? packetQuestion("court_requirements_completed", owner ? "Have you completed everything the court ordered in this case?" : "Has this person completed everything the court ordered in this case?", "yes_no_unsure");
+    questions.push({ ...courtCompletion, required: true, contextOnly: false });
+    for (const id of ["ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"]) {
+      const known = questionById.get(id);
+      if (known && !questions.some((question) => question.id === id)) questions.push({ ...known, required: true, contextOnly: false });
+    }
+  }
+  const builderQuestions = mississippiNonConviction
+    ? questions.filter((question) => !["offense_category", "offense_level", "sentence_completion_date", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id))
+    : questions;
   const missingInputIds = missingRequiredInputs(requiredInputIds, serverFacts, initialAnswers);
 
   return {
@@ -98,13 +137,35 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       : item.pathwayLabel ?? `${profile.jurisdiction.name} record-clearing`,
     packetPlan,
     questions,
+    builderQuestions,
     initialAnswers,
+    screeningAnswers,
     requiredInputIds,
     missingInputIds,
     stage: packetInformationStage(progress.stage),
     updatedAt: typeof progress.updatedAt === "string" ? progress.updatedAt : null,
     reviewedAt: typeof progress.reviewedAt === "string" ? progress.reviewedAt : null
   };
+}
+
+const MATERIAL_REVIEW_FIELDS = [
+  "age_at_offense", "case_outcome", "charge", "disposition_date", "financial_obligations",
+  "offense_category", "offense_level", "pending_cases", "prior_relief", "record_type",
+  "residency_or_location", "sentence_completion_date", "trafficking_status", "court_requirements_completed"
+];
+
+export function reviewedPacketInputHash(item: ConsumerBriefcaseItem) {
+  const model = packetInformationModelFor(item);
+  if (!model) return null;
+  const materialAnswers = Object.fromEntries(MATERIAL_REVIEW_FIELDS
+    .filter((id) => id in model.initialAnswers)
+    .sort()
+    .map((id) => [id, model.initialAnswers[id]]));
+  return createHash("sha256").update(JSON.stringify({
+    state: model.stateCode,
+    pathwayId: model.pathwayId,
+    answers: materialAnswers
+  })).digest("hex");
 }
 
 export function missingRequiredInputs(

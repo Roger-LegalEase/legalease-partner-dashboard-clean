@@ -77,7 +77,8 @@ function openSession(overrides = {}) {
       briefcase_item_id: ITEM,
       jurisdiction: "PA",
       pathway_label: "Path A — Non-conviction expungement",
-      packet_type: "custom_pleading"
+      packet_type: "custom_pleading",
+      reviewed_input_hash: "a".repeat(64)
     },
     line_items: {
       data: [{
@@ -210,7 +211,8 @@ function buildPaymentAdapter({
         update: async (id, params) => {
           updateCalls.push({ id, params });
           return { ...retrievedSession, metadata: { ...retrievedSession.metadata, ...params.metadata } };
-        }
+        },
+        expire: async (id) => ({ id, status: "expired" })
       }
     }
   };
@@ -255,7 +257,8 @@ function buildPaymentAdapter({
       packetInformationModelFor: () => reviewReady
         ? { stage: "ready_to_generate", missingInputIds: [], reviewedAt: "2026-08-15T00:00:00.000Z" }
         : null,
-      packetInformationReviewSafety: () => ({ safe: reviewReady })
+      packetInformationReviewSafety: () => ({ safe: reviewReady }),
+      reviewedPacketInputHash: () => "a".repeat(64)
     }
   });
 
@@ -405,7 +408,8 @@ function completedEvent(overrides = {}) {
           briefcase_item_id: ITEM,
           product_id: PRODUCT,
           person_id: PERSON,
-          matter_id: MATTER
+          matter_id: MATTER,
+          reviewed_input_hash: "a".repeat(64)
         }
       }
     }
@@ -486,6 +490,9 @@ function buildReconciliation({
     },
     "@/lib/expungement-ai/payment-adapter": {
       consumerPacketPriceCents: 5000
+    },
+    "@/lib/expungement-ai/packet-information": {
+      reviewedPacketInputHash: () => "a".repeat(64)
     },
     "@/lib/supabase/server": {
       getSupabaseAdminClient: () => supabase
@@ -666,7 +673,8 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
     },
     "@/lib/expungement-ai/packet-information": {
       packetInformationModelFor: () => model,
-      packetInformationReviewSafety: () => ({ safe: model.stage === "ready_to_generate" })
+      packetInformationReviewSafety: () => ({ safe: model.stage === "ready_to_generate" }),
+      reviewedPacketInputHash: () => "a".repeat(64)
     },
     "@/lib/rcap/render/job-contract": {
       buildRenderJobSpec: (input) => {

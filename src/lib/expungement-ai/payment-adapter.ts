@@ -7,7 +7,7 @@ import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapt
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
-import { packetInformationModelFor, packetInformationReviewSafety } from "@/lib/expungement-ai/packet-information";
+import { packetInformationModelFor, packetInformationReviewSafety, reviewedPacketInputHash } from "@/lib/expungement-ai/packet-information";
 import {
   CONSUMER_PACKET_PRODUCT_ID,
   persistConsumerCheckoutBinding
@@ -51,6 +51,7 @@ type ConsumerCheckoutBinding = {
   productId: typeof CONSUMER_PACKET_PRODUCT_ID;
   personId: string;
   matterId: string;
+  reviewedInputHash: string;
 };
 
 export type ConsumerCheckoutStatus = {
@@ -118,8 +119,10 @@ export async function createConsumerPacketCheckout({
     briefcaseItemId: item.id,
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId: person.personId,
-    matterId: consumerMatterIdForItem(item.id)
+    matterId: consumerMatterIdForItem(item.id),
+    reviewedInputHash: reviewedPacketInputHash(item) ?? ""
   };
+  if (!binding.reviewedInputHash) throw new ConsumerCheckoutReviewRequiredError();
 
   const defaultSuccessUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?payment=return&session_id={CHECKOUT_SESSION_ID}`);
   const defaultCancelUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?checkout=canceled`);
@@ -132,7 +135,9 @@ export async function createConsumerPacketCheckout({
       })
       : null;
 
-    if (existing && existing.status !== "expired") {
+    if (existing && existing.status !== "expired" && existing.metadata?.reviewed_input_hash !== binding.reviewedInputHash) {
+      if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
+    } else if (existing && existing.status !== "expired") {
       const reusable = await reconcileReusableCheckoutSession({
         stripe,
         session: existing,
@@ -242,7 +247,8 @@ function checkoutMetadata(binding: ConsumerCheckoutBinding, item: ConsumerBriefc
     source_session_id: item.sourceSessionId ?? "",
     jurisdiction: item.state,
     packet_type: item.packetType ?? "",
-    pathway_label: item.pathwayLabel ?? ""
+    pathway_label: item.pathwayLabel ?? "",
+    reviewed_input_hash: binding.reviewedInputHash
   };
 }
 
@@ -281,7 +287,8 @@ async function reconcileReusableCheckoutSession({
   const desired = {
     product_id: binding.productId,
     person_id: binding.personId,
-    matter_id: binding.matterId
+    matter_id: binding.matterId,
+    reviewed_input_hash: binding.reviewedInputHash
   };
   for (const [key, value] of Object.entries(desired)) {
     const existing = session.metadata?.[key];
@@ -314,6 +321,7 @@ function checkoutSessionBaseBindingMatches(
     && session.metadata?.channel === "expungement_ai_consumer"
     && session.metadata?.user_id === binding.userId
     && session.metadata?.briefcase_item_id === binding.briefcaseItemId
+    && session.metadata?.reviewed_input_hash === binding.reviewedInputHash
     && session.amount_total === consumerPacketPriceCents
     && (session.currency ?? "").toLowerCase() === "usd"
     && lineItems.length === 1

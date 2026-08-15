@@ -14,12 +14,14 @@ export function PacketInformationBuilder({
   questions,
   initialAnswers,
   initiallyMissing
+  ,editingFromReview = false
 }: {
   itemId: string;
   stateCode: string;
   questions: ProfileQuestion[];
   initialAnswers: Record<string, AnswerValue>;
   initiallyMissing: string[];
+  editingFromReview?: boolean;
 }) {
   const router = useRouter();
   const [answers, setAnswers] = useState(initialAnswers);
@@ -121,7 +123,8 @@ export function PacketInformationBuilder({
           disabled={saving}
           onClick={() => {
             setFieldError(null);
-            setIndex((current) => Math.max(0, current - 1));
+            if (editingFromReview && index === 0) router.push(`/briefcase/${encodeURIComponent(itemId)}/review`);
+            else setIndex((current) => Math.max(0, current - 1));
           }}
           type="button"
         >
@@ -132,7 +135,7 @@ export function PacketInformationBuilder({
             Save and leave
           </button>
           <button className="min-h-11 rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white disabled:opacity-60" disabled={saving} onClick={() => void continueForward()} type="button">
-            {saving ? "Saving..." : index === questions.length - 1 ? "Review for accuracy" : "Save and continue"}
+            {saving ? "Saving..." : index === questions.length - 1 ? editingFromReview ? "Save and return to review" : "Review for accuracy" : "Save and continue"}
           </button>
         </div>
       </div>

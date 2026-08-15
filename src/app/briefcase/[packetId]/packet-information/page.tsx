@@ -10,9 +10,11 @@ import { packetInformationModelFor } from "@/lib/expungement-ai/packet-informati
 export const dynamic = "force-dynamic";
 
 export default async function PacketInformationPage({
-  params
+  params,
+  searchParams
 }: {
   params: Promise<{ packetId: string }>;
+  searchParams: Promise<{ edit?: string }>;
 }) {
   const { packetId } = await params;
   const auth = await requireConsumerBriefcaseSession(`/briefcase/${packetId}/packet-information`);
@@ -22,6 +24,10 @@ export default async function PacketInformationPage({
   const model = item && packetResult && (item.paymentAllowed || sponsored)
     ? packetInformationModelFor(item)
     : null;
+  const editId = (await searchParams).edit?.trim();
+  const displayedQuestions = model
+    ? editId ? model.questions.filter((question) => question.id === editId) : model.builderQuestions
+    : [];
 
   return (
     <BriefcaseShell
@@ -54,9 +60,10 @@ export default async function PacketInformationPage({
           <PacketInformationBuilder
             itemId={item.id}
             stateCode={model.stateCode}
-            questions={model.questions}
+            questions={displayedQuestions}
             initialAnswers={model.initialAnswers}
             initiallyMissing={model.missingInputIds}
+            editingFromReview={Boolean(editId)}
           />
         </section>
       ) : (

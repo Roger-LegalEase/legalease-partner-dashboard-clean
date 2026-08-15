@@ -293,6 +293,22 @@ assert.deepEqual(packetInformationReviewSafety(reviewMatter), { safe: true, reas
 assert.equal(packetInformationReviewSafety(reviewMatter, { disposition_date: { value: "25-CR-000123", unknown: false } }).reason, "invalid_date:disposition_date");
 assert.equal(packetInformationReviewSafety(reviewMatter, { pending_cases: "Yes" }).reason, "route_changing_answer:pending_cases");
 assert.equal(packetInformationReviewSafety(reviewMatter, { trafficking_status: "Yes" }).reason, "route_changing_answer:trafficking_status");
+const ownerReviewModel = packetInformationModelFor(reviewMatter);
+assert.ok(ownerReviewModel);
+assert.equal(ownerReviewModel.builderQuestions.some((question) => question.id === "offense_level"), false, "screening charge level must not be asked again");
+assert.equal(ownerReviewModel.builderQuestions.some((question) => question.id === "offense_category"), false, "derived Mississippi offense category must not duplicate charge level");
+assert.equal(ownerReviewModel.builderQuestions.some((question) => question.id === "sentence_completion_date"), false, "screening court-completion answer must not be asked broadly again");
+assert.equal(ownerReviewModel.questions.find((question) => question.id === "pending_cases")?.prompt, "Do you currently have any pending criminal charges?");
+assert.equal(ownerReviewModel.questions.find((question) => question.id === "residency_or_location")?.prompt, "What city do you currently live in?");
+const helperReviewMatter = structuredClone(reviewMatter);
+helperReviewMatter.artifactRefs.commercialFlow.screening.answers.ownership_scope = "Another person";
+assert.equal(packetInformationModelFor(helperReviewMatter)?.questions.find((question) => question.id === "pending_cases")?.prompt, "Does this person currently have any pending criminal charges?");
+
+const reviewPageSource = fs.readFileSync(path.join(rootDir, "src/app/briefcase/[packetId]/review/page.tsx"), "utf8");
+for (const copy of ["Review your packet information", "Check each answer before you pay. You can edit anything below.", "Your information", "Case information", "Eligibility confirmations", "Your packet"]) {
+  assert.ok(reviewPageSource.includes(copy), `editable review is missing ${copy}`);
+}
+assert.ok(reviewPageSource.includes("packet-information?edit="), "every review row must route to its exact editable field");
 
 // Accepted packet matters created before commercialFlow metadata existed are
 // reconciled with server-owned state/pathway facts. Those facts must persist in
