@@ -15,6 +15,13 @@ import {
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
 export const consumerPacketPriceCents = 5000;
+export const consumerPacketCurrency = "usd" as const;
+
+export type ConsumerCheckoutOutcome =
+  | "checkout_created"
+  | "checkout_reused"
+  | "already_paid"
+  | "payment_pending";
 
 export type ConsumerPaymentIntent = {
   enabled: boolean;
@@ -27,6 +34,8 @@ export type ConsumerCheckoutResult = {
   checkoutSessionId: string;
   checkoutUrl: string;
   amountCents: 5000;
+  currency: typeof consumerPacketCurrency;
+  outcome: ConsumerCheckoutOutcome;
   briefcaseItemId: string;
   alreadyPaid?: boolean;
   paymentPending?: boolean;
@@ -93,6 +102,8 @@ export async function createConsumerPacketCheckout({
       checkoutSessionId: item.checkoutSessionId ?? "",
       checkoutUrl: consumerPacketReadyUrl(item.id),
       amountCents: consumerPacketPriceCents,
+      currency: consumerPacketCurrency,
+      outcome: "already_paid",
       briefcaseItemId: item.id,
       alreadyPaid: true
     };
@@ -139,6 +150,8 @@ export async function createConsumerPacketCheckout({
           checkoutSessionId: reusable.id,
           checkoutUrl: reusable.url,
           amountCents: consumerPacketPriceCents,
+          currency: consumerPacketCurrency,
+          outcome: "checkout_reused",
           briefcaseItemId: item.id
         };
       }
@@ -148,6 +161,8 @@ export async function createConsumerPacketCheckout({
           checkoutSessionId: reusable.id,
           checkoutUrl: consumerPacketReadyUrl(item.id),
           amountCents: consumerPacketPriceCents,
+          currency: consumerPacketCurrency,
+          outcome: "payment_pending",
           briefcaseItemId: item.id,
           paymentPending: true
         };
@@ -166,7 +181,7 @@ export async function createConsumerPacketCheckout({
         {
           quantity: 1,
           price_data: {
-            currency: "usd",
+            currency: consumerPacketCurrency,
             unit_amount: consumerPacketPriceCents,
             product_data: {
               name: "Expungement.ai self-help packet",
@@ -188,6 +203,8 @@ export async function createConsumerPacketCheckout({
       checkoutSessionId: session.id,
       checkoutUrl: session.url ?? defaultCancelUrl,
       amountCents: consumerPacketPriceCents,
+      currency: consumerPacketCurrency,
+      outcome: "checkout_created",
       briefcaseItemId: item.id
     };
   } catch (error) {
@@ -206,6 +223,8 @@ export async function createConsumerPacketCheckout({
       checkoutSessionId: dryRunSessionId,
       checkoutUrl: absoluteExpungementAiUrl(`/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}&session_id=${encodeURIComponent(dryRunSessionId)}&dry_run=1`),
       amountCents: consumerPacketPriceCents,
+      currency: consumerPacketCurrency,
+      outcome: "checkout_created",
       briefcaseItemId: item.id
     };
   }

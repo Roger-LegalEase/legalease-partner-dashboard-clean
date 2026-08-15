@@ -53,9 +53,15 @@ try {
     const body = await response.body();
     const payload = JSON.parse(body.toString("utf8"));
     checkoutPayloads.push({
+      status: response.status(),
+      topLevelKeys: Object.keys(payload).sort(),
       checkoutSessionId: payload?.checkoutSessionId,
       briefcaseItemId: payload?.briefcaseItemId,
       amountCents: payload?.amountCents,
+      currency: payload?.currency,
+      alreadyPaid: payload?.alreadyPaid,
+      paymentPending: payload?.paymentPending,
+      checkoutUrl: payload?.checkoutUrl,
       mode: payload?.mode,
       outcome: payload?.outcome
     });
@@ -219,9 +225,14 @@ try {
   const firstCheckoutResponse = await firstCheckoutResponsePromise;
   const firstCheckout = checkoutPayloads.at(-1) ?? {};
   check(firstCheckoutResponse.ok(), `Final-review Checkout returned ${firstCheckoutResponse.status()}.`);
+  check(firstCheckout.status === 200, `Captured Checkout status was ${String(firstCheckout.status)} instead of 200.`);
   check(firstCheckout.amountCents === 5000, `Checkout amount was ${String(firstCheckout.amountCents)} instead of 5000.`);
+  check(firstCheckout.currency === "usd", `Checkout currency was ${String(firstCheckout.currency)} instead of usd.`);
+  check(firstCheckout.outcome === "checkout_created", `First Checkout outcome was ${String(firstCheckout.outcome)} instead of checkout_created.`);
+  check(firstCheckout.alreadyPaid === false, `First Checkout alreadyPaid was ${String(firstCheckout.alreadyPaid)} instead of false.`);
   check(firstCheckout.briefcaseItemId === itemId, "Checkout response was not bound to the exact saved matter.");
   check(typeof firstCheckout.checkoutSessionId === "string" && firstCheckout.checkoutSessionId.startsWith("cs_test_"), "Checkout did not return a Stripe Sandbox Session.");
+  check(typeof firstCheckout.checkoutUrl === "string" && new URL(firstCheckout.checkoutUrl).hostname.endsWith("stripe.com"), "Checkout did not return a Stripe-hosted URL.");
   await page.waitForURL((url) => url.hostname.endsWith("stripe.com"), { timeout: 30_000 });
 
   await page.goto(reviewUrl, { waitUntil: "networkidle" });
@@ -231,8 +242,14 @@ try {
   const retryCheckoutResponse = await retryCheckoutResponsePromise;
   const retriedCheckout = checkoutPayloads.at(-1) ?? {};
   check(retryCheckoutResponse.ok(), `Checkout retry returned ${retryCheckoutResponse.status()}.`);
+  check(retriedCheckout.status === 200, `Captured Checkout retry status was ${String(retriedCheckout.status)} instead of 200.`);
   check(retriedCheckout.checkoutSessionId === firstCheckout.checkoutSessionId, "Checkout retry created or returned a different active Session.");
   check(retriedCheckout.briefcaseItemId === itemId, "Checkout retry changed the matter binding.");
+  check(retriedCheckout.amountCents === 5000, `Checkout retry amount was ${String(retriedCheckout.amountCents)} instead of 5000.`);
+  check(retriedCheckout.currency === "usd", `Checkout retry currency was ${String(retriedCheckout.currency)} instead of usd.`);
+  check(retriedCheckout.outcome === "checkout_reused", `Checkout retry outcome was ${String(retriedCheckout.outcome)} instead of checkout_reused.`);
+  check(retriedCheckout.alreadyPaid === false, `Checkout retry alreadyPaid was ${String(retriedCheckout.alreadyPaid)} instead of false.`);
+  check(typeof retriedCheckout.checkoutUrl === "string" && new URL(retriedCheckout.checkoutUrl).hostname.endsWith("stripe.com"), "Checkout retry did not return a Stripe-hosted URL.");
   await page.waitForURL((url) => url.hostname.endsWith("stripe.com"), { timeout: 30_000 });
   check(checkoutRequests.length === 2, `Expected exactly two browser Checkout requests (initial plus retry); saw ${checkoutRequests.length}.`);
 
@@ -250,6 +267,9 @@ try {
     checkoutSessionId: firstCheckout.checkoutSessionId,
     checkoutSessionReused: true,
     amountCents: firstCheckout.amountCents,
+    currency: firstCheckout.currency,
+    firstCheckoutResponse: firstCheckout,
+    retryCheckoutResponse: retriedCheckout,
     stoppedBeforeCardEntry: true
   }, null, 2)}\n`);
 

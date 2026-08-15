@@ -298,6 +298,9 @@ async function checkoutBehavior() {
     const h = buildPaymentAdapter();
     const result = await h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() });
     assert.equal(result.checkoutSessionId, "cs_test_new");
+    assert.equal(result.amountCents, 5000);
+    assert.equal(result.currency, "usd");
+    assert.equal(result.outcome, "checkout_created");
     assert.equal(h.createCalls.length, 1);
     assert.equal(h.createCalls[0].params.mode, "payment");
     assert.equal(h.createCalls[0].params.line_items[0].price_data.unit_amount, 5000);
@@ -320,6 +323,9 @@ async function checkoutBehavior() {
       item: eligibleItem({ checkoutSessionId: legacy.id })
     });
     assert.equal(result.checkoutSessionId, legacy.id, "legacy open Session must be reused");
+    assert.equal(result.amountCents, 5000, "reused Session must return the normalized amount");
+    assert.equal(result.currency, "usd", "reused Session must return the normalized currency");
+    assert.equal(result.outcome, "checkout_reused", "reused Session must report reuse");
     assert.equal(h.createCalls.length, 0, "missing new metadata must not mint a replacement Session");
     assert.equal(h.retrieveCalls.length, 1);
     assert.equal(h.updateCalls.length, 1);

@@ -71,14 +71,11 @@ export async function POST(request: NextRequest) {
       checkoutSessionId: checkout.checkoutSessionId,
       mode: checkout.mode,
       amountCents: checkout.amountCents,
+      currency: checkout.currency,
       briefcaseItemId: checkout.briefcaseItemId,
       alreadyPaid: checkout.alreadyPaid ?? false,
       paymentPending: checkout.paymentPending ?? false,
-      outcome: checkout.alreadyPaid
-        ? "already_paid"
-        : checkout.paymentPending
-          ? "payment_pending"
-          : "checkout_created"
+      outcome: checkout.outcome
     });
   } catch (error) {
     if (error instanceof ConsumerCheckoutNotAllowedError) {
