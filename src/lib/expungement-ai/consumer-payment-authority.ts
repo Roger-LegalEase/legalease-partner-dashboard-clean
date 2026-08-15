@@ -24,6 +24,7 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 export const CONSUMER_PACKET_PRICE_CENTS = 5000;
 export const CONSUMER_PACKET_CURRENCY = "usd";
+export const CONSUMER_PACKET_PRODUCT_ID = "expungement_packet";
 
 /**
  * Which server proved the payment. The database constrains this column to these
@@ -36,11 +37,19 @@ export type ConsumerPaymentOutcome =
   | "recorded_paid"
   | "recorded_refunded"
   | "recorded_unpaid"
+  | "already_paid"
   | "duplicate_provider_event"
+  | "checkout_binding_mismatch"
+  | "invalid_payment_identity"
+  | "payment_conflict"
   | "invalid_payment_evidence"
+  | "payment_not_allowed"
+  | "sponsored_item"
   | "invalid_authority"
   | "invalid_item"
+  | "invalid_status"
   | "item_not_found"
+  | "no_payment_storage"
   | "storage_unavailable"
   | "evidence_rejected";
 
@@ -63,6 +72,9 @@ export type RecordConsumerPaymentInput = {
   checkoutSessionId?: string | null;
   paymentIntentId?: string | null;
   receiptUrl?: string | null;
+  productId: typeof CONSUMER_PACKET_PRODUCT_ID;
+  personId: string;
+  matterId: string;
   authority: ConsumerPaymentAuthority;
   /** Free-text provenance for the audit trail, e.g. the route that recorded it. */
   recordedBy: string;
@@ -87,6 +99,12 @@ function rejectEvidence(input: RecordConsumerPaymentInput): string | null {
   }
   if (!input.providerEventId || !input.providerEventId.trim()) {
     return "a provider event id is required";
+  }
+  if (input.productId !== CONSUMER_PACKET_PRODUCT_ID) {
+    return `product_id must be ${CONSUMER_PACKET_PRODUCT_ID}`;
+  }
+  if (!input.checkoutSessionId?.trim() || !input.personId || !input.matterId) {
+    return "checkout session, person and matter bindings are required";
   }
   return null;
 }
@@ -128,7 +146,10 @@ export async function recordConsumerPacketPayment(
     p_payment_intent_id: input.paymentIntentId ?? null,
     p_receipt_url: input.receiptUrl ?? null,
     p_authority: input.authority,
-    p_recorded_by: input.recordedBy
+    p_recorded_by: input.recordedBy,
+    p_product_id: input.productId,
+    p_person_id: input.personId,
+    p_matter_id: input.matterId
   });
 
   if (error) {
@@ -176,17 +197,30 @@ export type ConsumerPaymentAuthorityProbe = {
  */
 export async function consumerPacketPaymentAuthority(
   briefcaseItemId: string,
-  consumerAuthUserId: string
+  consumerAuthUserId: string,
+  binding?: {
+    productId: typeof CONSUMER_PACKET_PRODUCT_ID;
+    personId: string;
+    matterId: string;
+  }
 ): Promise<ConsumerPaymentAuthorityProbe> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
     return { valid: false, reason: "storage_unavailable", providerEventId: null };
   }
 
-  const { data, error } = await supabase.rpc("consumer_packet_payment_authority", {
-    p_briefcase_item_id: briefcaseItemId,
-    p_consumer_auth_user_id: consumerAuthUserId
-  });
+  const { data, error } = await supabase.rpc("consumer_packet_payment_authority", binding
+    ? {
+      p_briefcase_item_id: briefcaseItemId,
+      p_consumer_auth_user_id: consumerAuthUserId,
+      p_product_id: binding.productId,
+      p_person_id: binding.personId,
+      p_matter_id: binding.matterId
+    }
+    : {
+      p_briefcase_item_id: briefcaseItemId,
+      p_consumer_auth_user_id: consumerAuthUserId
+    });
 
   if (error) return { valid: false, reason: error.message, providerEventId: null };
 
@@ -211,5 +245,51 @@ export function isPaidOutcome(outcome: ConsumerPaymentOutcome): boolean {
  * reported as a fresh payment.
  */
 export function isAlreadyRecordedOutcome(outcome: ConsumerPaymentOutcome): boolean {
-  return outcome === "duplicate_provider_event";
+  return outcome === "already_paid";
+}
+
+/**
+ * Stores the exact unpaid Checkout binding through the service role. This is
+ * deliberately separate from the signed-event writer: beginning Checkout may
+ * store the Session and immutable matter identity, but it can never write paid.
+ */
+export async function persistConsumerCheckoutBinding(input: {
+  userId: string;
+  briefcaseItemId: string;
+  checkoutSessionId: string;
+  paymentProvider: "stripe" | "dry_run";
+  productId: typeof CONSUMER_PACKET_PRODUCT_ID;
+  personId: string;
+  matterId: string;
+}): Promise<boolean> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return false;
+
+  const { data, error } = await supabase
+    .from("consumer_briefcase_items")
+    .update({
+      payment_status: "unpaid",
+      payment_provider: input.paymentProvider,
+      checkout_session_id: input.checkoutSessionId,
+      amount_cents: CONSUMER_PACKET_PRICE_CENTS,
+      payment_product_id: input.productId,
+      payment_person_id: input.personId,
+      payment_matter_id: input.matterId,
+      packet_status: "not_started",
+      updated_at: new Date().toISOString()
+    })
+    .eq("id", input.briefcaseItemId)
+    .eq("user_id", input.userId)
+    .eq("payment_allowed", true)
+    .eq("status", "packet_ready")
+    .eq("payment_status", "unpaid")
+    .in("result_code", ["packet_ready", "packet_ready_with_caution"])
+    .in("packet_type", ["official_pdf_overlay", "custom_pleading", "legacy_packet"])
+    .not("pathway_label", "is", null)
+    .select("id, checkout_session_id")
+    .maybeSingle<{ id: string; checkout_session_id: string }>();
+
+  return !error
+    && data?.id === input.briefcaseItemId
+    && data.checkout_session_id === input.checkoutSessionId;
 }

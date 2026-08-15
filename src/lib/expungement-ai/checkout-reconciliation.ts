@@ -8,12 +8,14 @@ import {
 } from "@/lib/expungement-ai/briefcase";
 import {
   CONSUMER_PACKET_CURRENCY,
+  CONSUMER_PACKET_PRODUCT_ID,
   isAlreadyRecordedOutcome,
   isPaidOutcome,
   recordConsumerPacketPayment
 } from "@/lib/expungement-ai/consumer-payment-authority";
 import { scheduleConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout-analytics";
-import { generatePaidConsumerPacket } from "@/lib/expungement-ai/packet-generation";
+import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
+import { requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -50,7 +52,7 @@ export async function reconcileExpungementAiCheckoutEvent(
   const userId = session.metadata.user_id;
   const briefcaseItemId = session.metadata.briefcase_item_id;
   if (!userId || !briefcaseItemId) {
-    return "ignored";
+    throw new ConsumerCheckoutEvidenceError("consumer user and Briefcase item metadata are required");
   }
 
   if (session.payment_status !== "paid") {
@@ -58,7 +60,10 @@ export async function reconcileExpungementAiCheckoutEvent(
   }
 
   if (session.client_reference_id !== briefcaseItemId) {
-    throw new Error("Consumer checkout session reference mismatch.");
+    throw new ConsumerCheckoutEvidenceError("Checkout Session reference does not match its Briefcase item");
+  }
+  if (session.mode !== "payment") {
+    throw new ConsumerCheckoutEvidenceError(`Checkout Session mode ${String(session.mode)} is not payment`);
   }
 
   // Amount and currency come from the signed event, never from the constant we
@@ -79,8 +84,21 @@ export async function reconcileExpungementAiCheckoutEvent(
     throw new Error("Consumer checkout Briefcase item not found.");
   }
 
-  if (item.checkoutSessionId && item.checkoutSessionId !== session.id) {
-    throw new Error("Consumer checkout session does not match Briefcase item.");
+  await assertConsumerItemIsNotSponsored(item);
+
+  const person = await resolveConsumerPersonId(userId);
+  if (!person.ok) {
+    throw new ConsumerCheckoutEvidenceError(`canonical consumer person could not be resolved: ${person.reason}`);
+  }
+  const matterId = consumerMatterIdForItem(item.id);
+  if (session.metadata.product_id !== CONSUMER_PACKET_PRODUCT_ID
+    || session.metadata.person_id !== person.personId
+    || session.metadata.matter_id !== matterId) {
+    throw new ConsumerCheckoutEvidenceError("product, person or matter metadata does not match the canonical Briefcase binding");
+  }
+
+  if (item.checkoutSessionId !== session.id) {
+    throw new ConsumerCheckoutEvidenceError("Checkout Session does not match the persisted Briefcase binding");
   }
 
   const claimedEvent = await claimProcessedStripeEvent(event.id, event.type, session.id);
@@ -88,15 +106,16 @@ export async function reconcileExpungementAiCheckoutEvent(
     // Duplicate delivery of this exact event id (Stripe retry, or the same event fanned
     // out to the canonical + legacy endpoints). Never regenerate a packet that is already
     // ready, but recover a paid-but-unfinished packet — e.g. the first delivery claimed the
-    // event then failed mid-generation. finalizePaidCheckoutSession is fully idempotent:
-    // the metadata update is keyed by (userId, itemId) and generation is re-entrant, so no
-    // duplicate charge or duplicate artifact can result.
+    // event then failed before enqueue completed. finalizePaidCheckoutSession is
+    // idempotent: the payment writer converges on already_paid and the Phase 53
+    // queue converges on the same packet/input job, so no duplicate entitlement
+    // or duplicate artifact can result.
     if (item.packetStatus === "ready") return "duplicate";
-    await finalizePaidCheckoutSession(userId, item, session, event.id);
+    await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId);
     return "recovered";
   }
 
-  await finalizePaidCheckoutSession(userId, item, session, event.id);
+  await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId);
   return "processed";
 }
 
@@ -104,7 +123,9 @@ async function finalizePaidCheckoutSession(
   userId: string,
   item: ConsumerBriefcaseItem,
   session: Stripe.Checkout.Session,
-  providerEventId: string
+  providerEventId: string,
+  personId: string,
+  matterId: string
 ): Promise<void> {
   // The payment fact goes through the server-only writer, never through a
   // column update. Phase 52 revoked the application's privilege to set these
@@ -122,6 +143,9 @@ async function finalizePaidCheckoutSession(
     checkoutSessionId: session.id,
     paymentIntentId: paymentIntentIdFor(session) ?? null,
     receiptUrl: null,
+    productId: CONSUMER_PACKET_PRODUCT_ID,
+    personId,
+    matterId,
     authority: "server_webhook",
     recordedBy: "expungement_ai_stripe_webhook"
   });
@@ -135,12 +159,23 @@ async function finalizePaidCheckoutSession(
     );
   }
 
-  // Packet status is not a payment fact and is still the application's to set.
-  await updateBriefcasePacketStatusForWebhook(
+  const render = await requestConsumerPacketRenderForWebhook({
+    authUserId: userId,
+    briefcaseItemId: item.id
+  });
+  if (render.status !== "queued") {
+    throw new Error(`Durable consumer render job was not queued (${render.status}).`);
+  }
+
+  // Packet status is not payment authority. It follows the durable queue and
+  // is never marked ready by the webhook itself; only validated stored bytes
+  // may produce Ready.
+  const statusUpdated = await updateBriefcasePacketStatusForWebhook(
     userId,
     item.id,
     item.packetStatus === "ready" ? "ready" : "pending"
   );
+  if (!statusUpdated) throw new Error("Unable to record the queued packet status.");
 
   // Authoritative paid signal: unlike the polled confirmation route, this fires even if the user
   // never returns to the site. Both producers are deduped to one funnel event by the shared
@@ -154,11 +189,28 @@ async function finalizePaidCheckoutSession(
     mode: "stripe"
   });
 
-  await generatePaidConsumerPacket({
-    userId,
-    briefcaseItemId: item.id,
-    webhookMode: true
-  });
+}
+
+async function assertConsumerItemIsNotSponsored(item: ConsumerBriefcaseItem): Promise<void> {
+  if (!item.sourceSessionId) return;
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) throw new Error("Stripe webhook sponsorship authority is not configured.");
+
+  const { data, error } = await supabase
+    .from("screening_sessions")
+    .select("session_id, flow_mode, partner_benefit_active, partner_slug")
+    .eq("session_id", item.sourceSessionId)
+    .maybeSingle<{
+      session_id: string;
+      flow_mode: string | null;
+      partner_benefit_active: boolean | null;
+      partner_slug: string | null;
+    }>();
+
+  if (error) throw new Error("Unable to verify Checkout sponsorship authority.");
+  if (data?.flow_mode === "rcap" && data.partner_benefit_active === true && data.partner_slug) {
+    throw new ConsumerCheckoutEvidenceError("partner-sponsored RCAP matters cannot enter the consumer payment writer");
+  }
 }
 
 function paymentIntentIdFor(session: Stripe.Checkout.Session): string | undefined {

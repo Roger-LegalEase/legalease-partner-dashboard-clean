@@ -3,6 +3,7 @@ import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import {
   ConsumerCheckoutNotAllowedError,
+  ConsumerCheckoutReviewRequiredError,
   ConsumerCheckoutTemporarilyUnavailableError,
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
@@ -72,11 +73,23 @@ export async function POST(request: NextRequest) {
       amountCents: checkout.amountCents,
       briefcaseItemId: checkout.briefcaseItemId,
       alreadyPaid: checkout.alreadyPaid ?? false,
-      outcome: checkout.alreadyPaid ? "already_paid" : "checkout_created"
+      paymentPending: checkout.paymentPending ?? false,
+      outcome: checkout.alreadyPaid
+        ? "already_paid"
+        : checkout.paymentPending
+          ? "payment_pending"
+          : "checkout_created"
     });
   } catch (error) {
     if (error instanceof ConsumerCheckoutNotAllowedError) {
       return NextResponse.json({ error: "Checkout is not available for this result.", resultCode: error.resultCode }, { status: 403 });
+    }
+
+    if (error instanceof ConsumerCheckoutReviewRequiredError) {
+      return NextResponse.json({
+        error: "Complete and review your packet information before starting checkout.",
+        outcome: "review_required"
+      }, { status: 409 });
     }
 
     if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) {
