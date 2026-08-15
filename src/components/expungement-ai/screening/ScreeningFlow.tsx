@@ -16,7 +16,7 @@
  * in `profile-loader.ts` is dropped and the data leaves the bundle.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import type {
   AnswerValue,
@@ -35,7 +35,6 @@ import { blocksContinue, toScreeningAnswers } from "@/components/expungement-ai/
 import { deriveScreens } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
-import { resolvePartnerSessionId } from "@/components/expungement-ai/screening/partner-session";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { trackFunnelEvent } from "@/lib/analytics/client";
 import {
@@ -46,10 +45,7 @@ import {
 
 const PICKER_PATH = "/expungement-ai/screening";
 const PROFILE_LOAD_GUARD_MS = 12_000;
-// Where the packet action sends a partner/session-mode user. The direct-to-consumer
-// pay-and-generate flow (PACKET_PATH) does not apply when screening began through a partner.
-const BRIEFCASE_PATH = "/briefcase";
-const CHECKOUT_START_ERROR = "We could not start checkout right now. Please try again.";
+const SAVE_RESULT_ERROR = "We could not save this matter right now. Please try again.";
 
 type LoadState =
   | { status: "loading" }
@@ -67,13 +63,6 @@ function createMatterId(): string {
   return `matter-${Date.now().toString(36)}`;
 }
 
-function packetTypeForPlan(mode: string | undefined): "official_pdf_overlay" | "custom_pleading" | "guidance_packet" | undefined {
-  if (mode === "automatic_relief_verification_and_guidance") return "guidance_packet";
-  if (mode === "official_form_overlay_or_source_form_set") return "official_pdf_overlay";
-  if (mode === "state_specific_custom_packet_from_source_rules") return "custom_pleading";
-  return undefined;
-}
-
 async function markScreeningSessionCompleted(sessionId: string | undefined) {
   if (!sessionId) return;
   try {
@@ -89,14 +78,10 @@ async function markScreeningSessionCompleted(sessionId: string | undefined) {
 
 export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { t: translate } = useLocalization();
-  // Partner/session mode follows the session the user *arrived* with: the server-provided prop, or —
-  // when the server render did not carry it (e.g. a statically optimized response) — a valid
-  // ?session= UUID read from the URL on the client. It is intentionally NOT derived from the live
-  // `sessionId` state, so a DTC user who later saves progress (which mints a sessionId) keeps the
-  // $50 consumer flow.
-  const effectiveInitialSessionId = resolvePartnerSessionId(initialSessionId, searchParams.get("session"));
+  // Only the server-validated active-benefit session prop enables partner
+  // presentation. A syntactically valid UUID in the URL is not authority.
+  const effectiveInitialSessionId = initialSessionId;
   const isPartnerSession = Boolean(effectiveInitialSessionId);
   const [load, setLoad] = useState<LoadState>({ status: "loading" });
   const [loadNonce, setLoadNonce] = useState(0);
@@ -261,87 +246,49 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     }
   }
 
-  // Partner result CTA: save the completed result as a real Briefcase matter, then open Briefcase.
-  // DTC (no partner session) keeps the existing pay-and-generate route, unchanged.
+  // Every completed result is handed to the server as inputs, not as trusted
+  // route or payment identity. The pending endpoint re-evaluates those inputs;
+  // the authenticated claim does it again and lands on the exact saved matter.
   async function handlePacketAction() {
     if (!evaluation) return;
     setPacketActionError(null);
 
-    const payload = {
-      jurisdiction: stateName,
-      resultCode: evaluation.resultCode,
-      pathwayLabel: `${stateName} record-clearing`,
-      packetType: packetTypeForPlan(evaluation.packetPlan?.mode),
-      paymentAllowed: evaluation.paymentAllowed,
-      summary: `${stateName} record-clearing result saved from your screening.`,
-      nextSteps: evaluation.nextSteps,
-      sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined
-    };
-
-    if (!isPartnerSession) {
-      try {
-        const response = await fetch("/api/expungement-ai/screening/save-result", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const result = await response.json().catch(() => null) as { itemId?: string } | null;
-        if (response.ok && result?.itemId) {
-          router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`);
-          return;
-        }
-        if (response.status !== 401) {
-          setPacketActionError(CHECKOUT_START_ERROR);
-          return;
-        }
-      } catch {
-        // Continue into pending handoff so auth can recover the completed result.
-      }
-
-      const pendingResponse = await fetch("/api/expungement-ai/screening/pending", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...payload,
-          product: "expungement_ai_dtc",
-          jurisdiction: stateName,
-          answers,
-          profileVersion: profile.profileVersion,
-          matterId: matterIdRef.current,
-          packetPlan: evaluation.packetPlan ?? {}
-        })
-      }).catch(() => null);
-      const pending = await pendingResponse?.json().catch(() => null) as { pendingId?: string } | null;
-      if (!pendingResponse?.ok || !pending?.pendingId) {
-        setPacketActionError(CHECKOUT_START_ERROR);
-        return;
-      }
-      const params = new URLSearchParams({
-        mode: "create",
-        next: "/expungement-ai/pay"
-      });
-      params.set("pending", pending.pendingId);
-      router.push(`/expungement-ai/sign-in?${params.toString()}`);
+    const pendingResponse = await fetch("/api/expungement-ai/screening/pending", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc",
+        jurisdiction: profile.jurisdiction.code,
+        answers: toScreeningAnswers(answers),
+        profileVersion: profile.profileVersion,
+        matterId: matterIdRef.current,
+        sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined
+      })
+    }).catch(() => null);
+    const pending = await pendingResponse?.json().catch(() => null) as { pendingId?: string } | null;
+    if (!pendingResponse?.ok || !pending?.pendingId) {
+      setPacketActionError(SAVE_RESULT_ERROR);
       return;
     }
 
-    // Partner mode saves only the result. Raw answers are never included in this payload.
-    try {
-      const response = await fetch("/api/expungement-ai/screening/save-result", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      if (response.status === 401) {
-        // Preserve the intent to save, then send the user to sign in and come back to Briefcase.
-        window.sessionStorage.setItem("expungement-ai:pending-briefcase-save", JSON.stringify(payload));
-        router.push("/expungement-ai/sign-in?mode=create&next=/briefcase");
-        return;
-      }
-    } catch {
-      // Best effort: still take the user to their Briefcase.
+    const claimResponse = await fetch("/api/expungement-ai/screening/pending/claim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })
+    }).catch(() => null);
+    const claimed = await claimResponse?.json().catch(() => null) as { redirectTo?: string } | null;
+    if (claimResponse?.ok && claimed?.redirectTo) {
+      router.push(claimed.redirectTo);
+      return;
     }
-    router.push(BRIEFCASE_PATH);
+    if (claimResponse?.status !== 401) {
+      setPacketActionError(SAVE_RESULT_ERROR);
+      return;
+    }
+
+    const params = new URLSearchParams({ mode: "create", next: "/briefcase" });
+    params.set("pending", pending.pendingId);
+    router.push(`/expungement-ai/sign-in?${params.toString()}`);
   }
 
   function handleContinue() {

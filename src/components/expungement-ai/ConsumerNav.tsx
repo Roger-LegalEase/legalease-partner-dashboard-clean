@@ -81,10 +81,12 @@ function AuthControl({ isAuthenticated, light = false }: { isAuthenticated: bool
           <User className="h-4 w-4" aria-hidden="true" />
           <LocalizedText k="briefcase.account" fallback="Account" />
         </Link>
-        <Link className={light ? appButtonClass : marketingButtonClass} href="/sign-out">
-          <LogOut className="h-4 w-4" aria-hidden="true" />
-          <LocalizedText k="common.sign_out" fallback="Sign out" />
-        </Link>
+        <form action="/sign-out" method="post">
+          <button className={light ? appButtonClass : marketingButtonClass} type="submit">
+            <LogOut className="h-4 w-4" aria-hidden="true" />
+            <LocalizedText k="common.sign_out" fallback="Sign out" />
+          </button>
+        </form>
       </div>
     );
   }

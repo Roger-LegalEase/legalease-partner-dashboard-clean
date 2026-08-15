@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
+import { shouldUseStaticWeMustVoteLanding } from "@/lib/partners/we-must-vote-routing";
 import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
 export async function proxy(request: NextRequest) {
@@ -9,7 +10,7 @@ export async function proxy(request: NextRequest) {
     return hostRouting;
   }
 
-  if (request.nextUrl.pathname === "/p/we-must-vote") {
+  if (shouldUseStaticWeMustVoteLanding(request.nextUrl.pathname, request.headers.get("host"))) {
     return NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url));
   }
 

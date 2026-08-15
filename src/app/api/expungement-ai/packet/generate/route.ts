@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
       briefcaseItemId
     });
   } catch (error) {
-    return packetErrorResponse(error);
+    return packetErrorResponse(error, isPartnerSponsored);
   }
 }
 
@@ -83,17 +83,29 @@ function safeArtifact(artifact: { fileName: string; generatedAt: string; source:
   };
 }
 
-function packetErrorResponse(error: unknown) {
+function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
   if (error instanceof ConsumerPacketNotFoundError) {
     return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
   }
   if (error instanceof ConsumerPacketPaymentRequiredError) {
+    if (isPartnerSponsored) {
+      return NextResponse.json(
+        { error: "Partner packet coverage could not be confirmed for this matter." },
+        { status: 403 }
+      );
+    }
     return NextResponse.json({ error: "Payment confirmation is required before packet generation." }, { status: 402 });
   }
   if (error instanceof ConsumerPacketNotAllowedError) {
     return NextResponse.json({ error: "Packet generation is not available for this result.", resultCode: error.resultCode }, { status: 403 });
   }
   if (error instanceof ConsumerPacketGenerationError) {
+    if (isPartnerSponsored) {
+      return NextResponse.json(
+        { error: "We could not prepare your partner-covered packet right now. Try again or contact support." },
+        { status: 502 }
+      );
+    }
     return NextResponse.json({ error: "Your payment was confirmed, but we need to regenerate your packet. Try again or contact support." }, { status: 502 });
   }
   throw error;

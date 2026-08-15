@@ -291,8 +291,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "signin.account": { en: "Your Expungement.ai account", es: "Su cuenta de Expungement.ai" },
   "signin.create_title": { en: "Create your account", es: "Cree su cuenta" },
   "signin.create_body": {
-    en: "Create an account to save your result, continue to checkout, and return to your packet in your Briefcase.",
-    es: "Cree una cuenta para guardar su resultado, continuar al pago y volver a su paquete en su Maletín."
+    en: "Create an account to save this result in your free Briefcase, complete packet information, and return later.",
+    es: "Cree una cuenta para guardar este resultado en su Maletín gratuito, completar la información del paquete y volver más tarde."
   },
   "signin.create_submit": { en: "Create account and continue", es: "Crear cuenta y continuar" },
   "signin.creating": { en: "Creating account...", es: "Creando cuenta..." },

@@ -86,7 +86,7 @@ function applyEnglishWorkflowOverrides(en: Record<string, string>) {
   Object.assign(en, {
     hero_eyebrow: "PRIVATE RECORD-CLEARING CHECK",
     hero_h1: "Find out if your record can be cleared. Then get the paperwork to file it yourself for <span class=\"price\">$50</span>.",
-    hero_sub: "Answer a few plain-English questions. Based on what you shared, Expungement.ai checks whether a record-clearing path may be available, prepares your state-specific self-help court documents, and gives you step-by-step filing instructions. Free to start. No payment unless your packet is ready.",
+    hero_sub: "Start with a free record check. If a self-help packet is available for your matter, it costs $50 to generate. Answer a few plain-English questions without creating an account, save the result to your free Briefcase, and complete packet information before deciding whether to pay.",
     nav_pricing: "Price",
     nav_faq: "Questions",
     nav_cta: "Check my record free &#8594;",
@@ -101,9 +101,12 @@ function applyEnglishWorkflowOverrides(en: Record<string, string>) {
     strip_p1: "No account required to begin.",
     strip_h2: "Filing steps for your court",
     strip_p2: "Know what to file, where to file, and what fees or waivers may apply.",
-    strip_h3: "$50 when your packet is ready",
-    strip_p3: "No subscription. Court filing fees, if any, are separate.",
-    elig_cta: "Check my record free <span class=\"arr\">&#8594;</span>"
+    strip_h3: "$50 for one packet-generating matter",
+    strip_p3: "Your Briefcase is free. No subscription. Court filing fees, if any, are separate.",
+    elig_cta: "Check my record free <span class=\"arr\">&#8594;</span>",
+    pr_h2: "One flat price for the matter you are ready to generate.",
+    pr_free: "The Briefcase and packet-information builder are free. Pay only after your accuracy review.",
+    fq_a3: "The $50 per matter covers one personalized self-help packet set, its filing checklist, and court-specific instructions. Your Briefcase is free. Court filing fees, if any, are separate."
   });
 }
 
@@ -113,7 +116,7 @@ function applySpanishSafetyOverrides(es: Record<string, string>) {
     m_cta: "Revisar mi antecedente gratis &#8594;",
     hero_eyebrow: "REVISION PRIVADA DE LIMPIEZA DE ANTECEDENTES",
     hero_h1: "Vea si su antecedente puede limpiarse, luego obtenga los documentos para presentarlos usted mismo por <span class=\"price\">$50</span>.",
-    hero_sub: "Responda unas preguntas sencillas en lenguaje claro. Según lo que usted comparta, Expungement.ai revisa si puede haber una vía para limpiar su registro, prepara documentos judiciales de autoayuda específicos para su estado y le da instrucciones paso a paso para presentar. Gratis para empezar. No paga a menos que su paquete esté listo.",
+    hero_sub: "Empiece con una revisión gratuita de antecedentes. Si hay un paquete de autoayuda disponible para su asunto, cuesta $50 generarlo. Puede guardar el resultado en su Maletín gratuito y completar la información antes de decidir si paga.",
     hero_cta1: "Revisar mi antecedente gratis <span class=\"arr\">&#8594;</span>",
     hero_cta2: "Ver un paquete de ejemplo",
     hero_micro: "Unos 3 minutos &nbsp;&middot;&nbsp; Sin cuenta &nbsp;&middot;&nbsp; Sin pago para empezar &nbsp;&middot;&nbsp; Privado &nbsp;&middot;&nbsp; Los 50 estados + DC",
@@ -124,8 +127,8 @@ function applySpanishSafetyOverrides(es: Record<string, string>) {
     strip_p1: "No necesita cuenta para empezar.",
     strip_h2: "Pasos de presentacion para su tribunal",
     strip_p2: "Sepa que presentar, donde presentarlo y que tasas o exenciones pueden aplicar.",
-    strip_h3: "$50 cuando su paquete este listo",
-    strip_p3: "Sin suscripcion. Las tasas de presentacion del tribunal, si las hay, son aparte.",
+    strip_h3: "$50 por un paquete para un asunto",
+    strip_p3: "Su Maletín es gratuito. Sin suscripcion. Las tasas de presentacion del tribunal, si las hay, son aparte.",
     prob_lead: "Arrestos antiguos, cargos desestimados, delitos menores y algunas condenas pueden crear obstáculos al solicitar trabajo, vivienda, estudios, licencias o un nuevo comienzo. Expungement.ai le ayuda a ver si puede haber una vía legal, y luego le ayuda a dar el siguiente paso.",
     fade3: "¿Puede haber una ruta?",
     how_h0: "Revise si puede haber una ruta",
@@ -142,7 +145,7 @@ function applySpanishSafetyOverrides(es: Record<string, string>) {
     fn_cta: "Revisar mi antecedente gratis <span class=\"arr\">&#8594;</span>",
     ft_blurb: "Expungement.ai ayuda a las personas a preparar documentos de autoayuda para limpieza de antecedentes y guía de presentación.",
     ft_check: "Revisar mi ruta",
-    _title: "Expungement.ai — Paquete de autoayuda por $50, sin contratar un abogado",
+    _title: "Expungement.ai: Paquete de autoayuda por $50, sin contratar un abogado",
     _desc: "Revise si puede haber una ruta, reciba su paquete de autoayuda y preséntelo usted mismo con guía paso a paso. Gratis para revisar. $50 por caso.",
     ev_head: "Limpiar un antecedente puede cambiar lo que viene después.",
     ts_h2: "Personas que prepararon una solicitud de limpieza de antecedentes con Expungement.ai.",
@@ -162,7 +165,7 @@ function htmlToText(value: string) {
     .replace(/&#10003;/g, "✓")
     .replace(/&copy;/g, "©")
     .replace(/&ndash;/g, "–")
-    .replace(/&mdash;/g, "—")
+    .replace(/&mdash;/g, " - ")
     .replace(/&quot;/g, "\"")
     .replace(/&#39;/g, "'")
     .replace(/\s+/g, " ")

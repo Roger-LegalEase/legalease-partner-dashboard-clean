@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useState } from "react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
@@ -12,6 +12,7 @@ import { useLocalization } from "@/components/expungement-ai/LocalizationProvide
 const genericError = "We could not sign you in. Check your email and password and try again.";
 const genericCreateError = "We could not create your account. Check your email and password and try again.";
 const confirmationMessage = "Check your email to finish creating your account.";
+const pendingClaimError = "You are signed in, but we could not save this matter to your Briefcase. Retry saving the matter. Your screening result is still waiting for you.";
 type AuthMode = "create" | "signin";
 
 export function ConsumerSignInForm() {
@@ -20,22 +21,32 @@ export function ConsumerSignInForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingClaimFailed, setPendingClaimFailed] = useState(false);
   const [captchaToken, setCaptchaToken] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const nextPath = useMemo(() => {
-    if (typeof window === "undefined") return "/briefcase";
-    return safeAppRedirectPath(new URLSearchParams(window.location.search).get("next"), "/briefcase");
-  }, []);
-  const pendingId = useMemo(() => {
-    if (typeof window === "undefined") return "";
-    return safePendingId(new URLSearchParams(window.location.search).get("pending"));
-  }, []);
+  const { pendingId } = readAuthRequestContext();
+
+  async function finishPendingClaim() {
+    const requestContext = readAuthRequestContext();
+    setIsSubmitting(true);
+    setErrorMessage("");
+    const claimed = await claimPendingResult(requestContext.pendingId, requestContext.nextPath);
+    if (!claimed.ok) {
+      setPendingClaimFailed(true);
+      setErrorMessage(translate("signin.pending_claim_error", pendingClaimError));
+      setIsSubmitting(false);
+      return;
+    }
+    window.location.assign(claimed.redirectTo);
+  }
 
   async function submitAuth(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const requestContext = readAuthRequestContext();
     setIsSubmitting(true);
     setErrorMessage("");
     setNoticeMessage("");
+    setPendingClaimFailed(false);
 
     const formData = new FormData(event.currentTarget);
     const email = String(formData.get("email") ?? "").trim();
@@ -63,7 +74,7 @@ export function ConsumerSignInForm() {
         password,
         options: {
           ...captchaOptions(captchaToken),
-          emailRedirectTo: expungementAuthRedirectTo(nextPath, pendingId)
+          emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.pendingId)
         }
       })
       : await supabase.auth.signInWithPassword({ email, password, options: captchaOptions(captchaToken) });
@@ -86,13 +97,12 @@ export function ConsumerSignInForm() {
       return;
     }
 
-    if (pendingId) {
-      const claimed = await claimPendingResult(pendingId, nextPath);
-      window.location.assign(claimed);
+    if (requestContext.pendingId) {
+      await finishPendingClaim();
       return;
     }
 
-    window.location.assign(nextPath);
+    window.location.assign(requestContext.nextPath);
   }
 
   const createMode = mode === "create";
@@ -106,7 +116,7 @@ export function ConsumerSignInForm() {
         </h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]">
           {createMode
-            ? translate("signin.create_body", "Create an account to save your result, continue to checkout, and return to your packet in your Briefcase.")
+            ? translate("signin.create_body", "Create an account to save this result in your free Briefcase, complete packet information, and return later.")
             : translate("signin.body", "Sign in to return to your Briefcase and continue where you left off.")}
         </p>
       </div>
@@ -114,6 +124,17 @@ export function ConsumerSignInForm() {
       {errorMessage ? (
         <div className="mt-6 rounded-md border border-[#FF3B00]/30 bg-[#FF3B00]/10 px-4 py-3 text-sm font-semibold text-[#FF3B00]">
           {errorMessage}
+          {pendingClaimFailed && pendingId ? (
+            <button
+              className="mt-3 block min-h-10 rounded-md bg-[#FF3B00] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
+              data-pending-claim-retry="true"
+              disabled={isSubmitting}
+              onClick={() => void finishPendingClaim()}
+              type="button"
+            >
+              {isSubmitting ? "Retrying..." : "Retry saving my matter"}
+            </button>
+          ) : null}
         </div>
       ) : null}
 
@@ -178,6 +199,7 @@ export function ConsumerSignInForm() {
             setMode(createMode ? "signin" : "create");
             setErrorMessage("");
             setNoticeMessage("");
+            setPendingClaimFailed(false);
           }}
           type="button"
         >
@@ -193,7 +215,10 @@ export function ConsumerSignInForm() {
   );
 }
 
-async function claimPendingResult(pendingId: string, fallbackNext: string) {
+async function claimPendingResult(
+  pendingId: string,
+  fallbackNext: string
+): Promise<{ ok: true; redirectTo: string } | { ok: false }> {
   try {
     const response = await fetch("/api/expungement-ai/screening/pending/claim", {
       method: "POST",
@@ -201,10 +226,17 @@ async function claimPendingResult(pendingId: string, fallbackNext: string) {
       body: JSON.stringify({ pendingId, next: fallbackNext })
     });
     const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
-    return safeAppRedirectPath(payload?.redirectTo, fallbackNext);
+    if (!response.ok || !payload?.redirectTo) return { ok: false };
+    const redirectTo = safeAppRedirectPath(payload.redirectTo, "");
+    if (!isExactBriefcaseMatterPath(redirectTo)) return { ok: false };
+    return { ok: true, redirectTo };
   } catch {
-    return fallbackNext;
+    return { ok: false };
   }
+}
+
+function isExactBriefcaseMatterPath(value: string) {
+  return /^\/briefcase\/[^/?#]+$/.test(value);
 }
 
 function expungementAuthRedirectTo(nextPath: string, pendingId: string) {
@@ -223,6 +255,17 @@ function isExpungementHost(hostname: string) {
 
 function safePendingId(value: string | null) {
   return value && /^[0-9a-f-]{36}$/i.test(value) ? value : "";
+}
+
+function readAuthRequestContext() {
+  if (typeof window === "undefined") {
+    return { nextPath: "/briefcase", pendingId: "" };
+  }
+  const params = new URLSearchParams(window.location.search);
+  return {
+    nextPath: safeAppRedirectPath(params.get("next"), "/briefcase"),
+    pendingId: safePendingId(params.get("pending"))
+  };
 }
 
 function initialAuthMode(): AuthMode {

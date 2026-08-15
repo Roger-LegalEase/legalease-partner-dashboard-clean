@@ -25,6 +25,21 @@ export type MatterCareState =
   | "completed"
   | "saved";
 
+export type HumanMatterState =
+  | "Screening saved"
+  | "Guidance saved"
+  | "More information needed"
+  | "Waiting period not met"
+  | "Packet path available"
+  | "Packet details in progress"
+  | "Ready to generate"
+  | "Payment confirmed"
+  | "Preparing packet"
+  | "Packet ready"
+  | "Filed"
+  | "Waiting on the court"
+  | "Decision received";
+
 export type MatterTone = "positive" | "info" | "wait" | "attention" | "care" | "neutral";
 
 export type MatterCarePresentation = {
@@ -57,6 +72,36 @@ export function matterCareState(item: ConsumerBriefcaseItem): MatterCareState {
     return "needs_attention";
   }
   return "saved";
+}
+
+/** Consumer vocabulary derived from persisted matter milestones. */
+export function humanMatterState(item: ConsumerBriefcaseItem): HumanMatterState {
+  const refs = item.artifactRefs;
+  const commercialFlow = isRecord(refs?.commercialFlow) ? refs.commercialFlow : {};
+  const caseProgress = isRecord(commercialFlow.caseProgress) ? commercialFlow.caseProgress : {};
+  if (caseProgress.milestone === "decision_received") return "Decision received";
+  if (caseProgress.milestone === "waiting_on_court") return "Waiting on the court";
+  if (caseProgress.milestone === "filed") return "Filed";
+
+  if (item.packetStatus === "ready" || item.packetStatus === "downloaded") return "Packet ready";
+  if (item.packetStatus === "pending" || item.packetStatus === "generating") return "Preparing packet";
+  if (item.paymentStatus === "paid") {
+    return "Payment confirmed";
+  }
+
+  if (item.resultCode === "guidance_only" || item.resultCode === "not_covered_yet" || item.packetType === "guidance_packet") {
+    return "Guidance saved";
+  }
+  if (item.resultCode === "needs_more_info" || item.resultCode === "needs_review") return "More information needed";
+  if (item.resultCode === "not_yet" || item.status === "waiting") return "Waiting period not met";
+
+  if (item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution" || item.status === "packet_ready") {
+    const packetInformation = isRecord(commercialFlow.packetInformation) ? commercialFlow.packetInformation : {};
+    if (packetInformation.stage === "ready_to_generate") return "Ready to generate";
+    if (packetInformation.stage === "in_progress") return "Packet details in progress";
+    return "Packet path available";
+  }
+  return "Screening saved";
 }
 
 const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careState">> = {
@@ -108,4 +153,8 @@ const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careSt
 export function matterCarePresentation(item: ConsumerBriefcaseItem): MatterCarePresentation {
   const careState = matterCareState(item);
   return { careState, ...PRESENTATION[careState] };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
