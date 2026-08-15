@@ -2,124 +2,138 @@
 
 Source PDF: `docs/product-flows/source-pdfs/Expungement.ai User Flow.pdf`
 
-This document is the source-of-truth Markdown version of the Expungement.ai direct-to-consumer user flow. It protects the intended sequence for the consumer product at `expungement.ai`.
+This Markdown document is the source of truth for the Expungement.ai direct-to-consumer flow. The approved commercial contract below supersedes the older payment-before-builder sequence in the source PDF.
 
-## Product Boundary
+## Product boundary
 
 - `legalease.com` is the umbrella company landing page.
-- `expungement.ai` is the consumer-facing DTC expungement engine.
-- `legaleasepartner.com` is the partner / RCAP enterprise-facing expungement engine.
-- Expungement.ai and LegalEase Partner share the same underlying RCAP / Expungement.ai engine plumbing, but their commercial handoffs differ.
+- `expungement.ai` is the consumer-facing direct-to-consumer record-clearing product.
+- `legaleasepartner.com` is the partner and RCAP experience.
+- Both experiences use the same profile-driven eligibility and packet engine, but their entitlement sources and commercial handoffs remain separate.
 
-## Flow
+## Approved commercial contract
 
-1. Entry point
+### Free Briefcase
 
-   The user starts with the CTA: **Check for free**.
+The Briefcase is free, persistent, secure, and available before payment. It can hold multiple independent matters, including packet matters, guidance matters, waiting-period matters, and more-information-needed matters.
 
-   This begins the free qualification screening. There is no account wall before this step.
+The Briefcase is not the purchased product. It is the durable home for the user's matters and may later hold products such as RecordShield without changing the Expungement.ai packet entitlement.
 
-2. Free qualification questionnaire
+### Paid product
 
-   The user answers basic screening questions about state or jurisdiction, case type, arrest / charge / conviction status, sentence completion, probation, fines, timing or waiting-period issues, and disqualifying factors.
+The paid product is one personalized court-filing packet set for one record-clearing matter for $50.
 
-   **No account required yet.** The free screening must not require signup.
+Payment unlocks only the exact matter named by the Checkout Session and server-authoritative entitlement. It does not unlock every packet in the account. A separate matter requires a separate payment unless a partner entitlement covers that matter.
 
-3. Qualification result
+### Partner-covered RCAP matters
 
-   If the system identifies a possible paid path, result copy should say: **A path may be available.**
+RCAP-sponsored matters use the same Briefcase where appropriate but never use participant Stripe checkout or consumer $50 copy. Partner sponsorship or packet allocation is the entitlement source. Sponsored entitlement must never enter the consumer payment writer.
 
-   Supporting copy should remain careful and should not say "you qualify." Preferred copy:
+## Direct-to-consumer flow
 
-   > Based on what you told us, there may be a record-clearing path available. Expungement.ai can help you generate a packet and next-step instructions.
+1. **Start a free record check**
 
-   Primary CTA: **Generate my packet — $50**
+   A visitor can begin without an account. Landing and result disclosure:
 
-   Secondary CTA: **Save and come back later**
+   > Start with a free record check. If a self-help packet is available for your matter, it costs $50 to generate.
 
-4. Create account
+2. **Complete the profile-driven screening**
 
-   After clicking **Generate my packet — $50**, the user creates an account. Account creation should collect first name, last name, email, and password.
+   The engine asks the state and route-specific questions needed to produce an authoritative result. The frontend never infers eligibility, pathway, packet type, or `paymentAllowed`.
 
-   Screening answers must be saved to the account or session so the user does not restart after signup.
+3. **Review the authoritative result**
 
-5. Verify email
+   The result identifies the exact state, pathway or remedy, plain-language reasons, cautions and boundaries, whether a packet path may be available, and the $50 packet price when applicable. It always explains that Expungement.ai is self-help software and does not guarantee court or agency approval.
 
-   After signup, the user verifies their email.
+   A packet-ready result uses the primary action **Save this matter and continue**. Guidance, waiting-period, and more-information-needed results use a next-step action that saves the same result without presenting payment.
 
-   After verification, the user should be redirected to the Stripe payment gate. Copy may say:
+4. **Create an account or sign in**
 
-   > Email verified. You're ready to generate your packet.
+   The pending screening result survives the auth handoff. After authentication, the exact result is claimed once by that user and saved to the user's free Briefcase. The user lands on that exact matter, not an empty or generic Briefcase.
 
-   CTA: **Continue to payment**
+5. **Open the free Briefcase matter**
 
-6. Stripe payment
+   A packet-ready matter shows the state, authoritative pathway, status **Packet path available**, and:
 
-   The DTC user pays the $50 packet generation fee through the Stripe payment gate.
+   > Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet.
 
-   After successful Stripe payment, the user lands in Briefcase.
+   Price disclosure:
 
-7. Briefcase
+   > $50 one time when you are ready to generate this packet
 
-   Briefcase should greet the user personally and show personalized status:
+   Primary action: **Complete packet information**.
 
-   > Your packet is almost ready. We need a few more details before we can generate your documents and next-step instructions.
+6. **Complete packet information before payment**
 
-   Primary CTA: **Finish my packet information**
+   The state-specific builder is available while the matter is unpaid. Authoritative and safe screening facts prefill the builder. The user can save, leave, and resume. Unknown facts remain visibly missing and may be marked as unknown or needing help.
 
-   Briefcase should show progress across free screening, account creation, payment, packet information, packet generation, and filing next steps.
+   Before payment, the user may receive the screening result, saved matter, guidance, high-level packet contents, questionnaire, accuracy review, and filing-preparation checklist. The user may not receive a personalized filing PDF, final personalized pleading, delivery-eligible render job, or reusable cross-matter entitlement.
 
-8. State-Specific Packet Builder
+7. **Review for accuracy**
 
-   Briefcase must load the correct **State-Specific Packet Builder** based on state, county or court, type of record, case outcome, specific expungement or sealing route, and packet type.
+   The final review identifies the exact matter and pathway, expected packet components, missing information, filing limitations, and the one-time price:
 
-   The builder should ask only for information needed for that state route and packet type. Universal information may include full legal name, other names used, date of birth, mailing address, phone, email, case state, county, court, case number, arrest date, charge or offense name, case outcome, and date the case ended.
+   > $50 one time for this matter.
 
-   State-specific questions should be driven by the state profile and route. For example, Mississippi, Illinois, DC, and Pennsylvania may need different court, agency, disposition, waiting-period, sentence-completion, docket, or route-specific facts.
+   Final action: **Pay $50 and generate my packet.** Checkout is not created before this action.
 
-   The user should be able to answer:
+8. **Create a matter-bound Checkout Session**
 
-   - I know this
-   - I do not know
-   - I need help finding this
+   Stripe Checkout is fixed at 5000 cents in USD and binds the authenticated user, Briefcase item, person, matter, product `expungement_packet`, and return URLs. Repeated clicks reuse the active Session for that exact matter instead of creating duplicates. Beginning Checkout does not mark the matter paid or authorize rendering.
 
-   Do not block packet generation just because the user still needs outside documents. If a state requires a criminal history report, certified disposition, fingerprint card, agency certificate, official third-party form, or other outside paperwork, the packet should include next-step guidance explaining what to obtain before filing.
+9. **Confirm payment and generate**
 
-9. Generate packet
+   Only a verified Stripe event may record the server-authoritative payment and matter-level entitlement. The durable sequence is:
 
-   Once required internal packet-builder fields are complete, the user can click: **Generate my packet**.
+   `signed Stripe event -> exact matter payment record -> exact matter entitlement -> durable render job -> validated private artifact -> Briefcase Packet ready -> authenticated download`
 
-   The system generates prepared documents where available, filing instructions, a next-step checklist, required outside document guidance, expected fees where known, court or agency filing guidance, and plain-English warnings and disclaimers.
+   The Briefcase progresses through **Payment confirmed**, **Preparing packet**, and **Packet ready**.
 
-10. Download packet and checklist
+10. **Download, reopen, and follow up**
 
-   After generation, Briefcase status changes to **Packet ready**.
+    The owner can download and reopen the private packet without another charge. A retry, render failure, reasonable correction to the same matter, refresh, or repeat download does not create another payment. A new matter remains unpaid until it receives its own entitlement.
 
-   Primary CTA: **Download my packet**
+## Human-facing matter states
 
-   Secondary CTA: **View filing checklist**
+- Screening saved
+- Guidance saved
+- More information needed
+- Waiting period not met
+- Packet path available
+- Packet details in progress
+- Ready to generate
+- Payment confirmed
+- Preparing packet
+- Packet ready
+- Filed
+- Waiting on the court
+- Decision received
 
-11. Briefcase menu and follow-up
+Internal route, render, payment, and job vocabulary must not be shown to consumers. Guidance-only matters show their state-specific next steps as the completed product value; they do not show a disabled packet stepper.
 
-   Briefcase should include a permanent **Check another case** menu item. The user may run another free screening for a different arrest, charge, conviction, or jurisdiction.
+## Matter-level entitlement rules
 
-   After packet generation, Briefcase should include outcome follow-up:
-
-   > Tell us what happened with your case.
-
-   CTA: **Update my case status**
+- The authenticated user, Briefcase item, person, matter, product, Checkout Session, payment event or receipt, 5000-cent amount, and USD currency are bound server-side.
+- Payment for one matter cannot authorize a second matter.
+- Browser-controlled identity or payment fields are never authoritative.
+- The same matter can be downloaded, retried, or reasonably corrected without another charge.
+- A failed render does not create a second payment.
+- A separate new matter requires a separate payment.
+- No account-level paid flag exists.
+- Sponsored RCAP authority never calls the consumer payment writer.
 
 ## Guardrails
 
-- No account wall before the free check.
-- No payment before a possible path result.
-- Result copy says **A path may be available**, not "you qualify."
-- No duplicate screening after signup.
-- DTC requires Stripe before packet generation.
-- After successful Stripe payment, the user lands in Briefcase.
-- Briefcase must load the state-specific packet builder based on state + route + packet type.
-- Do not block packet generation only because outside paperwork is still needed.
+- No account wall before the free record check.
+- No payment before the state-specific packet builder and final accuracy review.
+- Result copy says **A path may be available**, never "you qualify."
+- Do not promise expungement, clearance, filing, court approval, or legal representation.
+- Do not describe the Briefcase as paid, unlocked by payment, or unlimited packet access.
+- Do not duplicate the screening after authentication.
+- Do not block the builder solely because outside documents are still needed; explain those requirements in guidance.
+- Checkout and generation remain unavailable for guidance-only, waiting-period, more-information-needed, and other non-packet outcomes.
+- The permanent **Check another case** action creates a distinct matter and does not inherit another matter's payment.
 
-## Clean Final Flow
+## Clean final flow
 
-**Check for free** -> qualification questionnaire -> **A path may be available** -> **Generate my packet — $50** -> **Create account** -> **Verify email** -> **Stripe payment** -> **Briefcase** -> **State-Specific Packet Builder** -> **Generate my packet** -> **Download my packet** + filing checklist -> outcome follow-up.
+**Start free record check** -> profile-driven screening -> authoritative result -> **Save this matter and continue** -> create account or sign in -> exact free Briefcase matter -> **Complete packet information** -> save and resume -> accuracy review -> **Pay $50 and generate my packet** -> verified matter-level payment -> durable packet generation -> **Packet ready** -> authenticated download and filing checklist -> outcome follow-up.

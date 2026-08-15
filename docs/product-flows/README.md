@@ -12,7 +12,8 @@ Any change to screening, account creation, auth callback, payment, Briefcase, pa
 ## Durable Rules
 
 - DTC and partner use the same underlying RCAP / Expungement.ai engine but differ in payment and account handoff.
-- DTC requires Stripe before packet generation.
+- DTC keeps the Briefcase and packet-information builder free. Stripe appears only at the final accuracy review and is required before personalized packet generation.
+- The DTC paid SKU is one personalized packet set for one exact matter for $50; payment is never account-wide.
 - partner-covered users bypass Stripe.
 - no account wall before the free check on DTC (Expungement.ai). The partner portal is account-first: partner users create an account or sign in before the screening, which runs inside their Briefcase.
 - partner account creation and screenings do not count against the partner cap; only a generated packet counts (once per packet).
