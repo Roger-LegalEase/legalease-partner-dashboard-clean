@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
@@ -28,6 +29,10 @@ export function CoBrandedPagePanel({
   pending: boolean;
   onMutate: (action: string, payload: Record<string, unknown>) => void;
 }) {
+  const [ownershipReview, setOwnershipReview] = useState(false);
+  const [previewVariant, setPreviewVariant] = useState<"desktop" | "mobile">(
+    "desktop"
+  );
   const version = entry.currentVersion;
   const preview = version?.document?.pagePreview ?? null;
   const canApprove =
@@ -143,26 +148,28 @@ export function CoBrandedPagePanel({
       {preview ? (
         <>
           <Card className="p-5">
-            <h4 className="text-sm font-black uppercase tracking-wide text-navy">
-              Who owns what on this page
-            </h4>
-            <ul className="mt-3 space-y-1.5 text-sm text-grayWilma-700">
-              <li>
-                <span className="rounded bg-teal/15 px-1.5 py-0.5 text-[0.6rem] font-black uppercase tracking-wide text-teal">
-                  Partner
-                </span>{" "}
-                Facts and branding the partner provides and approves.
-              </li>
-              <li>
-                <span className="rounded bg-orange/15 px-1.5 py-0.5 text-[0.6rem] font-black uppercase tracking-wide text-orange">
-                  LegalEase
-                </span>{" "}
-                Legal disclaimers, eligibility and outcome claims, privacy and
-                security statements, payment logic, participant routing, and
-                platform legal links. The partner can neither edit nor approve
-                these.
-              </li>
-            </ul>
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+              <div>
+                <h4 className="text-sm font-black uppercase tracking-wide text-navy">
+                  Content ownership review
+                </h4>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-grayWilma-700">
+                  Enable the internal overlay to compare partner supplied,
+                  LegalEase controlled, and system derived groups. The overlay
+                  is not stored and never enters participant output.
+                </p>
+              </div>
+              <button
+                aria-pressed={ownershipReview}
+                className={quietButtonClass}
+                onClick={() => setOwnershipReview((enabled) => !enabled)}
+                type="button"
+              >
+                {ownershipReview
+                  ? "Disable ownership review"
+                  : "Enable ownership review"}
+              </button>
+            </div>
 
             <h4 className="mt-5 text-sm font-black uppercase tracking-wide text-navy">
               Missing before this page can be approved
@@ -178,7 +185,7 @@ export function CoBrandedPagePanel({
                     key={item.label}
                     className="rounded-md border border-orange/30 bg-orange/10 px-3 py-2 text-sm text-orange"
                   >
-                    <span className="font-bold">{item.label}</span> — set this in{" "}
+                    <span className="font-bold">{item.label}</span>. Set this in{" "}
                     {item.whereToSet}.
                   </li>
                 ))}
@@ -186,34 +193,47 @@ export function CoBrandedPagePanel({
             )}
           </Card>
 
-          <section aria-labelledby="cobranded-desktop-heading">
-            <h4
-              id="cobranded-desktop-heading"
-              className="text-sm font-black uppercase tracking-wide text-navy"
-            >
-              Desktop preview
-            </h4>
-            <div className="mt-3">
-              <CoBrandedPageView
-                preview={preview}
-                variant="desktop"
-                logoSrc={logoSrc}
-              />
+          <section aria-labelledby="cobranded-preview-heading">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h4
+                  id="cobranded-preview-heading"
+                  className="text-sm font-black uppercase tracking-wide text-navy"
+                >
+                  Authorized private preview
+                </h4>
+                <p className="mt-1 text-xs text-grayWilma-700">
+                  This page is not published and participant intake is inactive.
+                </p>
+              </div>
+              <div
+                aria-label="Preview size"
+                className="inline-flex border border-grayWilma-200"
+                role="group"
+              >
+                {(["desktop", "mobile"] as const).map((variant) => (
+                  <button
+                    aria-pressed={previewVariant === variant}
+                    className={
+                      previewVariant === variant
+                        ? "min-h-11 bg-navy px-4 py-2 text-xs font-bold capitalize text-white"
+                        : "min-h-11 bg-white px-4 py-2 text-xs font-bold capitalize text-navy hover:text-teal"
+                    }
+                    key={variant}
+                    onClick={() => setPreviewVariant(variant)}
+                    type="button"
+                  >
+                    {variant}
+                  </button>
+                ))}
+              </div>
             </div>
-          </section>
-
-          <section aria-labelledby="cobranded-mobile-heading">
-            <h4
-              id="cobranded-mobile-heading"
-              className="text-sm font-black uppercase tracking-wide text-navy"
-            >
-              Mobile preview, 390 by 844
-            </h4>
-            <div className="mt-3">
+            <div className="mt-3 overflow-x-auto">
               <CoBrandedPageView
-                preview={preview}
-                variant="mobile"
                 logoSrc={logoSrc}
+                ownershipReview={ownershipReview}
+                preview={preview}
+                variant={previewVariant}
               />
             </div>
           </section>

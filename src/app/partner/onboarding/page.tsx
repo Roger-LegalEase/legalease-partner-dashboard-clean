@@ -270,7 +270,14 @@ async function Phase1PartnerOnboardingPage() {
           approvalStatus:
             coBrandedPageArtifact.currentVersion?.approvalStatus ?? null,
           partnerReviewStatus:
-            coBrandedPageArtifact.currentVersion?.partnerReviewStatus ?? null
+            coBrandedPageArtifact.currentVersion?.partnerReviewStatus ?? null,
+          missingRequiredAssetCount: portal.assets.some(
+            (asset) =>
+              asset.category === "transparent_logo" &&
+              asset.lifecycleStatus !== "deleted"
+          )
+            ? 0
+            : 1
         }
       : null
   });

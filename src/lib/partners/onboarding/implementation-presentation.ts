@@ -82,6 +82,7 @@ export type BuildPartnerImplementationPresentationInput = {
     available: boolean;
     approvalStatus: string | null;
     partnerReviewStatus: string | null;
+    missingRequiredAssetCount?: number;
   } | null;
 };
 
@@ -314,7 +315,19 @@ export function buildPartnerImplementationPresentation(
     {
       key: "brand_participant_page",
       title: "Brand and participant page",
-      description: "Brand inputs and the authorized private participant-page preview.",
+      description: [
+        brandSection?.currentSubstepTitle
+          ? `Current editor task: ${brandSection.currentSubstepTitle}.`
+          : "Brand inputs and the authorized private participant-page preview.",
+        `Required assets missing: ${input.coBrandedPageArtifact?.missingRequiredAssetCount ?? 1}.`,
+        `Partner factual and brand approval: ${artifactApprovalLabel(
+          input.coBrandedPageArtifact?.partnerReviewStatus
+        )}.`,
+        `LegalEase approval: ${artifactApprovalLabel(
+          input.coBrandedPageArtifact?.approvalStatus
+        )}.`,
+        "Publication: Private. Program activation: Inactive."
+      ].join(" "),
       state: brandArtifactApproved
         ? fact("private_preview", "Private preview approved", "The preview is approved but remains private.", "teal")
         : brandSection
@@ -323,10 +336,17 @@ export function buildPartnerImplementationPresentation(
       dateLabel: brandSection?.approvedAt ? "Completed" : "Due date",
       date: brandSection?.approvedAt ?? null,
       dateFallback: brandSection?.approvedAt ? "Date not recorded" : "Not scheduled",
-      blocker: publication.description,
-      nextAction: "Review brand inputs and the private preview configuration.",
+      blocker:
+        (input.coBrandedPageArtifact?.missingRequiredAssetCount ?? 1) > 0
+          ? `${input.coBrandedPageArtifact?.missingRequiredAssetCount ?? 1} required brand asset is missing.`
+          : brandArtifactApproved
+            ? "No brand-content blocker is active. Publication and activation remain separate."
+            : "Factual and brand content still requires the applicable partner or LegalEase review.",
+      nextAction: brandSection?.currentSubstepTitle
+        ? `Continue ${brandSection.currentSubstepTitle}.`
+        : "Review brand inputs and the private preview configuration.",
       actionLabel: "Open brand workspace",
-      href: "/partner/onboarding/brand_public_page"
+      href: brandSection?.resumeHref ?? "/partner/onboarding/brand_public_page"
     },
     {
       key: "team_training",
@@ -865,6 +885,14 @@ function scheduleItem(
   schedulingAction: string
 ): PartnerImplementationPresentation["schedule"][number] {
   return { key, label, date, dateFallback: "Not scheduled", schedulingAction };
+}
+
+function artifactApprovalLabel(status: string | null | undefined) {
+  if (status === "approved") return "Approved";
+  if (status === "changes_requested" || status === "rejected") {
+    return "Changes requested";
+  }
+  return "Not reviewed";
 }
 
 function fact(

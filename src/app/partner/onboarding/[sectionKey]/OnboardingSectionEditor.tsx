@@ -3,6 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
+import type { CoBrandedPagePreview } from "@/lib/partners/onboarding/artifact-generator";
+import {
+  applyBrandEditorPreview,
+  buildBrandApprovalPresentation,
+  partnerRecoveryPresentation,
+  type BrandApprovalPresentation
+} from "@/lib/partners/onboarding/brand-page-presentation";
 import {
   type FormEvent,
   type MouseEvent,
@@ -135,6 +143,23 @@ export type OnboardingSectionEditorProps = {
     openPartnerChanges: number;
     waitingOnLegalEase: number;
   };
+  brandExperience: OnboardingBrandExperience | null;
+};
+
+export type OnboardingBrandExperience = {
+  preview: CoBrandedPagePreview | null;
+  previewUnavailable: boolean;
+  artifactVersionId: string | null;
+  partnerReviewStatus: string | null;
+  legalEaseApprovalStatus: string | null;
+  sourceFreshness: "no_version" | "current" | "stale" | "unavailable";
+  invalidatedApprovals: { partner: boolean; legalease: boolean };
+  canPartnerReview: boolean;
+  workspaceStatus: string;
+  targetLaunchDate: string | null;
+  launchedAt: string | null;
+  pausedAt: string | null;
+  closedAt: string | null;
 };
 
 type ValidationIssue = {
@@ -192,13 +217,29 @@ type FieldRendererProps = {
   assets: OnboardingEditorAsset[];
   assetBusyCategory: OrganizationalAssetCategory | null;
   assetErrors: Partial<Record<OrganizationalAssetCategory, string>>;
+  assetProgress: Partial<Record<OrganizationalAssetCategory, number>>;
+  assetSuccess: Partial<Record<OrganizationalAssetCategory, string>>;
+  assetInspection: Partial<
+    Record<
+      OrganizationalAssetCategory,
+      {
+        width: number | null;
+        height: number | null;
+        transparency: string;
+      }
+    >
+  >;
+  assetPreviewFailures: ReadonlySet<string>;
+  assetDownloadFailures: ReadonlySet<string>;
   updateField: (fieldKey: string, value: unknown) => void;
   uploadAsset: (
     category: OrganizationalAssetCategory,
     file: File,
-    input: HTMLInputElement
+    input: HTMLInputElement | null
   ) => Promise<void>;
+  markAssetPreviewFailed: (assetId: string) => void;
   deleteAsset: (asset: OnboardingEditorAsset) => Promise<void>;
+  downloadAsset: (asset: OnboardingEditorAsset) => Promise<void>;
   guardUnsavedNavigation: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
@@ -227,7 +268,8 @@ export function OnboardingSectionEditor({
   initialStepId,
   missingRequiredKeys,
   completionHref,
-  sectionSummary
+  sectionSummary,
+  brandExperience
 }: OnboardingSectionEditorProps) {
   const router = useRouter();
   const firstData = useMemo(() => cloneRecord(initialData), [initialData]);
@@ -264,6 +306,39 @@ export function OnboardingSectionEditor({
   const [assetErrors, setAssetErrors] = useState<
     Partial<Record<OrganizationalAssetCategory, string>>
   >({});
+  const [assetProgress, setAssetProgress] = useState<
+    Partial<Record<OrganizationalAssetCategory, number>>
+  >({});
+  const [assetSuccess, setAssetSuccess] = useState<
+    Partial<Record<OrganizationalAssetCategory, string>>
+  >({});
+  const [assetInspection, setAssetInspection] = useState<
+    Partial<
+      Record<
+        OrganizationalAssetCategory,
+        { width: number | null; height: number | null; transparency: string }
+      >
+    >
+  >({});
+  const [assetPreviewFailures, setAssetPreviewFailures] = useState(
+    () => new Set<string>()
+  );
+  const [assetDownloadFailures, setAssetDownloadFailures] = useState(
+    () => new Set<string>()
+  );
+  const [brandMobileMode, setBrandMobileMode] = useState<"edit" | "preview">(
+    "edit"
+  );
+  const [brandPreviewVariant, setBrandPreviewVariant] = useState<
+    "desktop" | "mobile"
+  >("desktop");
+  const [brandReviewPending, setBrandReviewPending] = useState(false);
+  const [brandReviewMessage, setBrandReviewMessage] = useState<string | null>(
+    null
+  );
+  const [brandReviewStatus, setBrandReviewStatus] = useState(
+    brandExperience?.partnerReviewStatus ?? null
+  );
 
   const revisionRef = useRef(initialRevision);
   const workspaceVersionRef = useRef(initialWorkspaceVersion);
@@ -345,6 +420,44 @@ export function OnboardingSectionEditor({
     }),
     [activeChangeRequest, activeRequestedFieldKey, activeStep]
   );
+  const liveBrandPreview = useMemo(
+    () =>
+      brandExperience?.preview
+        ? applyBrandEditorPreview(
+            brandExperience.preview,
+            data,
+            currentAssets
+          )
+        : null,
+    [brandExperience?.preview, currentAssets, data]
+  );
+  const brandApproval = useMemo(
+    () =>
+      brandExperience
+        ? buildBrandApprovalPresentation({
+            partnerReviewStatus: brandReviewStatus,
+            legalEaseApprovalStatus:
+              brandExperience.legalEaseApprovalStatus,
+            sourceFreshness: brandExperience.sourceFreshness,
+            invalidatedApprovals: brandExperience.invalidatedApprovals,
+            workspaceStatus: brandExperience.workspaceStatus,
+            targetLaunchDate: brandExperience.targetLaunchDate,
+            launchedAt: brandExperience.launchedAt,
+            pausedAt: brandExperience.pausedAt,
+            closedAt: brandExperience.closedAt
+          })
+        : null,
+    [brandExperience, brandReviewStatus]
+  );
+  const brandLogoSrc = useMemo(() => {
+    if (!liveBrandPreview?.showPartnerLogo) return null;
+    const asset = currentAssets.find(
+      (candidate) =>
+        candidate.category === "transparent_logo" &&
+        candidate.id === liveBrandPreview.logo.assetId
+    );
+    return asset ? assetPreviewHref(asset) : null;
+  }, [currentAssets, liveBrandPreview]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -780,7 +893,7 @@ export function OnboardingSectionEditor({
   async function uploadAsset(
     category: OrganizationalAssetCategory,
     file: File,
-    input: HTMLInputElement
+    input: HTMLInputElement | null
   ) {
     if (
       !controlsEnabled ||
@@ -795,17 +908,47 @@ export function OnboardingSectionEditor({
     if (file.size > definition.maxBytes) {
       setAssetErrors((current) => ({
         ...current,
-        [category]: `Choose a file no larger than ${formatBytes(
+        [category]: `File is too large. The file was not uploaded and the current private asset remains safe. Choose a file no larger than ${formatBytes(
           definition.maxBytes
         )}.`
       }));
-      input.value = "";
+      if (input) input.value = "";
+      return;
+    }
+    const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
+    if (!definition.allowedExtensions.includes(extension as never)) {
+      setAssetErrors((current) => ({
+        ...current,
+        [category]:
+          "File type is not supported. The file was not uploaded and the current private asset remains safe. Choose one of the listed file types."
+      }));
+      if (input) input.value = "";
       return;
     }
 
     assetOperationsRef.current.add(category);
     setAssetBusyCategory(category);
     setAssetErrors((current) => ({ ...current, [category]: undefined }));
+    setAssetSuccess((current) => ({ ...current, [category]: undefined }));
+    setAssetProgress((current) => ({ ...current, [category]: 0 }));
+    try {
+      const inspection = await inspectBrowserImage(file);
+      if (inspection) {
+        setAssetInspection((current) => ({
+          ...current,
+          [category]: inspection
+        }));
+      }
+    } catch {
+      setAssetInspection((current) => ({
+        ...current,
+        [category]: {
+          width: null,
+          height: null,
+          transparency: "Transparency was not verified by this browser."
+        }
+      }));
+    }
     const formData = new FormData();
     const fingerprint = `${file.name}:${file.size}:${file.type}:${file.lastModified}`;
     const previousRequest = assetUploadRequestRef.current.get(category);
@@ -827,12 +970,16 @@ export function OnboardingSectionEditor({
     formData.set("file", file);
 
     try {
-      const response = await fetch("/api/partners/onboarding/assets", {
-        method: "POST",
-        body: formData
+      const response = await uploadAssetFormData(formData, (percentage) => {
+        if (mountedRef.current) {
+          setAssetProgress((current) => ({
+            ...current,
+            [category]: percentage
+          }));
+        }
       });
-      const payload = await readJsonObject(response);
-      if (!response.ok || payload?.success !== true) {
+      const payload = response.payload;
+      if (response.status < 200 || response.status >= 300 || payload?.success !== true) {
         throw new Error(assetErrorMessage(response.status, payload));
       }
 
@@ -855,16 +1002,22 @@ export function OnboardingSectionEditor({
         workspaceVersionRef.current = workspaceVersion;
       }
       assetUploadRequestRef.current.delete(category);
+      setAssetProgress((current) => ({ ...current, [category]: 100 }));
+      setAssetSuccess((current) => ({
+        ...current,
+        [category]:
+          "Upload complete. The file remains private and is awaiting review."
+      }));
     } catch (error) {
       setAssetErrors((current) => ({
         ...current,
         [category]:
           error instanceof Error
             ? error.message
-            : "Could not upload this file."
+            : "Upload could not be completed. No success was recorded and the current private asset remains safe. Choose the file and try again."
       }));
     } finally {
-      input.value = "";
+      if (input) input.value = "";
       assetOperationsRef.current.delete(category);
       setAssetBusyCategory(null);
     }
@@ -924,19 +1077,156 @@ export function OnboardingSectionEditor({
         workspaceVersionRef.current = workspaceVersion;
       }
       assetDeleteRequestRef.current.delete(asset.id);
+      setAssetSuccess((current) => ({
+        ...current,
+        [asset.category]:
+          "The file was removed from the current private configuration."
+      }));
+      setAssetInspection((current) => ({
+        ...current,
+        [asset.category]: undefined
+      }));
+      setAssetPreviewFailures((current) => {
+        const next = new Set(current);
+        next.delete(asset.id);
+        return next;
+      });
     } catch (error) {
       setAssetErrors((current) => ({
         ...current,
         [asset.category]:
           error instanceof Error
             ? error.message
-            : "Could not remove this file."
+            : "The file could not be removed. It remains private and unchanged. Retry the removal or contact partners@legalease.com."
       }));
     } finally {
       assetOperationsRef.current.delete(asset.category);
       setAssetBusyCategory(null);
     }
   }
+
+  async function downloadAsset(asset: OnboardingEditorAsset) {
+    setAssetDownloadFailures((current) => {
+      const next = new Set(current);
+      next.delete(asset.id);
+      return next;
+    });
+    setAssetErrors((current) => ({
+      ...current,
+      [asset.category]: undefined
+    }));
+    try {
+      const response = await fetch(
+        `/api/partners/onboarding/assets/${encodeURIComponent(asset.id)}`,
+        { cache: "no-store" }
+      );
+      if (!response.ok) {
+        throw new Error(
+          "The private download is no longer available. No public link was exposed and the file record remains private. Return to this asset task and retry."
+        );
+      }
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = assetFileName(asset);
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1_000);
+    } catch {
+      setAssetDownloadFailures((current) => new Set(current).add(asset.id));
+    }
+  }
+
+  async function approvePartnerBrandContent() {
+    if (
+      brandReviewPending ||
+      dirty ||
+      !brandExperience?.canPartnerReview ||
+      !brandExperience.artifactVersionId
+    ) {
+      if (dirty) {
+        setBrandReviewMessage(
+          "Save the current edits before reviewing the prepared version. No approval was recorded."
+        );
+      }
+      return;
+    }
+    setBrandReviewPending(true);
+    setBrandReviewMessage(null);
+    try {
+      const response = await fetch("/api/partners/onboarding/artifacts", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          action: "approve",
+          requestId: crypto.randomUUID(),
+          payload: {
+            artifactVersionId: brandExperience.artifactVersionId,
+            comments:
+              "Partner factual and brand content reviewed in the guided private preview."
+          }
+        })
+      });
+      const payload = await readJsonObject(response);
+      if (!response.ok || payload?.success !== true) {
+        throw new Error(
+          response.status === 401
+            ? "Your session expired. Sign in again. No approval was recorded."
+            : "The factual and brand decision could not be recorded. The page remains private and inactive."
+        );
+      }
+      setBrandReviewStatus("approved");
+      setBrandReviewMessage(
+        "Partner factual and brand content approved. LegalEase approval, publication, and participant activation remain separate."
+      );
+    } catch (error) {
+      setBrandReviewMessage(
+        error instanceof Error
+          ? error.message
+          : "The factual and brand decision could not be recorded. The page remains private and inactive."
+      );
+    } finally {
+      setBrandReviewPending(false);
+    }
+  }
+
+  const guidedTaskContent = (
+    <GuidedRenderContext.Provider value={guidedRenderValue}>
+      <PrefillFieldContext.Provider value={new Set(pendingPrefillFieldKeys)}>
+        <GuidedSurfaceContent
+          canonicalReferences={canonicalReferences}
+          sectionSummary={sectionSummary}
+          step={activeStep}
+        />
+        <SectionFields
+          assetBusyCategory={assetBusyCategory}
+          assetErrors={assetErrors}
+          assetInspection={assetInspection}
+          assetDownloadFailures={assetDownloadFailures}
+          assetPreviewFailures={assetPreviewFailures}
+          assetProgress={assetProgress}
+          assetSuccess={assetSuccess}
+          assets={currentAssets}
+          canonicalReferences={canonicalReferences}
+          data={data}
+          deleteAsset={deleteAsset}
+          downloadAsset={downloadAsset}
+          editable={controlsEnabled}
+          guardUnsavedNavigation={guardUnsavedNavigation}
+          issues={issues}
+          markAssetPreviewFailed={(assetId) =>
+            setAssetPreviewFailures((current) =>
+              new Set(current).add(assetId)
+            )
+          }
+          readOnlyValues={readOnlyValues}
+          sectionKey={sectionKey}
+          updateField={updateField}
+          uploadAsset={uploadAsset}
+        />
+      </PrefillFieldContext.Provider>
+    </GuidedRenderContext.Provider>
+  );
 
   return (
     <div className="mx-auto max-w-7xl text-[#071B33]">
@@ -1105,30 +1395,32 @@ export function OnboardingSectionEditor({
                 ) : null}
 
                 <div className="p-5 md:p-7">
-                  <GuidedRenderContext.Provider value={guidedRenderValue}>
-                    <PrefillFieldContext.Provider value={new Set(pendingPrefillFieldKeys)}>
-                      <GuidedSurfaceContent
-                        canonicalReferences={canonicalReferences}
-                        sectionSummary={sectionSummary}
-                        step={activeStep}
-                      />
-                      <SectionFields
-                        assetBusyCategory={assetBusyCategory}
-                        assetErrors={assetErrors}
-                        assets={currentAssets}
-                        canonicalReferences={canonicalReferences}
-                        data={data}
-                        deleteAsset={deleteAsset}
-                        editable={controlsEnabled}
-                        guardUnsavedNavigation={guardUnsavedNavigation}
-                        issues={issues}
-                        readOnlyValues={readOnlyValues}
-                        sectionKey={sectionKey}
-                        updateField={updateField}
-                        uploadAsset={uploadAsset}
-                      />
-                    </PrefillFieldContext.Provider>
-                  </GuidedRenderContext.Provider>
+                  {sectionKey === "brand_public_page" ? (
+                    <BrandEditorWorkspace
+                      activeStep={activeStep}
+                      approval={brandApproval}
+                      canPartnerReview={
+                        brandExperience?.canPartnerReview === true &&
+                        brandReviewStatus !== "approved"
+                      }
+                      dirty={dirty}
+                      editor={guidedTaskContent}
+                      logoSrc={brandLogoSrc}
+                      mobileMode={brandMobileMode}
+                      onApprove={() => void approvePartnerBrandContent()}
+                      onMobileMode={setBrandMobileMode}
+                      onPreviewVariant={setBrandPreviewVariant}
+                      preview={liveBrandPreview}
+                      previewUnavailable={
+                        brandExperience?.previewUnavailable === true
+                      }
+                      previewVariant={brandPreviewVariant}
+                      reviewMessage={brandReviewMessage}
+                      reviewPending={brandReviewPending}
+                    />
+                  ) : (
+                    guidedTaskContent
+                  )}
                 </div>
               </section>
 
@@ -1337,14 +1629,18 @@ function GuidedSurfaceContent({
   if (step.surface === "private_preview") {
     return (
       <div className="border-l-4 border-[#0A8E9A] bg-[#EEF7F6] p-5">
-        <h3 className="font-extrabold text-[#071B33]">Private preview handoff</h3>
+        <h3 className="font-extrabold text-[#071B33]">
+          Review responsibilities before deciding
+        </h3>
         <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-          Saved brand information can be used in the authorized private preview.
-          This task does not publish the page or activate participant intake.
+          The partner decision covers organization facts and brand content.
+          LegalEase controls legal language, eligibility and outcome claims,
+          payment behavior, routing, privacy claims, and participant activation.
         </p>
-        <Link className={`${secondaryActionClass} mt-4`} href="/partner/onboarding/review">
-          Review saved brand decisions
-        </Link>
+        <p className="mt-2 text-sm font-semibold leading-6 text-[#071B33]">
+          Partner approval does not publish the page or activate participant
+          intake.
+        </p>
       </div>
     );
   }
@@ -1378,6 +1674,355 @@ function SummaryFact({ label, value }: { label: string; value: string }) {
       </p>
       <p className="mt-2 text-xl font-extrabold text-[#071B33]">{value}</p>
     </div>
+  );
+}
+
+function BrandEditorWorkspace({
+  activeStep,
+  approval,
+  canPartnerReview,
+  dirty,
+  editor,
+  logoSrc,
+  mobileMode,
+  onApprove,
+  onMobileMode,
+  onPreviewVariant,
+  preview,
+  previewUnavailable,
+  previewVariant,
+  reviewMessage,
+  reviewPending
+}: {
+  activeStep: GuidedSubstepDefinition;
+  approval: BrandApprovalPresentation | null;
+  canPartnerReview: boolean;
+  dirty: boolean;
+  editor: ReactNode;
+  logoSrc: string | null;
+  mobileMode: "edit" | "preview";
+  onApprove: () => void;
+  onMobileMode: (mode: "edit" | "preview") => void;
+  onPreviewVariant: (variant: "desktop" | "mobile") => void;
+  preview: CoBrandedPagePreview | null;
+  previewUnavailable: boolean;
+  previewVariant: "desktop" | "mobile";
+  reviewMessage: string | null;
+  reviewPending: boolean;
+}) {
+  const finalReview = activeStep.id === "private-preview-approval";
+  return (
+    <div>
+      <div
+        aria-label="Brand workspace mode"
+        className="mb-5 grid grid-cols-2 border border-[#071B33] xl:hidden"
+        role="group"
+      >
+        {(["edit", "preview"] as const).map((mode) => (
+          <button
+            aria-pressed={mobileMode === mode}
+            className={
+              mobileMode === mode
+                ? "min-h-12 bg-[#071B33] px-4 py-3 text-sm font-extrabold capitalize text-white"
+                : "min-h-12 bg-white px-4 py-3 text-sm font-extrabold capitalize text-[#071B33] hover:text-[#0A6E77]"
+            }
+            key={mode}
+            onClick={() => onMobileMode(mode)}
+            type="button"
+          >
+            {mode}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid min-w-0 gap-7 xl:grid-cols-[minmax(0,0.9fr)_minmax(390px,1.1fr)]">
+        <div
+          className={mobileMode === "edit" ? "min-w-0" : "hidden xl:block"}
+          data-brand-editor-mode="edit"
+        >
+          <aside className="mb-6 border border-[#B8C1C7] bg-[#F7F4EE] p-4">
+            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+              Content responsibility
+            </p>
+            <dl className="mt-3 grid gap-3 text-sm leading-6">
+              <div>
+                <dt className="font-extrabold text-[#071B33]">Partner content</dt>
+                <dd className="text-[#475A6E]">
+                  Organization facts, brand assets, support information, and
+                  partner links.
+                </dd>
+              </div>
+              <div>
+                <dt className="font-extrabold text-[#071B33]">
+                  LegalEase-controlled content
+                </dt>
+                <dd className="text-[#475A6E]">
+                  Legal boundaries, claims, privacy statements, payment
+                  behavior, eligibility, and participant routing.
+                </dd>
+              </div>
+            </dl>
+          </aside>
+          {editor}
+        </div>
+
+        <BrandPreviewPanel
+          approval={approval}
+          canPartnerReview={canPartnerReview}
+          dirty={dirty}
+          finalReview={finalReview}
+          hidden={mobileMode !== "preview"}
+          logoSrc={logoSrc}
+          onApprove={onApprove}
+          onPreviewVariant={onPreviewVariant}
+          preview={preview}
+          previewUnavailable={previewUnavailable}
+          previewVariant={previewVariant}
+          reviewMessage={reviewMessage}
+          reviewPending={reviewPending}
+        />
+      </div>
+    </div>
+  );
+}
+
+function BrandPreviewPanel({
+  approval,
+  canPartnerReview,
+  dirty,
+  finalReview,
+  hidden,
+  logoSrc,
+  onApprove,
+  onPreviewVariant,
+  preview,
+  previewUnavailable,
+  previewVariant,
+  reviewMessage,
+  reviewPending
+}: {
+  approval: BrandApprovalPresentation | null;
+  canPartnerReview: boolean;
+  dirty: boolean;
+  finalReview: boolean;
+  hidden: boolean;
+  logoSrc: string | null;
+  onApprove: () => void;
+  onPreviewVariant: (variant: "desktop" | "mobile") => void;
+  preview: CoBrandedPagePreview | null;
+  previewUnavailable: boolean;
+  previewVariant: "desktop" | "mobile";
+  reviewMessage: string | null;
+  reviewPending: boolean;
+}) {
+  return (
+    <aside
+      aria-labelledby="brand-preview-heading"
+      className={`${hidden ? "hidden xl:block" : ""} min-w-0 xl:sticky xl:top-6 xl:self-start`}
+      data-brand-editor-mode="preview"
+    >
+      <div className="border-2 border-[#071B33] bg-white">
+        <div className="border-b border-[#B8C1C7] bg-[#EEF7F6] p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A6E77] [font-family:var(--font-rcap-mono)]">
+                Private preview
+              </p>
+              <h3
+                className="mt-1 text-lg font-extrabold text-[#071B33]"
+                id="brand-preview-heading"
+              >
+                Participant page
+              </h3>
+              <p className="mt-1 text-xs leading-5 text-[#475A6E]">
+                This page is not published and participant intake is inactive.
+              </p>
+            </div>
+            <div
+              aria-label="Preview size"
+              className="inline-flex border border-[#071B33]"
+              role="group"
+            >
+              {(["desktop", "mobile"] as const).map((variant) => (
+                <button
+                  aria-pressed={previewVariant === variant}
+                  className={
+                    previewVariant === variant
+                      ? "min-h-11 bg-[#071B33] px-3 py-2 text-xs font-bold capitalize text-white"
+                      : "min-h-11 bg-white px-3 py-2 text-xs font-bold capitalize text-[#071B33] hover:text-[#0A6E77]"
+                  }
+                  key={variant}
+                  onClick={() => onPreviewVariant(variant)}
+                  type="button"
+                >
+                  {variant}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {approval ? (
+          <dl className="grid border-b border-[#B8C1C7] sm:grid-cols-2">
+            <PreviewState
+              label="Partner factual and brand approval"
+              value={approval.partnerApproval}
+            />
+            <PreviewState
+              label="LegalEase content and product approval"
+              value={approval.legalEaseApproval}
+            />
+            <PreviewState label="Publication" value={approval.publication} />
+            <PreviewState
+              label="Program activation"
+              value={approval.activation}
+            />
+          </dl>
+        ) : null}
+
+        {preview ? (
+          <div className="max-h-[70vh] overflow-auto bg-[#D8DDDF] p-3">
+            <div
+              className={
+                previewVariant === "mobile"
+                  ? "mx-auto w-[390px] max-w-full"
+                  : "min-w-[680px]"
+              }
+            >
+              <CoBrandedPageView
+                logoSrc={logoSrc}
+                preview={preview}
+                variant={previewVariant}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="p-5">
+            <PartnerRecoveryPanel
+              code="private_preview_unavailable"
+              compact
+            />
+            {!previewUnavailable ? (
+              <p className="mt-3 text-xs text-[#475A6E]">
+                Save the canonical brand task before retrying the preview.
+              </p>
+            ) : null}
+          </div>
+        )}
+
+        {preview && preview.missing.length > 0 ? (
+          <div className="border-t border-[#B8C1C7] p-4">
+            <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+              Needed before review
+            </p>
+            <ul className="mt-2 space-y-1 text-xs leading-5 text-[#475A6E]">
+              {preview.missing.map((item) => (
+                <li key={item.label}>
+                  <span className="font-bold text-[#071B33]">{item.label}</span>
+                  . {item.whereToSet}.
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {finalReview && approval ? (
+          <div className="border-t-2 border-[#071B33] p-4">
+            <p className="text-sm leading-6 text-[#475A6E]">
+              {approval.approvalNote}
+            </p>
+            {reviewMessage ? (
+              <p
+                className="mt-3 text-sm font-semibold text-[#071B33]"
+                role="status"
+              >
+                {reviewMessage}
+              </p>
+            ) : null}
+            {canPartnerReview ? (
+              <button
+                className={`${secondaryActionClass} mt-4`}
+                disabled={dirty || reviewPending}
+                onClick={onApprove}
+                type="button"
+              >
+                {reviewPending
+                  ? "Recording decision"
+                  : "Approve factual and brand content"}
+              </button>
+            ) : null}
+            <p className="mt-3 text-xs leading-5 text-[#475A6E]">
+              Saving or approving these values does not publish this page,
+              create an access code, or activate participant intake.
+            </p>
+          </div>
+        ) : null}
+      </div>
+    </aside>
+  );
+}
+
+function PreviewState({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-b border-[#D8DDDF] p-3 last:border-b-0 sm:border-r sm:even:border-r-0">
+      <dt className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+        {label}
+      </dt>
+      <dd className="mt-1 text-sm font-extrabold text-[#071B33]">{value}</dd>
+    </div>
+  );
+}
+
+function PartnerRecoveryPanel({
+  code,
+  compact = false
+}: {
+  code: Parameters<typeof partnerRecoveryPresentation>[0];
+  compact?: boolean;
+}) {
+  const recovery = partnerRecoveryPresentation(code);
+  return (
+    <section
+      aria-labelledby={`recovery-${code}-heading`}
+      className={`border-l-[6px] border-[#FF3B00] bg-[#F7F4EE] ${
+        compact ? "p-4" : "p-5"
+      }`}
+      data-recovery-state={code}
+    >
+      <h3
+        className="font-extrabold text-[#071B33]"
+        id={`recovery-${code}-heading`}
+      >
+        {recovery.heading}
+      </h3>
+      <dl className="mt-3 grid gap-3 text-sm leading-6">
+        <div>
+          <dt className="font-extrabold text-[#071B33]">What happened</dt>
+          <dd className="text-[#475A6E]">{recovery.happened}</dd>
+        </div>
+        <div>
+          <dt className="font-extrabold text-[#071B33]">What remained safe</dt>
+          <dd className="text-[#475A6E]">{recovery.safe}</dd>
+        </div>
+        <div>
+          <dt className="font-extrabold text-[#071B33]">What to do now</dt>
+          <dd className="text-[#475A6E]">{recovery.next}</dd>
+        </div>
+      </dl>
+      <a className={`${secondaryActionClass} mt-4`} href={recovery.returnHref}>
+        {recovery.returnLabel}
+      </a>
+      <p className="mt-4 break-words text-xs leading-5 text-[#475A6E]">
+        Need help? Email{" "}
+        <a
+          className="font-bold text-[#0A6E77] underline underline-offset-4"
+          href="mailto:partners@legalease.com"
+        >
+          partners@legalease.com
+        </a>
+        .
+      </p>
+    </section>
   );
 }
 
@@ -2586,6 +3231,8 @@ function AuthorizationFields(props: FieldRendererProps) {
 }
 
 function AssetFields(props: FieldRendererProps) {
+  const [dragCategory, setDragCategory] =
+    useState<OrganizationalAssetCategory | null>(null);
   const procurementRequired =
     props.assets.some((asset) => asset.category === "procurement_document") ||
     props.readOnlyValues.some(
@@ -2611,25 +3258,39 @@ function AssetFields(props: FieldRendererProps) {
           );
           const busy = props.assetBusyCategory !== null;
           const error = props.assetErrors[definition.category];
+          const success = props.assetSuccess[definition.category];
+          const progress = props.assetProgress[definition.category];
+          const inspection = props.assetInspection[definition.category];
           const inputId = `asset-${definition.category}`;
+          const previewFailed = asset
+            ? props.assetPreviewFailures.has(asset.id)
+            : false;
+          const downloadFailed = asset
+            ? props.assetDownloadFailures.has(asset.id)
+            : false;
+          const dimensions = asset
+            ? asset.width && asset.height
+              ? `${asset.width} × ${asset.height} px`
+              : "Not reported"
+            : inspection?.width && inspection.height
+              ? `${inspection.width} × ${inspection.height} px`
+              : "Not reported";
           return (
-            <Card
-              className="grid gap-4 border-grayWilma-200 p-4 shadow-none md:grid-cols-[minmax(0,1fr)_auto] md:items-center"
+            <section
+              className="grid gap-4 border border-[#B8C1C7] bg-white p-4"
               data-asset-category={definition.category}
               key={definition.category}
             >
               <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-start justify-between gap-3">
                   <h3 className="font-black">{definition.label}</h3>
-                  {definition.requirement === "required" ? (
-                    <Badge tone="orange">Required</Badge>
-                  ) : (
-                    <Badge>
-                      {definition.requirement === "conditional"
+                  <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+                    {definition.requirement === "required"
+                      ? "Required"
+                      : definition.requirement === "conditional"
                         ? "When requested"
                         : "Optional"}
-                    </Badge>
-                  )}
+                  </p>
                 </div>
                 <p className="mt-1 text-xs leading-5 text-grayWilma-600">
                   {definition.allowedExtensions
@@ -2639,35 +3300,71 @@ function AssetFields(props: FieldRendererProps) {
                 </p>
 
                 {asset ? (
-                  <div className="mt-3 flex flex-wrap items-center gap-3 rounded-md bg-grayWilma-100 p-3">
-                    {assetPreviewHref(asset) && isImageAsset(asset) ? (
+                  <div className="mt-4 grid gap-4 border-t border-[#D8DDDF] pt-4 sm:grid-cols-[120px_minmax(0,1fr)]">
+                    {assetPreviewHref(asset) &&
+                    isImageAsset(asset) &&
+                    !previewFailed ? (
                       <Image
                         alt={`Preview of ${definition.label}`}
-                        className="h-16 w-28 rounded-md border border-grayWilma-200 bg-white object-contain"
-                        height={64}
+                        className="h-24 w-[120px] border border-[#B8C1C7] bg-[#F7F4EE] object-contain"
+                        height={96}
+                        onError={() => props.markAssetPreviewFailed(asset.id)}
                         src={assetPreviewHref(asset)}
                         unoptimized
-                        width={112}
+                        width={120}
                       />
                     ) : null}
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-bold">
+                      <p className="break-all text-sm font-bold">
                         {assetFileName(asset)}
                       </p>
-                      <p className="text-xs text-grayWilma-600">
-                        {formatBytes(assetByteSize(asset))}
-                        {assetLifecycleStatus(asset)
-                          ? ` | ${onboardingOptionLabel(assetLifecycleStatus(asset))}`
-                          : " | Private"}
-                      </p>
+                      <dl className="mt-2 grid gap-x-4 gap-y-2 text-xs sm:grid-cols-2">
+                        <AssetDetail
+                          label="File type"
+                          value={asset.mediaType ?? asset.contentType ?? "Not reported"}
+                        />
+                        <AssetDetail
+                          label="File size"
+                          value={formatBytes(assetByteSize(asset))}
+                        />
+                        <AssetDetail label="Dimensions" value={dimensions} />
+                        <AssetDetail
+                          label="Transparency"
+                          value={
+                            inspection?.transparency ??
+                            "Not verified for this saved file"
+                          }
+                        />
+                        <AssetDetail
+                          label="Upload state"
+                          value={
+                            assetLifecycleStatus(asset)
+                              ? onboardingOptionLabel(assetLifecycleStatus(asset))
+                              : "Private"
+                          }
+                        />
+                        <AssetDetail
+                          label="Review state"
+                          value={assetReviewLabel(asset.reviewStatus)}
+                        />
+                      </dl>
+                      {asset.reviewStatus === "rejected" ? (
+                        <p className="mt-3 border-l-4 border-[#FF3B00] pl-3 text-xs leading-5 text-[#475A6E]">
+                          <span className="font-bold text-[#071B33]">
+                            Rejection reason:
+                          </span>{" "}
+                          This asset record does not carry a partner-safe reason.
+                          Contact partners@legalease.com before replacing it.
+                        </p>
+                      ) : null}
                       {assetDownloadHref(asset) ? (
-                        <a
+                        <button
                           className="mt-1 inline-flex min-h-8 items-center text-xs font-bold text-teal underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
-                          href={assetDownloadHref(asset)}
-                          rel="noopener noreferrer"
+                          onClick={() => void props.downloadAsset(asset)}
+                          type="button"
                         >
                           Download private file
-                        </a>
+                        </button>
                       ) : null}
                     </div>
                   </div>
@@ -2677,9 +3374,49 @@ function AssetFields(props: FieldRendererProps) {
                   </p>
                 )}
 
+                {previewFailed ? (
+                  <div className="mt-3">
+                    <PartnerRecoveryPanel code="asset_preview_failed" compact />
+                  </div>
+                ) : null}
+
+                {downloadFailed ? (
+                  <div className="mt-3">
+                    <PartnerRecoveryPanel
+                      code="private_asset_unavailable"
+                      compact
+                    />
+                  </div>
+                ) : null}
+
+                {typeof progress === "number" &&
+                props.assetBusyCategory === definition.category ? (
+                  <div className="mt-3" role="status">
+                    <div className="flex items-center justify-between gap-3 text-xs font-bold text-[#475A6E]">
+                      <span>Uploading private file</span>
+                      <span>{progress}%</span>
+                    </div>
+                    <progress
+                      aria-label={`Upload progress for ${definition.label}`}
+                      className="mt-2 h-2 w-full accent-[#0A8E9A]"
+                      max={100}
+                      value={progress}
+                    />
+                  </div>
+                ) : null}
+
+                {success ? (
+                  <p
+                    className="mt-3 border-l-4 border-[#0A8E9A] bg-[#EEF7F6] px-3 py-2 text-sm font-semibold text-[#071B33]"
+                    role="status"
+                  >
+                    {success}
+                  </p>
+                ) : null}
+
                 {error ? (
                   <p
-                    className="mt-2 text-sm font-semibold text-orange"
+                    className="mt-3 border-l-4 border-[#FF3B00] bg-[#F7F4EE] px-3 py-2 text-sm font-semibold text-[#071B33]"
                     id={`${inputId}-error`}
                     role="alert"
                   >
@@ -2688,11 +3425,45 @@ function AssetFields(props: FieldRendererProps) {
                 ) : null}
               </div>
 
-              <div className="flex flex-wrap gap-2 md:justify-end">
+              <div
+                className={`border-2 border-dashed p-4 transition ${
+                  dragCategory === definition.category
+                    ? "border-[#0A8E9A] bg-[#EEF7F6]"
+                    : "border-[#B8C1C7] bg-[#F7F4EE]"
+                }`}
+                onDragEnter={(event) => {
+                  event.preventDefault();
+                  if (props.editable && !busy) {
+                    setDragCategory(definition.category);
+                  }
+                }}
+                onDragLeave={(event) => {
+                  if (event.currentTarget === event.target) {
+                    setDragCategory(null);
+                  }
+                }}
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  setDragCategory(null);
+                  const file = event.dataTransfer.files?.[0];
+                  if (file && props.editable && !busy) {
+                    void props.uploadAsset(definition.category, file, null);
+                  }
+                }}
+              >
+                <p className="text-sm font-bold text-[#071B33]">
+                  Drop an approved file here
+                </p>
+                <p className="mt-1 text-xs leading-5 text-[#475A6E]">
+                  The file remains private. Uploading or replacing it does not
+                  publish the participant page or activate the program.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
                 <label
-                  className={`inline-flex min-h-11 items-center justify-center rounded-md border border-grayWilma-200 bg-white px-4 py-2 text-sm font-semibold transition ${
+                  className={`inline-flex min-h-11 items-center justify-center border border-[#071B33] bg-white px-4 py-2 text-sm font-semibold transition ${
                     props.editable && !busy
-                      ? "cursor-pointer text-navy hover:bg-grayWilma-100 focus-within:ring-2 focus-within:ring-teal focus-within:ring-offset-2"
+                      ? "cursor-pointer text-navy hover:border-[#0A8E9A] hover:text-[#0A6E77] focus-within:ring-4 focus-within:ring-[#0A8E9A] focus-within:ring-offset-2"
                       : "cursor-not-allowed text-grayWilma-500 opacity-60"
                   }`}
                   htmlFor={inputId}
@@ -2733,13 +3504,31 @@ function AssetFields(props: FieldRendererProps) {
                     Remove
                   </Button>
                 ) : null}
+                </div>
               </div>
-            </Card>
+            </section>
           );
         })}
       </div>
     </FieldGroup>
   );
+}
+
+function AssetDetail({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="font-bold uppercase tracking-[0.06em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+        {label}
+      </dt>
+      <dd className="mt-0.5 break-words text-[#071B33]">{value}</dd>
+    </div>
+  );
+}
+
+function assetReviewLabel(value: string | undefined) {
+  if (value === "approved" || value === "accepted") return "Accepted";
+  if (value === "rejected" || value === "changes_requested") return "Rejected";
+  return "Awaiting review";
 }
 
 function FieldGroup({
@@ -3919,11 +4708,26 @@ function assetErrorMessage(
   status: number,
   payload: Record<string, unknown> | null
 ) {
-  if (status === 401) return "Your session expired. Sign in and try again.";
-  if (status === 403) return "You do not have permission to manage this file.";
-  if (status === 413) return "This file is larger than the allowed limit.";
-  if (typeof payload?.error === "string") return payload.error;
-  return "Could not update this private file.";
+  if (status === 401) {
+    return "Your session expired. The upload was not confirmed and existing private assets remain safe. Sign in again and return to this task.";
+  }
+  if (status === 403) {
+    return "This role cannot manage private assets. Nothing changed. Ask the partner administrator to upload or replace the file.";
+  }
+  if (status === 413) {
+    return "File is too large. The upload was not confirmed and the current private asset remains safe. Choose a smaller file.";
+  }
+  if (status === 409) {
+    return "A newer private asset version exists. Nothing was replaced. Refresh this task before trying again.";
+  }
+  if (
+    status === 400 &&
+    typeof payload?.error === "string" &&
+    payload.error.length <= 220
+  ) {
+    return `File type or contents are not supported. Nothing was uploaded. ${payload.error}`;
+  }
+  return "Upload could not be completed. No success was recorded and the current private asset remains safe. Choose the file and try again.";
 }
 
 function formatDisplayValue(value: DisplayValue) {
@@ -3986,6 +4790,107 @@ function assetPreviewHref(asset: OnboardingEditorAsset) {
     asset.previewHref ??
     `/api/partners/onboarding/assets/${encodeURIComponent(asset.id)}`
   );
+}
+
+function uploadAssetFormData(
+  formData: FormData,
+  onProgress: (percentage: number) => void
+): Promise<{ status: number; payload: Record<string, unknown> | null }> {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("POST", "/api/partners/onboarding/assets");
+    request.upload.addEventListener("progress", (event) => {
+      if (!event.lengthComputable || event.total <= 0) return;
+      onProgress(
+        Math.max(0, Math.min(99, Math.round((event.loaded / event.total) * 100)))
+      );
+    });
+    request.addEventListener("load", () => {
+      let payload: Record<string, unknown> | null = null;
+      try {
+        const parsed = JSON.parse(request.responseText) as unknown;
+        payload = objectValue(parsed);
+      } catch {
+        payload = null;
+      }
+      resolve({ status: request.status, payload });
+    });
+    const interrupted = () =>
+      reject(
+        new Error(
+          "Upload was interrupted. No success was recorded and the current private asset remains safe. Choose the file and try again."
+        )
+      );
+    request.addEventListener("error", interrupted);
+    request.addEventListener("abort", interrupted);
+    request.addEventListener("timeout", () =>
+      reject(
+        new Error(
+          "Upload could not be completed. No success was recorded and the current private asset remains safe. Check the connection and try again."
+        )
+      )
+    );
+    request.timeout = 120_000;
+    request.send(formData);
+  });
+}
+
+async function inspectBrowserImage(file: File): Promise<{
+  width: number | null;
+  height: number | null;
+  transparency: string;
+} | null> {
+  if (!file.type.startsWith("image/")) return null;
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const candidate = new window.Image();
+      candidate.onload = () => resolve(candidate);
+      candidate.onerror = () => reject(new Error("Image could not be read."));
+      candidate.src = objectUrl;
+    });
+    if (file.type === "image/jpeg") {
+      return {
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+        transparency: "Not applicable to JPEG"
+      };
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) {
+      return {
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+        transparency: "Transparency was not verified by this browser."
+      };
+    }
+    context.drawImage(image, 0, 0);
+    const pixels = context.getImageData(
+      0,
+      0,
+      image.naturalWidth,
+      image.naturalHeight
+    ).data;
+    let transparent = false;
+    for (let index = 3; index < pixels.length; index += 4) {
+      if (pixels[index] < 255) {
+        transparent = true;
+        break;
+      }
+    }
+    return {
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+      transparency: transparent
+        ? "Transparent pixels detected"
+        : "No transparent pixels detected"
+    };
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
 }
 
 export function GuidedChangeRequestPanel({

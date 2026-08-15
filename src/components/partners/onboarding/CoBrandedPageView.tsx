@@ -4,231 +4,323 @@ import type {
 } from "@/lib/partners/onboarding/artifact-generator";
 
 /**
- * Renders the draft co-branded page the way a participant would see it, rather
- * than as a form. Every slot is marked with the side that owns it, LegalEase-
- * controlled content is called out as not partner-editable, and a missing field
- * or asset is named along with where it is set instead of rendering a broken
- * page.
- *
- * There is deliberately no publish or activate control here, and no address a
- * participant could reach.
+ * The participant-page composition shared by desktop and 390px private
+ * previews. Ownership annotations are absent by default. An authorized
+ * internal caller may opt into the review overlay, which is presentation-only
+ * and never changes the page configuration.
  */
 export function CoBrandedPageView({
   preview,
   variant,
-  logoSrc
+  logoSrc,
+  ownershipReview = false
 }: {
   preview: CoBrandedPagePreview;
   variant: "desktop" | "mobile";
   logoSrc: string | null;
+  ownershipReview?: boolean;
 }) {
   const mobile = variant === "mobile";
+  const privacyHref = safePublicHref(preview.partnerPrivacyUrl?.value ?? null);
+  const accessibilityHref = safePublicHref(
+    preview.accessibilityUrl?.value ?? null
+  );
+
   return (
     <div
       className={
         mobile
-          ? "w-[390px] max-w-full overflow-hidden rounded-[1.75rem] border-4 border-navy/80 bg-white"
-          : "w-full overflow-hidden rounded-lg border border-grayWilma-300 bg-white"
+          ? "w-[390px] max-w-full overflow-hidden border-2 border-[#071B33] bg-[#F7F4EE]"
+          : "w-full overflow-hidden border-2 border-[#071B33] bg-[#F7F4EE]"
       }
       data-preview-variant={variant}
+      {...(ownershipReview
+        ? { "data-content-ownership-review": "enabled" }
+        : {})}
     >
-      <div
-        className={
-          mobile
-            ? "h-[844px] overflow-y-auto"
-            : "min-h-[520px]"
-        }
-      >
-        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-grayWilma-200 px-5 py-4">
-          <div className="flex items-center gap-3">
-            {preview.showPartnerLogo ? (
-              logoSrc ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  alt=""
-                  className="h-10 w-auto max-w-[160px] object-contain"
-                  src={logoSrc}
-                />
-              ) : (
-                <MissingAsset
-                  label={preview.logo.label}
-                  whereToSet={preview.logo.whereToSet}
-                />
-              )
-            ) : null}
-            <Slot field={preview.publicName}>
-              <span className="text-base font-black text-navy">
-                {preview.publicName.value}
-              </span>
-            </Slot>
-          </div>
-          {preview.programName.value ? (
-            <Slot field={preview.programName}>
-              <span className="text-xs font-semibold text-grayWilma-700">
-                {preview.programName.value}
-              </span>
-            </Slot>
-          ) : null}
-        </header>
+      {ownershipReview ? <OwnershipLegend /> : null}
 
-        <section className="border-b border-grayWilma-200 bg-[#faf9f7] px-5 py-8">
-          <Slot field={preview.headline}>
-            <h2
-              className={`font-black leading-tight text-navy ${
-                mobile ? "text-2xl" : "text-4xl"
+      <div className={mobile ? "h-[844px] overflow-y-auto" : "min-h-[620px]"}>
+        <OwnershipGroup
+          enabled={ownershipReview}
+          label="System derived"
+          tone="slate"
+        >
+          <header
+            className={`border-b border-[#B8C1C7] bg-white ${
+              mobile ? "px-5 py-5" : "px-8 py-6"
+            }`}
+          >
+            <p className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#0A6E77] [font-family:var(--font-rcap-mono)]">
+              {preview.publicName.value
+                ? `${preview.publicName.value} × RCAP by LegalEase`
+                : "RCAP by LegalEase"}
+            </p>
+            <div className="mt-4 flex min-w-0 items-center justify-between gap-4">
+              <div className="flex min-w-0 items-center gap-4">
+                {preview.showPartnerLogo && logoSrc ? (
+                  // The source is always a tenant-scoped authenticated route.
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    alt={`${preview.publicName.value ?? "Partner"} logo`}
+                    className="h-12 w-auto max-w-[150px] object-contain"
+                    src={logoSrc}
+                  />
+                ) : null}
+                <div className="min-w-0">
+                  {preview.programName.value ? (
+                    <p className="truncate text-base font-extrabold text-[#071B33]">
+                      {preview.programName.value}
+                    </p>
+                  ) : null}
+                  <p className="mt-1 text-xs font-semibold text-[#475A6E]">
+                    Powered by Expungement.ai
+                  </p>
+                </div>
+              </div>
+            </div>
+          </header>
+        </OwnershipGroup>
+
+        <OwnershipGroup
+          enabled={ownershipReview}
+          label="Partner supplied"
+          tone="teal"
+        >
+          <main>
+            <section
+              className={`border-b border-[#B8C1C7] ${
+                mobile ? "px-5 py-8" : "px-8 py-12"
               }`}
             >
-              {preview.headline.value}
-            </h2>
-          </Slot>
-          <div className="mt-3">
-            <Slot field={preview.subheadline}>
-              <p className="text-base leading-relaxed text-grayWilma-800">
-                {preview.subheadline.value}
-              </p>
-            </Slot>
-          </div>
-          <div className="mt-5">
-            <Slot field={preview.primaryActionLabel}>
-              <span className="inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-5 py-2 text-sm font-bold text-white">
-                {preview.primaryActionLabel.value}
-              </span>
-            </Slot>
-          </div>
-        </section>
+              <FieldContent field={preview.headline}>
+                <h2
+                  className={`max-w-3xl font-extrabold leading-[1.08] tracking-[-0.03em] text-[#071B33] ${
+                    mobile ? "text-3xl" : "text-5xl"
+                  }`}
+                >
+                  {preview.headline.value}
+                </h2>
+              </FieldContent>
+              <FieldContent field={preview.subheadline}>
+                <p
+                  className={`mt-5 max-w-2xl leading-7 text-[#475A6E] ${
+                    mobile ? "text-base" : "text-lg"
+                  }`}
+                >
+                  {preview.subheadline.value}
+                </p>
+              </FieldContent>
+              <FieldContent field={preview.primaryActionLabel}>
+                <span className="mt-7 inline-flex min-h-12 items-center justify-center bg-[#FF3B00] px-6 py-3 text-sm font-extrabold text-white">
+                  {preview.primaryActionLabel.value}
+                </span>
+              </FieldContent>
+            </section>
 
-        <section className={`grid gap-6 px-5 py-7 ${mobile ? "" : "md:grid-cols-2"}`}>
-          <div className="space-y-4">
-            <Block label="About this organization" field={preview.organizationDescription} />
-            <Block label="Who this program serves" field={preview.serviceArea} />
-            <Block label="Languages" field={preview.languageAvailability} />
-          </div>
-          <div className="space-y-4">
-            <Block label="Getting help" field={preview.participantSupportCopy} />
-            <Block label="Support email" field={preview.supportEmail} />
-            {preview.supportPhone.value ? (
-              <Block label="Support phone" field={preview.supportPhone} />
-            ) : null}
-          </div>
-        </section>
-
-        {preview.heroImage.assetId === null ? (
-          <div className="px-5 pb-6">
-            <MissingAsset
-              label={preview.heroImage.label}
-              whereToSet={preview.heroImage.whereToSet}
-              optional
-            />
-          </div>
-        ) : null}
-
-        <section className="border-t border-grayWilma-200 bg-white px-5 py-6">
-          <p className="text-[0.68rem] font-black uppercase tracking-[0.14em] text-orange">
-            LegalEase-controlled · not partner-editable
-          </p>
-          {preview.legalEaseSupportRouting.value ? (
-            <p className="mt-3 text-sm leading-relaxed text-navy">
-              {preview.legalEaseSupportRouting.value}
-            </p>
-          ) : null}
-          <dl className="mt-4 space-y-3">
-            {preview.legalBlocks.map((block) => (
-              <div key={block.category} data-legalease-category={block.category}>
-                <dt className="text-xs font-black text-navy">{block.heading}</dt>
-                <dd className="mt-1 text-xs leading-relaxed text-grayWilma-700">
-                  {block.body}
-                </dd>
+            <section
+              className={`grid border-b border-[#B8C1C7] ${
+                mobile ? "gap-8 px-5 py-8" : "gap-10 px-8 py-10 md:grid-cols-2"
+              }`}
+            >
+              <div className="space-y-7">
+                <ContentBlock
+                  field={preview.organizationDescription}
+                  label="About the organization"
+                />
+                <ContentBlock
+                  field={preview.serviceArea}
+                  label="Service area"
+                />
+                {preview.targetAudience ? (
+                  <ContentBlock
+                    field={preview.targetAudience}
+                    label="Who this program serves"
+                  />
+                ) : null}
               </div>
-            ))}
-          </dl>
-          {preview.showPoweredBy ? (
-            <p className="mt-5 text-xs font-semibold text-grayWilma-700">
-              Powered by LegalEase
-            </p>
-          ) : null}
-        </section>
+              <div className="space-y-7">
+                <ContentBlock
+                  field={preview.participantSupportCopy}
+                  label="Getting help"
+                />
+                <ContentBlock
+                  field={preview.languageAvailability}
+                  label="Languages"
+                />
+                <SupportRoute preview={preview} />
+              </div>
+            </section>
+          </main>
+        </OwnershipGroup>
+
+        <OwnershipGroup
+          enabled={ownershipReview}
+          label="LegalEase controlled"
+          tone="navy"
+        >
+          <footer className={mobile ? "bg-white px-5 py-7" : "bg-white px-8 py-8"}>
+            {preview.legalEaseSupportRouting.value ? (
+              <p className="max-w-3xl text-sm leading-6 text-[#071B33]">
+                {preview.legalEaseSupportRouting.value}
+              </p>
+            ) : null}
+            <div className={`mt-6 grid gap-5 ${mobile ? "" : "md:grid-cols-2"}`}>
+              {preview.legalBlocks.map((block) => (
+                <div key={block.category}>
+                  <h3 className="text-xs font-extrabold text-[#071B33]">
+                    {block.heading}
+                  </h3>
+                  <p className="mt-2 text-xs leading-5 text-[#475A6E]">
+                    {block.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+            {privacyHref || accessibilityHref ? (
+              <nav
+                aria-label="Participant information"
+                className="mt-7 flex flex-wrap gap-x-5 gap-y-3 border-t border-[#D8DDDF] pt-5"
+              >
+                {privacyHref ? (
+                  <a
+                    className="min-h-11 py-3 text-xs font-bold text-[#0A6E77] underline underline-offset-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A]"
+                    href={privacyHref}
+                    rel="noopener noreferrer"
+                  >
+                    Privacy
+                  </a>
+                ) : null}
+                {accessibilityHref ? (
+                  <a
+                    className="min-h-11 py-3 text-xs font-bold text-[#0A6E77] underline underline-offset-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A]"
+                    href={accessibilityHref}
+                    rel="noopener noreferrer"
+                  >
+                    Accessibility
+                  </a>
+                ) : null}
+              </nav>
+            ) : null}
+            {preview.showPoweredBy ? (
+              <p className="mt-6 text-xs font-bold text-[#475A6E]">
+                Powered by Expungement.ai
+              </p>
+            ) : null}
+          </footer>
+        </OwnershipGroup>
       </div>
     </div>
   );
 }
 
-function Block({ label, field }: { label: string; field: PagePreviewField }) {
+function ContentBlock({
+  label,
+  field
+}: {
+  label: string;
+  field: PagePreviewField;
+}) {
+  return (
+    <FieldContent field={field}>
+      <div>
+        <h3 className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A6E77] [font-family:var(--font-rcap-mono)]">
+          {label}
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-[#071B33]">{field.value}</p>
+      </div>
+    </FieldContent>
+  );
+}
+
+function SupportRoute({ preview }: { preview: CoBrandedPagePreview }) {
+  if (!preview.supportEmail.value && !preview.supportPhone.value) return null;
   return (
     <div>
-      <p className="text-[0.68rem] font-bold uppercase tracking-wide text-grayWilma-700">
-        {label}
-      </p>
-      <div className="mt-1">
-        <Slot field={field}>
-          <p className="text-sm leading-relaxed text-navy">{field.value}</p>
-        </Slot>
-      </div>
+      <h3 className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A6E77] [font-family:var(--font-rcap-mono)]">
+        Participant support
+      </h3>
+      {preview.supportEmail.value ? (
+        <p className="mt-2 break-words text-sm leading-6 text-[#071B33]">
+          Email {preview.supportEmail.value}
+        </p>
+      ) : null}
+      {preview.supportPhone.value ? (
+        <p className="mt-1 text-sm leading-6 text-[#071B33]">
+          Call {preview.supportPhone.value}
+        </p>
+      ) : null}
     </div>
   );
 }
 
-/**
- * One page slot. When the value is present it renders as page content with an
- * ownership marker; when it is absent it names the field and where it is set.
- */
-function Slot({
+function FieldContent({
   field,
   children
 }: {
   field: PagePreviewField;
   children: React.ReactNode;
 }) {
-  if (field.value === null) {
-    return (
-      <p
-        className="rounded-md border border-orange/30 bg-orange/10 px-3 py-2 text-xs text-orange"
-        data-missing-field={field.key}
-      >
-        <span className="font-bold">Not yet provided: {field.label}.</span> Set
-        this in {field.whereToSet}.
-      </p>
-    );
-  }
+  if (field.value === null) return null;
+  return <>{children}</>;
+}
+
+function OwnershipLegend() {
   return (
-    <span
-      className="inline-block"
-      data-page-slot={field.key}
-      data-ownership={field.ownership}
+    <aside
+      aria-label="Content ownership review"
+      className="border-b-2 border-[#071B33] bg-[#EEF7F6] px-5 py-4"
     >
-      {children}
-      <span
-        className={`ml-2 align-middle rounded px-1.5 py-0.5 text-[0.6rem] font-black uppercase tracking-wide ${
-          field.ownership === "legalease_controlled"
-            ? "bg-orange/15 text-orange"
-            : "bg-teal/15 text-teal"
-        }`}
-      >
-        {field.ownership === "legalease_controlled"
-          ? "LegalEase"
-          : "Partner"}
-      </span>
-    </span>
+      <p className="text-xs font-extrabold text-[#071B33]">
+        Content ownership review
+      </p>
+      <p className="mt-1 text-xs leading-5 text-[#475A6E]">
+        Partner supplied | LegalEase controlled | System derived
+      </p>
+    </aside>
   );
 }
 
-function MissingAsset({
+function OwnershipGroup({
+  children,
+  enabled,
   label,
-  whereToSet,
-  optional
+  tone
 }: {
+  children: React.ReactNode;
+  enabled: boolean;
   label: string;
-  whereToSet: string;
-  optional?: boolean;
+  tone: "teal" | "navy" | "slate";
 }) {
+  if (!enabled) return <>{children}</>;
+  const border =
+    tone === "teal"
+      ? "border-[#0A8E9A]"
+      : tone === "navy"
+        ? "border-[#071B33]"
+        : "border-[#475A6E]";
   return (
-    <p
-      className="rounded-md border border-orange/30 bg-orange/10 px-3 py-2 text-xs text-orange"
-      data-missing-asset={label}
+    <section
+      aria-label={label}
+      className={`relative border-l-4 ${border}`}
+      data-content-source={label.toLowerCase().replaceAll(" ", "_")}
     >
-      <span className="font-bold">
-        {optional ? "Not uploaded" : "Missing"}: {label}.
-      </span>{" "}
-      Upload it in {whereToSet}.
-    </p>
+      <p className="bg-[#F7F4EE] px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+        {label}
+      </p>
+      {children}
+    </section>
   );
+}
+
+function safePublicHref(value: string | null) {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:"
+      ? url.toString()
+      : null;
+  } catch {
+    return null;
+  }
 }

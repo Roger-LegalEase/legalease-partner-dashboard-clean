@@ -410,9 +410,9 @@ const RAW_GUIDED_SECTIONS = [
         id: "private-preview-approval",
         title: "Private preview and approval",
         purpose:
-          "Review what happens after brand information is saved and before any publication decision.",
+          "Review the desktop and mobile participant page, then decide whether the factual and brand content is accurate.",
         outcome:
-          "Task 3 will provide the full split-screen editor. This handoff keeps the page private and inactive.",
+          "Your factual and brand decision is recorded separately from LegalEase approval, publication, and participant activation.",
         ...reviewTask(
           "private_preview",
           "The private-preview transition has been reviewed."

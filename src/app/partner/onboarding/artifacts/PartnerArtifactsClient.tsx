@@ -298,9 +298,9 @@ function PartnerArtifactCard({
           {version.document.pagePreview ? (
             <>
               <p className="text-xs text-grayWilma-700">
-                This is how your co-branded page would look. It is a preview
-                only; the page is not published, and the content marked
-                LegalEase is set by LegalEase and cannot be edited here.
+                This is how the co-branded participant page would look. The page
+                is not published and participant intake is inactive. LegalEase
+                controls the legal and product language.
               </p>
               <CoBrandedPageView
                 preview={version.document.pagePreview}

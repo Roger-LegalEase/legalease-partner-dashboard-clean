@@ -1,7 +1,12 @@
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { notFound, redirect } from "next/navigation";
 import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
-import { requirePartnerOnboardingContext } from "@/lib/partners/onboarding/auth-context";
+import {
+  requirePartnerOnboardingContext,
+  type PartnerOnboardingContext
+} from "@/lib/partners/onboarding/auth-context";
+import { loadPartnerArtifactBoardWithSource } from "@/lib/partners/onboarding/artifact-service";
+import { renderCoBrandedPageConfiguration } from "@/lib/partners/onboarding/artifact-generator";
 import { getPartnerOnboardingPortal } from "@/lib/partners/onboarding/service";
 import { ONBOARDING_JURISDICTIONS } from "@/lib/partners/onboarding/jurisdictions";
 import {
@@ -63,8 +68,9 @@ export default async function PartnerOnboardingSectionPage({
     : resolvedSearchParams.step ?? null;
 
   let portal: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>;
+  let context: PartnerOnboardingContext;
   try {
-    const context = await requirePartnerOnboardingContext();
+    context = await requirePartnerOnboardingContext();
     portal = await getPartnerOnboardingPortal(context);
   } catch (error) {
     if (isUnauthenticated(error)) {
@@ -110,6 +116,10 @@ export default async function PartnerOnboardingSectionPage({
   const administratorName = primaryAdministratorName(portal.data);
   const lastDecisionAt =
     section.approvedAt ?? section.submittedAt ?? section.completedAt;
+  const brandExperience =
+    sectionKey === "brand_public_page"
+      ? await loadBrandExperience(context, portal)
+      : null;
 
   if (onboardingRoleSurface(portal.role) === "staff_summary") {
     return (
@@ -198,9 +208,64 @@ export default async function PartnerOnboardingSectionPage({
               candidate.status === "submitted"
           ).length
         }}
+        brandExperience={brandExperience}
       />
     </main>
   );
+}
+
+async function loadBrandExperience(
+  context: PartnerOnboardingContext,
+  portal: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>
+) {
+  try {
+    const { board, source } = await loadPartnerArtifactBoardWithSource(context);
+    const entry =
+      board.entries.find(
+        (candidate) =>
+          candidate.artifactType === "co_branded_page_configuration"
+      ) ?? null;
+    const version = entry?.currentVersion ?? null;
+    return {
+      preview:
+        renderCoBrandedPageConfiguration(source).pagePreview ?? null,
+      previewUnavailable: false,
+      artifactVersionId: version?.id ?? null,
+      partnerReviewStatus: version?.partnerReviewStatus ?? null,
+      legalEaseApprovalStatus: version?.approvalStatus ?? null,
+      sourceFreshness: entry?.sourceFreshness ?? "no_version",
+      invalidatedApprovals: entry?.invalidatedApprovals ?? {
+        partner: false,
+        legalease: false
+      },
+      canPartnerReview:
+        portal.role === "partner_admin" &&
+        entry?.sourceFreshness === "current" &&
+        version?.approvalStatus === "approved" &&
+        version.partnerReviewStatus === "awaiting_partner",
+      workspaceStatus: portal.workspace.status,
+      targetLaunchDate: portal.workspace.targetLaunchDate,
+      launchedAt: portal.workspace.launchedAt,
+      pausedAt: portal.workspace.pausedAt,
+      closedAt: portal.workspace.closedAt
+    } as const;
+  } catch {
+    return {
+      preview: null,
+      previewUnavailable: true,
+      artifactVersionId: null,
+      partnerReviewStatus: null,
+      legalEaseApprovalStatus: null,
+      sourceFreshness: "unavailable" as const,
+      invalidatedApprovals: { partner: false, legalease: false },
+      canPartnerReview: false,
+      workspaceStatus: portal.workspace.status,
+      targetLaunchDate: portal.workspace.targetLaunchDate,
+      launchedAt: portal.workspace.launchedAt,
+      pausedAt: portal.workspace.pausedAt,
+      closedAt: portal.workspace.closedAt
+    };
+  }
 }
 
 function canonicalReferences(
