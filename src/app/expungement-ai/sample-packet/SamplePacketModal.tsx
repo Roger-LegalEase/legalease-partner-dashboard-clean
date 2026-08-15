@@ -37,10 +37,15 @@ import type { Locale } from "@/lib/expungement-ai/localization";
 const STYLES = `
 .sp-overlay{position:fixed;inset:0;z-index:120;display:flex;align-items:flex-start;justify-content:center;
   padding:24px 16px;overflow-y:auto;background:rgba(11,19,32,.62);backdrop-filter:blur(4px);
-  font-family:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;animation:sp-fade .2s ease both}
+  font-family:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;animation:sp-fade .2s ease-out both;
+  transition:opacity .18s ease-out}
 @keyframes sp-fade{from{opacity:0}to{opacity:1}}
 .sp-modal{position:relative;width:100%;max-width:860px;background:#fff;border-radius:20px;overflow:hidden;
-  box-shadow:0 40px 90px rgba(8,15,40,.5);margin:auto}
+  box-shadow:0 40px 90px rgba(8,15,40,.5);margin:auto;animation:sp-rise .24s ease-out both;
+  transition:opacity .18s ease-out,transform .18s ease-out}
+@keyframes sp-rise{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+.sp-overlay.sp-closing{opacity:0}
+.sp-overlay.sp-closing .sp-modal{opacity:0;transform:translateY(8px) scale(.99)}
 .sp-banner{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
   background:#FF3B00;color:#fff;padding:12px 20px;font-size:13px;font-weight:700;letter-spacing:.02em}
 .sp-banner .sp-dot{width:9px;height:9px;border-radius:50%;background:#fff;flex-shrink:0;box-shadow:0 0 0 4px rgba(255,255,255,.28)}
@@ -75,6 +80,7 @@ const STYLES = `
   font-size:54px;font-weight:800;letter-spacing:.14em;color:rgba(11,19,32,.06);white-space:nowrap}
 .sp-foot{padding:0 24px 22px;font-size:12px;color:#8A7E62;font-style:italic}
 @media(max-width:560px){.sp-title{font-size:19px}.sp-watermark span{font-size:38px}}
+@media(prefers-reduced-motion:reduce){.sp-overlay,.sp-modal{animation:none!important;transition:none!important}}
 `;
 
 const TRIGGER_SELECTOR = "[data-sample-packet-trigger]";
@@ -114,13 +120,32 @@ const SAMPLE_COPY = {
 
 export function SamplePacketModal() {
   const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
   const [locale, setLocale] = useState<Locale>("en");
   const [active, setActive] = useState(samplePacketTabs[0].id);
   const closeRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
+  const closeTimerRef = useRef<number | null>(null);
 
-  const close = useCallback(() => setOpen(false), []);
+  const close = useCallback(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setOpen(false);
+      setClosing(false);
+      return;
+    }
+    setClosing(true);
+    if (closeTimerRef.current !== null) window.clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = window.setTimeout(() => {
+      closeTimerRef.current = null;
+      setOpen(false);
+      setClosing(false);
+    }, 180);
+  }, []);
+
+  useEffect(() => () => {
+    if (closeTimerRef.current !== null) window.clearTimeout(closeTimerRef.current);
+  }, []);
 
   // Intercept the landing trigger in the capture phase so the static anchor's own
   // navigation / smooth-scroll handler never fires.
@@ -136,6 +161,7 @@ export function SamplePacketModal() {
       returnFocusRef.current = trigger as HTMLElement;
       setLocale(readSavedExpungementLocale());
       setActive(samplePacketTabs[0].id);
+      setClosing(false);
       setOpen(true);
     };
     document.addEventListener("click", onClick, true);
@@ -202,7 +228,7 @@ export function SamplePacketModal() {
     <>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <div
-        className="sp-overlay"
+        className={`sp-overlay${closing ? " sp-closing" : ""}`}
         role="dialog"
         aria-modal="true"
         aria-label={copy.dialogLabel}

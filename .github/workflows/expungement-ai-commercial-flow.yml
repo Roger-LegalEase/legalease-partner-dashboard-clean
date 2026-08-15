@@ -10,6 +10,7 @@ on:
     paths:
       - .github/workflows/expungement-ai-commercial-flow.yml
       - docs/product-flows/**
+      - design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html
       - package.json
       - package-lock.json
       - scripts/lib/ts-esm-loader.mjs
@@ -19,6 +20,7 @@ on:
       - scripts/verify-expungement-commercial-browser.mjs
       - scripts/verify-expungement-commercial-flow-contract.mjs
       - scripts/verify-expungement-landing-copy-safety.mjs
+      - scripts/verify-expungement-homepage-interactions.mjs
       - scripts/verify-expungement-date-year-selector.mjs
       - scripts/verify-expungement-profile-screening-flow.mjs
       - scripts/verify-expungement-pending-result-migration.mjs
@@ -85,6 +87,7 @@ jobs:
           scripts/verify-expungement-commercial-browser.mjs
           scripts/verify-expungement-commercial-flow-contract.mjs
           scripts/verify-expungement-landing-copy-safety.mjs
+          scripts/verify-expungement-homepage-interactions.mjs
           scripts/verify-expungement-date-year-selector.mjs
           scripts/verify-expungement-profile-screening-flow.mjs
           scripts/verify-expungement-pending-result-migration.mjs
@@ -101,7 +104,9 @@ jobs:
         run: node scripts/verify-product-flow-docs.mjs
 
       - name: Verify approved public website copy
-        run: node scripts/verify-expungement-landing-copy-safety.mjs
+        run: |
+          node scripts/verify-expungement-landing-copy-safety.mjs
+          node scripts/verify-expungement-homepage-interactions.mjs
 
       - name: Verify free screening and pending-result handoff
         run: |

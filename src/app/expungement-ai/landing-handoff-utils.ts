@@ -9,7 +9,6 @@ export function buildExpungementLandingHtml(source: string) {
     .replace(/<div id="wilma-static"[\s\S]*?<\/div>\s*(?=<script)/i, "")
     .replace(/<script[\s\S]*?<\/script>/g, "")
     .replace(/<section\b[^>]*class="[^"]*\bcred\b[^"]*"[^>]*>[\s\S]*?<\/section>/i, "")
-    .replace(/<section\b[^>]*class="[^"]*\btesti\b[^"]*"[^>]*>[\s\S]*?<\/section>/i, "")
     .replace(/<section\b[^>]*class="[^"]*\bevidence\b[^"]*"[^>]*>[\s\S]*?<\/section>/i, "")
     .replace(/<div\b[^>]*class="[^"]*\bstat-mod\b[^"]*"[^>]*>[\s\S]*?<\/div>/i, "")
     .replace(/<div\b[^>]*class="[^"]*\bproof-side\b[^"]*"[^>]*>[\s\S]*?<\/div>/i, "")
@@ -23,8 +22,6 @@ export function buildExpungementLandingHtml(source: string) {
     .replaceAll('srcset="wilma-avatar', 'srcset="/expungement-ai/wilma-avatar')
     .replaceAll('src="evidence-', 'src="/expungement-ai/evidence-')
     .replaceAll('srcset="evidence-', 'srcset="/expungement-ai/evidence-')
-    .replaceAll('src="testimonial-', 'src="/expungement-ai/testimonial-')
-    .replaceAll('srcset="testimonial-', 'srcset="/expungement-ai/testimonial-')
     .replaceAll(
       '<a href="#" class="navlogin" data-i18n="nav_login">',
       '<a href="/expungement-ai/sign-in?mode=signin" class="navlogin" data-i18n="nav_login">'
@@ -38,10 +35,6 @@ export function buildExpungementLandingHtml(source: string) {
       '<a href="/expungement-ai/start" class="btn btn-primary" data-i18n-html="elig_cta">'
     )
     .replaceAll(
-      '<a href="#" class="btn btn-primary" data-i18n-html="brief_cta">',
-      '<a href="/expungement-ai/start" class="btn btn-primary" data-i18n-html="brief_cta">'
-    )
-    .replaceAll(
       '<a href="#" class="btn btn-primary" data-i18n-html="sm_cta">',
       '<a href="#sample" data-sample-packet-trigger="true" class="btn btn-primary" data-i18n-html="sm_cta">'
     )
@@ -51,6 +44,7 @@ export function buildExpungementLandingHtml(source: string) {
     .replaceAll('href="#pricing"', 'href="/expungement-ai#pricing"')
     .replaceAll('href="#privacy"', 'href="/expungement-ai#privacy"')
     .replaceAll('href="#faq"', 'href="/expungement-ai#faq"')
+    .replaceAll('href="#briefcase-demo"', 'href="/expungement-ai#briefcase-demo"')
     .replaceAll('href="#sample"', 'href="/expungement-ai#sample"')
     .replaceAll('href="#trust"', 'href="/expungement-ai#trust"')
     .replaceAll('href="#top"', 'href="/expungement-ai"');

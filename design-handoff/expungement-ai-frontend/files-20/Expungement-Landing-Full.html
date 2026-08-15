@@ -53,11 +53,14 @@
   .nav .brand{display:flex;align-items:center;gap:9px;color:#fff;font-weight:700;font-size:16px;text-shadow:0 1px 12px rgba(0,0,0,.3);transition:color .3s}
   .nav.scrolled .brand{color:var(--ink);text-shadow:none}
   .nav .brand .logomark{width:30px;height:25px;flex-shrink:0}
-  .navlinks{display:none;gap:30px;align-items:center}
+  .navlinks{display:none;gap:30px;align-items:center;position:relative}
   @media(min-width:880px){.navlinks{display:flex}}
-  .navlinks a{font-size:13.5px;color:rgba(255,255,255,.92);font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .3s}
+  .navlinks a{position:relative;font-size:13.5px;color:rgba(255,255,255,.92);font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .18s ease-out}
+  .navlinks a.is-active{color:#fff}
   .nav.scrolled .navlinks a{color:#475067;text-shadow:none}
   .nav.scrolled .navlinks a:hover{color:var(--ink)}
+  .nav.scrolled .navlinks a.is-active{color:var(--ink)}
+  .nav-indicator{position:absolute;left:0;bottom:-9px;width:var(--nav-indicator-width,0);height:2px;border-radius:2px;background:var(--orange);opacity:var(--nav-indicator-opacity,0);transform:translateX(var(--nav-indicator-x,0));transition:width .22s ease-out,transform .22s ease-out,opacity .16s ease-out;pointer-events:none}
   .navright{display:none;align-items:center;gap:16px}
   @media(min-width:880px){.navright{display:flex}}
   .navlogin{color:#fff;font-size:13.5px;font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.3);transition:color .3s}
@@ -87,6 +90,7 @@
   .mobilemenu{position:fixed;top:0;right:0;z-index:49;width:min(82vw,320px);height:100dvh;overflow-y:auto;background:#fff;box-shadow:-12px 0 40px rgba(15,31,92,.18);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;padding:88px 28px 28px;gap:4px}
   .nav.open ~ .mobilemenu{transform:none}
   .mobilemenu a{color:var(--ink);font-size:17px;font-weight:600;padding:14px 0;border-bottom:1px solid #EEF1F6}
+  .mobilemenu a.is-active{color:var(--teal);padding-left:12px;box-shadow:inset 3px 0 0 var(--teal)}
   .mobilemenu .mcta{margin-top:18px;background:var(--orange);color:#fff;text-align:center;border-radius:12px;padding:15px;border-bottom:none;box-shadow:0 8px 22px rgba(255,59,0,.32)}
   .menuscrim{position:fixed;inset:0;z-index:48;background:rgba(11,19,38,.45);opacity:0;pointer-events:none;transition:opacity .3s}
   .nav.open ~ .menuscrim{opacity:1;pointer-events:auto}
@@ -94,37 +98,49 @@
 
   .hero{position:relative;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;background-color:var(--sky)}
   .hero-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
-  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(13,25,60,.42) 0%,rgba(13,25,60,.30) 40%,rgba(13,25,60,.55) 100%)}
-  .sky{position:absolute;top:0;left:0;right:0;height:52%;z-index:2;pointer-events:none;overflow:visible}
-  .cloud{position:absolute;will-change:transform;opacity:0}
-  .cloud .p{position:absolute;border-radius:50%;background:radial-gradient(circle at 42% 40%,rgba(255,255,255,.96),rgba(255,255,255,.78) 38%,rgba(255,255,255,.32) 62%,rgba(255,255,255,0) 75%);filter:blur(4px)}
-  .c1{top:12%;width:340px;height:120px;animation:drift 90s linear infinite}
-  .c2{top:27%;width:240px;height:88px;animation:drift 120s linear infinite;animation-delay:-60s}
-  .c3{top:6%;width:440px;height:150px;animation:drift 150s linear infinite;animation-delay:-110s}
-  .c4{top:35%;width:180px;height:70px;animation:drift 105s linear infinite;animation-delay:-42s}
-  @keyframes drift{0%{transform:translateX(-48vw)}9%{opacity:.9}90%{opacity:.9}100%{transform:translateX(135vw)}}
-  .herowrap{flex:1;position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 20px 8vh}
-  .textpanel{position:relative;display:flex;flex-direction:column;align-items:center;padding:34px 30px 30px;border-radius:28px;background:radial-gradient(120% 130% at 50% 30%,rgba(10,16,38,.52),rgba(10,16,38,.26) 60%,rgba(10,16,38,0) 100%)}
-  @media(min-width:640px){.textpanel{padding:40px 48px 36px}}
-  .h-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);backdrop-filter:blur(8px);color:#fff;font-size:12.5px;font-weight:600;padding:7px 15px;border-radius:999px;margin-bottom:20px;animation:fu .8s ease both;text-shadow:0 1px 6px rgba(0,0,0,.3)}
+  .hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(13,25,60,.54) 0%,rgba(13,25,60,.38) 42%,rgba(13,25,60,.66) 100%)}
+  .herowrap{flex:1;position:relative;z-index:20;width:min(1180px,100%);margin:0 auto;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:52px;align-items:center;padding:144px 28px 72px}
+  .textpanel{position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:34px 0}
+  .h-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);backdrop-filter:blur(8px);color:#fff;font-size:12.5px;font-weight:600;padding:7px 15px;border-radius:999px;margin-bottom:20px;text-shadow:0 1px 6px rgba(0,0,0,.3)}
   .h-eyebrow svg{width:14px;height:14px;color:var(--mint)}
-  .hero h1{color:#fff;font-weight:800;line-height:1.02;letter-spacing:-.03em;font-size:40px;text-shadow:0 4px 28px rgba(5,10,28,.85),0 2px 8px rgba(5,10,28,.7);animation:fu .8s ease both;max-width:20ch}
+  .hero h1{color:#fff;font-weight:800;line-height:1.02;letter-spacing:-.03em;font-size:40px;text-shadow:0 4px 28px rgba(5,10,28,.85),0 2px 8px rgba(5,10,28,.7);max-width:17ch}
   @media(min-width:640px){.hero h1{font-size:56px}}
-  @media(min-width:1024px){.hero h1{font-size:70px}}
+  @media(min-width:1024px){.hero h1{font-size:62px}}
   .hero h1 .price{color:#FFD9B0}
   .hero h1 .strike{color:rgba(255,255,255,.55);text-decoration:line-through;text-decoration-thickness:3px}
-  .hero .sub{color:#fff;font-size:17px;font-weight:500;line-height:1.5;max-width:42ch;margin-top:18px;text-shadow:0 2px 16px rgba(5,10,28,.8);animation:fu .8s ease both;animation-delay:.1s}
+  .hero .sub{color:#fff;font-size:17px;font-weight:500;line-height:1.5;max-width:44ch;margin-top:18px;text-shadow:0 2px 16px rgba(5,10,28,.8)}
   @media(min-width:1024px){.hero .sub{font-size:19px}}
-  .hero-cta-row{display:flex;flex-wrap:wrap;gap:13px;justify-content:center;margin-top:28px;animation:fu .8s ease both;animation-delay:.2s}
-  .hero .bigcta{animation:fu .8s ease both,pulseBtn 2.6s ease-in-out infinite;animation-delay:.2s,1s}
+  .hero-cta-row{display:flex;flex-wrap:wrap;gap:13px;justify-content:flex-start;margin-top:28px}
   .h-ghost{position:relative;isolation:isolate;background:rgba(13,19,32,.42);border:1px solid rgba(255,255,255,.40);color:#fff;border-radius:14px;padding:16px 28px;font-size:15px;font-weight:700;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .h-ghost:hover{background:rgba(13,19,32,.55);border-color:rgba(255,255,255,.6);transform:translateY(-1px)}
-  @keyframes pulseBtn{0%,100%{box-shadow:0 10px 30px rgba(255,59,0,.5)}50%{box-shadow:0 10px 44px rgba(255,59,0,.85)}}
-  .microcopy{margin-top:16px;color:#fff;font-size:13px;font-weight:500;text-shadow:0 1px 8px rgba(8,15,40,.5);animation:fu .8s ease both;animation-delay:.28s}
-  .trust{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 24px;animation:fu .8s ease both;animation-delay:.42s}
+  .microcopy{margin-top:16px;color:#fff;font-size:13px;font-weight:500;text-shadow:0 1px 8px rgba(8,15,40,.5)}
+  .trust{margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 24px}
   .trust .t{display:flex;align-items:center;gap:8px;color:#fff;font-size:13px;font-weight:600;text-shadow:0 1px 8px rgba(8,15,40,.5)}
   .trust .t svg{width:15px;height:15px;color:var(--mint);flex-shrink:0}
-  @keyframes fu{from{opacity:0;transform:translateY(22px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+  .hero-story{min-width:0;background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.62);border-radius:22px;box-shadow:0 28px 70px rgba(4,10,28,.36);padding:22px;color:var(--ink);text-align:left}
+  .hero-story-kicker{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:800;margin-bottom:14px}
+  .story-tabs,.brief-demo-tabs{display:flex;gap:7px;padding:4px;background:#EEF1F6;border-radius:12px}
+  .story-tab,.brief-demo-tab{min-height:44px;flex:1;border:0;border-radius:9px;padding:9px 10px;background:transparent;color:#566074;font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:background .18s ease-out,color .18s ease-out,box-shadow .18s ease-out}
+  .story-tab[aria-selected="true"],.brief-demo-tab[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(15,31,92,.10)}
+  .story-stage{position:relative;min-height:288px;margin-top:16px}
+  .story-panel,.brief-demo-panel{position:absolute;inset:0;opacity:1;transform:none;transition:opacity .28s ease-out,transform .28s ease-out}
+  .story-panel.is-entering,.brief-demo-panel.is-entering{opacity:0;transform:translateX(8px)}
+  .story-card{height:100%;min-height:288px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:20px;display:flex;flex-direction:column}
+  .story-example{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);font-weight:800}
+  .story-question{font-size:20px;font-weight:750;line-height:1.25;margin-top:20px}
+  .story-choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .story-choice{border:1px solid #D9DEE8;border-radius:999px;padding:8px 12px;color:#475067;font-size:13px;font-weight:650;background:#fff}
+  .story-case{margin-top:20px;border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--cream)}
+  .story-case-title{font-size:13px;color:var(--slate);font-weight:650}
+  .story-status{display:inline-flex;margin-top:12px;border-radius:999px;padding:7px 10px;background:#FFF0E9;color:#B7330C;font-size:12px;font-weight:750}
+  .story-emphasis{margin-top:18px;font-size:18px;font-weight:800;color:var(--ink)}
+  .story-detail{margin-top:8px;color:var(--slate);font-size:13px;line-height:1.5}
+  .story-checks{display:grid;gap:10px;margin-top:20px}
+  .story-check{display:flex;align-items:center;gap:9px;font-size:13px;color:#3D4658}
+  .story-check::before{content:"✓";width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#00A99D20;color:var(--teal);font-size:11px;font-weight:800}
+  .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+  @media(max-width:980px){.herowrap{grid-template-columns:1fr;gap:22px;padding-top:132px}.textpanel{align-items:center;text-align:center;padding-bottom:10px}.hero-cta-row{justify-content:center}.hero-story{width:min(640px,100%);justify-self:center}.hero h1{max-width:19ch}}
+  @media(max-width:560px){.herowrap{padding:124px 16px 44px}.textpanel{padding-top:16px}.hero h1{font-size:40px}.story-tabs{display:grid;grid-template-columns:1fr}.story-stage,.story-card{min-height:306px}.hero-story{padding:16px}}
 
   .ph{position:relative;background:repeating-linear-gradient(45deg,#EDE6D9,#EDE6D9 12px,#E5DCCB 12px,#E5DCCB 24px);border:1.5px dashed #C9BEA8;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#8A7E62;gap:6px;min-height:160px;padding:20px}
   .ph .ph-ic{width:30px;height:30px;opacity:.6}
@@ -179,16 +195,19 @@
   .how{background:#fff;padding:90px 20px 100px}
   .journey{max-width:760px;margin:56px auto 0;position:relative;padding-left:8px}
   .jline-track{position:absolute;left:35px;top:18px;bottom:18px;width:3px;background:rgba(15,31,92,.10);border-radius:3px}
-  .jline{position:absolute;left:35px;top:18px;bottom:18px;width:3px;background:linear-gradient(180deg,var(--teal),var(--orange));border-radius:3px;transform:scaleY(0);transform-origin:top;transition:transform 1.1s cubic-bezier(.4,0,.2,1)}
-  .jstep{position:relative;display:flex;gap:24px;align-items:flex-start;padding:0 0 42px;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .jline{position:absolute;left:35px;top:18px;bottom:18px;width:3px;background:linear-gradient(180deg,var(--teal),var(--orange));border-radius:3px;transform:scaleY(1);transform-origin:top;transition:transform .5s ease-out}
+  .motion-enhanced .jline{transform:scaleY(var(--journey-progress,0))}
+  .jstep{position:relative;display:flex;gap:24px;align-items:flex-start;padding:0 0 42px;opacity:1;transform:none}
   .jstep:last-child{padding-bottom:0}
-  .jstep[data-i="0"]{transition-delay:.15s}.jstep[data-i="1"]{transition-delay:.33s}.jstep[data-i="2"]{transition-delay:.51s}
   .jnode{position:relative;z-index:2;width:56px;height:56px;flex-shrink:0;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 6px 18px rgba(15,31,92,.10)}
   .jstep[data-i="0"] .jnode{border:3px solid var(--teal);color:var(--teal)}
   .jstep[data-i="1"] .jnode{border:3px solid #1B7FB8;color:#1B7FB8}
   .jstep[data-i="2"] .jnode{border:3px solid var(--orange);color:var(--orange)}
-  .jcard{background:#fff;border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(15,31,92,.05),0 10px 30px rgba(15,31,92,.05);flex:1;margin-top:2px}
+  .jcard{background:#fff;border:1px solid transparent;border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(15,31,92,.05),0 10px 30px rgba(15,31,92,.05);flex:1;margin-top:2px;transition:border-color .2s ease-out,box-shadow .2s ease-out,transform .18s ease-out}
+  .jstep.is-current .jcard{border-color:#00A99D66;box-shadow:0 14px 36px rgba(15,31,92,.10)}
+  .jstep.is-current .jnode{box-shadow:0 0 0 5px #00A99D15,0 6px 18px rgba(15,31,92,.10)}
   .jcard h3{font-size:19px;font-weight:700;color:var(--ink)}
+  .jstep-button{display:block;width:100%;padding:0;border:0;background:transparent;color:inherit;font:inherit;font-weight:700;text-align:left;cursor:pointer}
   .jcard p{margin-top:8px;color:var(--slate);font-size:15px}
   .jshot{margin-top:14px;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 24px rgba(15,31,92,.08);display:block;width:100%}
   .jshot img{display:block;width:100%;height:auto}
@@ -203,8 +222,22 @@
   .brief-bullets li{display:flex;align-items:flex-start;gap:12px;color:rgba(255,255,255,.9);font-size:15px}
   .brief-bullets .bk{margin-top:2px;width:20px;height:20px;border-radius:50%;background:#2BC4B633;color:var(--teal-bright);display:grid;place-items:center;flex-shrink:0;font-size:11px}
   .briefcta{margin-top:30px}
-  .briefshot{display:block;border-radius:16px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.08)}
-  .briefshot img{display:block;width:100%;height:auto}
+  .brief-demo{border-radius:20px;background:#FBFCFE;color:var(--ink);padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.14);text-align:left}
+  .brief-demo-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+  .brief-demo-title{font-size:19px;font-weight:800;color:var(--ink)}
+  .brief-demo-note{margin-top:5px;color:var(--slate);font-size:12px;line-height:1.45;max-width:42ch}
+  .brief-demo-tabs{display:grid;grid-template-columns:repeat(4,1fr);background:#E9EDF4}
+  .brief-demo-tab{min-width:0;padding:9px 6px;font-size:11px;line-height:1.25}
+  .brief-demo-stage{position:relative;min-height:236px;margin-top:16px}
+  .brief-demo-panel{min-height:236px;border:1px solid #E2E6EE;border-radius:15px;background:#fff;padding:20px}
+  .brief-case-label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--slate);font-weight:700}
+  .brief-status{display:inline-flex;margin-top:14px;border-radius:999px;background:#00A99D18;color:#087A71;padding:7px 10px;font-size:12px;font-weight:750}
+  .brief-next-label{margin-top:26px;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--slate);font-weight:700}
+  .brief-next{margin-top:6px;font-size:18px;font-weight:800;color:var(--ink)}
+  .brief-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:26px}
+  .brief-progress span{height:4px;border-radius:4px;background:#DFE4EC}
+  .brief-progress span.done{background:var(--teal)}
+  @media(max-width:600px){.brief-grid{grid-template-columns:1fr;gap:38px}.brief-demo-tabs{grid-template-columns:1fr 1fr}.brief-demo-tab{font-size:11.5px}.brief-demo-stage,.brief-demo-panel{min-height:250px}}
   .window{border-radius:16px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45);background:#FBFCFE;text-align:left}
   .win-bar{background:#EEF1F6;border-bottom:1px solid #E2E6EE;padding:10px 16px;display:flex;align-items:center;gap:12px}
   .win-dots{display:flex;gap:6px}
@@ -332,8 +365,14 @@
   .chat-row .bubble{margin-bottom:0;max-width:100%}
   .prompts{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
   .prompt{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13px;font-weight:600}
-  .wilma-safe{margin-top:20px;font-size:13px;color:var(--slate);font-style:italic}
-  .chat{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(15,31,92,.08);padding:26px}
+  .wilma-safe{margin-top:20px;font-size:13px;color:var(--slate)}
+  .wilma-action{margin-top:22px;min-height:46px;border:1.5px solid var(--teal);border-radius:12px;background:#fff;color:#087A71;padding:11px 16px;font:inherit;font-size:14px;font-weight:750;cursor:pointer;transition:background .18s ease-out,color .18s ease-out,transform .18s ease-out}
+  .wilma-action:hover{background:#E9F8F5;transform:translateY(-1px)}
+  .chat-shell{min-height:296px;display:flex;align-items:center}
+  .chat{width:100%;min-height:244px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(15,31,92,.08);padding:26px;opacity:1;transform:none;transition:opacity .28s ease-out,transform .28s ease-out}
+  .chat.is-entering{opacity:0;transform:translateY(8px)}
+  .chat[hidden]{display:block!important;visibility:hidden;opacity:0;transform:translateY(8px);pointer-events:none}
+  .chat-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);font-weight:800;margin-bottom:16px}
   .bubble{padding:14px 18px;border-radius:16px;font-size:15px;margin-bottom:14px;max-width:88%}
   .bubble:last-child{margin-bottom:0}
   .bubble.user{background:var(--ink);color:#fff;margin-left:auto;border-bottom-right-radius:5px}
@@ -367,23 +406,6 @@
 
   /* evidence card photo placeholder (4:3) */
   .ev-card .imgph{aspect-ratio:4/3;margin-bottom:18px}
-
-  /* ---- testimonials ---- */
-  .testi{background:var(--ink);padding:84px 20px}
-  .testi .sec-head h2{color:#fff}
-  .testi .sec-head .eyebrow{color:var(--teal-bright)}
-  .testi-cards{max-width:var(--maxw);margin:36px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-  .testi-card{background:#141E33;border:1px solid #25324B;border-radius:18px;padding:28px 26px;display:flex;flex-direction:column}
-  .testi-card .quote{color:#E7ECF4;font-size:16px;line-height:1.6;flex:1}
-  .testi-card .quote::before{content:"\201C";color:var(--orange);font-size:30px;line-height:0;vertical-align:-8px;margin-right:4px;font-weight:800}
-  .testi-person{display:flex;align-items:center;gap:14px;margin-top:22px}
-  .testi-person .imgph{box-sizing:border-box;width:56px;height:56px;min-width:56px;border-radius:50%;flex:0 0 56px;align-self:center}
-  .testi-person .imgph .imgph-label{padding:0;font-size:9px}
-  .testi-person .imgph img{border-radius:50%}
-  .testi-person .who b{display:block;color:#fff;font-size:15px;font-weight:700}
-  .testi-person .who span{display:block;color:#9AA8BE;font-size:13px;margin-top:1px}
-  .testi-note{max-width:1140px;margin:26px auto 0;padding:0 4px;font-size:13px;color:#8A93A6;font-style:italic;text-align:center}
-  @media(max-width:880px){.testi-cards{grid-template-columns:1fr}}
 
   .faqsec{background:#fff;padding:80px 20px}
   .faq-inner{max-width:720px;margin:0 auto}
@@ -426,6 +448,12 @@
   .sticky-cta .btn-primary{width:100%;justify-content:center}
   .sticky-cta .sl{text-align:center;font-size:12px;color:var(--slate);margin-top:6px}
 
+  .motion-reveal{transition:opacity .42s ease-out,transform .42s ease-out,box-shadow .18s ease-out,border-color .18s ease-out}
+  .motion-enhanced .motion-reveal.reveal-ready:not(.is-revealed){opacity:0;transform:translateY(10px)}
+  .motion-enhanced .motion-reveal.is-revealed{transition-delay:var(--reveal-delay,0ms)}
+  @media(hover:hover){.tcard:hover,.pcard:hover,.price-card:hover,.priv-item:hover,.jcard:hover{transform:translateY(-3px)}}
+  .tcard:focus-within,.pcard:focus-within,.price-card:focus-within,.priv-item:focus-within,.jcard:focus-within{transform:translateY(-3px)}
+
   @media(max-width:900px){
     .strip-grid{grid-template-columns:1fr 1fr}
     .problem-grid,.elig-grid,.packet-grid,.sample-grid,.wilma-grid,.state-grid,.pricing-cols{grid-template-columns:1fr;gap:40px}
@@ -443,7 +471,9 @@
     *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
     .jline{transform:scaleY(1)!important}
     .jstep{opacity:1!important;transform:none!important}
-    .cloud{opacity:.85!important}
+    .motion-reveal{opacity:1!important;transform:none!important}
+    .nav-indicator{transition:none!important}
+    .story-panel,.brief-demo-panel,.chat{transition:none!important;transform:none!important}
   }
 </style>
 </head>
@@ -466,24 +496,18 @@
          alt="An open mountain road leading toward a sunrise between two peaks." data-i18n-alt="hero_alt">
   </picture>
 
-  <div class="sky">
-    <div class="cloud c1"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div><div class="p" style="left:28%;top:16%;width:30%;height:34%;opacity:.9"></div><div class="p" style="left:50%;top:8%;width:34%;height:40%;opacity:.9"></div><div class="p" style="left:68%;top:20%;width:26%;height:30%;opacity:.9"></div></div>
-    <div class="cloud c2"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div></div>
-    <div class="cloud c3"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div><div class="p" style="left:80%;top:52%;width:38%;height:32%"></div><div class="p" style="left:50%;top:8%;width:34%;height:40%;opacity:.9"></div></div>
-    <div class="cloud c4"><div class="p" style="left:0%;top:55%;width:42%;height:30%"></div><div class="p" style="left:18%;top:42%;width:46%;height:40%"></div><div class="p" style="left:40%;top:32%;width:52%;height:48%"></div><div class="p" style="left:62%;top:40%;width:44%;height:42%"></div></div>
-  </div>
-
   <nav class="nav" id="nav">
     <a href="#top" class="brand">
       <svg class="logomark" viewBox="0 0 192 158" aria-hidden="true"><defs><clipPath id="arch"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z"/></clipPath></defs><g clip-path="url(#arch)"><path d="M16 96 A80 80 0 0 1 176 96 L176 154 L16 154 Z" fill="#0B1320"/><circle cx="96" cy="92" r="27" fill="#FF3B00"/><path d="M16 110 L176 110 L176 154 L16 154 Z" fill="#F7F8FA"/><path d="M96 96 L154 154 L122 154 Z" fill="#475A6E"/><path d="M96 96 L38 154 L70 154 Z" fill="#475A6E"/><path d="M96 96 L114 154 L78 154 Z" fill="#9AA8B8"/></g></svg>
       Expungement.ai
     </a>
-    <div class="navlinks">
-      <a href="#how-it-works" data-i18n="nav_how">How it works</a>
-      <a href="#what-you-get" data-i18n="nav_brief">What you get</a>
-      <a href="#pricing" data-i18n="nav_pricing">Price</a>
-      <a href="#privacy" data-i18n="nav_privacy">Trust & privacy</a>
-      <a href="#faq" data-i18n="nav_faq">Questions</a>
+    <div class="navlinks" data-active-nav>
+      <a href="#how-it-works" data-section-link="how-it-works" data-i18n="nav_how">How it works</a>
+      <a href="#what-you-get" data-section-link="what-you-get" data-i18n="nav_brief">What you get</a>
+      <a href="#pricing" data-section-link="pricing" data-i18n="nav_pricing">Price</a>
+      <a href="#privacy" data-section-link="privacy" data-i18n="nav_privacy">Trust & privacy</a>
+      <a href="#faq" data-section-link="faq" data-i18n="nav_faq">Questions</a>
+      <span class="nav-indicator" aria-hidden="true"></span>
     </div>
     <div class="navright">
       <div class="langtoggle" role="group" aria-label="Choose language / Elegir idioma">
@@ -496,11 +520,11 @@
     <button class="navtoggle" id="navtoggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilemenu"><span></span><span></span><span></span></button>
   </nav>
   <aside class="mobilemenu" id="mobilemenu" aria-hidden="true">
-    <a href="#how-it-works" data-i18n="nav_how">How it works</a>
-    <a href="#what-you-get" data-i18n="nav_brief">What you get</a>
-    <a href="#pricing" data-i18n="nav_pricing">Price</a>
-    <a href="#privacy" data-i18n="nav_privacy">Trust & privacy</a>
-    <a href="#faq" data-i18n="nav_faq">Questions</a>
+    <a href="#how-it-works" data-section-link="how-it-works" data-i18n="nav_how">How it works</a>
+    <a href="#what-you-get" data-section-link="what-you-get" data-i18n="nav_brief">What you get</a>
+    <a href="#pricing" data-section-link="pricing" data-i18n="nav_pricing">Price</a>
+    <a href="#privacy" data-section-link="privacy" data-i18n="nav_privacy">Trust & privacy</a>
+    <a href="#faq" data-section-link="faq" data-i18n="nav_faq">Questions</a>
     <a href="#" data-i18n="nav_login">Log in</a>
     <a href="#elig" class="mcta" data-i18n-html="m_cta">Start free</a>
     <div class="m-lang" role="group" aria-label="Choose language / Elegir idioma">
@@ -521,6 +545,51 @@
       </div>
       <div class="microcopy" data-i18n-html="hero_micro">No account to begin · No payment to start · Free guided checks in 50 states and D.C.</div>
       <div class="microcopy" data-i18n="hero_disclaimer">Self-help document preparation. Not a law firm. The court or agency makes the final decision.</div>
+    </div>
+    <div class="hero-story" data-interactive-tabs="hero-story">
+      <p class="hero-story-kicker" data-i18n="hero_story_label">How the product works</p>
+      <div class="story-tabs" role="tablist" aria-label="Choose a product example" data-i18n-aria-label="hero_story_tabs_label">
+        <button class="story-tab" type="button" role="tab" id="hero-story-tab-check" aria-controls="hero-story-panel-check" aria-selected="true" tabindex="0" data-tab-target="check" data-i18n="hero_story_guided">Free guided check</button>
+        <button class="story-tab" type="button" role="tab" id="hero-story-tab-briefcase" aria-controls="hero-story-panel-briefcase" aria-selected="false" tabindex="-1" data-tab-target="briefcase" data-i18n="hero_story_briefcase">Free Briefcase</button>
+        <button class="story-tab" type="button" role="tab" id="hero-story-tab-packet" aria-controls="hero-story-panel-packet" aria-selected="false" tabindex="-1" data-tab-target="packet" data-i18n="hero_story_packet">Supported packet</button>
+      </div>
+      <div class="story-stage">
+        <div class="story-panel" id="hero-story-panel-check" role="tabpanel" aria-labelledby="hero-story-tab-check" data-tab-panel="check">
+          <div class="story-card">
+            <span class="story-example" data-i18n="hero_story_example">Example</span>
+            <p class="story-question" data-i18n="mock_q">What happened with the case?</p>
+            <div class="story-choices">
+              <span class="story-choice" data-i18n="chip0">Dismissed</span>
+              <span class="story-choice" data-i18n="chip1">Not guilty</span>
+              <span class="story-choice" data-i18n="chip5">Not sure</span>
+            </div>
+            <p class="story-detail" data-i18n="mock_tip">Questions and explanations change based on your state and case.</p>
+          </div>
+        </div>
+        <div class="story-panel" id="hero-story-panel-briefcase" role="tabpanel" aria-labelledby="hero-story-tab-briefcase" data-tab-panel="briefcase" hidden>
+          <div class="story-card">
+            <span class="story-example" data-i18n="hero_story_briefcase">Free Briefcase</span>
+            <div class="story-case">
+              <p class="story-case-title" data-i18n="hero_story_case">Example supported case</p>
+              <p class="story-status" data-i18n="hero_story_case_status">Packet information in progress</p>
+            </div>
+            <p class="story-emphasis" data-i18n="hero_story_case_free">Your Briefcase is free.</p>
+            <p class="story-detail" data-i18n="hero_story_case_next">Next step: Continue packet information</p>
+          </div>
+        </div>
+        <div class="story-panel" id="hero-story-panel-packet" role="tabpanel" aria-labelledby="hero-story-tab-packet" data-tab-panel="packet" hidden>
+          <div class="story-card">
+            <span class="story-example" data-i18n="hero_story_packet_status">Packet information reviewed</span>
+            <p class="story-emphasis" data-i18n="hero_story_packet_price">$50 one time for this case</p>
+            <div class="story-checks">
+              <p class="story-check" data-i18n="hero_story_packet_kind">Supported self-help packet</p>
+              <p class="story-check" data-i18n="hero_story_packet_fees">Court filing fees are separate</p>
+              <p class="story-check" data-i18n="hero_story_packet_subscription">No subscription</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="sr-only" aria-live="polite" aria-atomic="true" data-tab-live></p>
     </div>
   </div>
 </section>
@@ -587,12 +656,12 @@
     <p data-i18n="how_eye" class="eyebrow">How it works</p>
     <h2 data-i18n="how_h2">Three steps. No legal maze.</h2>
   </div>
-  <div class="journey">
-    <div class="jline-track"></div>
-    <div class="jline"></div>
-    <div class="jstep" data-i="0"><div class="jnode">1</div><div class="jcard"><h3 data-i18n="how_h0">1. See which paths may be available.</h3><p data-i18n="how_p0">Answer plain-English questions about your state, case, and outcome. The check shows whether a supported record-clearing path may be available before you pay.</p><picture class="jshot"><source type="image/webp" srcset="shot-eligibility.webp"><img src="shot-eligibility.png" width="760" height="569" loading="lazy" decoding="async" alt="Example question from the free guided check." data-i18n-alt="guided_check_alt"></picture></div></div>
-    <div class="jstep" data-i="1"><div class="jnode">2</div><div class="jcard"><h3 data-i18n="how_h1">2. Generate a supported self-help packet.</h3><p data-i18n="how_p1">Review your packet information first. Then pay $50 to generate the available documents and filing instructions for your case.</p><picture class="jshot"><source type="image/webp" srcset="shot-result.webp"><img src="shot-result.png" width="760" height="659" loading="lazy" decoding="async" alt="Example result showing that a supported self-help packet may be available." data-i18n-alt="packet_result_alt"></picture></div></div>
-    <div class="jstep" data-i="2"><div class="jnode">3</div><div class="jcard"><h3 data-i18n="how_h3">3. File it yourself with clear steps.</h3><p data-i18n="how_p2">Download your packet, follow the checklist for your court, and use your Briefcase to track what is ready, filed, or waiting.</p><picture class="jshot"><source type="image/webp" srcset="shot-briefcase.webp"><img src="shot-briefcase.png" width="760" height="428" loading="lazy" decoding="async" alt="Example of a free Briefcase with cases, documents, and next steps." data-i18n-alt="briefcase_alt"></picture></div></div>
+  <div class="journey" data-journey>
+    <div class="jline-track" aria-hidden="true"></div>
+    <div class="jline" aria-hidden="true"></div>
+    <div class="jstep is-current" data-i="0"><div class="jnode" aria-hidden="true">1</div><div class="jcard"><h3><button class="jstep-button" type="button" data-journey-step="0" aria-current="step" data-i18n="how_h0">1. See which paths may be available.</button></h3><p data-i18n="how_p0">Answer plain-English questions about your state, case, and outcome. The check shows whether a supported record-clearing path may be available before you pay.</p><picture class="jshot"><source type="image/webp" srcset="shot-eligibility.webp"><img src="shot-eligibility.png" width="760" height="569" loading="lazy" decoding="async" alt="Example question from the free guided check." data-i18n-alt="guided_check_alt"></picture></div></div>
+    <div class="jstep" data-i="1"><div class="jnode" aria-hidden="true">2</div><div class="jcard"><h3><button class="jstep-button" type="button" data-journey-step="1" data-i18n="how_h1">2. Generate a supported self-help packet.</button></h3><p data-i18n="how_p1">Review your packet information first. Then pay $50 to generate the available documents and filing instructions for your case.</p><picture class="jshot"><source type="image/webp" srcset="shot-result.webp"><img src="shot-result.png" width="760" height="659" loading="lazy" decoding="async" alt="Example result showing that a supported self-help packet may be available." data-i18n-alt="packet_result_alt"></picture></div></div>
+    <div class="jstep" data-i="2"><div class="jnode" aria-hidden="true">3</div><div class="jcard"><h3><button class="jstep-button" type="button" data-journey-step="2" data-i18n="how_h3">3. File it yourself with clear steps.</button></h3><p data-i18n="how_p2">Download your packet, follow the checklist for your court, and use your Briefcase to track what is ready, filed, or waiting.</p><picture class="jshot"><source type="image/webp" srcset="shot-briefcase.webp"><img src="shot-briefcase.png" width="760" height="428" loading="lazy" decoding="async" alt="Example of a free Briefcase with cases, documents, and next steps." data-i18n-alt="briefcase_alt"></picture></div></div>
   </div>
   <div class="cta-wrap"><a href="#elig" class="btn btn-primary" data-i18n-html="how_cta">Start free</a></div>
 </section>
@@ -610,12 +679,37 @@
         <li><span class="bk">&#10003;</span><span data-i18n="brief_b3">Track what is ready, filed, or waiting</span></li>
         <li><span class="bk">&#10003;</span><span data-i18n="brief_b4">Ask Wilma to explain confusing steps in plain English</span></li>
       </ul>
-      <div class="briefcta"><a href="#" class="btn btn-primary" data-i18n-html="brief_cta">Start free</a></div>
+      <div class="briefcta"><a href="#briefcase-demo" class="btn btn-primary" data-i18n="brief_cta">See how the Briefcase works</a></div>
     </div>
-    <picture class="briefshot">
-      <source type="image/webp" srcset="shot-briefcase.webp">
-      <img src="shot-briefcase.png" width="1180" height="664" loading="lazy" decoding="async" alt="Example of a free Briefcase with cases, documents, and next steps." data-i18n-alt="briefcase_alt">
-    </picture>
+    <div class="brief-demo" id="briefcase-demo" data-interactive-tabs="briefcase-demo" tabindex="-1">
+      <div class="brief-demo-head">
+        <div>
+          <h3 class="brief-demo-title" data-i18n="brief_demo_label">Example Briefcase</h3>
+          <p class="brief-demo-note" data-i18n="brief_demo_note">This demonstration uses a fictional case and no real participant information.</p>
+        </div>
+      </div>
+      <div class="brief-demo-tabs" role="tablist" aria-label="Example Briefcase stages" data-i18n-aria-label="brief_demo_tabs_label">
+        <button class="brief-demo-tab" type="button" role="tab" id="brief-demo-tab-saved" aria-controls="brief-demo-panel-saved" aria-selected="true" tabindex="0" data-tab-target="saved" data-i18n="brief_demo_s0">Record check saved</button>
+        <button class="brief-demo-tab" type="button" role="tab" id="brief-demo-tab-progress" aria-controls="brief-demo-panel-progress" aria-selected="false" tabindex="-1" data-tab-target="progress" data-i18n="brief_demo_s1">Packet information in progress</button>
+        <button class="brief-demo-tab" type="button" role="tab" id="brief-demo-tab-review" aria-controls="brief-demo-panel-review" aria-selected="false" tabindex="-1" data-tab-target="review" data-i18n="brief_demo_s2">Ready to review</button>
+        <button class="brief-demo-tab" type="button" role="tab" id="brief-demo-tab-ready" aria-controls="brief-demo-panel-ready" aria-selected="false" tabindex="-1" data-tab-target="ready" data-i18n="brief_demo_s3">Packet ready</button>
+      </div>
+      <div class="brief-demo-stage">
+        <div class="brief-demo-panel" id="brief-demo-panel-saved" role="tabpanel" aria-labelledby="brief-demo-tab-saved" data-tab-panel="saved">
+          <p class="brief-case-label" data-i18n="brief_demo_case">Example supported case</p><p class="brief-status" data-i18n="brief_demo_s0">Record check saved</p><p class="brief-next-label" data-i18n="brief_demo_next">Next step</p><p class="brief-next" data-i18n="brief_demo_n0">Review your result</p><div class="brief-progress" aria-hidden="true"><span class="done"></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="brief-demo-panel" id="brief-demo-panel-progress" role="tabpanel" aria-labelledby="brief-demo-tab-progress" data-tab-panel="progress" hidden>
+          <p class="brief-case-label" data-i18n="brief_demo_case">Example supported case</p><p class="brief-status" data-i18n="brief_demo_s1">Packet information in progress</p><p class="brief-next-label" data-i18n="brief_demo_next">Next step</p><p class="brief-next" data-i18n="brief_demo_n1">Continue packet information</p><div class="brief-progress" aria-hidden="true"><span class="done"></span><span class="done"></span><span></span><span></span></div>
+        </div>
+        <div class="brief-demo-panel" id="brief-demo-panel-review" role="tabpanel" aria-labelledby="brief-demo-tab-review" data-tab-panel="review" hidden>
+          <p class="brief-case-label" data-i18n="brief_demo_case">Example supported case</p><p class="brief-status" data-i18n="brief_demo_s2">Ready to review</p><p class="brief-next-label" data-i18n="brief_demo_next">Next step</p><p class="brief-next" data-i18n="brief_demo_n2">Review before payment</p><div class="brief-progress" aria-hidden="true"><span class="done"></span><span class="done"></span><span class="done"></span><span></span></div>
+        </div>
+        <div class="brief-demo-panel" id="brief-demo-panel-ready" role="tabpanel" aria-labelledby="brief-demo-tab-ready" data-tab-panel="ready" hidden>
+          <p class="brief-case-label" data-i18n="brief_demo_case">Example supported case</p><p class="brief-status" data-i18n="brief_demo_s3">Packet ready</p><p class="brief-next-label" data-i18n="brief_demo_next">Next step</p><p class="brief-next" data-i18n="brief_demo_n3">Download packet</p><div class="brief-progress" aria-hidden="true"><span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span></div>
+        </div>
+      </div>
+      <p class="sr-only" aria-live="polite" aria-atomic="true" data-tab-live></p>
+    </div>
   </div>
 </section>
 
@@ -737,13 +831,17 @@
         <span class="prompt" data-i18n="wl_p3">How do I ask about a fee waiver?</span>
         <span class="prompt" data-i18n="wl_p4">What happens after I file?</span>
       </div>
+      <button class="wilma-action" id="wilma-explainer-toggle" type="button" aria-expanded="false" aria-controls="wilma-example" data-i18n="wl_action">See Wilma explain it</button>
       <p data-i18n="wl_safe" class="wilma-safe">Wilma provides general self-help information, not legal advice.</p>
     </div>
-    <div class="chat" aria-hidden="true">
-      <div class="bubble user"><div class="who" data-i18n="wl_you">You</div><span data-i18n="wl_q">What does “file with the court” mean?</span></div>
-      <div class="chat-row botrow">
-        <img class="chat-ava" src="wilma-avatar-sm.webp" width="40" height="40" alt="" aria-hidden="true">
-        <div class="bubble bot"><div class="who">Wilma</div><span data-i18n="wl_a">It means submitting your completed packet to the court. Follow the instructions included with your supported packet and confirm current requirements with the court.</span></div>
+    <div class="chat-shell">
+      <div class="chat" id="wilma-example" hidden>
+        <p class="chat-label" data-i18n="wl_example">Example explanation</p>
+        <div class="bubble user"><div class="who" data-i18n="wl_you">You</div><span data-i18n="wl_q">What does “file with the court” mean?</span></div>
+        <div class="chat-row botrow">
+          <img class="chat-ava" src="wilma-avatar-sm.webp" width="40" height="40" alt="" aria-hidden="true">
+          <div class="bubble bot"><div class="who">Wilma</div><span data-i18n="wl_a">It means submitting your completed packet to the court. Follow the instructions included with your supported packet and confirm current requirements with the court.</span></div>
+        </div>
       </div>
     </div>
   </div>

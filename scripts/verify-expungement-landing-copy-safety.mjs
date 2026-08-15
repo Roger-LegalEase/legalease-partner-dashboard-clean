@@ -44,6 +44,7 @@ const prohibited = [
   [/\battorney-reviewed (?:in every state|document logic)\b/i, "unsubstantiated attorney-review claim"],
   [/\bsitting state legislator\b/i, "unsubstantiated credential"],
   [/\bpeople who cleared their record with expungement\.ai\b/i, "unverified testimonial claim"],
+  [/(?:in their words|what people said after using expungement\.ai|Tanya R\.|Marcus D\.|Lisa F\.|verified quote|verified product stage)/i, "removed testimonial content"],
   [/\b1 in 3\b/i, "unsupported statistic"],
   [/\b(?:three|3|ten|10)[ -]?minute(?:s)?\b/i, "unverified completion-time claim"],
   [/\byour information stays private\b/i, "vague privacy claim"],
@@ -95,7 +96,7 @@ function buildLanding(source) {
   return body
     .replace(/<div id="wilma-static"[\s\S]*?<\/div>\s*(?=<script)/i, "")
     .replace(/<script[\s\S]*?<\/script>/gi, "")
-    .replace(/<section\b[^>]*class="[^"]*\b(?:cred|testi|evidence)\b[^"]*"[^>]*>[\s\S]*?<\/section>/gi, "")
+    .replace(/<section\b[^>]*class="[^"]*\b(?:cred|evidence)\b[^"]*"[^>]*>[\s\S]*?<\/section>/gi, "")
     .replace(/<div\b[^>]*class="[^"]*\b(?:stat-mod|proof-side|socials)\b[^"]*"[^>]*>[\s\S]*?<\/div>/gi, "")
     .replaceAll('src="hero-', 'src="/expungement-ai/hero-')
     .replaceAll('srcset="hero-', 'srcset="/expungement-ai/hero-')
@@ -107,7 +108,6 @@ function buildLanding(source) {
     .replaceAll('<a href="#" class="navlogin" data-i18n="nav_login">', '<a href="/expungement-ai/sign-in?mode=signin" class="navlogin" data-i18n="nav_login">')
     .replaceAll('<a href="#" data-i18n="nav_login">', '<a href="/expungement-ai/sign-in?mode=signin" data-i18n="nav_login">')
     .replaceAll('<a href="#" class="btn btn-primary" data-i18n-html="elig_cta">', '<a href="/expungement-ai/start" class="btn btn-primary" data-i18n-html="elig_cta">')
-    .replaceAll('<a href="#" class="btn btn-primary" data-i18n-html="brief_cta">', '<a href="/expungement-ai/start" class="btn btn-primary" data-i18n-html="brief_cta">')
     .replaceAll('<a href="#" class="btn btn-primary" data-i18n-html="sm_cta">', '<a href="#sample" data-sample-packet-trigger="true" class="btn btn-primary" data-i18n-html="sm_cta">')
     .replaceAll('href="#elig"', 'href="/expungement-ai/start"')
     .replaceAll('href="#how-it-works"', 'href="/expungement-ai#how-it-works"')
@@ -115,6 +115,7 @@ function buildLanding(source) {
     .replaceAll('href="#pricing"', 'href="/expungement-ai#pricing"')
     .replaceAll('href="#privacy"', 'href="/expungement-ai#privacy"')
     .replaceAll('href="#faq"', 'href="/expungement-ai#faq"')
+    .replaceAll('href="#briefcase-demo"', 'href="/expungement-ai#briefcase-demo"')
     .replaceAll('href="#sample"', 'href="/expungement-ai#sample"')
     .replaceAll('href="#top"', 'href="/expungement-ai"');
 }
@@ -258,7 +259,7 @@ for (const phrase of ["free guided check", "review your information", "$50", "ge
 
 const primaryCtaKeys = [
   "announce_cta", "nav_cta", "m_cta", "hero_cta1", "prob_cta", "elig_cta", "how_cta",
-  "brief_cta", "pr_cta", "fn_cta", "ft_check", "sticky_cta"
+  "pr_cta", "fn_cta", "ft_check", "sticky_cta"
 ];
 for (const key of primaryCtaKeys) {
   requireCondition(APPROVED_LANDING_COPY_EN[key] === "Start free", `English primary CTA ${key} is not "Start free".`);
@@ -297,7 +298,10 @@ requireCondition(
   read(CONTENT_BRAND).includes('primary: { label: "Start free", href: "/expungement-ai/start"'),
   "The shared Expungement.ai content CTA does not use Start free or does not open the guided-check entry point."
 );
-requireCondition(!/See how the Briefcase works/i.test(renderedEn), "A Briefcase preview CTA renders without an interactive preview.");
+requireCondition(APPROVED_LANDING_COPY_EN.brief_cta === "See how the Briefcase works", "The Briefcase demo CTA is missing approved English copy.");
+requireCondition(APPROVED_LANDING_COPY_ES.brief_cta === "Vea cómo funciona el Maletín", "The Briefcase demo CTA is missing approved Spanish copy.");
+requireCondition(/href="\/expungement-ai#briefcase-demo"/i.test(renderedEn), "The Briefcase demo CTA does not reach the inline example.");
+requireCondition(/id="briefcase-demo"/i.test(renderedEn), "The inline Example Briefcase is missing.");
 requireCondition(!/<section\b[^>]*class="[^"]*\bcred\b/i.test(renderedEn), "Blocked Trust credential content renders without public evidence.");
 requireCondition(!/<section\b[^>]*class="[^"]*\btesti\b/i.test(renderedEn), "Testimonials render without verified quotes and consent.");
 requireCondition(!/<section\b[^>]*class="[^"]*\bevidence\b/i.test(renderedEn), "Unsupported evidence content renders.");
@@ -352,6 +356,6 @@ console.log(JSON.stringify({
   mutationsDetected: mutations.length,
   samplePacket: sampleCtaRendered ? "rendered with local sanitized preview" : "omitted",
   trustCredential: "omitted pending public evidence",
-  testimonials: "omitted pending verified quotes and consent",
+  testimonials: "removed from the homepage and canonical copy",
   evidenceBlock: "omitted pending sourced evidence"
 }, null, 2));

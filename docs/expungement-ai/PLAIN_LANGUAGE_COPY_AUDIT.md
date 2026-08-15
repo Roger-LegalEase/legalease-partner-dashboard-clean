@@ -7,12 +7,12 @@ Commit: `unknown`
 
 ## Summary
 
-- Strings audited: 3749
+- Strings audited: 3737
 - Missing Spanish strings found: 0
 - Legalese concerns: 136
-- Misleading-promise concerns: 5
+- Misleading-promise concerns: 4
 - Too-long concerns: 16
-- High confusion risk strings: 5
+- High confusion risk strings: 4
 
 | Surface | Strings | Missing Spanish | Legalese | Promise risk |
 | --- | ---: | ---: | ---: | ---: |
@@ -21,7 +21,7 @@ Commit: `unknown`
 | checkout | 1 | 0 | 0 | 0 |
 | external_document_checklist | 13 | 0 | 2 | 0 |
 | filing_readiness | 331 | 0 | 0 | 0 |
-| landing | 236 | 0 | 3 | 4 |
+| landing | 224 | 0 | 3 | 3 |
 | payment_gate | 2 | 0 | 0 | 0 |
 | result_panel | 342 | 0 | 3 | 1 |
 | wilma_question | 1036 | 0 | 25 | 0 |

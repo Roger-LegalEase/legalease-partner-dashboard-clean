@@ -7,23 +7,11 @@ import {
   extractLandingDictionaries
 } from "@/app/expungement-ai/landing-handoff-utils";
 import { SamplePacketModal } from "@/app/expungement-ai/sample-packet/SamplePacketModal";
-import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 
 const landingPath = path.join(
   process.cwd(),
   "design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html"
 );
-const noScriptRevealFallback = `
-  #how-it-works .jstep {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  #how-it-works .jline {
-    transform: scaleY(1) !important;
-  }
-`;
-
 // Live implementation fix (intentionally diverges from the design file).
 // The hero "See a sample packet" secondary button (`.h-ghost`) ships as a
 // translucent glass button with `backdrop-filter: blur()`. Sitting ~13px to the
@@ -102,7 +90,7 @@ export function ExpungementLandingHandoff() {
   return (
     <>
       {fontLinks}
-      <style dangerouslySetInnerHTML={{ __html: `${styles}\n${noScriptRevealFallback}\n${landingDesignFixes}` }} />
+      <style dangerouslySetInnerHTML={{ __html: `${styles}\n${landingDesignFixes}` }} />
       <div
         data-handoff-source="design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html"
         suppressHydrationWarning
@@ -112,7 +100,6 @@ export function ExpungementLandingHandoff() {
       {/* DEMO-ONLY format preview. Opened by the [data-sample-packet-trigger] button in the
           "Sample packet" section. Fully isolated: no fetch, no packet pipeline, no payment. */}
       <SamplePacketModal />
-      <WilmaBubble context="landing" mode="public" />
     </>
   );
 }

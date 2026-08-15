@@ -28,6 +28,12 @@ No account to begin · No payment to start · Free guided checks in 50 states an
 
 Self-help document preparation. Not a law firm. The court or agency makes the final decision.
 
+### How the product works
+
+- **Free guided check:** Example question: “What happened with the case?”
+- **Free Briefcase:** Example supported case. Packet information in progress. Your Briefcase is free. Next step: Continue packet information.
+- **Supported packet:** Packet information reviewed. $50 one time for this case. Supported self-help packet. Court filing fees are separate. No subscription.
+
 ### Free guided check
 
 See which record-clearing paths may be available before you spend anything.
@@ -116,7 +122,16 @@ Legal terms explained. Documents organized. One next step at a time. Your free B
 - Track what is ready, filed, or waiting.
 - Ask Wilma to explain confusing steps in plain English.
 
-**Start free**
+**See how the Briefcase works**
+
+### Example Briefcase
+
+This demonstration uses a fictional case and no real participant information.
+
+- **Record check saved:** Review your result.
+- **Packet information in progress:** Continue packet information.
+- **Ready to review:** Review before payment.
+- **Packet ready:** Download packet.
 
 ## What you get
 
@@ -229,6 +244,14 @@ Wilma explains confusing steps, defines legal terms, and points you back to your
 - What happens after I file?
 
 Wilma provides general self-help information, not legal advice.
+
+**See Wilma explain it**
+
+### Example explanation
+
+**You:** What does “file with the court” mean?
+
+**Wilma:** It means submitting your completed packet to the court. Follow the instructions included with your supported packet and confirm current requirements with the court.
 
 ## Coverage
 
