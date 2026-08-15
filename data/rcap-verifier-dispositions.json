@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 115,
+    "keep_available": 116,
     "wired": 113,
     "fix_then_wire": 27,
     "retire": 1,
@@ -27,7 +27,7 @@
     },
     "verify-onboarding-all.mjs": {
       "disposition": "wired",
-      "reason": "Task 1 through Task 3A portal aggregate. It discovers and executes all 26 local onboarding verifiers, including guided onboarding, first-impression, and launch-readiness coverage, and is reached directly by npm test.",
+      "reason": "Task 1 through Task 3B portal aggregate. It discovers and executes all 27 local onboarding verifiers, including guided onboarding, first-impression, brand-readiness, and launch-readiness coverage, and is reached directly by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "captain",
       "laneOwned": true
@@ -49,6 +49,13 @@
     "verify-rcap-onboarding-implementation-center.mjs": {
       "disposition": "keep_available",
       "reason": "Task 1 implementation-center and one-current-action verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "orphan_passing",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-onboarding-task3b.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 3B brand editor, private preview, role-state, recovery, internal approval, and publication-safety verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as the focused Task 3B gate.",
       "observedStatus": "orphan_passing",
       "decidedBy": "captain",
       "laneOwned": true

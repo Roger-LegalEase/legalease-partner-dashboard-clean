@@ -687,8 +687,9 @@
       "id": "auth-2026-08-15-portal-task3b-brand-readiness",
       "kind": "restricted_path_source_change",
       "phase": 54,
-      "title": "Authorize the reviewed RCAP Task 3B brand editor, private preview, recovery and focused verifier paths",
+      "title": "Authorize the reviewed RCAP Task 3B brand editor, private preview, recovery, focused verifier and verifier-disposition paths",
       "artifacts": [
+        "data/rcap-verifier-dispositions.json",
         "scripts/verify-onboarding-all.mjs",
         "scripts/verify-rcap-onboarding-page-configuration.mjs",
         "scripts/verify-rcap-onboarding-task3b.mjs",
@@ -713,7 +714,7 @@
       "authorizedAt": "2026-08-15",
       "authorizationScope": "repository_integration_only",
       "executedAt": null,
-      "why": "Task 3B completes the already-reviewed partner brand editor and private preview with purpose-built staff read-only presentation, designed recovery states, internal ownership review and LegalEase approval controls, while preserving the separate publication and intake gates. The three verifier paths register and enforce the focused Task 3B contract. Every reviewed repository path is named and pinned to its current bytes; no prefix, wildcard, future file or future byte drift is authorized.",
+      "why": "Task 3B completes the already-reviewed partner brand editor and private preview with purpose-built staff read-only presentation, designed recovery states, internal ownership review and LegalEase approval controls, while preserving the separate publication and intake gates. The three verifier paths and canonical verifier-disposition record register and enforce the focused Task 3B contract. Every reviewed repository path is named and pinned to its current bytes; no prefix, wildcard, future file or future byte drift is authorized.",
       "risk": "medium",
       "riskNote": "The product paths span partner-authenticated editing, private asset presentation, internal approval and invitation recovery. The focused Task 3B verifier, real operator/staff/publication browser phases, first-admin lifecycle, RLS tenant-isolation, Storage, public-route, sitemap and authorization-recovery gates cover the security-sensitive behavior. Approval remains non-publishing and non-activating.",
       "classification": {
@@ -736,7 +737,9 @@
           "scripts/verify-rcap-onboarding-page-configuration.mjs",
           "scripts/verify-rcap-onboarding-task3b.mjs"
         ],
-        "acceptedDocumentation": [],
+        "acceptedDocumentation": [
+          "data/rcap-verifier-dispositions.json"
+        ],
         "accidentalOrUnnecessary": [],
         "unrelatedOrUnsafe": [],
         "excludedRuntimeOrExternalEvidence": [
@@ -745,6 +748,7 @@
         ]
       },
       "authorizedPaths": [
+        "data/rcap-verifier-dispositions.json",
         "scripts/verify-onboarding-all.mjs",
         "scripts/verify-rcap-onboarding-page-configuration.mjs",
         "scripts/verify-rcap-onboarding-task3b.mjs",
@@ -762,6 +766,7 @@
         "src/lib/partners/onboarding/implementation-presentation.ts"
       ],
       "authorizedSha256": [
+        "68dbc92fd711eb1e1c1158c9a0218304711df816dd87472d1d0fb7803b0e18fe",
         "d3f9af14bb9a1857c87428e517f44a8b9254b1024ea41d324ceccfcc967b862c",
         "bdef6f710b976c6a2e132b6019002a791c7af1d31a73d0f70c065146fe4aa418",
         "ed85c9845b38e980dac2ce0558abff0d577cfd827f44ea53d2a8a8a3104eb5fe",
@@ -790,6 +795,7 @@
       "rollback": "Remove this one queue entry. The exact-path guards will reject the changed restricted Task 3B paths again; no product, database or environment state changes as part of that rollback.",
       "evidence": [
         "scripts/verify-rcap-onboarding-task3b.mjs — 26/26 focused source and presentation checks",
+        "scripts/verify-rcap-verifier-dispositions.mjs — all 264 verifier scripts carry a canonical disposition",
         "task3b:operator, task3b:staff-recovery and task3b:publication — real local application phases passed independently",
         "First-admin lifecycle, partner-role, RLS tenant-isolation, Storage, public-route, sitemap and authorization-recovery verifiers passed",
         "The consumer-adapter and all50 handoff guards pass only at the pinned exact bytes; one-entry removal mutation is required before commit"
